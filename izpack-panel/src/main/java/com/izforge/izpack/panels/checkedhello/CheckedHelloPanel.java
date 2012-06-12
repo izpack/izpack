@@ -97,7 +97,7 @@ public class CheckedHelloPanel extends HelloPanel
             path = "<not found>";
         }
         String noLuck = getString("CheckedHelloPanel.productAlreadyExist0") + path + " . "
-                + getString("CheckedHelloPanel.prouctAlreadyExist1");
+                + getString("CheckedHelloPanel.productAlreadyExist1");
         return (askQuestion(getString("installer.error"), noLuck,
                             AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES);
     }
