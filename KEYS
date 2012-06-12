@@ -44,45 +44,6 @@ j2XHqHurJal6vd5znUuYX7JoNctiBHk=
 =Czym
 -----END PGP PUBLIC KEY BLOCK-----
 
-
-pub   2048R/281B8211 2010-09-17 [expires: 2011-03-16]
-uid                  Anthonin Bonnefoy <anthonin.bonnefoy@gmail.com>
-sig 3        281B8211 2010-09-17  Anthonin Bonnefoy <anthonin.bonnefoy@gmail.com>
-sub   2048R/262E9AF5 2010-09-17 [expires: 2011-03-16]
-sig          281B8211 2010-09-17  Anthonin Bonnefoy <anthonin.bonnefoy@gmail.com>
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-Version: GnuPG v1.4.10 (GNU/Linux)
-
-mQENBEyTFBcBCADSrK7OppvPuhx7FebNiXLg82VssAZyFybDxm5d3Y9G7VH6YFgj
-dv9Zd14BTRfURAhLdXHoLKFcBR8Ho3jOzyhjQUe9Kp6tEmbQiTKYN4NUJV0MQtgJ
-wYIAT6Z4L0uNX0eKA+501zY65aGQKpEMcu4jMdo4ipwYF6GnBR5rleNcI7Lusgts
-RAcjmc8bTgLMGC1olrhsyHtHg7CZCaX2CRLzpQNZ3FmDg+EltiSJq4UhdHtRDVk2
-BX++g6GRocxuw05anhgr0tst+K2OaNWX9vV8N93II/qUE+dG0rjOUczux/Ka1Jx3
-C12laHySJfo+7SF+puvcJh0N4IbJezG9DqD9ABEBAAG0L0FudGhvbmluIEJvbm5l
-Zm95IDxhbnRob25pbi5ib25uZWZveUBnbWFpbC5jb20+iQE+BBMBAgAoBQJMkxQX
-AhsDBQkA7U4ABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDKgtJ9KBuCEUY5
-CACgIhRXbZ/LO0wxbqQkklgu6UT462hfc8Me46GHJEiVKI7VcHrHRjEojy0rJQlF
-/oOFSdf2Pu4cANgNnapZZ5rEtIhkyEmJ6z0fbA0srwNCzwobAhVeo7037DzGIG6A
-nF30oIK9z+n3ZYHgtksoeGIsW/oTlF+CwCXp+32FNjt/UmVZNf+7pi5UU40eLCcL
-pmFHACIjrxaU2MUiOvV2sb8zv2lC7XbhiKUoBSGT2cRG+2F/XvLoTtdhLT3tBBCs
-s9KY/LzYznNzEDVGk4TUizBGPTFVF3oEAJOMTWE8YrPAiwgeA1VUqgmEx+CLvlWN
-MNyzHvfiMykPEnoAZt0ZLqaduQENBEyTFBcBCADAtkL4CIot5zitwCNZ9bBgDnpM
-H5WUDwYiInlaU/O7sjnu2ZgUDoeV4cPRh94+1Ka7Ji9p+EiNd6N91jOUQe4kLIoQ
-MKD6m2PfzMCNjsd8r0Q/5GnFT8Y4e6oP4Oo1JAcZqgC7qKDK7FWT6idVcGb2x+/D
-s8/eRUwn0j5EsiftFFoM4farrt3bDbV+MKdoBoeFvuIXdskswl6ii0RtA8EJC37U
-7/Rv+pl8I4JivPOQh5kAtd+IxXbDzNxPxfJjOxImPMzM/HO1lg+felQNdaVjIdGd
-505Qg/j3jZELTw2UdG7CgH0gLF8TKsuj/AWMutQEQmlBZKmboDIHRsbRz7i/ABEB
-AAGJASUEGAECAA8FAkyTFBcCGwwFCQDtTgAACgkQyoLSfSgbghHNQwf+PXVqXRSi
-3jF0MgvdegfJpxwLU7xTv7YNY5+IaDTZHNkgLotQoNKK57cSJmg3QUYghupR40yE
-kfuOpfXGKGXcdxorCrvj5s0e7rpo9q4lE4nUElqJ5eSDpIiRrhu3HC9Ll9/JMzIv
-T3Sdd6P20Vm1xH2+1x/THeur1blwUHe6OCeuEqpwGi/IfotpAPdJ46TywB5+Yw7Z
-LUGzm8IKv7mRM2N4mgHKuqs3c/vbPAf5LtqwP+cFRKUMojs4Y/xVRzQEDPR75ZLL
-6oksFziZ4Wf0uyauW+ftkfrERBIURx89vHjIbC0LZUI+fEqbAM30K2rXbr0LPtyY
-IBhjxDdS7PRHwQ==
-=qsLD
------END PGP PUBLIC KEY BLOCK-----
-
 pub   1024D/5A2AE70A 2010-11-12
 uid                  René Krell <renda.krell@gmail.com>
 sig 3        5A2AE70A 2010-11-12  René Krell <renda.krell@gmail.com>
