@@ -123,7 +123,9 @@ public class Debugger
     {
         conditionhistoryrenderer.clearState();
         updateChangedConditions(
-                "changed after panel switch from " + lastpanelmetadata.getPanelid() + " to " + nextpanelmetadata.getPanelid());
+                "changed after panel switch" + 
+                (lastpanelmetadata == null ? "" : "from " + lastpanelmetadata.getPanelid()) +
+                " to " + nextpanelmetadata.getPanelid());
     }
 
     private void updateChangedConditions(String comment)
