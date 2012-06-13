@@ -22,10 +22,12 @@ package com.izforge.izpack.panels.checkedhello;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
@@ -142,6 +144,10 @@ public class CheckedHelloPanel extends HelloPanel
                     setUniqueUninstallKey();
                     abortInstallation = false;
                     parent.unlockNextButton();
+                } else {
+                	installData.getInfo().setUninstallerPath(null);
+                	installData.getInfo().setUninstallerName(null);
+                	installData.getInfo().setUninstallerCondition("uninstaller.nowrite");
                 }
             }
             catch (Exception exception)
