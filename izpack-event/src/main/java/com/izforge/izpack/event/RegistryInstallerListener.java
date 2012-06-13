@@ -515,8 +515,9 @@ public class RegistryInstallerListener extends NativeInstallerListener implement
             return;
         }
         String keyName = RegistryHandler.UNINSTALL_ROOT + uninstallName;
+        String uninstallerPath = IoHelper.translatePath(installData.getInfo().getUninstallerPath(), installData.getVariables()); 
         String cmd = "\"" + installData.getVariable("JAVA_HOME") + "\\bin\\javaw.exe\" -jar \""
-                + installData.getVariable("INSTALL_PATH") + "\\uninstaller\\uninstaller.jar\"";
+                + uninstallerPath + "\\" + installData.getInfo().getUninstallerName() + "\"";
         String appVersion = installData.getVariable("APP_VER");
         String appUrl = installData.getVariable("APP_URL");
 

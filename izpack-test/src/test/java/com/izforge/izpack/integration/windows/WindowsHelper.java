@@ -8,6 +8,7 @@ import java.io.File;
 
 import javax.swing.SwingUtilities;
 
+import com.coi.tools.os.win.RegDataContainer;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
@@ -89,6 +90,30 @@ public class WindowsHelper
         assertNotNull(registry);
         registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
         return registry.keyExist(key);
+    }
+    
+    /**
+     * Asserts that a registry key REG_SZ value exists, and exactly matches the given value.
+     * 
+     * @param handler the registry handler
+     * @param key	  the key to check
+     * @param name	  the name of the value to check
+     * @param expected	  the value to match
+     * @throws NativeLibException for any registry error
+     */
+    public static void registryValueStringEquals(RegistryDefaultHandler handler, String key, String name, String expected) throws NativeLibException
+    {
+    	//Registry key exists
+    	RegistryHandler registry = handler.getInstance();
+        assertNotNull(registry);
+        registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
+        assertTrue(registry.keyExist(key));
+        //Value exists as a REG_SZ
+        assertTrue(registry.valueExist(key, name));
+        RegDataContainer value = registry.getValue(key, name);
+        assertEquals("Registry key value " + name + " is not type REG_SZ", RegDataContainer.REG_SZ, value.getType());
+        //Value matches expected string
+        assertEquals(expected, registry.getValue(key, name).getStringData());
     }
 
     /**

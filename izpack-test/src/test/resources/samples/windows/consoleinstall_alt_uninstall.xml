@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<installation version="1.0">
+    <info>
+        <appname>IzPack Windows Console Installation Test</appname>
+        <!-- TODO - this can be replaced with windows/install.xml when a PacksPanel, ShortcutPanel and SimpleFinishPanel
+                    console implementation is developed -->
+        <appversion>1.0</appversion>
+        <uninstaller path="${INSTALL_PATH}" name="uninstallme.jar">yes</uninstaller>
+    </info>
+
+    <guiprefs width="600" height="480" resizable="yes"/>
+
+    <locale>
+        <langpack iso3="eng" />
+    </locale>
+
+    <resources>
+        <res id="shortcutSpec.xml" src="shortcutSpec.xml"/>
+    </resources>
+
+    <panels>
+        <panel classname="CheckedHelloPanel"/>
+        <panel classname="InfoPanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="FinishPanel" />
+    </panels>
+
+    <!-- The listeners section for CustomActions -->
+    <listeners>
+        <listener classname="SummaryLoggerInstallerListener" stage="install"/>
+        <listener classname="RegistryInstallerListener" stage="install">
+            <os family="windows"/>
+        </listener>
+        <listener classname="RegistryUninstallerListener" stage="uninstall">
+            <os family="windows"/>
+        </listener>
+    </listeners>
+
+    <packs>
+        <pack name="Base" required="yes">
+            <description>The base files</description>
+        </pack>
+    </packs>
+
+    <!-- NOTE - the following stage attributes are only applicable for testing purposes -->
+    <natives>
+        <native type="izpack" name="ShellLink.dll" stage="install"/>
+        <native type="izpack" name="ShellLink_x64.dll" stage="install"/>
+        <native type="izpack" name="WinSetupAPI.dll" stage="both"/>
+        <native type="izpack" name="WinSetupAPI_x64.dll" stage="both"/>
+        <native type="3rdparty" name="COIOSHelper.dll" stage="uninstall"/>
+        <native type="3rdparty" name="COIOSHelper_x64.dll" stage="uninstall"/>
+    </natives>
+</installation>
