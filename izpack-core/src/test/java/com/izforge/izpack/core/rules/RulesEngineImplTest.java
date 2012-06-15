@@ -5,6 +5,11 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,6 +23,7 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.container.DefaultContainer;
@@ -469,9 +475,7 @@ public class RulesEngineImplTest
     @Test
     public void testReadConditionTypes()
     {
-        DefaultContainer parent = new DefaultContainer();
-        RulesEngine rules = new RulesEngineImpl(new ConditionContainer(parent), Platforms.MAC_OSX);
-        parent.addComponent(RulesEngine.class, rules);
+        RulesEngine rules = createRulesEngine(new AutomatedInstallData(new DefaultVariables()), Platforms.UNIX);
         IXMLParser parser = new XMLParser();
         IXMLElement conditions = parser.parse(getClass().getResourceAsStream("conditions.xml"));
         rules.analyzeXml(conditions);
@@ -527,6 +531,115 @@ public class RulesEngineImplTest
     }
 
     /**
+     * Verifies that conditions can be serialized and deserialized.
+     * <p/>
+     * Any serialized built-in conditions should be ignored on deserialization.
+     *
+     * @throws Exception for any error
+     */
+    @Test
+    public void testSerialization() throws Exception
+    {
+        // create rules for Windows platform
+        InstallData installData1 = new AutomatedInstallData(new DefaultVariables());
+        RulesEngine rules1 = createRulesEngine(installData1, Platforms.WINDOWS);
+        IXMLParser parser = new XMLParser();
+
+        // load the conditions
+        IXMLElement conditions = parser.parse(getClass().getResourceAsStream("conditions.xml"));
+        rules1.analyzeXml(conditions);
+        rules1.resolveConditions();
+
+        // verify the conditions evaluate as expected
+        checkConditions(rules1, installData1);
+        assertTrue(rules1.isConditionTrue("izpack.windowsinstall"));
+        assertFalse(rules1.isConditionTrue("izpack.macinstall.osx"));
+
+        // serialize the conditions. This includes built-in conditions which should be excluded when read back in.
+        Map<String, Condition> read = serializeConditions(rules1);
+
+        // create rules for OSX platform, and populate with the serialized conditions
+        InstallData installData2 = new AutomatedInstallData(new DefaultVariables());
+        RulesEngine rules2 = createRulesEngine(installData2, Platforms.MAC_OSX);
+        rules2.readConditionMap(read);
+
+        // verify the conditions evaluate as expected
+        checkConditions(rules2, installData2);
+        assertFalse(rules2.isConditionTrue("izpack.windowsinstall"));
+        assertTrue(rules2.isConditionTrue("izpack.macinstall.osx"));
+    }
+
+
+    /**
+     * Verifies that when conditions are deserialized, any built-in conditions are replaced with those held by the
+     * rules engine.
+     *
+     * @throws Exception for any error
+     */
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testSerializeBuiltinConditions() throws Exception
+    {
+        // create rules for Windows platform
+        InstallData installData1 = new AutomatedInstallData(new DefaultVariables());
+        RulesEngine rules1 = createRulesEngine(installData1, Platforms.WINDOWS_XP);
+        IXMLParser parser = new XMLParser();
+
+        // load the conditions
+        IXMLElement conditions = parser.parse(getClass().getResourceAsStream("builtin_conditions.xml"));
+        rules1.analyzeXml(conditions);
+        rules1.resolveConditions();
+
+        // verify the conditions evaluate as expected
+        assertTrue(rules1.isConditionTrue("izpack.windowsinstall.nt5"));
+        assertFalse(rules1.isConditionTrue("izpack.windowsinstall.nt6"));
+        assertTrue(rules1.isConditionTrue("izpack.windowsinstall.nt5OrHigher"));
+
+        // serialize the conditions. This includes built-in conditions which should be excluded when read back in.
+        Map<String, Condition> read = serializeConditions(rules1);
+
+        // create rules for OSX platform, and populate with the serialized conditions
+        InstallData installData2 = new AutomatedInstallData(new DefaultVariables());
+        RulesEngine rules2 = createRulesEngine(installData2, Platforms.WINDOWS_7);
+        rules2.readConditionMap(read);
+
+        // verify the conditions evaluate as expected
+        assertFalse(rules2.isConditionTrue("izpack.windowsinstall.nt5"));
+        assertTrue(rules2.isConditionTrue("izpack.windowsinstall.nt6"));
+        assertTrue(rules2.isConditionTrue("izpack.windowsinstall.nt5OrHigher"));
+    }
+
+    /**
+     * Checks conditions read from the test <em>conditions.xml</em> file.
+     *
+     * @param rules       the rules
+     * @param installData the installation data
+     */
+    private void checkConditions(RulesEngine rules, InstallData installData)
+    {
+        installData.setVariable("setup.type", "standard");
+        assertTrue(rules.isConditionTrue("variable1"));    // variable1 = setup.type == standard
+        assertFalse(rules.isConditionTrue("variable2"));   // variable2 = setup.type == expert
+        assertFalse(rules.isConditionTrue("and1"));        // and1 = variable1 && variable2
+        assertFalse(rules.isConditionTrue("not1"));        // not1 = !variable1
+        assertTrue(rules.isConditionTrue("or1"));          // or1 = variable1 || variable2
+        assertTrue(rules.isConditionTrue("xor1"));         // xor1 = variable1 ^ variable2
+        assertTrue(rules.isConditionTrue("ref1"));         // ref1 = variable1
+
+        installData.setVariable("setup.type", "expert");
+        assertFalse(rules.isConditionTrue("variable1"));
+        assertTrue(rules.isConditionTrue("variable2"));
+        assertFalse(rules.isConditionTrue("and1"));
+        assertTrue(rules.isConditionTrue("not1"));
+        assertTrue(rules.isConditionTrue("or1"));
+        assertTrue(rules.isConditionTrue("xor1"));
+        assertFalse(rules.isConditionTrue("ref1"));
+
+        assertTrue(rules.isConditionTrue("comparenumerics1"));  // comparenumerics1 = 1 < 2
+        assertTrue(rules.isConditionTrue("compareversions1"));  // compareversions1 = 1 < 2
+    }
+
+    /**
      * Verifies that the specified conditions evaluate {@code true} for the specified platform.
      * <p/>
      * Platform conditions not specified will be evaluated to ensure they evaluate {@code false}
@@ -549,6 +662,51 @@ public class RulesEngineImplTest
             assertFalse("Expected " + falseCondition + " to be false", rules.isConditionTrue(falseCondition));
         }
     }
+
+    /**
+     * Helper to serialize and deserialize conditions held by the supplied {@link RulesEngine}.
+     *
+     * @param rules the rules
+     * @return the deserialized conditions
+     * @throws IOException            for any I/O error
+     * @throws ClassNotFoundException if the class of a serialized object cannot be found
+     */
+    @SuppressWarnings("unchecked")
+    private Map<String, Condition> serializeConditions(RulesEngine rules) throws IOException, ClassNotFoundException
+    {
+        Map<String, Condition> map = new HashMap<String, Condition>();
+        for (String id : rules.getKnownConditionIds())
+        {
+            map.put(id, rules.getCondition(id));
+        }
+
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        ObjectOutputStream objectOut = new ObjectOutputStream(byteOut);
+        objectOut.writeObject(map);
+        objectOut.close();
+
+        // deserialize the conditions
+        ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
+        ObjectInputStream objectIn = new ObjectInputStream(byteIn);
+
+        return (Map<String, Condition>) objectIn.readObject();
+    }
+
+    /**
+     * Creates a new {@link RulesEngine}.
+     *
+     * @param installData the installation data
+     * @param platform    the current platform
+     * @return a new rules engine
+     */
+    private RulesEngine createRulesEngine(InstallData installData, Platform platform)
+    {
+        DefaultContainer parent = new DefaultContainer();
+        RulesEngine rules = new RulesEngineImpl(installData, new ConditionContainer(parent), platform);
+        parent.addComponent(RulesEngine.class, rules);
+        return rules;
+    }
+
 }
 
 

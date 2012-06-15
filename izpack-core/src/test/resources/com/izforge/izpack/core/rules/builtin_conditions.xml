@@ -1,0 +1,14 @@
+<conditions>
+    <condition type="or" id="izpack.windowsinstall.nt6">
+        <condition type="ref" refid="izpack.windowsinstall.vista"/>
+        <condition type="ref" refid="izpack.windowsinstall.7"/>
+    </condition>
+    <condition type="or" id="izpack.windowsinstall.nt5">
+        <condition type="ref" refid="izpack.windowsinstall.xp"/>
+        <condition type="ref" refid="izpack.windowsinstall.2003"/>
+    </condition>
+    <condition type="or" id="izpack.windowsinstall.nt5OrHigher">
+        <condition type="ref" refid="izpack.windowsinstall.nt5"/>
+        <condition type="ref" refid="izpack.windowsinstall.nt6"/>
+    </condition>
+</conditions>

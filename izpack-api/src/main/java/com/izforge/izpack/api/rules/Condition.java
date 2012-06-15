@@ -40,7 +40,7 @@ public abstract class Condition implements Serializable
 
     private String id;
 
-    private InstallData installData;
+    private transient InstallData installData;
 
     public Condition()
     {

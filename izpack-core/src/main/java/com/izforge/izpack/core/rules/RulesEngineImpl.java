@@ -67,8 +67,6 @@ import com.izforge.izpack.util.Platforms;
 public class RulesEngineImpl implements RulesEngine
 {
 
-    private static final long serialVersionUID = 3966346766966632860L;
-
     private final Map<String, String> panelConditions = new HashMap<String, String>();
 
     private final Map<String, String> packConditions = new HashMap<String, String>();
@@ -123,11 +121,16 @@ public class RulesEngineImpl implements RulesEngine
     @Override
     public void readConditionMap(Map<String, Condition> rules)
     {
-        conditionsMap.putAll(rules);
-        for (String key : rules.keySet())
+        for (Map.Entry<String, Condition> entry : rules.entrySet())
         {
-            Condition condition = rules.get(key);
-            condition.setInstallData(installData);
+            Condition condition = entry.getValue();
+            // skip BuiltinConditions - these must be created by initStandardConditions().
+            if (!(condition instanceof BuiltinCondition))
+            {
+                conditionsMap.put(entry.getKey(), condition);
+                condition.setInstallData(installData);
+                resolveBuiltinConditions(condition);
+            }
         }
     }
 
@@ -221,13 +224,14 @@ public class RulesEngineImpl implements RulesEngine
             for (IXMLElement condition : childs)
             {
                 Condition cond = createCondition(condition);
-                if (cond != null)
+                if (cond != null && !(cond instanceof BuiltinCondition))
                 {
                     // this.conditionslist.add(cond);
                     String condid = cond.getId();
                     cond.setInstallData(installData);
                     if ((condid != null) && !("UNKNOWN".equals(condid)))
                     {
+                        resolveBuiltinConditions(cond);
                         conditionsMap.put(condid, cond);
                     }
                 }
@@ -263,7 +267,6 @@ public class RulesEngineImpl implements RulesEngine
             }
         }
     }
-
 
     /**
      * Gets the condition for the requested id.
@@ -538,26 +541,9 @@ public class RulesEngineImpl implements RulesEngine
      */
     private void createPlatformCondition(String conditionId, Platform current, Platform platform)
     {
-        final boolean isA = current.isA(platform);
+        boolean isA = current.isA(platform);
         // create a condition that simply returns the isA value. This condition doesn't need to be serializable
-        Condition condition = new Condition()
-        {
-            @Override
-            public boolean isTrue()
-            {
-                return isA;
-            }
-
-            @Override
-            public void readFromXML(IXMLElement condition) throws Exception
-            {
-            }
-
-            @Override
-            public void makeXMLData(IXMLElement conditionRoot)
-            {
-            }
-        };
+        Condition condition = new StaticCondition(isA);
         condition.setInstallData(installData);
         condition.setId(conditionId);
         conditionsMap.put(condition.getId(), condition);
@@ -760,5 +746,80 @@ public class RulesEngineImpl implements RulesEngine
             }
         }
         return result;
+    }
+
+    /**
+     * Recursively replaces any built-in conditions referenced by the supplied condition with those held by this.
+     *
+     * @param condition the condition
+     */
+    private void resolveBuiltinConditions(Condition condition)
+    {
+        if (condition instanceof ConditionReference)
+        {
+            ConditionReference not = (ConditionReference) condition;
+            if (not.getReferencedCondition() instanceof StaticCondition)
+            {
+                not.setReferencedCondition(conditionsMap.get(not.getReferencedCondition().getId()));
+            }
+            else
+            {
+                resolveBuiltinConditions(not.getReferencedCondition());
+            }
+        }
+        else if (condition instanceof ConditionWithMultipleOperands)
+        {
+            ConditionWithMultipleOperands c = (ConditionWithMultipleOperands) condition;
+            List<Condition> operands = c.getOperands();
+            for (int i = 0; i < operands.size(); ++i)
+            {
+                Condition operand = operands.get(i);
+                if (operand instanceof StaticCondition)
+                {
+                    operands.set(i, conditionsMap.get(operand.getId()));
+                }
+                else
+                {
+                    resolveBuiltinConditions(operand);
+                }
+            }
+        }
+    }
+
+    /**
+     * A built-in condition, created by the RulesEngine. These are not intended to be serialized - the RulesEngine
+     * will replace any instance of a built in condition with its own version.
+     */
+    private static abstract class BuiltinCondition extends Condition
+    {
+        @Override
+        public void readFromXML(IXMLElement condition) throws Exception
+        {
+        }
+
+        @Override
+        public void makeXMLData(IXMLElement conditionRoot)
+        {
+        }
+    }
+
+    /**
+     * A pre-evaluated condition.
+     */
+    private static class StaticCondition extends BuiltinCondition
+    {
+        private final boolean result;
+
+        public StaticCondition(boolean result)
+        {
+            this.result = result;
+        }
+
+        @Override
+        public boolean isTrue()
+        {
+            return result;
+        }
+
     }
 }

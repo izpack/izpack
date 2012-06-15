@@ -90,17 +90,13 @@ public class NotCondition extends ConditionReference
     public boolean isTrue()
     {
         Condition condition = getReferencedCondition();
-        if (condition == null)
-        {
-            return false;
-        }
-        return !condition.isTrue();
+        return condition != null && !condition.isTrue();
     }
 
     @Override
     public String getDependenciesDetails()
     {
-        StringBuffer details = new StringBuffer();
+        StringBuilder details = new StringBuilder();
         details.append(this.getId());
         details.append(" depends on:<ul><li>NOT ");
         details.append(getReferencedCondition().getDependenciesDetails());
@@ -112,7 +108,7 @@ public class NotCondition extends ConditionReference
     @Override
     public void makeXMLData(IXMLElement conditionRoot)
     {
-        IXMLElement conditionElement = getInstallData().getRules().createConditionElement(getReferencedCondition(), conditionRoot);
+        IXMLElement conditionElement = rules.createConditionElement(getReferencedCondition(), conditionRoot);
         getReferencedCondition().makeXMLData(conditionElement);
         conditionRoot.addChild(conditionElement);
     }

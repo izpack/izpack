@@ -1,7 +1,6 @@
 package com.izforge.izpack.api.rules;
 
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +11,7 @@ import com.izforge.izpack.api.data.Variables;
 /**
  * Interface of rulesEngine
  */
-public interface RulesEngine extends Serializable
+public interface RulesEngine
 {
     Set<String> getKnownConditionIds();
 
