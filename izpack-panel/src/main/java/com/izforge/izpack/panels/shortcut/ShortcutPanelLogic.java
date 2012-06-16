@@ -1387,28 +1387,36 @@ public class ShortcutPanelLogic implements CleanupClient, IShortcutPanelLogic
             String menuFile = createXDGMenu(desktopFileNames, groupName);
             String dirFile = createXDGDirectory(groupName, icon, comment);
             String menuFolder;
+            String gnome3MenuFolder;
             String directoryFolder;
             if (userType == Shortcut.ALL_USERS)
             {
                 menuFolder = "/etc/xdg/menus/applications-merged/";
+                gnome3MenuFolder = "/etc/xdg/menus/applications-gnome-merged/";
                 directoryFolder = "/usr/share/desktop-directories/";
             }
             else
             {
                 menuFolder = System.getProperty("user.home") + File.separator
                         + ".config/menus/applications-merged/";
+                gnome3MenuFolder = System.getProperty("user.home") + File.separator
+                        + ".config/menus/applications-gnome-merged/";
                 directoryFolder = System.getProperty("user.home") + File.separator
                         + ".local/share/desktop-directories/";
             }
             File menuFolderFile = new File(menuFolder);
+            File gnome3MenuFolderFile = new File(gnome3MenuFolder);
             File directoryFolderFile = new File(directoryFolder);
             String menuFilePath = menuFolder + groupName + ".menu";
+            String gnome3MenuFilePath = gnome3MenuFolder + groupName + ".menu";
             // Ubuntu can't handle spaces in the directory file name
             String dirFilePath = directoryFolder + groupName.replaceAll(" ", "-")
                     + "-izpack.directory";
             menuFolderFile.mkdirs();
+            gnome3MenuFolderFile.mkdirs();
             directoryFolderFile.mkdirs();
             writeString(menuFile, menuFilePath);
+            writeString(menuFile, gnome3MenuFilePath);
             writeString(dirFile, dirFilePath);
         }
     }
