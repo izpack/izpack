@@ -1939,8 +1939,18 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                 // there seems to be user input
                 userinput = true;
             }
+            int choicenum = 0;
             for (int i = 0; i < choices.size(); i++)
             {
+            	String conditionid = (choices.elementAt(i)).getAttribute(ATTRIBUTE_CONDITIONID_NAME);
+            	if (conditionid != null)
+            	{
+                    // check if condition is fulfilled
+                    if (!this.parent.getRules().isConditionTrue(conditionid, idata.getVariables()))
+                    {
+                        continue;
+                    }
+            	}
                 String processorClass = (choices.elementAt(i)).getAttribute("processor");
 
                 if (processorClass != null && !"".equals(processorClass))
@@ -1992,7 +2002,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                                 && (currentvariablevalue.equals(value)))
                         {
                             // select it
-                            field.setSelectedIndex(i);
+                            field.setSelectedIndex(choicenum);
                         }
                         // else do nothing
                     }
@@ -2010,12 +2020,12 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                             }
                             if (set.equals(TRUE))
                             {
-                                field.setSelectedIndex(i);
+                                field.setSelectedIndex(choicenum);
                             }
                         }
                     }
+                    choicenum++;
                 }
-
             }
         }
         // ----------------------------------------------------
@@ -2162,6 +2172,15 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
             // --------------------------------------------------
             for (int i = 0; i < choices.size(); i++)
             {
+            	String conditionid = (choices.elementAt(i)).getAttribute(ATTRIBUTE_CONDITIONID_NAME);
+            	if (conditionid != null)
+            	{
+                    // check if condition is fulfilled
+                    if (!this.parent.getRules().isConditionTrue(conditionid, idata.getVariables()))
+                    {
+                        continue;
+                    }
+            	}
                 JRadioButton choice = new JRadioButton();
                 choice.setText(getText(choices.elementAt(i)));
                 String causesValidataion = (choices.elementAt(i)).getAttribute(REVALIDATE);
