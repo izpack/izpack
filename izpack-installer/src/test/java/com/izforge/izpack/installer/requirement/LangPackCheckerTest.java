@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import org.junit.Test;
 
@@ -26,7 +25,7 @@ public class LangPackCheckerTest
     public void testLangPackChecker()
     {
         final List<String> langPacks = new ArrayList<String>();
-        ResourceManager resources = new ResourceManager(new Properties())
+        ResourceManager resources = new ResourceManager()
         {
             @Override
             public List<String> getAvailableLangPacks()

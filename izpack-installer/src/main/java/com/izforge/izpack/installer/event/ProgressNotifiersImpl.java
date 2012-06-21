@@ -3,7 +3,7 @@ package com.izforge.izpack.installer.event;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.izforge.izpack.api.event.InstallListener;
+import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.ProgressNotifiers;
 
@@ -19,7 +19,7 @@ public class ProgressNotifiersImpl implements ProgressNotifiers
     /**
      * The listeners that may perform progress notification.
      */
-    private List<InstallListener> listeners = new ArrayList<InstallListener>();
+    private List<InstallerListener> listeners = new ArrayList<InstallerListener>();
 
     /**
      * Determines if the listeners should notify the progress listener.
@@ -32,19 +32,19 @@ public class ProgressNotifiersImpl implements ProgressNotifiers
      * @param listener the listener
      */
     @Override
-    public void addNotifier(InstallListener listener)
+    public void addNotifier(InstallerListener listener)
     {
         listeners.add(listener);
     }
 
     /**
-     * Retursn the index of the specified listener.
+     * Returns the index of the specified listener.
      *
      * @param listener the listener
      * @return the index of the listener or {@code -1} if it is not registered
      */
     @Override
-    public int indexOf(InstallListener listener)
+    public int indexOf(InstallerListener listener)
     {
         return listeners.indexOf(listener);
     }

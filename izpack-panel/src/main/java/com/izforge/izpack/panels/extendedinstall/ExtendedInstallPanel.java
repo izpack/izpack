@@ -22,7 +22,6 @@
 package com.izforge.izpack.panels.extendedinstall;
 
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.event.RestartableProgressListener;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
@@ -33,13 +32,14 @@ import com.izforge.izpack.panels.install.InstallPanel;
  * The install panel class. Launches the actual installation job with extensions for custom actions.
  *
  * @author Klaus Bartz
+ * @deprecated the functionality of this class has been rolled into {@link InstallPanel}
  */
-public class ExtendedInstallPanel extends InstallPanel implements RestartableProgressListener
+@Deprecated
+public class ExtendedInstallPanel extends InstallPanel
 {
 
     private static final long serialVersionUID = 3257291344052500789L;
 
-    protected int currentStep = 0;
 
     /**
      * The constructor.
@@ -54,61 +54,6 @@ public class ExtendedInstallPanel extends InstallPanel implements RestartablePro
                                 Log log)
     {
         super(panel, parent, installData, resources, log);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.izforge.izpack.util.ExtendedUIProgressHandler#startAction(java.lang.String,
-     * java.lang.String, java.lang.String, int)
-     */
-
-    public void restartAction(String name, String overallMsg, String tipMsg, int no_of_steps)
-    {
-        overallOpLabel.setText(overallMsg);
-        tipLabel.setText(tipMsg);
-        currentStep = 0;
-        startAction(name, no_of_steps);
-    }
-
-    /**
-     * Normal progress indicator.
-     *
-     * @param val The progression value.
-     * @param msg The progression message.
-     */
-    public void progress(int val, String msg)
-    {
-        packProgressBar.setValue(val + 1);
-        packOpLabel.setText(msg);
-        currentStep++;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.izforge.izpack.util.ExtendedUIProgressHandler#progress(java.lang.String,
-     * java.lang.String)
-     */
-
-    public void progress(String message)
-    {
-        packOpLabel.setText(message);
-        currentStep++;
-        packProgressBar.setValue(currentStep);
-    }
-
-    /**
-     * Pack changing.
-     *
-     * @param packName The pack name.
-     * @param stepno   The number of the pack.
-     * @param max      The new maximum progress.
-     */
-    public void nextStep(String packName, int stepno, int max)
-    {
-        currentStep = 0;
-        super.nextStep(packName, stepno, max);
     }
 
 }

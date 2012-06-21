@@ -15,6 +15,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>izpack-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>izpack-event</artifactId>
+        </dependency>
     </dependencies>
 
 

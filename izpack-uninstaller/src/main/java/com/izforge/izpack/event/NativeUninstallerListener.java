@@ -26,7 +26,9 @@ package com.izforge.izpack.event;
  * parts.
  *
  * @author Klaus Bartz
+ * @deprecated no replacement. This class will be removed in IzPack 6.0
  */
+@Deprecated
 public class NativeUninstallerListener extends SimpleUninstallerListener
 {
 

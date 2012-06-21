@@ -103,4 +103,31 @@ public class InstallPanelConsoleHelper extends PanelConsoleHelper implements Pan
     {
 
     }
+
+    /**
+     * Invoked to notify progress.
+     * <p/>
+     * This increments the current step.
+     *
+     * @param message a message describing the step
+     */
+    @Override
+    public void progress(String message)
+    {
+        // no-op
+    }
+
+    /**
+     * Invoked when an action restarts.
+     *
+     * @param name           the name of the action
+     * @param overallMessage a message describing the overall progress
+     * @param tip            a tip describing the current progress
+     * @param steps          the number of steps the action consists of
+     */
+    @Override
+    public void restartAction(String name, String overallMessage, String tip, int steps)
+    {
+        // no-op
+    }
 }

@@ -125,10 +125,11 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
         // verify the listener methods have been invoked the expected no. of times
         String path = TestUninstallerListener.getStatePath(installPath);
         TestUninstallerListener.State state = TestUninstallerListener.readState(path);
-        assertEquals(1, state.beforeDeletionCount);
+        assertEquals(1, state.initialiseCount);
+        assertEquals(1, state.beforeListDeleteCount);
         assertEquals(files + 1, state.beforeDeleteCount); // 3 files + 1 for the uninstaller jar
 
-        assertEquals(state.beforeDeletionCount, state.afterDeletionCount);
+        assertEquals(state.beforeListDeleteCount, state.afterListDeleteCount);
         assertEquals(state.beforeDeleteCount, state.afterDeleteCount);
     }
 

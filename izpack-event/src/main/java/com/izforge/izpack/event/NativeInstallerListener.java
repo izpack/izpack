@@ -28,7 +28,9 @@ import com.izforge.izpack.api.resource.Resources;
  * parts.
  *
  * @author Klaus Bartz
+ * @deprecated no replacement
  */
+@Deprecated
 public class NativeInstallerListener extends SimpleInstallerListener
 {
 

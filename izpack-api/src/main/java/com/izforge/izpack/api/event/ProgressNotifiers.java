@@ -2,7 +2,7 @@ package com.izforge.izpack.api.event;
 
 
 /**
- * Container for {@link InstallListener listeners} that may notify an {@link ProgressListener}.
+ * Container for {@link InstallerListener listeners} that may notify a {@link ProgressListener}.
  *
  * @author Tim Anderson
  */
@@ -14,15 +14,15 @@ public interface ProgressNotifiers
      *
      * @param listener the listener
      */
-    void addNotifier(InstallListener listener);
+    void addNotifier(InstallerListener listener);
 
     /**
-     * Retursn the index of the specified listener.
+     * Returns the index of the specified listener.
      *
      * @param listener the listener
      * @return the index of the listener or {@code -1} if it is not registered
      */
-    int indexOf(InstallListener listener);
+    int indexOf(InstallerListener listener);
 
     /**
      * Determines if listeners should notify an {@link ProgressListener}.

@@ -22,10 +22,13 @@
 
 package com.izforge.izpack.event;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
+import java.util.List;
+
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.event.ProgressListener;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.panels.IShortcutPanelLogic;
-import com.izforge.izpack.api.resource.Resources;
 
 /**
  * Creates the Shortcuts after files have been installed. Use this listener, if you place the
@@ -33,29 +36,45 @@ import com.izforge.izpack.api.resource.Resources;
  *
  * @author Marcus Schlegel, Pulinco
  */
-public class LateShortcutInstallListener extends SimpleInstallerListener
+public class LateShortcutInstallListener extends AbstractInstallerListener
 {
 
+    /**
+     * The shortcut panel logic.
+     */
     private IShortcutPanelLogic shortcutPanelLogic;
 
     /**
      * Constructs a <tt>LateShortcutInstallListener</tt>.
      *
-     * @param logic     the shortcut panel behaviour
-     * @param resources the resources
+     * @param logic       the shortcut panel behaviour
+     * @param installData the installation data
      */
-    public LateShortcutInstallListener(IShortcutPanelLogic logic, Resources resources)
+    public LateShortcutInstallListener(IShortcutPanelLogic logic, InstallData installData)
     {
-        super(resources);
+        super(installData);
         this.shortcutPanelLogic = logic;
         logic.setCreateShortcutsImmediately(false);
     }
 
+    /**
+     * Invoked after packs are installed.
+     *
+     * @param packs    the installed packs
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
     @Override
-    public void afterPacks(AutomatedInstallData idata, AbstractUIProgressHandler handler)
-            throws Exception
+    public void afterPacks(List<Pack> packs, ProgressListener listener)
     {
-        // now it's time to write down the shortcuts...
-        shortcutPanelLogic.createAndRegisterShortcuts();
+        try
+        {
+            shortcutPanelLogic.createAndRegisterShortcuts();
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException("Failed to create shortcuts", exception);
+
+        }
     }
 }

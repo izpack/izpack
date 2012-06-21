@@ -23,72 +23,134 @@
 
 package com.izforge.izpack.event;
 
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
-
 import java.io.File;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.util.Collections;
 import java.util.List;
 
+import com.izforge.izpack.api.event.ProgressListener;
+import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.api.exception.ResourceNotFoundException;
+import com.izforge.izpack.api.resource.Resources;
 
-public class BSFUninstallerListener extends SimpleUninstallerListener
+
+public class BSFUninstallerListener extends AbstractUninstallerListener
 {
 
-    private List<BSFAction> bsfActions = null;
+    /**
+     * The resources.
+     */
+    private final Resources resources;
 
-    private void loadActions() throws Exception
+    private List<BSFAction> actions;
+
+    public BSFUninstallerListener(Resources resources)
     {
-        InputStream in = getClass().getResourceAsStream("/bsfActions");
-        if (in == null)
-        {
-            return;
-        }
-        ObjectInputStream objIn = new ObjectInputStream(in);
-        bsfActions = (List) objIn.readObject();
-        objIn.close();
-        in.close();
+        this.resources = resources;
     }
 
-    public void beforeDeletion(List files, AbstractUIProgressHandler handler) throws Exception
+    /**
+     * Initialises the listener.
+     *
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void initialise()
     {
-        loadActions();
-
-        for (BSFAction action : bsfActions)
+        InputStream in;
+        try
         {
-            action.init();
-            action.executeUninstall(BSFAction.BEFOREDELETION, new Object[]{files, handler});
+            in = resources.getInputStream("bsfActions");
+            ObjectInputStream objIn = new ObjectInputStream(in);
+            actions = (List<BSFAction>) objIn.readObject();
+            if (actions == null)
+            {
+                actions = Collections.emptyList();
+            }
+            else
+            {
+                for (BSFAction action : actions)
+                {
+                    action.init();
+                }
+            }
+            objIn.close();
+            in.close();
+        }
+        catch (ResourceNotFoundException ignore)
+        {
+            // do nothing
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked before files are deleted.
+     *
+     * @param files all files which should be deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDelete(List<File> files)
+    {
+        for (BSFAction action : actions)
+        {
+            action.executeUninstall(BSFAction.BEFOREDELETION, files);
+        }
+    }
+
+    /**
+     * Invoked after files are deleted.
+     *
+     * @param files    the files which where deleted
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDelete(List<File> files, ProgressListener listener)
+    {
+        for (BSFAction action : actions)
+        {
+            action.executeUninstall(BSFAction.AFTERDELETION, files, listener);
             action.destroy();
         }
     }
 
-
-    public void afterDeletion(List files, AbstractUIProgressHandler handler) throws Exception
+    /**
+     * Invoked after a file is deleted.
+     *
+     * @param file the file which was deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDelete(File file)
     {
-        for (BSFAction action : bsfActions)
+        for (BSFAction action : actions)
         {
-            action.init();
-            action.executeUninstall(BSFAction.AFTERDELETION, new Object[]{files, handler});
-            action.destroy();
+            action.executeUninstall(BSFAction.BEFOREDELETE, file);
         }
     }
 
-    public void beforeDelete(File file, AbstractUIProgressHandler handler) throws Exception
+    /**
+     * Invoked after a file is deleted.
+     *
+     * @param file the file which was deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDelete(File file)
     {
-        for (BSFAction action : bsfActions)
+        for (BSFAction action : actions)
         {
-            action.init();
-            action.executeUninstall(BSFAction.BEFOREDELETE, new Object[]{file, handler});
-            action.destroy();
-        }
-    }
-
-    public void afterDelete(File file, AbstractUIProgressHandler handler) throws Exception
-    {
-        for (BSFAction action : bsfActions)
-        {
-            action.init();
-            action.executeUninstall(BSFAction.AFTERDELETE, new Object[]{file, handler});
-            action.destroy();
+            action.executeUninstall(BSFAction.AFTERDELETE, file);
         }
     }
 
@@ -96,6 +158,5 @@ public class BSFUninstallerListener extends SimpleUninstallerListener
     {
         return true;
     }
-
 
 }

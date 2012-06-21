@@ -21,14 +21,17 @@
 
 package com.izforge.izpack.event;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.List;
 
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.exception.NativeLibException;
+import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.exception.WrappedNativeLibException;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 import com.izforge.izpack.api.resource.Messages;
+import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
 
@@ -39,9 +42,18 @@ import com.izforge.izpack.core.os.RegistryHandler;
  *
  * @author Klaus Bartz
  */
-public class RegistryUninstallerListener extends NativeUninstallerListener
+public class RegistryUninstallerListener extends AbstractUninstallerListener
 {
+
+    /**
+     * The registry handler.
+     */
     private final RegistryDefaultHandler handler;
+
+    /**
+     * The resources.
+     */
+    private final Resources resources;
 
     /**
      * The localised messages.
@@ -49,50 +61,74 @@ public class RegistryUninstallerListener extends NativeUninstallerListener
     private final Messages messages;
 
     /**
+     * The uninstall actions.
+     */
+    private List actions;
+
+    /**
      * Constructs a <tt>RegistryUninstallerListener</tt>.
      *
-     * @param handler  the handler
-     * @param messages the messages
+     * @param handler   the handler
+     * @param resources the resources
+     * @param messages  the messages
      */
-    public RegistryUninstallerListener(RegistryDefaultHandler handler, Messages messages)
+    public RegistryUninstallerListener(RegistryDefaultHandler handler, Resources resources, Messages messages)
     {
-        super();
         this.handler = handler;
+        this.resources = resources;
         this.messages = messages;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.izforge.izpack.uninstaller.UninstallerListener#afterDeletion(java.util.List,
-     * com.izforge.izpack.api.handler.AbstractUIProgressHandler)
+    /**
+     * Initialises the listener.
+     *
+     * @throws IzPackException for any error
      */
-
-    public void beforeDeletion(List files, AbstractUIProgressHandler handler) throws Exception
+    @Override
+    public void initialise()
     {
         // Load the defined actions.
-        InputStream in = getClass().getResourceAsStream("/registryEntries");
-        if (in == null)
-        { // No actions, nothing to do.
-            return;
-        }
-        ObjectInputStream objIn = new ObjectInputStream(in);
-        List allActions = (List) objIn.readObject();
-        objIn.close();
-        in.close();
-        if (allActions == null || allActions.size() < 1)
-        {
-            return;
-        }
         try
         {
-            RegistryHandler registryHandler = this.handler.getInstance();
+            InputStream in = resources.getInputStream("registryEntries");
+            ObjectInputStream objIn = new ObjectInputStream(in);
+            actions = (List) objIn.readObject();
+            objIn.close();
+            in.close();
+        }
+        catch (ResourceNotFoundException ignore)
+        {
+            // do nothing
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked before files are deleted.
+     *
+     * @param files all files which should be deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDelete(List<File> files)
+    {
+        if (actions == null || actions.isEmpty())
+        {
+            return;
+        }
+
+        try
+        {
+            RegistryHandler registryHandler = handler.getInstance();
             if (registryHandler == null)
             {
                 return;
             }
             registryHandler.activateLogging();
-            registryHandler.setLoggingInfo(allActions);
+            registryHandler.setLoggingInfo(actions);
             registryHandler.rewind();
         }
         catch (NativeLibException e)

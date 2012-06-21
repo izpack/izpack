@@ -228,36 +228,38 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     }
 
     /**
-    * Runs the console installer against a script with an alternative uninstaller name and
-    * path, verifying that the correct uninstall JAR and registry value are created.
-    * 
-    * @throws Exception for any error
-    */
-   @Test
-   @InstallFile("samples/windows/consoleinstall_alt_uninstall.xml")
-   public void testNonDefaultUninstaller() throws Exception
-   {
-       assertFalse(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
+     * Runs the console installer against a script with an alternative uninstaller name and
+     * path, verifying that the correct uninstall JAR and registry value are created.
+     *
+     * @throws Exception for any error
+     */
+    @Test
+    @InstallFile("samples/windows/consoleinstall_alt_uninstall.xml")
+    public void testNonDefaultUninstaller() throws Exception
+    {
+        assertFalse(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
 
-       TestConsole console = installer.getConsole();
-       console.addScript("CheckedHelloPanel", "1");
-       console.addScript("InfoPanel", "1");
-       console.addScript("TargetPanel", "\n", "1");
+        TestConsole console = installer.getConsole();
+        console.addScript("CheckedHelloPanel", "1");
+        console.addScript("InfoPanel", "1");
+        console.addScript("TargetPanel", "\n", "1");
 
-       //run installer and check that default uninstaller doesn't exist
-       checkInstall(installer, getInstallData(), false);
-             
-       //check that uninstaller exists as specified in install spec
-       String installPath = getInstallData().getInstallPath();
-       assertTrue(new File(installPath, "/uninstallme.jar").exists());
-       
-       //check that the registry key has the correct value
-       assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));        
-   	   registryValueStringEquals(handler, DEFAULT_UNINSTALL_KEY, UNINSTALL_CMD_VALUE, 
-   			   "\"" + getInstallData().getVariable("JAVA_HOME") + "\\bin\\javaw.exe\" -jar \"" + installPath + "\\uninstallme.jar\"");
-   }
+        //run installer and check that default uninstaller doesn't exist
+        InstallData installData = getInstallData();
+        checkInstall(installer, installData, false);
 
-   /**
+        //check that uninstaller exists as specified in install spec
+        String installPath = installData.getInstallPath();
+        assertTrue(new File(installPath, "/uninstallme.jar").exists());
+
+        //check that the registry key has the correct value
+        assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
+        String command = "\"" + installData.getVariable("JAVA_HOME") + "\\bin\\javaw.exe\" -jar \"" + installPath
+                + "\\uninstallme.jar\"";
+        registryValueStringEquals(handler, DEFAULT_UNINSTALL_KEY, UNINSTALL_CMD_VALUE, command);
+    }
+
+    /**
      * Runs the installation, and verifies the uninstall key is created.
      *
      * @throws NativeLibException for any native library exception

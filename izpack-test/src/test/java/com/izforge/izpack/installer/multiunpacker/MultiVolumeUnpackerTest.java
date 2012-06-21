@@ -279,7 +279,7 @@ public class MultiVolumeUnpackerTest
     {
         final URLClassLoader loader = new URLClassLoader(new URL[]{installerJar.toURI().toURL()},
                                                          getClass().getClassLoader());
-        return new ResourceManager(new Properties(), loader);
+        return new ResourceManager(loader);
     }
 
     /**

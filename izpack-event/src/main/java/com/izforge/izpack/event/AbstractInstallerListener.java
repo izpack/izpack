@@ -1,11 +1,16 @@
 package com.izforge.izpack.event;
 
 import java.io.File;
+import java.util.List;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.event.InstallerListener;
+import com.izforge.izpack.api.event.ProgressListener;
+import com.izforge.izpack.api.event.ProgressNotifiers;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 
@@ -19,6 +24,149 @@ import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
  */
 public abstract class AbstractInstallerListener implements InstallerListener
 {
+
+    /**
+     * The installation data.
+     */
+    private final InstallData installData;
+
+    /**
+     * The notifiers. May be {@code null}.
+     */
+    private final ProgressNotifiers notifiers;
+
+
+    /**
+     * Constructs an {@code AbstractInstallerListener}.
+     *
+     * @param installData the installation data
+     */
+    public AbstractInstallerListener(InstallData installData)
+    {
+        this(installData, null);
+    }
+
+
+    /**
+     * Constructs an {@code AbstractInstallerListener}.
+     *
+     * @param installData the installation data
+     * @param notifiers   the progress notifiers. May be {@code null}
+     */
+    public AbstractInstallerListener(InstallData installData, ProgressNotifiers notifiers)
+    {
+        this.installData = installData;
+        this.notifiers = notifiers;
+    }
+
+    /**
+     * Initialises the listener.
+     *
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void initialise()
+    {
+    }
+
+    /**
+     * Invoked before packs are installed.
+     *
+     * @param packs the packs to be installed
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforePacks(List<Pack> packs)
+    {
+    }
+
+    /**
+     * Invoked before a pack is installed.
+     *
+     * @param pack  the pack
+     * @param index the pack number
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforePack(Pack pack, int index)
+    {
+    }
+
+    /**
+     * Invoked after a pack is installed.
+     *
+     * @param pack  the pack
+     * @param index the pack number
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterPack(Pack pack, int index)
+    {
+    }
+
+    /**
+     * Invoked after packs are installed.
+     *
+     * @param packs    the installed packs
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterPacks(List<Pack> packs, ProgressListener listener)
+    {
+    }
+
+    /**
+     * Invoked before a directory is created.
+     *
+     * @param dir      the directory
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDir(File dir, PackFile packFile, Pack pack)
+    {
+    }
+
+    /**
+     * Invoked after a directory is created.
+     *
+     * @param dir      the directory
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDir(File dir, PackFile packFile, Pack pack)
+    {
+    }
+
+    /**
+     * Invoked before a file is installed.
+     *
+     * @param file     the file
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeFile(File file, PackFile packFile, Pack pack)
+    {
+    }
+
+    /**
+     * Invoked after a file is installed.
+     *
+     * @param file     the file
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterFile(File file, PackFile packFile, Pack pack)
+    {
+    }
 
     /**
      * Invoked when the installer creates the listener instance, immediately after the install data is parsed.
@@ -141,4 +289,67 @@ public abstract class AbstractInstallerListener implements InstallerListener
     public void afterPacks(AutomatedInstallData data, AbstractUIProgressHandler handler) throws Exception
     {
     }
+
+    /**
+     * Determines if listeners should notify a {@link ProgressListener}.
+     *
+     * @return {@code true} if the {@link ProgressListener} should be notified
+     */
+    protected boolean notifyProgress()
+    {
+        return (notifiers != null && notifiers.notifyProgress());
+    }
+
+    /**
+     * Returns the progress notifier id of this listener.
+     *
+     * @return the progress notifier id of this listener, or {@code 0} if this is not registered
+     */
+    protected int getProgressNotifierId()
+    {
+        return notifiers != null ? notifiers.indexOf(this) + 1 : 0;
+    }
+
+    /**
+     * Register this listener as a progress notifier.
+     */
+    protected void setProgressNotifier()
+    {
+        if (notifiers != null)
+        {
+            notifiers.addNotifier(this);
+        }
+    }
+
+    /**
+     * Returns the progress notifiers.
+     *
+     * @return the progress notifiers, or {@code null} if none was supplied at construction
+     */
+    protected ProgressNotifiers getProgressNotifiers()
+    {
+        return notifiers;
+    }
+
+    /**
+     * Returns the installation data.
+     *
+     * @return the installation data
+     */
+    protected InstallData getInstallData()
+    {
+        return installData;
+    }
+
+    /**
+     * Helper to return a localised message, given its identifier.
+     *
+     * @param id the message identifier
+     * @return the corresponding message, or {@code id} if it doesn't exist
+     */
+    protected String getMessage(String id)
+    {
+        return installData.getMessages().get(id);
+    }
+
 }

@@ -9,6 +9,7 @@ import com.izforge.izpack.api.event.UninstallerListener;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.core.handler.ProgressHandler;
+import com.izforge.izpack.event.SimpleUninstallerListener;
 
 
 /**
@@ -60,6 +61,19 @@ public class UninstallerListeners
     }
 
     /**
+     * Initialises the listeners.
+     *
+     * @throws IzPackException for any error
+     */
+    public void initialise()
+    {
+        for (UninstallerListener listener : listeners)
+        {
+            listener.initialise();
+        }
+    }
+
+    /**
      * Invoked before files are deleted.
      *
      * @param files    all files which should be deleted
@@ -73,7 +87,11 @@ public class UninstallerListeners
         {
             try
             {
-                l.beforeDeletion(files, handler);
+                if (listener instanceof SimpleUninstallerListener)
+                {
+                    ((SimpleUninstallerListener) listener).setHandler(handler);
+                }
+                l.beforeDelete(files);
             }
             catch (IzPackException exception)
             {
@@ -105,18 +123,11 @@ public class UninstallerListeners
             {
                 if (l.isFileListener())
                 {
-                    try
+                    if (listener instanceof SimpleUninstallerListener)
                     {
-                        l.beforeDelete(file, handler);
+                        ((SimpleUninstallerListener) listener).setHandler(handler);
                     }
-                    catch (IzPackException exception)
-                    {
-                        throw exception;
-                    }
-                    catch (Throwable exception)
-                    {
-                        throw new IzPackException(exception);
-                    }
+                    l.beforeDelete(file);
                 }
             }
         }
@@ -141,18 +152,11 @@ public class UninstallerListeners
             {
                 if (l.isFileListener())
                 {
-                    try
+                    if (listener instanceof SimpleUninstallerListener)
                     {
-                        l.afterDelete(file, handler);
+                        ((SimpleUninstallerListener) listener).setHandler(handler);
                     }
-                    catch (IzPackException exception)
-                    {
-                        throw exception;
-                    }
-                    catch (Throwable exception)
-                    {
-                        throw new IzPackException(exception);
-                    }
+                    l.afterDelete(file);
                 }
             }
         }
@@ -172,7 +176,11 @@ public class UninstallerListeners
         {
             try
             {
-                l.afterDeletion(files, handler);
+                if (listener instanceof SimpleUninstallerListener)
+                {
+                    ((SimpleUninstallerListener) listener).setHandler(handler);
+                }
+                l.afterDelete(files, listener);
             }
             catch (IzPackException exception)
             {

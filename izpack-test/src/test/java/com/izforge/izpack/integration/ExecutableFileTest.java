@@ -178,6 +178,16 @@ public class ExecutableFileTest extends AbstractDestroyerTest
         }
 
         @Override
+        public void progress(String message)
+        {
+        }
+
+        @Override
+        public void restartAction(String name, String overallMessage, String tip, int steps)
+        {
+        }
+
+        @Override
         public void emitNotification(String message)
         {
         }

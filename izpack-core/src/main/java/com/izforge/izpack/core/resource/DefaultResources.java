@@ -1,7 +1,4 @@
-package com.izforge.izpack.uninstaller.resource;
-
-import com.izforge.izpack.core.resource.AbstractResources;
-
+package com.izforge.izpack.core.resource;
 
 /**
  * Default {@link} Resources} implementation.

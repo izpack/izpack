@@ -22,12 +22,12 @@
 package com.myCompany.tools.install.listener;
 
 import java.io.File;
-import java.io.IOException;
 
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.exception.InstallerException;
-import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.event.SimpleInstallerListener;
+import com.izforge.izpack.event.AbstractInstallerListener;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.OsVersion;
 
@@ -37,28 +37,35 @@ import com.izforge.izpack.util.OsVersion;
  *
  * @author Klaus Bartz
  */
-public class ChmodInstallerListener extends SimpleInstallerListener
+public class ChmodInstallerListener extends AbstractInstallerListener
 {
-    public ChmodInstallerListener(Resources resources)
+
+    /**
+     * Constructs an {@code ChmodInstallerListener}.
+     *
+     * @param installData the installation data
+     */
+    public ChmodInstallerListener(InstallData installData)
     {
-        super(resources);
+        super(installData);
     }
 
-    /* (non-Javadoc)
-    * @see com.izforge.izpack.installer.InstallerListener#isFileListener()
-    */
-
+    /**
+     * Determines if the listener should be notified of every file and directory installation.
+     *
+     * @return {@code true}
+     */
+    @Override
     public boolean isFileListener()
     {
-        // This is a file related listener.
         return true;
     }
 
-    /* (non-Javadoc)
-    * @see com.izforge.izpack.compiler.InstallerListener#handleFile(java.io.File, com.izforge.izpack.PackFile)
-    */
-
-    public void afterFile(File filePath, PackFile pf) throws Exception
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void afterFile(File filePath, PackFile pf, Pack pack)
     {
         if (pf.getAdditionals() == null)
         {
@@ -76,11 +83,11 @@ public class ChmodInstallerListener extends SimpleInstallerListener
         }
     }
 
-    /* (non-Javadoc)
-    * @see com.izforge.izpack.compiler.InstallerListener#handleDir(java.io.File, com.izforge.izpack.PackFile)
-    */
-
-    public void afterDir(File dirPath, PackFile pf) throws Exception
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void afterDir(File dirPath, PackFile pf, Pack pack)
     {
         if (pf.getAdditionals() == null)
         {
@@ -107,12 +114,12 @@ public class ChmodInstallerListener extends SimpleInstallerListener
         }
     }
 
-    private void chmod(File path, int permissions) throws IOException
+    private void chmod(File path, int permissions)
     {
         String pathSep = System.getProperty("path.separator");
         if (OsVersion.IS_WINDOWS)
         {
-            throw new IOException("Sorry, chmod not supported yet on windows; use this class OS dependant.");
+            throw new InstallerException("Sorry, chmod not supported yet on windows; use this class OS dependant.");
         }
         if (path == null)
         // Oops this is an error, but in this example we ignore it ...

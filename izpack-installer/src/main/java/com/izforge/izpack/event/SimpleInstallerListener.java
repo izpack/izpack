@@ -22,12 +22,15 @@
 package com.izforge.izpack.event;
 
 import java.io.File;
+import java.util.List;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.event.InstallerListener;
+import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.ProgressNotifiers;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
@@ -43,7 +46,9 @@ import com.izforge.izpack.util.helper.SpecHelper;
  * </p>
  *
  * @author Klaus Bartz
+ * @deprecated use {@code com.izforge.izpack.event.AbstractInstallerListener}. This class will be removed in IzPack 6.0
  */
+@Deprecated
 public class SimpleInstallerListener implements InstallerListener
 {
 
@@ -57,7 +62,7 @@ public class SimpleInstallerListener implements InstallerListener
      */
     private Messages messages;
 
-    private AutomatedInstallData installdata = null;
+    private AutomatedInstallData installData = null;
 
     private SpecHelper specHelper = null;
 
@@ -70,6 +75,8 @@ public class SimpleInstallerListener implements InstallerListener
      * The progress notifiers.
      */
     private final ProgressNotifiers notifiers;
+
+    private AbstractUIProgressHandler handler;
 
 
     /**
@@ -122,6 +129,233 @@ public class SimpleInstallerListener implements InstallerListener
         this.notifiers = notifiers;
     }
 
+    /**
+     * Registers the progress handler.
+     *
+     * @param handler the progress handler
+     */
+    public void setHandler(AbstractUIProgressHandler handler)
+    {
+        this.handler = handler;
+    }
+
+    /**
+     * Initialises the listener.
+     *
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void initialise()
+    {
+        try
+        {
+            afterInstallerInitialization(installData);
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked before packs are installed.
+     *
+     * @param packs the packs to be installed
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforePacks(List<Pack> packs)
+    {
+        try
+        {
+            beforePacks(installData, packs.size(), handler);
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked before a pack is installed.
+     *
+     * @param pack  the pack
+     * @param index the pack index within the list of packs to be installed
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforePack(Pack pack, int index)
+    {
+        try
+        {
+            beforePack(pack, index, handler);
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked after a pack is installed.
+     *
+     * @param pack  the pack
+     * @param index the pack index within the list of packs to be installed
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterPack(Pack pack, int index)
+    {
+        try
+        {
+            afterPack(pack, index, handler);
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked after packs are installed.
+     *
+     * @param packs    the installed packs
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterPacks(List<Pack> packs, ProgressListener listener)
+    {
+        try
+        {
+            afterPacks(installData, handler);
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked before a directory is created.
+     *
+     * @param dir      the directory
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDir(File dir, PackFile packFile, Pack pack)
+    {
+        try
+        {
+            beforeDir(dir, packFile);
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked after a directory is created.
+     *
+     * @param dir      the directory
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDir(File dir, PackFile packFile, Pack pack)
+    {
+        try
+        {
+            afterDir(dir, packFile);
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked before a file is installed.
+     *
+     * @param file     the file
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeFile(File file, PackFile packFile, Pack pack)
+    {
+        try
+        {
+            beforeFile(file, packFile);
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked after a file is installed.
+     *
+     * @param file     the file
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterFile(File file, PackFile packFile, Pack pack)
+    {
+        try
+        {
+            afterFile(file, packFile);
+        }
+        catch (IzPackException exception)
+        {
+            throw exception;
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -131,7 +365,6 @@ public class SimpleInstallerListener implements InstallerListener
 
     public void afterFile(File file, PackFile pf) throws Exception
     {
-        // Do nothing
     }
 
     /*
@@ -156,8 +389,6 @@ public class SimpleInstallerListener implements InstallerListener
     public void afterPacks(AutomatedInstallData idata, AbstractUIProgressHandler handler)
             throws Exception
     {
-
-        // Do nothing
     }
 
     /*
@@ -169,7 +400,7 @@ public class SimpleInstallerListener implements InstallerListener
 
     public void afterPack(Pack pack, Integer i, AbstractUIProgressHandler handler) throws Exception
     {
-        // TODO Auto-generated method stub
+        // Do nothing
 
     }
 
@@ -183,14 +414,7 @@ public class SimpleInstallerListener implements InstallerListener
     public void beforePacks(AutomatedInstallData idata, Integer npacks,
                             AbstractUIProgressHandler handler) throws Exception
     {
-        if (installdata == null)
-        {
-            installdata = idata;
-        }
-        if (messages == null)
-        {
-            messages = idata.getMessages();
-        }
+        // Do nothing
     }
 
     /*
@@ -244,7 +468,7 @@ public class SimpleInstallerListener implements InstallerListener
 
     public void afterInstallerInitialization(AutomatedInstallData data) throws Exception
     {
-        this.installdata = data;
+        // Do nothing
     }
 
     /**
@@ -274,7 +498,7 @@ public class SimpleInstallerListener implements InstallerListener
      */
     public AutomatedInstallData getInstalldata()
     {
-        return installdata;
+        return installData;
     }
 
     /**
@@ -284,7 +508,8 @@ public class SimpleInstallerListener implements InstallerListener
      */
     public void setInstalldata(AutomatedInstallData data)
     {
-        installdata = data;
+        installData = data;
+        messages = installData.getMessages();
     }
 
     /**

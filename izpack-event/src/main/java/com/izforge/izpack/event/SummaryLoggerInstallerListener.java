@@ -23,13 +23,18 @@ package com.izforge.izpack.event;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
-import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.event.ProgressListener;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.util.SummaryProcessor;
 import com.izforge.izpack.util.IoHelper;
+import com.izforge.izpack.util.file.FileUtils;
 
 /**
  * Installer listener which writes the summary of all panels into the logfile which is defined by
@@ -37,32 +42,33 @@ import com.izforge.izpack.util.IoHelper;
  *
  * @author Klaus Bartz
  */
-public class SummaryLoggerInstallerListener extends SimpleInstallerListener
+public class SummaryLoggerInstallerListener extends AbstractInstallerListener
 {
 
     /**
      * Constructs a <tt>SummaryLoggerInstallerListener</tt>.
      *
-     * @param resources the resources
+     * @param installData the installation data
      */
-    public SummaryLoggerInstallerListener(Resources resources)
+    public SummaryLoggerInstallerListener(InstallData installData)
     {
-        super(resources, false);
+        super(installData);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.izforge.izpack.compiler.InstallerListener#afterPacks(com.izforge.izpack.installer.AutomatedInstallData,
-     * com.izforge.izpack.api.handler.AbstractUIProgressHandler)
+    /**
+     * Invoked after packs are installed.
+     *
+     * @param packs    the installed packs
+     * @param listener the progress listener
+     * @throws com.izforge.izpack.api.exception.IzPackException
+     *          for any error
      */
-
-    public void afterPacks(AutomatedInstallData idata, AbstractUIProgressHandler handler)
-            throws Exception
+    @Override
+    public void afterPacks(List<Pack> packs, ProgressListener listener)
     {
-        if (idata instanceof GUIInstallData)
+        if (getInstallData() instanceof GUIInstallData)
         {
-            GUIInstallData installData = (GUIInstallData) idata;
+            GUIInstallData installData = (GUIInstallData) getInstallData();
             if (!installData.isInstallSuccess())
             {
                 return;
@@ -78,7 +84,7 @@ public class SummaryLoggerInstallerListener extends SimpleInstallerListener
             {
                 return;
             }
-            path = IoHelper.translatePath(path, idata.getVariables());
+            path = IoHelper.translatePath(path, installData.getVariables());
             File parent = new File(path).getParentFile();
 
             if (!parent.exists())
@@ -87,10 +93,21 @@ public class SummaryLoggerInstallerListener extends SimpleInstallerListener
             }
 
             String summary = SummaryProcessor.getSummary(installData);
-            java.io.OutputStream out = new FileOutputStream(path);
+            OutputStream out = null;
+            try
+            {
+                out = new FileOutputStream(path);
+                out.write(summary.getBytes("utf-8"));
+            }
+            catch (IOException exception)
+            {
+                throw new IzPackException("Failed to write summary to path: " + path, exception);
+            }
+            finally
+            {
+                FileUtils.close(out);
+            }
 
-            out.write(summary.getBytes("utf-8"));
-            out.close();
         }
     }
 

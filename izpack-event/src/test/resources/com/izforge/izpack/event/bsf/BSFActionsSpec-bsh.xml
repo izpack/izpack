@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bsfactions>
+    <pack name="Base">
+
+        <script language="beanshell"><![CDATA[
+              void beforePacks() {
+                FileWriter file = getFile("beforepacks-bsh.txt");
+                file.write("beforepacks");
+                file.close();
+              }
+
+              void afterPacks() {
+                FileWriter file = getFile("afterpacks-bsh.txt");
+                file.write("afterpacks");
+                file.close();
+              }
+
+              void beforePack() {
+                FileWriter file = getFile("beforepack-bsh.txt");
+                file.write("beforepack");
+                file.close();
+              }
+
+              void afterPack() {
+                FileWriter file = getFile("afterpack-bsh.txt");
+                file.write("afterpack");
+                file.close();
+              }
+
+              void beforeDir() {
+                FileWriter file = getFile("beforedir-bsh.txt");
+                file.write("beforedir");
+                file.close();
+              }
+
+              void afterDir() {
+                FileWriter file = getFile("afterdir-bsh.txt");
+                file.write("afterdir");
+                file.close();
+              }
+
+              void beforeFile() {
+                FileWriter file = getFile("beforefile-bsh.txt");
+                file.write("beforefile");
+                file.close();
+              }
+
+              void afterFile() {
+                FileWriter file = getFile("afterfile-bsh.txt");
+                file.write("afterfile");
+                file.close();
+              }
+
+              void beforeDeletion() {
+                FileWriter file = getUninstallFile("beforedeletion-bsh.txt");
+                file.write("beforedeletion");
+                file.close();
+              }
+
+              void beforeDelete() {
+                FileWriter file = getUninstallFile("beforedelete-bsh.txt");
+                file.write("beforedelete");
+                file.close();
+              }
+
+              void afterDelete() {
+                FileWriter file = getUninstallFile("afterdelete-bsh.txt");
+                file.write("afterdelete");
+                file.close();
+              }
+
+              void afterDeletion() {
+                FileWriter file = getUninstallFile("afterdeletion-bsh.txt");
+                file.write("afterdeletion");
+                file.close();
+              }
+
+              FileWriter getFile(String name) {
+                File parent = new File(installData.getVariable("INSTALL_PATH"));
+                return new FileWriter(new File(parent, name));
+              }
+
+              FileWriter getUninstallFile(String name) {
+                File parent = new File(System.getProperty("TEST_INSTALL_PATH"));
+                return new FileWriter(new File(parent, name));
+              }
+
+            ]]></script>
+    </pack>
+</bsfactions>
+

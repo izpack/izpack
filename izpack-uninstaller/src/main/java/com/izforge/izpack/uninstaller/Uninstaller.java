@@ -28,11 +28,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import com.izforge.izpack.core.resource.DefaultResources;
 import com.izforge.izpack.uninstaller.console.ConsoleUninstallerContainer;
 import com.izforge.izpack.uninstaller.container.UninstallerContainer;
 import com.izforge.izpack.uninstaller.gui.GUIUninstallerContainer;
 import com.izforge.izpack.uninstaller.gui.UninstallerFrame;
-import com.izforge.izpack.uninstaller.resource.DefaultResources;
 import com.izforge.izpack.uninstaller.resource.InstallLog;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Platform;

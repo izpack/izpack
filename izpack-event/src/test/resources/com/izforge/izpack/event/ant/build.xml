@@ -1,0 +1,17 @@
+<project>
+    <target name="touch_beforepacks">
+        <touch file="${INSTALL_PATH}/beforepacks.txt"/>
+    </target>
+
+    <target name="touch_beforepack">
+        <touch file="${INSTALL_PATH}/beforepack.txt"/>
+    </target>
+
+    <target name="touch_afterpack">
+        <touch file="${INSTALL_PATH}/afterpack.txt"/>
+    </target>
+
+    <target name="touch_afterpacks">
+        <touch file="${INSTALL_PATH}/afterpacks.txt"/>
+    </target>
+</project>

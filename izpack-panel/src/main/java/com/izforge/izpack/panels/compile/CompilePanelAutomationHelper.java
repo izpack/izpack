@@ -151,8 +151,6 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
 
     /**
      * Reports progress on System.out
-     *
-     * @see com.izforge.izpack.api.handler.AbstractUIProgressHandler#startAction(String, int)
      */
     public void startAction(String name, int noOfJobs)
     {
@@ -182,8 +180,6 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
 
     /**
      * Sets state variable for thread sync.
-     *
-     * @see com.izforge.izpack.api.handler.AbstractUIProgressHandler#stopAction()
      */
     public void stopAction()
     {
@@ -209,7 +205,6 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
      *
      * @param val
      * @param msg
-     * @see com.izforge.izpack.api.handler.AbstractUIProgressHandler#progress(int, String)
      */
     public void progress(int val, String msg)
     {
@@ -235,7 +230,6 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
      * @param jobName The next job's name.
      * @param max     unused
      * @param jobNo   The next job's number.
-     * @see com.izforge.izpack.api.handler.AbstractUIProgressHandler#nextStep(String, int, int)
      */
     public void nextStep(String jobName, int max, int jobNo)
     {
@@ -261,5 +255,32 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
     public void setSubStepNo(int no_of_substeps)
     {
         this.job_max = no_of_substeps;
+    }
+
+    /**
+     * Invoked to notify progress.
+     * <p/>
+     * This increments the current step.
+     *
+     * @param message a message describing the step
+     */
+    @Override
+    public void progress(String message)
+    {
+        // no-op
+    }
+
+    /**
+     * Invoked when an action restarts.
+     *
+     * @param name           the name of the action
+     * @param overallMessage a message describing the overall progress
+     * @param tip            a tip describing the current progress
+     * @param steps          the number of steps the action consists of
+     */
+    @Override
+    public void restartAction(String name, String overallMessage, String tip, int steps)
+    {
+        // no-op
     }
 }

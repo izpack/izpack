@@ -29,7 +29,7 @@ import com.izforge.izpack.api.resource.Messages;
  *
  * @author Klaus Bartz
  */
-public class WrappedNativeLibException extends Exception
+public class WrappedNativeLibException extends IzPackException
 {
 
     /**

@@ -30,17 +30,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.ProgressNotifiers;
-import com.izforge.izpack.api.event.RestartableProgressListener;
 import com.izforge.izpack.api.exception.InstallerException;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -73,7 +73,7 @@ import com.izforge.izpack.util.file.types.Mapper;
 import com.izforge.izpack.util.helper.SpecHelper;
 
 
-public class ConfigurationInstallerListener extends SimpleInstallerListener
+public class ConfigurationInstallerListener extends AbstractInstallerListener
 {
     private static final Logger logger = Logger.getLogger(ConfigurationInstallerListener.class.getName());
 
@@ -82,20 +82,44 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
      */
     public static final String SPEC_FILE_NAME = "ConfigurationActionsSpec.xml";
 
-    private HashMap<String, HashMap<Object, ArrayList<ConfigurationAction>>> actions = null;
+    /**
+     * The configuration actions.
+     */
+    private final Map<String, Map<Object, List<ConfigurationAction>>> actions
+            = new HashMap<String, Map<Object, List<ConfigurationAction>>>();
 
-    private VariableSubstitutor substlocal, substglobal;
+    /**
+     * The resources.
+     */
+    private final Resources resources;
+
+    /**
+     * The variable replacer.
+     */
+    private final VariableSubstitutor replacer;
+
+    /**
+     * The specification helper.
+     */
+    private SpecHelper spec;
+
+    private VariableSubstitutor substlocal;
+
 
     /**
      * Constructs a <tt>ConfigurationInstallerListener</tt>.
      *
-     * @param resources the resources
-     * @param notifiers the notifiers
+     * @param installData the installation data
+     * @param resources   the resources
+     * @param replacer    the variable replacer
+     * @param notifiers   the progress notifiers
      */
-    public ConfigurationInstallerListener(Resources resources, ProgressNotifiers notifiers)
+    public ConfigurationInstallerListener(InstallData installData, Resources resources,
+                                          VariableSubstitutor replacer, ProgressNotifiers notifiers)
     {
-        super(resources, notifiers, true);
-        actions = new HashMap<String, HashMap<Object, ArrayList<ConfigurationAction>>>();
+        super(installData, notifiers);
+        this.resources = resources;
+        this.replacer = replacer;
     }
 
     /**
@@ -103,34 +127,50 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
      *
      * @return the actions map
      */
-    public HashMap<String, HashMap<Object, ArrayList<ConfigurationAction>>> getActions()
+    public Map<String, Map<Object, List<ConfigurationAction>>> getActions()
     {
-        return (actions);
+        return actions;
     }
 
+    /**
+     * Initialises the listener.
+     *
+     * @throws IzPackException for any error
+     */
     @Override
-    public void beforePacks(AutomatedInstallData idata, Integer npacks,
-                            AbstractUIProgressHandler handler) throws Exception
+    public void initialise()
     {
-        super.beforePacks(idata, npacks, handler);
+        spec = new SpecHelper(resources);
+        try
+        {
+            spec.readSpec(SPEC_FILE_NAME, replacer);
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException("Failed to read: " + SPEC_FILE_NAME, exception);
+        }
+    }
 
-        getSpecHelper().readSpec(SPEC_FILE_NAME, new VariableSubstitutorImpl(idata.getVariables()));
-
-        if (getSpecHelper().getSpec() == null)
+    /**
+     * Invoked before packs are installed.
+     *
+     * @param packs the packs to be installed
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforePacks(List<Pack> packs)
+    {
+        if (spec.getSpec() == null)
         {
             return;
         }
 
-        // Selected packs.
-        Iterator<Pack> iter = idata.getSelectedPacks().iterator();
-        Pack p = null;
-        while (iter != null && iter.hasNext())
+        for (Pack p : packs)
         {
-            p = iter.next();
             logger.fine("Entering beforepacks configuration action for pack " + p.getName());
 
             // Resolve data for current pack.
-            IXMLElement pack = getSpecHelper().getPackForName(p.getName());
+            IXMLElement pack = spec.getPackForName(p.getName());
             if (pack == null)
             {
                 continue;
@@ -138,7 +178,7 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
 
             logger.fine("Found configuration action descriptor for pack " + p.getName());
             // Prepare the action cache
-            HashMap<Object, ArrayList<ConfigurationAction>> packActions = new HashMap<Object, ArrayList<ConfigurationAction>>();
+            Map<Object, List<ConfigurationAction>> packActions = new HashMap<Object, List<ConfigurationAction>>();
             packActions.put(ActionBase.BEFOREPACK, new ArrayList<ConfigurationAction>());
             packActions.put(ActionBase.AFTERPACK, new ArrayList<ConfigurationAction>());
             packActions.put(ActionBase.BEFOREPACKS, new ArrayList<ConfigurationAction>());
@@ -154,7 +194,7 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
                     Iterator<IXMLElement> entriesIter = configActionEntries.iterator();
                     while (entriesIter != null && entriesIter.hasNext())
                     {
-                        ConfigurationAction act = readConfigAction(entriesIter.next(), idata);
+                        ConfigurationAction act = readConfigAction(entriesIter.next());
                         if (act != null)
                         {
                             logger.fine("Adding " + act.getOrder() + "configuration action with "
@@ -165,62 +205,81 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
                     // Set for progress bar interaction.
                     if ((packActions.get(ActionBase.AFTERPACKS)).size() > 0)
                     {
-                        this.setProgressBarCaller();
+                        setProgressNotifier();
                     }
                 }
                 // Set for progress bar interaction.
                 if ((packActions.get(ActionBase.AFTERPACKS)).size() > 0)
                 {
-                    this.setProgressBarCaller();
+                    this.setProgressNotifier();
                 }
             }
 
             actions.put(p.getName(), packActions);
         }
-        iter = idata.getAvailablePacks().iterator();
-        while (iter.hasNext())
+        for (Pack p : packs)
         {
-            String currentPack = iter.next().getName();
+            String currentPack = p.getName();
             performAllActions(currentPack, ActionBase.BEFOREPACKS, null);
         }
     }
 
+    /**
+     * Invoked before a pack is installed.
+     *
+     * @param pack the pack
+     * @param i    the pack number
+     * @throws IzPackException for any error
+     */
     @Override
-    public void beforePack(Pack pack, Integer i, AbstractUIProgressHandler handler)
-            throws Exception
+    public void beforePack(Pack pack, int i)
     {
-        performAllActions(pack.getName(), ActionBase.BEFOREPACK, handler);
+        performAllActions(pack.getName(), ActionBase.BEFOREPACK, null);
     }
 
+
+    /**
+     * Invoked after a pack is installed.
+     *
+     * @param pack the pack
+     * @param i    the pack number
+     * @throws IzPackException for any error
+     */
     @Override
-    public void afterPack(Pack pack, Integer i, AbstractUIProgressHandler handler) throws Exception
+    public void afterPack(Pack pack, int i)
     {
-        performAllActions(pack.getName(), ActionBase.AFTERPACK, handler);
+        performAllActions(pack.getName(), ActionBase.AFTERPACK, null);
     }
 
+    /**
+     * Invoked after packs are installed.
+     *
+     * @param packs    the installed packs
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
     @Override
-    public void afterPacks(AutomatedInstallData idata, AbstractUIProgressHandler handler)
-            throws Exception
+    public void afterPacks(List<Pack> packs, ProgressListener listener)
     {
-        if (informProgressBar())
+        if (notifyProgress())
         {
-            handler.nextStep(getMsg("ConfigurationAction.pack"), getProgressBarCallerId(), getActionCount(
-                    idata, ActionBase.AFTERPACKS));
+            listener.nextStep(getMessage("ConfigurationAction.pack"), getProgressNotifierId(),
+                              getActionCount(packs, ActionBase.AFTERPACKS));
         }
-        for (Pack pack : idata.getSelectedPacks())
+        for (Pack pack : packs)
         {
             String currentPack = pack.getName();
-            performAllActions(currentPack, ActionBase.AFTERPACKS, handler);
+            performAllActions(currentPack, ActionBase.AFTERPACKS, listener);
         }
     }
 
-    private int getActionCount(AutomatedInstallData idata, String order)
+    private int getActionCount(List<Pack> packs, String order)
     {
         int retval = 0;
-        for (Pack pack : idata.getSelectedPacks())
+        for (Pack pack : packs)
         {
             String currentPack = pack.getName();
-            ArrayList<ConfigurationAction> actList = getActions(currentPack, order);
+            List<ConfigurationAction> actList = getActions(currentPack, order);
             if (actList != null)
             {
                 retval += actList.size();
@@ -237,14 +296,14 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
      * @return a list which contains all defined actions for the given pack and order
      */
     // -------------------------------------------------------
-    protected ArrayList<ConfigurationAction> getActions(String packName, String order)
+    protected List<ConfigurationAction> getActions(String packName, String order)
     {
         if (actions == null)
         {
             return null;
         }
 
-        HashMap<Object, ArrayList<ConfigurationAction>> packActions = actions.get(packName);
+        Map<Object, List<ConfigurationAction>> packActions = actions.get(packName);
         if (packActions == null || packActions.size() == 0)
         {
             return null;
@@ -260,10 +319,10 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
      * @param order    order to be used; valid are <i>beforepack</i> and <i>afterpack</i>
      * @throws InstallerException
      */
-    private void performAllActions(String packName, String order, AbstractUIProgressHandler handler)
+    private void performAllActions(String packName, String order, ProgressListener listener)
             throws InstallerException
     {
-        ArrayList<ConfigurationAction> actList = getActions(packName, order);
+        List<ConfigurationAction> actList = getActions(packName, order);
         if (actList == null || actList.size() == 0)
         {
             return;
@@ -273,11 +332,9 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         for (ConfigurationAction act : actList)
         {
             // Inform progress bar if needed. Works only on AFTER_PACKS
-            if (informProgressBar() && handler instanceof RestartableProgressListener
-                    && order.equals(ActionBase.AFTERPACKS))
+            if (notifyProgress() && order.equals(ActionBase.AFTERPACKS))
             {
-                ((RestartableProgressListener) handler)
-                        .progress((act.getMessageID() != null) ? getMsg(act.getMessageID()) : "");
+                listener.progress((act.getMessageID() != null) ? getMessage(act.getMessageID()) : "");
             }
             else
             {
@@ -296,18 +353,16 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
     /**
      * Returns an ant call which is defined in the given XML element.
      *
-     * @param el    XML element which contains the description of an ant call
-     * @param idata The installation data
+     * @param el XML element which contains the description of an ant call
      * @return an ant call which is defined in the given XML element
      * @throws InstallerException
      */
-    private ConfigurationAction readConfigAction(IXMLElement el, AutomatedInstallData idata) throws InstallerException
+    private ConfigurationAction readConfigAction(IXMLElement el) throws InstallerException
     {
         if (el == null)
         {
             return null;
         }
-        SpecHelper spec = getSpecHelper();
         ConfigurationAction act = new ConfigurationAction();
         try
         {
@@ -319,26 +374,22 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         }
 
         // Read specific attributes and nested elements
-        substglobal = new VariableSubstitutorImpl(idata.getVariables());
-        substlocal = new VariableSubstitutorImpl(readVariables(idata, el));
-        act.setActionTasks(readConfigurables(idata, el));
-        act.addActionTasks(readConfigurableSets(idata, el));
+        substlocal = new VariableSubstitutorImpl(readVariables(el));
+        act.setActionTasks(readConfigurables(el));
+        act.addActionTasks(readConfigurableSets(el));
 
         return act;
     }
 
     private String substituteVariables(String name)
     {
-        if (substglobal != null)
+        try
         {
-            try
-            {
-                name = substglobal.substitute(name);
-            }
-            catch (Exception e)
-            {
-                // ignore
-            }
+            replacer.substitute(name);
+        }
+        catch (Exception exception)
+        {
+            logger.log(Level.WARNING, "Failed to substitute: " + name, exception);
         }
         if (substlocal != null)
         {
@@ -346,22 +397,21 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
             {
                 name = substlocal.substitute(name);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                // ignore
+                logger.log(Level.WARNING, "Failed to substitute: " + name, exception);
             }
         }
         return name;
     }
 
-    protected List<ConfigurationActionTask> readConfigurableSets(InstallData idata,
-                                                                 IXMLElement parent) throws InstallerException
+    protected List<ConfigurationActionTask> readConfigurableSets(IXMLElement parent) throws InstallerException
     {
         List<ConfigurationActionTask> configtasks = new ArrayList<ConfigurationActionTask>();
         for (IXMLElement el : parent.getChildrenNamed("configurableset"))
         {
             String attrib = requireAttribute(el, "type");
-            ConfigType configType = null;
+            ConfigType configType;
             if (attrib != null)
             {
                 configType = ConfigType.getFromAttribute(attrib);
@@ -380,12 +430,12 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
             {
                 case OPTIONS:
                     task = new OptionFileCopyTask();
-                    readConfigurableSetCommonAttributes(idata, el, (ConfigurableFileCopyTask) task);
+                    readConfigurableSetCommonAttributes(el, (ConfigurableFileCopyTask) task);
                     break;
 
                 case INI:
                     task = new IniFileCopyTask();
-                    readConfigurableSetCommonAttributes(idata, el, (ConfigurableFileCopyTask) task);
+                    readConfigurableSetCommonAttributes(el, (ConfigurableFileCopyTask) task);
                     break;
                 default:
                     throw new InstallerException(
@@ -393,15 +443,15 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
             }
 
             configtasks.add(new ConfigurationActionTask(task, getAttribute(el, "condition"),
-                                                        getInstalldata().getRules()));
+                                                        getInstallData().getRules()));
         }
         return configtasks;
     }
 
-    private void readConfigurableSetCommonAttributes(InstallData idata,
-                                                     IXMLElement el, ConfigurableFileCopyTask task)
+    private void readConfigurableSetCommonAttributes(IXMLElement el, ConfigurableFileCopyTask task)
             throws InstallerException
     {
+        InstallData idata = getInstallData();
         task.setToDir(FileUtil.getAbsoluteFile(getAttribute(el, "todir"), idata.getInstallPath()));
         task.setToFile(FileUtil.getAbsoluteFile(getAttribute(el, "tofile"), idata.getInstallPath()));
         task.setFile(FileUtil.getAbsoluteFile(getAttribute(el, "fromfile"), idata.getInstallPath()));
@@ -450,13 +500,13 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         {
             task.setCleanup(Boolean.parseBoolean(boolattr));
         }
-        for (FileSet fs : readFileSets(idata, el))
+        for (FileSet fs : readFileSets(el))
         {
             task.addFileSet(fs);
         }
         try
         {
-            for (FileNameMapper mapper : readMapper(idata, el))
+            for (FileNameMapper mapper : readMapper(el))
             {
                 task.add(mapper);
             }
@@ -467,8 +517,7 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         }
     }
 
-    private void readSingleConfigurableTaskCommonAttributes(InstallData idata,
-                                                            IXMLElement el, SingleConfigurableTask task)
+    private void readSingleConfigurableTaskCommonAttributes(IXMLElement el, SingleConfigurableTask task)
             throws InstallerException
     {
         String attr = getAttribute(el, "create");
@@ -534,14 +583,14 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         }
     }
 
-    protected List<ConfigurationActionTask> readConfigurables(InstallData idata,
-                                                              IXMLElement parent) throws InstallerException
+    protected List<ConfigurationActionTask> readConfigurables(IXMLElement parent) throws InstallerException
     {
         List<ConfigurationActionTask> configtasks = new ArrayList<ConfigurationActionTask>();
+        InstallData idata = getInstallData();
         for (IXMLElement el : parent.getChildrenNamed("configurable"))
         {
             String attrib = requireAttribute(el, "type");
-            ConfigType configType = null;
+            ConfigType configType;
             if (attrib != null)
             {
                 configType = ConfigType.getFromAttribute(attrib);
@@ -561,14 +610,14 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
                 case OPTIONS:
                     task = new SingleOptionFileTask();
                     readConfigFileTaskCommonAttributes(idata, el, (ConfigFileTask) task);
-                    readSingleConfigurableTaskCommonAttributes(idata, el, (SingleConfigurableTask) task);
+                    readSingleConfigurableTaskCommonAttributes(el, (SingleConfigurableTask) task);
                     ((SingleConfigurableTask) task).readFromXML(el);
                     break;
 
                 case INI:
                     task = new SingleIniFileTask();
                     readConfigFileTaskCommonAttributes(idata, el, (ConfigFileTask) task);
-                    readSingleConfigurableTaskCommonAttributes(idata, el, (SingleConfigurableTask) task);
+                    readSingleConfigurableTaskCommonAttributes(el, (SingleConfigurableTask) task);
                     ((SingleConfigurableTask) task).readFromXML(el);
                     break;
 
@@ -592,19 +641,19 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
                     {
                         ((SingleXmlFileMergeTask) task).setCleanup(Boolean.parseBoolean(boolattr));
                     }
-                    List<FileSet> fslist = readFileSets(idata, el);
+                    List<FileSet> fslist = readFileSets(el);
                     for (FileSet fs : fslist)
                     {
                         ((SingleXmlFileMergeTask) task).addFileSet(fs);
                     }
-                    readAndAddXPathProperties(idata, el, (SingleXmlFileMergeTask) task);
+                    readAndAddXPathProperties(el, (SingleXmlFileMergeTask) task);
                     break;
 
                 case REGISTRY:
                     task = new RegistryTask();
                     ((RegistryTask) task).setFromKey(requireAttribute(el, "fromkey"));
                     ((RegistryTask) task).setKey(requireAttribute(el, "tokey"));
-                    readSingleConfigurableTaskCommonAttributes(idata, el, (SingleConfigurableTask) task);
+                    readSingleConfigurableTaskCommonAttributes(el, (SingleConfigurableTask) task);
                     break;
 
                 default:
@@ -614,13 +663,12 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
             }
 
             configtasks.add(new ConfigurationActionTask(task, getAttribute(el, "condition"),
-                                                        getInstalldata().getRules()));
+                                                        getInstallData().getRules()));
         }
         return configtasks;
     }
 
-    private void readAndAddXPathProperties(InstallData idata, IXMLElement parent,
-                                           SingleXmlFileMergeTask task)
+    private void readAndAddXPathProperties(IXMLElement parent, SingleXmlFileMergeTask task)
             throws InstallerException
     {
         for (IXMLElement f : parent.getChildrenNamed("xpathproperty"))
@@ -629,13 +677,14 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         }
     }
 
-    private List<FileSet> readFileSets(InstallData idata, IXMLElement parent)
+    private List<FileSet> readFileSets(IXMLElement parent)
             throws InstallerException
     {
         Iterator<IXMLElement> iter = parent.getChildrenNamed("fileset").iterator();
         List<FileSet> fslist = new ArrayList<FileSet>();
         try
         {
+            String installPath = getInstallData().getInstallPath();
             while (iter.hasNext())
             {
                 IXMLElement f = iter.next();
@@ -646,13 +695,13 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
                 String strattr = getAttribute(f, "dir");
                 if (strattr != null)
                 {
-                    fs.setDir(FileUtil.getAbsoluteFile(strattr, idata.getInstallPath()));
+                    fs.setDir(FileUtil.getAbsoluteFile(strattr, installPath));
                 }
 
                 strattr = getAttribute(f, "file");
                 if (strattr != null)
                 {
-                    fs.setFile(FileUtil.getAbsoluteFile(strattr, idata.getInstallPath()));
+                    fs.setFile(FileUtil.getAbsoluteFile(strattr, installPath));
                 }
                 else
                 {
@@ -693,8 +742,8 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
                     fs.setFollowSymlinks(Boolean.parseBoolean(boolval));
                 }
 
-                readAndAddIncludes(idata, f, fs);
-                readAndAddExcludes(idata, f, fs);
+                readAndAddIncludes(f, fs);
+                readAndAddExcludes(f, fs);
 
                 fslist.add(fs);
             }
@@ -706,7 +755,7 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         return fslist;
     }
 
-    private List<FileNameMapper> readMapper(InstallData idata, IXMLElement parent)
+    private List<FileNameMapper> readMapper(IXMLElement parent)
             throws InstallerException
     {
         Iterator<IXMLElement> iter = parent.getChildrenNamed("mapper").iterator();
@@ -718,7 +767,7 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
                 IXMLElement f = iter.next();
 
                 String attrib = requireAttribute(f, "type");
-                Mapper.MapperType mappertype = null;
+                Mapper.MapperType mappertype;
                 if (attrib != null)
                 {
                     mappertype = Mapper.MapperType.getFromAttribute(attrib);
@@ -739,8 +788,8 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
                     {
                         ((GlobPatternMapper) mapper).setCaseSensitive(Boolean.parseBoolean(boolval));
                     }
-                    ((GlobPatternMapper) mapper).setFrom(requireAttribute(f, "from"));
-                    ((GlobPatternMapper) mapper).setTo(requireAttribute(f, "to"));
+                    mapper.setFrom(requireAttribute(f, "from"));
+                    mapper.setTo(requireAttribute(f, "to"));
                 }
                 else
                 {
@@ -757,7 +806,7 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         return mappers;
     }
 
-    private void readAndAddIncludes(InstallData idata, IXMLElement parent, FileSet fileset)
+    private void readAndAddIncludes(IXMLElement parent, FileSet fileset)
             throws InstallerException
     {
         for (IXMLElement f : parent.getChildrenNamed("include"))
@@ -766,7 +815,7 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         }
     }
 
-    private void readAndAddExcludes(InstallData idata, IXMLElement parent, FileSet fileset)
+    private void readAndAddExcludes(IXMLElement parent, FileSet fileset)
             throws InstallerException
     {
         for (IXMLElement f : parent.getChildrenNamed("exclude"))
@@ -801,8 +850,7 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
         return filetype;
     }
 
-    protected Properties readVariables(AutomatedInstallData idata,
-                                       IXMLElement parent) throws InstallerException
+    protected Properties readVariables(IXMLElement parent) throws InstallerException
     {
         List<DynamicVariable> dynamicVariables = new ArrayList<DynamicVariable>();
 
@@ -1089,19 +1137,17 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
             }
         }
 
-        return evaluateDynamicVariables(dynamicVariables, idata);
+        return evaluateDynamicVariables(dynamicVariables);
     }
 
     // FIXME put LinkedList for local variables here to keep their eval order as in xml
-    private Properties evaluateDynamicVariables(List<DynamicVariable> dynamicvariables,
-                                                AutomatedInstallData installdata)
+    private Properties evaluateDynamicVariables(List<DynamicVariable> dynamicvariables)
             throws InstallerException
     {
-        VariableSubstitutor subst = new VariableSubstitutorImpl(installdata.getVariables());
         // FIXME change DynamicVariableSubstitutor constructor interface
         //DynamicVariableSubstitutor dynsubst = new DynamicVariableSubstitutor((List)dynamicvariables, installdata.getRules());
         Properties props = new Properties();
-        RulesEngine rules = installdata.getRules();
+        RulesEngine rules = getInstallData().getRules();
         logger.fine("Evaluating configuration variables");
         if (dynamicvariables != null)
         {
@@ -1133,7 +1179,7 @@ public class ConfigurationInstallerListener extends SimpleInstallerListener
                 {
                     try
                     {
-                        String newValue = dynvar.evaluate(subst);
+                        String newValue = dynvar.evaluate(replacer);
                         if (newValue != null)
                         {
                             logger.fine("Configuration variable " + name + ": " + newValue);

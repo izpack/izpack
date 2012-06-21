@@ -26,7 +26,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Locale;
-import java.util.Properties;
 
 import javax.swing.ImageIcon;
 
@@ -68,21 +67,18 @@ public class ResourceManager extends AbstractResources
 
     /**
      * Constructs a <tt>ResourceManager</tt>.
-     *
-     * @param properties the properties
      */
-    public ResourceManager(Properties properties)
+    public ResourceManager()
     {
-        this(properties, ClassLoader.getSystemClassLoader());
+        this(ClassLoader.getSystemClassLoader());
     }
 
     /**
      * Constructs a <tt>ResourceManager</tt>.
      *
-     * @param properties the properties
      * @param loader     the class loader to use to load resources
      */
-    public ResourceManager(Properties properties, ClassLoader loader)
+    public ResourceManager(ClassLoader loader)
     {
         super(loader);
     }

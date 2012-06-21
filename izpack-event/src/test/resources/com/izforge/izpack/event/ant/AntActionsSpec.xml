@@ -1,0 +1,25 @@
+<antactions>
+    <pack name="Base">
+
+        <antcall order="beforepacks" quiet="no" verbose="yes" buildfile="$INSTALL_PATH/build.xml">
+            <target name="touch_beforepacks"/>
+            <property name="INSTALL_PATH" value="$INSTALL_PATH"/>
+        </antcall>
+
+        <antcall order="beforepack" quiet="no" verbose="yes" buildfile="$INSTALL_PATH/build.xml">
+            <target name="touch_beforepack"/>
+            <property name="INSTALL_PATH" value="$INSTALL_PATH"/>
+        </antcall>
+
+        <antcall order="afterpack" quiet="no" verbose="yes" buildfile="$INSTALL_PATH/build.xml">
+            <target name="touch_afterpack"/>
+            <property name="INSTALL_PATH" value="$INSTALL_PATH"/>
+        </antcall>
+
+        <antcall order="afterpacks" quiet="no" verbose="yes" buildfile="$INSTALL_PATH/build.xml">
+            <target name="touch_afterpacks"/>
+            <property name="INSTALL_PATH" value="$INSTALL_PATH"/>
+        </antcall>
+    </pack>
+
+</antactions>

@@ -86,6 +86,11 @@ public class InstallPanel extends IzPanel implements ProgressListener
     private int noOfPacks = 0;
 
     /**
+     * The current step.
+     */
+    private int currentStep = 0;
+
+    /**
      * Constructs an <tt>InstallPanel</tt>.
      *
      * @param panel       the panel meta-data
@@ -218,6 +223,7 @@ public class InstallPanel extends IzPanel implements ProgressListener
      */
     public void progress(final int val, final String msg)
     {
+        currentStep++;
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
@@ -237,6 +243,7 @@ public class InstallPanel extends IzPanel implements ProgressListener
      */
     public void nextStep(final String packName, final int stepno, final int max)
     {
+        currentStep = 0;
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
@@ -264,6 +271,38 @@ public class InstallPanel extends IzPanel implements ProgressListener
                 packProgressBar.setMaximum(no_of_substeps);
             }
         });
+    }
+
+    /**
+     * Invoked when an action restarts.
+     *
+     * @param name           the name of the action
+     * @param overallMessage a message describing the overall progress
+     * @param tip            a tip describing the current progress
+     * @param steps          the number of steps the action consists of
+     */
+    @Override
+    public void restartAction(String name, String overallMessage, String tip, int steps)
+    {
+        overallOpLabel.setText(overallMessage);
+        tipLabel.setText(tip);
+        currentStep = 0;
+        startAction(name, steps);
+    }
+
+    /**
+     * Invoked to notify progress.
+     * <p/>
+     * This increments the current step.
+     *
+     * @param message a message describing the step
+     */
+    @Override
+    public void progress(String message)
+    {
+        packOpLabel.setText(message);
+        currentStep++;
+        packProgressBar.setValue(currentStep);
     }
 
     /**

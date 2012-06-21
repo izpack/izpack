@@ -11,7 +11,7 @@ import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 
 /**
- * Evaluates each {@link InstallerRequirement} returned by {@link InstallData#getInstallerrequirements()}
+ * Evaluates each {@link InstallerRequirement} returned by {@link InstallData#getInstallerRequirements()}
  * to determine if installation should proceed.
  *
  * @author Tim Anderson
@@ -65,7 +65,7 @@ public class InstallerRequirementChecker implements RequirementChecker
         boolean fail = false;
         Messages messages = installData.getMessages();
 
-        for (InstallerRequirement requirement : installData.getInstallerrequirements())
+        for (InstallerRequirement requirement : installData.getInstallerRequirements())
         {
             String id = requirement.getCondition();
             Condition condition = rules.getCondition(id);

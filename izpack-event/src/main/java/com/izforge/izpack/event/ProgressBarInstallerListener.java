@@ -21,22 +21,21 @@
 
 package com.izforge.izpack.event;
 
+import java.util.List;
 import java.util.logging.Logger;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.ProgressNotifiers;
-import com.izforge.izpack.api.event.RestartableProgressListener;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
-import com.izforge.izpack.api.resource.Resources;
 
 /**
- * Installer listener for reset the progress bar and initialize the simple installer listener to
- * support progress bar interaction. To support progress bar interaction add this installer listener
- * as first listener.
+ * Installer listener for reset the progress bar and initialise {@link ProgressNotifiers} to support progress bar
+ * interaction. To support progress bar interaction, add this installer listener as first listener.
  *
  * @author Klaus Bartz
  */
-public class ProgressBarInstallerListener extends SimpleInstallerListener
+public class ProgressBarInstallerListener extends AbstractInstallerListener
 {
     /**
      * The logger.
@@ -46,12 +45,12 @@ public class ProgressBarInstallerListener extends SimpleInstallerListener
     /**
      * Constructs a <tt>ProgressBarInstallerListener</tt>.
      *
-     * @param resources the resources
-     * @param notifiers the progress notifiers
+     * @param installData the installation data
+     * @param notifiers   the progress notifiers
      */
-    public ProgressBarInstallerListener(Resources resources, ProgressNotifiers notifiers)
+    public ProgressBarInstallerListener(InstallData installData, ProgressNotifiers notifiers)
     {
-        super(resources, notifiers, false);
+        super(installData, notifiers);
     }
 
     /*
@@ -61,22 +60,28 @@ public class ProgressBarInstallerListener extends SimpleInstallerListener
      * com.izforge.izpack.api.handler.AbstractUIProgressHandler)
      */
 
+    /**
+     * Invoked after packs are installed.
+     *
+     * @param packs    the installed packs
+     * @param listener the progress listener
+     */
     @Override
-    public void afterPacks(AutomatedInstallData idata, AbstractUIProgressHandler handler) throws Exception
+    public void afterPacks(List<Pack> packs, ProgressListener listener)
     {
-        ProgressNotifiers notifiers = getNotifiers();
+        ProgressNotifiers notifiers = getProgressNotifiers();
         int count = notifiers.getNotifiers();
-        if (handler instanceof RestartableProgressListener && count > 0)
+        if (count > 0)
         {
-            String progress = getMsg("CustomActions.progress");
-            String tip = getMsg("CustomActions.tip");
+            String progress = getMessage("CustomActions.progress");
+            String tip = getMessage("CustomActions.tip");
             if ("CustomActions.tip".equals(tip) || "CustomActions.progress".equals(progress))
             {
                 logger.fine("No messages found for custom action progress bar interactions; skipped");
                 return;
             }
             notifiers.setNotifyProgress(true);
-            ((RestartableProgressListener) handler).restartAction("Configure", progress, tip, count);
+            listener.restartAction("Configure", progress, tip, count);
         }
     }
 

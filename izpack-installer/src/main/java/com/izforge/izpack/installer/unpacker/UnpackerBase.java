@@ -480,7 +480,7 @@ public abstract class UnpackerBase implements IUnpacker
             dir = target.getParentFile();
         }
 
-        createDirectory(dir, file);
+        createDirectory(dir, file, pack);
 
         // Add path to the log
         getUninstallData().addFile(path, pack.isUninstall());
@@ -490,7 +490,7 @@ public abstract class UnpackerBase implements IUnpacker
             return;
         }
 
-        listeners.beforeFile(target, file);
+        listeners.beforeFile(target, file, pack);
 
         listener.progress(fileNo, path);
 
@@ -553,7 +553,7 @@ public abstract class UnpackerBase implements IUnpacker
 
             if (!unpacker.isQueued())
             {
-                listeners.afterFile(target, file);
+                listeners.afterFile(target, file, pack);
             }
         }
         finally
@@ -788,9 +788,10 @@ public abstract class UnpackerBase implements IUnpacker
      *
      * @param dir  the directory to create
      * @param file the pack file
+     * @param pack     the pack that {@code file} comes from
      * @throws IzPackException if the directory cannot be created or a listener throws an exception
      */
-    protected void createDirectory(File dir, PackFile file)
+    protected void createDirectory(File dir, PackFile file, Pack pack)
     {
         if (!dir.exists())
         {
@@ -807,14 +808,14 @@ public abstract class UnpackerBase implements IUnpacker
                 File parent = dir.getParentFile();
                 if (parent != null)
                 {
-                    createDirectory(parent, file);
+                    createDirectory(parent, file, pack);
                 }
-                listeners.beforeDir(dir, file);
+                listeners.beforeDir(dir, file, pack);
                 if (!dir.mkdir())
                 {
                     throw new IzPackException("Could not create directory: " + dir.getPath());
                 }
-                listeners.afterDir(dir, file);
+                listeners.afterDir(dir, file, pack);
             }
         }
     }

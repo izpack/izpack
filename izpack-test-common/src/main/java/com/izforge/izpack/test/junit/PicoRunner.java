@@ -13,24 +13,19 @@ import javax.swing.SwingUtilities;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.util.Platform;
-import com.izforge.izpack.util.Platforms;
 
 /**
  * Custom runner for getting dependencies injected in test with PicoContainer
  *
  * @author Anthonin Bonnefoy
  */
-public class PicoRunner extends BlockJUnit4ClassRunner
+public class PicoRunner extends PlatformRunner
 {
     private Class<?> klass;
     private FrameworkMethod method;
@@ -52,47 +47,6 @@ public class PicoRunner extends BlockJUnit4ClassRunner
     @Override
     protected void validateConstructor(List<Throwable> errors)
     {
-    }
-
-    /**
-     * Runs the test corresponding to {@code method}, unless it is ignored, or is not intended to be run on
-     * the current platform.
-     *
-     * @param method   the test method
-     * @param notifier the run notifier
-     */
-    @Override
-    protected void runChild(FrameworkMethod method, RunNotifier notifier)
-    {
-        RunOn runOn = method.getAnnotation(RunOn.class);
-        if (runOn == null)
-        {
-            runOn = method.getMethod().getDeclaringClass().getAnnotation(RunOn.class);
-        }
-        boolean ignore = false;
-        if (runOn != null)
-        {
-            Platform platform = new Platforms().getCurrentPlatform();
-            boolean found = false;
-            for (Platform.Name name : runOn.value())
-            {
-                if (platform.isA(name))
-                {
-                    found = true;
-                    break;
-                }
-            }
-            ignore = !found;
-        }
-
-        if (!ignore)
-        {
-            super.runChild(method, notifier);
-        }
-        else
-        {
-            notifier.fireTestIgnored(describeChild(method));
-        }
     }
 
     @Override

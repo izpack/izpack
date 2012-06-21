@@ -22,6 +22,7 @@
 package com.izforge.izpack.core.substitutor;
 
 import com.izforge.izpack.api.data.Value;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.util.IoHelper;
@@ -174,7 +175,7 @@ public abstract class VariableSubstitutorBase implements VariableSubstitutor
         catch (Exception e)
         {
             LOGGER.log(Level.SEVERE, "Error when substituting variables", e);
-            throw new Error(e);
+            throw new IzPackException(e);
         }
 
         // Return the resulting string

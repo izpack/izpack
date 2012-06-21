@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bsfactions>
+    <pack name="Base">
+        <script language="groovy"><![CDATA[
+      beforePacks = {
+        // check expected parameters
+        assert packs instanceof java.util.List
+        assert packs.size() == npacks         // NOTE: npacks provided for backward compatibility with 4.x
+        assert installData instanceof com.izforge.izpack.api.data.InstallData
+        assert idata instanceof com.izforge.izpack.api.data.InstallData
+
+        def parent = new File(installData.getVariable("INSTALL_PATH"))
+        def file =  new File(parent, "beforepacks-groovy.txt")
+        file.withWriter { w ->
+            packs.each { w << it.getName() << "\n" }
+        }
+      }
+
+      beforePack = {
+        // check expected parameters
+        assert pack instanceof com.izforge.izpack.api.data.Pack
+        assert installData instanceof com.izforge.izpack.api.data.InstallData
+        assert i instanceof java.lang.Integer
+
+        def parent = new File(installData.getVariable("INSTALL_PATH"))
+        def file = new File(parent, "beforepack-groovy.txt")
+        file.withWriter { w ->
+            w << pack.getName() << "\n"
+            w << i << "\n"
+        }
+      }
+
+      beforeDir = {
+        // check expected parameters
+        assert file instanceof File
+        assert pack instanceof com.izforge.izpack.api.data.PackFile
+        assert installData instanceof com.izforge.izpack.api.data.InstallData
+
+        def parent = new File(installData.getVariable("INSTALL_PATH"))
+        def file = new File(parent, "beforedir-groovy.txt")
+        file.withWriter { w ->
+            w << file.getPath() << "\n"
+            w << pack.getTargetPath() << "\n"
+        }
+      }
+
+      afterDir = {
+        // check expected parameters
+        assert file instanceof File
+        assert !file.isFile()
+        assert pack instanceof com.izforge.izpack.api.data.PackFile
+        assert installData instanceof com.izforge.izpack.api.data.InstallData
+
+        def parent = new File(installData.getVariable("INSTALL_PATH"))
+        def file = new File(parent, "afterdir-groovy.txt")
+        file.withWriter { w ->
+            w << file.getPath() << "\n"
+            w << pack.getTargetPath() << "\n"
+        }
+      }
+
+      beforeFile = {
+        // check expected parameters
+        assert file instanceof File
+        assert pack instanceof com.izforge.izpack.api.data.PackFile
+        assert installData instanceof com.izforge.izpack.api.data.InstallData
+
+        def parent = new File(installData.getVariable("INSTALL_PATH"))
+        def file = new File(parent, "beforefile-groovy.txt")
+        file.withWriter { w ->
+            w << file.getPath() << "\n"
+            w << pack.getTargetPath() << "\n"
+        }
+      }
+
+      afterFile = {
+        // check expected parameters
+        assert file instanceof File
+        assert file.isFile()
+        assert pack instanceof com.izforge.izpack.api.data.PackFile
+        assert installData instanceof com.izforge.izpack.api.data.InstallData
+
+        def parent = new File(installData.getVariable("INSTALL_PATH"))
+        def file = new File(parent, "afterfile-groovy.txt")
+        file.withWriter { w ->
+            w << file.getPath() << "\n"
+            w << pack.getTargetPath() << "\n"
+        }
+      }
+
+      afterPack = {
+        // check expected parameters
+        assert pack instanceof com.izforge.izpack.api.data.Pack
+        assert installData instanceof com.izforge.izpack.api.data.InstallData
+        assert i instanceof java.lang.Integer
+
+        def parent = new File(installData.getVariable("INSTALL_PATH"))
+        def file = new File(parent, "afterpack-groovy.txt")
+        file.withWriter { w ->
+            w << pack.getName() << "\n"
+            w << i << "\n"
+        }
+      }
+
+      afterPacks = {
+        // check expected parameters
+        assert packs instanceof java.util.List
+        assert installData instanceof com.izforge.izpack.api.data.InstallData
+        assert idata instanceof com.izforge.izpack.api.data.InstallData
+
+        def parent = new File(installData.getVariable("INSTALL_PATH"))
+        def file = new File(parent, "afterpacks-groovy.txt")
+        file.withWriter { w ->
+            packs.each { w << it.getName() << "\n" }
+        }
+      }
+
+      beforeDeletion = {
+        assert files instanceof java.util.List
+
+        def parent = new File(System.getProperty("TEST_INSTALL_PATH"));
+        def file = new File(parent, "beforedeletion-groovy.txt")
+        file.withWriter { w ->
+            w << files.size() << "\n"
+        }
+      }
+
+      beforeDelete = {
+        assert file instanceof java.io.File
+
+        def parent = new File(System.getProperty("TEST_INSTALL_PATH"));
+        def f = new File(parent, "beforedelete-groovy.txt")
+        f.withWriter { w ->
+            w << file.getPath() << "\n"
+        }
+      }
+
+      afterDelete = {
+        assert file instanceof java.io.File
+
+        def parent = new File(System.getProperty("TEST_INSTALL_PATH"));
+        def f = new File(parent, "afterdelete-groovy.txt")
+        f.withWriter { w ->
+            w << file.getPath() << "\n"
+        }
+      }
+
+      afterDeletion = {
+        assert files instanceof java.util.List
+
+        def parent = new File(System.getProperty("TEST_INSTALL_PATH"));
+        def file = new File(parent, "afterdeletion-groovy.txt")
+        file.withWriter { w ->
+            w << files.size() << "\n"
+        }
+      }
+
+      ]]></script>
+    </pack>
+</bsfactions>
+

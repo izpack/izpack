@@ -379,7 +379,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         {
             List<DynamicInstallerRequirementValidator> conditions
                     = (List<DynamicInstallerRequirementValidator>) resources.getObject("dynconditions");
-            installData.setDynamicinstallerrequirements(conditions);
+            installData.setDynamicInstallerRequirements(conditions);
         }
         catch (Exception e)
         {
@@ -401,7 +401,7 @@ public abstract class AbstractInstallDataProvider implements Provider
     {
         List<InstallerRequirement> requirements =
                 (List<InstallerRequirement>) resources.getObject("installerrequirements");
-        installData.setInstallerrequirements(requirements);
+        installData.setInstallerRequirements(requirements);
     }
 
     /**

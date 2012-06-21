@@ -37,15 +37,16 @@ public class UninstallerListenersProvider implements Provider
     public UninstallerListeners provide(Resources resources, ObjectFactory factory, Prompt prompt)
             throws IOException, ClassNotFoundException
     {
-        UninstallerListeners result = new UninstallerListeners(prompt);
+        UninstallerListeners listeners = new UninstallerListeners(prompt);
         List<String> classNames = (List<String>) resources.getObject("uninstallerListeners");
 
         for (String className : classNames)
         {
             UninstallerListener listener = factory.create(className, UninstallerListener.class);
-            result.add(listener);
+            listeners.add(listener);
         }
-        return result;
+        listeners.initialise();
+        return listeners;
     }
 
 }

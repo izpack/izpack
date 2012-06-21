@@ -202,7 +202,7 @@ public abstract class PanelView<T>
     {
         boolean result = false;
 
-        List<DynamicInstallerRequirementValidator> conditions = installData.getDynamicinstallerrequirements();
+        List<DynamicInstallerRequirementValidator> conditions = installData.getDynamicInstallerRequirements();
         if (conditions == null || validateDynamicConditions())
         {
             result = validator == null || validateData();
@@ -299,7 +299,7 @@ public abstract class PanelView<T>
         try
         {
             installData.refreshVariables();
-            for (DynamicInstallerRequirementValidator validator : installData.getDynamicinstallerrequirements())
+            for (DynamicInstallerRequirementValidator validator : installData.getDynamicInstallerRequirements())
             {
                 if (!isValid(validator, installData))
                 {

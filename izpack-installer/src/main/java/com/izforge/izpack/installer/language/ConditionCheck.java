@@ -190,7 +190,7 @@ public class ConditionCheck
     {
         boolean result = true;
 
-        for (InstallerRequirement installerrequirement : installdata.getInstallerrequirements())
+        for (InstallerRequirement installerrequirement : installdata.getInstallerRequirements())
         {
             String conditionid = installerrequirement.getCondition();
             Condition condition = rules.getCondition(conditionid);

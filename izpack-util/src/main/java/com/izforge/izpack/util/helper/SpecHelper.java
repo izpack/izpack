@@ -32,6 +32,7 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.exception.InstallerException;
+import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
@@ -169,8 +170,8 @@ public class SpecHelper
             // System.out.println ("retrieving resource " + res);
             return resources.getInputStream(res);
         }
-        catch (Exception e)
-        { // Cannot catch ResourceNotFoundException because it is not public.
+        catch (ResourceNotFoundException exception)
+        {
             return null;
         }
     }

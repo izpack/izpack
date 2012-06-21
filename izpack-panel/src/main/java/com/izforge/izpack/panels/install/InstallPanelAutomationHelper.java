@@ -25,7 +25,6 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.exception.InstallerException;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
@@ -88,8 +87,6 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
 
     /**
      * Reports progress on System.out
-     *
-     * @see AbstractUIProgressHandler#startAction(String, int)
      */
     public void startAction(String name, int no_of_steps)
     {
@@ -99,8 +96,6 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
 
     /**
      * Sets state variable for thread sync.
-     *
-     * @see com.izforge.izpack.api.handler.AbstractUIProgressHandler#stopAction()
      */
     public void stopAction()
     {
@@ -112,7 +107,6 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
      *
      * @param val
      * @param msg
-     * @see com.izforge.izpack.api.handler.AbstractUIProgressHandler#progress(int, String)
      */
     public void progress(int val, String msg)
     {
@@ -126,7 +120,6 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
      * @param packName The currently installing pack.
      * @param stepno   The number of the pack
      * @param stepsize unused
-     * @see com.izforge.izpack.api.handler.AbstractUIProgressHandler#nextStep(String, int, int)
      */
     public void nextStep(String packName, int stepno, int stepsize)
     {
@@ -143,5 +136,23 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
     public void setSubStepNo(int no_of_substeps)
     {
         // not used here
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void progress(String message)
+    {
+        // no-op
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void restartAction(String name, String overallMessage, String tip, int steps)
+    {
+        // no-op
     }
 }

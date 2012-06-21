@@ -22,10 +22,12 @@
 package com.izforge.izpack.api.event;
 
 import java.io.File;
+import java.util.List;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 /**
@@ -35,8 +37,9 @@ import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
  * </p>
  *
  * @author Klaus Bartz
+ * @author Tim Anderson
  */
-public interface InstallerListener extends InstallListener
+public interface InstallerListener
 {
 
     // ------------------------------------------------------------------------
@@ -68,33 +71,66 @@ public interface InstallerListener extends InstallListener
     public static final int AFTER_PACKS = 8;
 
     /**
-     * Invoked when the installer creates the listener instance, immediately after the install data is parsed.
+     * Initialises the listener.
      *
-     * @param data the installation data
-     * @throws Exception for any error
+     * @throws IzPackException for any error
      */
-    void afterInstallerInitialization(AutomatedInstallData data) throws Exception;
+    void initialise();
 
     /**
      * Invoked before packs are installed.
      *
-     * @param data    the installation data
-     * @param packs   the number of packs which are defined for this installation
-     * @param handler the UI progress handler
-     * @throws Exception for any error
+     * @param packs the packs to be installed
+     * @throws IzPackException for any error
      */
-    void beforePacks(AutomatedInstallData data, Integer packs, AbstractUIProgressHandler handler)
-            throws Exception;
+    void beforePacks(List<Pack> packs);
 
     /**
      * Invoked before a pack is installed.
      *
-     * @param pack    the pack
-     * @param i       the pack number
-     * @param handler the UI progress handler
-     * @throws Exception for any error
+     * @param pack  the pack
+     * @param index the pack index within the list of packs to be installed
+     * @throws IzPackException for any error
      */
-    void beforePack(Pack pack, Integer i, AbstractUIProgressHandler handler) throws Exception;
+    void beforePack(Pack pack, int index);
+
+    /**
+     * Invoked after a pack is installed.
+     *
+     * @param pack the pack
+     * @param index the pack index within the list of packs to be installed
+     * @throws IzPackException for any error
+     */
+    void afterPack(Pack pack, int index);
+
+    /**
+     * Invoked after packs are installed.
+     *
+     * @param packs    the installed packs
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
+    void afterPacks(List<Pack> packs, ProgressListener listener);
+
+    /**
+     * Invoked before a directory is created.
+     *
+     * @param dir      the directory
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    void beforeDir(File dir, PackFile packFile, Pack pack);
+
+    /**
+     * Invoked after a directory is created.
+     *
+     * @param dir      the directory
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    void afterDir(File dir, PackFile packFile, Pack pack);
 
     /**
      * Determines if the listener should be notified of every file and directory installation.
@@ -110,12 +146,69 @@ public interface InstallerListener extends InstallListener
     boolean isFileListener();
 
     /**
+     * Invoked before a file is installed.
+     *
+     * @param file     the file
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    void beforeFile(File file, PackFile packFile, Pack pack);
+
+    /**
+     * Invoked after a file is installed.
+     *
+     * @param file     the file
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    void afterFile(File file, PackFile packFile, Pack pack);
+
+    /**
+     * Invoked when the installer creates the listener instance, immediately after the install data is parsed.
+     *
+     * @param data the installation data
+     * @throws Exception for any error
+     * @deprecated use {@link #initialise()}
+     */
+    @Deprecated
+    void afterInstallerInitialization(AutomatedInstallData data) throws Exception;
+
+    /**
+     * Invoked before packs are installed.
+     *
+     * @param data    the installation data
+     * @param packs   the number of packs which are defined for this installation
+     * @param handler the UI progress handler
+     * @throws Exception for any error
+     * @deprecated use {@link #beforePacks(List)}
+     */
+    @Deprecated
+    void beforePacks(AutomatedInstallData data, Integer packs, AbstractUIProgressHandler handler)
+            throws Exception;
+
+    /**
+     * Invoked before a pack is installed.
+     *
+     * @param pack    the pack
+     * @param i       the pack number
+     * @param handler the UI progress handler
+     * @throws Exception for any error
+     * @deprecated use {@link #beforePack(Pack, int)}
+     */
+    @Deprecated
+    void beforePack(Pack pack, Integer i, AbstractUIProgressHandler handler) throws Exception;
+
+    /**
      * Invoked before a directory is created.
      *
      * @param dir      the directory
      * @param packFile the corresponding pack file
      * @throws Exception for any error
+     * @deprecated use {@link #beforeDir(File, PackFile, Pack)}
      */
+    @Deprecated
     void beforeDir(File dir, PackFile packFile) throws Exception;
 
     /**
@@ -124,7 +217,9 @@ public interface InstallerListener extends InstallListener
      * @param dir      the directory
      * @param packFile the corresponding pack file
      * @throws Exception for any error
+     * @deprecated use {@link #afterDir(File, PackFile, Pack)}
      */
+    @Deprecated
     void afterDir(File dir, PackFile packFile) throws Exception;
 
     /**
@@ -133,7 +228,9 @@ public interface InstallerListener extends InstallListener
      * @param file     the file
      * @param packFile the corresponding pack file
      * @throws Exception if the listener throws an exception
+     * @deprecated use {@link #beforeFile(File, PackFile, Pack)}
      */
+    @Deprecated
     void beforeFile(File file, PackFile packFile) throws Exception;
 
     /**
@@ -142,7 +239,9 @@ public interface InstallerListener extends InstallListener
      * @param file     the file
      * @param packFile the corresponding pack file
      * @throws Exception for any error
+     * @deprecated use {@link #afterFile(File, PackFile, Pack)}
      */
+    @Deprecated
     void afterFile(File file, PackFile packFile) throws Exception;
 
     /**
@@ -152,7 +251,9 @@ public interface InstallerListener extends InstallListener
      * @param i       the pack number
      * @param handler the UI progress handler
      * @throws Exception for any error
+     * @deprecated use {@link #afterPack(Pack, int)}
      */
+    @Deprecated
     void afterPack(Pack pack, Integer i, AbstractUIProgressHandler handler) throws Exception;
 
     /**
@@ -161,7 +262,9 @@ public interface InstallerListener extends InstallListener
      * @param data    the installation data
      * @param handler the UI progress handler
      * @throws Exception for any error
+     * @deprecated use {@link #afterPacks(List, ProgressListener)}
      */
+    @Deprecated
     void afterPacks(AutomatedInstallData data, AbstractUIProgressHandler handler) throws Exception;
 
 }

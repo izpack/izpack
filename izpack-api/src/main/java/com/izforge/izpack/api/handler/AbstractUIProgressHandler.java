@@ -30,7 +30,10 @@ import com.izforge.izpack.api.event.ProgressListener;
  * using this interface. The interface supports a two-stage progress indication: The whole action is
  * divided into steps (for example, packs when installing) and sub-steps (for example, files of a
  * pack).
+ *
+ * @deprecated use {@link ProgressListener}. This interface will be removed in IzPack 6.0
  */
+@Deprecated
 public interface AbstractUIProgressHandler extends AbstractUIHandler, ProgressListener
 {
 

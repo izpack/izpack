@@ -1,8 +1,5 @@
 package com.izforge.izpack.test.listener;
 
-import com.izforge.izpack.api.event.UninstallerListener;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +11,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
+
+import com.izforge.izpack.api.event.ProgressListener;
+import com.izforge.izpack.api.event.UninstallerListener;
+import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 /**
  * An {@link UninstallerListener} that tracks invocations for testing purposes.
@@ -45,22 +47,27 @@ public class TestUninstallerListener implements UninstallerListener
     public static class State implements Serializable
     {
         /**
-         * Tracks the no. of invocations of {@link UninstallerListener#beforeDeletion}.
+         * Tracks invocations of {@link UninstallerListener#initialise()}.
          */
-        public int beforeDeletionCount;
+        public int initialiseCount;
 
         /**
-         * Tracks the no. of invocations of {@link UninstallerListener#afterDeletion}.
+         * Tracks the no. of invocations of {@link UninstallerListener#beforeDelete(List)}.
          */
-        public int afterDeletionCount;
+        public int beforeListDeleteCount;
 
         /**
-         * Tracks the no. of invocations of {@link UninstallerListener#beforeDelete}.
+         * Tracks the no. of invocations of {@link UninstallerListener#afterDelete(List, ProgressListener)}.
+         */
+        public int afterListDeleteCount;
+
+        /**
+         * Tracks the no. of invocations of {@link UninstallerListener#beforeDelete(File)}.
          */
         public int beforeDeleteCount;
 
         /**
-         * Tracks the no. of invocations of {@link UninstallerListener#afterDelete}.
+         * Tracks the no. of invocations of {@link UninstallerListener#afterDelete(File)}.
          */
         public int afterDeleteCount;
     }
@@ -115,6 +122,18 @@ public class TestUninstallerListener implements UninstallerListener
     }
 
     /**
+     * Initialises the listener.
+     *
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void initialise()
+    {
+        ++state.initialiseCount;
+        log("initialise");
+    }
+
+    /**
      * Determines if this listener will be informed of every delete operation.
      *
      * @return <tt>true</tt>
@@ -127,13 +146,65 @@ public class TestUninstallerListener implements UninstallerListener
     /**
      * Invoked before files are deleted.
      *
+     * @param files all files which should be deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDelete(List<File> files)
+    {
+        ++state.beforeListDeleteCount;
+        log("beforeDelete: files=" + files.size());
+    }
+
+    /**
+     * Invoked before a file is deleted.
+     *
+     * @param file the file which will be deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDelete(File file)
+    {
+        ++state.beforeDeleteCount;
+        log("beforeDelete: file=" + file);
+    }
+
+    /**
+     * Invoked after a file is deleted.
+     *
+     * @param file the file which was deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDelete(File file)
+    {
+        ++state.afterDeleteCount;
+        log("afterDelete: file=" + file);
+    }
+
+    /**
+     * Invoked after files are deleted.
+     *
+     * @param files    the files which where deleted
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDelete(List<File> files, ProgressListener listener)
+    {
+        ++state.afterListDeleteCount;
+        log("afterDelete: files=" + files.size());
+    }
+
+    /**
+     * Invoked before files are deleted.
+     *
      * @param files   all files which should be deleted
      * @param handler the UI progress handler
      */
     public void beforeDeletion(List files, AbstractUIProgressHandler handler)
     {
-        ++state.beforeDeletionCount;
-        log("beforeDeletion: files=" + files.size());
+        throw new IllegalStateException("Deprecated method should not be invoked.");
     }
 
     /**
@@ -144,8 +215,7 @@ public class TestUninstallerListener implements UninstallerListener
      */
     public void afterDeletion(List files, AbstractUIProgressHandler handler)
     {
-        ++state.afterDeletionCount;
-        log("afterDeletion: files=" + files.size());
+        throw new IllegalStateException("Deprecated method should not be invoked.");
     }
 
     /**
@@ -156,8 +226,7 @@ public class TestUninstallerListener implements UninstallerListener
      */
     public void beforeDelete(File file, AbstractUIProgressHandler handler)
     {
-        ++state.beforeDeleteCount;
-        log("beforeDelete: file=" + file);
+        throw new IllegalStateException("Deprecated method should not be invoked.");
     }
 
     /**
@@ -168,8 +237,7 @@ public class TestUninstallerListener implements UninstallerListener
      */
     public void afterDelete(File file, AbstractUIProgressHandler handler)
     {
-        ++state.afterDeleteCount;
-        log("afterDelete: file=" + file);
+        throw new IllegalStateException("Deprecated method should not be invoked.");
     }
 
     /**

@@ -1,18 +1,3 @@
-/*
- *  Version: 1.0
- *
- *  The contents of this file are subject to the OpenVPMS License Version
- *  1.0 (the 'License'); you may not use this file except in compliance with
- *  the License. You may obtain a copy of the License at
- *  http://www.openvpms.org/license/
- *
- *  Software distributed under the License is distributed on an 'AS IS' basis,
- *  WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- *  for the specific language governing rights and limitations under the
- *  License.
- *
- *  Copyright 2012 (C) OpenVPMS Ltd. All Rights Reserved.
- */
 package com.izforge.izpack.api.data;
 
 import java.util.List;
@@ -253,7 +238,7 @@ public interface InstallData
      *
      * @return the installer requirements
      */
-    List<InstallerRequirement> getInstallerrequirements();
+    List<InstallerRequirement> getInstallerRequirements();
 
     /**
      * Returns the dynamic installer requirement validators.
@@ -262,7 +247,7 @@ public interface InstallData
      *
      * @return the dynamic installer requirement validators
      */
-    List<DynamicInstallerRequirementValidator> getDynamicinstallerrequirements();
+    List<DynamicInstallerRequirementValidator> getDynamicInstallerRequirements();
 
     /**
      * Sets a named attribute.

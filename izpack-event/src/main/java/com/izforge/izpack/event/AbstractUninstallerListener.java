@@ -4,7 +4,9 @@ package com.izforge.izpack.event;
 import java.io.File;
 import java.util.List;
 
+import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.UninstallerListener;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 
@@ -16,8 +18,63 @@ import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
  *
  * @author Tim Anderson
  */
-public class AbstractUninstallerListener implements UninstallerListener
+public abstract class AbstractUninstallerListener implements UninstallerListener
 {
+
+    /**
+     * Initialises the listener.
+     *
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void initialise()
+    {
+    }
+
+    /**
+     * Invoked before files are deleted.
+     *
+     * @param files all files which should be deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDelete(List<File> files)
+    {
+    }
+
+    /**
+     * Invoked before a file is deleted.
+     *
+     * @param file the file which will be deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDelete(File file)
+    {
+    }
+
+    /**
+     * Invoked after a file is deleted.
+     *
+     * @param file the file which was deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDelete(File file)
+    {
+    }
+
+    /**
+     * Invoked after files are deleted.
+     *
+     * @param files    the files which where deleted
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDelete(List<File> files, ProgressListener listener)
+    {
+    }
 
     /**
      * Invoked before files are deleted.

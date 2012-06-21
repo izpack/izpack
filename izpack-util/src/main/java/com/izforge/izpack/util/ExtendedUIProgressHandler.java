@@ -21,16 +21,16 @@
 
 package com.izforge.izpack.util;
 
-import com.izforge.izpack.api.event.RestartableProgressListener;
+import com.izforge.izpack.api.event.ProgressListener;
 
 /**
  * This interface allowes an extended interaction with a user interface handler.
  *
  * @author Klaus Bartz
- * @deprecated use {@link RestartableProgressListener}
+ * @deprecated use {@link ProgressListener}
  */
 @Deprecated
-public interface ExtendedUIProgressHandler extends RestartableProgressListener
+public interface ExtendedUIProgressHandler extends ProgressListener
 {
 
     static final int BEFORE = 0;

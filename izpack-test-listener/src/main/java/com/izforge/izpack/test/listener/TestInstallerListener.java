@@ -1,25 +1,30 @@
 package com.izforge.izpack.test.listener;
 
 import java.io.File;
+import java.util.List;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.event.InstallerListener;
+import com.izforge.izpack.api.event.ProgressListener;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
+import com.izforge.izpack.event.AbstractInstallerListener;
 
 /**
  * An {@link InstallerListener} that tracks invocations for testing purposes.
  *
  * @author Tim Anderson
  */
-public class TestInstallerListener implements InstallerListener
+public class TestInstallerListener extends AbstractInstallerListener
 {
 
     /**
      * Tracks invocations of {@link com.izforge.izpack.api.event.InstallerListener#afterInstallerInitialization}.
      */
-    private int afterInstallerInitializationCount;
+    private int initialiseCount;
 
     /**
      * Tracks invocations of {@link com.izforge.izpack.api.event.InstallerListener#beforePacks}.
@@ -63,13 +68,23 @@ public class TestInstallerListener implements InstallerListener
 
 
     /**
-     * Returns the no. of invocations of {@link #afterInstallerInitializationCount}.
+     * Constructs a {@code TestInstallerListener}.
+     *
+     * @param installData the installation data
+     */
+    public TestInstallerListener(InstallData installData)
+    {
+        super(installData);
+    }
+
+    /**
+     * Returns the no. of invocations of {@link #initialise()}.
      *
      * @return the no. of invocations
      */
-    public int getAfterInstallerInitializationCount()
+    public int getInitialiseCount()
     {
-        return afterInstallerInitializationCount;
+        return initialiseCount;
     }
 
     /**
@@ -152,6 +167,135 @@ public class TestInstallerListener implements InstallerListener
         return afterFileCount;
     }
 
+    /**
+     * Initialises the listener.
+     *
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void initialise()
+    {
+        ++initialiseCount;
+        log("initialise");
+    }
+
+    /**
+     * Invoked before packs are installed.
+     *
+     * @param packs the packs to be installed
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforePacks(List<Pack> packs)
+    {
+        ++beforePacksCount;
+        log("beforePacks: packs=" + packs.size());
+    }
+
+    /**
+     * Invoked before a pack is installed.
+     *
+     * @param pack  the pack
+     * @param index the pack index within the list of packs to be installed
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforePack(Pack pack, int index)
+    {
+        ++beforePackCount;
+        log("beforePack: pack=" + pack);
+    }
+
+    /**
+     * Invoked after a pack is installed.
+     *
+     * @param pack  the pack
+     * @param index the pack index within the list of packs to be installed
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterPack(Pack pack, int index)
+    {
+        ++afterPackCount;
+        log("afterPack: pack=" + pack);
+    }
+
+    /**
+     * Invoked after packs are installed.
+     *
+     * @param packs    the installed packs
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterPacks(List<Pack> packs, ProgressListener listener)
+    {
+        ++afterPacksCount;
+        log("afterPacks");
+    }
+
+    /**
+     * Invoked before a directory is created.
+     *
+     * @param dir      the directory
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDir(File dir, PackFile packFile, Pack pack)
+    {
+        ++beforeDirCount;
+        log("beforeDir: dir=" + dir);
+    }
+
+    /**
+     * Invoked after a directory is created.
+     *
+     * @param dir      the directory
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException
+     *          for any error
+     */
+    @Override
+    public void afterDir(File dir, PackFile packFile, Pack pack)
+    {
+        ++afterDirCount;
+        log("afterDir: dir=" + dir);
+    }
+
+    /**
+     * Invoked before a file is installed.
+     *
+     * @param file     the file
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException
+     *          for any error
+     */
+    @Override
+    public void beforeFile(File file, PackFile packFile, Pack pack)
+    {
+        ++beforeFileCount;
+        log("beforeFile: file=" + file);
+    }
+
+    /**
+     * Invoked after a file is installed.
+     *
+     * @param file     the file
+     * @param packFile the corresponding pack file
+     * @param pack     the pack that {@code packFile} comes from
+     * @throws IzPackException
+     *          for any error
+     */
+    @Override
+    public void afterFile(File file, PackFile packFile, Pack pack)
+    {
+        ++afterFileCount;
+        log("afterFile: file=" + file);
+    }
 
     /**
      * Called when the installer creates the listener instance, immediately after the install data is parsed.
@@ -160,8 +304,7 @@ public class TestInstallerListener implements InstallerListener
      */
     public void afterInstallerInitialization(AutomatedInstallData data)
     {
-        ++afterInstallerInitializationCount;
-        log("afterInstallerInitialization");
+        throw new IllegalStateException("Deprecated method shouldn't be invoked");
     }
 
     /**
@@ -173,8 +316,7 @@ public class TestInstallerListener implements InstallerListener
      */
     public void beforePacks(AutomatedInstallData data, Integer packs, AbstractUIProgressHandler handler)
     {
-        ++beforePacksCount;
-        log("beforePacks: packs=" + packs);
+        throw new IllegalStateException("Deprecated method shouldn't be invoked");
     }
 
     /**
@@ -185,8 +327,7 @@ public class TestInstallerListener implements InstallerListener
      */
     public void afterPacks(AutomatedInstallData data, AbstractUIProgressHandler handler)
     {
-        ++afterPacksCount;
-        log("afterPacks");
+        throw new IllegalStateException("Deprecated method shouldn't be invoked");
     }
 
     /**
@@ -198,8 +339,7 @@ public class TestInstallerListener implements InstallerListener
      */
     public void beforePack(Pack pack, Integer i, AbstractUIProgressHandler handler)
     {
-        ++beforePackCount;
-        log("beforePack: pack=" + pack);
+        throw new IllegalStateException("Deprecated method shouldn't be invoked");
     }
 
     /**
@@ -211,8 +351,7 @@ public class TestInstallerListener implements InstallerListener
      */
     public void afterPack(Pack pack, Integer i, AbstractUIProgressHandler handler)
     {
-        ++afterPackCount;
-        log("afterPack: pack=" + pack);
+        throw new IllegalStateException("Deprecated method shouldn't be invoked");
     }
 
     /**
@@ -234,8 +373,7 @@ public class TestInstallerListener implements InstallerListener
      */
     public void beforeDir(File dir, PackFile packFile)
     {
-        ++beforeDirCount;
-        log("beforeDir: dir=" + dir);
+        throw new IllegalStateException("Deprecated method shouldn't be invoked");
     }
 
     /**
@@ -246,8 +384,7 @@ public class TestInstallerListener implements InstallerListener
      */
     public void afterDir(File dir, PackFile packFile)
     {
-        ++afterDirCount;
-        log("afterDir: dir=" + dir);
+        throw new IllegalStateException("Deprecated method shouldn't be invoked");
     }
 
     /**
@@ -258,8 +395,7 @@ public class TestInstallerListener implements InstallerListener
      */
     public void beforeFile(File file, PackFile packFile)
     {
-        ++beforeFileCount;
-        log("beforeFile: file=" + file);
+        throw new IllegalStateException("Deprecated method shouldn't be invoked");
     }
 
     /**
@@ -270,8 +406,7 @@ public class TestInstallerListener implements InstallerListener
      */
     public void afterFile(File file, PackFile packFile)
     {
-        ++afterFileCount;
-        log("afterFile: file=" + file);
+        throw new IllegalStateException("Deprecated method shouldn't be invoked");
     }
 
     /**

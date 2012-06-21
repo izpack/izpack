@@ -22,15 +22,27 @@
 
 package com.izforge.izpack.event;
 
-import org.apache.tools.ant.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import org.apache.tools.ant.BuildLogger;
+import org.apache.tools.ant.DefaultLogger;
+import org.apache.tools.ant.DemuxOutputStream;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Target;
 import org.apache.tools.ant.input.DefaultInputHandler;
 import org.apache.tools.ant.taskdefs.Ant;
 import org.apache.tools.ant.util.JavaEnvUtils;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.util.file.FileUtils;
 
 /**
  * This class contains data and 'perform' logic for ant action listeners.
@@ -99,9 +111,9 @@ public class AntAction extends ActionBase
      * <p/>
      * Calls {#performAction performAction(true)}.
      *
-     * @throws Exception
+     * @throws IzPackException for any error
      */
-    public void performUninstallAction() throws Exception
+    public void performUninstallAction()
     {
         performAction(true);
     }
@@ -111,11 +123,11 @@ public class AntAction extends ActionBase
      *
      * @param uninstall An install/uninstall switch. If this is <tt>true</tt> only the uninstall
      *                  actions, otherwise only the install actions are being performed.
-     * @throws Exception
+     * @throws IzPackException for any error
      * @see #performInstallAction() for calling all install actions.
      * @see #performUninstallAction() for calling all uninstall actions.
      */
-    public void performAction(boolean uninstall) throws Exception
+    public void performAction(boolean uninstall)
     {
         if (verbose)
         {
@@ -164,6 +176,10 @@ public class AntAction extends ActionBase
             System.setOut(new PrintStream(new DemuxOutputStream(antProj, false)));
             System.setErr(new PrintStream(new DemuxOutputStream(antProj, true)));
             antProj.executeTarget("calltarget");
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
         }
         finally
         {
@@ -453,7 +469,7 @@ public class AntAction extends ActionBase
         }
     }
 
-    private void addPropertiesFromPropertyFiles(Project proj) throws Exception
+    private void addPropertiesFromPropertyFiles(Project proj)
     {
         if (proj == null)
         {
@@ -474,17 +490,17 @@ public class AntAction extends ActionBase
                 }
                 else
                 {
-                    throw new Exception("Required propertyfile " + file
-                            + " for antcall doesn't exist.");
+                    throw new IzPackException("Required propertyfile " + file + " for antcall doesn't exist.");
                 }
             }
         }
+        catch (IOException exception)
+        {
+            throw new IzPackException(exception);
+        }
         finally
         {
-            if (fis != null)
-            {
-                fis.close();
-            }
+            FileUtils.close(fis);
         }
         addProperties(proj, props);
     }

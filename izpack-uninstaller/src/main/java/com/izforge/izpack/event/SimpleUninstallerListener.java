@@ -21,11 +21,13 @@
 
 package com.izforge.izpack.event;
 
-import com.izforge.izpack.api.event.UninstallerListener;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
-
 import java.io.File;
 import java.util.List;
+
+import com.izforge.izpack.api.event.ProgressListener;
+import com.izforge.izpack.api.event.UninstallerListener;
+import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 /**
  * <p>
@@ -34,9 +36,17 @@ import java.util.List;
  * </p>
  *
  * @author Klaus Bartz
+ * @deprecated use {@code com.izforge.izpack.event.AbstractUninstallerListener}. This class will be removed in IzPack
+ *             6.0
  */
+@Deprecated
 public class SimpleUninstallerListener implements UninstallerListener
 {
+
+    /**
+     * The progress handler.
+     */
+    private AbstractUIProgressHandler handler;
 
     /**
      *
@@ -44,6 +54,98 @@ public class SimpleUninstallerListener implements UninstallerListener
     public SimpleUninstallerListener()
     {
         super();
+    }
+
+    /**
+     * Initialises the listener.
+     *
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void initialise()
+    {
+    }
+
+    public void setHandler(AbstractUIProgressHandler handler)
+    {
+        this.handler = handler;
+    }
+
+    /**
+     * Invoked before files are deleted.
+     *
+     * @param files all files which should be deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDelete(List<File> files)
+    {
+        try
+        {
+            beforeDeletion(files, handler);
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked before a file is deleted.
+     *
+     * @param file the file which will be deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void beforeDelete(File file)
+    {
+        try
+        {
+            beforeDelete(file, handler);
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked after a file is deleted.
+     *
+     * @param file the file which was deleted
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDelete(File file)
+    {
+        try
+        {
+            afterDelete(file, handler);
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
+    }
+
+    /**
+     * Invoked after files are deleted.
+     *
+     * @param files    the files which where deleted
+     * @param listener the progress listener
+     * @throws IzPackException for any error
+     */
+    @Override
+    public void afterDelete(List<File> files, ProgressListener listener)
+    {
+        try
+        {
+            afterDeletion(files, handler);
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException(exception);
+        }
     }
 
     /*

@@ -9,6 +9,7 @@ package com.izforge.izpack.api.event;
  */
 public interface ProgressListener
 {
+
     /**
      * Invoked when an action starts.
      *
@@ -42,9 +43,29 @@ public interface ProgressListener
 
     /**
      * Invoked to notify progress.
+     * <p/>
+     * This increments the current step.
+     *
+     * @param message a message describing the step
+     */
+    void progress(String message);
+
+    /**
+     * Invoked to notify progress.
      *
      * @param subStep the sub-step which will be performed next
      * @param message an additional message describing the sub-step
      */
     void progress(int subStep, String message);
+
+    /**
+     * Invoked when an action restarts.
+     *
+     * @param name           the name of the action
+     * @param overallMessage a message describing the overall progress
+     * @param tip            a tip describing the current progress
+     * @param steps          the number of steps the action consists of
+     */
+    void restartAction(String name, String overallMessage, String tip, int steps);
+
 }
