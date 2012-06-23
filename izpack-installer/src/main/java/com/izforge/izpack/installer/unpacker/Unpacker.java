@@ -1,6 +1,5 @@
 /*
- * $Id$
- * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/

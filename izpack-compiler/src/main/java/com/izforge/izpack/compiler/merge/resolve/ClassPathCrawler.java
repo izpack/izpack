@@ -1,11 +1,23 @@
-package com.izforge.izpack.compiler.merge.resolve;
+/*
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.api.exception.MergeException;
-import com.izforge.izpack.api.merge.Mergeable;
-import com.izforge.izpack.merge.ClassResolver;
-import com.izforge.izpack.merge.resolve.MergeableResolver;
-import com.izforge.izpack.util.FileUtil;
+package com.izforge.izpack.compiler.merge.resolve;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -20,6 +32,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.api.exception.MergeException;
+import com.izforge.izpack.api.merge.Mergeable;
+import com.izforge.izpack.merge.ClassResolver;
+import com.izforge.izpack.merge.resolve.MergeableResolver;
+import com.izforge.izpack.util.FileUtil;
 
 /**
  * Crawl and store a map of all files in classpath when we can't get package directly

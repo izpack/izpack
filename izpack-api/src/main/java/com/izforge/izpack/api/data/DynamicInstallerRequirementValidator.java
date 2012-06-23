@@ -1,12 +1,10 @@
 /*
- * $Id: Compiler.java 1918 2007-11-29 14:02:17Z dreil $
- * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
  * Copyright 2010 René Krell
- *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

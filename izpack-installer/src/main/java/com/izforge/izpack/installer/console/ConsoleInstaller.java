@@ -1,5 +1,4 @@
 /*
-/*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
