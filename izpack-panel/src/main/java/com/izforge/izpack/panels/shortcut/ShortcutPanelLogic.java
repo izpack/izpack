@@ -35,9 +35,14 @@ import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.data.binding.OsModel;
+import com.izforge.izpack.api.event.InstallerListener;
+import com.izforge.izpack.api.event.ProgressListener;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
-import com.izforge.izpack.api.panels.IShortcutPanelLogic;
+import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
@@ -45,6 +50,7 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.data.ExecutableFile;
 import com.izforge.izpack.installer.data.UninstallData;
+import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.util.CleanupClient;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.Housekeeper;
@@ -63,7 +69,7 @@ import com.izforge.izpack.util.xml.XMLHelper;
  *
  * @version $Revision: 1.2 $
  */
-public class ShortcutPanelLogic implements CleanupClient, IShortcutPanelLogic
+public class ShortcutPanelLogic implements CleanupClient
 {
     private static transient final Logger logger = Logger.getLogger(ShortcutPanelLogic.class.getName());
 
@@ -101,6 +107,8 @@ public class ShortcutPanelLogic implements CleanupClient, IShortcutPanelLogic
     private static final String SPEC_KEY_NOT_SUPPORTED = "notSupported";
 
     private static final String SPEC_KEY_DEF_CUR_USER = "defaultCurrentUser";
+    
+    private static final String SPEC_KEY_LATE_INSTALL = "lateShortcutInstall";
 
     private static final String SPEC_KEY_PROGRAM_GROUP = "programGroup";
 
@@ -289,7 +297,7 @@ public class ShortcutPanelLogic implements CleanupClient, IShortcutPanelLogic
      * @throws Exception for any error
      */
     public ShortcutPanelLogic(AutomatedInstallData installData, Resources resources, UninstallData uninstallData,
-                              Housekeeper housekeeper, TargetFactory factory)
+                              Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners)
             throws Exception
     {
         this.installData = installData;
@@ -299,41 +307,36 @@ public class ShortcutPanelLogic implements CleanupClient, IShortcutPanelLogic
         shortcut.initialize(Shortcut.APPLICATIONS, "-");
         housekeeper.registerForCleanup(this);
         readShortcutSpec();
-        analyzeShortcutSpec();
+        analyzeShortcutSpec(listeners);
     }
 
     /**
-     * {@inheritDoc}
+     * @return <code>true</code> it the shortcuts will be created after clicking next,
+     * otherwise <code>false</code>
      */
-    @Override
     public final boolean isCreateShortcutsImmediately()
     {
         return createShortcutsImmediately;
     }
 
     /**
-     * {@inheritDoc}
+     * Tell the ShortcutPanel to not create the shortcuts immediately after clicking next.
+     * 
+     * @param createShortcutsImmediately
      */
-    @Override
     public final void setCreateShortcutsImmediately(boolean createShortcutsImmediately)
     {
         this.createShortcutsImmediately = createShortcutsImmediately;
     }
 
     /**
-     * {@inheritDoc}
+     * Creates the shortcuts at a specified time. Before this function can be called, a 
+     * ShortcutPanel must be used to initialise the logic properly.
+     * 
+     * @throws Exception
      */
-    @Override
     public void createAndRegisterShortcuts() throws Exception
     {
-        String groupName = this.groupName;
-        boolean createShortcuts = this.createShortcuts;
-        boolean createDesktopShortcuts = this.createDesktopShortcuts;
-        readShortcutSpec();
-        analyzeShortcutSpec();
-        this.groupName = groupName;
-        this.createShortcuts = createShortcuts;
-        this.createDesktopShortcuts = createDesktopShortcuts;
         createShortcuts();
         addToUninstaller();
     }
@@ -764,8 +767,10 @@ public class ShortcutPanelLogic implements CleanupClient, IShortcutPanelLogic
     /**
      * This method analyzes the specifications for creating shortcuts and builds a list of all the
      * Shortcuts that need to be created.
+     * 
+     * listeners the installer listeners container
      */
-    private void analyzeShortcutSpec()
+    private void analyzeShortcutSpec(InstallerListeners listeners)
     {
         if (!haveShortcutSpec)
         {
@@ -788,6 +793,13 @@ public class ShortcutPanelLogic implements CleanupClient, IShortcutPanelLogic
         if (support != null)
         {
             simulteNotSupported = true;
+        }
+        
+        // set flag if 'lateShortcutInstall' element found:
+        setCreateShortcutsImmediately(spec.getFirstChildNamed(SPEC_KEY_LATE_INSTALL) == null);
+        if(!isCreateShortcutsImmediately())
+        {
+        	listeners.add(new LateShortcutInstallListener());
         }
 
         // ----------------------------------------------------
@@ -1419,5 +1431,126 @@ public class ShortcutPanelLogic implements CleanupClient, IShortcutPanelLogic
             writeString(menuFile, gnome3MenuFilePath);
             writeString(dirFile, dirFilePath);
         }
+    }
+    
+    /**
+     * Creates the Shortcuts after files have been installed. Used to support
+     * {@code &lt;lateShortcutInstall/&gt;} to allow placement of ShortcutPanel before the
+     * installation of the files.
+     *
+     * @author Marcus Schlegel, Pulinco, Daniel Abson
+     */
+    protected class LateShortcutInstallListener implements InstallerListener
+    {
+
+        /**
+         * Triggers the creation of shortcuts.
+         * {@inheritDoc}
+         */
+        @Override
+        public void afterPacks(List<Pack> packs, ProgressListener listener)
+        {
+            try
+            {
+                createAndRegisterShortcuts();
+            }
+            catch (Exception exception)
+            {
+                throw new IzPackException("Failed to create shortcuts", exception);
+
+            }
+        }
+
+		@Override
+		public void initialise()
+		{
+		}
+
+		@Override
+		public void beforePacks(List<Pack> packs)
+		{
+		}
+
+		@Override
+		public void beforePack(Pack pack, int index)
+		{
+		}
+
+		@Override
+		public void afterPack(Pack pack, int index)
+		{
+		}
+
+		@Override
+		public void beforeDir(File dir, PackFile packFile, Pack pack) 
+		{
+		}
+
+		@Override
+		public void afterDir(File dir, PackFile packFile, Pack pack)
+		{
+		}
+
+		@Override
+		public boolean isFileListener()
+		{
+			return false;
+		}
+
+		@Override
+		public void beforeFile(File file, PackFile packFile, Pack pack) 
+		{
+		}
+
+		@Override
+		public void afterFile(File file, PackFile packFile, Pack pack)
+		{
+		}
+
+		@Override
+		public void afterInstallerInitialization(AutomatedInstallData data) throws Exception
+		{
+		}
+
+		@Override
+		public void beforePacks(AutomatedInstallData data, Integer packs, AbstractUIProgressHandler handler) throws Exception 
+		{
+		}
+
+		@Override
+		public void beforePack(Pack pack, Integer i, AbstractUIProgressHandler handler) throws Exception
+		{
+		}
+
+		@Override
+		public void beforeDir(File dir, PackFile packFile) throws Exception
+		{
+		}
+
+		@Override
+		public void afterDir(File dir, PackFile packFile) throws Exception
+		{
+		}
+
+		@Override
+		public void beforeFile(File file, PackFile packFile) throws Exception
+		{
+		}
+
+		@Override
+		public void afterFile(File file, PackFile packFile) throws Exception
+		{
+		}
+
+		@Override
+		public void afterPack(Pack pack, Integer i,	AbstractUIProgressHandler handler) throws Exception
+		{
+		}
+
+		@Override
+		public void afterPacks(AutomatedInstallData data,
+				AbstractUIProgressHandler handler) throws Exception
+		{
+		}
     }
 }

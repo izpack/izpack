@@ -57,6 +57,7 @@ import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.gui.MultiLineLabel;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.data.UninstallData;
+import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.util.Housekeeper;
@@ -156,7 +157,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     private GridBagConstraints constraints;
 
     private ShortcutPanelLogic shortcutPanelLogic;
-
+    
     private boolean shortcutLogicInitialized;
 
     /**
@@ -177,7 +178,8 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
      * @param factory       the factory for platform-specific implementations
      */
     public ShortcutPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                         UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory)
+                         UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory, 
+                         InstallerListeners listeners)
     {
         super(panel, parent, installData, "link16x16", resources);
         layout = (GridBagLayout) super.getLayout();
@@ -194,7 +196,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         try
         {
             shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData, housekeeper,
-                                                        factory);
+                                                        factory, listeners);
             shortcutLogicInitialized = true;
         }
         catch (Exception exception)
@@ -203,7 +205,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             shortcutLogicInitialized = false;
         }
     }
-
+    
     /**
      * This method represents the ActionListener interface, invoked when an action occurs.
      *
