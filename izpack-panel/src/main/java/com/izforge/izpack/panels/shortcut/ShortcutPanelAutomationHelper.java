@@ -29,6 +29,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.installer.data.UninstallData;
+import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.TargetFactory;
 
@@ -52,14 +53,14 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
      * @param housekeeper   the house keeper
      * @param factory       the factory for platform-specific implementations
      */
-    public ShortcutPanelAutomationHelper(AutomatedInstallData installData, Resources resources,
-                                         UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory)
+    public ShortcutPanelAutomationHelper(AutomatedInstallData installData, Resources resources, UninstallData uninstallData,
+    									 Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners)
     {
         super(housekeeper);
         try
         {
             shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData,
-                                                        housekeeper, factory);
+                                                        housekeeper, factory, listeners);
         }
         catch (Exception e)
         {
