@@ -348,7 +348,7 @@ public abstract class AbstractPanels<T extends PanelView<V>, V> implements Panel
     @Override
     public int getVisibleIndex(T panel)
     {
-        int result = 0;
+        int result = -1;
         if (panel.isVisible())
         {
             for (int i = 0; i <= panel.getIndex() && i < panelViews.size(); ++i)
@@ -358,10 +358,6 @@ public abstract class AbstractPanels<T extends PanelView<V>, V> implements Panel
                     result++;
                 }
             }
-        }
-        else
-        {
-            result = -1;
         }
         return result;
     }
