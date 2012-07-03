@@ -13,8 +13,8 @@ import org.picocontainer.injectors.ProviderAdapter;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.resource.Messages;
-import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.gui.GUIPrompt;
+import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.container.provider.GUIInstallDataProvider;
 import com.izforge.izpack.installer.container.provider.IconsProvider;
@@ -100,11 +100,10 @@ public class GUIInstallerContainer extends InstallerContainer
 
     private JFrame initFrame()
     {
-        ResourceManager resourceManager = getComponent(ResourceManager.class);
+        IconsDatabase icons = getComponent(IconsDatabase.class);
         // Dummy Frame
         JFrame frame = new JFrame();
-        ImageIcon imageIcon;
-        imageIcon = resourceManager.getImageIcon("JFrameIcon", "/com/izforge/izpack/img/JFrameIcon.png");
+        ImageIcon imageIcon = icons.get("JFrameIcon");
         frame.setIconImage(imageIcon.getImage());
 
         Dimension frameSize = frame.getSize();

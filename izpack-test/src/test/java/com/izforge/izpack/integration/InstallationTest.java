@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.compiler.container.TestInstallationContainer;
-import com.izforge.izpack.core.resource.ResourceManager;
+import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerController;
@@ -40,19 +40,20 @@ public class InstallationTest
     @Rule
     public TestRule globalTimeout = new Timeout(HelperTestMethod.TIMEOUT);
     private FrameFixture installerFrameFixture;
-    private ResourceManager resourceManager;
+    private IconsDatabase icons;
     private LanguageDialog languageDialog;
     private InstallerFrame installerFrame;
     private GUIInstallData installData;
     private InstallerController installerController;
     private InstallerContainer installerContainer;
 
-    public InstallationTest(ResourceManager resourceManager, LanguageDialog languageDialog,
+    public InstallationTest(IconsDatabase icons, LanguageDialog languageDialog,
                             InstallerFrame installerFrame, GUIInstallData installData,
                             InstallerController installerController, InstallerContainer installerContainer)
     {
         this.installerController = installerController;
-        this.resourceManager = resourceManager;
+//        this.resourceManager = resourceManager;
+        this.icons = icons;
         this.languageDialog = languageDialog;
         this.installData = installData;
         this.installerFrame = installerFrame;
@@ -73,7 +74,7 @@ public class InstallationTest
     @InstallFile("samples/helloAndFinish.xml")
     public void testHelloAndFinishPanels() throws Exception
     {
-        Image image = resourceManager.getImageIcon("/com/izforge/izpack/img/JFrameIcon.png").getImage();
+    	Image image = icons.get("JFrameIcon").getImage();
         assertThat(image, IsNull.<Object>notNullValue());
 
         languageDialog.initLangPack();
