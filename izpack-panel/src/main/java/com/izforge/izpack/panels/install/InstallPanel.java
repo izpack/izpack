@@ -122,10 +122,6 @@ public class InstallPanel extends IzPanel implements ProgressListener
 
         overallProgressBar = new JProgressBar();
         overallProgressBar.setStringPainted(true);
-        if (noOfPacks == 1)
-        {
-            overallProgressBar.setIndeterminate(true);
-        }
         overallProgressBar.setString("");
         overallProgressBar.setValue(0);
         add(this.overallProgressBar, IzPanelLayout.getDefaultConstraint(FULL_LINE_CONTROL_CONSTRAINT));
@@ -157,6 +153,10 @@ public class InstallPanel extends IzPanel implements ProgressListener
                 // figure out how many packs there are to install
                 overallProgressBar.setMinimum(0);
                 overallProgressBar.setMaximum(noOfPacks);
+                if (noOfPacks == 1)
+                {
+                    overallProgressBar.setIndeterminate(true);
+                }
                 overallProgressBar.setString("0 / " + Integer.toString(noOfPacks));
             }
         });
