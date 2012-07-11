@@ -110,7 +110,7 @@
   <!-- PacksPanel strings -->
   <str id="PacksPanel.info" txt="Select the packs you want to install:" />
   <str id="PacksPanel.tip" txt="Note: Grayed packs are required." />
-  <str id="PacksPanel.space" txt="Total space Required: " />
+  <str id="PacksPanel.space" txt="Total space required: " />
   <str id="PacksPanel.freespace" txt="Available space: " />
   <str id="PacksPanel.description" txt="Description" />
   <str id="PacksPanel.dependencyList"
