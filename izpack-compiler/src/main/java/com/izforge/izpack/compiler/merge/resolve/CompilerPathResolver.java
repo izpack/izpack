@@ -23,6 +23,7 @@ package com.izforge.izpack.compiler.merge.resolve;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -83,6 +84,17 @@ public class CompilerPathResolver extends PathResolver
         {
             String dependPackage = (String) panelDependencies.get(type.getSimpleName());
             mergeable.addAll(getMergeableFromPackageName(dependPackage));
+        }
+        List<Class> parents = new ArrayList<Class>();
+        parents.addAll(Arrays.asList(type.getInterfaces()));
+        parents.add(type.getSuperclass());
+        for (Class parent : parents) {
+            if (parent != null) {
+                String parentClass = parent.getSimpleName();
+                if (parentClass.contains("Panel") && !parentClass.equals("IzPanel") ) {
+                    mergeable.addAll(getMergeablePackage(parent.getPackage()));
+                }
+            }
         }
         return new PanelMerge(type, mergeable);
 
