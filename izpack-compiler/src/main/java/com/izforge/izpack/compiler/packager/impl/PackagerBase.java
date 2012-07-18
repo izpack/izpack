@@ -286,7 +286,7 @@ public abstract class PackagerBase implements IPackager
 
     public void addPanel(Panel panel)
     {
-        sendMsg("Adding panel: " + panel.getPanelid() + " :: Classname : " + panel.getClassName());
+        sendMsg("Adding panel: " + panel.getPanelId() + " :: Classname : " + panel.getClassName());
         panelList.add(panel); // serialized to keep order/variables correct
         PanelMerge mergeable = pathResolver.getPanelMerge(panel.getClassName());
         mergeManager.addResourceToMerge(mergeable);

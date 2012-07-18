@@ -44,8 +44,8 @@ import org.junit.runner.RunWith;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.PanelActionConfiguration;
 import com.izforge.izpack.api.data.binding.ActionStage;
-import com.izforge.izpack.api.installer.DataValidator;
 import com.izforge.izpack.compiler.container.TestInstallationContainer;
 import com.izforge.izpack.data.PanelAction;
 import com.izforge.izpack.installer.gui.InstallerController;
@@ -150,7 +150,7 @@ public class PanelActionTest
     }
 
     /**
-     * Verifies that {@link DataValidator}s associated with panels are invoked.
+     * Verifies that {@link PanelAction}s associated with panels are invoked.
      *
      * @throws Exception for any error
      */
@@ -158,43 +158,58 @@ public class PanelActionTest
     @InstallFile("samples/panelactions.xml")
     public void testPanelActions() throws Exception
     {
-        assertEquals(2, panels.getPanels().size());
-        Panel hello = panels.getPanels().get(0);
-        // Panel finish = panels.getPanels().get(1);
+        assertEquals(3, panels.getPanels().size());
+        Panel hello1 = panels.getPanels().get(0);
+        Panel hello2 = panels.getPanels().get(1);
+        Panel finish = panels.getPanels().get(2);
 
-        checkActions(hello);
-        // checkActions(finish);
-        // TODO - cant use the same action classes for different panels as the configuration is shared
+        checkActions(hello1, PreConstructPanelAction.class, PreActivatePanelAction.class,
+                     PreValidatePanelAction.class, PostValidatePanelAction.class);
+        checkActions(hello2, TestPanelAction.class, TestPanelAction.class, TestPanelAction.class,
+                     TestPanelAction.class);
+        checkActions(finish, PreConstructPanelAction.class, PreActivatePanelAction.class,
+                     PreValidatePanelAction.class, PostValidatePanelAction.class);
 
-        checkActionInvocations("HelloPanel", 0, 0, 0, 0, 0);
+        checkActionInvocations("HelloPanel1", 0, 0, 0, 0, 0);
 
         frameFixture = HelperTestMethod.prepareFrameFixture(frame, controller);
 
-        checkActionsConfiguration(hello);
+        checkActionsConfiguration(hello1);
 
-        checkActionInvocations("HelloPanel", 1, 1, 0, 0, 0);
+        checkActionInvocations("HelloPanel1", 1, 1, 0, 0, 0);
 
-        // HelloPanel
+        // HelloPanel1
         Thread.sleep(2000);
         checkCurrentPanel(HelloPanel.class);
-        installData.setVariable("HelloPanel.status", "ERROR");
+        installData.setVariable("HelloPanel1.status", "ERROR");
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
-        checkDialog("HelloPanel.error");
+        checkDialog("HelloPanel1.error");
 
-        checkActionInvocations("HelloPanel", 1, 1, 1, 1, 1);
+        checkActionInvocations("HelloPanel1", 1, 1, 1, 1, 1);
 
-        installData.setVariable("HelloPanel.status", "WARNING");
+        installData.setVariable("HelloPanel1.status", "WARNING");
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
-        checkDialog("HelloPanel.warning");
+        checkDialog("HelloPanel1.warning");
 
-        checkActionInvocations("HelloPanel", 1, 1, 2, 2, 2);
+        checkActionInvocations("HelloPanel1", 1, 1, 2, 2, 2);
+
+        // HelloPanel2
+        Thread.sleep(1000);
+        checkCurrentPanel(HelloPanel.class);
+        installData.setVariable("HelloPanel2.status", "OK");
+        frameFixture.button(GuiId.BUTTON_NEXT.id).click();
+        checkActionInvocations("HelloPanel2", 1, 1, 1, 1, 1);
 
         // SimpleFinishPanel
         Thread.sleep(1000);
         checkCurrentPanel(SimpleFinishPanel.class);
+        checkActionInvocations("SimpleFinishPanel", 1, 1, 0, 0, 0);
 
         // Validators not invoked on last panel, so this should be a no-op
         frameFixture.button(GuiId.BUTTON_QUIT.id).click();
+
+        // action invocations should not have changed
+        checkActionInvocations("SimpleFinishPanel", 1, 1, 0, 0, 0);
 
         // verify the installer has terminated
         housekeeper.waitShutdown(2 * 60 * 1000);
@@ -248,12 +263,13 @@ public class PanelActionTest
      *
      * @param panel the panel to check
      */
-    private void checkActions(Panel panel)
+    private void checkActions(Panel panel, Class preConstruction, Class preActivation, Class preValidation,
+                              Class postValidation)
     {
-        checkAction(panel.getPreConstructionActions(), PreConstructPanelAction.class);
-        checkAction(panel.getPreActivationActions(), PreActivatePanelAction.class);
-        checkAction(panel.getPreValidationActions(), PreValidatePanelAction.class);
-        checkAction(panel.getPostValidationActions(), PostValidatePanelAction.class);
+        checkAction(panel.getPreConstructionActions(), preConstruction);
+        checkAction(panel.getPreActivationActions(), preActivation);
+        checkAction(panel.getPreValidationActions(), preValidation);
+        checkAction(panel.getPostValidationActions(), postValidation);
     }
 
     /**
@@ -262,11 +278,11 @@ public class PanelActionTest
      * @param actions the actions
      * @param type    the expected type
      */
-    private void checkAction(List<String> actions, Class<? extends PanelAction> type)
+    private void checkAction(List<PanelActionConfiguration> actions, Class type)
     {
         assertNotNull(actions);
         assertEquals(1, actions.size());
-        assertEquals(type.getName(), actions.get(0)); // compiler emits fully qualified class names
+        assertEquals(type.getName(), actions.get(0).getActionClassName()); // compiler emits fully qualified class names
     }
 
     /**
@@ -276,10 +292,10 @@ public class PanelActionTest
      */
     private void checkActionsConfiguration(Panel panel)
     {
-        checkActionConfiguration(panel.getPanelid(), ActionStage.PRECONSTRUCT);
-        checkActionConfiguration(panel.getPanelid(), ActionStage.PREACTIVATE);
-        checkActionConfiguration(panel.getPanelid(), ActionStage.PREVALIDATE, "prop1", "value1");
-        checkActionConfiguration(panel.getPanelid(), ActionStage.POSTVALIDATE, "prop2", "value2", "prop3", "value3");
+        checkActionConfiguration(panel.getPanelId(), ActionStage.PRECONSTRUCT);
+        checkActionConfiguration(panel.getPanelId(), ActionStage.PREACTIVATE);
+        checkActionConfiguration(panel.getPanelId(), ActionStage.PREVALIDATE, "prop1", "value1");
+        checkActionConfiguration(panel.getPanelId(), ActionStage.POSTVALIDATE, "prop2", "value2", "prop3", "value3");
     }
 
     /**

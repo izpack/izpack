@@ -124,8 +124,8 @@ public class Debugger
         conditionhistoryrenderer.clearState();
         updateChangedConditions(
                 "changed after panel switch" +
-                (lastpanelmetadata == null ? "" : " from " + lastpanelmetadata.getPanelid()) +
-                " to " + nextpanelmetadata.getPanelid());
+                (lastpanelmetadata == null ? "" : " from " + lastpanelmetadata.getPanelId()) +
+                " to " + nextpanelmetadata.getPanelId());
     }
 
     private void updateChangedConditions(String comment)
@@ -168,7 +168,7 @@ public class Debugger
             if ((oldvalue == null))
             {
                 VariableHistory variableHistory = new VariableHistory(key);
-                variableHistory.addValue(currentvalue, "new after panel " + lastpanelmetadata.getPanelid());
+                variableHistory.addValue(currentvalue, "new after panel " + lastpanelmetadata.getPanelId());
                 variableshistory.put(key, variableHistory);
                 changes = true;
                 changedvariables.put(key, currentvalue);
@@ -179,7 +179,7 @@ public class Debugger
                 {
                     VariableHistory variableHistory = variableshistory.get(key);
                     variableHistory.addValue(currentvalue,
-                                             "changed value after panel " + lastpanelmetadata.getPanelid());
+                                             "changed value after panel " + lastpanelmetadata.getPanelId());
                     changes = true;
                     changedvariables.put(key, currentvalue);
                 }

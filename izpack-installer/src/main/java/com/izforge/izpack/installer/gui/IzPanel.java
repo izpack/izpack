@@ -546,7 +546,7 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
         StringBuilder buffer = new StringBuilder();
         buffer.append(curClassName).append(".").append(subkey);
         String fullkey = buffer.toString();
-        String panelId = getMetadata().getPanelid();
+        String panelId = getMetadata().getPanelId();
         String retval = null;
         if (panelId != null)
         {

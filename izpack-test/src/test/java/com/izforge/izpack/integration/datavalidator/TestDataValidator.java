@@ -141,7 +141,7 @@ public class TestDataValidator implements DataValidator
      */
     protected String getPanelId()
     {
-        return panel.getPanelid();
+        return panel.getPanelId();
     }
 
     /**

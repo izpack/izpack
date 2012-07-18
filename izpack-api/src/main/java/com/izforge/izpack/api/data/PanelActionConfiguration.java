@@ -24,11 +24,19 @@ import java.util.Map;
 
 public class PanelActionConfiguration implements Serializable
 {
+    private String actionClassName;
+
     private Map<String, String> properties;
 
-    public PanelActionConfiguration()
+    public PanelActionConfiguration(String actionClassName)
     {
+        this.actionClassName = actionClassName;
         this.properties = new HashMap<String, String>();
+    }
+
+    public String getActionClassName()
+    {
+        return actionClassName;
     }
 
     public void addProperty(String key, String value)

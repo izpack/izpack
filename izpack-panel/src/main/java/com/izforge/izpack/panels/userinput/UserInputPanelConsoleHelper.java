@@ -258,7 +258,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         List<IXMLElement> specElements;
         String attribute;
         String dataID;
-        String panelid = panels.getPanel().getPanelid();
+        String panelid = panels.getPanel().getPanelId();
         String instance = Integer.toString(instanceNumber);
 
         SpecHelper specHelper = new SpecHelper(resources);
