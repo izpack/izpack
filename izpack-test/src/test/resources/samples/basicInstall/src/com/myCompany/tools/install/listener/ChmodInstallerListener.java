@@ -27,7 +27,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.exception.InstallerException;
-import com.izforge.izpack.event.AbstractInstallerListener;
+import com.izforge.izpack.event.AbstractProgressInstallerListener;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.OsVersion;
 
@@ -37,7 +37,7 @@ import com.izforge.izpack.util.OsVersion;
  *
  * @author Klaus Bartz
  */
-public class ChmodInstallerListener extends AbstractInstallerListener
+public class ChmodInstallerListener extends AbstractProgressInstallerListener
 {
 
     /**

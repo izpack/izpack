@@ -42,7 +42,7 @@ import com.izforge.izpack.util.file.FileUtils;
  *
  * @author Klaus Bartz
  */
-public class SummaryLoggerInstallerListener extends AbstractInstallerListener
+public class SummaryLoggerInstallerListener extends AbstractProgressInstallerListener
 {
 
     /**

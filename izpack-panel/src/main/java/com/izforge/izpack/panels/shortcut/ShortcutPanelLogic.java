@@ -36,13 +36,11 @@ import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
-import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.data.binding.OsModel;
-import com.izforge.izpack.api.event.InstallerListener;
+import com.izforge.izpack.api.event.AbstractInstallerListener;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
@@ -1440,7 +1438,7 @@ public class ShortcutPanelLogic implements CleanupClient
      *
      * @author Marcus Schlegel, Pulinco, Daniel Abson
      */
-    protected class LateShortcutInstallListener implements InstallerListener
+    protected class LateShortcutInstallListener extends AbstractInstallerListener
     {
 
         /**
@@ -1457,100 +1455,7 @@ public class ShortcutPanelLogic implements CleanupClient
             catch (Exception exception)
             {
                 throw new IzPackException("Failed to create shortcuts", exception);
-
             }
         }
-
-		@Override
-		public void initialise()
-		{
-		}
-
-		@Override
-		public void beforePacks(List<Pack> packs)
-		{
-		}
-
-		@Override
-		public void beforePack(Pack pack, int index)
-		{
-		}
-
-		@Override
-		public void afterPack(Pack pack, int index)
-		{
-		}
-
-		@Override
-		public void beforeDir(File dir, PackFile packFile, Pack pack) 
-		{
-		}
-
-		@Override
-		public void afterDir(File dir, PackFile packFile, Pack pack)
-		{
-		}
-
-		@Override
-		public boolean isFileListener()
-		{
-			return false;
-		}
-
-		@Override
-		public void beforeFile(File file, PackFile packFile, Pack pack) 
-		{
-		}
-
-		@Override
-		public void afterFile(File file, PackFile packFile, Pack pack)
-		{
-		}
-
-		@Override
-		public void afterInstallerInitialization(AutomatedInstallData data) throws Exception
-		{
-		}
-
-		@Override
-		public void beforePacks(AutomatedInstallData data, Integer packs, AbstractUIProgressHandler handler) throws Exception 
-		{
-		}
-
-		@Override
-		public void beforePack(Pack pack, Integer i, AbstractUIProgressHandler handler) throws Exception
-		{
-		}
-
-		@Override
-		public void beforeDir(File dir, PackFile packFile) throws Exception
-		{
-		}
-
-		@Override
-		public void afterDir(File dir, PackFile packFile) throws Exception
-		{
-		}
-
-		@Override
-		public void beforeFile(File file, PackFile packFile) throws Exception
-		{
-		}
-
-		@Override
-		public void afterFile(File file, PackFile packFile) throws Exception
-		{
-		}
-
-		@Override
-		public void afterPack(Pack pack, Integer i,	AbstractUIProgressHandler handler) throws Exception
-		{
-		}
-
-		@Override
-		public void afterPacks(AutomatedInstallData data,
-				AbstractUIProgressHandler handler) throws Exception
-		{
-		}
     }
 }

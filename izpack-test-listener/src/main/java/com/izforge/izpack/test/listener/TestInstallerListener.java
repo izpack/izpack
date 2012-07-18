@@ -11,14 +11,14 @@ import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
-import com.izforge.izpack.event.AbstractInstallerListener;
+import com.izforge.izpack.event.AbstractProgressInstallerListener;
 
 /**
  * An {@link InstallerListener} that tracks invocations for testing purposes.
  *
  * @author Tim Anderson
  */
-public class TestInstallerListener extends AbstractInstallerListener
+public class TestInstallerListener extends AbstractProgressInstallerListener
 {
 
     /**

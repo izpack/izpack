@@ -59,7 +59,7 @@ import com.izforge.izpack.util.helper.SpecHelper;
  * @author Thomas Guenter
  * @author Klaus Bartz
  */
-public class AntActionInstallerListener extends AbstractInstallerListener
+public class AntActionInstallerListener extends AbstractProgressInstallerListener
 {
     /**
      * Name of the specification file.

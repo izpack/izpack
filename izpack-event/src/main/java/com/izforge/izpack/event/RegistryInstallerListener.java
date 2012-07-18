@@ -63,7 +63,7 @@ import com.izforge.izpack.util.helper.SpecHelper;
  *
  * @author Klaus Bartz
  */
-public class RegistryInstallerListener extends AbstractInstallerListener implements CleanupClient
+public class RegistryInstallerListener extends AbstractProgressInstallerListener implements CleanupClient
 {
     private static final Logger logger = Logger.getLogger(RegistryInstallerListener.class.getName());
 

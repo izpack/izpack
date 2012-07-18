@@ -46,7 +46,7 @@ import com.izforge.izpack.util.helper.SpecHelper;
  * </p>
  *
  * @author Klaus Bartz
- * @deprecated use {@code com.izforge.izpack.event.AbstractInstallerListener}. This class will be removed in IzPack 6.0
+ * @deprecated use {@code com.izforge.izpack.api.event.AbstractInstallerListener}. This class will be removed in IzPack 6.0
  */
 @Deprecated
 public class SimpleInstallerListener implements InstallerListener

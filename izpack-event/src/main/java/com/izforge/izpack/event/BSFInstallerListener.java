@@ -45,7 +45,7 @@ import com.izforge.izpack.util.file.FileUtils;
 import com.izforge.izpack.util.helper.SpecHelper;
 
 
-public class BSFInstallerListener extends AbstractInstallerListener
+public class BSFInstallerListener extends AbstractProgressInstallerListener
 {
 
     public static final String SPEC_FILE_NAME = "BSFActionsSpec.xml";
