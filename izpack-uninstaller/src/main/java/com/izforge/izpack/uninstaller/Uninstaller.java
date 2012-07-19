@@ -176,7 +176,7 @@ public class Uninstaller
 
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                     UninstallerFrame uninstaller = container.getComponent(UninstallerFrame.class);
-                    uninstaller.init(displayForceOption, forceOptionState);
+                    uninstaller.init(displayForceOption, forceOptionState, container.getComponent(Destroyer.class));
                 }
                 catch (Exception err)
                 {

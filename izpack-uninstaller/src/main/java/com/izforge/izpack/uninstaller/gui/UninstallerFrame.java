@@ -46,9 +46,10 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 
+import org.picocontainer.MutablePicoContainer;
+
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.gui.ButtonFactory;
-import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.uninstaller.Destroyer;
 import com.izforge.izpack.uninstaller.resource.InstallLog;
@@ -110,7 +111,7 @@ public class UninstallerFrame extends JFrame
     /**
      * The destroyer.
      */
-    private final Destroyer destroyer;
+    private Destroyer destroyer;
 
     /**
      * The housekeeper.
@@ -125,11 +126,10 @@ public class UninstallerFrame extends JFrame
      * @param housekeeper the housekeeper
      * @param messages    the locale-specific messages
      */
-    public UninstallerFrame(Destroyer destroyer, InstallLog log, Housekeeper housekeeper, Messages messages)
+    public UninstallerFrame(InstallLog log, Housekeeper housekeeper, Messages messages)
             throws Exception
     {
         super("IzPack - Uninstaller");
-        this.destroyer = destroyer;
         this.log = log;
         this.housekeeper = housekeeper;
         this.messages = messages;
@@ -151,9 +151,10 @@ public class UninstallerFrame extends JFrame
      * @param displayForceOption If true, display to the user the option permitting to force all files deletion.
      * @param forceOptionState   If true, force deletion is activated.
      */
-    public void init(boolean displayForceOption, boolean forceOptionState)
+    public void init(boolean displayForceOption, boolean forceOptionState, Destroyer destroyer)
     {
         buildGUI(displayForceOption, forceOptionState);
+        this.destroyer = destroyer;
         addWindowListener(new WindowHandler());
         pack();
         centerFrame(this);
@@ -239,20 +240,6 @@ public class UninstallerFrame extends JFrame
         gbConstraints.anchor = GridBagConstraints.EAST;
         layout.addLayoutComponent(quitButton, gbConstraints);
         contentPane.add(quitButton);
-
-        // intercept error messages and display them in the progress bar
-        destroyer.setPrompt(new GUIPrompt()
-        {
-            @Override
-            public void message(Type type, String message)
-            {
-                super.message(type, message);
-                if (type == Type.ERROR)
-                {
-                    progressBar.setString(message);
-                }
-            }
-        });
     }
 
     /**

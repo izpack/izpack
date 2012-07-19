@@ -76,7 +76,7 @@ public abstract class UninstallerContainer extends AbstractContainer
         addComponent(DefaultObjectFactory.class);
         addComponent(DefaultTargetPlatformFactory.class);
         addComponent(RegistryDefaultHandler.class);
-        addComponent(UninstallerFrame.class);
+//        addComponent(UninstallerFrame.class);
         addComponent(Container.class, this);
         addComponent(Properties.class);
         addComponent(ResourceManager.class);
