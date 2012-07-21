@@ -28,13 +28,21 @@ public class GUIDestroyerListener extends DestroyerListener
     /**
      * Constructs a {@code GUIDestroyerHandler}.
      *
-     * @param uninstallerFrame the parent frame
-     * @param messages         the locale-specific messages
+     * @param messages the locale-specific messages
      */
-    public GUIDestroyerListener(UninstallerFrame uninstallerFrame, Messages messages)
+    public GUIDestroyerListener(Messages messages)
     {
-        this.uninstallerFrame = uninstallerFrame;
         this.messages = messages;
+    }
+
+    /**
+     * Registers the uninstaller frame.
+     *
+     * @param frame the frame
+     */
+    public void setUninstallerFrame(UninstallerFrame frame)
+    {
+        this.uninstallerFrame = frame;
     }
 
     /**

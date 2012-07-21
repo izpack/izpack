@@ -24,7 +24,9 @@ package com.izforge.izpack.integration;
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -32,6 +34,8 @@ import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.uninstaller.Destroyer;
 import com.izforge.izpack.uninstaller.console.ConsoleUninstallerContainer;
+import com.izforge.izpack.uninstaller.gui.GUIUninstallerContainer;
+import com.izforge.izpack.uninstaller.gui.UninstallerFrame;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.file.FileUtils;
 
@@ -56,11 +60,7 @@ public class UninstallHelper
     {
         File uninstallerJar = getUninstallerJar(installData);
         assertFileExists(uninstallerJar);
-        File copy = File.createTempFile("uninstaller", ".jar");
-        copy.deleteOnExit();
-        IoHelper.copyFile(uninstallerJar, copy);
-        uninstall(copy);
-        FileUtils.delete(copy); // probably won't delete as the class loader will still have a reference to it?
+        consoleUninstall(uninstallerJar);
     }
 
     /**
@@ -78,7 +78,7 @@ public class UninstallHelper
 
     /**
      * Uninstalls the application at the specified path, by running the {@link Destroyer} in the supplied uninstall
-     * jar.
+     * jar, using the console uninstaller container.
      * <p/>
      * The Destroyer is launched in an isolated class loader as it locates resources using its class loader.
      * This also ensures it has all the classes it needs to run.
@@ -86,19 +86,74 @@ public class UninstallHelper
      * @param uninstallJar the uninstall jar
      * @throws Exception for any error
      */
-    public static void uninstall(File uninstallJar) throws Exception
+    public static void consoleUninstall(File uninstallJar) throws Exception
+    {
+        File copy = copy(uninstallJar);
+        ClassLoader loader = getClassLoader(copy);
+
+        // create the container
+        Class containerClass = loader.loadClass(ConsoleUninstallerContainer.class.getName());
+        Object container = containerClass.newInstance();
+
+        runDestroyer(container, loader, copy);
+    }
+
+    /**
+     * Uninstalls the application at the specified path, by running the GUI uninstaller.
+     * <p/>
+     * The uninstaller is launched in an isolated class loader as it locates resources using its class loader.
+     * This also ensures it has all the classes it needs to run.
+     *
+     * @param uninstallJar the uninstall jar
+     * @throws Exception for any error
+     */
+    public static void guiUninstall(File uninstallJar) throws Exception
+    {
+        File copy = copy(uninstallJar);
+        ClassLoader loader = getClassLoader(copy);
+
+        // get the UninstallerFrame class
+        Class frameClass = loader.loadClass(UninstallerFrame.class.getName());
+        Method init = frameClass.getMethod("init", boolean.class, boolean.class);
+
+        Class containerClass = loader.loadClass(GUIUninstallerContainer.class.getName());
+        Object container = containerClass.newInstance();
+        Method getComponent = containerClass.getMethod("getComponent", Class.class);
+
+        // need to initialise the frame in order for the GUIDestroyerListener to be populated
+        Object frame = getComponent.invoke(container, frameClass);
+        init.invoke(frame, false, false);
+
+        // now run the Destroyer. Can't do it via the UninstallerFrame as can't access the uninstall button
+        runDestroyer(container, loader, copy);
+    }
+
+    /**
+     * Helper to create an isolated class loader using only those classes in the specified uninstall jar.
+     *
+     * @param uninstallJar the uninstaller jar
+     * @return a new class loader
+     * @throws MalformedURLException
+     */
+    private static ClassLoader getClassLoader(File uninstallJar) throws MalformedURLException
     {
         // create an isolated class loader for loading classes and resources
-        URLClassLoader loader = new URLClassLoader(new URL[]{uninstallJar.toURI().toURL()}, null);
+        return new URLClassLoader(new URL[]{uninstallJar.toURI().toURL()}, null);
+    }
 
-        // get the container class
-        Class containerClass = loader.loadClass(ConsoleUninstallerContainer.class.getName());
+    /**
+     * Runs the destroyer obtained from the supplied container.
+     *
+     * @param container the container
+     * @param loader    the isolated class loader to use to load classes
+     * @throws Exception for any error
+     */
+    private static void runDestroyer(Object container, ClassLoader loader, File jar) throws Exception
+    {
+        Method getComponent = container.getClass().getMethod("getComponent", Class.class);
 
         // get the destroyer class
         Class destroyerClass = loader.loadClass(Destroyer.class.getName());
-
-        Object container = containerClass.newInstance();
-        Method getComponent = containerClass.getMethod("getComponent", Class.class);
         Object destroyer = getComponent.invoke(container, destroyerClass);
         Method forceDelete = destroyerClass.getMethod("setForceDelete", boolean.class);
         forceDelete.invoke(destroyer, true);
@@ -106,5 +161,24 @@ public class UninstallHelper
         // create the Destroyer and run it
         Method run = destroyerClass.getMethod("run");
         run.invoke(destroyer);
+
+        FileUtils.delete(jar); // probably won't delete as the class loader will still have a reference to it?
+
     }
+
+    /**
+     * Helper to make a temporary copy of a uninstaller jar.
+     *
+     * @param uninstallJar the jar to copy
+     * @return the copy
+     * @throws IOException for any I/O error
+     */
+    private static File copy(File uninstallJar) throws IOException
+    {
+        File copy = File.createTempFile("uninstaller", ".jar");
+        copy.deleteOnExit();
+        IoHelper.copyFile(uninstallJar, copy);
+        return copy;
+    }
+
 }

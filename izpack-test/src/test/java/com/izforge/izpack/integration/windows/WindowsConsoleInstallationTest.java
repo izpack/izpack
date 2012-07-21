@@ -47,6 +47,7 @@ import com.izforge.izpack.event.RegistryUninstallerListener;
 import com.izforge.izpack.installer.bootstrap.Installer;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
+import com.izforge.izpack.integration.UninstallHelper;
 import com.izforge.izpack.integration.console.AbstractConsoleInstallationTest;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
@@ -180,7 +181,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         // run the uninstaller and verify that uninstall key is removed
         File uninstaller = getUninstallerJar();
         assertTrue(uninstaller.exists());
-        runDestroyer(uninstaller);
+        UninstallHelper.consoleUninstall(uninstaller);
 
         assertFalse(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
     }
