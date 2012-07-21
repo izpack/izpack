@@ -31,7 +31,7 @@ public class HelperTestMethod
 
     public static File prepareInstallation(InstallData installData) throws IOException
     {
-        File installPath = new File(installData.getInstallPath());
+        File installPath = new File(installData.getDefaultInstallPath());
         FileUtils.deleteDirectory(installPath);
         assertThat(installPath.exists(), Is.is(false));
         return installPath;

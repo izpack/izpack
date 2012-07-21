@@ -59,7 +59,6 @@ public class ConsolePanelsProvider extends PanelsProvider
         {
             ConsolePanelView panelView = new ConsolePanelView(panel, factory, installData, console);
             panels.add(panelView);
-            panelView.setIndex(panels.size() - 1);
         }
         return new ConsolePanels(panels, installData.getVariables());
     }

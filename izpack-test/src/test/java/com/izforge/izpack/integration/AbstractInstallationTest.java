@@ -70,6 +70,7 @@ public class AbstractInstallationTest
         // write to temporary folder so the test doesn't need to be run with elevated permissions
         File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
         installData.setInstallPath(installPath.getAbsolutePath());
+        installData.setDefaultInstallPath(installPath.getAbsolutePath());
     }
 
     /**

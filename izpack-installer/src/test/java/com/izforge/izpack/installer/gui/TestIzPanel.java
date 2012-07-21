@@ -18,22 +18,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.gui;
 
+import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.installer.data.GUIInstallData;
+
 /**
- * Listener for {@link IzPanels} events.
+ * Test {@link }IzPanel}.
  *
  * @author Tim Anderson
  */
-public interface IzPanelsListener
+public class TestIzPanel extends IzPanel
 {
     /**
-     * Invoked to switch panels.
+     * Constructs a {@link TestIzPanel}.
      *
-     * @param newPanel the panel to switch to
-     * @param oldPanel the panel to switch from, or {@code null} if there was no prior panel
+     * @param panel       the panel meta-data
+     * @param parent      the parent IzPack installer frame
+     * @param installData the installation data
+     * @param resources   the resources
      */
-    void switchPanel(IzPanelView newPanel, IzPanelView oldPanel);
-
+    public TestIzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
+    {
+        super(panel, parent, installData, resources);
+    }
 }

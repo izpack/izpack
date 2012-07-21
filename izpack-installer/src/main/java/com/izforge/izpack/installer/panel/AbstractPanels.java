@@ -85,8 +85,10 @@ public abstract class AbstractPanels<T extends PanelView<V>, V> implements Panel
         this.panelViews = panels;
         this.variables = variables;
         nextEnabled = !panels.isEmpty();
+        int index = 0;
         for (T panelView : panels)
         {
+            panelView.setIndex(index++);
             this.panels.add(panelView.getPanel());
         }
     }
@@ -200,7 +202,7 @@ public abstract class AbstractPanels<T extends PanelView<V>, V> implements Panel
     @Override
     public boolean isNextEnabled()
     {
-        return nextEnabled;
+        return nextEnabled && hasNext();
     }
 
     /**
@@ -258,7 +260,18 @@ public abstract class AbstractPanels<T extends PanelView<V>, V> implements Panel
     @Override
     public boolean isPreviousEnabled()
     {
-        return previousEnabled;
+        return previousEnabled && hasPrevious();
+    }
+
+    /**
+     * Determines if there is panel prior to the current panel.
+     *
+     * @return {@code true} if there is a panel prior to the current panel
+     */
+    @Override
+    public boolean hasPrevious()
+    {
+        return getPrevious(index, false) != -1;
     }
 
     /**

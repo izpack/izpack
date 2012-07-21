@@ -101,6 +101,13 @@ public interface Panels
     boolean isNextEnabled();
 
     /**
+     * Determines if there is panel prior to the current panel.
+     *
+     * @return {@code true} if there is a panel prior to the current panel
+     */
+    boolean hasPrevious();
+
+    /**
      * Navigates to the previous panel.
      *
      * @return {@code true} if the previous panel was navigated to

@@ -1,3 +1,21 @@
+/*
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.izforge.izpack.test.panel;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,15 +38,24 @@ import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.binding.Help;
 import com.izforge.izpack.api.factory.ObjectFactory;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
+import com.izforge.izpack.gui.IconsDatabase;
+import com.izforge.izpack.gui.log.Log;
+import com.izforge.izpack.installer.base.InstallDataConfiguratorWithRules;
 import com.izforge.izpack.installer.data.GUIInstallData;
+import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
+import com.izforge.izpack.installer.gui.DefaultNavigator;
 import com.izforge.izpack.installer.gui.InstallerController;
+import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanelView;
+import com.izforge.izpack.installer.gui.IzPanels;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.container.TestIzPanels;
 import com.izforge.izpack.test.container.TestPanelContainer;
 import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Manual test for finish panel
@@ -42,20 +69,21 @@ public class PanelDisplayTest
     private FrameFixture frameFixture;
     private ResourceManager resourceManager;
     private UninstallDataWriter uninstallDataWriter;
-    private InstallerController installerController;
-    private final TestIzPanels panels;
+    private final TestPanelContainer container;
+    private final IconsDatabase icons;
+    private final RulesEngine rules;
     private final ObjectFactory factory;
 
-    public PanelDisplayTest(GUIInstallData guiInstallData, ResourceManager resourceManager, FrameFixture frameFixture,
-                            UninstallDataWriter uninstallDataWriter, InstallerController installerController,
-                            TestIzPanels panels, ObjectFactory factory)
+    public PanelDisplayTest(GUIInstallData guiInstallData, ResourceManager resourceManager,
+                            UninstallDataWriter uninstallDataWriter, TestPanelContainer container,
+                            IconsDatabase icons, RulesEngine rules, ObjectFactory factory)
     {
         this.guiInstallData = guiInstallData;
         this.resourceManager = resourceManager;
-        this.frameFixture = frameFixture;
         this.uninstallDataWriter = uninstallDataWriter;
-        this.installerController = installerController;
-        this.panels = panels;
+        this.container = container;
+        this.icons = icons;
+        this.rules = rules;
         this.factory = factory;
     }
 
@@ -120,28 +148,6 @@ public class PanelDisplayTest
         frameFixture.button(GuiId.FINISH_PANEL_AUTO_BUTTON.id).requireVisible();
     }
 
-    private void addPanelAndShow(String... classNames)
-            throws Exception
-    {
-        List<IzPanelView> panelList = new ArrayList<IzPanelView>();
-        for (String className : classNames)
-        {
-            Panel panel = new Panel();
-            panel.setClassName(className);
-            IzPanelView panelView = new IzPanelView(panel, factory, guiInstallData);
-            panelList.add(panelView);
-        }
-        addPanelAndShow(panelList);
-    }
-
-    private void addPanelAndShow(List<IzPanelView> panelList)
-            throws Exception
-    {
-        panels.setPanels(panelList);
-        installerController.buildInstallation();
-        installerController.launchInstallation();
-    }
-
     @Test
     public void helpShouldDisplay() throws Exception
     {
@@ -156,4 +162,37 @@ public class PanelDisplayTest
         dialogFixture.requireVisible();
         assertThat(dialogFixture.textBox().text(), StringContains.containsString("toto"));
     }
+
+    private void addPanelAndShow(String... classNames)
+            throws Exception
+    {
+        List<IzPanelView> panelList = new ArrayList<IzPanelView>();
+        for (String className : classNames)
+        {
+            Panel panel = new Panel();
+            panel.setClassName(className);
+            IzPanelView panelView = new IzPanelView(panel, factory, guiInstallData);
+            panelList.add(panelView);
+        }
+        addPanelAndShow(panelList);
+    }
+
+    private void addPanelAndShow(List<IzPanelView> panelList) throws Exception
+    {
+        IzPanels panels = new IzPanels(panelList, container, guiInstallData);
+        DefaultNavigator navigator = new DefaultNavigator(panels, icons, guiInstallData);
+        InstallerFrame frame = new InstallerFrame("A title", guiInstallData, rules,
+                                                  icons, panels, uninstallDataWriter, resourceManager,
+                                                  Mockito.mock(UninstallData.class),
+                                                  Mockito.mock(Housekeeper.class), navigator,
+                                                  Mockito.mock(Log.class));
+        container.getContainer().addComponent(frame);
+        InstallDataConfiguratorWithRules configuratorWithRules = new InstallDataConfiguratorWithRules(
+                guiInstallData, rules, Platforms.UNIX);
+        InstallerController controller = new InstallerController(configuratorWithRules, frame);
+        controller.buildInstallation();
+        controller.launchInstallation();
+        frameFixture = new FrameFixture(frame);
+    }
+
 }

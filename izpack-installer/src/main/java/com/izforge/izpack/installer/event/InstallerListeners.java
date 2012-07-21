@@ -68,7 +68,7 @@ public class InstallerListeners
 
 
     /**
-     * Constructs an {@code Installer:Listeners}.
+     * Constructs an {@code InstallerListeners}.
      *
      * @param installData the installation data
      * @param prompt      the prompt

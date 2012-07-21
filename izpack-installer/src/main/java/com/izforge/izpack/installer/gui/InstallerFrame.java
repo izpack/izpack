@@ -23,9 +23,6 @@
 package com.izforge.izpack.installer.gui;
 
 import static com.izforge.izpack.api.GuiId.BUTTON_HELP;
-import static com.izforge.izpack.api.GuiId.BUTTON_NEXT;
-import static com.izforge.izpack.api.GuiId.BUTTON_PREV;
-import static com.izforge.izpack.api.GuiId.BUTTON_QUIT;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -88,7 +85,6 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.debugger.Debugger;
-import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.Housekeeper;
@@ -149,20 +145,9 @@ public class InstallerFrame extends JFrame implements InstallerView
     protected JButton helpButton = null;
 
     /**
-     * The previous button.
+     * The panel navigator.
      */
-    protected JButton prevButton;
-
-    /**
-     * The next button.
-     */
-    protected JButton nextButton;
-
-    /**
-     * The quit button.
-     */
-    protected JButton quitButton;
-
+    private final DefaultNavigator navigator;
 
     /**
      * Registered GUICreationListener.
@@ -258,13 +243,14 @@ public class InstallerFrame extends JFrame implements InstallerView
      * @param resourceManager     the resources
      * @param uninstallData       the uninstallation data
      * @param housekeeper         the house-keeper
+     * @param navigator           the panel navigator
      * @param log                 the log
      * @throws Exception for any error
      */
     public InstallerFrame(String title, GUIInstallData installData, RulesEngine rules, IconsDatabase icons,
                           IzPanels panels, UninstallDataWriter uninstallDataWriter,
                           ResourceManager resourceManager, UninstallData uninstallData, Housekeeper housekeeper,
-                          Log log)
+                          DefaultNavigator navigator, Log log)
             throws Exception
     {
         super(title);
@@ -281,9 +267,11 @@ public class InstallerFrame extends JFrame implements InstallerView
 
         this.messages = installData.getMessages();
         this.setIcons(icons);
+        this.navigator = navigator;
+        navigator.setInstallerFrame(this);
 
         // Sets the window events handler
-        addWindowListener(new WindowHandler(this));
+        addWindowListener(new WindowHandler(navigator));
     }
 
     /**
@@ -346,9 +334,6 @@ public class InstallerFrame extends JFrame implements InstallerView
 
         logger.fine("Building GUI. The panel list to display is " + installdata.getPanels());
 
-        // We add the navigation buttons & labels
-        NavigationHandler navHandler = new NavigationHandler();
-
         JPanel navPanel = new JPanel();
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
         TitledBorder border = BorderFactory.createTitledBorder(
@@ -364,29 +349,12 @@ public class InstallerFrame extends JFrame implements InstallerView
         this.helpButton.addActionListener(new HelpHandler());
 
         navPanel.add(Box.createHorizontalGlue());
-
-        prevButton = ButtonFactory.createButton(messages.get("installer.prev"), getIcons()
-                .get("stepback"), installdata.buttonsHColor);
-        navPanel.add(prevButton);
-        prevButton.addActionListener(navHandler);
-        prevButton.setName(BUTTON_PREV.id);
-        prevButton.setVisible(false);
-
+        navPanel.add(navigator.getPrevious());
         navPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-
-        nextButton = ButtonFactory.createButton(messages.get("installer.next"), getIcons()
-                .get("stepforward"), installdata.buttonsHColor);
-        navPanel.add(nextButton);
-        nextButton.setName(BUTTON_NEXT.id);
-        nextButton.addActionListener(navHandler);
-
+        navPanel.add(navigator.getNext());
         navPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        navPanel.add(navigator.getQuit());
 
-        quitButton = ButtonFactory.createButton(messages.get("installer.quit"), getIcons()
-                .get("stop"), installdata.buttonsHColor);
-        navPanel.add(quitButton);
-        quitButton.setName(BUTTON_QUIT.id);
-        quitButton.addActionListener(navHandler);
         contentPane.add(navPanel, BorderLayout.SOUTH);
 
         // always initialize debugger
@@ -424,7 +392,7 @@ public class InstallerFrame extends JFrame implements InstallerView
             contentPane.add(imgPanel, BorderLayout.WEST);
             loadAndShowImageForPanelNum(iconLabel, 0);
         }
-        getRootPane().setDefaultButton(nextButton);
+        getRootPane().setDefaultButton(navigator.setDefaultButton());
         callGUIListener(GUIListener.GUI_BUILDED, navPanel);
         createHeading(navPanel);
 
@@ -438,18 +406,17 @@ public class InstallerFrame extends JFrame implements InstallerView
                 InstallerFrame.this.switchPanel(newPanel, oldPanel);
             }
 
-            @Override
-            public void setNextEnabled(boolean enable)
-            {
-                nextButton.setEnabled(enable);
-            }
-
-            @Override
-            public void setPreviousEnabled(boolean enable)
-            {
-                prevButton.setEnabled(enable);
-            }
         });
+    }
+
+    /**
+     * Returns the panel navigator.
+     *
+     * @return the panel navigator
+     */
+    public Navigator getNavigator()
+    {
+        return navigator;
     }
 
     private void callGUIListener(int what)
@@ -590,42 +557,7 @@ public class InstallerFrame extends JFrame implements InstallerView
             // auto-installation script (bug # 4551), let's make data only immediately before
             // writing out that script.
             // oldPanel.makeXMLData(installdata.xmlData.getChildAtIndex(oldIndex));
-            // No previos button in the first visible newPanel
-
-            configureButtonVisibility(newPanel);
-            // With VM version >= 1.5 setting default button one time will not work.
-            // Therefore we set it every newPanel switch and that also later. But in
-            // the moment it seems so that the quit button will not used as default button.
-            // No idea why... (Klaus Bartz, 06.09.25)
-            SwingUtilities.invokeLater(new Runnable()
-            {
-
-                @Override
-                public void run()
-                {
-                    JButton cdb = null;
-                    String buttonName = "next";
-                    if (nextButton.isEnabled())
-                    {
-                        cdb = nextButton;
-                        quitButton.setDefaultCapable(false);
-                        prevButton.setDefaultCapable(false);
-                        nextButton.setDefaultCapable(true);
-                    }
-                    else if (quitButton.isEnabled())
-                    {
-                        cdb = quitButton;
-                        buttonName = "quit";
-                        quitButton.setDefaultCapable(true);
-                        prevButton.setDefaultCapable(false);
-                        nextButton.setDefaultCapable(false);
-                    }
-                    getRootPane().setDefaultButton(cdb);
-                    log.addDebugMessage(
-                            "InstallerFrame.switchPanel: setting {0} as default button",
-                            new String[]{buttonName}, Log.PANEL_TRACE, null);
-                }
-            });
+            // No previous button in the first visible newPanel
 
             // Change panels container to the current one.
             if (oldPanel != null)
@@ -695,41 +627,6 @@ public class InstallerFrame extends JFrame implements InstallerView
         }
     }
 
-    private void configureButtonVisibility(PanelView<IzPanel> panel)
-    {
-        int index = panel.getIndex();
-        if (panels.getNext(index, true) == -1)
-        {
-            prevButton.setVisible(false);
-            nextButton.setVisible(false);
-            lockNextButton();
-        }
-        else
-        {
-            if (hasNavigatePrevious(index, true) != -1)
-            {
-                prevButton.setVisible(true);
-                unlockPrevButton();
-            }
-            else
-            {
-                lockPrevButton();
-                prevButton.setVisible(false);
-            }
-
-            if (hasNavigateNext(index, true) != -1)
-            {
-                nextButton.setVisible(true);
-                unlockNextButton();
-            }
-            else
-            {
-                lockNextButton();
-                nextButton.setVisible(false);
-            }
-        }
-    }
-
     /**
      * Centers a window on screen.
      *
@@ -753,17 +650,26 @@ public class InstallerFrame extends JFrame implements InstallerView
     }
 
     /**
-     * Exits the installer.
+     * Exits the installer, if quit is enabled.
      * <p/>
      * If installation is complete, this writes any uninstallation data, and shuts down.
      * If installation is incomplete, a confirmation dialog will be displayed.
      */
     public void exit()
     {
+        navigator.quit();
+    }
+
+    /**
+     * Quits the installer.
+     * <p/>
+     * If installation is complete, this writes any uninstallation data, and shuts down.
+     * If installation is incomplete, a confirmation dialog will be displayed.
+     */
+    void quit()
+    {
         // FIXME !!! Reboot handling
-        if (installdata.isCanClose()
-                || ((!nextButton.isVisible() || !nextButton.isEnabled())
-                && (!prevButton.isVisible() || !prevButton.isEnabled())))
+        if (installdata.isCanClose() || (!navigator.isNextEnabled() && !navigator.isPreviousEnabled()))
         {
             if (!writeUninstallData())
             {
@@ -841,12 +747,11 @@ public class InstallerFrame extends JFrame implements InstallerView
      */
     public void setQuitButtonText(String text)
     {
-        String text1 = text;
-        if (text1 == null)
+        if (text == null)
         {
-            text1 = messages.get("installer.quit");
+            text = messages.get("installer.quit");
         }
-        quitButton.setText(text1);
+        navigator.setQuitText(text);
     }
 
     /**
@@ -860,7 +765,7 @@ public class InstallerFrame extends JFrame implements InstallerView
 
         if (useButtonIcons == null || "yes".equalsIgnoreCase(useButtonIcons))
         {
-            quitButton.setIcon(getIcons().get(iconName));
+            navigator.getQuit().setIcon(getIcons().get(iconName));
         }
     }
 
@@ -914,7 +819,7 @@ public class InstallerFrame extends JFrame implements InstallerView
     @Override
     public void lockPrevButton()
     {
-        panels.setPreviousEnabled(false);
+        navigator.setPreviousEnabled(false);
     }
 
     /**
@@ -923,7 +828,7 @@ public class InstallerFrame extends JFrame implements InstallerView
     @Override
     public void lockNextButton()
     {
-        panels.setNextEnabled(false);
+        navigator.setNextEnabled(false);
     }
 
     /**
@@ -932,7 +837,7 @@ public class InstallerFrame extends JFrame implements InstallerView
     @Override
     public void unlockPrevButton()
     {
-        panels.setPreviousEnabled(true);
+        navigator.setPreviousEnabled(true);
     }
 
     /**
@@ -952,22 +857,14 @@ public class InstallerFrame extends JFrame implements InstallerView
     @Override
     public void unlockNextButton(boolean requestFocus)
     {
-        panels.setNextEnabled(true);
+        navigator.setNextEnabled(true);
         if (requestFocus)
         {
-            nextButton.requestFocusInWindow();
-            getRootPane().setDefaultButton(nextButton);
+            getRootPane().setDefaultButton(navigator.setDefaultButton());
+            navigator.getNext().requestFocusInWindow();
             if (this.getFocusOwner() != null)
             {
                 logger.fine("Current focus owner: " + this.getFocusOwner().getName());
-            }
-            if (!(getRootPane().getDefaultButton() == nextButton))
-            {
-                logger.fine("Next button not default button, setting...");
-                quitButton.setDefaultCapable(false);
-                prevButton.setDefaultCapable(false);
-                nextButton.setDefaultCapable(true);
-                getRootPane().setDefaultButton(nextButton);
             }
         }
     }
@@ -979,11 +876,11 @@ public class InstallerFrame extends JFrame implements InstallerView
     {
         if (panels.isBack())
         {
-            panels.previous();
+            navigatePrevious();
         }
         else
         {
-            panels.next(false);
+            navigator.next(false);
         }
     }
 
@@ -993,7 +890,7 @@ public class InstallerFrame extends JFrame implements InstallerView
     @Override
     public void navigateNext()
     {
-        panels.next();
+        navigator.next();
     }
 
     /**
@@ -1031,7 +928,7 @@ public class InstallerFrame extends JFrame implements InstallerView
     @Override
     public void navigatePrevious()
     {
-        panels.previous();
+        navigator.previous();
     }
 
     /**
@@ -1085,60 +982,6 @@ public class InstallerFrame extends JFrame implements InstallerView
     public void setIcons(IconsDatabase icons)
     {
         this.icons = icons;
-    }
-
-    /**
-     * Handles the events from the navigation bar elements.
-     *
-     * @author Julien Ponge
-     */
-    class NavigationHandler implements ActionListener
-    {
-
-        @Override
-        public void actionPerformed(final ActionEvent e)
-        {
-            /*
-                Some panels activation may be slow, hence we
-                block the GUI, spin a thread to handle navigation then
-                release the GUI.
-             */
-            new Thread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-
-                    SwingUtilities.invokeLater(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            blockGUI();
-                            navigate(e);
-                            releaseGUI();
-                        }
-                    });
-                }
-            }).start();
-        }
-
-        private void navigate(ActionEvent e)
-        {
-            Object source = e.getSource();
-            if (source == prevButton)
-            {
-                navigatePrevious();
-            }
-            else if (source == nextButton)
-            {
-                navigateNext();
-            }
-            else if (source == quitButton)
-            {
-                exit();
-            }
-        }
     }
 
     class HelpHandler implements ActionListener
@@ -1324,7 +1167,7 @@ public class InstallerFrame extends JFrame implements InstallerView
                 Component[] comps = navPanel.getComponents();
                 for (i = 0; i < comps.length; ++i)
                 {
-                    if (comps[i].equals(prevButton))
+                    if (comps[i].equals(navigator.getPrevious()))
                     {
                         break;
                     }
