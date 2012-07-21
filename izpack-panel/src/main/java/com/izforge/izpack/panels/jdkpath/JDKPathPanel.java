@@ -22,19 +22,30 @@
 
 package com.izforge.izpack.panels.jdkpath;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+
 import com.coi.tools.os.win.MSWinConstants;
+import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
+import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
+import com.izforge.izpack.gui.IzPanelLayout;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
@@ -47,7 +58,7 @@ import com.izforge.izpack.util.OsVersion;
  *
  * @author Klaus Bartz
  */
-public class JDKPathPanel extends PathInputPanel
+public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
 {
 
     private static final long serialVersionUID = 3257006553327810104L;
@@ -77,6 +88,7 @@ public class JDKPathPanel extends PathInputPanel
 
     private final RegistryDefaultHandler handler;
 
+    private JEditorPane textArea = null;
 
     /**
      * Constructs a <tt>JDKPathPanel</tt>.
@@ -101,6 +113,36 @@ public class JDKPathPanel extends PathInputPanel
         setMinVersion(installData.getVariable("JDKPathPanel.minVersion"));
         setMaxVersion(installData.getVariable("JDKPathPanel.maxVersion"));
         setVariableName("JDKPath");
+    }
+
+    public void hyperlinkUpdate(HyperlinkEvent e) {
+        try {
+            if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
+            {
+                String urls = e.getURL().toExternalForm();
+                // if the link points to a chapter in the same page
+                // don't open a browser
+                if (urls.contains("HTMLInfoPanel.info#"))
+                {
+                    textArea.setPage(e.getURL());
+                } else {
+                    Desktop desktop;
+                    if (Desktop.isDesktopSupported()) {
+                        desktop = Desktop.getDesktop();
+                    } else {
+                        return;
+                    }
+                    try {
+                        desktop.browse(new URI(urls));
+                    } catch (Exception f) {
+                        f.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception err)
+        {
+            // no action
+        }
     }
 
     /**
@@ -176,6 +218,24 @@ public class JDKPathPanel extends PathInputPanel
         // Resolve the default for chosenPath
         super.panelActivate();
         String chosenPath;
+
+        String msg = ((LocaleDatabase)installData.getMessages()).get("JDKPathPanel.jdkDownload");
+        if (msg != null && !msg.isEmpty())
+        {
+            VariableSubstitutor vs = new VariableSubstitutorImpl(installData.getVariables());
+
+            add(IzPanelLayout.createParagraphGap());
+            textArea = new JEditorPane("text/html; charset=utf-8", vs.substitute(msg, null));
+            textArea.setCaretPosition(0);
+            textArea.setEditable(false);
+            textArea.addHyperlinkListener(this);
+            textArea.setBackground(getBackground());
+
+            JScrollPane scroller = new JScrollPane(textArea);
+            scroller.setAlignmentX(LEFT_ALIGNMENT);
+            add(scroller, NEXT_LINE);
+        }
+
         // The variable will be exist if we enter this panel
         // second time. We would maintain the previos
         // selected path.

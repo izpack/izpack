@@ -106,6 +106,9 @@
   <str id="JDKPathPanel.badVersion3" txt=") should this JDK be used anyway?" />
   <str id="JDKPathPanel.nonValidPathInReg"
     txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?" />
+  <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;If you don't have JDK installed on your system please go to address: &lt;a href='http://java.sun.com/javase/downloads/'&gt;
+        http://java.sun.com/javase/downloads&lt;/a&gt; and select JDK. Download it and install and proceed with installation.&lt;/p&gt;&lt;p&gt;
+        You need at least ${JDKPathPanel.minVersion} version of Java JDK.&lt;/p&gt;&lt;/html&gt;"/>
 
   <!-- PacksPanel strings -->
   <str id="PacksPanel.info" txt="Select the packs you want to install:" />
