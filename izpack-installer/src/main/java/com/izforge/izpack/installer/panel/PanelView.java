@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.installer.panel;
 
+import static com.izforge.izpack.data.PanelAction.ActionStage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,6 +31,7 @@ import java.util.logging.Logger;
 import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.PanelActionConfiguration;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.installer.DataValidator;
@@ -128,7 +131,7 @@ public abstract class PanelView<T>
      */
     public String getPanelId()
     {
-        return panel.getPanelid();
+        return panel.getPanelId();
     }
 
     /**
@@ -185,9 +188,9 @@ public abstract class PanelView<T>
                 validator = factory.create(dataValidator, DataValidator.class, panel, view);
             }
 
-            addActions(panel.getPreActivationActions(), preActivationActions);
-            addActions(panel.getPreValidationActions(), preValidationActions);
-            addActions(panel.getPostValidationActions(), postValidationActions);
+            addActions(panel.getPreActivationActions(), preActivationActions, ActionStage.preactivate);
+            addActions(panel.getPreValidationActions(), preValidationActions, ActionStage.prevalidate);
+            addActions(panel.getPostValidationActions(), postValidationActions, ActionStage.postvalidate);
 
             initialise(view, panel, installData);
         }
@@ -239,7 +242,7 @@ public abstract class PanelView<T>
     public boolean canShow()
     {
         boolean result;
-        String panelId = panel.getPanelid();
+        String panelId = panel.getPanelId();
         installData.refreshVariables();
         if (panel.hasCondition())
         {
@@ -492,13 +495,14 @@ public abstract class PanelView<T>
      */
     private void executePreConstructionActions()
     {
-        List<String> classNames = panel.getPreConstructionActions();
-        if (classNames != null)
+        List<PanelActionConfiguration> configurations = panel.getPreConstructionActions();
+        if (configurations != null)
         {
-            for (String className : classNames)
+            for (PanelActionConfiguration config : configurations)
             {
-                PanelAction action = factory.create(className, PanelAction.class, panel);
-                action.initialize(panel.getPanelActionConfiguration(className));
+                PanelAction action = factory.create(config.getActionClassName(), PanelAction.class, panel,
+                                                    ActionStage.preconstruct);
+                action.initialize(config);
                 action.executeAction(installData, null);
             }
         }
@@ -509,17 +513,20 @@ public abstract class PanelView<T>
      * <br/>
      * Both the panel and view are supplied for injection into the action's constructor.
      *
-     * @param classNames the action class names. May be {@code null}
-     * @param actions    the actions to add to
+     * @param configurations the action class names. May be {@code null}
+     * @param actions        the actions to add to
+     * @param stage          the action stage
      */
-    private void addActions(List<String> classNames, List<PanelAction> actions)
+    private void addActions(List<PanelActionConfiguration> configurations, List<PanelAction> actions,
+                            ActionStage stage)
     {
-        if (classNames != null)
+        if (configurations != null)
         {
-            for (String className : classNames)
+            for (PanelActionConfiguration config : configurations)
             {
-                PanelAction action = factory.create(className, PanelAction.class, panel, view);
-                action.initialize(panel.getPanelActionConfiguration(className));
+                PanelAction action = factory.create(config.getActionClassName(), PanelAction.class, panel, view,
+                                                    stage);
+                action.initialize(config);
                 actions.add(action);
             }
         }

@@ -52,11 +52,6 @@ public class PrivilegedRunner
     private final Platform platform;
 
     /**
-     * Determines if elevation should be vetoed.
-     */
-    private boolean vetoed;
-
-    /**
      * The logger.
      */
     private static final Logger logger = Logger.getLogger(PrivilegedRunner.class.getName());
@@ -69,29 +64,7 @@ public class PrivilegedRunner
      */
     public PrivilegedRunner(Platform platform)
     {
-        this(platform, false);
-    }
-
-    /**
-     * Builds a privileged runner with a vetoing parameter.
-     *
-     * @param platform the current platform
-     * @param vetoed   should the elevation be vetoed?
-     */
-    public PrivilegedRunner(Platform platform, boolean vetoed)
-    {
         this.platform = platform;
-        this.vetoed = vetoed;
-    }
-
-    /**
-     * Tells whether the elevation is vetoed by some of the invoker logic.
-     *
-     * @return <code>true</code> if the elevation is to be vetoed.
-     */
-    public boolean isVetoed()
-    {
-        return vetoed;
     }
 
     /**
@@ -122,27 +95,24 @@ public class PrivilegedRunner
      */
     public boolean isElevationNeeded(String path)
     {
-        boolean result = false;
-        if (!vetoed)
+        boolean result;
+        if (platform.isA(WINDOWS))
         {
-            if (platform.isA(WINDOWS))
+            if (path == null || path.trim().length() == 0)
             {
-                if (path == null || path.trim().length() == 0)
-                {
-                    path = getProgramFiles();
-                }
-                result = !isPrivilegedMode() && !canWrite(path);
+                path = getProgramFiles();
+            }
+            result = !isPrivilegedMode() && !canWrite(path);
+        }
+        else
+        {
+            if (path != null)
+            {
+                result = !canWrite(path);
             }
             else
             {
-                if (path != null)
-                {
-                    result = !canWrite(path);
-                }
-                else
-                {
-                    result = !System.getProperty("user.name").equals("root");
-                }
+                result = !System.getProperty("user.name").equals("root");
             }
         }
         return result;

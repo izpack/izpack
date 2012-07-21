@@ -23,6 +23,7 @@ package com.izforge.izpack.installer.data;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -42,6 +43,7 @@ import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.compiler.container.TestInstallationContainer;
@@ -232,8 +234,7 @@ public class UninstallDataWriterTest
     /**
      * Verifies that the <em>run-with-privileges-on-osx</em> script is written for mac installs.
      *
-     * @throws IOException
-     * @throws
+     * @throws IOException for any I/O error
      */
     @Test
     @InstallFile("samples/basicInstall/basicInstall.xml")
@@ -247,8 +248,62 @@ public class UninstallDataWriterTest
         ZipFile uninstallJar = getUninstallerJar();
 
         assertThat(uninstallJar,
-                   ZipMatcher.isZipContainingFiles("com/izforge/izpack/util/mac/run-with-privileges-on-osx"));
+                   ZipMatcher.isZipContainingFiles("exec-admin",
+                                                   "com/izforge/izpack/util/mac/run-with-privileges-on-osx"));
+    }
 
+    /**
+     * Verifies that the "exec-admin" file is written when {@link Info#isPrivilegedExecutionRequiredUninstaller()}
+     * is {@code true} and there is no privileged execution condition.
+     *
+     * @throws IOException for any I/O error
+     */
+    @Test
+    @InstallFile("samples/basicInstall/basicInstall.xml")
+    public void testExecAdminWrittenWhenPrivilegedExecutionRequired() throws IOException
+    {
+        installData.getInfo().setRequirePrivilegedExecutionUninstaller(true);
+        assertTrue(uninstallDataWriter.write());
+        ZipFile uninstallJar = getUninstallerJar();
+
+        assertThat(uninstallJar, ZipMatcher.isZipContainingFiles("exec-admin"));
+    }
+
+    /**
+     * Verifies that the "exec-admin" file is not written when {@link Info#isPrivilegedExecutionRequiredUninstaller()}
+     * is {@code false}.
+     *
+     * @throws IOException for any I/O error
+     */
+    @Test
+    @InstallFile("samples/basicInstall/basicInstall.xml")
+    public void testExecAdminNotWrittenWhenPrivilegedExecutionNotRequired() throws IOException
+    {
+        installData.getInfo().setRequirePrivilegedExecutionUninstaller(false);
+        assertTrue(uninstallDataWriter.write());
+        ZipFile uninstallJar = getUninstallerJar();
+
+        assertThat(uninstallJar, IsNot.not(ZipMatcher.isZipContainingFiles("exec-admin")));
+    }
+
+    /**
+     * Verifies that the "exec-admin" file is not written to the uninstall jar when the privileged execution condition
+     * is false.
+     *
+     * @throws IOException for any I/O error
+     */
+    @Test
+    @InstallFile("samples/basicInstall/basicInstall.xml")
+    public void testExecAdminNotWrittenForUnsatisfiedCondition() throws IOException
+    {
+        installData.getInfo().setRequirePrivilegedExecutionUninstaller(true);
+        installData.getInfo().setPrivilegedExecutionConditionID("falsecondition");
+        assertFalse(rulesEngine.isConditionTrue("falsecondition"));
+        assertTrue(uninstallDataWriter.write());
+
+        ZipFile uninstallJar = getUninstallerJar();
+
+        assertThat(uninstallJar, IsNot.not(ZipMatcher.isZipContainingFiles("exec-admin")));
     }
 
     private void addOSCondition(final String ruleId)
@@ -282,8 +337,7 @@ public class UninstallDataWriterTest
      * Returns the uninstaller jar file.
      *
      * @return the uninstaller jar file
-     * @throws IOException
-     * @throws
+     * @throws IOException for any I/O error
      */
     private ZipFile getUninstallerJar() throws IOException
     {

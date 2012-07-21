@@ -11,7 +11,7 @@
     </locale>
 
     <panels>
-        <panel classname="HelloPanel" id="HelloPanel">
+        <panel classname="HelloPanel" id="HelloPanel1">
             <validator classname="TestDataValidator"/>
             <actions>
                 <action stage="preconstruct" classname="PreConstructPanelAction"/>
@@ -26,14 +26,30 @@
             </actions>
         </panel>
 
-        <panel classname="SimpleFinishPanel"> <!-- MOTE: validator and actions associated with last panel are ignored -->
-            <!--validator classname="TestDataValidator"/>
+        <panel classname="HelloPanel" id="HelloPanel2">
+            <validator classname="TestDataValidator"/>
+            <actions>
+                <action stage="preconstruct" classname="TestPanelAction"/>
+                <action stage="preactivate" classname="TestPanelAction"/>
+                <action stage="prevalidate" classname="TestPanelAction">
+                    <param name="prop1" value="value1"/>
+                </action>
+                <action stage="postvalidate" classname="TestPanelAction">
+                    <param name="prop2" value="value2"/>
+                    <param name="prop3" value="value3"/>
+                </action>
+            </actions>
+        </panel>
+
+        <panel classname="SimpleFinishPanel" id="SimpleFinishPanel">
+            <!-- MOTE: the validator and prevalidate and postvalidate actions associated with last panel are ignored -->
+            <validator classname="TestDataValidator"/>
             <actions>
                 <action stage="preconstruct" classname="com.izforge.izpack.integration.panelaction.PreConstructPanelAction"/>
                 <action stage="preactivate" classname="com.izforge.izpack.integration.panelaction.PreActivatePanelAction"/>
                 <action stage="prevalidate" classname="com.izforge.izpack.integration.panelaction.PreValidatePanelAction"/>
                 <action stage="postvalidate" classname="com.izforge.izpack.integration.panelaction.PostValidatePanelAction"/>
-            </actions-->
+            </actions>
         </panel>
     </panels>
 

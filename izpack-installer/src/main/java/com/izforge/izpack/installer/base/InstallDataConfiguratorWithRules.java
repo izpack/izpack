@@ -80,41 +80,52 @@ public class InstallDataConfiguratorWithRules
         if (info.isPrivilegedExecutionRequired())
         {
             boolean shouldElevate = true;
-            final String conditionId = info.getPrivilegedExecutionConditionID();
+            String conditionId = info.getPrivilegedExecutionConditionID();
             if (conditionId != null)
             {
+                // only elevate permissions when condition is true
                 shouldElevate = rules.getCondition(conditionId).isTrue();
             }
-            PrivilegedRunner runner = new PrivilegedRunner(platform, !shouldElevate);
-            if (runner.isPlatformSupported() && runner.isElevationNeeded())
+            if (shouldElevate)
             {
-                try
-                {
-                    FileUtil.getLockFile(installData.getInfo().getAppName()).delete();
-                    if (runner.relaunchWithElevatedRights() == 0)
-                    {
-                        System.exit(0);
-                    }
-                    else
-                    {
-                        throw new IzPackException("Launching an installer with elevated permissions failed.");
-                    }
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null,
-                                                  "The installer could not launch itself with administrator permissions.\n" +
-                                                          "The installation will still continue but you may encounter problems due to insufficient permissions.");
-                }
-            }
-            else if (!runner.isPlatformSupported())
-            {
-                JOptionPane.showMessageDialog(null, "This installer should be run by an administrator.\n" +
-                        "The installation will still continue but you may encounter problems due to insufficient permissions.");
+                elevate();
             }
         }
+    }
 
+    /**
+     * Elevate permissions if required.
+     */
+    private void elevate()
+    {
+        PrivilegedRunner runner = new PrivilegedRunner(platform);
+        if (runner.isPlatformSupported() && runner.isElevationNeeded())
+        {
+            try
+            {
+                FileUtil.getLockFile(installData.getInfo().getAppName()).delete();
+                if (runner.relaunchWithElevatedRights() == 0)
+                {
+                    System.exit(0);
+                }
+                else
+                {
+                    throw new IzPackException("Launching an installer with elevated permissions failed.");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,
+                                              "The installer could not launch itself with administrator permissions.\n" +
+                                                      "The installation will still continue but you may encounter problems due to insufficient permissions.");
+            }
+        }
+        else if (!runner.isPlatformSupported())
+        {
+            JOptionPane.showMessageDialog(null, "This installer should be run by an administrator.\n" +
+                    "The installation will still continue but you may encounter problems due to insufficient permissions.");
+        }
     }
 
 

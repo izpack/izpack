@@ -55,7 +55,7 @@ public class Panel implements Serializable
     /**
      * the unique id of this panel
      */
-    protected String panelid;
+    private String panelId;
 
     /**
      * condition for this panel
@@ -72,24 +72,22 @@ public class Panel implements Serializable
     /**
      * list of all pre panel construction actions
      */
-    private List<String> preConstructionActions = null;
+    private List<PanelActionConfiguration> preConstructionActions = null;
 
     /**
      * list of all pre panel activation actions
      */
-    private List<String> preActivationActions = null;
+    private List<PanelActionConfiguration> preActivationActions = null;
 
     /**
      * list of all pre panel validation actions
      */
-    private List<String> preValidationActions = null;
+    private List<PanelActionConfiguration> preValidationActions = null;
 
     /**
      * list of all post panel validation actions
      */
-    private List<String> postValidationActions = null;
-
-    private Map<String, PanelActionConfiguration> actionConfiguration = null;
+    private List<PanelActionConfiguration> postValidationActions = null;
 
     /**
      * A HashMap for URLs to Helpfiles, key should be iso3-code
@@ -111,18 +109,30 @@ public class Panel implements Serializable
         this.className = className;
     }
 
-    public String getPanelid()
+    public String getPanelId()
     {
-        if (this.panelid == null)
+        if (panelId == null)
         {
-            this.panelid = "UNKNOWN (" + className + ")";
+            panelId = "UNKNOWN (" + className + ")";
         }
-        return this.panelid;
+        return panelId;
     }
 
-    public void setPanelid(String panelid)
+    public void setPanelId(String panelId)
     {
-        this.panelid = panelid;
+        this.panelId = panelId;
+    }
+
+    @Deprecated
+    public String getPanelid()
+    {
+        return getPanelId();
+    }
+
+    @Deprecated
+    public void setPanelid(String panelId)
+    {
+        setPanelId(panelId);
     }
 
     /**
@@ -166,79 +176,60 @@ public class Panel implements Serializable
         this.helps = helps;
     }
 
-    public List<String> getPreConstructionActions()
+    public List<PanelActionConfiguration> getPreConstructionActions()
     {
         return preConstructionActions;
     }
 
-    public void addPreConstructionActions(String preConstructionAction)
+    public void addPreConstructionAction(PanelActionConfiguration action)
     {
         if (this.preConstructionActions == null)
         {
-            this.preConstructionActions = new ArrayList<String>();
+            this.preConstructionActions = new ArrayList<PanelActionConfiguration>();
         }
-        this.preConstructionActions.add(preConstructionAction);
+        this.preConstructionActions.add(action);
     }
 
-    public List<String> getPreActivationActions()
+    public List<PanelActionConfiguration> getPreActivationActions()
     {
         return preActivationActions;
     }
 
-    public void addPreActivationAction(String preActivationAction)
+    public void addPreActivationAction(PanelActionConfiguration action)
     {
         if (this.preActivationActions == null)
         {
-            this.preActivationActions = new ArrayList<String>();
+            this.preActivationActions = new ArrayList<PanelActionConfiguration>();
         }
-        this.preActivationActions.add(preActivationAction);
+        this.preActivationActions.add(action);
     }
 
-    public List<String> getPreValidationActions()
+    public List<PanelActionConfiguration> getPreValidationActions()
     {
         return preValidationActions;
     }
 
-    public void addPreValidationAction(String preValidationAction)
+    public void addPreValidationAction(PanelActionConfiguration action)
     {
         if (this.preValidationActions == null)
         {
-            this.preValidationActions = new ArrayList<String>();
+            this.preValidationActions = new ArrayList<PanelActionConfiguration>();
         }
-        this.preValidationActions.add(preValidationAction);
+        this.preValidationActions.add(action);
     }
 
-    public List<String> getPostValidationActions()
+    public List<PanelActionConfiguration> getPostValidationActions()
     {
         return postValidationActions;
     }
 
-    public void addPostValidationAction(String postValidationAction)
+    public void addPostValidationAction(PanelActionConfiguration action)
     {
         if (this.postValidationActions == null)
         {
-            this.postValidationActions = new ArrayList<String>();
+            this.postValidationActions = new ArrayList<PanelActionConfiguration>();
         }
-        this.postValidationActions.add(postValidationAction);
-    }
-
-    public void putPanelActionConfiguration(String panelActionClassName, PanelActionConfiguration configuration)
-    {
-        if (this.actionConfiguration == null)
-        {
-            this.actionConfiguration = new HashMap<String, PanelActionConfiguration>();
-        }
-        this.actionConfiguration.put(panelActionClassName, configuration);
-    }
-
-    public PanelActionConfiguration getPanelActionConfiguration(String panelActionClassName)
-    {
-        PanelActionConfiguration result = null;
-        if (this.actionConfiguration != null)
-        {
-            result = this.actionConfiguration.get(panelActionClassName);
-        }
-        return result;
+        this.postValidationActions.add(action);
     }
 
     public boolean hasConfiguration()
@@ -307,7 +298,7 @@ public class Panel implements Serializable
         return "Panel{" +
                 "className='" + className + '\'' +
                 ", osConstraints=" + osConstraints +
-                ", panelid='" + panelid + '\'' +
+                ", panelid='" + panelId + '\'' +
                 ", condition='" + condition + '\'' +
                 ", actions=" + actions +
                 ", validator='" + validator + '\'' +

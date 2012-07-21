@@ -94,10 +94,10 @@ public class InstallationTest
         installerController.buildInstallation();
 
         HelloPanel firstHelloPanel = (HelloPanel) installerContainer.getComponent("42");
-        assertThat(firstHelloPanel.getMetadata().getPanelid(), Is.is("42"));
+        assertThat(firstHelloPanel.getMetadata().getPanelId(), Is.is("42"));
 
         HelloPanel secondHelloPanel = (HelloPanel) installerContainer.getComponent("34");
-        assertThat(secondHelloPanel.getMetadata().getPanelid(), Is.is("34"));
+        assertThat(secondHelloPanel.getMetadata().getPanelId(), Is.is("34"));
     }
 
     @Test

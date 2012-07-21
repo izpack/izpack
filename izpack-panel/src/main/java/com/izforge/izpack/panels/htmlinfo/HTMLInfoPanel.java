@@ -154,11 +154,11 @@ public class HTMLInfoPanel extends IzPanel
     private URL loadHTMLInfoContent()
     {
         Resources resources = getResources();
-        if (getMetadata() != null && getMetadata().getPanelid() != null)
+        if (getMetadata() != null && getMetadata().getPanelId() != null)
         {
             try
             {
-                String panelSpecificResName = panelResourcePrefixStr + '.' + this.getMetadata().getPanelid();
+                String panelSpecificResName = panelResourcePrefixStr + '.' + this.getMetadata().getPanelId();
                 String panelspecificResContent = resources.getString(panelSpecificResName, null);
                 if (panelspecificResContent != null)
                 {
