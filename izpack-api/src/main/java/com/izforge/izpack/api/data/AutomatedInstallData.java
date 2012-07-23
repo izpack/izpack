@@ -137,7 +137,7 @@ public class AutomatedInstallData implements InstallData
     /**
      * The default install path
      */
-    public final static String DEFAULT_INSTALL_PATH = "INSTALL_PATH";
+    public final static String DEFAULT_INSTALL_PATH = "DEFAULT_INSTALL_PATH";
     /**
      * The install drive (Windows only, otherwise not set)
      */
@@ -145,7 +145,7 @@ public class AutomatedInstallData implements InstallData
     /**
      * The default install drive (Windows only, otherwise not set)
      */
-    public final static String DEFAULT_INSTALL_DRIVE = "INSTALL_DRIVE";
+    public final static String DEFAULT_INSTALL_DRIVE = "DEFAULT_INSTALL_DRIVE";
 
     /**
      * The listeners.

@@ -85,6 +85,7 @@ public class IzpackInstallationTest
         File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
 
         installData.setInstallPath(installPath.getAbsolutePath());
+        installData.setDefaultInstallPath(installPath.getAbsolutePath());
         HelperTestMethod.clickDefaultLang(languageDialog);
 
         installerFrameFixture = HelperTestMethod.prepareFrameFixture(installerFrame, installerController);

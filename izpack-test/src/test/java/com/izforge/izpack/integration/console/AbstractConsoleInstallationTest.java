@@ -73,8 +73,6 @@ public class AbstractConsoleInstallationTest extends AbstractDestroyerTest
      */
     protected void checkInstall(TestConsoleInstaller installer, InstallData installData, boolean expectUninstaller)
     {
-        String installPath = installData.getInstallPath();
-
         installer.run(Installer.CONSOLE_INSTALL, null);
 
         // verify the installation thinks it was successful
@@ -83,6 +81,8 @@ public class AbstractConsoleInstallationTest extends AbstractDestroyerTest
         // make sure the script has completed
         TestConsole console = installer.getConsole();
         assertTrue("Script still running panel: " + console.getScriptName(), console.scriptCompleted());
+
+        String installPath = installData.getInstallPath();
 
         if (expectUninstaller)
         {

@@ -55,7 +55,6 @@ public class IzPanelsProvider extends PanelsProvider
         {
             IzPanelView panelView = new IzPanelView(panel, factory, installData);
             panels.add(panelView);
-            panelView.setIndex(panels.size() - 1);
         }
         return new IzPanels(panels, container, installData);
     }

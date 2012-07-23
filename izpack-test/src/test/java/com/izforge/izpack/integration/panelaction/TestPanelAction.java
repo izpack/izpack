@@ -45,7 +45,7 @@ import com.izforge.izpack.integration.datavalidator.TestDataValidator;
  *
  * @author Tim Anderson
  */
-public abstract class TestPanelAction extends TestDataValidator implements PanelAction
+public class TestPanelAction extends TestDataValidator implements PanelAction
 {
 
     /**
@@ -55,7 +55,7 @@ public abstract class TestPanelAction extends TestDataValidator implements Panel
 
 
     /**
-     * Constructs a <tt>TestPanelAction</tt>.
+     * Constructs a {@code TestPanelAction}.
      *
      * @param panel       the panel
      * @param stage       the action stage
@@ -229,7 +229,6 @@ public abstract class TestPanelAction extends TestDataValidator implements Panel
 
     /**
      * Returns the number of times the pre-construct action has been invoked.
-     * \
      *
      * @return the number of times the action has been invoked
      */
@@ -240,7 +239,6 @@ public abstract class TestPanelAction extends TestDataValidator implements Panel
 
     /**
      * Returns the number of times the pre-activation action has been invoked.
-     * \
      *
      * @return the number of times the action has been invoked
      */
@@ -261,7 +259,6 @@ public abstract class TestPanelAction extends TestDataValidator implements Panel
 
     /**
      * Returns the number of times the post-validation action has been invoked.
-     * \
      *
      * @return the number of times the action has been invoked
      */

@@ -19,6 +19,7 @@ import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.container.provider.GUIInstallDataProvider;
 import com.izforge.izpack.installer.container.provider.IconsProvider;
 import com.izforge.izpack.installer.container.provider.IzPanelsProvider;
+import com.izforge.izpack.installer.gui.DefaultNavigator;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.language.LanguageDialog;
@@ -72,6 +73,7 @@ public class GUIInstallerContainer extends InstallerContainer
         pico
                 .addComponent(GUIPrompt.class)
                 .addComponent(InstallerController.class)
+                .addComponent(DefaultNavigator.class)
                 .addComponent(InstallerFrame.class)
                 .addComponent(Log.class)
                 .addComponent(GUIPackResources.class)

@@ -214,14 +214,16 @@ public class DefaultLocales implements Locales
     @SuppressWarnings("unchecked")
     public List<String> getSupportedLocales()
     {
+        List<String> locales = null;
         try
         {
-            return (List<String>) resources.getObject("langpacks.info");
+            locales = (List<String>) resources.getObject("langpacks.info");
         }
-        catch (ResourceNotFoundException exception)
+        catch (ResourceNotFoundException ignore)
         {
-            return Collections.emptyList();
+            // do nothing
         }
+        return (locales != null) ? locales : Collections.<String>emptyList();
     }
 
     /**

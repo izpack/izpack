@@ -124,8 +124,10 @@ public class UninstallerFrame extends JFrame
      * @param destroyer   the destroyer
      * @param housekeeper the housekeeper
      * @param messages    the locale-specific messages
+     * @param listener    the listener
      */
-    public UninstallerFrame(Destroyer destroyer, InstallLog log, Housekeeper housekeeper, Messages messages)
+    public UninstallerFrame(Destroyer destroyer, InstallLog log, Housekeeper housekeeper, Messages messages,
+                            GUIDestroyerListener listener)
             throws Exception
     {
         super("IzPack - Uninstaller");
@@ -133,6 +135,7 @@ public class UninstallerFrame extends JFrame
         this.log = log;
         this.housekeeper = housekeeper;
         this.messages = messages;
+        listener.setUninstallerFrame(this);
 
         // Initializations
         icons = new IconsDatabase();

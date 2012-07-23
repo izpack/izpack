@@ -10,11 +10,11 @@ import java.awt.event.WindowEvent;
  */
 class WindowHandler extends WindowAdapter
 {
-    private InstallerFrame installerFrame;
+    private final Navigator navigator;
 
-    public WindowHandler(InstallerFrame installerFrame)
+    public WindowHandler(Navigator navigator)
     {
-        this.installerFrame = installerFrame;
+        this.navigator = navigator;
     }
 
     /**
@@ -25,6 +25,6 @@ class WindowHandler extends WindowAdapter
     public void windowClosing(WindowEvent e)
     {
         // We ask for confirmation
-        installerFrame.exit();
+        navigator.quit();
     }
 }

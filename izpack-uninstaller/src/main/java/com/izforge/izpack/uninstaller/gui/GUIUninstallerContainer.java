@@ -25,6 +25,7 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoException;
 
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.uninstaller.container.UninstallerContainer;
 
 /**
@@ -57,5 +58,6 @@ public class GUIUninstallerContainer extends UninstallerContainer
         super.fillContainer(container);
         addComponent(UninstallerFrame.class);
         addComponent(GUIDestroyerListener.class);
+        addComponent(GUIPrompt.class);
     }
 }

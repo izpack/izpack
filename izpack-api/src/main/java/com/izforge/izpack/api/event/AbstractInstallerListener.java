@@ -4,8 +4,6 @@
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
- * Copyright 2012 Tim Anderson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,22 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.izforge.izpack.event;
+package com.izforge.izpack.api.event;
 
 import java.io.File;
 import java.util.List;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
-import com.izforge.izpack.api.event.InstallerListener;
-import com.izforge.izpack.api.event.ProgressListener;
-import com.izforge.izpack.api.event.ProgressNotifiers;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
-
 
 /**
  * Abstract implementation of {@link InstallerListener}.
@@ -45,41 +37,6 @@ import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
  */
 public abstract class AbstractInstallerListener implements InstallerListener
 {
-
-    /**
-     * The installation data.
-     */
-    private final InstallData installData;
-
-    /**
-     * The notifiers. May be {@code null}.
-     */
-    private final ProgressNotifiers notifiers;
-
-
-    /**
-     * Constructs an {@code AbstractInstallerListener}.
-     *
-     * @param installData the installation data
-     */
-    public AbstractInstallerListener(InstallData installData)
-    {
-        this(installData, null);
-    }
-
-
-    /**
-     * Constructs an {@code AbstractInstallerListener}.
-     *
-     * @param installData the installation data
-     * @param notifiers   the progress notifiers. May be {@code null}
-     */
-    public AbstractInstallerListener(InstallData installData, ProgressNotifiers notifiers)
-    {
-        this.installData = installData;
-        this.notifiers = notifiers;
-    }
-
     /**
      * Initialises the listener.
      *
@@ -310,67 +267,4 @@ public abstract class AbstractInstallerListener implements InstallerListener
     public void afterPacks(AutomatedInstallData data, AbstractUIProgressHandler handler) throws Exception
     {
     }
-
-    /**
-     * Determines if listeners should notify a {@link ProgressListener}.
-     *
-     * @return {@code true} if the {@link ProgressListener} should be notified
-     */
-    protected boolean notifyProgress()
-    {
-        return (notifiers != null && notifiers.notifyProgress());
-    }
-
-    /**
-     * Returns the progress notifier id of this listener.
-     *
-     * @return the progress notifier id of this listener, or {@code 0} if this is not registered
-     */
-    protected int getProgressNotifierId()
-    {
-        return notifiers != null ? notifiers.indexOf(this) + 1 : 0;
-    }
-
-    /**
-     * Register this listener as a progress notifier.
-     */
-    protected void setProgressNotifier()
-    {
-        if (notifiers != null)
-        {
-            notifiers.addNotifier(this);
-        }
-    }
-
-    /**
-     * Returns the progress notifiers.
-     *
-     * @return the progress notifiers, or {@code null} if none was supplied at construction
-     */
-    protected ProgressNotifiers getProgressNotifiers()
-    {
-        return notifiers;
-    }
-
-    /**
-     * Returns the installation data.
-     *
-     * @return the installation data
-     */
-    protected InstallData getInstallData()
-    {
-        return installData;
-    }
-
-    /**
-     * Helper to return a localised message, given its identifier.
-     *
-     * @param id the message identifier
-     * @return the corresponding message, or {@code id} if it doesn't exist
-     */
-    protected String getMessage(String id)
-    {
-        return installData.getMessages().get(id);
-    }
-
 }

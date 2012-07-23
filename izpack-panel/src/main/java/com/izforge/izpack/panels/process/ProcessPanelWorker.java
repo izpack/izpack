@@ -23,7 +23,6 @@ import javax.swing.SwingUtilities;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
-import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.data.binding.OsModel;
@@ -86,7 +85,7 @@ public class ProcessPanelWorker implements Runnable
      * @param resources           the resources
      * @throws IOException for any I/O error
      */
-    public ProcessPanelWorker(AutomatedInstallData installData, VariableSubstitutor variableSubstitutor,
+    public ProcessPanelWorker(InstallData installData, VariableSubstitutor variableSubstitutor,
                               RulesEngine rules, Resources resources)
             throws IOException
     {
@@ -297,7 +296,6 @@ public class ProcessPanelWorker implements Runnable
         if (logfiledir != null)
         {
             logfiledir = IoHelper.translatePath(logfiledir, idata.getVariables());
-
             String appVersion = idata.getVariable("APP_VER");
 
             if (appVersion != null)
@@ -325,7 +323,6 @@ public class ProcessPanelWorker implements Runnable
                 // TODO throw or throw not, that's the question...
             }
         }
-
         this.handler.startProcessing(this.jobs.size());
 
         for (ProcessPanelWorker.ProcessingJob processingJob : this.jobs)

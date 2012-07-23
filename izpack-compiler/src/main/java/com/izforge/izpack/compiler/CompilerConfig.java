@@ -1496,7 +1496,7 @@ public class CompilerConfig extends Thread
 
             // add an id
             String id = panelElement.getAttribute("id");
-            panel.setPanelid(id);
+            panel.setPanelId(id);
             String condition = panelElement.getAttribute("condition");
             panel.setCondition(condition);
 
@@ -1507,7 +1507,7 @@ public class CompilerConfig extends Thread
             IXMLElement configurationElement = panelElement.getFirstChildNamed("configuration");
             if (configurationElement != null)
             {
-                logger.fine("Found a configuration for panel " + panel.getPanelid());
+                logger.fine("Found a configuration for panel " + panel.getPanelId());
                 List<IXMLElement> params = configurationElement.getChildrenNamed("param");
                 for (IXMLElement param : params)
                 {
@@ -2932,7 +2932,7 @@ public class CompilerConfig extends Thread
                     actionName = compiler.findClass(actionName, null);
 
                     List<IXMLElement> params = action.getChildrenNamed("param");
-                    PanelActionConfiguration config = new PanelActionConfiguration();
+                    PanelActionConfiguration config = new PanelActionConfiguration(actionName);
 
                     for (IXMLElement param : params)
                     {
@@ -2942,23 +2942,22 @@ public class CompilerConfig extends Thread
                                             + value + " for action " + actionName);
                         config.addProperty(name, value);
                     }
-                    panel.putPanelActionConfiguration(actionName, config);
                     try
                     {
                         PanelAction.ActionStage actionStage = PanelAction.ActionStage.valueOf(stage);
                         switch (actionStage)
                         {
                             case preconstruct:
-                                panel.addPreConstructionActions(actionName);
+                                panel.addPreConstructionAction(config);
                                 break;
                             case preactivate:
-                                panel.addPreActivationAction(actionName);
+                                panel.addPreActivationAction(config);
                                 break;
                             case prevalidate:
-                                panel.addPreValidationAction(actionName);
+                                panel.addPreValidationAction(config);
                                 break;
                             case postvalidate:
-                                panel.addPostValidationAction(actionName);
+                                panel.addPostValidationAction(config);
                                 break;
                         }
                     }

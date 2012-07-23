@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.List;
 
+import com.izforge.izpack.api.event.AbstractUninstallerListener;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;

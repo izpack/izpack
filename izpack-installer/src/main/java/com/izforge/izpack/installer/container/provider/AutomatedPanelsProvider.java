@@ -60,7 +60,6 @@ public class AutomatedPanelsProvider extends PanelsProvider
         {
             AutomatedPanelView panelView = new AutomatedPanelView(panel, factory, installData, helper);
             panels.add(panelView);
-            panelView.setIndex(panels.size() - 1);
         }
         return new AutomatedPanels(panels, installData);
     }

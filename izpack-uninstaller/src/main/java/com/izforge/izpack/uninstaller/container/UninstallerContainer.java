@@ -39,7 +39,6 @@ import com.izforge.izpack.core.resource.DefaultLocales;
 import com.izforge.izpack.core.resource.DefaultResources;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.uninstaller.Destroyer;
-import com.izforge.izpack.uninstaller.gui.UninstallerFrame;
 import com.izforge.izpack.uninstaller.resource.Executables;
 import com.izforge.izpack.uninstaller.resource.InstallLog;
 import com.izforge.izpack.uninstaller.resource.RootScripts;
@@ -76,7 +75,6 @@ public abstract class UninstallerContainer extends AbstractContainer
         addComponent(DefaultObjectFactory.class);
         addComponent(DefaultTargetPlatformFactory.class);
         addComponent(RegistryDefaultHandler.class);
-        addComponent(UninstallerFrame.class);
         addComponent(Container.class, this);
         addComponent(Properties.class);
         addComponent(ResourceManager.class);

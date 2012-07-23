@@ -99,39 +99,9 @@ public class IzPanels extends AbstractPanels<IzPanelView, IzPanel>
     }
 
     /**
-     * Determines if the next panel may be navigated to.
-     *
-     * @param enable if {@code true}, enable navigation, otherwise disable it
-     */
-    @Override
-    public void setNextEnabled(boolean enable)
-    {
-        super.setNextEnabled(enable);
-        if (listener != null)
-        {
-            listener.setNextEnabled(enable);
-        }
-    }
-
-    /**
-     * Determines if the previous panel may be navigated to.
-     *
-     * @param enable if {@code true}, enable navigation, otherwise disable it
-     */
-    @Override
-    public void setPreviousEnabled(boolean enable)
-    {
-        super.setPreviousEnabled(enable);
-        if (listener != null)
-        {
-            listener.setPreviousEnabled(enable);
-        }
-    }
-
-    /**
      * Determines if the current panel switch is navigating backwards or forwards.
      *
-     * @return {@code true} if the current panel switch is navigating backwards, {@code false} if navigating forwads
+     * @return {@code true} if the current panel switch is navigating backwards, {@code false} if navigating forwards
      *         or no panel switch is in progress
      */
     public boolean isBack()

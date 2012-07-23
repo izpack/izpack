@@ -1325,7 +1325,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         Panel p = this.getMetadata();
         if (p != null)
         {
-            panelid = p.getPanelid();
+            panelid = p.getPanelId();
         }
         try
         {

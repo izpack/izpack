@@ -223,17 +223,27 @@ public class UninstallDataWriter
 
         if (installData.getInfo().isPrivilegedExecutionRequiredUninstaller())
         {
-            // Add resources required to elevate privileges
-            jar.putNextEntry(new JarEntry("exec-admin"));
-            jar.closeEntry();
-
-            if (rules.isConditionTrue("izpack.windowsinstall"))
+            boolean shouldElevate = true;
+            String conditionId = installData.getInfo().getPrivilegedExecutionConditionID();
+            if (conditionId != null)
             {
-                writeResource("com/izforge/izpack/util/windows/elevate.js");
+                // only elevate permissions when condition is true
+                shouldElevate = rules.isConditionTrue(conditionId);
             }
-            if (rules.isConditionTrue("izpack.macinstall"))
+            if (shouldElevate)
             {
-                writeResource("com/izforge/izpack/util/mac/run-with-privileges-on-osx");
+                // Add resources required to elevate privileges
+                jar.putNextEntry(new JarEntry("exec-admin"));
+                jar.closeEntry();
+
+                if (rules.isConditionTrue("izpack.windowsinstall"))
+                {
+                    writeResource("com/izforge/izpack/util/windows/elevate.js");
+                }
+                if (rules.isConditionTrue("izpack.macinstall"))
+                {
+                    writeResource("com/izforge/izpack/util/mac/run-with-privileges-on-osx");
+                }
             }
         }
 

@@ -147,7 +147,15 @@ public class XmlCompilerHelper
         if (element != null)
         {
             String value = element.getAttribute(attribute);
-            if (value != null)
+
+            if (value == null)
+            {
+                if (defaultValue == null)
+                {
+                    assertionHelper.parseError(element, "<" + element.getName() + "> undefined value of attribute '" + attribute + "' which is not associated with a default value");
+                }
+            }
+            else
             {
                 if ("yes".equalsIgnoreCase(value.trim()) || "true".equalsIgnoreCase(value.trim()))
                 {
@@ -155,19 +163,23 @@ public class XmlCompilerHelper
                 }
                 else
                 {
-                    if ("no".equalsIgnoreCase(value.trim()) || "false".equalsIgnoreCase(value.trim())) { return false; }
+                    if ("no".equalsIgnoreCase(value.trim()) || "false".equalsIgnoreCase(value.trim()))
+                    {
+                        return false;
+                    }
                 }
-            }
 
-            final String msg = "<" + element.getName() + "> invalid value for attribute '" + attribute
-                    + "': Expected (yes|no|true|false)";
-            if (defaultValue != null)
-            {
-                assertionHelper.parseWarn(element, msg);
-            }
-            else
-            {
-                assertionHelper.parseError(element, msg);
+                final String msg = "<" + element.getName() + "> invalid value \"" + value + "\" for attribute '" + attribute
+                        + "': Expected (yes|no|true|false)";
+
+                if (defaultValue == null)
+                {
+                    assertionHelper.parseError(element, msg + " and no default value specified");
+                }
+                else
+                {
+                    assertionHelper.parseWarn(element, msg);
+                }
             }
         }
 

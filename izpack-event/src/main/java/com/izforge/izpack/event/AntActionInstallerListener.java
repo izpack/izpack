@@ -59,7 +59,7 @@ import com.izforge.izpack.util.helper.SpecHelper;
  * @author Thomas Guenter
  * @author Klaus Bartz
  */
-public class AntActionInstallerListener extends AbstractInstallerListener
+public class AntActionInstallerListener extends AbstractProgressInstallerListener
 {
     /**
      * Name of the specification file.
@@ -117,24 +117,6 @@ public class AntActionInstallerListener extends AbstractInstallerListener
     }
 
     /**
-     * Initialises the listener.
-     *
-     * @throws IzPackException if the actions specification cannot be read
-     */
-    @Override
-    public void initialise()
-    {
-        try
-        {
-            spec.readSpec(SPEC_FILE_NAME, replacer);
-        }
-        catch (Exception exception)
-        {
-            throw new IzPackException("Failed to read: " + SPEC_FILE_NAME, exception);
-        }
-    }
-
-    /**
      * Invoked before packs are installed.
      *
      * @param packs the packs to be installed
@@ -143,6 +125,17 @@ public class AntActionInstallerListener extends AbstractInstallerListener
     @Override
     public void beforePacks(List<Pack> packs)
     {
+        try
+        {
+            // Read it here and not in initialize, for getting the
+            // current variable values substituted
+            spec.readSpec(SPEC_FILE_NAME, replacer);
+        }
+        catch (Exception exception)
+        {
+            throw new IzPackException("Failed to read: " + SPEC_FILE_NAME, exception);
+        }
+
         if (spec.getSpec() == null)
         {
             return;

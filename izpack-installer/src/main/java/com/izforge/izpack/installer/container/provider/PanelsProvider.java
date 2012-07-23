@@ -62,7 +62,7 @@ public abstract class PanelsProvider implements Provider
         {
             if (OsConstraintHelper.oneMatchesCurrentSystem(panel.getOsConstraints()))
             {
-                String panelId = panel.getPanelid();
+                String panelId = panel.getPanelId();
                 String key = (panelId != null) ? panelId : panel.getClassName();
                 if (!ids.add(key))
                 {
@@ -86,7 +86,7 @@ public abstract class PanelsProvider implements Provider
     protected void addPanelXml(Panel panel, InstallData installData)
     {
         IXMLElement panelRoot = new XMLElementImpl(panel.getClassName(), installData.getXmlData());
-        String panelId = panel.getPanelid();
+        String panelId = panel.getPanelId();
         if (panelId != null)
         {
             panelRoot.setAttribute("id", panelId);

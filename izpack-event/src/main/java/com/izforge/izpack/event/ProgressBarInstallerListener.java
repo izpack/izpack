@@ -35,7 +35,7 @@ import com.izforge.izpack.api.event.ProgressNotifiers;
  *
  * @author Klaus Bartz
  */
-public class ProgressBarInstallerListener extends AbstractInstallerListener
+public class ProgressBarInstallerListener extends AbstractProgressInstallerListener
 {
     /**
      * The logger.
