@@ -67,7 +67,7 @@ import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.IoHelper;
-import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.file.DirectoryScanner;
 import com.izforge.izpack.util.file.FileUtils;
 import com.izforge.izpack.util.file.GlobPatternMapper;
@@ -145,6 +145,11 @@ public abstract class UnpackerBase implements IUnpacker
     private final Prompt prompt;
 
     /**
+     * The platform-model matcher.
+     */
+    private final PlatformModelMatcher matcher;
+
+    /**
      * The result of the operation.
      */
     private boolean result = true;
@@ -189,10 +194,12 @@ public abstract class UnpackerBase implements IUnpacker
      * @param housekeeper         the housekeeper
      * @param listeners           the listeners
      * @param prompt              the prompt
+     * @param matcher             the platform-model matcher
      */
     public UnpackerBase(InstallData installData, PackResources resources, RulesEngine rules,
                         VariableSubstitutor variableSubstitutor, UninstallData uninstallData, FileQueueFactory factory,
-                        Housekeeper housekeeper, InstallerListeners listeners, Prompt prompt)
+                        Housekeeper housekeeper, InstallerListeners listeners, Prompt prompt,
+                        PlatformModelMatcher matcher)
     {
         this.installData = installData;
         this.resources = resources;
@@ -203,6 +210,7 @@ public abstract class UnpackerBase implements IUnpacker
         this.housekeeper = housekeeper;
         this.listeners = listeners;
         this.prompt = prompt;
+        this.matcher = matcher;
         cancellable = new Cancellable()
         {
             @Override
@@ -426,16 +434,15 @@ public abstract class UnpackerBase implements IUnpacker
             {
                 // read the header
                 PackFile file = (PackFile) packInputStream.readObject();
-                if ((file.hasCondition() && !isConditionTrue(file.getCondition()))
-                        || !OsConstraintHelper.oneMatchesCurrentSystem(file.osConstraints()))
-                {
-                    // condition is not fulfilled, so skip it
-                    skip(file, pack, packInputStream);
-                }
-                else
+                if (shouldUnpack(file))
                 {
                     // unpack the file
                     unpack(file, packInputStream, i, pack, queue);
+                }
+                else
+                {
+                    // condition is not fulfilled, so skip it
+                    skip(file, pack, packInputStream);
                 }
             }
             readParsableFiles(packInputStream, parsables);
@@ -458,6 +465,26 @@ public abstract class UnpackerBase implements IUnpacker
     }
 
     /**
+     * Determines if a file should be unpacked.
+     *
+     * @param file the file to check
+     * @return {@code true} if the file should be unpacked; {@code false} if it should be skipped
+     */
+    private boolean shouldUnpack(PackFile file)
+    {
+        boolean result = true;
+        if (file.hasCondition())
+        {
+            result = isConditionTrue(file.getCondition());
+        }
+        if (result && file.osConstraints() != null && !file.osConstraints().isEmpty())
+        {
+            result = matcher.matchesCurrentPlatform(file.osConstraints());
+        }
+        return result;
+    }
+
+    /**
      * Unpacks a pack file.
      *
      * @param file            the pack file
@@ -471,6 +498,11 @@ public abstract class UnpackerBase implements IUnpacker
     protected void unpack(PackFile file, ObjectInputStream packInputStream, int fileNo, Pack pack, FileQueue queue)
             throws IOException
     {
+        if (logger.isLoggable(Level.FINE))
+        {
+            logger.fine("Unpack " + file.getTargetPath());
+        }
+
         // translate & build the path
         Variables variables = getInstallData().getVariables();
         String path = IoHelper.translatePath(file.getTargetPath(), variables);
@@ -577,6 +609,11 @@ public abstract class UnpackerBase implements IUnpacker
      */
     protected void skip(PackFile file, Pack pack, ObjectInputStream packInputStream) throws IOException
     {
+        if (logger.isLoggable(Level.FINE))
+        {
+            logger.fine("Skip " + file.getTargetPath());
+        }
+
         if (!pack.isLoose() && !file.isBackReference())
         {
             skip(packInputStream, file.length());
@@ -789,7 +826,7 @@ public abstract class UnpackerBase implements IUnpacker
      *
      * @param dir  the directory to create
      * @param file the pack file
-     * @param pack     the pack that {@code file} comes from
+     * @param pack the pack that {@code file} comes from
      * @throws IzPackException if the directory cannot be created or a listener throws an exception
      */
     protected void createDirectory(File dir, PackFile file, Pack pack)
@@ -832,7 +869,7 @@ public abstract class UnpackerBase implements IUnpacker
     {
         if (!files.isEmpty())
         {
-            ScriptParser parser = new ScriptParser(getVariableSubstitutor());
+            ScriptParser parser = new ScriptParser(getVariableSubstitutor(), matcher);
             for (ParsableFile file : files)
             {
                 try
@@ -860,7 +897,7 @@ public abstract class UnpackerBase implements IUnpacker
         {
             FileExecutor executor = new FileExecutor(executables);
             PromptUIHandler handler = new ProgressHandler(listener, prompt);
-            if (executor.executeFiles(ExecutableFile.POSTINSTALL, handler) != 0)
+            if (executor.executeFiles(ExecutableFile.POSTINSTALL, matcher, handler) != 0)
             {
                 throw new InstallerException("File execution failed");
             }

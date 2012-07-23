@@ -215,9 +215,9 @@ public class DefaultVariablesTest
         conditions.put("cond2", new VariableCondition("os", "unix"));    // true when os = unix
 
         // set up the rules
-        AutomatedInstallData installData = new AutomatedInstallData(variables);
+        AutomatedInstallData installData = new AutomatedInstallData(variables, Platforms.FREEBSD);
         RulesEngineImpl rules = new RulesEngineImpl(installData, new ConditionContainer(new DefaultContainer()),
-                                                    Platforms.FREEBSD);
+                                                    installData.getPlatform());
         rules.readConditionMap(conditions);
         ((DefaultVariables) variables).setRules(rules);
 

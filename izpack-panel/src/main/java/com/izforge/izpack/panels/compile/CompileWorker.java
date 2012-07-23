@@ -52,6 +52,7 @@ import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * This class does alle the work for compiling sources.
@@ -108,21 +109,28 @@ public class CompileWorker implements Runnable
     private final Resources resources;
 
     /**
+     * The platform-model matcher.
+     */
+    private final PlatformModelMatcher matcher;
+
+    /**
      * The constructor.
      *
      * @param installData         the installation data
      * @param handler             the handler to notify of progress
      * @param variableSubstitutor the variable substituter
      * @param resources           the resources
+     * @param matcher             The platform-model matcher
      * @throws IOException for any I/O error
      */
     public CompileWorker(InstallData installData, CompileHandler handler, VariableSubstitutor variableSubstitutor,
-                         Resources resources) throws IOException
+                         Resources resources, PlatformModelMatcher matcher) throws IOException
     {
         this.idata = installData;
         this.handler = handler;
         this.vs = variableSubstitutor;
         this.resources = resources;
+        this.matcher = matcher;
         if (!readSpec())
         {
             throw new IOException("Error reading compilation specification");
@@ -340,7 +348,7 @@ public class CompileWorker implements Runnable
             {
                 List<OsModel> osconstraints = OsConstraintHelper.getOsList(choice);
 
-                if (OsConstraintHelper.oneMatchesCurrentSystem(osconstraints))
+                if (matcher.matchesCurrentPlatform(osconstraints))
                 {
                     if (value.equalsIgnoreCase(ECLIPSE_COMPILER_NAME))
                     {

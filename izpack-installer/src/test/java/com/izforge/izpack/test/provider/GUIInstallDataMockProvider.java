@@ -13,6 +13,7 @@ import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.installer.data.GUIInstallData;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Mock provider for guiInstallData
@@ -22,7 +23,7 @@ public class GUIInstallDataMockProvider implements Provider
 
     public GUIInstallData provide(Variables variables) throws Exception
     {
-        final GUIInstallData guiInstallData = new GUIInstallData(variables);
+        final GUIInstallData guiInstallData = new GUIInstallData(variables, Platforms.MAC_OSX);
         GUIPrefs guiPrefs = new GUIPrefs();
         guiPrefs.height = 600;
         guiPrefs.width = 480;

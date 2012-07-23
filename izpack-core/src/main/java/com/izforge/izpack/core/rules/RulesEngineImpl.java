@@ -105,17 +105,21 @@ public class RulesEngineImpl implements RulesEngine
         TYPE_CLASS_NAMES.put("variable", VariableCondition.class.getName());
     }
 
-
     public RulesEngineImpl(ConditionContainer container, Platform platform)
     {
-        this(null, container, platform);
+        this.installData = null;
+        this.container = container;
+        initStandardConditions(platform);
     }
 
     public RulesEngineImpl(InstallData installData, ConditionContainer container, Platform platform)
     {
         this.installData = installData;
         this.container = container;
-        initStandardConditions(platform);
+        if (installData != null)
+        {
+            initStandardConditions(platform);
+        }
     }
 
     @Override

@@ -27,6 +27,7 @@ import java.util.Locale;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
+import com.izforge.izpack.util.Platform;
 
 
 /**
@@ -172,6 +173,13 @@ public interface InstallData
      * @return the installation information
      */
     Info getInfo();
+
+    /**
+     * Returns the current platform.
+     *
+     * @return the current platform
+     */
+    Platform getPlatform();
 
     /**
      * Returns all packs.

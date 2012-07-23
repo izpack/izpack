@@ -25,6 +25,7 @@ import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * Provide installData for GUI :
@@ -74,12 +75,12 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
 
 
     public GUIInstallData provide(Resources resources, Locales locales, DefaultVariables variables,
-                                  Housekeeper housekeeper)
+                                  Housekeeper housekeeper, PlatformModelMatcher matcher)
             throws Exception
     {
-        final GUIInstallData guiInstallData = new GUIInstallData(variables);
+        final GUIInstallData guiInstallData = new GUIInstallData(variables, matcher.getCurrentPlatform());
         // Loads the installation data
-        loadInstallData(guiInstallData, resources, housekeeper);
+        loadInstallData(guiInstallData, resources, matcher, housekeeper);
         loadGUIInstallData(guiInstallData, resources);
         loadInstallerRequirements(guiInstallData, resources);
         loadDynamicVariables(variables, guiInstallData, resources);

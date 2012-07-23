@@ -34,8 +34,8 @@ import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.IoHelper;
-import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.TemporaryDirectory;
 
 /**
@@ -63,13 +63,15 @@ public abstract class AbstractInstallDataProvider implements Provider
      *
      * @param installData the installation data to populate
      * @param resources   the resources
+     * @param matcher     the platform-model matcher
      * @param housekeeper the housekeeper for cleaning up temporary files
      * @throws IOException            for any I/O error
      * @throws ClassNotFoundException if a serialized object's class cannot be found
      * @throws ResourceException      for any resource error
      */
     @SuppressWarnings("unchecked")
-    protected void loadInstallData(AutomatedInstallData installData, Resources resources, Housekeeper housekeeper)
+    protected void loadInstallData(AutomatedInstallData installData, Resources resources,
+                                   PlatformModelMatcher matcher, Housekeeper housekeeper)
             throws IOException, ClassNotFoundException
     {
         // We load the Info data
@@ -119,7 +121,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         {
             Pack pack = (Pack) objIn.readObject();
             allPacks.add(pack);
-            if (OsConstraintHelper.oneMatchesCurrentSystem(pack.getOsConstraints()))
+            if (matcher.matchesCurrentPlatform(pack.getOsConstraints()))
             {
                 availablePacks.add(pack);
             }

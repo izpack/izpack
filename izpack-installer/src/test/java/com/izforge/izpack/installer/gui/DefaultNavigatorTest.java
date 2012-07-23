@@ -90,7 +90,7 @@ public class DefaultNavigatorTest
     public DefaultNavigatorTest()
     {
         frame = Mockito.mock(InstallerFrame.class);
-        installData = new GUIInstallData(new DefaultVariables());
+        installData = new GUIInstallData(new DefaultVariables(), Platforms.WINDOWS);
         RulesEngine rules = new RulesEngineImpl(Mockito.mock(ConditionContainer.class), Platforms.WINDOWS);
         installData.setRules(rules);
         final Resources resources = Mockito.mock(Resources.class);
@@ -295,7 +295,7 @@ public class DefaultNavigatorTest
         {
             Panel panel = new Panel();
             panel.setClassName(TestIzPanel.class.getName());
-            panel.setPanelid(TestIzPanel.class.getSimpleName() + ++id);
+            panel.setPanelId(TestIzPanel.class.getSimpleName() + ++id);
 
             IzPanelView panelView = new IzPanelView(panel, factory, installData);
             views.add(panelView);

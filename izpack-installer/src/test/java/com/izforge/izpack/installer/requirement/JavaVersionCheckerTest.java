@@ -30,6 +30,7 @@ import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.test.util.TestConsole;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Tests the {@link JavaVersionChecker} class.
@@ -48,7 +49,7 @@ public class JavaVersionCheckerTest
      */
     public JavaVersionCheckerTest()
     {
-        installData = new InstallData(null);
+        installData = new InstallData(null, Platforms.LINUX);
         Info info = new Info();
         installData.setInfo(info);
     }

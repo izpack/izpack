@@ -26,23 +26,27 @@ public class OsModel implements Serializable
     /**
      * OS architecture from java system properties
      */
-    public String arch;
+    private final String arch;
+
     /**
      * The OS family
      */
-    public String family;
+    private final String family;
+
     /**
      * JRE version used for installation
      */
-    public String jre;
+    private final String jre;
+
     /**
      * OS name from java system properties
      */
-    public String name;
+    private final String name;
+
     /**
      * OS version from java system properties
      */
-    public String version;
+    private final String version;
 
     public OsModel(String arch, String family, String jre, String name, String version)
     {

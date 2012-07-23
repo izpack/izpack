@@ -20,12 +20,13 @@ package com.izforge.izpack.util;
 import static com.izforge.izpack.util.Platform.Arch;
 import static com.izforge.izpack.util.Platform.Name;
 import static org.junit.Assert.assertEquals;
-import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+
+import org.junit.Test;
 
 
 /**
@@ -46,12 +47,13 @@ public class PlatformsTest extends AbstractPlatformTest
         Platform platform = platforms.getCurrentPlatform();
 
         String osName = System.getProperty(OsVersionConstants.OSNAME);
-        Name name = platforms.getCurrentName(osName);
+        Name name = platforms.getCurrentOSName();
         Arch arch = platforms.getArch(System.getProperty(OsVersionConstants.OSARCH));
         String version = System.getProperty(OsVersionConstants.OSVERSION);
+        String javaVersion = System.getProperty("java.version");
 
         Platform match = platforms.findMatch(osName, name, arch, version);
-        Platform expected = platforms.getPlatform(match, arch, version);
+        Platform expected = platforms.getPlatform(match, arch, version, javaVersion);
 
         checkPlatform(expected, platform);
     }

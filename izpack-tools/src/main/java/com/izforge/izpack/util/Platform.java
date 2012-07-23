@@ -51,6 +51,11 @@ public class Platform
         UNKNOWN;
 
         /**
+         * The parent platform families. May be empty
+         */
+        private final Name[] parents;
+
+        /**
          * Constructs a <tt>Name</tt> with no parent family.
          */
         Name()
@@ -79,9 +84,42 @@ public class Platform
         }
 
         /**
-         * The parent platform families. May be empty
+         * Determines if this is an instance of the specified name.
+         *
+         * @param name the name to check
+         * @return {@code true} if this is an instance of {@code name}
          */
-        private final Name[] parents;
+        public boolean isA(Name name)
+        {
+            return isA(this, name);
+        }
+
+        /**
+         * Determines if the current name is an instance of the specified platform family name.
+         *
+         * @param current the current name
+         * @param name    the platform family name
+         * @return {@code true} if current is an instance of {@code name}
+         */
+        private boolean isA(Name current, Name name)
+        {
+            if (name == current)
+            {
+                return true;
+            }
+            else
+            {
+                for (Name parent : current.getParents())
+                {
+                    if (isA(parent, name))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
     }
 
     /**
@@ -98,7 +136,7 @@ public class Platform
     private final Name name;
 
     /**
-     * The symbolic name. May be <tt>null</tt>
+     * The symbolic name. May be {@code null}
      */
     private final String symbolicName;
 
@@ -111,6 +149,11 @@ public class Platform
      * The OS version.
      */
     private final String version;
+
+    /**
+     * The java version. May be {@code null}
+     */
+    private final String javaVersion;
 
 
     /**
@@ -127,7 +170,7 @@ public class Platform
      * Constructs a <tt>Platform</tt> from the specified name and version.
      *
      * @param name    the platform name
-     * @param version the platform version. May be <tt>null</tt>
+     * @param version the platform version. May be {@code null}
      */
     public Platform(Name name, String version)
     {
@@ -138,9 +181,9 @@ public class Platform
      * Constructs a <tt>Platform</tt>.
      *
      * @param name         the platform name
-     * @param symbolicName the symbolic name. May be <tt>null</tt>
-     * @param version      the platform version. May be <tt>null</tt>
-     * @throws IllegalArgumentException if <tt>symbolicName</tt> contains spaces or commas
+     * @param symbolicName the symbolic name. May be {@code null}
+     * @param version      the platform version. May be {@code null}
+     * @throws IllegalArgumentException if {@code symbolicName} contains spaces or commas
      */
     public Platform(Name name, String symbolicName, String version)
     {
@@ -151,7 +194,7 @@ public class Platform
      * Constructs a <tt>Platform</tt>.
      *
      * @param name the platform name
-     * @param arch the platform architecture. May be <tt>null</tt>
+     * @param arch the platform architecture. May be {@code null}
      */
     public Platform(Name name, Arch arch)
     {
@@ -162,9 +205,9 @@ public class Platform
      * Constructs a <tt>Platform</tt>.
      *
      * @param name         the platform name
-     * @param symbolicName the symbolic name. May be <tt>null</tt>
-     * @param arch         the platform architecture. May be <tt>null</tt>
-     * @throws IllegalArgumentException if <tt>symbolicName</tt> contains spaces or commas
+     * @param symbolicName the symbolic name. May be {@code null}
+     * @param arch         the platform architecture. May be {@code null}
+     * @throws IllegalArgumentException if {@code symbolicName} contains spaces or commas
      */
     public Platform(Name name, String symbolicName, Arch arch)
     {
@@ -175,12 +218,27 @@ public class Platform
      * Constructs a <tt>Platform</tt>.
      *
      * @param name         the platform name
-     * @param symbolicName the symbolic name. May be <tt>null</tt>
-     * @param version      the platform version. May be <tt>null</tt>
-     * @param arch         the platform architecture. May be <tt>null</tt>
-     * @throws IllegalArgumentException if <tt>symbolicName</tt> contains spaces or commas
+     * @param symbolicName the symbolic name. May be {@code null}
+     * @param version      the platform version. May be {@code null}
+     * @param arch         the platform architecture. May be {@code null}
+     * @throws IllegalArgumentException if {@code symbolicName} contains spaces or commas
      */
     public Platform(Name name, String symbolicName, String version, Arch arch)
+    {
+        this(name, symbolicName, version, arch, null);
+    }
+
+    /**
+     * Constructs a <tt>Platform</tt>.
+     *
+     * @param name         the platform name
+     * @param symbolicName the symbolic name. May be {@code null}
+     * @param version      the platform version. May be {@code null}
+     * @param arch         the platform architecture. May be {@code null}
+     * @param javaVersion  the java version. May be {@code null}
+     * @throws IllegalArgumentException if {@code symbolicName} contains spaces or commas
+     */
+    public Platform(Name name, String symbolicName, String version, Arch arch, String javaVersion)
     {
         if (symbolicName != null && (symbolicName.indexOf(' ') > 0 || symbolicName.indexOf(',') > 0))
         {
@@ -190,6 +248,7 @@ public class Platform
         this.symbolicName = symbolicName;
         this.version = version;
         this.arch = (arch != null) ? arch : Arch.UNKNOWN;
+        this.javaVersion = javaVersion;
     }
 
     /**
@@ -219,7 +278,7 @@ public class Platform
      * This is not the OS name. It is an arbitrary name that may be used to help identify a platform.
      * E.g. windows_7 for name=WINDOWS,version=6.1.
      *
-     * @return the symbolic name for the platform. May be <tt>null</tt>
+     * @return the symbolic name for the platform. May be {@code null}
      */
     public String getSymbolicName()
     {
@@ -229,11 +288,21 @@ public class Platform
     /**
      * Returns the operating system version.
      *
-     * @return the operating system version. May be <tt>null</tt>
+     * @return the operating system version. May be {@code null}
      */
     public String getVersion()
     {
         return version;
+    }
+
+    /**
+     * Returns the java version.
+     *
+     * @return the java version. May be {@code null}
+     */
+    public String getJavaVersion()
+    {
+        return javaVersion;
     }
 
     /**
@@ -250,13 +319,13 @@ public class Platform
      * Determines if this platform is an instance of another.
      *
      * @param platform the platform to compare against
-     * @return <tt>true</tt> if the platform is an instance of <tt>platform</tt>
+     * @return {@code true} if the platform is an instance of <tt>platform</tt>
      */
     public boolean isA(Platform platform)
     {
         boolean result = false;
         if (isA(platform.name) && hasSymbolicName(platform.symbolicName) && hasArch(platform.arch)
-                && hasVersion(platform.version))
+                && hasVersion(platform.version) && hasJavaVersion(platform.javaVersion))
         {
             result = true;
         }
@@ -267,7 +336,7 @@ public class Platform
      * Determines if this platform is an instance of the platform family name.
      *
      * @param name the platform family name
-     * @return <tt>true</tt> if the platform is an instance of <tt>name</tt>
+     * @return {@code true} if the platform is an instance of <tt>name</tt>
      */
     public boolean isA(Name name)
     {
@@ -278,7 +347,7 @@ public class Platform
      * Determines if this platform is the specified architecture.
      *
      * @param arch the architecture
-     * @return <tt>true</tt> if this platform is the specified architecture, otherwise <tt>false</tt>
+     * @return {@code true} if this platform is the specified architecture, otherwise {@code false}
      */
     public boolean isA(Arch arch)
     {
@@ -289,7 +358,7 @@ public class Platform
      * Determines if this platform equals another.
      *
      * @param other the other instance
-     * @return <tt>true</tt> if the name, arch and version are identical, otherwise <tt>false</tt>
+     * @return {@code true} if the name, arch and version are identical, otherwise {@code false}
      */
     public boolean equals(Object other)
     {
@@ -301,7 +370,9 @@ public class Platform
         {
             Platform p = (Platform) other;
             if (name == p.name && arch == p.arch
-                    && ((version == null && p.version == null) || (version != null && version.equals(p.version))))
+                    && ((version == null && p.version == null) || (version != null && version.equals(p.version)))
+                    && ((javaVersion == null && p.javaVersion == null)
+                    || (javaVersion != null && javaVersion.equals(p.javaVersion))))
             {
                 return true;
             }
@@ -321,6 +392,10 @@ public class Platform
         {
             hash ^= version.hashCode();
         }
+        if (javaVersion != null)
+        {
+            hash ^= javaVersion.hashCode();
+        }
         return hash;
     }
 
@@ -332,7 +407,7 @@ public class Platform
     public String toString()
     {
         return name.toString().toLowerCase() + ",version=" + version + ",arch=" + arch.toString().toLowerCase()
-                + ",symbolicName=" + symbolicName;
+                + ",symbolicName=" + symbolicName + ",javaVersion=" + javaVersion;
     }
 
     /**
@@ -340,7 +415,7 @@ public class Platform
      *
      * @param current the current name
      * @param name    the plaform family name
-     * @return <tt>true</tt> if current is an instance of <tt>name</tt>
+     * @return {@code true} if current is an instance of <tt>name</tt>
      */
     private boolean isA(Name current, Name name)
     {
@@ -364,8 +439,8 @@ public class Platform
     /**
      * Determines if the symbolic name matches another.
      *
-     * @param other the other name. May be <tt>null</tt>
-     * @return <tt>true</tt> if <tt>other</tt> is <tt>null</tt> or they are equal
+     * @param other the other name. May be {@code null}
+     * @return {@code true} if {@code other} is {@code null} or they are equal
      */
     private boolean hasSymbolicName(String other)
     {
@@ -376,7 +451,7 @@ public class Platform
      * Determines if the architecture matches another.
      *
      * @param other the other architecture
-     * @return <tt>true</tt> if they are equal, or the other architecture is unknown
+     * @return {@code true} if they are equal, or the other architecture is unknown
      */
     private boolean hasArch(Arch other)
     {
@@ -386,12 +461,22 @@ public class Platform
     /**
      * Determines if the version name matches another.
      *
-     * @param other the other version. May be <tt>null</tt>
-     * @return <tt>true</tt> if <tt>other</tt> is <tt>null</tt> or they are equal
+     * @param other the other version. May be {@code null}
+     * @return {@code true} if {@code other} is {@code null} or they are equal
      */
     private boolean hasVersion(String other)
     {
         return (other == null) || (version != null && version.equals(other));
     }
 
+    /**
+     * Determines if the java version matches another.
+     *
+     * @param other the other version. May be {@code null}
+     * @return {@code true} if {@code other} is {@code null} or they are equal
+     */
+    private boolean hasJavaVersion(String other)
+    {
+        return (other == null) || (javaVersion != null && javaVersion.equals(other));
+    }
 }

@@ -25,7 +25,9 @@ public class OsConstraintHelper
      *
      * @param osModel
      * @return Description of the Return Value
+     * @deprecated use {@link PlatformModelMatcher#matchesCurrentPlatform(OsModel)}
      */
+    @Deprecated
     public static boolean matchCurrentSystem(OsModel osModel)
     {
         boolean match = true;
@@ -117,7 +119,9 @@ public class OsConstraintHelper
      * @param constraint_list List of OsModel to check
      * @return true if one of the OsConstraints matched the current system or constraint_list is
      *         null (no constraints), false if none of the OsConstraints matched
+     * @deprecated use {@link PlatformModelMatcher#matchesCurrentPlatform(java.util.List)}
      */
+    @Deprecated
     public static boolean oneMatchesCurrentSystem(List<OsModel> constraint_list)
     {
         if (constraint_list == null || constraint_list.isEmpty())
@@ -146,7 +150,9 @@ public class OsConstraintHelper
      *
      * @param el The IXMLElement to check for OS constraints.
      * @return true if there were no OS constraints or the constraints matched the current OS.
+     * @deprecated no replacement
      */
+    @Deprecated
     public static boolean oneMatchesCurrentSystem(IXMLElement el)
     {
         return oneMatchesCurrentSystem(getOsList(el));

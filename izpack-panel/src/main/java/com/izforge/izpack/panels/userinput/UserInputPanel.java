@@ -50,6 +50,7 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
@@ -70,6 +71,7 @@ import com.izforge.izpack.panels.userinput.validator.ValidatorContainer;
 import com.izforge.izpack.util.HyperlinkHandler;
 import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * Created by IntelliJ IDEA.
@@ -314,6 +316,11 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
     private JPanel panel;
     private RulesEngine rules;
 
+    /**
+     * The platform-model matcher.
+     */
+    private final PlatformModelMatcher matcher;
+
     /*--------------------------------------------------------------------------*/
     // This method can be used to search for layout problems. If this class is
     // compiled with this method uncommented, the layout guides will be shown
@@ -335,13 +342,15 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
      * @param installData the installation data
      * @param resources   the resources
      * @param rules       the rules engine
+     * @param matcher     the platform-model matcher
      */
     public UserInputPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                          RulesEngine rules)
+                          RulesEngine rules, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, resources);
         instanceNumber = instanceCount++;
         this.rules = rules;
+        this.matcher = matcher;
     }
 
     private void createBuiltInVariableConditions(String variable)
@@ -2730,7 +2739,8 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
             {
                 IXMLElement choice_el = choices.get(i);
 
-                if (!OsConstraintHelper.oneMatchesCurrentSystem(choice_el))
+                List<OsModel> osList = OsConstraintHelper.getOsList(choice_el);
+                if (!matcher.matchesCurrentPlatform(osList))
                 {
                     continue;
                 }
@@ -3929,7 +3939,8 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                 }
             }
             // are there any OS-Constraints?
-            if (OsConstraintHelper.oneMatchesCurrentSystem(variable))
+            List<OsModel> osList = OsConstraintHelper.getOsList(variable);
+            if (matcher.matchesCurrentPlatform(osList))
             {
                 if (vname == null)
                 {

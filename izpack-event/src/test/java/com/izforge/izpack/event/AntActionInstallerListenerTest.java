@@ -53,6 +53,7 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
 import com.izforge.izpack.util.IoHelper;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Tests the {@link AntActionInstallerListener} class.
@@ -101,7 +102,7 @@ public class AntActionInstallerListenerTest
         Variables variables = new DefaultVariables(properties);
         replacer = new VariableSubstitutorImpl(variables);
 
-        installData = new AutomatedInstallData(variables);
+        installData = new AutomatedInstallData(variables, Platforms.OS_2);
 
         installDir = temporaryFolder.getRoot();
         installData.setInstallPath(installDir.getPath());

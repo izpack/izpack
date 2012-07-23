@@ -40,6 +40,7 @@ import com.izforge.izpack.installer.console.PanelConsoleHelper;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.Platform;
 
 /**
  * The Target panel console helper class.
@@ -126,10 +127,11 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
             }
         }
 
-        if (!pathIsValid(strDefaultPath) || !verifyVersion(minVersion, maxVersion, strDefaultPath))
+        Platform platform = installData.getPlatform();
+        if (!pathIsValid(strDefaultPath) || !verifyVersion(minVersion, maxVersion, strDefaultPath, platform))
         {
             strDefaultPath = resolveInRegistry(minVersion, maxVersion);
-            if (!pathIsValid(strDefaultPath) || !verifyVersion(minVersion, maxVersion, strDefaultPath))
+            if (!pathIsValid(strDefaultPath) || !verifyVersion(minVersion, maxVersion, strDefaultPath, platform))
             {
                 strDefaultPath = "";
             }
@@ -154,7 +156,7 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
             {
                 console.println("Path " + strPath + " is not valid.");
             }
-            else if (!verifyVersion(minVersion, maxVersion, strPath))
+            else if (!verifyVersion(minVersion, maxVersion, strPath, installData.getPlatform()))
             {
                 String message = "The chosen JDK has the wrong version (available: " + detectedVersion + " required: "
                         + minVersion + " - " + maxVersion + ").";
@@ -201,7 +203,7 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
         return true;
     }
 
-    private boolean verifyVersion(String min, String max, String path)
+    private boolean verifyVersion(String min, String max, String path, Platform platform)
     {
         boolean retval = true;
         // No min and max, version always ok.
@@ -213,7 +215,7 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
         // We cannot look to the version of this vm because we should
         // test the given JDK VM.
         String[] params;
-        if (System.getProperty("os.name").contains("Windows"))
+        if (platform.isA(Platform.Name.WINDOWS))
         {
             String[] paramsp = {
                     "cmd",

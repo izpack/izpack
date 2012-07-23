@@ -30,6 +30,7 @@ import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.util.Platform;
 
 /**
  * Encloses information about the install process.
@@ -58,9 +59,9 @@ public class GUIInstallData extends InstallData implements Serializable
     private List<IzPanel> panels = new ArrayList<IzPanel>();
 
 
-    public GUIInstallData(Variables variables)
+    public GUIInstallData(Variables variables, Platform platform)
     {
-        super(variables);
+        super(variables, platform);
     }
 
     public void configureGuiButtons()

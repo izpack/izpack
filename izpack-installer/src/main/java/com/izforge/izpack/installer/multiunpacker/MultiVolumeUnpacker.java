@@ -52,6 +52,7 @@ import com.izforge.izpack.installer.unpacker.LooseFileUnpacker;
 import com.izforge.izpack.installer.unpacker.PackResources;
 import com.izforge.izpack.installer.unpacker.UnpackerBase;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.file.FileUtils;
 import com.izforge.izpack.util.os.FileQueue;
 
@@ -98,13 +99,15 @@ public class MultiVolumeUnpacker extends UnpackerBase
      * @param listeners           the listeners
      * @param prompt              the prompt
      * @param locator             the multi-volume locator
+     * @param matcher             the platform-model matcher
      */
     public MultiVolumeUnpacker(InstallData installData, PackResources resources, RulesEngine rules,
                                VariableSubstitutor variableSubstitutor, UninstallData uninstallData,
                                FileQueueFactory queue, Housekeeper housekeeper, InstallerListeners listeners,
-                               Prompt prompt, VolumeLocator locator)
+                               Prompt prompt, VolumeLocator locator, PlatformModelMatcher matcher)
     {
-        super(installData, resources, rules, variableSubstitutor, uninstallData, queue, housekeeper, listeners, prompt);
+        super(installData, resources, rules, variableSubstitutor, uninstallData, queue, housekeeper, listeners,
+              prompt, matcher);
         this.locator = locator;
     }
 

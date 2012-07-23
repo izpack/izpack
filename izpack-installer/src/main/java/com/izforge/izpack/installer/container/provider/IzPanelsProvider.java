@@ -31,6 +31,7 @@ import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.IzPanelView;
 import com.izforge.izpack.installer.gui.IzPanels;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 
 /**
@@ -45,13 +46,18 @@ public class IzPanelsProvider extends PanelsProvider
      * <p/>
      * This invokes any pre-construction actions associated with them.
      *
+     * @param factory     the factory for constructing panels
+     * @param container   the installer container
+     * @param installData the installation data
+     * @param matcher     the platform-model matcher
      * @throws IzPackException if a panel doesn't have unique identifier
      */
-    public IzPanels provide(ObjectFactory factory, InstallerContainer container, GUIInstallData installData)
+    public IzPanels provide(ObjectFactory factory, InstallerContainer container, GUIInstallData installData,
+                            PlatformModelMatcher matcher)
     {
         List<IzPanelView> panels = new ArrayList<IzPanelView>();
 
-        for (Panel panel : prepare(installData))
+        for (Panel panel : prepare(installData, matcher))
         {
             IzPanelView panelView = new IzPanelView(panel, factory, installData);
             panels.add(panelView);

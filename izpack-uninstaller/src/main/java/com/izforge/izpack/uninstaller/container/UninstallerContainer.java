@@ -45,6 +45,7 @@ import com.izforge.izpack.uninstaller.resource.RootScripts;
 import com.izforge.izpack.util.DefaultTargetPlatformFactory;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Librarian;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.TargetFactory;
 
@@ -84,6 +85,7 @@ public abstract class UninstallerContainer extends AbstractContainer
         addComponent(InstallLog.class);
         addComponent(Executables.class);
         addComponent(RootScripts.class);
+        addComponent(PlatformModelMatcher.class);
         addComponent(Destroyer.class);
 
         container.addAdapter(new ProviderAdapter(new PlatformProvider()));

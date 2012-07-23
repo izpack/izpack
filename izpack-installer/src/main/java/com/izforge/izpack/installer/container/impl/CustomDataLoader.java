@@ -31,7 +31,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.data.CustomData;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
-import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * Reads the <em>customData</em> resource in order to populate the {@link InstallerListeners} and {@link UninstallData}.
@@ -41,6 +41,12 @@ import com.izforge.izpack.util.OsConstraintHelper;
  */
 public class CustomDataLoader
 {
+
+    /**
+     * The platform matcher.
+     */
+    private final PlatformModelMatcher matcher;
+
     /**
      * The resources.
      */
@@ -65,14 +71,17 @@ public class CustomDataLoader
     /**
      * Constructs a {@code CustomDataLoader}.
      *
+     * @param matcher       the platform matcher
      * @param resources     the resources
      * @param factory       the factory for listeners
      * @param uninstallData the uninstallation data
      * @param listeners     the installer listeners
      */
-    public CustomDataLoader(Resources resources, ObjectFactory factory, UninstallData uninstallData,
+    public CustomDataLoader(PlatformModelMatcher matcher, Resources resources, ObjectFactory factory,
+                            UninstallData uninstallData,
                             InstallerListeners listeners)
     {
+        this.matcher = matcher;
         this.resources = resources;
         this.factory = factory;
         this.uninstallData = uninstallData;
@@ -99,7 +108,7 @@ public class CustomDataLoader
         List<CustomData> customData = (List<CustomData>) resources.getObject("customData");
         for (CustomData data : customData)
         {
-            if (data.osConstraints == null || OsConstraintHelper.oneMatchesCurrentSystem(data.osConstraints))
+            if (matcher.matchesCurrentPlatform(data.osConstraints))
             {
                 switch (data.type)
                 {

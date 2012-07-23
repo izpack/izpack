@@ -34,6 +34,7 @@ import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.FileExecutor;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Tests the {@link JDKChecker} class.
@@ -52,7 +53,7 @@ public class JDKCheckerTest
      */
     public JDKCheckerTest()
     {
-        installData = new InstallData(null);
+        installData = new InstallData(null, Platforms.FEDORA_LINUX);
         Info info = new Info();
         installData.setInfo(info);
     }

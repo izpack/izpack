@@ -54,6 +54,7 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Tests the {@link BSFUninstallerListener} class.
@@ -187,7 +188,7 @@ public class BSFUninstallerListenerTest
         Variables variables = new DefaultVariables(properties);
         VariableSubstitutor replacer = new VariableSubstitutorImpl(variables);
 
-        InstallData installData = new AutomatedInstallData(variables);
+        InstallData installData = new AutomatedInstallData(variables, Platforms.SUNOS);
         installData.setInstallPath(installDir.getPath());
 
         Resources resources = Mockito.mock(Resources.class);

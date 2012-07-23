@@ -34,7 +34,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.installer.panel.Panels;
-import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 
 /**
@@ -51,16 +51,17 @@ public abstract class PanelsProvider implements Provider
      * This adds XML to the {@link InstallData#getXmlData() XML data} for each panel.
      *
      * @param installData the installation data
+     * @param matcher     The platform-model matcher
      * @return the panels for the current platform
      * @throws IzPackException if a panel doesn't have unique identifier
      */
-    protected List<Panel> prepare(InstallData installData)
+    protected List<Panel> prepare(InstallData installData, PlatformModelMatcher matcher)
     {
         List<Panel> result = new ArrayList<Panel>();
         Set<String> ids = new HashSet<String>();
         for (Panel panel : installData.getPanelsOrder())
         {
-            if (OsConstraintHelper.oneMatchesCurrentSystem(panel.getOsConstraints()))
+            if (matcher.matchesCurrentPlatform(panel.getOsConstraints()))
             {
                 String panelId = panel.getPanelId();
                 String key = (panelId != null) ? panelId : panel.getClassName();

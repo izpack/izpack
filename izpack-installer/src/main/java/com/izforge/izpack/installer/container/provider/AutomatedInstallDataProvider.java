@@ -9,6 +9,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * Install data loader
@@ -17,12 +18,12 @@ public class AutomatedInstallDataProvider extends AbstractInstallDataProvider
 {
 
     public AutomatedInstallData provide(Resources resources, Locales locales, DefaultVariables variables,
-                                        Housekeeper housekeeper)
+                                        Housekeeper housekeeper, PlatformModelMatcher matcher)
             throws IOException, ClassNotFoundException, InstallerException
     {
-        final AutomatedInstallData automatedInstallData = new InstallData(variables);
+        AutomatedInstallData automatedInstallData = new InstallData(variables, matcher.getCurrentPlatform());
         // Loads the installation data
-        loadInstallData(automatedInstallData, resources, housekeeper);
+        loadInstallData(automatedInstallData, resources, matcher, housekeeper);
 
         loadDefaultLocale(automatedInstallData, locales);
         // Load custom langpack if exist.

@@ -63,7 +63,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
-import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 
 /**
@@ -86,6 +86,11 @@ public class InstallationGroupPanel extends IzPanel
     private static final transient Logger logger = Logger.getLogger(InstallationGroupPanel.class.getName());
 
     /**
+     * The platform-model matcher.
+     */
+    private final PlatformModelMatcher matcher;
+
+    /**
      * HashMap<String, Pack> of the GUIInstallData.availablePacks
      */
     private HashMap<String, Pack> packsByName;
@@ -104,10 +109,13 @@ public class InstallationGroupPanel extends IzPanel
      * @param parent      the parent window
      * @param installData the installation data
      * @param resources   the resources
+     * @param matcher     the platform-model matcher
      */
-    public InstallationGroupPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
+    public InstallationGroupPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
+                                  PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, resources);
+        this.matcher = matcher;
         buildLayout();
     }
 
@@ -122,7 +130,7 @@ public class InstallationGroupPanel extends IzPanel
         this.installData.setAvailablePacks(new ArrayList<Pack>());
         for (Pack pack : this.installData.getAllPacks())
         {
-            if (OsConstraintHelper.oneMatchesCurrentSystem(pack.getOsConstraints()))
+            if (matcher.matchesCurrentPlatform(pack.getOsConstraints()))
             {
                 this.installData.getAvailablePacks().add(pack);
             }

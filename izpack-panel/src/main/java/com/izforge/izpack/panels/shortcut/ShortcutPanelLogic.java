@@ -54,6 +54,7 @@ import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.StringTool;
 import com.izforge.izpack.util.TargetFactory;
 import com.izforge.izpack.util.os.Shortcut;
@@ -105,7 +106,7 @@ public class ShortcutPanelLogic implements CleanupClient
     private static final String SPEC_KEY_NOT_SUPPORTED = "notSupported";
 
     private static final String SPEC_KEY_DEF_CUR_USER = "defaultCurrentUser";
-    
+
     private static final String SPEC_KEY_LATE_INSTALL = "lateShortcutInstall";
 
     private static final String SPEC_KEY_PROGRAM_GROUP = "programGroup";
@@ -278,6 +279,8 @@ public class ShortcutPanelLogic implements CleanupClient
 
     private UninstallData uninstallData;
 
+    private final PlatformModelMatcher matcher;
+
     private boolean createDesktopShortcuts;
 
     private boolean defaultCurrentUserFlag = false;
@@ -292,15 +295,18 @@ public class ShortcutPanelLogic implements CleanupClient
      * @param uninstallData the uninstallation data
      * @param housekeeper   the house keeper
      * @param factory       the factory for platform-specific implementations
+     * @param matcher       the platform-model matcher
      * @throws Exception for any error
      */
     public ShortcutPanelLogic(AutomatedInstallData installData, Resources resources, UninstallData uninstallData,
-                              Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners)
+                              Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
+                              PlatformModelMatcher matcher)
             throws Exception
     {
         this.installData = installData;
         this.resources = resources;
         this.uninstallData = uninstallData;
+        this.matcher = matcher;
         shortcut = factory.makeObject(Shortcut.class);
         shortcut.initialize(Shortcut.APPLICATIONS, "-");
         housekeeper.registerForCleanup(this);
@@ -310,7 +316,7 @@ public class ShortcutPanelLogic implements CleanupClient
 
     /**
      * @return <code>true</code> it the shortcuts will be created after clicking next,
-     * otherwise <code>false</code>
+     *         otherwise <code>false</code>
      */
     public final boolean isCreateShortcutsImmediately()
     {
@@ -319,7 +325,7 @@ public class ShortcutPanelLogic implements CleanupClient
 
     /**
      * Tell the ShortcutPanel to not create the shortcuts immediately after clicking next.
-     * 
+     *
      * @param createShortcutsImmediately
      */
     public final void setCreateShortcutsImmediately(boolean createShortcutsImmediately)
@@ -328,9 +334,9 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * Creates the shortcuts at a specified time. Before this function can be called, a 
+     * Creates the shortcuts at a specified time. Before this function can be called, a
      * ShortcutPanel must be used to initialise the logic properly.
-     * 
+     *
      * @throws Exception
      */
     public void createAndRegisterShortcuts() throws Exception
@@ -765,7 +771,7 @@ public class ShortcutPanelLogic implements CleanupClient
     /**
      * This method analyzes the specifications for creating shortcuts and builds a list of all the
      * Shortcuts that need to be created.
-     * 
+     * <p/>
      * listeners the installer listeners container
      */
     private void analyzeShortcutSpec(InstallerListeners listeners)
@@ -792,12 +798,12 @@ public class ShortcutPanelLogic implements CleanupClient
         {
             simulteNotSupported = true;
         }
-        
+
         // set flag if 'lateShortcutInstall' element found:
         setCreateShortcutsImmediately(spec.getFirstChildNamed(SPEC_KEY_LATE_INSTALL) == null);
-        if(!isCreateShortcutsImmediately())
+        if (!isCreateShortcutsImmediately())
         {
-        	listeners.add(new LateShortcutInstallListener());
+            listeners.add(new LateShortcutInstallListener());
         }
 
         // ----------------------------------------------------
@@ -876,7 +882,7 @@ public class ShortcutPanelLogic implements CleanupClient
 
         for (IXMLElement shortcutSpec : shortcutSpecs)
         {
-            if (!OsConstraintHelper.oneMatchesCurrentSystem(shortcutSpec))
+            if (!matcher.matchesCurrentPlatform(OsConstraintHelper.getOsList(shortcutSpec)))
             {
                 continue;
             }
@@ -1430,7 +1436,7 @@ public class ShortcutPanelLogic implements CleanupClient
             writeString(dirFile, dirFilePath);
         }
     }
-    
+
     /**
      * Creates the Shortcuts after files have been installed. Used to support
      * {@code &lt;lateShortcutInstall/&gt;} to allow placement of ShortcutPanel before the

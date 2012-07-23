@@ -52,6 +52,7 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.unpacker.ScriptParser;
 import com.izforge.izpack.util.FileExecutor;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * The packs selection panel class.
@@ -77,6 +78,11 @@ public class SudoPanel extends IzPanel implements ActionListener
     private final VariableSubstitutor replacer;
 
     /**
+     * The platform-model matcher.
+     */
+    private PlatformModelMatcher matcher;
+
+    /**
      * The constructor.
      *
      * @param panel       the panel meta-data
@@ -84,12 +90,14 @@ public class SudoPanel extends IzPanel implements ActionListener
      * @param installData the installation data
      * @param resources   the resources
      * @param replacer    the variable replacer
+     * @param matcher     the platform-model matcher
      */
     public SudoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                     VariableSubstitutor replacer)
+                     VariableSubstitutor replacer, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, resources);
         this.replacer = replacer;
+        this.matcher = matcher;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -176,7 +184,7 @@ public class SudoPanel extends IzPanel implements ActionListener
             oses.add(new OsModel("unix", null, null, null, null));
 
             ParsableFile parsableFile = new ParsableFile(file.getAbsolutePath(), null, null, oses);
-            ScriptParser scriptParser = new ScriptParser(replacer);
+            ScriptParser scriptParser = new ScriptParser(replacer, matcher);
             scriptParser.parse(parsableFile);
 
             ArrayList<ExecutableFile> executableFiles = new ArrayList<ExecutableFile>();
@@ -185,7 +193,7 @@ public class SudoPanel extends IzPanel implements ActionListener
                                                                false);
             executableFiles.add(executableFile);
             FileExecutor fileExecutor = new FileExecutor(executableFiles);
-            int retval = fileExecutor.executeFiles(ExecutableFile.POSTINSTALL, this);
+            int retval = fileExecutor.executeFiles(ExecutableFile.POSTINSTALL, matcher, this);
             if (retval == 0)
             {
                 this.installData.setVariable("password", pass);

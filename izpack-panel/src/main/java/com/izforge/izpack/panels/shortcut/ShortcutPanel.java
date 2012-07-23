@@ -62,6 +62,7 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.StringTool;
 import com.izforge.izpack.util.TargetFactory;
 import com.izforge.izpack.util.os.Shortcut;
@@ -157,7 +158,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     private GridBagConstraints constraints;
 
     private ShortcutPanelLogic shortcutPanelLogic;
-    
+
     private boolean shortcutLogicInitialized;
 
     /**
@@ -176,10 +177,11 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
      * @param uninstallData the uninstallation data
      * @param housekeeper   the house keeper
      * @param factory       the factory for platform-specific implementations
+     * @param matcher       the platform-model matcher
      */
     public ShortcutPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                         UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory, 
-                         InstallerListeners listeners)
+                         UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory,
+                         InstallerListeners listeners, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, "link16x16", resources);
         layout = (GridBagLayout) super.getLayout();
@@ -196,7 +198,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         try
         {
             shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData, housekeeper,
-                                                        factory, listeners);
+                                                        factory, listeners, matcher);
             shortcutLogicInitialized = true;
         }
         catch (Exception exception)
@@ -205,7 +207,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             shortcutLogicInitialized = false;
         }
     }
-    
+
     /**
      * This method represents the ActionListener interface, invoked when an action occurs.
      *

@@ -17,14 +17,14 @@
  */
 package com.izforge.izpack.util;
 
+import static com.izforge.izpack.util.Platform.Arch;
+import static com.izforge.izpack.util.Platform.Name;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static com.izforge.izpack.util.Platform.Arch;
-import static com.izforge.izpack.util.Platform.Name;
 
 
 /**
@@ -134,19 +134,19 @@ public class Platforms
      * Windows XP platform.
      */
     public static Platform WINDOWS_XP = new Platform(Name.WINDOWS, "WINDOWS_XP",
-            OsVersionConstants.WINDOWS_XP_VERSION);
+                                                     OsVersionConstants.WINDOWS_XP_VERSION);
 
     /**
      * Windows 2003 platform.
      */
     public static Platform WINDOWS_2003 = new Platform(Name.WINDOWS, "WINDOWS_2003",
-            OsVersionConstants.WINDOWS_2003_VERSION);
+                                                       OsVersionConstants.WINDOWS_2003_VERSION);
 
     /**
      * Windows Vista platform.
      */
     public static Platform WINDOWS_VISTA = new Platform(Name.WINDOWS, "WINDOWS_VISTA",
-            OsVersionConstants.WINDOWS_VISTA_VERSION);
+                                                        OsVersionConstants.WINDOWS_VISTA_VERSION);
 
     /**
      * Windows 7 platform.
@@ -160,6 +160,12 @@ public class Platforms
             MANDRAKE_LINUX, MANDRIVA_LINUX, OS_2, RED_HAT_LINUX, SUNOS, SUNOS_X86,
             SUNOS_SPARC, SUSE_LINUX, UBUNTU_LINUX, UNIX, WINDOWS, WINDOWS_XP,
             WINDOWS_2003, WINDOWS_VISTA, WINDOWS_7};
+
+    /**
+     * Cached linux name.
+     */
+    private Name linuxName;
+
 
     /**
      * The logger.
@@ -177,12 +183,15 @@ public class Platforms
     public Platform getCurrentPlatform()
     {
         return getCurrentPlatform(System.getProperty(OsVersionConstants.OSNAME),
-                System.getProperty(OsVersionConstants.OSARCH),
-                System.getProperty(OsVersionConstants.OSVERSION));
+                                  System.getProperty(OsVersionConstants.OSARCH),
+                                  System.getProperty(OsVersionConstants.OSVERSION),
+                                  System.getProperty("java.version"));
     }
 
     /**
      * Returns the platform for the specified operating system name and architecture.
+     * <p/>
+     * This may query the underlying OS to determine the platform name.
      *
      * @param name the operating system name
      * @param arch the operating system architecture, or symbolic architecture
@@ -200,16 +209,32 @@ public class Platforms
      *
      * @param name    the operating system name
      * @param arch    the operating system architecture, or symbolic architecture
-     * @param version the operating system version. May be <tt>null</tt>
+     * @param version the operating system version. May be {@code null}
      * @return the corresponding platform
      */
     public Platform getCurrentPlatform(String name, String arch, String version)
     {
+        return getCurrentPlatform(name, arch, version, null);
+    }
+
+    /**
+     * Returns the current platform given the operating system name, architecture and version.
+     * <p/>
+     * This may query the underlying OS to determine the platform name.
+     *
+     * @param name        the operating system name
+     * @param arch        the operating system architecture, or symbolic architecture
+     * @param version     the operating system version. May be {@code null}
+     * @param javaVersion the java version. May be {@code null}
+     * @return the corresponding platform
+     */
+    public Platform getCurrentPlatform(String name, String arch, String version, String javaVersion)
+    {
         Platform result;
-        Name pname = getCurrentName(name);
+        Name pname = getCurrentOSName(name);
         Arch parch = getArch(arch);
         Platform match = findMatch(name, pname, parch, version);
-        result = getPlatform(match, parch, version);
+        result = getPlatform(match, parch, version, javaVersion);
         return result;
     }
 
@@ -230,136 +255,100 @@ public class Platforms
      *
      * @param name    the operating system name or symbolic name
      * @param arch    the operating system architecture, or symbolic architecture
-     * @param version the operating system version. May be <tt>null</tt>
+     * @param version the operating system version. May be {@code null}
      * @return the corresponding platform
      */
-    public Platform getPlatform(String name, String arch, String version) {
+    public Platform getPlatform(String name, String arch, String version)
+    {
+        return getPlatform(name, arch, version, null);
+    }
+
+    /**
+     * Returns the platform given the operating system name, architecture and version.
+     *
+     * @param name        the operating system name or symbolic name
+     * @param arch        the operating system architecture, or symbolic architecture
+     * @param version     the operating system version. May be {@code null}
+     * @param javaVersion the java version
+     * @return the corresponding platform
+     */
+    public Platform getPlatform(String name, String arch, String version, String javaVersion)
+    {
         Platform result;
         Name pname = getName(name);
         Arch parch = getArch(arch);
         Platform match = findMatch(name, pname, parch, version);
-        result = getPlatform(match, parch, version);
+        result = getPlatform(match, parch, version, javaVersion);
         return result;
-    }
-
-    /**
-     * Constructs a new <tt>Platform</tt> given a match, architecture, and version
-     *
-     * @param match   the matching platform. If <tt>null</tt> the new platform will have name set to
-     *                {@link Name#UNKNOWN}.
-     * @param arch    the platform architecture
-     * @param version the platform version. May be <tt>null</tt>
-     * @return a new platform
-     */
-    protected Platform getPlatform(Platform match, Arch arch, String version)
-    {
-        Platform result;
-        if (match != null)
-        {
-            if (arch == Arch.UNKNOWN)
-            {
-                arch = match.getArch();
-            }
-            if (version == null)
-            {
-                version = match.getVersion();
-            }
-            result = new Platform(match.getName(), match.getSymbolicName(), version, arch);
-        }
-        else
-        {
-            // name doesn't correspond to a known platform
-            result = new Platform(Name.UNKNOWN, null, version, arch);
-        }
-        return result;
-    }
-
-    /**
-     * Attempts to find a platform the matches the platform name, architecture and version.
-     *
-     * @param name    the platform name or symbolic name
-     * @param pname   the resolved platform name
-     * @param arch    the resolved architecture
-     * @param version the version. May be <tt>null</tt>
-     * @return the closest match to the arguments, or <tt>null</tt> if none is found
-     */
-    protected Platform findMatch(String name, Name pname, Arch arch, String version)
-    {
-        Platform best = null;
-        int bestMatches = 0;
-        for (Platform platform : PLATFORMS)
-        {
-            if ((pname == Name.UNKNOWN && equals(name, platform.getSymbolicName(), true))
-                    || (pname != Name.UNKNOWN && pname == platform.getName()))
-            {
-                int currentMatches = 0;
-                boolean archMatch = arch == platform.getArch();
-                boolean optArchMatch = platform.getArch() == Arch.UNKNOWN;
-                boolean versionMatch = version != null && equals(version, platform.getVersion());
-                boolean optVersionMatch = platform.getVersion() == null;
-                boolean symbolicMatch = equals(name, platform.getSymbolicName(), true);
-                if (archMatch)
-                {
-                    currentMatches += 2;
-                }
-                else if (optArchMatch)
-                {
-                    currentMatches++;
-                }
-                if (symbolicMatch) {
-                    currentMatches += 2;
-                }
-                if (versionMatch)
-                {
-                    currentMatches += 2;
-                }
-                else if (optVersionMatch)
-                {
-                    currentMatches++;
-                }
-                if (currentMatches > bestMatches)
-                {
-                    best = platform;
-                    if (currentMatches == 6)
-                    {
-                        // best possible
-                        break;
-                    }
-                    else
-                    {
-                        bestMatches = currentMatches;
-                    }
-                }
-            }
-        }
-        return best;
     }
 
     /**
      * Returns the platform family name given the operating system or symbolic name.
      *
-     * @param name the operating system name or symbolic name
-     * @return the corresponding platform family name
+     * @param arch the operating system architecture or symbolic architecture. May be {@code null}
+     * @return the corresponding platform architecture
      */
-    protected Name getName(String name)
+    public Arch getArch(String arch)
     {
-        for (Platform platform : PLATFORMS) {
-            String platformName = platform.getName().name();
-            String symbolicName = platform.getSymbolicName();
-            if (platformName.equalsIgnoreCase(name) || symbolicName != null && symbolicName.equalsIgnoreCase(name)) {
-                return platform.getName();
+        Arch result = null;
+        if (arch != null)
+        {
+            try
+            {
+                result = Arch.valueOf(arch.toUpperCase());
+            }
+            catch (IllegalArgumentException ignore)
+            {
+                // do nothing
             }
         }
-        return Name.UNKNOWN;
+        if (result == null)
+        {
+            if (StringTool.startsWithIgnoreCase(arch, OsVersionConstants.X86)
+                    || StringTool.startsWithIgnoreCase(arch, OsVersionConstants.I386))
+            {
+                result = Arch.X86;
+            }
+            else if (StringTool.startsWithIgnoreCase(arch, OsVersionConstants.X64)
+                    || StringTool.startsWithIgnoreCase(arch, OsVersionConstants.AMD64))
+            {
+                result = Arch.X64;
+            }
+            else if (StringTool.startsWithIgnoreCase(arch, OsVersionConstants.PPC))
+            {
+                result = Arch.PPC;
+            }
+            else if (StringTool.startsWithIgnoreCase(arch, OsVersionConstants.SPARC))
+            {
+                result = Arch.SPARC;
+            }
+            else
+            {
+                result = Arch.UNKNOWN;
+            }
+        }
+        return result;
     }
 
     /**
-     * Returns the platform family name for the current platform.
+     * Returns the platform family name for the current operating system.
+     * This may query the underlying OS to determine the platform name.
      *
-     * @param name the operating system name
      * @return the corresponding platform family name
      */
-    protected Name getCurrentName(String name) {
+    public Name getCurrentOSName()
+    {
+        return getCurrentOSName(System.getProperty(OsVersionConstants.OSNAME));
+    }
+
+    /**
+     * Returns the platform family name for the specified operating system name.
+     *
+     * @param name the operating system name, or symbolic name
+     * @return the corresponding platform family name
+     */
+    public Name getName(String name)
+    {
         Name result;
         if (StringTool.startsWithIgnoreCase(name, OsVersionConstants.FREEBSD))
         {
@@ -367,7 +356,7 @@ public class Platforms
         }
         else if (StringTool.startsWithIgnoreCase(name, OsVersionConstants.LINUX))
         {
-            result = getLinuxName();
+            result = Name.LINUX;
         }
         else if (StringTool.startsWithIgnoreCase(name, OsVersionConstants.HP_UX))
         {
@@ -413,59 +402,179 @@ public class Platforms
     }
 
     /**
+     * Returns the platform family name for the current operating system.
+     * This may query the underlying OS to determine the platform name.
+     *
+     * @return the corresponding platform family name
+     */
+    protected Name getCurrentOSName(String name)
+    {
+        Name result = getName(name);
+        if (result == Name.LINUX)
+        {
+            result = getLinuxName();
+        }
+        return result;
+    }
+
+    /**
+     * Constructs a new <tt>Platform</tt> given a match, architecture, version and java version
+     *
+     * @param match       the matching platform. If {@code null} the new platform will have name set to
+     *                    {@link Name#UNKNOWN}.
+     * @param arch        the platform architecture
+     * @param version     the platform version. May be {@code null}
+     * @param javaVersion the java version. May be {@code null}
+     * @return a new platform
+     */
+    protected Platform getPlatform(Platform match, Arch arch, String version, String javaVersion)
+    {
+        Platform result;
+        if (match != null)
+        {
+            if (arch == Arch.UNKNOWN)
+            {
+                arch = match.getArch();
+            }
+            if (version == null)
+            {
+                version = match.getVersion();
+            }
+            if (javaVersion == null)
+            {
+                javaVersion = match.getJavaVersion();
+            }
+            result = new Platform(match.getName(), match.getSymbolicName(), version, arch, javaVersion);
+        }
+        else
+        {
+            // name doesn't correspond to a known platform
+            result = new Platform(Name.UNKNOWN, null, version, arch, javaVersion);
+        }
+        return result;
+    }
+
+    /**
+     * Attempts to find a platform that matches the platform name, architecture and version.
+     *
+     * @param name    the platform name or symbolic name
+     * @param pname   the resolved platform name
+     * @param arch    the resolved architecture
+     * @param version the version. May be {@code null}
+     * @return the closest match to the arguments, or {@code null} if none is found
+     */
+    protected Platform findMatch(String name, Name pname, Arch arch, String version)
+    {
+        Platform best = null;
+        int bestMatches = 0;
+        for (Platform platform : PLATFORMS)
+        {
+            if ((pname == Name.UNKNOWN && equals(name, platform.getSymbolicName(), true))
+                    || (pname != Name.UNKNOWN && pname == platform.getName()))
+            {
+                int currentMatches = 0;
+                boolean archMatch = arch == platform.getArch();
+                boolean optArchMatch = platform.getArch() == Arch.UNKNOWN;
+                boolean versionMatch = version != null && equals(version, platform.getVersion());
+                boolean optVersionMatch = platform.getVersion() == null;
+                boolean symbolicMatch = equals(name, platform.getSymbolicName(), true);
+                if (archMatch)
+                {
+                    currentMatches += 2;
+                }
+                else if (optArchMatch)
+                {
+                    currentMatches++;
+                }
+                if (symbolicMatch)
+                {
+                    currentMatches += 2;
+                }
+                if (versionMatch)
+                {
+                    currentMatches += 2;
+                }
+                else if (optVersionMatch)
+                {
+                    currentMatches++;
+                }
+                if (currentMatches > bestMatches)
+                {
+                    best = platform;
+                    if (currentMatches == 6)
+                    {
+                        // best possible
+                        break;
+                    }
+                    else
+                    {
+                        bestMatches = currentMatches;
+                    }
+                }
+            }
+        }
+        return best;
+    }
+
+    /**
      * Returns the Linux platform family name.
      *
      * @return the Linux platform family name
      */
-    protected Name getLinuxName()
+    protected synchronized Name getLinuxName()
     {
-        Name result = Name.LINUX;
-        String path = getReleasePath();
-        if (path != null)
+        Name result = linuxName;
+        if (result == null)
         {
-            List<String> text = getText(path);
-            if (text != null)
+            result = Name.LINUX;
+            String path = getReleasePath();
+            if (path != null)
             {
-                if (search(text, OsVersionConstants.REDHAT) || search(text, OsVersionConstants.RED_HAT))
+                List<String> text = getText(path);
+                if (text != null)
                 {
-                    result = Name.RED_HAT_LINUX;
-                }
-                else if (search(text, OsVersionConstants.FEDORA))
-                {
-                    result = Name.FEDORA_LINUX;
-                }
-                else if (search(text, OsVersionConstants.MANDRAKE))
-                {
-                    result = Name.MANDRAKE_LINUX;
-                }
-                else if (search(text, OsVersionConstants.MANDRIVA))
-                {
-                    result = Name.MANDRIVA_LINUX;
-                }
-                else if (search(text, OsVersionConstants.SUSE, true))
-                {
-                    result = Name.SUSE_LINUX; // case-insensitive since 'SUSE' 10)
+                    if (search(text, OsVersionConstants.REDHAT) || search(text, OsVersionConstants.RED_HAT))
+                    {
+                        result = Name.RED_HAT_LINUX;
+                    }
+                    else if (search(text, OsVersionConstants.FEDORA))
+                    {
+                        result = Name.FEDORA_LINUX;
+                    }
+                    else if (search(text, OsVersionConstants.MANDRAKE))
+                    {
+                        result = Name.MANDRAKE_LINUX;
+                    }
+                    else if (search(text, OsVersionConstants.MANDRIVA))
+                    {
+                        result = Name.MANDRIVA_LINUX;
+                    }
+                    else if (search(text, OsVersionConstants.SUSE, true))
+                    {
+                        result = Name.SUSE_LINUX; // case-insensitive since 'SUSE' 10)
+                    }
                 }
             }
-        }
-        if (result == Name.LINUX)
-        {
-            List<String> text = getText(OsVersionConstants.PROC_VERSION);
-            if (text != null)
+            if (result == Name.LINUX)
             {
-                if (search(text, OsVersionConstants.DEBIAN))
+                List<String> text = getText(OsVersionConstants.PROC_VERSION);
+                if (text != null)
+                {
+                    if (search(text, OsVersionConstants.DEBIAN))
+                    {
+                        result = Name.DEBIAN_LINUX;
+                    }
+                    else if (search(text, OsVersionConstants.UBUNTU))
+                    {
+                        result = Name.UBUNTU_LINUX;
+                    }
+                }
+                if (result == Name.LINUX && exists("/etc/debian_version"))
                 {
                     result = Name.DEBIAN_LINUX;
                 }
-                else if (search(text, OsVersionConstants.UBUNTU))
-                {
-                    result = Name.UBUNTU_LINUX;
-                }
             }
-            if (result == Name.LINUX && exists("/etc/debian_version"))
-            {
-                result = Name.DEBIAN_LINUX;
-            }
+            linuxName = result;
         }
         return result;
     }
@@ -474,7 +583,7 @@ public class Platforms
      * Returns the text from the specified file.
      *
      * @param path the file path
-     * @return the corresponding text, or <tt>null</tt> if the file could not be read
+     * @return the corresponding text, or {@code null} if the file could not be read
      */
     protected List<String> getText(String path)
     {
@@ -491,54 +600,6 @@ public class Platforms
             }
         }
         return text;
-    }
-
-    /**
-     * Returns the platform family name given the operating system or symbolic name.
-     *
-     * @param arch the operating system architecture or symbolic architecture. May be <tt>null</tt>
-     * @return the corresponding platform architecture
-     */
-    protected Arch getArch(String arch)
-    {
-        Arch result = null;
-        if (arch != null)
-        {
-            try
-            {
-                result = Arch.valueOf(arch.toUpperCase());
-            }
-            catch (IllegalArgumentException ignore)
-            {
-                // do nothing
-            }
-        }
-        if (result == null)
-        {
-            if (StringTool.startsWithIgnoreCase(arch, OsVersionConstants.X86)
-                    || StringTool.startsWithIgnoreCase(arch, OsVersionConstants.I386))
-            {
-                result = Arch.X86;
-            }
-            else if (StringTool.startsWithIgnoreCase(arch, OsVersionConstants.X64)
-                    || StringTool.startsWithIgnoreCase(arch, OsVersionConstants.AMD64))
-            {
-                result = Arch.X64;
-            }
-            else if (StringTool.startsWithIgnoreCase(arch, OsVersionConstants.PPC))
-            {
-                result = Arch.PPC;
-            }
-            else if (StringTool.startsWithIgnoreCase(arch, OsVersionConstants.SPARC))
-            {
-                result = Arch.SPARC;
-            }
-            else
-            {
-                result = Arch.UNKNOWN;
-            }
-        }
-        return result;
     }
 
     /**
@@ -628,8 +689,8 @@ public class Platforms
     /**
      * Compares two strings for equality.
      *
-     * @param a the first string to compare. May be <tt>null</tt>
-     * @param b the second string to compare. May be <tt>null</tt>
+     * @param a the first string to compare. May be {@code null}
+     * @param b the second string to compare. May be {@code null}
      * @return <tt>true</tt> if the strings match
      */
     private boolean equals(String a, String b)
@@ -640,20 +701,26 @@ public class Platforms
     /**
      * Compares two strings for equality.
      *
-     * @param a          the first string to compare. May be <tt>null</tt>
-     * @param b          the second string to compare. May be <tt>null</tt>
+     * @param a          the first string to compare. May be {@code null}
+     * @param b          the second string to compare. May be {@code null}
      * @param ignoreCase if <tt>true</tt>, ignore case
      * @return <tt>true</tt> if the strings match
      */
     private boolean equals(String a, String b, boolean ignoreCase)
     {
         boolean result = false;
-        if (a == null && b == null) {
+        if (a == null && b == null)
+        {
             result = true;
-        } else if (a != null) {
-            if (ignoreCase) {
+        }
+        else if (a != null)
+        {
+            if (ignoreCase)
+            {
                 result = a.equalsIgnoreCase(b);
-            } else {
+            }
+            else
+            {
                 result = a.equals(b);
             }
         }

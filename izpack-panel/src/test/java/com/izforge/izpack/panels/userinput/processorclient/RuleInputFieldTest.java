@@ -30,6 +30,7 @@ import org.mockito.Mockito;
 
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.installer.data.GUIInstallData;
+import com.izforge.izpack.util.Platforms;
 
 
 /**
@@ -53,7 +54,7 @@ public class RuleInputFieldTest
         String processor = null;
         Toolkit toolkit = Mockito.mock(Toolkit.class);
 
-        GUIInstallData installData = new GUIInstallData(new DefaultVariables());
+        GUIInstallData installData = new GUIInstallData(new DefaultVariables(), Platforms.HP_UX);
 
         RuleInputField field = new RuleInputField(layout, set, separator, validator, processor,
                                                   RuleInputField.DISPLAY_FORMAT, toolkit, installData);

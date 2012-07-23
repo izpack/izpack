@@ -55,6 +55,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * The compile panel class.
@@ -146,11 +147,12 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
      * @throws IOException for any I/O error
      */
     public CompilePanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                        VariableSubstitutor variableSubstitutor, IUnpacker unpacker) throws IOException
+                        VariableSubstitutor variableSubstitutor, IUnpacker unpacker,
+                        PlatformModelMatcher matcher) throws IOException
     {
         super(panel, parent, installData, resources);
         unpacker.setProgressListener(this);
-        this.worker = new CompileWorker(installData, this, variableSubstitutor, resources);
+        this.worker = new CompileWorker(installData, this, variableSubstitutor, resources, matcher);
 
         GridBagConstraints gridBagConstraints;
 

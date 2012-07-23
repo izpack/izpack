@@ -31,6 +31,7 @@ import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.TargetFactory;
 
 /**
@@ -52,15 +53,18 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
      * @param uninstallData the uninstallation data
      * @param housekeeper   the house keeper
      * @param factory       the factory for platform-specific implementations
+     * @param matcher       the platform-model matcher
      */
-    public ShortcutPanelAutomationHelper(AutomatedInstallData installData, Resources resources, UninstallData uninstallData,
-    									 Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners)
+    public ShortcutPanelAutomationHelper(AutomatedInstallData installData, Resources resources,
+                                         UninstallData uninstallData,
+                                         Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
+                                         PlatformModelMatcher matcher)
     {
         super(housekeeper);
         try
         {
             shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData,
-                                                        housekeeper, factory, listeners);
+                                                        housekeeper, factory, listeners, matcher);
         }
         catch (Exception e)
         {

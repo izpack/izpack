@@ -56,6 +56,7 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Tests the {@link BSFInstallerListener} class.
@@ -99,7 +100,7 @@ public class BSFInstallerListenerTest
         Variables variables = new DefaultVariables(properties);
         replacer = new VariableSubstitutorImpl(variables);
 
-        installData = new AutomatedInstallData(variables);
+        installData = new AutomatedInstallData(variables, Platforms.MANDRIVA_LINUX);
 
         installDir = temporaryFolder.getRoot();
         installData.setInstallPath(installDir.getPath());

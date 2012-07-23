@@ -18,8 +18,8 @@
 
 package com.izforge.izpack.util;
 
-import static com.izforge.izpack.util.Platform.Name;
 import static com.izforge.izpack.util.Platform.Arch;
+import static com.izforge.izpack.util.Platform.Name;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,7 +58,7 @@ public final class OsVersion implements OsVersionConstants, StringConstants
     /**
      * The current platform.
      */
-    private static final Platform PLATFORM = new Platforms().getCurrentPlatform(OS_NAME, OS_ARCH, OS_VERSION);
+    public static final Platform PLATFORM = new Platforms().getCurrentPlatform(OS_NAME, OS_ARCH, OS_VERSION);
 
     /**
      * True if the processor is in the Intel x86 family. Also true if you're running

@@ -70,10 +70,10 @@ public class InstallerRequirementCheckerTest
     public InstallerRequirementCheckerTest()
     {
         DefaultVariables variables = new DefaultVariables();
-        installData = new AutomatedInstallData(variables);
+        installData = new AutomatedInstallData(variables, Platforms.SUNOS_X86);
         installData.setInstallerRequirements(new ArrayList<InstallerRequirement>());
         installData.setMessages(new LocaleDatabase(new StringInputStream("<langpack/>"), Mockito.mock(Locales.class)));
-        rules = new RulesEngineImpl(installData, null, Platforms.SUNOS_X86);
+        rules = new RulesEngineImpl(installData, null, installData.getPlatform());
         variables.setRules(rules);
 
         Map<String, Condition> conditions = new HashMap<String, Condition>();

@@ -5,41 +5,39 @@ import java.io.PrintWriter;
 import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.substitutor.VariableSubstitutor;
-import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
-
-import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.api.resource.Resources;
-
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.handler.Prompt.Type;
-
-import com.izforge.izpack.installer.console.PanelConsole;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.console.AbstractPanelConsole;
+import com.izforge.izpack.installer.console.PanelConsole;
 import com.izforge.izpack.util.Console;
-
-import com.izforge.izpack.panels.process.ProcessPanelWorker;
-import com.izforge.izpack.panels.process.AbstractUIProcessHandler;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 
 public class ProcessPanelConsole extends AbstractPanelConsole implements PanelConsole, AbstractUIProcessHandler
 {
-    private VariableSubstitutor vs;
     private RulesEngine rules;
     private Resources resources;
     private Prompt prompt;
+
+    /**
+     * The platform-model matcher.
+     */
+    private final PlatformModelMatcher matcher;
 
     private int noOfJobs = 0;
 
     private int currentJob = 0;
 
-    public ProcessPanelConsole(VariableSubstitutor vs, RulesEngine rules, Resources resources, Prompt prompt)
+    public ProcessPanelConsole(RulesEngine rules, Resources resources, Prompt prompt, PlatformModelMatcher matcher)
     {
-        this.vs = vs;
         this.rules = rules;
         this.resources = resources;
         this.prompt = prompt;
+        this.matcher = matcher;
     }
+
     public void emitNotification(String message)
     {
         // TODO Auto-generated method stub
@@ -96,7 +94,7 @@ public class ProcessPanelConsole extends AbstractPanelConsole implements PanelCo
     {
         this.currentJob++;
         logOutput("Starting process " + name + " (" + Integer.toString(this.currentJob)
-                + "/" + Integer.toString(this.noOfJobs) + ")", false);
+                          + "/" + Integer.toString(this.noOfJobs) + ")", false);
     }
 
     public void finishProcess()
@@ -111,7 +109,7 @@ public class ProcessPanelConsole extends AbstractPanelConsole implements PanelCo
     }
 
     public boolean runGeneratePropertiesFile(InstallData installData,
-            PrintWriter printWriter)
+                                             PrintWriter printWriter)
     {
         // TODO finish this
         return false;
@@ -133,7 +131,7 @@ public class ProcessPanelConsole extends AbstractPanelConsole implements PanelCo
 
         try
         {
-            ProcessPanelWorker worker = new ProcessPanelWorker(installData, vs, rules, resources);
+            ProcessPanelWorker worker = new ProcessPanelWorker(installData, rules, resources, matcher);
             worker.setHandler(this);
 
             worker.run();

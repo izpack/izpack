@@ -3,13 +3,14 @@ package com.izforge.izpack.installer.data;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.Platform;
 
 
 public class InstallData extends AutomatedInstallData
 {
-    public InstallData(Variables variables)
+    public InstallData(Variables variables, Platform platform)
     {
-        super(variables);
+        super(variables, platform);
     }
 
     @Override

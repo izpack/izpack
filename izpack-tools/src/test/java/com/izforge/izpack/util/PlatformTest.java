@@ -217,10 +217,11 @@ public class PlatformTest extends AbstractPlatformTest
     @Test
     public void testToString()
     {
-        Platform platform1 = new Platform(Name.WINDOWS, "windows_7", OsVersionConstants.WINDOWS_7_VERSION, Arch.X64);
-        assertEquals("windows,version=6.1,arch=x64,symbolicName=windows_7", platform1.toString());
+        Platform platform1 = new Platform(Name.WINDOWS, "windows_7", OsVersionConstants.WINDOWS_7_VERSION, Arch.X64,
+                                          "1.6");
+        assertEquals("windows,version=6.1,arch=x64,symbolicName=windows_7,javaVersion=1.6", platform1.toString());
 
         Platform platform2 = new Platform(Name.SUNOS);
-        assertEquals("sunos,version=null,arch=unknown,symbolicName=null", platform2.toString());
+        assertEquals("sunos,version=null,arch=unknown,symbolicName=null,javaVersion=null", platform2.toString());
     }
 }

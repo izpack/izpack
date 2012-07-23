@@ -33,7 +33,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.handler.PromptUIHandler;
 import com.izforge.izpack.data.ExecutableFile;
 import com.izforge.izpack.util.FileExecutor;
-import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 
 /**
@@ -50,6 +50,11 @@ public class Executables
     private final List<ExecutableFile> executables;
 
     /**
+     * The platform-model matcher.
+     */
+    private final PlatformModelMatcher matcher;
+
+    /**
      * The prompt for reporting errors.
      */
     private final Prompt prompt;
@@ -64,12 +69,14 @@ public class Executables
      * Constructs an <tt>Executables</tt>.
      *
      * @param resources used to locate the <em>executables</em> resource
-     * @param prompt   the prompt for reporting errors
+     * @param matcher   the platform-model matcher
+     * @param prompt    the prompt for reporting errors
      * @throws IzPackException if the executables cannot be read
      */
-    public Executables(Resources resources, Prompt prompt)
+    public Executables(Resources resources, PlatformModelMatcher matcher, Prompt prompt)
     {
         this.prompt = prompt;
+        this.matcher = matcher;
         executables = read(resources);
     }
 
@@ -84,8 +91,7 @@ public class Executables
     {
         for (ExecutableFile file : executables)
         {
-            if (file.executionStage == ExecutableFile.UNINSTALL
-                    && OsConstraintHelper.oneMatchesCurrentSystem(file.osList))
+            if (file.executionStage == ExecutableFile.UNINSTALL && matcher.matchesCurrentPlatform(file.osList))
             {
                 if (!run(file))
                 {
@@ -105,7 +111,7 @@ public class Executables
     protected boolean run(ExecutableFile file)
     {
         FileExecutor executor = new FileExecutor(Arrays.asList(file));
-        int status = executor.executeFiles(ExecutableFile.UNINSTALL, new PromptUIHandler(prompt));
+        int status = executor.executeFiles(ExecutableFile.UNINSTALL, matcher, new PromptUIHandler(prompt));
         if (status != 0)
         {
             logger.severe("Executable=" + file.path + " exited with status=" + status);

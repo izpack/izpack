@@ -121,6 +121,7 @@ import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.file.DirectoryScanner;
 import com.izforge.izpack.util.file.FileUtils;
 
@@ -186,6 +187,11 @@ public class CompilerConfig extends Thread
      */
     private final ObjectFactory factory;
 
+    /**
+     * The OS constraints.
+     */
+    private final PlatformModelMatcher constraints;
+
     private static final String TEMP_DIR_ELEMENT_NAME = "tempdir";
 
     private static final String TEMP_DIR_PREFIX_ATTRIBUTE = "prefix";
@@ -216,7 +222,7 @@ public class CompilerConfig extends Thread
                           XmlCompilerHelper xmlCompilerHelper, PropertyManager propertyManager,
                           MergeManager mergeManager, AssertionHelper assertionHelper, ClassPathCrawler classPathCrawler,
                           RulesEngine rules, CompilerPathResolver pathResolver, ResourceFinder resourceFinder,
-                          ObjectFactory factory)
+                          ObjectFactory factory, PlatformModelMatcher constraints)
     {
         this.assertionHelper = assertionHelper;
         this.rules = rules;
@@ -230,6 +236,7 @@ public class CompilerConfig extends Thread
         this.pathResolver = pathResolver;
         this.resourceFinder = resourceFinder;
         this.factory = factory;
+        this.constraints = constraints;
     }
 
     /**
@@ -2741,7 +2748,7 @@ public class CompilerConfig extends Thread
                     }
                     else
                     {
-                        if (OsConstraintHelper.oneMatchesCurrentSystem(osConstraints))
+                        if (constraints.matchesCurrentPlatform(osConstraints))
                         {
                             matchesCurrentSystem = true;
                         }
@@ -3071,10 +3078,8 @@ public class CompilerConfig extends Thread
     private void readAndAddIncludes(IXMLElement parent, TargetFileSet fileset)
             throws CompilerException
     {
-        Iterator<IXMLElement> iter = parent.getChildrenNamed("include").iterator();
-        while (iter.hasNext())
+        for (IXMLElement f : parent.getChildrenNamed("include"))
         {
-            IXMLElement f = iter.next();
             fileset.createInclude().setName(
                     variableSubstitutor.substitute(
                             xmlCompilerHelper.requireAttribute(f, "name")));
@@ -3084,10 +3089,8 @@ public class CompilerConfig extends Thread
     private void readAndAddExcludes(IXMLElement parent, TargetFileSet fileset)
             throws CompilerException
     {
-        Iterator<IXMLElement> iter = parent.getChildrenNamed("exclude").iterator();
-        while (iter.hasNext())
+        for (IXMLElement f : parent.getChildrenNamed("exclude"))
         {
-            IXMLElement f = iter.next();
             fileset.createExclude().setName(
                     variableSubstitutor.substitute(
                             xmlCompilerHelper.requireAttribute(f, "name")));

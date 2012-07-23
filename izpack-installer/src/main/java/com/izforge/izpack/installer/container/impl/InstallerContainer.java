@@ -44,6 +44,7 @@ import com.izforge.izpack.merge.resolve.PathResolver;
 import com.izforge.izpack.util.DefaultTargetPlatformFactory;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Librarian;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.TargetFactory;
 
@@ -129,6 +130,7 @@ public abstract class InstallerContainer extends AbstractContainer
         addComponent(PathResolver.class);
         addComponent(MergeableResolver.class);
         addComponent(Platforms.class);
+        addComponent(PlatformModelMatcher.class);
 
         pico.addComponent(VariableSubstitutor.class, VariableSubstitutorImpl.class,
                           new ComponentParameter(DefaultVariables.class));

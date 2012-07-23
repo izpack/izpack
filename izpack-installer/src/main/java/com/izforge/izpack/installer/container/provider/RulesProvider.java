@@ -36,7 +36,6 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.rules.ConditionContainer;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
-import com.izforge.izpack.util.Platform;
 
 /**
  * Injection provider for rules.
@@ -60,13 +59,12 @@ public class RulesProvider implements Provider
      * @param variables          the variables
      * @param conditionContainer the condition container
      * @param resources          the resources
-     * @param platform           the current platform
      * @return a new rules engine
      */
     public RulesEngine provide(AutomatedInstallData installData, DefaultVariables variables,
-                               ConditionContainer conditionContainer, Resources resources, Platform platform)
+                               ConditionContainer conditionContainer, Resources resources)
     {
-        RulesEngine result = new RulesEngineImpl(installData, conditionContainer, platform);
+        RulesEngine result = new RulesEngineImpl(installData, conditionContainer, installData.getPlatform());
         Map<String, Condition> conditions = readConditions(resources);
         if (conditions != null && !conditions.isEmpty())
         {

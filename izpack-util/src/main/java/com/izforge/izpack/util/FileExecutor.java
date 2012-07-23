@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.util;
 
+import static com.izforge.izpack.util.Platform.Name.UNIX;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -46,6 +48,7 @@ import com.izforge.izpack.data.ExecutableFile;
  */
 public class FileExecutor
 {
+
     private static final Logger logger = Logger.getLogger(FileExecutor.class.getName());
 
     private static final String JAR_FILE_SUFFIX = ".jar";
@@ -295,16 +298,18 @@ public class FileExecutor
      * Executes files specified at construction time.
      *
      * @param currentStage the stage of the installation
+     * @param matcher      the platform-model matcher
      * @param handler      The AbstractUIHandler to notify on errors.
      * @return 0 on success, else the exit status of the last failed command
      */
-    public int executeFiles(int currentStage, AbstractUIHandler handler)
+    public int executeFiles(int currentStage, PlatformModelMatcher matcher, AbstractUIHandler handler)
     {
         int exitStatus = 0;
         String[] output = new String[2];
         // String permissions = (System.getProperty("user.name").equals("root"))
         // ? "a+x" : "u+x";
         String permissions = "a+x";
+        boolean isUnix = matcher.getCurrentPlatform().isA(UNIX);
 
         // loop through all executables
         Iterator<ExecutableFile> efileIterator = this.files.iterator();
@@ -317,12 +322,12 @@ public class FileExecutor
 
             // skip file if not for current OS (it might not have been installed
             // at all)
-            if (!OsConstraintHelper.oneMatchesCurrentSystem(efile.osList))
+            if (!matcher.matchesCurrentPlatform(efile.osList))
             {
                 continue;
             }
 
-            if (ExecutableFile.BIN == efile.type && currentStage != ExecutableFile.UNINSTALL && OsVersion.IS_UNIX)
+            if (ExecutableFile.BIN == efile.type && currentStage != ExecutableFile.UNINSTALL && isUnix)
             {
                 // fix executable permission for unix systems
                 logger.fine("Making file executable (setting executable flag)");

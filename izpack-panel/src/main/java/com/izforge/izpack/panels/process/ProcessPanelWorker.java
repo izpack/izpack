@@ -33,6 +33,7 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * This class does alle the work for the process panel.
@@ -77,26 +78,32 @@ public class ProcessPanelWorker implements Runnable
     private final Resources resources;
 
     /**
+     * The platform-model matcher.
+     */
+    private final PlatformModelMatcher matcher;
+
+
+    /**
      * Constructs a <tt>ProcessPanelWorker</tt>.
      *
-     * @param installData         the installation data
-     * @param variableSubstitutor the variable substituter
-     * @param rules               the rules engine
-     * @param resources           the resources
+     * @param installData the installation data
+     * @param rules       the rules engine
+     * @param resources   the resources
+     * @param matcher     the platform-model matcher
      * @throws IOException for any I/O error
      */
-    public ProcessPanelWorker(InstallData installData, VariableSubstitutor variableSubstitutor,
-                              RulesEngine rules, Resources resources)
+    public ProcessPanelWorker(InstallData installData, RulesEngine rules, Resources resources,
+                              PlatformModelMatcher matcher)
             throws IOException
     {
         this.idata = installData;
-        this.vs = variableSubstitutor;
         this.rules = rules;
         // Removed this test in order to move out of the CTOR (ExecuteForPack
         // Patch)
         // if (!readSpec())
         // throw new IOException("Error reading processing specification");
         this.resources = resources;
+        this.matcher = matcher;
     }
 
     public void setHandler(AbstractUIProcessHandler handler)
@@ -170,7 +177,7 @@ public class ProcessPanelWorker implements Runnable
             // first check OS constraints - skip jobs not suited for this OS
             List<OsModel> constraints = OsConstraintHelper.getOsList(job_el);
 
-            if (OsConstraintHelper.oneMatchesCurrentSystem(constraints))
+            if (matcher.matchesCurrentPlatform(constraints))
             {
                 List<ProcessPanelWorker.Processable> ef_list = new ArrayList<ProcessPanelWorker.Processable>();
 
@@ -296,6 +303,7 @@ public class ProcessPanelWorker implements Runnable
         if (logfiledir != null)
         {
             logfiledir = IoHelper.translatePath(logfiledir, idata.getVariables());
+
             String appVersion = idata.getVariable("APP_VER");
 
             if (appVersion != null)
@@ -323,6 +331,7 @@ public class ProcessPanelWorker implements Runnable
                 // TODO throw or throw not, that's the question...
             }
         }
+
         this.handler.startProcessing(this.jobs.size());
 
         for (ProcessPanelWorker.ProcessingJob processingJob : this.jobs)

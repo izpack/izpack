@@ -33,6 +33,7 @@ import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.FileUtil;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Tests the {@link LockFileChecker} class.
@@ -51,7 +52,7 @@ public class LockFileCheckerTest
      */
     public LockFileCheckerTest()
     {
-        installData = new InstallData(null);
+        installData = new InstallData(null, Platforms.UNIX);
         Info info = new Info();
         installData.setInfo(info);
     }

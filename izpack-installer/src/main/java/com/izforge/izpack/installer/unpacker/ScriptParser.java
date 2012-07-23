@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.data.ParsableFile;
-import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * A {@link ParsableFile} parser.
@@ -43,17 +43,24 @@ public class ScriptParser
     /**
      * The variable replacer.
      */
-    private VariableSubstitutor replacer;
+    private final VariableSubstitutor replacer;
+
+    /**
+     * The platform-model matcher.
+     */
+    private final PlatformModelMatcher matcher;
 
     /**
      * Constructs a new parser. The parsable files specified must have pretranslated paths
      * (variables expanded and file separator characters converted if necessary).
      *
      * @param replacer the variable replacer to use
+     * @param matcher  the platform-model matcher
      */
-    public ScriptParser(VariableSubstitutor replacer)
+    public ScriptParser(VariableSubstitutor replacer, PlatformModelMatcher matcher)
     {
         this.replacer = replacer;
+        this.matcher = matcher;
     }
 
     /**
@@ -65,7 +72,7 @@ public class ScriptParser
     public void parse(ParsableFile parsable) throws Exception
     {
         // check whether the OS matches
-        if (!OsConstraintHelper.oneMatchesCurrentSystem(parsable.osConstraints))
+        if (!matcher.matchesCurrentPlatform(parsable.osConstraints))
         {
             return;
         }

@@ -42,6 +42,7 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.Platform;
 
 /**
  * Base class for panels which asks for paths.
@@ -343,7 +344,8 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
                 }
                 if (in == null)
                 {
-                    if (OsVersion.IS_WINDOWS)
+                    Platform platform = installData.getPlatform();
+                    if (platform.isA(Platform.Name.WINDOWS))
                     {
                         try
                         {
@@ -353,7 +355,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
                         {
                         }//it's usual, that the resource does not exist
                     }
-                    else if (OsVersion.IS_OSX)
+                    else if (platform.isA(Platform.Name.MAC_OSX))
                     {
                         try
                         {

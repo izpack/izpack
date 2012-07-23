@@ -51,6 +51,7 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.MergeManagerImpl;
 import com.izforge.izpack.util.Platform;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
 
 /**
@@ -109,6 +110,7 @@ public class CompilerContainer extends AbstractContainer
         addComponent(MergeManager.class, MergeManagerImpl.class);
         container.addComponent(ObjectFactory.class, DefaultObjectFactory.class,
                                new ComponentParameter(CompilerContainer.class));
+        container.addComponent(PlatformModelMatcher.class);
         addComponent(Platforms.class);
 
         new ResolverContainerFiller().fillContainer(this);

@@ -47,6 +47,8 @@ import com.izforge.izpack.compiler.resource.ResourceFinder;
 import com.izforge.izpack.core.data.DynamicVariableImpl;
 import com.izforge.izpack.core.variable.PlainValue;
 import com.izforge.izpack.merge.MergeManager;
+import com.izforge.izpack.util.PlatformModelMatcher;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Test of compiler config with mock
@@ -154,7 +156,8 @@ public class CompilerConfigMockedTest
                   Mockito.mock(PropertyManager.class), Mockito.mock(MergeManager.class),
                   Mockito.mock(AssertionHelper.class), Mockito.mock(ClassPathCrawler.class),
                   Mockito.mock(RulesEngine.class), Mockito.mock(CompilerPathResolver.class),
-                  Mockito.mock(ResourceFinder.class), Mockito.mock(ObjectFactory.class));
+                  Mockito.mock(ResourceFinder.class), Mockito.mock(ObjectFactory.class),
+                  new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS));
             setPackager(packager);
         }
     }

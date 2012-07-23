@@ -41,6 +41,7 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.panels.path.PathInputPanel;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.Platform;
 
 /**
  * Panel which asks for the JDK path.
@@ -321,7 +322,7 @@ public class JDKPathPanel extends PathInputPanel
         // We cannot look to the version of this vm because we should
         // test the given JDK VM.
         String[] params;
-        if (System.getProperty("os.name").contains("Windows"))
+        if (installData.getPlatform().isA(Platform.Name.WINDOWS))
         {
             String[] paramsp = {
                     "cmd",

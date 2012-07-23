@@ -148,7 +148,7 @@ public class RegistryInstallerListenerTest
 
         replacer = new VariableSubstitutorImpl(variables);
 
-        AutomatedInstallData data = new AutomatedInstallData(variables);
+        AutomatedInstallData data = new AutomatedInstallData(variables, Platforms.WINDOWS);
         data.setMessages(Mockito.mock(Messages.class));
         installData = data;
 

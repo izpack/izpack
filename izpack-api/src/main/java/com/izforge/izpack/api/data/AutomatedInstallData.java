@@ -25,13 +25,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.logging.Logger;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
+import com.izforge.izpack.util.Platform;
 
 /**
  * Encloses information about the install process. This implementation is not thread safe.
@@ -58,6 +58,11 @@ public class AutomatedInstallData implements InstallData
      * The inforamtions.
      */
     private Info info;
+
+    /**
+     * The platform being installed to.
+     */
+    private Platform platform;
 
     /**
      * The complete list of packs.
@@ -152,19 +157,17 @@ public class AutomatedInstallData implements InstallData
      */
     private List<InstallerListener> installerListener = new ArrayList<InstallerListener>();
 
-    /**
-     * The logger.
-     */
-    private static final Logger logger = Logger.getLogger(InstallerListener.class.getName());
 
     /**
      * Constructs an <tt>AutomatedInstallData</tt>.
      *
      * @param variables the variables
+     * @param platform  the platform
      */
-    public AutomatedInstallData(Variables variables)
+    public AutomatedInstallData(Variables variables, Platform platform)
     {
         this.variables = variables;
+        this.platform = platform;
         setAvailablePacks(new ArrayList<Pack>());
         setSelectedPacks(new ArrayList<Pack>());
         setPanelsOrder(new ArrayList<Panel>());
@@ -310,8 +313,8 @@ public class AutomatedInstallData implements InstallData
      * name of the attribute should include the package and class name to prevent name space
      * collisions.
      *
-     * @param name the name of the attribute to set
-     * @param value  the value of the attribute or null to unset the attribute
+     * @param name  the name of the attribute to set
+     * @param value the value of the attribute or null to unset the attribute
      * @see #getAttribute
      */
     @Override
@@ -434,6 +437,17 @@ public class AutomatedInstallData implements InstallData
     public void setInfo(Info info)
     {
         this.info = info;
+    }
+
+    /**
+     * Returns the current platform.
+     *
+     * @return the current platform
+     */
+    @Override
+    public Platform getPlatform()
+    {
+        return platform;
     }
 
     @Override

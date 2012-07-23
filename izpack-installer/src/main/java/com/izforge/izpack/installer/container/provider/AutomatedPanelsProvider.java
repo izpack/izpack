@@ -31,6 +31,7 @@ import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.installer.automation.AutomatedPanelView;
 import com.izforge.izpack.installer.automation.AutomatedPanels;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 
 /**
@@ -49,14 +50,15 @@ public class AutomatedPanelsProvider extends PanelsProvider
      * @param factory     the factory
      * @param installData the installation data
      * @param helper      the helper
+     * @param matcher     the platform-model matcher
      * @throws IzPackException if a panel doesn't have unique identifier
      */
     public AutomatedPanels provide(ObjectFactory factory, AutomatedInstallData installData,
-                                   PanelAutomationHelper helper)
+                                   PanelAutomationHelper helper, PlatformModelMatcher matcher)
     {
         List<AutomatedPanelView> panels = new ArrayList<AutomatedPanelView>();
 
-        for (Panel panel : prepare(installData))
+        for (Panel panel : prepare(installData, matcher))
         {
             AutomatedPanelView panelView = new AutomatedPanelView(panel, factory, installData, helper);
             panels.add(panelView);

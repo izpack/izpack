@@ -33,6 +33,7 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * Functions to support automated usage of the CompilePanel
@@ -63,18 +64,25 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
     private final Resources resources;
 
     /**
+     * The platform-model matcher.
+     */
+    private final PlatformModelMatcher matcher;
+
+    /**
      * Constructs a <tt>CompilePanelAutomationHelper</tt>.
      *
      * @param variableSubstitutor the variable substituter
      * @param resources           the resources
      * @param housekeeper         the house-keeper
+     * @param matcher             the platform-model matcher
      */
     public CompilePanelAutomationHelper(VariableSubstitutor variableSubstitutor, Resources resources,
-                                        Housekeeper housekeeper)
+                                        Housekeeper housekeeper, PlatformModelMatcher matcher)
     {
         super(housekeeper);
         this.variableSubstitutor = variableSubstitutor;
         this.resources = resources;
+        this.matcher = matcher;
     }
 
     /**
@@ -91,7 +99,6 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
 
     /**
      * Perform the installation actions.
-     *
      *
      * @param panelRoot The panel XML tree root.
      * @throws InstallerException if something went wrong.
@@ -129,7 +136,7 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
         try
         {
 
-            this.worker = new CompileWorker(idata, this, variableSubstitutor, resources);
+            this.worker = new CompileWorker(idata, this, variableSubstitutor, resources, matcher);
             this.worker.setCompiler(compiler);
             this.worker.setCompilerArguments(args);
 

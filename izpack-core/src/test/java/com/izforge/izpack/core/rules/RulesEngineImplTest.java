@@ -140,7 +140,8 @@ public class RulesEngineImplTest
     public void setUp() throws Exception
     {
         DefaultVariables variables = new DefaultVariables();
-        engine = new RulesEngineImpl(new AutomatedInstallData(variables), null, Platforms.LINUX);
+        Platform linux = Platforms.LINUX;
+        engine = new RulesEngineImpl(new AutomatedInstallData(variables, linux), null, linux);
         variables.setRules(engine);
 
         Map<String, Condition> conditions = new HashMap<String, Condition>();
@@ -494,7 +495,7 @@ public class RulesEngineImplTest
     @Test
     public void testReadConditionTypes()
     {
-        RulesEngine rules = createRulesEngine(new AutomatedInstallData(new DefaultVariables()), Platforms.UNIX);
+        RulesEngine rules = createRulesEngine(new AutomatedInstallData(new DefaultVariables(), Platforms.UNIX));
         IXMLParser parser = new XMLParser();
         IXMLElement conditions = parser.parse(getClass().getResourceAsStream("conditions.xml"));
         rules.analyzeXml(conditions);
@@ -560,8 +561,8 @@ public class RulesEngineImplTest
     public void testSerialization() throws Exception
     {
         // create rules for Windows platform
-        InstallData installData1 = new AutomatedInstallData(new DefaultVariables());
-        RulesEngine rules1 = createRulesEngine(installData1, Platforms.WINDOWS);
+        InstallData installData1 = new AutomatedInstallData(new DefaultVariables(), Platforms.WINDOWS);
+        RulesEngine rules1 = createRulesEngine(installData1);
         IXMLParser parser = new XMLParser();
 
         // load the conditions
@@ -578,8 +579,8 @@ public class RulesEngineImplTest
         Map<String, Condition> read = serializeConditions(rules1);
 
         // create rules for OSX platform, and populate with the serialized conditions
-        InstallData installData2 = new AutomatedInstallData(new DefaultVariables());
-        RulesEngine rules2 = createRulesEngine(installData2, Platforms.MAC_OSX);
+        InstallData installData2 = new AutomatedInstallData(new DefaultVariables(), Platforms.MAC_OSX);
+        RulesEngine rules2 = createRulesEngine(installData2);
         rules2.readConditionMap(read);
 
         // verify the conditions evaluate as expected
@@ -600,8 +601,8 @@ public class RulesEngineImplTest
     public void testSerializeBuiltinConditions() throws Exception
     {
         // create rules for Windows platform
-        InstallData installData1 = new AutomatedInstallData(new DefaultVariables());
-        RulesEngine rules1 = createRulesEngine(installData1, Platforms.WINDOWS_XP);
+        InstallData installData1 = new AutomatedInstallData(new DefaultVariables(), Platforms.WINDOWS_XP);
+        RulesEngine rules1 = createRulesEngine(installData1);
         IXMLParser parser = new XMLParser();
 
         // load the conditions
@@ -618,8 +619,8 @@ public class RulesEngineImplTest
         Map<String, Condition> read = serializeConditions(rules1);
 
         // create rules for OSX platform, and populate with the serialized conditions
-        InstallData installData2 = new AutomatedInstallData(new DefaultVariables());
-        RulesEngine rules2 = createRulesEngine(installData2, Platforms.WINDOWS_7);
+        InstallData installData2 = new AutomatedInstallData(new DefaultVariables(), Platforms.WINDOWS_7);
+        RulesEngine rules2 = createRulesEngine(installData2);
         rules2.readConditionMap(read);
 
         // verify the conditions evaluate as expected
@@ -669,7 +670,8 @@ public class RulesEngineImplTest
     private void checkPlatformCondition(Platform platform, String... conditions)
     {
         DefaultContainer parent = new DefaultContainer();
-        RulesEngine rules = new RulesEngineImpl(new ConditionContainer(parent), platform);
+        RulesEngine rules = new RulesEngineImpl(new AutomatedInstallData(new DefaultVariables(), platform),
+                                                new ConditionContainer(parent), platform);
         for (String condition : conditions)
         {
             assertTrue("Expected " + condition + " to be true", rules.isConditionTrue(condition));
@@ -715,13 +717,12 @@ public class RulesEngineImplTest
      * Creates a new {@link RulesEngine}.
      *
      * @param installData the installation data
-     * @param platform    the current platform
      * @return a new rules engine
      */
-    private RulesEngine createRulesEngine(InstallData installData, Platform platform)
+    private RulesEngine createRulesEngine(InstallData installData)
     {
         DefaultContainer parent = new DefaultContainer();
-        RulesEngine rules = new RulesEngineImpl(installData, new ConditionContainer(parent), platform);
+        RulesEngine rules = new RulesEngineImpl(installData, new ConditionContainer(parent), installData.getPlatform());
         parent.addComponent(RulesEngine.class, rules);
         return rules;
     }

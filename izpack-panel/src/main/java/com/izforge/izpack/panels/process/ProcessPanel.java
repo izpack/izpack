@@ -39,10 +39,10 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
  * The process panel class.
@@ -104,14 +104,14 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
      * @param installData the installation data
      * @param resources   the resources
      * @param rules       the rules
-     * @param substituter the variable replacer
+     * @param matcher     the platform-model matcher
      */
     public ProcessPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                        RulesEngine rules, VariableSubstitutor substituter) throws IOException
+                        RulesEngine rules, PlatformModelMatcher matcher) throws IOException
     {
         super(panel, parent, installData, resources);
 
-        worker = new ProcessPanelWorker(installData, substituter, rules, resources);
+        worker = new ProcessPanelWorker(installData, rules, resources, matcher);
         worker.setHandler(this);
         JLabel heading = new JLabel();
         Font font = heading.getFont();
