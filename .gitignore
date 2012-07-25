@@ -4,6 +4,7 @@
 *.iml
 *.ipr
 target/
+!izpack-panel/src/main/java/com/izforge/izpack/panels/target/
 *.iws
 *~
 *.orig

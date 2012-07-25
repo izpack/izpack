@@ -56,12 +56,6 @@ public class DefaultTargetPanel extends PathInputPanel
                               Resources resources, DefaultTargetPanelAutomationHelper helper, Log log)
     {
         super(panel, parent, installData, resources, log);
-        if (getDefaultInstallDir() != null)
-        {
-            // override the system default that uses app name (which is set in
-            // the Installer class)
-            installData.setInstallPath(getDefaultInstallDir());
-        }
         this.defaultTargetPanelAutomationHelper = helper;
     }
 
@@ -88,28 +82,6 @@ public class DefaultTargetPanel extends PathInputPanel
         //if (!super.isValidated()) return (false);
         //installData.setInstallPath(pathSelectionPanel.getPath());
         return (true);
-    }
-
-    /**
-     * Returns the default install directory. This is equal to
-     * <code>PathInputPanel.getDefaultInstallDir</code>
-     *
-     * @return the default install directory
-     */
-    public String getDefaultDir()
-    {
-        return getDefaultInstallDir();
-    }
-
-    /**
-     * Sets the default install directory to the given String. This is equal to
-     * <code>PathInputPanel.setDefaultInstallDir</code>
-     *
-     * @param defaultDir path to be used for the install directory
-     */
-    public void setDefaultDir(String defaultDir)
-    {
-        setDefaultInstallDir(defaultDir);
     }
 
     /**

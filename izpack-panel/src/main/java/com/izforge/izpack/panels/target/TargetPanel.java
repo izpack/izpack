@@ -61,20 +61,21 @@ public class TargetPanel extends PathInputPanel
      */
     public void panelActivate()
     {
-        // Resolve the default for chosenPath
-        super.panelActivate();
-
-        loadDefaultInstallDir();
-        if (getDefaultInstallDir() != null)
+        // load the default directory info (if present)
+        String path = TargetPanelConsoleHelper.getDefaultInstallPath(installData);
+        if (path != null)
         {
-            pathSelectionPanel.setPath(getDefaultInstallDir());
+            installData.setInstallPath(path);
+            pathSelectionPanel.setPath(installData.getInstallPath());
         }
+
+        super.panelActivate();
     }
 
     /**
-     * Indicates wether the panel has been validated or not.
+     * Indicates whether the panel has been validated or not.
      *
-     * @return Wether the panel has been validated or not.
+     * @return Whether the panel has been validated or not.
      */
     public boolean isValidated()
     {
@@ -83,30 +84,8 @@ public class TargetPanel extends PathInputPanel
         {
             return (false);
         }
-        this.installData.setInstallPath(pathSelectionPanel.getPath());
+        installData.setInstallPath(pathSelectionPanel.getPath());
         return (true);
-    }
-
-    /**
-     * Returns the default install directory. This is equal to
-     * <code>PathInputPanel.getDefaultInstallDir</code>
-     *
-     * @return the default install directory
-     */
-    public String getDefaultDir()
-    {
-        return getDefaultInstallDir();
-    }
-
-    /**
-     * Sets the default install directory to the given String. This is equal to
-     * <code>PathInputPanel.setDefaultInstallDir</code>
-     *
-     * @param defaultDir path to be used for the install directory
-     */
-    public void setDefaultDir(String defaultDir)
-    {
-        setDefaultInstallDir(defaultDir);
     }
 
     /**
