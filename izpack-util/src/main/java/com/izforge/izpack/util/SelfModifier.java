@@ -21,8 +21,6 @@
 
 package com.izforge.izpack.util;
 
-import com.izforge.izpack.util.file.FileUtils;
-
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,6 +47,8 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
+import com.izforge.izpack.util.file.FileUtils;
 
 /**
  * Allows an application to modify the jar file from which it came, including outright deletion. The
@@ -161,8 +161,6 @@ public class SelfModifier
      */
     public static final String PHASE_KEY = "self.mod.phase";
 
-    public static final String MEMORY_KEY = "self.memory";
-
     /**
      * Target method to be invoked in sandbox.
      */
@@ -194,10 +192,6 @@ public class SelfModifier
     private SimpleDateFormat isoPoint = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
     private Date date = new Date();
-
-    private long maxmemory = 64;
-    private long maxpermgensize = 16;
-    private boolean useMemorySettings = false;
 
     /**
      * Debug port for phase 2, or <tt>-1</tt> if not set or invalid
@@ -297,10 +291,7 @@ public class SelfModifier
         logFile = new File(System.getProperty(BASE_KEY) + ".log");
         sandbox = new File(System.getProperty(BASE_KEY) + ".d");
 
-        this.maxmemory = Long.parseLong(System.getProperty(MEMORY_KEY, "64"));
-        this.maxpermgensize = this.maxmemory / 4;
-
-        // retrieve refrence to target method
+        // retrieve reference to target method
         try
         {
             Class clazz = Class.forName(cName);
@@ -343,12 +334,10 @@ public class SelfModifier
         initMethod(method);
     }
 
+    @Deprecated
     public SelfModifier(Method method, long maxmemory, long maxpermgensize) throws IOException
     {
         this(method);
-        this.maxmemory = maxmemory;
-        this.maxpermgensize = maxpermgensize;
-        this.useMemorySettings = true;
     }
 
     /**
@@ -498,8 +487,7 @@ public class SelfModifier
 
         List<String> command = new ArrayList<String>();
         command.add(javaCommand);
-        command.add("-Xmx" + this.maxmemory + "m");
-        command.add("-XX:MaxPermSize=" + maxpermgensize + "m");
+        command.addAll(new JVMHelper().getJVMArguments());
 
         if (nextPhase == 2)
         {
@@ -525,7 +513,6 @@ public class SelfModifier
         command.add("-D" + CLASS_KEY + "=" + method.getDeclaringClass().getName());
         command.add("-D" + METHOD_KEY + "=" + method.getName());
         command.add("-D" + PHASE_KEY + "=" + nextPhase);
-        command.add("-D" + MEMORY_KEY + "=" + this.maxmemory);
         command.add(getClass().getName());
 
         Collections.addAll(command, args);

@@ -130,8 +130,15 @@ public class PrivilegedRunner
         String javaCommand = getJavaCommand();
         String installer = getInstallerJar();
         ProcessBuilder builder = new ProcessBuilder(getElevator(javaCommand, installer));
+
+        if (logger.isLoggable(Level.INFO))
+        {
+            logger.info("Relaunching: " + StringTool.listToString(builder.command(), " "));
+        }
+
         builder.environment().put("izpack.mode", "privileged");
-        return builder.start().waitFor();
+        Process process = builder.start();
+        return process.waitFor();
     }
 
     public static boolean isPrivilegedMode()
@@ -142,12 +149,14 @@ public class PrivilegedRunner
 
     protected List<String> getElevator(String javaCommand, String installer) throws IOException
     {
+        List<String> jvmArgs = new JVMHelper().getJVMArguments();
         List<String> elevator = new ArrayList<String>();
 
         if (platform.isA(MAC_OSX))
         {
             elevator.add(extractMacElevator().getCanonicalPath());
             elevator.add(javaCommand);
+            elevator.addAll(jvmArgs);
             elevator.add("-jar");
             elevator.add(installer);
         }
@@ -159,6 +168,7 @@ public class PrivilegedRunner
             elevator.add("-e");
             elevator.add("sudo");
             elevator.add(javaCommand);
+            elevator.addAll(jvmArgs);
             elevator.add("-jar");
             elevator.add(installer);
         }
@@ -167,6 +177,7 @@ public class PrivilegedRunner
             elevator.add("wscript");
             elevator.add(extractVistaElevator().getCanonicalPath());
             elevator.add(javaCommand);
+            elevator.addAll(jvmArgs);
             elevator.add("-Dizpack.mode=privileged");
             elevator.add("-jar");
             elevator.add(installer);
@@ -245,7 +256,7 @@ public class PrivilegedRunner
 
     private String getJavaExecutable()
     {
-        if (OsVersion.IS_WINDOWS)
+        if (platform.isA(WINDOWS))
         {
             return "javaw.exe";
         }
