@@ -62,7 +62,7 @@ public class TargetPanel extends PathInputPanel
     public void panelActivate()
     {
         // load the default directory info (if present)
-        String path = TargetPanelConsoleHelper.getDefaultInstallPath(installData);
+        String path = TargetPanelHelper.getPath(installData);
         if (path != null)
         {
             installData.setInstallPath(path);

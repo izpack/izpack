@@ -26,23 +26,22 @@ import java.io.PrintWriter;
 import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.installer.console.AbstractPanelConsole;
 import com.izforge.izpack.installer.console.PanelConsole;
-import com.izforge.izpack.installer.console.PanelConsoleHelper;
 import com.izforge.izpack.util.Console;
-import com.izforge.izpack.util.OsVersion;
 
 /**
- * The Target panel console helper class.
+ * Console implementation of the {@link TargetPanel}.
  *
  * @author Mounir El Hajj
  */
-public class TargetPanelConsoleHelper extends PanelConsoleHelper implements PanelConsole
+public class TargetPanelConsole extends AbstractPanelConsole implements PanelConsole
 {
 
     /**
      * Constructs a <tt>TargetPanelConsoleHelper</tt>.
      */
-    public TargetPanelConsoleHelper()
+    public TargetPanelConsole()
     {
         super();
     }
@@ -79,7 +78,7 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
     @Override
     public boolean runConsole(InstallData installData, Console console)
     {
-        String strDefaultPath = getDefaultInstallPath(installData);
+        String strDefaultPath = TargetPanelHelper.getPath(installData);
 
         String strTargetPath = console.prompt("Select target path [" + strDefaultPath + "] ", null);
         if (strTargetPath != null)
@@ -107,38 +106,6 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
         {
             return false;
         }
-    }
-
-    public static String getDefaultInstallPath(InstallData installData)
-    {
-        String defaultPath = installData.getDefaultInstallPath();
-        if (defaultPath == null)
-        {
-            // Make the path point to the current location
-            defaultPath = installData.getVariable("SYSTEM_user_dir");
-        }
-
-        String os = OsVersion.OS_NAME.replace(' ', '_').toLowerCase();
-        String path = installData.getVariable("TargetPanel.dir.".concat(os));
-
-        if (path == null)
-        {
-            path = installData.getVariable(
-                    "TargetPanel.dir." + (OsVersion.IS_WINDOWS ? "windows" : (OsVersion.IS_OSX ? "macosx" : "unix")));
-            if (path == null)
-            {
-                path = installData.getVariable("TargetPanel.dir");
-            }
-        }
-        if (path != null)
-        {
-            path = installData.getVariables().replace(path);
-        }
-        if (path == null && defaultPath != null)
-        {
-            path = installData.getVariables().replace(defaultPath);
-        }
-        return path;
     }
 
 }

@@ -5,6 +5,7 @@
 *.ipr
 target/
 !izpack-panel/src/main/java/com/izforge/izpack/panels/target/
+!izpack-panel/src/test/java/com/izforge/izpack/panels/target/
 *.iws
 *~
 *.orig
