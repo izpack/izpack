@@ -50,7 +50,7 @@ import com.izforge.izpack.util.Platform.Name;
  * Verifies that executable files are correctly invoked during installation and uninstallation, based on their stage
  * configuration.
  * <br/>
- * Note that this test is limited to Windows an Unix based platforms.
+ * Note that this test is limited to Windows and Unix based platforms.
  *
  * @author Tim Anderson
  */

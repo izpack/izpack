@@ -65,7 +65,13 @@ public class AutomatedPanelView extends PanelView<PanelAutomation>
     public Class<PanelAutomation> getViewClass()
     {
         Panel panel = getPanel();
-        return getClass(panel.getClassName() + "AutomationHelper");
+        Class<PanelAutomation> result = getClass(panel.getClassName() + "Automation");
+        if (result == null)
+        {
+            // use the old AutomationHelper suffix convention
+            result = getClass(panel.getClassName() + "AutomationHelper");
+        }
+        return result;
     }
 
     /**

@@ -245,13 +245,11 @@ public class InstallerFrame extends JFrame implements InstallerView
      * @param housekeeper         the house-keeper
      * @param navigator           the panel navigator
      * @param log                 the log
-     * @throws Exception for any error
      */
     public InstallerFrame(String title, GUIInstallData installData, RulesEngine rules, IconsDatabase icons,
                           IzPanels panels, UninstallDataWriter uninstallDataWriter,
                           ResourceManager resourceManager, UninstallData uninstallData, Housekeeper housekeeper,
                           DefaultNavigator navigator, Log log)
-            throws Exception
     {
         super(title);
         guiListener = new ArrayList<GUIListener>();

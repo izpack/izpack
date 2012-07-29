@@ -1,5 +1,5 @@
 /*
- * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
@@ -54,18 +54,23 @@ public class TargetPanelConsole extends AbstractPanelConsole implements PanelCon
 
     public boolean runConsoleFromProperties(InstallData installData, Properties properties)
     {
-        String strTargetPath = properties.getProperty(InstallData.INSTALL_PATH);
-        if (strTargetPath == null || "".equals(strTargetPath.trim()))
+        boolean result = false;
+        String path = properties.getProperty(InstallData.INSTALL_PATH);
+        if (path == null || "".equals(path.trim()))
         {
             System.err.println("Missing mandatory target path!");
-            return false;
+        }
+        else if (TargetPanelHelper.isIncompatibleInstallation(path))
+        {
+            System.err.println(getIncompatibleInstallationMsg(installData));
         }
         else
         {
-            strTargetPath = installData.getVariables().replace(strTargetPath);
-            installData.setInstallPath(strTargetPath);
-            return true;
+            path = installData.getVariables().replace(path);
+            installData.setInstallPath(path);
+            result = true;
         }
+        return result;
     }
 
     /**
@@ -78,34 +83,48 @@ public class TargetPanelConsole extends AbstractPanelConsole implements PanelCon
     @Override
     public boolean runConsole(InstallData installData, Console console)
     {
-        String strDefaultPath = TargetPanelHelper.getPath(installData);
-
-        String strTargetPath = console.prompt("Select target path [" + strDefaultPath + "] ", null);
-        if (strTargetPath != null)
+        String defaultPath = TargetPanelHelper.getPath(installData);
+        if (defaultPath == null)
         {
-            strTargetPath = strTargetPath.trim();
-            if (strTargetPath.isEmpty())
-            {
-                strTargetPath = strDefaultPath;
-            }
-            strTargetPath = installData.getVariables().replace(strTargetPath);
+            defaultPath = "";
+        }
 
-            installData.setInstallPath(strTargetPath);
-            if (!strTargetPath.isEmpty())
+        String path = console.prompt("Select target path [" + defaultPath + "] ", null);
+        if (path != null)
+        {
+            path = path.trim();
+            if (path.isEmpty())
             {
-                File selectedDir = new File(strTargetPath);
+                path = defaultPath;
+            }
+            path = installData.getVariables().replace(path);
+
+            if (TargetPanelHelper.isIncompatibleInstallation(path))
+            {
+                console.println(getIncompatibleInstallationMsg(installData));
+                return runConsole(installData, console);
+            }
+            else if (!path.isEmpty())
+            {
+                File selectedDir = new File(path);
                 if (selectedDir.exists() && selectedDir.isDirectory() && selectedDir.list().length > 0)
                 {
-                    console.println("The directory already exists and is not empty. Install here and overwrite "
-                                            + "existing files?");
+                    console.println(installData.getMessages().get("TargetPanel.warn"));
                 }
+                installData.setInstallPath(path);
+                return promptEndPanel(installData, console);
             }
-            return promptEndPanel(installData, console);
+            return runConsole(installData, console);
         }
         else
         {
             return false;
         }
+    }
+
+    private String getIncompatibleInstallationMsg(InstallData installData)
+    {
+        return installData.getMessages().get("TargetPanel.incompatibleInstallation");
     }
 
 }

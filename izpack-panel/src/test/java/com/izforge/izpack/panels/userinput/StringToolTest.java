@@ -17,9 +17,10 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.test.userinput;
+package com.izforge.izpack.panels.userinput;
 
 import com.izforge.izpack.util.StringTool;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 

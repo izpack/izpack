@@ -79,13 +79,17 @@ public class TargetPanel extends PathInputPanel
      */
     public boolean isValidated()
     {
-        // Standard behavior of PathInputPanel.
-        if (!super.isValidated())
+        boolean result = false;
+        if (TargetPanelHelper.isIncompatibleInstallation(pathSelectionPanel.getPath()))
         {
-            return (false);
+            emitError(getString("installer.error"), getString("TargetPanel.incompatibleInstallation"));
         }
-        installData.setInstallPath(pathSelectionPanel.getPath());
-        return (true);
+        else if (super.isValidated())
+        {
+            installData.setInstallPath(pathSelectionPanel.getPath());
+            result = true;
+        }
+        return result;
     }
 
     /**
@@ -95,7 +99,7 @@ public class TargetPanel extends PathInputPanel
      */
     public void makeXMLData(IXMLElement panelRoot)
     {
-        new TargetPanelAutomationHelper().makeXMLData(installData, panelRoot);
+        new TargetPanelAutomation().makeXMLData(installData, panelRoot);
     }
 
     /*

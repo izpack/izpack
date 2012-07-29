@@ -4,6 +4,8 @@
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
+ * Copyright 2012 Tim Anderson
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,16 +23,15 @@ package com.izforge.izpack.test.provider;
 import java.io.IOException;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
-import com.izforge.izpack.installer.data.GUIInstallData;
-import com.izforge.izpack.util.Platforms;
 
 /**
- * Mock provider for guiInstallData
+ * Test provider for {@link InstallData}.
+ *
+ * @author Tim Anderson
  */
-public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider
+public class InstallDataMockProvider extends AbstractInstallDataMockProvider
 {
 
     /**
@@ -40,27 +41,11 @@ public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider
      * @return an {@link InstallData}
      * @throws IOException if the default messages cannot be found
      */
-    public GUIInstallData provide(Variables variables) throws IOException
+    public InstallData provide(Variables variables) throws IOException
     {
-        GUIInstallData result = createInstallData(variables);
+        AutomatedInstallData result = createInstallData(variables);
         populate(result);
         return result;
     }
 
-    /**
-     * Creates a new {@link AutomatedInstallData}.
-     *
-     * @param variables the variables
-     * @return a new {@link AutomatedInstallData}
-     */
-    @Override
-    protected GUIInstallData createInstallData(Variables variables)
-    {
-        GUIInstallData result = new GUIInstallData(variables, Platforms.MAC_OSX);
-        GUIPrefs guiPrefs = new GUIPrefs();
-        guiPrefs.height = 600;
-        guiPrefs.width = 480;
-        result.guiPrefs = guiPrefs;
-        return result;
-    }
 }

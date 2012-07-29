@@ -24,6 +24,7 @@ package com.izforge.izpack.panels.target;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 
 /**
@@ -32,9 +33,9 @@ import com.izforge.izpack.installer.automation.PanelAutomation;
  * @author Jonathan Halliday
  * @author Julien Ponge
  */
-public class TargetPanelAutomationHelper implements PanelAutomation
+public class TargetPanelAutomation implements PanelAutomation
 {
-    public TargetPanelAutomationHelper()
+    public TargetPanelAutomation()
     {
     }
 
@@ -66,6 +67,7 @@ public class TargetPanelAutomationHelper implements PanelAutomation
      *
      * @param idata     The installation installDataGUI.
      * @param panelRoot The XML tree to read the installDataGUI from.
+     * @throws InstallerException if an incompatible installation exists at the specified path
      */
     public void runAutomated(InstallData idata, IXMLElement panelRoot)
     {
@@ -75,6 +77,10 @@ public class TargetPanelAutomationHelper implements PanelAutomation
         // Allow for variable substitution of the installpath value
         String path = ipath.getContent();
         path = idata.getVariables().replace(path);
+        if (TargetPanelHelper.isIncompatibleInstallation(path))
+        {
+            throw new InstallerException(idata.getMessages().get("TargetPanel.incompatibleInstallation"));
+        }
         idata.setInstallPath(path);
     }
 }

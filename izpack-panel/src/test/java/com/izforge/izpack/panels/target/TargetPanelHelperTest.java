@@ -21,15 +21,25 @@
 package com.izforge.izpack.panels.target;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.util.Platforms;
+import com.izforge.izpack.util.file.FileUtils;
 
 
 /**
@@ -137,5 +147,41 @@ public class TargetPanelHelperTest
         // verify TargetPanel.dir.fedora_linux overrides TargetPanel.dir.linux
         variables.set("TargetPanel.dir.fedora_linux", "3");
         assertEquals("3", TargetPanelHelper.getPath(installData));
+    }
+
+    /**
+     * Tests the {@link TargetPanelHelper#isIncompatibleInstallation(String)} method.
+     *
+     * @throws IOException for any I/O error
+     */
+    @Test
+    public void testIsIncompatibleInstallation() throws IOException
+    {
+        File dir = File.createTempFile("junit", "");
+        FileUtils.delete(dir);
+
+        // verify that the method returns false for non-existent directory
+        assertFalse(dir.exists());
+        assertFalse(TargetPanelHelper.isIncompatibleInstallation(dir.getPath()));
+
+        // verify that the method returns false for existing directory
+        assertTrue(dir.mkdir());
+        assertFalse(TargetPanelHelper.isIncompatibleInstallation(dir.getPath()));
+
+        // verify that the method returns false for valid data
+        File file = new File(dir, InstallData.INSTALLATION_INFORMATION);
+        FileOutputStream stream = new FileOutputStream(file);
+        ObjectOutputStream objStream = new ObjectOutputStream(stream);
+        objStream.writeObject(new ArrayList<Pack>());
+        objStream.close();
+        assertFalse(TargetPanelHelper.isIncompatibleInstallation(dir.getPath()));
+
+        // verify that the method returns true for invalid data
+        assertTrue(file.delete());
+        stream = new FileOutputStream(file);
+        objStream = new ObjectOutputStream(stream);
+        objStream.writeObject(new Integer(1));
+        objStream.close();
+        assertTrue(TargetPanelHelper.isIncompatibleInstallation(dir.getPath()));
     }
 }

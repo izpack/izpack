@@ -1,4 +1,24 @@
-package com.izforge.izpack.test.container;
+/*
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Copyright 2012 Tim Anderson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.izforge.izpack.panels.test;
 
 import java.util.Properties;
 
@@ -16,34 +36,21 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.factory.DefaultObjectFactory;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.core.rules.ConditionContainer;
-import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.automation.AutomatedInstaller;
-import com.izforge.izpack.installer.base.InstallDataConfiguratorWithRules;
-import com.izforge.izpack.installer.container.provider.IconsProvider;
 import com.izforge.izpack.installer.container.provider.RulesProvider;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
-import com.izforge.izpack.test.provider.GUIInstallDataMockProvider;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Platforms;
 
-
 /**
- * Container for injecting mock for individual panel testing.
+ * Container for testing panels.
+ *
+ * @author Tim Anderson
  */
-public class TestPanelContainer extends AbstractContainer
+public abstract class AbstractTestPanelContainer extends AbstractContainer
 {
-
-    /**
-     * Constructs a <tt>TestPanelContainer</tt>.
-     *
-     * @throws ContainerException if initialisation fails
-     */
-    public TestPanelContainer()
-    {
-        initialise();
-    }
 
     /**
      * Returns the underlying container.
@@ -72,24 +79,16 @@ public class TestPanelContainer extends AbstractContainer
         addComponent(ResourceManager.class);
         addComponent(UninstallData.class);
         addComponent(ConditionContainer.class);
-        addComponent(InstallDataConfiguratorWithRules.class);
         addComponent(UninstallDataWriter.class, Mockito.mock(UninstallDataWriter.class));
         addComponent(AutomatedInstaller.class);
 
         container.addComponent(new DefaultObjectFactory(this));
         addComponent(IUnpacker.class, Mockito.mock(IUnpacker.class));
-        addComponent(Log.class, Mockito.mock(Log.class));
         addComponent(Housekeeper.class, Mockito.mock(Housekeeper.class));
         addComponent(Platforms.class);
         addComponent(Container.class, this);
 
-        container.addConfig("title", "testPanel");
-
-        container
-                .addAdapter(new ProviderAdapter(new GUIInstallDataMockProvider()))
-                .addAdapter(new ProviderAdapter(new IconsProvider()))
-                .addAdapter(new ProviderAdapter(new RulesProvider()))
-                .addAdapter(new ProviderAdapter(new PlatformProvider()));
+        container.addAdapter(new ProviderAdapter(new RulesProvider()));
+        container.addAdapter(new ProviderAdapter(new PlatformProvider()));
     }
-
 }

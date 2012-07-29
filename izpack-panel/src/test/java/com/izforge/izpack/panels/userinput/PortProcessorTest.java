@@ -1,15 +1,17 @@
-package com.izforge.izpack.test.userinput;
-
-import com.izforge.izpack.panels.userinput.processor.PortProcessor;
-import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
-import junit.framework.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+package com.izforge.izpack.panels.userinput;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.Map;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
+import com.izforge.izpack.panels.userinput.processor.PortProcessor;
+import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
+
+import junit.framework.Assert;
 
 
 @Ignore

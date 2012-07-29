@@ -318,7 +318,7 @@ public abstract class UnpackerBase implements IUnpacker
         {
             synchronized (this)
             {
-                if (state != State.INTERRUPTED)
+                if (state != State.READY && state != State.INTERRUPTED)
                 {
                     state = State.INTERRUPT;
                     try
@@ -329,8 +329,12 @@ public abstract class UnpackerBase implements IUnpacker
                     {
                         // do nothing
                     }
+                    result = state == State.INTERRUPTED;
                 }
-                result = state == State.INTERRUPTED;
+                else
+                {
+                    result = true;
+                }
             }
         }
         return result;

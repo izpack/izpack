@@ -4,8 +4,6 @@
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
- * Copyright 2012 Tim Anderson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,12 +18,19 @@
  */
 package com.izforge.izpack.panels.target;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.util.Platform;
+import com.izforge.izpack.util.file.FileUtils;
 
 
 /**
@@ -44,6 +49,11 @@ class TargetPanelHelper
      * Target panel directory variable prefix.
      */
     private static final String PREFIX = TARGET_PANEL_DIR + ".";
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = Logger.getLogger(TargetPanelHelper.class.getName());
 
     /**
      * Returns the installation path for the current platform.
@@ -79,6 +89,55 @@ class TargetPanelHelper
             path = installData.getVariables().replace(defaultPath);
         }
         return path;
+    }
+
+    /**
+     * Determines if there is IzPack installation information at the specified path that is incompatible with the
+     * current version of IzPack.
+     * <p/>
+     * To be incompatible, the file {@link InstallData#INSTALLATION_INFORMATION} must exist in the supplied directory,
+     * and not contain recognised {@link Pack} instances.
+     *
+     * @param dir the path to check
+     * @return {@code true} if there is incompatible installation information,
+     *         {@code false} if there is no installation info, or it is compatible
+     */
+    @SuppressWarnings("unchecked")
+    public static boolean isIncompatibleInstallation(String dir)
+    {
+        boolean result = false;
+        File file = new File(dir, InstallData.INSTALLATION_INFORMATION);
+        if (file.exists())
+        {
+            FileInputStream input = null;
+            ObjectInputStream objectInput = null;
+            try
+            {
+                input = new FileInputStream(file);
+                objectInput = new ObjectInputStream(input);
+                List<Object> packs = (List<Object>) objectInput.readObject();
+                for (Object pack : packs)
+                {
+                    if (!(pack instanceof Pack))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Throwable exception)
+            {
+                logger.log(Level.FINE, "Installation information at path=" + file.getPath()
+                        + " failed to deserialize", exception);
+                result = true;
+            }
+            finally
+            {
+                FileUtils.close(objectInput);
+                FileUtils.close(input);
+            }
+        }
+
+        return result;
     }
 
     /**

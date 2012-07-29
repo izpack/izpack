@@ -21,7 +21,7 @@ public class InstallerController
 
     }
 
-    public InstallerController buildInstallation() throws Exception
+    public InstallerController buildInstallation()
     {
         installerFrame.buildGUI();
         installerFrame.sizeFrame();
