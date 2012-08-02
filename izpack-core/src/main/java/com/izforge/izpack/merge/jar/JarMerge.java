@@ -66,7 +66,9 @@ public class JarMerge extends AbstractMerge
     {
         this.jarPath = jarPath;
         this.mergeContent = mergeContent;
-        destination = FileUtil.convertUrlToFilePath(resource).replaceAll(this.jarPath, "").replaceAll("file:", "").replaceAll("!/?", "").replaceAll("//", "/");
+        destination = FileUtil.convertUrlToFilePath(resource).replaceAll(this.jarPath, "").replaceAll("file:",
+                                                                                                      "").replaceAll(
+                "!/?", "").replaceAll("//", "/");
 
         // make sure any $ characters are escaped, otherwise inner classes won't be merged
         StringBuilder builder = new StringBuilder(destination.replace("$", "\\$"));
@@ -90,7 +92,8 @@ public class JarMerge extends AbstractMerge
      * @param destination   Destination of the package
      * @param mergeContent  map linking outputstream to their content to avoir duplication
      */
-    public JarMerge(String jarPath, String pathInsideJar, String destination, Map<OutputStream, List<String>> mergeContent)
+    public JarMerge(String jarPath, String pathInsideJar, String destination,
+                    Map<OutputStream, List<String>> mergeContent)
     {
         this.jarPath = jarPath;
         this.destination = destination;
@@ -178,7 +181,7 @@ public class JarMerge extends AbstractMerge
             while ((zentry = jarInputStream.getNextEntry()) != null)
             {
                 Matcher matcher = pattern.matcher(zentry.getName());
-                if (matcher.matches())
+                if (matcher.matches() && !isSignature(zentry.getName()))
                 {
                     if (mergeList.contains(zentry.getName()))
                     {
@@ -196,7 +199,8 @@ public class JarMerge extends AbstractMerge
                         }
                         dest.append(matchFile);
                     }
-                    IoHelper.copyStreamToJar(jarInputStream, outputStream, dest.toString().replaceAll("//", "/"), zentry.getTime());
+                    IoHelper.copyStreamToJar(jarInputStream, outputStream, dest.toString().replaceAll("//", "/"),
+                                             zentry.getTime());
                 }
 
             }
@@ -219,7 +223,7 @@ public class JarMerge extends AbstractMerge
             while ((zentry = jarInputStream.getNextEntry()) != null)
             {
                 Matcher matcher = pattern.matcher(zentry.getName());
-                if (matcher.matches())
+                if (matcher.matches() && !isSignature(zentry.getName()))
                 {
                     if (mergeList.contains(zentry.getName()))
                     {
@@ -236,7 +240,8 @@ public class JarMerge extends AbstractMerge
                         }
                         dest.append(matchFile);
                     }
-                    IoHelper.copyStreamToJar(jarInputStream, outJar, dest.toString().replaceAll("//", "/"), zentry.getTime());
+                    IoHelper.copyStreamToJar(jarInputStream, outJar, dest.toString().replaceAll("//", "/"),
+                                             zentry.getTime());
                 }
 
             }
@@ -280,4 +285,19 @@ public class JarMerge extends AbstractMerge
     {
         return jarPath != null ? jarPath.hashCode() : 0;
     }
+
+    /**
+     * Determines if a zip entry corresponds to a signature file.
+     * See <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#Signed_JAR_File">Signed JAR File</a>
+     * in the <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html">JAR File
+     * Specification</a> for more details.
+     *
+     * @param name the zip entry name
+     * @return {@code true} if the file is a signature file, otherwise {@code false}
+     */
+    private boolean isSignature(String name)
+    {
+        return name.matches("/META-INF/.*\\.(SF|DSA|RSA)") || name.matches("/META-INF/SIG-.*");
+    }
+
 }
