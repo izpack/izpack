@@ -24,12 +24,14 @@ package com.izforge.izpack.util.config;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.util.config.SingleConfigurableTask.Entry.LookupType;
 import com.izforge.izpack.util.config.SingleConfigurableTask.Entry.Operation;
 import com.izforge.izpack.util.config.SingleConfigurableTask.Entry.Type;
@@ -44,6 +46,8 @@ import com.izforge.izpack.util.config.base.Reg;
 public abstract class SingleConfigurableTask implements ConfigurableTask
 {
     private static final Logger logger = Logger.getLogger(SingleConfigurableTask.class.getName());
+
+    private static final String ERRMSG_CONFIGACTION_BADATTR = "Bad attribute value in configuration action: {0}=\"{1}\" not allowed";
 
     private boolean patchPreserveEntries = true;
 
@@ -574,7 +578,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
 
     protected abstract void writeConfigurable() throws Exception;
 
-    public void readFromXML(IXMLElement parent)
+    public void readFromXML(IXMLElement parent) throws InstallerException
     {
         for (IXMLElement el : parent.getChildrenNamed("entry"))
         {
@@ -582,28 +586,60 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         }
     }
 
-    protected Entry createEntryFromXML(IXMLElement parent)
+    protected Entry createEntryFromXML(IXMLElement parent) throws InstallerException
     {
         Entry e = new Entry();
         String attrib = parent.getAttribute("dataType");
         if (attrib != null)
         {
-            e.setType(Type.getFromAttribute(attrib));
+            Type type = Type.getFromAttribute(attrib);
+            if (type == null)
+            {
+                // TODO Inform about misconfigured configuration actions during
+                // compilation
+                throw new InstallerException(MessageFormat.format(ERRMSG_CONFIGACTION_BADATTR,
+                        "dataType", attrib));
+            }
+            e.setType(type);
         }
         attrib = parent.getAttribute("lookupType");
         if (attrib != null)
         {
-            e.setLookupType(LookupType.getFromAttribute(attrib));
+            LookupType lookupType = LookupType.getFromAttribute(attrib);
+            if (lookupType == null)
+            {
+                // TODO Inform about misconfigured configuration actions during compilation
+                throw new InstallerException(MessageFormat.format(ERRMSG_CONFIGACTION_BADATTR,
+                        "lookupType", attrib));
+            }
+            e.setLookupType(lookupType);
         }
         attrib = parent.getAttribute("operation");
         if (attrib != null)
         {
-            e.setOperation(Operation.getFromAttribute(attrib));
+            Operation operation = Operation.getFromAttribute(attrib);
+            if (operation == null)
+            {
+              // TODO Inform about misconfigured configuration actions during compilation
+              throw new InstallerException(
+                  MessageFormat.format(
+                      ERRMSG_CONFIGACTION_BADATTR,
+                      "operation", attrib)
+                  );
+            }
+            e.setOperation(operation);
         }
         attrib = parent.getAttribute("unit");
         if (attrib != null)
         {
-            e.setUnit(Unit.getFromAttribute(attrib));
+            Unit unit = Unit.getFromAttribute(attrib);
+            if (unit == null)
+            {
+                // TODO Inform about misconfigured configuration actions during compilation
+                throw new InstallerException(MessageFormat.format(ERRMSG_CONFIGACTION_BADATTR,
+                        "unit", attrib));
+            }
+            e.setUnit(unit);
         }
         e.setDefault(parent.getAttribute("default"));
         e.setPattern(parent.getAttribute("pattern"));
