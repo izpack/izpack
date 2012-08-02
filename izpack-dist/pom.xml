@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
@@ -69,6 +70,7 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/izpack</directory>
+                                    <filtering>true</filtering>
                                 </resource>
                                 <resource>
                                     <directory>src/main/resources</directory>
@@ -108,7 +110,7 @@
 
                 </executions>
             </plugin>
-            
+
             <!-- Launch izpack compilation -->
             <plugin>
                 <groupId>${project.groupId}</groupId>

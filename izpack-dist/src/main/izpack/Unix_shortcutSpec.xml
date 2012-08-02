@@ -40,7 +40,7 @@
 
 <shortcuts>
 
-    <programGroup defaultName="IzPack@build.number@" location="applications"/>
+    <programGroup defaultName="IzPack ${project.version}" location="applications"/>
 
 
     <!-- Disabled since there is no Frontend
@@ -66,7 +66,7 @@
    </shortcut -->
 
     <shortcut
-            name="IzPack@ver@ Html Documentation"
+            name="IzPack Html Documentation"
             programGroup="yes"
             desktop="yes"
             applications="no"
@@ -83,13 +83,13 @@
             encoding="UTF-8"
             createForAll="true"
             Categories="Application;Development;"
-            description="This opens a WebBrowser to look into the IzPack @build.number@ (HTML) user documentation">
+            description="This opens a WebBrowser to look into the IzPack ${project.version} (HTML) user documentation">
 
         <createForPack name="HTML Documentation"/>
     </shortcut>
 
     <shortcut
-            name="IzPack@ver@ Java Documentation"
+            name="IzPack Java Documentation"
             programGroup="yes"
             desktop="yes"
             applications="no"
@@ -106,13 +106,13 @@
             encoding="UTF-8"
             createForAll="true"
             Categories="Application;Development;"
-            description="This opens a WebBrowser to look into the IzPack @build.number@ (HTML) Java documentation">
+            description="This opens a WebBrowser to look into the IzPack ${project.version} (HTML) Java documentation">
 
         <createForPack name="Javadocs Documentation"/>
     </shortcut>
 
     <shortcut
-            name="IzPack@ver@ PDF Documentation"
+            name="IzPack PDF Documentation"
             programGroup="yes"
             desktop="yes"
             applications="no"
@@ -128,14 +128,14 @@
             encoding="UTF-8"
             createForAll="true"
             Categories="Application;Development;"
-            description="This opens Adobe (Acrobat) Reader (if available) to look into or print the IzPack @build.number@ (PDF) user documentation">
+            description="This opens Adobe (Acrobat) Reader (if available) to look into or print the IzPack ${project.version} (PDF) user documentation">
 
         <createForPack name="PDF Documentation"/>
     </shortcut>
 
 
     <shortcut
-            name="Izpack@ver@ Uninstaller"
+            name="Izpack Uninstaller"
             programGroup="yes"
             desktop="yes"
             applications="no"
@@ -159,7 +159,7 @@
 
             TryExec="java -jar &quot;$INSTALL_PATH/Uninstaller/uninstaller.jar&quot;"
 
-            description="This uninstalls IzPack @build.number@">
+            description="This uninstalls IzPack ${project.version}">
 
         <createForPack name="Core"/>
     </shortcut>
