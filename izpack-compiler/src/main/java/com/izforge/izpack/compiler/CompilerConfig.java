@@ -102,7 +102,6 @@ import com.izforge.izpack.compiler.packager.IPackager;
 import com.izforge.izpack.compiler.resource.ResourceFinder;
 import com.izforge.izpack.core.data.DynamicInstallerRequirementValidatorImpl;
 import com.izforge.izpack.core.data.DynamicVariableImpl;
-import com.izforge.izpack.core.regex.RegularExpressionFilterImpl;
 import com.izforge.izpack.core.variable.ConfigFileValue;
 import com.izforge.izpack.core.variable.EnvironmentValue;
 import com.izforge.izpack.core.variable.ExecValue;
@@ -111,6 +110,8 @@ import com.izforge.izpack.core.variable.PlainConfigFileValue;
 import com.izforge.izpack.core.variable.PlainValue;
 import com.izforge.izpack.core.variable.RegistryValue;
 import com.izforge.izpack.core.variable.ZipEntryConfigFileValue;
+import com.izforge.izpack.core.variable.filters.LocationFilter;
+import com.izforge.izpack.core.variable.filters.RegularExpressionFilter;
 import com.izforge.izpack.data.CustomData;
 import com.izforge.izpack.data.ExecutableFile;
 import com.izforge.izpack.data.PackInfo;
@@ -2146,15 +2147,6 @@ public class CompilerConfig extends Thread
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new EnvironmentValue(value));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        assertionHelper.parseError(
-                                "Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
                 }
                 else
                 {
@@ -2172,15 +2164,6 @@ public class CompilerConfig extends Thread
                 {
                     dynamicVariable.setValue(
                             new RegistryValue(regroot, value, regvalue));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        assertionHelper.parseError(
-                                "Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
                 }
                 else
                 {
@@ -2197,18 +2180,8 @@ public class CompilerConfig extends Thread
                 String filekey = xmlCompilerHelper.requireAttribute(var, "key");
                 if (dynamicVariable.getValue() == null)
                 {
-                    dynamicVariable.setValue(new PlainConfigFileValue(value,
-                                                                      getConfigFileType(name, stype), filesection,
-                                                                      filekey));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        assertionHelper.parseError(
-                                "Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
+                    dynamicVariable.setValue(new PlainConfigFileValue(value, getConfigFileType(
+                            name, stype), filesection, filekey));
                 }
                 else
                 {
@@ -2227,17 +2200,7 @@ public class CompilerConfig extends Thread
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new ZipEntryConfigFileValue(value, entryname,
-                                                                         getConfigFileType(name, stype), filesection,
-                                                                         filekey));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        assertionHelper.parseError(
-                                "Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
+                            getConfigFileType(name, stype), filesection, filekey));
                 }
                 else
                 {
@@ -2256,17 +2219,7 @@ public class CompilerConfig extends Thread
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new JarEntryConfigValue(value, entryname,
-                                                                     getConfigFileType(name, stype), filesection,
-                                                                     filekey));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        assertionHelper.parseError(
-                                "Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
+                            getConfigFileType(name, stype), filesection, filekey));
                 }
                 else
                 {
@@ -2321,15 +2274,6 @@ public class CompilerConfig extends Thread
                         assertionHelper.parseError(
                                 "Bad execution type " + exectype + " given for dynamic variable " + name);
                     }
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        assertionHelper.parseError(
-                                "Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
                 }
                 else
                 {
@@ -2358,41 +2302,43 @@ public class CompilerConfig extends Thread
                 dynamicVariable.setIgnoreFailure(Boolean.valueOf(value));
             }
 
-            // Nested regular expression filter
-            IXMLElement regexElement = var.getFirstChildNamed("regex");
-            if (regexElement != null)
+            // Nested value filters
+            IXMLElement filters = var.getFirstChildNamed("filters");
+            if (filters != null)
             {
-                String expression = regexElement.getAttribute("regexp");
-                String selectexpr = regexElement.getAttribute("select");
-                String replaceexpr = regexElement.getAttribute("replace");
-                String defaultvalue = regexElement.getAttribute("defaultvalue");
-                String scasesensitive = regexElement.getAttribute("casesensitive");
-                String sglobal = regexElement.getAttribute("global");
-                if (dynamicVariable.getRegularExpression() == null)
+                List<IXMLElement> filterList = filters.getChildren();
+                for (IXMLElement filterElement : filterList)
                 {
-                    dynamicVariable.setRegularExpression(
-                            new RegularExpressionFilterImpl(expression,
-                                                            selectexpr,
-                                                            replaceexpr,
-                                                            defaultvalue,
-                                                            Boolean.valueOf(
-                                                                    scasesensitive != null ? scasesensitive : "true"),
-                                                            Boolean.valueOf(sglobal != null ? sglobal : "false")));
-                    try
+                    if(filterElement.getName().equals("regex"))
                     {
-                        dynamicVariable.validate();
+                        String expression = filterElement.getAttribute("regexp");
+                        String selectexpr = filterElement.getAttribute("select");
+                        String replaceexpr = filterElement.getAttribute("replace");
+                        String defaultvalue = filterElement.getAttribute("defaultvalue");
+                        String scasesensitive = filterElement.getAttribute("casesensitive");
+                        String sglobal = filterElement.getAttribute("global");
+                        dynamicVariable.addFilter(
+                                new RegularExpressionFilter(
+                                        expression, selectexpr,
+                                        replaceexpr, defaultvalue,
+                                        Boolean.valueOf(scasesensitive != null ? scasesensitive : "true"),
+                                        Boolean.valueOf(sglobal != null ? sglobal : "false")));
                     }
-                    catch (Exception e)
+                    else if (filterElement.getName().equals("location"))
                     {
-                        assertionHelper.parseError(
-                                "Error in definition of dynamic variable " + name + ": " + e.getMessage());
+                        String basedir = filterElement.getAttribute("basedir");
+                        dynamicVariable.addFilter(new LocationFilter(basedir));
                     }
                 }
-                else
-                {
-                    assertionHelper.parseError(
-                            "Ambiguous regular expression filter definition for dynamic variable " + name);
-                }
+            }
+            try
+            {
+                dynamicVariable.validate();
+            }
+            catch (Exception e)
+            {
+                assertionHelper.parseError(
+                        "Error in definition of dynamic variable " + name + ": " + e.getMessage());
             }
 
             List<DynamicVariable> dynamicValues = new ArrayList<DynamicVariable>();

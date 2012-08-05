@@ -4,7 +4,7 @@
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,59 +23,20 @@ package com.izforge.izpack.core.variable;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Value;
-import com.izforge.izpack.api.regex.RegularExpressionFilter;
-import com.izforge.izpack.api.regex.RegularExpressionProcessor;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
-import com.izforge.izpack.core.regex.RegularExpressionProcessorImpl;
 
 public abstract class ValueImpl implements Value
 {
     private InstallData installData;
 
+    @Override
     public abstract void validate() throws Exception;
 
+    @Override
     public abstract String resolve() throws Exception;
 
+    @Override
     public abstract String resolve(VariableSubstitutor... substitutors) throws Exception;
-
-    public String resolve(RegularExpressionFilter regexp, VariableSubstitutor... substitutors)
-            throws Exception
-    {
-        String newValue = resolve(substitutors);
-
-        if (regexp != null)
-        {
-            String replace = null, select = null, regex = null;
-            for (VariableSubstitutor substitutor : substitutors)
-            {
-                replace = substitutor.substitute(regexp.getReplace());
-            }
-            for (VariableSubstitutor substitutor : substitutors)
-            {
-                select = substitutor.substitute(regexp.getSelect());
-            }
-            for (VariableSubstitutor substitutor : substitutors)
-            {
-                regex = substitutor.substitute(regexp.getRegexp());
-            }
-            RegularExpressionProcessor processor = new RegularExpressionProcessorImpl();
-            processor.setInput(newValue);
-            processor.setRegexp(regex);
-            processor.setCaseSensitive(regexp.getCasesensitive());
-            if (select != null)
-            {
-                processor.setSelect(select);
-            }
-            else if (replace != null)
-            {
-                processor.setReplace(replace);
-                processor.setGlobal(regexp.getGlobal());
-            }
-            newValue = processor.execute();
-        }
-
-        return newValue;
-    }
 
     @Override
     public InstallData getInstallData()

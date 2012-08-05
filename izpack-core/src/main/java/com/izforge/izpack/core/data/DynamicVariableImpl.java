@@ -23,11 +23,14 @@
 
 package com.izforge.izpack.core.data;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.api.data.Value;
-import com.izforge.izpack.api.regex.RegularExpressionFilter;
+import com.izforge.izpack.api.data.ValueFilter;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 public class DynamicVariableImpl implements DynamicVariable
@@ -42,7 +45,7 @@ public class DynamicVariableImpl implements DynamicVariable
 
     private String conditionid;
 
-    private RegularExpressionFilter regexp;
+    private List<ValueFilter> filters;
 
     private boolean checkonce = false;
 
@@ -50,6 +53,23 @@ public class DynamicVariableImpl implements DynamicVariable
 
     private transient String currentValue;
 
+    @Override
+    public void addFilter(ValueFilter filter)
+    {
+        if (filters == null)
+        {
+            filters = new LinkedList<ValueFilter>();
+        }
+        filters.add(filter);
+    }
+
+    @Override
+    public List<ValueFilter> getFilters()
+    {
+        return filters;
+    }
+
+    @Override
     public void validate() throws Exception
     {
         if (name == null)
@@ -64,53 +84,68 @@ public class DynamicVariableImpl implements DynamicVariable
 
         value.validate();
 
-        if (regexp != null)
+        if (filters != null)
         {
-            regexp.validate();
+            for (ValueFilter filter : filters)
+            {
+                filter.validate();
+            }
         }
     }
 
+    private String filterValue(String value, VariableSubstitutor... substitutors) throws Exception
+    {
+        String newValue = value;
+
+        if (value != null && filters != null)
+        {
+            logger.fine("Dynamic variable before filtering: " + name + "=" + newValue);
+            for (ValueFilter filter : filters)
+            {
+                newValue = filter.filter(newValue, substitutors);
+                logger.fine("Dynamic variable after applying filter "
+                        + filter.getClass().getSimpleName() + ": " + name + "=" + newValue);
+            }
+        }
+
+        return newValue;
+    }
+
+    @Override
     public String evaluate(VariableSubstitutor... substitutors) throws Exception
     {
-        String newValue = this.currentValue;
+        String newValue = currentValue;
 
-        if (this.value == null)
+        if (value == null)
         {
             return null;
         }
 
-        if (this.checkonce && this.currentValue != null)
+        if (checkonce && currentValue != null)
         {
-            return this.currentValue;
+            return filterValue(currentValue, substitutors);
         }
 
         try
         {
-            newValue = value.resolve(regexp, substitutors);
-            if (this.checkonce)
+            newValue = value.resolve(substitutors);
+
+            if (checkonce)
             {
-                this.currentValue = newValue;
+                currentValue = newValue;
             }
+
+            newValue = filterValue(newValue, substitutors);
         }
         catch (Exception e)
         {
-            if (!this.ignorefailure)
+            if (!ignorefailure)
             {
                 throw e;
             }
-            if (regexp != null)
-            {
-                for ( VariableSubstitutor substitutor : substitutors )
-                {
-                    newValue = substitutor.substitute(regexp.getDefaultValue(), null);
-                }
-
-                if (this.checkonce)
-                {
-                    this.currentValue = newValue;
-                }
-            }
-            logger.fine("Error evaluating dynamic variable '" + getName() + "': " + e);
+            logger.log(Level.WARNING,
+                    "Error evaluating dynamic variable '" + getName() + "': " + e,
+                    e);
         }
 
         return newValue;
@@ -119,14 +154,16 @@ public class DynamicVariableImpl implements DynamicVariable
     /**
      * @return the name
      */
+    @Override
     public String getName()
     {
-        return this.name;
+        return name;
     }
 
     /**
      * @param name the name to set
      */
+    @Override
     public void setName(String name)
     {
         if (name != null)
@@ -138,6 +175,7 @@ public class DynamicVariableImpl implements DynamicVariable
     /**
      * @return the value
      */
+    @Override
     public Value getValue()
     {
         return this.value;
@@ -146,6 +184,7 @@ public class DynamicVariableImpl implements DynamicVariable
     /**
      * @param value the value to set
      */
+    @Override
     public void setValue(Value value)
     {
         if (value != null)
@@ -155,27 +194,9 @@ public class DynamicVariableImpl implements DynamicVariable
     }
 
     /**
-     * @return the non-mandatory regular expression
-     */
-    public RegularExpressionFilter getRegularExpression()
-    {
-        return this.regexp;
-    }
-
-    /**
-     * @param expression the non-mandatory regular expression
-     */
-    public void setRegularExpression(RegularExpressionFilter expression)
-    {
-        if (expression != null)
-        {
-            this.regexp = expression;
-        }
-    }
-
-    /**
      * @return the conditionid
      */
+    @Override
     public String getConditionid()
     {
         return this.conditionid;
@@ -184,6 +205,7 @@ public class DynamicVariableImpl implements DynamicVariable
     /**
      * @param conditionid the conditionid to set
      */
+    @Override
     public void setConditionid(String conditionid)
     {
         if (conditionid != null)
@@ -197,6 +219,7 @@ public class DynamicVariableImpl implements DynamicVariable
         return checkonce;
     }
 
+    @Override
     public void setCheckonce(boolean checkonce)
     {
         this.checkonce = checkonce;
@@ -207,6 +230,7 @@ public class DynamicVariableImpl implements DynamicVariable
         return ignorefailure;
     }
 
+    @Override
     public void setIgnoreFailure(boolean ignore)
     {
         this.ignorefailure = ignore;

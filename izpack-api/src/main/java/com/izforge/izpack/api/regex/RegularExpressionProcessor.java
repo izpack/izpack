@@ -44,11 +44,5 @@ public interface RegularExpressionProcessor
 
     public void setGlobal(boolean global);
 
-//    protected String doReplace () throws RuntimeException;
-//
-//    protected String doSelect() throws RuntimeException;
-//
-//    protected void validate();
-
     public String execute();
 }

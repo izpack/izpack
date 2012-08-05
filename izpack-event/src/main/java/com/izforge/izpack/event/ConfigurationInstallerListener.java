@@ -45,7 +45,6 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.data.DynamicVariableImpl;
-import com.izforge.izpack.core.regex.RegularExpressionFilterImpl;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.core.variable.ConfigFileValue;
 import com.izforge.izpack.core.variable.EnvironmentValue;
@@ -55,6 +54,8 @@ import com.izforge.izpack.core.variable.PlainConfigFileValue;
 import com.izforge.izpack.core.variable.PlainValue;
 import com.izforge.izpack.core.variable.RegistryValue;
 import com.izforge.izpack.core.variable.ZipEntryConfigFileValue;
+import com.izforge.izpack.core.variable.filters.LocationFilter;
+import com.izforge.izpack.core.variable.filters.RegularExpressionFilter;
 import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.config.ConfigFileTask;
 import com.izforge.izpack.util.config.ConfigurableFileCopyTask;
@@ -887,14 +888,6 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new EnvironmentValue(value));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        parseError("Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
                 }
                 else
                 {
@@ -911,14 +904,6 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 {
                     dynamicVariable.setValue(
                             new RegistryValue(regroot, value, regvalue));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        parseError("Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
                 }
                 else
                 {
@@ -934,17 +919,8 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 String filekey = requireAttribute(var, "key");
                 if (dynamicVariable.getValue() == null)
                 {
-                    dynamicVariable.setValue(new PlainConfigFileValue(value,
-                                                                      getConfigFileType(name, stype), filesection,
-                                                                      filekey));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        parseError("Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
+                    dynamicVariable.setValue(new PlainConfigFileValue(value, getConfigFileType(
+                            name, stype), filesection, filekey));
                 }
                 else
                 {
@@ -963,16 +939,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new ZipEntryConfigFileValue(value, entryname,
-                                                                         getConfigFileType(name, stype), filesection,
-                                                                         filekey));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        parseError("Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
+                            getConfigFileType(name, stype), filesection, filekey));
                 }
                 else
                 {
@@ -991,16 +958,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new JarEntryConfigValue(value, entryname,
-                                                                     getConfigFileType(name, stype), filesection,
-                                                                     filekey));
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        parseError("Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
+                            getConfigFileType(name, stype), filesection, filekey));
                 }
                 else
                 {
@@ -1054,14 +1012,6 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                     {
                         parseError("Bad execution type " + exectype + " given for dynamic variable " + name);
                     }
-                    try
-                    {
-                        dynamicVariable.validate();
-                    }
-                    catch (Exception e)
-                    {
-                        parseError("Error in definition of dynamic variable " + name + ": " + e.getMessage());
-                    }
                 }
                 else
                 {
@@ -1088,39 +1038,42 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 dynamicVariable.setIgnoreFailure(Boolean.valueOf(value));
             }
 
-            // Nested regular expression filter
-            IXMLElement regexElement = var.getFirstChildNamed("regex");
-            if (regexElement != null)
+            IXMLElement filters = var.getFirstChildNamed("filters");
+            if (filters != null)
             {
-                String expression = getAttribute(regexElement, "regexp");
-                String selectexpr = getAttribute(regexElement, "select");
-                String replaceexpr = getAttribute(regexElement, "replace");
-                String defaultvalue = getAttribute(regexElement, "defaultvalue");
-                String scasesensitive = getAttribute(regexElement, "casesensitive");
-                String sglobal = getAttribute(regexElement, "global");
-                if (dynamicVariable.getRegularExpression() == null)
+                List<IXMLElement> filterList = filters.getChildren();
+                for (IXMLElement filterElement : filterList)
                 {
-                    dynamicVariable.setRegularExpression(
-                            new RegularExpressionFilterImpl(expression,
-                                                            selectexpr,
-                                                            replaceexpr,
-                                                            defaultvalue,
-                                                            Boolean.valueOf(
-                                                                    scasesensitive != null ? scasesensitive : "true"),
-                                                            Boolean.valueOf(sglobal != null ? sglobal : "false")));
-                    try
+                    if(filterElement.getName().equals("regex"))
                     {
-                        dynamicVariable.validate();
+                        String expression = filterElement.getAttribute("regexp");
+                        String selectexpr = filterElement.getAttribute("select");
+                        String replaceexpr = filterElement.getAttribute("replace");
+                        String defaultvalue = filterElement.getAttribute("defaultvalue");
+                        String scasesensitive = filterElement.getAttribute("casesensitive");
+                        String sglobal = filterElement.getAttribute("global");
+                        dynamicVariable.addFilter(
+                                new RegularExpressionFilter(
+                                        expression, selectexpr,
+                                        replaceexpr, defaultvalue,
+                                        Boolean.valueOf(scasesensitive != null ? scasesensitive : "true"),
+                                        Boolean.valueOf(sglobal != null ? sglobal : "false")));
                     }
-                    catch (Exception e)
+                    else if (filterElement.getName().equals("location"))
                     {
-                        parseError("Error in definition of dynamic variable " + name + ": " + e.getMessage());
+                        String basedir = filterElement.getAttribute("basedir");
+                        dynamicVariable.addFilter(new LocationFilter(basedir));
                     }
                 }
-                else
-                {
-                    parseError("Ambiguous regular expression filter definition for dynamic variable " + name);
-                }
+            }
+            try
+            {
+                dynamicVariable.validate();
+            }
+            catch (Exception e)
+            {
+                parseError("Error in definition of dynamic variable " + name + ": "
+                        + e.getMessage());
             }
 
             for (DynamicVariable dynvar : dynamicVariables)

@@ -1,36 +1,14 @@
-/*
- * IzPack - Copyright 2001-2010 Julien Ponge, All Rights Reserved.
- *
- * http://izpack.org/
- * http://izpack.codehaus.org/
- *
- * Copyright 2010 Rene Krell
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+package com.izforge.izpack.core.variable.filters;
 
-package com.izforge.izpack.core.regex;
+import com.izforge.izpack.api.data.ValueFilter;
+import com.izforge.izpack.api.regex.RegularExpressionProcessor;
+import com.izforge.izpack.api.substitutor.VariableSubstitutor;
+import com.izforge.izpack.core.regex.RegularExpressionProcessorImpl;
 
-import com.izforge.izpack.api.regex.RegularExpressionFilter;
-
-import java.io.Serializable;
-
-public class RegularExpressionFilterImpl implements RegularExpressionFilter, Serializable
+public class RegularExpressionFilter implements ValueFilter
 {
-    /**
-     *
-     */
-    private static final long serialVersionUID = -1405213251817336962L;
+
+    private static final long serialVersionUID = -6817518878070930751L;
 
     public String regexp;
     public String select, replace;
@@ -38,10 +16,9 @@ public class RegularExpressionFilterImpl implements RegularExpressionFilter, Ser
     public Boolean casesensitive;
     public Boolean global;
 
-    public RegularExpressionFilterImpl(String regexp, String select, String replace, String defaultValue,
+    public RegularExpressionFilter(String regexp, String select, String replace, String defaultValue,
                                        Boolean casesensitive, Boolean global)
     {
-        super();
         this.regexp = regexp;
         this.select = select;
         this.replace = replace;
@@ -50,18 +27,19 @@ public class RegularExpressionFilterImpl implements RegularExpressionFilter, Ser
         this.global = global;
     }
 
-    public RegularExpressionFilterImpl(String regexp, String select, String defaultValue,
+    public RegularExpressionFilter(String regexp, String select, String defaultValue,
                                        Boolean casesensitive)
     {
         this(regexp, select, null, defaultValue, casesensitive, null);
     }
 
-    public RegularExpressionFilterImpl(String regexp, String replace, String defaultValue,
+    public RegularExpressionFilter(String regexp, String replace, String defaultValue,
                                        Boolean casesensitive, Boolean global)
     {
         this(regexp, null, replace, defaultValue, casesensitive, global);
     }
 
+    @Override
     public void validate() throws Exception
     {
         if (this.regexp == null || this.regexp.length() <= 0)
@@ -137,4 +115,47 @@ public class RegularExpressionFilterImpl implements RegularExpressionFilter, Ser
     {
         this.global = global;
     }
+
+    @Override
+    public String filter(String value, VariableSubstitutor... substitutors) throws Exception
+    {
+        String _replace = replace, _select = select,
+                _regexp = regexp, _defaultValue = defaultValue;
+        for (VariableSubstitutor substitutor : substitutors)
+        {
+            if (_replace  != null)
+            {
+                _replace = substitutor.substitute(_replace);
+            }
+            if (_select  != null)
+            {
+                _select = substitutor.substitute(_select);
+            }
+            if (_regexp  != null)
+            {
+                _regexp = substitutor.substitute(_regexp);
+            }
+            if (_defaultValue  != null)
+            {
+                _defaultValue = substitutor.substitute(_defaultValue);
+            }
+        }
+        RegularExpressionProcessor processor = new RegularExpressionProcessorImpl();
+        processor.setInput(value);
+        processor.setRegexp(_regexp);
+        processor.setCaseSensitive(casesensitive);
+        if (_select != null)
+        {
+            processor.setSelect(_select);
+        }
+        else if (_replace != null)
+        {
+            processor.setReplace(_replace);
+            processor.setGlobal(global);
+        }
+
+        processor.setDefaultValue(_defaultValue);
+        return processor.execute();
+    }
+
 }

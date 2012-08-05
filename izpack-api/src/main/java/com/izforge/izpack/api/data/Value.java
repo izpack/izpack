@@ -4,7 +4,7 @@
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 Rene Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 
 package com.izforge.izpack.api.data;
 
-import com.izforge.izpack.api.regex.RegularExpressionFilter;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 public interface Value
@@ -31,8 +30,6 @@ public interface Value
     String resolve() throws Exception;
 
     String resolve(VariableSubstitutor... substitutors) throws Exception;
-
-    String resolve(RegularExpressionFilter regexp, VariableSubstitutor... substitutors) throws Exception;
 
     InstallData getInstallData();
 

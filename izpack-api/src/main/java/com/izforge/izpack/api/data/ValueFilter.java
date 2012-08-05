@@ -4,7 +4,7 @@
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
- * Copyright 2010 Rene Krell
+ * Copyright 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,33 +19,19 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.api.regex;
+package com.izforge.izpack.api.data;
 
-public interface RegularExpressionFilter
+import java.io.Serializable;
+
+import com.izforge.izpack.api.substitutor.VariableSubstitutor;
+
+/**
+ * Filter the data is sent through after evaluating the variable,
+ * before the evaluation value is returned to the installer
+ */
+public interface ValueFilter extends Serializable
 {
-    public void validate() throws Exception;
+    String filter(String value, VariableSubstitutor... substitutors) throws Exception;
 
-    public String getRegexp();
-
-    public void setRegexp(String regexp);
-
-    public String getSelect();
-
-    public void setSelect(String select);
-
-    public String getReplace();
-
-    public void setReplace(String replace);
-
-    public String getDefaultValue();
-
-    public void setDefaultValue(String defaultValue);
-
-    public Boolean getCasesensitive();
-
-    public void setCasesensitive(Boolean casesensitive);
-
-    public Boolean getGlobal();
-
-    public void setGlobal(Boolean global);
+    void validate() throws Exception;
 }

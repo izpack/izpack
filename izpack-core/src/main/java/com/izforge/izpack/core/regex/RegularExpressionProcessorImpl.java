@@ -122,7 +122,14 @@ public class RegularExpressionProcessorImpl implements RegularExpressionProcesso
 
         if (output == null)
         {
-            output = defaultValue;
+            if (defaultValue != null)
+            {
+                return defaultValue;
+            }
+            else if (replace != null)
+            {
+                return input;
+            }
         }
 
         return output;

@@ -23,10 +23,10 @@
 
 package com.izforge.izpack.api.data;
 
-import com.izforge.izpack.api.regex.RegularExpressionFilter;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
@@ -72,15 +72,8 @@ public interface DynamicVariable extends Serializable
 
     void setIgnoreFailure(boolean ignore);
 
-    /**
-     * @return the non-mandatory regular expression
-     */
-    RegularExpressionFilter getRegularExpression();
+    void addFilter(ValueFilter filter);
 
-    /**
-     * @param expression the non-mandatory regular expression
-     */
-    void setRegularExpression(RegularExpressionFilter expression);
-
+    List<ValueFilter> getFilters();
 }
 
