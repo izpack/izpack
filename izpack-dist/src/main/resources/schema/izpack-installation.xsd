@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="installation" type="installationType" />
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://izpack.org/schema/installation"
+           xmlns="http://izpack.org/schema/installation">
+    <xs:element name="installation" type="installationType"/>
 
     <xs:complexType name="installationType">
         <xs:all>
@@ -17,9 +18,9 @@
                 </xs:annotation>
             </xs:element>
 
-            <xs:element type="variablesType" name="variables" />
+            <xs:element type="variablesType" name="variables"/>
 
-            <xs:element type="resourcesType" name="resources" />
+            <xs:element type="resourcesType" name="resources"/>
 
             <xs:element type="localeType" name="locale" minOccurs="1">
                 <xs:annotation>
@@ -39,7 +40,7 @@
                 </xs:annotation>
             </xs:element>
 
-            <xs:element type="nativesType" name="natives" />
+            <xs:element type="nativesType" name="natives"/>
 
             <xs:element type="packsType" name="packs">
                 <xs:annotation>
@@ -48,35 +49,35 @@
             </xs:element>
 
         </xs:all>
-        <xs:attribute type="xs:string" name="version" />
+        <xs:attribute type="xs:string" name="version"/>
     </xs:complexType>
 
     <!-- type for info section -->
     <xs:complexType name="authorType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="email" use="optional" />
-                <xs:attribute type="xs:string" name="name" use="optional" />
+                <xs:attribute type="xs:string" name="email" use="optional"/>
+                <xs:attribute type="xs:string" name="name" use="optional"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
     <xs:complexType name="infoType">
         <xs:sequence>
-            <xs:element type="xs:string" name="appname" />
-            <xs:element type="xs:string" name="appversion" />
-            <xs:element type="authorsType" name="authors" />
-            <xs:element type="xs:string" name="url" />
-            <xs:element type="xs:string" name="javaversion" />
-            <xs:element type="xs:string" name="requiresjdk" />
-            <xs:element type="xs:string" name="pack200" minOccurs="0" />
-            <xs:element type="run-privilegedType" name="run-privileged" />
-            <xs:element type="xs:string" name="summarylogfilepath" />
+            <xs:element type="xs:string" name="appname"/>
+            <xs:element type="xs:string" name="appversion"/>
+            <xs:element type="authorsType" name="authors"/>
+            <xs:element type="xs:string" name="url"/>
+            <xs:element type="xs:string" name="javaversion"/>
+            <xs:element type="xs:string" name="requiresjdk"/>
+            <xs:element type="xs:string" name="pack200" minOccurs="0"/>
+            <xs:element type="run-privilegedType" name="run-privileged"/>
+            <xs:element type="xs:string" name="summarylogfilepath"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="run-privilegedType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="condition" />
+                <xs:attribute type="xs:string" name="condition"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -84,14 +85,14 @@
     <!-- Variables types -->
     <xs:complexType name="variablesType">
         <xs:sequence>
-            <xs:element type="variableType" name="variable" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element type="variableType" name="variable" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="variableType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="name" use="optional" />
-                <xs:attribute type="xs:string" name="value" use="optional" />
+                <xs:attribute type="xs:string" name="name" use="optional"/>
+                <xs:attribute type="xs:string" name="value" use="optional"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -99,16 +100,16 @@
     <!-- Filesets types -->
     <xs:complexType name="filesetType">
         <xs:sequence>
-            <xs:element type="includeType" name="include" maxOccurs="unbounded" minOccurs="0" />
-            <xs:element type="includeType" name="exclude" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element type="includeType" name="include" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="includeType" name="exclude" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute type="xs:string" name="dir" use="required" />
-        <xs:attribute type="xs:string" name="targetdir" use="required" />
+        <xs:attribute type="xs:string" name="dir" use="required"/>
+        <xs:attribute type="xs:string" name="targetdir" use="required"/>
     </xs:complexType>
     <xs:complexType name="includeType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="name" use="required" />
+                <xs:attribute type="xs:string" name="name" use="required"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -116,14 +117,14 @@
     <!-- Resources types -->
     <xs:complexType name="resourcesType">
         <xs:sequence>
-            <xs:element type="resourceType" name="res" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element type="resourceType" name="res" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="resourceType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="src" use="required" />
-                <xs:attribute type="xs:string" name="id" use="required" />
+                <xs:attribute type="xs:string" name="src" use="required"/>
+                <xs:attribute type="xs:string" name="id" use="required"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -131,18 +132,18 @@
 
     <xs:complexType name="packType">
         <xs:sequence>
-            <xs:element type="xs:string" name="description" maxOccurs="1" />
-            <xs:element type="filesetType" name="fileset" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element type="fileType" name="file" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element type="executableType" name="executable" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element type="xs:string" name="description" maxOccurs="1"/>
+            <xs:element type="filesetType" name="fileset" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="fileType" name="file" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="executableType" name="executable" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute type="xs:string" name="name" />
-        <xs:attribute type="xs:string" name="required" />
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="required"/>
     </xs:complexType>
     <xs:complexType name="osType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="family" use="optional" />
+                <xs:attribute type="xs:string" name="family" use="optional"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -150,7 +151,7 @@
     <xs:complexType name="langpackType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="iso3" use="optional" />
+                <xs:attribute type="xs:string" name="iso3" use="optional"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -159,15 +160,15 @@
     <!-- Panels definition -->
     <xs:complexType name="panelsType">
         <xs:sequence>
-            <xs:element type="panelType" name="panel" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element type="panelType" name="panel" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="panelType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="classname" use="optional" />
-                <xs:attribute type="xs:string" name="id" use="optional" />
-                <xs:attribute type="xs:string" name="encoding" use="optional" />
+                <xs:attribute type="xs:string" name="classname" use="optional"/>
+                <xs:attribute type="xs:string" name="id" use="optional"/>
+                <xs:attribute type="xs:string" name="encoding" use="optional"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -181,22 +182,22 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute type="xs:string" name="height" />
-        <xs:attribute type="xs:string" name="resizable" />
-        <xs:attribute type="xs:string" name="width" />
+        <xs:attribute type="xs:string" name="height"/>
+        <xs:attribute type="xs:string" name="resizable"/>
+        <xs:attribute type="xs:string" name="width"/>
     </xs:complexType>
 
     <xs:complexType name="authorsType">
         <xs:sequence>
-            <xs:element type="authorType" name="author" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element type="authorType" name="author" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="modifierType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="key" use="optional" />
-                <xs:attribute type="xs:string" name="value" use="optional" />
+                <xs:attribute type="xs:string" name="key" use="optional"/>
+                <xs:attribute type="xs:string" name="value" use="optional"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -204,20 +205,20 @@
     <!-- Listener definition -->
     <xs:complexType name="listenerType" mixed="true">
         <xs:sequence>
-            <xs:element type="osType" name="os" minOccurs="0" />
+            <xs:element type="osType" name="os" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute type="xs:string" name="classname" use="optional" />
-        <xs:attribute type="xs:string" name="stage" use="optional" />
+        <xs:attribute type="xs:string" name="classname" use="optional"/>
+        <xs:attribute type="xs:string" name="stage" use="optional"/>
     </xs:complexType>
     <xs:complexType name="listenersType">
         <xs:sequence>
-            <xs:element type="listenerType" name="listener" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element type="listenerType" name="listener" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="localeType">
         <xs:sequence>
-            <xs:element type="langpackType" name="langpack" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element type="langpackType" name="langpack" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -234,36 +235,36 @@
     <xs:complexType name="executableType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="targetfile" use="optional" />
-                <xs:attribute type="xs:string" name="stage" use="optional" />
+                <xs:attribute type="xs:string" name="targetfile" use="optional"/>
+                <xs:attribute type="xs:string" name="stage" use="optional"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="nativesType">
         <xs:sequence>
-            <xs:element type="nativeType" name="native" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element type="nativeType" name="native" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="nativeType">
         <xs:sequence>
-            <xs:element type="osType" name="os" minOccurs="0" />
+            <xs:element type="osType" name="os" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute type="xs:string" name="type" />
-        <xs:attribute type="xs:string" name="name" />
-        <xs:attribute type="xs:string" name="stage" />
+        <xs:attribute type="xs:string" name="type"/>
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="stage"/>
     </xs:complexType>
 
     <xs:complexType name="fileType">
         <xs:sequence>
-            <xs:element type="xs:string" name="condition" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element type="osType" name="os" minOccurs="0" />
+            <xs:element type="xs:string" name="condition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="osType" name="os" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute type="xs:string" name="src" use="required" />
-        <xs:attribute type="xs:string" name="targetdir" use="required" />
-        <xs:attribute type="xs:boolean" name="override" />
-        <xs:attribute type="xs:string" name="blockable" />
-        <xs:attribute type="xs:boolean" name="unpack" />
+        <xs:attribute type="xs:string" name="src" use="required"/>
+        <xs:attribute type="xs:string" name="targetdir" use="required"/>
+        <xs:attribute type="xs:boolean" name="override"/>
+        <xs:attribute type="xs:string" name="blockable"/>
+        <xs:attribute type="xs:boolean" name="unpack"/>
     </xs:complexType>
 
 </xs:schema>

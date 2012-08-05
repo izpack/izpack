@@ -1,6 +1,5 @@
-<installation version="1.0"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:noNamespaceSchemaLocation="izpack.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<installation version="1.0">
 
     <!-- The info section -->
     <info>
@@ -17,7 +16,7 @@
 
     <!-- Flexible and in the screen proportions -->
     <guiprefs height="700" resizable="yes" width="870">
-        <!-- GUI addaption for more informations see "Modifying the GUI" in the documentation -->
+        <!-- GUI adaption for more informations see "Modifying the GUI" in the documentation -->
         <modifier key="layoutAnchor" value="CENTER"/>
         <modifier key="headingPanelCounter" value="progressbar"/>
         <modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
@@ -117,9 +116,10 @@
                 <include name="LICENSE"/>
                 <include name="KEYS"/>
                 <include name="NOTICE"/>
-                <include name="bin/**/*"/>
-                <include name="lib/**/*"/>
-                <include name="legal/**/*"/>
+                <include name="bin/**"/>
+                <include name="lib/**"/>
+                <include name="legal/**"/>
+                <include name="schema/**"/>
             </fileset>
             <executable targetfile="$INSTALL_PATH/bin/compile" stage="never"/>
             <executable targetfile="$INSTALL_PATH/bin/start.sh" stage="never"/>

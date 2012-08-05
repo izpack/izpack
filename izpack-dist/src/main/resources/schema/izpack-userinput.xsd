@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+  ~
+  ~ http://izpack.org/
+  ~ http://izpack.codehaus.org/
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!--
+ | Schema for user input specification. The structure is re-engineered as
+ | IzPack does not provide a structure description.
+ |______________________________________________________________________________
+ |
+ | Author: jochen.hinrichsen@kambrium.net
+ |______________________________________________________________________________
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://izpack.org/schema/userinput"
+           xmlns="http://izpack.org/schema/userinput">
+
+    <!-- Values taken from UserInputPanel -->
+    <xs:simpleType name="AlignType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="center"/>
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="top"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="staticText"/>
+            <xs:enumeration value="divider"/>
+            <xs:enumeration value="file"/>
+            <xs:enumeration value="password"/>
+            <xs:enumeration value="search"/>
+            <xs:enumeration value="space"/>
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="title"/>
+            <xs:enumeration value="check"/>
+            <xs:enumeration value="radio"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="userInput">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="panel">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="createForPack">
+                                <xs:complexType>
+                                    <xs:attribute name="name" type="xs:string" use="required"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element maxOccurs="unbounded" name="field">
+                                <xs:complexType>
+                                    <xs:sequence minOccurs="0">
+                                        <xs:element minOccurs="0" name="description">
+                                            <xs:complexType>
+                                                <xs:attribute name="align" type="AlignType" use="required"/>
+                                                <xs:attribute name="id" type="xs:string"/>
+                                                <xs:attribute name="txt" type="xs:string" use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="spec">
+                                            <xs:complexType>
+                                                <xs:sequence minOccurs="0">
+                                                    <xs:element minOccurs="0" maxOccurs="unbounded" name="pwd">
+                                                        <xs:complexType>
+                                                            <xs:attribute name="txt" type="xs:string" use="required"/>
+                                                            <xs:attribute name="size" type="xs:unsignedByte"
+                                                                          use="required"/>
+                                                            <xs:attribute name="set" type="xs:string" use="required"/>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element minOccurs="0" maxOccurs="unbounded" name="choice">
+                                                        <xs:complexType>
+                                                            <xs:attribute name="os" type="xs:string" use="optional"/>
+                                                            <xs:attribute name="set" type="xs:boolean"/>
+                                                            <xs:attribute name="txt" type="xs:string"/>
+                                                            <xs:attribute name="value" type="xs:string" use="required"/>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute name="id" type="xs:string" use="optional"/>
+                                                <xs:attribute name="false" type="xs:string" use="optional"/>
+                                                <xs:attribute name="filename" type="xs:string" use="optional"/>
+                                                <xs:attribute name="result" type="xs:string" use="optional"/>
+                                                <xs:attribute name="size" type="xs:unsignedByte" use="optional"/>
+                                                <xs:attribute name="set" type="xs:string" use="optional"/>
+                                                <xs:attribute name="true" type="xs:string" use="optional"/>
+                                                <xs:attribute name="type" type="TypeType" use="optional"/>
+                                                <xs:attribute name="txt" type="xs:string" use="optional"/>
+                                                <xs:attribute name="allowEmptyValue" type="xs:boolean" use="optional"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:attribute name="family" type="xs:string" use="optional"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="validator">
+                                            <xs:complexType>
+                                                <xs:sequence minOccurs="0">
+                                                    <xs:element maxOccurs="unbounded" name="param">
+                                                        <xs:complexType>
+                                                            <xs:attribute name="name" type="xs:string" use="required"/>
+                                                            <xs:attribute name="value" type="xs:string" use="required"/>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute name="class" type="xs:string" use="required"/>
+                                                <xs:attribute name="txt" type="xs:string" use="required"/>
+                                                <xs:attribute name="id" type="xs:string" use="optional"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="type" type="TypeType" use="required"/>
+                                    <xs:attribute name="variable" type="xs:string" use="optional"/>
+                                    <xs:attribute name="conditionid" type="xs:string" use="optional"/>
+                                    <xs:attribute name="key" type="xs:string" use="optional"/>
+                                    <xs:attribute name="txt" type="xs:string" use="optional"/>
+                                    <xs:attribute name="bold" type="xs:boolean" use="optional"/>
+                                    <xs:attribute name="size" type="xs:unsignedByte" use="optional"/>
+                                    <xs:attribute name="align" type="AlignType" use="optional"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="order" type="xs:unsignedByte" use="required"/>
+                        <xs:attribute name="id" type="xs:string" use="optional"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="langpack">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="str">
+                    <xs:complexType>
+                        <xs:attribute name="id" type="xs:string" use="required"/>
+                        <xs:attribute name="txt" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+
+        <!-- EOF -->
