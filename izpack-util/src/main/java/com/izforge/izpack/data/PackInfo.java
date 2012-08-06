@@ -92,12 +92,14 @@ public class PackInfo implements Serializable
      * @param loose        files of pack should be stored separatly or not
      * @param excludegroup name of the exclude group
      * @param uninstall    pack must be uninstalled
+     * @param size         the size of the pack, in bytes
      */
     public PackInfo(String name, String id, String description, boolean required, boolean loose, String excludegroup,
-                    boolean uninstall)
+                    boolean uninstall, long size)
     {
         boolean ispreselected = (excludegroup == null);
-        pack = new Pack(name, id, description, null, null, required, ispreselected, loose, excludegroup, uninstall);
+        pack = new Pack(name, id, description, null, null, required, ispreselected, loose, excludegroup, uninstall,
+                        size);
         colour = PackColor.WHITE;
     }
 

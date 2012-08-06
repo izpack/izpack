@@ -200,7 +200,7 @@ public class BSFUninstallerListenerTest
         BSFInstallerListener listener = new BSFInstallerListener(installData, replacer, resources,
                                                                  uninstallData, new ProgressNotifiersImpl());
         listener.initialise();
-        Pack pack = new Pack(packName, null, null, null, null, true, true, false, null, true);
+        Pack pack = new Pack(packName, null, null, null, null, true, true, false, null, true, 0);
         List<Pack> packs = Arrays.asList(pack);
 
         // Verify that when the beforePacks method is invoked, the corresponding BSF action is called.

@@ -70,7 +70,7 @@ public class WebRepositoryAccessor
     private String installXmlString;
 
     /**
-     * packsinfo.xml contains nbytes, pack name and pack id
+     * packsinfo.xml contains size, pack name and pack id
      */
     private String packsInfo;
 
@@ -215,7 +215,7 @@ public class WebRepositoryAccessor
     }
 
     /**
-     * Parse packsinfo.xml, fill the nbytes field, which is not available at runtime
+     * Parse packsinfo.xml, fill the size and fileSize field, which is not available at runtime
      * otherwise.
      */
     private void parsePacksInfo()
@@ -231,7 +231,8 @@ public class WebRepositoryAccessor
                 IXMLElement packElement = root.getChildAtIndex(i);
                 PackInfo packInfo = packs.get(i);
                 Pack pack = packInfo.getPack();
-                pack.setSize(Long.parseLong(packElement.getAttribute("nbytes")));
+                pack.setSize(Long.parseLong(packElement.getAttribute("size")));
+                pack.setFileSize(Long.parseLong(packElement.getAttribute("fileSize")));
             }
         }
         catch (Exception e)
@@ -310,7 +311,7 @@ public class WebRepositoryAccessor
                         "Pack, which has excludeGroup can not be required."));
             }
 
-            PackInfo pack = new PackInfo(name, id, description, required, loose, excludeGroup, uninstall);
+            PackInfo pack = new PackInfo(name, id, description, required, loose, excludeGroup, uninstall, 0);
             pack.setOsConstraints(OsConstraintHelper.getOsList(packElement)); // TODO:
             pack.setParent(parent);
 

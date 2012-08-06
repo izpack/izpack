@@ -4,6 +4,8 @@
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
+ * Copyright 2012 Tim Anderson
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,9 +35,11 @@ import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 
 /**
- * Tests the {@link Packager}.
+ * Tests the {@link MultiVolumePackager}.
+ *
+ * @author Tim Anderson
  */
-public class PackagerTest extends AbstractPackagerTest
+public class MultiVolumePackagerTest extends AbstractPackagerTest
 {
 
     /**
@@ -54,8 +58,8 @@ public class PackagerTest extends AbstractPackagerTest
         CompilerPathResolver pathResolver = Mockito.mock(CompilerPathResolver.class);
         MergeableResolver resolver = Mockito.mock(MergeableResolver.class);
         CompilerData data = new CompilerData("", "", "", true);
-        Packager packager = new Packager(properties, listener, jar, compressor, jar, mergeManager,
-                                         pathResolver, resolver, data);
+        MultiVolumePackager packager = new MultiVolumePackager(properties, listener, jar, mergeManager,
+                                                               pathResolver, resolver, compressor, data);
         packager.setInfo(new Info());
         return packager;
     }

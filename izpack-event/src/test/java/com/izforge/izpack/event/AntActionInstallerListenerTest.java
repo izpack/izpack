@@ -123,7 +123,7 @@ public class AntActionInstallerListenerTest
     @Test
     public void testAntTargets()
     {
-        Pack pack = new Pack("Base", null, null, null, null, true, true, false, null, true);
+        Pack pack = new Pack("Base", null, null, null, null, true, true, false, null, true, 0);
         List<Pack> packs = Arrays.asList(pack);
 
         ProgressListener progressListener = Mockito.mock(ProgressListener.class);

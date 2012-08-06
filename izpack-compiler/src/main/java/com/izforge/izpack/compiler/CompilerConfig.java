@@ -735,6 +735,7 @@ public class CompilerConfig extends Thread
             String installGroups = packElement.getAttribute("installGroups");
             String excludeGroup = packElement.getAttribute("excludeGroup");
             boolean uninstall = "yes".equalsIgnoreCase(packElement.getAttribute("uninstall", "yes"));
+            long size = xmlCompilerHelper.getLong(packElement, "size", 0);
             String parent = packElement.getAttribute("parent");
             boolean hidden = Boolean.parseBoolean(packElement.getAttribute("hidden", "false"));
 
@@ -748,7 +749,7 @@ public class CompilerConfig extends Thread
             }
 
             PackInfo pack = new PackInfo(name, id, description, required, loose, excludeGroup,
-                                         uninstall);
+                                         uninstall, size);
             pack.setOsConstraints(OsConstraintHelper.getOsList(packElement)); // TODO:
             pack.setParent(parent);
             pack.setCondition(conditionid);

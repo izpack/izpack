@@ -199,7 +199,7 @@ public class MultiVolumeUnpackerTest
      */
     private PackInfo createPack(String name, File baseDir, File... files) throws IOException
     {
-        PackInfo pack = new PackInfo(name, name, "The " + name + " package", false, false, null, true);
+        PackInfo pack = new PackInfo(name, name, "The " + name + " package", false, false, null, true, 0);
         addFiles(pack, baseDir, files);
         return pack;
     }

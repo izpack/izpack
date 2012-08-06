@@ -259,7 +259,7 @@ public class MultiVolumePackager extends PackagerBase
     private void writePack(PackInfo packInfo, FileSpanningOutputStream volumes, File targetDir) throws IOException
     {
         Pack pack = packInfo.getPack();
-        pack.setSize(0);
+        pack.setFileSize(0);
 
         String name = pack.getName();
         sendMsg("Writing Pack: " + name, PackagerListener.MSG_VERBOSE);
@@ -339,7 +339,12 @@ public class MultiVolumePackager extends PackagerBase
             packStream.writeObject(pf);
             packStream.flush(); // make sure it is written
             // even if not written, it counts towards pack size
-            pack.addSize(pf.length());
+            pack.addFileSize(pf.length());
+        }
+
+        if (pack.getFileSize() > pack.getSize())
+        {
+            pack.setSize(pack.getFileSize());
         }
     }
 

@@ -390,7 +390,7 @@ public class InstallationGroupPanel extends IzPanel
      * Build the set of unique installGroups installDataGUI. The GroupData description
      * is taken from the InstallationGroupPanel.description.[name] property
      * where [name] is the installGroup name. The GroupData size is built
-     * from the Pack.nbytes sum.
+     * from the Pack.size sum.
      *
      * @param idata - the panel install installDataGUI
      * @return HashMap<String, GroupData> of unique install group names

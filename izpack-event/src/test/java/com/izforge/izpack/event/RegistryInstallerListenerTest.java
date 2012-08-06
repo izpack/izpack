@@ -211,7 +211,7 @@ public class RegistryInstallerListenerTest
 
         // run the listener
         ProgressListener progressListener = Mockito.mock(ProgressListener.class);
-        Pack pack = new Pack("Core", null, null, null, null, true, true, false, null, true);
+        Pack pack = new Pack("Core", null, null, null, null, true, true, false, null, true, 0);
         listener.afterPacks(Arrays.asList(pack), progressListener);
 
         // verify RegistrySpec.xml changes applied to the registry

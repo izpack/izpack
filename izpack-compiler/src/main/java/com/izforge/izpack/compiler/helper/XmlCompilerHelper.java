@@ -142,7 +142,7 @@ public class XmlCompilerHelper
      * @param defaultValue Value returned if attribute not present or invalid
      */
     public boolean validateYesNoAttribute(IXMLElement element, String attribute,
-            Boolean defaultValue) throws CompilerException
+                                          Boolean defaultValue) throws CompilerException
     {
         if (element != null)
         {
@@ -152,7 +152,8 @@ public class XmlCompilerHelper
             {
                 if (defaultValue == null)
                 {
-                    assertionHelper.parseError(element, "<" + element.getName() + "> undefined value of attribute '" + attribute + "' which is not associated with a default value");
+                    assertionHelper.parseError(element,
+                                               "<" + element.getName() + "> undefined value of attribute '" + attribute + "' which is not associated with a default value");
                 }
             }
             else
@@ -203,5 +204,32 @@ public class XmlCompilerHelper
                     + "'");
         }
         return value;
+    }
+
+    /**
+     * Parses an optional long attribute.
+     *
+     * @param element      the element containing the attribute
+     * @param attribute    the attribute name
+     * @param defaultValue the default value, if the attribute is not present
+     * @return the attribute value if specified, or {@code defaultValue} if not
+     * @throws CompilerException if the value exists but cannot be parsed
+     */
+    public long getLong(IXMLElement element, String attribute, long defaultValue) throws CompilerException
+    {
+        long result = defaultValue;
+        String value = element.getAttribute(attribute);
+        if (value != null)
+        {
+            try
+            {
+                result = Long.parseLong(value);
+            }
+            catch (NumberFormatException exception)
+            {
+                assertionHelper.parseError(element, "'" + attribute + "' is not a long: " + value);
+            }
+        }
+        return result;
     }
 }

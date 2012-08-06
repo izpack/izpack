@@ -148,7 +148,7 @@ public class BSFInstallerListenerTest
      */
     private void checkListener(Resources resources, String suffix) throws IOException
     {
-        Pack pack = new Pack("Base", null, null, null, null, true, true, false, null, true);
+        Pack pack = new Pack("Base", null, null, null, null, true, true, false, null, true, 0);
         List<Pack> packs = Arrays.asList(pack);
 
         ProgressListener progressListener = Mockito.mock(ProgressListener.class);

@@ -110,9 +110,14 @@ public class Pack implements Serializable
     private boolean required;
 
     /**
-     * The size of the pack, in bytes.
+     * The size of the pack. This may include reserved space, independent of the size of the files.
      */
     private long size;
+
+    /**
+     * The size of files in the pack, in bytes.
+     */
+    private long fileSize;
 
     /**
      * Determines if the pack should be preselected for installation.
@@ -173,10 +178,11 @@ public class Pack implements Serializable
      * @param loose         if {@code true} files of this pack are stored outside the installation jar file
      * @param excludeGroup  associated exclude group. May be {@code null}
      * @param uninstall     if {@code true}, the pack must be uninstalled
+     * @param size          the pack size
      */
     public Pack(String name, String langPackId, String description, List<OsModel> osConstraints,
                 List<String> dependencies, boolean required, boolean preselected, boolean loose, String excludeGroup,
-                boolean uninstall)
+                boolean uninstall, long size)
     {
         this.name = name;
         this.langPackId = langPackId;
@@ -188,6 +194,7 @@ public class Pack implements Serializable
         this.loose = loose;
         this.excludeGroup = excludeGroup;
         this.uninstall = uninstall;
+        this.size = size;
     }
 
     /**
@@ -444,16 +451,6 @@ public class Pack implements Serializable
     }
 
     /**
-     * Adds to the size of the pack.
-     *
-     * @param add the no. of bytes to add
-     */
-    public void addSize(long add)
-    {
-        this.size += add;
-    }
-
-    /**
      * Returns the size of the pack.
      *
      * @return the size of the pack, in bytes
@@ -461,6 +458,36 @@ public class Pack implements Serializable
     public long getSize()
     {
         return size;
+    }
+
+    /**
+     * Sets the size of the pack.
+     *
+     * @param size the size of the pack, in bytes
+     */
+    public void setFileSize(long size)
+    {
+        fileSize = size;
+    }
+
+    /**
+     * Adds to the size of the pack.
+     *
+     * @param add the no. of bytes to add
+     */
+    public void addFileSize(long add)
+    {
+        fileSize += add;
+    }
+
+    /**
+     * Returns the size of the pack.
+     *
+     * @return the size of the pack, in bytes
+     */
+    public long getFileSize()
+    {
+        return fileSize;
     }
 
     /**
