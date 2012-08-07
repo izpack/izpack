@@ -23,11 +23,15 @@ package com.izforge.izpack.panels.licence;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
@@ -72,7 +76,8 @@ public class LicencePanel extends IzPanel implements ActionListener
      * @param resources   the resources
      * @param log         the log
      */
-    public LicencePanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
+    public LicencePanel(Panel panel, final InstallerFrame parent, GUIInstallData installData, Resources resources,
+                        Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
         // We load the licence
@@ -91,6 +96,22 @@ public class LicencePanel extends IzPanel implements ActionListener
         JScrollPane scroller = new JScrollPane(textArea);
         scroller.setAlignmentX(LEFT_ALIGNMENT);
         add(scroller, NEXT_LINE);
+
+        // register a listener to trigger the default button if enter is pressed whilst the text area has the focus
+        ActionListener fireDefault = new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                JButton defaultButton = parent.getRootPane().getDefaultButton();
+                if (defaultButton != null && defaultButton.isEnabled())
+                {
+                    defaultButton.doClick();
+                }
+            }
+        };
+        textArea.registerKeyboardAction(fireDefault, null, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+                                        JComponent.WHEN_FOCUSED);
 
         ButtonGroup group = new ButtonGroup();
 

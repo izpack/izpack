@@ -21,12 +21,16 @@ package com.izforge.izpack.panels.htmllicence;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.Document;
@@ -74,7 +78,7 @@ public class HTMLLicencePanel extends IzPanel implements HyperlinkListener, Acti
      * @param resources   the resources
      * @param log         the log
      */
-    public HTMLLicencePanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
+    public HTMLLicencePanel(Panel panel, final InstallerFrame parent, GUIInstallData installData, Resources resources,
                             Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
@@ -92,6 +96,22 @@ public class HTMLLicencePanel extends IzPanel implements HyperlinkListener, Acti
             textArea.addHyperlinkListener(this);
             JScrollPane scroller = new JScrollPane(textArea);
             textArea.setPage(loadLicence());
+
+            // register a listener to trigger the default button if enter is pressed whilst the text area has the focus
+            ActionListener fireDefault = new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    JButton defaultButton = parent.getRootPane().getDefaultButton();
+                    if (defaultButton != null && defaultButton.isEnabled())
+                    {
+                        defaultButton.doClick();
+                    }
+                }
+            };
+            textArea.registerKeyboardAction(fireDefault, null, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+                                            JComponent.WHEN_FOCUSED);
             add(scroller, NEXT_LINE);
         }
         catch (Exception err)
