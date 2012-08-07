@@ -64,6 +64,7 @@ import com.izforge.izpack.data.ParsableFile;
 import com.izforge.izpack.data.UpdateCheck;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
+import com.izforge.izpack.installer.util.PackHelper;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.IoHelper;
@@ -805,22 +806,8 @@ public abstract class UnpackerBase implements IUnpacker
      */
     protected String getStepName(Pack pack)
     {
-        String result = pack.getName();
-        if (pack.isHidden())
-        {
-            // hide the pack name if pack is hidden
-            result = "";
-        }
-        else if (pack.getLangPackId() != null && installData.getMessages() != null)
-        {
-            // the pack has an id - if there is a language pack entry for it, use it instead
-            String id = installData.getMessages().get(pack.getLangPackId());
-            if (!pack.getLangPackId().equals(id))
-            {
-                result = id;
-            }
-        }
-        return result;
+        // hide pack name if it is hidden
+        return pack.isHidden() ? "" : PackHelper.getPackName(pack, installData.getMessages());
     }
 
     /**

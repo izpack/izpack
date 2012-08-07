@@ -35,7 +35,11 @@ import com.izforge.izpack.api.rules.Condition;
 public class PackSelectionCondition extends Condition
 {
     private static final long serialVersionUID = 9193011814966195963L;
-    protected String packid;
+
+    /**
+     * The pack name.
+     */
+    private String name;
 
     /*
      * (non-Javadoc)
@@ -48,7 +52,7 @@ public class PackSelectionCondition extends Condition
     {
         try
         {
-            this.packid = xmlcondition.getFirstChildNamed("packid").getContent();
+            name = xmlcondition.getFirstChildNamed("name").getContent();
         }
         catch (Exception e)
         {
@@ -62,7 +66,7 @@ public class PackSelectionCondition extends Condition
         {
             for (Pack selectedpack : selectedpacks)
             {
-                if (packid.equals(selectedpack.getLangPackId())) // TODO - See IZPACK-799
+                if (name.equals(selectedpack.getName()))
                 {
                     // pack is selected
                     return true;
@@ -82,10 +86,10 @@ public class PackSelectionCondition extends Condition
     @Override
     public String getDependenciesDetails()
     {
-        StringBuffer details = new StringBuffer();
+        StringBuilder details = new StringBuilder();
         details.append(this.getId());
         details.append("depends on the selection of pack <b>");
-        details.append(this.packid);
+        details.append(this.name);
         details.append("</b><br/>");
         return details.toString();
     }
@@ -93,13 +97,18 @@ public class PackSelectionCondition extends Condition
     @Override
     public void makeXMLData(IXMLElement conditionRoot)
     {
-        XMLElementImpl packel = new XMLElementImpl("packid", conditionRoot);
-        packel.setContent(this.packid);
+        XMLElementImpl packel = new XMLElementImpl("name", conditionRoot);
+        packel.setContent(this.name);
         conditionRoot.addChild(packel);
     }
 
-    public void setPackid(String packid)
+    /**
+     * Sets the pack name.
+     *
+     * @param name the pack name
+     */
+    public void setPack(String name)
     {
-        this.packid = packid;
+        this.name = name;
     }
 }

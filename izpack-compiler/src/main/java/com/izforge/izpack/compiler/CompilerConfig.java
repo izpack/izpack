@@ -2201,7 +2201,8 @@ public class CompilerConfig extends Thread
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new ZipEntryConfigFileValue(value, entryname,
-                            getConfigFileType(name, stype), filesection, filekey));
+                                                                         getConfigFileType(name, stype), filesection,
+                                                                         filekey));
                 }
                 else
                 {
@@ -2220,7 +2221,8 @@ public class CompilerConfig extends Thread
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new JarEntryConfigValue(value, entryname,
-                            getConfigFileType(name, stype), filesection, filekey));
+                                                                     getConfigFileType(name, stype), filesection,
+                                                                     filekey));
                 }
                 else
                 {
@@ -2310,7 +2312,7 @@ public class CompilerConfig extends Thread
                 List<IXMLElement> filterList = filters.getChildren();
                 for (IXMLElement filterElement : filterList)
                 {
-                    if(filterElement.getName().equals("regex"))
+                    if (filterElement.getName().equals("regex"))
                     {
                         String expression = filterElement.getAttribute("regexp");
                         String selectexpr = filterElement.getAttribute("select");

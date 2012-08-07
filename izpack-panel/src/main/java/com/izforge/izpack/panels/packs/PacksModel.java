@@ -45,6 +45,7 @@ import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.data.GUIInstallData;
+import com.izforge.izpack.installer.util.PackHelper;
 
 /**
  * User: Gaganis Giorgos Date: Sep 17, 2004 Time: 8:33:21 AM
@@ -106,14 +107,7 @@ public class PacksModel extends AbstractTableModel
                 List<Pack> packsinstalled = (List<Pack>) oin.readObject();
                 for (Pack installedpack : packsinstalled)
                 {
-                    if ((installedpack.getLangPackId() != null) && (installedpack.getLangPackId().length() > 0))
-                    {
-                        this.installedpacks.put(installedpack.getLangPackId(), installedpack);
-                    }
-                    else
-                    {
-                        this.installedpacks.put(installedpack.getName(), installedpack);
-                    }
+                    this.installedpacks.put(installedpack.getName(), installedpack);
                 }
                 this.removeAlreadyInstalledPacks(idata.getSelectedPacks());
                 logger.fine("Found " + packsinstalled.size() + " installed packs");
@@ -183,16 +177,7 @@ public class PacksModel extends AbstractTableModel
 
         for (Pack selectedpack : selectedpacks)
         {
-            String key = "";
-            if (selectedpack.getLangPackId() != null)
-            {
-                key = selectedpack.getLangPackId();
-            }
-            else
-            {
-                key = selectedpack.getName();
-            }
-            if (installedpacks.containsKey(key))
+            if (installedpacks.containsKey(selectedpack.getName()))
             {
                 // pack is already installed, remove it
                 removepacks.add(selectedpack);
@@ -221,13 +206,13 @@ public class PacksModel extends AbstractTableModel
             {
                 int pos = getPos(pack.getName());
                 logger.fine("Conditions fulfilled for: " + pack.getName() + "?");
-                if (!this.rules.canInstallPack(pack.getLangPackId(), this.variables)) // TODO - see IZPACK-799
+                if (!rules.canInstallPack(pack.getName(), variables))
                 {
                     logger.fine("no");
-                    if (this.rules.canInstallPackOptional(pack.getLangPackId(), this.variables))
+                    if (rules.canInstallPackOptional(pack.getName(), variables))
                     {
                         logger.fine("optional");
-                        logger.fine(pack.getLangPackId() + " can be installed optionally.");
+                        logger.fine(pack.getName() + " can be installed optionally.");
                         if (initial)
                         {
                             if (checkValues[pos] != 0)
@@ -241,7 +226,7 @@ public class PacksModel extends AbstractTableModel
                     }
                     else
                     {
-                        logger.fine("Pack" + pack.getLangPackId() + " cannot be installed");
+                        logger.fine("Pack" + pack.getName() + " cannot be installed");
                         if (checkValues[pos] != -2)
                         {
                             checkValues[pos] = -2;
@@ -455,17 +440,7 @@ public class PacksModel extends AbstractTableModel
                 return checkValues[rowIndex];
 
             case 1:
-
-                Object name = null;
-                if (messages != null && pack.getLangPackId() != null && !pack.getLangPackId().equals(""))
-                {
-                    name = messages.get(pack.getLangPackId());
-                }
-                if (name == null || "".equals(name))
-                {
-                    name = pack.getName();
-                }
-                return name;
+                return PackHelper.getPackName(pack, messages);
 
             case 2:
                 return Pack.toByteUnitsString(pack.getSize());
@@ -487,27 +462,12 @@ public class PacksModel extends AbstractTableModel
             if (aValue instanceof Integer)
             {
                 Pack pack = packs.get(rowIndex);
-                boolean packadded = false;
+                boolean added;
                 if ((Integer) aValue == 1)
                 {
-                    packadded = true;
-                    String packid = pack.getLangPackId(); // TODO - see IZPACK-799 
-                    if (packid != null)
-                    {
-                        if (this.rules.canInstallPack(packid, this.variables) || this.rules.canInstallPackOptional(
-                                packid, this.variables))
-                        {
-                            if (pack.isRequired())
-                            {
-                                checkValues[rowIndex] = -1;
-                            }
-                            else
-                            {
-                                checkValues[rowIndex] = 1;
-                            }
-                        }
-                    }
-                    else
+                    added = true;
+                    String name = pack.getName();
+                    if (rules.canInstallPack(name, variables) || rules.canInstallPackOptional(name, variables))
                     {
                         if (pack.isRequired())
                         {
@@ -521,17 +481,17 @@ public class PacksModel extends AbstractTableModel
                 }
                 else
                 {
-                    packadded = false;
+                    added = false;
                     checkValues[rowIndex] = 0;
                 }
                 updateExcludes(rowIndex);
                 updateDeps();
 
-                if (packadded)
+                if (added)
                 {
                     if (panel.getDebugger() != null)
                     {
-                        panel.getDebugger().packSelectionChanged("after adding pack " + pack.getLangPackId());
+                        panel.getDebugger().packSelectionChanged("after adding pack " + pack.getName());
                     }
                     // temporarily add pack to packstoinstall
                     this.packsToInstall.add(pack);
@@ -540,13 +500,13 @@ public class PacksModel extends AbstractTableModel
                 {
                     if (panel.getDebugger() != null)
                     {
-                        panel.getDebugger().packSelectionChanged("after removing pack " + pack.getLangPackId());
+                        panel.getDebugger().packSelectionChanged("after removing pack " + pack.getName());
                     }
                     // temporarily remove pack from packstoinstall
                     this.packsToInstall.remove(pack);
                 }
                 updateConditions();
-                if (packadded)
+                if (added)
                 {
                     // redo
                     this.packsToInstall.remove(pack);
@@ -571,16 +531,7 @@ public class PacksModel extends AbstractTableModel
         for (int i = 0; i < packs.size(); i++)
         {
             Pack pack = packs.get(i);
-            String key = "";
-            if ((pack.getLangPackId() != null) && (pack.getLangPackId().length() > 0))
-            {
-                key = pack.getLangPackId();
-            }
-            else
-            {
-                key = pack.getName();
-            }
-            if ((Math.abs(checkValues[i]) == 1) && (!installedpacks.containsKey(key)))
+            if ((Math.abs(checkValues[i]) == 1) && (!installedpacks.containsKey(pack.getName())))
             {
                 packsToInstall.add(pack);
             }
@@ -591,16 +542,7 @@ public class PacksModel extends AbstractTableModel
         {
             Pack pack = packs.get(i);
 
-            String key = "";
-            if ((pack.getLangPackId() != null) && (pack.getLangPackId().length() > 0))
-            {
-                key = pack.getLangPackId();
-            }
-            else
-            {
-                key = pack.getName();
-            }
-            if (installedpacks.containsKey(key))
+            if (installedpacks.containsKey(pack.getName()))
             {
                 checkValues[i] = -3;
             }
@@ -608,7 +550,7 @@ public class PacksModel extends AbstractTableModel
         // add hidden packs
         for (Pack hiddenpack : this.hiddenPacks)
         {
-            if (this.rules.canInstallPack(hiddenpack.getLangPackId(), variables))
+            if (this.rules.canInstallPack(hiddenpack.getName(), variables))
             {
                 packsToInstall.add(hiddenpack);
             }
@@ -642,25 +584,15 @@ public class PacksModel extends AbstractTableModel
             }
 
         }
-        // The required ones must propagate their required status to all the
-        // ones
-        // that they depend on
+        // The required ones must propagate their required status to all the ones that they depend on
         for (Pack pack : packs)
         {
             if (pack.isRequired())
             {
-                String packid = pack.getLangPackId();
-                if (packid != null)
+                String name = pack.getName();
+                if (!(!rules.canInstallPack(name, variables) && rules.canInstallPackOptional(name, variables)))
                 {
-                    if (!(!this.rules.canInstallPack(packid, this.variables) && this.rules.canInstallPackOptional(
-                            packid, this.variables)))
-                    {
-                        propRequirement(pack.getName());
-                    }
-                }
-                else
-                {
-                    propRequirement(pack.getName());
+                    propRequirement(name);
                 }
             }
         }
@@ -711,7 +643,7 @@ public class PacksModel extends AbstractTableModel
         // add selected hidden bytes
         for (Pack hidden : this.hiddenPacks)
         {
-            if (this.rules.canInstallPack(hidden.getLangPackId(), variables))
+            if (this.rules.canInstallPack(hidden.getName(), variables))
             {
                 bytes += hidden.getSize();
             }
@@ -794,4 +726,5 @@ public class PacksModel extends AbstractTableModel
     {
         return this.modifyinstallation;
     }
+
 }

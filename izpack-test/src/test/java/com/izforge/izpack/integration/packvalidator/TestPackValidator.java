@@ -54,14 +54,14 @@ public class TestPackValidator implements PackValidator
      *
      * @param handler     the handler
      * @param installData the installation data
-     * @param packId      the pack identifier
+     * @param packName    the pack name
      * @param isSelected  determines if the pack is selected
      * @return <tt>true</tt> if the pack is valid, otherwise <tt>false</tt>
      */
     @Override
-    public boolean validate(AbstractUIHandler handler, GUIInstallData installData, String packId, boolean isSelected)
+    public boolean validate(AbstractUIHandler handler, GUIInstallData installData, String packName, boolean isSelected)
     {
-        String name = packId + ".valid";
+        String name = packName + ".valid";
         String value = installData.getVariable(name);
         return Boolean.valueOf(value);
     }

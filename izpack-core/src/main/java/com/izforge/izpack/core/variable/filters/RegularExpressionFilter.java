@@ -17,7 +17,7 @@ public class RegularExpressionFilter implements ValueFilter
     public Boolean global;
 
     public RegularExpressionFilter(String regexp, String select, String replace, String defaultValue,
-                                       Boolean casesensitive, Boolean global)
+                                   Boolean casesensitive, Boolean global)
     {
         this.regexp = regexp;
         this.select = select;
@@ -28,13 +28,13 @@ public class RegularExpressionFilter implements ValueFilter
     }
 
     public RegularExpressionFilter(String regexp, String select, String defaultValue,
-                                       Boolean casesensitive)
+                                   Boolean casesensitive)
     {
         this(regexp, select, null, defaultValue, casesensitive, null);
     }
 
     public RegularExpressionFilter(String regexp, String replace, String defaultValue,
-                                       Boolean casesensitive, Boolean global)
+                                   Boolean casesensitive, Boolean global)
     {
         this(regexp, null, replace, defaultValue, casesensitive, global);
     }
@@ -123,19 +123,19 @@ public class RegularExpressionFilter implements ValueFilter
                 _regexp = regexp, _defaultValue = defaultValue;
         for (VariableSubstitutor substitutor : substitutors)
         {
-            if (_replace  != null)
+            if (_replace != null)
             {
                 _replace = substitutor.substitute(_replace);
             }
-            if (_select  != null)
+            if (_select != null)
             {
                 _select = substitutor.substitute(_select);
             }
-            if (_regexp  != null)
+            if (_regexp != null)
             {
                 _regexp = substitutor.substitute(_regexp);
             }
-            if (_defaultValue  != null)
+            if (_defaultValue != null)
             {
                 _defaultValue = substitutor.substitute(_defaultValue);
             }

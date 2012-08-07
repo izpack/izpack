@@ -21,12 +21,12 @@
 
 package com.izforge.izpack.core.regex;
 
+import java.util.Vector;
+
 import com.izforge.izpack.api.regex.RegularExpressionProcessor;
 import com.izforge.izpack.util.regex.RegexUtil;
 import com.izforge.izpack.util.regex.Regexp;
 import com.izforge.izpack.util.regex.RegularExpression;
-
-import java.util.Vector;
 
 /**
  * Regular expression utility adapted from and inspired by the PropertyRegEx Ant task
@@ -116,8 +116,8 @@ public class RegularExpressionProcessorImpl implements RegularExpressionProcesso
         if (sregex.matches(input, options))
         {
             output = sregex.substitute(input,
-                    replace,
-                    options);
+                                       replace,
+                                       options);
         }
 
         if (output == null)

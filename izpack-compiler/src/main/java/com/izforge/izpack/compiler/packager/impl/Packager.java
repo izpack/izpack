@@ -125,10 +125,6 @@ public class Packager extends PackagerBase
         {
             Pack pack = packInfo.getPack();
             pack.setFileSize(0);
-            if ((pack.getLangPackId() == null) || (pack.getLangPackId().length() == 0))
-            {
-                pack.setLangPackId(pack.getName()); // TODO - see IZPACK-799
-            }
 
             // create a pack specific jar if required
             // REFACTOR : Repare web installer

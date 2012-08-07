@@ -939,7 +939,8 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new ZipEntryConfigFileValue(value, entryname,
-                            getConfigFileType(name, stype), filesection, filekey));
+                                                                         getConfigFileType(name, stype), filesection,
+                                                                         filekey));
                 }
                 else
                 {
@@ -958,7 +959,8 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new JarEntryConfigValue(value, entryname,
-                            getConfigFileType(name, stype), filesection, filekey));
+                                                                     getConfigFileType(name, stype), filesection,
+                                                                     filekey));
                 }
                 else
                 {
@@ -1044,7 +1046,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 List<IXMLElement> filterList = filters.getChildren();
                 for (IXMLElement filterElement : filterList)
                 {
-                    if(filterElement.getName().equals("regex"))
+                    if (filterElement.getName().equals("regex"))
                     {
                         String expression = filterElement.getAttribute("regexp");
                         String selectexpr = filterElement.getAttribute("select");
@@ -1073,7 +1075,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             catch (Exception e)
             {
                 parseError("Error in definition of dynamic variable " + name + ": "
-                        + e.getMessage());
+                                   + e.getMessage());
             }
 
             for (DynamicVariable dynvar : dynamicVariables)

@@ -47,7 +47,7 @@
         <file>${INSTALL_PATH}/plugins/some_plugin.jar</file>
     </condition>
     <condition type="packselection" id="packselection1">
-        <packid>myPackId</packid>
+        <name>myPackId</name>
     </condition>
     <condition type="ref" id="ref1" refid="variable1"/>
     <condition type="user" id="user1">

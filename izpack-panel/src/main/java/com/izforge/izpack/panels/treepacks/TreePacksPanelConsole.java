@@ -22,34 +22,27 @@
 package com.izforge.izpack.panels.treepacks;
 
 import java.io.PrintWriter;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.LinkedList;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
-import com.izforge.izpack.api.resource.Messages;
-
-import com.izforge.izpack.installer.console.PanelConsole;
-import com.izforge.izpack.installer.console.AbstractPanelConsole;
-
-import com.izforge.izpack.core.handler.ConsolePrompt;
-import com.izforge.izpack.api.handler.Prompt.Type;
-import com.izforge.izpack.api.handler.Prompt.Options;
 import com.izforge.izpack.api.handler.Prompt.Option;
-
+import com.izforge.izpack.api.handler.Prompt.Options;
+import com.izforge.izpack.api.handler.Prompt.Type;
+import com.izforge.izpack.api.resource.Messages;
+import com.izforge.izpack.core.handler.ConsolePrompt;
+import com.izforge.izpack.installer.console.AbstractPanelConsole;
+import com.izforge.izpack.installer.console.PanelConsole;
 import com.izforge.izpack.util.Console;
+
 /**
  * Console implementation for the TreePacksPanel.
- *
+ * <p/>
  * Based on PacksPanelConsoleHelper
  *
  * @author Sergiy Shyrkov
@@ -57,7 +50,9 @@ import com.izforge.izpack.util.Console;
  */
 public class TreePacksPanelConsole extends AbstractPanelConsole implements PanelConsole
 {
-    /** Used to read input from the user */
+    /**
+     * Used to read input from the user
+     */
     private Messages messages;
 
     private HashMap<String, Pack> idToPack;
@@ -86,7 +81,7 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
      * @param printWriter the properties file to write to
      * @return <tt>true</tt> if the generation is successful, otherwise <tt>false</tt>
      */
-    public boolean runGeneratePropertiesFile(InstallData InstallData, PrintWriter printWriter)
+    public boolean runGeneratePropertiesFile(InstallData installData, PrintWriter printWriter)
     {
         return true;
     }
@@ -98,7 +93,7 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
      * @param properties  the properties
      * @return <tt>true</tt> if the installation is successful, otherwise <tt>false</tt>
      */
-    public boolean runConsoleFromProperties(InstallData InstallData, Properties Properties)
+    public boolean runConsoleFromProperties(InstallData installData, Properties properties)
     {
         return true;
     }
@@ -123,14 +118,14 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
      */
     public boolean runConsole(InstallData installData, Console console)
     {
-       consolePrompt = new ConsolePrompt(console);
+        consolePrompt = new ConsolePrompt(console);
         List<String> kids;
         List<Pack> selectedPacks = new LinkedList<Pack>();
         loadLangpack(installData);
         createTreeData(installData);
         out(Type.INFORMATION, "");
 
-        for (String key: treeData.keySet())
+        for (String key : treeData.keySet())
         {
             drawHelper(treeData, selectedPacks, installData, idToPack, key, true, "\t");
         }
@@ -154,7 +149,7 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
 
         for (Pack pack : installData.getAvailablePacks())
         {
-            idToPack.put(pack.getLangPackId(), pack); // TODO - see IZPACK-799
+            idToPack.put(pack.getName(), pack);
             if (pack.getParent() != null)
             {
                 List<String> kids = null;
@@ -166,7 +161,7 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
                 {
                     kids = new ArrayList<String>();
                 }
-                kids.add(pack.getLangPackId());
+                kids.add(pack.getName());
                 treeData.put(pack.getParent(), kids);
             }
         }
@@ -179,33 +174,29 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
     }
 
 
-    private String getTranslation(String id)
-    {
-        return messages.get(id);
-    }
-
     /**
      * It is used to "draw" the appropriate tree-like structure of the packs and ask if you want to install
      * the pack. The pack will automatically be selected if it is required; otherwise you will be prompted if
      * you want to install that pack. If a pack is not selected, then their child packs won't be installed as
      * well and you won't be prompted to install them.
      *
-     * @param treeData          - Map that contains information on the parent pack and its children
-     * @param selectedPacks     - the packs that are selected by the user are added there
-     * @param installData       - Database of izpack
-     * @param idToPack          - Map that mapds the id of the available packs to the actual Pack object
-     * @param packParent        - The current "parent" pack to process
-     * @param packMaster        - boolean to know if packParent is a top-level pack
-     * @param indent            - String to know by how much the child packs should be indented
-     *
+     * @param treeData      - Map that contains information on the parent pack and its children
+     * @param selectedPacks - the packs that are selected by the user are added there
+     * @param installData   - Database of izpack
+     * @param idToPack      - Map that mapds the id of the available packs to the actual Pack object
+     * @param packParent    - The current "parent" pack to process
+     * @param packMaster    - boolean to know if packParent is a top-level pack
+     * @param indent        - String to know by how much the child packs should be indented
      * @return void
      */
-    private void drawHelper(final Map<String, List<String>> treeData, final List<Pack> selectedPacks, final InstallData installData,
-            final Map<String, Pack> idToPack, final String packParent, boolean packMaster, final String indent)
+    private void drawHelper(final Map<String, List<String>> treeData, final List<Pack> selectedPacks,
+                            final InstallData installData,
+                            final Map<String, Pack> idToPack, final String packParent, boolean packMaster,
+                            final String indent)
     {
-        Pack p                      = null;
-        Boolean conditionSatisfied  = null;
-        Boolean conditionExists     = null;
+        Pack p = null;
+        Boolean conditionSatisfied = null;
+        Boolean conditionExists = null;
 
         /*
          * If that packParent contains children,
@@ -213,65 +204,90 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
          * you want to install the child packs·
          * too [if parent pack selected]
          */
-        if (treeData.containsKey(packParent)) {
+        if (treeData.containsKey(packParent))
+        {
             p = idToPack.get(packParent);
 
             // If the pack is a top-level pack and that top-level pack was not·
             // selected, then return. This will avoid prompting the user to
             // install the child packs.
-            if(packMaster && !selectHelper(treeData, selectedPacks, installData, idToPack, p, packMaster,indent)) {
+            if (packMaster && !selectHelper(treeData, selectedPacks, installData, idToPack, p, packMaster, indent))
+            {
                 return;
             }
             // Now iterate through the child packs of the parent pack.
-            for (String id : treeData.get(packParent)) {
+            for (String id : treeData.get(packParent))
+            {
                 p = idToPack.get(id);
                 selectHelper(treeData, selectedPacks, installData, idToPack, p, false, indent);
             }
         }
     }
 
-    private boolean selectHelper(final Map<String, List<String>> treeData, final List<Pack> selectedPacks,final InstallData installData,
-            final Map<String, Pack> idToPack, final Pack p, boolean packMaster,final String indent)
+    private boolean selectHelper(final Map<String, List<String>> treeData, final List<Pack> selectedPacks,
+                                 final InstallData installData,
+                                 final Map<String, Pack> idToPack, final Pack p, boolean packMaster,
+                                 final String indent)
     {
-        Boolean conditionSatisfied  = checkCondition(installData, p);
-        Boolean conditionExists     = !(conditionSatisfied == null);
-        String packName             = p.getName();
-        String id                   = p.getLangPackId();
+        Boolean conditionSatisfied = checkCondition(installData, p);
+        Boolean conditionExists = !(conditionSatisfied == null);
+        String packName = p.getName();
 
         // If a condition is set to that pack
-        if (conditionExists) {
-            if (conditionSatisfied) {
-                out(Type.INFORMATION, (packMaster ? "[" + p.getLangPackId() + "]" : indent + packName) + SPACE
+        if (conditionExists)
+        {
+            if (conditionSatisfied)
+            {
+                out(Type.INFORMATION, (packMaster ? "[" + packName + "]" : indent + packName) + SPACE
                         + ALREADY_SELECTED);
 
                 selectedPacks.add(p);
                 // we call drawHelper again to check if that pack has child packs
                 // If that pack is a top-level pack, then don't run drawHelper as
                 // it will create an infinite loop·
-                if (!packMaster) drawHelper(treeData, selectedPacks, installData, idToPack, id, packMaster, indent + indent);
+                if (!packMaster)
+                {
+                    drawHelper(treeData, selectedPacks, installData, idToPack, packName, packMaster,
+                               indent + indent);
+                }
                 return true;
-            } else {
+            }
+            else
+            {
                 // condition says don't install!
-                out(Type.INFORMATION, (packMaster ? "[" + p.getLangPackId() + "]" : indent + packName) + SPACE
+                out(Type.INFORMATION, (packMaster ? "[" + packName + "]" : indent + packName) + SPACE
                         + NOT_SELECTED);
                 return false;
             }
             // If no condition specified
-        } else if (p.isRequired()) {
+        }
+        else if (p.isRequired())
+        {
             out(Type.INFORMATION, (packMaster ? "[" + packName + "]" : indent + packName)
                     + SPACE + REQUIRED);
 
             selectedPacks.add(p);
-            if (!packMaster) drawHelper(treeData, selectedPacks, installData, idToPack, id, packMaster, indent + indent);
+            if (!packMaster)
+            {
+                drawHelper(treeData, selectedPacks, installData, idToPack, packName, packMaster, indent + indent);
+            }
             return true;
             // Prompt the user
-        } else {
+        }
+        else
+        {
 
-            if(askUser(packMaster ? "["+ packName + "] ":indent + packName)) {
+            if (askUser(packMaster ? "[" + packName + "] " : indent + packName))
+            {
                 selectedPacks.add(p);
-                if (!packMaster) drawHelper(treeData, selectedPacks, installData, idToPack, id, packMaster, indent + indent);
+                if (!packMaster)
+                {
+                    drawHelper(treeData, selectedPacks, installData, idToPack, packName, packMaster, indent + indent);
+                }
                 return true;
-            } else {
+            }
+            else
+            {
                 return false;
             }
         }
@@ -280,17 +296,20 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
     /**
      * helper method to know if the condition assigned to the pack is satisfied
      *
-     * @param installData       - the data of izpack
-     * @param pack              - the pack whose condition needs to be checked·
+     * @param installData - the data of izpack
+     * @param pack        - the pack whose condition needs to be checked·
      * @return true             - if the condition is satisfied
      *         false            - if condition not satisfied
      *         null             - if no condition assigned
      */
     private Boolean checkCondition(InstallData installData, Pack pack)
     {
-        if (pack.hasCondition()) {
+        if (pack.hasCondition())
+        {
             return installData.getRules().isConditionTrue(pack.getCondition());
-        } else {
+        }
+        else
+        {
             return null;
         }
     }

@@ -492,24 +492,18 @@ public class RulesEngineImpl implements RulesEngine
             logger.fine("Initializing built-in conditions for packs");
             for (Pack pack : installData.getAllPacks())
             {
-                if (pack.getLangPackId() != null)              // TODO - see IZPACK-799
-                {
-                    // automatically add packselection condition
-                    PackSelectionCondition packselcond = new PackSelectionCondition();
-                    packselcond.setInstallData(installData);
-                    packselcond.setId("izpack.selected." + pack.getLangPackId());
-                    packselcond.setPackid(pack.getLangPackId());
-                    conditionsMap.put(packselcond.getId(), packselcond);
+                // automatically add packselection condition
+                PackSelectionCondition selectionCondition = new PackSelectionCondition();
+                selectionCondition.setInstallData(installData);
+                selectionCondition.setId("izpack.selected." + pack.getName());
+                selectionCondition.setPack(pack.getName());
+                conditionsMap.put(selectionCondition.getId(), selectionCondition);
 
-                    String condition = pack.getCondition();
-                    logger.fine("Checking pack condition \"" + condition + "\" for pack \""
-                                        + pack.getLangPackId() + "\"");
-                    if ((condition != null) && !condition.isEmpty())
-                    {
-                        logger.fine("Adding pack condition \"" + condition + "\" for pack \""
-                                            + pack.getLangPackId() + "\"");
-                        packConditions.put(pack.getLangPackId(), condition);
-                    }
+                String condition = pack.getCondition();
+                if (condition != null && !condition.isEmpty())
+                {
+                    logger.fine("Adding pack condition \"" + condition + "\" for pack \"" + pack.getName() + "\"");
+                    packConditions.put(pack.getName(), condition);
                 }
             }
         }

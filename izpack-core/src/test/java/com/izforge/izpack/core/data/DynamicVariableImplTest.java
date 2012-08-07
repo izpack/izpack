@@ -1,6 +1,7 @@
 package com.izforge.izpack.core.data;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.Properties;
@@ -31,7 +32,7 @@ public class DynamicVariableImplTest
         try
         {
             assertEquals("C:\\Program Files\\MyApp\\app.exe".replace('\\', File.separatorChar),
-                    dynvar.evaluate(subst));
+                         dynvar.evaluate(subst));
         }
         catch (Exception e)
         {

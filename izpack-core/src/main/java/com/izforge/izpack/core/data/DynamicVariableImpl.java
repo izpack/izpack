@@ -104,7 +104,7 @@ public class DynamicVariableImpl implements DynamicVariable
             {
                 newValue = filter.filter(newValue, substitutors);
                 logger.fine("Dynamic variable after applying filter "
-                        + filter.getClass().getSimpleName() + ": " + name + "=" + newValue);
+                                    + filter.getClass().getSimpleName() + ": " + name + "=" + newValue);
             }
         }
 
@@ -144,8 +144,8 @@ public class DynamicVariableImpl implements DynamicVariable
                 throw e;
             }
             logger.log(Level.WARNING,
-                    "Error evaluating dynamic variable '" + getName() + "': " + e,
-                    e);
+                       "Error evaluating dynamic variable '" + getName() + "': " + e,
+                       e);
         }
 
         return newValue;

@@ -176,22 +176,18 @@ public class PacksPanelAutomationHelper implements PanelAutomation
                         {
                             // Check if the conditions allow to select the pack
                             RulesEngine rules = idata.getRules();
-                            if ((idata.getSelectedPacks().indexOf(pack) < 0)
-                                    && (pack.getLangPackId() != null)             // TODO - see IZPACK-799
-                                    && (rules.canInstallPack(pack.getLangPackId(),
-                                                             idata.getVariables())))
+                            if (idata.getSelectedPacks().indexOf(pack) < 0
+                                    && rules.canInstallPack(pack.getName(), idata.getVariables()))
                             {
                                 idata.getSelectedPacks().add(pack);
-                                logger.fine("Pack [" + packInfo.toString()
-                                                    + "] added to selection.");
+                                logger.fine("Pack [" + packInfo.toString() + "] added to selection.");
                             }
                         }
                         else
                         {
                             // Pack can be removed from selection because it is not required
                             idata.getSelectedPacks().remove(pack);
-                            logger.fine("Pack [" + packInfo.toString()
-                                                + "] removed from selection.");
+                            logger.fine("Pack [" + packInfo.toString() + "] removed from selection.");
 
                         }
                     }

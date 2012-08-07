@@ -43,6 +43,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.debugger.Debugger;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.installer.util.PackHelper;
 import com.izforge.izpack.installer.web.WebAccessor;
 import com.izforge.izpack.panels.imgpacks.ImgPacksPanelAutomationHelper;
 import com.izforge.izpack.panels.packs.PacksModel;
@@ -129,7 +130,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
      */
     private static final String LANG_FILE_NAME = "packsLang.xml";
 
-    private HashMap<String, Pack> idToPack;
+    private HashMap<String, Pack> nameToPack;
     private HashMap<String, List<String>> treeData;
     private HashMap<Pack, Integer> packToRowNumber;
 
@@ -319,26 +320,15 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
      */
     private String getI18NPackName(Pack pack)
     {
-        // Internationalization code
-        String packName = pack.getName();
-        String key = pack.getLangPackId();
-        if (messages != null && pack.getLangPackId() != null && !"".equals(pack.getLangPackId()))
-        {
-            packName = messages.get(key);
-        }
-        if ("".equals(packName) || key == null || key.equals(packName))
-        {
-            packName = pack.getName();
-        }
-        return (packName);
+        return PackHelper.getPackName(pack, messages);
     }
 
-    public String getI18NPackName(String packId)
+    public String getI18NPackName(String name)
     {
-        Pack pack = idToPack.get(packId);
+        Pack pack = nameToPack.get(name);
         if (pack == null)
         {
-            return packId;
+            return name;
         }
         return getI18NPackName(pack);
     }
@@ -585,7 +575,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
         {
             CheckBoxNode cbnode = e.nextElement();
             String nodeText = cbnode.getId();
-            Object nodePack = idToPack.get(nodeText);
+            Object nodePack = nameToPack.get(nodeText);
             if (!cbnode.isPartial())
             {
                 int childRowIndex = getRowIndex((Pack) nodePack);
@@ -608,7 +598,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
     public void setModelValue(CheckBoxNode cbnode)
     {
         String id = cbnode.getId();
-        Object nodePack = idToPack.get(id);
+        Object nodePack = nameToPack.get(id);
         int value = 0;
         if (cbnode.isEnabled() && cbnode.isSelected())
         {
@@ -640,11 +630,11 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
     private void createTreeData()
     {
         treeData = new HashMap<String, List<String>>();
-        idToPack = new HashMap<String, Pack>();
+        nameToPack = new HashMap<String, Pack>();
 
         for (Pack pack : this.installData.getAvailablePacks())
         {
-            idToPack.put(pack.getLangPackId(), pack); // TODO - see IZPACK-799
+            nameToPack.put(pack.getName(), pack);
             if (pack.getParent() != null)
             {
                 List<String> kids = null;
@@ -656,7 +646,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
                 {
                     kids = new ArrayList<String>();
                 }
-                kids.add(pack.getLangPackId());
+                kids.add(pack.getName());
                 treeData.put(pack.getParent(), kids);
             }
         }
@@ -671,17 +661,8 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
     {
         if (descriptionArea != null)
         {
-            Pack pack = idToPack.get(id);
-            String desc = "";
-            String key = pack.getLangPackId() + ".description";
-            if (messages != null && pack.getLangPackId() != null && !"".equals(pack.getLangPackId()))
-            {
-                desc = messages.get(key);
-            }
-            if ("".equals(desc) || key.equals(desc))
-            {
-                desc = pack.getDescription();
-            }
+            Pack pack = nameToPack.get(id);
+            String desc = PackHelper.getPackDescription(pack, messages);
             desc = installData.getVariables().replace(desc);
             descriptionArea.setText(desc);
         }
@@ -696,7 +677,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
     {
         if (dependencyArea != null)
         {
-            Pack pack = idToPack.get(id);
+            Pack pack = nameToPack.get(id);
             java.util.List<String> dep = pack.getDependencies();
             String list = "";
             if (dep != null)
@@ -780,7 +761,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
             {
                 if (pack.getParent() == null)
                 {
-                    rootNodes.add(populateTreePacks(pack.getLangPackId())); // TODO - see IZPACK-799
+                    rootNodes.add(populateTreePacks(pack.getName()));
                 }
             }
             TreeNode treeNode = new CheckBoxNode("Root", "Root", rootNodes.toArray(), true);
@@ -790,7 +771,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
         {
             List<TreeNode> links = new ArrayList<TreeNode>();
             List<String> kids = treeData.get(parent);
-            Pack pack = idToPack.get(parent);
+            Pack pack = nameToPack.get(parent);
             String translated = getI18NPackName(parent);
 
             if (kids != null)

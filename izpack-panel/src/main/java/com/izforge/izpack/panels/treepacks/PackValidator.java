@@ -34,5 +34,5 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 public interface PackValidator
 {
     public boolean validate(AbstractUIHandler handler,
-                            GUIInstallData idata, String packsId, boolean isSelected);
+                            GUIInstallData idata, String packName, boolean isSelected);
 }

@@ -23,10 +23,10 @@
 
 package com.izforge.izpack.api.data;
 
-import com.izforge.izpack.api.substitutor.VariableSubstitutor;
-
 import java.io.Serializable;
 import java.util.List;
+
+import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>

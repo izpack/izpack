@@ -72,6 +72,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.debugger.Debugger;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.installer.util.PackHelper;
 import com.izforge.izpack.panels.imgpacks.ImgPacksPanelAutomationHelper;
 import com.izforge.izpack.panels.treepacks.PackValidator;
 import com.izforge.izpack.util.IoHelper;
@@ -301,7 +302,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
                 try
                 {
                     PackValidator validatorInst = factory.create(validator, PackValidator.class);
-                    if (!validatorInst.validate(this, installData, pack.getLangPackId(), selected))
+                    if (!validatorInst.validate(this, installData, pack.getName(), selected))
                     {
                         return false;
                     }
@@ -337,17 +338,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         if ((descriptionArea != null) && (selectedRow != -1))
         {
             Pack pack = this.packsModel.getPackAtRow(selectedRow);
-            String desc = "";
-            String key = pack.getLangPackId() + ".description";
-            if (messages != null && pack.getLangPackId() != null && !"".equals(pack.getLangPackId()))
-            {
-                desc = messages.get(key);
-            }
-            if ("".equals(desc) || key.equals(desc))
-            {
-                desc = pack.getDescription();
-            }
-
+            String desc = PackHelper.getPackDescription(pack, messages);
             desc = installData.getVariables().replace(desc);
             descriptionArea.setText(desc);
         }
@@ -419,18 +410,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
      */
     private String getI18NPackName(Pack pack)
     {
-        // Internationalization code
-        String packName = pack.getName();
-        String key = pack.getLangPackId();
-        if (messages != null && pack.getLangPackId() != null && !"".equals(pack.getLangPackId()))
-        {
-            packName = messages.get(key);
-        }
-        if ("".equals(packName) || key == null || key.equals(packName))
-        {
-            packName = pack.getName();
-        }
-        return (packName);
+        return PackHelper.getPackName(pack, messages);
     }
 
     /**
