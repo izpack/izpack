@@ -30,6 +30,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -39,6 +41,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -51,6 +54,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -212,10 +216,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
                 int col = packsTable.columnAtPoint(event.getPoint());
                 if (col == 0)
                 {
-                    Integer checked = (Integer) packsModel.getValueAt(row, 0);
-                    checked = (checked <= 0) ? 1 : 0;
-                    packsModel.setValueAt(checked, row, 0);
-                    packsTable.repaint();
+                    togglePack(row);
                 }
             }
         });
@@ -491,7 +492,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         area.setAlignmentX(LEFT_ALIGNMENT);
         area.setCaretPosition(0);
         area.setEditable(false);
-        area.setEditable(false);
+        area.setFocusable(false);
         area.setOpaque(false);
         area.setLineWrap(true);
         area.setWrapStyleWord(true);
@@ -534,13 +535,70 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     protected JTable createPacksTable(int width, JScrollPane scroller, GridBagLayout layout,
                                       GridBagConstraints constraints)
     {
-        JTable table = new JTable();
+        final JTable table = new JTable();
         table.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
         table.setIntercellSpacing(new Dimension(0, 0));
         table.setBackground(Color.white);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getSelectionModel().addListSelectionListener(this);
         table.setShowGrid(false);
+
+        // register an action to toggle the selected pack when SPACE is pressed in the table
+        table.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "togglePack");
+        table.getActionMap().put("togglePack", new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                int row = table.getSelectedRow();
+                togglePack(row);
+            }
+        });
+
+        // register an action for "selectNextColumnCell" to change selection to the next row.
+        // When at the last row, move focus outside the table. This avoids the need to use Ctrl-Tab to move focus
+        table.getActionMap().put("selectNextColumnCell", new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                int row = table.getSelectedRow();
+                if (row < table.getRowCount() - 1)
+                {
+                    table.changeSelection(row + 1, 0, false, false);
+                }
+                else
+                {
+                    table.clearSelection();
+                    table.transferFocus();
+                }
+            }
+        });
+        // register an action for "selectPreviousColumnCell" to change selection to the previous row.
+        // When at the first, move focus to the prior component. This avoids the need to use Ctrl-Shift-Tab to move
+        // focus
+        table.getActionMap().put("selectPreviousColumnCell", new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                int row = table.getSelectedRow();
+                if (row == -1)
+                {
+                    row = table.getRowCount();
+                }
+                if (row > 0)
+                {
+                    table.changeSelection(row - 1, 0, false, false);
+                }
+                else
+                {
+                    table.clearSelection();
+                    table.transferFocusBackward();
+                }
+            }
+        });
+
         scroller.setViewportView(table);
         scroller.setAlignmentX(LEFT_ALIGNMENT);
         scroller.getViewport().setBackground(Color.white);
@@ -608,7 +666,6 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
                 packsTable.getColumnModel().getColumn(2).setCellRenderer(packTextColumnRenderer);
                 packsTable.getColumnModel().getColumn(2).setMaxWidth(100);
             }
-
 
             // remove header,so we don't need more strings
             tableScroller.remove(packsTable.getTableHeader());
@@ -899,4 +956,19 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     {
         return this.debugger;
     }
+
+    /**
+     * Toggles the state of the pack at the selected row.
+     *
+     * @param row the row
+     */
+    private void togglePack(int row)
+    {
+        Integer checked = (Integer) packsModel.getValueAt(row, 0);
+        checked = (checked <= 0) ? 1 : 0;
+        packsModel.setValueAt(checked, row, 0);
+        packsTable.repaint();
+        packsTable.changeSelection(row, 0, false, false);
+    }
+
 }
