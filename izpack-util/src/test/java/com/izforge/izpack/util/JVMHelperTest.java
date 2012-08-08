@@ -72,4 +72,35 @@ public class JVMHelperTest
         assertTrue(args.contains("-Xms64M"));
         assertTrue(args.contains("-XX:MaxPermSize=64m"));
     }
+
+
+    /**
+     * Tests {@link JVMHelper#getJVMArguments()} for arguments that contain spaces.
+     * <p/>
+     * Due to a bug in {@link java.lang.management.RuntimeMXBean#getInputArguments()}, arguments with spaces are
+     * split. See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6459832 for more details.
+     */
+    @Test
+    public void testArgumentWithSpaces()
+    {
+        JVMHelper helper = new JVMHelper()
+        {
+            @Override
+            protected List<String> getInputArguments()
+            {
+                return Arrays.asList("-Dsomepath=C:\\Program",
+                                     "Files\\IzPack",
+                                     "-Dsomeotherpath=C:\\Program",
+                                     "Files",
+                                     "(x86)\\MyApp",
+                                     "5.0");
+            }
+        };
+        // verify that java debug, SelfModifier and PrivilegedRunner properties are excluded.
+        List<String> args = helper.getJVMArguments();
+        assertEquals(2, args.size());
+        assertTrue(args.contains("-Dsomepath=C:\\Program Files\\IzPack"));
+        assertTrue(args.contains("-Dsomeotherpath=C:\\Program Files (x86)\\MyApp 5.0"));
+    }
+
 }

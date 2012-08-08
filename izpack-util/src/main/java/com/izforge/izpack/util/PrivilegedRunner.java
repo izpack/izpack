@@ -98,6 +98,11 @@ public class PrivilegedRunner
         boolean result;
         if (platform.isA(WINDOWS))
         {
+            if (path != null)
+            {
+                // use the parent path, as that needs to be written to in order to delete the tree
+                path = new File(path).getParent();
+            }
             if (path == null || path.trim().length() == 0)
             {
                 path = getProgramFiles();

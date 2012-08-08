@@ -52,6 +52,7 @@ class JVMHelper
     {
         List<String> result = new ArrayList<String>();
         List<String> inputArguments = getInputArguments();
+        inputArguments = join(inputArguments);
         for (String arg : inputArguments)
         {
             if (!arg.startsWith("-Dself.mod.") && !arg.equals("-Xdebug") && !arg.startsWith("-Xrunjdwp")
@@ -73,6 +74,33 @@ class JVMHelper
     {
         RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
         return bean.getInputArguments();
+    }
+
+    /**
+     * Joins any arguments that have been split as a workaround for
+     * <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6459832">Bug ID 6459832</a>
+     * <p/>
+     * This looks for arguments that aren't prefixed with a '-', concatenating them to the previous argument with a
+     * space.
+     *
+     * @param arguments the arguments
+     * @return the arguments, with any split arguments joined
+     */
+    protected List<String> join(List<String> arguments)
+    {
+        List<String> result = new ArrayList<String>();
+        for (int i = 0; i < arguments.size(); )
+        {
+            String arg = arguments.get(i);
+            ++i;
+            while (i < arguments.size() && !arguments.get(i).startsWith("-"))
+            {
+                arg = arg + " " + arguments.get(i);
+                ++i;
+            }
+            result.add(arg);
+        }
+        return result;
     }
 
 }
