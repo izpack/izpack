@@ -186,14 +186,6 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
             Variables variables = getInstallData().getVariables();
             String uninstallName = variables.get("APP_NAME") + " " + variables.get("APP_VER");
             registry.setUninstallName(uninstallName);
-            try
-            {
-                spec.readSpec(SPEC_FILE_NAME, substituter);
-            }
-            catch (Exception exception)
-            {
-                throw new IzPackException("Failed to read: " + SPEC_FILE_NAME, exception);
-            }
         }
     }
 
@@ -209,6 +201,16 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
     {
         if (registry != null)
         {
+            try
+            {
+                // need to read the spec now rather than in initialise(), in order to do variable replacement
+                spec.readSpec(SPEC_FILE_NAME, substituter);
+            }
+            catch (Exception exception)
+            {
+                throw new IzPackException("Failed to read: " + SPEC_FILE_NAME, exception);
+            }
+
             try
             {
                 afterPacks(packs);
@@ -526,7 +528,8 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
         }
         InstallData installData = getInstallData();
         String keyName = RegistryHandler.UNINSTALL_ROOT + uninstallName;
-        String uninstallerPath = IoHelper.translatePath(installData.getInfo().getUninstallerPath(), installData.getVariables());
+        String uninstallerPath = IoHelper.translatePath(installData.getInfo().getUninstallerPath(),
+                                                        installData.getVariables());
         String cmd = "\"" + installData.getVariable("JAVA_HOME") + "\\bin\\javaw.exe\" -jar \""
                 + uninstallerPath + "\\" + installData.getInfo().getUninstallerName() + "\"";
         String appVersion = installData.getVariable("APP_VER");

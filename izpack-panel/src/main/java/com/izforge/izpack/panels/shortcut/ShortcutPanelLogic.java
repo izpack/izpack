@@ -192,11 +192,6 @@ public class ShortcutPanelLogic implements CleanupClient
     // ------------------------------------------------------------------------
 
     /**
-     * Holds the instance for this singleton
-     */
-    private static ShortcutPanelLogic instance;
-
-    /**
      * The default name to use for the program group. This comes from the XML specification.
      */
     private String suggestedProgramGroup;
@@ -273,11 +268,11 @@ public class ShortcutPanelLogic implements CleanupClient
 
     private int userType;
 
-    private InstallData installData;
+    private final InstallData installData;
 
-    private Resources resources;
+    private final Resources resources;
 
-    private UninstallData uninstallData;
+    private final UninstallData uninstallData;
 
     private final PlatformModelMatcher matcher;
 
@@ -309,9 +304,15 @@ public class ShortcutPanelLogic implements CleanupClient
         this.matcher = matcher;
         shortcut = factory.makeObject(Shortcut.class);
         shortcut.initialize(Shortcut.APPLICATIONS, "-");
-        housekeeper.registerForCleanup(this);
+
         readShortcutSpec();
-        analyzeShortcutSpec(listeners);
+        analyzeShortcutSpec();
+        if (!isCreateShortcutsImmediately())
+        {
+            listeners.add(new LateShortcutInstallListener());
+        }
+
+        housekeeper.registerForCleanup(this);
     }
 
     /**
@@ -341,6 +342,14 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     public void createAndRegisterShortcuts() throws Exception
     {
+        String groupName = this.groupName;
+        boolean createShortcuts = this.createShortcuts;
+        boolean createDesktopShortcuts = this.createDesktopShortcuts;
+        readShortcutSpec();  // need to re-read the specs now as variable replacement needs to be done
+        analyzeShortcutSpec();
+        this.groupName = groupName;
+        this.createShortcuts = createShortcuts;
+        this.createDesktopShortcuts = createDesktopShortcuts;
         createShortcuts();
         addToUninstaller();
     }
@@ -771,10 +780,8 @@ public class ShortcutPanelLogic implements CleanupClient
     /**
      * This method analyzes the specifications for creating shortcuts and builds a list of all the
      * Shortcuts that need to be created.
-     * <p/>
-     * listeners the installer listeners container
      */
-    private void analyzeShortcutSpec(InstallerListeners listeners)
+    private void analyzeShortcutSpec()
     {
         if (!haveShortcutSpec)
         {
@@ -801,10 +808,6 @@ public class ShortcutPanelLogic implements CleanupClient
 
         // set flag if 'lateShortcutInstall' element found:
         setCreateShortcutsImmediately(spec.getFirstChildNamed(SPEC_KEY_LATE_INSTALL) == null);
-        if (!isCreateShortcutsImmediately())
-        {
-            listeners.add(new LateShortcutInstallListener());
-        }
 
         // ----------------------------------------------------
         // find out in which program group the shortcuts should
@@ -1098,8 +1101,7 @@ public class ShortcutPanelLogic implements CleanupClient
             return;
         }
 
-        // fix: don't influence other shortcuts when altering group name...
-        String gn = groupName;
+        String gn;
 
         List<String> startMenuShortcuts = new ArrayList<String>();
         for (ShortcutData data : shortcuts)

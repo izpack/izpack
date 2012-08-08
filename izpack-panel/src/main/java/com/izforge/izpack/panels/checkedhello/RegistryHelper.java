@@ -22,7 +22,6 @@ package com.izforge.izpack.panels.checkedhello;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
@@ -68,22 +67,29 @@ public class RegistryHelper
     public boolean isRegistered() throws NativeLibException
     {
         boolean result = false;
-        if (handler != null)
+        String uninstallName = getUninstallName();
+        if (uninstallName != null)
         {
-            String uninstallName = handler.getUninstallName();
-            if (uninstallName != null)
+            String keyName = RegistryHandler.UNINSTALL_ROOT + uninstallName;
+            handler.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
+            result = handler.keyExist(keyName);
+            if (!result)
             {
-                String keyName = RegistryHandler.UNINSTALL_ROOT + uninstallName;
-                handler.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
+                handler.setRoot(RegistryHandler.HKEY_CURRENT_USER);
                 result = handler.keyExist(keyName);
-                if (!result)
-                {
-                    handler.setRoot(RegistryHandler.HKEY_CURRENT_USER);
-                    result = handler.keyExist(keyName);
-                }
             }
         }
         return result;
+    }
+
+    /**
+     * Returns the uninstallation name.
+     *
+     * @return the uninstallation name. May be {@code null}
+     */
+    public String getUninstallName()
+    {
+        return (handler != null) ? handler.getUninstallName() : null;
     }
 
     /**
@@ -140,9 +146,6 @@ public class RegistryHelper
 
     /**
      * Generates an unique uninstall name.
-     * <p/>
-     * The name is set to the variable <em>UNINSTALL_NAME</em>, via {@link InstallData#setVariable}</li>
-     * </ul>
      *
      * @return the unique uninstall name, or <tt>null</tt> if the registry isn't supported on the platform
      * @throws NativeLibException for any native library error

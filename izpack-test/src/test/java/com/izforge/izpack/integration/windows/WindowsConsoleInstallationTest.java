@@ -25,8 +25,10 @@ import static com.izforge.izpack.integration.windows.WindowsHelper.registryDelet
 import static com.izforge.izpack.integration.windows.WindowsHelper.registryKeyExists;
 import static com.izforge.izpack.integration.windows.WindowsHelper.registryValueStringEquals;
 import static com.izforge.izpack.util.Platform.Name.WINDOWS;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -78,6 +80,11 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
 {
 
     /**
+     * The installer container.
+     */
+    private final TestConsoleInstallerContainer container;
+
+    /**
      * The installer.
      */
     private final TestConsoleInstaller installer;
@@ -117,16 +124,18 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     /**
      * Constructs a <tt>WindowsConsoleInstallationTest</tt>
      *
+     * @param container   the container
      * @param installer   the installer
      * @param installData the installation date
      * @param handler     the registry handler
      * @throws Exception for any error
      */
-    public WindowsConsoleInstallationTest(TestConsoleInstaller installer, AutomatedInstallData installData,
-                                          RegistryDefaultHandler handler)
+    public WindowsConsoleInstallationTest(TestConsoleInstallerContainer container, TestConsoleInstaller installer,
+                                          AutomatedInstallData installData, RegistryDefaultHandler handler)
             throws Exception
     {
         super(installData);
+        this.container = container;
         this.installer = installer;
         this.handler = handler;
     }
@@ -175,7 +184,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     public void testInstallation() throws Exception
     {
         // run the install
-        checkInstall();
+        checkInstall(container, APP_NAME);
         assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
 
         // run the uninstaller and verify that uninstall key is removed
@@ -196,7 +205,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     public void testMultipleInstallation() throws Exception
     {
         // run the install
-        checkInstall();
+        checkInstall(container, APP_NAME);
 
         // remove the lock file to enable second installation
         removeLock();
@@ -204,13 +213,17 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         // run the installation again
         ConsoleInstallerContainer container2 = new TestConsoleInstallerContainer();
         TestConsoleInstaller installer2 = container2.getComponent(TestConsoleInstaller.class);
+        InstallData installData2 = container2.getComponent(InstallData.class);
         TestConsole console2 = installer2.getConsole();
         console2.addScript("CheckedHelloPanel", "y", "1");
         console2.addScript("InfoPanel", "1");
         console2.addScript("TargetPanel", "\n", "1");
 
         assertFalse(registryKeyExists(handler, UNINSTALL_KEY2));
-        checkInstall(installer2, container2.getComponent(InstallData.class));
+        checkInstall(installer2, installData2);
+
+        // verify the UNINSTALL_NAME has been updated
+        assertEquals(APP_NAME + "(1)", installData2.getVariable("UNINSTALL_NAME"));
 
         // verify a second key is created
         assertTrue(registryKeyExists(handler, UNINSTALL_KEY2));
@@ -225,27 +238,30 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/consoleinstall.xml")
     public void testRejectMultipleInstallation() throws Exception
     {
-        checkInstall();
+        checkInstall(container, APP_NAME);
 
         removeLock();
 
         ConsoleInstallerContainer container2 = new TestConsoleInstallerContainer();
         TestConsoleInstaller installer2 = container2.getComponent(TestConsoleInstaller.class);
+        RegistryDefaultHandler handler2 = container2.getComponent(RegistryDefaultHandler.class);
+        InstallData installData2 = container2.getComponent(InstallData.class);
+
         TestConsole console2 = installer2.getConsole();
         console2.addScript("CheckedHelloPanel", "n");
 
-        assertFalse(registryKeyExists(handler, UNINSTALL_KEY2));
+        assertFalse(registryKeyExists(handler2, UNINSTALL_KEY2));
         installer2.run(Installer.CONSOLE_INSTALL, null);
 
         // verify the installation thinks it was unsuccessful
-        assertFalse(container2.getComponent(InstallData.class).isInstallSuccess());
+        assertFalse(installData2.isInstallSuccess());
 
         // make sure the script has completed
         TestConsole console = installer2.getConsole();
         assertTrue("Script still running panel: " + console.getScriptName(), console.scriptCompleted());
 
         // verify the second registry key hasn't been created
-        assertFalse(registryKeyExists(handler, UNINSTALL_KEY2));
+        assertFalse(registryKeyExists(handler2, UNINSTALL_KEY2));
     }
 
     /**
@@ -285,16 +301,26 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      *
      * @throws NativeLibException for any native library exception
      */
-    private void checkInstall() throws NativeLibException
+    private void checkInstall(TestConsoleInstallerContainer container, String uninstallName) throws NativeLibException
     {
+        // UNINSTALL_NAME should be null prior to display of CheckedHelloPanel
+        InstallData installData = container.getComponent(InstallData.class);
+        TestConsoleInstaller installer = container.getComponent(TestConsoleInstaller.class);
+        RegistryDefaultHandler handler = container.getComponent(RegistryDefaultHandler.class);
+
+        assertNull(installData.getVariable("UNINSTALL_NAME"));
+
         assertFalse(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
 
-        TestConsole console1 = installer.getConsole();
-        console1.addScript("CheckedHelloPanel", "1");
-        console1.addScript("InfoPanel", "1");
-        console1.addScript("TargetPanel", "\n", "1");
+        TestConsole console = installer.getConsole();
+        console.addScript("CheckedHelloPanel", "1");
+        console.addScript("InfoPanel", "1");
+        console.addScript("TargetPanel", "\n", "1");
 
-        checkInstall(installer, getInstallData());
+        checkInstall(installer, installData);
+
+        // UNINSTALL_NAME should now be defined
+        assertEquals(uninstallName, installData.getVariable("UNINSTALL_NAME"));
 
         assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
     }

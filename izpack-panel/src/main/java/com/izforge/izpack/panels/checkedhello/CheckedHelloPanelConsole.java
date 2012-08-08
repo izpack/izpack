@@ -83,7 +83,6 @@ public class CheckedHelloPanelConsole extends HelloPanelConsoleHelper
     /**
      * Runs the panel using the specified console.
      *
-     *
      * @param installData the installation data
      * @param console     the console
      * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
@@ -109,6 +108,7 @@ public class CheckedHelloPanelConsole extends HelloPanelConsoleHelper
                 }
             }
         }
+        installData.setVariable("UNINSTALL_NAME", registryHelper.getUninstallName());
         if (result)
         {
             display(installData, console);

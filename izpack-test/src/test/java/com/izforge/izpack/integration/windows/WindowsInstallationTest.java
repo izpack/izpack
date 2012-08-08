@@ -26,6 +26,7 @@ import static com.izforge.izpack.integration.windows.WindowsHelper.registryDelet
 import static com.izforge.izpack.integration.windows.WindowsHelper.registryKeyExists;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -179,11 +180,17 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
         assertFalse("This test must be run as administrator, or with Windows UAC turned off",
                     new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded());
 
+        // UNINSTALL_NAME should be null prior to display of CheckedHelloPanel
+        assertNull(getInstallData().getVariable("UNINSTALL_NAME"));
+
         installerFrameFixture = HelperTestMethod.prepareFrameFixture(frame, controller);
 
         // CheckedHelloPanel
         Thread.sleep(2000);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
+
+        // UNINSTALL_NAME should now be defined
+        assertEquals("IzPack Windows Installation Test 1.0", getInstallData().getVariable("UNINSTALL_NAME"));
 
         // PacksPanel
         Thread.sleep(2000);
