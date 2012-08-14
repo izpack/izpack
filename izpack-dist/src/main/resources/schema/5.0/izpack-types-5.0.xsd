@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<!--
+  ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+  ~
+  ~ http://izpack.org/
+  ~ http://izpack.codehaus.org/
+  ~
+  ~ Copyright 2012 Tim Anderson
+  -
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="unqualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://izpack.org/schema/types"
+           xmlns="http://izpack.org/schema/types">
+
+    <!--                                                                                                        -->
+    <!-- OS                                                                                                     -->
+    <!--                                                                                                        -->
+    <xs:complexType name="osType">
+        <xs:attribute type="xs:string" name="family" use="optional"/>
+        <xs:attribute type="xs:string" name="name" use="optional"/>
+        <xs:attribute type="xs:string" name="arch" use="optional"/>
+        <xs:attribute type="xs:string" name="version" use="optional"/>
+        <xs:attribute type="xs:string" name="jre" use="optional"/>
+    </xs:complexType>
+
+    <!--                                                                                                        -->
+    <!-- Conditions                                                                                             -->
+    <!--                                                                                                        -->
+    <xs:complexType name="conditionsType">
+        <xs:sequence>
+            <xs:element name="condition" type="conditionType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="panelcondition" type="panelConditionType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="conditionType">
+        <xs:sequence>
+            <xs:element name="condition" type="conditionType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="variable" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="arg1" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="arg2" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="operator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="file" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="dir" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="java" type="javaType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="returnvalue" type="returnValueType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="requiredusername" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="refid" type="xs:string"/>
+        <xs:attribute name="type" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="ref"/>
+                    <xs:enumeration value="and"/>
+                    <xs:enumeration value="not"/>
+                    <xs:enumeration value="or"/>
+                    <xs:enumeration value="xor"/>
+                    <xs:enumeration value="comparenumerics"/>
+                    <xs:enumeration value="compareversions"/>
+                    <xs:enumeration value="empty"/>
+                    <xs:enumeration value="exists"/>
+                    <xs:enumeration value="java"/>
+                    <xs:enumeration value="packselection"/>
+                    <xs:enumeration value="ref"/>
+                    <xs:enumeration value="user"/>
+                    <xs:enumeration value="variable"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="javaType">
+        <xs:sequence>
+            <xs:element name="class" type="xs:string"/>
+            <xs:element name="method" type="xs:string" minOccurs="0"/>
+            <xs:element name="field" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="returnValueType" mixed="true">
+        <xs:attribute name="type" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="boolean"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="panelConditionType">
+        <xs:attribute name="conditionid" type="xs:string" use="required"/>
+        <xs:attribute name="panelid" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!--                                                                                                        -->
+    <!-- Dynamic variables                                                                                      -->
+    <!--                                                                                                        -->
+    <xs:complexType name="dynamicVariableType">
+        <xs:sequence>
+            <xs:element name="value" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="filters" type="dynamicVariableFiltersType" minOccurs="0"/>
+            <xs:element name="arg" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="xs:boolean" name="checkonce" use="optional" default="false"/>
+        <xs:attribute type="xs:string" name="condition" use="optional"/>
+        <!-- plain -->
+        <xs:attribute type="xs:string" name="value" use="optional"/>
+        <!-- environment variable -->
+        <xs:attribute type="xs:string" name="environment" use="optional"/>
+        <!-- configuration file -->
+        <xs:attribute type="xs:string" name="file" use="optional"/>
+        <xs:attribute type="xs:string" name="section" use="optional"/>
+        <xs:attribute type="xs:string" name="key" use="optional"/>
+        <!-- configuration file in zip/jar file -->
+        <xs:attribute type="xs:string" name="zipfile" use="optional"/>
+        <xs:attribute type="xs:string" name="jarfile" use="optional"/>
+        <xs:attribute type="xs:string" name="entry" use="optional"/>
+        <xs:attribute type="xs:boolean" name="ignorefailure" use="optional" default="false"/>
+        <!-- Windows registry -->
+        <xs:attribute type="xs:string" name="regkey" use="optional"/>
+        <xs:attribute type="xs:string" name="regroot" use="optional"/>
+        <xs:attribute type="xs:string" name="regvalue" use="optional"/>
+        <!-- Command execution -->
+        <xs:attribute type="xs:string" name="executable" use="optional"/>
+        <xs:attribute type="xs:string" name="dir" use="optional"/>
+        <xs:attribute type="xs:boolean" name="stderr" use="optional"/>
+        <!-- Type - same name for config file type and execution type -->
+        <xs:attribute name="type" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="options"/>
+                    <xs:enumeration value="ini"/>
+                    <xs:enumeration value="xml"/>
+                    <xs:enumeration value="process"/>
+                    <xs:enumeration value="shell"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="dynamicVariableFiltersType">
+        <xs:sequence>
+            <xs:element name="regex" type="dynamicVariableRegexFilterType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="location" type="dynamicVariableLocationFilterType"
+                        minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="dynamicVariableRegexFilterType">
+        <xs:attribute type="xs:string" name="regexp" use="required"/>
+        <xs:attribute type="xs:string" name="select" use="optional"/>
+        <xs:attribute type="xs:string" name="replace" use="optional"/>
+        <xs:attribute type="xs:string" name="defaultvalue" use="optional"/>
+        <xs:attribute type="xs:boolean" name="global" use="optional"/>
+        <xs:attribute type="xs:boolean" name="casesensitive" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="dynamicVariableLocationFilterType">
+        <xs:attribute type="xs:string" name="basedir" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="includeExcludeType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+</xs:schema>

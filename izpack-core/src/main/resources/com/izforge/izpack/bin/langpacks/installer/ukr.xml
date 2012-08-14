@@ -3,7 +3,11 @@
 <!-- The Ukrainian langpack -->
 <!-- Translation by rndnick - the I2P project -->
 
-<langpack>
+<izpack:langpack version="5.0"
+                 xmlns:izpack="http://izpack.org/schema/langpack"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
+
 
     <!-- Heading messages START -->
     <str id="CheckedHelloPanel.headline" txt="Ласкаво просимо"/>
@@ -66,37 +70,41 @@
     <str id="LicencePanel.yes" txt="Так"/>
     <str id="LicencePanel.no" txt="Ні"/>
 
-		<!-- PrinterSelect Panel -->
-		<str id="PrinterSelectPanel.select_printer" txt="Вкажіть прінтер для налаштування та тестового друку."/>
+    <!-- PrinterSelect Panel -->
+    <str id="PrinterSelectPanel.select_printer" txt="Вкажіть прінтер для налаштування та тестового друку."/>
 
-		<!-- InfoPanel strings -->
-		<str id="InfoPanel.info" txt="Прочитайте, будь ласка, цю інформацію: "/>
+    <!-- InfoPanel strings -->
+    <str id="InfoPanel.info" txt="Прочитайте, будь ласка, цю інформацію: "/>
 
-		<!-- PathInputPanel strings -->
-		<str id="PathInputPanel.required" txt="Вибраний каталог має вже існувати."/>
+    <!-- PathInputPanel strings -->
+    <str id="PathInputPanel.required" txt="Вибраний каталог має вже існувати."/>
     <str id="PathInputPanel.required.forModificationInstallation" txt="Вибраний каталог має вже існувати."/>
     <str id="PathInputPanel.notValid" txt="Вибраний каталог не містить потрібну програму."/>
 
-		<!-- TargetPanel strings -->
+    <!-- TargetPanel strings -->
     <str id="TargetPanel.info" txt="Вкажіть шлях встановлення: "/>
     <str id="TargetPanel.browse" txt="Оглянути..."/>
-    <str id="TargetPanel.warn" txt="Каталог вже існує! Ви впевнені що бажаєте встановити в нього та можливо перезаписати вже існуючі файли?"/>
+    <str id="TargetPanel.warn"
+         txt="Каталог вже існує! Ви впевнені що бажаєте встановити в нього та можливо перезаписати вже існуючі файли?"/>
     <str id="TargetPanel.empty_target" txt="Ви не вказали шлях встановлення! Чи це вірно?"/>
     <str id="TargetPanel.createdir" txt="Буде створено каталог для встановлення: "/>
     <str id="TargetPanel.nodir" txt="Це файл, а не каталог! Будь ласка, вкажіть каталог!"/>
     <str id="TargetPanel.notwritable" txt="Цей каталог захищено від запису! Будь ласка, вкажіть інший!"/>
 
     <!-- JDKPathPanel strings -->
-    <str id="JDKPathPanel.extendedIntro" txt="Встановлена програма потребує для роботи JDK версією між ${JDKPathPanel.minVersion} та ${JDKPathPanel.maxVersion}. Середи виконання java (JRE) недостатньо."/>
-    <str id="JDKPathPanel.intro" txt="Встановлена програма потребує для роботи JDK. Середи виконання java (JRE) недостатньо."/>
+    <str id="JDKPathPanel.extendedIntro"
+         txt="Встановлена програма потребує для роботи JDK версією між ${JDKPathPanel.minVersion} та ${JDKPathPanel.maxVersion}. Середи виконання java (JRE) недостатньо."/>
+    <str id="JDKPathPanel.intro"
+         txt="Встановлена програма потребує для роботи JDK. Середи виконання java (JRE) недостатньо."/>
     <str id="JDKPathPanel.info" txt="Вкажіть шлях до JDK:"/>
     <str id="JDKPathPanel.badVersion1" txt="Вказаний JDK хибної версії (наявний: "/>
     <str id="JDKPathPanel.badVersion2" txt=" потрібен: "/>
     <str id="JDKPathPanel.badVersion3" txt=") використовувати цей JDK всеодно?"/>
-    <str id="JDKPathPanel.nonValidPathInReg" txt="Реєстр Windows містить хибний шлях до JDK. Використовувати цей JDK всеодно?"/>
+    <str id="JDKPathPanel.nonValidPathInReg"
+         txt="Реєстр Windows містить хибний шлях до JDK. Використовувати цей JDK всеодно?"/>
 
-		<!-- PacksPanel strings -->
-		<str id="PacksPanel.info" txt="Вкажіть пакунки для встановлення:"/>
+    <!-- PacksPanel strings -->
+    <str id="PacksPanel.info" txt="Вкажіть пакунки для встановлення:"/>
     <str id="PacksPanel.tip" txt="Примітка: сірі пакунки є обов’язковими."/>
     <str id="PacksPanel.space" txt="Потрібно місця: "/>
     <str id="PacksPanel.freespace" txt="Є місця: "/>
@@ -106,9 +114,9 @@
     <str id="PacksPanel.excludes" txt="Виключення: "/>
     <str id="PacksPanel.notEnoughSpace" txt="Недостатньо місця для встановлення."/>
     <str id="PacksPanel.notAscertainable" txt="не визначено"/>
-		
-		<!-- InstallPanel strings -->
-		<str id="InstallPanel.info" txt="Натисніть 'Встановити!' щоб розпочати встановлення"/>
+
+    <!-- InstallPanel strings -->
+    <str id="InstallPanel.info" txt="Натисніть 'Встановити!' щоб розпочати встановлення"/>
     <str id="InstallPanel.install" txt="Встановити!"/>
     <str id="InstallPanel.tip" txt="Хід встановлення пакунків:"/>
     <str id="InstallPanel.begin" txt=" "/>
@@ -117,18 +125,18 @@
     <str id="InstallPanel.overwrite.title" txt="Файл вже існує"/>
     <str id="InstallPanel.overwrite.question" txt="Цей файл вже існує. Перезаписати його?"/>
 
-		<!-- InstallationGroupPanel strings -->
-		<str id="InstallationGroupPanel.colNameSelected" txt="Вибрано"/>
+    <!-- InstallationGroupPanel strings -->
+    <str id="InstallationGroupPanel.colNameSelected" txt="Вибрано"/>
     <str id="InstallationGroupPanel.colNameInstallType" txt="Тип встановлення"/>
     <str id="InstallationGroupPanel.colNameSize" txt="Розмір"/>
-		
-		<!-- InstallationTypePanel strings -->
+
+    <!-- InstallationTypePanel strings -->
     <str id="InstallationTypePanel.info" txt="Будь ласка, вкажіть тип встановлення:"/>
     <str id="InstallationTypePanel.normal" txt="Нове встановлення"/>
     <str id="InstallationTypePanel.modify" txt="Редагувати встановлення"/>
-		
-		<!-- FinishPanel strings -->
-		<str id="FinishPanel.success" txt="Встановлення завершилось успішно."/>
+
+    <!-- FinishPanel strings -->
+    <str id="FinishPanel.success" txt="Встановлення завершилось успішно."/>
     <str id="FinishPanel.done" txt="Завершити"/>
     <str id="FinishPanel.fail" txt="Встановлення завершено аварійно!"/>
     <str id="FinishPanel.uninst.info" txt="Програму видалення створено в: "/>
@@ -136,8 +144,8 @@
     <str id="FinishPanel.auto.tip" txt="Використовуйте цей сценарій для встановлення на інших комп’ютерах."/>
     <str id="FinishPanel.auto.dialog.filterdesc" txt="XML файли"/>
 
-		<!-- ImgPacksPanel strings -->
-		<str id="ImgPacksPanel.dependencyList" txt="Залежности та виключення"/>
+    <!-- ImgPacksPanel strings -->
+    <str id="ImgPacksPanel.dependencyList" txt="Залежности та виключення"/>
     <str id="ImgPacksPanel.packs" txt="Наявні пакунки:"/>
     <str id="ImgPacksPanel.snap" txt="Знімок пакунку:"/>
     <str id="ImgPacksPanel.checkbox" txt=" Встановити"/>
@@ -150,11 +158,15 @@
     <str id="ShortcutPanel.regular.userIntro" txt="створити ярлик для:"/>
     <str id="ShortcutPanel.regular.currentUser" txt="цього користувача"/>
     <str id="ShortcutPanel.regular.allUsers" txt="всіх користувачів"/>
-    <str id="ShortcutPanel.alternate.apology" txt="Вибачте, але IzPack не може створити посилання в цій операційній системі. Щоб створити посилання зверніться до інструкцій вашої операційної системи."/>
-    <str id="ShortcutPanel.alternate.targetsLabel" txt="Ось перелік об’єктів до яких вам потрібен доступ щоб користуватися програмою."/>
-    <str id="ShortcutPanel.alternate.textFileExplanation" txt="Ви можете зберегти до текстового файлу детальну інформацію щодо посилань та використати її пізніше."/>
+    <str id="ShortcutPanel.alternate.apology"
+         txt="Вибачте, але IzPack не може створити посилання в цій операційній системі. Щоб створити посилання зверніться до інструкцій вашої операційної системи."/>
+    <str id="ShortcutPanel.alternate.targetsLabel"
+         txt="Ось перелік об’єктів до яких вам потрібен доступ щоб користуватися програмою."/>
+    <str id="ShortcutPanel.alternate.textFileExplanation"
+         txt="Ви можете зберегти до текстового файлу детальну інформацію щодо посилань та використати її пізніше."/>
     <str id="ShortcutPanel.alternate.saveButton" txt="Зберегти текстовий файл"/>
-    <str id="ShortcutPanel.textFile.header" txt="Інформація щодо посилань\n====================\n\nНижче подана вся необхідна інформація для ручного створення посилань.\n"/>
+    <str id="ShortcutPanel.textFile.header"
+         txt="Інформація щодо посилань\n====================\n\nНижче подана вся необхідна інформація для ручного створення посилань.\n"/>
     <str id="ShortcutPanel.textFile.name" txt="Посилання          : "/>
     <str id="ShortcutPanel.textFile.location" txt="Місце розташування : "/>
     <str id="ShortcutPanel.textFile.description" txt="Опис       : "/>
@@ -167,9 +179,9 @@
     <str id="ShortcutPanel.location.applications" txt="Меню програм"/>
     <str id="ShortcutPanel.location.startMenu" txt="Меню Пуск"/>
     <str id="ShortcutPanel.location.startup" txt="Автозапуск"/>
-		<str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Start-Menu"/>
+    <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Start-Menu"/>
     <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="XDG-Menu"/>
-    
+
     <!-- UserInputPanel strings -->
     <str id="UserInputPanel.error.caption" txt="Помилка"/>
     <str id="UserInputPanel.dir.nodirectory.message" txt="Ви повинні вказати нормальний каталог."/>
@@ -184,23 +196,25 @@
     <str id="UserInputPanel.search.autodetect" txt="Автовизначення"/>
     <str id="UserInputPanel.search.autodetect.failed.message" txt="Автовизначення було невдалим."/>
     <str id="UserInputPanel.search.autodetect.failed.caption" txt="Автовизначення було невдалим."/>
-    <str id="UserInputPanel.search.autodetect.tooltip" txt="Перевірте наявність файлу чи каталогу у вищезазначених шляхах."/>
+    <str id="UserInputPanel.search.autodetect.tooltip"
+         txt="Перевірте наявність файлу чи каталогу у вищезазначених шляхах."/>
     <str id="UserInputPanel.search.location" txt="Вкажіть розташування {0}."/>
     <str id="UserInputPanel.search.location.checkedfile" txt="Перевірка наявності {0} виконана."/>
     <str id="UserInputPanel.search.browse" txt="Огляд..."/>
     <str id="UserInputPanel.search.wrongselection.message" txt="Файл чи каталог що ви вказали не існує чи є хибним."/>
     <str id="UserInputPanel.search.wrongselection.caption" txt="Невірний вибір."/>
-    
+
     <!-- UserPathPanel strings -->
     <str id="UserPathPanel.required" txt="Вказаний каталог повинен існувати."/>
     <str id="UserPathPanel.info" txt="Вкажіть шлях: "/>
     <str id="UserPathPanel.browse" txt="Огляд"/>
-    <str id="UserPathPanel.exists_warn" txt="Каталог вже існує! Ви впевнені що бажаєте встановити в нього та можливо перезаписати вже існуючі файли?"/>
+    <str id="UserPathPanel.exists_warn"
+         txt="Каталог вже існує! Ви впевнені що бажаєте встановити в нього та можливо перезаписати вже існуючі файли?"/>
     <str id="UserPathPanel.empty_target" txt="Ви не вказали шлях встановлення! Чи це вірно?"/>
     <str id="UserPathPanel.createdir" txt="Буде створено каталог для встановлення: "/>
     <str id="UserPathPanel.nodir" txt="Це файл, а не каталог! Будь ласка, вкажіть каталог!"/>
     <str id="UserPathPanel.notwritable" txt="Цей каталог захищено від запису! Будь ласка, вкажіть інший!"/>
-    
+
     <!-- CompilePanel strings -->
     <str id="CompilePanel.heading" txt="Компіляція"/>
     <str id="CompilePanel.tip" txt="Прогрес компіляції:"/>
@@ -224,7 +238,7 @@
 
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="Обробка"/>
-    
+
     <!-- SummaryPanel strings -->
     <str id="SummaryPanel.info" txt="Встановлення пройде з такими налашутваннями. Натисніть Далі."/>
     <str id="TargetPanel.summaryCaption" txt="Шлях встановлення"/>
@@ -233,15 +247,15 @@
     <str id="ImgPacksPanel.summaryCaption" txt="Вказані пакунки до встановлення"/>
     <str id="TreePacksPanel.summaryCaption" txt="Вказані пакунки до встановлення"/>
     <str id="UserPathPanel.summaryCaption" txt="Вказаний шлях"/>
-    
+
     <!-- Strings for the Registry -->
     <str id="functionFailed.RegOpenKeyEx" txt="Неможливо відчинити запис реєстру {0}\\{1}."/>
 
-		<!-- CheckedHelloPanel strings -->
+    <!-- CheckedHelloPanel strings -->
     <str id="CheckedHelloPanel.productAlreadyExist0" txt="Ця програма вже встановлена по шляху "/>
     <str id="CheckedHelloPanel.productAlreadyExist1" txt=" . Ви дійсно хочете встановити ще одну копію?"/>
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="Ключ видалення буде названо: "/>
-    
+
     <!-- Next Media Strings -->
     <str id="nextmedia.title" txt="Наступний носій"/>
     <str id="nextmedia.msg" txt="Вкажіть наступний носій."/>
@@ -251,10 +265,10 @@
     <str id="nextmedia.choosertitle" txt="Вказати носій"/>
     <str id="nextmedia.filedesc" txt="Пакунки (.pak*)"/>
 
-		<!-- This string defines the time stamp format in the installation report.
-         The format details are documented in java.text.SimpleDateFormat -->
+    <!-- This string defines the time stamp format in the installation report.
+The format details are documented in java.text.SimpleDateFormat -->
     <str id="log.timeStamp" txt="MM-dd-yyyy [HH:mm:ss]  zzzz"/>
-    
+
     <!-- Strings for various purposes in the logging/reporting system  -->
     <str id="log.reportHeading" txt="                           IzPack INSTALLATION REPORT"/>
     <str id="log.installFailed" txt="WARNING!!! The installation did not succeed!"/>
@@ -275,8 +289,10 @@
     <str id="log.informUserTitle" txt="Installation Problems"/>
     <str id="log.saveLogTitle" txt="Save Log File"/>
     <str id="log.LogFileName" txt="installLog.txt"/>
-    <str id="log.informUserFail" txt="&lt;html&gt;The installation did not succeed!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
-    <str id="log.informUserPartial" txt="&lt;html&gt;The installation might not have completely succeeded!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
+    <str id="log.informUserFail"
+         txt="&lt;html&gt;The installation did not succeed!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
+    <str id="log.informUserPartial"
+         txt="&lt;html&gt;The installation might not have completely succeeded!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
 
     <!-- Strings for individual messages in the logging/reporting system.
          Numbers for each category (message/warning/error) start at 0  -->
@@ -284,5 +300,5 @@
     <str id="log.warning_" txt=""/>
     <str id="log.error_0" txt="unable to write ''{0}''"/>
     <str id="debug.changevariable" txt="modify value"/>
-		
-</langpack>
+
+</izpack:langpack>

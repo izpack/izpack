@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
-<installation version="1.0">
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
 
     <info>
         <appname>Test Multi-volume Installation</appname>
         <appversion>1.0</appversion>
     </info>
 
-    <variables>
-        <variable name="scriptFile" value="script.bat"/>
-    </variables>
-    <dynamicvariables>
-        <variable name="myPath" value="$INSTALL_PATH/test"/>
-    </dynamicvariables>
-
     <guiprefs width="640" height="480" resizable="yes"/>
 
     <locale>
         <langpack iso3="eng"/>
     </locale>
+
+    <variables>
+        <variable name="scriptFile" value="script.bat"/>
+    </variables>
+
+    <dynamicvariables>
+        <variable name="myPath" value="$INSTALL_PATH/test"/>
+    </dynamicvariables>
 
     <resources>
         <res id="LicencePanel.licence" src="Licence.txt"/>
@@ -62,4 +66,4 @@
         </pack>
     </packs>
 
-</installation>
+</izpack:installation>

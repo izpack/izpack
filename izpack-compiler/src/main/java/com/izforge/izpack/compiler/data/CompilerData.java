@@ -37,10 +37,11 @@ public class CompilerData
      * The IzPack home directory.
      */
     public static String IZPACK_HOME = ".";
+
     /**
      * The compiler version.
      */
-    public final static String VERSION = "1.0";
+    public final static String VERSION = "5.0";
 
     /**
      * Standard installer.
@@ -130,7 +131,8 @@ public class CompilerData
         this.mkdirs = mkdirs;
     }
 
-    public CompilerData(String comprFormat, String kind, String installFile, String installText, String basedir, String output, boolean mkdirs, int comprLevel)
+    public CompilerData(String comprFormat, String kind, String installFile, String installText, String basedir,
+                        String output, boolean mkdirs, int comprLevel)
     {
         this(installFile, basedir, output, mkdirs);
         this.comprFormat = comprFormat;
@@ -139,7 +141,8 @@ public class CompilerData
         this.comprLevel = comprLevel;
     }
 
-    public CompilerData(String comprFormat, String kind, String installFile, String installText, String basedir, String output, boolean mkdirs, int comprLevel, Info externalInfo)
+    public CompilerData(String comprFormat, String kind, String installFile, String installText, String basedir,
+                        String output, boolean mkdirs, int comprLevel, Info externalInfo)
     {
         this(comprFormat, kind, installFile, installText, basedir, output, mkdirs, comprLevel);
         this.externalInfo = externalInfo;

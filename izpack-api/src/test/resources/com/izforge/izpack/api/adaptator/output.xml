@@ -2,8 +2,6 @@
 
 <!-- 
         Notes: 
-        Since there is no dtd (yet), here is a short explanation
-        of the last change.
         - Each Shortcut has now a optional attribute
 
         createForAll="yes|no"
@@ -38,9 +36,12 @@
     
 -->
 
-<shortcuts>
+<izpack:shortcuts version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/shortcuts"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/shortcuts http://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
 
-    <programGroup defaultName="IzPack4.2.0" location="applications" />
+    <programGroup defaultName="IzPack4.2.0" location="applications"/>
 
 
     <!-- Disabled since there is no Frontend
@@ -85,7 +86,7 @@
             Categories="Application;Development;"
             description="This opens a WebBrowser to look into the IzPack 4.2.0 (HTML) user documentation">
 
-        <createForPack name="HTML Documentation" />
+        <createForPack name="HTML Documentation"/>
     </shortcut>
 
     <shortcut
@@ -108,7 +109,7 @@
             Categories="Application;Development;"
             description="This opens a WebBrowser to look into the IzPack 4.2.0 (HTML) Java documentation">
 
-        <createForPack name="Javadocs Documentation" />
+        <createForPack name="Javadocs Documentation"/>
     </shortcut>
 
     <shortcut
@@ -130,7 +131,7 @@
             Categories="Application;Development;"
             description="This opens Adobe (Acrobat) Reader (if available) to look into or print the NanoXML (PDF) user documentation">
 
-        <createForPack name="NanoXML Documentation" />
+        <createForPack name="NanoXML Documentation"/>
     </shortcut>
 
     <shortcut
@@ -152,7 +153,7 @@
             Categories="Application;Development;"
             description="This opens Adobe (Acrobat) Reader (if available) to look into or print the IzPack 4.2.0 (PDF) user documentation">
 
-        <createForPack name="PDF Documentation" />
+        <createForPack name="PDF Documentation"/>
     </shortcut>
 
 
@@ -183,8 +184,7 @@
 
             description="This uninstalls IzPack 4.2.0">
 
-        <createForPack name="Core" />
+        <createForPack name="Core"/>
     </shortcut>
 
-
-</shortcuts>
+</izpack:shortcuts>

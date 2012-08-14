@@ -2,7 +2,11 @@
 
 <!-- The English langpack -->
 
-<langpack>
+<izpack:langpack version="5.0"
+                 xmlns:izpack="http://izpack.org/schema/langpack"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
+
 
     <!-- Heading messages START -->
     <str id="CheckedHelloPanel.headline" txt="Welcome"/>
@@ -329,4 +333,4 @@ for each category (message/warning/error) start at 0 -->
     <str id="data.validation.error.title" txt="Validation failed"/>
     <str id="data.validation.warning.title" txt="Validation failed - continuing installation"/>
 
-</langpack>
+</izpack:langpack>

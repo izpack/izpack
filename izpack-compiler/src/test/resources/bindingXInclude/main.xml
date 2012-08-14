@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"  ?>
-<installation version="1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+<installation version="5.0" xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <info>
         <appname>test for xincludes</appname>

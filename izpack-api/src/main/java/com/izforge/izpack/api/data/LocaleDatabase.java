@@ -139,7 +139,7 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
         }
 
         // We check the data
-        if (!"langpack".equalsIgnoreCase(data.getName()))
+        if (!"langpack".equalsIgnoreCase(data.getElement().getLocalName()))
         {
             throw new ResourceException("Invalid IzPack XML langpack file");
         }

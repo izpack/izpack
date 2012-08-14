@@ -1379,6 +1379,7 @@ public class CompilerConfig extends Thread
         {
             assertionHelper.parseError(refXMLData, "this is not an IzPack XML installation file");
         }
+        String namespaceURI = refXMLData.getElement().getNamespaceURI();
         if (!CompilerData.VERSION.equalsIgnoreCase(xmlCompilerHelper.requireAttribute(refXMLData, "version")))
         {
             assertionHelper.parseError(refXMLData, "the file version is different from the compiler version");

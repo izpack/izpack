@@ -4,32 +4,32 @@
         <appname>Test Installation</appname>
         <appversion>1.4 beta 666</appversion>
         <authors>
-            <author name="Super sora" email="sora@superman.org" />
+            <author name="Super sora" email="sora@superman.org"/>
         </authors>
         <url>http://www.anotherworld-inspace-website.net/</url>
 
     </info>
 
-    <guiprefs width="640" height="480" resizable="yes" />
+    <guiprefs width="640" height="480" resizable="yes"/>
     <locale>
-        <langpack iso3="eng" />
+        <langpack iso3="eng"/>
     </locale>
 
     <!-- The listeners section for CustomActions -->
     <listeners>
-        <listener classname="SummaryLoggerInstallerListener" stage="install" />
+        <listener classname="SummaryLoggerInstallerListener" stage="install"/>
         <listener classname="RegistryInstallerListener" stage="install">
-            <os family="windows" />
-            <os arch="ppc" />
+            <os family="windows"/>
+            <os arch="ppc"/>
         </listener>
         <listener classname="RegistryUninstallerListener" stage="uninstall">
-            <os family="windows" />
+            <os family="windows"/>
         </listener>
     </listeners>
 
     <panels>
-        <panel classname="HelloPanel" />
-        <panel classname="SimpleFinishPanel" />
+        <panel classname="HelloPanel"/>
+        <panel classname="SimpleFinishPanel"/>
     </panels>
 
     <packs>

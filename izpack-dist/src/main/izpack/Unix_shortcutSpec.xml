@@ -2,8 +2,6 @@
 
 <!-- 
 	Notes: 
-	Since there is no dtd (yet), here is a short explanation
-	of the last change.
 	- Each Shortcut has now a optional attribute
 
 	createForAll="yes|no"
@@ -38,7 +36,10 @@
     
 -->
 
-<shortcuts>
+<izpack:shortcuts version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/shortcuts"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/shortcuts http://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
 
     <programGroup defaultName="IzPack ${project.version}" location="applications"/>
 
@@ -165,4 +166,4 @@
     </shortcut>
 
 
-</shortcuts>
+</izpack:shortcuts>

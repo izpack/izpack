@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
 
-<installation version="1.0">
-    <variables>
-        <variable name="appGroup" value="${app.group}" />
-        <variable name="appTitle" value="${app.title}" />
-        <variable name="appSubPath" value="${app.subpath}" />
-        <variable name="appVersion" value="${app.version}" />
-        <!-- pre-select desktop shortcut checkbox -->
-        <variable name="DesktopShortcutCheckboxEnabled" value="true" />
-    </variables>
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
 
     <info>
         <javaversion>1.5</javaversion>
@@ -18,26 +13,35 @@
 
         <!-- following appears in HelloPanel -->
         <authors>
-            <author name="groovy-dev" email="dev@groovy.codehaus.org" />
+            <author name="groovy-dev" email="dev@groovy.codehaus.org"/>
         </authors>
         <url>http://groovy.codehaus.org</url>
     </info>
 
+    <variables>
+        <variable name="appGroup" value="${app.group}"/>
+        <variable name="appTitle" value="${app.title}"/>
+        <variable name="appSubPath" value="${app.subpath}"/>
+        <variable name="appVersion" value="${app.version}"/>
+        <!-- pre-select desktop shortcut checkbox -->
+        <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
+    </variables>
+
     <guiprefs width="800" height="600" resizable="yes">
-        <modifier key="allXGap" value="5" />
-        <modifier key="allYGap" value="5" />
-        <modifier key="paragraphYGap" value="15" />
-        <modifier key="useHeadingPanel" value="yes" />
-        <modifier key="headingLineCount" value="1" />
-        <modifier key="headingFontSize" value="2" />
-        <modifier key="headingBackgroundColor" value="0x00ffffff" />
-        <modifier key="headingPanelCounter" value="text" />
-        <modifier key="headingPanelCounterPos" value="inHeading" />
+        <modifier key="allXGap" value="5"/>
+        <modifier key="allYGap" value="5"/>
+        <modifier key="paragraphYGap" value="15"/>
+        <modifier key="useHeadingPanel" value="yes"/>
+        <modifier key="headingLineCount" value="1"/>
+        <modifier key="headingFontSize" value="2"/>
+        <modifier key="headingBackgroundColor" value="0x00ffffff"/>
+        <modifier key="headingPanelCounter" value="text"/>
+        <modifier key="headingPanelCounterPos" value="inHeading"/>
     </guiprefs>
 
     <locale>
-        <langpack iso3="eng" />
-        <langpack iso3="fra" />
+        <langpack iso3="eng"/>
+        <langpack iso3="fra"/>
     </locale>
 
     <resources>
@@ -47,45 +51,41 @@
        == groovy.png as a Heading image works much better.
        == <res id="Installer.image" src="resource/infiniflow.gif" />
        == -->
-        <res id="Heading.image" src="resource/groovy.png" />
+        <res id="Heading.image" src="resource/groovy.png"/>
 
-        <res id="HTMLLicencePanel.licence" src="resource/asl2.html" />
+        <res id="HTMLLicencePanel.licence" src="resource/asl2.html"/>
 
         <!-- FIXME: parse=yes results in a blank panel -->
         <res id="HTMLInfoPanel.info"
-             src="resource/README-IzPack.html" parse="no" />
+             src="resource/README-IzPack.html" parse="no"/>
 
-        <res id="TargetPanel.dir.unix" src="resource/target_unix.txt" parse="yes" />
-        <res id="Win_NT_shortcutSpec.xml" src="resource/winShortcutSpec.xml" />
-        <res id="shortcutSpec.xml" src="resource/emptyShortcutSpec.xml" />
-        <res id="ProcessPanel.Spec.xml" src="resource/processSpec.xml" />
-        <res src="resource/groovy-splash.png" id="installer.langsel.img" />
-        <res src="resource/RegistrySpec.xml" id="RegistrySpec.xml" />
+        <res id="TargetPanel.dir.unix" src="resource/target_unix.txt" parse="yes"/>
+        <res id="Win_NT_shortcutSpec.xml" src="resource/winShortcutSpec.xml"/>
+        <res id="shortcutSpec.xml" src="resource/emptyShortcutSpec.xml"/>
+        <res id="ProcessPanel.Spec.xml" src="resource/processSpec.xml"/>
+        <res src="resource/groovy-splash.png" id="installer.langsel.img"/>
+        <res src="resource/RegistrySpec.xml" id="RegistrySpec.xml"/>
     </resources>
 
-    <natives>
-        <native type="izpack" name="ShellLink.dll" />
-    </natives>
-
-    <panels>
-        <panel classname="HTMLInfoPanel" />
-        <panel classname="HTMLLicencePanel" />
-        <panel classname="TargetPanel" />
-        <panel classname="PacksPanel" />
-        <panel classname="SummaryPanel" />
-        <panel classname="InstallPanel" />
-        <panel classname="ProcessPanel" />
-        <panel classname="ShortcutPanel" />
-        <panel classname="FinishPanel" />
-    </panels>
-
     <listeners>
-        <listener installer="SummaryLoggerInstallerListener" />
-        <listener installer="RegistryInstallerListener"
-                  uninstaller="RegistryUninstallerListener">
-            <os family="windows" />
+        <listener classname="SummaryLoggerInstallerListener"/>
+        <listener classname="RegistryInstallerListener"/>
+        <listener classname="RegistryUninstallerListener">
+            <os family="windows"/>
         </listener>
     </listeners>
+
+    <panels>
+        <panel classname="HTMLInfoPanel"/>
+        <panel classname="HTMLLicencePanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="PacksPanel"/>
+        <panel classname="SummaryPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="ProcessPanel"/>
+        <panel classname="ShortcutPanel"/>
+        <panel classname="FinishPanel"/>
+    </panels>
 
     <packs>
         <pack name="Groovy core" required="yes">
@@ -96,29 +96,46 @@
             </fileset>
 
             <file src="resource/README-IzPack.html"
-                  targetdir="$INSTALL_PATH" />
-            <parsable targetfile="$INSTALL_PATH/README-IzPack.html" />
+                  targetdir="$INSTALL_PATH"/>
+            <parsable targetfile="$INSTALL_PATH/README-IzPack.html"/>
 
-            <file src="resource/groovy.exe"
-                  targetdir="$INSTALL_PATH/bin" os="windows" />
-            <file src="resource/groovyw.exe"
-                  targetdir="$INSTALL_PATH/bin" os="windows" />
+            <file src="resource/groovy.exe" targetdir="$INSTALL_PATH/bin">
+                <os family="windows"/>
+            </file>
+            <file src="resource/groovyw.exe" targetdir="$INSTALL_PATH/bin">
+                <os family="windows"/>
+            </file>
 
-            <file src="resource/pre-uninstall.bat"
-                  targetdir="$INSTALL_PATH/Uninstaller" os="windows" />
-            <parsable targetfile="$INSTALL_PATH/Uninstaller/pre-uninstall.bat" os="windows" />
-            <executable targetfile="$INSTALL_PATH/Uninstaller/pre-uninstall.bat" os="windows" stage="uninstall" />
+            <file src="resource/pre-uninstall.bat" targetdir="$INSTALL_PATH/Uninstaller">
+                <os family="windows"/>
+            </file>
+            <parsable targetfile="$INSTALL_PATH/Uninstaller/pre-uninstall.bat">
+                <os family="windows"/>
+            </parsable>
+            <executable targetfile="$INSTALL_PATH/Uninstaller/pre-uninstall.bat" stage="uninstall">
+                <os family="windows"/>
+            </executable>
 
-            <executable targetfile="$INSTALL_PATH/bin/groovy" os="unix" />
-            <executable targetfile="$INSTALL_PATH/bin/groovyc" os="unix" />
-            <executable targetfile="$INSTALL_PATH/bin/groovysh" os="unix" />
-            <executable targetfile="$INSTALL_PATH/bin/groovyConsole" os="unix" />
-            <executable targetfile="$INSTALL_PATH/bin/java2groovy" os="unix" />
+            <executable targetfile="$INSTALL_PATH/bin/groovy">
+                <os family="unix"/>
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/groovyc">
+                <os family="unix"/>
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/groovysh">
+                <os family="unix"/>
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/groovyConsole">
+                <os family="unix"/>
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/java2groovy">
+                <os family="unix"/>
+            </executable>
         </pack>
 
         <pack name="File associations" required="no">
-            <os family="windows" />
             <description>Adds file associations on Windows.</description>
+            <os family="windows"/>
         </pack>
 
         <pack name="Documentation" required="no">
@@ -129,11 +146,11 @@
         </pack>
 
         <pack name="Scriptom" required="no">
-            <os family="windows" />
             <description>COM Scripting Module. Microsoft Visual C++ 2005 SP1 Redistributable Package is required.
             </description>
             <fileset dir="scriptom"
                      targetdir="$INSTALL_PATH">
+                <os family="windows"/>
             </fileset>
         </pack>
 
@@ -141,36 +158,42 @@
             <description>Groovy Ant module.</description>
             <fileset dir="gant-${gant.version}"
                      targetdir="$INSTALL_PATH">
-                <exclude name="README_Install.txt" />
+                <exclude name="README_Install.txt"/>
             </fileset>
-            <executable targetfile="$INSTALL_PATH/bin/gant" os="unix" />
+            <executable targetfile="$INSTALL_PATH/bin/gant">
+                <os family="unix"/>
+            </executable>
         </pack>
 
         <pack name="GraphicsBuilder" required="no">
             <description>Groovy builder for Java 2D. Java 6 is required!</description>
             <fileset dir="graphicsbuilder"
                      targetdir="$INSTALL_PATH">
-                <exclude name="README.txt" />
+                <exclude name="README.txt"/>
             </fileset>
-            <executable targetfile="$INSTALL_PATH/bin/graphicsPad" os="unix" />
-            <executable targetfile="$INSTALL_PATH/bin/svg2groovy" os="unix" />
+            <executable targetfile="$INSTALL_PATH/bin/graphicsPad">
+                <os family="unix"/>
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/svg2groovy">
+                <os family="unix"/>
+            </executable>
         </pack>
 
         <pack name="JideBuilder" required="no">
             <description>JideBuilder is a Groovy builder for the open source JIDE Common Layer.</description>
             <fileset dir="jars" targetdir="$INSTALL_PATH/lib">
-                <include name="${jidebuilder.archive}" />
-                <include name="${svg-salamander.archive}" />
+                <include name="${jidebuilder.archive}"/>
+                <include name="${svg-salamander.archive}"/>
             </fileset>
         </pack>
 
     </packs>
 
     <natives>
-        <native type="izpack" name="ShellLink.dll" />
+        <native type="izpack" name="ShellLink.dll"/>
         <native type="3rdparty" name="COIOSHelper.dll" stage="both">
-            <os family="windows" />
+            <os family="windows"/>
         </native>
     </natives>
 
-</installation>
+</izpack:installation>

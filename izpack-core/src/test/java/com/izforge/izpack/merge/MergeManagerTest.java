@@ -61,8 +61,10 @@ public class MergeManagerTest
     @Test
     public void testAddDirectoryWithFile() throws Exception
     {
-        mergeManager.addResourceToMerge("dtd/");
-        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("dtd/conditions.dtd"));
+        mergeManager.addResourceToMerge("com/izforge/izpack/core/rules/");
+        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles(
+                "com/izforge/izpack/core/rules/builtin_conditions.xml",
+                "com/izforge/izpack/core/rules/conditions.xml"));
     }
 
     @Test

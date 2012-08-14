@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<installation version="1.0">
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
 
     <!-- The info section -->
     <info>
@@ -14,6 +17,11 @@
         <summarylogfilepath>$INSTALL_PATH/installinfo/Summary.htm</summarylogfilepath>
     </info>
 
+    <variables>
+        <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
+        <variable name="ApplicationShortcutPath" value="ApplicationShortcuts"/>
+    </variables>
+
     <!-- Flexible and in the screen proportions -->
     <guiprefs height="700" resizable="yes" width="870">
         <!-- GUI adaption for more informations see "Modifying the GUI" in the documentation -->
@@ -25,11 +33,6 @@
         <modifier key="filler1YGap" value="5"/>
         <modifier key="filler3XGap" value="10"/>
     </guiprefs>
-
-    <variables>
-        <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
-        <variable name="ApplicationShortcutPath" value="ApplicationShortcuts"/>
-    </variables>
 
     <!-- We include every langpack -->
     <locale>
@@ -81,6 +84,17 @@
         <res src="RegistrySpec.xml" id="RegistrySpec.xml"/>
     </resources>
 
+    <!-- The listeners section for CustomActions -->
+    <listeners>
+        <listener classname="SummaryLoggerInstallerListener" stage="install"/>
+        <listener classname="RegistryInstallerListener" stage="install">
+            <os family="windows"/>
+        </listener>
+        <listener classname="RegistryUninstallerListener" stage="uninstall">
+            <os family="windows"/>
+        </listener>
+    </listeners>
+
     <!-- The panels in a classic order -->
     <panels>
         <panel classname="CheckedHelloPanel" id="hellopanel"/>
@@ -93,17 +107,6 @@
         <panel classname="ShortcutPanel" id="shortcutpanel"/>
         <panel classname="FinishPanel" id="finishpanel"/>
     </panels>
-
-    <!-- The listeners section for CustomActions -->
-    <listeners>
-        <listener classname="SummaryLoggerInstallerListener" stage="install"/>
-        <listener classname="RegistryInstallerListener" stage="install">
-            <os family="windows"/>
-        </listener>
-        <listener classname="RegistryUninstallerListener" stage="uninstall">
-            <os family="windows"/>
-        </listener>
-    </listeners>
 
     <!-- The packs section -->
     <packs>
@@ -180,4 +183,4 @@
         </native>
     </natives>
 
-</installation>
+</izpack:installation>

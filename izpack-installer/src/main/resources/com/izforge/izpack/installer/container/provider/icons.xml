@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
 
-<icons>
+<izpack:icons version="5.0"
+              xmlns:izpack="http://izpack.org/schema/icons"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://izpack.org/schema/icons http://izpack.org/schema/5.0/izpack-icons-5.0.xsd">
 
-    <icon res="/com/izforge/izpack/img/leftarrow.png" id="stepback" />
-    <icon res="/com/izforge/izpack/img/rightarrow.png" id="stepforward" />
-    <icon res="/com/izforge/izpack/img/stop.png" id="stop" />
-    <icon res="/com/izforge/izpack/img/done.png" id="done" />
-    <icon res="/com/izforge/izpack/img/kcontrol.png" id="host" />
-    <icon res="/com/izforge/izpack/img/info.png" id="information" />
-    <icon res="/com/izforge/izpack/img/contents.png" id="history" />
-    <icon res="/com/izforge/izpack/img/bookmark.png" id="bookmark" />
-    <icon res="/com/izforge/izpack/img/edit.png" id="edit" />
-    <icon res="/com/izforge/izpack/img/empty.png" id="empty" />
-    <icon res="/com/izforge/izpack/img/help.png" id="help" />
-    <icon res="/com/izforge/izpack/img/fileopen.png" id="open" />
-    <icon res="/com/izforge/izpack/img/home.png" id="home" />
-    <icon res="/com/izforge/izpack/img/wizard.png" id="preferences" />
-    <icon res="/com/izforge/izpack/img/idea.png" id="tip" />
-    <icon res="/com/izforge/izpack/img/compfile.png" id="import" />
-    <icon res="/com/izforge/izpack/img/compfile.png" id="refresh_cycle" />
-    <icon res="/com/izforge/izpack/img/JFrameIcon.png" id="JFrameIcon" />
-    <icon res="/com/izforge/izpack/img/check32.png" id="check" />
-    <icon res="/com/izforge/izpack/img/link16x16.png" id="link16x16" />
+    <icon res="/com/izforge/izpack/img/leftarrow.png" id="stepback"/>
+    <icon res="/com/izforge/izpack/img/rightarrow.png" id="stepforward"/>
+    <icon res="/com/izforge/izpack/img/stop.png" id="stop"/>
+    <icon res="/com/izforge/izpack/img/done.png" id="done"/>
+    <icon res="/com/izforge/izpack/img/kcontrol.png" id="host"/>
+    <icon res="/com/izforge/izpack/img/info.png" id="information"/>
+    <icon res="/com/izforge/izpack/img/contents.png" id="history"/>
+    <icon res="/com/izforge/izpack/img/bookmark.png" id="bookmark"/>
+    <icon res="/com/izforge/izpack/img/edit.png" id="edit"/>
+    <icon res="/com/izforge/izpack/img/empty.png" id="empty"/>
+    <icon res="/com/izforge/izpack/img/help.png" id="help"/>
+    <icon res="/com/izforge/izpack/img/fileopen.png" id="open"/>
+    <icon res="/com/izforge/izpack/img/home.png" id="home"/>
+    <icon res="/com/izforge/izpack/img/wizard.png" id="preferences"/>
+    <icon res="/com/izforge/izpack/img/idea.png" id="tip"/>
+    <icon res="/com/izforge/izpack/img/compfile.png" id="import"/>
+    <icon res="/com/izforge/izpack/img/compfile.png" id="refresh_cycle"/>
+    <icon res="/com/izforge/izpack/img/JFrameIcon.png" id="JFrameIcon"/>
+    <icon res="/com/izforge/izpack/img/check32.png" id="check"/>
+    <icon res="/com/izforge/izpack/img/link16x16.png" id="link16x16"/>
 
-    <sysicon res="/com/izforge/izpack/img/ascii.png" id="FileView.fileIcon" />
-    <sysicon res="/com/izforge/izpack/img/error.png" id="OptionPane.errorIcon" />
-    <sysicon res="/com/izforge/izpack/img/floppy.png" id="FileView.floppyDriveIcon" />
-    <sysicon res="/com/izforge/izpack/img/folder.png" id="FileView.directoryIcon" />
-    <sysicon res="/com/izforge/izpack/img/folder_new.png" id="FileChooser.newFolderIcon" />
-    <sysicon res="/com/izforge/izpack/img/hdd.png" id="FileView.hardDriveIcon" />
-    <sysicon res="/com/izforge/izpack/img/home.png" id="FileChooser.homeFolderIcon" />
-    <sysicon res="/com/izforge/izpack/img/kcontrol.png" id="FileView.computerIcon" />
-    <sysicon res="/com/izforge/izpack/img/messagebox_info.png" id="OptionPane.informationIcon" />
-    <sysicon res="/com/izforge/izpack/img/messagebox_warning.png" id="OptionPane.warningIcon" />
-    <sysicon res="/com/izforge/izpack/img/question.png" id="OptionPane.questionIcon" />
-    <sysicon res="/com/izforge/izpack/img/uparrow.png" id="FileChooser.upFolderIcon" />
+    <sysicon res="/com/izforge/izpack/img/ascii.png" id="FileView.fileIcon"/>
+    <sysicon res="/com/izforge/izpack/img/error.png" id="OptionPane.errorIcon"/>
+    <sysicon res="/com/izforge/izpack/img/floppy.png" id="FileView.floppyDriveIcon"/>
+    <sysicon res="/com/izforge/izpack/img/folder.png" id="FileView.directoryIcon"/>
+    <sysicon res="/com/izforge/izpack/img/folder_new.png" id="FileChooser.newFolderIcon"/>
+    <sysicon res="/com/izforge/izpack/img/hdd.png" id="FileView.hardDriveIcon"/>
+    <sysicon res="/com/izforge/izpack/img/home.png" id="FileChooser.homeFolderIcon"/>
+    <sysicon res="/com/izforge/izpack/img/kcontrol.png" id="FileView.computerIcon"/>
+    <sysicon res="/com/izforge/izpack/img/messagebox_info.png" id="OptionPane.informationIcon"/>
+    <sysicon res="/com/izforge/izpack/img/messagebox_warning.png" id="OptionPane.warningIcon"/>
+    <sysicon res="/com/izforge/izpack/img/question.png" id="OptionPane.questionIcon"/>
+    <sysicon res="/com/izforge/izpack/img/uparrow.png" id="FileChooser.upFolderIcon"/>
 
-</icons>
+</izpack:icons>

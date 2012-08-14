@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
-<installation version="1.0">
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
     <info>
         <appname>Test Installation</appname>
         <appversion>1.4 beta 666</appversion>
     </info>
 
-    <guiprefs width="640" height="480" resizable="yes" />
+    <guiprefs width="640" height="480" resizable="yes"/>
     <locale>
-        <langpack iso3="eng" />
+        <langpack iso3="eng"/>
     </locale>
 
     <panels>
@@ -18,7 +21,7 @@
             <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
         </panel>
         <panel classname="SimpleFinishPanel"> <!-- MOTE: validators associated with last panel are ignored -->
-             <validator classname="TestDataValidator"/>
+            <validator classname="TestDataValidator"/>
         </panel>
     </panels>
 
@@ -27,4 +30,4 @@
             <description>The base files</description>
         </pack>
     </packs>
-</installation>
+</izpack:installation>

@@ -1,0 +1,76 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!--
+  ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+  ~
+  ~ http://izpack.org/
+  ~ http://izpack.codehaus.org/
+  ~
+  ~ Copyright 2012 Tim Anderson
+  -
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="unqualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://izpack.org/schema/shortcuts"
+           xmlns="http://izpack.org/schema/shortcuts">
+
+    <xs:element name="shortcuts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="skipIfNotSupported" minOccurs="0"/>
+                <xs:element name="programGroup" type="programGroupType"/>
+                <xs:element name="shortcut" type="shortcutType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="version" type="xs:string" fixed="5.0" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="programGroupType">
+        <xs:attribute name="defaultName" type="xs:string" use="required"/>
+        <xs:attribute name="location" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="shortcutType">
+        <xs:sequence>
+            <xs:element name="createForPack">
+                <xs:complexType>
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="programGroup" type="xs:string" use="required"/>
+        <xs:attribute name="desktop" type="xs:string" use="required"/>
+        <xs:attribute name="applications" type="xs:string" use="required"/>
+        <xs:attribute name="startMenu" type="xs:string" use="required"/>
+        <xs:attribute name="startup" type="xs:string" use="required"/>
+        <xs:attribute name="target" type="xs:string" use="required"/>
+        <xs:attribute name="workingDirectory" type="xs:string" use="optional"/>
+        <xs:attribute name="commandLine" type="xs:string" use="required"/>
+        <xs:attribute name="initialState" type="xs:string" use="optional"/>
+        <xs:attribute name="iconFile" type="xs:string" use="optional"/>
+        <xs:attribute name="iconIndex" type="xs:string" use="optional"/>
+        <xs:attribute name="url" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string" use="optional"/>
+        <xs:attribute name="encoding" type="xs:string" use="optional"/>
+        <xs:attribute name="createForAll" type="xs:string" use="optional"/>
+        <xs:attribute name="Categories" type="xs:string" use="optional"/>
+        <xs:attribute name="description" type="xs:string" use="required"/>
+        <xs:attribute name="KdeSubstUID" type="xs:string" use="optional"/>
+        <xs:attribute name="KdeUsername" type="xs:string" use="optional"/>
+        <xs:attribute name="TryExec" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+</xs:schema>

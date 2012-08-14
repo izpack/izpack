@@ -26,7 +26,9 @@
  | Author: jochen.hinrichsen@kambrium.net
  |______________________________________________________________________________
 -->
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="unqualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://izpack.org/schema/userinput"
            xmlns="http://izpack.org/schema/userinput">
 
@@ -145,20 +147,10 @@
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
+            <xs:attribute name="version" type="xs:string" fixed="5.0" use="required"/>
         </xs:complexType>
     </xs:element>
-    <xs:element name="langpack">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" name="str">
-                    <xs:complexType>
-                        <xs:attribute name="id" type="xs:string" use="required"/>
-                        <xs:attribute name="txt" type="xs:string" use="required"/>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+
 </xs:schema>
 
         <!-- EOF -->

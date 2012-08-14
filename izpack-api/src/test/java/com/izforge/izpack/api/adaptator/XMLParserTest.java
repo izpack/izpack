@@ -23,6 +23,7 @@
 package com.izforge.izpack.api.adaptator;
 
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,6 +31,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,17 +65,18 @@ public class XMLParserTest
 
         IXMLParser parser = new XMLParser();
         spec = parser.parse(input);
-        Assert.assertEquals("shortcuts", spec.getName());
+        Assert.assertEquals("izpack:shortcuts", spec.getName());
     }
 
     @Test
     public void testParseString() throws Exception
     {
         IXMLElement spec;
-        String substitutedSpec = FileUtils.readFileToString(new File(XMLParserTest.class.getResource(filename).toURI()));
+        String substitutedSpec = FileUtils.readFileToString(
+                new File(XMLParserTest.class.getResource(filename).toURI()));
         IXMLParser parser = new XMLParser();
         spec = parser.parse(substitutedSpec);
-        Assert.assertEquals("shortcuts", spec.getName());
+        Assert.assertEquals("izpack:shortcuts", spec.getName());
     }
 
     private void checkEltLN(IXMLElement elt)
@@ -98,7 +101,8 @@ public class XMLParserTest
     }
 
     @Test
-    public void testXincludeLineNumber() throws SAXException, ParserConfigurationException, IOException, TransformerException
+    public void testXincludeLineNumber()
+            throws SAXException, ParserConfigurationException, IOException, TransformerException
     {
         URL url = XMLParserTest.class.getResource(xlnFilename);
 

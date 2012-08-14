@@ -44,7 +44,8 @@ public class ResourceFinder
     private PropertyManager propertyManager;
     private XmlCompilerHelper xmlCompilerHelper;
 
-    public ResourceFinder(AssertionHelper assertionHelper, CompilerData compilerData, PropertyManager propertyManager, XmlCompilerHelper xmlCompilerHelper)
+    public ResourceFinder(AssertionHelper assertionHelper, CompilerData compilerData, PropertyManager propertyManager,
+                          XmlCompilerHelper xmlCompilerHelper)
     {
         this.assertionHelper = assertionHelper;
         this.compilerData = compilerData;
@@ -178,7 +179,7 @@ public class ResourceFinder
             throw new CompilerException("Neither install file nor text specified");
         }
         // We check it
-        if (!"installation".equalsIgnoreCase(data.getName()))
+        if (!"installation".equalsIgnoreCase(data.getElement().getLocalName()))
         {
             assertionHelper.parseError(data, "this is not an IzPack XML installation file");
         }

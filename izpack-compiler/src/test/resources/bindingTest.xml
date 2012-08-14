@@ -1,136 +1,120 @@
-<!--
-    $Id$
-
-    IzPack installer XML file
-
-    By Julien PONGE
-
-    In order to build an installer for IzPack, let's create a directory
-    named '_dist' in the IzPack root directory. Then copy the files from
-    'src/dist-files' into '_dist'. Copy your IzPack image, that is all
-    the files present at the IzPack root directory. To make it clear,
-    you'll get bin/, lib/, ... and text files like Versions.txt and so
-    on. Now you can invoke the IzPack compiler and it will generate the
-    installer.
-
-    Alternatively, you can use the IzPack Ant makefile and run 'ant dist'. It's
-    much simpler :-)
--->
-
 <!-- The installation -->
-<installation version="1.0">
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
 
     <!-- The info section -->
     <info>
         <appname>IzPack</appname>
         <appversion>4.3.3</appversion>
         <authors>
-            <author email="" name="Julien Ponge (project founder)" />
-            <author email="" name="The fantastic IzPack developers and contributors" />
+            <author email="" name="Julien Ponge (project founder)"/>
+            <author email="" name="The fantastic IzPack developers and contributors"/>
         </authors>
         <url>http://izpack.org/</url>
         <javaversion>1.5</javaversion>
         <requiresjdk>no</requiresjdk>
         <!--><pack200/>-->
-        <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7" />
+        <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7"/>
         <summarylogfilepath>$INSTALL_PATH/installinfo/Summary.htm</summarylogfilepath>
     </info>
+
+    <variables>
+        <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
+        <variable name="ApplicationShortcutPath" value="ApplicationShortcuts"/>
+    </variables>
 
     <!-- Flexible and in the screen proportions -->
     <guiprefs height="700" resizable="yes" width="870">
         <!-- GUI addaption for more informations see "Modifying the GUI" in the documentation -->
-        <modifier key="layoutAnchor" value="CENTER" />
-        <modifier key="headingPanelCounter" value="progressbar" />
-        <modifier key="headingPanelCounterPos" value="inNavigationPanel" />
-        <modifier key="allYGap" value="4" />
-        <modifier key="paragraphYGap" value="10" />
-        <modifier key="filler1YGap" value="5" />
-        <modifier key="filler3XGap" value="10" />
+        <modifier key="layoutAnchor" value="CENTER"/>
+        <modifier key="headingPanelCounter" value="progressbar"/>
+        <modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
+        <modifier key="allYGap" value="4"/>
+        <modifier key="paragraphYGap" value="10"/>
+        <modifier key="filler1YGap" value="5"/>
+        <modifier key="filler3XGap" value="10"/>
     </guiprefs>
-
-    <variables>
-        <variable name="DesktopShortcutCheckboxEnabled" value="true" />
-        <variable name="ApplicationShortcutPath" value="ApplicationShortcuts" />
-    </variables>
 
     <!-- We include every langpack -->
     <locale>
-        <langpack iso3="eng" />
-        <langpack iso3="fra" />
-        <langpack iso3="deu" />
-        <langpack iso3="ita" />
-        <langpack iso3="jpn" />
-        <langpack iso3="spa" />
-        <langpack iso3="dan" />
-        <langpack iso3="ell" />
-        <langpack iso3="cat" />
-        <langpack iso3="ned" />
-        <langpack iso3="fin" />
-        <langpack iso3="swe" />
-        <langpack iso3="por" />
-        <langpack iso3="pol" />
-        <langpack iso3="rus" />
-        <langpack iso3="ukr" />
-        <langpack iso3="hun" />
-        <langpack iso3="svk" />
-        <langpack iso3="rom" />
-        <langpack iso3="mys" />
-        <langpack iso3="nor" />
-        <langpack iso3="chn" />
-        <langpack iso3="scg" />
-        <langpack iso3="cze" />
-        <langpack iso3="kor" />
-        <langpack iso3="glg" />
+        <langpack iso3="eng"/>
+        <langpack iso3="fra"/>
+        <langpack iso3="deu"/>
+        <langpack iso3="ita"/>
+        <langpack iso3="jpn"/>
+        <langpack iso3="spa"/>
+        <langpack iso3="dan"/>
+        <langpack iso3="ell"/>
+        <langpack iso3="cat"/>
+        <langpack iso3="ned"/>
+        <langpack iso3="fin"/>
+        <langpack iso3="swe"/>
+        <langpack iso3="por"/>
+        <langpack iso3="pol"/>
+        <langpack iso3="rus"/>
+        <langpack iso3="ukr"/>
+        <langpack iso3="hun"/>
+        <langpack iso3="svk"/>
+        <langpack iso3="rom"/>
+        <langpack iso3="mys"/>
+        <langpack iso3="nor"/>
+        <langpack iso3="chn"/>
+        <langpack iso3="scg"/>
+        <langpack iso3="cze"/>
+        <langpack iso3="kor"/>
+        <langpack iso3="glg"/>
     </locale>
 
     <!-- The resources needed by the various panels -->
     <resources>
-        <res src="install-readme.html" id="HTMLInfoPanel.info" />
-        <res src="license.html" id="HTMLLicencePanel.licence" />
-        <res src="splash-3.10.png" id="installer.langsel.img" />
-        <res src="shortcutSpec.xml" id="shortcutSpec.xml" />
-        <res src="Unix_shortcutSpec.xml" id="Unix_shortcutSpec.xml" />
-        <res src="info-border.png" id="Installer.image.0" />
-        <res src="info-border.png" id="Installer.image.1" />
-        <res src="info-border.png" id="Installer.image.2" />
-        <res src="pack-border.png" id="Installer.image.3" />
-        <res src="pack-border.png" id="Installer.image.4" />
-        <res src="installing-border.png" id="Installer.image.5" />
-        <res src="installing-border.png" id="Installer.image.6" />
-        <res src="installing-border.png" id="Installer.image.7" />
-        <res src="finished-border.png" id="Installer.image.8" />
-        <res src="RegistrySpec.xml" id="RegistrySpec.xml" />
+        <res src="install-readme.html" id="HTMLInfoPanel.info"/>
+        <res src="license.html" id="HTMLLicencePanel.licence"/>
+        <res src="splash-3.10.png" id="installer.langsel.img"/>
+        <res src="shortcutSpec.xml" id="shortcutSpec.xml"/>
+        <res src="Unix_shortcutSpec.xml" id="Unix_shortcutSpec.xml"/>
+        <res src="info-border.png" id="Installer.image.0"/>
+        <res src="info-border.png" id="Installer.image.1"/>
+        <res src="info-border.png" id="Installer.image.2"/>
+        <res src="pack-border.png" id="Installer.image.3"/>
+        <res src="pack-border.png" id="Installer.image.4"/>
+        <res src="installing-border.png" id="Installer.image.5"/>
+        <res src="installing-border.png" id="Installer.image.6"/>
+        <res src="installing-border.png" id="Installer.image.7"/>
+        <res src="finished-border.png" id="Installer.image.8"/>
+        <res src="RegistrySpec.xml" id="RegistrySpec.xml"/>
     </resources>
-
-    <!-- The panels in a classic order -->
-    <panels>
-        <panel classname="CheckedHelloPanel" id="hellopanel" condition="test.cond" />
-        <panel classname="HTMLInfoPanel" id="infopanel" encoding="ISO-8859-1">
-            <os arch="x666" family="BSD" />
-        </panel>
-        <panel classname="HTMLLicencePanel" id="licensepanel">
-            <help iso3="deu" src="HelloPanelHelp_deu.html" />
-        </panel>
-        <panel classname="TargetPanel" id="targetpanel">
-            <validator classname="JdbcConnectionValidator" />
-            <actions>
-                <action stage="preconstruct" classname="ConnectionPreConstructAction" />
-                <action stage="preactivate" classname="ConnectionPreActivateAction" />
-            </actions>
-        </panel>
-    </panels>
 
     <!-- The listeners section for CustomActions -->
     <listeners>
-        <listener classname="SummaryLoggerInstallerListener" stage="install" />
+        <listener classname="SummaryLoggerInstallerListener" stage="install"/>
         <listener classname="RegistryInstallerListener" stage="install">
-            <os family="windows" />
-            <os arch="ppc" />
+            <os family="windows"/>
+            <os arch="ppc"/>
         </listener>
         <listener classname="RegistryUninstallerListener" stage="uninstall">
-            <os family="windows" />
+            <os family="windows"/>
         </listener>
     </listeners>
+
+    <!-- The panels in a classic order -->
+    <panels>
+        <panel classname="CheckedHelloPanel" id="hellopanel" condition="test.cond"/>
+        <panel classname="HTMLInfoPanel" id="infopanel" encoding="ISO-8859-1">
+            <os arch="x666" family="BSD"/>
+        </panel>
+        <panel classname="HTMLLicencePanel" id="licensepanel">
+            <help iso3="deu" src="HelloPanelHelp_deu.html"/>
+        </panel>
+        <panel classname="TargetPanel" id="targetpanel">
+            <validator classname="JdbcConnectionValidator"/>
+            <actions>
+                <action stage="preconstruct" classname="ConnectionPreConstructAction"/>
+                <action stage="preactivate" classname="ConnectionPreActivateAction"/>
+            </actions>
+        </panel>
+    </panels>
 
     <!-- The packs section -->
     <packs>
@@ -139,32 +123,32 @@
         <pack name="Core" required="yes">
             <description>The IzPack core files.</description>
             <fileset dir="" targetdir="$INSTALL_PATH">
-                <include name="*.txt" />
-                <include name="bin/**/*" />
-                <include name="lib/**/*" />
-                <include name="legal/**/*" />
+                <include name="*.txt"/>
+                <include name="bin/**/*"/>
+                <include name="lib/**/*"/>
+                <include name="legal/**/*"/>
             </fileset>
-            <executable targetfile="$INSTALL_PATH/bin/compile" stage="never" />
-            <executable targetfile="$INSTALL_PATH/bin/start.sh" stage="never" />
+            <executable targetfile="$INSTALL_PATH/bin/compile" stage="never"/>
+            <executable targetfile="$INSTALL_PATH/bin/start.sh" stage="never"/>
         </pack>
 
         <!-- The documentation -->
         <pack name="HTML Documentation" required="no">
             <description>The IzPack documentation (HTML version).</description>
             <fileset dir="" targetdir="$INSTALL_PATH">
-                <include name="doc/izpack/html/**/*" />
+                <include name="doc/izpack/html/**/*"/>
             </fileset>
         </pack>
         <pack name="PDF Documentation" required="no">
             <description>The IzPack documentation (PDF version).</description>
             <fileset dir="" targetdir="$INSTALL_PATH">
-                <include name="doc/izpack/pdf/**/*" />
+                <include name="doc/izpack/pdf/**/*"/>
             </fileset>
         </pack>
         <pack name="Javadocs Documentation" required="no">
             <description>The IzPack Java documentation (Javadocs for IzPack developers).</description>
             <fileset dir="" targetdir="$INSTALL_PATH">
-                <include name="doc/izpack/javadoc/**/*" />
+                <include name="doc/izpack/javadoc/**/*"/>
             </fileset>
         </pack>
 
@@ -172,18 +156,18 @@
         <pack name="Utilities" required="no">
             <description>IzPack utilities (izpack2exe, izpack2app, izpack2jnlp)</description>
             <fileset dir="" targetdir="$INSTALL_PATH">
-                <include name="utils/**/*" />
+                <include name="utils/**/*"/>
             </fileset>
             <executable
                     targetfile="$INSTALL_PATH/utils/wrappers/izpack2app/Mac-App-Template/Contents/MacOS/JavaApplicationStub"
-                    stage="never" />
+                    stage="never"/>
         </pack>
 
         <!-- A trivial sample to get started -->
         <pack name="Sample" required="no">
             <description>A sample installation.</description>
             <fileset dir="" targetdir="$INSTALL_PATH">
-                <include name="sample/**/*" />
+                <include name="sample/**/*"/>
             </fileset>
         </pack>
 
@@ -191,8 +175,8 @@
         <pack name="Sources" required="no">
             <description>The full IzPack source code.</description>
             <fileset dir="" targetdir="$INSTALL_PATH">
-                <include name="src/**/*" />
-                <exclude name="src/*.manifest" />
+                <include name="src/**/*"/>
+                <exclude name="src/*.manifest"/>
             </fileset>
         </pack>
 
@@ -200,13 +184,13 @@
 
     <!-- The native libraries to add -->
     <natives>
-        <native type="izpack" name="ShellLink.dll" />
-        <native type="izpack" name="ShellLink_x64.dll" />
-        <native type="izpack" name="WinSetupAPI.dll" />
-        <native type="izpack" name="WinSetupAPI_x64.dll" />
+        <native type="izpack" name="ShellLink.dll"/>
+        <native type="izpack" name="ShellLink_x64.dll"/>
+        <native type="izpack" name="WinSetupAPI.dll"/>
+        <native type="izpack" name="WinSetupAPI_x64.dll"/>
         <native type="3rdparty" name="COIOSHelper.dll" stage="both">
-            <os family="windows" />
+            <os family="windows"/>
         </native>
     </natives>
 
-</installation>
+</izpack:installation>

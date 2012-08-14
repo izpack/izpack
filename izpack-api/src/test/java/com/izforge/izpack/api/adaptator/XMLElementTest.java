@@ -24,6 +24,7 @@ package com.izforge.izpack.api.adaptator;
 
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,9 +53,9 @@ public class XMLElementTest
     }
 
     @Test
-    public void testGetName() throws NoSuchMethodException
+    public void testGetName()
     {
-        Assert.assertEquals(root.getName(), "installation");
+        Assert.assertEquals("izpack:installation", root.getName());
         Assert.assertEquals(root.getChildAtIndex(0).getName(), "info");
     }
 
@@ -101,7 +102,7 @@ public class XMLElementTest
     public void testGetChildAtIndex()
     {
         IXMLElement element = root.getChildAtIndex(1);
-        Assert.assertEquals(element.getName(), "guiprefs");
+        Assert.assertEquals("variables", element.getName());
     }
 
     @Test
@@ -114,8 +115,8 @@ public class XMLElementTest
     @Test
     public void testGetChildrenNamed()
     {
-        IXMLElement element = root.getChildAtIndex(1);
+        IXMLElement element = root.getChildAtIndex(2);
         List<IXMLElement> list = element.getChildrenNamed("modifier");
-        Assert.assertEquals(list.size(), 7);
+        Assert.assertEquals(7, list.size());
     }
 }

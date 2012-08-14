@@ -506,14 +506,14 @@ public class CompileWorker implements Runnable
                 }
 
             }
-            else if ("packdepency".equals(child.getName()))
+            else if ("packdependency".equals(child.getName()))
             {
                 String name = child.getAttribute("name");
 
                 if (name == null)
                 {
                     System.out
-                            .println("invalid compilation spec: <packdepency> without name attribute");
+                            .println("invalid compilation spec: <packdependency> without name attribute");
                     return null;
                 }
 

@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
-<!--
-    A sample installation file.
-    Use it as a base for your own installers :-)
-
-    To compile it :
-    - go in the bin directory where you installed IzPack
-    - call "compile ../sample/install.xml -b ../sample"
--->
-
-<installation version="1.0">
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
 
     <!--
         The info section.
@@ -19,33 +13,33 @@
         <appname>Test Installation</appname>
         <appversion>1.4 beta 666</appversion>
         <authors>
-            <author name="JPz" email="jpz@superman.org" />
-            <author name="Hidden Man" email="hidden@hisdomain.com" />
+            <author name="JPz" email="jpz@superman.org"/>
+            <author name="Hidden Man" email="hidden@hisdomain.com"/>
         </authors>
         <url>http://www.anotherworld-inspace-website.net/</url>
         <uninstaller write="no"/>
     </info>
 
     <variables>
-        <variable name="scriptFile" value="script.bat" />
+        <variable name="scriptFile" value="script.bat"/>
     </variables>
     <dynamicvariables>
-        <variable name="myPath" value="$INSTALL_PATH/test" />
+        <variable name="myPath" value="$INSTALL_PATH/test"/>
     </dynamicvariables>
 
     <!--
         The gui preferences indication.
         Sets the installer window to 640x480. It will not be able to change the size.
     -->
-    <guiprefs width="640" height="480" resizable="yes" />
+    <guiprefs width="640" height="480" resizable="yes"/>
 
     <!--
         The locale section.
         Asks here to include the English and French langpacks.
     -->
     <locale>
-        <langpack iso3="eng" />
-        <langpack iso3="fra" />
+        <langpack iso3="eng"/>
+        <langpack iso3="fra"/>
     </locale>
 
     <!--
@@ -53,8 +47,8 @@
         The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
     -->
     <resources>
-        <res id="LicencePanel.licence" src="Licence.txt" />
-        <res id="InfoPanel.info" src="Readme.txt" />
+        <res id="LicencePanel.licence" src="Licence.txt"/>
+        <res id="InfoPanel.info" src="Readme.txt"/>
     </resources>
 
     <!--
@@ -62,12 +56,12 @@
         We indicate here which panels we want to use. The order will be respected.
     -->
     <panels>
-        <panel classname="HelloPanel" />
-        <panel classname="InfoPanel" />
-        <panel classname="LicencePanel" />
-        <panel classname="TargetPanel" />
-        <panel classname="InstallPanel" />
-        <panel classname="FinishPanel" />
+        <panel classname="HelloPanel"/>
+        <panel classname="InfoPanel"/>
+        <panel classname="LicencePanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="FinishPanel"/>
     </panels>
 
     <!--
@@ -77,9 +71,9 @@
     <packs>
         <pack name="Base" required="yes">
             <description>The base files</description>
-            <file src="Readme.txt" targetdir="$INSTALL_PATH" />
-            <file src="Licence.txt" targetdir="$INSTALL_PATH" />
+            <file src="Readme.txt" targetdir="$INSTALL_PATH"/>
+            <file src="Licence.txt" targetdir="$INSTALL_PATH"/>
         </pack>
     </packs>
 
-</installation>
+</izpack:installation>
