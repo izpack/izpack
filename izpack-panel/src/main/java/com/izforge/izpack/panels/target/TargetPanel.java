@@ -65,8 +65,7 @@ public class TargetPanel extends PathInputPanel
         String path = TargetPanelHelper.getPath(installData);
         if (path != null)
         {
-            installData.setInstallPath(path);
-            pathSelectionPanel.setPath(installData.getInstallPath());
+            pathSelectionPanel.setPath(path);
         }
 
         super.panelActivate();
