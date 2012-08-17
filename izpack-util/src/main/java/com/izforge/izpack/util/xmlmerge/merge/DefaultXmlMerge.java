@@ -23,6 +23,7 @@
 package com.izforge.izpack.util.xmlmerge.merge;
 
 import java.io.*;
+import java.text.MessageFormat;
 
 import org.jdom.DocType;
 import org.jdom.Document;
@@ -263,13 +264,18 @@ public class DefaultXmlMerge implements XmlMerge
     private Document doMerge(Document[] docs) throws AbstractXmlMergeException
     {
         Document originalDoc = docs[0];
+        Element origRootElement = originalDoc.getRootElement();
 
         for (int i = 1; i < docs.length; i++)
         {
-
-            if (!m_rootMatcher.matches(originalDoc.getRootElement(), docs[i].getRootElement()))
+            Element comparedRootElement = docs[i].getRootElement();
+            if (!m_rootMatcher.matches(origRootElement, comparedRootElement))
             {
-                throw new IllegalArgumentException("Root elements do not match.");
+                throw new IllegalArgumentException(
+                        MessageFormat.format(
+                                "Root elements {0}, {1} do not match.",
+                                origRootElement, comparedRootElement)
+                        );
             }
 
             Document output = new Document();
@@ -278,11 +284,12 @@ public class DefaultXmlMerge implements XmlMerge
                 output.setDocType((DocType) originalDoc.getDocType().clone());
             }
             output.setRootElement(new Element("root"));
+            Element outputRootElement = output.getRootElement();
 
-            m_rootMergeAction.perform(originalDoc.getRootElement(), docs[i].getRootElement(),
-                    output.getRootElement());
+            m_rootMergeAction.perform(origRootElement, comparedRootElement,
+                    outputRootElement);
 
-            Element root = (Element) output.getRootElement().getChildren().get(0);
+            Element root = (Element) outputRootElement.getChildren().get(0);
             root.detach();
 
             originalDoc.setRootElement(root);

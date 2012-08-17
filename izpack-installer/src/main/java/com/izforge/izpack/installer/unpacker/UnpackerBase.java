@@ -36,6 +36,7 @@ import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -943,6 +944,8 @@ public abstract class UnpackerBase implements IUnpacker
     {
         if (checks != null && !checks.isEmpty())
         {
+            logger.info("Cleaning up the target folder ...");
+
             File absoluteInstallPath = new File(installData.getInstallPath()).getAbsoluteFile();
             FileSet fileset = new FileSet();
             List<File> filesToDelete = new ArrayList<File>();
@@ -1000,12 +1003,16 @@ public abstract class UnpackerBase implements IUnpacker
                 }
                 for (String srcDir : srcDirs)
                 {
-                    File newDir = new File(scanner.getBasedir(), srcDir);
-
-                    // skip directories we just installed
-                    if (!installedFiles.contains(newDir))
+                    // All directories except INSTALL_PATH
+                    if (!srcDir.isEmpty())
                     {
-                        dirsToDelete.add(newDir);
+                        File newDir = new File(scanner.getBasedir(), srcDir);
+
+                        // skip directories we just installed
+                        if (!installedFiles.contains(newDir))
+                        {
+                            dirsToDelete.add(newDir);
+                        }
                     }
                 }
             }
@@ -1022,15 +1029,43 @@ public abstract class UnpackerBase implements IUnpacker
             {
                 if (!f.delete())
                 {
-                    logger.warning("Failed to delete: " + f);
+                    logger.warning("Cleanup: Unable to delete file " + f);
+                }
+                else
+                {
+                    logger.fine("Cleanup: Deleted file " + f);
                 }
             }
+
+            // Sort directories, deepest path first to be able to
+            // delete recursively
+            Collections.sort(dirsToDelete);
+            Collections.reverse(dirsToDelete);
+
             for (File d : dirsToDelete)
             {
+                if (!d.exists())
+                {
+                    break;
+                }
+
+                // Don't try to delete non-empty directories, because they
+                // probably must have been implicitly created as parents
+                // of regular installation files
+                File[] files = d.listFiles();
+                if (files != null && files.length != 0)
+                {
+                    break;
+                }
+
                 // Only empty directories will be deleted
                 if (!d.delete())
                 {
-                    logger.warning("Failed to delete: " + d);
+                    logger.warning("Cleanup: Unable to delete directory " + d);
+                }
+                else
+                {
+                    logger.fine("Cleanup: Deleted directory " + d);
                 }
             }
         }
