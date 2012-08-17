@@ -106,4 +106,16 @@ public class PanelMergeTest
                 DuplicateMatcher.isEntryUnique("com/izforge/izpack/panels/hello/HelloPanelTestClass.class")
         ));
     }
+
+    /**
+     * Verifies that panel dependencies in a different package to that of the panel are merged.
+     */
+    @Test
+    public void testMergePanelWithDependenciesInAnotherPackage()
+    {
+        panelMerge = pathResolver.getPanelMerge("com.izforge.izpack.panels.treepacks.TreePacksPanel");
+        assertThat(panelMerge, MergeMatcher.isMergeableContainingFiles(
+                "com/izforge/izpack/panels/treepacks/TreePacksPanel.class",
+                "com/izforge/izpack/panels/packs/PacksPanelInterface.class"));
+    }
 }

@@ -23,12 +23,17 @@ package com.izforge.izpack.compiler.merge.resolve;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.compiler.merge.panel.PanelMerge;
+import com.izforge.izpack.installer.automation.PanelAutomationHelper;
+import com.izforge.izpack.installer.console.AbstractPanelConsole;
+import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
 
@@ -78,14 +83,14 @@ public class CompilerPathResolver extends PathResolver
     public PanelMerge getPanelMerge(String className)
     {
         Class type = classPathCrawler.findClass(className);
-        List<Mergeable> mergeable = getMergeablePackage(type.getPackage());
-        if (panelDependencies.containsKey(type.getSimpleName()))
+        Map<String, List<Mergeable>> mergeableByPackage = new HashMap<String, List<Mergeable>>();
+        List<Mergeable> mergeable = new ArrayList<Mergeable>();
+        getMergeableByPackage(type, mergeableByPackage);
+        for (List<Mergeable> pkg : mergeableByPackage.values())
         {
-            String dependPackage = (String) panelDependencies.get(type.getSimpleName());
-            mergeable.addAll(getMergeableFromPackageName(dependPackage));
+            mergeable.addAll(pkg);
         }
         return new PanelMerge(type, mergeable);
-
     }
 
     /**
@@ -125,4 +130,37 @@ public class CompilerPathResolver extends PathResolver
         return result;
     }
 
+    /**
+     * Locates the {@link Mergeable} instances for a panel and its dependencies.
+     *
+     * @param type      the panel class or interface
+     * @param mergeable the instances, keyed on package name
+     */
+    private void getMergeableByPackage(Class type, Map<String, List<Mergeable>> mergeable)
+    {
+        String pkg = type.getPackage().getName();
+        if (!mergeable.containsKey(pkg))
+        {
+            mergeable.put(pkg, getMergeablePackage(type.getPackage()));
+            if (panelDependencies.containsKey(type.getSimpleName()))
+            {
+                String dependPackage = (String) panelDependencies.get(type.getSimpleName());
+                if (!mergeable.containsKey(dependPackage))
+                {
+                    mergeable.put(dependPackage, getMergeableFromPackageName(dependPackage));
+                }
+            }
+            for (Class iface : type.getInterfaces())
+            {
+                getMergeableByPackage(iface, mergeable);
+            }
+            Class superClass = type.getSuperclass();
+            if (superClass != null && !superClass.equals(IzPanel.class)
+                    && !superClass.equals(AbstractPanelConsole.class)
+                    && !superClass.equals(PanelAutomationHelper.class) && !superClass.equals(Object.class))
+            {
+                getMergeableByPackage(superClass, mergeable);
+            }
+        }
+    }
 }

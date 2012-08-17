@@ -6,12 +6,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.timing.Timeout;
 import org.hamcrest.collection.IsCollectionContaining;
 import org.hamcrest.core.Is;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -19,7 +21,10 @@ import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.GuiId;
+import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.compiler.container.TestInstallationContainer;
+import com.izforge.izpack.core.os.RegistryDefaultHandler;
+import com.izforge.izpack.core.os.RegistryHandler;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
@@ -30,7 +35,10 @@ import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.OsVersion;
 
 /**
- * Test for an installation
+ * Test for an installation.
+ * <p/>
+ * NOTE: this test uses the IzPack install.xml, and will remove any registry entry associated with an existing IzPack
+ * installation.
  */
 @RunWith(PicoRunner.class)
 @Container(TestInstallationContainer.class)
@@ -47,14 +55,42 @@ public class IzpackInstallationTest
     private InstallerFrame installerFrame;
     private GUIInstallData installData;
     private InstallerController installerController;
+    private RegistryDefaultHandler handler;
 
     public IzpackInstallationTest(LanguageDialog languageDialog, InstallerFrame installerFrame,
-                                  GUIInstallData installData, InstallerController installerController)
+                                  GUIInstallData installData, InstallerController installerController,
+                                  RegistryDefaultHandler handler)
     {
         this.installerController = installerController;
         this.languageDialog = languageDialog;
         this.installData = installData;
         this.installerFrame = installerFrame;
+        this.handler = handler;
+    }
+
+    /**
+     * Sets up the test case.
+     *
+     * @throws NativeLibException for any native library error
+     */
+    @Before
+    public void setUp() throws NativeLibException
+    {
+        RegistryHandler registry = handler.getInstance();
+        if (registry != null)
+        {
+            // remove any existing uninstall key
+            String uninstallName = registry.getUninstallName();
+            if (!StringUtils.isEmpty(uninstallName))
+            {
+                registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
+                String key = RegistryHandler.UNINSTALL_ROOT + uninstallName;
+                if (registry.keyExist(key))
+                {
+                    registry.deleteKey(key);
+                }
+            }
+        }
     }
 
     @After
@@ -127,10 +163,18 @@ public class IzpackInstallationTest
             installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
         }
 
-        checkIzpackInstallation(installPath);
+        Thread.sleep(1000);
 
         // Finish
         installerFrameFixture.button(GuiId.BUTTON_QUIT.id).click();
+
+        Thread.sleep(1000);
+
+        checkIzpackInstallation(installPath);
+
+        // run the uninstaller
+        File uninstaller = UninstallHelper.getUninstallerJar(installData);
+        UninstallHelper.guiUninstall(uninstaller);
     }
 
     private void checkIzpackInstallation(File installPath)
