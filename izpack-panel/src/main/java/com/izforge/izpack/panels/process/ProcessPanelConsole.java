@@ -1,6 +1,5 @@
 package com.izforge.izpack.panels.process;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
 
@@ -128,24 +127,9 @@ public class ProcessPanelConsole extends AbstractPanelConsole implements PanelCo
 
     public boolean runConsole(InstallData installData, Console console)
     {
-
-        try
-        {
-            ProcessPanelWorker worker = new ProcessPanelWorker(installData, rules, resources, matcher);
-            worker.setHandler(this);
-
-            worker.run();
-
-            if (!worker.getResult())
-            {
-                return false;
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            throw new RuntimeException("The work done by the ProcessPanel failed", e);
-        }
-        return true;
+        ProcessPanelWorker worker = new ProcessPanelWorker(installData, rules, resources, matcher);
+        worker.setHandler(this);
+        worker.run();
+        return worker.getResult();
     }
 }

@@ -30,7 +30,6 @@ import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.PlatformModelMatcher;
@@ -48,29 +47,26 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  */
 public class ProcessPanelWorker implements Runnable
 {
-    private static final Logger logger = Logger.getLogger(ProcessPanelWorker.class.getName());
 
     /**
      * Name of resource for specifying processing parameters.
      */
     private static final String SPEC_RESOURCE_NAME = "ProcessPanel.Spec.xml";
 
-    private VariableSubstitutor vs;
-
-    protected AbstractUIProcessHandler handler;
+    private AbstractUIProcessHandler handler;
 
     private ArrayList<ProcessPanelWorker.ProcessingJob> jobs = new ArrayList<ProcessPanelWorker.ProcessingJob>();
 
     private boolean result = true;
 
-    private static PrintWriter logfile = null;
+    private PrintWriter logfile = null;
 
     private String logfiledir = null;
 
-    protected InstallData idata;
+    private final InstallData idata;
 
-    private Map<Boolean, List<ButtonConfig>> buttonConfigs = new HashMap<Boolean, List<ButtonConfig>>();
-    private RulesEngine rules;
+    private final Map<Boolean, List<ButtonConfig>> buttonConfigs = new HashMap<Boolean, List<ButtonConfig>>();
+    private final RulesEngine rules;
 
     /**
      * The resources.
@@ -82,6 +78,11 @@ public class ProcessPanelWorker implements Runnable
      */
     private final PlatformModelMatcher matcher;
 
+    /**
+     * The logger.
+     */
+    private static final Logger logger = Logger.getLogger(ProcessPanelWorker.class.getName());
+
 
     /**
      * Constructs a <tt>ProcessPanelWorker</tt>.
@@ -90,18 +91,12 @@ public class ProcessPanelWorker implements Runnable
      * @param rules       the rules engine
      * @param resources   the resources
      * @param matcher     the platform-model matcher
-     * @throws IOException for any I/O error
      */
     public ProcessPanelWorker(InstallData installData, RulesEngine rules, Resources resources,
                               PlatformModelMatcher matcher)
-            throws IOException
     {
         this.idata = installData;
         this.rules = rules;
-        // Removed this test in order to move out of the CTOR (ExecuteForPack
-        // Patch)
-        // if (!readSpec())
-        // throw new IOException("Error reading processing specification");
         this.resources = resources;
         this.matcher = matcher;
     }
@@ -120,7 +115,7 @@ public class ProcessPanelWorker implements Runnable
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to read " + SPEC_RESOURCE_NAME, e);
             return false;
         }
 
@@ -132,8 +127,7 @@ public class ProcessPanelWorker implements Runnable
         }
         catch (Exception e)
         {
-            System.err.println("Error parsing XML specification for processing.");
-            System.err.println(e.toString());
+            logger.log(Level.SEVERE, "Failed to parse " + SPEC_RESOURCE_NAME, e);
             return false;
         }
 
@@ -439,7 +433,7 @@ public class ProcessPanelWorker implements Runnable
 
     }
 
-    private static class ExecutableFile implements ProcessPanelWorker.Processable
+    private class ExecutableFile implements ProcessPanelWorker.Processable
     {
 
         private String filename;
@@ -585,7 +579,7 @@ public class ProcessPanelWorker implements Runnable
             }
         }
 
-        static public class OutputMonitor implements Runnable
+        public class OutputMonitor implements Runnable
         {
 
             private boolean stderr = false;

@@ -24,7 +24,6 @@ package com.izforge.izpack.panels.process;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -107,7 +106,7 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
      * @param matcher     the platform-model matcher
      */
     public ProcessPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                        RulesEngine rules, PlatformModelMatcher matcher) throws IOException
+                        RulesEngine rules, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, resources);
 

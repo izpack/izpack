@@ -35,13 +35,13 @@ public class InstallDataMockProvider extends AbstractInstallDataMockProvider
 {
 
     /**
-     * Provides an {@link InstallData}.
+     * Provides an {@link AutomatedInstallData}.
      *
      * @param variables the variables
-     * @return an {@link InstallData}
+     * @return an {@link AutomatedInstallData}
      * @throws IOException if the default messages cannot be found
      */
-    public InstallData provide(Variables variables) throws IOException
+    public AutomatedInstallData provide(Variables variables) throws IOException
     {
         AutomatedInstallData result = createInstallData(variables);
         populate(result);

@@ -42,6 +42,7 @@ import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
 
 /**
@@ -87,6 +88,7 @@ public abstract class AbstractTestPanelContainer extends AbstractContainer
         addComponent(Housekeeper.class, Mockito.mock(Housekeeper.class));
         addComponent(Platforms.class);
         addComponent(Container.class, this);
+        addComponent(PlatformModelMatcher.class);
 
         container.addAdapter(new ProviderAdapter(new RulesProvider()));
         container.addAdapter(new ProviderAdapter(new PlatformProvider()));

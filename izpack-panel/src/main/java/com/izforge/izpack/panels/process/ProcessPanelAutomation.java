@@ -24,18 +24,20 @@ package com.izforge.izpack.panels.process;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.InstallerException;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
- * Functions to support automated usage of the CompilePanel
+ * Functions to support automated usage of the ProcessPanel.
  *
  * @author Jonathan Halliday
  * @author Tino Schwarze
  */
-public class ProcessPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation,
-        AbstractUIProcessHandler
+public class ProcessPanelAutomation extends PanelAutomationHelper implements PanelAutomation, AbstractUIProcessHandler
 {
 
     private int noOfJobs = 0;
@@ -46,13 +48,17 @@ public class ProcessPanelAutomationHelper extends PanelAutomationHelper implemen
     /**
      * Constructs a <tt>ProcessPanelAutomationHelper</tt>.
      *
-     * @param processPanelWorker the process panel worker
-     * @param housekeeper        the house-keeper
+     * @param installData the installation data
+     * @param resources   the resources
+     * @param rules       the rules
+     * @param matcher     the platform-model matcher
+     * @param housekeeper the house-keeper
      */
-    public ProcessPanelAutomationHelper(ProcessPanelWorker processPanelWorker, Housekeeper housekeeper)
+    public ProcessPanelAutomation(InstallData installData, RulesEngine rules, Resources resources,
+                                  PlatformModelMatcher matcher, Housekeeper housekeeper)
     {
         super(housekeeper);
-        this.processPanelWorker = processPanelWorker;
+        processPanelWorker = new ProcessPanelWorker(installData, rules, resources, matcher);
         processPanelWorker.setHandler(this);
     }
 
@@ -120,9 +126,8 @@ public class ProcessPanelAutomationHelper extends PanelAutomationHelper implemen
      */
     public void startProcess(String name)
     {
-        this.currentJob++;
-        System.out.println("Starting process " + name + " (" + Integer.toString(this.currentJob)
-                                   + "/" + Integer.toString(this.noOfJobs) + ")");
+        currentJob++;
+        System.out.println("Starting process " + name + " (" + currentJob + "/" + noOfJobs + ")");
     }
 
     public void finishProcess()
