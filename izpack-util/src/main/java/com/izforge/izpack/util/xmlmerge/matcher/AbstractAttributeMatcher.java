@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,8 @@ package com.izforge.izpack.util.xmlmerge.matcher;
 
 import java.util.List;
 
-import org.jdom.*;
+import org.jdom.Attribute;
+import org.jdom.Element;
 
 /**
  * Elements match if their name and a certain attribute value are the same.
@@ -35,6 +36,7 @@ public abstract class AbstractAttributeMatcher extends AbstractTagMatcher
     protected abstract boolean ignoreCaseAttributeValue();
     protected abstract String getAttributeName();
 
+    @Override
     public boolean matches(Element originalElement, Element patchElement)
     {
         if (super.matches(originalElement, patchElement))

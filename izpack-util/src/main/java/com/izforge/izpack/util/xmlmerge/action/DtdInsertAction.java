@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,9 +64,6 @@ public class DtdInsertAction implements Action
      */
     static Map<String, DTD> s_dtdMap = new Hashtable<String, DTD>();
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void perform(Element originalElement, Element patchElement, Element outputParentElement)
             throws AbstractXmlMergeException
@@ -220,7 +217,7 @@ public class DtdInsertAction implements Action
     }
 
     /**
-     * Retieves a list containing the DTD elements of a given DTD container.
+     * Retrieves a list containing the DTD elements of a given DTD container.
      *
      * @param container A DTD container.
      * @return A list containing the DTD elements of a given DTD container

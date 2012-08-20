@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,8 @@ package com.izforge.izpack.util.xmlmerge.factory;
 
 import java.lang.reflect.Field;
 
-import com.izforge.izpack.util.xmlmerge.*;
+import com.izforge.izpack.util.xmlmerge.ConfigurationException;
+import com.izforge.izpack.util.xmlmerge.Operation;
 
 /**
  * Creates an operation instance given a short name (alias) or a class name.

@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,8 @@ package com.izforge.izpack.util.xmlmerge.factory;
 
 import org.jdom.Element;
 
-import com.izforge.izpack.util.xmlmerge.*;
+import com.izforge.izpack.util.xmlmerge.Operation;
+import com.izforge.izpack.util.xmlmerge.OperationFactory;
 
 /**
  * An operation factory returning always the same operation whatever the specified elements.
@@ -50,9 +51,7 @@ public class StaticOperationFactory implements OperationFactory
         this.m_operation = operation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Operation getOperation(Element originalElement, Element modifiedElement)
     {
         return m_operation;

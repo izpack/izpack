@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,12 @@
 
 package com.izforge.izpack.util.xmlmerge.merge;
 
-import java.io.*;
-import java.text.MessageFormat;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.jdom.DocType;
 import org.jdom.Document;
@@ -42,10 +46,10 @@ import com.izforge.izpack.util.xmlmerge.Matcher;
 import com.izforge.izpack.util.xmlmerge.MergeAction;
 import com.izforge.izpack.util.xmlmerge.ParseException;
 import com.izforge.izpack.util.xmlmerge.XmlMerge;
-import com.izforge.izpack.util.xmlmerge.action.*;
+import com.izforge.izpack.util.xmlmerge.action.FullMergeAction;
 import com.izforge.izpack.util.xmlmerge.factory.StaticOperationFactory;
 import com.izforge.izpack.util.xmlmerge.mapper.IdentityMapper;
-import com.izforge.izpack.util.xmlmerge.matcher.*;
+import com.izforge.izpack.util.xmlmerge.matcher.AttributeMatcher;
 
 /**
  * Default implementation of XmlMerge. Create all JDOM documents, then perform the merge into a new
@@ -63,38 +67,35 @@ public class DefaultXmlMerge implements XmlMerge
     private MergeAction m_rootMergeAction = new FullMergeAction();
 
     /**
-     * Root matcher.
-     */
-    private Matcher m_rootMatcher = new AttributeMatcher();
-
-    /**
      * Creates a new DefaultXmlMerge instance.
      */
     public DefaultXmlMerge()
     {
-        m_rootMergeAction.setActionFactory(new StaticOperationFactory(new FullMergeAction()));
-        m_rootMergeAction.setMapperFactory(new StaticOperationFactory(new IdentityMapper()));
-        m_rootMergeAction.setMatcherFactory(new StaticOperationFactory(new AttributeMatcher()));
+        setRootMergeAction(new FullMergeAction());
+        setRootMatcher(new AttributeMatcher());
+        setRootMapper(new IdentityMapper());
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void setRootMapper(Mapper rootMapper)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void setRootMergeAction(MergeAction rootMergeAction)
     {
-        this.m_rootMergeAction = rootMergeAction;
+
+        this.m_rootMergeAction.setActionFactory(new StaticOperationFactory(rootMergeAction));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    public void setRootMatcher(Matcher matcher)
+    {
+        m_rootMergeAction.setMatcherFactory(new StaticOperationFactory(matcher));
+    }
+
+    @Override
+    public void setRootMapper(Mapper mapper)
+    {
+        m_rootMergeAction.setMapperFactory(new StaticOperationFactory(mapper));
+    }
+
+
+    @Override
     public String merge(String[] sources) throws AbstractXmlMergeException
     {
 
@@ -127,9 +128,7 @@ public class DefaultXmlMerge implements XmlMerge
         return result.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public org.w3c.dom.Document merge(org.w3c.dom.Document[] sources)
             throws AbstractXmlMergeException
     {
@@ -158,9 +157,7 @@ public class DefaultXmlMerge implements XmlMerge
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public InputStream merge(InputStream[] sources) throws AbstractXmlMergeException
     {
         SAXBuilder sxb = new SAXBuilder();
@@ -208,9 +205,7 @@ public class DefaultXmlMerge implements XmlMerge
         return new ByteArrayInputStream(buffer.toByteArray());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void merge(File[] sources, File target) throws AbstractXmlMergeException
     {
         SAXBuilder sxb = new SAXBuilder();
@@ -269,14 +264,6 @@ public class DefaultXmlMerge implements XmlMerge
         for (int i = 1; i < docs.length; i++)
         {
             Element comparedRootElement = docs[i].getRootElement();
-            if (!m_rootMatcher.matches(origRootElement, comparedRootElement))
-            {
-                throw new IllegalArgumentException(
-                        MessageFormat.format(
-                                "Root elements {0}, {1} do not match.",
-                                origRootElement, comparedRootElement)
-                        );
-            }
 
             Document output = new Document();
             if (originalDoc.getDocType() != null)

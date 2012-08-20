@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,11 @@
 
 package com.izforge.izpack.util.xmlmerge.action;
 
-import com.izforge.izpack.util.xmlmerge.*;
+import com.izforge.izpack.util.xmlmerge.MergeAction;
+import com.izforge.izpack.util.xmlmerge.OperationFactory;
 import com.izforge.izpack.util.xmlmerge.factory.StaticOperationFactory;
 import com.izforge.izpack.util.xmlmerge.mapper.IdentityMapper;
-import com.izforge.izpack.util.xmlmerge.matcher.*;
+import com.izforge.izpack.util.xmlmerge.matcher.AttributeMatcher;
 
 /**
  * Gathers the operation factory-related behaviour and a default configuration.
@@ -51,26 +52,20 @@ public abstract class AbstractMergeAction implements MergeAction
      */
     protected OperationFactory m_matcherFactory = new StaticOperationFactory(new AttributeMatcher());
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void setMapperFactory(OperationFactory factory)
     {
         m_mapperFactory = factory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void setMatcherFactory(OperationFactory factory)
     {
         m_matcherFactory = factory;
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void setActionFactory(OperationFactory factory)
     {
         m_actionFactory = factory;

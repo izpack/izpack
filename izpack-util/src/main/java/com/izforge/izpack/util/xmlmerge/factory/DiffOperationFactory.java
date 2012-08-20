@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,9 @@ package com.izforge.izpack.util.xmlmerge.factory;
 
 import org.jdom.Element;
 
-import com.izforge.izpack.util.xmlmerge.*;
+import com.izforge.izpack.util.xmlmerge.AbstractXmlMergeException;
+import com.izforge.izpack.util.xmlmerge.Operation;
+import com.izforge.izpack.util.xmlmerge.OperationFactory;
 
 /**
  * An operation factory delegating to other operation factories according to the existence of the
@@ -85,9 +87,7 @@ public class DiffOperationFactory implements OperationFactory
         this.m_onlyInPatchOperationFactory = onlyInPatchOperationFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Operation getOperation(Element originalElement, Element patchElement)
             throws AbstractXmlMergeException
     {

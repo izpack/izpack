@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,9 +75,7 @@ public class AttributeOperationFactory implements OperationFactory
         this.m_namespace = Namespace.getNamespace(namespace);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Operation getOperation(Element originalElement, Element modifiedElement)
             throws AbstractXmlMergeException
     {

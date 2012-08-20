@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,8 @@
 
 package com.izforge.izpack.util.xmlmerge;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
 
 import org.w3c.dom.Document;
 

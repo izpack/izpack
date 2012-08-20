@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,22 @@ package com.izforge.izpack.util.xmlmerge.config;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.izforge.izpack.util.xmlmerge.*;
-import com.izforge.izpack.util.xmlmerge.action.*;
-import com.izforge.izpack.util.xmlmerge.factory.*;
-import com.izforge.izpack.util.xmlmerge.mapper.*;
-import com.izforge.izpack.util.xmlmerge.matcher.*;
+import com.izforge.izpack.util.xmlmerge.Action;
+import com.izforge.izpack.util.xmlmerge.ConfigurationException;
+import com.izforge.izpack.util.xmlmerge.Configurer;
+import com.izforge.izpack.util.xmlmerge.Mapper;
+import com.izforge.izpack.util.xmlmerge.Matcher;
+import com.izforge.izpack.util.xmlmerge.MergeAction;
+import com.izforge.izpack.util.xmlmerge.Operation;
+import com.izforge.izpack.util.xmlmerge.XmlMerge;
+import com.izforge.izpack.util.xmlmerge.action.FullMergeAction;
+import com.izforge.izpack.util.xmlmerge.action.StandardActions;
+import com.izforge.izpack.util.xmlmerge.factory.OperationResolver;
+import com.izforge.izpack.util.xmlmerge.factory.XPathOperationFactory;
+import com.izforge.izpack.util.xmlmerge.mapper.IdentityMapper;
+import com.izforge.izpack.util.xmlmerge.mapper.StandardMappers;
+import com.izforge.izpack.util.xmlmerge.matcher.AttributeMatcher;
+import com.izforge.izpack.util.xmlmerge.matcher.StandardMatchers;
 
 /**
  * Superclass for configurers using XPathOperationFactory.
@@ -170,9 +181,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
         m_mappers.put(xPath, m_mapperResolver.resolve(mapperName));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public final void configure(XmlMerge xmlMerge) throws ConfigurationException
     {
         readConfiguration();

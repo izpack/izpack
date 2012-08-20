@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,15 +51,12 @@ public class OrderedMergeAction extends AbstractMergeAction
 {
     private static final Logger logger = Logger.getLogger(OrderedMergeAction.class.getName());
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void perform(Element originalElement, Element patchElement, Element outputParentElement)
             throws AbstractXmlMergeException
     {
 
-        logger.fine("Merging: " + originalElement + "(List 1) and " + patchElement + "(List 2)");
+        logger.fine("Merging: " + originalElement + " (original) and " + patchElement + "(patch)");
 
         Mapper mapper = (Mapper) m_mapperFactory.getOperation(originalElement, patchElement);
 

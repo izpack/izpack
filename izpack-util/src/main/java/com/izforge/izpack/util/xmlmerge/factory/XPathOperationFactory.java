@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,14 +23,16 @@
 package com.izforge.izpack.util.xmlmerge.factory;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.jaxen.JaxenException;
 import org.jaxen.jdom.JDOMXPath;
 import org.jdom.Element;
 
-import com.izforge.izpack.util.xmlmerge.*;
+import com.izforge.izpack.util.xmlmerge.AbstractXmlMergeException;
+import com.izforge.izpack.util.xmlmerge.MatchException;
+import com.izforge.izpack.util.xmlmerge.Operation;
+import com.izforge.izpack.util.xmlmerge.OperationFactory;
 
 /**
  * An operation factory that resolves operations given a map { xpath (as String), Operation }. The
@@ -72,9 +74,7 @@ public class XPathOperationFactory implements OperationFactory
         this.m_defaultOperation = operation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Operation getOperation(Element originalElement, Element patchElement)
             throws AbstractXmlMergeException
     {

@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,12 @@
 
 package com.izforge.izpack.util.xmlmerge.action;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-import org.jdom.*;
+import org.jdom.Content;
+import org.jdom.Element;
 
 import com.izforge.izpack.util.xmlmerge.Action;
 
@@ -38,9 +41,7 @@ import com.izforge.izpack.util.xmlmerge.Action;
 public class InsertAction implements Action
 {
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void perform(Element originalElement, Element patchElement, Element outputParentElement)
     {
 

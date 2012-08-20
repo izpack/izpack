@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2009 Laurent Bovet, Alex Mathey
- * Copyright 2010 Rene Krell
+ * Copyright 2010, 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,12 @@
 
 package com.izforge.izpack.util.xmlmerge.mapper;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
-import org.jdom.*;
+import org.jdom.Attribute;
+import org.jdom.Element;
+import org.jdom.Namespace;
 
 import com.izforge.izpack.util.xmlmerge.Mapper;
 
@@ -53,9 +56,7 @@ public class NamespaceFilterMapper implements Mapper
         this.m_namespace = Namespace.getNamespace(filteredNamespace);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Element map(Element patchElement)
     {
         if (patchElement == null) { return null; }
