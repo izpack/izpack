@@ -470,7 +470,8 @@ public class CompilerConfig extends Thread
                         mergeableList.addAll(pathResolver.getMergeableFromPackageName("nanoxml"));
                         break;
                     case NIMBUS:
-                        mergeableList = pathResolver.getMergeableFromPackageName("com/sun/java/swing/plaf/nimbus");
+                        // Nimbus was included in JDK 6u10, and in JDK7 changed packages.
+                        // mergeableList = pathResolver.getMergeableFromPackageName("com/sun/java/swing/plaf/nimbus");
                         break;
                     default:
                         assertionHelper.parseError(guiPrefsElement, "Unrecognized Look and Feel: " + lafName);

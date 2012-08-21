@@ -233,10 +233,19 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
             return;
         }
 
-        // Nimbus (http://nimbus.dev.java.net/)
+        // Nimbus
         if ("nimbus".equals(lookAndFeelName))
         {
-            UIManager.setLookAndFeel("org.jdesktop.swingx.plaf.nimbus.NimbusLookAndFeel");
+            // Nimbus was included in JDK 6u10 but the packaging changed in JDK 7. Iterate to locate it
+            // See http://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/nimbus.html for more details
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
             return;
         }
 
