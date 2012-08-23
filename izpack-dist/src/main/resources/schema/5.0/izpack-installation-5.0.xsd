@@ -32,6 +32,7 @@
     <xs:element name="installation">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="properties" type="propertiesType" minOccurs="0"/>
                 <xs:element name="info" type="infoType" minOccurs="1"/>
                 <xs:element name="variables" type="variablesType" minOccurs="0"/>
                 <xs:element name="dynamicvariables" type="dynamicVariablesType" minOccurs="0"/>
@@ -51,6 +52,16 @@
             <xs:attribute name="version" type="xs:string" fixed="5.0"/>
         </xs:complexType>
     </xs:element>
+
+
+    <!--                                                                                                        -->
+    <!-- Properties                                                                                             -->
+    <!--                                                                                                        -->
+    <xs:complexType name="propertiesType">
+        <xs:sequence>
+            <xs:element name="property" type="nameValueType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
 
 
     <!--                                                                                                        -->
@@ -182,7 +193,7 @@
             <xs:element name="laf" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element name="param" type="nameValueType" minOccurs="0" maxOccurs="unbounded"/>
                         <xs:element name="os" type="types:osType" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
                     <xs:attribute name="name" type="xs:string" use="required"/>
@@ -320,7 +331,7 @@
             <xs:element name="configuration" minOccurs="0">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element name="param" type="nameValueType" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -335,7 +346,7 @@
                         <xs:element name="action" minOccurs="0" maxOccurs="unbounded">
                             <xs:complexType>
                                 <xs:sequence>
-                                    <xs:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded"/>
+                                    <xs:element name="param" type="nameValueType" minOccurs="0" maxOccurs="unbounded"/>
                                 </xs:sequence>
                                 <xs:attribute name="stage" use="required">
                                     <xs:simpleType>
@@ -532,7 +543,7 @@
         <xs:attribute name="value" type="xs:string" use="required"/>
     </xs:complexType>
 
-    <xs:complexType name="paramType">
+    <xs:complexType name="nameValueType">
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="value" type="xs:string" use="required"/>
     </xs:complexType>
