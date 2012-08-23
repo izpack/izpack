@@ -24,17 +24,20 @@ package com.izforge.izpack.util.config;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Logger;
 
-import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.util.config.SingleConfigurableTask.Entry.LookupType;
-import com.izforge.izpack.util.config.SingleConfigurableTask.Entry.Operation;
-import com.izforge.izpack.util.config.SingleConfigurableTask.Entry.Type;
 import com.izforge.izpack.util.config.base.BasicProfile;
 import com.izforge.izpack.util.config.base.Config;
 import com.izforge.izpack.util.config.base.Configurable;
@@ -46,8 +49,6 @@ import com.izforge.izpack.util.config.base.Reg;
 public abstract class SingleConfigurableTask implements ConfigurableTask
 {
     private static final Logger logger = Logger.getLogger(SingleConfigurableTask.class.getName());
-
-    private static final String ERRMSG_CONFIGACTION_BADATTR = "Bad attribute value in configuration action: {0}=\"{1}\" not allowed";
 
     private boolean patchPreserveEntries = true;
 
@@ -578,76 +579,10 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
 
     protected abstract void writeConfigurable() throws Exception;
 
-    public void readFromXML(IXMLElement parent) throws InstallerException
+    public void addEntry(Entry entry)
     {
-        for (IXMLElement el : parent.getChildrenNamed("entry"))
-        {
-            entries.addElement(createEntryFromXML(el));
-        }
+        entries.addElement(entry);
     }
-
-    protected Entry createEntryFromXML(IXMLElement parent) throws InstallerException
-    {
-        Entry e = new Entry();
-        String attrib = parent.getAttribute("dataType");
-        if (attrib != null)
-        {
-            Type type = Type.getFromAttribute(attrib);
-            if (type == null)
-            {
-                // TODO Inform about misconfigured configuration actions during
-                // compilation
-                throw new InstallerException(MessageFormat.format(ERRMSG_CONFIGACTION_BADATTR,
-                        "dataType", attrib));
-            }
-            e.setType(type);
-        }
-        attrib = parent.getAttribute("lookupType");
-        if (attrib != null)
-        {
-            LookupType lookupType = LookupType.getFromAttribute(attrib);
-            if (lookupType == null)
-            {
-                // TODO Inform about misconfigured configuration actions during compilation
-                throw new InstallerException(MessageFormat.format(ERRMSG_CONFIGACTION_BADATTR,
-                        "lookupType", attrib));
-            }
-            e.setLookupType(lookupType);
-        }
-        attrib = parent.getAttribute("operation");
-        if (attrib != null)
-        {
-            Operation operation = Operation.getFromAttribute(attrib);
-            if (operation == null)
-            {
-              // TODO Inform about misconfigured configuration actions during compilation
-              throw new InstallerException(
-                  MessageFormat.format(
-                      ERRMSG_CONFIGACTION_BADATTR,
-                      "operation", attrib)
-                  );
-            }
-            e.setOperation(operation);
-        }
-        attrib = parent.getAttribute("unit");
-        if (attrib != null)
-        {
-            Unit unit = Unit.getFromAttribute(attrib);
-            if (unit == null)
-            {
-                // TODO Inform about misconfigured configuration actions during compilation
-                throw new InstallerException(MessageFormat.format(ERRMSG_CONFIGACTION_BADATTR,
-                        "unit", attrib));
-            }
-            e.setUnit(unit);
-        }
-        e.setDefault(parent.getAttribute("default"));
-        e.setPattern(parent.getAttribute("pattern"));
-        filterEntryFromXML(parent, e);
-        return e;
-    }
-
-    protected abstract Entry filterEntryFromXML(IXMLElement parent, Entry entry);
 
     /**
      * Instance of this class represents nested elements of a task configuration file.

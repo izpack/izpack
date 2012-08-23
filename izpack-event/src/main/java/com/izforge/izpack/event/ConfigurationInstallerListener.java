@@ -22,6 +22,7 @@
 package com.izforge.izpack.event;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -65,6 +66,11 @@ import com.izforge.izpack.util.config.IniFileCopyTask;
 import com.izforge.izpack.util.config.OptionFileCopyTask;
 import com.izforge.izpack.util.config.RegistryTask;
 import com.izforge.izpack.util.config.SingleConfigurableTask;
+import com.izforge.izpack.util.config.SingleConfigurableTask.Entry;
+import com.izforge.izpack.util.config.SingleConfigurableTask.Entry.LookupType;
+import com.izforge.izpack.util.config.SingleConfigurableTask.Entry.Operation;
+import com.izforge.izpack.util.config.SingleConfigurableTask.Entry.Type;
+import com.izforge.izpack.util.config.SingleConfigurableTask.Unit;
 import com.izforge.izpack.util.config.SingleIniFileTask;
 import com.izforge.izpack.util.config.SingleOptionFileTask;
 import com.izforge.izpack.util.config.SingleXmlFileMergeTask;
@@ -83,6 +89,8 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
      * Name of the specification file
      */
     public static final String SPEC_FILE_NAME = "ConfigurationActionsSpec.xml";
+
+    private static final String ERRMSG_CONFIGACTION_BADATTR = "Bad attribute value in configuration action: {0}=\"{1}\" not allowed";
 
     /**
      * The configuration actions.
@@ -187,7 +195,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             packActions.put(ActionBase.AFTERPACKS, new ArrayList<ConfigurationAction>());
 
             // Get all entries for antcalls.
-            List<IXMLElement> configActionEntries = pack.getChildrenNamed(ConfigurationAction.CONFIGACTION);
+            List<IXMLElement> configActionEntries = pack.getChildrenNamed("configurationaction");
             if (configActionEntries != null)
             {
                 logger.fine("Found " + configActionEntries.size() + " configuration actions");
@@ -613,14 +621,14 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                     task = new SingleOptionFileTask();
                     readConfigFileTaskCommonAttributes(idata, el, (ConfigFileTask) task);
                     readSingleConfigurableTaskCommonAttributes(el, (SingleConfigurableTask) task);
-                    ((SingleConfigurableTask) task).readFromXML(el);
+                    readAndAddEntries(el, (SingleConfigurableTask) task);
                     break;
 
                 case INI:
                     task = new SingleIniFileTask();
                     readConfigFileTaskCommonAttributes(idata, el, (ConfigFileTask) task);
                     readSingleConfigurableTaskCommonAttributes(el, (SingleConfigurableTask) task);
-                    ((SingleConfigurableTask) task).readFromXML(el);
+                    readAndAddEntries(el, (SingleConfigurableTask) task);
                     break;
 
                 case XML:
@@ -669,6 +677,96 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
         }
         return configtasks;
     }
+
+
+    public void readAndAddEntries(IXMLElement parent, SingleConfigurableTask task) throws InstallerException
+    {
+        for (IXMLElement el : parent.getChildrenNamed("entry"))
+        {
+            Entry entry = createEntryFromXML(el);
+            if (task instanceof SingleOptionFileTask)
+            {
+                entry.setKey(el.getAttribute("key"));
+                entry.setValue(getAttribute(el, "value"));
+            }
+            else if (task instanceof SingleIniFileTask)
+            {
+                entry.setSection(el.getAttribute("section"));
+                entry.setKey(el.getAttribute("key"));
+                entry.setValue(getAttribute(el, "value"));
+            }
+            else if (task instanceof RegistryTask)
+            {
+                entry.setSection(el.getAttribute("key"));
+                entry.setKey(el.getAttribute("value"));
+                entry.setValue(getAttribute(el, "data"));
+            }
+            task.addEntry(entry);
+        }
+    }
+
+    private Entry createEntryFromXML(IXMLElement parent) throws InstallerException
+    {
+        Entry e = new Entry();
+        String attrib = parent.getAttribute("dataType");
+        if (attrib != null)
+        {
+            Type type = Type.getFromAttribute(attrib);
+            if (type == null)
+            {
+                // TODO Inform about misconfigured configuration actions during
+                // compilation
+                throw new InstallerException(MessageFormat.format(ERRMSG_CONFIGACTION_BADATTR,
+                        "dataType", attrib));
+            }
+            e.setType(type);
+        }
+        attrib = parent.getAttribute("lookupType");
+        if (attrib != null)
+        {
+            LookupType lookupType = LookupType.getFromAttribute(attrib);
+            if (lookupType == null)
+            {
+                // TODO Inform about misconfigured configuration actions during compilation
+                throw new InstallerException(MessageFormat.format(ERRMSG_CONFIGACTION_BADATTR,
+                        "lookupType", attrib));
+            }
+            e.setLookupType(lookupType);
+        }
+        attrib = parent.getAttribute("operation");
+        if (attrib != null)
+        {
+            Operation operation = Operation.getFromAttribute(attrib);
+            if (operation == null)
+            {
+              // TODO Inform about misconfigured configuration actions during compilation
+              throw new InstallerException(
+                  MessageFormat.format(
+                      ERRMSG_CONFIGACTION_BADATTR,
+                      "operation", attrib)
+                  );
+            }
+            e.setOperation(operation);
+        }
+        attrib = parent.getAttribute("unit");
+        if (attrib != null)
+        {
+            Unit unit = Unit.getFromAttribute(attrib);
+            if (unit == null)
+            {
+                // TODO Inform about misconfigured configuration actions during compilation
+                throw new InstallerException(MessageFormat.format(ERRMSG_CONFIGACTION_BADATTR,
+                        "unit", attrib));
+            }
+            e.setUnit(unit);
+        }
+        e.setDefault(parent.getAttribute("default"));
+        e.setPattern(parent.getAttribute("pattern"));
+        //FIXME remove?
+        //filterEntryFromXML(parent, e);
+        return e;
+    }
+
 
     private void readAndAddXPathProperties(IXMLElement parent, SingleXmlFileMergeTask task)
             throws InstallerException

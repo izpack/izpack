@@ -36,12 +36,6 @@ public class ConfigurationAction extends ActionBase
 
     private static final transient Logger logger = Logger.getLogger(ConfigurationAction.class.getName());
 
-    public static final String CONFIGACTIONS = "configurationactions";
-    public static final String CONFIGACTION = "configurationaction";
-    public static final String VARIABLE = "variable";
-    public static final String CONFIGURABLE = "configurable";
-    public static final String CONFIGURABLESET = "configurableset";
-
     private List<ConfigurationActionTask> actionTasks = null;
 
     /**

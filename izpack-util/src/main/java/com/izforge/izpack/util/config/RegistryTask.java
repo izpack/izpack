@@ -25,7 +25,6 @@ package com.izforge.izpack.util.config;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.util.config.base.Reg;
 
 public class RegistryTask extends SingleConfigurableTask
@@ -116,14 +115,5 @@ public class RegistryTask extends SingleConfigurableTask
     protected void checkAttributes() throws Exception
     {
         if (this.key == null) { throw new Exception("Key attribute must be set"); }
-    }
-
-    @Override
-    protected Entry filterEntryFromXML(IXMLElement parent, Entry entry)
-    {
-        entry.setSection(parent.getAttribute("key"));
-        entry.setKey(parent.getAttribute("value"));
-        entry.setValue(parent.getAttribute("data"));
-        return entry;
     }
 }

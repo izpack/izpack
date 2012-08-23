@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.util.config.base.Options;
 
 public class SingleOptionFileTask extends ConfigFileTask
@@ -132,13 +131,5 @@ public class SingleOptionFileTask extends ConfigFileTask
                 logger.warning("File " + oldFile + " could not be cleant up");
             }
         }
-    }
-
-    @Override
-    protected Entry filterEntryFromXML(IXMLElement parent, Entry entry)
-    {
-        entry.setKey(parent.getAttribute("key"));
-        entry.setValue(parent.getAttribute("value"));
-        return entry;
     }
 }
