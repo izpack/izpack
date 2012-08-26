@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarFile;
-import java.util.zip.ZipFile;
 
 import org.apache.maven.shared.jar.JarAnalyzer;
 import org.apache.maven.shared.jar.classes.JarClasses;
@@ -36,9 +35,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
-import com.izforge.izpack.compiler.merge.resolve.CompilerPathResolver;
+import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.matcher.ZipMatcher;
@@ -75,7 +73,7 @@ public class CompilerConfigTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat((ZipFile) jar, ZipMatcher.isZipContainingFiles(
+        assertThat(jar, ZipMatcher.isZipContainingFiles(
                 "com/izforge/izpack/installer/bootstrap/Installer.class",
                 "com/izforge/izpack/panels/hello/HelloPanel.class",
                 "resources/vars",
@@ -88,12 +86,7 @@ public class CompilerConfigTest
         mergeManager.addResourceToMerge(pathResolver.getPanelMerge("HelloPanel"));
         mergeManager.addResourceToMerge(pathResolver.getPanelMerge("CheckedHelloPanel"));
 
-        // Must evaluate this once, MergeManagerImpl clears the list after first merge
-        // Therefore, the second of the following three lines will fail
-        //assertThat((Mergeable)mergeManager, MergeMatcher.isMergeableContainingFile("com/izforge/izpack/panels/hello/HelloPanelConsoleHelper.class"));
-        //assertThat((Mergeable)mergeManager, MergeMatcher.isMergeableContainingFile("com/izforge/izpack/panels/hello/HelloPanel.class"));
-        //assertThat((Mergeable)mergeManager, MergeMatcher.isMergeableContainingFile("com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class"));
-        assertThat((Mergeable) mergeManager, MergeMatcher.isMergeableContainingFiles(
+        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles(
                 "com/izforge/izpack/panels/hello/HelloPanelConsoleHelper.class",
                 "com/izforge/izpack/panels/hello/HelloPanel.class",
                 "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class"));

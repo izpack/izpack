@@ -15,14 +15,14 @@
 
     <panels>
         <panel classname="HelloPanel" id="HelloPanel1">
-            <validator classname="TestDataValidator"/>
+            <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
             <actions>
-                <action stage="preconstruct" classname="PreConstructPanelAction"/>
-                <action stage="preactivate" classname="PreActivatePanelAction"/>
-                <action stage="prevalidate" classname="PreValidatePanelAction">
+                <action stage="preconstruct" classname="com.izforge.izpack.integration.panelaction.PreConstructPanelAction"/>
+                <action stage="preactivate" classname="com.izforge.izpack.integration.panelaction.PreActivatePanelAction"/>
+                <action stage="prevalidate" classname="com.izforge.izpack.integration.panelaction.PreValidatePanelAction">
                     <param name="prop1" value="value1"/>
                 </action>
-                <action stage="postvalidate" classname="PostValidatePanelAction">
+                <action stage="postvalidate" classname="com.izforge.izpack.integration.panelaction.PostValidatePanelAction">
                     <param name="prop2" value="value2"/>
                     <param name="prop3" value="value3"/>
                 </action>
@@ -30,14 +30,14 @@
         </panel>
 
         <panel classname="HelloPanel" id="HelloPanel2">
-            <validator classname="TestDataValidator"/>
+            <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
             <actions>
-                <action stage="preconstruct" classname="TestPanelAction"/>
-                <action stage="preactivate" classname="TestPanelAction"/>
-                <action stage="prevalidate" classname="TestPanelAction">
+                <action stage="preconstruct" classname="com.izforge.izpack.integration.panelaction.TestPanelAction"/>
+                <action stage="preactivate" classname="com.izforge.izpack.integration.panelaction.TestPanelAction"/>
+                <action stage="prevalidate" classname="com.izforge.izpack.integration.panelaction.TestPanelAction">
                     <param name="prop1" value="value1"/>
                 </action>
-                <action stage="postvalidate" classname="TestPanelAction">
+                <action stage="postvalidate" classname="com.izforge.izpack.integration.panelaction.TestPanelAction">
                     <param name="prop2" value="value2"/>
                     <param name="prop3" value="value3"/>
                 </action>
@@ -46,7 +46,7 @@
 
         <panel classname="SimpleFinishPanel" id="SimpleFinishPanel">
             <!-- MOTE: the validator and prevalidate and postvalidate actions associated with last panel are ignored -->
-            <validator classname="TestDataValidator"/>
+            <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
             <actions>
                 <action stage="preconstruct"
                         classname="com.izforge.izpack.integration.panelaction.PreConstructPanelAction"/>

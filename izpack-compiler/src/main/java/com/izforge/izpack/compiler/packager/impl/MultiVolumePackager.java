@@ -40,7 +40,7 @@ import com.izforge.izpack.api.data.XPackFile;
 import com.izforge.izpack.compiler.compressor.PackCompressor;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.listener.PackagerListener;
-import com.izforge.izpack.compiler.merge.resolve.CompilerPathResolver;
+import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.stream.JarOutputStream;
 import com.izforge.izpack.core.io.FileSpanningOutputStream;
 import com.izforge.izpack.data.ExecutableFile;

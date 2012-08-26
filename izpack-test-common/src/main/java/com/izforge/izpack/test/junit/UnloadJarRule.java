@@ -4,7 +4,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-import com.izforge.izpack.util.ClassUtils;
+import com.izforge.izpack.test.util.ClassUtils;
 
 /**
  * Rule for unloading last jar

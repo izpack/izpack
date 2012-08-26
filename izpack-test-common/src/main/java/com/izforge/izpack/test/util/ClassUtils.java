@@ -1,4 +1,4 @@
-package com.izforge.izpack.util;
+package com.izforge.izpack.test.util;
 
 import sun.misc.URLClassPath;
 

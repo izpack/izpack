@@ -40,10 +40,11 @@ import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.data.PropertyManager;
 import com.izforge.izpack.compiler.helper.AssertionHelper;
 import com.izforge.izpack.compiler.helper.XmlCompilerHelper;
-import com.izforge.izpack.compiler.merge.resolve.ClassPathCrawler;
-import com.izforge.izpack.compiler.merge.resolve.CompilerPathResolver;
+import com.izforge.izpack.compiler.util.CompilerClassLoader;
+import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.packager.IPackager;
 import com.izforge.izpack.compiler.resource.ResourceFinder;
+import com.izforge.izpack.compiler.util.DefaultClassNameMapper;
 import com.izforge.izpack.core.data.DynamicVariableImpl;
 import com.izforge.izpack.core.variable.PlainValue;
 import com.izforge.izpack.merge.MergeManager;
@@ -154,10 +155,11 @@ public class CompilerConfigMockedTest
             super(Mockito.mock(CompilerData.class), Mockito.mock(VariableSubstitutor.class),
                   Mockito.mock(Compiler.class), new XmlCompilerHelper(Mockito.mock(AssertionHelper.class)),
                   Mockito.mock(PropertyManager.class), Mockito.mock(MergeManager.class),
-                  Mockito.mock(AssertionHelper.class), Mockito.mock(ClassPathCrawler.class),
-                  Mockito.mock(RulesEngine.class), Mockito.mock(CompilerPathResolver.class),
-                  Mockito.mock(ResourceFinder.class), Mockito.mock(ObjectFactory.class),
-                  new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS));
+                  Mockito.mock(AssertionHelper.class), Mockito.mock(RulesEngine.class),
+                  Mockito.mock(CompilerPathResolver.class), Mockito.mock(ResourceFinder.class),
+                  Mockito.mock(ObjectFactory.class),
+                  new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS),
+                  new CompilerClassLoader(new DefaultClassNameMapper()));
             setPackager(packager);
         }
     }

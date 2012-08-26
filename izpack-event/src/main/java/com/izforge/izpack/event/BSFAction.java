@@ -248,7 +248,7 @@ public class BSFAction extends ActionBase
                     }
                 }
                 manager.declareBean("installData", installData, InstallData.class);
-                manager.declareBean("idata", installData, InstallData.class); // for backward compability with 4.x
+                manager.declareBean("idata", installData, InstallData.class); // for backward compatibility with 4.x
 
                 MethodExistenceChecker checker = langToMethodCheckerMap.get(language);
                 if (checker != null)

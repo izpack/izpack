@@ -54,7 +54,6 @@
                 <param name="ShowCreateDirectoryMessage=" value="false"/>
             </configuration>
         </panel>
-        <panel classname="VimPanel"/>
         <panel classname="PacksPanel"/>
         <panel classname="SummaryPanel"/>
         <panel classname="InstallPanel"/>

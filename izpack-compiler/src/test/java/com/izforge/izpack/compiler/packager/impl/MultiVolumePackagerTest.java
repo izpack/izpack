@@ -29,7 +29,7 @@ import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.compiler.compressor.PackCompressor;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.listener.PackagerListener;
-import com.izforge.izpack.compiler.merge.resolve.CompilerPathResolver;
+import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.stream.JarOutputStream;
 import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;

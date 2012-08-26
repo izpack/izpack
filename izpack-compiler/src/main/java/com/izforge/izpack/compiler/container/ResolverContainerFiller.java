@@ -26,8 +26,9 @@ import java.util.Properties;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.compiler.merge.resolve.ClassPathCrawler;
-import com.izforge.izpack.compiler.merge.resolve.CompilerPathResolver;
+import com.izforge.izpack.compiler.util.CompilerClassLoader;
+import com.izforge.izpack.compiler.merge.CompilerPathResolver;
+import com.izforge.izpack.compiler.util.DefaultClassNameMapper;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 
 /**
@@ -44,7 +45,8 @@ public class ResolverContainerFiller
         {
             properties.put(entry.getKey(), entry.getValue());
         }
-        container.addComponent(ClassPathCrawler.class);
+        container.addComponent(DefaultClassNameMapper.class);
+        container.addComponent(CompilerClassLoader.class);
         container.addComponent(CompilerPathResolver.class);
         container.addComponent(MergeableResolver.class);
     }

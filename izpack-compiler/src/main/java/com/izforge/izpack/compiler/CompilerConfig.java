@@ -45,7 +45,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -96,10 +95,10 @@ import com.izforge.izpack.compiler.helper.AssertionHelper;
 import com.izforge.izpack.compiler.helper.TargetFileSet;
 import com.izforge.izpack.compiler.helper.XmlCompilerHelper;
 import com.izforge.izpack.compiler.listener.CompilerListener;
-import com.izforge.izpack.compiler.merge.resolve.ClassPathCrawler;
-import com.izforge.izpack.compiler.merge.resolve.CompilerPathResolver;
+import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.packager.IPackager;
 import com.izforge.izpack.compiler.resource.ResourceFinder;
+import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.core.data.DynamicInstallerRequirementValidatorImpl;
 import com.izforge.izpack.core.data.DynamicVariableImpl;
 import com.izforge.izpack.core.variable.ConfigFileValue;
@@ -118,7 +117,12 @@ import com.izforge.izpack.data.PackInfo;
 import com.izforge.izpack.data.PanelAction;
 import com.izforge.izpack.data.ParsableFile;
 import com.izforge.izpack.data.UpdateCheck;
+import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.installer.unpacker.IUnpacker;
 import com.izforge.izpack.merge.MergeManager;
+import com.izforge.izpack.panels.extendedinstall.ExtendedInstallPanel;
+import com.izforge.izpack.panels.install.InstallPanel;
+import com.izforge.izpack.panels.treepacks.PackValidator;
 import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsConstraintHelper;
@@ -180,7 +184,6 @@ public class CompilerConfig extends Thread
     private ResourceFinder resourceFinder;
     private MergeManager mergeManager;
     private AssertionHelper assertionHelper;
-    private ClassPathCrawler classPathCrawler;
     private RulesEngine rules;
 
     /**
@@ -192,6 +195,11 @@ public class CompilerConfig extends Thread
      * The OS constraints.
      */
     private final PlatformModelMatcher constraints;
+
+    /**
+     * The class loader.
+     */
+    private final CompilerClassLoader classLoader;
 
     private static final String TEMP_DIR_ELEMENT_NAME = "tempdir";
 
@@ -221,9 +229,9 @@ public class CompilerConfig extends Thread
      */
     public CompilerConfig(CompilerData compilerData, VariableSubstitutor variableSubstitutor, Compiler compiler,
                           XmlCompilerHelper xmlCompilerHelper, PropertyManager propertyManager,
-                          MergeManager mergeManager, AssertionHelper assertionHelper, ClassPathCrawler classPathCrawler,
+                          MergeManager mergeManager, AssertionHelper assertionHelper,
                           RulesEngine rules, CompilerPathResolver pathResolver, ResourceFinder resourceFinder,
-                          ObjectFactory factory, PlatformModelMatcher constraints)
+                          ObjectFactory factory, PlatformModelMatcher constraints, CompilerClassLoader classLoader)
     {
         this.assertionHelper = assertionHelper;
         this.rules = rules;
@@ -233,11 +241,11 @@ public class CompilerConfig extends Thread
         this.xmlCompilerHelper = xmlCompilerHelper;
         this.propertyManager = propertyManager;
         this.mergeManager = mergeManager;
-        this.classPathCrawler = classPathCrawler;
         this.pathResolver = pathResolver;
         this.resourceFinder = resourceFinder;
         this.factory = factory;
         this.constraints = constraints;
+        this.classLoader = classLoader;
     }
 
     /**
@@ -272,8 +280,7 @@ public class CompilerConfig extends Thread
         File base = new File(compilerData.getBasedir()).getAbsoluteFile();
         if (!base.canRead() || !base.isDirectory())
         {
-            throw new CompilerException(
-                    "Invalid base directory: " + base);
+            throw new CompilerException("Invalid base directory: " + base);
         }
 
         // add izpack built in property
@@ -326,16 +333,6 @@ public class CompilerConfig extends Thread
         this.packager = packager;
     }
 
-    /**
-     * Returns the packager.
-     *
-     * @return the packager, or <tt>null</tt> if it hasn't been created
-     */
-    protected IPackager getPackager()
-    {
-        return packager;
-    }
-
     private void addInstallerRequirement(IXMLElement data) throws CompilerException
     {
         notifyCompilerListener("addInstallerRequirement", CompilerListener.BEGIN, data);
@@ -373,14 +370,18 @@ public class CompilerConfig extends Thread
 
             if (packagerElement != null)
             {
-                packagerClassname = xmlCompilerHelper.requireAttribute(packagerElement, "class");
+                Class<IPackager> packagerClass = classLoader.loadClass(
+                        xmlCompilerHelper.requireAttribute(packagerElement, "class"), IPackager.class);
+                packagerClassname = packagerClass.getName();
             }
 
             IXMLElement unpacker = root.getFirstChildNamed("unpacker");
 
             if (unpacker != null)
             {
-                unpackerClassname = xmlCompilerHelper.requireAttribute(unpacker, "class");
+                Class<IUnpacker> unpackerClass = classLoader.loadClass(
+                        xmlCompilerHelper.requireAttribute(unpacker, "class"), IUnpacker.class);
+                unpackerClassname = unpackerClass.getName();
             }
         }
         packager = factory.create(packagerClassname, IPackager.class);
@@ -389,10 +390,10 @@ public class CompilerConfig extends Thread
             IXMLElement options = packagerElement.getFirstChildNamed("options");
             if (options != null)
             {
-                getPackager().addConfigurationInformation(options);
+                packager.addConfigurationInformation(options);
             }
         }
-        compiler.setPackager(getPackager());
+        compiler.setPackager(packager);
         propertyManager.addProperty("UNPACKER_CLASS", unpackerClassname);
         notifyCompilerListener("loadPackager", CompilerListener.END, data);
     }
@@ -811,10 +812,11 @@ public class CompilerConfig extends Thread
 
             }
 
-            for (IXMLElement validatorNode : packElement.getChildrenNamed("validator"))
+            for (IXMLElement validator : packElement.getChildrenNamed("validator"))
             {
-                String validatorClassName = compiler.findClass(xmlCompilerHelper.requireContent(validatorNode), null);
-                pack.addValidator(validatorClassName);
+                Class<PackValidator> type = classLoader.loadClass(xmlCompilerHelper.requireContent(validator),
+                                                                  PackValidator.class);
+                pack.addValidator(type.getName());
             }
 
             // We add the pack
@@ -1062,10 +1064,9 @@ public class CompilerConfig extends Thread
                         if (unpack)
                         {
                             logger.info("Adding content from archive: " + abssrcfile);
-                            addArchiveContent(baseDir, abssrcfile, fs.getTargetDir(), fs
-                                    .getOsList(), fs.getOverride(), fs.getOverrideRenameTo(), fs.getBlockable(), pack,
-                                              fs
-                                                      .getAdditionals(), fs.getCondition());
+                            addArchiveContent(baseDir, abssrcfile, fs.getTargetDir(), fs.getOsList(), fs.getOverride(),
+                                              fs.getOverrideRenameTo(), fs.getBlockable(), pack, fs.getAdditionals(),
+                                              fs.getCondition());
                         }
                         else
                         {
@@ -1220,7 +1221,7 @@ public class CompilerConfig extends Thread
         boolean defexcludes = xmlCompilerHelper.validateYesNoAttribute(fileSetElement, "defaultexcludes", YES);
 
         // get includes and excludes
-        List<IXMLElement> xcludesList = null;
+        List<IXMLElement> xcludesList;
         String[] includes = null;
         xcludesList = fileSetElement.getChildrenNamed("include");
         if (!xcludesList.isEmpty())
@@ -1263,14 +1264,9 @@ public class CompilerConfig extends Thread
                     // and copy the old stuff to the front
                     newSize += containers[j].length;
                     nCont = new String[newSize];
-                    for (int k = 0; k < containers[j].length; ++k)
-                    {
-                        nCont[k] = containers[j][k];
-                    }
+                    System.arraycopy(containers[j], 0, nCont, 0, containers[j].length);
                 }
-                if (nCont == null) // No container for old values
-                // created,
-                // create a new one.
+                if (nCont == null) // No container for old values created, create a new one.
                 {
                     nCont = new String[newSize];
                 }
@@ -1305,21 +1301,15 @@ public class CompilerConfig extends Thread
             String[] dirs = directoryScanner.getIncludedDirectories();
             // Directory scanner has done recursion, add files and
             // directories
-            for (String file : files)
-            {
-                includedFiles.add(file);
-            }
-            for (String dir1 : dirs)
-            {
-                includedFiles.add(dir1);
-            }
+            Collections.addAll(includedFiles, files);
+            Collections.addAll(includedFiles, dirs);
         }
         catch (Exception e)
         {
             throw new CompilerException(e.getMessage());
         }
 
-        return includedFiles.toArray(new String[]{});
+        return includedFiles.toArray(new String[includedFiles.size()]);
     }
 
     private IXMLElement readRefPackData(String refFileName, boolean isselfcontained)
@@ -1380,7 +1370,6 @@ public class CompilerConfig extends Thread
         {
             assertionHelper.parseError(refXMLData, "this is not an IzPack XML installation file");
         }
-        String namespaceURI = refXMLData.getElement().getNamespaceURI();
         if (!CompilerData.VERSION.equalsIgnoreCase(xmlCompilerHelper.requireAttribute(refXMLData, "version")))
         {
             assertionHelper.parseError(refXMLData, "the file version is different from the compiler version");
@@ -1414,7 +1403,7 @@ public class CompilerConfig extends Thread
      * @param override    Overriding behaviour.
      * @param pack        Pack to be packed into
      * @param additionals Map which contains additional data
-     * @param condition
+     * @param condition   condition that must evaluate {@code} true for the file to be installed. May be {@code null}
      */
     protected void addArchiveContent(File baseDir, File archive, String targetdir,
                                      List<OsModel> osList, OverrideType override, String overrideRenameTo,
@@ -1465,7 +1454,10 @@ public class CompilerConfig extends Thread
         for (String dirName : allDirList)
         {
             File tmp = new File(dirName);
-            tmp.mkdirs();
+            if (!tmp.mkdirs())
+            {
+                throw new CompilerException("Failed to create directory: " + tmp);
+            }
             tmp.deleteOnExit();
             String target = targetdir + "/" + dirName;
             logger.info("Adding file: " + tmp + ", as target file=" + target);
@@ -1512,8 +1504,13 @@ public class CompilerConfig extends Thread
             panel.setCondition(condition);
 
             // note - all jars must be added to the classpath prior to invoking this
-            className = compiler.findClass(className, getPanelJarURL(panelElement));
-            panel.setClassName(className);
+            Class type = classLoader.loadClass(className, IzPanel.class);
+            if (type.equals(ExtendedInstallPanel.class))
+            {
+                logger.warning(ExtendedInstallPanel.class.getSimpleName() + " is deprecated. Use "
+                                       + InstallPanel.class.getSimpleName() + " instead");
+            }
+            panel.setClassName(type.getName());
 
             IXMLElement configurationElement = panelElement.getFirstChildNamed("configuration");
             if (configurationElement != null)
@@ -1530,18 +1527,17 @@ public class CompilerConfig extends Thread
             }
 
             // adding validator
-            IXMLElement validatorElement = panelElement
-                    .getFirstChildNamed(DataValidator.DATA_VALIDATOR_TAG);
+            IXMLElement validatorElement = panelElement.getFirstChildNamed(DataValidator.DATA_VALIDATOR_TAG);
             if (validatorElement != null)
             {
-                String validator = validatorElement
-                        .getAttribute(DataValidator.DATA_VALIDATOR_CLASSNAME_TAG);
+                String validator = validatorElement.getAttribute(DataValidator.DATA_VALIDATOR_CLASSNAME_TAG);
                 if (!"".equals(validator))
                 {
-                    panel.setValidator(compiler.findClass(validator, null));
+                    Class<DataValidator> validatorType = classLoader.loadClass(validator, DataValidator.class);
+                    panel.setValidator(validatorType.getName());
                 }
             }
-//            // adding helps
+            // adding helps
             List<IXMLElement> helpSpecs = panelElement.getChildrenNamed(HELP_TAG);
             if (helpSpecs != null) // TODO : remove this condition, getChildrenNamed always return a list
             {
@@ -2115,10 +2111,8 @@ public class CompilerConfig extends Thread
 
         Map<String, List<DynamicVariable>> dynamicvariables = packager.getDynamicVariables();
 
-        Iterator<IXMLElement> iter = root.getChildrenNamed("variable").iterator();
-        while (iter.hasNext())
+        for (IXMLElement var : root.getChildrenNamed("variable"))
         {
-            IXMLElement var = iter.next();
             String name = xmlCompilerHelper.requireAttribute(var, "name");
 
             DynamicVariable dynamicVariable = new DynamicVariableImpl();
@@ -2399,7 +2393,7 @@ public class CompilerConfig extends Thread
     /**
      * Parse conditions and add them to the compiler.
      *
-     * @param data
+     * @param data the conditions configuration
      * @throws CompilerException
      */
     protected void addConditions(IXMLElement data) throws CompilerException
@@ -2617,12 +2611,10 @@ public class CompilerConfig extends Thread
 
             if (!found)
             {
-                // We cannot add this constraint here explicitely, because it
-                // the copied files might be multi-platform.
+                // We cannot add this constraint here explicitly, because it the copied files might be multi-platform.
                 // Print out a warning to inform the user about this fact.
                 //osList.add(new OsModel("windows", null, null, null));
-                assertionHelper.parseWarn(blockableElement,
-                                          "'blockable' will implicitely apply only on Windows target systems");
+                assertionHelper.parseWarn(blockableElement, "'blockable' will apply only on Windows target systems");
             }
         }
         return blockable;
@@ -2665,9 +2657,8 @@ public class CompilerConfig extends Thread
                 Stage stage = Stage.valueOf(xmlCompilerHelper.requireAttribute(listener, "stage"));
                 if (Stage.isInInstaller(stage))
                 {
-                    className = compiler.findClass(className, getListenerJarURL(listener));
                     List<OsModel> constraints = OsConstraintHelper.getOsList(listener);
-                    compiler.addCustomListener(className, stage, constraints);
+                    compiler.addListener(className, stage, constraints);
                 }
             }
         }
@@ -2707,8 +2698,8 @@ public class CompilerConfig extends Thread
                     // instantiate an instance of the listener only if we're on a system of the specified type
                     if (matchesCurrentSystem)
                     {
-                        Class<? extends CompilerListener> clazz = classPathCrawler.findClass(className);
-                        CompilerListener l = factory.create(className, CompilerListener.class);
+                        Class<CompilerListener> clazz = classLoader.loadClass(className, CompilerListener.class);
+                        CompilerListener l = factory.create(clazz, CompilerListener.class);
                         compilerListeners.add(l);
                     }
                 }
@@ -2722,7 +2713,6 @@ public class CompilerConfig extends Thread
      * @param callerName name of the calling method as string
      * @param state      CompileListener.BEGIN or END
      * @param data       current install data
-     * @throws CompilerException
      */
     private void notifyCompilerListener(String callerName, int state, IXMLElement data)
     {
@@ -2795,7 +2785,7 @@ public class CompilerConfig extends Thread
                 if (packsLangURLs.size() == 0)
                 {
                     continue;
-                } // should not occure
+                } // should not occur
 
                 if (packsLangURLs.size() == 1)
                 {
@@ -2869,8 +2859,10 @@ public class CompilerConfig extends Thread
     }
 
     /**
-     * @param xmlPanel
-     * @param panel
+     * Adds panel actions configured in an XML element to a panel.
+     *
+     * @param xmlPanel the panel configuration
+     * @param panel    the panel
      * @throws CompilerException
      */
     private void addPanelActions(IXMLElement xmlPanel, Panel panel) throws CompilerException
@@ -2878,8 +2870,7 @@ public class CompilerConfig extends Thread
         IXMLElement xmlActions = xmlPanel.getFirstChildNamed(PanelAction.PANEL_ACTIONS_TAG);
         if (xmlActions != null)
         {
-            List<IXMLElement> actionList = xmlActions
-                    .getChildrenNamed(PanelAction.PANEL_ACTION_TAG);
+            List<IXMLElement> actionList = xmlActions.getChildrenNamed(PanelAction.PANEL_ACTION_TAG);
             if (actionList != null)
             {
                 for (IXMLElement action : actionList)
@@ -2887,10 +2878,10 @@ public class CompilerConfig extends Thread
                     String stage = xmlCompilerHelper.requireAttribute(action, PanelAction.PANEL_ACTION_STAGE_TAG);
                     String actionName = xmlCompilerHelper.requireAttribute(action,
                                                                            PanelAction.PANEL_ACTION_CLASSNAME_TAG);
-                    actionName = compiler.findClass(actionName, null);
+                    Class actionType = classLoader.loadClass(actionName, PanelAction.class);
 
                     List<IXMLElement> params = action.getChildrenNamed("param");
-                    PanelActionConfiguration config = new PanelActionConfiguration(actionName);
+                    PanelActionConfiguration config = new PanelActionConfiguration(actionType.getName());
 
                     for (IXMLElement param : params)
                     {

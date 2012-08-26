@@ -19,11 +19,30 @@
 
 package com.izforge.izpack.panels.hello;
 
+import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.installer.data.GUIInstallData;
+import com.izforge.izpack.installer.gui.InstallerFrame;
+import com.izforge.izpack.installer.gui.IzPanel;
+
 /**
  * Just a test panel class
  *
  * @author Anthonin Bonnefoy
  */
-public class HelloPanelTestWithDependenciesClass
+public class HelloPanelTestWithDependenciesClass extends IzPanel
 {
+    /**
+     * Constructs an <tt>HelloPanelTestWithDependenciesClass</tt>.
+     *
+     * @param panel       the panel meta-data
+     * @param parent      the parent IzPack installer frame
+     * @param installData the installation data
+     * @param resources   the resources
+     */
+    public HelloPanelTestWithDependenciesClass(Panel panel, InstallerFrame parent, GUIInstallData installData,
+                                               Resources resources)
+    {
+        super(panel, parent, installData, resources);
+    }
 }

@@ -23,7 +23,7 @@
     <packs>
         <pack name="Base" required="yes">
             <description>The base files</description>
-            <validator>TestPackValidator</validator>
+            <validator>com.izforge.izpack.integration.packvalidator.TestPackValidator</validator>
         </pack>
     </packs>
 </izpack:installation>

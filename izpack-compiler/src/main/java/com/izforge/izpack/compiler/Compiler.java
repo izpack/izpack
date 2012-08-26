@@ -27,9 +27,7 @@ package com.izforge.izpack.compiler;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,15 +38,15 @@ import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackColor;
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.data.binding.Stage;
+import com.izforge.izpack.api.event.InstallerListener;
+import com.izforge.izpack.api.event.UninstallerListener;
 import com.izforge.izpack.api.exception.CompilerException;
-import com.izforge.izpack.api.exception.MergeException;
+import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
 import com.izforge.izpack.compiler.helper.CompilerHelper;
-import com.izforge.izpack.compiler.merge.resolve.ClassPathCrawler;
+import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.compiler.packager.IPackager;
 import com.izforge.izpack.data.CustomData;
 import com.izforge.izpack.data.PackInfo;
-import com.izforge.izpack.util.ClassUtils;
-import com.izforge.izpack.util.FileUtil;
 
 /**
  * The IzPack compiler class. This is now a java bean style class that can be
@@ -63,7 +61,6 @@ import com.izforge.izpack.util.FileUtil;
  */
 public class Compiler extends Thread
 {
-    private static final Logger logger = Logger.getLogger(Compiler.class.getName());
 
     /**
      * Collects and packs files into installation jars, as told.
@@ -81,30 +78,26 @@ public class Compiler extends Thread
     private final CompilerHelper compilerHelper;
 
     /**
-     * Classpath crawler.
+     * The class loader.
      */
-    private final ClassPathCrawler classPathCrawler;
+    private final CompilerClassLoader loader;
 
     /**
-     * The paths of resources included in user-specified jars.
+     * The logger.
      */
-    private Set<String> resourcePaths = new HashSet<String>();
+    private static final Logger logger = Logger.getLogger(Compiler.class.getName());
 
-    /**
-     * The resources by their corresponding jar URL.
-     */
-    private Map<URL, List<String>> resourcesByJar = new HashMap<URL, List<String>>();
 
     /**
      * Constructs a <tt>Compiler</tt>.
      *
-     * @param compilerHelper   the compiler helper
-     * @param classPathCrawler the class path crawler
+     * @param loader         the class loader to use to load classes
+     * @param compilerHelper the compiler helper
      */
-    public Compiler(CompilerHelper compilerHelper, ClassPathCrawler classPathCrawler)
+    public Compiler(CompilerClassLoader loader, CompilerHelper compilerHelper)
     {
+        this.loader = loader;
         this.compilerHelper = compilerHelper;
-        this.classPathCrawler = classPathCrawler;
     }
 
     /**
@@ -361,9 +354,8 @@ public class Compiler extends Thread
      */
     public void addJar(URL url, boolean uninstaller) throws IOException
     {
+        loader.addURL(url);
         List<String> paths = compilerHelper.getContainedFilePaths(url);
-        resourcePaths.addAll(paths);
-        resourcesByJar.put(url, paths);
         if (uninstaller)
         {
             CustomData data = new CustomData(null, paths, null, CustomData.UNINSTALLER_JAR);
@@ -373,9 +365,6 @@ public class Compiler extends Thread
         {
             packager.addJarContent(url);
         }
-
-        // TODO - not clear why this is required. Would be better if jars were loaded via URLClassLoader
-        ClassUtils.loadJarInSystemClassLoader(FileUtil.convertUrlToFile(url));
     }
 
     /**
@@ -384,104 +373,23 @@ public class Compiler extends Thread
      * @param className   the listener class name
      * @param stage       the stage when the listener is invoked
      * @param constraints the list of constraints. May be <tt>null</tt>
-     * @throws MergeException if the class cannot be found
+     * @throws IzPackClassNotFoundException if the class cannot be found
      */
-    public void addCustomListener(String className, Stage stage, List<OsModel> constraints)
+    public void addListener(String className, Stage stage, List<OsModel> constraints)
     {
-        checkClassName(className);
         int type = (stage == Stage.install) ? CustomData.INSTALLER_LISTENER : CustomData.UNINSTALLER_LISTENER;
-        CustomData data = new CustomData(className, null, constraints, type);
+        Class clazz;
+        if (stage == Stage.install)
+        {
+            clazz = loader.loadClass(className, InstallerListener.class);
+        }
+        else
+        {
+            clazz = loader.loadClass(className, UninstallerListener.class);
+        }
+        CustomData data = new CustomData(clazz.getName(), null, constraints, type);
         packager.addCustomJar(data, null);
     }
 
-    /**
-     * Verifies that the named class exists in the class path.
-     *
-     * @param className the class name
-     * @throws IllegalArgumentException if the class name is not fully qualified
-     * @throws MergeException           if the class cannot be found
-     */
-    private void checkClassName(String className)
-    {
-        String existing = findClass(className, (URL) null);
-        if (!className.equals(existing))
-        {
-            throw new IllegalArgumentException("Expected fully qualified class name for class: " + existing
-                                                       + ", but got: " + className);
-        }
-    }
 
-    /**
-     * Returns the fully qualified name for a class, verifying that it exists in the class path.
-     * <br/>
-     * For historical reasons, unqualified class names may be specified. The <tt>url</tt> argument may be used
-     * to specify the URL of the jar containing the class, to avoid picking up classes from other jars with the same
-     * name.
-     *
-     * @param className the class name. May be qualified or unqualified
-     * @param url       the URL of the jar to examine first. May be <tt>null</tt>
-     * @return the fully qualified class name
-     * @throws MergeException if the class cannot be found
-     */
-    public String findClass(String className, URL url)
-    {
-        String result = null;
-        if (url != null)
-        {
-            List<String> resources = resourcesByJar.get(url);
-            if (resources != null)
-            {
-                result = findClass(className, resources);
-            }
-        }
-        if (result == null)
-        {
-            result = findClass(className, resourcePaths);
-        }
-        if (result == null)
-        {
-            // not present in user-specified jars. Try and find it in the class path
-            Class<?> aClass = classPathCrawler.findClass(className);
-            result = aClass.getName();
-        }
-        return result;
-    }
-
-    /**
-     * Finds a class in a list of resources.
-     *
-     * @param className the class name. May be unqualified
-     * @param resources the resources
-     * @return the fully qualified class name, or <tt>null</tt> if it is not found
-     */
-    private String findClass(String className, Collection<String> resources)
-    {
-        String result = null;
-        boolean qualified = className.indexOf('.') != -1;
-        String resource = className.replace('.', '/') + ".class"; // resource path of the class
-        int length = resource.length();
-        if (resources.contains(resource))
-        {
-            // exact match
-            result = resource;
-        }
-        else if (!qualified)
-        {
-            // looking for an unqualified class name
-            for (String path : resources)
-            {
-                int index = path.lastIndexOf(resource);
-                if (index > 0 && path.length() == index + length && path.charAt(index - 1) == '/')
-                {
-                    result = path;
-                }
-            }
-        }
-        if (result != null)
-        {
-            // strip off .class suffix
-            result = result.substring(0, result.length() - 6).replace('/', '.');
-        }
-        return result;
-    }
 }

@@ -32,7 +32,7 @@ import com.izforge.izpack.compiler.CompilerConfig;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.provider.JarFileProvider;
-import com.izforge.izpack.util.ClassUtils;
+import com.izforge.izpack.test.util.ClassUtils;
 import com.izforge.izpack.util.FileUtil;
 
 /**

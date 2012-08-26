@@ -30,10 +30,12 @@ import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.compiler.container.TestResolveContainer;
-import com.izforge.izpack.compiler.merge.panel.PanelMerge;
+import com.izforge.izpack.compiler.merge.CompilerPathResolver;
+import com.izforge.izpack.compiler.merge.PanelMerge;
 import com.izforge.izpack.matcher.DuplicateMatcher;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.matcher.ZipMatcher;
+import com.izforge.izpack.panels.hello.HelloPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.MergeUtils;
 import com.izforge.izpack.test.junit.PicoRunner;
@@ -59,9 +61,9 @@ public class PanelMergeTest
     @Test
     public void testResolvePanelNameFromFile() throws Exception
     {
-        panelMerge = pathResolver.getPanelMerge("HelloPanelTestClass");
+        panelMerge = pathResolver.getPanelMerge("HelloPanel");
         assertThat(panelMerge, MergeMatcher.isMergeableContainingFiles(
-                "com/izforge/izpack/panels/hello/HelloPanelTestClass.class"));
+                "com/izforge/izpack/panels/hello/HelloPanel.class"));
     }
 
     @Test
@@ -92,8 +94,8 @@ public class PanelMergeTest
     @Test
     public void testGetClassNameFromPanelMergeWithOnlyPanelName() throws Exception
     {
-        panelMerge = pathResolver.getPanelMerge("HelloPanelTestClass");
-        assertThat(panelMerge.getPanelClass().getName(), Is.is("com.izforge.izpack.panels.hello.HelloPanelTestClass"));
+        panelMerge = pathResolver.getPanelMerge("HelloPanel");
+        assertThat(panelMerge.getPanelClass().getName(), Is.is(HelloPanel.class.getName()));
     }
 
     @Test

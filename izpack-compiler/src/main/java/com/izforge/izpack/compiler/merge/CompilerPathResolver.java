@@ -19,18 +19,20 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.compiler.merge.resolve;
+package com.izforge.izpack.compiler.merge;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
+import com.izforge.izpack.api.exception.CompilerException;
 import com.izforge.izpack.api.merge.Mergeable;
-import com.izforge.izpack.compiler.merge.panel.PanelMerge;
+import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.installer.console.AbstractPanelConsole;
 import com.izforge.izpack.installer.gui.IzPanel;
@@ -40,8 +42,6 @@ import com.izforge.izpack.merge.resolve.PathResolver;
 
 /**
  * A {@link PathResolver} for the compiler.
- * <br/>
- * This uses a {@link ClassPathCrawler} to resolve paths if they cannot be found.
  *
  * @author Tim Anderson
  */
@@ -49,9 +49,9 @@ public class CompilerPathResolver extends PathResolver
 {
 
     /**
-     * The class path crawler.
+     * The class loader.
      */
-    private final ClassPathCrawler classPathCrawler;
+    private final CompilerClassLoader loader;
 
     /**
      * The panel dependencies.
@@ -63,14 +63,14 @@ public class CompilerPathResolver extends PathResolver
      * Constructs a <tt>CompilerPathResolver</tt>.
      *
      * @param mergeableResolver the mergeable resolver
-     * @param classPathCrawler  the classpath crawler
+     * @param loader            the class loader
      * @param panelDependencies panel dependency properties
      */
-    public CompilerPathResolver(MergeableResolver mergeableResolver, ClassPathCrawler classPathCrawler,
+    public CompilerPathResolver(MergeableResolver mergeableResolver, CompilerClassLoader loader,
                                 Properties panelDependencies)
     {
         super(mergeableResolver);
-        this.classPathCrawler = classPathCrawler;
+        this.loader = loader;
         this.panelDependencies = panelDependencies;
     }
 
@@ -82,7 +82,7 @@ public class CompilerPathResolver extends PathResolver
      */
     public PanelMerge getPanelMerge(String className)
     {
-        Class type = classPathCrawler.findClass(className);
+        Class type = loader.loadClass(className, IzPanel.class);
         Map<String, List<Mergeable>> mergeableByPackage = new HashMap<String, List<Mergeable>>();
         List<Mergeable> mergeable = new ArrayList<Mergeable>();
         getMergeableByPackage(type, mergeableByPackage);
@@ -103,29 +103,21 @@ public class CompilerPathResolver extends PathResolver
     {
         List<Mergeable> result = new ArrayList<Mergeable>();
         String destination = merge.getName().replaceAll("\\.", "/");
-        Set<URL> obtainPackages = classPathCrawler.searchPackageInClassPath(merge.getName());
-        MergeableResolver mergeableResolver = getMergeableResolver();
-        for (URL obtainPackage : obtainPackages)
+
+        Enumeration<URL> urls;
+        try
         {
-            result.add(mergeableResolver.getMergeableFromURLWithDestination(obtainPackage, destination + "/"));
+            urls = getClass().getClassLoader().getResources(destination);
         }
-        return result;
-    }
-
-
-    /**
-     * Find all resources for the specified resource path.
-     *
-     * @param resourcePath the resource path
-     * @return urls matching the resource path
-     */
-    @Override
-    protected Set<URL> findResources(String resourcePath)
-    {
-        Set<URL> result = super.findResources(resourcePath);
-        if (result.isEmpty())
+        catch (IOException exception)
         {
-            result = classPathCrawler.searchPackageInClassPath(resourcePath);
+            throw new CompilerException("Failed to locate resources in package: " + merge.getName(), exception);
+        }
+        MergeableResolver mergeableResolver = getMergeableResolver();
+        while (urls.hasMoreElements())
+        {
+            URL obtainPackage = urls.nextElement();
+            result.add(mergeableResolver.getMergeableFromURLWithDestination(obtainPackage, destination + "/"));
         }
         return result;
     }

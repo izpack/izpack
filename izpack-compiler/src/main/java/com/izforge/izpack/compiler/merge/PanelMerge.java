@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.compiler.merge.panel;
+package com.izforge.izpack.compiler.merge;
 
 import java.io.File;
 import java.io.FileFilter;

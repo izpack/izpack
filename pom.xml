@@ -407,6 +407,7 @@
                         <exclude>**/DataValidatorTest.java</exclude>
                         <exclude>**/PackValidatorTest.java</exclude>
                         <exclude>**/PackagingTest.java</exclude>
+                        <exclude>**/PanelActionTest.java</exclude>
                         <exclude>**/MultiVolumeInstallationTest.java</exclude>
                     </excludes>
                     <parallel>both</parallel>
@@ -616,6 +617,7 @@
                                 <include>**/DataValidatorTest.java</include>
                                 <include>**/PackValidatorTest.java</include>
                                 <include>**/PackagingTest.java</include>
+                                <include>**/PanelActionTest.java</include>
                                 <include>**/MultiVolumeInstallationTest.java</include>
                             </includes>
                         </configuration>

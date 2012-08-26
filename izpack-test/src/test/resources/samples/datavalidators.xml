@@ -15,13 +15,13 @@
 
     <panels>
         <panel classname="HelloPanel" id="HelloPanel">
-            <validator classname="TestDataValidator"/>
+            <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
         </panel>
         <panel classname="InstallPanel" id="InstallPanel">
             <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
         </panel>
         <panel classname="SimpleFinishPanel"> <!-- MOTE: validators associated with last panel are ignored -->
-            <validator classname="TestDataValidator"/>
+            <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
         </panel>
     </panels>
 
