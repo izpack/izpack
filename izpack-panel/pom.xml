@@ -47,5 +47,12 @@
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <!-- the only maven deployment of substance? -->
+            <groupId>net.sf.squirrel-sql.thirdparty-non-maven</groupId>
+            <artifactId>substance</artifactId>
+            <version>5.2_01</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

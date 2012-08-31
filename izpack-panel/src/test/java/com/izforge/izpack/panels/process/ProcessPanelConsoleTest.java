@@ -22,6 +22,7 @@ package com.izforge.izpack.panels.process;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -98,15 +99,15 @@ public class ProcessPanelConsoleTest
         this.prompt = prompt;
         this.matcher = matcher;
         this.console = console;
+        resources.setResourceBasePath("/com/izforge/izpack/panels/process/");
     }
 
     /**
      * Tests a job with <em>executeclass</em> elements.
      */
     @Test
-    public void testExecutableClass()
+    public void testExecuteClass()
     {
-        resources.setResourceBasePath("/com/izforge/izpack/panels/process/");
         Executable.init();
         Executable.setReturn(true);
 
@@ -118,4 +119,28 @@ public class ProcessPanelConsoleTest
         assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
         assertArrayEquals(Executable.getArgs(1), new String[]{"run1", "somearg"});
     }
+
+    /**
+     * Verifies that an error is displayed if the specified <em>executeclass</em> throws an exception.
+     *
+     * @throws Exception for any error
+     */
+    @Test
+    public void testExecuteClassException() throws Exception
+    {
+        Executable.init();
+        Executable.setException(true);
+
+        ProcessPanelConsole panel = new ProcessPanelConsole(rules, resources, prompt, matcher);
+        assertFalse(panel.runConsole(installData, console));
+
+        assertEquals(3, console.getOutput().size());
+        assertTrue(console.getOutput().get(2).equals(
+                "Invocation Problem calling : com.izforge.izpack.panels.process.Executable, Executable exception"));
+
+        // verify Executable was run the expected no. of times, with the expected arguments
+        assertEquals(1, Executable.getInvocations());
+        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
+    }
+
 }

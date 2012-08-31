@@ -93,7 +93,7 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
      */
     private JTextArea outputPane;
 
-    private static boolean finishedWork = false;
+    private boolean finishedWork = false;
 
     /**
      * The constructor.

@@ -32,21 +32,6 @@ import com.izforge.izpack.util.Housekeeper;
 abstract public class PanelAutomationHelper implements AbstractUIHandler
 {
 
-    /**
-     * The house-keeper.
-     */
-    private final Housekeeper housekeeper;
-
-    /**
-     * Constructs a <tt>PanelAutomationHelper</tt>.
-     *
-     * @param housekeeper the house-keeper
-     */
-    public PanelAutomationHelper(Housekeeper housekeeper)
-    {
-        this.housekeeper = housekeeper;
-    }
-
     /*
      * @see com.izforge.izpack.api.handler.AbstractUIHandler#emitNotification(java.lang.String)
      */
@@ -85,7 +70,6 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
     public void emitErrorAndBlockNext(String title, String message)
     {
         emitError(title, message);
-        housekeeper.shutDown(10);
     }
 
     /*
@@ -107,15 +91,6 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
     public int askQuestion(String title, String question, int choices, int default_choice)
     {
         return default_choice;
-    }
-
-    /**
-     * Returns the house-keeper.
-     *
-     * @return the house-keeper
-     */
-    protected Housekeeper getHousekeeper() {
-        return housekeeper;
     }
 
 }

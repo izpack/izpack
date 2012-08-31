@@ -31,6 +31,7 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -108,14 +109,13 @@ public class GUIPrompt implements Prompt
      * @param message the message to display
      */
     @Override
-    @SuppressWarnings("MagicConstant")
     public void message(Type type, String title, String message)
     {
         if (title == null)
         {
             title = getTitle(type);
         }
-        JOptionPane.showMessageDialog(parent, message, title, getMessageType(type));
+        showMessageDialog(getMessageType(type), title, message);
     }
 
     /**
@@ -173,10 +173,10 @@ public class GUIPrompt implements Prompt
      */
     @Override
     @SuppressWarnings("MagicConstant")
-    public Option confirm(Type type, String title, String message, Options options, Option defaultOption)
+    public Option confirm(Type type, String title, final String message, Options options, Option defaultOption)
     {
-        int messageType = getMessageType(type);
-        int optionType;
+        final int messageType = getMessageType(type);
+        final int optionType;
         switch (options)
         {
             case OK_CANCEL:
@@ -196,13 +196,13 @@ public class GUIPrompt implements Prompt
         int selected;
         if (defaultOption == null)
         {
-            selected = JOptionPane.showConfirmDialog(parent, message, title, optionType, messageType);
+            selected = showConfirmDialog(messageType, title, message, optionType);
         }
         else
         {
             // jump through some hoops to select the default option
             List<Object> opts = new ArrayList<Object>();
-            Object initialValue = null;
+            Object initialValue;
             switch (optionType)
             {
                 case JOptionPane.OK_CANCEL_OPTION:
@@ -234,12 +234,134 @@ public class GUIPrompt implements Prompt
                             : (defaultOption == CANCEL) ? cancel : null;
                     break;
                 }
+                default:
+                    initialValue = null;
+                    break;
             }
-            selected = JOptionPane.showOptionDialog(parent, message, title, optionType, messageType, null,
-                                                    opts.toArray(), initialValue);
+            selected = showOptionDialog(messageType, title, message, optionType, opts, initialValue);
         }
 
         return getSelected(options, selected);
+    }
+
+    /**
+     * Displays a message dialog, ensuring that it is displayed from the event dispatch thread.
+     *
+     * @param type    the dialog type
+     * @param title   the title
+     * @param message the message
+     */
+    @SuppressWarnings("MagicConstant")
+    private void showMessageDialog(final int type, final String title, final String message)
+    {
+        if (SwingUtilities.isEventDispatchThread())
+        {
+            JOptionPane.showMessageDialog(parent, message, title, type);
+        }
+        else
+        {
+            try
+            {
+                SwingUtilities.invokeAndWait(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        JOptionPane.showMessageDialog(parent, message, title, type);
+                    }
+                });
+            }
+            catch (Throwable exception)
+            {
+                throw new IllegalStateException(exception);
+            }
+        }
+    }
+
+    /**
+     * Displays an option dialog, ensuring that it is displayed from the event dispatch thread.
+     *
+     * @param type         the dialog type
+     * @param title        the title
+     * @param message      the message
+     * @param optionType   the option type
+     * @param opts         the options
+     * @param initialValue the initial value
+     * @return the selected option
+     */
+    @SuppressWarnings("MagicConstant")
+    private int showOptionDialog(final int type, final String title, final String message, final int optionType,
+                                 final List<Object> opts, final Object initialValue)
+    {
+        int selected;
+        if (SwingUtilities.isEventDispatchThread())
+        {
+            selected = JOptionPane.showOptionDialog(parent, message, title, optionType, type, null,
+                                                    opts.toArray(), initialValue);
+        }
+        else
+        {
+            final int[] handle = new int[1];
+            try
+            {
+                SwingUtilities.invokeAndWait(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        handle[0] = JOptionPane.showOptionDialog(parent, message, title, optionType, type,
+                                                                 null, opts.toArray(), initialValue);
+                    }
+                });
+            }
+            catch (Throwable exception)
+            {
+                throw new IllegalStateException(exception);
+            }
+            selected = handle[0];
+        }
+        return selected;
+    }
+
+    /**
+     *
+     * Displays an option dialog, ensuring that it is displayed from the event dispatch thread.
+     *
+     * @param type         the dialog type
+     * @param title        the title
+     * @param message      the message
+     * @param optionType   the option type
+     * @return the selected option
+     */
+    @SuppressWarnings("MagicConstant")
+    private int showConfirmDialog(final int type, final String title, final String message, final int optionType)
+    {
+        int selected;
+        if (SwingUtilities.isEventDispatchThread())
+        {
+            selected = JOptionPane.showConfirmDialog(parent, message, title, optionType, type);
+        }
+        else
+        {
+            final int[] handle = new int[1];
+            try
+            {
+                SwingUtilities.invokeAndWait(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        handle[0] = JOptionPane.showConfirmDialog(parent, message, title, optionType, type);
+                    }
+                });
+            }
+            catch (Throwable exception)
+            {
+                throw new IllegalStateException(exception);
+            }
+            selected = handle[0];
+        }
+        return selected;
     }
 
     /**

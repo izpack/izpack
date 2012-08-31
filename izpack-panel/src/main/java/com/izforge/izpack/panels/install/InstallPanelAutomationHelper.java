@@ -28,7 +28,6 @@ import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
-import com.izforge.izpack.util.Housekeeper;
 
 /**
  * Functions to support automated usage of the InstallPanel
@@ -48,12 +47,10 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
     /**
      * Constructs an <tt>InstallPanelAutomationHelper</tt>.
      *
-     * @param unpacker    the unpacker
-     * @param housekeeper the house-keeper
+     * @param unpacker the unpacker
      */
-    public InstallPanelAutomationHelper(IUnpacker unpacker, Housekeeper housekeeper)
+    public InstallPanelAutomationHelper(IUnpacker unpacker)
     {
-        super(housekeeper);
         this.unpacker = unpacker;
         unpacker.setProgressListener(this);
     }
@@ -71,7 +68,6 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
 
     /**
      * Perform the installation actions.
-     *
      *
      * @param panelRoot The panel XML tree root.
      * @return true if the installation was successful.

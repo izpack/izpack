@@ -37,6 +37,11 @@ public class Executable
     private static boolean result = false;
 
     /**
+     * Determines if the invocation should throw an exception.
+     */
+    private static boolean exception = false;
+
+    /**
      * The no. of times {@link #run} was invoked.
      */
     private static int invocations = 0;
@@ -52,6 +57,7 @@ public class Executable
     public static void init()
     {
         result = false;
+        exception = false;
         invocations = 0;
         args.clear();
     }
@@ -64,6 +70,16 @@ public class Executable
     public static void setReturn(boolean result)
     {
         Executable.result = result;
+    }
+
+    /**
+     * Determines if the next invocation should throw an exception.
+     *
+     * @param exception if {@code true}, throw an exception on invocation
+     */
+    public static void setException(boolean exception)
+    {
+        Executable.exception = exception;
     }
 
     /**
@@ -98,6 +114,9 @@ public class Executable
     {
         Executable.args.put(invocations, args);
         ++invocations;
+        if (exception) {
+            throw new RuntimeException("Executable exception");
+        }
         return result;
     }
 }

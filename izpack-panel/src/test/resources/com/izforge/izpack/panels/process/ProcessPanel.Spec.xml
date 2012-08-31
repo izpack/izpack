@@ -33,4 +33,5 @@
             <arg>somearg</arg>
         </executeclass>
     </job>
+    <onFail next="false" previous="false"/>
 </izpack:processing>

@@ -54,22 +54,14 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
      * @param housekeeper   the house keeper
      * @param factory       the factory for platform-specific implementations
      * @param matcher       the platform-model matcher
+     * @throws Exception for any error
      */
     public ShortcutPanelAutomationHelper(AutomatedInstallData installData, Resources resources,
-                                         UninstallData uninstallData,
-                                         Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
-                                         PlatformModelMatcher matcher)
+                                         UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory,
+                                         InstallerListeners listeners, PlatformModelMatcher matcher) throws Exception
     {
-        super(housekeeper);
-        try
-        {
-            shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData,
-                                                        housekeeper, factory, listeners, matcher);
-        }
-        catch (Exception e)
-        {
-            getHousekeeper().shutDown(4);
-        }
+        shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData,
+                                                    housekeeper, factory, listeners, matcher);
     }
 
     /**

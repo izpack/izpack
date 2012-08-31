@@ -23,6 +23,8 @@ package com.izforge.izpack.panels.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.runner.RunWith;
@@ -134,7 +136,7 @@ public class AbstractPanelTest
      * Cleans up after the test case.
      */
     @After
-    public void tearDown()
+    public void tearDown() throws Exception
     {
         if (frameFixture != null)
         {
@@ -187,8 +189,9 @@ public class AbstractPanelTest
      *
      * @param panelClasses the panel classes
      * @return an {@link InstallerFrame} wrapped in a {@link FrameFixture}
+     * @throws Exception for any error
      */
-    protected FrameFixture show(Class... panelClasses)
+    protected FrameFixture show(Class... panelClasses) throws Exception
     {
         List<IzPanelView> panelList = new ArrayList<IzPanelView>();
         for (Class panelClass : panelClasses)
@@ -205,23 +208,36 @@ public class AbstractPanelTest
      *
      * @param panelViews the panel views
      * @return an {@link InstallerFrame} wrapped in a {@link FrameFixture}
+     * @throws Exception for any error
      */
-    protected FrameFixture show(List<IzPanelView> panelViews)
+    protected FrameFixture show(final List<IzPanelView> panelViews)
+            throws Exception
     {
-        panels = new IzPanels(panelViews, container, installData);
-        DefaultNavigator navigator = new DefaultNavigator(panels, icons, installData);
-        InstallerFrame frame = new InstallerFrame("A title", installData, rules,
-                                                  icons, panels, uninstallDataWriter, resourceManager,
-                                                  Mockito.mock(UninstallData.class),
-                                                  Mockito.mock(Housekeeper.class), navigator,
-                                                  Mockito.mock(Log.class));
+        // create the frame in the event dispatcher thread (mostly to keep substance L&F happy, but also good practice)
+        final InstallerFrame[] handle = new InstallerFrame[1];
+        SwingUtilities.invokeAndWait(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                panels = new IzPanels(panelViews, container, installData);
+                DefaultNavigator navigator = new DefaultNavigator(panels, icons, installData);
+                InstallerFrame frame = new InstallerFrame("A title", installData, rules,
+                                                          icons, panels, uninstallDataWriter, resourceManager,
+                                                          Mockito.mock(UninstallData.class),
+                                                          Mockito.mock(Housekeeper.class), navigator,
+                                                          Mockito.mock(Log.class));
+                handle[0] = frame;
+            }
+        });
+        InstallerFrame frame = handle[0];
+        frameFixture = new FrameFixture(frame);
         container.getContainer().addComponent(frame);
         InstallDataConfiguratorWithRules configuratorWithRules = new InstallDataConfiguratorWithRules(
                 installData, rules, Platforms.UNIX);
         InstallerController controller = new InstallerController(configuratorWithRules, frame);
         controller.buildInstallation();
         controller.launchInstallation();
-        frameFixture = new FrameFixture(frame);
         return frameFixture;
     }
 

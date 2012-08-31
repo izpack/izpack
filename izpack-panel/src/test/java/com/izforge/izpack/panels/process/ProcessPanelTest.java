@@ -20,12 +20,21 @@
  */
 package com.izforge.izpack.panels.process;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+
+import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
+import org.hamcrest.text.StringContains;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.jvnet.substance.skin.SubstanceBusinessLookAndFeel;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -51,6 +60,12 @@ public class ProcessPanelTest extends AbstractPanelTest
 {
 
     /**
+     * Saves the look & feel.
+     */
+    private LookAndFeel lookAndFeel;
+
+
+    /**
      * Constructs a {@code ProcessPanelTest}.
      *
      * @param container           the test container
@@ -62,11 +77,31 @@ public class ProcessPanelTest extends AbstractPanelTest
      * @param uninstallDataWriter the uninstallation data writer
      */
     public ProcessPanelTest(TestGUIPanelContainer container, GUIInstallData installData,
-                            ResourceManager resourceManager,
-                            ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
-                            UninstallDataWriter uninstallDataWriter)
+                            ResourceManager resourceManager, ObjectFactory factory, RulesEngine rules,
+                            IconsDatabase icons, UninstallDataWriter uninstallDataWriter)
     {
         super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter);
+    }
+
+    /**
+     * Sets up the test.
+     */
+    @Before
+    public void setUp()
+    {
+        lookAndFeel = UIManager.getLookAndFeel();
+    }
+
+    /**
+     * Cleans up after the test case.
+     *
+     * @throws Exception for any error
+     */
+    @After
+    public void tearDown() throws Exception
+    {
+        super.tearDown();
+        UIManager.setLookAndFeel(lookAndFeel);
     }
 
     /**
@@ -95,6 +130,47 @@ public class ProcessPanelTest extends AbstractPanelTest
         assertEquals(2, Executable.getInvocations());
         assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
         assertArrayEquals(Executable.getArgs(1), new String[]{"run1", "somearg"});
+    }
+
+    /**
+     * Verifies that a dialog is displayed if the specified <em>executeclass</em> throws an exception.
+     *
+     * @throws Exception for any error
+     */
+    @Test
+    public void testExecuteClassException() throws Exception
+    {
+        SubstanceBusinessLookAndFeel lookAndFeel = new SubstanceBusinessLookAndFeel();
+        if (lookAndFeel.isSupportedLookAndFeel())
+        {
+            // Substances checks that UI elements are created within the event dispatcher thread.
+            UIManager.setLookAndFeel(lookAndFeel);
+        }
+
+        getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/process/");
+        Executable.init();
+        Executable.setException(true);
+
+        // show the panel
+        FrameFixture fixture = show(ProcessPanel.class, SimpleFinishPanel.class);
+        Thread.sleep(2000);
+        assertTrue(getPanels().getView() instanceof ProcessPanel);
+
+        // attempt to navigate to the next panel
+        DialogFixture dialogFixture = fixture.dialog();
+        dialogFixture.requireVisible();
+        assertThat(dialogFixture.label("OptionPane.label").text(),
+                   StringContains.containsString("Executable exception"));
+        dialogFixture.button().click();
+
+        Thread.sleep(2000);
+        fixture.button(GuiId.BUTTON_NEXT.id).requireDisabled();
+
+        assertTrue(getPanels().getView() instanceof ProcessPanel);
+
+        // verify Executable was run the expected no. of times, with the expected arguments
+        assertEquals(1, Executable.getInvocations());
+        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
     }
 
 }

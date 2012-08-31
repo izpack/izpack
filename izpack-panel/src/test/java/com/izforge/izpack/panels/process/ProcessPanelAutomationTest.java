@@ -22,19 +22,19 @@ package com.izforge.izpack.panels.process;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
-import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
@@ -84,20 +84,19 @@ public class ProcessPanelAutomationTest
         this.rules = rules;
         this.resources = resources;
         this.matcher = matcher;
+        resources.setResourceBasePath("/com/izforge/izpack/panels/process/");
     }
 
     /**
      * Tests a job with <em>executeclass</em> elements.
      */
     @Test
-    public void testExecutableClass()
+    public void testExecuteClass()
     {
-        resources.setResourceBasePath("/com/izforge/izpack/panels/process/");
         Executable.init();
         Executable.setReturn(true);
 
-        ProcessPanelAutomation panel = new ProcessPanelAutomation(installData, rules, resources, matcher,
-                                                                  Mockito.mock(Housekeeper.class));
+        ProcessPanelAutomation panel = new ProcessPanelAutomation(installData, rules, resources, matcher);
         panel.runAutomated(installData, new XMLElementImpl("root"));   // XML element not used
 
         // verify Executable was run the expected no. of times, with the expected arguments
@@ -105,5 +104,33 @@ public class ProcessPanelAutomationTest
         assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
         assertArrayEquals(Executable.getArgs(1), new String[]{"run1", "somearg"});
     }
+
+    /**
+     * Verifies that an error is displayed if the specified <em>executeclass</em> throws an exception.
+     *
+     * @throws Exception for any error
+     */
+    @Test
+    public void testExecuteClassException() throws Exception
+    {
+        Executable.init();
+        Executable.setException(true);
+
+        ProcessPanelAutomation panel = new ProcessPanelAutomation(installData, rules, resources, matcher);
+        try
+        {
+            panel.runAutomated(installData, new XMLElementImpl("root"));   // XML element not used
+            fail("InstallerException not thrown");
+        }
+        catch (InstallerException expected)
+        {
+            // expected behaviour
+        }
+
+        // verify Executable was run the expected no. of times, with the expected arguments
+        assertEquals(1, Executable.getInvocations());
+        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
+    }
+
 
 }

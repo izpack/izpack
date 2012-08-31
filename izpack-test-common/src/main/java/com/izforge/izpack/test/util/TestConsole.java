@@ -40,7 +40,12 @@ public class TestConsole extends Console
     /**
      * The input scripts.
      */
-    List<List<String>> scripts = new ArrayList<List<String>>();
+    private List<List<String>> scripts = new ArrayList<List<String>>();
+
+    /**
+     * The output.
+     */
+    private List<String> output = new ArrayList<String>();
 
     /**
      * The index into {@link #scripts}.
@@ -156,6 +161,40 @@ public class TestConsole extends Console
     public int getReads()
     {
         return reads;
+    }
+
+    /**
+     * Prints a message to the console.
+     *
+     * @param message the message to print
+     */
+    @Override
+    public void print(String message)
+    {
+        super.print(message);
+        output.add(message);
+    }
+
+    /**
+     * Prints a message to the console with a new line.
+     *
+     * @param message the message to print
+     */
+    @Override
+    public void println(String message)
+    {
+        super.println(message);
+        output.add(message);
+    }
+
+    /**
+     * Returns the output.
+     *
+     * @return the output
+     */
+    public List<String> getOutput()
+    {
+        return output;
     }
 
     /**

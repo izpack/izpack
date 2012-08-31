@@ -28,7 +28,6 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
-import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
@@ -52,12 +51,10 @@ public class ProcessPanelAutomation extends PanelAutomationHelper implements Pan
      * @param resources   the resources
      * @param rules       the rules
      * @param matcher     the platform-model matcher
-     * @param housekeeper the house-keeper
      */
     public ProcessPanelAutomation(InstallData installData, RulesEngine rules, Resources resources,
-                                  PlatformModelMatcher matcher, Housekeeper housekeeper)
+                                  PlatformModelMatcher matcher)
     {
-        super(housekeeper);
         processPanelWorker = new ProcessPanelWorker(installData, rules, resources, matcher);
         processPanelWorker.setHandler(this);
     }

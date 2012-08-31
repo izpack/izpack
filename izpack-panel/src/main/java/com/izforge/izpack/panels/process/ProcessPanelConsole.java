@@ -8,6 +8,7 @@ import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.handler.Prompt.Type;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
+import com.izforge.izpack.core.handler.PromptUIHandler;
 import com.izforge.izpack.installer.console.AbstractPanelConsole;
 import com.izforge.izpack.installer.console.PanelConsole;
 import com.izforge.izpack.util.Console;
@@ -18,7 +19,10 @@ public class ProcessPanelConsole extends AbstractPanelConsole implements PanelCo
 {
     private RulesEngine rules;
     private Resources resources;
+
     private Prompt prompt;
+
+    private PromptUIHandler handler;
 
     /**
      * The platform-model matcher.
@@ -34,41 +38,38 @@ public class ProcessPanelConsole extends AbstractPanelConsole implements PanelCo
         this.rules = rules;
         this.resources = resources;
         this.prompt = prompt;
+        handler = new PromptUIHandler(prompt);
         this.matcher = matcher;
     }
 
     public void emitNotification(String message)
     {
-        // TODO Auto-generated method stub
+        handler.emitNotification(message);
     }
 
     public boolean emitWarning(String title, String message)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return handler.emitWarning(title, message);
     }
 
     public void emitError(String title, String message)
     {
-        // TODO Auto-generated method stub
+        handler.emitError(title, message);
     }
 
     public void emitErrorAndBlockNext(String title, String message)
     {
-        // TODO Auto-generated method stub
-
+        emitError(title, message);
     }
 
     public int askQuestion(String title, String question, int choices)
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return handler.askQuestion(title, question, choices);
     }
 
     public int askQuestion(String title, String question, int choices, int default_choice)
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return handler.askQuestion(title, question, choices, default_choice);
     }
 
     public void logOutput(String message, boolean stderr)

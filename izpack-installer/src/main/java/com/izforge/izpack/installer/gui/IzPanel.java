@@ -27,6 +27,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager2;
 import java.net.URL;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
@@ -36,6 +37,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
@@ -46,6 +48,8 @@ import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.installer.DataValidator;
 import com.izforge.izpack.api.installer.ISummarisable;
 import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.core.handler.PromptUIHandler;
+import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.gui.IzPanelLayout;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.gui.LayoutConstants;
@@ -381,57 +385,22 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
     /**
      * Ask the user a question.
      *
-     * @param title          Message title.
-     * @param question       The question.
-     * @param choices        The set of choices to present.
-     * @param default_choice The default choice. (-1 = no default choice)
+     * @param title         Message title.
+     * @param question      The question.
+     * @param choices       The set of choices to present.
+     * @param defaultChoice The default choice. (-1 = no default choice)
      * @return The user's choice.
      * @see AbstractUIHandler#askQuestion(String, String, int, int)
      */
     @Override
-    public int askQuestion(String title, String question, int choices, int default_choice)
+    public int askQuestion(final String title, final String question, int choices, int defaultChoice)
     {
-        int jo_choices = 0;
-
-        if (choices == AbstractUIHandler.CHOICES_YES_NO)
-        {
-            jo_choices = JOptionPane.YES_NO_OPTION;
-        }
-        else if (choices == AbstractUIHandler.CHOICES_YES_NO_CANCEL)
-        {
-            jo_choices = JOptionPane.YES_NO_CANCEL_OPTION;
-        }
-
-        int user_choice = JOptionPane.showConfirmDialog(this, question, title, jo_choices,
-                                                        JOptionPane.QUESTION_MESSAGE);
-
-        if (user_choice == JOptionPane.CANCEL_OPTION)
-        {
-            return AbstractUIHandler.ANSWER_CANCEL;
-        }
-
-        if (user_choice == JOptionPane.YES_OPTION)
-        {
-            return AbstractUIHandler.ANSWER_YES;
-        }
-
-        if (user_choice == JOptionPane.CLOSED_OPTION)
-        {
-            return AbstractUIHandler.ANSWER_NO;
-        }
-
-        if (user_choice == JOptionPane.NO_OPTION)
-        {
-            return AbstractUIHandler.ANSWER_NO;
-        }
-
-        return default_choice;
+        return new PromptUIHandler(new GUIPrompt(this)).askQuestion(title, question, choices, defaultChoice);
     }
 
-    public boolean emitNotificationFeedback(String message)
+    public boolean emitNotificationFeedback(final String message)
     {
-        return JOptionPane.showConfirmDialog(this, message, getString("installer.Message"), JOptionPane.WARNING_MESSAGE,
-                                             JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
+        return emitWarning(getString("installer.Message"), message);
     }
 
     /**
@@ -440,9 +409,9 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
      * @param message The notification.
      */
     @Override
-    public void emitNotification(String message)
+    public void emitNotification(final String message)
     {
-        JOptionPane.showMessageDialog(this, message);
+        new PromptUIHandler(new GUIPrompt(this)).emitNotification(message);
     }
 
     /**
@@ -451,11 +420,9 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
      * @param message The warning message.
      */
     @Override
-    public boolean emitWarning(String title, String message)
+    public boolean emitWarning(final String title, final String message)
     {
-        return (JOptionPane.showConfirmDialog(this, message, title, JOptionPane.WARNING_MESSAGE,
-                                              JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION);
-
+        return new PromptUIHandler(new GUIPrompt(this)).emitWarning(title, message);
     }
 
     /**
@@ -464,9 +431,9 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
      * @param message The error message.
      */
     @Override
-    public void emitError(String title, String message)
+    public void emitError(final String title, final String message)
     {
-        JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
+        new PromptUIHandler(new GUIPrompt(this)).emitError(title, message);
     }
 
     /**

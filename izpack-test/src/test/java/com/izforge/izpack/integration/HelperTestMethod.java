@@ -5,8 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.SwingUtilities;
-
 import org.apache.commons.io.FileUtils;
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
@@ -14,7 +12,6 @@ import org.hamcrest.core.Is;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
@@ -50,29 +47,14 @@ public class HelperTestMethod
      *
      * @param installerFrame
      * @param installerController
-     * @throws Exception
      */
     public static FrameFixture prepareFrameFixture(InstallerFrame installerFrame,
-                                                   final InstallerController installerController) throws Exception
+                                                   final InstallerController installerController)
     {
         FrameFixture installerFrameFixture = new FrameFixture(installerFrame);
 
-        SwingUtilities.invokeAndWait(new Runnable()
-        {
-            public void run()
-            {
-                try
-                {
-                    installerController.buildInstallation();
-                    installerController.launchInstallation();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                    throw new IzPackException(e);
-                }
-            }
-        });
+        installerController.buildInstallation();
+        installerController.launchInstallation();
         return installerFrameFixture;
     }
 
