@@ -35,7 +35,6 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.uninstaller.Destroyer;
 import com.izforge.izpack.uninstaller.console.ConsoleUninstallerContainer;
 import com.izforge.izpack.uninstaller.gui.GUIUninstallerContainer;
-import com.izforge.izpack.uninstaller.gui.UninstallerFrame;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.file.FileUtils;
 
@@ -112,17 +111,8 @@ public class UninstallHelper
         File copy = copy(uninstallJar);
         ClassLoader loader = getClassLoader(copy);
 
-        // get the UninstallerFrame class
-        Class frameClass = loader.loadClass(UninstallerFrame.class.getName());
-        Method init = frameClass.getMethod("init", boolean.class, boolean.class);
-
         Class containerClass = loader.loadClass(GUIUninstallerContainer.class.getName());
         Object container = containerClass.newInstance();
-        Method getComponent = containerClass.getMethod("getComponent", Class.class);
-
-        // need to initialise the frame in order for the GUIDestroyerListener to be populated
-        Object frame = getComponent.invoke(container, frameClass);
-        init.invoke(frame, false, false);
 
         // now run the Destroyer. Can't do it via the UninstallerFrame as can't access the uninstall button
         runDestroyer(container, loader, copy);

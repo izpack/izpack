@@ -445,10 +445,11 @@ public abstract class PanelView<T>
                 result = (Class<T>) type;
             }
         }
-        catch (ClassNotFoundException e)
+        catch (Throwable exception)
         {
             // ignore
-            logger.fine("No " + viewClass.getSimpleName() + " + found for class " + name + ": " + e.toString());
+            logger.log(Level.FINE, "No " + viewClass.getSimpleName() + " + found for class " + name + ": "
+                    + exception.toString(), exception);
         }
         return result;
     }

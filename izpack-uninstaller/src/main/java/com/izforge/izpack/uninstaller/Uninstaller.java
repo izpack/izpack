@@ -29,6 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.izforge.izpack.core.resource.DefaultResources;
+import com.izforge.izpack.uninstaller.console.ConsoleUninstaller;
 import com.izforge.izpack.uninstaller.console.ConsoleUninstallerContainer;
 import com.izforge.izpack.uninstaller.container.UninstallerContainer;
 import com.izforge.izpack.uninstaller.gui.GUIUninstallerContainer;
@@ -131,7 +132,7 @@ public class Uninstaller
         UninstallerContainer container = new ConsoleUninstallerContainer();
         try
         {
-            Destroyer destroyer = container.getComponent(Destroyer.class);
+            ConsoleUninstaller uninstaller = container.getComponent(ConsoleUninstaller.class);
             boolean force = false;
             for (String arg : args)
             {
@@ -140,9 +141,7 @@ public class Uninstaller
                     force = true;
                 }
             }
-            System.out.println("Force deletion: " + force);
-            destroyer.setForceDelete(force);
-            destroyer.run();
+            uninstaller.uninstall(force);
         }
         catch (Exception err)
         {

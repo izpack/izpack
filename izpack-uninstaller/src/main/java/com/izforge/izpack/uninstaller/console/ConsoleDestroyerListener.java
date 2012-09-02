@@ -41,7 +41,7 @@ public class ConsoleDestroyerListener extends DestroyerListener
      */
     public void startAction(final String name, final int max)
     {
-        console.print("Processing " + name);
+        console.println("Processing " + name);
     }
 
     /**
@@ -49,7 +49,7 @@ public class ConsoleDestroyerListener extends DestroyerListener
      */
     public void stopAction()
     {
-        console.print(messages.get("InstallPanel.finished"));
+        console.println(messages.get("InstallPanel.finished"));
     }
 
     /**
@@ -60,7 +60,7 @@ public class ConsoleDestroyerListener extends DestroyerListener
      */
     public void progress(final int subStepNo, final String message)
     {
-        console.print(message);
+        console.println(message);
     }
 
 }

@@ -24,6 +24,7 @@ import static com.izforge.izpack.api.handler.Prompt.Type.ERROR;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,11 +45,6 @@ import com.izforge.izpack.uninstaller.resource.RootScripts;
  */
 public class Destroyer implements Runnable
 {
-
-    /**
-     * The progress listener.
-     */
-    private final ProgressListener listener;
 
     /**
      * The log of installed files.
@@ -76,9 +72,19 @@ public class Destroyer implements Runnable
     private Prompt prompt;
 
     /**
+     * The progress listener. May be {@code null}.
+     */
+    private ProgressListener listener;
+
+    /**
      * True if the destroyer must force recursive deletion.
      */
     private boolean forceDelete;
+
+    /**
+     * Tracks the no. of files that couldn't be deleted.
+     */
+    private List<File> failed = new ArrayList<File>();
 
     /**
      * The logger.
@@ -88,15 +94,13 @@ public class Destroyer implements Runnable
     /**
      * The constructor.
      *
-     * @param listener  the progress listener
      * @param log       the installation log
      * @param listeners the uninstaller listeners
      * @param prompt    the prompt
      */
-    public Destroyer(ProgressListener listener, InstallLog log, UninstallerListeners listeners,
+    public Destroyer(InstallLog log, UninstallerListeners listeners,
                      Executables executables, RootScripts rootScripts, Prompt prompt)
     {
-        this.listener = listener;
         this.log = log;
         this.listeners = listeners;
         this.executables = executables;
@@ -112,6 +116,16 @@ public class Destroyer implements Runnable
     public void setPrompt(Prompt prompt)
     {
         this.prompt = prompt;
+    }
+
+    /**
+     * Registers a listener to be notified of progress.
+     *
+     * @param listener the listener. May be {@code null}
+     */
+    public void setProgressListener(ProgressListener listener)
+    {
+        this.listener = listener;
     }
 
     /**
@@ -143,7 +157,10 @@ public class Destroyer implements Runnable
         }
         catch (Throwable exception)
         {
-            listener.stopAction();
+            if (listener != null)
+            {
+                listener.stopAction();
+            }
             logger.log(Level.SEVERE, exception.getMessage(), exception);
 
             StringWriter trace = new StringWriter();
@@ -151,6 +168,16 @@ public class Destroyer implements Runnable
 
             prompt.message(ERROR, "exception caught", trace.toString());
         }
+    }
+
+    /**
+     * Returns any files that could not be removed.
+     *
+     * @return the files
+     */
+    public List<File> getFailedToDelete()
+    {
+        return failed;
     }
 
     /**
@@ -163,7 +190,10 @@ public class Destroyer implements Runnable
         List<File> files = log.getInstalled();
         int size = files.size();
         listeners.beforeDeletion(files, listener);
-        listener.startAction("destroy", size);
+        if (listener != null)
+        {
+            listener.startAction("destroy", size);
+        }
 
         for (int i = 0; i < size; i++)
         {
@@ -173,7 +203,10 @@ public class Destroyer implements Runnable
             delete(file);
 
             listeners.afterDelete(file, listener);
-            listener.progress(i, file.getAbsolutePath());
+            if (listener != null)
+            {
+                listener.progress(i, file.getAbsolutePath());
+            }
         }
 
         listeners.afterDeletion(files, listener);
@@ -181,12 +214,43 @@ public class Destroyer implements Runnable
         rootScripts.run();
 
         // We make a complementary cleanup
-        listener.progress(log.getInstalled().size(), "[ cleanups ]");
+        if (listener != null)
+        {
+            listener.progress(log.getInstalled().size(), "[ cleanups ]");
+        }
 
         File installPath = new File(log.getInstallPath());
         cleanup(installPath);
 
-        listener.stopAction();
+        // verify that the files no longer exist. Check this here, as the root scripts may have performed cleanup.
+        checkDeletion(files, installPath);
+
+        if (listener != null)
+        {
+            listener.stopAction();
+        }
+    }
+
+    /**
+     * Verifies that the installed files have been deleted.
+     *
+     * @param files       the files to check
+     * @param installPath the installation path
+     */
+    private void checkDeletion(List<File> files, File installPath)
+    {
+        failed.clear();
+        for (File f : files)
+        {
+            if (f.exists())
+            {
+                failed.add(f);
+            }
+        }
+        if (installPath.exists())
+        {
+            failed.add(installPath);
+        }
     }
 
     /**
@@ -221,9 +285,9 @@ public class Destroyer implements Runnable
      */
     private void delete(File file)
     {
-        if (!file.delete())
+        if (file.exists() && !file.delete())
         {
-            logger.warning("Failed to delete: " + file);
+            logger.info("Failed to delete: " + file);
         }
     }
 

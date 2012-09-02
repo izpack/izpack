@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.uninstaller.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -35,15 +36,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 import com.izforge.izpack.api.resource.Messages;
@@ -51,6 +57,7 @@ import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.uninstaller.Destroyer;
+import com.izforge.izpack.uninstaller.event.DestroyerListener;
 import com.izforge.izpack.uninstaller.resource.InstallLog;
 import com.izforge.izpack.util.Housekeeper;
 
@@ -63,19 +70,14 @@ public class UninstallerFrame extends JFrame
 {
 
     /**
-     *
-     */
-    private static final long serialVersionUID = 3257281444152684850L;
-
-    /**
      * The icons database.
      */
-    private IconsDatabase icons;
+    private final IconsDatabase icons;
 
     /**
      * The locale-specific messages.
      */
-    private Messages messages;
+    private final Messages messages;
 
     /**
      * The target destroy checkbox.
@@ -85,22 +87,22 @@ public class UninstallerFrame extends JFrame
     /**
      * The progress bar.
      */
-    protected JProgressBar progressBar;
+    private JProgressBar progressBar;
 
     /**
      * The destroy button.
      */
-    protected JButton destroyButton;
+    private JButton destroyButton;
 
     /**
      * The quit button.
      */
-    protected JButton quitButton;
+    private JButton quitButton;
 
     /**
      * The buttons hover color.
      */
-    private Color buttonsHColor = new Color(230, 230, 230);
+    private final Color buttonsHColor = new Color(230, 230, 230);
 
     /**
      * The installation log.
@@ -124,10 +126,8 @@ public class UninstallerFrame extends JFrame
      * @param destroyer   the destroyer
      * @param housekeeper the housekeeper
      * @param messages    the locale-specific messages
-     * @param listener    the listener
      */
-    public UninstallerFrame(Destroyer destroyer, InstallLog log, Housekeeper housekeeper, Messages messages,
-                            GUIDestroyerListener listener)
+    public UninstallerFrame(Destroyer destroyer, InstallLog log, Housekeeper housekeeper, Messages messages)
             throws Exception
     {
         super("IzPack - Uninstaller");
@@ -135,7 +135,6 @@ public class UninstallerFrame extends JFrame
         this.log = log;
         this.housekeeper = housekeeper;
         this.messages = messages;
-        listener.setUninstallerFrame(this);
 
         // Initializations
         icons = new IconsDatabase();
@@ -146,6 +145,28 @@ public class UninstallerFrame extends JFrame
 
         // Sets the frame icon
         setIconImage(icons.get("JFrameIcon").getImage());
+
+        destroyer.setProgressListener(new DestroyerListener()
+        {
+            @Override
+            public void startAction(String name, int steps)
+            {
+                started(steps);
+            }
+
+            @Override
+            public void progress(int subStep, String message)
+            {
+                UninstallerFrame.this.progress(subStep, message);
+            }
+
+            @Override
+            public void stopAction()
+            {
+                finished();
+            }
+
+        });
     }
 
     /**
@@ -300,8 +321,6 @@ public class UninstallerFrame extends JFrame
      */
     private void loadIcons() throws Exception
     {
-        // Initialisations
-        icons = new IconsDatabase();
         URL url;
         ImageIcon img;
 
@@ -326,7 +345,7 @@ public class UninstallerFrame extends JFrame
     /**
      * Blocks GUI interaction.
      */
-    public void blockGUI()
+    private  void blockGUI()
     {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         getGlassPane().setVisible(true);
@@ -336,11 +355,71 @@ public class UninstallerFrame extends JFrame
     /**
      * Releases GUI interaction.
      */
-    public void releaseGUI()
+    private void releaseGUI()
     {
         getGlassPane().setEnabled(false);
         getGlassPane().setVisible(false);
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    /**
+     * Invoked when uninstallation is started.
+     *
+     * @param count the no. of files to delete
+     */
+    private void started(int count)
+    {
+        progressBar.setMinimum(0);
+        progressBar.setMaximum(count);
+        blockGUI();
+    }
+
+    /**
+     * Invoked when uninstallation progresses.
+     *
+     * @param pos     the position
+     * @param message the progress message
+     */
+    private void progress(int pos, String message)
+    {
+        progressBar.setValue(pos);
+        progressBar.setString(message);
+    }
+
+    /**
+     * Invoked when uninstallation is complete.
+     */
+    private void finished()
+    {
+        progressBar.setString(messages.get("InstallPanel.finished"));
+        targetDestroyCheckbox.setEnabled(false);
+        destroyButton.setEnabled(false);
+        releaseGUI();
+        List<File> failedToDelete = destroyer.getFailedToDelete();
+        if (!failedToDelete.isEmpty())
+        {
+            StringBuilder buffer = new StringBuilder();
+            for (File f : failedToDelete)
+            {
+                buffer.append(f.getPath());
+                buffer.append('\n');
+            }
+            JTextArea textArea = new JTextArea();
+            textArea.setText(buffer.toString());
+            textArea.setRows(10);
+            textArea.setColumns(72);
+            textArea.setEditable(false);
+            JScrollPane pane = new JScrollPane(textArea);
+            BorderLayout layout = new BorderLayout();
+            layout.setHgap(8);
+            JPanel panel = new JPanel(layout);
+            JLabel label = new JLabel("The following files could not be removed:");
+            panel.add(label, BorderLayout.NORTH);
+            panel.add(pane, BorderLayout.CENTER);
+            label = new JLabel("Administrative privileges may be required to remove files.");
+            panel.add(label, BorderLayout.SOUTH);
+            JOptionPane.showMessageDialog(null, panel, "Uninstallation Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     /**
