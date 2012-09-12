@@ -870,7 +870,7 @@ public abstract class UnpackerBase implements IUnpacker
                 }
                 catch (Exception exception)
                 {
-                    throw new InstallerException("Failed to parse: " + file.path, exception);
+                    throw new InstallerException("Failed to parse: " + file.getPath(), exception);
                 }
                 checkInterrupt();
             }
@@ -1303,7 +1303,8 @@ public abstract class UnpackerBase implements IUnpacker
             ParsableFile file = (ParsableFile) stream.readObject();
             if (!file.hasCondition() || isConditionTrue(file.getCondition()))
             {
-                file.path = IoHelper.translatePath(file.path, installData.getVariables());
+                String path = IoHelper.translatePath(file.getPath(), installData.getVariables());
+                file.setPath(path);
                 parsables.add(file);
             }
         }

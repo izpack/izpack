@@ -21,11 +21,11 @@
 
 package com.izforge.izpack.data;
 
-import com.izforge.izpack.api.data.binding.OsModel;
-import com.izforge.izpack.api.substitutor.SubstitutionType;
-
 import java.io.Serializable;
 import java.util.List;
+
+import com.izforge.izpack.api.data.binding.OsModel;
+import com.izforge.izpack.api.substitutor.SubstitutionType;
 
 /**
  * Encloses information about a parsable file. This class abstracts the way the information is
@@ -39,29 +39,29 @@ public class ParsableFile implements Serializable
     static final long serialVersionUID = -7761309341843715721L;
 
     /**
-     * The file path
+     * The file path.
      */
-    public String path = null;
+    private String path;
 
     /**
      * The file type (or null for default)
      */
-    public SubstitutionType type;
+    private final SubstitutionType type;
 
     /**
      * The file encoding (or null for default)
      */
-    public String encoding = null;
+    private final String encoding;
 
     /**
      * The list of OS constraints limiting file installation.
      */
-    public List<OsModel> osConstraints = null;
+    private final List<OsModel> osConstraints;
 
     /**
      * condition for this Parsable
      */
-    private String condition = null;
+    private String condition;
 
     /**
      * Constructs and initializes a new instance.
@@ -79,6 +79,55 @@ public class ParsableFile implements Serializable
         this.osConstraints = osConstraints;
     }
 
+    /**
+     * Returns the file path.
+     *
+     * @return the file path
+     */
+    public String getPath()
+    {
+        return path;
+    }
+
+    /**
+     * Sets the path.
+     *
+     * @param path the path
+     */
+    public void setPath(String path)
+    {
+        this.path = path;
+    }
+
+    /**
+     * Returns the substitution type.
+     *
+     * @return the substitution type, or {@code null} for the default
+     */
+    public SubstitutionType getType()
+    {
+        return type;
+    }
+
+    /**
+     * Returns the file encoding.
+     *
+     * @return the file encoding, or {@code null} for the default
+     */
+    public String getEncoding()
+    {
+        return encoding;
+    }
+
+    /**
+     * Returns the list of OS constraints limiting file installation.
+     *
+     * @return the OS constraints, or {@code null} to indicate all OSes
+     */
+    public List<OsModel> getOsConstraints()
+    {
+        return osConstraints;
+    }
 
     /**
      * @return the condition

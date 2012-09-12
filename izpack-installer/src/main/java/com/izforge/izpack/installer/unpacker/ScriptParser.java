@@ -72,15 +72,24 @@ public class ScriptParser
     public void parse(ParsableFile parsable) throws Exception
     {
         // check whether the OS matches
-        if (!matcher.matchesCurrentPlatform(parsable.osConstraints))
+        if (!matcher.matchesCurrentPlatform(parsable.getOsConstraints()))
         {
             return;
         }
 
         // Create a temporary file for the parsed data
         // (Use the same directory so that renaming works later)
-        File file = new File(parsable.path);
-        File parsedFile = File.createTempFile("izpp", null, file.getParentFile());
+        File file = new File(parsable.getPath());
+        File parsedFile;
+        try
+        {
+            parsedFile = File.createTempFile("izpp", null, file.getParentFile());
+        }
+        catch (IOException exception)
+        {
+            throw new IOException("Failed to create temporary file for " + parsable.getPath() + " in directory "
+                                          + file.getParentFile(), exception);
+        }
 
         // Parses the file
         // (Use buffering because substitutor processes byte at a time)
@@ -88,7 +97,7 @@ public class ScriptParser
         BufferedInputStream in = new BufferedInputStream(inFile, 5120);
         FileOutputStream outFile = new FileOutputStream(parsedFile);
         BufferedOutputStream out = new BufferedOutputStream(outFile, 5120);
-        replacer.substitute(in, out, parsable.type, parsable.encoding);
+        replacer.substitute(in, out, parsable.getType(), parsable.getEncoding());
         in.close();
         out.close();
 
