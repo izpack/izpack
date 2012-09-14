@@ -24,7 +24,8 @@
 
     <!-- Flexible and in the screen proportions -->
     <guiprefs height="700" resizable="yes" width="870">
-        <!-- GUI adaption for more informations see "Modifying the GUI" in the documentation -->
+        <!-- GUI adaption for more information see "Modifying the GUI" in the documentation -->
+        <modifier key="langDisplayType" value="default"/>
         <modifier key="layoutAnchor" value="CENTER"/>
         <modifier key="headingPanelCounter" value="progressbar"/>
         <modifier key="headingPanelCounterPos" value="inNavigationPanel"/>

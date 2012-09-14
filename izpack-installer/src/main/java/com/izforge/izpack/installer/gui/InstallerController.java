@@ -2,6 +2,7 @@ package com.izforge.izpack.installer.gui;
 
 import javax.swing.SwingUtilities;
 
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.installer.base.InstallDataConfiguratorWithRules;
 
 /**
@@ -25,43 +26,53 @@ public class InstallerController
 
     public InstallerController buildInstallation()
     {
-        try
+
+        run(new Runnable()
         {
-            SwingUtilities.invokeAndWait(new Runnable()
+            @Override
+            public void run()
             {
-                @Override
-                public void run()
-                {
-                    installerFrame.buildGUI();
-                    installerFrame.sizeFrame();
-                }
-            });
-        }
-        catch (Exception exception)
-        {
-            throw new IllegalStateException(exception);
-        }
+                installerFrame.buildGUI();
+                installerFrame.sizeFrame();
+            }
+        });
         return this;
     }
 
     public void launchInstallation()
     {
-        try
+        run(new Runnable()
         {
-            SwingUtilities.invokeAndWait(new Runnable()
+            @Override
+            public void run()
             {
-                @Override
-                public void run()
-                {
-                    installerFrame.setVisible(true);
-                    installerFrame.navigateNext();
-                }
-            });
-        }
-        catch (Exception exception)
-        {
-            throw new IllegalStateException(exception);
-        }
+                installerFrame.setVisible(true);
+                installerFrame.navigateNext();
+            }
+        });
     }
 
+    /**
+     * Runs a {@code Runnable} inside the event dispatch thread.
+     *
+     * @param action the action to run
+     */
+    private void run(Runnable action)
+    {
+        if (SwingUtilities.isEventDispatchThread())
+        {
+            action.run();
+        }
+        else
+        {
+            try
+            {
+                SwingUtilities.invokeAndWait(action);
+            }
+            catch (Exception exception)
+            {
+                throw new IzPackException(exception);
+            }
+        }
+    }
 }

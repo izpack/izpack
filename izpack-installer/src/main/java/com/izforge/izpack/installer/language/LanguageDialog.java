@@ -1,8 +1,25 @@
+/*
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.izforge.izpack.installer.language;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,10 +29,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.GrayFilter;
@@ -46,29 +64,19 @@ import com.izforge.izpack.installer.requirement.RequirementsChecker;
  * @author Christian Murphy
  * @author Klaus Bartz
  */
-public class LanguageDialog extends JDialog implements ActionListener
+public class LanguageDialog extends JDialog
 {
     private static final long serialVersionUID = 3256443616359887667L;
 
-    private static transient final Logger logger = Logger.getLogger(LanguageDialog.class.getName());
+    /**
+     * The parent frame.
+     */
+    private final JFrame frame;
 
     /**
-     * The combo box.
+     * The installation data.
      */
-    private JComboBox comboBox;
-
-    /**
-     * Holds language to ISO-3 language code translation.
-     */
-    private Map<String, String> isoTable;
-
-    private GUIInstallData installData;
-    /**
-     * defined modifier for language display type.
-     */
-    private static final String[] LANGUAGE_DISPLAY_TYPES = {"iso3", "native", "default"};
-    private JFrame frame;
-    private RequirementsChecker requirements;
+    private final GUIInstallData installData;
 
     /**
      * The resources.
@@ -80,31 +88,81 @@ public class LanguageDialog extends JDialog implements ActionListener
      */
     private final Locales locales;
 
+    /**
+     * Installation requirements checker.
+     */
+    private final RequirementsChecker requirements;
 
     /**
-     * The constructor.
-     *
-     * @param installDataGUI
-     * @param requirements
+     * Maps ISO3 codes to the corresponding language display values.
      */
-    public LanguageDialog(JFrame frame, Resources resources, Locales locales, GUIInstallData installDataGUI,
-                          RequirementsChecker requirements) throws Exception
+    private Map<String, String> displayNames = new HashMap<String, String>();
+
+    /**
+     * The combo box.
+     */
+    private JComboBox comboBox;
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = Logger.getLogger(LanguageDialog.class.getName());
+
+
+    /**
+     * Constructs a {@code LanguageDialog}.
+     *
+     * @param frame        the parent frame
+     * @param resources    the resources
+     * @param locales      the locales
+     * @param installData  the installation data
+     * @param requirements the installation requirements
+     */
+    public LanguageDialog(JFrame frame, Resources resources, Locales locales, GUIInstallData installData,
+                          RequirementsChecker requirements)
     {
         super(frame);
         this.frame = frame;
         this.resources = resources;
         this.locales = locales;
-        this.installData = installDataGUI;
+        this.installData = installData;
         this.requirements = requirements;
         this.setName(GuiId.DIALOG_PICKER.id);
-        initLanguageDialog();
+        initialise();
     }
 
-    private void initLanguageDialog()
+    /**
+     * Displays the dialog.
+     *
+     * @throws Exception for any error
+     */
+    public void initLangPack() throws Exception
     {
+        // Loads the suitable langpack
+        if (locales.getLocales().size() > 1)
+        {
+            frame.setVisible(false);
+            setVisible(true);
+        }
+
+        // check installer conditions
+        if (!requirements.check())
+        {
+            logger.info("Not all installer requirements are fulfilled.");
+            System.exit(-1);
+        }
+    }
+
+    /**
+     * Initialises the dialog.
+     */
+    private void initialise()
+    {
+        JPanel contentPane = (JPanel) getContentPane();
+        Languages languages = new Languages(locales, installData, contentPane.getFont());
+
         // We build the GUI
         addWindowListener(new WindowHandler());
-        JPanel contentPane = (JPanel) getContentPane();
         setTitle("Language Selection");
         GridBagLayout layout = new GridBagLayout();
         contentPane.setLayout(layout);
@@ -124,9 +182,9 @@ public class LanguageDialog extends JDialog implements ActionListener
         contentPane.add(imgLabel);
 
         String firstMessage = "Please select your language";
-        if (getLangType().equals(LANGUAGE_DISPLAY_TYPES[0]))
-        // iso3
+        if (languages.getDisplayType() == Languages.DisplayType.ISO3)
         {
+            // TODO - Not sure why this is specific to ISO3. Should be localised too.
             firstMessage = "Please select your language below";
         }
 
@@ -137,14 +195,19 @@ public class LanguageDialog extends JDialog implements ActionListener
         contentPane.add(label1);
 
         gbConstraints.insets = new Insets(5, 5, 5, 5);
-        Object[] langPacks = reviseItems(locales.getLocales());
+        displayNames = languages.getDisplayNames();
 
-        comboBox = new JComboBox(langPacks);
+        comboBox = new JComboBox(displayNames.keySet().toArray());
         comboBox.setName(GuiId.COMBO_BOX_LANG_FLAG.id);
         if (useFlags())
         {
-            comboBox.setRenderer(new FlagRenderer(resources));
+            comboBox.setRenderer(new FlagRenderer());
         }
+        else
+        {
+            comboBox.setRenderer(new LanguageRenderer());
+        }
+
         gbConstraints.gridy = 3;
         layout.addLayoutComponent(comboBox, gbConstraints);
         contentPane.add(comboBox);
@@ -152,7 +215,14 @@ public class LanguageDialog extends JDialog implements ActionListener
         gbConstraints.insets = new Insets(15, 5, 15, 5);
         JButton okButton = new JButton("OK");
         okButton.setName(GuiId.BUTTON_LANG_OK.id);
-        okButton.addActionListener(this);
+        okButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                onOK();
+            }
+        });
         gbConstraints.fill = GridBagConstraints.NONE;
         gbConstraints.gridy = 4;
         gbConstraints.anchor = GridBagConstraints.CENTER;
@@ -172,92 +242,9 @@ public class LanguageDialog extends JDialog implements ActionListener
         Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
         setLocation(center.x - frameSize.width / 2, center.y - frameSize.height / 2 - 10);
         setResizable(true);
-        this.setSelection(Locale.getDefault().getISO3Language().toLowerCase());
-        this.setModal(true);
-        this.toFront();
-    }
-
-    /**
-     * Revises iso3 language items depending on the language display type.
-     *
-     * @param locales item array to be revised
-     * @return the revised array
-     */
-    private Object[] reviseItems(List<Locale> locales)
-    {
-        Object[] result;
-        String langType = getLangType();
-        if (langType.equals(LANGUAGE_DISPLAY_TYPES[0]))
-        {
-            // iso3
-            result = new Object[locales.size()];
-            for (int i = 0; i < locales.size(); ++i)
-            {
-                result[i] = locales.get(i).getISO3Language();
-            }
-        }
-        else if (langType.equals(LANGUAGE_DISPLAY_TYPES[1]))
-        {
-            // native: get the names as they are written in that language.
-            result = expandItems(locales, (new JComboBox()).getFont());
-        }
-        else
-        {
-            // default: get the names as they are written in the default
-            // language.
-            result = expandItems(locales, null);
-        }
-        return result;
-    }
-
-    /**
-     * Expands the given iso3 codes to language names. If a testFont is given, the codes are
-     * tested whether they can displayed or not. If not, or no font given, the language name
-     * will be returned as written in the default language of this VM.
-     *
-     * @param locales  item array to be expanded to the language name
-     * @param testFont font to test wheter a name is displayable
-     * @return aray of expanded items
-     */
-    private String[] expandItems(List<Locale> locales, Font testFont)
-    {
-        String[] result = new String[locales.size()];
-        int i;
-        for (i = 0; i < locales.size(); i++)
-        {
-            Locale locale = locales.get(i);
-            String it = expandItem(locale, testFont);
-            result[i] = it;
-        }
-        return result;
-    }
-
-    /**
-     * Expands the given iso3 code to a language name. If a testFont is given, the code will be
-     * tested whether it is displayable or not. If not, or no font given, the language name will
-     * be returned as written in the default language of this VM.
-     *
-     * @param locale   locale to be expanded to the language name
-     * @param testFont font to test wheter the name is displayable
-     * @return expanded locale
-     */
-    private String expandItem(Locale locale, Font testFont)
-    {
-        if (testFont == null)
-        {
-            // Return the language name in the spelling of the default locale.
-            return locale.getDisplayLanguage();
-        }
-        // Get the language name in the spelling of that language.
-        String str = locale.getDisplayLanguage(locale);
-        int cdut = testFont.canDisplayUpTo(str);
-        if (cdut > -1)
-        {
-            // Test font cannot render it;
-            // use language name in the spelling of the default locale.
-            str = locale.getDisplayLanguage();
-        }
-        return (str);
+        comboBox.setSelectedItem(Locale.getDefault().getISO3Language().toLowerCase());
+        setModal(true);
+        toFront();
     }
 
     /**
@@ -265,7 +252,7 @@ public class LanguageDialog extends JDialog implements ActionListener
      *
      * @return The image icon.
      */
-    public ImageIcon getImage()
+    private ImageIcon getImage()
     {
         ImageIcon img;
         try
@@ -279,55 +266,9 @@ public class LanguageDialog extends JDialog implements ActionListener
         return img;
     }
 
-    /**
-     * Gets the selected object.
-     *
-     * @return The selected item.
-     */
-    public Object getSelection()
+    private void onOK()
     {
-        Object retval = null;
-        if (isoTable != null)
-        {
-            retval = isoTable.get((String) comboBox.getSelectedItem());
-        }
-        return (retval != null) ? retval : comboBox.getSelectedItem();
-    }
-
-    /**
-     * Sets the selection.
-     *
-     * @param item The item to be selected.
-     */
-    public void setSelection(Object item)
-    {
-        Object mapped = null;
-        if (isoTable != null)
-        {
-            for (String key : isoTable.keySet())
-            {
-                if (isoTable.get(key).equals(item))
-                {
-                    mapped = key;
-                    break;
-                }
-            }
-        }
-        if (mapped == null)
-        {
-            mapped = item;
-        }
-        comboBox.setSelectedItem(mapped);
-    }
-
-    /**
-     * Closer.
-     *
-     * @param e The event.
-     */
-    public void actionPerformed(ActionEvent e)
-    {
-        String selectedPack = (String) this.getSelection();
+        String selectedPack = (String) comboBox.getSelectedItem();
         if (selectedPack == null)
         {
             throw new RuntimeException("installation canceled");
@@ -338,18 +279,11 @@ public class LanguageDialog extends JDialog implements ActionListener
             // Configure buttons after locale has been loaded
             installData.configureGuiButtons();
         }
-        catch (Exception e1)
+        catch (Exception exception)
         {
-            e1.printStackTrace();
+            logger.log(Level.SEVERE, exception.getMessage(), exception);
         }
         dispose();
-    }
-
-    public void runPicker()
-    {
-        // frame.setVisible(true);
-        frame.setVisible(false);
-        this.setVisible(true);
     }
 
     /**
@@ -372,14 +306,78 @@ public class LanguageDialog extends JDialog implements ActionListener
     }
 
     /**
+     * Returns whether flags should be used in the language selection dialog or not.
+     *
+     * @return whether flags should be used in the language selection dialog or not
+     */
+    private boolean useFlags()
+    {
+        if (installData.guiPrefs.modifier.containsKey("useFlags")
+                && "no".equalsIgnoreCase(installData.guiPrefs.modifier.get("useFlags")))
+        {
+            return (false);
+        }
+        return (true);
+    }
+
+
+    /**
+     * Sets the selected locale on the installation data.
+     *
+     * @param code the locale ISO code
+     * @throws ResourceException for any resource exception
+     */
+    private void propagateLocale(String code)
+    {
+        Locale locale = locales.getLocale(code);
+        locales.setLocale(locale);
+        installData.setLocale(locale);
+        installData.setMessages(locales.getMessages());
+    }
+
+    /**
+     * A list cell renderer to display the language given is ISO3 code.
+     */
+    private class LanguageRenderer extends JLabel implements ListCellRenderer
+    {
+
+        /**
+         * Return a component that has been configured to display the specified value.
+         *
+         * @param list         the list
+         * @param value        the value to display
+         * @param index        the cells index.
+         * @param isSelected   true if the specified cell was selected.
+         * @param cellHasFocus true if the specified cell has the focus
+         * @return a component to render the value
+         */
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+                                                      boolean cellHasFocus)
+        {
+            String code = (String) value;
+            setText(displayNames.get(code));
+            if (isSelected)
+            {
+                setForeground(list.getSelectionForeground());
+                setBackground(list.getSelectionBackground());
+            }
+            else
+            {
+                setForeground(list.getForeground());
+                setBackground(list.getBackground());
+            }
+            return this;
+        }
+    }
+
+    /**
      * A list cell renderer that adds the flags on the display.
      *
      * @author Julien Ponge
      */
-    private class FlagRenderer extends JLabel implements ListCellRenderer
+    private class FlagRenderer extends LanguageRenderer
     {
-
-        private static final long serialVersionUID = 3832899961942782769L;
 
         /**
          * Icons cache.
@@ -391,11 +389,11 @@ public class LanguageDialog extends JDialog implements ActionListener
          */
         private TreeMap<String, ImageIcon> grayIcons = new TreeMap<String, ImageIcon>();
 
-        private Resources resources;
-
-        public FlagRenderer(Resources resources)
+        /**
+         * Default constructor.
+         */
+        public FlagRenderer()
         {
-            this.resources = resources;
             setOpaque(true);
         }
 
@@ -412,117 +410,34 @@ public class LanguageDialog extends JDialog implements ActionListener
         public Component getListCellRendererComponent(JList list, Object value, int index,
                                                       boolean isSelected, boolean cellHasFocus)
         {
-            // We put the label
-            String iso3 = (String) value;
-            setText(iso3);
-            if (isoTable != null)
-            {
-                iso3 = isoTable.get(iso3);
-            }
-            if (isSelected)
-            {
-                setForeground(list.getSelectionForeground());
-                setBackground(list.getSelectionBackground());
-            }
-            else
-            {
-                setForeground(list.getForeground());
-                setBackground(list.getBackground());
-            }
-            // We put the icon
+            Component result = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-            if (!icons.containsKey(iso3))
+            String code = (String) value;
+            if (!icons.containsKey(code))
             {
-                ImageIcon icon;
-                icon = resources.getImageIcon("flag." + iso3);
-                icons.put(iso3, icon);
-                icon = new ImageIcon(GrayFilter.createDisabledImage(icon.getImage()));
-                grayIcons.put(iso3, icon);
+                try
+                {
+                    ImageIcon icon;
+                    icon = resources.getImageIcon("flag." + code);
+                    icons.put(code, icon);
+                    icon = new ImageIcon(GrayFilter.createDisabledImage(icon.getImage()));
+                    grayIcons.put(code, icon);
+                }
+                catch (ResourceException exception)
+                {
+                    logger.log(Level.WARNING, exception.getMessage(), exception);
+                }
             }
             if (isSelected || index == -1)
             {
-                setIcon(icons.get(iso3));
+                setIcon(icons.get(code));
             }
             else
             {
-                setIcon(grayIcons.get(iso3));
+                setIcon(grayIcons.get(code));
             }
-
-            // We return
-            return this;
+            return result;
         }
-    }
-
-    /**
-     * Returns the type in which the language should be displayed in the language selction dialog.
-     * Possible are "iso3", "native" and "usingDefault".
-     *
-     * @return language display type
-     */
-    protected String getLangType()
-    {
-        if (installData.guiPrefs.modifier.containsKey("langDisplayType"))
-        {
-            String val = installData.guiPrefs.modifier.get("langDisplayType");
-            val = val.toLowerCase();
-            // Verify that the value is valid, else return the default.
-            for (String aLANGUAGE_DISPLAY_TYPES : LANGUAGE_DISPLAY_TYPES)
-            {
-                if (val.equalsIgnoreCase(aLANGUAGE_DISPLAY_TYPES))
-                {
-                    return (val);
-                }
-            }
-            logger.fine("Value for language display type not valid; value: " + val);
-        }
-        return (LANGUAGE_DISPLAY_TYPES[0]);
-    }
-
-
-    /**
-     * Returns whether flags should be used in the language selection dialog or not.
-     *
-     * @return whether flags should be used in the language selection dialog or not
-     */
-    protected boolean useFlags()
-    {
-        if (installData.guiPrefs.modifier.containsKey("useFlags")
-                && "no".equalsIgnoreCase(installData.guiPrefs.modifier.get("useFlags")))
-        {
-            return (false);
-        }
-        return (true);
-    }
-
-
-    public void initLangPack() throws Exception
-    {
-        // Loads the suitable langpack
-        if (locales.getLocales().size() > 1)
-        {
-            runPicker();
-        }
-
-        // check installer conditions
-        if (!requirements.check())
-        {
-            logger.info("Not all installer requirements are fulfilled.");
-            System.exit(-1);
-        }
-    }
-
-    /**
-     * Sets the selected locale on {@link }
-     *
-     * @param code the locale ISO code
-     * @throws ResourceException for any resource exception
-     */
-    private void propagateLocale(String code)
-    {
-        Locale locale = locales.getLocale(code);
-        locales.setLocale(locale);
-        installData.setLocale(locale);
-        installData.setMessages(locales.getMessages());
     }
 
 }
