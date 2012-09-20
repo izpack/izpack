@@ -59,6 +59,7 @@ public class TargetPanel extends PathInputPanel
     /**
      * Called when the panel becomes active.
      */
+    @Override
     public void panelActivate()
     {
         // load the default directory info (if present)
@@ -76,6 +77,7 @@ public class TargetPanel extends PathInputPanel
      *
      * @return Whether the panel has been validated or not.
      */
+    @Override
     public boolean isValidated()
     {
         boolean result = false;
@@ -96,6 +98,7 @@ public class TargetPanel extends PathInputPanel
      *
      * @param panelRoot The tree to put the installDataGUI in.
      */
+    @Override
     public void makeXMLData(IXMLElement panelRoot)
     {
         new TargetPanelAutomation().makeXMLData(installData, panelRoot);
@@ -107,6 +110,7 @@ public class TargetPanel extends PathInputPanel
      * @see com.izforge.izpack.installer.IzPanel#getSummaryBody()
      */
 
+    @Override
     public String getSummaryBody()
     {
         return (this.installData.getInstallPath());

@@ -157,7 +157,7 @@ public class PromptUIHandler implements AbstractUIHandler
                     defaultValue = null;
             }
             Option selected = prompt.confirm(QUESTION, question, YES_NO, defaultValue);
-            choice = (selected == OK) ? AbstractUIHandler.ANSWER_YES : AbstractUIHandler.ANSWER_NO;
+            choice = (selected == YES) ? AbstractUIHandler.ANSWER_YES : AbstractUIHandler.ANSWER_NO;
         }
         else
         {
