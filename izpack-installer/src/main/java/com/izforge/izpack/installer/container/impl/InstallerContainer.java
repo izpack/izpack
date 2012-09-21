@@ -1,6 +1,5 @@
 package com.izforge.izpack.installer.container.impl;
 
-import java.util.Locale;
 import java.util.Properties;
 
 import org.picocontainer.MutablePicoContainer;
@@ -63,15 +62,7 @@ public abstract class InstallerContainer extends AbstractContainer
     public void setLocale(String code)
     {
         Locales locales = getComponent(Locales.class);
-        Locale locale = locales.getLocale(code);
-        if (locale != null)
-        {
-            locales.setLocale(locale);
-        }
-        else
-        {
-            throw new IzPackException("Unsupported locale:" + code);
-        }
+        locales.setLocale(code);
     }
 
     /**

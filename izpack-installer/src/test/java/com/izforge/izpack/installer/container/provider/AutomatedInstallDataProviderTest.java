@@ -32,9 +32,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Properties;
 
 import org.junit.Test;
@@ -71,12 +71,19 @@ public class AutomatedInstallDataProviderTest
     public void testCustomLangPack() throws Exception
     {
         ClassLoader loader = Mockito.mock(ClassLoader.class);
-        ResourceManager resources = new ResourceManager(loader);
+        ResourceManager resources = new ResourceManager(loader)
+        {
+            @Override
+            public Object getObject(String name)
+            {
+                if (name.equals("langpacks.info"))
+                {
+                    return Arrays.asList("eng", "fra");
+                }
 
-        // set up the locale
-        Locales locales = new LocalesProvider().provide(resources);
-        Locale locale = Locale.ENGLISH;
-        locales.setLocale(locale);
+                return super.getObject(name);
+            }
+        };
 
         // set up mock resources
         mock(loader, "resources/info", new Info());
@@ -93,9 +100,11 @@ public class AutomatedInstallDataProviderTest
         InputStream customPack = createLangPack("str id='custom.message' txt='This is a custom message'",
                                                 "str id='overridden.message' txt='Message overridden'");
 
-        String iso = locale.getISO3Language();
-        mock(loader, "resources/langpacks/" + iso + ".xml", defaultPack);
-        mock(loader, "resources/" + AbstractInstallDataProvider.LANG_FILE_NAME + "_" + iso, customPack);
+        mock(loader, "resources/langpacks/eng.xml", defaultPack);
+        mock(loader, "resources/" + AbstractInstallDataProvider.LANG_FILE_NAME + "_eng", customPack);
+
+        // set up the locale
+        Locales locales = new LocalesProvider().provide(resources);
 
         AutomatedInstallDataProvider provider = new AutomatedInstallDataProvider();
 

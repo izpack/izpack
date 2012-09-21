@@ -78,7 +78,7 @@ public class ResourceManager extends AbstractResources
     /**
      * Constructs a <tt>ResourceManager</tt>.
      *
-     * @param loader     the class loader to use to load resources
+     * @param loader the class loader to use to load resources
      */
     public ResourceManager(ClassLoader loader)
     {
@@ -238,12 +238,12 @@ public class ResourceManager extends AbstractResources
      * language is english.
      *
      * @param locale of the resourcefile
-     * @deprecated use {@link Locales#setLocale(java.util.Locale)}
+     * @deprecated use {@link Locales#setLocale(String)}
      */
     @Deprecated
     public void setLocale(String locale)
     {
-        locales.setLocale(locales.getLocale(locale));
+        locales.setLocale(locale);
     }
 
     /**
@@ -328,23 +328,36 @@ public class ResourceManager extends AbstractResources
 
     /**
      * This method is used to get the language dependent path of the given resource. If there is a
-     * resource for the current language the path of the language dependen resource is returnd. If
-     * there's no resource for the current lanuage the default path is returned.
+     * resource for the current language the path of the language dependent resource is returned. If
+     * there's no resource for the current lanugage the default path is returned.
      *
-     * @param resource Resource to load language dependen
+     * @param resource the resource to load
      * @return the language dependent path of the given resource
-     * @throws ResourceNotFoundException If the resource is not
-     *                                   found
+     * @throws ResourceNotFoundException If the resource is not found
      */
     private String getLanguageResourceString(String resource)
     {
-        String code = getLocale();
-        String resourcePath = (code != null) ? resource + "_" + code : null;
+        Locale locale = (locales != null) ? locales.getLocale() : null;
+        String country = null;
+        String language = null;
+        if (locale != null)
+        {
+            country = LocaleHelper.getISO3Country(locale);
+            language = LocaleHelper.getISO3Language(locale);
+        }
+
+        // use lowercase country code for backwards compatibility
+        String resourcePath = (country != null) ? resource + "_" + country.toLowerCase() : null;
         if (resourcePath != null && getResource(resourcePath) != null)
         {
             return resourcePath;
         }
-        else if (getResource(resource) != null)
+        resourcePath = (language != null) ? resource + "_" + language : null;
+        if (resourcePath != null && getResource(resourcePath) != null)
+        {
+            return resourcePath;
+        }
+        if (getResource(resource) != null)
         {
             return resource;
         }

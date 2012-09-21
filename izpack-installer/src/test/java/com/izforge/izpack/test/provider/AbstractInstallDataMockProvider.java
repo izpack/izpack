@@ -58,7 +58,7 @@ public abstract class AbstractInstallDataMockProvider implements Provider
         URL resource = getClass().getResource("/com/izforge/izpack/bin/langpacks/installer/eng.xml");
         Messages messages = new LocaleDatabase(resource.openStream(), Mockito.mock(Locales.class));
         installData.setMessages(messages);
-        installData.setLocale(Locale.getDefault());
+        installData.setLocale(Locale.getDefault(), "eng");
     }
 
     /**

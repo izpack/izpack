@@ -92,9 +92,9 @@ class Languages
         {
             collector = new ISO3CodeCollector();
         }
-        for (Locale locale : locales.getLocales())
+        for (String code : locales.getISOCodes())
         {
-            collector.addDisplayName(locale, displayNames);
+            collector.addDisplayName(code, locales.getLocale(code), displayNames);
         }
     }
 
@@ -147,7 +147,7 @@ class Languages
      */
     private interface DisplayNameCollector
     {
-        void addDisplayName(Locale locale, Map<String, String> displayNames);
+        void addDisplayName(String code, Locale locale, Map<String, String> displayNames);
     }
 
     /**
@@ -157,9 +157,8 @@ class Languages
     {
 
         @Override
-        public void addDisplayName(Locale locale, Map<String, String> displayNames)
+        public void addDisplayName(String code, Locale locale, Map<String, String> displayNames)
         {
-            String code = locale.getISO3Language();
             displayNames.put(code, code);
         }
     }
@@ -170,9 +169,9 @@ class Languages
     private class DefaultDisplayNameCollector implements DisplayNameCollector
     {
         @Override
-        public void addDisplayName(Locale locale, Map<String, String> displayNames)
+        public void addDisplayName(String code, Locale locale, Map<String, String> displayNames)
         {
-            displayNames.put(locale.getISO3Language(), locale.getDisplayLanguage());
+            displayNames.put(code, locale.getDisplayLanguage());
         }
     }
 
@@ -191,7 +190,7 @@ class Languages
         }
 
         @Override
-        public void addDisplayName(Locale locale, Map<String, String> displayNames)
+        public void addDisplayName(String code, Locale locale, Map<String, String> displayNames)
         {
             String name = locale.getDisplayLanguage(locale);
             if (font.canDisplayUpTo(name) > -1)
@@ -199,7 +198,7 @@ class Languages
                 // Font cannot render it; use language name in the spelling of the default locale.
                 name = locale.getDisplayLanguage();
             }
-            displayNames.put(locale.getISO3Language(), name);
+            displayNames.put(code, name);
         }
 
     }

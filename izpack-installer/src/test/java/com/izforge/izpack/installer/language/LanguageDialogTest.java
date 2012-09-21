@@ -52,6 +52,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestLanguageContainer.class)
 public class LanguageDialogTest
 {
+
     /**
      * The resources.
      */

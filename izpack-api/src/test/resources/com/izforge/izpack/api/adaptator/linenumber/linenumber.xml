@@ -50,21 +50,21 @@
         <langpack iso3="dan" ln="50"/>
         <langpack iso3="ell" ln="51"/>
         <langpack iso3="cat" ln="52"/>
-        <langpack iso3="ned" ln="53"/>
+        <langpack iso3="nld" ln="53"/>
         <langpack iso3="fin" ln="54"/>
         <langpack iso3="swe" ln="55"/>
-        <langpack iso3="por" ln="56"/>
+        <langpack iso3="bra" ln="56"/>
         <langpack iso3="pol" ln="57"/>
         <langpack iso3="rus" ln="58"/>
         <langpack iso3="ukr" ln="59"/>
         <langpack iso3="hun" ln="60"/>
-        <langpack iso3="svk" ln="61"/>
-        <langpack iso3="rom" ln="62"/>
-        <langpack iso3="mys" ln="63"/>
+        <langpack iso3="slk" ln="61"/>
+        <langpack iso3="ron" ln="62"/>
+        <langpack iso3="msa" ln="63"/>
         <langpack iso3="nor" ln="64"/>
         <langpack iso3="chn" ln="65"/>
-        <langpack iso3="scg" ln="66"/>
-        <langpack iso3="cze" ln="67"/>
+        <langpack iso3="srp" ln="66"/>
+        <langpack iso3="ces" ln="67"/>
         <langpack iso3="kor" ln="68"/>
         <langpack iso3="glg" ln="69"/>
     </locale>

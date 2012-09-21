@@ -419,7 +419,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         Locale locale = locales.getLocale();
         if (locale != null)
         {
-            installData.setLocale(locale);
+            installData.setLocale(locale, locales.getISOCode());
             installData.setMessages(locales.getMessages());
         }
     }

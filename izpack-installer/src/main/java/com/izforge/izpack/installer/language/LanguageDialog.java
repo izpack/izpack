@@ -329,9 +329,8 @@ public class LanguageDialog extends JDialog
      */
     private void propagateLocale(String code)
     {
-        Locale locale = locales.getLocale(code);
-        locales.setLocale(locale);
-        installData.setLocale(locale);
+        locales.setLocale(code);
+        installData.setLocale(locales.getLocale(), locales.getISOCode());
         installData.setMessages(locales.getMessages());
     }
 

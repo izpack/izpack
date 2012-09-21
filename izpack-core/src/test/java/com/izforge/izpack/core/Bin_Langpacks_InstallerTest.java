@@ -57,29 +57,29 @@ public class Bin_Langpacks_InstallerTest
     @DataPoints
     public static String[] langs = {"cat.xml",
             "chn.xml",
-            "cze.xml",
+            "ces.xml",
             "dan.xml",
             "deu.xml",
             "ell.xml",
             "eng.xml",
-            "fa.xml"
+            "fas.xml"
             , "fin.xml"
             , "fra.xml"
             , "hun.xml"
-            , "ind.xml"
+            , "idn.xml"
             , "ita.xml"
             , "jpn.xml"
             , "kor.xml"
-            , "mys.xml"
-            , "ned.xml"
+            , "msa.xml"
+            , "nld.xml"
             , "nor.xml"
             , "pol.xml"
-            , "por.xml"
-            , "rom.xml"
+            , "bra.xml"
+            , "ron.xml"
             , "rus.xml"
-            , "scg.xml"
+            , "srp.xml"
             , "spa.xml"
-            , "svk.xml"
+            , "slk.xml"
             , "swe.xml"
             , "tur.xml"
             , "ukr.xml"

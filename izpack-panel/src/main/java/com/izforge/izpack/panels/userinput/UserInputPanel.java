@@ -379,8 +379,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         messages = installData.getMessages();
         try
         {
-            String resource = LANG_FILE_NAME + "_" + this.installData.getLocaleISO3();
-            messages = messages.newMessages(resource);
+            messages = messages.newMessages(LANG_FILE_NAME);
         }
         catch (ResourceNotFoundException e)
         {

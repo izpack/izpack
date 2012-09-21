@@ -25,10 +25,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.LocaleDatabase;
@@ -57,20 +57,40 @@ public class DefaultLocales implements Locales
      */
     private Locale locale;
 
+    /**
+     * The default messages for the locale.
+     */
+    private Messages messages;
 
     /**
-     * Supported locales.
+     * The code used to select the current locale's default messages.
+     */
+    private String isoCode;
+
+    /**
+     * The supported locales, keyed on 2 and 3 letter language codes and 3 letter country codes.
+     */
+    private Map<String, Locale> isoLocales = new LinkedHashMap<String, Locale>();
+
+    /**
+     * The locales.
      */
     private List<Locale> locales = new ArrayList<Locale>();
+
+    /**
+     * The ISO codes as they were specified by <em>langpacks.info</em>.
+     */
+    private List<String> isoCodes = new ArrayList<String>();
 
     /**
      * The logger.
      */
     private static final Logger logger = Logger.getLogger(DefaultLocales.class.getName());
 
+
     /**
      * Constructs a {@code DefaultLocales}.
-     * <p/
+     * <p/>
      * The locale will default to that of the current host if supported, else it will be set to the first supported
      * locale.
      *
@@ -80,15 +100,33 @@ public class DefaultLocales implements Locales
     @SuppressWarnings("unchecked")
     public DefaultLocales(Resources resources)
     {
+        this(resources, Locale.getDefault());
+    }
+
+    /**
+     * Constructs a {@code DefaultLocales}.
+     * <p/>
+     * The locale will default to that supplied if supported, else it will be set to the first supported locale.
+     *
+     * @param resources the resources
+     * @throws ResourceException if the locales can't be determined
+     */
+    public DefaultLocales(Resources resources, Locale defaultLocale)
+    {
         this.resources = resources;
         List<String> codes = getSupportedLocales();
         if (!codes.isEmpty())
         {
-            Locale defaultLocale = Locale.getDefault();
-            Map<String, Locale> iso3 = getLocalesByISO3(defaultLocale);
+            Map<String, Locale> available = getAvailableLocales(defaultLocale);
             for (String code : codes)
             {
-                Locale locale = iso3.get(code);
+                String key = code.toUpperCase();
+                Locale locale = available.get(key);    // check to see if its a country code match
+                if (locale == null)
+                {
+                    key = code.toLowerCase();
+                    locale = available.get(key);       // check to see if its a language code match
+                }
                 if (locale == null)
                 {
                     logger.warning("No locale for: " + code);
@@ -96,17 +134,23 @@ public class DefaultLocales implements Locales
                 else
                 {
                     locales.add(locale);
+                    addLocale(isoLocales, locale);
+                    isoCodes.add(code);
                 }
             }
             if (!locales.isEmpty())
             {
-                if (locales.contains(defaultLocale))
+                // use the default locale to select the language pack if one is available, otherwise select the first
+                // supported locale
+                if (!changeLocale(defaultLocale.getCountry()) && !changeLocale(defaultLocale.getLanguage()))
                 {
-                    locale = defaultLocale;
-                }
-                else
-                {
-                    locale = locales.get(0);
+                    for (String code : codes)
+                    {
+                        if (changeLocale(code))
+                        {
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -124,12 +168,32 @@ public class DefaultLocales implements Locales
 
     /**
      * Sets the current locale.
+     * <p/>
+     * This uses a 2 or 3 letter ISO country or language code to locate the corresponding locale.
      *
-     * @param locale the locale. May be {@code null}
+     * @param code the ISO code
+     * @throws ResourceNotFoundException if the locale isn't supported
      */
-    public void setLocale(Locale locale)
+    @Override
+    public void setLocale(String code)
     {
-        this.locale = locale;
+        if (!changeLocale(code))
+        {
+            throw new ResourceNotFoundException("No locale found for code: " + code);
+        }
+    }
+
+    /**
+     * Returns the current locale's 3 character ISO code.
+     * <p/>
+     * This is the code that was used to select the locale's messages and may be a country or language code.
+     *
+     * @return the current locale's ISO code, or {@code null} if there is no current locale
+     */
+    @Override
+    public String getISOCode()
+    {
+        return isoCode;
     }
 
     /**
@@ -141,25 +205,12 @@ public class DefaultLocales implements Locales
     @Override
     public Locale getLocale(String code)
     {
-        int length = code.length();
-        for (Locale locale : locales)
+        Locale locale = findByCountry(code);
+        if (locale == null)
         {
-            if (length == 3)
-            {
-                if (code.equalsIgnoreCase(locale.getISO3Language()))
-                {
-                    return locale;
-                }
-            }
-            else
-            {
-                if (code.equalsIgnoreCase(locale.getLanguage()))
-                {
-                    return locale;
-                }
-            }
+            locale = findByLanguage(code);
         }
-        return null;
+        return locale;
     }
 
     /**
@@ -171,6 +222,23 @@ public class DefaultLocales implements Locales
     public List<Locale> getLocales()
     {
         return locales;
+    }
+
+    /**
+     * Returns the 3 character ISO codes of the supported locales.
+     * <p/>
+     * For backward compatibility:
+     * <ol>
+     * <li>these should all be lowercase; and</li>
+     * <li>may be a mix of language and country codes</li>
+     * </ol>
+     *
+     * @return the ISO codes
+     */
+    @Override
+    public List<String> getISOCodes()
+    {
+        return isoCodes;
     }
 
     /**
@@ -187,8 +255,11 @@ public class DefaultLocales implements Locales
         {
             throw new ResourceException("No locale set");
         }
-        InputStream in = resources.getInputStream("langpacks/" + locale.getISO3Language() + ".xml");
-        return new LocaleDatabase(in, this);
+        if (messages == null)
+        {
+            throw new ResourceNotFoundException("Cannot find messages for locale: " + locale.getLanguage());
+        }
+        return messages;
     }
 
     /**
@@ -206,13 +277,160 @@ public class DefaultLocales implements Locales
     }
 
     /**
+     * Returns the available locales.
+     *
+     * @param defaultLocale the default locale
+     * @return the available locales, keyed on 2 and 3 character ISO language and country codes
+     */
+    private Map<String, Locale> getAvailableLocales(Locale defaultLocale)
+    {
+        Map<String, Locale> available = new HashMap<String, Locale>();
+        addLocale(available, defaultLocale);
+        for (Locale locale : Locale.getAvailableLocales())
+        {
+            addLocale(available, locale, defaultLocale);
+        }
+        return available;
+    }
+
+    /**
+     * Adds a locale to the supplied locales, keying it on its 2 and 3 character ISO country and language codes.
+     *
+     * @param locales the locales to add to
+     * @param locale  the locale to add
+     */
+    private void addLocale(Map<String, Locale> locales, Locale locale)
+    {
+        addLocale(locales, locale, null);
+    }
+
+    /**
+     * Adds a locale to the supplied locales, keying it on its 2 and 3 character ISO country and language codes.
+     * <p/>
+     * Where multiple locales have the same language code, the locale not associated with a country will be used,
+     * unless it is the default locale.
+     *
+     * @param locales       the locales to add to
+     * @param locale        the locale to add
+     * @param defaultLocale the default locale. May be {@code null}
+     */
+    private void addLocale(Map<String, Locale> locales, Locale locale, Locale defaultLocale)
+    {
+        String language = locale.getLanguage();
+        String country = locale.getCountry();
+        Locale existing = locales.get(language);
+
+        // add mapping for language codes, if:
+        // * no mapping exists for the 2 character code;  or
+        // * a mapping exists that isn't the default locale and has a country, and the new mapping has no country
+        if (existing == null || (existing != defaultLocale && !"".equals(existing.getCountry()) && "".equals(country)))
+        {
+            // use locales not associated with a particular country by preference, unless its the default locale
+            if (!"".equals(language))
+            {
+                locales.put(language, locale);
+            }
+            String language3 = LocaleHelper.getISO3Language(locale);
+            if (language3 != null)
+            {
+                locales.put(language3, locale);
+            }
+        }
+
+        // add mapping for 2 character country code
+        if (!"".equals(country))
+        {
+            locales.put(country, locale);
+        }
+
+        // add mapping for 3 character country code
+        String country3 = LocaleHelper.getISO3Country(locale);
+        if (country3 != null)
+        {
+            locales.put(country3, locale);
+        }
+    }
+
+    /**
+     * Changes the locale.
+     *
+     * @param code the 2 or 3 character ISO language code
+     * @return {@code true} if the locale was changed
+     */
+    private boolean changeLocale(String code)
+    {
+        if (code == null || code.equals(""))
+        {
+            locale = null;
+        }
+        else
+        {
+            messages = null;
+            locale = findByCountry(code);
+            if (locale == null)
+            {
+                locale = findByLanguage(code);
+            }
+            if (locale != null)
+            {
+                InputStream in = null;
+                String country = LocaleHelper.getISO3Country(locale);
+                if (country != null)
+                {
+                    in = getMessagesStream(country.toLowerCase()); // must be lowercase for backwards compatibility
+                    isoCode = country;
+                }
+                if (in == null)
+                {
+                    String language = LocaleHelper.getISO3Language(locale);
+                    if (language != null)
+                    {
+                        in = getMessagesStream(language);
+                        isoCode = language;
+                    }
+                }
+                if (in == null)
+                {
+                    logger.warning("Cannot find messages for locale: " + code);
+                }
+                else
+                {
+                    messages = new LocaleDatabase(in, this);
+                }
+            }
+        }
+        return locale != null;
+    }
+
+    /**
+     * Returns a stream to the messages for the given ISO code.
+     *
+     * @param code the 2 or 3 character ISO language code
+     * @return the stream, or {@code null} if none was found
+     */
+    private InputStream getMessagesStream(String code)
+    {
+        InputStream result = null;
+        try
+        {
+            String path = "langpacks/" + code + ".xml";
+            result = resources.getInputStream(path);
+        }
+        catch (ResourceNotFoundException ignore)
+        {
+            logger.fine("Locale has no langpack for code: " + code);
+        }
+        return result;
+    }
+
+    /**
      * Returns the supported locales.
      *
      * @return the supported locales
      * @throws ResourceException if the supported locales exist but cannot be read
      */
     @SuppressWarnings("unchecked")
-    public List<String> getSupportedLocales()
+    private List<String> getSupportedLocales()
     {
         List<String> locales = null;
         try
@@ -227,58 +445,26 @@ public class DefaultLocales implements Locales
     }
 
     /**
-     * Returns the available locales, keyed on their ISO3 language code.
-     * <p/>
-     * Where multiple locales exist for the same code the locale without a country will be selected.
-     * <br/>
-     * The exception to this is the {@code defaultLocale}, which will always be returned, unless it has no ISO3 language
-     * code.
+     * Returns a locale given its language code.
      *
-     * @param defaultLocale the default locale
-     * @return the locales
+     * @param code the language code. May be a 2 or 3 character ISO code
+     * @return the corresponding locale or {@code null} if none is found
      */
-    private Map<String, Locale> getLocalesByISO3(Locale defaultLocale)
+    private Locale findByLanguage(String code)
     {
-        String defaultCode = getISO3Language(defaultLocale);
-        Map<String, Locale> iso3 = new HashMap<String, Locale>();
-        if (defaultCode != null)
-        {
-            iso3.put(defaultCode, defaultLocale);
-        }
-
-        for (Locale locale : Locale.getAvailableLocales())
-        {
-            String code = getISO3Language(locale);
-            if (!code.equals(defaultCode))
-            {
-                Locale existing = iso3.get(code);
-                if (existing == null || locale.getCountry().isEmpty())
-                {
-                    iso3.put(code, locale);
-                }
-            }
-        }
-        return iso3;
+        return isoLocales.get(code.toLowerCase());
     }
 
     /**
-     * Returns the ISO3 language code for a locale.
+     * Returns a locale given its country code.
      *
-     * @param locale the locale
-     * @return the locale's ISO3 language code, or {@code null} if it doesn't exist
+     * @param code the country code. May be a 2 or 3 character ISO code
+     * @return the corresponding locale or {@code null} if none is found
      */
-    private String getISO3Language(Locale locale)
+    private Locale findByCountry(String code)
     {
-        String result;
-        try
-        {
-            result = locale.getISO3Language();
-        }
-        catch (MissingResourceException ignore)
-        {
-            result = null;
-        }
-        return result;
+        return isoLocales.get(code.toUpperCase());
     }
+
 
 }

@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
@@ -361,19 +360,7 @@ public class AutomatedInstallData implements InstallData
     @Override
     public String getLocaleISO3()
     {
-        String result = null;
-        try
-        {
-            if (locale != null)
-            {
-                result = locale.getISO3Language();
-            }
-        }
-        catch (MissingResourceException exception)
-        {
-            // do nothing
-        }
-        return result;
+        return getVariable(ScriptParserConstant.ISO3_LANG);
     }
 
     @Deprecated
@@ -387,12 +374,21 @@ public class AutomatedInstallData implements InstallData
         return locale;
     }
 
-    public void setLocale(Locale locale)
+    /**
+     * Sets the locale.
+     * <p/>
+     * NOTE: for backwards compatibility, this sets the {@link ScriptParserConstant#ISO3_LANG ISO3} variable to be the
+     * the <em>lowercase</em> version of the supplied ISO code.
+     *
+     * @param locale the locale
+     * @param code   the 3 character ISO code used to select the locale. May be an ISO country code or an ISO language
+     *               code
+     */
+    public void setLocale(Locale locale, String code)
     {
         this.locale = locale;
-        String code = locale.getISO3Language();
-        getXmlData().setAttribute("langpack", code);
-        setVariable(ScriptParserConstant.ISO3_LANG, code);
+        getXmlData().setAttribute("langpack", code.toLowerCase());
+        setVariable(ScriptParserConstant.ISO3_LANG, code.toLowerCase());
     }
 
     /**
