@@ -957,11 +957,13 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
         IXMLElement vars = parent.getFirstChildNamed("variables");
         if (vars != null)
         {
+            logger.fine("Reading variables for configuration action");
             dynamicVariables = new LinkedList<DynamicVariable>();
 
-            for (IXMLElement var : parent.getChildrenNamed("variable"))
+            for (IXMLElement var : vars.getChildrenNamed("variable"))
             {
                 String name = requireAttribute(var, "name");
+                logger.fine("Reading variable '" + name +"'");
 
                 DynamicVariable dynamicVariable = new DynamicVariableImpl();
                 dynamicVariable.setName(name);
@@ -1182,18 +1184,10 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                                        + e.getMessage());
                 }
 
-                for (DynamicVariable dynvar : dynamicVariables)
-                {
-                    String conditionid = getAttribute(var, "condition");
-                    dynamicVariable.setConditionid(conditionid);
+                String conditionid = getAttribute(var, "condition");
+                dynamicVariable.setConditionid(conditionid);
 
-                    if (dynvar.getName().equals(name))
-                    {
-                        dynamicVariables.remove(dynvar);
-                        parseWarn(var, "Dynamic Variable '" + name + "' overwritten");
-                    }
-                    dynamicVariables.add(dynamicVariable);
-                }
+                dynamicVariables.add(dynamicVariable);
             }
         }
 
@@ -1214,10 +1208,10 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             for (DynamicVariable dynvar : dynamicvariables)
             {
                 String name = dynvar.getName();
-                logger.fine("Configuration variable: " + name);
+                logger.fine("Evaluating configuration variable: " + name);
                 boolean refresh = false;
                 String conditionid = dynvar.getConditionid();
-                logger.fine("condition: " + conditionid);
+                logger.fine("Configuration variable condition: " + conditionid);
                 if ((conditionid != null) && (conditionid.length() > 0))
                 {
                     if ((rules != null) && rules.isConditionTrue(conditionid))
