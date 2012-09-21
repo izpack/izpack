@@ -54,9 +54,9 @@ public class PlainValue extends ValueImpl implements Serializable
     @Override
     public void validate() throws Exception
     {
-        if (this.value == null || this.value.length() <= 0)
+        if (this.value == null)
         {
-            throw new Exception("None or empty plain value");
+            throw new Exception("Unset plain value");
         }
     }
 
