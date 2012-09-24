@@ -63,6 +63,7 @@ public class DefaultNavigatorTest
      * The installer frame.
      */
     private final InstallerFrame frame;
+
     /**
      * The installation data.
      */
@@ -257,12 +258,42 @@ public class DefaultNavigatorTest
     }
 
     /**
+     * Verifies that the next panel can be skipped.
+     */
+    @Test
+    public void testSkipNextPanel()
+    {
+        IzPanels panels = createPanels(3);
+        final DefaultNavigator navigator = createNavigator(panels);
+        panels.setListener(new IzPanelsListener()
+        {
+            @Override
+            public void switchPanel(IzPanelView newPanel, IzPanelView oldPanel)
+            {
+                if (newPanel.getIndex() == 1)
+                {
+                    navigator.next(false);
+                }
+            }
+        });
+
+        // navigate to the first panel
+        assertEquals(-1, panels.getIndex());
+        assertTrue(navigator.next());
+        assertEquals(0, panels.getIndex());
+
+        // navigate to the next, verifying that the second panel (index == 1) is skipped
+        assertTrue(navigator.next());
+        assertEquals(2, panels.getIndex());
+    }
+
+    /**
      * Creates a new {@code Navigator} for the specified panels
      *
      * @param panels the panels to navigate
      * @return a new {@code Navigator}
      */
-    private Navigator createNavigator(Panels panels)
+    private DefaultNavigator createNavigator(Panels panels)
     {
         return createNavigator(panels, frame);
     }
@@ -274,7 +305,7 @@ public class DefaultNavigatorTest
      * @param frame  the installer frame
      * @return a new {@code Navigator}
      */
-    private Navigator createNavigator(Panels panels, InstallerFrame frame)
+    private DefaultNavigator createNavigator(Panels panels, InstallerFrame frame)
     {
         IconsDatabase icons = new IconsDatabase();
         DefaultNavigator navigator = new DefaultNavigator(panels, icons, installData);

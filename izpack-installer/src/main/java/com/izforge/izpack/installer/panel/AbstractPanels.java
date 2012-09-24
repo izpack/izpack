@@ -413,13 +413,15 @@ public abstract class AbstractPanels<T extends PanelView<V>, V> implements Panel
 
         T oldPanel = getPanelView(index);
         T newPanel = getPanelView(newIndex);
+        int oldIndex = index;
+        index = newIndex;
         if (switchPanel(newPanel, oldPanel))
         {
-            index = newIndex;
             result = true;
         }
         else
         {
+            index = oldIndex;
             result = false;
         }
         return result;
@@ -443,6 +445,7 @@ public abstract class AbstractPanels<T extends PanelView<V>, V> implements Panel
      */
     protected boolean executeValidationActions(T panel, boolean validate)
     {
+        variables.refresh();
         panel.executePreValidationActions();
         boolean isValid = !validate || panel.isValid();
         panel.executePostValidationActions();
