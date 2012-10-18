@@ -159,6 +159,13 @@ public interface InstallData
      * @return the current locale's ISO3 language code. May be {@code null}
      */
     String getLocaleISO3();
+    
+     /**
+     * Returns the current locale's ISO2 language code.
+     *
+     * @return the current locale's ISO2 language code. May be {@code null}
+     */
+    String getLocaleISO2();
 
     /**
      * Returns the localised messages.

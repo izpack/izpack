@@ -137,6 +137,7 @@ The following variables are built-in :
 -   ``$APP_URL`` : the application URL
 -   ``$APP_VER`` : the application version
 -   ``$ISO3_LANG`` : the ISO3 language code of the selected langpack.
+-   ``$ISO2_LANG`` : the ISO2 language code of the selected langpack.
 -   ``$IP_ADDRESS`` : the IP Address of the local machine.
 -   ``$HOST_NAME`` : the HostName of the local machine.
 -   ``$FILE_SEPARATOR`` : the file separator on the installation system

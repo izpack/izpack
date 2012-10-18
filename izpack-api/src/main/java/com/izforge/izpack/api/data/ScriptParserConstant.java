@@ -65,6 +65,11 @@ public class ScriptParserConstant
      * The language IS03 code.
      */
     public static final String ISO3_LANG = "ISO3_LANG";
+    
+    /**
+     * The language IS0 code.
+     */
+    public static final String ISO2_LANG = "ISO2_LANG";
     /**
      * The language code as _ll_CC like used with ResourceBoundle.
      */

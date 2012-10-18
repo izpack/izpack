@@ -342,6 +342,7 @@ public class AutomatedInstallData implements InstallData
         getXmlData().setAttribute("langpack", locale);
         // We load the langpack
         setVariable(ScriptParserConstant.ISO3_LANG, getLocaleISO3());
+        setVariable(ScriptParserConstant.ISO2_LANG, getLocaleISO3());
         setMessages(localeDatabase);
     }
 
@@ -361,6 +362,12 @@ public class AutomatedInstallData implements InstallData
     public String getLocaleISO3()
     {
         return getVariable(ScriptParserConstant.ISO3_LANG);
+    }
+    
+    @Override
+    public String getLocaleISO2()
+    {
+        return getVariable(ScriptParserConstant.ISO2_LANG);
     }
 
     @Deprecated
@@ -389,6 +396,10 @@ public class AutomatedInstallData implements InstallData
         this.locale = locale;
         getXmlData().setAttribute("langpack", code.toLowerCase());
         setVariable(ScriptParserConstant.ISO3_LANG, code.toLowerCase());
+        if(locale != null) 
+        {
+            setVariable(ScriptParserConstant.ISO2_LANG, locale.getLanguage());
+        }
     }
 
     /**
