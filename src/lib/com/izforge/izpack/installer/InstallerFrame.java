@@ -1581,6 +1581,24 @@ public class InstallerFrame extends JFrame {
             } else if (source == nextButton) {
                 navigateNext();
             } else if (source == quitButton) {
+                if(((JButton)source).getText().equals("Done"))
+                {
+                    String launchApplication = installdata.getVariable("launch_app_after_install");
+                    if (launchApplication != null && launchApplication.equals("on"))
+                    {
+                        InstallerFrame.this.setVisible(false);
+                        try
+                        {
+                            Runtime.getRuntime().exec(
+                                    new File(installdata.getInstallPath() + installdata.getVariable("path_to_executable_in_install_dir")).getPath());
+                        }
+                        catch (IOException IOEx)
+                        {
+                            JOptionPane.showMessageDialog(InstallerFrame.this, IOEx.getMessage(),
+                                    installdata.langpack.getString("FinishPanel.launchAfterInstall.fail"), 0);
+                        }
+                    }
+                }
                 exit();
             }
         }
