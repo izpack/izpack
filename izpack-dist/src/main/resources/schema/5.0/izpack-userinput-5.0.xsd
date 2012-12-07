@@ -142,8 +142,7 @@
                                 </xs:complexType>
                             </xs:element>
                         </xs:sequence>
-                        <xs:attribute name="order" type="xs:unsignedByte" use="required"/>
-                        <xs:attribute name="id" type="xs:string" use="optional"/>
+                        <xs:attribute name="id" type="xs:string" use="required"/>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
