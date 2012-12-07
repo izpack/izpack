@@ -5,6 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2002 Jan Blok
+ * Copyright 2012 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,42 @@
  */
 
 package com.izforge.izpack.panels.userinput;
+
+import static com.izforge.izpack.panels.userinput.UserInputPanel.ATTRIBUTE_CONDITIONID_NAME;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.CHECK_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.CHOICE;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.COMBO_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.DESCRIPTION;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.DIR_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.DIVIDER_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.FAMILY;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.FIELD_NODE_ID;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.FILE_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.NAME;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.NODE_ID;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.OS;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.PANEL_IDENTIFIER;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.PWD_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.PWD_INPUT;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.RADIO_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.RULE_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.RULE_LAYOUT;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.RULE_PLAIN_STRING;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.RULE_RESULT_FORMAT;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.RULE_SPECIAL_SEPARATOR;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.SELECTEDPACKS;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.SET;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.SPACE_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.SPEC;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.SPEC_FILE_NAME;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.STATIC_TEXT;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.TEXT;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.TEXT_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.TITLE_FIELD;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.TRUE;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.TYPE;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.VALUE;
+import static com.izforge.izpack.panels.userinput.UserInputPanel.VARIABLE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,87 +92,8 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
 {
     private static final Logger logger = Logger.getLogger(UserInputPanelConsoleHelper.class.getName());
 
-    protected int instanceNumber = 0;
-
-    private static int instanceCount = 0;
-
-    private static final String SPEC_FILE_NAME = "userInputSpec.xml";
-
-    private static final String NODE_ID = "panel";
-
-    private static final String INSTANCE_IDENTIFIER = "order";
-
-    protected static final String PANEL_IDENTIFIER = "id";
-
-    private static final String FIELD_NODE_ID = "field";
-
-    protected static final String ATTRIBUTE_CONDITIONID_NAME = "conditionid";
-
-    private static final String VARIABLE = "variable";
-
-    private static final String SET = "set";
-
-    private static final String TEXT = "txt";
-
-    private static final String SPEC = "spec";
-
-    private static final String PWD = "pwd";
-
-    private static final String TYPE_ATTRIBUTE = "type";
-
-    private static final String TEXT_FIELD = "text";
-
-    private static final String COMBO_FIELD = "combo";
-
-    private static final String STATIC_TEXT = "staticText";
-
-    private static final String CHOICE = "choice";
-
-    private static final String DIR = "dir";
-
-    private static final String FILE = "file";
-
-    private static final String PASSWORD = "password";
-
-    private static final String VALUE = "value";
-
-    private static final String RADIO_FIELD = "radio";
-
-    private static final String TITLE_FIELD = "title";
-
-    private static final String CHECK_FIELD = "check";
-
-    private static final String RULE_FIELD = "rule";
-
-    private static final String SPACE = "space";
-
-    private static final String DIVIDER = "divider";
-
-    static final String DISPLAY_FORMAT = "displayFormat";
-
-    static final String PLAIN_STRING = "plainString";
-
-    static final String SPECIAL_SEPARATOR = "specialSeparator";
-
-    static final String LAYOUT = "layout";
-
-    static final String RESULT_FORMAT = "resultFormat";
-
-    private static final String DESCRIPTION = "description";
-
-    private static final String TRUE = "true";
-
-    private static final String NAME = "name";
-
-    private static final String FAMILY = "family";
-
-    private static final String OS = "os";
-
-    private static final String SELECTEDPACKS = "createForPack";
-
-
-    private static Input SPACE_INTPUT_FIELD = new Input(SPACE, null, null, SPACE, "\r", 0);
-    private static Input DIVIDER_INPUT_FIELD = new Input(DIVIDER, null, null, DIVIDER,
+    private static Input SPACE_INTPUT_FIELD = new Input(SPACE_FIELD, null, null, SPACE_FIELD, "\r", 0);
+    private static Input DIVIDER_INPUT_FIELD = new Input(DIVIDER_FIELD, null, null, DIVIDER_FIELD,
                                                          "------------------------------------------", 0);
 
     public List<Input> listInputs;
@@ -158,7 +116,6 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
      */
     public UserInputPanelConsoleHelper(Resources resources, ConsolePanels panels)
     {
-        instanceNumber = instanceCount++;
         listInputs = new ArrayList<Input>();
         this.resources = resources;
         this.panels = panels;
@@ -219,9 +176,9 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         for (Input field : listInputs)
         {
             if (TEXT_FIELD.equals(field.strFieldType)
-                    || FILE.equals(field.strFieldType)
+                    || FILE_FIELD.equals(field.strFieldType)
                     || RULE_FIELD.equals(field.strFieldType)
-                    || DIR.equals(field.strFieldType))
+                    || DIR_FIELD.equals(field.strFieldType))
             {
                 status = status && processTextField(field, installData);
             }
@@ -236,12 +193,12 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             }
             else if (STATIC_TEXT.equals(field.strFieldType)
                     || TITLE_FIELD.equals(field.strFieldType)
-                    || DIVIDER.equals(field.strFieldType)
-                    || SPACE.equals(field.strFieldType))
+                    || DIVIDER_FIELD.equals(field.strFieldType)
+                    || SPACE_FIELD.equals(field.strFieldType))
             {
                 status = status && processSimpleField(field, installData);
             }
-            else if (PASSWORD.equals(field.strFieldType))
+            else if (PWD_FIELD.equals(field.strFieldType))
             {
                 status = status && processPasswordField(field, installData);
             }
@@ -256,10 +213,8 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         listInputs.clear();
         IXMLElement spec = null;
         List<IXMLElement> specElements;
-        String attribute;
-        String dataID;
+        String userInputPanelSpecId;
         String panelid = panels.getPanel().getPanelId();
-        String instance = Integer.toString(instanceNumber);
 
         SpecHelper specHelper = new SpecHelper(resources);
         try
@@ -276,10 +231,11 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         specElements = specHelper.getSpec().getChildrenNamed(NODE_ID);
         for (IXMLElement data : specElements)
         {
-            attribute = data.getAttribute(INSTANCE_IDENTIFIER);
-            dataID = data.getAttribute(PANEL_IDENTIFIER);
-            if (((attribute != null) && instance.equals(attribute))
-                    || ((dataID != null) && (panelid != null) && (panelid.equals(dataID))))
+            userInputPanelSpecId = data.getAttribute(PANEL_IDENTIFIER);
+            if ((
+                    (userInputPanelSpecId != null)
+                    && (panelid != null)
+                    && (panelid.equals(userInputPanelSpecId))))
             {
 
                 List<IXMLElement> forPacks = data.getChildrenNamed(SELECTEDPACKS);
@@ -618,7 +574,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
     public Input getInputFromField(IXMLElement field, InstallData idata)
     {
         String strVariableName = field.getAttribute(VARIABLE);
-        String strFieldType = field.getAttribute(TYPE_ATTRIBUTE);
+        String strFieldType = field.getAttribute(TYPE);
         if (TITLE_FIELD.equals(strFieldType))
         {
             String strText = null;
@@ -633,7 +589,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             return new Input(strVariableName, null, null, STATIC_TEXT, strText, 0);
         }
 
-        if (TEXT_FIELD.equals(strFieldType) || FILE.equals(strFieldType) || DIR.equals(strFieldType))
+        if (TEXT_FIELD.equals(strFieldType) || FILE_FIELD.equals(strFieldType) || DIR_FIELD.equals(strFieldType))
         {
             List<Choice> choicesList = new ArrayList<Choice>();
             String strFieldText = null;
@@ -673,9 +629,9 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             {
                 strFieldText = description.getAttribute(TEXT);
             }
-            if (strSet != null && spec.getAttribute(LAYOUT) != null)
+            if (strSet != null && spec.getAttribute(RULE_LAYOUT) != null)
             {
-                StringTokenizer layoutTokenizer = new StringTokenizer(spec.getAttribute(LAYOUT));
+                StringTokenizer layoutTokenizer = new StringTokenizer(spec.getAttribute(RULE_LAYOUT));
                 List<String> listSet = Arrays.asList(new String[layoutTokenizer.countTokens()]);
                 StringTokenizer setTokenizer = new StringTokenizer(strSet);
                 String token;
@@ -691,8 +647,8 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
 
                 int iCounter = 0;
                 StringBuffer buffer = new StringBuffer();
-                String strRusultFormat = spec.getAttribute(RESULT_FORMAT);
-                String strSpecialSeparator = spec.getAttribute(SPECIAL_SEPARATOR);
+                String strRusultFormat = spec.getAttribute(RULE_RESULT_FORMAT);
+                String strSpecialSeparator = spec.getAttribute(RULE_SPECIAL_SEPARATOR);
                 while (layoutTokenizer.hasMoreTokens())
                 {
                     token = layoutTokenizer.nextToken();
@@ -703,11 +659,11 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                     }
                     else
                     {
-                        if (SPECIAL_SEPARATOR.equals(strRusultFormat))
+                        if (RULE_SPECIAL_SEPARATOR.equals(strRusultFormat))
                         {
                             buffer.append(strSpecialSeparator);
                         }
-                        else if (PLAIN_STRING.equals(strRusultFormat))
+                        else if (RULE_PLAIN_STRING.equals(strRusultFormat))
                         {
 
                         }
@@ -865,19 +821,19 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         }
 
 
-        if (SPACE.equals(strFieldType))
+        if (SPACE_FIELD.equals(strFieldType))
         {
             return SPACE_INTPUT_FIELD;
 
         }
 
-        if (DIVIDER.equals(strFieldType))
+        if (DIVIDER_FIELD.equals(strFieldType))
         {
             return DIVIDER_INPUT_FIELD;
         }
 
 
-        if (PASSWORD.equals(strFieldType))
+        if (PWD_FIELD.equals(strFieldType))
         {
             List<Choice> choicesList = new ArrayList<Choice>();
             String strFieldText = null;
@@ -888,7 +844,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             if (spec != null)
             {
 
-                List<IXMLElement> pwds = spec.getChildrenNamed(PWD);
+                List<IXMLElement> pwds = spec.getChildrenNamed(PWD_INPUT);
                 if (pwds == null || pwds.size() == 0)
                 {
                     System.out.println("No pwd specified in the spec for type password");

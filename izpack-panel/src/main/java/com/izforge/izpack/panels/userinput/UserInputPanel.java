@@ -92,172 +92,162 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
     /**
      * The name of the XML file that specifies the panel layout
      */
-    private static final String SPEC_FILE_NAME = "userInputSpec.xml";
+    public static final String SPEC_FILE_NAME = "userInputSpec.xml";
 
-    private static final String LANG_FILE_NAME = "userInputLang.xml";
+    public static final String LANG_FILE_NAME = "userInputLang.xml";
 
     /**
      * how the spec node for a specific panel is identified
      */
-    private static final String NODE_ID = "panel";
+    public static final String NODE_ID = "panel";
 
-    private static final String FIELD_NODE_ID = "field";
+    public static final String FIELD_NODE_ID = "field";
 
-    private static final String INSTANCE_IDENTIFIER = "order";
+    public static final String PANEL_IDENTIFIER = "id";
 
-    protected static final String PANEL_IDENTIFIER = "id";
+    public static final String TYPE = "type";
 
-    private static final String TYPE = "type";
+    public static final String DESCRIPTION = "description";
 
-    private static final String DESCRIPTION = "description";
+    public static final String VARIABLE = "variable";
 
-    private static final String VARIABLE = "variable";
+    public static final String TEXT = "txt";
 
-    private static final String TEXT = "txt";
+    public static final String KEY = "id";
 
-    private static final String KEY = "id";
+    public static final String SPEC = "spec";
 
-    private static final String SPEC = "spec";
+    public static final String SET = "set";
 
-    private static final String SET = "set";
+    public static final String REVALIDATE = "revalidate";
 
-    private static final String REVALIDATE = "revalidate";
+    public static final String TOPBUFFER = "topBuffer";
 
-    private static final String TOPBUFFER = "topBuffer";
+    public static final String TRUE = "true";
 
-    private static final String TRUE = "true";
+    public static final String FALSE = "false";
 
-    private static final String FALSE = "false";
+    public static final String ALIGNMENT = "align";
 
-    private static final String ALIGNMENT = "align";
+    public static final String LEFT = "left";
 
-    private static final String LEFT = "left";
+    public static final String CENTER = "center";
 
-    private static final String CENTER = "center";
+    public static final String RIGHT = "right";
 
-    private static final String RIGHT = "right";
+    public static final String TOP = "top";
 
-    private static final String TOP = "top";
+    public static final String ITALICS = "italic";
 
-    private static final String ITALICS = "italic";
+    public static final String BOLD = "bold";
 
-    private static final String BOLD = "bold";
+    public static final String SIZE = "size";
 
-    private static final String SIZE = "size";
+    public static final String VALIDATOR = "validator";
 
-    private static final String VALIDATOR = "validator";
+    public static final String PROCESSOR = "processor";
 
-    private static final String PROCESSOR = "processor";
+    public static final String CLASS = "class";
 
-    private static final String CLASS = "class";
+    public static final String TITLE_FIELD = "title";
 
-    private static final String TITLE_FIELD = "title";
+    public static final String TEXT_FIELD = "text";
 
-    private static final String TEXT_FIELD = "text";
+    public static final String TEXT_SIZE = "size";
 
-    private static final String TEXT_SIZE = "size";
+    public static final String STATIC_TEXT = "staticText";
 
-    private static final String STATIC_TEXT = "staticText";
+    public static final String COMBO_FIELD = "combo";
 
-    private static final String COMBO_FIELD = "combo";
+    public static final String RADIO_FIELD = "radio";
 
-    private static final String COMBO_CHOICE = "choice";
+    public static final String CHOICE = "choice";
 
-    private static final String COMBO_VALUE = "value";
+    public static final String VALUE = "value";
 
-    private static final String RADIO_FIELD = "radio";
+    public static final String SPACE_FIELD = "space";
 
-    private static final String RADIO_CHOICE = "choice";
+    public static final String DIVIDER_FIELD = "divider";
 
-    private static final String RADIO_VALUE = "value";
+    public static final String CHECK_FIELD = "check";
 
-    private static final String SPACE_FIELD = "space";
+    public static final String RULE_FIELD = "rule";
 
-    private static final String DIVIDER_FIELD = "divider";
+    public static final String RULE_LAYOUT = "layout";
 
-    private static final String CHECK_FIELD = "check";
+    public static final String RULE_SEPARATOR = "separator";
 
-    private static final String RULE_FIELD = "rule";
+    public static final String RULE_RESULT_FORMAT = "resultFormat";
 
-    private static final String RULE_LAYOUT = "layout";
+    public static final String RULE_PLAIN_STRING = "plainString";
 
-    private static final String RULE_SEPARATOR = "separator";
+    public static final String RULE_DISPLAY_FORMAT = "displayFormat";
 
-    private static final String RULE_RESULT_FORMAT = "resultFormat";
+    public static final String RULE_SPECIAL_SEPARATOR = "specialSeparator";
 
-    private static final String RULE_PLAIN_STRING = "plainString";
+    public static final String RULE_ENCRYPTED = "processed";
 
-    private static final String RULE_DISPLAY_FORMAT = "displayFormat";
+    public static final String RULE_PARAM_NAME = "name";
 
-    private static final String RULE_SPECIAL_SEPARATOR = "specialSeparator";
+    public static final String RULE_PARAM_VALUE = "value";
 
-    private static final String RULE_ENCRYPTED = "processed";
+    public static final String RULE_PARAM = "param";
 
-    private static final String RULE_PARAM_NAME = "name";
+    public static final String PWD_FIELD = "password";
 
-    private static final String RULE_PARAM_VALUE = "value";
+    public static final String PWD_INPUT = "pwd";
 
-    private static final String RULE_PARAM = "param";
+    public static final String PWD_SIZE = "size";
 
-    private static final String PWD_FIELD = "password";
+    public static final String SEARCH_FIELD = "search";
 
-    private static final String PWD_INPUT = "pwd";
+    public static final String FILE_FIELD = "file";
 
-    private static final String PWD_SIZE = "size";
+    public static final String DIR_FIELD = "dir";
 
-    private static final String SEARCH_FIELD = "search";
+    public static final String SEARCH_CHOICE = "choice";
 
-    private static final String FILE_FIELD = "file";
+    public static final String SEARCH_FILENAME = "filename";
 
-    private static final String DIR_FIELD = "dir";
+    public static final String SEARCH_RESULT = "result";
 
-    private static final String SEARCH_CHOICE = "choice";
+    public static final String SEARCH_VALUE = "value";
 
-    private static final String SEARCH_FILENAME = "filename";
+    public static final String SEARCH_TYPE = "type";
 
-    private static final String SEARCH_RESULT = "result";
+    public static final String SEARCH_FILE = "file";
 
-    private static final String SEARCH_VALUE = "value";
+    public static final String SEARCH_DIRECTORY = "directory";
 
-    private static final String SEARCH_TYPE = "type";
+    public static final String SEARCH_PARENTDIR = "parentdir";
 
-    private static final String SEARCH_FILE = "file";
+    public static final String SEARCH_CHECKFILENAME = "checkfilename";
 
-    private static final String SEARCH_DIRECTORY = "directory";
+    public static final String SELECTEDPACKS = "createForPack"; // renamed
 
-    private static final String SEARCH_PARENTDIR = "parentdir";
+    public static final String UNSELECTEDPACKS = "createForUnselectedPack"; // new
 
-    private static final String SEARCH_CHECKFILENAME = "checkfilename";
+    public static final String ATTRIBUTE_CONDITIONID_NAME = "conditionid";
 
-    private static final String SELECTEDPACKS = "createForPack"; // renamed
+    public static final String VARIABLE_NODE = "variable";
 
-    private static final String UNSELECTEDPACKS = "createForUnselectedPack"; // new
+    public static final String ATTRIBUTE_VARIABLE_NAME = "name";
 
-    protected static final String ATTRIBUTE_CONDITIONID_NAME = "conditionid";
-
-    protected static final String VARIABLE_NODE = "variable";
-
-    protected static final String ATTRIBUTE_VARIABLE_NAME = "name";
-
-    protected static final String ATTRIBUTE_VARIABLE_VALUE = "value";
+    public static final String ATTRIBUTE_VARIABLE_VALUE = "value";
 
     // node
 
-    private static final String NAME = "name";
+    public static final String NAME = "name";
 
-    private static final String OS = "os";
+    public static final String OS = "os";
 
-    private static final String FAMILY = "family";
+    public static final String FAMILY = "family";
 
-    private static final String MULTIPLE_FILE_FIELD = "multiFile";
+    public static final String MULTIPLE_FILE_FIELD = "multiFile";
 
     // ------------------------------------------------------------------------
     // Variable Declarations
     // ------------------------------------------------------------------------
-    private static int instanceCount = 0;
-
-    protected int instanceNumber = 0;
-
     /**
      * If there is a possibility that some UI elements will not get added we can not allow to go
      * back to the PacksPanel, because the process of building the UI is not reversable. This
@@ -348,7 +338,6 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                           RulesEngine rules, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, resources);
-        instanceNumber = instanceCount++;
         this.rules = rules;
         this.matcher = matcher;
     }
@@ -1059,9 +1048,12 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
 
         if (spec == null)
         {
+            Panel p = this.getMetadata();
             // TODO: translate
-            emitError("User input specification could not be found.",
-                      "The specification for the user input panel could not be found. Please contact the packager.");
+            emitError("User input specification could not be found",
+                      "The specification for the user input panel "
+                      + (p!=null?p.getPanelId():"")
+                      +" could not be found. Please contact the packager.");
             parent.skipPanel();
         }
         // update UI with current values of associated variables
@@ -1325,9 +1317,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         InputStream input = null;
         IXMLElement data;
         List<IXMLElement> specElements;
-        String attribute;
-        String panelattribute;
-        String instance = Integer.toString(instanceNumber);
+        String userInputPanelSpecId;
 
         String panelid = null;
         Panel p = this.getMetadata();
@@ -1362,12 +1352,12 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
             specElements = data.getChildrenNamed(NODE_ID);
             for (IXMLElement specElement : specElements)
             {
-                attribute = specElement.getAttribute(INSTANCE_IDENTIFIER);
-                panelattribute = specElement.getAttribute(PANEL_IDENTIFIER);
+                userInputPanelSpecId = specElement.getAttribute(PANEL_IDENTIFIER);
 
-                if (((attribute != null) && instance.equals(attribute))
-                        || ((panelattribute != null) && (panelid != null) && (panelid
-                        .equals(panelattribute))))
+                if ((
+                        (userInputPanelSpecId != null)
+                        && (panelid != null)
+                        && (panelid.equals(userInputPanelSpecId))))
                 {
                     // use the current element as spec
                     spec = specElement;
@@ -1931,7 +1921,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         {
             label = new JLabel(getText(element));
 
-            List<IXMLElement> choices = element.getChildrenNamed(COMBO_CHOICE);
+            List<IXMLElement> choices = element.getChildrenNamed(CHOICE);
 
             if (choices == null)
             {
@@ -1984,7 +1974,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                 }
                 else
                 {
-                    String value = (choices.get(i)).getAttribute(COMBO_VALUE);
+                    String value = (choices.get(i)).getAttribute(VALUE);
                     listItem = new UserInputPanel.TextValuePair(getText(choices.get(i)), value);
                     field.addItem(listItem);
                     if (userinput)
@@ -2155,7 +2145,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
 
         if (element != null)
         {
-            List<IXMLElement> choices = element.getChildrenNamed(RADIO_CHOICE);
+            List<IXMLElement> choices = element.getChildrenNamed(CHOICE);
 
             if (choices == null)
             {
@@ -2174,7 +2164,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                 {
                     choice.addActionListener(this);
                 }
-                value = (choiceElement.getAttribute(RADIO_VALUE));
+                value = (choiceElement.getAttribute(VALUE));
 
                 group.add(choice);
 
