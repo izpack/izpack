@@ -154,12 +154,17 @@ public class Platforms
     public static Platform WINDOWS_7 = new Platform(Name.WINDOWS, "WINDOWS_7", OsVersionConstants.WINDOWS_7_VERSION);
 
     /**
+     * Windows 7 platform.
+     */
+    public static Platform WINDOWS_8 = new Platform(Name.WINDOWS, "WINDOWS_8", OsVersionConstants.WINDOWS_8_VERSION);
+
+    /**
      * Known platforms.
      */
     public static Platform[] PLATFORMS = {AIX, DEBIAN_LINUX, FEDORA_LINUX, FREEBSD, HP_UX, LINUX, MAC, MAC_OSX,
             MANDRAKE_LINUX, MANDRIVA_LINUX, OS_2, RED_HAT_LINUX, SUNOS, SUNOS_X86,
             SUNOS_SPARC, SUSE_LINUX, UBUNTU_LINUX, UNIX, WINDOWS, WINDOWS_XP,
-            WINDOWS_2003, WINDOWS_VISTA, WINDOWS_7};
+            WINDOWS_2003, WINDOWS_VISTA, WINDOWS_7, WINDOWS_8};
 
     /**
      * Cached linux name.

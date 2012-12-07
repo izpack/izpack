@@ -146,6 +146,11 @@ public interface OsVersionConstants
     public final static String WINDOWS_7_VERSION = "6.1";
 
     /**
+     * Windows 8
+     */
+    public final static String WINDOWS_8_VERSION = "6.2";
+
+    /**
      * REDHAT  = "RedHat"
      */
     public final static String REDHAT = "RedHat";

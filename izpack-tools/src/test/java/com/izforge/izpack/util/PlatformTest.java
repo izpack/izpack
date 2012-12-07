@@ -60,6 +60,10 @@ public class PlatformTest extends AbstractPlatformTest
         Platform win7 = new Platform(Name.WINDOWS, "windows_7", OsVersionConstants.WINDOWS_7_VERSION);
         checkPlatform(new Platform(win7, Arch.X64), Name.WINDOWS, "windows_7", OsVersionConstants.WINDOWS_7_VERSION,
                       Arch.X64);
+
+        Platform win8 = new Platform(Name.WINDOWS, "windows_8", OsVersionConstants.WINDOWS_8_VERSION);
+        checkPlatform(new Platform(win8, Arch.X64), Name.WINDOWS, "windows_8", OsVersionConstants.WINDOWS_8_VERSION,
+                      Arch.X64);
     }
 
     /**
@@ -118,6 +122,7 @@ public class PlatformTest extends AbstractPlatformTest
         Platform unix = new Platform(Name.UNIX);
         Platform windows = new Platform(Name.WINDOWS);
         Platform windows7 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_7_VERSION);
+        Platform windows8 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_8_VERSION);
         Platform windows64 = new Platform(Name.WINDOWS, Arch.X64);
         Platform vista32 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_VISTA_VERSION, Arch.X86);
         Platform vista64 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_VISTA_VERSION, Arch.X64);
@@ -132,6 +137,10 @@ public class PlatformTest extends AbstractPlatformTest
         assertTrue(windows7.isA(windows7));
         assertTrue(windows7.isA(windows));
         assertFalse(windows.isA(windows7));
+
+        assertTrue(windows8.isA(windows8));
+        assertTrue(windows8.isA(windows));
+        assertFalse(windows.isA(windows8));
 
         assertTrue(windows64.isA(windows64));
         assertTrue(windows64.isA(windows));

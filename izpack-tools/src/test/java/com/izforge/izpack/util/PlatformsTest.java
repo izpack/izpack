@@ -111,6 +111,20 @@ public class PlatformsTest extends AbstractPlatformTest
         assertEquals("6.1", windows7x64.getVersion());
     }
 
+	/**
+     * Tests the {@link Platforms#getCurrentPlatform(String, String, String)} method with windows 8.
+     */
+    @Test
+    public void testGetWin8PlatformByNameArchVersion()
+    {
+        Platforms platforms = new Platforms();
+        Platform windows8x64 = platforms.getCurrentPlatform("Windows 8", OsVersionConstants.AMD64,
+                OsVersionConstants.WINDOWS_8_VERSION);
+        assertEquals(Name.WINDOWS, windows8x64.getName());
+        assertEquals("WINDOWS_8", windows8x64.getSymbolicName());
+        assertEquals(Arch.X64, windows8x64.getArch());
+        assertEquals("6.2", windows8x64.getVersion());
+    }
     /**
      * Tests the {@link Platforms#getPlatform(String, String)} method.
      */
@@ -122,6 +136,8 @@ public class PlatformsTest extends AbstractPlatformTest
         checkPlatform(new Platform(Platforms.WINDOWS, Arch.X86), platforms.getPlatform("windows", "i386"));
         checkPlatform(Platforms.WINDOWS_7, platforms.getPlatform("windows_7", null));
         checkPlatform(new Platform(Platforms.WINDOWS_7, Arch.X64), platforms.getPlatform("windows_7", "x64"));
+        checkPlatform(Platforms.WINDOWS_8, platforms.getPlatform("windows_8", null));
+        checkPlatform(new Platform(Platforms.WINDOWS_8, Arch.X64), platforms.getPlatform("windows_8", "x64"));
 
         checkPlatform(Platforms.LINUX, platforms.getPlatform("linux", null));
     }
@@ -136,8 +152,10 @@ public class PlatformsTest extends AbstractPlatformTest
         checkPlatform(Platforms.WINDOWS, platforms.getPlatform("windows", null, null));
         checkPlatform(new Platform(Platforms.WINDOWS_7, Arch.X86), platforms.getPlatform("windows", "i386",
                 OsVersionConstants.WINDOWS_7_VERSION));
+        checkPlatform(new Platform(Platforms.WINDOWS_8, Arch.X86), platforms.getPlatform("windows", "i386",
+                OsVersionConstants.WINDOWS_8_VERSION));
 
-        checkPlatform(new Platform(Platforms.DEBIAN_LINUX, Arch.X64), platforms.getPlatform("debian_linux", "x64",
+				checkPlatform(new Platform(Platforms.DEBIAN_LINUX, Arch.X64), platforms.getPlatform("debian_linux", "x64",
                 null));
     }
 

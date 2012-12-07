@@ -99,6 +99,11 @@ public class RulesEngineImplTest
     private static final String WINDOWS_7_INSTALL = "izpack.windowsinstall.7";
 
     /**
+     * Windows 8 install condition identifier.
+     */
+
+    private static final String WINDOWS_8_INSTALL = "izpack.windowsinstall.8";
+    /**
      * Linux install condition identifier.
      */
     private static final String LINUX_INSTALL = "izpack.linuxinstall";
@@ -132,7 +137,7 @@ public class RulesEngineImplTest
      * All install condition identifiers.
      */
     private static final String INSTALL_CONDITIONS[] = {AIX_INSTALL, WINDOWS_INSTALL, WINDOWS_XP_INSTALL,
-            WINDOWS_2003_INSTALL, WINDOWS_VISTA_INSTALL, WINDOWS_7_INSTALL, LINUX_INSTALL, SOLARIS_INSTALL,
+            WINDOWS_2003_INSTALL, WINDOWS_VISTA_INSTALL, WINDOWS_7_INSTALL, WINDOWS_8_INSTALL, LINUX_INSTALL, SOLARIS_INSTALL,
             SOLARIS_X86_INSTALL, SOLARIS_SPARC_INSTALL, MAC_INSTALL, MAC_OSX_INSTALL};
 
 
@@ -542,6 +547,7 @@ public class RulesEngineImplTest
         checkPlatformCondition(Platforms.WINDOWS_2003, WINDOWS_2003_INSTALL, WINDOWS_INSTALL);
         checkPlatformCondition(Platforms.WINDOWS_VISTA, WINDOWS_VISTA_INSTALL, WINDOWS_INSTALL);
         checkPlatformCondition(Platforms.WINDOWS_7, WINDOWS_7_INSTALL, WINDOWS_INSTALL);
+        checkPlatformCondition(Platforms.WINDOWS_8, WINDOWS_8_INSTALL, WINDOWS_INSTALL);
         checkPlatformCondition(Platforms.LINUX, LINUX_INSTALL);
         checkPlatformCondition(Platforms.SUNOS, SOLARIS_INSTALL);
         checkPlatformCondition(Platforms.SUNOS_X86, SOLARIS_X86_INSTALL, SOLARIS_INSTALL);
