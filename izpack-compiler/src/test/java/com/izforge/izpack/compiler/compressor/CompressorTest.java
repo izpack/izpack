@@ -27,6 +27,7 @@ import org.junit.Test;
 
 import com.izforge.izpack.compiler.container.provider.JarOutputStreamProvider;
 import com.izforge.izpack.compiler.data.CompilerData;
+import com.izforge.izpack.compiler.packager.impl.AbstractPackagerTest;
 import com.izforge.izpack.compiler.stream.JarOutputStream;
 
 /**
@@ -40,7 +41,12 @@ public class CompressorTest
     @Test
     public void testBzip2Compression() throws IOException, CompressorException
     {
-        CompilerData data = new CompilerData("", "", "output.jar", false);
+        String baseDir = AbstractPackagerTest.getBaseDir().getPath();
+        CompilerData data = new CompilerData(
+                "",
+                baseDir,
+                baseDir + "/target/output.jar",
+                false);
         data.setComprFormat("bzip2");
         data.setComprLevel(5);
         JarOutputStreamProvider jarOutputStreamProvider = new JarOutputStreamProvider();

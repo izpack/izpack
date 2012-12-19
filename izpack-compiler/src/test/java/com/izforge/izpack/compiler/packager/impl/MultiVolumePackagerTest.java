@@ -57,7 +57,12 @@ public class MultiVolumePackagerTest extends AbstractPackagerTest
         PackCompressor compressor = Mockito.mock(PackCompressor.class);
         CompilerPathResolver pathResolver = Mockito.mock(CompilerPathResolver.class);
         MergeableResolver resolver = Mockito.mock(MergeableResolver.class);
-        CompilerData data = new CompilerData("", "", "", true);
+        String baseDir = getBaseDir().getPath();
+        CompilerData data = new CompilerData(
+                "",
+                baseDir,
+                baseDir + "/target/test.jar",
+                true);
         MultiVolumePackager packager = new MultiVolumePackager(properties, listener, jar, mergeManager,
                                                                pathResolver, resolver, compressor, data);
         packager.setInfo(new Info());

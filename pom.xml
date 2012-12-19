@@ -183,8 +183,20 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <artifactId>izpack-panel</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <classifier>tests</classifier>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <artifactId>izpack-dist</artifactId>
                 <groupId>${project.groupId}</groupId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>izpack-dist</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <classifier>sources</classifier>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -193,8 +205,20 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <artifactId>izpack-uninstaller</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <classifier>tests</classifier>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <artifactId>izpack-installer</artifactId>
                 <groupId>${project.groupId}</groupId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>izpack-installer</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <classifier>tests</classifier>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -263,13 +287,13 @@
                 <version>${project.version}</version>
                 <classifier>tests</classifier>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <artifactId>izpack-installer</artifactId>
                 <groupId>${project.groupId}</groupId>
                 <version>${project.version}</version>
                 <classifier>tests</classifier>
                 <scope>test</scope>
-            </dependency>
+            </dependency>-->
 
             <dependency>
                 <artifactId>izpack-compiler</artifactId>

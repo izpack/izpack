@@ -16,7 +16,6 @@
             <!-- required by IzpackGenerationTest -->
             <groupId>${project.groupId}</groupId>
             <artifactId>izpack-dist</artifactId>
-            <version>${project.version}</version>
             <classifier>sources</classifier>
         </dependency>
 
@@ -48,7 +47,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>izpack-uninstaller</artifactId>
-            <version>${project.version}</version>
             <classifier>tests</classifier>
         </dependency>
         <dependency>
@@ -85,32 +83,15 @@
                         <id>Unpack izpack installer files</id>
                         <phase>process-resources</phase>
                         <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>izpack-dist</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>true</overWrite>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>${basedir}/target/test-classes/samples/izpack</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <!--execution>
-                        <id>Unpack izpack utils</id>
-                        <phase>process-resources</phase>
-                        <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>izpack-utils</includeArtifactIds>
+                            <includeArtifactIds>izpack-dist</includeArtifactIds>
+                            <includeClassifiers>sources</includeClassifiers>
                             <excludeTransitive>true</excludeTransitive>
-                            <outputDirectory>${basedir}/src/test/resources/samples/izpack</outputDirectory>
+                            <outputDirectory>${basedir}/target/test-classes/samples/izpack</outputDirectory>
                         </configuration>
-                    </execution-->
+                    </execution>
                     <execution>
                         <id>Copy test listeners to samples/event/lib</id>
                         <phase>process-resources</phase>

@@ -36,9 +36,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -231,4 +233,20 @@ public abstract class AbstractPackagerTest
         return file;
     }
 
+    public static File getBaseDir()
+    {
+        File path = null;
+        try
+        {
+            path = new File(AbstractPackagerTest.class.getClassLoader().getResource("").toURI());
+            // path: <root>/target/test-classes
+            path = path.getParentFile(); // <root>/target/
+            path = path.getParentFile(); // <root>
+        }
+        catch (URISyntaxException e)
+        {
+            Assert.fail(e.getMessage());
+        }
+        return path;
+    }
 }
