@@ -58,8 +58,8 @@ public class DirInputField extends FileInputField
     @Override
     protected boolean _validate(File dir)
     {
-        System.err.println(dir.getAbsolutePath() + " - isDir: " + dir.isDirectory()
-                + " - mustExist: " + mustExist + " - canCreate: " + canCreate);
+        //System.err.println(dir.getAbsolutePath() + " - isDir: " + dir.isDirectory()
+        //        + " - mustExist: " + mustExist + " - canCreate: " + canCreate);
         if (dir.isDirectory())
         {
             return true;

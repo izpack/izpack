@@ -23,6 +23,7 @@ package com.izforge.izpack.installer;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.FileInputStream;
+import java.lang.reflect.Constructor;
 import java.util.Iterator;
 import java.util.Properties;
 

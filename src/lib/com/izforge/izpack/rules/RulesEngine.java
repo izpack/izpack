@@ -572,7 +572,7 @@ public class RulesEngine implements Serializable
         {
             if (conditionsmap.containsKey(condition.id))
             {
-                Debug.error("Condition already registered.");
+                //Debug.error("Condition already registered.");
             }
             else
             {
