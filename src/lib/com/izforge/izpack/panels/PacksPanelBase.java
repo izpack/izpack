@@ -629,11 +629,11 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
             while (iter.hasNext())
             {
                 Pack p = (Pack) iter.next();
-                if (p.required)
+                /*if (p.required)
                 {
                     bytes += p.nbytes;
                     continue;
-                }
+                }*/
                 if (idata.selectedPacks.contains(p))
                 {
                     bytes += p.nbytes;
