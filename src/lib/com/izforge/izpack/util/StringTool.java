@@ -317,4 +317,29 @@ public class StringTool
                 && str.toUpperCase().startsWith(prefix.toUpperCase());
     }
 
+    /**
+     * True if a given string equals the another given String
+     *
+     * @param str    The String to search in
+     * @param prefix The string to search for
+     * @return True if str equals with prefix
+     */
+    public static boolean equals(String str, String prefix)
+    {
+        return (str != null) && str.equals(prefix);
+    }
+
+    /**
+     * The same as equals but ignores the case.
+     *
+     * @param str    The String to search in
+     * @param prefix The string to search for
+     * @return True if str equals with prefix
+     */
+    public static boolean equalsWithIgnoreCase(String str, String prefix)
+    {
+        return (str != null) && (prefix != null)
+                && str.equalsIgnoreCase(prefix) ;
+    }
+
 }
