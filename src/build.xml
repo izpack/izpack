@@ -597,6 +597,8 @@
         </build-panel>
         <build-panel name="CheckedHelloPanel">
             <include name="com/izforge/izpack/panels/CheckedHelloPanel.java"/>
+            <include name="com/izforge/izpack/panels/CheckedHelloPanelConsoleHelper.java"/>
+            <include name="com/izforge/izpack/panels/CheckedHelloPanelAutomationHelper.java"/>
             <include name="com/izforge/izpack/panels/HelloPanel.java"/>
             <include name="com/izforge/izpack/util/os/*RegistryHandler.java"/>
             <include name="com/izforge/izpack/util/OSClassHelper.java"/>
