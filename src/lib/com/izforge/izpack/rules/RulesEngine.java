@@ -67,18 +67,41 @@ public class RulesEngine implements Serializable
 
     private static void loadStaticConditions()
     {
-        createBuiltinOsCondition("IS_AIX", "izpack.aixinstall");
-        createBuiltinOsCondition("IS_WINDOWS", "izpack.windowsinstall");
-        createBuiltinOsCondition("IS_WINDOWS_XP", "izpack.windowsinstall.xp");
-        createBuiltinOsCondition("IS_WINDOWS_2003", "izpack.windowsinstall.2003");
-        createBuiltinOsCondition("IS_WINDOWS_VISTA", "izpack.windowsinstall.vista");
-        createBuiltinOsCondition("IS_WINDOWS_7", "izpack.windowsinstall.7");
+        createBuiltinOsCondition("IS_X86", "izpack.x86install");
+        createBuiltinOsCondition("IS_X86_64", "izpack.x86_64install");
+        createBuiltinOsCondition("IS_PPC", "izpack.ppcinstall");
+        createBuiltinOsCondition("IS_SPARC", "izpack.sparcinstall");
+        createBuiltinOsCondition("IS_FREEBSD", "izpack.freebsdinstall");
         createBuiltinOsCondition("IS_LINUX", "izpack.linuxinstall");
-        createBuiltinOsCondition("IS_SUNOS", "izpack.solarisinstall");
-        createBuiltinOsCondition("IS_MAC", "izpack.macinstall");
+        createBuiltinOsCondition("IS_HPUX", "izpack.hpuxinstall");
+        createBuiltinOsCondition("IS_AIX", "izpack.aixinstall");
         createBuiltinOsCondition("IS_SUNOS", "izpack.solarisinstall");
         createBuiltinOsCondition("IS_SUNOS_X86", "izpack.solarisinstall.x86");
         createBuiltinOsCondition("IS_SUNOS_SPARC", "izpack.solarisinstall.sparc");
+        createBuiltinOsCondition("IS_OS2", "izpack.os2install");
+        createBuiltinOsCondition("IS_MAC", "izpack.macinstall");
+        createBuiltinOsCondition("IS_OSX", "izpack.osxinstall");
+        
+        createBuiltinOsCondition("IS_WINDOWS", "izpack.windowsinstall");
+        createBuiltinOsCondition("IS_WINDOWS_2000", "izpack.windowsinstall.200");
+        createBuiltinOsCondition("IS_WINDOWS_XP", "izpack.windowsinstall.xp");
+        createBuiltinOsCondition("IS_WINDOWS_2003", "izpack.windowsinstall.2003");
+        createBuiltinOsCondition("IS_WINDOWS_VISTA", "izpack.windowsinstall.vista");
+        createBuiltinOsCondition("IS_WINDOWS_2008", "izpack.windowsinstall.2008");
+        createBuiltinOsCondition("IS_WINDOWS_2008R2", "izpack.windowsinstall.2008R2");
+        createBuiltinOsCondition("IS_WINDOWS_7", "izpack.windowsinstall.7");
+        createBuiltinOsCondition("IS_WINDOWS_8", "izpack.windowsinstall.8");
+
+        createBuiltinOsCondition("IS_UNIX", "izpack.unixinstall");
+        createBuiltinOsCondition("IS_REDHAT_LINUX", "izpack.linuxinstall.redhat");
+        createBuiltinOsCondition("IS_FEDORA_LINUX", "izpack.linuxinstall.fedora");
+        createBuiltinOsCondition("IS_UBUNTU_LINUX", "izpack.linuxinstall.ubuntu");
+        createBuiltinOsCondition("IS_MANDRAKE_LINUX", "izpack.linuxinstall.mandrake");
+        createBuiltinOsCondition("IS_MANDRIVA_LINUX", "izpack.linuxinstall.mandriva");
+        createBuiltinOsCondition("IS_SUSE_LINUX", "izpack.linuxinstall.suse");
+        createBuiltinOsCondition("IS_DEBIAN_LINUX", "izpack.linuxinstall.debian");
+        createBuiltinOsCondition("IS_ORACLE_LINUX", "izpack.linuxinstall.oracle");
+        
     }
 
     private RulesEngine()

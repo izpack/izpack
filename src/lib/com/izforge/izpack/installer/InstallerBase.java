@@ -131,6 +131,11 @@ public class InstallerBase
         {
             installdata.setVariable("UNINSTALLER_CONDITION", inf.getUninstallerCondition());
         }
+		
+        installdata.setVariable("OS_VERSION", OsVersion.OS_VERSION);
+        installdata.setVariable("OS_DETAILS", OsVersion.getOsDetails());
+        if (OsVersion.IS_LINUX) installdata.setVariable("LINUX_DISTRIB", OsVersion.getLinuxDistribution());
+		
         // We read the panels order data
         in = InstallerBase.class.getResourceAsStream("/panelsOrder");
         objIn = new ObjectInputStream(in);

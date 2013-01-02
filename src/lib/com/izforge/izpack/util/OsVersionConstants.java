@@ -40,7 +40,7 @@ public interface OsVersionConstants
     public final static String OSARCH = "os.arch";
 
     /**
-     * OSARCH = "os.arch"
+     * OSVERSION = "os.version"
      */
     public final static String OSVERSION = "os.version";
 
@@ -53,6 +53,16 @@ public interface OsVersionConstants
      * I386 = "i386"
      */
     public static final String I386 = "i386";
+
+    /**
+     * X86_64 = "x86_64"
+     */
+    public static final String X86_64 = "x86_64";
+
+    /**
+     * AMD64 = "amd64"
+     */
+    public static final String AMD64 = "amd64";
 
     /**
      * PPC = "ppc"
@@ -115,24 +125,64 @@ public interface OsVersionConstants
     public final static String WINDOWS = "Windows";
 
     /**
+     * Windows 2000
+     */
+    public final static String WINDOWS_2000_VERSION = "5.0";
+    public final static String WINDOWS_2000_NAME = "Windows 2000";
+
+    /**
      * Windows XP
      */
     public final static String WINDOWS_XP_VERSION = "5.1";
+    public final static String WINDOWS_XP_NAME = "Windows XP";
+
+    /**
+     * Windows XP 64Bits
+     */
+    public final static String WINDOWS_XP64_VERSION = "5.2";
+    public final static String WINDOWS_XP64_NAME = "Windows XP";
 
     /**
      * Windows Server 2003
      */
     public final static String WINDOWS_2003_VERSION = "5.2";
+    public final static String WINDOWS_2003_NAME = "Windows 2003";
 
     /**
      * Windows Vista
      */
     public final static String WINDOWS_VISTA_VERSION = "6.0";
+    public final static String WINDOWS_VISTA_NAME = "Windows Vista";
+
+    /**
+     * Windows 2008
+     */
+    public final static String WINDOWS_2008_VERSION = "6.0";
+    public final static String WINDOWS_2008_NAME = "Windows Server 2008";
 
     /**
      * Windows 7
      */
     public final static String WINDOWS_7_VERSION = "6.1";
+    public final static String WINDOWS_7_NAME = "Windows 7";
+
+    /**
+     * Windows 2008R2
+     */
+    public final static String WINDOWS_2008R2_VERSION = "6.1";
+    public final static String WINDOWS_2008R2_NAME = "Windows Server 2008 R2";
+
+    /**
+     * Windows 2012
+     */
+    public final static String WINDOWS_2012_VERSION = "6.2";
+    public final static String WINDOWS_2012_NAME = "Windows NT (unknown)";
+
+    /**
+     * Windows 8
+     */
+    public final static String WINDOWS_8_VERSION = "6.2";
+    public final static String WINDOWS_8_NAME = "Windows 8";
 
     /**
      * REDHAT  = "RedHat"
@@ -158,6 +208,21 @@ public interface OsVersionConstants
      * MANDRIVA = "Mandriva"
      */
     public final static String MANDRIVA = "Mandriva";
+
+    /**
+     * UBUNTU = "Ubuntu"
+     */
+    public final static String UBUNTU = "Ubuntu";
+
+    /**
+     * Oracle = "Oracle"
+     */
+    public final static String ORACLE = "Oracle";
+
+    /**
+     * EL = "Entreprise Linux"
+     */
+    public final static String EL = "Entreprise Linux";
 
     /**
      * SUSE = "SuSE"
