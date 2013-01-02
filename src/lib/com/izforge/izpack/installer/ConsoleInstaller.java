@@ -109,6 +109,8 @@ public class ConsoleInstaller extends InstallerBase
                 String panelClassName = p.className;
                 String consoleHelperClassName = praefix + panelClassName + "ConsoleHelper";
                 Class<PanelConsole> consoleHelperClass = null;
+                Constructor constructor = null;
+                Object[] params = {this, installdata};
 
                 Debug.log("ConsoleHelper:" + consoleHelperClassName);
                 try

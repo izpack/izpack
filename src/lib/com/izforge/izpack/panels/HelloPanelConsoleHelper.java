@@ -53,6 +53,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
         String str;
         str = idata.langpack.getString("HelloPanel.welcome1") + idata.info.getAppName() + " "
                 + idata.info.getAppVersion() + idata.langpack.getString("HelloPanel.welcome2");
+        System.out.println("");
         System.out.println(str);
         ArrayList<Info.Author> authors = idata.info.getAuthors();
         int size = authors.size();
@@ -75,6 +76,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
             str = idata.langpack.getString("HelloPanel.url") + idata.info.getAppURL();
             System.out.println(str);
         }
+        System.out.println("");
         int i = askEndOfConsolePanel();
         if (i == 1)
         {
