@@ -238,7 +238,7 @@ public class RulesEngine implements Serializable
             }
             else
             {
-                String conditiontype = condtype.toLowerCase();
+                String conditiontype = condtype; //condtype.toLowerCase();
                 conditionclassname = "com.izforge.izpack.rules."
                         + conditiontype.substring(0, 1).toUpperCase()
                         + conditiontype.substring(1, conditiontype.length());
