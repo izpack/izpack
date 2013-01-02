@@ -109,8 +109,10 @@ public class CompareNumericsCondition extends Condition
                     operator = "eq";                    
                 }
                 try {
-                    int currentValue = new Integer(val);
-                    int comparisonValue = new Integer(value);
+                    //int currentValue = new Integer(val);
+                    //int comparisonValue = new Integer(value);
+                    float currentValue = new Float(val);
+                    float comparisonValue = new Float(value);
                     if ("eq".equalsIgnoreCase(operator)){
                         result = currentValue == comparisonValue;
                     }
