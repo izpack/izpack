@@ -4020,6 +4020,26 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         updateDialog();
     }
 
+    @Override
+    public String getSummaryBody()
+    {
+        StringBuffer strBody = new StringBuffer("");
+        
+        for (UIElement element : elements)
+        {
+            if (element.hasVariableAssignment())
+            {
+                String variable = element.getAssociatedVariable();
+                String value = idata.getVariable(variable);
+                
+                strBody.append(variable).append("=").append(value).append("<br>");
+            }
+        }
+        
+        return strBody.toString();
+        
+    }
+
 } // public class UserInputPanel
 
 /*---------------------------------------------------------------------------*/
