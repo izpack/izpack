@@ -33,8 +33,11 @@ import com.izforge.izpack.rules.RulesEngine;
 import com.izforge.izpack.util.*;
 
 import javax.swing.*;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.util.*;
@@ -202,7 +205,24 @@ public class InstallerBase
             IPAddress = "";
         }
 
+        if (OsVersion.IS_UNIX)
+        {
+            
+            
+            try {
+                Runtime rt = Runtime.getRuntime();
+                Process pr = rt.exec("id -gn");
+    
+                BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+    
+                String line=input.readLine();
+    
+                installdata.setVariable(ScriptParser.GROUP_NAME, line);
 
+            } catch (Exception e) {
+            }
+        }
+        
         installdata.setVariable("APPLICATIONS_DEFAULT_ROOT", dir);
         dir += File.separator;
         installdata.setVariable(ScriptParser.JAVA_HOME, System.getProperty("java.home"));

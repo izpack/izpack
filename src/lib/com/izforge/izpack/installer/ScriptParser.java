@@ -64,6 +64,11 @@ public class ScriptParser
     public final static String USER_NAME = "USER_NAME";
 
     /**
+     * The user group.
+     */
+    public final static String GROUP_NAME = "GROUP_NAME";
+
+    /**
      * The hostname.
      */
     public final static String HOST_NAME = "HOST_NAME";

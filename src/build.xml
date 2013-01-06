@@ -239,10 +239,10 @@
     <property name="izevent.jar" value="${basedir}/lib/izevent.jar"/>
 
     <!-- Compilation parameters -->
-    <property name="debug" value="off"/>
-    <property name="debuglevel" value=""/>
-    <!--<property name="debug" value="true"/>
-    <property name="debuglevel" value="lines,vars,source"/>-->
+    <!--<property name="debug" value="off"/>
+    <property name="debuglevel" value=""/> -->
+    <property name="debug" value="true"/>
+    <property name="debuglevel" value="lines,vars,source"/>
     <property name="compat.source" value="1.5"/>
     <property name="compat.target" value="1.5"/>
 
