@@ -77,7 +77,6 @@ import com.izforge.izpack.installer.debugger.Debugger;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.util.PackHelper;
-import com.izforge.izpack.panels.imgpacks.ImgPacksPanelAutomationHelper;
 import com.izforge.izpack.panels.treepacks.PackValidator;
 import com.izforge.izpack.util.IoHelper;
 
@@ -327,7 +326,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     @Override
     public void makeXMLData(IXMLElement panelRoot)
     {
-        new ImgPacksPanelAutomationHelper().makeXMLData(this.installData, panelRoot);
+        new PacksPanelAutomationHelper().makeXMLData(this.installData, panelRoot);
     }
 
     @Override
