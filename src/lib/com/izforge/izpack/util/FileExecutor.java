@@ -278,7 +278,7 @@ public class FileExecutor
             {
                 // fix executable permission for unix systems
                 Debug.trace("making file executable (setting executable flag)");
-                String[] params = {"/bin/chmod", permissions, file.toString()};
+                String[] params = {"/bin/chmod", permissions,  file.toString()};
                 exitStatus = executeCommand(params, output);
                 if (exitStatus != 0)
                 {
@@ -295,7 +295,15 @@ public class FileExecutor
                 List<String> paramList = new ArrayList<String>();
                 if (ExecutableFile.BIN == efile.type)
                 {
-                    paramList.add(file.toString());
+                    if (file.toString().endsWith(".sh"))
+                    {
+                        paramList.add("/bin/sh");
+                        paramList.add(file.toString());
+                    }
+                    else
+                    {
+                        paramList.add(file.toString());
+                    }
                 }
 
                 else if (ExecutableFile.JAR == efile.type && null == efile.mainClass)

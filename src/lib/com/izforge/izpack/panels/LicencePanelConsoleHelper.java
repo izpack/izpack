@@ -76,12 +76,14 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
              System.out.println(token);
              l++;
              if (l >= lines) {
-                 if (! doContinue()) {
+                 String strIn = doContinue(); 
+                 if ( strIn.equalsIgnoreCase("x") ) {
                      return false;
+                 } else if ( strIn.equalsIgnoreCase("s") ) {
+                     break;
                  }
                  l=0;
              }             
-
         }
    
         int i = askToAcceptLicense();
@@ -101,7 +103,7 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
 
     }
     
-    private boolean doContinue()
+    private String doContinue()
     {
         try
         {
@@ -109,14 +111,9 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             while (true)
             {
-                System.out.println("press Enter to continue, X to exit");
+                System.out.println("press Enter to continue, S to skip or X to exit");
                 String strIn = br.readLine();
-                if (strIn.equalsIgnoreCase("x"))
-                {
-                    return false;
-                }
-
-                return true;
+                return strIn;
             }
 
         }
@@ -124,7 +121,7 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
         {
             e.printStackTrace();
         }
-        return false;
+        return "X";
     }
     
     private int askToAcceptLicense()
