@@ -218,15 +218,16 @@ public class IzPackNewMojo extends AbstractMojo
         }
         else
         {
+            String localClassifier = classifier;
             if (classifier == null || classifier.trim().isEmpty())
             {
-                classifier = "";
+                localClassifier = "";
             }
             else if (!classifier.startsWith("-"))
             {
-                classifier = "-" + classifier;
+                localClassifier = "-" + classifier;
             }
-            file = new File(outputDirectory, finalName + classifier + ".jar");
+            file = new File(outputDirectory, finalName + localClassifier + ".jar");
         }
 
         return file;
