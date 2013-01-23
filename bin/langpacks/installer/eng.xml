@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 
 <!-- The English langpack -->
 
@@ -130,6 +130,7 @@
 		<str id="FinishPanel.success" txt="Installation has completed successfully."/>
     <str id="FinishPanel.done" txt="Done"/>
     <str id="FinishPanel.fail" txt="Installation has failed!"/>
+    <str id="FinishPanel.installed.on" txt="Application installed on"/>
     <str id="FinishPanel.uninst.info" txt="An uninstaller program has been created in: "/>
     <str id="FinishPanel.auto" txt="Generate an automatic installation script"/>
     <str id="FinishPanel.auto.tip" txt="Use this script to repeat this installation on other computers."/>
@@ -287,4 +288,11 @@
 		
     <str id="data.validation.error.title" txt="Error" />
     <str id="data.validation.warning.title" txt="Warning" />
+	
+	<!-- Console mode texts -->
+    <str id="consolehelper.askredisplay" txt="press 1 to continue, 2 to quit, 3 to redisplay" />
+    <str id="consolehelper.askcontinue" txt="press Enter to continue, S to skip or X to exit" />
+    <str id="consolehelper.askaccept" txt="press 1 to accept, 2 to reject, 3 to redisplay" />
+	
+	
 </langpack>

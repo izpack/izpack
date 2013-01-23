@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 
 <!-- The French langpack -->
 
@@ -130,6 +130,7 @@
     <str id="FinishPanel.success" txt="L'installation est réussie !"/>
     <str id="FinishPanel.done" txt="Terminer"/>
     <str id="FinishPanel.fail" txt="L'installation a échouée ..."/>
+    <str id="FinishPanel.installed.on" txt="l'application a été installée dans le répertoire"/>
     <str id="FinishPanel.uninst.info" txt="Un désinstallateur a été créé :"/>
     <str id="FinishPanel.auto" txt="Générer un script d'installation automatisée"/>
     <str id="FinishPanel.auto.tip" txt="Génère un fichier qui permet de refaire automatiquement la meme installation sur une autre machine."/>
@@ -287,4 +288,10 @@
 
     <str id="data.validation.error.title" txt="Erreur" />
     <str id="data.validation.warning.title" txt="Attention" />
+	
+	<!-- Console mode texts -->
+    <str id="consolehelper.askredisplay" txt="appuyez sur 1 pour continuer, 2 pour quitter, 3 pour afficher de nouveau" />
+    <str id="consolehelper.askcontinue" txt="appuyez sur entrée pour continuer, S pour passer , X pour quitter" />
+    <str id="consolehelper.askaccept" txt="appuyez sur 1 pour accepter, 2 pour refuser, 3 pour afficher de nouveau" />
+	
 </langpack>

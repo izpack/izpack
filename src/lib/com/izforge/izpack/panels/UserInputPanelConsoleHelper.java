@@ -276,7 +276,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             return runConsole(idata);
         }
 
-        int i = askEndOfConsolePanel();
+        int i = askEndOfConsolePanel(idata);
         if (i == 1)
         {
             return true;

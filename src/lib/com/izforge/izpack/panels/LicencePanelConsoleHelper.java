@@ -76,7 +76,7 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
              System.out.println(token);
              l++;
              if (l >= lines) {
-                 String strIn = doContinue(); 
+                 String strIn = doContinue(idata); 
                  if ( strIn.equalsIgnoreCase("x") ) {
                      return false;
                  } else if ( strIn.equalsIgnoreCase("s") ) {
@@ -86,7 +86,7 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
              }             
         }
    
-        int i = askToAcceptLicense();
+        int i = askToAccept(idata);
 
         if (i == 1)
         {
@@ -103,53 +103,5 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
 
     }
     
-    private String doContinue()
-    {
-        try
-        {
-            System.out.println("\r");
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            while (true)
-            {
-                System.out.println("press Enter to continue, S to skip or X to exit");
-                String strIn = br.readLine();
-                return strIn;
-            }
-
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return "X";
-    }
-    
-    private int askToAcceptLicense()
-    {
-        try
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            while (true)
-            {
-                System.out.println("press 1 to accept, 2 to reject, 3 to redisplay");
-                String strIn = br.readLine();
-                if (strIn.equals("1"))
-                {
-                    return 1;
-                }
-                else if (strIn.equals("2"))
-                {
-                    return 2;
-                }
-                else if (strIn.equals("3")) { return 3; }
-            }
-
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return 2;
-    }
     
 }

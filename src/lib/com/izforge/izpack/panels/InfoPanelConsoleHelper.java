@@ -75,7 +75,7 @@ public class InfoPanelConsoleHelper extends PanelConsoleHelper implements PanelC
              System.out.println(token);
              l++;
              if (l >= lines) {
-                 String strIn = doContinue(); 
+                 String strIn = doContinue(installData); 
                  if ( strIn.equalsIgnoreCase("x") ) {
                      return false;
                  } else if ( strIn.equalsIgnoreCase("s") ) {
@@ -85,7 +85,7 @@ public class InfoPanelConsoleHelper extends PanelConsoleHelper implements PanelC
              }             
         }
    
-        int i = askEndOfConsolePanel();
+        int i = askEndOfConsolePanel(installData);
 
         if (i == 1)
         {
@@ -101,26 +101,5 @@ public class InfoPanelConsoleHelper extends PanelConsoleHelper implements PanelC
         }
     }
 
-    private String doContinue()
-    {
-        try
-        {
-            System.out.println("\r");
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            while (true)
-            {
-                System.out.println("press Enter to continue, S to skip or X to exit");
-                String strIn = br.readLine();
-                return strIn;
-            }
-
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return "X";
-    }
-    
     
 }

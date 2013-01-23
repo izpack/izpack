@@ -139,7 +139,7 @@ public class PacksPanelConsoleHelper extends PanelConsoleHelper implements Panel
 
         installData.selectedPacks = selectedPacks;
 
-        int i = askEndOfConsolePanel();
+        int i = askEndOfConsolePanel(installData);
         if (i == 1)
         {
             return true;

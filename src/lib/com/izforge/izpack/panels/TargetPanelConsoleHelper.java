@@ -122,7 +122,7 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
             }
         }
         
-        int i = askEndOfConsolePanel();
+        int i = askEndOfConsolePanel(idata);
         if (i == 1)
         {
             return true;

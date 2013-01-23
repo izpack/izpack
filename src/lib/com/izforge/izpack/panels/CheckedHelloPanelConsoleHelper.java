@@ -118,7 +118,7 @@ public class CheckedHelloPanelConsoleHelper extends PanelConsoleHelper implement
             System.out.println(str);
         }
         out ("");
-        int i = askEndOfConsolePanel();
+        int i = askEndOfConsolePanel(installData);
         if (i == 1)
         {
             return true;
@@ -241,38 +241,10 @@ public class CheckedHelloPanelConsoleHelper extends PanelConsoleHelper implement
         String noLuck = idata.langpack.getString("CheckedHelloPanel.productAlreadyExist0")
                 + oldInstallPath
                 + idata.langpack.getString("CheckedHelloPanel.productAlreadyExist1");
-        return askQuestionYesNo( noLuck);
+        System.out.println(noLuck);
+        if (askToAccept(idata)==1) return true;
+        else return false;
     }
-    
-    private boolean askQuestionYesNo(String pstrMessage)
-    {
-        try
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            while (true)
-            {
-                out (pstrMessage);
-                out ("");
-                System.out.println("press 1 to accept, 2 to reject, 3 to redisplay");
-                String strIn = br.readLine();
-                if (strIn.equals("1"))
-                {
-                    return true;
-                }
-                else if (strIn.equals("2"))
-                {
-                    return false;
-                }
-            }
-
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return false;
-    }
-    
     
     private static void out(String message)
     {

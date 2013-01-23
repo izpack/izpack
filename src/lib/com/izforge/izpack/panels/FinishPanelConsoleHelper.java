@@ -20,12 +20,15 @@
  */
 package com.izforge.izpack.panels;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.PanelConsole;
 import com.izforge.izpack.installer.PanelConsoleHelper;
+import com.izforge.izpack.util.VariableSubstitutor;
 /**
  * Finish Panel console helper
  *
@@ -42,11 +45,24 @@ public class FinishPanelConsoleHelper extends PanelConsoleHelper implements Pane
 
 	public boolean runConsole(AutomatedInstallData idata) {
 		if (idata.installSuccess) {
-			System.out.println("Install was successful");
-			System.out.println("application installed on " + idata.getInstallPath());
+			System.out.println(idata.langpack.getString("FinishPanel.success"));
+			System.out.println(idata.langpack.getString("FinishPanel.installed.on") + " " + idata.getInstallPath());
 
+			if (idata.uninstallOutJar != null)
+            {
+			    VariableSubstitutor vs = new VariableSubstitutor(idata.getVariables());			    
+                // We prepare a message for the uninstaller feature
+                String path = idata.info.getUninstallerPath();
+                path = vs.substitute(path, null);
+
+                // Convert the file separator characters
+                path = path.replace('/', File.separatorChar);
+               
+                System.out.println(idata.langpack
+                        .getString("FinishPanel.uninst.info") + " " + path);
+            }			
 		} else {
-			System.out.println("Install Failed!!!");
+			System.out.println(idata.langpack.getString("FinishPanel.fail"));
 		}
 		return true;
 	}

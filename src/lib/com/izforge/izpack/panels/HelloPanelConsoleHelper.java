@@ -77,7 +77,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
             System.out.println(str);
         }
         System.out.println("");
-        int i = askEndOfConsolePanel();
+        int i = askEndOfConsolePanel(idata);
         if (i == 1)
         {
             return true;

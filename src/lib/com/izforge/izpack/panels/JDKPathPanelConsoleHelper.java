@@ -155,7 +155,7 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
             idata.setVariable(variableName, strPath);
         }
         
-        int i = askEndOfConsolePanel();
+        int i = askEndOfConsolePanel(idata);
         if (i == 1)
         {
             return true;

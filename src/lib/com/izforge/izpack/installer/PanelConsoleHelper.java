@@ -31,17 +31,64 @@ import java.io.InputStreamReader;
  */
 abstract public class PanelConsoleHelper 
 {
-
-
-
-    public int askEndOfConsolePanel()
+    public int askToAccept(AutomatedInstallData idata)
     {
         try
         {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             while (true)
             {
-                System.out.println("press 1 to continue, 2 to quit, 3 to redisplay");
+                System.out.println(idata.langpack.getString("consolehelper.askaccept"));
+                String strIn = br.readLine();
+                if (strIn.equals("1"))
+                {
+                    return 1;
+                }
+                else if (strIn.equals("2"))
+                {
+                    return 2;
+                }
+                else if (strIn.equals("3")) { return 3; }
+            }
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return 2;
+    }
+
+    
+    public String doContinue(AutomatedInstallData idata)
+    {
+        try
+        {
+            System.out.println("");
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            while (true)
+            {
+                System.out.println(idata.langpack.getString("consolehelper.askcontinue"));
+                String strIn = br.readLine();
+                return strIn;
+            }
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return "X";
+    }
+
+    public int askEndOfConsolePanel(AutomatedInstallData idata)
+    {
+        try
+        {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            while (true)
+            {
+                System.out.println(idata.langpack.getString("consolehelper.askredisplay"));
                 String strIn = br.readLine();
                 if (strIn.equals("1"))
                 {
