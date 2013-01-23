@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <project name="IzPack" default="all" basedir="..">
     <!--
   $Id$
@@ -610,6 +611,7 @@
         </build-panel>
         <build-panel name="InfoPanel">
             <include name="com/izforge/izpack/panels/InfoPanel.java"/>
+            <include name="com/izforge/izpack/panels/InfoPanelConsoleHelper.java"/>
         </build-panel>
         <build-panel name="InstallPanel">
             <include name="com/izforge/izpack/panels/InstallPanel.java"/>

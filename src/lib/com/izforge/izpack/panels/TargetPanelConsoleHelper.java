@@ -67,10 +67,14 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
     {
 
         String strTargetPath = "";
-        String strDefaultPath = idata.getVariable("SYSTEM_user_dir"); // this is a special
-                                                                      // requirement to make the
-                                                                      // default path point to the
-                                                                      // current location
+//        String strDefaultPath = idata.getVariable("SYSTEM_user_dir"); // this is a special
+//        // requirement to make the
+//        // default path point to the
+//        // current location
+        String strDefaultPath = idata.getInstallPath();
+        // requirement to make the
+        // default path point to the
+        // current location
         
         String path = TargetPanel.loadDefaultDirFromVariables(idata.getVariables());
         if (path != null) {
