@@ -1,17 +1,17 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2003 Jonathan Halliday
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -56,17 +56,17 @@ public class InstallerBase
      * Resource name of the conditions specification
      */
     private static final String CONDITIONS_SPECRESOURCENAME = "conditions.xml";
-    
-    private RulesEngine rules; 
+
+    private RulesEngine rules;
     private List<InstallerRequirement> installerrequirements;
     private Map<String, List<DynamicVariable>> dynamicvariables;
-    
+
     /**
      * The base name of the XML file that specifies the custom langpack. Searched is for the file
      * with the name expanded by _ISO3.
      */
     protected static final String LANG_FILE_NAME = "CustomLangpack.xml";
-    
+
     /**
      * Returns an ArrayList of the available langpacks ISO3 codes.
      *
@@ -87,7 +87,7 @@ public class InstallerBase
     public RulesEngine getRules(){
         return this.rules;
     }
-    
+
     /**
      * Loads the installation data. Also sets environment variables to <code>installdata</code>.
      * All system properties are available as $SYSTEM_<variable> where <variable> is the actual
@@ -134,11 +134,11 @@ public class InstallerBase
         {
             installdata.setVariable("UNINSTALLER_CONDITION", inf.getUninstallerCondition());
         }
-		
+
         installdata.setVariable("OS_VERSION", OsVersion.OS_VERSION);
         installdata.setVariable("OS_DETAILS", OsVersion.getOsDetails());
         if (OsVersion.IS_LINUX) installdata.setVariable("LINUX_DISTRIB", OsVersion.getLinuxDistribution());
-		
+
         // We read the panels order data
         in = InstallerBase.class.getResourceAsStream("/panelsOrder");
         objIn = new ObjectInputStream(in);
@@ -207,22 +207,22 @@ public class InstallerBase
 
         if (OsVersion.IS_UNIX)
         {
-            
-            
+
+
             try {
                 Runtime rt = Runtime.getRuntime();
                 Process pr = rt.exec("id -gn");
-    
+
                 BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-    
+
                 String line=input.readLine();
-    
+
                 installdata.setVariable(ScriptParser.GROUP_NAME, line);
 
             } catch (Exception e) {
             }
         }
-        
+
         installdata.setVariable("APPLICATIONS_DEFAULT_ROOT", dir);
         dir += File.separator;
         installdata.setVariable(ScriptParser.JAVA_HOME, System.getProperty("java.home"));
@@ -508,7 +508,7 @@ public class InstallerBase
         // uninstallerLib list if exist
 
     }
-    
+
     /**
      * Reads the conditions specification file and initializes the rules engine.
      */
@@ -549,7 +549,7 @@ public class InstallerBase
 
             // get the data
             IXMLElement conditionsxml = xmlParser.parse(input);
-            this.rules = new RulesEngine(conditionsxml, installdata);         
+            this.rules = new RulesEngine(conditionsxml, installdata);
         }
         catch (Exception e)
         {
@@ -559,7 +559,7 @@ public class InstallerBase
         }
         installdata.setRules(rules);
     }
-    
+
     /**
      * Loads Dynamic Variables.
      */
@@ -578,7 +578,7 @@ public class InstallerBase
             System.out.println(e);
         }
     }
-    
+
     /**
      * Load installer conditions
      *
@@ -591,7 +591,7 @@ public class InstallerBase
         this.installerrequirements = (List<InstallerRequirement>) objIn.readObject();
         objIn.close();
     }
-    
+
     public boolean checkInstallerRequirements(AutomatedInstallData installdata) throws Exception
     {
         boolean result = true;
@@ -619,11 +619,12 @@ public class InstallerBase
         }
         return result;
     }
-    
+
     protected void showMissingRequirementMessage(String message){
         Debug.log(message);
+        System.out.println (message);
     }
-    
+
     /**
      * Gets the stream to a resource.
      *
@@ -656,7 +657,7 @@ public class InstallerBase
         }
         return result;
     }
-    
+
     /**
      * Refreshes Dynamic Variables.
      */

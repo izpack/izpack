@@ -37,7 +37,7 @@ import com.izforge.izpack.util.VariableSubstitutor;
 
 /**
  * Runs the console installer
- * 
+ *
  * @author Mounir el hajj
  */
 public class ConsoleInstaller extends InstallerBase
@@ -55,14 +55,14 @@ public class ConsoleInstaller extends InstallerBase
     {
         super();
         loadInstallData(this.installdata);
-        
+
         this.installdata.localeISO3 = langcode;
         // Fallback: choose the first listed language pack if not specified via commandline
         if (this.installdata.localeISO3 == null)
         {
             this.installdata.localeISO3 = getAvailableLangPacks().get(0);
         }
-        
+
         InputStream in = getClass().getResourceAsStream(
                 "/langpacks/" + this.installdata.localeISO3 + ".xml");
         this.installdata.langpack = new LocaleDatabase(in);
@@ -71,12 +71,12 @@ public class ConsoleInstaller extends InstallerBase
         loadConditions(installdata);
         loadInstallerRequirements();
         loadDynamicVariables();
-        if (!checkInstallerRequirements(installdata))
-        {
-            Debug.log("not all installerconditions are fulfilled.");
-            return;
-        }
         addCustomLangpack(installdata);
+        //if (!checkInstallerRequirements(installdata))
+        //{
+        //    Debug.log("not all installerconditions are fulfilled.");
+        //    return;
+        //}
     }
 
     protected void iterateAndPerformAction(String strAction) throws Exception
@@ -278,7 +278,7 @@ public class ConsoleInstaller extends InstallerBase
 
     /**
      * Validate a panel.
-     * 
+     *
      * @param p The panel to validate
      * @return The status of the validation - false makes the installation fail
      */
@@ -319,7 +319,7 @@ public class ConsoleInstaller extends InstallerBase
             case Installer.CONSOLE_FROM_TEMPLATE:
                 doInstallFromPropertiesFile(path);
                 break;
-                
+
             default:
                 doInstall();
         }
