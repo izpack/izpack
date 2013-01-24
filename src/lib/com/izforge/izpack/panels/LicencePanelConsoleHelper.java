@@ -76,10 +76,10 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
              System.out.println(token);
              l++;
              if (l >= lines) {
-                 String strIn = doContinue(idata); 
-                 if ( strIn.equalsIgnoreCase("x") ) {
+                 int strIn = doContinue(idata); 
+                 if ( strIn==3 ) {
                      return false;
-                 } else if ( strIn.equalsIgnoreCase("s") ) {
+                 } else if ( strIn==2 ) {
                      break;
                  }
                  l=0;

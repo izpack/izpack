@@ -42,38 +42,45 @@ import com.izforge.izpack.util.VariableSubstitutor;
 public class TargetPanelConsoleHelper extends PanelConsoleHelper implements PanelConsole
 {
 
-    protected String emptyTargetMsg;
+    protected String emptyTargetMsg = "";
 
-    protected String warnMsg;
+    protected String warnMsg = "";
+    
+    protected String strTargetPath = "";
+
 
     public boolean initI18n (AutomatedInstallData installData)
     {
-        emptyTargetMsg = getI18nStringForClass("empty_target", "TargetPanel");
-        warnMsg = getI18nStringForClass("warn", "TargetPanel");
+        emptyTargetMsg = installData.langpack.getString("TargetPanel.empty_target");
+        warnMsg = installData.langpack.getString("TargetPanel.warn");
 
-        String introText = getI18nStringForClass("extendedIntro", "PathInputPanel");
+        String introText =  installData.langpack.getString( "PathInputPanel.extendedIntro");
         if (introText == null || introText.endsWith("extendedIntro")
                 || introText.indexOf('$') > -1)
         {
-            introText = getI18nStringForClass("intro", "PathInputPanel");
+            introText = installData.langpack.getString("PathInputPanel.intro");
             if (introText == null || introText.endsWith("intro"))
             {
                 introText = "";
             }
         }
+        
+        return true;
 
     }
 
 
     public boolean runGeneratePropertiesFile(AutomatedInstallData installData,PrintWriter printWriter)
     {
+        initI18n ( installData);
         printWriter.println(ScriptParser.INSTALL_PATH + "=");
         return true;
     }
 
     public boolean runConsoleFromPropertiesFile(AutomatedInstallData installData, Properties p)
     {
-        String strTargetPath = p.getProperty(ScriptParser.INSTALL_PATH);
+        initI18n ( installData);
+        strTargetPath = p.getProperty(ScriptParser.INSTALL_PATH);
         if (strTargetPath == null || "".equals(strTargetPath.trim()))
         {
             System.err.println("Inputting the target path is mandatory!!!!");
@@ -90,8 +97,13 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
 
     public boolean runConsole(AutomatedInstallData idata)
     {
+        return runConsole( idata, true);
+    }
+    
+    public boolean runConsole(AutomatedInstallData idata, boolean validateEnd)
+    {
+        initI18n ( idata);
 
-        String strTargetPath = "";
 //        String strDefaultPath = idata.getVariable("SYSTEM_user_dir"); // this is a special
 //        // requirement to make the
 //        // default path point to the
@@ -128,68 +140,33 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
 
         VariableSubstitutor vs = new VariableSubstitutor(idata.getVariables());
 
-        strTargetPath = vs.substitute(strTargetPath, null);
+        
+        if (!isValidated(vs.substitute(strTargetPath, null), idata)) return false;
+            
 
-        idata.setInstallPath(strTargetPath);
-
-        if (strTargetPath != null && strTargetPath.length() > 0) {
-            File selectedDir = new File(strTargetPath);
-            if (selectedDir.exists() && selectedDir.isDirectory() && selectedDir.list().length > 0) {
-                int answer = askNonEmptyDir();
-                if (answer == 2)
-                {
-                    return false;
-                }
-                else if (answer == 3)
-                {
-                    return runConsole(idata);
-                }
-            }
-        }
-
-        int i = askEndOfConsolePanel(idata);
-        if (i == 1)
+        if (validateEnd)
         {
-            return true;
-        }
-        else if (i == 2)
-        {
-            return false;
-        }
-        else
-        {
-            return runConsole(idata);
-        }
-
-    }
-
-    protected int askNonEmptyDir()
-    {
-        try
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            while (true)
+            idata.setInstallPath(strTargetPath);
+    
+            int i = askEndOfConsolePanel(idata);
+            if (i == 1)
             {
-                System.out.println("The directory already exists and is not empty! Are you sure you want to install here and delete all existing files?\nPress 1 to continue, 2 to quit, 3 to redisplay");
-                String strIn = br.readLine();
-                if (strIn.equals("1"))
-                {
-                    return 1;
-                }
-                else if (strIn.equals("2"))
-                {
-                    return 2;
-                }
-                else if (strIn.equals("3")) { return 3; }
+                return true;
             }
+            else if (i == 2)
+            {
+                return false;
+            }
+            else
+            {
+                return runConsole(idata);
+            }
+        }
+        
+        return true;
 
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return 2;
     }
+
 
     /**
      * Indicates wether the panel has been validated or not.
@@ -200,15 +177,21 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
     {
         String chosenPath = pstrPath;
         boolean ok = true;
+        int nRet = 0;
 
         // We put a warning if the specified target is nameless
         if (chosenPath.length() == 0)
         {
-            ok = emitWarning(idata.langpack.getString("installer.warning"), emptyTargetMsg);
-        }
-        if (!ok)
-        {
-            return ok;
+            nRet = emitWarning(idata, idata.langpack.getString("installer.warning"), emptyTargetMsg);
+            if ( nRet==3)
+            {
+                return false;
+            }
+            else if ( nRet==2)
+            {
+                return runConsole(idata, false);
+            } 
+            nRet=0;
         }
 
         // Expand unix home reference
@@ -221,52 +204,51 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
         // Normalize the path
         File path = new File(chosenPath).getAbsoluteFile();
         chosenPath = path.toString();
-        pathSelectionPanel.setPath(chosenPath);
-        if (isMustExist())
+
+        // We assume, that we would install something into this dir
+        if (!isWriteable(chosenPath))
         {
-            if (!path.exists())
+            emitError(idata, idata.langpack.getString("installer.error"), idata.langpack.getString("TargetPanel.notwritable"));
+            return runConsole(idata, false);
+        }
+        // We put a warning if the directory exists else we warn
+        // that it will be created
+        if (path.exists())
+        {
+            nRet = emitWarning(idata, idata.langpack.getString("installer.warning"), warnMsg);
+            if ( nRet==3)
             {
-                emitError(parent.langpack.getString("installer.error"), parent.langpack
-                        .getString(getI18nStringForClass("required", "PathInputPanel")));
                 return false;
             }
-            if (!pathIsValid())
+            else if ( nRet==2)
             {
-                emitError(parent.langpack.getString("installer.error"), parent.langpack
-                        .getString(getI18nStringForClass("notValid", "PathInputPanel")));
-                return false;
-            }
+                return runConsole(idata, false);
+            } 
+            nRet=0;
         }
         else
         {
-            // We assume, that we would install something into this dir
-            if (!isWriteable())
+               //if 'ShowCreateDirectoryMessage' variable set to 'false'
+               // then don't show "directory will be created" dialog:
+            final String vStr =
+                        idata.getVariable("ShowCreateDirectoryMessage");
+            if (vStr == null || Boolean.getBoolean(vStr))
             {
-                emitError(parent.langpack.getString("installer.error"), getI18nStringForClass(
-                        "notwritable", "TargetPanel"));
-                return false;
-            }
-            // We put a warning if the directory exists else we warn
-            // that it will be created
-            if (path.exists())
-            {
-                int res = askQuestion(parent.langpack.getString("installer.warning"), warnMsg,
-                        AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES);
-                ok = res == AbstractUIHandler.ANSWER_YES;
-            }
-            else
-            {
-                   //if 'ShowCreateDirectoryMessage' variable set to 'false'
-                   // then don't show "directory will be created" dialog:
-                final String vStr =
-                            idata.getVariable("ShowCreateDirectoryMessage");
-                if (vStr == null || Boolean.getBoolean(vStr))
+                nRet = emitWarning(idata, idata.langpack.getString("installer.warning"), idata.langpack.getString("TargetPanel.createdir")+ " " + chosenPath);
+                if ( nRet==3)
                 {
-                    ok = this.emitNotificationFeedback(getI18nStringForClass(
-                            "createdir", "TargetPanel") + "\n" + chosenPath);
+                    return false;
                 }
+                else if ( nRet==2)
+                {
+                    return runConsole(idata, false);
+                } 
+                nRet=0;
             }
         }
+        
+        this.strTargetPath = chosenPath;
+        
         return ok;
     }
 

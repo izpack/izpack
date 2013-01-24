@@ -291,7 +291,8 @@
 	
 	<!-- Console mode texts -->
     <str id="consolehelper.askredisplay" txt="appuyez sur 1 pour continuer, 2 pour quitter, 3 pour afficher de nouveau" />
-    <str id="consolehelper.askcontinue" txt="appuyez sur entrée pour continuer, S pour passer , X pour quitter" />
+    <str id="consolehelper.askcontinue" txt="appuyez sur 1 pour continuer, 2 pour passer , 3 pour quitter" />
     <str id="consolehelper.askaccept" txt="appuyez sur 1 pour accepter, 2 pour refuser, 3 pour afficher de nouveau" />
+    <str id="consolehelper.askyesno" txt="appuyez sur 1 pour oui, 2 pour non , 3 pour quitter" />
 	
 </langpack>

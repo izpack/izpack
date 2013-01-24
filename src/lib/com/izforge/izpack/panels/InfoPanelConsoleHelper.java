@@ -75,10 +75,10 @@ public class InfoPanelConsoleHelper extends PanelConsoleHelper implements PanelC
              System.out.println(token);
              l++;
              if (l >= lines) {
-                 String strIn = doContinue(installData); 
-                 if ( strIn.equalsIgnoreCase("x") ) {
+                 int strIn = doContinue(installData); 
+                 if ( strIn==3 ) {
                      return false;
-                 } else if ( strIn.equalsIgnoreCase("s") ) {
+                 } else if ( strIn==2 ) {
                      break;
                  }
                  l=0;

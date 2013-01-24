@@ -43,7 +43,7 @@ public class NotEmptyValidator implements Validator
         {
             String value = client.getFieldContents(i);
 
-            if ((value == null) || (value.length() == 0))
+            if ((value == null) || (value.trim().length() == 0))
             {
                 return false;
             }

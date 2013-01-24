@@ -1914,6 +1914,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         String variable = spec.getAttribute(VARIABLE);
         TextValuePair listItem = null;
         JComboBox field = new JComboBox();
+        
         JLabel label;
         
         String causesValidataion = spec.getAttribute(REVALIDATE);
@@ -2026,6 +2027,26 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         {
             return;
         }
+        
+        // fix size
+        
+        int combosize = 1;
+
+        try
+        {
+            combosize = Integer.parseInt(element.getAttribute(SIZE));
+        }
+        catch (Throwable exception)
+        {
+            combosize = 1;
+        }
+        
+        StringBuffer bd = new StringBuffer();
+        for (int i=0; i<combosize; i++)
+        {
+            bd.append(' ');
+        }
+        field.addItem(bd.toString());
 
         // ----------------------------------------------------
         // get the description and add it to the list of UI

@@ -291,8 +291,9 @@
 	
 	<!-- Console mode texts -->
     <str id="consolehelper.askredisplay" txt="press 1 to continue, 2 to quit, 3 to redisplay" />
-    <str id="consolehelper.askcontinue" txt="press Enter to continue, S to skip or X to exit" />
+    <str id="consolehelper.askcontinue" txt="press 1 to continue, 2 to skip or 3 to exit" />
     <str id="consolehelper.askaccept" txt="press 1 to accept, 2 to reject, 3 to redisplay" />
+    <str id="consolehelper.askyesno" txt="press 1 for yes, 2 no, 3 to quit" />
 	
 	
 </langpack>
