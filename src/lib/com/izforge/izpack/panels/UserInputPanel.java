@@ -1883,9 +1883,6 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         TextValuePair listItem = null;
         JComboBox field = new JComboBox();
         field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),BorderFactory.createEmptyBorder(6, 5, 6, 0)));
-        Dimension dimen = new Dimension(200, 35);
-        field.setSize(dimen);
-        field.setPreferredSize(dimen);
 
         
         JLabel label;
@@ -1901,6 +1898,21 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         // ----------------------------------------------------
         if (element != null)
         {
+            int size = 0;
+            try
+            {
+                size = Integer.parseInt(element.getAttribute(TEXT_SIZE));
+            }
+            catch (Throwable exception)
+            {
+                size = 20;
+            }
+
+            Dimension dimen = new Dimension(size*10, 35);
+            field.setSize(dimen);
+            field.setPreferredSize(dimen);
+            
+            
             label = new JLabel(getText(element));
 
             Vector<IXMLElement> choices = element.getChildrenNamed(COMBO_CHOICE);
