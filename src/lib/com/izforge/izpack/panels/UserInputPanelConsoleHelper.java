@@ -23,6 +23,7 @@ package com.izforge.izpack.panels;
 import static com.izforge.izpack.panels.UserInputPanel.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -451,20 +452,86 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         fieldText = input.listChoices.get(0).strText;
         String value = set;
         while (true) {
-            boolean done = true;
+            boolean done = false;
             System.out.println(fieldText + " [" + set + "] ");
             try
             {
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 String strIn = br.readLine();
                 value = !strIn.trim().equals("") ? strIn : set;
-                if (input.validators != null && !input.validators.isEmpty())
+                
+                // avant les validators
+                // pour les types directory
+                // il faut tester les paramètres mustExist et canCreate
+                
+                boolean bokForInputDir = true;
+                
+                if (DIR.equals(input.strFieldType) )
                 {
-                    StringInputProcessingClient validation = new StringInputProcessingClient(value, input.validators);
-                    if (!validation.validate()) {
-                        done = false;
-                        System.out.println("Validation failed, please verify your input.");
-                        System.out.println("Validation error: " + validation.getValidationMessage());
+                    
+                    java.io.File dir = new File (value).getAbsoluteFile();
+                    value=dir.getAbsolutePath();
+                    
+                    boolean mustExist = input.mustExist; 
+                    boolean canCreate = input.canCreate; 
+                    
+                    if (dir.isDirectory())
+                    {
+                        bokForInputDir = true;
+                    }
+                    else if (mustExist)
+                    {
+                        bokForInputDir = false;
+                    }
+                    else if (canCreate)
+                    {
+                        // try to create the directory, if requested
+                        if (!dir.exists())
+                        {
+                            int nRet = emitWarning(idata, idata.langpack.getString("installer.warning"), idata.langpack.getString("TargetPanel.createdir")+ " " + value);
+                            if ( nRet==3)
+                            {
+                                return false;
+                            }
+                            else if ( nRet==2)
+                            {
+                                bokForInputDir = false;
+                            } 
+                            else bokForInputDir = true;
+                        }
+
+                        if (bokForInputDir)
+                        {
+                            // We assume, that we would install something into this dir
+                            if (!isWriteable(dir.toString()))
+                            {
+                                emitError(idata, idata.langpack.getString("installer.error"), idata.langpack.getString("TargetPanel.notwritable"));
+                                bokForInputDir = false;
+                            }
+                            else
+                            {
+                                bokForInputDir = dir.mkdirs();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        bokForInputDir = true;
+                    }
+                }
+                
+                
+                if (bokForInputDir)
+                {
+                    done = true;
+                    if (input.validators != null && !input.validators.isEmpty())
+                    {
+                        StringInputProcessingClient validation = new StringInputProcessingClient(value, input.validators);
+                        if (!validation.validate()) {
+                            done = false;
+                            System.out.println("Validation failed, please verify your input.");
+                            System.out.println("Validation error: " + validation.getValidationMessage());
+                        }
                     }
                 }
             }
@@ -708,7 +775,22 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                 strFieldText = description.getAttribute(TEXT);
             }
             choicesList.add(new Choice(strText, null, strSet));
-            return new Input(strVariableName, strSet, choicesList, strFieldType, strFieldText, 0);
+            
+            if (DIR.equals(strFieldType))
+            {
+                boolean mustExist = true;
+                boolean create = true;
+                mustExist = Boolean.parseBoolean(spec.getAttribute("mustExist", "true"));
+                create = Boolean.parseBoolean(spec.getAttribute("create", "false"));
+                return new Input(strVariableName, strSet, choicesList, strFieldType, strFieldText, 0, mustExist, create);
+            }
+            else
+            {
+                return new Input(strVariableName, strSet, choicesList, strFieldType, strFieldText, 0);
+                
+            }
+            
+
 
         }
 
@@ -1086,18 +1168,28 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
     {
         if (element == null) { return (null); }
 
+        String key = element.getAttribute(KEY);
         String text = element.getAttribute(TEXT);
-        if (text == null || text.length() == 0) {
-            text = element.getAttribute(KEY);
+        
+        if ((key != null) && (idata.langpack != null))
+        {
+            try
+            {
+                String langPackText = idata.langpack.getString(key);
+                if (langPackText != null && !key.equals(langPackText)) {
+                    text = langPackText;
+                }
+            }
+            catch (Throwable exception)
+            {
+                // no localized text found
+            }
         }
-        if (text != null && text.length() > 0) {
-            // try to parse the text, and substitute any variable it finds
-            VariableSubstitutor vs = new VariableSubstitutor(idata.getVariables());
 
-            return (vs.substitute(text, null));
-        }
+        // try to parse the text, and substitute any variable it finds
+        VariableSubstitutor vs = new VariableSubstitutor(idata.getVariables());
 
-        return text;
+        return (vs.substitute(text, null));
     }
 
     private class RevalidationTriggeredException extends RuntimeException
@@ -1113,6 +1205,13 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                 this.strFieldType = strFieldType;
         }
 
+        public Input(String strVariableName, String strDefaultValue, List<Choice> listChoices,
+                String strFieldType, String strFieldText, int iSelectedChoice, boolean mustExist, boolean canCreate)
+        {
+            this ( strVariableName,  strDefaultValue,  listChoices,  strFieldType,  strFieldText,  iSelectedChoice);
+            this.mustExist = mustExist;
+            this.canCreate = canCreate;
+        }
         public Input(String strVariableName, String strDefaultValue, List<Choice> listChoices,
                 String strFieldType, String strFieldText, int iSelectedChoice)
         {
@@ -1130,6 +1229,9 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             this(strVariableName, strDefaultValue, listChoices, strFieldType, strFieldText, iSelectedChoice);
             this.revalidate = revalidate;
         }
+        
+        boolean canCreate = true;
+        boolean mustExist = true;
 
         String strVariableName;
 

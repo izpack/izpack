@@ -20,11 +20,13 @@
  */
 package com.izforge.izpack.panels;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -88,9 +90,11 @@ public class FileInputField extends JPanel implements ActionListener
 
     private void initialize()
     {
+        //this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
         filetxt = new JTextField(set, size);
         filetxt.setCaretPosition(0);
-
+        
         // TODO: use separate key for button text
         browseBtn = ButtonFactory.createButton(data.langpack
                 .getString("UserInputPanel.search.browse"), data.buttonsHColor);

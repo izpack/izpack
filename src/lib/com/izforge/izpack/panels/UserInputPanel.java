@@ -22,6 +22,7 @@ package com.izforge.izpack.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -406,7 +407,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         // dynamic validation (showing and hiding components within the
         // same panel)
         // ----------------------------------------------------
-        int topbuff = 25;
+        int topbuff = 0;
         try
         {
             topbuff = Integer.parseInt(spec.getAttribute(TOPBUFFER));
@@ -1690,9 +1691,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         int rows = 1;
         HashMap<String, String> validateParamMap = null;
         Vector<IXMLElement> validateParams = null;
-        String validator = null;
         String message = null;
-        boolean hasParams = false;
         TextInputField inputField;
 
         String variable = spec.getAttribute(VARIABLE);
@@ -1751,41 +1750,6 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
             return;
         }
 
-        // ----------------------------------------------------
-        // get the validator if was defined
-        // ----------------------------------------------------
-        element = spec.getFirstChildNamed(VALIDATOR);
-        if (element != null)
-        {
-            validator = element.getAttribute(CLASS);
-            Debug.trace("Validator found for text field: " + validator);
-            message = getText(element);
-            // ----------------------------------------------------------
-            // check and see if we have any parameters for this validator.
-            // If so, then add them to validateParamMap.
-            // ----------------------------------------------------------
-            validateParams = element.getChildrenNamed(RULE_PARAM);
-            if (validateParams != null && validateParams.size() > 0)
-            {
-                Debug.trace("Validator has " + validateParams.size() + " parameters.");
-                hasParams = true;
-
-                if (validateParamMap == null)
-                {
-                    validateParamMap = new HashMap<String, String>();
-                }
-
-                for (IXMLElement validateParam : validateParams)
-                {
-                    element = validateParam;
-                    String paramName = element.getAttribute(RULE_PARAM_NAME);
-                    String paramValue = element.getAttribute(RULE_PARAM_VALUE);
-                    validateParamMap.put(paramName, paramValue);
-                }
-
-            }
-
-        }
 
         // ----------------------------------------------------
         // get the description and add it to the list UI
@@ -1797,8 +1761,12 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         // ----------------------------------------------------
         // construct the UI element and add it to the list
         // ----------------------------------------------------
-        inputField = new TextInputField(set, size, rows, validator, hasParams ? validateParamMap : null);
+        List<ValidatorContainer> validatorConfig;
+        validatorConfig = analyzeValidator(spec);
+        inputField = new TextInputField(this, set, size, rows, validatorConfig);
         inputField.addFocusListener(this);
+        inputField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),BorderFactory.createEmptyBorder(6, 5, 6, 0)));
+
         TwoColumnConstraints constraints = new TwoColumnConstraints();
         constraints.position = TwoColumnConstraints.WEST;
 
@@ -1870,7 +1838,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
             {
                 message = "Text entered did not pass validation.";
             }
-            showWarningMessageDialog(parentFrame, message);
+            // showWarningMessageDialog(parentFrame, message); WTF !?
             return (false);
         }
         Debug.trace("Field validated");
@@ -1914,6 +1882,11 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         String variable = spec.getAttribute(VARIABLE);
         TextValuePair listItem = null;
         JComboBox field = new JComboBox();
+        field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),BorderFactory.createEmptyBorder(6, 5, 6, 0)));
+        Dimension dimen = new Dimension(200, 35);
+        field.setSize(dimen);
+        field.setPreferredSize(dimen);
+
         
         JLabel label;
         
@@ -2028,26 +2001,6 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
             return;
         }
         
-        // fix size
-        
-        int combosize = 1;
-
-        try
-        {
-            combosize = Integer.parseInt(element.getAttribute(SIZE));
-        }
-        catch (Throwable exception)
-        {
-            combosize = 1;
-        }
-        
-        StringBuffer bd = new StringBuffer();
-        for (int i=0; i<combosize; i++)
-        {
-            bd.append(' ');
-        }
-        field.addItem(bd.toString());
-
         // ----------------------------------------------------
         // get the description and add it to the list of UI
         // elements if it exists.

@@ -18,8 +18,10 @@
  */
 package com.izforge.izpack.panels;
 
+import java.awt.Color;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 
 import com.izforge.izpack.adaptator.IXMLElement;

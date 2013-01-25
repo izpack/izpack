@@ -119,7 +119,20 @@ public class GUIInstaller extends InstallerBase
 
         // Sets up the GUI L&F
         loadLookAndFeel();
-
+        
+//        // set Font Size
+//        // try this APO
+        java.util.Enumeration keys = UIManager.getDefaults().keys();
+        while (keys.hasMoreElements())
+        {
+            Object key = keys.nextElement();
+            Object value = UIManager.get(key);
+            if (value instanceof javax.swing.plaf.FontUIResource)
+            {
+                UIManager.put(key, new javax.swing.plaf.FontUIResource (((javax.swing.plaf.FontUIResource) value).getFontName(), ((javax.swing.plaf.FontUIResource) value).getStyle(), 14));
+            }
+        }
+            
         // Checks the Java version
         checkJavaVersion();
         checkJDKAvailable();

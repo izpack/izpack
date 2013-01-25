@@ -21,11 +21,14 @@
 
 package com.izforge.izpack.panels;
 
+import com.izforge.izpack.installer.InstallerFrame;
+import com.izforge.izpack.installer.IzPanel;
 import com.izforge.izpack.util.Debug;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
+import java.util.List;
 import java.util.Map;
 
 /*---------------------------------------------------------------------------*/
@@ -36,7 +39,7 @@ import java.util.Map;
  * @author Piotr Skowronek
  */
 /*---------------------------------------------------------------------------*/
-public class TextInputField extends JComponent implements ProcessingClient
+public class TextInputField extends JComponent 
 {
 
     /**
@@ -45,24 +48,14 @@ public class TextInputField extends JComponent implements ProcessingClient
     private static final long serialVersionUID = 8611515659787697087L;
 
     /**
-     * Validator parameters.
-     */
-    private Map<String, String> validatorParams;
-
-    /**
-     * Holds an instance of the <code>Validator</code> if one was specified and available
-     */
-    private Validator validationService;
-
-    /**
      * This composite can only contain one component ie JTextField
      */
     private JTextComponent field;
 
-    /**
-     * Do we have parameters for validator?
-     */
-    private boolean hasParams = false;
+    IzPanel parent;
+    List<ValidatorContainer> validators;
+    InstallerFrame parentFrame;
+    
     
     /*--------------------------------------------------------------------------*/
     /**
@@ -78,27 +71,11 @@ public class TextInputField extends JComponent implements ProcessingClient
      * @param validatorParams validator parameters.
      */
     /*--------------------------------------------------------------------------*/
-    public TextInputField(String set, int size, int rows, String validator, Map<String, String> validatorParams)
+    public TextInputField(IzPanel parent, String set, int size, int rows, List<ValidatorContainer> validatorConfig)
     {
-        this.validatorParams = validatorParams;
-        this.hasParams = validatorParams != null;
-        
-        // ----------------------------------------------------
-        // attempt to create an instance of the Validator
-        // ----------------------------------------------------
-        try
-        {
-            if (validator != null)
-            {
-                Debug.trace("Making Validator for: " + validator);
-                validationService = (Validator) Class.forName(validator).newInstance();
-            }
-        }
-        catch (Throwable exception)
-        {
-            validationService = null;
-            Debug.trace(exception);
-        }
+        this.parent = parent;
+        this.parentFrame = parent.getInstallerFrame();
+        this.validators = validatorConfig;
 
         com.izforge.izpack.gui.FlowLayout layout = new com.izforge.izpack.gui.FlowLayout();
         layout.setAlignment(com.izforge.izpack.gui.FlowLayout.LEADING);
@@ -121,18 +98,6 @@ public class TextInputField extends JComponent implements ProcessingClient
             field.setCaretPosition(0);
             add(field);
         }
-    }
-
-    /*--------------------------------------------------------------------------*/
-    /**
-     * Returns the validator parameters, if any. The caller should check for the existence of
-     * validator parameters via the <code>hasParams()</code> method prior to invoking this method.
-     *
-     * @return a java.util.Map containing the validator parameters.
-     */
-    public Map<String, String> getValidatorParams()
-    {
-        return validatorParams;
     }
 
     /*---------------------------------------------------------------------------*/
@@ -177,24 +142,33 @@ public class TextInputField extends JComponent implements ProcessingClient
     /*--------------------------------------------------------------------------*/
     public boolean validateContents()
     {
-        if (validationService != null)
+        String input = field.getText();
+        StringInputProcessingClient processingClient = new StringInputProcessingClient(
+                input, validators);
+        boolean success = processingClient.validate();
+        if (!success)
         {
-            Debug.trace("Validating contents");
-            return (validationService.validate(this));
+            JOptionPane
+                    .showMessageDialog(parentFrame,
+                            processingClient.getValidationMessage(), parentFrame.langpack
+                                    .getString("UserInputPanel.error.caption"),
+                            JOptionPane.WARNING_MESSAGE);
         }
-        else
-        {
-            Debug.trace("Not validating contents");
-            return (true);
-        }
+        return success;
+        
+//        if (validationService != null)
+//        {
+//            Debug.trace("Validating contents");
+//            return (validationService.validate(this));
+//        }
+//        else
+//        {
+//            Debug.trace("Not validating contents");
+//            return (true);
+//        }
     }
 
     // javadoc inherited
-    public boolean hasParams()
-    {
-        return hasParams;
-    }
-
     // ----------------------------------------------------------------------------
 }
 /*---------------------------------------------------------------------------*/
