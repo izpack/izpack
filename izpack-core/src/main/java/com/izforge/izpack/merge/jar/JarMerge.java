@@ -21,18 +21,18 @@ package com.izforge.izpack.merge.jar;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
-import java.util.jar.JarInputStream;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import org.apache.tools.zip.ZipOutputStream;
 
@@ -115,7 +115,7 @@ public class JarMerge extends AbstractMerge
     {
         try
         {
-            ArrayList<String> fileNameInZip = getFileNameInZip();
+            ArrayList<String> fileNameInZip = getFileNameInJar();
             for (String fileName : fileNameInZip)
             {
                 File file = new File(jarPath + "!/" + fileName);
@@ -136,7 +136,7 @@ public class JarMerge extends AbstractMerge
     {
         try
         {
-            ArrayList<String> fileNameInZip = getFileNameInZip();
+            ArrayList<String> fileNameInZip = getFileNameInJar();
             ArrayList<File> result = new ArrayList<File>();
             ArrayList<File> filteredResult = new ArrayList<File>();
             for (String fileName : fileNameInZip)
@@ -158,36 +158,59 @@ public class JarMerge extends AbstractMerge
         }
     }
 
-    public ArrayList<String> getFileNameInZip() throws IOException
+    public ArrayList<String> getFileNameInJar() throws IOException
     {
-        ZipInputStream inputStream = new ZipInputStream(new FileInputStream(jarPath));
+        JarFile jarFile = new JarFile(jarPath);
         ArrayList<String> arrayList = new ArrayList<String>();
-        ZipEntry zipEntry;
-        while ((zipEntry = inputStream.getNextEntry()) != null)
+        Enumeration<JarEntry> jarEntries = jarFile.entries();
+        while (jarEntries.hasMoreElements())
         {
-            arrayList.add(zipEntry.getName());
+            JarEntry jarEntry = jarEntries.nextElement();
+            arrayList.add(jarEntry.getName());
         }
         return arrayList;
     }
 
+
     public void merge(java.util.zip.ZipOutputStream outputStream)
+    {
+        mergeImpl(outputStream);
+    }
+
+    public void merge(ZipOutputStream outJar)
+    {
+        mergeImpl(outJar);
+    }
+
+    private void mergeImpl(OutputStream outputStream)
     {
         Pattern pattern = Pattern.compile(regexp);
         List<String> mergeList = getMergeList(outputStream);
-        ZipEntry zentry;
+        JarFile jarFile = null;
+        JarEntry jarEntry;
         try
         {
-            JarInputStream jarInputStream = new JarInputStream(new FileInputStream(new File(jarPath)));
-            while ((zentry = jarInputStream.getNextEntry()) != null)
+            jarFile = new JarFile(jarPath);
+            Enumeration<JarEntry> jarFileEntries = jarFile.entries();
+
+            while (jarFileEntries.hasMoreElements())
             {
-                Matcher matcher = pattern.matcher(zentry.getName());
-                if (matcher.matches() && !isSignature(zentry.getName()))
+                jarEntry = jarFileEntries.nextElement();
+
+                if (isManifest(jarEntry.getName())) {
+                    // Skip the JAR's manifest file to avoid
+                    // overwriting it in the target JAR
+                    continue;
+                }
+
+                Matcher matcher = pattern.matcher(jarEntry.getName());
+                if (matcher.matches() && !isSignature(jarEntry.getName()))
                 {
-                    if (mergeList.contains(zentry.getName()))
+                    if (mergeList.contains(jarEntry.getName()))
                     {
                         continue;
                     }
-                    mergeList.add(zentry.getName());
+                    mergeList.add(jarEntry.getName());
 
                     String matchFile = matcher.group(1);
                     StringBuilder dest = new StringBuilder(destination);
@@ -199,57 +222,37 @@ public class JarMerge extends AbstractMerge
                         }
                         dest.append(matchFile);
                     }
-                    IoHelper.copyStreamToJar(jarInputStream, outputStream, dest.toString().replaceAll("//", "/"),
-                                             zentry.getTime());
-                }
 
+                    InputStream inputStream = jarFile.getInputStream(jarEntry);
+                    if (outputStream instanceof ZipOutputStream)
+                    {
+                        IoHelper.copyStreamToJar(inputStream, (ZipOutputStream) outputStream, dest.toString().replaceAll("//", "/"),
+                                jarEntry.getTime());
+                    }
+                    else if (outputStream instanceof java.util.zip.ZipOutputStream)
+                    {
+                        IoHelper.copyStreamToJar(inputStream, (java.util.zip.ZipOutputStream) outputStream, dest.toString().replaceAll("//", "/"),
+                                jarEntry.getTime());
+                    }
+                }
             }
-            jarInputStream.close();
         }
         catch (IOException e)
         {
             throw new IzPackException(e);
         }
-    }
-
-    public void merge(ZipOutputStream outJar)
-    {
-        Pattern pattern = Pattern.compile(regexp);
-        List<String> mergeList = getMergeList(outJar);
-        ZipEntry zentry;
-        try
-        {
-            JarInputStream jarInputStream = new JarInputStream(new FileInputStream(new File(jarPath)));
-            while ((zentry = jarInputStream.getNextEntry()) != null)
+        finally {
+            if (jarFile != null)
             {
-                Matcher matcher = pattern.matcher(zentry.getName());
-                if (matcher.matches() && !isSignature(zentry.getName()))
+                try
                 {
-                    if (mergeList.contains(zentry.getName()))
-                    {
-                        continue;
-                    }
-                    mergeList.add(zentry.getName());
-                    String matchFile = matcher.group(1);
-                    StringBuilder dest = new StringBuilder(destination);
-                    if (matchFile != null && matchFile.length() > 0)
-                    {
-                        if (dest.length() > 0 && dest.charAt(dest.length() - 1) != '/')
-                        {
-                            dest.append('/');
-                        }
-                        dest.append(matchFile);
-                    }
-                    IoHelper.copyStreamToJar(jarInputStream, outJar, dest.toString().replaceAll("//", "/"),
-                                             zentry.getTime());
+                    jarFile.close();
                 }
-
+                catch (IOException e)
+                {
+                    // Ignore
+                }
             }
-            jarInputStream.close();
-        }
-        catch (IOException e)
-        {
-            throw new MergeException(e);
         }
     }
 
@@ -300,4 +303,14 @@ public class JarMerge extends AbstractMerge
         return name.matches("/META-INF/.*\\.(SF|DSA|RSA)") || name.matches("/META-INF/SIG-.*");
     }
 
+    /**
+     * Determines if a JAR entry is the manifest file for the JAR.
+     *
+     * @param name the JAR entry name
+     * @return {@code true} if the file is the manifest, otherwise {@code false}
+     */
+    private boolean isManifest(String name)
+    {
+        return name.equals(JarFile.MANIFEST_NAME);
+    }
 }
