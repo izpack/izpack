@@ -45,7 +45,7 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
     protected String emptyTargetMsg = "";
 
     protected String warnMsg = "";
-    
+
     protected String strTargetPath = "";
 
 
@@ -64,7 +64,7 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
                 introText = "";
             }
         }
-        
+
         return true;
 
     }
@@ -99,7 +99,7 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
     {
         return runConsole( idata, true);
     }
-    
+
     public boolean runConsole(AutomatedInstallData idata, boolean validateEnd)
     {
         initI18n ( idata);
@@ -118,7 +118,8 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
             strDefaultPath = path;
         }
 
-        System.out.println("Select target path [" + strDefaultPath + "] ");
+
+        System.out.println(idata.langpack.getString("TargetPanel.info")+" [" + strDefaultPath + "] ");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try
         {
@@ -140,14 +141,14 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
 
         VariableSubstitutor vs = new VariableSubstitutor(idata.getVariables());
 
-        
+
         if (!isValidated(vs.substitute(strTargetPath, null), idata)) return false;
-            
+
 
         if (validateEnd)
         {
             idata.setInstallPath(strTargetPath);
-    
+
             int i = askEndOfConsolePanel(idata);
             if (i == 1)
             {
@@ -162,7 +163,7 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
                 return runConsole(idata);
             }
         }
-        
+
         return true;
 
     }
@@ -190,7 +191,7 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
             else if ( nRet==2)
             {
                 return runConsole(idata, false);
-            } 
+            }
             nRet=0;
         }
 
@@ -223,7 +224,7 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
             else if ( nRet==2)
             {
                 return runConsole(idata, false);
-            } 
+            }
             nRet=0;
         }
         else
@@ -242,13 +243,13 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
                 else if ( nRet==2)
                 {
                     return runConsole(idata, false);
-                } 
+                }
                 nRet=0;
             }
         }
-        
+
         this.strTargetPath = chosenPath;
-        
+
         return ok;
     }
 

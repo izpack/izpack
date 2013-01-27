@@ -27,7 +27,7 @@
     <str id="UserInputPanel.headline" txt="Données utilisateur"/>
 		<str id="UserPathPanel.headline" txt="Sélectionnez le chemin"/>
     <str id="InstallationTypePanel.headline" txt="Type d'installation"/>
-    
+
     <!-- General installer strings -->
     <str id="installer.title" txt="IzPack - Installation de "/>
     <str id="installer.next" txt="Suivant"/>
@@ -50,7 +50,7 @@
     <str id="uninstaller.warning" txt="Ceci va enlever l'(es) application(s) installée(s) !"/>
     <str id="uninstaller.destroytarget" txt=" Forcer la suppression de : "/>
     <str id="uninstaller.uninstall" txt="Désinstaller"/>
-		
+
 		<!-- The strings for the 'official' IzPack plugins -->
     <!-- HelloPanel strings -->
     <str id="HelloPanel.welcome1" txt="Bienvenue dans l'installation de "/>
@@ -84,7 +84,7 @@
     <str id="TargetPanel.createdir" txt="Le répertoire de destination sera créé :"/>
 		<str id="TargetPanel.nodir" txt="Vous avez spécifié le nom d'un fichier existant ! Veuillez choisir un autre chemin d'installation."/>
     <str id="TargetPanel.notwritable" txt="Le répertoire que vous avez choisi n'autorise pas l'écriture. Veuillez en choisir un autre."/>
-    
+
     <!-- JDKPathPanel strings -->
     <str id="JDKPathPanel.extendedIntro" txt="La version installée de l'application nécessite un JDK entre la version ${JDKPathPanel.minVersion} et la version ${JDKPathPanel.maxVersion}. Un environnement d'execution Java (JRE) ne sera pas suffisant."/>
     <str id="JDKPathPanel.intro" txt="L’application installée nécessite un JDK. Un java runtime environment (JRE) ne sera pas suffisant."/>
@@ -105,7 +105,11 @@
     <str id="PacksPanel.excludes" txt="Exclusions: "/>
     <str id="PacksPanel.notEnoughSpace" txt="L'espace disque disponible est insuffisant."/>
     <str id="PacksPanel.notAscertainable" txt="incertain"/>
-		
+    <str id="PacksPanel.packselect" txt="appuyez sur 1 pour sélectionner, 0 to déselectionner :"/>
+    <str id="PacksPanel.required" txt="requis"/>
+    <str id="PacksPanel.done" txt="...sélection des paquets terminée."/>
+
+
     <!-- InstallPanel strings -->
     <str id="InstallPanel.info" txt="Vous pouvez lancer le processus d'installation ici :"/>
     <str id="InstallPanel.install" txt="Installer !"/>
@@ -120,7 +124,7 @@
     <str id="InstallationGroupPanel.colNameSelected" txt="Groupe Ã  installer"/>
     <str id="InstallationGroupPanel.colNameInstallType" txt="Description"/>
     <str id="InstallationGroupPanel.colNameSize" txt="Taille"/>
-    
+
     <!-- InstallationTypePanel strings -->
     <str id="InstallationTypePanel.info" txt="Veuillez choisir le type d'installation:"/>
     <str id="InstallationTypePanel.normal" txt="Nouvelle installation"/>
@@ -135,7 +139,7 @@
     <str id="FinishPanel.auto" txt="Générer un script d'installation automatisée"/>
     <str id="FinishPanel.auto.tip" txt="Génère un fichier qui permet de refaire automatiquement la meme installation sur une autre machine."/>
 		<str id="FinishPanel.auto.dialog.filterdesc" txt="Fichiers XML"/>
-		
+
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.dependencyList" txt="Dépendences"/>
     <str id="ImgPacksPanel.packs" txt="Les paquetages suivants sont disponibles :"/>
@@ -190,7 +194,7 @@
 		<str id="UserInputPanel.search.browse" txt="Parcourir ..."/>
     <str id="UserInputPanel.search.wrongselection.message" txt="Le fichier ou le répertoire que vous avez choisi n'existe pas ou n'est pas convenable."/>
     <str id="UserInputPanel.search.wrongselection.caption" txt="Sélection invalide."/>
-    
+
 		<!-- UserPathPanel strings -->
 		<str id="UserPathPanel.required" txt="Le répertoire choisi doit exister."/>
     <str id="UserPathPanel.info" txt="Sélectionnez le chemin: "/>
@@ -200,7 +204,7 @@
     <str id="UserPathPanel.createdir" txt="Le répertoire cible sera va être créer: "/>
     <str id="UserPathPanel.nodir" txt="Cette cible n'est pas un répertoire! Veuillez choisir un répertoire!"/>
     <str id="UserPathPanel.notwritable" txt="Ecriture impossible dans ce répertoire! Veuillez choisir un autre répertoire!"/>
-				
+
     <!-- CompilePanel strings -->
     <str id="CompilePanel.heading" txt="Compilation"/>
     <str id="CompilePanel.tip" txt="Progression de la compilation :"/>
@@ -234,7 +238,7 @@
     <str id="TreePacksPanel.summaryCaption" txt="Paquet(s) d'installation choisis"/>
 	<str id="UserPathPanel.summaryCaption" txt="Chemin sélectionné"/>
 	<str id="DefaultTargetPanel.summaryCaption" txt="Chemin de l'installation"/>
-    
+
     <!-- Strings for the Registry -->
     <str id="functionFailed.RegOpenKeyEx" txt="Impossible d'ouvrir la clé de registre {0}\\{1}."/>
 
@@ -242,7 +246,7 @@
     <str id="CheckedHelloPanel.productAlreadyExist0" txt="Ce logiciel est déjà installé depuis le chemin "/>
     <str id="CheckedHelloPanel.productAlreadyExist1" txt=" . Etes-vous certain de vouloir installer une autre entité ?"/>
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="La clé de désinstallation sera : "/>
-		
+
 		<!-- Next Media Strings -->
 		<str id="nextmedia.title" txt="Prochain media d'installation"/>
     <str id="nextmedia.msg" txt="Choisissez le prochain media d'installation."/>
@@ -288,11 +292,11 @@
 
     <str id="data.validation.error.title" txt="Erreur" />
     <str id="data.validation.warning.title" txt="Attention" />
-	
+
 	<!-- Console mode texts -->
     <str id="consolehelper.askredisplay" txt="appuyez sur 1 pour continuer, 2 pour quitter, 3 pour afficher de nouveau" />
     <str id="consolehelper.askcontinue" txt="appuyez sur 1 pour continuer, 2 pour passer , 3 pour quitter" />
     <str id="consolehelper.askaccept" txt="appuyez sur 1 pour accepter, 2 pour refuser, 3 pour afficher de nouveau" />
     <str id="consolehelper.askyesno" txt="appuyez sur 1 pour oui, 2 pour non , 3 pour quitter" />
-	
+
 </langpack>

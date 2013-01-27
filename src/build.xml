@@ -221,7 +221,7 @@
 
     <property name="build.subdir" value="_build"/>
     <property name="build.dir" value="${basedir}/${build.subdir}"/>
-                                          
+
     <property name="dist.subdir" value="_dist"/>
     <property name="dist.dir" value="${basedir}/${dist.subdir}"/>
     <property name="dist-files.dir" value="${basedir}/src/dist-files"/>
@@ -364,7 +364,7 @@
             </fileset>
              <fileset dir="${src.dir}">
                 <include name="**/*"/>
-                <exclude name="**/*.java"/> 
+                <exclude name="**/*.java"/>
             </fileset>
         </jar>
     </target>
@@ -425,7 +425,7 @@
                 <!--<include name="net/n3/nanoxml/*.class"/>-->
             	<include name="com/izforge/izpack/adaptator/**/*.class"/>
             	<include name="com/izforge/izpack/adaptator/*.class"/>
-                <include name="com/izforge/izpack/panels/HelpWindow.class" />                
+                <include name="com/izforge/izpack/panels/HelpWindow.class" />
             </fileset>
             <zipfileset src="${basedir}/lib/jakarta-regexp-1.3.jar">
                 <include name="org/apache/regexp/*.class"/>
@@ -487,7 +487,7 @@
                 <!--<include name="net/n3/nanoxml/*.class"/>-->
             	<include name="com/izforge/izpack/adaptator/**/*.class"/>
             	<include name="com/izforge/izpack/adaptator/*.class"/>
-                <include name="com/izforge/izpack/installer/PrivilegedRunner.class"/>		
+                <include name="com/izforge/izpack/installer/PrivilegedRunner.class"/>
             </fileset>
             <fileset dir="${src.dir}">
                 <include name="com/izforge/izpack/installer/run-with-privileges-on-osx"/>
@@ -703,14 +703,14 @@
         	<include name="com/izforge/izpack/panels/FileInputField.java"/>
         	<include name="com/izforge/izpack/panels/DirInputField.java"/>
         	<include name="com/izforge/izpack/panels/MultipleFileInputField.java"/>
-            <include name="com/izforge/izpack/panels/UserInputPanel.java"/>        	
+            <include name="com/izforge/izpack/panels/UserInputPanel.java"/>
             <include name="com/izforge/izpack/panels/UserInputPanelAutomationHelper.java"/>
             <include name="com/izforge/izpack/panels/Validator.java"/>
             <include name="com/izforge/izpack/panels/ValidatorContainer.java"/>
         	<include name="com/izforge/izpack/panels/UIElementType.java"/>
             <include name="com/izforge/izpack/panels/UIElement.java"/>
             <include name="com/izforge/izpack/panels/RadioButtonUIElement.java"/>
-            <include name="com/izforge/izpack/panels/PasswordUIElement.java"/>   
+            <include name="com/izforge/izpack/panels/PasswordUIElement.java"/>
         	<include name="com/izforge/izpack/panels/UserInputPanelConsoleHelper.java" />
         </build-panel>
         <build-panel name="UserPathPanel">
@@ -739,7 +739,7 @@
         	<include name="com/izforge/izpack/panels/UIElementType.java"/>
             <include name="com/izforge/izpack/panels/UIElement.java"/>
             <include name="com/izforge/izpack/panels/RadioButtonUIElement.java"/>
-            <include name="com/izforge/izpack/panels/PasswordUIElement.java"/>           	
+            <include name="com/izforge/izpack/panels/PasswordUIElement.java"/>
         </build-panel>
         <build-panel name="CompilePanel">
             <include name="com/izforge/izpack/panels/CompilePanel.java"/>
@@ -758,6 +758,7 @@
         </build-panel>
         <build-panel name="SummaryPanel">
             <include name="com/izforge/izpack/panels/SummaryPanel.java"/>
+            <include name="com/izforge/izpack/panels/SummaryPanelConsoleHelper.java"/>
         </build-panel>
         <build-panel name="InstallationGroupPanel">
             <include name="com/izforge/izpack/panels/InstallationGroupPanel.java"/>
@@ -964,7 +965,7 @@
             <include name="com/izforge/izpack/event/BSFInstallerListener.java" />
             <include name="com/izforge/izpack/event/BSFAction.java" />
         </build-installer-listener>
-        
+
         <build-installer-listener name="ProgressBarInstallerListener">
             <include name="com/izforge/izpack/event/ProgressBarInstallerListener.java"/>
         </build-installer-listener>

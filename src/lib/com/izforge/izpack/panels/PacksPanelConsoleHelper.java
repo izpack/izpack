@@ -1,17 +1,17 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2003 Jonathan Halliday
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,13 +40,14 @@ import com.izforge.izpack.util.Debug;
 
 /**
  * Console implementation for the PacksPanel.
- * 
+ *
  * @author Sergiy Shyrkov
  */
 public class PacksPanelConsoleHelper extends PanelConsoleHelper implements PanelConsole
 {
+    public LocaleDatabase langpack;
 
-    private static boolean askSelected(boolean defaultValue)
+    private boolean askSelected(boolean defaultValue)
     {
         boolean selected = defaultValue;
         try
@@ -56,7 +57,7 @@ public class PacksPanelConsoleHelper extends PanelConsoleHelper implements Panel
 
             while (bKeepAsking)
             {
-                out("input 1 to select, 0 to deselect:");
+                out(langpack.getString("PacksPanel.packselect"));
                 String strIn = br.readLine();
                 // take default value if default value exists and no user input
                 if (strIn.trim().equals(""))
@@ -100,7 +101,7 @@ public class PacksPanelConsoleHelper extends PanelConsoleHelper implements Panel
     public boolean runConsole(AutomatedInstallData installData)
     {
         // load I18N
-        LocaleDatabase langpack = installData.langpack;
+        langpack = installData.langpack;
         try
         {
             InputStream inputStream = ResourceManager.getInstance().getInputStream("packsLang.xml");
@@ -110,7 +111,7 @@ public class PacksPanelConsoleHelper extends PanelConsoleHelper implements Panel
         {
             Debug.trace(e);
         }
-        
+
         // initialize selection
         List<Pack> selectedPacks = new LinkedList<Pack>();
 
@@ -121,7 +122,7 @@ public class PacksPanelConsoleHelper extends PanelConsoleHelper implements Panel
         {
             StringBuilder option = new StringBuilder(64);
             option.append("[")
-                    .append(pack.required ? "<required>" : (pack.preselected ? "x" : " "))
+                    .append(pack.required ? langpack.getString("PacksPanel.required") : (pack.preselected ? "x" : " "))
                     .append("] ").append(getI18n(langpack, pack.id, pack.name));
             String descr = getI18n(langpack, pack.id + ".description", pack.description);
             if (descr != null && descr.length() > 0)
@@ -135,7 +136,7 @@ public class PacksPanelConsoleHelper extends PanelConsoleHelper implements Panel
             }
         }
         out("");
-        out("...pack selection done.");
+        out(langpack.getString("PacksPanel.done"));
 
         installData.selectedPacks = selectedPacks;
 

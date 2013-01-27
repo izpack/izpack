@@ -1,0 +1,11 @@
+# Auto detect text files and perform LF normalization
+*        text=auto
+
+*.sh     text eol=lf
+*.xml    text eol=lf
+*.conf   text eol=lf
+
+*.bat    text eol=crlf
+*.cmd    text eol=crlf
+
+*.java   text eol=lf

@@ -37,12 +37,15 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import com.izforge.izpack.LocaleDatabase;
 import com.izforge.izpack.Pack;
 import com.izforge.izpack.Panel;
 import com.izforge.izpack.adaptator.IXMLElement;
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.PanelConsole;
 import com.izforge.izpack.installer.PanelConsoleHelper;
+import com.izforge.izpack.installer.ResourceManager;
+import com.izforge.izpack.installer.ResourceNotFoundException;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.SpecHelper;
@@ -61,6 +64,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
     private static int instanceCount = 0;
 
     private static final String SPEC_FILE_NAME = "userInputSpec.xml";
+    private static final String LANG_FILE_NAME = "userInputLang.xml";
 
     private static final String NODE_ID = "panel";
 
@@ -230,6 +234,21 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
 
     public boolean runConsole(AutomatedInstallData idata)
     {
+
+        try
+        {
+            String resource = LANG_FILE_NAME + "_" + idata.localeISO3;
+            idata.langpack.add(ResourceManager.getInstance().getInputStream(resource));
+        }
+        catch (ResourceNotFoundException e)
+        {
+            Debug.trace(e);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
 
         boolean processpanel = collectInputs(idata);
         if (!processpanel) {
@@ -459,22 +478,22 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 String strIn = br.readLine();
                 value = !strIn.trim().equals("") ? strIn : set;
-                
+
                 // avant les validators
                 // pour les types directory
                 // il faut tester les paramètres mustExist et canCreate
-                
+
                 boolean bokForInputDir = true;
-                
+
                 if (DIR.equals(input.strFieldType) )
                 {
-                    
+
                     java.io.File dir = new File (value).getAbsoluteFile();
                     value=dir.getAbsolutePath();
-                    
-                    boolean mustExist = input.mustExist; 
-                    boolean canCreate = input.canCreate; 
-                    
+
+                    boolean mustExist = input.mustExist;
+                    boolean canCreate = input.canCreate;
+
                     if (dir.isDirectory())
                     {
                         bokForInputDir = true;
@@ -496,7 +515,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                             else if ( nRet==2)
                             {
                                 bokForInputDir = false;
-                            } 
+                            }
                             else bokForInputDir = true;
                         }
 
@@ -519,8 +538,8 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                         bokForInputDir = true;
                     }
                 }
-                
-                
+
+
                 if (bokForInputDir)
                 {
                     done = true;
@@ -746,7 +765,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         if (TITLE_FIELD.equals(strFieldType))
         {
             String strText = null;
-            strText = field.getAttribute(TEXT);
+            strText = getText(field, idata);
             return new Input(strVariableName, null, null, TITLE_FIELD, strText, 0);
         }
 
@@ -767,7 +786,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             IXMLElement description = field.getFirstChildNamed(DESCRIPTION);
             if (spec != null)
             {
-                strText = spec.getAttribute(TEXT);
+                strText = getText(spec, idata);
                 strSet = spec.getAttribute(SET);
             }
             if (description != null)
@@ -775,7 +794,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                 strFieldText = description.getAttribute(TEXT);
             }
             choicesList.add(new Choice(strText, null, strSet));
-            
+
             if (DIR.equals(strFieldType))
             {
                 boolean mustExist = true;
@@ -787,9 +806,9 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             else
             {
                 return new Input(strVariableName, strSet, choicesList, strFieldType, strFieldText, 0);
-                
+
             }
-            
+
 
 
         }
@@ -976,7 +995,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             IXMLElement description = field.getFirstChildNamed(DESCRIPTION);
             if (spec != null)
             {
-                strText = spec.getAttribute(TEXT);
+                strText = getText (spec, idata);
                 strSet = spec.getAttribute(SET);
                 choicesList.add(new Choice(strText, spec.getAttribute("false"), null));
                 choicesList.add(new Choice(strText, spec.getAttribute("true"), null));
@@ -1170,7 +1189,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
 
         String key = element.getAttribute(KEY);
         String text = element.getAttribute(TEXT);
-        
+
         if ((key != null) && (idata.langpack != null))
         {
             try
@@ -1229,7 +1248,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             this(strVariableName, strDefaultValue, listChoices, strFieldType, strFieldText, iSelectedChoice);
             this.revalidate = revalidate;
         }
-        
+
         boolean canCreate = true;
         boolean mustExist = true;
 
