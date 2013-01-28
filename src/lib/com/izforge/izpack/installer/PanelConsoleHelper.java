@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 
 import javax.swing.JOptionPane;
 
+import com.izforge.izpack.Pack;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsVersion;
@@ -39,6 +40,23 @@ import com.izforge.izpack.util.VariableSubstitutor;
  */
 abstract public class PanelConsoleHelper 
 {
+    
+    public String getI18NPackName(AutomatedInstallData idata, Pack pack)
+    {
+        // Internationalization code
+        String packName = pack.name;
+        String key = pack.id;
+        if (idata.langpack != null && pack.id != null && !"".equals(pack.id))
+        {
+            packName = idata.langpack.getString(key);
+        }
+        if ("".equals(packName) || key == null || key.equals(packName))
+        {
+            packName = pack.name;
+        }
+        return (packName);
+    }
+    
 
     /**
      * This method determines whether the chosen dir is writeable or not.

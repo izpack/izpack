@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import com.izforge.izpack.installer.AutomatedInstallData;
@@ -147,11 +148,18 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
 
         if (validateEnd)
         {
-            idata.setInstallPath(strTargetPath);
-
             int i = askEndOfConsolePanel(idata);
             if (i == 1)
             {
+                idata.setInstallPath(strTargetPath);
+                
+                String summaryCaption = idata.langpack.getString("TargetPanel.summaryCaption") ;
+                ArrayList lstTarget = new ArrayList ();
+                lstTarget.add(strTargetPath);
+                
+                idata.summaryText.put(summaryCaption, lstTarget);
+                
+                
                 return true;
             }
             else if (i == 2)

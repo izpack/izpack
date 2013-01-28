@@ -30,9 +30,9 @@ public class SummaryPanelConsoleHelper extends PanelConsoleHelper implements Pan
     {
         // TODO Auto-generated method stub
 
-        System.out.println (installData.langpack.getString("SummaryPanel.info"));
         System.out.println ("");
-        System.out.println (SummaryProcessor.getSummary(installData));
+        System.out.println (installData.langpack.getString("SummaryPanel.info"));
+        SummaryProcessor.processSummaryText(installData);
         System.out.println ("");
 
         int i = askEndOfConsolePanel(installData);

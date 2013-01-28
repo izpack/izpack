@@ -256,6 +256,11 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         }
         boolean status = true;
         Iterator<Input> inputsIterator = listInputs.iterator();
+
+        // added by APO
+        String summaryCaption = idata.langpack.getString("UserInputPanel.summaryCaption") ;
+        ArrayList lstTarget = new ArrayList ();
+
         try
         {
             while (inputsIterator.hasNext())
@@ -289,6 +294,22 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                    status = status && processPasswordField(input, idata);
                }
 
+                //String variable = element.getAssociatedVariable();
+                //String value = idata.getVariable(variable);
+                //strBody.append(variable).append("=").append(value).append("<br>");
+                
+                if (!(STATIC_TEXT.equals(input.strFieldType)
+                        || TITLE_FIELD.equals(input.strFieldType)
+                        || DIVIDER.equals(input.strFieldType)
+                        || SPACE.equals(input.strFieldType) ) && input.strVariableName!=null && input.strVariableName.trim()!="")
+                {
+                    String variable = input.strVariableName;
+                    String value = idata.getVariable(variable);
+
+                    lstTarget.add(variable + "=" + value);
+                    
+                }
+
             }
         }
         catch (RevalidationTriggeredException e)
@@ -299,6 +320,8 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         int i = askEndOfConsolePanel(idata);
         if (i == 1)
         {
+            idata.summaryText.put(summaryCaption, lstTarget);
+
             return true;
         }
         else if (i == 2)

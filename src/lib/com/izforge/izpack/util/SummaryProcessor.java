@@ -25,6 +25,7 @@ import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.IzPanel;
 
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * A helper class which creates a summary from all panels. This class calls all declared panels for
@@ -91,4 +92,21 @@ public class SummaryProcessor
         return (sb.toString());
     }
 
+    public static void processSummaryText(AutomatedInstallData idata)
+    {
+        for (Map.Entry<String, java.util.List> entry : idata.summaryText.entrySet())
+        {
+            System.out.println(" ");
+            System.out.println(entry.getKey() + " :");
+            System.out.println(" ");
+            Iterator iter = entry.getValue().iterator();
+            while (iter.hasNext())
+            {
+                System.out.println((String) iter.next());
+            }
+        }
+
+    }
+    
+    
 }

@@ -144,6 +144,11 @@ public class AutomatedInstallData implements Serializable
     public Map<String, List> customData;
 
     /**
+     * Custom data.
+     */
+    public Map<String, List> summaryText;
+
+    /**
      * Maps the variable names to their values
      */
     protected Properties variables;
@@ -185,6 +190,7 @@ public class AutomatedInstallData implements Serializable
         variables = new Properties();
         attributes = new HashMap<String, Object>();
         customData = new HashMap<String, List>();
+        summaryText = new HashMap<String, List>();
         if (self != null)
         {
             throw new RuntimeException("Panic!! second call of the InstallData Ctor!!");

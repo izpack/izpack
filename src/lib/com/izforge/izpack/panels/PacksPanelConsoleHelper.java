@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -143,6 +145,20 @@ public class PacksPanelConsoleHelper extends PanelConsoleHelper implements Panel
         int i = askEndOfConsolePanel(installData);
         if (i == 1)
         {
+            String summaryCaption = installData.langpack.getString("PacksPanel.summaryCaption") ;
+            ArrayList lstTarget = new ArrayList ();
+
+            Iterator iter = installData.selectedPacks.iterator();
+            while (iter.hasNext())
+            {
+                Pack pack = (Pack) iter.next();
+                lstTarget.add(getI18NPackName(installData,pack));
+                
+            }
+
+            installData.summaryText.put(summaryCaption, lstTarget);
+            
+            
             return true;
         }
         else if (i == 2)

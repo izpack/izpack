@@ -25,14 +25,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 
 import com.coi.tools.os.win.MSWinConstants;
 import com.coi.tools.os.win.NativeLibException;
+import com.izforge.izpack.Pack;
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.PanelConsole;
 import com.izforge.izpack.installer.PanelConsoleHelper;
@@ -158,6 +161,12 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
         int i = askEndOfConsolePanel(idata);
         if (i == 1)
         {
+            String summaryCaption = idata.langpack.getString("JDKPathPanel.summaryCaption") ;
+            ArrayList lstTarget = new ArrayList ();
+            lstTarget.add(idata.getVariable(variableName));
+
+            idata.summaryText.put(summaryCaption, lstTarget);
+
             return true;
         }
         else if (i == 2)
