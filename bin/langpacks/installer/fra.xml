@@ -298,5 +298,6 @@
     <str id="consolehelper.askcontinue" txt="appuyez sur 1 pour continuer, 2 pour passer , 3 pour quitter" />
     <str id="consolehelper.askaccept" txt="appuyez sur 1 pour accepter, 2 pour refuser, 3 pour afficher de nouveau" />
     <str id="consolehelper.askyesno" txt="appuyez sur 1 pour oui, 2 pour non , 3 pour quitter" />
+    <str id="consolehelper.askyesnocancel" txt="appuyez sur 1 pour oui, 2 pour non , 3 pour annuler" />
 
 </langpack>

@@ -23,6 +23,8 @@ package com.izforge.izpack.panels;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.IUnpacker;
 import com.izforge.izpack.installer.PanelConsole;
@@ -40,6 +42,7 @@ public class InstallPanelConsoleHelper extends PanelConsoleHelper implements Pan
 {
 
     private int noOfPacks = 0;
+    private AutomatedInstallData installdata;
     
     
     
@@ -55,6 +58,7 @@ public class InstallPanelConsoleHelper extends PanelConsoleHelper implements Pan
 
     public boolean runConsole(AutomatedInstallData idata)
     {
+        installdata = idata;
 
         IUnpacker unpacker = UnpackerFactory.getUnpacker(idata.info.getUnpackerClassName(), idata,
                 this);
@@ -85,29 +89,64 @@ public class InstallPanelConsoleHelper extends PanelConsoleHelper implements Pan
 
     public boolean emitWarning(String title, String message)
     {
-        System.err.println("[ WARNING: " + message + " ]");
+        System.err.println("[ WARNING: " + title + " ]");
+        System.err.println(message);
 
         return true;
     }
 
     public void emitError(String title, String message)
     {
-        System.err.println("[ ERROR: " + message + " ]");
+        System.err.println("[ ERROR: " + title + " ]");
+        System.err.println(message);
     }
     
     public void emitErrorAndBlockNext(String title, String message)
     {
-        System.err.println("[ ERROR: " + message + " ]");
+        System.err.println("[ ERROR: " + title + " ]");
+        System.err.println(message);
     }
 
     public int askQuestion(String title, String question, int choices)
     {
         // don't know what to answer
-        return AbstractUIHandler.ANSWER_CANCEL;
+        return askQuestion( title,  question,  choices, 2);
     }
 
     public int askQuestion(String title, String question, int choices, int default_choice)
     {
+        int jo_choices = 0;
+
+        if (choices == AbstractUIHandler.CHOICES_YES_NO)
+        {
+            jo_choices = JOptionPane.YES_NO_OPTION;
+        }
+        else if (choices == AbstractUIHandler.CHOICES_YES_NO_CANCEL)
+        {
+            jo_choices = JOptionPane.YES_NO_CANCEL_OPTION;
+        }
+
+        //public static final int         DEFAULT_OPTION = -1;
+        /** Type used for <code>showConfirmDialog</code>. */
+        //public static final int         YES_NO_OPTION = 0;
+        /** Type used for <code>showConfirmDialog</code>. */
+        //public static final int         YES_NO_CANCEL_OPTION = 1;
+        /** Type used for <code>showConfirmDialog</code>. */
+        //public static final int         OK_CANCEL_OPTION = 2;
+        System.out.println ("[ " + title + " ]");
+        System.out.println (question);
+        
+        
+        int user_choice = askQuestion(installdata, installdata.langpack.getString("consolehelper.askyesnocancel"), 2)-1;
+        
+        if (user_choice == JOptionPane.CANCEL_OPTION) { return AbstractUIHandler.ANSWER_CANCEL; }
+
+        if (user_choice == JOptionPane.YES_OPTION) { return AbstractUIHandler.ANSWER_YES; }
+
+        if (user_choice == JOptionPane.CLOSED_OPTION) { return AbstractUIHandler.ANSWER_NO; }
+
+        if (user_choice == JOptionPane.NO_OPTION) { return AbstractUIHandler.ANSWER_NO; }
+
         return default_choice;
     }   
 

@@ -108,7 +108,13 @@ public class DirInputField extends FileInputField
                     .getI18nStringForClass("notwritable", "TargetPanel"));
             return false;
         }
-        return path.mkdirs();
+        
+        if (path.mkdir())
+        {
+            path.delete();
+            return true;
+        }
+        return false;
     }
 
     /**
