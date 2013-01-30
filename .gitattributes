@@ -7,5 +7,6 @@
 
 *.bat    text eol=crlf
 *.cmd    text eol=crlf
+*.js	 text eol=crlf
 
 *.java   text eol=lf
