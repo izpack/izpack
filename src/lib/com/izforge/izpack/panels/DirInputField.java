@@ -109,12 +109,13 @@ public class DirInputField extends FileInputField
             return false;
         }
         
-        if (path.mkdir())
-        {
-            path.delete();
-            return true;
-        }
-        return false;
+        return path.mkdir(); 
+        //if (path.mkdir())
+        //{
+        //    path.delete();
+        //    return true;
+        //}
+        //return false;
     }
 
     /**

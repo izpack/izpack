@@ -553,7 +553,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                             else
                             {
                                 bokForInputDir = dir.mkdirs();
-                                if (bokForInputDir) dir.delete();
+                                //if (bokForInputDir) dir.delete();
                             }
                         }
                     }
