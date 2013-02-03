@@ -29,6 +29,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
+import javax.swing.JLabel;
+
 /**
  * Base class for panels which asks for paths.
  *
@@ -78,6 +80,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         emptyTargetMsg = getI18nStringForClass("empty_target", "TargetPanel");
         warnMsg = getI18nStringForClass("warn", "TargetPanel");
 
+        JLabel introLabel = null;
         String introText = getI18nStringForClass("extendedIntro", "PathInputPanel");
         if (introText == null || introText.endsWith("extendedIntro")
                 || introText.indexOf('$') > -1)
@@ -87,17 +90,36 @@ public class PathInputPanel extends IzPanel implements ActionListener
             {
                 introText = "";
             }
+            else
+            {
+                introLabel = createLabel("intro", "TargetPanel", null, LEFT, true);
+            }
+        }
+        else
+        {
+            introLabel = createLabel("extendedIntro", "TargetPanel", null, LEFT, true);
         }
         // Intro
         // row 0 column 0
-        add(createMultiLineLabel(introText));
+        if (introLabel!=null)
+        {
+            add(introLabel);
+        }
+        else
+        {
+            add (createMultiLineLabel(introText));   
+        }
+        
+        //MultiLineLabel introLabel = createMultiLineLabel(introText); 
+        JLabel pathLabel = createLabel("info", this.myClassname, "open", LEFT, true);
+        //JLabel introLabel = createLabel("intro", "TargetPanel", null, LEFT, true);
+        //introLabel.setFont(pathLabel.getFont());
 
         add(IzPanelLayout.createParagraphGap());
 
         // Label for input
         // row 1 column 0.
-        add(createLabel("info", "TargetPanel", "open",
-                LEFT, true), NEXT_LINE);
+        add(pathLabel, NEXT_LINE);
         // Create path selection components and add they to this panel.
         pathSelectionPanel = new PathSelectionPanel(this, idata);
         add(pathSelectionPanel, NEXT_LINE);
