@@ -415,6 +415,23 @@ public class Shortcut
         return CURRENT_USER;
     }
 
+    /**
+     * Determines if the shortcut target should be run with administrator privileges.
+     *
+     * @param runAsAdministrator if {@code true}, run the target with administrator privileges.
+     */
+    public void setRunAsAdministrator(boolean runAsAdministrator) {
+    }
+
+    /**
+     * Determines if the shortcut target should be run with administrator privileges.
+     *
+     * @return {@code true}, if the target will run with administrator privileges
+     */
+    public boolean getRunAsAdministrator() {
+        return false;
+    }
+
     /*--------------------------------------------------------------------------*/
 
     /**

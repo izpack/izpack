@@ -84,7 +84,12 @@ public class ShortcutData implements Cloneable
      */
     public String TryExec;
 
-    public Boolean createForAll;
+    public boolean createForAll;
+
+    /**
+     * Determines if the shortcut target should be run with administrator privileges.
+     */
+    public boolean runAsAdministrator;
 
     /*--------------------------------------------------------------------------*/
 
@@ -125,7 +130,8 @@ public class ShortcutData implements Cloneable
         result.Categories = cloneString(Categories);
         result.TryExec = cloneString(TryExec);
 
-        result.createForAll = Boolean.valueOf(createForAll.booleanValue());
+        result.createForAll = createForAll;
+        result.runAsAdministrator = runAsAdministrator;
         return (result);
     }
 

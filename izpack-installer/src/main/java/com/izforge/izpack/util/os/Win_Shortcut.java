@@ -621,7 +621,27 @@ public class Win_Shortcut extends Shortcut
         }
     }
 
-    /*--------------------------------------------------------------------------*/
+    /**
+     * Determines if the shortcut target should be run with administrator privileges.
+     *
+     * @param runAsAdministrator if {@code true}, run the target with administrator privileges.
+     */
+    @Override
+    public void setRunAsAdministrator(boolean runAsAdministrator)
+    {
+        shortcut.setRunAsAdministrator(runAsAdministrator);
+    }
+
+    /**
+     * Determines if the shortcut target should be run with administrator privileges.
+     *
+     * @return {@code true}, if the target will run with administrator privileges
+     */
+    @Override
+    public boolean getRunAsAdministrator()
+    {
+        return shortcut.getRunAsAdministrator();
+    }
 
     /**
      * Saves this link.

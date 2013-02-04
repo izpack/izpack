@@ -985,6 +985,87 @@ JNIEXPORT jint JNICALL Java_com_izforge_izpack_util_os_ShellLink_SetWorkingDirec
   }
 }
 
+/*
+ * Class:     com_izforge_izpack_util_os_ShellLink
+ * Method:    GetRunAsAdministrator
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_izforge_izpack_util_os_ShellLink_GetRunAsAdministrator(JNIEnv* env, jobject obj)
+{
+  jclass cls = (env)->GetObjectClass(obj);
+  jfieldID handleID = (env)->GetFieldID(cls, "nativeHandle", "I");
+  jint handle = (env)->GetIntField(obj, handleID);
+
+  IShellLinkDataList* list;
+  HRESULT hres = p_shellLink[handle]->QueryInterface (IID_IShellLinkDataList, (void**) &list);
+
+  if (!SUCCEEDED(hres))
+  {
+    return SL_ERROR;
+  }
+
+  DWORD flags = 0;
+  hres = list->GetFlags(&flags);
+  list->Release();
+  if (!SUCCEEDED(hres))
+  {
+	  return SL_ERROR;
+  }
+
+  jboolean runAs = (SLDF_RUNAS_USER & flags) != 0;
+  jfieldID  runAsID = (env)->GetFieldID(cls, "runAsAdministrator", "Z");
+  (env)->SetBooleanField(obj, runAsID, runAs);
+  return SL_OK;
+}
+
+/*
+ * Class:     com_izforge_izpack_util_os_ShellLink
+ * Method:    SetRunAsAdministrator
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_izforge_izpack_util_os_ShellLink_SetRunAsAdministrator(JNIEnv* env, jobject obj)
+{
+  jclass cls = (env)->GetObjectClass(obj);
+  jfieldID handleID = (env)->GetFieldID(cls, "nativeHandle", "I");
+  jint handle = (env)->GetIntField(obj, handleID);
+
+  IShellLinkDataList* list;
+  HRESULT hres = p_shellLink[handle]->QueryInterface (IID_IShellLinkDataList, (void**) &list);
+
+  if (!SUCCEEDED(hres))
+  {
+    return SL_ERROR;
+  }
+
+  jfieldID runAsID = (env)->GetFieldID(cls, "runAsAdministrator", "Z");
+  jboolean runAs = (env)->GetBooleanField(obj, runAsID);
+
+  DWORD flags = 0;
+
+  hres = list->GetFlags(&flags);
+  if (!SUCCEEDED(hres)) 
+  {
+	list->Release();
+	return SL_ERROR;
+  }
+  if (runAs && (flags & SLDF_RUNAS_USER) != SLDF_RUNAS_USER) 
+  {
+    hres = list->SetFlags(flags | SLDF_RUNAS_USER);
+  } 
+  else if (!runAs && (flags & SLDF_RUNAS_USER) != 0)
+  {
+    hres = list->SetFlags(flags & (SLDF_RUNAS_USER ^ MAXDWORD));
+  }
+
+  list->Release();
+  if (!SUCCEEDED(hres))
+  {
+	return SL_ERROR;
+  }
+  return SL_OK;
+}
+
+
 // --------------------------------------------------------------------------
 // This function saves the shell link.
 //

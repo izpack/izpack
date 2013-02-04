@@ -152,6 +152,8 @@ public class ShortcutPanelLogic implements CleanupClient
 
     private static final String SPEC_ATTRIBUTE_PROGRAM_GROUP = "programGroup";
 
+    private static final String SPEC_ATTRIBUTE_RUN_AS_ADMINISTRATOR = "runAsAdministrator";
+
     // ------------------------------------------------------
     // spec file attribute values
     // ------------------------------------------------------
@@ -966,6 +968,8 @@ public class ShortcutPanelLogic implements CleanupClient
             {
                 data.initialState = Shortcut.NORMAL;
             }
+            data.runAsAdministrator = Boolean.valueOf(shortcutSpec.getAttribute(SPEC_ATTRIBUTE_RUN_AS_ADMINISTRATOR,
+                                                                                "false"));
 
             // LOG System.out.println("installDataGUI.initialState: " +
             // installDataGUI.initialState);
@@ -1121,6 +1125,7 @@ public class ShortcutPanelLogic implements CleanupClient
                 shortcut.setWorkingDirectory(data.workingDirectory);
                 shortcut.setEncoding(data.deskTopEntryLinux_Encoding);
                 shortcut.setMimetype(data.deskTopEntryLinux_MimeType);
+                shortcut.setRunAsAdministrator(data.runAsAdministrator);
 
                 shortcut.setTerminal(data.deskTopEntryLinux_Terminal);
                 shortcut.setTerminalOptions(data.deskTopEntryLinux_TerminalOptions);

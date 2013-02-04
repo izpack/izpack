@@ -71,6 +71,7 @@
         <xs:attribute name="KdeSubstUID" type="xs:string" use="optional"/>
         <xs:attribute name="KdeUsername" type="xs:string" use="optional"/>
         <xs:attribute name="TryExec" type="xs:string" use="optional"/>
+        <xs:attribute name="runAsAdministrator" type="xs:boolean" use="optional"/>
     </xs:complexType>
 
 </xs:schema>

@@ -279,6 +279,11 @@ public class ShellLink implements NativeLibraryClient
 
     private int userType = CURRENT_USER;
 
+    /**
+     * Determines if the shortcut should be run with administrator privileges.
+     */
+    private boolean runAsAdministrator;
+
     private boolean initializeSucceeded = false;
 
     /**
@@ -335,6 +340,10 @@ public class ShellLink implements NativeLibraryClient
     private native int loadLink(String name);
 
     private native int GetFullLinkPath(int usertype, int linktype);
+
+    private native int SetRunAsAdministrator();
+
+    private native int GetRunAsAdministrator();
 
     /**
      * This method is used to free the library at the end of progam execution. After this call, any
@@ -616,7 +625,7 @@ public class ShellLink implements NativeLibraryClient
      */
     private String fullLinkPath(int userType)
     {
-        StringBuffer path = new StringBuffer();
+        StringBuilder path = new StringBuilder();
 
         // ----------------------------------------------------
         // build the complete name
@@ -651,7 +660,7 @@ public class ShellLink implements NativeLibraryClient
      */
     private String fullLinkName(int userType)
     {
-        StringBuffer name = new StringBuffer();
+        StringBuilder name = new StringBuilder();
 
         name.append(fullLinkPath(userType));
 
@@ -700,6 +709,10 @@ public class ShellLink implements NativeLibraryClient
             throw (new Exception(
                     "could not set working directory"));
         }
+        if (SetRunAsAdministrator() != SL_OK)
+        {
+            throw new Exception("Could not set Run As Administrator flag");
+        }
 
     }
 
@@ -740,6 +753,11 @@ public class ShellLink implements NativeLibraryClient
         {
             throw (new Exception(
                     "could not get working directory"));
+        }
+
+        if (GetRunAsAdministrator() != SL_OK)
+        {
+            throw new Exception("Could not get Run As Administrator flag");
         }
     }
 
@@ -1246,7 +1264,25 @@ public class ShellLink implements NativeLibraryClient
         linkFileName = saveTo;
     }
 
-    /*--------------------------------------------------------------------------*/
+    /**
+     *
+     * Determines if the shortcut target should be run with administrator privileges.
+     *
+     * @param runAsAdministrator if {@code true}, run the target with administrator privileges.
+     */
+    public void setRunAsAdministrator(boolean runAsAdministrator)
+    {
+        this.runAsAdministrator = runAsAdministrator;
+    }
+
+    /**
+     * Determines if the shortcut target should be run with administrator privileges.
+     *
+     * @return {@code true}, if the target will run with administrator privileges
+     */
+    public boolean getRunAsAdministrator() {
+        return runAsAdministrator;
+    }
 
     /**
      * Saves this link to any desired location.

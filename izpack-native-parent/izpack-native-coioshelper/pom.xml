@@ -4,7 +4,7 @@
     <parent>
         <artifactId>izpack-native-parent</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.0.0-beta10-SNAPSHOT</version>
+        <version>5.0.0-rc1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
