@@ -88,6 +88,8 @@ public class CheckedHelloPanelConsoleHelper extends PanelConsoleHelper implement
         if (rh != null)
         {
             idata.setVariable("UNINSTALL_NAME", rh.getUninstallName());
+            // set service name for dos batch and call to procrun
+            idata.setVariable("PROCRUN_SERVICE", rh.getUninstallName().replace(' ', '_'));
         }
 
         // from HelloPanelConsoleHelper

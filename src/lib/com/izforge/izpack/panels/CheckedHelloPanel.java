@@ -242,6 +242,8 @@ public class CheckedHelloPanel extends HelloPanel implements MSWinConstants
         if (rh != null)
         {
             idata.setVariable("UNINSTALL_NAME", rh.getUninstallName());
+            // set service name for dos batch and call to procrun
+            idata.setVariable("PROCRUN_SERVICE", rh.getUninstallName().replace(' ', '_'));
         }
     }
 
