@@ -365,6 +365,7 @@ public class DefaultLocales implements Locales
         }
         else
         {
+		    Messages parentMessages = messages;
             messages = null;
             locale = findByCountry(code);
             if (locale == null)
@@ -395,7 +396,7 @@ public class DefaultLocales implements Locales
                 }
                 else
                 {
-                    messages = new LocaleDatabase(in, this);
+                    messages = new LocaleDatabase(in, parentMessages, this);
                 }
             }
         }

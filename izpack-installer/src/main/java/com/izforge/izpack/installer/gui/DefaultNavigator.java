@@ -118,6 +118,13 @@ public class DefaultNavigator implements Navigator
         configureVisibility();
     }
 
+    protected void updateButtonText(Messages messages) {
+
+        previous.setText(messages.get("installer.prev"));
+        next.setText(messages.get("installer.next"));
+        quit.setText(messages.get("installer.quit"));
+
+    }
     /**
      * Registers the parent installer frame.
      * <p/>

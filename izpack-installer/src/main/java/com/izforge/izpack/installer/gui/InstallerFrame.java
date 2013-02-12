@@ -74,6 +74,7 @@ import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
+import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
@@ -113,11 +114,6 @@ public class InstallerFrame extends JFrame implements InstallerView
      * Heading icon resource name.
      */
     private static final String HEADING_ICON_RESOURCE = "Heading.image";
-
-    /**
-     * The localised messages.
-     */
-    private Messages messages;
 
     /**
      * The installation data.
@@ -232,6 +228,11 @@ public class InstallerFrame extends JFrame implements InstallerView
     private final Log log;
 
     /**
+     * The supported locales that contains the localised messages.
+     */
+    private Locales locales;
+
+    /**
      * Constructs an <tt>InstallerFrame</tt>.
      *
      * @param title               the window title
@@ -249,7 +250,7 @@ public class InstallerFrame extends JFrame implements InstallerView
     public InstallerFrame(String title, GUIInstallData installData, RulesEngine rules, IconsDatabase icons,
                           IzPanels panels, UninstallDataWriter uninstallDataWriter,
                           ResourceManager resourceManager, UninstallData uninstallData, Housekeeper housekeeper,
-                          DefaultNavigator navigator, Log log)
+                          DefaultNavigator navigator, Log log, Locales locales)
     {
         super(title);
         guiListener = new ArrayList<GUIListener>();
@@ -262,8 +263,8 @@ public class InstallerFrame extends JFrame implements InstallerView
         this.variables = installData.getVariables();
         this.housekeeper = housekeeper;
         this.log = log;
+        this.locales = locales;
 
-        this.messages = installData.getMessages();
         this.setIcons(icons);
         this.navigator = navigator;
         navigator.setInstallerFrame(this);
@@ -331,6 +332,9 @@ public class InstallerFrame extends JFrame implements InstallerView
         contentPane.add(panelsContainer, BorderLayout.CENTER);
 
         logger.fine("Building GUI. The panel list to display is " + installdata.getPanels());
+
+        Messages messages = locales.getMessages();
+        navigator.updateButtonText(messages);
 
         JPanel navPanel = new JPanel();
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
@@ -747,6 +751,7 @@ public class InstallerFrame extends JFrame implements InstallerView
     {
         if (text == null)
         {
+            Messages messages = locales.getMessages();
             text = messages.get("installer.quit");
         }
         navigator.setQuitText(text);
@@ -946,6 +951,7 @@ public class InstallerFrame extends JFrame implements InstallerView
      */
     public Messages getMessages()
     {
+        Messages messages = locales.getMessages();
         return messages;
     }
 
@@ -958,6 +964,7 @@ public class InstallerFrame extends JFrame implements InstallerView
     @Deprecated
     public LocaleDatabase getLangpack()
     {
+        Messages messages = locales.getMessages();
         return (LocaleDatabase) messages;
     }
 
@@ -1399,6 +1406,8 @@ public class InstallerFrame extends JFrame implements InstallerView
         {
             int curPanelNo = panels.getVisibleIndex(panel);
             int visPanelsCount = panels.getVisible();
+            Messages messages = locales.getMessages();
+
             String message = String.format(
                     "%s %d %s %d",
                     messages.get("installer.step"), curPanelNo + 1,
@@ -1494,6 +1503,7 @@ public class InstallerFrame extends JFrame implements InstallerView
             result = uninstallDataWriter.write();
             if (!result)
             {
+                Messages messages = locales.getMessages();
                 String title = messages.get("installer.error");
                 String message = messages.get("installer.uninstall.writefailed");
                 JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
@@ -1512,6 +1522,7 @@ public class InstallerFrame extends JFrame implements InstallerView
         boolean reboot = false;
         if (installdata.isRebootNecessary())
         {
+            Messages messages = locales.getMessages();
             String message;
             String title;
             System.out.println("[ There are file operations pending after reboot ]");
@@ -1556,6 +1567,9 @@ public class InstallerFrame extends JFrame implements InstallerView
             interruptCount++;
             return;
         }
+
+        Messages messages = locales.getMessages();
+
         // Use a alternate message and title if defined.
         final String mkey = "installer.quit.reversemessage";
         final String tkey = "installer.quit.reversetitle";

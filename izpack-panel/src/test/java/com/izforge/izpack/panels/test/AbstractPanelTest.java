@@ -32,6 +32,7 @@ import org.mockito.Mockito;
 
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
+import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.gui.IconsDatabase;
@@ -226,7 +227,8 @@ public class AbstractPanelTest
                                                           icons, panels, uninstallDataWriter, resourceManager,
                                                           Mockito.mock(UninstallData.class),
                                                           Mockito.mock(Housekeeper.class), navigator,
-                                                          Mockito.mock(Log.class));
+                                                          Mockito.mock(Log.class),
+                                                          Mockito.mock(Locales.class));
                 handle[0] = frame;
             }
         });

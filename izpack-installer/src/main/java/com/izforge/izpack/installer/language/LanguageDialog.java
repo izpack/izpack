@@ -40,6 +40,7 @@ import javax.swing.GrayFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,6 +48,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.exception.ResourceException;
@@ -330,6 +332,12 @@ public class LanguageDialog extends JDialog
     private void propagateLocale(String code)
     {
         locales.setLocale(code);
+        Locale newLocale =locales.getLocale();
+        Locale.setDefault(newLocale);
+
+        JComponent.setDefaultLocale(newLocale);
+        SwingUtilities.updateComponentTreeUI(this);
+
         installData.setLocale(locales.getLocale(), locales.getISOCode());
         installData.setMessages(locales.getMessages());
     }
