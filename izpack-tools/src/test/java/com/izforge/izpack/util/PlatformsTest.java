@@ -155,7 +155,7 @@ public class PlatformsTest extends AbstractPlatformTest
         checkPlatform(new Platform(Platforms.WINDOWS_8, Arch.X86), platforms.getPlatform("windows", "i386",
                 OsVersionConstants.WINDOWS_8_VERSION));
 
-				checkPlatform(new Platform(Platforms.DEBIAN_LINUX, Arch.X64), platforms.getPlatform("debian_linux", "x64",
+		checkPlatform(new Platform(Platforms.DEBIAN_LINUX, Arch.X64), platforms.getPlatform("debian_linux", "x64",
                 null));
     }
 

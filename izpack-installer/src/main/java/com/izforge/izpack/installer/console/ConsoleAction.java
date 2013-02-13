@@ -28,7 +28,7 @@ import com.izforge.izpack.api.data.InstallData;
  *
  * @author Tim Anderson
  */
-abstract class ConsoleAction
+public abstract class ConsoleAction
 {
     /**
      * The installation data.

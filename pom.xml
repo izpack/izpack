@@ -417,6 +417,7 @@
                         <exclude>**/PanelDisplayTest.java</exclude>
                         <exclude>**/ProcessPanelTest.java</exclude>
                         <exclude>**/TargetPanelTest.java</exclude>
+                        <exclude>**/UserInputPanelTest.java</exclude>
                         <exclude>**/InstallationTest.java</exclude>
                         <exclude>**/UninstallDataWriterTest.java</exclude>
                         <exclude>**/ConditionCheckTest.java</exclude>
@@ -627,6 +628,7 @@
                                 <include>**/PanelDisplayTest.java</include>
                                 <include>**/ProcessPanelTest.java</include>
                                 <include>**/TargetPanelTest.java</include>
+                                <include>**/UserInputPanelTest.java</include>
                                 <include>**/InstallationTest.java</include>
                                 <include>**/UninstallDataWriterTest.java</include>
                                 <include>**/ConditionCheckTest.java</include>

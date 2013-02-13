@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+  ~
+  ~ http://izpack.org/
+  ~ http://izpack.codehaus.org/
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<izpack:userInput version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/userinput"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
+
+    <panel id="comboinput" order="0">
+        <field type="combo" variable="combo1">
+            <spec txt="Combo1:">
+                <choice txt="Value 1" value="value1"/>
+                <choice txt="Value 2" value="value2" set="true"/>
+                <choice txt="Value 3" value="value3"/>
+            </spec>
+        </field>
+        <field type="combo" variable="combo2">
+            <spec txt="Combo2:" id="combo2.id">
+                <choice txt="Value 1" value="value1"/>
+                <choice txt="Value 2" value="value2"/>
+                <choice txt="Value 3" value="value3"/>
+            </spec>
+        </field>
+        <field type="combo" variable="combo3">
+            <spec txt="Combo3:" id="combo3.id">
+                <choice txt="Value 1" value="value1"/>
+                <choice txt="Value 2" value="value2"/>
+                <choice txt="Value 3" value="value3"/>
+            </spec>
+        </field>
+        <field type="combo" variable="combo4">
+            <spec txt="Combo4:" id="combo4.id">
+                <choice processor="com.izforge.izpack.panels.userinput.ComboProcessor" set="value4"/>
+            </spec>
+        </field>
+    </panel>
+</izpack:userInput>

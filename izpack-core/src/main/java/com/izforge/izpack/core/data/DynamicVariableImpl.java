@@ -32,6 +32,7 @@ import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.api.data.Value;
 import com.izforge.izpack.api.data.ValueFilter;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
+import com.izforge.izpack.core.variable.PlainValue;
 
 public class DynamicVariableImpl implements DynamicVariable
 {
@@ -52,6 +53,15 @@ public class DynamicVariableImpl implements DynamicVariable
     private boolean ignorefailure = true;
 
     private transient String currentValue;
+
+    public DynamicVariableImpl() {
+        this(null, null);
+    }
+
+    public DynamicVariableImpl(String name, String value) {
+        setName(name);
+        setValue(new PlainValue(value));
+    }
 
     @Override
     public void addFilter(ValueFilter filter)

@@ -134,6 +134,7 @@ public class IzpackInstallationTest
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Licence Panel
+        Thread.sleep(600);
         installerFrameFixture.radioButton(GuiId.LICENCE_YES_RADIO.id).click();
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 

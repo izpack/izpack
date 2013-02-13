@@ -62,10 +62,13 @@ import com.izforge.izpack.panels.summary.SummaryPanel;
 import com.izforge.izpack.panels.target.TargetPanel;
 import com.izforge.izpack.panels.treepacks.TreePacksPanel;
 import com.izforge.izpack.panels.userinput.UserInputPanel;
+import com.izforge.izpack.panels.userinput.processor.PasswordEncryptionProcessor;
+import com.izforge.izpack.panels.userinput.processor.PortProcessor;
+import com.izforge.izpack.panels.userinput.processor.UnixGroupProcessor;
+import com.izforge.izpack.panels.userinput.processor.UnixUserProcessor;
 import com.izforge.izpack.panels.userinput.validator.HostAddressValidator;
 import com.izforge.izpack.panels.userinput.validator.IsPortValidator;
 import com.izforge.izpack.panels.userinput.validator.NotEmptyValidator;
-import com.izforge.izpack.panels.userinput.validator.PasswordEncryptionValidator;
 import com.izforge.izpack.panels.userinput.validator.PasswordEqualityValidator;
 import com.izforge.izpack.panels.userinput.validator.PortValidator;
 import com.izforge.izpack.panels.userinput.validator.RegularExpressionValidator;
@@ -128,10 +131,21 @@ public class DefaultClassNameMapperTest
         assertEquals(HostAddressValidator.class.getName(), mapper.map("HostAddressValidator"));
         assertEquals(IsPortValidator.class.getName(), mapper.map("IsPortValidator"));
         assertEquals(NotEmptyValidator.class.getName(), mapper.map("NotEmptyValidator"));
-        assertEquals(PasswordEncryptionValidator.class.getName(), mapper.map("PasswordEncryptionValidator"));
         assertEquals(PasswordEqualityValidator.class.getName(), mapper.map("PasswordEqualityValidator"));
         assertEquals(PortValidator.class.getName(), mapper.map("PortValidator"));
         assertEquals(RegularExpressionValidator.class.getName(), mapper.map("RegularExpressionValidator"));
+    }
+
+    /**
+     * Tests the mapping of processor simple names to their fully qualified names.
+     */
+    @Test
+    public void testProcessors()
+    {
+        assertEquals(PasswordEncryptionProcessor.class.getName(), mapper.map("PasswordEncryptionProcessor"));
+        assertEquals(PortProcessor.class.getName(), mapper.map("PortProcessor"));
+        assertEquals(UnixGroupProcessor.class.getName(), mapper.map("UnixGroupProcessor"));
+        assertEquals(UnixUserProcessor.class.getName(), mapper.map("UnixUserProcessor"));
     }
 
     /**

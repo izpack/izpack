@@ -60,10 +60,13 @@ import com.izforge.izpack.panels.summary.SummaryPanel;
 import com.izforge.izpack.panels.target.TargetPanel;
 import com.izforge.izpack.panels.treepacks.TreePacksPanel;
 import com.izforge.izpack.panels.userinput.UserInputPanel;
+import com.izforge.izpack.panels.userinput.processor.PasswordEncryptionProcessor;
+import com.izforge.izpack.panels.userinput.processor.PortProcessor;
+import com.izforge.izpack.panels.userinput.processor.UnixGroupProcessor;
+import com.izforge.izpack.panels.userinput.processor.UnixUserProcessor;
 import com.izforge.izpack.panels.userinput.validator.HostAddressValidator;
 import com.izforge.izpack.panels.userinput.validator.IsPortValidator;
 import com.izforge.izpack.panels.userinput.validator.NotEmptyValidator;
-import com.izforge.izpack.panels.userinput.validator.PasswordEncryptionValidator;
 import com.izforge.izpack.panels.userinput.validator.PasswordEqualityValidator;
 import com.izforge.izpack.panels.userinput.validator.PortValidator;
 import com.izforge.izpack.panels.userinput.validator.RegularExpressionValidator;
@@ -110,8 +113,11 @@ public class DefaultClassNameMapper implements ClassNameMapper
 
         // add mappings for Validators
         addMapping(HostAddressValidator.class, IsPortValidator.class, NotEmptyValidator.class,
-                   PasswordEncryptionValidator.class, PasswordEqualityValidator.class, PortValidator.class,
-                   RegularExpressionValidator.class);
+                   PasswordEqualityValidator.class, PortValidator.class, RegularExpressionValidator.class);
+
+        // add mappings for Processors
+        addMapping(PasswordEncryptionProcessor.class, PortProcessor.class, UnixGroupProcessor.class,
+                   UnixUserProcessor.class);
     }
 
     /**

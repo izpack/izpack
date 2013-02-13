@@ -24,7 +24,8 @@
            targetNamespace="http://izpack.org/schema/installation"
            xmlns="http://izpack.org/schema/installation">
 
-    <xs:import namespace="http://izpack.org/schema/types" schemaLocation="izpack-types-5.0.xsd"/>
+    <xs:import namespace="http://izpack.org/schema/types"
+               schemaLocation="http://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
 
     <!--                                                                                                        -->
     <!-- Root element                                                                                           -->
@@ -121,12 +122,7 @@
     <!--                                                                                                        -->
     <xs:complexType name="variablesType">
         <xs:sequence>
-            <xs:element name="variable" minOccurs="0" maxOccurs="unbounded">
-                <xs:complexType>
-                    <xs:attribute name="name" type="xs:string" use="required"/>
-                    <xs:attribute name="value" type="xs:string" use="required"/>
-                </xs:complexType>
-            </xs:element>
+            <xs:element name="variable" type="types:variableType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -426,6 +422,8 @@
             <xs:element name="os" type="types:osType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="dir" type="xs:string" use="required"/>
+        <xs:attribute name="includes" type="xs:string" use="optional"/>
+        <xs:attribute name="excludes" type="xs:string" use="optional"/>
         <xs:attribute name="targetdir" type="xs:string" use="required"/>
         <xs:attribute name="override" type="overrideType" use="optional" default="false"/>
         <xs:attribute name="overrideRenameTo" type="xs:string" use="optional"/>

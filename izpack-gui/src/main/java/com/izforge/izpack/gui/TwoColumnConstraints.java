@@ -81,6 +81,19 @@ public class TwoColumnConstraints implements Cloneable
      */
     Component component = null;
 
+    public TwoColumnConstraints() {
+        super();
+    }
+
+    public TwoColumnConstraints(int position) {
+        this.position = position;
+    }
+
+    public TwoColumnConstraints(int position, int align) {
+        this.position = position;
+        this.align = align;
+    }
+
     /**
      * Creates a copy of this two column constraint.
      * 

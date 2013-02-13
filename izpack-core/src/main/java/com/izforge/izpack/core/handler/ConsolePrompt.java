@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.core.handler;
 
+import com.izforge.izpack.api.handler.AbstractPrompt;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.util.Console;
 
@@ -29,7 +30,7 @@ import com.izforge.izpack.util.Console;
  *
  * @author Tim Anderson
  */
-public class ConsolePrompt implements Prompt
+public class ConsolePrompt extends AbstractPrompt
 {
     /**
      * The console.
@@ -50,69 +51,13 @@ public class ConsolePrompt implements Prompt
      * Displays a message.
      *
      * @param type    the type of the message
-     * @param message the message to display
-     */
-    @Override
-    public void message(Type type, String message)
-    {
-        console.println(message);
-    }
-
-    /**
-     * Displays a message.
-     *
-     * @param type    the type of the message
      * @param title   the message title. If {@code null}, the title will be determined from the type
      * @param message the message to display
      */
     @Override
     public void message(Type type, String title, String message)
     {
-        message(type, message);
-    }
-
-    /**
-     * Displays a confirmation message.
-     *
-     * @param type    the type of the message
-     * @param message the message
-     * @param options the options which may be selected
-     * @return the selected option
-     */
-    @Override
-    public Option confirm(Type type, String message, Options options)
-    {
-        return confirm(type, null, message, options);
-    }
-
-    /**
-     * Displays a confirmation message.
-     *
-     * @param type          the type of the message
-     * @param message       the message
-     * @param options       the options which may be selected
-     * @param defaultOption the default option to select. May be {@code null}
-     * @return the selected option
-     */
-    @Override
-    public Option confirm(Type type, String message, Options options, Option defaultOption)
-    {
-        return confirm(type, null, message, options, defaultOption);
-    }
-
-    /**
-     * Displays a confirmation message.
-     *
-     * @param type    the type of the message
-     * @param title   the message title. May be {@code null}
-     * @param message the message
-     * @param options the options which may be selected
-     * @return the selected option
-     */
-    @Override
-    public Option confirm(Type type, String title, String message, Options options)
-    {
-        return confirm(type, title, message, options, null);
+        console.println(message);
     }
 
     /**

@@ -22,14 +22,14 @@
 
 package com.izforge.izpack.panels.userinput.validator;
 
-import com.izforge.izpack.api.substitutor.VariableSubstitutor;
-import com.izforge.izpack.panels.userinput.PasswordGroup;
-import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
-
 import java.io.FileInputStream;
 import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 
 /**
@@ -41,9 +41,14 @@ import java.util.Map;
  * @author Elmar Grom
  * @author Jeff Gordon
  */
-public class PasswordKeystoreValidator implements Validator
+public class PasswordKeystoreValidator extends AbstractValidator
 {
     private VariableSubstitutor variableSubstitutor;
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = Logger.getLogger(PasswordKeystoreValidator.class.getName());
 
     public PasswordKeystoreValidator(VariableSubstitutor variableSubstitutor)
     {
@@ -51,7 +56,6 @@ public class PasswordKeystoreValidator implements Validator
     }
 
     /**
-     * PasswordKeystoreValidator
      * Validates the ability to open a keystore based on the password and
      * parameters provided. Must specify parameter 'keystoreFile', and optionally
      * 'keystoreType' (defaults to JKS), 'keystoreAlias' (to check for existence of a key),
@@ -63,78 +67,78 @@ public class PasswordKeystoreValidator implements Validator
      * requires the keystore password (if different from the key password) be set
      * in the keystorePassword parameter.
      *
-     * @param client the client object using the services of this validator.
-     * @return <code>true</code> if the validation passes, otherwise <code>false</code>.
+     * @param values     the values to validate
+     * @param parameters the validator parameters
+     * @return {@code true} if the validation passes, otherwise {@code false}
      */
-    public boolean validate(ProcessingClient client)
+    @Override
+    public boolean validate(String[] values, Map<String, String> parameters)
     {
         boolean returnValue = false;
-        String keystorePassword = null;
-        String keystoreFile = null;
-        String keystoreType = "JKS";
-        String skipValidation = null;
-        String alias = null;
-        String aliasPassword = null;
-        Map<String, String> params = getParams(client);
+        String keystorePassword;
+        String keystoreFile;
+        String keystoreType;
+        String skipValidation;
+        String alias;
+        String aliasPassword;
+        Map<String, String> params = getParams(parameters);
         try
         {
-            if (params != null)
+            // Don't try and open the keystore if skipValidation is true
+            skipValidation = params.get("skipValidation");
+            logger.fine("skipValidation = " + skipValidation);
+            if (skipValidation != null && skipValidation.equalsIgnoreCase("true"))
             {
-                // Don't try and open the keystore if skipValidation is true
-                skipValidation = params.get("skipValidation");
-                System.out.println("skipValidation = " + skipValidation);
-                if (skipValidation != null && skipValidation.equalsIgnoreCase("true"))
-                {
-                    System.out.println("Not validating keystore");
-                    return true;
-                }
-                // See if keystore password is passed in or is passed through the validator
-                keystorePassword = params.get("keystorePassword");
-                if (keystorePassword == null)
-                {
-                    keystorePassword = getPassword(client);
-                    System.out.println("keystorePassword parameter null, using validator password for keystore");
-                }
-                else if (keystorePassword.equalsIgnoreCase(""))
-                {
-                    keystorePassword = getPassword(client);
-                    System.out.println("keystorePassword parameter empty, using validator password for keystore");
-                }
-                // See if alias (key) password is passed in or is passed through the validator
-                aliasPassword = params.get("aliasPassword");
-                if (aliasPassword == null)
-                {
-                    aliasPassword = getPassword(client);
-                    System.out.println("aliasPassword parameter null, using validator password for key");
-                }
-                else if (aliasPassword.equalsIgnoreCase(""))
-                {
-                    aliasPassword = getPassword(client);
-                    System.out.println("aliasPassword parameter empty, using validator password for key");
-                }
-                // Get keystore type from parameters or use default
-                keystoreType = params.get("keystoreType");
-                if (keystoreType == null)
-                {
-                    keystoreType = "JKS";
-                }
-                System.out.println("keystoreType parameter null, using default of JKS");
+                logger.fine("Not validating keystore");
+                return true;
             }
-            else if (keystoreType.equalsIgnoreCase(""))
+            // See if keystore password is passed in or is passed through the validator
+            keystorePassword = params.get("keystorePassword");
+            if (keystorePassword == null)
+            {
+                keystorePassword = getPassword(values);
+                logger.fine("keystorePassword parameter null, using validator password for keystore");
+            }
+            else if (keystorePassword.equalsIgnoreCase(""))
+            {
+                keystorePassword = getPassword(values);
+                logger.fine("keystorePassword parameter empty, using validator password for keystore");
+            }
+            // See if alias (key) password is passed in or is passed through the validator
+            aliasPassword = params.get("aliasPassword");
+            if (aliasPassword == null)
+            {
+                aliasPassword = getPassword(values);
+                logger.fine("aliasPassword parameter null, using validator password for key");
+            }
+            else if (aliasPassword.equalsIgnoreCase(""))
+            {
+                aliasPassword = getPassword(values);
+                logger.fine("aliasPassword parameter empty, using validator password for key");
+            }
+            // Get keystore type from parameters or use default
+            keystoreType = params.get("keystoreType");
+            if (keystoreType == null)
             {
                 keystoreType = "JKS";
-                System.out.println("keystoreType parameter empty, using default of JKS");
+            }
+            logger.fine("keystoreType parameter null, using default of JKS");
+
+            if (keystoreType.equalsIgnoreCase(""))
+            {
+                keystoreType = "JKS";
+                logger.fine("keystoreType parameter empty, using default of JKS");
             }
             // Get keystore location from params
             keystoreFile = params.get("keystoreFile");
             if (keystoreFile != null)
             {
-                System.out.println("Attempting to open keystore: " + keystoreFile);
+                logger.fine("Attempting to open keystore: " + keystoreFile);
                 KeyStore keyStore = getKeyStore(keystoreFile, keystoreType, keystorePassword.toCharArray());
                 if (keyStore != null)
                 {
                     returnValue = true;
-                    System.out.println("keystore password validated");
+                    logger.fine("keystore password validated");
                     // check alias if provided
                     alias = params.get("keystoreAlias");
                     if (alias != null)
@@ -142,79 +146,62 @@ public class PasswordKeystoreValidator implements Validator
                         returnValue = keyStore.containsAlias(alias);
                         if (returnValue)
                         {
-                            System.out.println("keystore alias '" + alias + "' found, trying to retrieve");
+                            logger.fine("keystore alias '" + alias + "' found, trying to retrieve");
                             try
                             {
                                 keyStore.getKey(alias, aliasPassword.toCharArray());
-                                System.out.println("keystore alias '" + alias + "' validated");
+                                logger.fine("keystore alias '" + alias + "' validated");
                             }
                             catch (Exception e)
                             {
-                                System.out.println("keystore alias validation failed: " + e);
+                                logger.log(Level.FINE, "keystore alias validation failed: " + e, e);
                                 returnValue = false;
                             }
                         }
                         else
                         {
-                            System.out.println("keystore alias '" + alias + "' not found");
+                            logger.fine("keystore alias '" + alias + "' not found");
                         }
                     }
                 }
             }
             else
             {
-                System.out.println("keystoreFile param not provided");
+                logger.fine("keystoreFile param not provided");
             }
         }
         catch (Exception e)
         {
-            System.out.println("validate() Failed: " + e);
+            logger.log(Level.FINE, "validate() Failed: " + e, e);
         }
 
-        return (returnValue);
-    }
-
-    private Map<String, String> getParams
-            (ProcessingClient
-                    client)
-    {
-        Map<String, String> returnValue = null;
-        PasswordGroup group = null;
-        try
-        {
-            group = (PasswordGroup) client;
-            if (group.hasParams())
-            {
-                Map<String, String> params = group.getValidatorParams();
-                returnValue = new HashMap<String, String>();
-                for (String key : params.keySet())
-                {
-                    // Feed parameter values through vs
-                    String value = variableSubstitutor.substitute(params.get(key));
-                    // System.out.println("Adding local parameter: "+key+"="+value);
-                    returnValue.put(key, value);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println("getParams() Failed: " + e);
-        }
         return returnValue;
     }
 
-    private String getPassword(ProcessingClient client)
+    private Map<String, String> getParams(Map<String, String> parameters)
+    {
+        Map<String, String> result = new HashMap<String, String>();
+        for (String key : parameters.keySet())
+        {
+            // Feed parameter values through vs
+            String value = variableSubstitutor.substitute(parameters.get(key));
+            result.put(key, value);
+        }
+        return result;
+    }
+
+    private String getPassword(String[] values)
     {
         // ----------------------------------------------------
         // We assume that if there is more than one field an equality validation
         // was already performed.
         // ----------------------------------------------------
-        return client.getFieldContents(0);
+        return (values.length > 0) ? values[0] : null;
     }
 
-    public static KeyStore getKeyStore(String fileName, String type, char[] password)
+    private KeyStore getKeyStore(String fileName, String type, char[] password)
     {
-        KeyStore keyStore = null;
+        KeyStore keyStore;
         try
         {
             keyStore = KeyStore.getInstance(type);

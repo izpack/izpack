@@ -19,11 +19,11 @@
 
 package com.izforge.izpack.panels.userinput.validator;
 
-import com.izforge.izpack.panels.userinput.PasswordGroup;
-import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
-
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import com.izforge.izpack.panels.userinput.gui.password.PasswordGroup;
+import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
 
 /**
  * A validator to enforce non-empty fields.

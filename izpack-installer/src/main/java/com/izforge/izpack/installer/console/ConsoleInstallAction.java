@@ -30,7 +30,7 @@ import com.izforge.izpack.util.Console;
  *
  * @author Tim Anderson
  */
-class ConsoleInstallAction extends AbstractInstallAction
+public class ConsoleInstallAction extends AbstractInstallAction
 {
 
     /**

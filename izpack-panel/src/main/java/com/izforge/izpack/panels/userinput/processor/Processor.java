@@ -21,9 +21,8 @@
 
 package com.izforge.izpack.panels.userinput.processor;
 
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
-
-/*---------------------------------------------------------------------------*/
 
 /**
  * Interface for classes that provide input field processing services.
@@ -32,19 +31,15 @@ import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
  * @version 0.0.1 / 10/26/02
  * @see ProcessingClient
  */
-/*---------------------------------------------------------------------------*/
 public interface Processor
 {
 
-    /*--------------------------------------------------------------------------*/
-
     /**
-     * Processes the contend of an input field.
+     * Processes the content of an input field.
      *
-     * @param client the client object using the services of this processor.
-     * @return The result of the encryption.
+     * @param client the client using the services of this processor
+     * @return the result of processing
+     * @throws IzPackException if processing fails
      */
-    /*--------------------------------------------------------------------------*/
     public String process(ProcessingClient client);
 }
-/*---------------------------------------------------------------------------*/

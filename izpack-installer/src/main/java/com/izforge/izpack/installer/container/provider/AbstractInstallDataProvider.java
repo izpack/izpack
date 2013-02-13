@@ -128,6 +128,47 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
         objIn.close();
 
+        setStandardVariables(installData, dir);
+
+        // We load the user variables
+        Properties properties = (Properties) resources.getObject("vars");
+        if (properties != null)
+        {
+            Set<String> vars = properties.stringPropertyNames();
+            for (String varName : vars)
+            {
+                installData.setVariable(varName, properties.getProperty(varName));
+            }
+        }
+
+        installData.setPanelsOrder(panelsOrder);
+        installData.setAvailablePacks(availablePacks);
+        installData.setAllPacks(allPacks);
+
+        // get list of preselected packs
+        for (Pack availablePack : availablePacks)
+        {
+            if (availablePack.isPreselected())
+            {
+                installData.getSelectedPacks().add(availablePack);
+            }
+        }
+
+        // Create any temp directories
+        Set<TempDir> tempDirs = info.getTempDirs();
+        if (null != tempDirs && tempDirs.size() > 0)
+        {
+            for (TempDir tempDir : tempDirs)
+            {
+                TemporaryDirectory directory = new TemporaryDirectory(tempDir, installData, housekeeper);
+                directory.create();
+                directory.cleanUp();
+            }
+        }
+    }
+
+    protected void setStandardVariables(AutomatedInstallData installData, String dir)
+    {
         // Determine the hostname and IP address
         String hostname;
         String IPAddress;
@@ -165,42 +206,6 @@ public abstract class AbstractInstallDataProvider implements Provider
                 installData.setVariable("SYSTEM_" + varName, varValue);
             }
         }
-
-        // We load the variables
-        Properties properties = (Properties) resources.getObject("vars");
-        if (properties != null)
-        {
-            Set<String> vars = properties.stringPropertyNames();
-            for (String varName : vars)
-            {
-                installData.setVariable(varName, properties.getProperty(varName));
-            }
-        }
-
-        installData.setPanelsOrder(panelsOrder);
-        installData.setAvailablePacks(availablePacks);
-        installData.setAllPacks(allPacks);
-
-        // get list of preselected packs
-        for (Pack availablePack : availablePacks)
-        {
-            if (availablePack.isPreselected())
-            {
-                installData.getSelectedPacks().add(availablePack);
-            }
-        }
-
-        // Create any temp directories
-        Set<TempDir> tempDirs = info.getTempDirs();
-        if (null != tempDirs && tempDirs.size() > 0)
-        {
-            for (TempDir tempDir : tempDirs)
-            {
-                TemporaryDirectory directory = new TemporaryDirectory(tempDir, installData, housekeeper);
-                directory.create();
-                directory.cleanUp();
-            }
-        }
     }
 
     /**
@@ -223,7 +228,7 @@ public abstract class AbstractInstallDataProvider implements Provider
     }
 
 
-    private String getDir(Resources resources)
+    protected String getDir(Resources resources)
     {
         // We determine the operating system and the initial installation path
         String dir;

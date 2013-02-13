@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<izpack:userInput version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/userinput"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
+
+    <panel id="userinputAddress" order="0">
+        <field type="text" variable="address">
+            <spec txt="Address:" id="input.address" size="20" set="${defaultAddress}"/>
+        </field>
+    </panel>
+</izpack:userInput>

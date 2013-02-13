@@ -110,6 +110,14 @@
     </xs:complexType>
 
     <!--                                                                                                        -->
+    <!-- Variables                                                                                              -->
+    <!--                                                                                                        -->
+    <xs:complexType name="variableType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!--                                                                                                        -->
     <!-- Dynamic variables                                                                                      -->
     <!--                                                                                                        -->
     <xs:complexType name="dynamicVariableType">

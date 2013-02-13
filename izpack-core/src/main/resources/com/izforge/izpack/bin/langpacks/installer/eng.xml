@@ -221,6 +221,7 @@ file we looked for -->
     <str id="UserInputPanel.search.location" txt="Enter location of {0}."/>
     <str id="UserInputPanel.search.location.checkedfile" txt="The existence of {0} is checked."/>
     <str id="UserInputPanel.search.browse" txt="Browse..."/>
+    <str id="UserInputPanel.search.delete" txt="Delete..."/>
     <str id="UserInputPanel.search.wrongselection.message"
          txt="The file or directory you have chosen either does not exist or is not appropriate."/>
     <str id="UserInputPanel.search.wrongselection.caption" txt="Invalid Selection"/>

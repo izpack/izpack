@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+  ~
+  ~ http://izpack.org/
+  ~ http://izpack.codehaus.org/
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<izpack:userInput version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/userinput"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
+
+    <panel id="ruleinput" order="0">
+        <field type="rule" variable="rule1">
+            <description align="left" txt="rule1 description" id="rule1.desc.id"/>
+            <spec txt="rule1:" layout="N:3:3 . N:3:3 . N:3:3 . N:3:3" set="0:192 1:168 2:0 3:1"/>
+            <validator class="com.izforge.izpack.panels.userinput.validator.NotEmptyValidator"
+                       txt="Must supply a value"/>
+        </field>
+    </panel>
+</izpack:userInput>

@@ -97,7 +97,7 @@ public class ConsolePanelView extends PanelView<PanelConsole>
         {
             throw new IzPackException("Console implementation not found for panel: " + panel.getClassName());
         }
-        return getFactory().create(impl);
+        return getFactory().create(impl.getName(), viewClass, panel);
     }
 
     /**

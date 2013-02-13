@@ -185,7 +185,7 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
     public String get(String id, Object... args)
     {
         String result;
-        String pattern = super.get(id);
+        String pattern = (id != null) ? super.get(id) : null;
         if (pattern != null)
         {
             if (args.length > 0)

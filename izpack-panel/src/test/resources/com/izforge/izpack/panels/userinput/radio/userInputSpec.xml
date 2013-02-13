@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+  ~
+  ~ http://izpack.org/
+  ~ http://izpack.codehaus.org/
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<izpack:userInput version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/userinput"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
+
+    <panel id="radioinput" order="0">
+        <field type="radio" variable="radioA">
+            <description align="center" txt="Radio A"/>
+            <spec>
+                <choice txt="Choice 1" id="choice1.id" value="value1"/>
+                <choice txt="Choice 2" id="choice2.id" value="value2" set="true"/>
+                <choice txt="Choice 3" id="choice3.id" value="value3"/>
+            </spec>
+        </field>
+        <field type="radio" variable="radioB">
+            <description align="right" txt="Radio B"/>
+            <spec>
+                <choice txt="Choice X" id="choice1.id" value="valueX" revalidate="true"/>
+                <choice txt="Choice Y" id="choice2.id" value="valueY" revalidate="true"/>
+                <choice txt="Choice Z" id="choice3.id" value="valueZ" revalidate="true"/>
+            </spec>
+        </field>
+        <field type="radio" variable="radioC">
+            <description align="right" txt="Radio C"/>
+            <spec>
+                <choice txt="Choice Q" id="choice1.id" value="valueQ" revalidate="true"/>
+                <choice txt="Choice R" id="choice2.id" value="valueR" revalidate="true"/>
+                <choice txt="Choice S" id="choice3.id" value="valueS" revalidate="true" set="true"/>
+            </spec>
+        </field>
+    </panel>
+</izpack:userInput>

@@ -102,7 +102,23 @@ public class Console
      */
     public int prompt(String prompt, int min, int max, int eof)
     {
-        int result = 0;
+        return prompt(prompt, min, max, min - 1, eof);
+    }
+
+    /**
+     * Displays a prompt and waits for numeric input.
+     *
+     * @param prompt       the prompt to display
+     * @param min          the minimum allowed value
+     * @param max          the maximum allowed value
+     * @param defaultValue the default value to use, if no input is entered. Use a value {@code < min} if there is no
+     *                     default
+     * @param eof          the value to return if end of stream is reached
+     * @return a value in the range of <tt>from..to</tt>, or <tt>eof</tt> if the end of stream is reached
+     */
+    public int prompt(String prompt, int min, int max, int defaultValue, int eof)
+    {
+        int result = min - 1;
         try
         {
             do
@@ -111,6 +127,13 @@ public class Console
                 String value = readLine();
                 if (value != null)
                 {
+                    value = value.trim();
+                    if (value.equals("") && defaultValue >= min)
+                    {
+                        // use the default value
+                        result = defaultValue;
+                        break;
+                    }
                     try
                     {
                         result = Integer.valueOf(value);
@@ -146,6 +169,19 @@ public class Console
      */
     public String prompt(String prompt, String eof)
     {
+        return prompt(prompt, "", eof);
+    }
+
+    /**
+     * Displays a prompt and waits for input.
+     *
+     * @param prompt       the prompt to display
+     * @param defaultValue the default value to use, if no input is entered
+     * @param eof          the value to return if end of stream is reached
+     * @return the input value or {@code eof} if the end of stream is reached
+     */
+    public String prompt(String prompt, String defaultValue, String eof)
+    {
         String result;
         try
         {
@@ -154,6 +190,10 @@ public class Console
             if (result == null)
             {
                 result = eof;
+            }
+            else if (result.equals(""))
+            {
+                result = defaultValue;
             }
         }
         catch (IOException e)

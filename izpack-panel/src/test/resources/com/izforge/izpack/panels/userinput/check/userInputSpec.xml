@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+  ~
+  ~ http://izpack.org/
+  ~ http://izpack.codehaus.org/
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<izpack:userInput version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/userinput"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
+
+    <panel id="checkinput" order="0">
+
+        <field type="title" txt="Check field test cases" size="2.0" align="right"/>
+        <field type="staticText">
+            <description txt="Check boxes initialised via set='true' or set='false'"/>
+        </field>
+        <field type="check" variable="check1">
+            <spec txt="Check 1: " set="true"/>
+        </field>
+        <field type="check" variable="check2">
+            <spec txt="Check 2: " set="false"/>
+        </field>
+        <field type="divider"/>
+
+        <field type="staticText">
+            <description txt="Check boxes initialised via set and true and false attributes"/>
+        </field>
+
+        <field type="check" variable="check3">
+            <spec txt="Check 3: " set="check3set" true="check3set" false="check3unset"/>
+        </field>
+        <field type="check" variable="check4">
+            <spec txt="Check 4: " set="check4unset" true="check4set" false="check4unset"/>
+        </field>
+
+        <field type="divider"/>
+        <field type="staticText">
+            <description txt="Check boxes initialised via variables"/>
+        </field>
+
+        <field type="check" variable="check5">
+            <spec txt="Check 5: " true="check5set" false="check5unset" revalidate="true"/>
+        </field>
+        <field type="check" variable="check6">
+            <spec txt="Check 6: " true="check6set" false="check6unset" revalidate="true"/>
+        </field>
+    </panel>
+</izpack:userInput>

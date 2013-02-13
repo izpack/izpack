@@ -26,6 +26,7 @@ import org.picocontainer.PicoException;
 import org.picocontainer.injectors.ProviderAdapter;
 
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.base.InstallDataConfiguratorWithRules;
 import com.izforge.izpack.installer.container.provider.IconsProvider;
@@ -63,6 +64,7 @@ public class TestGUIPanelContainer extends AbstractTestPanelContainer
         super.fillContainer(container);
         addComponent(InstallDataConfiguratorWithRules.class);
         addComponent(Log.class, Mockito.mock(Log.class));
+        addComponent(GUIPrompt.class);
 
         container.addAdapter(new ProviderAdapter(new GUIInstallDataMockProvider()));
         container.addAdapter(new ProviderAdapter(new IconsProvider()));
