@@ -23,10 +23,17 @@ package com.izforge.izpack.uninstaller;
 
 import com.izforge.izpack.LocaleDatabase;
 import com.izforge.izpack.util.AbstractUIHandler;
+import com.izforge.izpack.util.OsVersion;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UninstallerConsole
 {
@@ -44,7 +51,7 @@ public class UninstallerConsole
     public UninstallerConsole() throws Exception
     {
         // Initializations
-        langpack = new LocaleDatabase(UninstallerFrame.class.getResourceAsStream("/langpack.xml"));
+        langpack = new LocaleDatabase(UninstallerConsole.class.getResourceAsStream("/langpack.xml"));
         getInstallPath();
     }
 
@@ -70,8 +77,51 @@ public class UninstallerConsole
     public void runUninstall(boolean destroy)
     {
         Destroyer destroyer = new Destroyer(installPath,
-                destroy, new DestroyerHandler());
+                destroy, true, new DestroyerHandler());
         destroyer.start();
+        
+        
+        // on windows platform
+        // self delete must be delayed
+        
+        try
+        {
+            destroyer.join();
+        
+            if (OsVersion.IS_WINDOWS)
+            {
+                java.io.File selfjar = SelfModifier.findJarFile(this.getClass());
+                
+                // get temporary location
+                File deleteScript = File.createTempFile("izpack", ".js");
+                Writer blout = new java.io.BufferedWriter(new java.io.OutputStreamWriter(new FileOutputStream(deleteScript), "8859_1"));
+                blout.write("var fso = new ActiveXObject(\"Scripting.FileSystemObject\");\r\n");
+                blout.write("WScript.Sleep(3000);\r\n");
+                blout.write("fso.DeleteFile(\""+selfjar.getAbsolutePath().replace("\\", "\\\\")+"\");\r\n");
+                if (destroy) blout.write("fso.DeleteFolder(\""+installPath.replace("\\", "\\\\")+"\", true);");
+                blout.flush();
+                blout.close();
+                
+                List<String> command = new ArrayList<String>();
+                command.add("cmd.exe");
+                command.add("/c");
+                command.add("start");
+                command.add("wscript");
+                command.add("/B");
+                command.add("\""+deleteScript.getAbsolutePath()+"\"");
+                
+                //String strCommand = "cmd.exe /c \"start \"\" /B wscript /B \""+deleteScript.getAbsolutePath()+"\" > c:\\temp\\log.txt \" ";
+                Runtime.getRuntime().exec (command.toArray(new String[command.size()]),null,null);
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            // we don't care
+            ex.printStackTrace();
+        }
+        
+        
     }
 
     /**
@@ -252,6 +302,7 @@ public class UninstallerConsole
          */
         public void emitNotification(String text)
         {
+            out (text);
         }
 
         /**

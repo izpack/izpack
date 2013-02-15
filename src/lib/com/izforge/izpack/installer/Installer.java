@@ -111,16 +111,17 @@ public class Installer {
 		    switch (type)
 		    {
 		        case INSTALLER_GUI:
-		            Class.forName("com.izforge.izpack.installer.GUIInstaller").newInstance();
+		            //Class.forName("com.izforge.izpack.installer.GUIInstaller").newInstance();
+		            GUIInstaller guiAi = new GUIInstaller(args);
 		            break;
 		        
 		        case INSTALLER_AUTO:
-		            AutomatedInstaller ai = new AutomatedInstaller(path);
+		            AutomatedInstaller ai = new AutomatedInstaller(path, args);
 		            ai.doInstall();
 		            break;
 		            
 		        case INSTALLER_CONSOLE:
-		            ConsoleInstaller consoleInstaller = new ConsoleInstaller(langcode);
+		            ConsoleInstaller consoleInstaller = new ConsoleInstaller(langcode, args);
 		            consoleInstaller.run(consoleAction, path);
 		            break;
 		    }

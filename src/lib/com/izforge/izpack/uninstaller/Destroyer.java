@@ -44,6 +44,11 @@ public class Destroyer extends Thread
     /**
      * True if the destroyer must force the recursive deletion.
      */
+    private boolean deleteSelf;
+
+    /**
+     * True if the destroyer must force the recursive deletion.
+     */
     private boolean forceDestroy;
 
     /**
@@ -63,6 +68,12 @@ public class Destroyer extends Thread
      * @param forceDestroy Shall we force the recursive deletion.
      * @param handler      The destroyer listener.
      */
+    public Destroyer(String installPath, boolean forceDestroy, boolean selfDelete, AbstractUIProgressHandler handler)
+    {
+        this( installPath,  forceDestroy,  handler);
+        this.deleteSelf = selfDelete;
+    }
+
     public Destroyer(String installPath, boolean forceDestroy, AbstractUIProgressHandler handler)
     {
         super("IzPack - Destroyer");
@@ -70,6 +81,7 @@ public class Destroyer extends Thread
         this.installPath = installPath;
         this.forceDestroy = forceDestroy;
         this.handler = handler;
+        this.deleteSelf = false;
     }
 
     /**
@@ -84,6 +96,9 @@ public class Destroyer extends Thread
             // We get the list of the files to delete
             ArrayList<ExecutableFile> executables = getExecutablesList();
 
+            // We get the original uninstaller location
+            String uninstallerLoc = getUninstalllocation();
+            
             FileExecutor executor = new FileExecutor(executables);
             executor.executeFiles(ExecutableFile.UNINSTALL, this.handler);
 
@@ -99,13 +114,17 @@ public class Destroyer extends Thread
             for (int i = 0; i < size; i++)
             {
                 File file = files.get(i);
-                // Custem action listener stuff --- beforeDelete ----
-                informListeners(listeners[1], UninstallerListener.BEFORE_DELETE, file, handler);
 
-                file.delete();
-
-                // Custem action listener stuff --- afterDelete ----
-                informListeners(listeners[1], UninstallerListener.AFTER_DELETE, file, handler);
+                if (!deleteSelf || !file.getAbsoluteFile().equals(uninstallerLoc))
+                {
+                    // Custem action listener stuff --- beforeDelete ----
+                    informListeners(listeners[1], UninstallerListener.BEFORE_DELETE, file, handler);
+    
+                    file.delete();
+    
+                    // Custem action listener stuff --- afterDelete ----
+                    informListeners(listeners[1], UninstallerListener.AFTER_DELETE, file, handler);
+                }
 
                 handler.progress(i, file.getAbsolutePath());
             }
@@ -161,6 +180,20 @@ public class Destroyer extends Thread
     // path.deleteOnExit();
     // inst.deleteOnExit();
     // }
+    
+     private String getUninstalllocation() throws Exception
+     {
+         // Initialisations
+         InputStream in = Destroyer.class.getResourceAsStream("/jarlocation.log");
+         InputStreamReader inReader = new InputStreamReader(in);
+         BufferedReader reader = new BufferedReader(inReader);
+        
+         // We delete
+         String strFile = reader.readLine();
+         reader.close();
+         return strFile;
+     }
+    
     /**
      * Returns an ArrayList of the files to delete.
      *

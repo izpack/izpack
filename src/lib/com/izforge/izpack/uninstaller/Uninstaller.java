@@ -19,9 +19,12 @@
 
 package com.izforge.izpack.uninstaller;
 
+import com.izforge.izpack.LocaleDatabase;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.installer.PrivilegedRunner;
 import com.izforge.izpack.util.OsVersion;
+
+import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +33,8 @@ import java.io.InputStreamReader;
 
 import javax.swing.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The uninstaller class.
@@ -46,7 +51,7 @@ public class Uninstaller
      */
     public static void main(String[] args)
     {
-        checkForPrivilegedExecution();
+        checkForPrivilegedExecution(args);
 
         boolean cmduninstall = false;
         for (String arg : args)
@@ -55,24 +60,37 @@ public class Uninstaller
             {
                 cmduninstall = true;
             }
+            else if (arg.equals("-console"))
+            {
+                cmduninstall = true;
+            }
         }
-        if (cmduninstall)
+        if (GraphicsEnvironment.isHeadless())
         {
-            System.out.println("Command line uninstaller.\n");
+            cmduninstall = true;
         }
+//        if (cmduninstall)
+//        {
+//            System.out.println("Command line uninstaller.\n");
+//        }
         try
         {
             Class<Uninstaller> clazz = Uninstaller.class;
             Method target;
             if (cmduninstall)
             {
-                target = clazz.getMethod("cmduninstall", new Class[]{String[].class});
+                //target = clazz.getMethod("cmduninstall", new Class[]{String[].class});
+                //new SelfModifier(target).invoke(prepareToLaunchConsole (args));
+                
+                // void :(
+                cmduninstall(prepareToLaunchConsole (args));
+                
             }
             else
             {
                 target = clazz.getMethod("uninstall", new Class[]{String[].class});
+                new SelfModifier(target).invoke(args);
             }
-            new SelfModifier(target).invoke(args);
         }
         catch (Exception ioeOrTypo)
         {
@@ -82,6 +100,139 @@ public class Uninstaller
             System.err.println("The uninstall may not fully complete.");
             uninstall(args);
         }
+    }
+    
+    private static String[] prepareToLaunchConsole (String[] args)
+    {
+        try
+        {
+            List<String> params = new ArrayList<String>();
+            
+            
+            LocaleDatabase langpack = new LocaleDatabase(Uninstaller.class.getResourceAsStream("/langpack.xml"));
+            InputStream is = Uninstaller.class.getResourceAsStream("/customlangpack.xml");
+            if (is != null) {
+                langpack.add(is);
+            }
+            is.close();
+    
+            
+            UninstallerConsole uco = new UninstallerConsole();
+            boolean force = false;
+            boolean quiet = false;
+            for (String arg : args)
+            {
+                if (arg.equals("-f"))
+                {
+                    force = true;
+                } else if (arg.equals("-force"))
+                {
+                    force = true;
+                } else if (arg.equals("-q"))
+                {
+                    quiet = true;
+                } else if (arg.equals("-quiet"))
+                {
+                    quiet = true;
+                }
+            }
+            
+            if (!quiet)
+            {
+                String title = langpack.getString("uninstaller.title");
+                if (null == title || "uninstaller.title".equals(title))
+                {
+                    title = "IzPack - Uninstaller";
+                }
+    
+                System.out.println(title);
+                System.out.println();
+                System.out.println(langpack.getString("uninstaller.warning"));
+                System.out.println();
+                
+                if (!force)
+                {
+                    System.out.println(langpack.getString("uninstaller.destroytarget")+" "+getInstallPath().getAbsolutePath()+" ?");
+                    System.out.println();
+                    
+                    try
+                    {
+                        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                        while (true)
+                        {
+                            System.out.println(langpack.getString("consolehelper.askyesno"));
+                            String strIn = br.readLine();
+                            if (strIn.equals("1"))
+                            {
+                                force=true;
+                                params.add("-f");
+                                break;
+                            }
+                            else if (strIn.equals("2"))
+                            {
+                                force=false;
+                                break;
+                            }
+                            else if (strIn.equals("3")) { System.exit (0) ; }
+                        }
+    
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                        System.exit (0);
+                    }
+                }
+                
+                System.out.println();
+                System.out.println(langpack.getString("SummaryPanel.headline"));
+                
+                try
+                {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                    while (true)
+                    {
+                        System.out.println();
+                        System.out.println(((force)?"[X]":"[ ]")+langpack.getString("uninstaller.destroytarget")+" "+getInstallPath().getAbsolutePath());
+                        System.out.println();
+                        System.out.println(langpack.getString("consolehelper.askredisplay"));
+                        String strIn = br.readLine();
+                        if (strIn.equals("1"))
+                        {
+                            break;
+                        }
+                        else if (strIn.equals("2"))
+                        {
+                            System.exit (0);
+                        }
+                    }
+    
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                    System.exit (0);
+                }
+                
+                
+            }
+            
+            System.out.println();
+            
+            
+            
+            // console mode always true
+            params.add("-c");
+            
+            String[] CmdLineArgs = params.toArray(new String[params.size()]); 
+            return CmdLineArgs;
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        return args;
     }
     
     /**
@@ -103,7 +254,7 @@ public class Uninstaller
     }
 
 
-    private static void checkForPrivilegedExecution()
+    private static void checkForPrivilegedExecution(String[] args)
     {
         if (PrivilegedRunner.isPrivilegedMode())
         {
@@ -118,7 +269,7 @@ public class Uninstaller
             {
                 try
                 {
-                    if (runner.relaunchWithElevatedRights() == 0)
+                    if (runner.relaunchWithElevatedRights(args) == 0)
                     {
                         System.exit(0);
                     }
@@ -152,16 +303,28 @@ public class Uninstaller
     {
         try
         {
+            
             UninstallerConsole uco = new UninstallerConsole();
             boolean force = false;
+            boolean quiet = false;
             for (String arg : args)
             {
                 if (arg.equals("-f"))
                 {
                     force = true;
+                } else if (arg.equals("-force"))
+                {
+                    force = true;
+                } else if (arg.equals("-q"))
+                {
+                    quiet = true;
+                } else if (arg.equals("-quiet"))
+                {
+                    quiet = true;
                 }
             }
-            System.out.println("Force deletion: " + force);
+            
+            //System.out.println("Force deletion: " + force);
             uco.runUninstall(force);
         }
         catch (Exception err)
@@ -172,6 +335,7 @@ public class Uninstaller
         }
     }
 
+    
     public static void uninstall(final String[] args)
     {
         SwingUtilities.invokeLater(new Runnable()

@@ -77,7 +77,25 @@ public class InstallPanelConsoleHelper extends PanelConsoleHelper implements Pan
 
             }
         }
-        return unpacker.getResult();
+        
+        System.out.println ("");
+        
+        if (unpacker.getResult())
+        {
+            while (true)
+            {
+                int i = askEndOfConsolePanel(idata);
+                if (i == 1)
+                {
+                    return true;
+                }
+                else if (i == 2)
+                {
+                    return false;
+                }
+            }
+        }
+        else return false;
 
     }
     

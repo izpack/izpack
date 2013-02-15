@@ -133,11 +133,19 @@ public class PrivilegedRunner
      * @throws IOException
      * @throws InterruptedException
      */
-    public int relaunchWithElevatedRights() throws IOException, InterruptedException
+    public int relaunchWithElevatedRights(String args[]) throws IOException, InterruptedException
     {
         String javaCommand = getJavaCommand();
         String installer = getInstallerJar();
-        ProcessBuilder builder = new ProcessBuilder(getElevator(javaCommand, installer));
+        String parameters = "";
+        
+        for (String param : args)
+        {
+            parameters+=" ";
+            parameters+=param;
+        }
+        
+        ProcessBuilder builder = new ProcessBuilder(getElevator(javaCommand, installer+parameters));
         builder.environment().put("izpack.mode", "privileged");
         return builder.start().waitFor();
     }

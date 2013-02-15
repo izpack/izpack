@@ -151,19 +151,35 @@ public class ProcessPanelConsoleHelper extends PanelConsoleHelper implements Pan
             ProcessPanelWorker worker = new ProcessPanelWorker(installData, this);
 
             worker.run();
-
-            if (!worker.getResult())
+            
+            System.out.println ("");
+            
+            if (worker.getResult())
             {
-                return false;
+                while (true)
+                {
+                    int i = askEndOfConsolePanel(installData);
+                    if (i == 1)
+                    {
+                        return true;
+                    }
+                    else if (i == 2)
+                    {
+                        return false;
+                    }
+                }
             }
+            else return false;
+            
+
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             throw new RuntimeException("The work done by the ProcessPanel failed", e);
         }
         
-        return true;
+        //return true;
     }
 
     

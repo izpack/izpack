@@ -45,6 +45,7 @@ public class FinishPanelConsoleHelper extends PanelConsoleHelper implements Pane
 
 	public boolean runConsole(AutomatedInstallData idata) {
 		if (idata.installSuccess) {
+		    System.out.println();
 			System.out.println(idata.langpack.getString("FinishPanel.success"));
 			System.out.println(idata.langpack.getString("FinishPanel.installed.on") + " " + idata.getInstallPath());
 
@@ -62,8 +63,10 @@ public class FinishPanelConsoleHelper extends PanelConsoleHelper implements Pane
                         .getString("FinishPanel.uninst.info") + " " + path);
             }			
 		} else {
+            System.out.println();
 			System.out.println(idata.langpack.getString("FinishPanel.fail"));
 		}
+        System.out.println();
 		return true;
 	}
 }

@@ -72,10 +72,12 @@ public class AutomatedInstaller extends InstallerBase
      * @param inputFilename Name of the file containing the installation data.
      * @throws Exception Description of the Exception
      */
-    public AutomatedInstaller(String inputFilename) throws Exception
+    public AutomatedInstaller(String inputFilename, String[] args) throws Exception
     {
         super();
-
+        
+        cmdLineArgs = args;
+        
         File input = new File(inputFilename);
 
         // Loads the installation data

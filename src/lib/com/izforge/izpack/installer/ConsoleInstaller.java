@@ -72,9 +72,10 @@ public class ConsoleInstaller extends InstallerBase
 
     private ZipOutputStream outJar;
 
-    public ConsoleInstaller(String langcode) throws Exception
+    public ConsoleInstaller(String langcode, String[] args ) throws Exception
     {
         super();
+        cmdLineArgs = args;
         loadInstallData(this.installdata);
 
         this.installdata.localeISO3 = langcode;

@@ -378,6 +378,10 @@ public class FileExecutor
                     }
 
                 }
+                else
+                {
+                    handler.emitNotification(output[0]);
+                }
 
             }
 

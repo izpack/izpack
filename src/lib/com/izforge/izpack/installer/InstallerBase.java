@@ -52,6 +52,7 @@ import java.util.*;
 public class InstallerBase
 {
 
+    protected String[] cmdLineArgs = null;
     /**
      * Resource name of the conditions specification
      */
@@ -306,7 +307,7 @@ public class InstallerBase
             {
                 try
                 {
-                    if (runner.relaunchWithElevatedRights() == 0)
+                    if (runner.relaunchWithElevatedRights(cmdLineArgs) == 0)
                     {
                         System.exit(0);
                     }

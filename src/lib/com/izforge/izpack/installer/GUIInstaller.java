@@ -84,8 +84,10 @@ public class GUIInstaller extends InstallerBase
      *
      * @throws Exception Description of the Exception
      */
-    public GUIInstaller() throws Exception
+    public GUIInstaller(String[] args) throws Exception
     {
+        cmdLineArgs = args;
+        
         try {
             init();
         } catch (Exception e) {
