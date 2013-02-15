@@ -28,44 +28,24 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.core.handler.ConsolePrompt;
-import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.FileExecutor;
-import com.izforge.izpack.util.Platforms;
 
 /**
  * Tests the {@link JDKChecker} class.
  *
  * @author Tim Anderson
  */
-public class JDKCheckerTest
+public class JDKCheckerTest extends AbstractRequirementCheckerTest
 {
-    /**
-     * The installation data.
-     */
-    private InstallData installData;
-
-    /**
-     * Constructs a <tt>JavaVersionCheckerTest</tt>.
-     */
-    public JDKCheckerTest()
-    {
-        installData = new InstallData(null, Platforms.FEDORA_LINUX);
-        Info info = new Info();
-        installData.setInfo(info);
-    }
-
     /**
      * Tests the {@link JDKChecker} when the JDK is not required.
      */
     @Test
     public void testNotRequired()
     {
-        TestConsole console = new TestConsole();
-        ConsolePrompt prompt = new ConsolePrompt(console);
         TestJDKChecker checker = new TestJDKChecker(installData, prompt);
 
         installData.getInfo().setJdkRequired(false);
@@ -81,8 +61,6 @@ public class JDKCheckerTest
     @Test
     public void testRequired()
     {
-        TestConsole console = new TestConsole();
-        ConsolePrompt prompt = new ConsolePrompt(console);
         TestJDKChecker checker = new TestJDKChecker(installData, prompt);
 
         installData.getInfo().setJdkRequired(true);
@@ -111,7 +89,7 @@ public class JDKCheckerTest
         installData.getInfo().setJdkRequired(true);
 
         TestConsole console = new TestConsole();
-        ConsolePrompt prompt = new ConsolePrompt(console);
+        ConsolePrompt prompt = new ConsolePrompt(console, installData.getMessages());
         JDKChecker checker = new JDKChecker(installData, prompt);
         assertEquals(exists, checker.check());
     }

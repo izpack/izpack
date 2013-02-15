@@ -32,6 +32,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.fest.swing.fixture.FrameFixture;
+import org.fest.swing.timing.Timeout;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -191,6 +192,13 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
 
         // UNINSTALL_NAME should now be defined
         assertEquals("IzPack Windows Installation Test 1.0", getInstallData().getVariable("UNINSTALL_NAME"));
+
+        // TargetPanel
+        Thread.sleep(1000);
+        installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
+        installerFrameFixture.optionPane(Timeout.timeout(1000)).focus();
+        installerFrameFixture.optionPane().requireWarningMessage();
+        installerFrameFixture.optionPane().okButton().click();
 
         // PacksPanel
         Thread.sleep(2000);

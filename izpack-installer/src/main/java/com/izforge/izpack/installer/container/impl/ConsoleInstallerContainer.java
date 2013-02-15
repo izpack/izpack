@@ -33,6 +33,7 @@ import com.izforge.izpack.installer.console.ConsolePanelAutomationHelper;
 import com.izforge.izpack.installer.container.provider.AutomatedInstallDataProvider;
 import com.izforge.izpack.installer.container.provider.AutomatedPanelsProvider;
 import com.izforge.izpack.installer.container.provider.ConsolePanelsProvider;
+import com.izforge.izpack.installer.container.provider.MessagesProvider;
 import com.izforge.izpack.installer.multiunpacker.MultiVolumeUnpackerAutomationHelper;
 import com.izforge.izpack.installer.unpacker.ConsolePackResources;
 import com.izforge.izpack.util.Console;
@@ -80,6 +81,7 @@ public class ConsoleInstallerContainer extends InstallerContainer
         container.addAdapter(new ProviderAdapter(new AutomatedInstallDataProvider()));
         container.addAdapter(new ProviderAdapter(new ConsolePanelsProvider()));
         container.addAdapter(new ProviderAdapter(new AutomatedPanelsProvider()));
+        container.addAdapter(new ProviderAdapter(new MessagesProvider())); // required by ConsolePrompt
         container.addComponent(Console.class);
         container.addComponent(ConsolePrompt.class);
         container.addComponent(ConsoleInstaller.class);

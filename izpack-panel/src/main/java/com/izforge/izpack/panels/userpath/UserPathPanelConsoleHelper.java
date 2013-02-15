@@ -27,15 +27,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
-
-import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.data.Pack;
-import com.izforge.izpack.api.resource.Messages;
-
-import com.izforge.izpack.installer.console.PanelConsole;
 import com.izforge.izpack.installer.console.AbstractPanelConsole;
+import com.izforge.izpack.installer.console.PanelConsole;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -59,14 +56,15 @@ public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements 
 
     private Messages messages;
 
-    static {
-        PATH_VARIABLE       = UserPathPanel.pathVariableName;
-        PATH_PACK_DEPENDS   = UserPathPanel.pathPackDependsName;
-        PATH_ELEMENT        = UserPathPanel.pathElementName;
-        USER_PATH_INFO      = "UserPathPanel.info";
-        USER_PATH_NODIR     = "UserPathPanel.nodir";
-        USER_PATH_EXISTS    = "UserPathPanel.exists_warn";
-        EMPTY               = "";
+    static
+    {
+        PATH_VARIABLE = UserPathPanel.pathVariableName;
+        PATH_PACK_DEPENDS = UserPathPanel.pathPackDependsName;
+        PATH_ELEMENT = UserPathPanel.pathElementName;
+        USER_PATH_INFO = "UserPathPanel.info";
+        USER_PATH_NODIR = "UserPathPanel.nodir";
+        USER_PATH_EXISTS = "UserPathPanel.exists_warn";
+        EMPTY = "";
         br = new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -92,19 +90,13 @@ public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements 
         return false;
     }
 
-    public boolean runConsole(InstallData InstallData)
-    {
-        // not implemented
-        return false;
-    }
-
     public boolean runConsole(InstallData installData, Console console)
     {
         loadLangpack(installData);
 
-        String userPathPanel        = null;
+        String userPathPanel = null;
         String defaultUserPathPanel = null;
-        String pathMessage          = null;
+        String pathMessage = null;
 
         VariableSubstitutor vs;
 
@@ -112,33 +104,46 @@ public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements 
         pathMessage = getTranslation(USER_PATH_INFO);
         defaultUserPathPanel = installData.getVariable(PATH_VARIABLE);
 
-        if (defaultUserPathPanel == null) {
+        if (defaultUserPathPanel == null)
+        {
             defaultUserPathPanel = EMPTY;
-        } else {
+        }
+        else
+        {
             defaultUserPathPanel = vs.substitute(defaultUserPathPanel, null);
         }
 
         out(EMPTY);
-        out(pathMessage +" [" + defaultUserPathPanel + "]");
+        out(pathMessage + " [" + defaultUserPathPanel + "]");
 
         userPathPanel = readInput();
         out(EMPTY);
 
         // check what the userPathPanel value should be
-        if (userPathPanel == null) {
+        if (userPathPanel == null)
+        {
             return false;
-        } else if (EMPTY.equals(userPathPanel)) {
-            if (EMPTY.equals(defaultUserPathPanel)) {
+        }
+        else if (EMPTY.equals(userPathPanel))
+        {
+            if (EMPTY.equals(defaultUserPathPanel))
+            {
                 out("Error: Path is empty! Enter a valid path");
                 return runConsole(installData, console);
-            } else {
+            }
+            else
+            {
                 userPathPanel = defaultUserPathPanel;
             }
-        } else {
+        }
+        else
+        {
             userPathPanel = vs.substitute(userPathPanel, null);
         }
-        if (isPathAFile(userPathPanel) == false) {
-            if (doesPathExists(userPathPanel) && isPathEmpty(userPathPanel) == false) {
+        if (isPathAFile(userPathPanel) == false)
+        {
+            if (doesPathExists(userPathPanel) && isPathEmpty(userPathPanel) == false)
+            {
                 out(getTranslation(USER_PATH_EXISTS));
 
                 if (promptEndPanel(installData, console) == false)
@@ -146,7 +151,9 @@ public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements 
                     return false;
                 }
             }
-        } else {
+        }
+        else
+        {
             out(getTranslation(USER_PATH_NODIR));
             return runConsole(installData, console);
         }
@@ -167,28 +174,38 @@ public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements 
     {
         String strIn;
 
-        try {
+        try
+        {
             strIn = br.readLine();
             return strIn.trim();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
             return null;
         }
     }
 
-    private static boolean doesPathExists (String path) {
+    private static boolean doesPathExists(String path)
+    {
         File file = new File(path);
         return file.exists();
     }
-    private static boolean isPathAFile (String path) {
+
+    private static boolean isPathAFile(String path)
+    {
         File file = new File(path);
         return file.isFile();
     }
-    private static boolean isPathEmpty (String path) {
+
+    private static boolean isPathEmpty(String path)
+    {
         File file = new File(path);
         return (file.list().length == 0);
     }
-    private static void out (String out) {
+
+    private static void out(String out)
+    {
         System.out.println(out);
     }
 }

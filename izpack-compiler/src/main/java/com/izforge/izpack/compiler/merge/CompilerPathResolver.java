@@ -36,6 +36,7 @@ import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.installer.console.AbstractPanelConsole;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
 
@@ -86,10 +87,21 @@ public class CompilerPathResolver extends PathResolver
         Map<String, List<Mergeable>> mergeableByPackage = new HashMap<String, List<Mergeable>>();
         List<Mergeable> mergeable = new ArrayList<Mergeable>();
         getMergeableByPackage(type, mergeableByPackage);
+        Class consoleType = PanelHelper.getConsolePanel(className);
+        if (consoleType != null)
+        {
+            getMergeableByPackage(consoleType, mergeableByPackage);
+        }
+        Class automatedType = PanelHelper.getAutomatedPanel(className);
+        if (automatedType != null)
+        {
+            getMergeableByPackage(automatedType, mergeableByPackage);
+        }
         for (List<Mergeable> pkg : mergeableByPackage.values())
         {
             mergeable.addAll(pkg);
         }
+
         return new PanelMerge(type, mergeable);
     }
 
@@ -142,17 +154,17 @@ public class CompilerPathResolver extends PathResolver
                     mergeable.put(dependPackage, getMergeableFromPackageName(dependPackage));
                 }
             }
-            for (Class iface : type.getInterfaces())
-            {
-                getMergeableByPackage(iface, mergeable);
-            }
-            Class superClass = type.getSuperclass();
-            if (superClass != null && !superClass.equals(IzPanel.class)
-                    && !superClass.equals(AbstractPanelConsole.class)
-                    && !superClass.equals(PanelAutomationHelper.class) && !superClass.equals(Object.class))
-            {
-                getMergeableByPackage(superClass, mergeable);
-            }
+        }
+        for (Class iface : type.getInterfaces())
+        {
+            getMergeableByPackage(iface, mergeable);
+        }
+        Class superClass = type.getSuperclass();
+        if (superClass != null && !superClass.equals(IzPanel.class)
+                && !superClass.equals(AbstractPanelConsole.class)
+                && !superClass.equals(PanelAutomationHelper.class) && !superClass.equals(Object.class))
+        {
+            getMergeableByPackage(superClass, mergeable);
         }
     }
 }

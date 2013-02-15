@@ -121,11 +121,6 @@ public class ProcessPanelConsole extends AbstractPanelConsole implements PanelCo
         return runConsole(installData);
     }
 
-    public boolean runConsole(InstallData installData)
-    {
-        return true;
-    }
-
     public boolean runConsole(InstallData installData, Console console)
     {
         ProcessPanelWorker worker = new ProcessPanelWorker(installData, rules, resources, matcher);

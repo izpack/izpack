@@ -1,5 +1,5 @@
 /*
- * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2013 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
@@ -23,6 +23,7 @@ package com.izforge.izpack.core.handler;
 
 import com.izforge.izpack.api.handler.AbstractPrompt;
 import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -38,13 +39,57 @@ public class ConsolePrompt extends AbstractPrompt
     private final Console console;
 
     /**
-     * Constructs a <tt>ConsolePrompt</tt>.
-     *
-     * @param console the console
+     * OK-Cancel prompt.
      */
-    public ConsolePrompt(Console console)
+    private final String okCancelPrompt;
+
+    /**
+     * Yes-No prompt.
+     */
+    private final String yesNoPrompt;
+
+    /**
+     * Yes-No-Cancel prompt.
+     */
+    private final String yesNoCancelPrompt;
+
+    /**
+     * 'OK' response value.
+     */
+    private final String ok;
+
+    /**
+     * 'Cancel' response value.
+     */
+    private final String cancel;
+
+    /**
+     * 'Yes' response value.
+     */
+    private final String yes;
+
+    /**
+     * 'No' response value.
+     */
+    private final String no;
+
+
+    /**
+     * Constructs a {@code ConsolePrompt}.
+     *
+     * @param console  the console
+     * @param messages the messages to localise the prompt
+     */
+    public ConsolePrompt(Console console, Messages messages)
     {
         this.console = console;
+        okCancelPrompt = messages.get("ConsolePrompt.okCancel");
+        yesNoPrompt = messages.get("ConsolePrompt.yesNo");
+        yesNoCancelPrompt = messages.get("ConsolePrompt.yesNoCancel");
+        ok = messages.get("ConsolePrompt.ok");
+        cancel = messages.get("ConsolePrompt.cancel");
+        yes = messages.get("ConsolePrompt.yes");
+        no = messages.get("ConsolePrompt.no");
     }
 
     /**
@@ -77,9 +122,9 @@ public class ConsolePrompt extends AbstractPrompt
         console.println(message);
         if (options == Options.OK_CANCEL)
         {
-            String defaultValue = (defaultOption != null && defaultOption == Option.OK) ? "O" : "C";
-            String selected = console.prompt("Enter O for OK, C to Cancel", new String[]{"O", "C"}, defaultValue);
-            if ("O".equals(selected))
+            String defaultValue = (defaultOption != null && defaultOption == Option.OK) ? ok : cancel;
+            String selected = console.prompt(okCancelPrompt, new String[]{ok, cancel}, defaultValue);
+            if (ok.equals(selected))
             {
                 result = Option.OK;
             }
@@ -90,25 +135,24 @@ public class ConsolePrompt extends AbstractPrompt
         }
         else if (options == Options.YES_NO_CANCEL)
         {
-            String defaultValue = "C";
+            String defaultValue = cancel;
             if (defaultOption != null)
             {
                 if (defaultOption == Option.YES)
                 {
-                    defaultValue = "Y";
+                    defaultValue = yes;
                 }
                 else if (defaultOption == Option.NO)
                 {
-                    defaultValue = "N";
+                    defaultValue = no;
                 }
             }
-            String selected = console.prompt("Enter Y for Yes, N for No, or C to Cancel",
-                                             new String[]{"Y", "N", "C"}, defaultValue);
-            if ("Y".equals(selected))
+            String selected = console.prompt(yesNoCancelPrompt, new String[]{yes, no, cancel}, defaultValue);
+            if (yes.equals(selected))
             {
                 result = Option.YES;
             }
-            else if ("N".equals(selected))
+            else if (no.equals(selected))
             {
                 result = Option.NO;
             }
@@ -119,13 +163,13 @@ public class ConsolePrompt extends AbstractPrompt
         }
         else
         {
-            String defaultValue = "N";
+            String defaultValue = no;
             if (defaultOption != null && defaultOption == Option.YES)
             {
-                defaultValue = "Y";
+                defaultValue = yes;
             }
-            String selected = console.prompt("Enter Y for Yes or N for No", new String[]{"Y", "N"}, defaultValue);
-            if ("Y".equals(selected))
+            String selected = console.prompt(yesNoPrompt, new String[]{yes, no}, defaultValue);
+            if (yes.equals(selected))
             {
                 result = Option.YES;
             }

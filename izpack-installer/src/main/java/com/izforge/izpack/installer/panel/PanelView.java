@@ -424,37 +424,6 @@ public abstract class PanelView<T>
     }
 
     /**
-     * Returns a class for the specified class name.
-     *
-     * @param name the class name
-     * @return the corresponding class, or <tt>null</tt> if it cannot be found or does not implement {@link #viewClass}.
-     */
-    @SuppressWarnings("unchecked")
-    protected Class<T> getClass(String name)
-    {
-        Class<T> result = null;
-        try
-        {
-            Class type = Class.forName(name);
-            if (!viewClass.isAssignableFrom(type))
-            {
-                logger.warning(name + " does not implement " + viewClass.getName() + ", ignoring");
-            }
-            else
-            {
-                result = (Class<T>) type;
-            }
-        }
-        catch (Throwable exception)
-        {
-            // ignore
-            logger.log(Level.FINE, "No " + viewClass.getSimpleName() + " + found for class " + name + ": "
-                    + exception.toString(), exception);
-        }
-        return result;
-    }
-
-    /**
      * Returns the factory.
      *
      * @return the factory

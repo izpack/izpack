@@ -284,6 +284,19 @@ file we looked for -->
     <str id="CheckedHelloPanel.productAlreadyExist1" txt="Are you sure you want to install another entity?"/>
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="The uninstall key will be named: "/>
 
+    <!-- ConsolePrompt strings -->
+    <str id="ConsolePrompt.okCancel" txt="Enter O for OK, C to Cancel: "/>
+    <str id="ConsolePrompt.yesNo" txt="Enter Y for Yes, N for No: "/>
+    <str id="ConsolePrompt.yesNoCancel" txt="Enter Y for Yes, N for No, or C to Cancel: "/>
+    <str id="ConsolePrompt.ok" txt="O"/>
+    <str id="ConsolePrompt.cancel" txt="C"/>
+    <str id="ConsolePrompt.yes" txt="Y"/>
+    <str id="ConsolePrompt.no" txt="N"/>
+
+    <!-- ConsoleInstaller strings -->
+    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
+
     <!-- Next Media Strings -->
     <str id="nextmedia.title" txt="Next install media"/>
     <str id="nextmedia.msg" txt="Choose the next install media."/>

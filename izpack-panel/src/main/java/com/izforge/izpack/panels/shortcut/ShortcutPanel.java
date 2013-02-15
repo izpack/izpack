@@ -18,6 +18,9 @@
  */
 package com.izforge.izpack.panels.shortcut;
 
+import static com.izforge.izpack.util.Platform.Name.UNIX;
+import static com.izforge.izpack.util.Platform.Name.WINDOWS;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -61,12 +64,10 @@ import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.util.Housekeeper;
-import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.PlatformModelMatcher;
-import com.izforge.izpack.util.StringTool;
 import com.izforge.izpack.util.TargetFactory;
 import com.izforge.izpack.util.os.Shortcut;
-import com.izforge.izpack.util.unix.UnixHelper;
 
 /**
  * This class implements a panel for the creation of shortcuts. The panel prompts the user to select
@@ -92,24 +93,17 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
      */
     private static final String TEXT_FILE_NAME = "Shortcuts.txt";
 
-    private static boolean firstTime = true;
-
-    private static boolean isRootUser;
-
     /**
-     * UI element to label the list of existing program groups
+     * Determines if the panel has been initialised.
      */
-    private JLabel listLabel;
+    private boolean initialised = false;
+
+    private boolean isRootUser;
 
     /**
      * UI element to present the list of existing program groups for selection
      */
     private JList groupList;
-
-    /**
-     * UI element for listing the intended shortcut targets
-     */
-    private JList targetList;
 
     /**
      * UI element to present the default name for the program group and to support editing of this
@@ -133,7 +127,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     private JCheckBox allowDesktopShortcut;
 
     /**
-     * Checkbox to enable/disable to chreate ShortCuts
+     * Checkbox to enable/disable to create ShortCuts
      */
     private JCheckBox createShortcuts;
 
@@ -158,8 +152,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     private GridBagConstraints constraints;
 
     private ShortcutPanelLogic shortcutPanelLogic;
-
-    private boolean shortcutLogicInitialized;
 
     /**
      * The logger.
@@ -192,19 +184,17 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         }
         else
         {
-            con = new GridBagConstraints();
+            constraints = new GridBagConstraints();
         }
         setLayout(super.getLayout());
         try
         {
             shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData, housekeeper,
                                                         factory, listeners, matcher);
-            shortcutLogicInitialized = true;
         }
         catch (Exception exception)
         {
             logger.log(Level.WARNING, "Failed to initialise shortcuts: " + exception.getMessage(), exception);
-            shortcutLogicInitialized = false;
         }
     }
 
@@ -219,11 +209,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     public void actionPerformed(ActionEvent event)
     {
         Object eventSource = event.getSource();
-
-        /*
-         * if (eventSource != null) { System.out.println("Instance Of : " +
-         * eventSource.getClass().getName()); }
-         */
 
         // ----------------------------------------------------
         // create shortcut for the current user was selected
@@ -346,87 +331,28 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     @Override
     public void panelActivate()
     {
-        // Create the UI elements
-        if (shortcutLogicInitialized && !OsVersion.IS_OSX)
+        if (shortcutPanelLogic != null)
         {
-            if (shortcutPanelLogic.isSupported() && !shortcutPanelLogic.isSimulteNotSupported())
+            if (!initialised)
             {
-                File allUsersProgramsFolder = shortcutPanelLogic
-                        .getProgramsFolder(Shortcut.ALL_USERS);
-
-                logger.fine("All Users Program Folder: '" + allUsersProgramsFolder + "'");
-
-                File forceTest = new File(allUsersProgramsFolder + File.separator
-                                                  + System.getProperty("user.name") + System.currentTimeMillis());
-
-                try
+                initialised = true;
+                if (shortcutPanelLogic.isSupported())
                 {
-                    isRootUser = forceTest.createNewFile();
+                    isRootUser = shortcutPanelLogic.initUserType();
+                    buildUI(shortcutPanelLogic.getProgramsFolder(shortcutPanelLogic.getUserType()));
                 }
-                catch (Exception e)
+                else if (shortcutPanelLogic.isSkipIfNotSupported())
                 {
-                    isRootUser = false;
-                    logger.log(Level.WARNING,
-                               "Temporary file '" + forceTest + "' could not be created: " + e.getMessage(), e);
-
-                }
-
-                if (forceTest.exists())
-                {
-                    logger.fine("Delete temporary file: '" + forceTest + "'");
-                    forceTest.delete();
-                }
-
-                logger.fine((isRootUser ? "Can" : "Cannot") + " write into '" + allUsersProgramsFolder + "'");
-
-                final boolean rUserFlag;
-                if (shortcutPanelLogic.isDefaultCurrentUserFlag())
-                {
-                    rUserFlag = false;
-                    logger.fine("Element 'defaultCurrentUser' was set");
+                    parent.skipPanel();
                 }
                 else
-                {
-                    rUserFlag = isRootUser;
-                }
-
-                if (rUserFlag)
-                {
-                    shortcutPanelLogic.setUserType(Shortcut.ALL_USERS);
-                }
-                else
-                {
-                    shortcutPanelLogic.setUserType(Shortcut.CURRENT_USER);
-                }
-
-                if (firstTime)
-                {
-                    buildUI(shortcutPanelLogic.getProgramsFolder(rUserFlag ? Shortcut.ALL_USERS
-                                                                         : Shortcut.CURRENT_USER));
-                }
-
-                // addSelectionList();
-                // add( shortCutsArea );
-                // JList shortCutList = null;
-                // addList( shortCuts, ListSelectionModel.SINGLE_SELECTION, shortCutList, col,
-                // line+6, 1, 1, GridBagConstraints.BOTH );
-            }
-            else
-            {
-                // TODO MEP: Test
-                if (firstTime)
                 {
                     buildAlternateUI();
                 }
-
-                // parent.unlockNextButton();
-                // parent.lockPrevButton();
             }
-            firstTime = false;
         }
         else
         {
-            // Skip on OS X
             parent.skipPanel();
         }
     }
@@ -478,16 +404,8 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         int col = 0;
         constraints.insets = new Insets(10, 10, 0, 0);
 
-        // Add a CheckBox which enables the user to entirely supress shortcut creation.
-        String menuKind = getString("ShortcutPanel.regular.StartMenu:Start-Menu");
-
-        if (OsVersion.IS_UNIX && UnixHelper.kdeIsInstalled())
-        {
-            menuKind = getString("ShortcutPanel.regular.StartMenu:K-Menu");
-        }
-
-        createShortcuts = new JCheckBox(StringTool.replace(getString("ShortcutPanel.regular.create"),
-                                                           "StartMenu", menuKind), true);
+        // Add a CheckBox which enables the user to entirely suppress shortcut creation.
+        createShortcuts = new JCheckBox(shortcutPanelLogic.getCreateShortcutsPrompt(), true);
         createShortcuts.setName(GuiId.SHORTCUT_CREATE_CHECK_BOX.id);
         createShortcuts.addActionListener(this);
         constraints.gridx = col;
@@ -513,20 +431,9 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // ----------------------------------------------------
         if (shortcutPanelLogic.hasDesktopShortcuts())
         {
-            String initialAllowedValue = this.installData
-                    .getVariable("DesktopShortcutCheckboxEnabled");
-            boolean initialAllowedFlag = false;
-
-            if (initialAllowedValue == null)
-            {
-                initialAllowedFlag = false;
-            }
-            else if (Boolean.TRUE.toString().equals(initialAllowedValue))
-            {
-                initialAllowedFlag = true;
-            }
-
-            allowDesktopShortcut = new JCheckBox(getString("ShortcutPanel.regular.desktop"), initialAllowedFlag);
+            boolean initialAllowedFlag = shortcutPanelLogic.isDesktopShortcutCheckboxSelected();
+            allowDesktopShortcut = new JCheckBox(shortcutPanelLogic.getCreateDesktopShortcutsPrompt(),
+                                                 initialAllowedFlag);
             constraints.gridx = col;
             constraints.gridy = line + 2;
             constraints.gridwidth = 1;
@@ -539,8 +446,10 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             add(allowDesktopShortcut);
         }
 
-        listLabel = LabelFactory.create(getString("ShortcutPanel.regular.list"), SwingConstants.LEADING);
-        if (OsVersion.IS_WINDOWS)
+        // label the list of existing program groups
+        JLabel listLabel = LabelFactory.create(getString("ShortcutPanel.regular.list"), SwingConstants.LEADING);
+        Platform platform = installData.getPlatform();
+        if (platform.isA(WINDOWS))
         {
             constraints.gridx = col;
             constraints.gridy = line + 3;
@@ -579,7 +488,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
 
         // Quickfix prevent NullPointer on non default compliant Linux - KDEs
         // i.e Mandrake 2005 LE stores from now also in "applnk" instead in prior "applnk-mdk":
-        if (entries != null && !OsVersion.IS_UNIX)
+        if (entries != null && !platform.isA(UNIX))
         {
             for (File entry : entries)
             {
@@ -589,7 +498,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
                 }
             }
         }
-        if (OsVersion.IS_WINDOWS)
+        if (platform.isA(WINDOWS))
         {
             if (groupList == null)
             {
@@ -606,16 +515,15 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         if (shortcutPanelLogic.isSupportingMultipleUsers())
         {
             // if 'defaultCurrentUser' specified, default to current user:
-            final boolean rUserFlag = shortcutPanelLogic.isDefaultCurrentUserFlag() ? false
-                    : isRootUser;
+            final boolean rUserFlag = !shortcutPanelLogic.isDefaultCurrentUserFlag() && isRootUser;
 
             JPanel usersPanel = new JPanel(new GridLayout(2, 1));
             ButtonGroup usersGroup = new ButtonGroup();
-            currentUser = new JRadioButton(getString("ShortcutPanel.regular.currentUser"), !rUserFlag);
+            currentUser = new JRadioButton(shortcutPanelLogic.getCreateForCurrentUserPrompt(), !rUserFlag);
             currentUser.addActionListener(this);
             usersGroup.add(currentUser);
             usersPanel.add(currentUser);
-            allUsers = new JRadioButton(getString("ShortcutPanel.regular.allUsers"), rUserFlag);
+            allUsers = new JRadioButton(shortcutPanelLogic.getCreateForAllUsersPrompt(), rUserFlag);
 
             logger.fine("allUsers.setEnabled(), am I root?: " + isRootUser);
 
@@ -626,9 +534,9 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             usersPanel.add(allUsers);
 
             TitledBorder border = new TitledBorder(new EmptyBorder(2, 2, 2, 2),
-                                                   getString("ShortcutPanel.regular.userIntro"));
+                                                   shortcutPanelLogic.getCreateForUserPrompt());
             usersPanel.setBorder(border);
-            if (OsVersion.IS_WINDOWS)
+            if (platform.isA(WINDOWS))
             {
                 constraints.gridx = col + 1;
                 constraints.gridy = line + 4;
@@ -790,12 +698,13 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // list box to list all of the intended shortcut targets
         // ----------------------------------------------------
         Vector<String> targets = new Vector<String>();
-        if (shortcutLogicInitialized)
+        if (shortcutPanelLogic != null)
         {
             targets.addAll(shortcutPanelLogic.getTargets());
         }
 
-        targetList = new JList(targets);
+        // list the intended shortcut targets
+        JList targetList = new JList(targets);
 
         JScrollPane scrollPane = new JScrollPane(targetList);
 
@@ -862,12 +771,12 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
      */
     private void saveToFile()
     {
-        File file = null;
+        File file;
 
         // ----------------------------------------------------
         // open a file chooser dialog to get a path / file name
         // ----------------------------------------------------
-        JFileChooser fileDialog = new JFileChooser(this.installData.getInstallPath());
+        JFileChooser fileDialog = new JFileChooser(installData.getInstallPath());
         fileDialog.setSelectedFile(new File(TEXT_FILE_NAME));
 
         if (fileDialog.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)

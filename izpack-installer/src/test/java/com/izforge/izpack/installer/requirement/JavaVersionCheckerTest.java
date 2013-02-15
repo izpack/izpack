@@ -26,42 +26,19 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.izforge.izpack.api.data.Info;
-import com.izforge.izpack.core.handler.ConsolePrompt;
-import com.izforge.izpack.installer.data.InstallData;
-import com.izforge.izpack.test.util.TestConsole;
-import com.izforge.izpack.util.Platforms;
-
 /**
  * Tests the {@link JavaVersionChecker} class.
  *
  * @author Tim Anderson
  */
-public class JavaVersionCheckerTest
+public class JavaVersionCheckerTest extends AbstractRequirementCheckerTest
 {
-    /**
-     * The installation data.
-     */
-    private InstallData installData;
-
-    /**
-     * Constructs a <tt>JavaVersionCheckerTest</tt>.
-     */
-    public JavaVersionCheckerTest()
-    {
-        installData = new InstallData(null, Platforms.LINUX);
-        Info info = new Info();
-        installData.setInfo(info);
-    }
-
     /**
      * Tests the {@link JavaVersionChecker}.
      */
     @Test
     public void testJavaVersion()
     {
-        TestConsole console = new TestConsole();
-        ConsolePrompt prompt = new ConsolePrompt(console);
         JavaVersionChecker checker = new JavaVersionChecker(installData, prompt);
 
         installData.getInfo().setJavaVersion(null);

@@ -3,7 +3,7 @@
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                      xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
     <info>
-        <appname>IzPack Windows Console Installation Test</appname>
+        <appname>IzPack Windows Installation Test</appname>
         <!-- TODO - this can be replaced with windows/install.xml when a PacksPanel, ShortcutPanel and SimpleFinishPanel
                     console implementation is developed -->
         <appversion>1.0</appversion>

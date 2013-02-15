@@ -97,7 +97,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     /**
      * The app name.
      */
-    private static final String APP_NAME = "IzPack Windows Console Installation Test 1.0";
+    private static final String APP_NAME = "IzPack Windows Installation Test 1.0";
 
 
     /**
@@ -180,7 +180,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      * @throws Exception for any error
      */
     @Test
-    @InstallFile("samples/windows/consoleinstall.xml")
+    @InstallFile("samples/windows/install.xml")
     public void testInstallation() throws Exception
     {
         // run the install
@@ -201,7 +201,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      * @throws Exception for any error
      */
     @Test
-    @InstallFile("samples/windows/consoleinstall.xml")
+    @InstallFile("samples/windows/install.xml")
     public void testMultipleInstallation() throws Exception
     {
         // run the install
@@ -216,8 +216,9 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         InstallData installData2 = container2.getComponent(InstallData.class);
         TestConsole console2 = installer2.getConsole();
         console2.addScript("CheckedHelloPanel", "y", "1");
-        console2.addScript("InfoPanel", "1");
         console2.addScript("TargetPanel", "\n", "1");
+        console2.addScript("PacksPanel", "1");
+        console2.addScript("ShortcutPanel", "N");
 
         assertFalse(registryKeyExists(handler, UNINSTALL_KEY2));
         checkInstall(installer2, installData2);
@@ -235,7 +236,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      * @throws Exception for any error
      */
     @Test
-    @InstallFile("samples/windows/consoleinstall.xml")
+    @InstallFile("samples/windows/install.xml")
     public void testRejectMultipleInstallation() throws Exception
     {
         checkInstall(container, APP_NAME);
@@ -314,8 +315,9 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
 
         TestConsole console = installer.getConsole();
         console.addScript("CheckedHelloPanel", "1");
-        console.addScript("InfoPanel", "1");
         console.addScript("TargetPanel", "\n", "1");
+        console.addScript("PacksPanel", "1");
+        console.addScript("ShortcutPanel", "N");
 
         checkInstall(installer, installData);
 

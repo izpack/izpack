@@ -28,9 +28,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.container.DefaultContainer;
 import com.izforge.izpack.core.data.DefaultVariables;
@@ -81,7 +83,7 @@ public class ConsoleComboFieldTest
         RulesEngine rules = new RulesEngineImpl(new ConditionContainer(new DefaultContainer()),
                                                 installData.getPlatform());
         console = new TestConsole();
-        prompt = new ConsolePrompt(console);
+        prompt = new ConsolePrompt(console, Mockito.mock(Messages.class));
         installData.setRules(rules);
 
         choices = Arrays.asList(new Choice("A", "A String"), new Choice("B", "B String"), new Choice("C", "C String"));

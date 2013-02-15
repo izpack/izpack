@@ -145,9 +145,11 @@ public class IzpackInstallationTest
         installerFrameFixture.optionPane().okButton().click();
 
         // Packs
+        Thread.sleep(600);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Summary
+        Thread.sleep(600);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Install

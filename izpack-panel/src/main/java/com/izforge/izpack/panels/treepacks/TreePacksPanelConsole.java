@@ -21,7 +21,6 @@
 
 package com.izforge.izpack.panels.treepacks;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,11 +30,10 @@ import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.handler.Prompt.Option;
 import com.izforge.izpack.api.handler.Prompt.Options;
 import com.izforge.izpack.api.handler.Prompt.Type;
-import com.izforge.izpack.api.resource.Messages;
-import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.installer.console.AbstractPanelConsole;
 import com.izforge.izpack.installer.console.PanelConsole;
 import com.izforge.izpack.util.Console;
@@ -50,40 +48,27 @@ import com.izforge.izpack.util.Console;
  */
 public class TreePacksPanelConsole extends AbstractPanelConsole implements PanelConsole
 {
-    /**
-     * Used to read input from the user
-     */
-    private Messages messages;
+
+    private final Prompt prompt;
 
     private HashMap<String, Pack> idToPack;
     private HashMap<String, List<String>> treeData;
 
-    private String REQUIRED = "required";
-    private String NOT_SELECTED = "Not Selected";
-    private String ALREADY_SELECTED = "Already Selected";
-    private String CONTINUE = "Continue?";
-    private String NO_PACKS = "No packs selected.";
-    private String DONE = "Done!";
+    private static final String REQUIRED = "required";
+    private static final String NOT_SELECTED = "Not Selected";
+    private static final String ALREADY_SELECTED = "Already Selected";
+    private static final String DONE = "Done!";
+    private static final String SPACE = " ";
 
-    private String SPACE = " ";
-
-    private ConsolePrompt consolePrompt;
-
-    private void loadLangpack(InstallData installData)
-    {
-        messages = installData.getMessages();
-    }
 
     /**
-     * Generates a properties file for each input field or variable.
+     * Constructs a {@code TreePacksPanelConsole}.
      *
-     * @param installData the installation data
-     * @param printWriter the properties file to write to
-     * @return <tt>true</tt> if the generation is successful, otherwise <tt>false</tt>
+     * @param prompt the prompt
      */
-    public boolean runGeneratePropertiesFile(InstallData installData, PrintWriter printWriter)
+    public TreePacksPanelConsole(Prompt prompt)
     {
-        return true;
+        this.prompt = prompt;
     }
 
     /**
@@ -99,17 +84,6 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
     }
 
     /**
-     * Runs the panel in interactive console mode.
-     *
-     * @param installData the installation data
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
-     */
-    public boolean runConsole(InstallData installData)
-    {
-        return true;
-    }
-
-    /**
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
@@ -118,10 +92,7 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
      */
     public boolean runConsole(InstallData installData, Console console)
     {
-        consolePrompt = new ConsolePrompt(console);
-        List<String> kids;
         List<Pack> selectedPacks = new LinkedList<Pack>();
-        loadLangpack(installData);
         createTreeData(installData);
         out(Type.INFORMATION, "");
 
@@ -152,7 +123,7 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
             idToPack.put(pack.getName(), pack);
             if (pack.getParent() != null)
             {
-                List<String> kids = null;
+                List<String> kids;
                 if (treeData.containsKey(pack.getParent()))
                 {
                     kids = treeData.get(pack.getParent());
@@ -170,7 +141,7 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
 
     private void out(Type type, String message)
     {
-        consolePrompt.message(type, message);
+        prompt.message(type, message);
     }
 
 
@@ -187,16 +158,13 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
      * @param packParent    - The current "parent" pack to process
      * @param packMaster    - boolean to know if packParent is a top-level pack
      * @param indent        - String to know by how much the child packs should be indented
-     * @return void
      */
     private void drawHelper(final Map<String, List<String>> treeData, final List<Pack> selectedPacks,
                             final InstallData installData,
                             final Map<String, Pack> idToPack, final String packParent, boolean packMaster,
                             final String indent)
     {
-        Pack p = null;
-        Boolean conditionSatisfied = null;
-        Boolean conditionExists = null;
+        Pack p;
 
         /*
          * If that packParent contains children,
@@ -322,6 +290,6 @@ public class TreePacksPanelConsole extends AbstractPanelConsole implements Panel
      */
     private boolean askUser(String message)
     {
-        return Option.YES == consolePrompt.confirm(Type.QUESTION, message, Options.YES_NO);
+        return Option.YES == prompt.confirm(Type.QUESTION, message, Options.YES_NO);
     }
 }

@@ -29,6 +29,7 @@ import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.core.handler.PromptUIHandler;
 import com.izforge.izpack.installer.panel.PanelView;
+import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.util.Console;
 
 
@@ -62,7 +63,7 @@ public class ConsolePanelView extends PanelView<PanelConsole>
     {
         super(panel, PanelConsole.class, factory, installData);
         this.console = console;
-        this.prompt = new ConsolePrompt(console);
+        this.prompt = new ConsolePrompt(console, installData.getMessages());
     }
 
     /**
@@ -73,13 +74,7 @@ public class ConsolePanelView extends PanelView<PanelConsole>
     public Class<PanelConsole> getViewClass()
     {
         Panel panel = getPanel();
-        Class<PanelConsole> result = getClass(panel.getClassName() + "Console");
-        if (result == null)
-        {
-            // use the old ConsoleHelper suffix convention
-            result = getClass(panel.getClassName() + "ConsoleHelper");
-        }
-        return result;
+        return PanelHelper.getConsolePanel(panel.getClassName());
     }
 
     /**
@@ -97,7 +92,7 @@ public class ConsolePanelView extends PanelView<PanelConsole>
         {
             throw new IzPackException("Console implementation not found for panel: " + panel.getClassName());
         }
-        return getFactory().create(impl.getName(), viewClass, panel);
+        return getFactory().create(impl, panel);
     }
 
     /**

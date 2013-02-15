@@ -25,9 +25,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.container.DefaultContainer;
 import com.izforge.izpack.core.data.DefaultVariables;
@@ -72,7 +74,7 @@ public class ConsoleCheckFieldTest
         RulesEngine rules = new RulesEngineImpl(new ConditionContainer(new DefaultContainer()),
                                                 installData.getPlatform());
         console = new TestConsole();
-        prompt = new ConsolePrompt(console);
+        prompt = new ConsolePrompt(console, Mockito.mock(Messages.class));
         installData.setRules(rules);
     }
 

@@ -75,7 +75,9 @@ public abstract class AbstractPanelConsole implements PanelConsole
     protected boolean promptEndPanel(InstallData installData, Console console)
     {
         boolean result;
-        int value = console.prompt("Press 1 to continue, 2 to quit, 3 to redisplay", 1, 3, 2);
+        String prompt = installData.getMessages().get("ConsoleInstaller.continueQuitRedisplay");
+        console.println();
+        int value = console.prompt(prompt, 1, 3, 2);
         result = value == 1 || value != 2 && runConsole(installData, console);
         return result;
     }

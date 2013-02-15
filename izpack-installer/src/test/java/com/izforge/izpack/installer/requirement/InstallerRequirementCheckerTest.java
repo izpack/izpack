@@ -28,31 +28,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallerRequirement;
-import com.izforge.izpack.api.data.LocaleDatabase;
-import com.izforge.izpack.api.handler.Prompt;
-import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.data.DefaultVariables;
-import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
 import com.izforge.izpack.core.rules.logic.NotCondition;
 import com.izforge.izpack.core.rules.process.JavaCondition;
-import com.izforge.izpack.test.util.TestConsole;
-import com.izforge.izpack.util.Platforms;
 
 /**
  * Tests the {@link InstallerRequirementChecker} class.
  *
  * @author Tim Anderson
  */
-public class InstallerRequirementCheckerTest
+public class InstallerRequirementCheckerTest extends AbstractRequirementCheckerTest
 {
     /**
      * The rules.
@@ -60,19 +51,12 @@ public class InstallerRequirementCheckerTest
     private RulesEngine rules;
 
     /**
-     * The installation data.
-     */
-    private AutomatedInstallData installData;
-
-    /**
      * Constructs a <tt>InstallerRequirementCheckerTest</tt>.
      */
     public InstallerRequirementCheckerTest()
     {
         DefaultVariables variables = new DefaultVariables();
-        installData = new AutomatedInstallData(variables, Platforms.SUNOS_X86);
         installData.setInstallerRequirements(new ArrayList<InstallerRequirement>());
-        installData.setMessages(new LocaleDatabase(new StringInputStream("<langpack/>"), Mockito.mock(Locales.class)));
         rules = new RulesEngineImpl(installData, null, installData.getPlatform());
         variables.setRules(rules);
 
@@ -92,7 +76,6 @@ public class InstallerRequirementCheckerTest
     @Test
     public void testInstallerRequirementChecker()
     {
-        Prompt prompt = new ConsolePrompt(new TestConsole());
         InstallerRequirementChecker checker = new InstallerRequirementChecker(installData, rules, prompt);
 
         // no requirements - should evaluate true
@@ -102,7 +85,7 @@ public class InstallerRequirementCheckerTest
         InstallerRequirement req1 = new InstallerRequirement();
         req1.setCondition("false");
         req1.setMessage("requirement1 = always false");
-        installData.getInstallerrequirements().add(req1);
+        installData.getInstallerRequirements().add(req1);
 
         // should evaluate false
         assertFalse(checker.check());
@@ -111,13 +94,13 @@ public class InstallerRequirementCheckerTest
         InstallerRequirement req2 = new InstallerRequirement();
         req2.setCondition("true");
         req2.setMessage("requirement2 = always true");
-        installData.getInstallerrequirements().add(req2);
+        installData.getInstallerRequirements().add(req2);
 
         // should still evaluate false, due to presence of req1
         assertFalse(checker.check());
 
         // remove req1 and verify evaluates true
-        installData.getInstallerrequirements().remove(req1);
+        installData.getInstallerRequirements().remove(req1);
         assertTrue(checker.check());
     }
 }

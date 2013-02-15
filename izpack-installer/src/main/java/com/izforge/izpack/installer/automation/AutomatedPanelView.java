@@ -27,6 +27,7 @@ import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.installer.panel.PanelView;
+import com.izforge.izpack.installer.util.PanelHelper;
 
 
 /**
@@ -65,13 +66,7 @@ public class AutomatedPanelView extends PanelView<PanelAutomation>
     public Class<PanelAutomation> getViewClass()
     {
         Panel panel = getPanel();
-        Class<PanelAutomation> result = getClass(panel.getClassName() + "Automation");
-        if (result == null)
-        {
-            // use the old AutomationHelper suffix convention
-            result = getClass(panel.getClassName() + "AutomationHelper");
-        }
-        return result;
+        return PanelHelper.getAutomatedPanel(panel.getClassName());
     }
 
     /**
@@ -89,7 +84,7 @@ public class AutomatedPanelView extends PanelView<PanelAutomation>
         {
             throw new IzPackException("Automation implementation not found for panel: " + panel.getClassName());
         }
-        return getFactory().create(impl);
+        return getFactory().create(impl, panel);
     }
 
     /**

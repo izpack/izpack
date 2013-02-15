@@ -1,5 +1,5 @@
 /*
- * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2013 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
@@ -36,7 +36,6 @@ import com.izforge.izpack.util.Console;
  */
 public abstract class AbstractLicensePanelConsole extends AbstractTextPanelConsole
 {
-    private static final Logger logger = Logger.getLogger(AbstractLicensePanelConsole.class.getName());
 
     /**
      * The resources.
@@ -44,7 +43,12 @@ public abstract class AbstractLicensePanelConsole extends AbstractTextPanelConso
     private final Resources resources;
 
     /**
-     * Constructs a <tt>AbstractLicensePanelConsole</tt>.
+     * The logger.
+     */
+    private static final Logger logger = Logger.getLogger(AbstractLicensePanelConsole.class.getName());
+
+    /**
+     * Constructs a {@code AbstractLicensePanelConsole}.
      *
      * @param resources the resources
      */
@@ -57,7 +61,7 @@ public abstract class AbstractLicensePanelConsole extends AbstractTextPanelConso
      * Returns the named text resource
      *
      * @param resourceName the resource name
-     * @return the text resource, or <tt>null</tt> if it cannot be found
+     * @return the text resource, or {@code null} if it cannot be found
      */
     protected String getText(String resourceName)
     {
@@ -77,14 +81,16 @@ public abstract class AbstractLicensePanelConsole extends AbstractTextPanelConso
      *
      * @param installData the installation date
      * @param console     the console to use
-     * @return <tt>true</tt> to accept, <tt>false</tt> to reject. If redisplaying the panel, the result of
+     * @return {@code true} to accept, {@code false} to reject. If redisplaying the panel, the result of
      *         {@link #runConsole(InstallData, Console)} is returned
      */
     @Override
     protected boolean promptEndPanel(InstallData installData, Console console)
     {
         boolean result;
-        int value = console.prompt("Press 1 to accept, 2 to reject, 3 to redisplay", 1, 3, 2);
+        String prompt = installData.getMessages().get("ConsoleInstaller.acceptRejectRedisplay");
+        console.println();
+        int value = console.prompt(prompt, 1, 3, 2);
         result = value == 1 || value != 2 && runConsole(installData, console);
         return result;
     }
