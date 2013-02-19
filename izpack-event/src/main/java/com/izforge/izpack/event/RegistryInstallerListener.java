@@ -183,8 +183,7 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
     {
         if (registry != null)
         {
-            Variables variables = getInstallData().getVariables();
-            String uninstallName = variables.get("APP_NAME") + " " + variables.get("APP_VER");
+            String uninstallName = getUninstallName();
             registry.setUninstallName(uninstallName);
         }
     }
@@ -228,24 +227,42 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
 
     public void cleanUp()
     {
-        InstallData installData = getInstallData();
-        if (!installData.isInstallSuccess() && registryModificationLog != null && !registryModificationLog.isEmpty())
+        if (registry != null)
         {
-            // installation was not successful so rewind all registry changes
-            try
+            InstallData installData = getInstallData();
+            if (!installData.isInstallSuccess() && registryModificationLog != null
+                    && !registryModificationLog.isEmpty())
             {
-                registry.activateLogging();
-                registry.setLoggingInfo(registryModificationLog);
-                registry.rewind();
-            }
-            catch (Exception e)
-            {
-                logger.log(Level.SEVERE, e.getMessage(), e);
+                // installation was not successful so rewind all registry changes
+                try
+                {
+                    registry.activateLogging();
+                    registry.setLoggingInfo(registryModificationLog);
+                    registry.rewind();
+                }
+                catch (Exception e)
+                {
+                    logger.log(Level.SEVERE, e.getMessage(), e);
+                }
             }
         }
     }
 
-    private void afterPacks(List<Pack> packs) throws NativeLibException, InstallerException
+    /**
+     * Returns the uninstall name, used to initialise the {@link RegistryHandler#setUninstallName(String)}.
+     * <p/>
+     * This implementation returns a concatenation of the <em>APP_NAME</em> and <em>APP_VER</em> variables,
+     * separated by a space.
+     *
+     * @return the uninstall name
+     */
+    protected String getUninstallName()
+    {
+        Variables variables = getInstallData().getVariables();
+        return variables.get("APP_NAME") + " " + variables.get("APP_VER");
+    }
+
+   private void afterPacks(List<Pack> packs) throws NativeLibException, InstallerException
     {
         // Register for cleanup
         housekeeper.registerForCleanup(this);

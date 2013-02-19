@@ -49,9 +49,6 @@ import com.izforge.izpack.util.Platform;
  */
 public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements PanelConsole
 {
-    private String minVersion;
-    private String maxVersion;
-    private String variableName;
     private String detectedVersion;
     private final VariableSubstitutor variableSubstitutor;
     private final RegistryDefaultHandler handler;
@@ -100,7 +97,6 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
     /**
      * Runs the panel using the specified console.
      *
-     *
      * @param installData the installation data
      * @param console     the console
      * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
@@ -108,11 +104,11 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
     @Override
     public boolean runConsole(InstallData installData, Console console)
     {
-        minVersion = installData.getVariable("JDKPathPanel.minVersion");
-        maxVersion = installData.getVariable("JDKPathPanel.maxVersion");
-        variableName = "JDKPath";
+        String minVersion = installData.getVariable("JDKPathPanel.minVersion");
+        String maxVersion = installData.getVariable("JDKPathPanel.maxVersion");
+        String variableName = "JDKPath";
 
-        String strPath = "";
+        String strPath;
         String strDefaultPath = installData.getVariable(variableName);
         if (strDefaultPath == null)
         {
@@ -217,21 +213,19 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
         String[] params;
         if (platform.isA(Platform.Name.WINDOWS))
         {
-            String[] paramsp = {
+            params = new String[]{
                     "cmd",
                     "/c",
                     path + File.separator + "bin" + File.separator + "java",
                     "-version"
             };
-            params = paramsp;
         }
         else
         {
-            String[] paramsp = {
+            params = new String[]{
                     path + File.separator + "bin" + File.separator + "java",
                     "-version"
             };
-            params = paramsp;
         }
         String[] output = new String[2];
         FileExecutor fe = new FileExecutor();
@@ -313,8 +307,8 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
             }
             String current = currentTokenizer.nextToken();
             String needed = neededTokenizer.nextToken();
-            int currentValue = 0;
-            int neededValue = 0;
+            int currentValue;
+            int neededValue;
             try
             {
                 currentValue = Integer.parseInt(current);
@@ -369,9 +363,9 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
             // Get the default registry handler.
             registryHandler = handler.getInstance();
             if (registryHandler == null)
-            // We are on a os which has no registry or the
-            // needed dll was not bound to this installation. In
-            // both cases we forget the try to get the JDK path from registry.
+                // We are on a os which has no registry or the
+                // needed dll was not bound to this installation. In
+                // both cases we forget the try to get the JDK path from registry.
             {
                 return (retval);
             }
@@ -384,7 +378,7 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
             }
             Arrays.sort(keys);
             int i = keys.length - 1;
-            // We search for the highest allowd version, therefore retrograde
+            // We search for the highest allowed version, therefore retrograde
             while (i > 0)
             {
                 if (max == null || compareVersions(keys[i], max, false, 4, 4, "__NO_NOT_IDENTIFIER_"))

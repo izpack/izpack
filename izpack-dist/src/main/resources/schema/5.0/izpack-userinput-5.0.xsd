@@ -34,7 +34,8 @@
            targetNamespace="http://izpack.org/schema/userinput"
            xmlns="http://izpack.org/schema/userinput" xmlns:as="http://www.w3.org/2001/XMLSchema">
 
-    <xs:import namespace="http://izpack.org/schema/types" schemaLocation="izpack-types-5.0.xsd"/>
+    <xs:import namespace="http://izpack.org/schema/types"
+               schemaLocation="http://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
 
     <xs:element name="userInput">
         <xs:complexType>

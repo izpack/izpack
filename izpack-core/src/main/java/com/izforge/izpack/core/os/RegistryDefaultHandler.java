@@ -34,11 +34,11 @@ import java.util.logging.Logger;
  */
 public class RegistryDefaultHandler
 {
-    
+
     /**
      * The registry handler.
      */
-    private RegistryHandler registryHandler = null;
+    private RegistryHandler registryHandler;
 
     /**
      * The factory for creating {@link RegistryHandler} instances for the current platform.
@@ -46,7 +46,7 @@ public class RegistryDefaultHandler
     private TargetFactory factory;
 
     /**
-     * True if an attempt has been made to initialise {@link #registryHandler}. 
+     * True if an attempt has been made to initialise {@link #registryHandler}.
      */
     private boolean initialized = false;
 

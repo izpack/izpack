@@ -101,7 +101,7 @@ public class WindowsHelper
      * Determines if a key exists in the registry.
      *
      * @param handler the registry handler
-     * @param key     the key to check
+     * @param key      the key to check
      * @return <tt>true</tt> if the key exists, otherwise <tt>false</tt>
      * @throws NativeLibException for any registry error
      */
@@ -112,19 +112,20 @@ public class WindowsHelper
         registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
         return registry.keyExist(key);
     }
-    
+
     /**
      * Asserts that a registry key REG_SZ value exists, and exactly matches the given value.
-     * 
+     *
      * @param handler the registry handler
-     * @param key	  the key to check
-     * @param name	  the name of the value to check
-     * @param expected	  the value to match
+     * @param key      the key to check
+     * @param name     the name of the value to check
+     * @param expected the value to match
      * @throws NativeLibException for any registry error
      */
-    public static void registryValueStringEquals(RegistryDefaultHandler handler, String key, String name, String expected) throws NativeLibException
+    public static void registryValueStringEquals(RegistryDefaultHandler handler, String key, String name,
+                                                 String expected) throws NativeLibException
     {
-    	//Registry key exists
+        //Registry key exists
     	RegistryHandler registry = handler.getInstance();
         assertNotNull(registry);
         registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
@@ -141,7 +142,7 @@ public class WindowsHelper
      * Deletes an uninstallation registry key.
      *
      * @param handler the registry handler
-     * @param key     the key to delete
+     * @param key      the key to delete
      * @throws NativeLibException for any registry error
      */
     public static void registryDeleteUninstallKey(RegistryDefaultHandler handler, String key) throws NativeLibException

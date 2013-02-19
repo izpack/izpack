@@ -638,7 +638,7 @@ public class IoHelper
      * @param destination the path to translate
      * @return the translated path
      */
-    private static String translatePath(String destination)
+    public static String translatePath(String destination)
     {
         // Convert the file separator characters
 

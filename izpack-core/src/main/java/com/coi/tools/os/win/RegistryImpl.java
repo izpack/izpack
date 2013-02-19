@@ -21,10 +21,10 @@
 
 package com.coi.tools.os.win;
 
-import com.izforge.izpack.api.exception.NativeLibException;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.izforge.izpack.api.exception.NativeLibException;
 
 /**
  * System dependent helper for MS Windows registry handling. This class is only vaild on Windows. It
@@ -44,7 +44,7 @@ public class RegistryImpl implements MSWinConstants
 
     private boolean logPrevSetValueFlag = true;
 
-    private List logging = new ArrayList();
+    private List<Object> logging = new ArrayList<Object>();
 
     private boolean doLogging = false;
 
@@ -209,7 +209,7 @@ public class RegistryImpl implements MSWinConstants
         // Create key
         createKeyN(root, key);
         RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.CREATED_KEY, root, key, null,
-                null, null);
+                                                  null, null);
         log(rli);
 
     }
@@ -371,7 +371,7 @@ public class RegistryImpl implements MSWinConstants
     public void setValue(int root, String key, String value, RegDataContainer contents)
             throws NativeLibException
     {
-        RegDataContainer oldContents = null;
+        RegDataContainer oldContents;
         String localValue = value;
         if (key == null)
         {
@@ -384,7 +384,7 @@ public class RegistryImpl implements MSWinConstants
         // May be someone do not like backslashes ...
         key = key.replace('/', '\\');
 
-        synchronized (logging)
+        synchronized (this)
         {
             if (!logPrevSetValueFlag)
             {  //flag not set; don't log previous contents
@@ -416,7 +416,7 @@ public class RegistryImpl implements MSWinConstants
             // empty.
 
             RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.CHANGED_VALUE, root, key,
-                    localValue, contents, oldContents);
+                                                      localValue, contents, oldContents);
             log(rli);
         }
     }
@@ -481,7 +481,7 @@ public class RegistryImpl implements MSWinConstants
     private void deleteKeyL(int root, String key) throws NativeLibException
     {
         RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.REMOVED_KEY, root, key, null,
-                null, null);
+                                                  null, null);
         log(rli);
         deleteKeyN(root, key);
     }
@@ -502,7 +502,7 @@ public class RegistryImpl implements MSWinConstants
         }
         RegDataContainer oldContents = getValue(currentRoot, key, value);
         RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.REMOVED_VALUE, root, key, value,
-                null, oldContents);
+                                                  null, oldContents);
         log(rli);
         deleteValueN(currentRoot, key, value);
     }
@@ -515,7 +515,7 @@ public class RegistryImpl implements MSWinConstants
      */
     public void rewind() throws IllegalArgumentException, NativeLibException
     {
-        synchronized (logging)
+        synchronized (this)
         {
             suspendLogging();
 
@@ -533,7 +533,7 @@ public class RegistryImpl implements MSWinConstants
                         createKeyN(rli.getRoot(), rli.getKey());
                         break;
                     case RegistryLogItem.CREATED_VALUE:
-                        RegDataContainer currentContents = null;
+                        RegDataContainer currentContents;
                         // Delete value only if reg entry exists and is equal to the stored value.
                         try
                         {
@@ -609,15 +609,10 @@ public class RegistryImpl implements MSWinConstants
         // Add value creation to log list
         if (value.length() == 0) // The default value ...
         {
-            localValue = DEFAULT_PLACEHOLDER; // Rewind will fail if last token
+            localValue = DEFAULT_PLACEHOLDER; // Rewind will fail if last token is empty.
         }
-        // is
-        // empty.
-        StringBuffer sb = new StringBuffer();
-        sb.append("SetValue;").append(Integer.toString(root)).append(";").append(key).append(";")
-                .append(localValue);
         RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.CREATED_VALUE, root, key,
-                localValue, contents, null);
+                                                  localValue, contents, null);
         log(rli);
     }
 
@@ -664,9 +659,9 @@ public class RegistryImpl implements MSWinConstants
     /**
      * Creates a new (empty) logging list and activates logging.
      */
-    public void resetLogging()
+    public synchronized void resetLogging()
     {
-        logging = new ArrayList();
+        logging = new ArrayList<Object>();
         activateLogging();
     }
 
@@ -687,11 +682,11 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Returns a copy of the colected logging informations.
+     * Returns a copy of the collected logging information.
      *
-     * @return a copy of the colected logging informations
+     * @return a copy of the collected logging information
      */
-    public List<Object> getLoggingInfo()
+    public synchronized List<Object> getLoggingInfo()
     {
         ArrayList<Object> retval = new ArrayList<Object>(logging.size());
         for (Object aLogging : logging)
@@ -705,7 +700,7 @@ public class RegistryImpl implements MSWinConstants
                 e.printStackTrace();
             }
         }
-        return (retval);
+        return retval;
     }
 
     /**
@@ -725,7 +720,7 @@ public class RegistryImpl implements MSWinConstants
      *
      * @param info list containing RegistryLogItems to be used for logging logging list.
      */
-    public void addLoggingInfo(List info)
+    public synchronized void addLoggingInfo(List info)
     {
         for (Object anInfo : info)
         {
@@ -742,10 +737,9 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Adds the given item to the beginning of the logging list if logging is enabled, else do
-     * nothing.
+     * Adds the given item to the beginning of the logging list if logging is enabled, else do nothing.
      *
-     * @param item
+     * @param item the item to log
      */
     private void log(RegistryLogItem item)
     {

@@ -68,14 +68,15 @@ public class CheckedHelloPanelConsole extends HelloPanelConsoleHelper
     /**
      * Constructs a <tt>CheckedHelloPanelConsole</tt>.
      *
-     * @param handler the registry handler
-     * @param prompt  the prompt
+     * @param handler     the registry handler
+     * @param installData the installation data
+     * @param prompt      the prompt
      * @throws NativeLibException for any native library error
      */
-    public CheckedHelloPanelConsole(RegistryDefaultHandler handler, Prompt prompt)
+    public CheckedHelloPanelConsole(RegistryDefaultHandler handler, InstallData installData, Prompt prompt)
             throws NativeLibException
     {
-        registryHelper = new RegistryHelper(handler);
+        registryHelper = new RegistryHelper(handler, installData);
         this.prompt = prompt;
         registered = registryHelper.isRegistered();
     }

@@ -1,6 +1,7 @@
 package com.izforge.izpack.integration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,10 +30,19 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.language.LanguageDialog;
+import com.izforge.izpack.installer.panel.Panels;
+import com.izforge.izpack.panels.checkedhello.CheckedHelloPanel;
+import com.izforge.izpack.panels.finish.FinishPanel;
+import com.izforge.izpack.panels.htmllicence.HTMLLicencePanel;
+import com.izforge.izpack.panels.install.InstallPanel;
+import com.izforge.izpack.panels.packs.PacksPanel;
+import com.izforge.izpack.panels.shortcut.ShortcutPanel;
+import com.izforge.izpack.panels.summary.SummaryPanel;
+import com.izforge.izpack.panels.target.TargetPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
-import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Test for an installation.
@@ -56,16 +66,18 @@ public class IzpackInstallationTest
     private GUIInstallData installData;
     private InstallerController installerController;
     private RegistryDefaultHandler handler;
+    private Panels panels;
 
     public IzpackInstallationTest(LanguageDialog languageDialog, InstallerFrame installerFrame,
                                   GUIInstallData installData, InstallerController installerController,
-                                  RegistryDefaultHandler handler)
+                                  RegistryDefaultHandler handler, Panels panels)
     {
         this.installerController = installerController;
         this.languageDialog = languageDialog;
         this.installData = installData;
         this.installerFrame = installerFrame;
         this.handler = handler;
+        this.panels = panels;
     }
 
     /**
@@ -118,6 +130,12 @@ public class IzpackInstallationTest
     @InstallFile("samples/izpack/install.xml")
     public void testIzpackInstallation() throws Exception
     {
+        // NOTE: the following variable is set for the "warfilesetup" condition defined in
+        // izpack-dist/src/main/izpack/conditions.xml. This file may or may not be read by RulesEngineImpl
+        // depending on the classpath, and thus cause the test to fail. TODO - fix this $%^#!
+        installData.setVariable("izpack.setuptype", "warfile");
+
+
         File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
 
         installData.setInstallPath(installPath.getAbsolutePath());
@@ -127,18 +145,22 @@ public class IzpackInstallationTest
         installerFrameFixture = HelperTestMethod.prepareFrameFixture(installerFrame, installerController);
         // Hello panel
         Thread.sleep(600);
-//        installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
+        assertEquals(CheckedHelloPanel.class.getName(), panels.getPanel().getClassName());
+        installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
-        // Check Panel
+
+        // Info Panel
         Thread.sleep(600);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Licence Panel
-        Thread.sleep(600);
+        Thread.sleep(1000);
+        assertEquals(HTMLLicencePanel.class.getName(), panels.getPanel().getClassName());
         installerFrameFixture.radioButton(GuiId.LICENCE_YES_RADIO.id).click();
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Target Panel
+        assertEquals(TargetPanel.class.getName(), panels.getPanel().getClassName());
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
         installerFrameFixture.optionPane(Timeout.timeout(1000)).focus();
         installerFrameFixture.optionPane().requireWarningMessage();
@@ -146,22 +168,27 @@ public class IzpackInstallationTest
 
         // Packs
         Thread.sleep(600);
+        assertEquals(PacksPanel.class.getName(), panels.getPanel().getClassName());
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Summary
         Thread.sleep(600);
+        assertEquals(SummaryPanel.class.getName(), panels.getPanel().getClassName());
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Install
+        Thread.sleep(600);
+        assertEquals(InstallPanel.class.getName(), panels.getPanel().getClassName());
         HelperTestMethod.waitAndCheckInstallation(installData, installPath);
 
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Shortcut
         // Deselect shortcut creation
-        if (!OsVersion.IS_MAC)
+        if (!installData.getPlatform().isA(Platforms.MAC))
         {
             Thread.sleep(1000);
+            assertEquals(ShortcutPanel.class.getName(), panels.getPanel().getClassName());
             installerFrameFixture.checkBox(GuiId.SHORTCUT_CREATE_CHECK_BOX.id).click();
             installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
         }
@@ -169,6 +196,7 @@ public class IzpackInstallationTest
         Thread.sleep(1000);
 
         // Finish
+        assertEquals(FinishPanel.class.getName(), panels.getPanel().getClassName());
         installerFrameFixture.button(GuiId.BUTTON_QUIT.id).click();
 
         Thread.sleep(1000);

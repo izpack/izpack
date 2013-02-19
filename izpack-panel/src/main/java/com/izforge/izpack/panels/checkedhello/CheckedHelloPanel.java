@@ -77,7 +77,7 @@ public class CheckedHelloPanel extends HelloPanel
                              RegistryDefaultHandler handler, Log log) throws Exception
     {
         super(panel, parent, installData, resources, log);
-        registryHelper = new RegistryHelper(handler);
+        registryHelper = new RegistryHelper(handler, installData);
         abortInstallation = isRegistered();
     }
 

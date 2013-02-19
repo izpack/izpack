@@ -49,7 +49,7 @@ public class RegistryUninstallerListener extends AbstractUninstallerListener
     /**
      * The registry handler.
      */
-    private final RegistryDefaultHandler handler;
+    private final RegistryHandler handler;
 
     /**
      * The resources.
@@ -75,7 +75,7 @@ public class RegistryUninstallerListener extends AbstractUninstallerListener
      */
     public RegistryUninstallerListener(RegistryDefaultHandler handler, Resources resources, Messages messages)
     {
-        this.handler = handler;
+        this.handler = handler.getInstance();
         this.resources = resources;
         this.messages = messages;
     }
@@ -121,20 +121,18 @@ public class RegistryUninstallerListener extends AbstractUninstallerListener
             return;
         }
 
-        try
+        if (handler != null)
         {
-            RegistryHandler registryHandler = handler.getInstance();
-            if (registryHandler == null)
+            try
             {
-                return;
+                handler.activateLogging();
+                handler.setLoggingInfo(actions);
+                handler.rewind();
             }
-            registryHandler.activateLogging();
-            registryHandler.setLoggingInfo(actions);
-            registryHandler.rewind();
-        }
-        catch (NativeLibException e)
-        {
-            throw new WrappedNativeLibException(e, messages);
+            catch (NativeLibException e)
+            {
+                throw new WrappedNativeLibException(e, messages);
+            }
         }
     }
 

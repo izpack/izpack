@@ -51,7 +51,6 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.panels.path.PathInputPanel;
 import com.izforge.izpack.util.FileExecutor;
-import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.Platform;
 
 /**
@@ -91,8 +90,6 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
 
     private final VariableSubstitutor replacer;
 
-    private JEditorPane textArea = null;
-
     /**
      * The logger.
      */
@@ -117,7 +114,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         this.handler = handler;
         this.replacer = replacer;
         setMustExist(true);
-        if (!OsVersion.IS_OSX)
+        if (!installData.getPlatform().isA(Platform.Name.MAC_OSX))
         {
             setExistFiles(JDKPathPanel.testFiles);
         }
@@ -225,7 +222,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         if (msg != null && !msg.isEmpty())
         {
             add(IzPanelLayout.createParagraphGap());
-            textArea = new JEditorPane("text/html; charset=utf-8", replacer.substitute(msg, null));
+            JEditorPane textArea = new JEditorPane("text/html; charset=utf-8", replacer.substitute(msg, null));
             textArea.setCaretPosition(0);
             textArea.setEditable(false);
             textArea.addHyperlinkListener(this);
@@ -239,20 +236,20 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         // The variable will be exist if we enter this panel
         // second time. We would maintain the previos
         // selected path.
-        if (this.installData.getVariable(getVariableName()) != null)
+        if (installData.getVariable(getVariableName()) != null)
         {
-            chosenPath = this.installData.getVariable(getVariableName());
+            chosenPath = installData.getVariable(getVariableName());
         }
         else
         {
-            if (OsVersion.IS_OSX)
+            if (installData.getPlatform().isA(Platform.Name.MAC_OSX))
             {
                 chosenPath = OSX_JDK_HOME;
             }
             else
             {
                 // Try the JAVA_HOME as child dir of the jdk path
-                chosenPath = (new File(this.installData.getVariable("JAVA_HOME"))).getParent();
+                chosenPath = (new File(installData.getVariable("JAVA_HOME"))).getParent();
             }
         }
         // Set the path for method pathIsValid ...
@@ -383,21 +380,19 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         String[] params;
         if (installData.getPlatform().isA(Platform.Name.WINDOWS))
         {
-            String[] paramsp = {
+            params = new String[]{
                     "cmd",
                     "/c",
                     pathSelectionPanel.getPath() + File.separator + "bin" + File.separator + "java",
                     "-version"
             };
-            params = paramsp;
         }
         else
         {
-            String[] paramsp = {
+            params = new String[]{
                     pathSelectionPanel.getPath() + File.separator + "bin" + File.separator + "java",
                     "-version"
             };
-            params = paramsp;
         }
         String[] output = new String[2];
         FileExecutor fileExecutor = new FileExecutor();
@@ -492,8 +487,8 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
             }
             String cur = current.nextToken();
             String nee = needed.nextToken();
-            int curVal = 0;
-            int neededVal = 0;
+            int curVal;
+            int neededVal;
             try
             {
                 curVal = Integer.parseInt(cur);
