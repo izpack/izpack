@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Collections;
 
 import com.izforge.izpack.api.data.InstallData;
 
@@ -38,6 +39,19 @@ import com.izforge.izpack.api.data.InstallData;
 class TargetPanelTestHelper
 {
 
+    /**
+     * Creates an ".installationinformation" file, in the specified directory.
+     *
+     * @param dir the directory to write to
+     * @throws java.io.IOException for any I/O error
+     */
+    public static void createInstallationInfo(File dir) throws IOException
+    {
+        File info = new File(dir, InstallData.INSTALLATION_INFORMATION);
+        ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(info));
+        stream.writeObject(Collections.emptyList());
+        stream.close();
+    }
 
     /**
      * Creates a bad ".installationinformation" file, in the specified directory.

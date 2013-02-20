@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.panels.path;
 
+import static com.izforge.izpack.util.Platform.Name.UNIX;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -114,6 +116,28 @@ public class PathInputPanel extends IzPanel implements ActionListener
     }
 
     /**
+     * Returns the selected path.
+     *
+     * @return the selected path
+     */
+    public String getPath()
+    {
+        String chosenPath = pathSelectionPanel.getPath();
+        if (chosenPath == null)
+        {
+            chosenPath = "";
+        }
+
+        if (chosenPath.startsWith("~") && installData.getPlatform().isA(UNIX))
+        {
+            // Expand unix home reference
+            String home = System.getProperty("user.home");
+            chosenPath = home + chosenPath.substring(1);
+        }
+        return chosenPath;
+    }
+
+    /**
      * This method does nothing. It is called from ctor of PathInputPanel, to give in a derived
      * class the possibility to add more components under the path input components.
      */
@@ -139,128 +163,69 @@ public class PathInputPanel extends IzPanel implements ActionListener
     }
 
     /**
-     * Indicates wether the panel has been validated or not.
+     * Indicates whether the panel has been validated or not.
      *
-     * @return Wether the panel has been validated or not.
+     * @return whether the panel has been validated or not.
      */
     @Override
     public boolean isValidated()
     {
-        String chosenPath = pathSelectionPanel.getPath();
-        boolean ok = true;
+        String path = getPath();
 
-        boolean modifyinstallation = Boolean.valueOf(
-                this.installData.getVariable(InstallData.MODIFY_INSTALLATION));
-        if (modifyinstallation)
+        if (path.length() == 0 && !checkEmptyPath())
         {
-            // installation directory has to exist in a modification installation
-            mustExist = true;
-
-            File installationinformation = new File(
-                    pathSelectionPanel.getPath() + File.separator + InstallData.INSTALLATION_INFORMATION);
-            if (!installationinformation.exists())
-            {
-                emitError(getString("installer.error"),
-                          getString("PathInputPanel.required.forModificationInstallation"));
-
-                return false;
-            }
-        }
-
-        // We put a warning if the specified target is nameless
-        if (chosenPath.length() == 0)
-        {
-            if (isMustExist())
-            {
-                emitError(getString("installer.error"), getString("PathInputPanel.required"));
-                return false;
-            }
-            ok = emitWarning(getString("installer.warning"), emptyTargetMsg);
-        }
-        if (!ok)
-        {
-            return ok;
-        }
-
-        // Expand unix home reference
-        if (chosenPath.startsWith("~"))
-        {
-            String home = System.getProperty("user.home");
-            chosenPath = home + chosenPath.substring(1);
+            // Empty path disallowed
+            return false;
         }
 
         // Normalize the path
-        File path = new File(chosenPath).getAbsoluteFile();
-        chosenPath = path.toString();
-        pathSelectionPanel.setPath(chosenPath);
+        File file = new File(path).getAbsoluteFile();
+        pathSelectionPanel.setPath(file.toString());
+
         if (isMustExist())
         {
-            if (!path.exists())
+            if (!checkExists(file) || !pathIsValid() || (modifyInstallation() && !checkInstallationInformation(file)))
             {
-                emitError(getString("installer.error"), getString(getI18nStringForClass("required", "PathInputPanel")));
-                return false;
-            }
-            if (!pathIsValid())
-            {
-                emitError(getString("installer.error"), getString(getI18nStringForClass("notValid", "PathInputPanel")));
                 return false;
             }
         }
         else
         {
-            // We assume, that we would install something into this dir
-            if (!isWriteable())
+            if (!checkWritable(file))
             {
-                emitError(getString("installer.error"), getI18nStringForClass(
-                        "notwritable", "TargetPanel"));
                 return false;
             }
-            // We put a warning if the directory exists else we warn
-            // that it will be created
-            if (path.exists())
+
+            // We put a warning if the directory exists else we warn that it will be created
+            if (file.exists())
             {
-                int res = askQuestion(getString("installer.warning"), warnMsg,
-                                      AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES);
-                ok = res == AbstractUIHandler.ANSWER_YES;
-            }
-            else
-            {
-                //if 'ShowCreateDirectoryMessage' variable set to 'false'
-                // then don't show "directory will be created" dialog:
-                final String vStr =
-                        installData.getVariable("ShowCreateDirectoryMessage");
-                if (vStr == null || Boolean.getBoolean(vStr))
+                if (!checkOverwrite(file))
                 {
-                    ok = this.emitNotificationFeedback(getI18nStringForClass(
-                            "createdir", "TargetPanel") + "\n" + chosenPath);
+                    return false;
                 }
             }
-        }
-        return ok;
-    }
-
-    /**
-     * Returns whether the chosen path is true or not. If existFiles are not null, the existence of
-     * it under the choosen path are detected. This method can be also implemented in derived
-     * classes to handle special verification of the path.
-     *
-     * @return true if existFiles are exist or not defined, else false
-     */
-    protected boolean pathIsValid()
-    {
-        if (existFiles == null)
-        {
-            return true;
-        }
-        for (String existFile : existFiles)
-        {
-            File path = new File(pathSelectionPanel.getPath(), existFile).getAbsoluteFile();
-            if (!path.exists())
+            else if (!checkCreateDirectory(file))
             {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * This method is called when the panel becomes active. Default is to do nothing : feel free to
+     * implement what you need in your subclasses. A panel becomes active when the user reaches it
+     * during the installation process.
+     */
+    @Override
+    public void panelActivate()
+    {
+        super.panelActivate();
+        if (modifyInstallation())
+        {
+            // installation directory has to exist if an installation is being modified
+            mustExist = true;
+        }
     }
 
     /**
@@ -310,30 +275,192 @@ public class PathInputPanel extends IzPanel implements ActionListener
      */
     public boolean isWriteable()
     {
-        File existParent = IoHelper.existingParent(new File(pathSelectionPanel.getPath()));
-        if (existParent == null)
+        String path = getPath();
+        return isWriteable(new File(path));
+    }
+
+    /**
+     * Determines if the specified path can be written to.
+     *
+     * @param path the path
+     * @return {@code true} if the path can be written to
+     */
+    protected boolean isWriteable(File path)
+    {
+        boolean result = false;
+        File existParent = IoHelper.existingParent(path);
+        if (existParent != null)
         {
+            // On windows we cannot use canWrite because it looks to the dos flags which are not valid
+            // on NT or 2k XP or ...
+            if (installData.getPlatform().isA(Platforms.WINDOWS))
+            {
+                File tmpFile;
+                try
+                {
+                    tmpFile = File.createTempFile("izWrTe", ".tmp", existParent);
+                    result = true;
+                    if (!tmpFile.delete())
+                    {
+                        tmpFile.deleteOnExit();
+                    }
+                }
+                catch (IOException e)
+                {
+                    logger.log(Level.WARNING, e.toString(), e);
+                }
+            }
+            else
+            {
+                result = existParent.canWrite();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Verifies that the specified file exists.
+     *
+     * @param file the file to check
+     * @return {@code true} if the file exists, otherwise {@code false}
+     */
+    protected boolean checkExists(File file)
+    {
+        if (!file.exists())
+        {
+            emitError(getString("installer.error"), getString(getI18nStringForClass("required", "PathInputPanel")));
             return false;
         }
-        // On windows we cannot use canWrite because
-        // it looks to the dos flags which are not valid
-        // on NT or 2k XP or ...
-        if (installData.getPlatform().isA(Platforms.WINDOWS))
+        return true;
+    }
+
+    /**
+     * Determines if an empty path is allowed.
+     *
+     * @return {@code true} if an empty path is allowed, otherwise {@code false}
+     */
+    protected boolean checkEmptyPath()
+    {
+        if (isMustExist())
         {
-            File tmpFile;
-            try
-            {
-                tmpFile = File.createTempFile("izWrTe", ".tmp", existParent);
-                tmpFile.deleteOnExit();
-            }
-            catch (IOException e)
-            {
-                logger.log(Level.WARNING, e.toString(), e);
-                return false;
-            }
+            emitError(getString("installer.error"), getI18nStringForClass("required", "PathInputPanel"));
+            return false;
+        }
+        return emitWarning(getString("installer.warning"), emptyTargetMsg);
+    }
+
+    /**
+     * Verifies that the path is writable.
+     *
+     * @param file the path
+     * @return {@code true} if the path is writable
+     */
+    protected boolean checkWritable(File file)
+    {
+        // We assume, that we would install something into this dir
+        if (!isWriteable(file))
+        {
+            emitError(getString("installer.error"), getI18nStringForClass("notwritable", "TargetPanel"));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Verifies that installation information exists in the specified path.
+     *
+     * @param path the path
+     * @return {@code true} if installation information exists, otherwise {@code false}
+     */
+    protected boolean checkInstallationInformation(File path)
+    {
+        File info = new File(path, InstallData.INSTALLATION_INFORMATION);
+        if (!info.exists())
+        {
+            emitError(getString("installer.error"),
+                      getString("PathInputPanel.required.forModificationInstallation"));
+
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Determines if required files exist relative to the specified path
+     *
+     * @return {@code true} if no files are required, or they exist
+     */
+    protected boolean checkRequiredFilesExist(String path)
+    {
+        if (existFiles == null)
+        {
             return true;
         }
-        return existParent.canWrite();
+        for (String existFile : existFiles)
+        {
+            File file = new File(path, existFile).getAbsoluteFile();
+            if (!file.exists())
+            {
+                emitError(getString("installer.error"), getString(getI18nStringForClass("notValid", "PathInputPanel")));
+                return false;
+            }
+        }
+        return true;
     }
+
+    /**
+     * Determines if the specified directory can be created.
+     *
+     * @param dir the directory
+     * @return {@code true} if the directory may be created, otherwise {@code false}
+     */
+    protected boolean checkCreateDirectory(File dir)
+    {
+        boolean result = true;
+        //if 'ShowCreateDirectoryMessage' variable set to 'false'
+        // then don't show "directory will be created" dialog:
+        String show = installData.getVariable("ShowCreateDirectoryMessage");
+        if (show == null || Boolean.getBoolean(show))
+        {
+            result = emitNotificationFeedback(getI18nStringForClass("createdir", "TargetPanel") + "\n" + dir);
+        }
+        return result;
+    }
+
+    /**
+     * Determines if an existing directory can be written to.
+     *
+     * @param dir the directory
+     * @return {@code true} if the directory can be written to, otherwise {@code false}
+     */
+    protected boolean checkOverwrite(File dir)
+    {
+        return askQuestion(getString("installer.warning"), warnMsg,
+                           AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES)
+                == AbstractUIHandler.ANSWER_YES;
+    }
+
+    /**
+     * Determines if an existing installation is being modified.
+     *
+     * @return {@code true} if an installation is being modified, otherwise {@code false}
+     */
+    protected boolean modifyInstallation()
+    {
+        return Boolean.valueOf(installData.getVariable(InstallData.MODIFY_INSTALLATION));
+    }
+
+    /**
+     * Returns whether the chosen path is true or not. If existFiles are not null, the existence of
+     * it under the chosen path are detected. This method can be also implemented in derived
+     * classes to handle special verification of the path.
+     *
+     * @return true if existFiles are exist or not defined, else false
+     */
+    protected boolean pathIsValid()
+    {
+        return checkRequiredFilesExist(getPath());
+    }
+
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+  ~ IzPack - Copyright 2001-2013 Julien Ponge, All Rights Reserved.
   ~
   ~ http://izpack.org/
   ~ http://izpack.codehaus.org/
@@ -188,5 +188,14 @@
     <xs:complexType name="includeExcludeType">
         <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
+
+    <xs:simpleType name="yesNoTrueFalseType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="true"/>
+            <xs:enumeration value="false"/>
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+        </xs:restriction>
+    </xs:simpleType>
 
 </xs:schema>

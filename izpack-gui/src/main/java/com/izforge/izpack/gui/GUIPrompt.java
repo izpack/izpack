@@ -377,6 +377,9 @@ public class GUIPrompt extends AbstractPrompt
             case WARNING:
                 result = JOptionPane.WARNING_MESSAGE;
                 break;
+            case QUESTION:
+                result = JOptionPane.QUESTION_MESSAGE;
+                break;
             default:
                 result = JOptionPane.ERROR_MESSAGE;
                 break;

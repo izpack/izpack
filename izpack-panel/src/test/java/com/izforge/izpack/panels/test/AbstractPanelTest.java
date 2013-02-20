@@ -21,6 +21,7 @@
 package com.izforge.izpack.panels.test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
@@ -197,11 +198,21 @@ public class AbstractPanelTest
         List<IzPanelView> panelList = new ArrayList<IzPanelView>();
         for (Class panelClass : panelClasses)
         {
-            Panel panel = new Panel();
-            panel.setClassName(panelClass.getName());
-            panelList.add(createPanelView(panel));
+            panelList.add(createPanelView(panelClass));
         }
         return show(panelList);
+    }
+
+    /**
+     * Creates an installer that displays the specified panels.
+     *
+     * @param panelViews the panel views
+     * @return an {@link InstallerFrame} wrapped in a {@link FrameFixture}
+     * @throws IzPackException for any error
+     */
+    protected FrameFixture show(IzPanelView... panelViews)
+    {
+        return show(Arrays.asList(panelViews));
     }
 
     /**
@@ -246,6 +257,19 @@ public class AbstractPanelTest
         controller.buildInstallation();
         controller.launchInstallation();
         return frameFixture;
+    }
+
+    /**
+     * Creates an {@link IzPanelView} for the specified panel class.
+     *
+     * @param panelClass the panel class
+     * @return a new view
+     */
+    protected IzPanelView createPanelView(Class panelClass)
+    {
+        Panel panel = new Panel();
+        panel.setClassName(panelClass.getName());
+        return createPanelView(panel);
     }
 
     /**

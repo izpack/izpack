@@ -30,7 +30,7 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.panels.path.PathInputPanel;
 
 /**
- * The taget directory selection panel.
+ * The target directory selection panel.
  *
  * @author Julien Ponge
  */
@@ -81,13 +81,14 @@ public class TargetPanel extends PathInputPanel
     public boolean isValidated()
     {
         boolean result = false;
-        if (TargetPanelHelper.isIncompatibleInstallation(pathSelectionPanel.getPath()))
+        if (TargetPanelHelper.isIncompatibleInstallation(getPath()))
         {
             emitError(getString("installer.error"), getString("TargetPanel.incompatibleInstallation"));
         }
         else if (super.isValidated())
         {
-            installData.setInstallPath(pathSelectionPanel.getPath());
+            String path = getPath();
+            installData.setInstallPath(path);
             result = true;
         }
         return result;

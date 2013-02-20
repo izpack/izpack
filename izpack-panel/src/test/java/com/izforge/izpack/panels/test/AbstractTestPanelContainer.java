@@ -74,8 +74,7 @@ public abstract class AbstractTestPanelContainer extends AbstractContainer
     @Override
     protected void fillContainer(MutablePicoContainer container)
     {
-        Properties properties = System.getProperties();
-        addComponent(properties, properties);
+        addComponent(Properties.class);
         addComponent(Variables.class, DefaultVariables.class);
         addComponent(ResourceManager.class);
         addComponent(UninstallData.class);

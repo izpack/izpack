@@ -83,7 +83,7 @@
             type="Application"
             encoding="UTF-8"
             createForAll="true"
-            Categories="Application;Development;"
+            categories="Application;Development;"
             description="This opens a WebBrowser to look into the IzPack ${project.version} (HTML) user documentation">
 
         <createForPack name="HTML Documentation"/>
@@ -106,7 +106,7 @@
             type="Application"
             encoding="UTF-8"
             createForAll="true"
-            Categories="Application;Development;"
+            categories="Application;Development;"
             description="This opens a WebBrowser to look into the IzPack ${project.version} (HTML) Java documentation">
 
         <createForPack name="Javadocs Documentation"/>
@@ -128,7 +128,7 @@
             type="Application"
             encoding="UTF-8"
             createForAll="true"
-            Categories="Application;Development;"
+            categories="Application;Development;"
             description="This opens Adobe (Acrobat) Reader (if available) to look into or print the IzPack ${project.version} (PDF) user documentation">
 
         <createForPack name="PDF Documentation"/>
@@ -154,12 +154,8 @@
             KdeSubstUID="true"
             KdeUsername="root"
             createForAll="false"
-
-
-            Categories="Application;Development;"
-
-            TryExec="java -jar &quot;$INSTALL_PATH/Uninstaller/uninstaller.jar&quot;"
-
+            categories="Application;Development;"
+            tryexec="java -jar &quot;$INSTALL_PATH/Uninstaller/uninstaller.jar&quot;"
             description="This uninstalls IzPack ${project.version}">
 
         <createForPack name="Core"/>

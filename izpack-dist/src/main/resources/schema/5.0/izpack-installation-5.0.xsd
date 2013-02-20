@@ -81,7 +81,7 @@
             <xs:element name="run-privileged" type="runPrivilegedType" minOccurs="0"/>
             <xs:element name="summarylogfilepath" type="xs:string" minOccurs="0"/>
             <xs:element name="uninstaller" type="uninstallerType" minOccurs="0"/>
-            <xs:element name="writeinstallationinformation" type="yesNoTrueFalseType" minOccurs="0"/>
+            <xs:element name="writeinstallationinformation" type="types:yesNoTrueFalseType" minOccurs="0"/>
             <xs:element name="rebootaction" type="rebootActionType" minOccurs="0"/>
         </xs:all>
     </xs:complexType>
@@ -102,7 +102,7 @@
     </xs:complexType>
 
     <xs:complexType name="uninstallerType">
-        <xs:attribute type="yesNoTrueFalseType" name="write" use="optional" default="yes"/>
+        <xs:attribute type="types:yesNoTrueFalseType" name="write" use="optional" default="yes"/>
         <xs:attribute type="xs:string" name="path" use="optional"/>
         <xs:attribute type="xs:string" name="name" use="optional"/>
     </xs:complexType>
@@ -229,8 +229,8 @@
                             <xs:attribute name="src" type="xs:string" use="required"/>
                             <xs:attribute name="id" type="xs:string" use="required"/>
                             <xs:attribute name="type" type="substitutionType" default="plain"/>
-                            <xs:attribute name="parse" type="yesNoTrueFalseType" use="optional" default="no"/>
-                            <xs:attribute name="parsexml" type="yesNoTrueFalseType" use="optional" default="no"/>
+                            <xs:attribute name="parse" type="types:yesNoTrueFalseType" use="optional" default="no"/>
+                            <xs:attribute name="parsexml" type="types:yesNoTrueFalseType" use="optional" default="no"/>
                         </xs:extension>
                     </xs:simpleContent>
                 </xs:complexType>
@@ -403,9 +403,9 @@
         </xs:sequence>
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="name" type="xs:string"/>
-        <xs:attribute name="required" type="yesNoTrueFalseType"/>
+        <xs:attribute name="required" type="types:yesNoTrueFalseType"/>
         <xs:attribute name="hidden" type="xs:boolean" default="false"/>
-        <xs:attribute name="preselected" type="yesNoTrueFalseType" use="optional"/>
+        <xs:attribute name="preselected" type="types:yesNoTrueFalseType" use="optional"/>
         <xs:attribute name="loose" type="xs:boolean" use="optional"/>
         <xs:attribute name="condition" type="xs:string" use="optional"/>
     </xs:complexType>
@@ -569,13 +569,5 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="yesNoTrueFalseType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="true"/>
-            <xs:enumeration value="false"/>
-            <xs:enumeration value="yes"/>
-            <xs:enumeration value="no"/>
-        </xs:restriction>
-    </xs:simpleType>
 
 </xs:schema>
