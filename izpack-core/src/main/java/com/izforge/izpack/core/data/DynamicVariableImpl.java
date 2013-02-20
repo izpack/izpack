@@ -54,9 +54,7 @@ public class DynamicVariableImpl implements DynamicVariable
 
     private transient String currentValue;
 
-    public DynamicVariableImpl() {
-        this(null, null);
-    }
+    public DynamicVariableImpl() {}
 
     public DynamicVariableImpl(String name, String value) {
         setName(name);
