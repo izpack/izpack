@@ -35,6 +35,10 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
 {
     private static final Logger logger = Logger.getLogger(GUIInstallDataProvider.class.getName());
 
+    public static final String MODIFIER_USE_BUTTON_ICONS = "useButtonIcons";
+    public static final String MODIFIER_USE_LABEL_ICONS = "useLabelIcons";
+    public static final String MODIFIER_LABEL_FONT_SIZE = "labelFontSize";
+
     private static Map<String, String> substanceVariants = new HashMap<String, String>();
     private static Map<String, String> looksVariants = new HashMap<String, String>();
 
@@ -123,32 +127,32 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
         // Let's use the system LAF
         // Resolve whether button icons should be used or not.
         boolean useButtonIcons = true;
-        if (installData.guiPrefs.modifier.containsKey("useButtonIcons")
+        if (installData.guiPrefs.modifier.containsKey(MODIFIER_USE_BUTTON_ICONS)
                 && "no".equalsIgnoreCase(installData.guiPrefs.modifier
-                                                 .get("useButtonIcons")))
+                        .get(MODIFIER_USE_BUTTON_ICONS)))
         {
             useButtonIcons = false;
         }
         ButtonFactory.useButtonIcons(useButtonIcons);
         boolean useLabelIcons = true;
-        if (installData.guiPrefs.modifier.containsKey("useLabelIcons")
+        if (installData.guiPrefs.modifier.containsKey(MODIFIER_USE_LABEL_ICONS)
                 && "no".equalsIgnoreCase(installData.guiPrefs.modifier
-                                                 .get("useLabelIcons")))
+                                                 .get(MODIFIER_USE_LABEL_ICONS)))
         {
             useLabelIcons = false;
         }
         LabelFactory.setUseLabelIcons(useLabelIcons);
-        if (installData.guiPrefs.modifier.containsKey("labelFontSize"))
+        if (installData.guiPrefs.modifier.containsKey(MODIFIER_LABEL_FONT_SIZE))
         {  //'labelFontSize' modifier found in 'guiprefs'
             final String valStr =
-                    installData.guiPrefs.modifier.get("labelFontSize");
+                    installData.guiPrefs.modifier.get(MODIFIER_LABEL_FONT_SIZE);
             try
             {      //parse value and enter as label-font-size multiplier:
                 LabelFactory.setLabelFontSize(Float.parseFloat(valStr));
             }
             catch (NumberFormatException ex)
             {      //error parsing value; log message
-                logger.warning("Error parsing guiprefs 'labelFontSize' value (" +
+                logger.warning("Error parsing guiprefs '"+MODIFIER_LABEL_FONT_SIZE+"' value (" +
                                        valStr + ')');
             }
         }
@@ -157,15 +161,6 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
         {
             if (!"mac".equals(syskey))
             {
-                // In Linux we will use the English locale, because of a bug in
-                // JRE6. In Korean, Persian, Chinese, japanese and some other
-                // locales the installer throws and exception and doesn't load
-                // at all. See http://jira.jboss.com/jira/browse/JBINSTALL-232.
-                // This is a workaround until this bug gets fixed.
-                if ("unix".equals(syskey))
-                {
-                    Locale.setDefault(Locale.ENGLISH);
-                }
                 String syslaf = UIManager.getSystemLookAndFeelClassName();
                 UIManager.setLookAndFeel(syslaf);
                 if (UIManager.getLookAndFeel() instanceof MetalLookAndFeel)
