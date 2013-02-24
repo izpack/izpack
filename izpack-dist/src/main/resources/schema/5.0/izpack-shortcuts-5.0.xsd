@@ -55,7 +55,7 @@
     <xs:complexType name="shortcutType">
         <xs:sequence>
             <xs:element name="os" type="types:osType" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="createForPack">
+            <xs:element name="createForPack" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
                     <xs:attribute name="name" type="xs:string" use="required"/>
                 </xs:complexType>
