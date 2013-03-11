@@ -24,7 +24,7 @@ package com.izforge.izpack.panels.htmlinfo;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.installer.console.AbstractTextPanelConsole;
+import com.izforge.izpack.installer.console.AbstractTextConsolePanel;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -32,18 +32,18 @@ import com.izforge.izpack.util.Console;
  *
  * @author Tim Anderson
  */
-public class HTMLInfoPanelConsole extends AbstractTextPanelConsole
+public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
 {
     private final Resources resources;
     private final String panelId;
     private final String resourcePrefix;
 
-    public HTMLInfoPanelConsole(Panel panel, Resources resources)
+    public HTMLInfoConsolePanel(Panel panel, Resources resources)
     {
         this(panel, resources, "HTMLInfoPanel");
     }
 
-    public HTMLInfoPanelConsole(Panel panel, Resources resources, String resourcePrefix)
+    public HTMLInfoConsolePanel(Panel panel, Resources resources, String resourcePrefix)
     {
         panelId = panel.getPanelId();
         this.resources = resources;
@@ -60,10 +60,10 @@ public class HTMLInfoPanelConsole extends AbstractTextPanelConsole
      * @return {@code true} if the panel ran successfully, otherwise {@code false}
      */
     @Override
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         console.println(installData.getMessages().get("InfoPanel.info"));
-        return super.runConsole(installData, console);
+        return super.run(installData, console);
     }
 
     /**

@@ -28,7 +28,7 @@ import com.izforge.izpack.util.Console;
  *
  * @author Mounir El Hajj
  */
-abstract public class PanelConsoleHelper extends AbstractPanelConsole
+abstract public class ConsolePanelHelper extends AbstractConsolePanel
 {
 
     /**

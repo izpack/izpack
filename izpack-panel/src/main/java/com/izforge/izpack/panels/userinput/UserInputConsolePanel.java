@@ -34,8 +34,7 @@ import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.installer.console.PanelConsole;
-import com.izforge.izpack.installer.console.PanelConsoleHelper;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.panels.userinput.console.ConsoleField;
 import com.izforge.izpack.panels.userinput.console.ConsoleFieldFactory;
 import com.izforge.izpack.panels.userinput.field.ElementReader;
@@ -50,7 +49,7 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Mounir El Hajj
  */
-public class UserInputPanelConsole extends PanelConsoleHelper implements PanelConsole
+public class UserInputConsolePanel extends AbstractConsolePanel
 {
     /**
      * The panel meta-data.
@@ -93,7 +92,7 @@ public class UserInputPanelConsole extends PanelConsoleHelper implements PanelCo
     private List<ConsoleField> fields = new ArrayList<ConsoleField>();
 
     /**
-     * Constructs an {@code UserInputPanelConsole}.
+     * Constructs an {@code UserInputConsolePanel}.
      *
      * @param panel     the panel meta-data
      * @param resources the resources
@@ -103,7 +102,7 @@ public class UserInputPanelConsole extends PanelConsoleHelper implements PanelCo
      * @param console   the console
      * @param prompt    the prompt
      */
-    public UserInputPanelConsole(Panel panel, Resources resources, ObjectFactory factory,
+    public UserInputConsolePanel(Panel panel, Resources resources, ObjectFactory factory,
                                  RulesEngine rules, PlatformModelMatcher matcher, Console console, Prompt prompt)
     {
         this.panel = panel;
@@ -116,7 +115,7 @@ public class UserInputPanelConsole extends PanelConsoleHelper implements PanelCo
     }
 
     @Override
-    public boolean runConsoleFromProperties(InstallData installData, Properties properties)
+    public boolean run(InstallData installData, Properties properties)
     {
         collectInputs(installData);
         for (ConsoleField field : fields)
@@ -135,7 +134,7 @@ public class UserInputPanelConsole extends PanelConsoleHelper implements PanelCo
     }
 
     @Override
-    public boolean runGeneratePropertiesFile(InstallData installData, PrintWriter printWriter)
+    public boolean generateProperties(InstallData installData, PrintWriter printWriter)
     {
         collectInputs(installData);
         for (ConsoleField field : fields)
@@ -157,7 +156,7 @@ public class UserInputPanelConsole extends PanelConsoleHelper implements PanelCo
      * @return {@code true} if the panel ran successfully, otherwise {@code false}
      */
     @Override
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         boolean processpanel = collectInputs(installData);
         if (!processpanel)

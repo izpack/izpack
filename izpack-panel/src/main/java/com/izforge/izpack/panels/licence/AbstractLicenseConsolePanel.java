@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.installer.console.AbstractTextPanelConsole;
+import com.izforge.izpack.installer.console.AbstractTextConsolePanel;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -34,7 +34,7 @@ import com.izforge.izpack.util.Console;
  *
  * @author Tim Anderson
  */
-public abstract class AbstractLicensePanelConsole extends AbstractTextPanelConsole
+public abstract class AbstractLicenseConsolePanel extends AbstractTextConsolePanel
 {
 
     /**
@@ -45,14 +45,14 @@ public abstract class AbstractLicensePanelConsole extends AbstractTextPanelConso
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractLicensePanelConsole.class.getName());
+    private static final Logger logger = Logger.getLogger(AbstractLicenseConsolePanel.class.getName());
 
     /**
-     * Constructs a {@code AbstractLicensePanelConsole}.
+     * Constructs a {@code AbstractLicenseConsolePanel}.
      *
      * @param resources the resources
      */
-    public AbstractLicensePanelConsole(Resources resources)
+    public AbstractLicenseConsolePanel(Resources resources)
     {
         this.resources = resources;
     }
@@ -68,7 +68,7 @@ public abstract class AbstractLicensePanelConsole extends AbstractTextPanelConso
         String result = resources.getString(resourceName, null, null);
         if (result == null)
         {
-            logger.log(Level.WARNING, "No  licence text for resource: " + resourceName);
+            logger.log(Level.WARNING, "No licence text for resource: " + resourceName);
         }
         return result;
     }
@@ -77,12 +77,12 @@ public abstract class AbstractLicensePanelConsole extends AbstractTextPanelConso
      * Prompts to end the license panel.
      * <p/>
      * This displays a prompt to accept, reject, or redisplay. On redisplay, it invokes
-     * {@link #runConsole(InstallData, Console)}.
+     * {@link #run(InstallData, Console)}.
      *
      * @param installData the installation date
      * @param console     the console to use
      * @return {@code true} to accept, {@code false} to reject. If redisplaying the panel, the result of
-     *         {@link #runConsole(InstallData, Console)} is returned
+     *         {@link #run(InstallData, Console)} is returned
      */
     @Override
     protected boolean promptEndPanel(InstallData installData, Console console)
@@ -91,7 +91,7 @@ public abstract class AbstractLicensePanelConsole extends AbstractTextPanelConso
         String prompt = installData.getMessages().get("ConsoleInstaller.acceptRejectRedisplay");
         console.println();
         int value = console.prompt(prompt, 1, 3, 2);
-        result = value == 1 || value != 2 && runConsole(installData, console);
+        result = value == 1 || value != 2 && run(installData, console);
         return result;
     }
 

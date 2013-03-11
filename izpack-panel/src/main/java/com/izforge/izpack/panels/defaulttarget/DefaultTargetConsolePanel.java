@@ -18,46 +18,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.izforge.izpack.installer.console;
 
+package com.izforge.izpack.panels.defaulttarget;
+
+import java.io.PrintWriter;
 import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.panels.target.TargetPanelHelper;
 import com.izforge.izpack.util.Console;
 
-
 /**
- * A dummy console panel implementation. It returns {@code true} for all operations.
- * Subclass from this to provide a dummy console implementation of an IzPanel.
+ * Console implementation of the {@link DefaultTargetPanel}.
  *
  * @author Tim Anderson
  */
-public abstract class NoOpConsolePanel extends AbstractConsolePanel
+public class DefaultTargetConsolePanel extends AbstractConsolePanel
 {
+
+    /**
+     * Generates a properties file for each input field or variable.
+     *
+     * @param installData the installation data
+     * @param printWriter the properties file to write to
+     * @return {@code true}
+     */
+    @Override
+    public boolean generateProperties(InstallData installData, PrintWriter printWriter)
+    {
+        printWriter.println(InstallData.INSTALL_PATH + "=");
+        return true;
+    }
 
     /**
      * Runs the panel using the supplied properties.
      *
      * @param installData the installation data
      * @param properties  the properties
-     * @return {@code true}
+     * @return {@code true} if the installation is successful, otherwise {@code false}
      */
     @Override
     public boolean run(InstallData installData, Properties properties)
     {
+        String path = properties.getProperty(InstallData.INSTALL_PATH);
+        path = installData.getVariables().replace(path);
+        installData.setInstallPath(path);
         return true;
     }
 
     /**
-     * Runs the panel using the specified console.
+     * Runs the panel in an interactive console.
      *
      * @param installData the installation data
      * @param console     the console
-     * @return {@code true}
+     * @return {@code true} if the panel ran successfully, otherwise {@code false}
      */
     @Override
     public boolean run(InstallData installData, Console console)
     {
+        String path = TargetPanelHelper.getPath(installData);
+        installData.setInstallPath(path);
         return true;
     }
 }

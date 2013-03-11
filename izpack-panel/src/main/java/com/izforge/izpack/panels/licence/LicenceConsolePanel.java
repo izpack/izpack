@@ -1,10 +1,10 @@
 /*
- * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
- * Copyright 2012 Tim Anderson
+ * Copyright 2002 Jan Blok
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,43 +19,35 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.panels.info;
+package com.izforge.izpack.panels.licence;
 
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.installer.console.AbstractTextPanelConsole;
+
 
 /**
- * Console implementation of {@link InfoPanel}.
- *
- * @author Tim Anderson
+ * Console based License Panel.
  */
-public class InfoPanelConsole extends AbstractTextPanelConsole
+public class LicenceConsolePanel extends AbstractLicenseConsolePanel
 {
-
     /**
-     * The resources.
-     */
-    private final Resources resources;
-
-    /**
-     * Constructs an <tt>InfoPanelConsole</tt>.
+     * Constructs a {@code LicenceConsolePanel}.
      *
      * @param resources the resources
      */
-    public InfoPanelConsole(Resources resources)
+    public LicenceConsolePanel(Resources resources)
     {
-        this.resources = resources;
+        super(resources);
     }
 
     /**
      * Returns the text to display.
      *
-     * @return the text
+     * @return the text. A <tt>null</tt> indicates failure
      */
     @Override
     protected String getText()
     {
-        String defaultValue = "Error : could not load the info text !";
-        return resources.getString("InfoPanel.info", defaultValue);
+        return getText("LicencePanel.licence");
     }
+
 }

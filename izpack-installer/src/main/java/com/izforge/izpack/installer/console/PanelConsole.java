@@ -34,8 +34,10 @@ import com.izforge.izpack.util.Console;
  * this interface directly, they should use e.g. helper classes instead.
  *
  * @author Mounir El Hajj
+ * @deprecated use {@link ConsolePanel}
  */
-public interface PanelConsole
+@Deprecated
+public interface PanelConsole extends ConsolePanel
 {
 
     /**

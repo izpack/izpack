@@ -21,14 +21,14 @@
 
 package com.izforge.izpack.panels.simplefinish;
 
-import com.izforge.izpack.panels.finish.FinishPanelConsoleHelper;
+import com.izforge.izpack.panels.finish.FinishConsolePanel;
 
 /**
  * Console implementation of {@link SimpleFinishPanel}.
  *
  * @author Tim Anderson
  */
-public class SimpleFinishPanelConsole extends FinishPanelConsoleHelper
+public class SimpleFinishConsolePanel extends FinishConsolePanel
 {
 
 }

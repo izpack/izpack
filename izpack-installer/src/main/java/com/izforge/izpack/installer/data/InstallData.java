@@ -1,8 +1,9 @@
 package com.izforge.izpack.installer.data;
 
+import static com.izforge.izpack.util.Platform.Name.WINDOWS;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Variables;
-import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.Platform;
 
 
@@ -35,7 +36,7 @@ public class InstallData extends AutomatedInstallData
 
     private void setInstallDriveFromPath(String path, String variable)
     {
-        if (OsVersion.IS_WINDOWS)
+        if (getPlatform().isA(WINDOWS))
         {
             String[] parts = path.trim().split(":", 2);
             if (parts.length > 0 && parts[0].length() == 1)

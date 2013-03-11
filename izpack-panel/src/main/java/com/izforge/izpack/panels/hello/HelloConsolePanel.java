@@ -27,8 +27,7 @@ import java.util.Properties;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
-import com.izforge.izpack.installer.console.PanelConsole;
-import com.izforge.izpack.installer.console.PanelConsoleHelper;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -36,10 +35,10 @@ import com.izforge.izpack.util.Console;
  *
  * @author Mounir el hajj
  */
-public class HelloPanelConsoleHelper extends PanelConsoleHelper implements PanelConsole
+public class HelloConsolePanel extends AbstractConsolePanel
 {
 
-    public boolean runConsoleFromProperties(InstallData installData, Properties properties)
+    public boolean run(InstallData installData, Properties properties)
     {
         return true;
     }
@@ -52,7 +51,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
      * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
      */
     @Override
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         display(installData, console);
         return promptEndPanel(installData, console);

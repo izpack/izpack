@@ -34,7 +34,7 @@ import com.izforge.izpack.api.exception.CompilerException;
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
-import com.izforge.izpack.installer.console.AbstractPanelConsole;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
@@ -161,7 +161,7 @@ public class CompilerPathResolver extends PathResolver
         }
         Class superClass = type.getSuperclass();
         if (superClass != null && !superClass.equals(IzPanel.class)
-                && !superClass.equals(AbstractPanelConsole.class)
+                && !superClass.equals(AbstractConsolePanel.class)
                 && !superClass.equals(PanelAutomationHelper.class) && !superClass.equals(Object.class))
         {
             getMergeableByPackage(superClass, mergeable);

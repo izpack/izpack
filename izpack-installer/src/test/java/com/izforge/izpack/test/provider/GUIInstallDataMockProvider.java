@@ -24,6 +24,7 @@ import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.util.Platforms;
 
@@ -37,13 +38,14 @@ public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider
      * Provides an {@link InstallData}.
      *
      * @param variables the variables
+     * @param locales   the locales
      * @return an {@link InstallData}
      * @throws IOException if the default messages cannot be found
      */
-    public GUIInstallData provide(Variables variables) throws IOException
+    public GUIInstallData provide(Variables variables, Locales locales) throws IOException
     {
         GUIInstallData result = createInstallData(variables);
-        populate(result);
+        populate(result, locales);
         return result;
     }
 

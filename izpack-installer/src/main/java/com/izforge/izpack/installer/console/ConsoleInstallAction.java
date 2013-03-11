@@ -60,8 +60,8 @@ public class ConsoleInstallAction extends AbstractInstallAction
     @Override
     public boolean run(ConsolePanelView panel)
     {
-        PanelConsole view = panel.getView();
-        return view.runConsole(getInstallData(), console);
+        ConsolePanel view = panel.getView();
+        return view.run(getInstallData(), console);
     }
 
 }

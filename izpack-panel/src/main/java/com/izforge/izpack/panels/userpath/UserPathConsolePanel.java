@@ -31,8 +31,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
-import com.izforge.izpack.installer.console.AbstractPanelConsole;
-import com.izforge.izpack.installer.console.PanelConsole;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -42,7 +41,7 @@ import com.izforge.izpack.util.Console;
  * @author Mounir El Hajj
  * @author Dustin Kut Moy Cheung
  */
-public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements PanelConsole
+public class UserPathConsolePanel extends AbstractConsolePanel
 {
     public static final String PATH_VARIABLE;
     public static final String PATH_PACK_DEPENDS;
@@ -78,25 +77,25 @@ public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements 
         return messages.get(id);
     }
 
-    public boolean runGeneratePropertiesFile(InstallData installData, PrintWriter printWriter)
+    public boolean generateProperties(InstallData installData, PrintWriter printWriter)
     {
         // not implemented
         return false;
     }
 
-    public boolean runConsoleFromProperties(InstallData installData, Properties p)
+    public boolean run(InstallData installData, Properties p)
     {
         // not implemented
         return false;
     }
 
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         loadLangpack(installData);
 
-        String userPathPanel = null;
-        String defaultUserPathPanel = null;
-        String pathMessage = null;
+        String userPathPanel;
+        String defaultUserPathPanel;
+        String pathMessage;
 
         VariableSubstitutor vs;
 
@@ -129,7 +128,7 @@ public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements 
             if (EMPTY.equals(defaultUserPathPanel))
             {
                 out("Error: Path is empty! Enter a valid path");
-                return runConsole(installData, console);
+                return run(installData, console);
             }
             else
             {
@@ -140,13 +139,13 @@ public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements 
         {
             userPathPanel = vs.substitute(userPathPanel, null);
         }
-        if (isPathAFile(userPathPanel) == false)
+        if (!isPathAFile(userPathPanel))
         {
-            if (doesPathExists(userPathPanel) && isPathEmpty(userPathPanel) == false)
+            if (doesPathExists(userPathPanel) && !isPathEmpty(userPathPanel))
             {
                 out(getTranslation(USER_PATH_EXISTS));
 
-                if (promptEndPanel(installData, console) == false)
+                if (!promptEndPanel(installData, console))
                 {
                     return false;
                 }
@@ -155,7 +154,7 @@ public class UserPathPanelConsoleHelper extends AbstractPanelConsole implements 
         else
         {
             out(getTranslation(USER_PATH_NODIR));
-            return runConsole(installData, console);
+            return run(installData, console);
         }
         // If you reached here, all data validation done!
         // ask the user if he wants to proceed to the next

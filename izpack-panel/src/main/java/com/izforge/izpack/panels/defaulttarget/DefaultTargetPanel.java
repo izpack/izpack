@@ -29,9 +29,11 @@ import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.panels.path.PathInputPanel;
+import com.izforge.izpack.panels.target.TargetPanelHelper;
 
 /**
  * The target directory selection panel.
+ * TODO - not clear why this class needs to extend PathInputPanel as it uses none of its methods
  *
  * @author Julien Ponge
  * @author Jeff Gordon
@@ -49,14 +51,13 @@ public class DefaultTargetPanel extends PathInputPanel
      * @param parent      the parent window
      * @param installData the installation data
      * @param resources   the resources
-     * @param helper      the automation helper
      * @param log         the log
      */
-    public DefaultTargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData,
-                              Resources resources, DefaultTargetPanelAutomationHelper helper, Log log)
+    public DefaultTargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
+                              Log log)
     {
         super(panel, parent, installData, resources, log);
-        this.defaultTargetPanelAutomationHelper = helper;
+        this.defaultTargetPanelAutomationHelper = new DefaultTargetPanelAutomationHelper();
     }
 
     /**
@@ -64,23 +65,18 @@ public class DefaultTargetPanel extends PathInputPanel
      */
     public void panelActivate()
     {
-        // Resolve the default for chosenPath
-//        super.panelActivate();
-        // Set the default or old value to the path selection panel.
-        pathSelectionPanel.setPath(this.installData.getDefaultInstallPath());
+        String path = TargetPanelHelper.getPath(installData);
+        installData.setInstallPath(path);
         parent.skipPanel();
     }
 
     /**
-     * Indicates wether the panel has been validated or not.
+     * Indicates whether the panel has been validated or not.
      *
      * @return Whether the panel has been validated or not.
      */
     public boolean isValidated()
     {
-        // Standard behavior of PathInputPanel.
-        //if (!super.isValidated()) return (false);
-        //installData.setInstallPath(pathSelectionPanel.getPath());
         return (true);
     }
 

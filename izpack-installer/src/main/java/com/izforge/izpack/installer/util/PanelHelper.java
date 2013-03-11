@@ -24,7 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.installer.automation.PanelAutomation;
-import com.izforge.izpack.installer.console.PanelConsole;
+import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.gui.IzPanel;
 
 
@@ -44,13 +44,30 @@ public class PanelHelper
 
     /**
      * Returns the console implementation of an {@link IzPanel}.
+     * <p/>
+     * Console implementations must use the naming convention:
+     * <p>
+     * {@code <prefix>ConsolePanel}
+     * </p>
+     * where <em>{@code <prefix>}</em> is the IzPanel name, minus <em>Panel</em>.
+     * <br/>
+     * E.g for the panel {@code HelloPanel}, the console implementation must be named {@code HelloConsolePanel}.
+     * <p/>
+     * For backwards-compatibility, the sufixes <em>Console</em> and <em>ConsoleHelper</em> are also supported.
+     * Support for this will be removed when the {@link com.izforge.izpack.installer.console.PanelConsole} interface is
+     * removed.
      *
      * @param className the IzPanel class name
      * @return the corresponding console implementation, or {@code null} if none is found
      */
-    public static Class<PanelConsole> getConsolePanel(String className)
+    public static Class<ConsolePanel> getConsolePanel(String className)
     {
-        return getPanelClass(PanelConsole.class, className, "Console", "ConsoleHelper");
+        Class<ConsolePanel> result = getClass(className.replaceAll("Panel$", "ConsolePanel"), ConsolePanel.class);
+        if (result == null)
+        {
+            result = getPanelClass(ConsolePanel.class, className, "Console", "ConsoleHelper");
+        }
+        return result;
     }
 
     /**

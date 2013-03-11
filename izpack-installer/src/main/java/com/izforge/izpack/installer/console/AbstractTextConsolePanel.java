@@ -33,13 +33,13 @@ import com.izforge.izpack.util.Console;
  *
  * @author Tim Anderson
  */
-public abstract class AbstractTextPanelConsole extends AbstractPanelConsole
+public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
 {
 
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractTextPanelConsole.class.getName());
+    private static final Logger logger = Logger.getLogger(AbstractTextConsolePanel.class.getName());
 
     /**
      * Runs the panel using the supplied properties.
@@ -49,7 +49,7 @@ public abstract class AbstractTextPanelConsole extends AbstractPanelConsole
      * @return <tt>true</tt>
      */
     @Override
-    public boolean runConsoleFromProperties(InstallData installData, Properties properties)
+    public boolean run(InstallData installData, Properties properties)
     {
         return true;
     }
@@ -64,7 +64,7 @@ public abstract class AbstractTextPanelConsole extends AbstractPanelConsole
      * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
      */
     @Override
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         boolean result;
         String text = getText();

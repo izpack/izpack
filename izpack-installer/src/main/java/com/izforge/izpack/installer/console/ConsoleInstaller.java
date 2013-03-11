@@ -110,7 +110,7 @@ public class ConsoleInstaller extends InstallerBase
     /**
      * Determines if console installation is supported.
      *
-     * @return <tt>true</tt> if there are {@link PanelConsole} implementations for each panel
+     * @return <tt>true</tt> if there are {@link ConsolePanel} implementations for each panel
      */
     public boolean canInstall()
     {

@@ -46,13 +46,13 @@ import com.izforge.izpack.test.util.TestConsole;
 
 
 /**
- * Tests the {@link UserInputPanelConsole}.
+ * Tests the {@link UserInputConsolePanel}.
  *
  * @author Tim Anderson
  */
 @RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
-public class UserInputPanelConsoleTest
+public class UserInputConsolePanelTest
 {
 
     /**
@@ -82,7 +82,7 @@ public class UserInputPanelConsoleTest
 
 
     /**
-     * Constructs an {@code UserInputPanelConsoleHelperTest}.
+     * Constructs an {@code UserInputConsolePanelHelperTest}.
      *
      * @param installData the installation data
      * @param factory     the factory for creating panels
@@ -90,7 +90,7 @@ public class UserInputPanelConsoleTest
      * @param console     the console
      * @param container   the container
      */
-    public UserInputPanelConsoleTest(InstallData installData, ObjectFactory factory, ResourceManager resources,
+    public UserInputConsolePanelTest(InstallData installData, ObjectFactory factory, ResourceManager resources,
                                      TestConsole console, TestConsolePanelContainer container)
     {
         this.installData = installData;

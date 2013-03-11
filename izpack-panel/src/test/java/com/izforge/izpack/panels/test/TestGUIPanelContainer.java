@@ -69,5 +69,4 @@ public class TestGUIPanelContainer extends AbstractTestPanelContainer
         container.addAdapter(new ProviderAdapter(new GUIInstallDataMockProvider()));
         container.addAdapter(new ProviderAdapter(new IconsProvider()));
     }
-
 }

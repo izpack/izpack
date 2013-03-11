@@ -22,20 +22,20 @@
 package com.izforge.izpack.panels.htmllicence;
 
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.panels.licence.AbstractLicensePanelConsole;
+import com.izforge.izpack.panels.licence.AbstractLicenseConsolePanel;
 
 /**
  * HTML License Panel console helper
  */
-public class HTMLLicencePanelConsoleHelper extends AbstractLicensePanelConsole
+public class HTMLLicenceConsolePanel extends AbstractLicenseConsolePanel
 {
 
     /**
-     * Constructs an <tt>HTMLLicencePanelConsoleHelper</tt>.
+     * Constructs an <tt>HTMLLicenceConsolePanel</tt>.
      *
      * @param resources the resources
      */
-    public HTMLLicencePanelConsoleHelper(Resources resources)
+    public HTMLLicenceConsolePanel(Resources resources)
     {
         super(resources);
     }

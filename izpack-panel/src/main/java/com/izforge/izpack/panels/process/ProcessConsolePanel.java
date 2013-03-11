@@ -9,13 +9,13 @@ import com.izforge.izpack.api.handler.Prompt.Type;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.handler.PromptUIHandler;
-import com.izforge.izpack.installer.console.AbstractPanelConsole;
-import com.izforge.izpack.installer.console.PanelConsole;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
 
-public class ProcessPanelConsole extends AbstractPanelConsole implements PanelConsole, AbstractUIProcessHandler
+public class ProcessConsolePanel extends AbstractConsolePanel implements ConsolePanel, AbstractUIProcessHandler
 {
     private RulesEngine rules;
     private Resources resources;
@@ -33,7 +33,7 @@ public class ProcessPanelConsole extends AbstractPanelConsole implements PanelCo
 
     private int currentJob = 0;
 
-    public ProcessPanelConsole(RulesEngine rules, Resources resources, Prompt prompt, PlatformModelMatcher matcher)
+    public ProcessConsolePanel(RulesEngine rules, Resources resources, Prompt prompt, PlatformModelMatcher matcher)
     {
         this.rules = rules;
         this.resources = resources;
@@ -108,20 +108,24 @@ public class ProcessPanelConsole extends AbstractPanelConsole implements PanelCo
 
     }
 
-    public boolean runGeneratePropertiesFile(InstallData installData,
-                                             PrintWriter printWriter)
+    public boolean generateProperties(InstallData installData,
+                                      PrintWriter printWriter)
     {
         // TODO finish this
         return false;
     }
 
-    public boolean runConsoleFromProperties(InstallData installData, Properties p)
+    public boolean run(InstallData installData, Properties p)
     {
-        // TODO finish this
-        return runConsole(installData);
+        return run(installData);
     }
 
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
+    {
+        return run(installData);
+    }
+
+    private boolean run(InstallData installData)
     {
         ProcessPanelWorker worker = new ProcessPanelWorker(installData, rules, resources, matcher);
         worker.setHandler(this);

@@ -20,6 +20,12 @@
  */
 package com.izforge.izpack.panels.test;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Locale;
 import java.util.Properties;
 
 import org.mockito.Mockito;
@@ -28,8 +34,12 @@ import org.picocontainer.PicoException;
 import org.picocontainer.injectors.ProviderAdapter;
 
 import com.izforge.izpack.api.container.Container;
+import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.api.exception.ResourceNotFoundException;
+import com.izforge.izpack.api.resource.Locales;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.core.container.PlatformProvider;
 import com.izforge.izpack.core.data.DefaultVariables;
@@ -88,6 +98,23 @@ public abstract class AbstractTestPanelContainer extends AbstractContainer
         addComponent(Platforms.class);
         addComponent(Container.class, this);
         addComponent(PlatformModelMatcher.class);
+
+        Locales locales = Mockito.mock(Locales.class);
+        when(locales.getISOCode()).thenReturn("eng");
+        when(locales.getLocale()).thenReturn(Locale.ENGLISH);
+
+        URL resource = getClass().getResource("/com/izforge/izpack/bin/langpacks/installer/eng.xml");
+        when(locales.getMessages(anyString())).thenThrow(new ResourceNotFoundException("Resource not found"));
+        try
+        {
+            Messages messages = new LocaleDatabase(resource.openStream(), locales);
+            when(locales.getMessages()).thenReturn(messages);
+        }
+        catch (IOException exception)
+        {
+            throw new ContainerException(exception);
+        }
+        container.addComponent(locales);
 
         container.addAdapter(new ProviderAdapter(new RulesProvider()));
         container.addAdapter(new ProviderAdapter(new PlatformProvider()));

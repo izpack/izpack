@@ -25,6 +25,7 @@ import java.io.IOException;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.resource.Locales;
 
 /**
  * Test provider for {@link InstallData}.
@@ -38,13 +39,14 @@ public class InstallDataMockProvider extends AbstractInstallDataMockProvider
      * Provides an {@link AutomatedInstallData}.
      *
      * @param variables the variables
+     * @param locales   the locales
      * @return an {@link AutomatedInstallData}
      * @throws IOException if the default messages cannot be found
      */
-    public AutomatedInstallData provide(Variables variables) throws IOException
+    public AutomatedInstallData provide(Variables variables, Locales locales) throws IOException
     {
         AutomatedInstallData result = createInstallData(variables);
-        populate(result);
+        populate(result, locales);
         return result;
     }
 

@@ -32,7 +32,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.installer.console.AbstractPanelConsole;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.util.Console;
@@ -46,7 +46,7 @@ import com.izforge.izpack.util.os.Shortcut;
  *
  * @author Tim Anderson
  */
-public class ShortcutPanelConsole extends AbstractPanelConsole
+public class ShortcutConsolePanel extends AbstractConsolePanel
 {
 
     /**
@@ -62,10 +62,10 @@ public class ShortcutPanelConsole extends AbstractPanelConsole
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(ShortcutPanelConsole.class.getName());
+    private static final Logger logger = Logger.getLogger(ShortcutConsolePanel.class.getName());
 
     /**
-     * Constructs a {@code ShortcutPanelConsole}.
+     * Constructs a {@code ShortcutConsolePanel}.
      *
      * @param installData   the installation data
      * @param resources     the resources
@@ -76,7 +76,7 @@ public class ShortcutPanelConsole extends AbstractPanelConsole
      * @param matcher       the platform-model matcher
      * @param prompt        the prompt
      */
-    public ShortcutPanelConsole(InstallData installData, Resources resources, UninstallData uninstallData,
+    public ShortcutConsolePanel(InstallData installData, Resources resources, UninstallData uninstallData,
                                 Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
                                 PlatformModelMatcher matcher, Prompt prompt)
     {
@@ -103,7 +103,7 @@ public class ShortcutPanelConsole extends AbstractPanelConsole
      * @return {@code true} if the installation is successful, otherwise {@code false}
      */
     @Override
-    public boolean runConsoleFromProperties(InstallData installData, Properties properties)
+    public boolean run(InstallData installData, Properties properties)
     {
         boolean result = false;
         if (logic != null)
@@ -128,7 +128,7 @@ public class ShortcutPanelConsole extends AbstractPanelConsole
      * @return {@code true} if the panel ran successfully, otherwise {@code false}
      */
     @Override
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         boolean result = true;
         if (logic != null)

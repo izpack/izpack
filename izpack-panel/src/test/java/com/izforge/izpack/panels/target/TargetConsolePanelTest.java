@@ -42,13 +42,13 @@ import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Console;
 
 /**
- * Tests the {@link TargetPanelConsole} class.
+ * Tests the {@link TargetConsolePanel} class.
  *
  * @author Tim Anderson
  */
 @RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
-public class TargetPanelConsoleTest
+public class TargetConsolePanelTest
 {
 
     /**
@@ -68,12 +68,12 @@ public class TargetPanelConsoleTest
     private final TestConsole console;
 
     /**
-     * Constructs a {@code TargetPanelConsole}.
+     * Constructs a {@code TargetConsolePanelTest}.
      *
      * @param installData the installation data
      * @param console     the console
      */
-    public TargetPanelConsoleTest(InstallData installData, TestConsole console)
+    public TargetConsolePanelTest(InstallData installData, TestConsole console)
     {
         this.console = console;
         this.installData = installData;
@@ -82,7 +82,7 @@ public class TargetPanelConsoleTest
 
     /**
      * Verifies that a directory containing an unrecognised .installationinformation file may not be selected to
-     * install to, from {@link TargetPanelConsole#runConsole(InstallData, Console)}.
+     * install to, from {@link TargetConsolePanel#run(InstallData, Console)}.
      *
      * @throws Exception for any error
      */
@@ -99,8 +99,8 @@ public class TargetPanelConsoleTest
 
         // run the panel, selecting the default ("badDir")
         console.addScript("TargetPanel.1", "\n");
-        TargetPanelConsole panel = new TargetPanelConsole();
-        assertFalse(panel.runConsole(installData, console));
+        TargetConsolePanel panel = new TargetConsolePanel();
+        assertFalse(panel.run(installData, console));
         assertTrue(console.scriptCompleted());
 
         // verify that the install path wasn't set
@@ -108,7 +108,7 @@ public class TargetPanelConsoleTest
 
         // run the panel, selecting "goodDir"
         console.addScript("TargetPanel.2", goodDir.getAbsolutePath(), "1");
-        assertTrue(panel.runConsole(installData, console));
+        assertTrue(panel.run(installData, console));
         assertTrue(console.scriptCompleted());
 
         // verify that the install path was updated
@@ -117,7 +117,7 @@ public class TargetPanelConsoleTest
 
     /**
      * Verifies that a directory containing an unrecognised .installationinformation file may not be selected to
-     * install to, from {@link TargetPanelConsole#runConsoleFromProperties(InstallData, Properties)}.
+     * install to, from {@link TargetConsolePanel#run(InstallData, Properties)}.
      *
      * @throws IOException for any I/O error
      */
@@ -133,11 +133,11 @@ public class TargetPanelConsoleTest
         Properties properties = new Properties();
         properties.setProperty(InstallData.INSTALL_PATH, badDir.getAbsolutePath());
 
-        TargetPanelConsole panel = new TargetPanelConsole();
-        assertFalse(panel.runConsoleFromProperties(installData, properties));
+        TargetConsolePanel panel = new TargetConsolePanel();
+        assertFalse(panel.run(installData, properties));
 
         properties.setProperty(InstallData.INSTALL_PATH, goodDir.getAbsolutePath());
-        assertTrue(panel.runConsoleFromProperties(installData, properties));
+        assertTrue(panel.run(installData, properties));
     }
 
 }

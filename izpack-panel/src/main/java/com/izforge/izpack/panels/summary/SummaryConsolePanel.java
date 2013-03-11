@@ -29,6 +29,6 @@ import com.izforge.izpack.installer.console.NoOpConsolePanel;
  *
  * @author Tim Anderson
  */
-public class SummaryPanelConsole extends NoOpConsolePanel
+public class SummaryConsolePanel extends NoOpConsolePanel
 {
 }

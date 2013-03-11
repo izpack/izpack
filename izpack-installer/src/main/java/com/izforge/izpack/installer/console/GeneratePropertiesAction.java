@@ -74,7 +74,7 @@ class GeneratePropertiesAction extends ConsoleAction
     @Override
     public boolean run(ConsolePanelView panel)
     {
-        return panel.getView().runGeneratePropertiesFile(getInstallData(), writer);
+        return panel.getView().generateProperties(getInstallData(), writer);
     }
 
     /**

@@ -34,7 +34,7 @@ import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
-import com.izforge.izpack.panels.hello.HelloPanelConsoleHelper;
+import com.izforge.izpack.panels.hello.HelloConsolePanel;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -42,7 +42,7 @@ import com.izforge.izpack.util.Console;
  *
  * @author Tim Anderson
  */
-public class CheckedHelloPanelConsole extends HelloPanelConsoleHelper
+public class CheckedHelloConsolePanel extends HelloConsolePanel
 {
 
     /**
@@ -63,17 +63,17 @@ public class CheckedHelloPanelConsole extends HelloPanelConsoleHelper
     /**
      * The logger.
      */
-    private static final Logger log = Logger.getLogger(CheckedHelloPanelConsole.class.getName());
+    private static final Logger log = Logger.getLogger(CheckedHelloConsolePanel.class.getName());
 
     /**
-     * Constructs a <tt>CheckedHelloPanelConsole</tt>.
+     * Constructs a <tt>CheckedHelloConsolePanel</tt>.
      *
      * @param handler     the registry handler
      * @param installData the installation data
      * @param prompt      the prompt
      * @throws NativeLibException for any native library error
      */
-    public CheckedHelloPanelConsole(RegistryDefaultHandler handler, InstallData installData, Prompt prompt)
+    public CheckedHelloConsolePanel(RegistryDefaultHandler handler, InstallData installData, Prompt prompt)
             throws NativeLibException
     {
         registryHelper = new RegistryHelper(handler, installData);
@@ -89,7 +89,7 @@ public class CheckedHelloPanelConsole extends HelloPanelConsoleHelper
      * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
      */
     @Override
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         boolean result = true;
         if (registered)

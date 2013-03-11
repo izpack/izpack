@@ -592,11 +592,11 @@
 
         <build-panel name="FinishPanel">
             <include name="com/izforge/izpack/panels/FinishPanel.java" />
-            <include name="com/izforge/izpack/panels/FinishPanelConsoleHelper.java" />
+            <include name="com/izforge/izpack/panels/FinishConsolePanelHelper.java" />
         </build-panel>
         <build-panel name="HelloPanel">
             <include name="com/izforge/izpack/panels/HelloPanel.java" />
-            <include name="com/izforge/izpack/panels/HelloPanelConsoleHelper.java" />
+            <include name="com/izforge/izpack/panels/HelloConsolePanelHelper.java" />
         </build-panel>
         <build-panel name="SelectPrinterPanel">
             <include name="com/izforge/izpack/panels/SelectPrinterPanel.java" />
@@ -621,7 +621,7 @@
         <build-panel name="InstallPanel">
             <include name="com/izforge/izpack/panels/InstallPanel.java" />
             <include name="com/izforge/izpack/panels/InstallPanelAutomationHelper.java" />
-            <include name="com/izforge/izpack/panels/InstallPanelConsoleHelper.java" />
+            <include name="com/izforge/izpack/panels/InstallConsolePanelHelper.java" />
         </build-panel>
         <build-panel name="ExtendedInstallPanel">
             <include name="com/izforge/izpack/panels/ExtendedInstallPanel.java" />
@@ -630,7 +630,7 @@
         </build-panel>
         <build-panel name="LicencePanel">
             <include name="com/izforge/izpack/panels/LicencePanel.java" />
-            <include name="com/izforge/izpack/panels/LicencePanelConsoleHelper.java" />
+            <include name="com/izforge/izpack/panels/LicenceConsolePanelHelper.java" />
         </build-panel>
         <build-panel name="PacksPanel">
             <include name="com/izforge/izpack/panels/ImgPacksPanelAutomationHelper.java" />
@@ -651,7 +651,7 @@
         </build-panel>
         <build-panel name="HTMLLicencePanel">
             <include name="com/izforge/izpack/panels/HTMLLicencePanel.java" />
-            <include name="com/izforge/izpack/panels/HTMLLicencePanelConsoleHelper.java" />
+            <include name="com/izforge/izpack/panels/HTMLLicenceConsolePanelHelper.java" />
         </build-panel>
         <build-panel name="HTMLInfoPanel">
             <include name="com/izforge/izpack/panels/HTMLInfoPanel.java" />
@@ -661,7 +661,7 @@
             <include name="com/izforge/izpack/panels/PathSelectionPanel.java" />
             <include name="com/izforge/izpack/panels/TargetPanel.java" />
             <include name="com/izforge/izpack/panels/TargetPanelAutomationHelper.java" />
-            <include name="com/izforge/izpack/panels/TargetPanelConsoleHelper.java" />
+            <include name="com/izforge/izpack/panels/TargetConsolePanelHelper.java" />
         </build-panel>
         <build-panel name="DefaultTargetPanel">
             <include name="com/izforge/izpack/panels/PathInputPanel.java" />
@@ -708,7 +708,7 @@
             <include name="com/izforge/izpack/panels/UIElement.java" />
             <include name="com/izforge/izpack/panels/RadioButtonUIElement.java" />
             <include name="com/izforge/izpack/panels/PasswordUIElement.java" />
-            <include name="com/izforge/izpack/panels/UserInputPanelConsoleHelper.java" />
+            <include name="com/izforge/izpack/panels/UserInputConsolePanelHelper.java" />
         </build-panel>
         <build-panel name="UserPathPanel">
             <include name="com/izforge/izpack/panels/UserPathInputPanel.java" />
@@ -744,7 +744,7 @@
         <build-panel name="ProcessPanel">
             <include name="com/izforge/izpack/panels/ProcessPanel.java" />
             <include name="com/izforge/izpack/panels/ProcessPanelAutomationHelper.java" />
-            <include name="com/izforge/izpack/panels/ProcessPanelConsoleHelper.java" />
+            <include name="com/izforge/izpack/panels/ProcessConsolePanelHelper.java" />
         </build-panel>
         <build-panel name="SudoPanel">
             <include name="com/izforge/izpack/panels/SudoPanel.java" />

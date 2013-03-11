@@ -20,23 +20,13 @@
  */
 package com.izforge.izpack.test.provider;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
-
 import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
-
-import org.mockito.Mockito;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.data.Variables;
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Locales;
-import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.installer.container.provider.AbstractInstallDataProvider;
 import com.izforge.izpack.util.Platforms;
 
@@ -52,19 +42,14 @@ public abstract class AbstractInstallDataMockProvider extends AbstractInstallDat
      * Populates an {@link AutomatedInstallData}.
      *
      * @param installData the installation data to populate
+     * @param locales     the locales
      * @throws IOException if the default messages cannot be found
      */
-    protected void populate(AutomatedInstallData installData) throws IOException
+    protected void populate(AutomatedInstallData installData, Locales locales) throws IOException
     {
         Info info = new Info();
         installData.setInfo(info);
-
-        URL resource = getClass().getResource("/com/izforge/izpack/bin/langpacks/installer/eng.xml");
-        Locales locales = Mockito.mock(Locales.class);
-        when(locales.getMessages(anyString())).thenThrow(new ResourceNotFoundException("Resource not found"));
-        Messages messages = new LocaleDatabase(resource.openStream(), locales);
-        installData.setMessages(messages);
-        installData.setLocale(Locale.getDefault(), "eng");
+        loadDefaultLocale(installData, locales);
         setStandardVariables(installData, null);
     }
 

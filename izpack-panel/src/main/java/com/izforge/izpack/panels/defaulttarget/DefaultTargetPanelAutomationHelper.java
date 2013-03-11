@@ -24,7 +24,6 @@ package com.izforge.izpack.panels.defaulttarget;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 
 /**
@@ -35,12 +34,6 @@ import com.izforge.izpack.installer.automation.PanelAutomation;
  */
 public class DefaultTargetPanelAutomationHelper implements PanelAutomation
 {
-    private VariableSubstitutor variableSubstitutor;
-
-    public DefaultTargetPanelAutomationHelper(VariableSubstitutor variableSubstitutor)
-    {
-        this.variableSubstitutor = variableSubstitutor;
-    }
 
     /**
      * Asks to make the XML panel installDataGUI.
@@ -81,7 +74,7 @@ public class DefaultTargetPanelAutomationHelper implements PanelAutomation
         String path = ipath.getContent();
         try
         {
-            path = variableSubstitutor.substitute(path);
+            path = idata.getVariables().replace(path);
         }
         catch (Exception e)
         {

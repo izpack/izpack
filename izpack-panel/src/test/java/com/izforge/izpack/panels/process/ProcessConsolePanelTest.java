@@ -40,14 +40,14 @@ import com.izforge.izpack.util.PlatformModelMatcher;
 
 
 /**
- * Tests the {@link ProcessPanelConsole} class.
+ * Tests the {@link ProcessConsolePanel} class.
  * TODO - this only covers a fraction of ProcessPanel functionality.
  *
  * @author Tim Anderson
  */
 @RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
-public class ProcessPanelConsoleTest
+public class ProcessConsolePanelTest
 {
 
     /**
@@ -81,7 +81,7 @@ public class ProcessPanelConsoleTest
     private final TestConsole console;
 
     /**
-     * Constructs a {@code ProcessPanelConsoleTest}.
+     * Constructs a {@code ProcessConsolePanelTest}.
      *
      * @param installData the installation data
      * @param rules       the rules
@@ -90,7 +90,7 @@ public class ProcessPanelConsoleTest
      * @param matcher     the platform-model matcher
      * @param console     the console
      */
-    public ProcessPanelConsoleTest(InstallData installData, RulesEngine rules, ResourceManager resources,
+    public ProcessConsolePanelTest(InstallData installData, RulesEngine rules, ResourceManager resources,
                                    Prompt prompt, PlatformModelMatcher matcher, TestConsole console)
     {
         this.installData = installData;
@@ -111,8 +111,8 @@ public class ProcessPanelConsoleTest
         Executable.init();
         Executable.setReturn(true);
 
-        ProcessPanelConsole panel = new ProcessPanelConsole(rules, resources, prompt, matcher);
-        assertTrue(panel.runConsole(installData, console));
+        ProcessConsolePanel panel = new ProcessConsolePanel(rules, resources, prompt, matcher);
+        assertTrue(panel.run(installData, console));
 
         // verify Executable was run the expected no. of times, with the expected arguments
         assertEquals(2, Executable.getInvocations());
@@ -131,8 +131,8 @@ public class ProcessPanelConsoleTest
         Executable.init();
         Executable.setException(true);
 
-        ProcessPanelConsole panel = new ProcessPanelConsole(rules, resources, prompt, matcher);
-        assertFalse(panel.runConsole(installData, console));
+        ProcessConsolePanel panel = new ProcessConsolePanel(rules, resources, prompt, matcher);
+        assertFalse(panel.run(installData, console));
 
         assertEquals(3, console.getOutput().size());
         assertTrue(console.getOutput().get(2).equals(

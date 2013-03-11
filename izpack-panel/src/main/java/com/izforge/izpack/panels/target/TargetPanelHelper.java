@@ -38,12 +38,12 @@ import com.izforge.izpack.util.file.FileUtils;
  *
  * @author Tim Anderson
  */
-class TargetPanelHelper
+public class TargetPanelHelper
 {
     /**
      * Target panel directory variable name.
      */
-    private static final String TARGET_PANEL_DIR = "TargetPanel.dir";
+    public static final String TARGET_PANEL_DIR = "TargetPanel.dir";
 
     /**
      * Target panel directory variable prefix.

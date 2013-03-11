@@ -25,7 +25,7 @@ import java.util.Map;
 
 
 /**
- * Helper for testing {@link ProcessPanel}, {@link ProcessPanelConsole} and {@link ProcessPanelAutomation}.
+ * Helper for testing {@link ProcessPanel}, {@link ProcessConsolePanel} and {@link ProcessPanelAutomation}.
  *
  * @author Tim Anderson
  */

@@ -34,6 +34,7 @@ import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.binding.Help;
 import com.izforge.izpack.api.factory.ObjectFactory;
+import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.gui.IconsDatabase;
@@ -56,9 +57,9 @@ public class PanelDisplayTest extends AbstractPanelTest
 
     public PanelDisplayTest(GUIInstallData guiInstallData, ResourceManager resourceManager,
                             UninstallDataWriter uninstallDataWriter, TestGUIPanelContainer container,
-                            IconsDatabase icons, RulesEngine rules, ObjectFactory factory)
+                            IconsDatabase icons, RulesEngine rules, ObjectFactory factory, Locales locales)
     {
-        super(container, guiInstallData, resourceManager, factory, rules, icons, uninstallDataWriter);
+        super(container, guiInstallData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
     }
 
     @Before

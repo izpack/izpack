@@ -35,8 +35,7 @@ import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
-import com.izforge.izpack.installer.console.PanelConsole;
-import com.izforge.izpack.installer.console.PanelConsoleHelper;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.OsVersion;
@@ -47,31 +46,31 @@ import com.izforge.izpack.util.Platform;
  *
  * @author Mounir El Hajj
  */
-public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements PanelConsole
+public class JDKPathConsolePanel extends AbstractConsolePanel
 {
     private String detectedVersion;
     private final VariableSubstitutor variableSubstitutor;
     private final RegistryDefaultHandler handler;
 
     /**
-     * Constructs a <tt>JDKPathPanelConsoleHelper</tt>.
+     * Constructs a <tt>JDKPathConsolePanelHelper</tt>.
      *
      * @param variableSubstitutor the variable substituter
      * @param handler             the registry handler
      */
-    public JDKPathPanelConsoleHelper(VariableSubstitutor variableSubstitutor, RegistryDefaultHandler handler)
+    public JDKPathConsolePanel(VariableSubstitutor variableSubstitutor, RegistryDefaultHandler handler)
     {
         this.variableSubstitutor = variableSubstitutor;
         this.handler = handler;
     }
 
-    public boolean runGeneratePropertiesFile(InstallData installData, PrintWriter printWriter)
+    public boolean generateProperties(InstallData installData, PrintWriter printWriter)
     {
         printWriter.println(InstallData.INSTALL_PATH + "=");
         return true;
     }
 
-    public boolean runConsoleFromProperties(InstallData installData, Properties properties)
+    public boolean run(InstallData installData, Properties properties)
     {
         String strTargetPath = properties.getProperty(InstallData.INSTALL_PATH);
         if (strTargetPath == null || "".equals(strTargetPath.trim()))
@@ -102,7 +101,7 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
      * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
      */
     @Override
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         String minVersion = installData.getVariable("JDKPathPanel.minVersion");
         String maxVersion = installData.getVariable("JDKPathPanel.maxVersion");
@@ -363,9 +362,9 @@ public class JDKPathPanelConsoleHelper extends PanelConsoleHelper implements Pan
             // Get the default registry handler.
             registryHandler = handler.getInstance();
             if (registryHandler == null)
-                // We are on a os which has no registry or the
-                // needed dll was not bound to this installation. In
-                // both cases we forget the try to get the JDK path from registry.
+            // We are on a os which has no registry or the
+            // needed dll was not bound to this installation. In
+            // both cases we forget the try to get the JDK path from registry.
             {
                 return (retval);
             }

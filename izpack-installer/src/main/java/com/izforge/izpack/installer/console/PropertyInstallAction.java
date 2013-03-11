@@ -61,7 +61,7 @@ class PropertyInstallAction extends AbstractInstallAction
     @Override
     public boolean run(ConsolePanelView panel)
     {
-        return panel.getView().runConsoleFromProperties(getInstallData(), properties);
+        return panel.getView().run(getInstallData(), properties);
     }
 
 }

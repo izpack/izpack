@@ -87,9 +87,10 @@ public class CompilerConfigTest
         mergeManager.addResourceToMerge(pathResolver.getPanelMerge("CheckedHelloPanel"));
 
         assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles(
-                "com/izforge/izpack/panels/hello/HelloPanelConsoleHelper.class",
+                "com/izforge/izpack/panels/hello/HelloConsolePanel.class",
                 "com/izforge/izpack/panels/hello/HelloPanel.class",
-                "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class"));
+                "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class",
+                "com/izforge/izpack/panels/checkedhello/CheckedHelloConsolePanel.class"));
     }
 
     @Test

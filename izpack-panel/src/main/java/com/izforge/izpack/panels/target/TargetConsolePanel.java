@@ -26,8 +26,8 @@ import java.io.PrintWriter;
 import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.installer.console.AbstractPanelConsole;
-import com.izforge.izpack.installer.console.PanelConsole;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -35,24 +35,24 @@ import com.izforge.izpack.util.Console;
  *
  * @author Mounir El Hajj
  */
-public class TargetPanelConsole extends AbstractPanelConsole implements PanelConsole
+public class TargetConsolePanel extends AbstractConsolePanel implements ConsolePanel
 {
 
     /**
-     * Constructs a <tt>TargetPanelConsoleHelper</tt>.
+     * Constructs a <tt>TargetConsolePanelHelper</tt>.
      */
-    public TargetPanelConsole()
+    public TargetConsolePanel()
     {
         super();
     }
 
-    public boolean runGeneratePropertiesFile(InstallData installData, PrintWriter printWriter)
+    public boolean generateProperties(InstallData installData, PrintWriter printWriter)
     {
         printWriter.println(InstallData.INSTALL_PATH + "=");
         return true;
     }
 
-    public boolean runConsoleFromProperties(InstallData installData, Properties properties)
+    public boolean run(InstallData installData, Properties properties)
     {
         boolean result = false;
         String path = properties.getProperty(InstallData.INSTALL_PATH);
@@ -81,7 +81,7 @@ public class TargetPanelConsole extends AbstractPanelConsole implements PanelCon
      * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
      */
     @Override
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         String defaultPath = TargetPanelHelper.getPath(installData);
         if (defaultPath == null)
@@ -102,7 +102,7 @@ public class TargetPanelConsole extends AbstractPanelConsole implements PanelCon
             if (TargetPanelHelper.isIncompatibleInstallation(path))
             {
                 console.println(getIncompatibleInstallationMsg(installData));
-                return runConsole(installData, console);
+                return run(installData, console);
             }
             else if (!path.isEmpty())
             {
@@ -114,7 +114,7 @@ public class TargetPanelConsole extends AbstractPanelConsole implements PanelCon
                 installData.setInstallPath(path);
                 return promptEndPanel(installData, console);
             }
-            return runConsole(installData, console);
+            return run(installData, console);
         }
         else
         {

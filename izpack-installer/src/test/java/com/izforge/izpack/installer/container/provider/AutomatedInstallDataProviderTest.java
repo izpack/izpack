@@ -52,6 +52,7 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PlatformModelMatcher;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Tests the {@link AutomatedInstallDataProvider} class.
@@ -111,6 +112,7 @@ public class AutomatedInstallDataProviderTest
         DefaultVariables variables = new DefaultVariables();
         Housekeeper housekeeper = Mockito.mock(Housekeeper.class);
         PlatformModelMatcher matcher = Mockito.mock(PlatformModelMatcher.class);
+        when(matcher.getCurrentPlatform()).thenReturn(Platforms.MANDRAKE_LINUX);
 
         // populate the installation data
         AutomatedInstallData installData = provider.provide(resources, locales, variables, housekeeper, matcher);

@@ -38,7 +38,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestConsoleInstallationContainer;
 import com.izforge.izpack.installer.bootstrap.Installer;
 import com.izforge.izpack.installer.console.ConsoleInstaller;
-import com.izforge.izpack.installer.console.PanelConsole;
+import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
@@ -214,7 +214,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     }
 
     /**
-     * Verifies that an installer with panels that have no corresponding {@link PanelConsole} doesn't install.
+     * Verifies that an installer with panels that have no corresponding {@link ConsolePanel} doesn't install.
      */
     @Test
     @InstallFile("samples/console/dummy.xml")

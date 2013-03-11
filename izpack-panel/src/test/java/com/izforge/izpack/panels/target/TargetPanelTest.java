@@ -37,6 +37,7 @@ import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
+import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -76,12 +77,13 @@ public class TargetPanelTest extends AbstractPanelTest
      * @param rules               the rules
      * @param icons               the icons
      * @param uninstallDataWriter the uninstallation data writer
+     * @param locales             the locales
      */
     public TargetPanelTest(TestGUIPanelContainer container, GUIInstallData installData, ResourceManager resourceManager,
                            ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
-                           UninstallDataWriter uninstallDataWriter)
+                           UninstallDataWriter uninstallDataWriter, Locales locales)
     {
-        super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter);
+        super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
     }
 
     /**

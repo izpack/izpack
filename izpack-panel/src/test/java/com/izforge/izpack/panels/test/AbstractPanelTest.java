@@ -105,6 +105,11 @@ public class AbstractPanelTest
     private final ObjectFactory factory;
 
     /**
+     * The available locales.
+     */
+    private final Locales locales;
+
+    /**
      * The panels.
      */
     private IzPanels panels;
@@ -120,11 +125,12 @@ public class AbstractPanelTest
      * @param rules               the rules
      * @param icons               the icons
      * @param uninstallDataWriter the uninstallation data writer
+     * @param locales             the locales
      */
     public AbstractPanelTest(TestGUIPanelContainer container, GUIInstallData installData,
                              ResourceManager resourceManager,
                              ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
-                             UninstallDataWriter uninstallDataWriter)
+                             UninstallDataWriter uninstallDataWriter, Locales locales)
     {
         this.container = container;
         this.installData = installData;
@@ -133,6 +139,7 @@ public class AbstractPanelTest
         this.rules = rules;
         this.icons = icons;
         this.uninstallDataWriter = uninstallDataWriter;
+        this.locales = locales;
     }
 
     /**
@@ -240,8 +247,7 @@ public class AbstractPanelTest
                                                               icons, panels, uninstallDataWriter, resourceManager,
                                                               Mockito.mock(UninstallData.class),
                                                               Mockito.mock(Housekeeper.class), navigator,
-                                                              Mockito.mock(Log.class),
-                                                              Mockito.mock(Locales.class));
+                                                              Mockito.mock(Log.class), locales);
                     handle[0] = frame;
                 }
             });

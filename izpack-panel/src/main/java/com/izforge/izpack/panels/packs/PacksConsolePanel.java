@@ -30,19 +30,19 @@ import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.handler.Prompt.Option;
 import com.izforge.izpack.api.handler.Prompt.Options;
 import com.izforge.izpack.api.handler.Prompt.Type;
-import com.izforge.izpack.installer.console.AbstractPanelConsole;
-import com.izforge.izpack.installer.console.PanelConsole;
+import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.util.Console;
 
 /**
  * Console implementation for the TreePacksPanel.
  * <p/>
- * Based on PacksPanelConsoleHelper
+ * Based on PacksConsolePanelHelper
  *
  * @author Sergiy Shyrkov
  * @author Dustin Kut Moy Cheung
  */
-public class PacksPanelConsole extends AbstractPanelConsole implements PanelConsole
+public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePanel
 {
 
     private static final String REQUIRED = "required";
@@ -55,7 +55,7 @@ public class PacksPanelConsole extends AbstractPanelConsole implements PanelCons
 
     private final Prompt prompt;
 
-    public PacksPanelConsole(Prompt prompt)
+    public PacksConsolePanel(Prompt prompt)
     {
         this.prompt = prompt;
     }
@@ -67,7 +67,7 @@ public class PacksPanelConsole extends AbstractPanelConsole implements PanelCons
      * @param properties  the properties
      * @return <tt>true</tt> if the installation is successful, otherwise <tt>false</tt>
      */
-    public boolean runConsoleFromProperties(InstallData installData, Properties properties)
+    public boolean run(InstallData installData, Properties properties)
     {
         return true;
     }
@@ -79,7 +79,7 @@ public class PacksPanelConsole extends AbstractPanelConsole implements PanelCons
      * @param console     the console
      * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
      */
-    public boolean runConsole(InstallData installData, Console console)
+    public boolean run(InstallData installData, Console console)
     {
         out(Type.INFORMATION, "");
         List<Pack> selectedPacks = new LinkedList<Pack>();
