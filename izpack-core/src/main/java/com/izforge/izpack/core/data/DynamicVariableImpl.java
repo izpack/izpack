@@ -151,7 +151,7 @@ public class DynamicVariableImpl implements DynamicVariable
             {
                 throw e;
             }
-            logger.log(Level.WARNING,
+            logger.log(Level.FINE,
                        "Error evaluating dynamic variable '" + getName() + "': " + e,
                        e);
         }
