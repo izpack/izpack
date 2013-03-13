@@ -1463,7 +1463,7 @@ public class CompilerConfig extends Thread
         for (String dirName : allDirList)
         {
             File tmp = new File(dirName);
-            if (!tmp.mkdirs())
+            if (!tmp.mkdirs() && !tmp.exists())
             {
                 throw new CompilerException("Failed to create directory: " + tmp);
             }
