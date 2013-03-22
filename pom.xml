@@ -416,6 +416,7 @@
                         <exclude>**/LanguageDialogTest.java</exclude>
                         <exclude>**/PanelDisplayTest.java</exclude>
                         <exclude>**/ProcessPanelTest.java</exclude>
+                        <exclude>**/DefaultTargetPanelTest.java</exclude>
                         <exclude>**/TargetPanelTest.java</exclude>
                         <exclude>**/UserInputPanelTest.java</exclude>
                         <exclude>**/InstallationTest.java</exclude>
@@ -627,6 +628,7 @@
                                 <include>**/LanguageDialogTest.java</include>
                                 <include>**/PanelDisplayTest.java</include>
                                 <include>**/ProcessPanelTest.java</include>
+                                <include>**/DefaultTargetPanelTest.java</include>
                                 <include>**/TargetPanelTest.java</include>
                                 <include>**/UserInputPanelTest.java</include>
                                 <include>**/InstallationTest.java</include>

@@ -22,7 +22,6 @@
 package com.izforge.izpack.installer.console;
 
 import java.io.PrintWriter;
-import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.Console;
@@ -33,7 +32,7 @@ import com.izforge.izpack.util.Console;
  *
  * @author Tim Anderson
  */
-public abstract class AbstractConsolePanel implements ConsolePanel, PanelConsole
+public abstract class AbstractConsolePanel implements ConsolePanel
 {
 
     /**
@@ -49,62 +48,6 @@ public abstract class AbstractConsolePanel implements ConsolePanel, PanelConsole
     public boolean generateProperties(InstallData installData, PrintWriter printWriter)
     {
         return true;
-    }
-
-    /**
-     * Generates a properties file for each input field or variable.
-     *
-     * @param installData the installation data
-     * @param printWriter the properties file to write to
-     * @return {@code true} if the generation is successful, otherwise {@code false}
-     * @deprecated use {@link #generateProperties(InstallData, PrintWriter)}
-     */
-    @Override
-    @Deprecated
-    public boolean runGeneratePropertiesFile(InstallData installData, PrintWriter printWriter)
-    {
-        return generateProperties(installData, printWriter);
-    }
-
-    /**
-     * Runs the panel using the supplied properties.
-     *
-     * @param installData the installation data
-     * @param properties  the properties
-     * @return {@code true} if the installation is successful, otherwise {@code false}
-     * @deprecated use {@link #run(InstallData, Properties)}
-     */
-    @Override
-    public boolean runConsoleFromProperties(InstallData installData, Properties properties)
-    {
-        return run(installData, properties);
-    }
-
-    /**
-     * Runs the panel in interactive console mode.
-     *
-     * @param installData the installation data
-     * @deprecated use {@link #run(InstallData, Console)}
-     */
-    @Override
-    @Deprecated
-    public boolean runConsole(InstallData installData)
-    {
-        return run(installData, new Console());
-    }
-
-    /**
-     * Runs the panel using the specified console.
-     *
-     * @param installData the installation data
-     * @param console     the console
-     * @return {@code true} if the panel ran successfully, otherwise {@code false}
-     * @deprecated use {@link #run(InstallData, Console)}
-     */
-    @Override
-    public boolean runConsole(InstallData installData, Console console)
-    {
-        return run(installData, console);
     }
 
     /**
