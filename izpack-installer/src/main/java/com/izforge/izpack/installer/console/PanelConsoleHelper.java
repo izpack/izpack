@@ -25,6 +25,7 @@ import java.io.PrintWriter;
 import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -36,6 +37,24 @@ import com.izforge.izpack.util.Console;
 @Deprecated
 abstract public class PanelConsoleHelper extends AbstractConsolePanel implements PanelConsole
 {
+
+    /**
+     * Constructs a {@code PanelConsoleHelper}.
+     */
+    public PanelConsoleHelper()
+    {
+        this(null);
+    }
+
+    /**
+     * Constructs a {@code PanelConsoleHelper}.
+     *
+     * @param panel the parent panel/view. May be {@code null}
+     */
+    public PanelConsoleHelper(PanelView<Console> panel)
+    {
+        super(panel);
+    }
 
     /**
      * Generates a properties file for each input field or variable.

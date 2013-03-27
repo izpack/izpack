@@ -26,16 +26,16 @@ import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
-import com.izforge.izpack.installer.panel.PanelView;
+import com.izforge.izpack.installer.panel.AbstractPanelView;
 import com.izforge.izpack.installer.util.PanelHelper;
 
 
 /**
- * Implementation of {@link PanelView} for {@link AutomatedPanelView}s.
+ * Implementation of {@link AbstractPanelView} for {@link AutomatedPanelView}s.
  *
  * @author Tim Anderson
  */
-public class AutomatedPanelView extends PanelView<PanelAutomation>
+public class AutomatedPanelView extends AbstractPanelView<PanelAutomation>
 {
     /**
      * The handler.

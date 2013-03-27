@@ -11,6 +11,7 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.handler.PromptUIHandler;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
@@ -33,8 +34,10 @@ public class ProcessConsolePanel extends AbstractConsolePanel implements Console
 
     private int currentJob = 0;
 
-    public ProcessConsolePanel(RulesEngine rules, Resources resources, Prompt prompt, PlatformModelMatcher matcher)
+    public ProcessConsolePanel(RulesEngine rules, Resources resources, Prompt prompt, PlatformModelMatcher matcher,
+                               PanelView<Console> panel)
     {
+        super(panel);
         this.rules = rules;
         this.resources = resources;
         this.prompt = prompt;

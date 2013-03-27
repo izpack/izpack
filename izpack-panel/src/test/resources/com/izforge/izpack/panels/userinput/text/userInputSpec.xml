@@ -23,7 +23,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
 
-    <panel id="textinput" order="0">
+    <panel id="textinput">
         <field type="text" variable="text1">
             <spec txt="text1:" size="20"/>
         </field>

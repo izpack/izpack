@@ -28,14 +28,14 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
-import com.izforge.izpack.installer.panel.PanelView;
+import com.izforge.izpack.installer.panel.AbstractPanelView;
 
 /**
- * Implementation of {@link PanelView} for {@link IzPanel}s.
+ * Implementation of {@link com.izforge.izpack.installer.panel.AbstractPanelView} for {@link IzPanel}s.
  *
  * @author Tim Anderson
  */
-public class IzPanelView extends PanelView<IzPanel>
+public class IzPanelView extends AbstractPanelView<IzPanel>
 {
     /**
      * Constructs a {@code IzPanelView}.

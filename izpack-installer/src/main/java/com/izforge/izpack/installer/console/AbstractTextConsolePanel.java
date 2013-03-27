@@ -26,6 +26,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -40,6 +41,16 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
      * The logger.
      */
     private static final Logger logger = Logger.getLogger(AbstractTextConsolePanel.class.getName());
+
+    /**
+     * Constructs an {@code AbstractTextConsolePanel}.
+     *
+     * @param panel the parent panel/view. May be {@code null}
+     */
+    public AbstractTextConsolePanel(PanelView<Console> panel)
+    {
+        super(panel);
+    }
 
     /**
      * Runs the panel using the supplied properties.

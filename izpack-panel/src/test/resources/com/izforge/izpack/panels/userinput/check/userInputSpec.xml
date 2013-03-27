@@ -23,12 +23,10 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
 
-    <panel id="checkinput" order="0">
+    <panel id="checkinput">
 
         <field type="title" txt="Check field test cases" size="2.0" align="right"/>
-        <field type="staticText">
-            <description txt="Check boxes initialised via set='true' or set='false'"/>
-        </field>
+        <field type="staticText" txt="Check boxes initialised via set='true' or set='false'"/>
         <field type="check" variable="check1">
             <spec txt="Check 1: " set="true"/>
         </field>
@@ -37,9 +35,7 @@
         </field>
         <field type="divider"/>
 
-        <field type="staticText">
-            <description txt="Check boxes initialised via set and true and false attributes"/>
-        </field>
+        <field type="staticText" txt="Check boxes initialised via set and true and false attributes"/>
 
         <field type="check" variable="check3">
             <spec txt="Check 3: " set="check3set" true="check3set" false="check3unset"/>
@@ -49,9 +45,7 @@
         </field>
 
         <field type="divider"/>
-        <field type="staticText">
-            <description txt="Check boxes initialised via variables"/>
-        </field>
+        <field type="staticText" txt="Check boxes initialised via variables"/>
 
         <field type="check" variable="check5">
             <spec txt="Check 5: " true="check5set" false="check5unset" revalidate="true"/>

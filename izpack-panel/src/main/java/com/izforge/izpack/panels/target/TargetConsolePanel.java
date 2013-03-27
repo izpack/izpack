@@ -28,6 +28,7 @@ import java.util.Properties;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -39,11 +40,13 @@ public class TargetConsolePanel extends AbstractConsolePanel implements ConsoleP
 {
 
     /**
-     * Constructs a <tt>TargetConsolePanelHelper</tt>.
+     * Constructs a {@code TargetConsolePanel}.
+     *
+     * @param panel the parent panel/view. May be {@code null}
      */
-    public TargetConsolePanel()
+    public TargetConsolePanel(PanelView<Console> panel)
     {
-        super();
+        super(panel);
     }
 
     public boolean generateProperties(InstallData installData, PrintWriter printWriter)

@@ -36,6 +36,14 @@ public abstract class NoOpConsolePanel extends AbstractConsolePanel
 {
 
     /**
+     * Constructs a {@code NoOpConsolePanel}.
+     */
+    public NoOpConsolePanel()
+    {
+        super(null);
+    }
+
+    /**
      * Runs the panel using the supplied properties.
      *
      * @param installData the installation data

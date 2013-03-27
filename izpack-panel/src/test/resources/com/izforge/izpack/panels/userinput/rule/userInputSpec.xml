@@ -23,9 +23,9 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
 
-    <panel id="ruleinput" order="0">
+    <panel id="ruleinput">
         <field type="rule" variable="rule1">
-            <description align="left" txt="rule1 description" id="rule1.desc.id"/>
+            <description txt="rule1 description" id="rule1.desc.id"/>
             <spec txt="rule1:" layout="N:3:3 . N:3:3 . N:3:3 . N:3:3" set="0:192 1:168 2:0 3:1"/>
             <validator class="com.izforge.izpack.panels.userinput.validator.NotEmptyValidator"
                        txt="Must supply a value"/>

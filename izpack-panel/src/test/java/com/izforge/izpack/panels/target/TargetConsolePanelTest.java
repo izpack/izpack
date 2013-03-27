@@ -99,7 +99,7 @@ public class TargetConsolePanelTest
 
         // run the panel, selecting the default ("badDir")
         console.addScript("TargetPanel.1", "\n");
-        TargetConsolePanel panel = new TargetConsolePanel();
+        TargetConsolePanel panel = new TargetConsolePanel(null);
         assertFalse(panel.run(installData, console));
         assertTrue(console.scriptCompleted());
 
@@ -133,7 +133,7 @@ public class TargetConsolePanelTest
         Properties properties = new Properties();
         properties.setProperty(InstallData.INSTALL_PATH, badDir.getAbsolutePath());
 
-        TargetConsolePanel panel = new TargetConsolePanel();
+        TargetConsolePanel panel = new TargetConsolePanel(null);
         assertFalse(panel.run(installData, properties));
 
         properties.setProperty(InstallData.INSTALL_PATH, goodDir.getAbsolutePath());

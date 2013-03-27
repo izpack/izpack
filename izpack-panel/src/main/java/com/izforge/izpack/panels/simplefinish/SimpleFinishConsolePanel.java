@@ -21,7 +21,9 @@
 
 package com.izforge.izpack.panels.simplefinish;
 
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.finish.FinishConsolePanel;
+import com.izforge.izpack.util.Console;
 
 /**
  * Console implementation of {@link SimpleFinishPanel}.
@@ -31,4 +33,13 @@ import com.izforge.izpack.panels.finish.FinishConsolePanel;
 public class SimpleFinishConsolePanel extends FinishConsolePanel
 {
 
+    /**
+     * Constructs an {@code SimpleFinishConsolePanel}.
+     *
+     * @param panel the parent panel/view. May be {@code null}
+     */
+    public SimpleFinishConsolePanel(PanelView<Console> panel)
+    {
+        super(panel);
+    }
 }

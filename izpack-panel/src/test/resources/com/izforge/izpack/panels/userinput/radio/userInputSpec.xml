@@ -23,9 +23,9 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
 
-    <panel id="radioinput" order="0">
+    <panel id="radioinput">
         <field type="radio" variable="radioA">
-            <description align="center" txt="Radio A"/>
+            <description txt="Radio A"/>
             <spec>
                 <choice txt="Choice 1" id="choice1.id" value="value1"/>
                 <choice txt="Choice 2" id="choice2.id" value="value2" set="true"/>
@@ -33,7 +33,7 @@
             </spec>
         </field>
         <field type="radio" variable="radioB">
-            <description align="right" txt="Radio B"/>
+            <description txt="Radio B"/>
             <spec>
                 <choice txt="Choice X" id="choice1.id" value="valueX" revalidate="true"/>
                 <choice txt="Choice Y" id="choice2.id" value="valueY" revalidate="true"/>
@@ -41,7 +41,7 @@
             </spec>
         </field>
         <field type="radio" variable="radioC">
-            <description align="right" txt="Radio C"/>
+            <description txt="Radio C"/>
             <spec>
                 <choice txt="Choice Q" id="choice1.id" value="valueQ" revalidate="true"/>
                 <choice txt="Choice R" id="choice2.id" value="valueR" revalidate="true"/>

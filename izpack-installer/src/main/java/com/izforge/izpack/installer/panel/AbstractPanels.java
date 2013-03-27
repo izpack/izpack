@@ -35,7 +35,7 @@ import com.izforge.izpack.api.data.Variables;
  *
  * @author Tim Anderson
  */
-public abstract class AbstractPanels<T extends PanelView<V>, V> implements Panels, PanelViews<T, V>
+public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implements Panels, PanelViews<T, V>
 {
 
     /**
@@ -445,11 +445,20 @@ public abstract class AbstractPanels<T extends PanelView<V>, V> implements Panel
      */
     protected boolean executeValidationActions(T panel, boolean validate)
     {
-        variables.refresh();
-        panel.executePreValidationActions();
-        boolean isValid = !validate || panel.isValid();
-        panel.executePostValidationActions();
-        return isValid;
+        boolean result;
+        if (validate)
+        {
+            result = panel.isValid();
+        }
+        else
+        {
+            // execute the pre- and post-validation actions, but don't perform validation itself
+            variables.refresh();
+            panel.executePreValidationActions();
+            panel.executePostValidationActions();
+            result = true;
+        }
+        return result;
     }
 
     /**

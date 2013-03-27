@@ -23,7 +23,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
 
-    <panel id="fileinput" order="0">
+    <panel id="fileinput">
         <field type="file" variable="file1">
             <spec txt="File 1:" size="16"/>
         </field>

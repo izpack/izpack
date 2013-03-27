@@ -26,6 +26,7 @@ import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.target.TargetPanelHelper;
 import com.izforge.izpack.util.Console;
 
@@ -36,6 +37,16 @@ import com.izforge.izpack.util.Console;
  */
 public class DefaultTargetConsolePanel extends AbstractConsolePanel
 {
+
+    /**
+     * Constructs an {@code DefaultTargetConsolePanel}.
+     *
+     * @param panel the parent panel/view. May be {@code null}
+     */
+    public DefaultTargetConsolePanel(PanelView<Console> panel)
+    {
+        super(panel);
+    }
 
     /**
      * Generates a properties file for each input field or variable.

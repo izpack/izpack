@@ -28,17 +28,17 @@ import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.core.handler.PromptUIHandler;
-import com.izforge.izpack.installer.panel.PanelView;
+import com.izforge.izpack.installer.panel.AbstractPanelView;
 import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.util.Console;
 
 
 /**
- * Implementation of {@link PanelView} for {@link ConsolePanel}s.
+ * Implementation of {@link com.izforge.izpack.installer.panel.AbstractPanelView} for {@link ConsolePanel}s.
  *
  * @author Tim Anderson
  */
-public class ConsolePanelView extends PanelView<ConsolePanel>
+public class ConsolePanelView extends AbstractPanelView<ConsolePanel>
 {
 
     /**
@@ -92,7 +92,7 @@ public class ConsolePanelView extends PanelView<ConsolePanel>
         {
             throw new IzPackException("Console implementation not found for panel: " + panel.getClassName());
         }
-        return getFactory().create(impl, panel);
+        return getFactory().create(impl, panel, this);
     }
 
     /**

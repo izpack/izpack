@@ -23,7 +23,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
 
-    <panel id="comboinput" order="0">
+    <panel id="comboinput">
         <field type="combo" variable="combo1">
             <spec txt="Combo1:">
                 <choice txt="Value 1" value="value1"/>

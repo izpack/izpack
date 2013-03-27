@@ -142,6 +142,11 @@
                             <xs:documentation>Used by "dir" fields</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
+                    <xs:attribute name="layout" type="xs:string" use="optional">
+                        <xs:annotation>
+                            <xs:documentation>Used by "rule" fields</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
                     <xs:attribute name="size" type="xs:unsignedByte" use="optional"/>
                     <xs:attribute name="set" type="xs:string" use="optional"/>
                     <xs:attribute name="true" type="xs:string" use="optional"/>

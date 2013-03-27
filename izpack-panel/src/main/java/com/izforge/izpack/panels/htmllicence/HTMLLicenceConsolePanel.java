@@ -22,7 +22,9 @@
 package com.izforge.izpack.panels.htmllicence;
 
 import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.licence.AbstractLicenseConsolePanel;
+import com.izforge.izpack.util.Console;
 
 /**
  * HTML License Panel console helper
@@ -33,11 +35,12 @@ public class HTMLLicenceConsolePanel extends AbstractLicenseConsolePanel
     /**
      * Constructs an <tt>HTMLLicenceConsolePanel</tt>.
      *
+     * @param panel     the parent panel/view. May be {@code null}
      * @param resources the resources
      */
-    public HTMLLicenceConsolePanel(Resources resources)
+    public HTMLLicenceConsolePanel(PanelView<Console> panel, Resources resources)
     {
-        super(resources);
+        super(panel, resources);
     }
 
     /**

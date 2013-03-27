@@ -28,13 +28,13 @@ import java.util.Properties;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.userinput.console.ConsoleField;
 import com.izforge.izpack.panels.userinput.console.ConsoleFieldFactory;
 import com.izforge.izpack.panels.userinput.field.ElementReader;
@@ -51,10 +51,6 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  */
 public class UserInputConsolePanel extends AbstractConsolePanel
 {
-    /**
-     * The panel meta-data.
-     */
-    private Panel panel;
 
     /**
      * The resources.
@@ -101,11 +97,13 @@ public class UserInputConsolePanel extends AbstractConsolePanel
      * @param matcher   the platform-model matcher
      * @param console   the console
      * @param prompt    the prompt
+     * @param panel     the parent panel/view
      */
-    public UserInputConsolePanel(Panel panel, Resources resources, ObjectFactory factory,
-                                 RulesEngine rules, PlatformModelMatcher matcher, Console console, Prompt prompt)
+    public UserInputConsolePanel(Resources resources, ObjectFactory factory,
+                                 RulesEngine rules, PlatformModelMatcher matcher, Console console, Prompt prompt,
+                                 PanelView<Console> panel)
     {
-        this.panel = panel;
+        super(panel);
         this.resources = resources;
         this.factory = factory;
         this.rules = rules;
@@ -158,26 +156,42 @@ public class UserInputConsolePanel extends AbstractConsolePanel
     @Override
     public boolean run(InstallData installData, Console console)
     {
-        boolean processpanel = collectInputs(installData);
-        if (!processpanel)
+        boolean result;
+        if (!collectInputs(installData))
         {
-            return true;
+            // no inputs
+            result = true;
         }
-        for (ConsoleField field : fields)
+        else
         {
-            if (!field.display())
+            boolean rerun = false;
+            for (ConsoleField field : fields)
             {
-                break;
+                if (!field.display())
+                {
+                    // field is invalid
+                    rerun = true;
+                    break;
+                }
+            }
+
+            if (rerun)
+            {
+                // prompt to rerun the panel or quit
+                result = promptRerunPanel(installData, console);
+            }
+            else
+            {
+                result = promptEndPanel(installData, console);
             }
         }
-
-        return promptEndPanel(installData, console);
+        return result;
     }
 
     private boolean collectInputs(InstallData installData)
     {
         UserInputPanelSpec model = new UserInputPanelSpec(resources, installData, factory, rules, matcher);
-        IXMLElement spec = model.getPanelSpec(panel);
+        IXMLElement spec = model.getPanelSpec(getPanel());
 
         model.updateVariables(spec);
 
@@ -192,6 +206,8 @@ public class UserInputConsolePanel extends AbstractConsolePanel
         {
             return false;
         }
+
+        fields.clear();
 
         ConsoleFieldFactory factory = new ConsoleFieldFactory(console, prompt);
         for (Field field : model.createFields(spec))

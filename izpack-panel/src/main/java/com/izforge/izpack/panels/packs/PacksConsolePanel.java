@@ -32,6 +32,7 @@ import com.izforge.izpack.api.handler.Prompt.Options;
 import com.izforge.izpack.api.handler.Prompt.Type;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -55,8 +56,9 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
 
     private final Prompt prompt;
 
-    public PacksConsolePanel(Prompt prompt)
+    public PacksConsolePanel(PanelView<Console> panel, Prompt prompt)
     {
+        super(panel);
         this.prompt = prompt;
     }
 

@@ -36,6 +36,7 @@ import com.izforge.izpack.api.handler.Prompt.Options;
 import com.izforge.izpack.api.handler.Prompt.Type;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -64,10 +65,12 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
     /**
      * Constructs a {@code TreePacksConsolePanel}.
      *
+     * @param panel  the parent panel/view. May be {@code null}
      * @param prompt the prompt
      */
-    public TreePacksConsolePanel(Prompt prompt)
+    public TreePacksConsolePanel(PanelView<Console> panel, Prompt prompt)
     {
+        super(panel);
         this.prompt = prompt;
     }
 

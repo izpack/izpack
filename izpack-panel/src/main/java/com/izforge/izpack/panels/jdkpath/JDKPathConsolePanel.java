@@ -36,6 +36,7 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.OsVersion;
@@ -57,9 +58,12 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
      *
      * @param variableSubstitutor the variable substituter
      * @param handler             the registry handler
+     * @param panel               the parent panel/view. May be {@code null}
      */
-    public JDKPathConsolePanel(VariableSubstitutor variableSubstitutor, RegistryDefaultHandler handler)
+    public JDKPathConsolePanel(VariableSubstitutor variableSubstitutor, RegistryDefaultHandler handler,
+                               PanelView<Console> panel)
     {
+        super(panel);
         this.variableSubstitutor = variableSubstitutor;
         this.handler = handler;
     }

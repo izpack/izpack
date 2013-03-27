@@ -35,6 +35,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PlatformModelMatcher;
@@ -75,11 +76,13 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
      * @param listeners     the installation listeners
      * @param matcher       the platform-model matcher
      * @param prompt        the prompt
+     * @param panel         the parent panel/view
      */
     public ShortcutConsolePanel(InstallData installData, Resources resources, UninstallData uninstallData,
                                 Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
-                                PlatformModelMatcher matcher, Prompt prompt)
+                                PlatformModelMatcher matcher, Prompt prompt, PanelView<Console> panel)
     {
+        super(panel);
         ShortcutPanelLogic logic = null;
         try
         {

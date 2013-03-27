@@ -111,7 +111,7 @@ public class ProcessConsolePanelTest
         Executable.init();
         Executable.setReturn(true);
 
-        ProcessConsolePanel panel = new ProcessConsolePanel(rules, resources, prompt, matcher);
+        ProcessConsolePanel panel = new ProcessConsolePanel(rules, resources, prompt, matcher, null);
         assertTrue(panel.run(installData, console));
 
         // verify Executable was run the expected no. of times, with the expected arguments
@@ -131,7 +131,7 @@ public class ProcessConsolePanelTest
         Executable.init();
         Executable.setException(true);
 
-        ProcessConsolePanel panel = new ProcessConsolePanel(rules, resources, prompt, matcher);
+        ProcessConsolePanel panel = new ProcessConsolePanel(rules, resources, prompt, matcher, null);
         assertFalse(panel.run(installData, console));
 
         assertEquals(3, console.getOutput().size());

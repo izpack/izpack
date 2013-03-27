@@ -23,7 +23,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
 
-    <panel id="searchinput" order="0">
+    <panel id="searchinput">
         <field type="search" variable="search1">
             <spec txt="Search 1:" type="directory" result="directory">
                 <choice value="${MY_DIR}${FILE_SEPARATOR}dir1"/>

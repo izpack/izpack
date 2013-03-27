@@ -131,7 +131,7 @@ public class DefaultTargetConsolePanelTest
     private void checkInstallPath(String expectedPath)
     {
         assertNull(installData.getInstallPath());
-        DefaultTargetConsolePanel panel = new DefaultTargetConsolePanel();
+        DefaultTargetConsolePanel panel = new DefaultTargetConsolePanel(null);
         assertTrue(panel.run(installData, console));
         assertEquals(expectedPath, installData.getInstallPath());
     }

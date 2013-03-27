@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Tim Anderson
  */
-public interface PanelViews<T extends PanelView<V>, V> extends Panels
+public interface PanelViews<T extends AbstractPanelView<V>, V> extends Panels
 {
 
     /**

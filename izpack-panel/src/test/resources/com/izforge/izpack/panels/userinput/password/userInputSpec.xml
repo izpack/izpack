@@ -23,9 +23,9 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
 
-    <panel id="passwordinput" order="0">
+    <panel id="passwordinput">
         <field type="password" variable="passwordA">
-            <description align="left" txt="Password A"/>
+            <description txt="Password A"/>
             <spec>
                 <pwd txt="Enter password" size="8" set="ab1234"/>
                 <pwd txt="Re-enter password" size="8" set="ab1234"/>
@@ -35,14 +35,14 @@
         </field>
         <field type="space"/>
         <field type="password" variable="passwordB">
-            <description align="left" txt="Password B"/>
+            <description txt="Password B"/>
             <spec>
                 <pwd txt="Enter password" size="8"/>
             </spec>
         </field>
         <field type="divider"/>
         <field type="password" variable="passwordC">
-            <description align="left" txt="Password C"/>
+            <description txt="Password C"/>
             <spec>
                 <pwd txt="Enter password" size="8" set="qwerty"/>
             </spec>

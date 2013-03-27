@@ -28,6 +28,7 @@ import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -37,6 +38,16 @@ import com.izforge.izpack.util.Console;
  */
 public class HelloConsolePanel extends AbstractConsolePanel
 {
+
+    /**
+     * Constructs an {@code HelloConsolePanel}.
+     *
+     * @param panel the parent panel/view. May be {@code null}
+     */
+    public HelloConsolePanel(PanelView<Console> panel)
+    {
+        super(panel);
+    }
 
     public boolean run(InstallData installData, Properties properties)
     {

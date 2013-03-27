@@ -32,6 +32,7 @@ import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -65,6 +66,16 @@ public class UserPathConsolePanel extends AbstractConsolePanel
         USER_PATH_EXISTS = "UserPathPanel.exists_warn";
         EMPTY = "";
         br = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    /**
+     * Constructs an {@code UserPathConsolePanel}.
+     *
+     * @param panel the parent panel/view. May be {@code null}
+     */
+    public UserPathConsolePanel(PanelView<Console> panel)
+    {
+        super(panel);
     }
 
     private void loadLangpack(InstallData installData)

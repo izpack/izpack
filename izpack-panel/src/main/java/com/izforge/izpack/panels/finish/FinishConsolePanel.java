@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -34,6 +35,16 @@ import com.izforge.izpack.util.Console;
  */
 public class FinishConsolePanel extends AbstractConsolePanel
 {
+
+    /**
+     * Constructs an {@code FinishConsolePanel}.
+     *
+     * @param panel the parent panel/view. May be {@code null}
+     */
+    public FinishConsolePanel(PanelView<Console> panel)
+    {
+        super(panel);
+    }
 
     /**
      * Runs the panel using the supplied properties.

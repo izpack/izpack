@@ -296,6 +296,7 @@ file we looked for -->
     <!-- ConsoleInstaller strings -->
     <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
     <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
+    <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
 
     <!-- Next Media Strings -->
     <str id="nextmedia.title" txt="Next install media"/>

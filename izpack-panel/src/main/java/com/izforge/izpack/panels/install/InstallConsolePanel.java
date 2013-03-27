@@ -26,6 +26,7 @@ import java.util.Properties;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
 import com.izforge.izpack.util.Console;
 
@@ -43,8 +44,9 @@ public class InstallConsolePanel extends AbstractConsolePanel implements Progres
 
     private int noOfPacks = 0;
 
-    public InstallConsolePanel(IUnpacker unpacker)
+    public InstallConsolePanel(IUnpacker unpacker, PanelView<Console> panel)
     {
+        super(panel);
         this.unpacker = unpacker;
     }
 

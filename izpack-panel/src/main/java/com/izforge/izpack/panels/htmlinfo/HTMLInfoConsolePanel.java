@@ -22,9 +22,9 @@
 package com.izforge.izpack.panels.htmlinfo;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.console.AbstractTextConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -38,13 +38,14 @@ public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
     private final String panelId;
     private final String resourcePrefix;
 
-    public HTMLInfoConsolePanel(Panel panel, Resources resources)
+    public HTMLInfoConsolePanel(PanelView<Console> panel, Resources resources)
     {
         this(panel, resources, "HTMLInfoPanel");
     }
 
-    public HTMLInfoConsolePanel(Panel panel, Resources resources, String resourcePrefix)
+    public HTMLInfoConsolePanel(PanelView<Console> panel, Resources resources, String resourcePrefix)
     {
+        super(panel);
         panelId = panel.getPanelId();
         this.resources = resources;
         this.resourcePrefix = resourcePrefix;
