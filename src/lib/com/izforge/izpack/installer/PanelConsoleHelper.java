@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 
 import com.izforge.izpack.Pack;
 import com.izforge.izpack.util.Debug;
+import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.VariableSubstitutor;
@@ -122,6 +123,13 @@ abstract public class PanelConsoleHelper
     {
         System.out.println (idata.langpack.getString("installer.error") + " " + message);
     }
+    public void emitErrorAndBlockNext(String title, String message)
+    {
+        emitNotification (null,"[GENERAL ERROR]");
+        emitNotification (null,message);
+        Housekeeper.getInstance().shutDown(10);
+    }
+
     
     public int doContinue(AutomatedInstallData idata)
     {

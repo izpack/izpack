@@ -104,18 +104,31 @@ public class CheckedHelloPanelAutomationHelper extends PanelAutomationHelper imp
         
         if (isRegistered())
         {
-            try
+            // test whether multiple install is allowed
+            String disallowMultipleInstall = idata.getVariable("CheckedHelloPanel.disallowMultipleInstance");
+            
+            if (!Boolean.TRUE.toString().equalsIgnoreCase(disallowMultipleInstall))
             {
-                if (multipleInstall())
+
+            
+                try
                 {
-                    setUniqueUninstallKey();
-                    abortInstallation = false;
+                    if (multipleInstall())
+                    {
+                        setUniqueUninstallKey();
+                        abortInstallation = false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
             }
-            catch (Exception e)
+            else
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                emitErrorAndBlockNext ("",idata.langpack
+                        .getString("CheckedHelloPanel.infoMultipleInstallNotAllowed"));
             }
 
         }

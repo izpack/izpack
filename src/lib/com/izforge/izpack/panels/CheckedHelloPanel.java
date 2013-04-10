@@ -221,20 +221,33 @@ public class CheckedHelloPanel extends HelloPanel implements MSWinConstants
     {
         if (abortInstallation)
         {
-            parent.lockNextButton();
-            try
+            
+            // test whether multiple install is allowed
+            String disallowMultipleInstall = idata.getVariable("CheckedHelloPanel.disallowMultipleInstance");
+            
+            if (!Boolean.TRUE.toString().equalsIgnoreCase(disallowMultipleInstall))
             {
-                if (multipleInstall())
+                parent.lockNextButton();
+                try
                 {
-                    setUniqueUninstallKey();
-                    abortInstallation = false;
-                    parent.unlockNextButton();
+                    if (multipleInstall())
+                    {
+                        setUniqueUninstallKey();
+                        abortInstallation = false;
+                        parent.unlockNextButton();
+                    }
+                }
+                catch (Exception e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
             }
-            catch (Exception e)
+            else
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                parent.lockNextButton();
+                emitNotification(parent.langpack
+                        .getString("CheckedHelloPanel.infoMultipleInstallNotAllowed"));
             }
 
         }

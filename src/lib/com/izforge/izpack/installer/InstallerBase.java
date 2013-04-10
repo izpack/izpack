@@ -255,6 +255,7 @@ public class InstallerBase
             {
                 varName = (String) enumeration.nextElement();
                 varValue = variables.getProperty(varName);
+                if (varValue.startsWith("$")) varValue=installdata.getVariable(varValue.substring(1));
                 installdata.setVariable(varName, varValue);
             }
         }

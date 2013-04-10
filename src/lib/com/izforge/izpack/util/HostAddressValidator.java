@@ -42,13 +42,11 @@ public class HostAddressValidator implements Validator
     {
         InetAddress inet = null;
         String host = "";
-        int port = 0;
-        boolean retValue = false;
+        boolean retValue = true;
 
         try
         {
             host = client.getFieldContents(0);
-            port = Integer.parseInt(client.getFieldContents(1));
         }
         catch (Exception e)
         {
@@ -58,9 +56,6 @@ public class HostAddressValidator implements Validator
         try
         {
             inet = InetAddress.getByName(host);
-            ServerSocket socket = new ServerSocket(port, 0, inet);
-            retValue = socket.getLocalPort() > 0;
-            socket.close();
         }
         catch (Exception ex)
         {

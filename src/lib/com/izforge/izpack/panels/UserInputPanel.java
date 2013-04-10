@@ -949,7 +949,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                 else if (element.getType() == UIElementType.PASSWORD)
                 {
                     // update PasswordField
-                    JTextComponent textf = (JTextComponent) element.getComponent();
+                    JTextComponent textf = (JTextComponent) element.getComponent().getComponent(0);
 
                     if (value == null)
                     {
@@ -1608,6 +1608,9 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                     getToolkit(), idata);
 
         }
+
+        field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),BorderFactory.createEmptyBorder(6, 5, 6, 0)));
+        
         TwoColumnConstraints constraints = new TwoColumnConstraints();
         constraints.position = TwoColumnConstraints.WEST;
 
@@ -1621,7 +1624,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
 
         TwoColumnConstraints constraints2 = new TwoColumnConstraints();
         constraints2.position = TwoColumnConstraints.EAST;
-
+        
         UIElement ruleField = new UIElement();
         ruleField.setType(UIElementType.RULE);
         ruleField.setConstraints(constraints2);
@@ -2350,9 +2353,14 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                 // ----------------------------------------------------
                 // construct the UI element and add it to the list
                 // ----------------------------------------------------
+                JPanel panelPass = new JPanel();
+                //panelPass.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),BorderFactory.createEmptyBorder(6, 5, 6, 0)));
+                
+                
                 JPasswordField field = new JPasswordField(set, size);
                 field.setCaretPosition(0);
-
+                panelPass.add(field);
+         
                 TwoColumnConstraints constraints = new TwoColumnConstraints();
                 constraints.position = TwoColumnConstraints.WEST;
 
@@ -2373,7 +2381,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                 PasswordUIElement passwordUiElement = new PasswordUIElement();
                 passwordUiElement.setType(UIElementType.PASSWORD);
                 passwordUiElement.setConstraints(constraints2);
-                passwordUiElement.setComponent(field);
+                passwordUiElement.setComponent(panelPass);
                 passwordUiElement.setForPacks(forPacks);
                 passwordUiElement.setForOs(forOs);
                 passwordUiElement.setPasswordGroup(group);
@@ -2785,10 +2793,17 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
             combobox.setToolTipText(tooltiptext.toString());
         }
 
+        JPanel comboPanel = new JPanel();
+        comboPanel.add(combobox);
+        //comboPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),BorderFactory.createEmptyBorder(6, 5, 6, 0)));
+        
+
         UIElement searchUiElement = new UIElement();
         searchUiElement.setType(UIElementType.SEARCH);
         searchUiElement.setConstraints(eastconstraint1);
-        searchUiElement.setComponent(combobox);
+        //searchUiElement.setComponent(combobox);
+        searchUiElement.setComponent(comboPanel);
+        
         searchUiElement.setForPacks(forPacks);
         searchUiElement.setForOs(forOs);
         searchUiElement.setAssociatedVariable(variable);
@@ -2809,11 +2824,14 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                 .getString("UserInputPanel.search.autodetect.tooltip"));
 
         buttonPanel.add(autodetectButton);
+        
 
         JButton browseButton = ButtonFactory.createButton(parentFrame.langpack
                 .getString("UserInputPanel.search.browse"), idata.buttonsHColor);
 
         buttonPanel.add(browseButton);
+        buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),BorderFactory.createEmptyBorder(6, 5, 6, 0)));
+        
 
         TwoColumnConstraints eastonlyconstraint = new TwoColumnConstraints();
         eastonlyconstraint.position = TwoColumnConstraints.EASTONLY;

@@ -736,6 +736,15 @@ public abstract class UnpackerBase implements IUnpacker
             inRes.close();
         }
 
+        // is it an adxadmin package ?
+        // we must know in order to check uninstall
+        if (idata.info.isAdxAdmin())
+        {
+            outJar.putNextEntry(new ZipEntry("is-adxadmin"));
+            outJar.closeEntry();
+        }
+        
+        
         // Should we relaunch the uninstaller with privileges?
         if (idata.info.isPrivilegedExecutionRequiredUninstaller())
         {

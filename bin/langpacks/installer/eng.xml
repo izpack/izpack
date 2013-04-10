@@ -245,6 +245,7 @@
     <str id="CheckedHelloPanel.productAlreadyExist0" txt="This product is already installed on this computer under the path "/>
     <str id="CheckedHelloPanel.productAlreadyExist1" txt=" . Are you sure you want to install another entity?"/>
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="The uninstall key will be named: "/>
+	<str id="CheckedHelloPanel.infoMultipleInstallNotAllowed" txt="This software is already installed. Installation of another instance of this product is not allowed."/>
 
     <!-- Next Media Strings -->
     <str id="nextmedia.title" txt="Next install media"/>
@@ -299,5 +300,6 @@
     <str id="consolehelper.askyesno" txt="press 1 for yes, 2 no, 3 to quit" />
     <str id="consolehelper.askyesnocancel" txt="press 1 for yes, 2 no, 3 for cancel" />
 
+    <str id="osrequirementfailed" txt="Operating System requirement not fulfilled ! Exiting now."/>
 
 </langpack>

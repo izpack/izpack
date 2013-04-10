@@ -246,6 +246,7 @@
     <str id="CheckedHelloPanel.productAlreadyExist0" txt="Ce logiciel est déjà installé depuis le chemin "/>
     <str id="CheckedHelloPanel.productAlreadyExist1" txt=" . Etes-vous certain de vouloir installer une autre entité ?"/>
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="La clé de désinstallation sera : "/>
+	<str id="CheckedHelloPanel.infoMultipleInstallNotAllowed" txt="Ce produit est déjà installé. L'installation d'une autre instance de ce produit n'est pas autorisé."/>
 
 		<!-- Next Media Strings -->
 		<str id="nextmedia.title" txt="Prochain media d'installation"/>
@@ -299,5 +300,7 @@
     <str id="consolehelper.askaccept" txt="appuyez sur 1 pour accepter, 2 pour refuser, 3 pour afficher de nouveau" />
     <str id="consolehelper.askyesno" txt="appuyez sur 1 pour oui, 2 pour non , 3 pour quitter" />
     <str id="consolehelper.askyesnocancel" txt="appuyez sur 1 pour oui, 2 pour non , 3 pour annuler" />
+
+	    <str id="osrequirementfailed" txt="La vérification du prérequis système d'exploitation a échoué ! Fin du programme."/>
 
 </langpack>

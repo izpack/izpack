@@ -103,6 +103,8 @@ public class Info implements Serializable
     private boolean writeInstallationInformation = true;
 
     private boolean pack200Compression;
+    
+    private boolean isAdxAdmin = false;
 
     private boolean requirePrivilegedExecution = false;
 
@@ -341,9 +343,19 @@ public class Info implements Serializable
         this.pack200Compression = pack200Support;
     }
 
+    public void setIsAdxAdmin(boolean isAdxAdmin)
+    {
+        this.isAdxAdmin = isAdxAdmin;
+    }
+
     public boolean isPack200Compression()
     {
         return pack200Compression;
+    }
+
+    public boolean isAdxAdmin()
+    {
+        return isAdxAdmin;
     }
 
     /**

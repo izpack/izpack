@@ -1344,6 +1344,8 @@ public class CompilerConfig extends Thread {
             {
                 continue;
             }
+            
+            //System.out.println (zentry.getName());
 
             try
             {
@@ -1849,6 +1851,11 @@ public class CompilerConfig extends Thread {
         // Pack200 support
         IXMLElement pack200 = root.getFirstChildNamed("pack200");
         info.setPack200Compression(pack200 != null);
+        
+        // ISAdxAdmin
+        IXMLElement isAdxAdmin = root.getFirstChildNamed("is-adxadmin");
+        info.setIsAdxAdmin(isAdxAdmin != null);
+        
 
         // Privileged execution
         IXMLElement privileged = root.getFirstChildNamed("run-privileged");

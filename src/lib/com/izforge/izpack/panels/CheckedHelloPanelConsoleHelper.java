@@ -65,22 +65,33 @@ public class CheckedHelloPanelConsoleHelper extends PanelConsoleHelper implement
         
         if (isRegistered())
         {
-            try
+            // test whether multiple install is allowed
+            String disallowMultipleInstall = idata.getVariable("CheckedHelloPanel.disallowMultipleInstance");
+            
+            if (!Boolean.TRUE.toString().equalsIgnoreCase(disallowMultipleInstall))
             {
-                if (multipleInstall())
+                try
                 {
-                    setUniqueUninstallKey();
-                    abortInstallation = false;
+                    if (multipleInstall())
+                    {
+                        setUniqueUninstallKey();
+                        abortInstallation = false;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    return false;
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
             }
-            catch (Exception e)
+            else
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                emitErrorAndBlockNext ("",idata.langpack
+                        .getString("CheckedHelloPanel.infoMultipleInstallNotAllowed"));
             }
 
         }

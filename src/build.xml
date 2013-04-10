@@ -254,6 +254,7 @@
             <!-- older ant jar, which izpack distributes and uses for fileset behavior -->
             <include name="ant.jar"/>
             <include name="jakarta-regexp-1.3.jar"/>
+            <include name="mongo-java-driver-2.10.1.jar"/>
         </fileset>
         <!-- current ant jar, for compiling IzPackTask which uses modern ant features -->
         <fileset dir="${ant.home}/lib" includes="ant.jar"/>
@@ -372,7 +373,7 @@
     <!-- Compiles the installer src files -->
     <target name="compile.installer" depends="prepare">
         <javac srcdir="${src.dir}"
-               classpath="${basedir}/lib/jakarta-regexp-1.3.jar"
+               classpath="${basedir}/lib/jakarta-regexp-1.3.jar:${basedir}/lib/mongo-java-driver-2.10.1.jar"
                destdir="${build.dir}"
                optimize="on"
                source="${compat.source}"

@@ -532,7 +532,34 @@ public class ProcessPanelWorker implements Runnable
             public OutputMonitor(AbstractUIProcessHandler handler, InputStream is, boolean stderr)
             {
                 this.stderr = stderr;
-                this.reader = new BufferedReader(new InputStreamReader(is));
+                boolean iswin = (System.getProperty("os.name").toLowerCase().indexOf("win")>=0);
+                
+                if (iswin)
+                {
+                    try
+                    {
+                        String Charset = "CP850";
+                        
+                        Process procu = Runtime.getRuntime().exec("cmd.exe /C chcp");
+                        procu.waitFor();
+                        BufferedReader forCHCP = new BufferedReader(new InputStreamReader(procu.getInputStream()));
+                        String chcpout = forCHCP.readLine();
+                        if (chcpout!= null && !"".equals(chcpout))
+                        {
+                            String [] tabs = chcpout.split(" ");
+                            Charset = tabs[tabs.length-1];
+                        }
+                        this.reader = new BufferedReader(new InputStreamReader(is,Charset));
+                    }
+                    catch (Exception ex)
+                    {
+                        this.reader = new BufferedReader(new InputStreamReader(is));
+                    }
+                }
+                else
+                {
+                    this.reader = new BufferedReader(new InputStreamReader(is));
+                }
                 this.handler = handler;
             }
 

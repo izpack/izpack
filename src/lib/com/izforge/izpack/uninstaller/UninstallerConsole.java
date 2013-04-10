@@ -22,12 +22,17 @@
 package com.izforge.izpack.uninstaller;
 
 import com.izforge.izpack.LocaleDatabase;
+import com.izforge.izpack.adaptator.IXMLElement;
+import com.izforge.izpack.adaptator.IXMLParser;
+import com.izforge.izpack.adaptator.impl.XMLParser;
+import com.izforge.izpack.compiler.CompilerException;
 import com.izforge.izpack.util.AbstractUIHandler;
 import com.izforge.izpack.util.OsVersion;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -72,10 +77,42 @@ public class UninstallerConsole
     /**
      * Runs the cmd line uninstaller.
      *
-     * @param destroy Equivallen to the destroy option in the GUI.
+     * @param destroy same as the destroy option in the GUI.
      */
     public void runUninstall(boolean destroy)
     {
+        
+        // we must test here if we are an adxadmin setup
+        // thus allowing to test that there are no components installed anymore in the file adxinstall.xml
+        if (UninstallerFrame.class.getResource("/is-adxadmin")!=null)
+        {
+            File adxinstall = new File (installPath+"/inst/adxinstalls.xml");
+            if (adxinstall.exists())
+            {
+                try
+                {
+                    IXMLParser parser = new XMLParser();
+                    IXMLElement data = null;
+                    data = parser.parse(new FileInputStream(adxinstall),adxinstall.getAbsolutePath());
+                    
+                    if (data.hasChildren() && data.getFirstChildNamed("module")!=null)
+                    {
+                        // remaining modules children
+                        // cancel installation !
+                        
+                        System.out.println (langpack.getString("uninstaller.adxadmin.remainingmodules"));
+                        return;
+                    }
+                    
+                }
+                catch (Exception ex)
+                {
+                    System.out.println (langpack.getString("uninstaller.adxadmin.errparseadxinstall"));
+                    return;
+                }
+            }
+        }
+        
         Destroyer destroyer = new Destroyer(installPath,
                 destroy, true, new DestroyerHandler());
         destroyer.start();

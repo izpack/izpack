@@ -96,9 +96,15 @@ public class DirInputField extends FileInputField
     {
         if (!path.exists())
         {
-            if (!parent.emitNotificationFeedback(parent.getI18nStringForClass("createdir",
-                    "TargetPanel")
-                    + "\n" + path.getAbsolutePath())) return false;
+            String globalinstallpath = data.getInstallPath();
+            String dirAbsolutePath = path.getAbsolutePath();
+            
+            if (!dirAbsolutePath.startsWith(globalinstallpath))
+            {
+                if (!parent.emitNotificationFeedback(parent.getI18nStringForClass("createdir",
+                        "TargetPanel")
+                        + "\n" + path.getAbsolutePath())) return false;
+            }
         }
 
         // We assume, that we would install something into this dir

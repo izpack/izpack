@@ -81,10 +81,12 @@ public class SummaryProcessor
             String caption = panel.getSummaryCaption();
             String msg = panel.getSummaryBody();
             // If no caption or/and message, ignore it.
-            if (caption == null || msg == null)
+            if (caption == null || caption.equals("") || msg == null || msg.equals(""))
             {
                 continue;
             }
+            
+            
             sb.append(HEAD_START).append(caption).append(HEAD_END);
             sb.append(BODY_START).append(msg).append(BODY_END);
         }

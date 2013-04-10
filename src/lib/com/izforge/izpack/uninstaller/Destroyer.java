@@ -193,6 +193,20 @@ public class Destroyer extends Thread
          reader.close();
          return strFile;
      }
+     
+     private String getInstallLocation () throws Exception
+     {
+         InputStream in = Destroyer.class.getResourceAsStream("/install.log");
+         InputStreamReader inReader = new InputStreamReader(in);
+         BufferedReader reader = new BufferedReader(inReader);
+
+         // We read the first line (the installation path)
+         String read = reader.readLine();
+
+         reader.close();
+         
+         return read;
+     }
     
     /**
      * Returns an ArrayList of the files to delete.

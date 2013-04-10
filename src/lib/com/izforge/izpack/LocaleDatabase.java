@@ -172,6 +172,12 @@ public class LocaleDatabase extends TreeMap
         {
             IXMLElement e = (IXMLElement) children.get(i);
             String text = e.getContent();
+            
+            if (e.getAttribute("id").equals("osrequirementfailed"))
+            {
+                System.out.println ();
+            }
+            
             if (text != null && !"".equals(text))
             {
                 put(e.getAttribute("id"), text.trim());
