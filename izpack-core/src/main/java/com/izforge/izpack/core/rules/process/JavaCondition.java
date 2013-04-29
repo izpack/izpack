@@ -37,7 +37,7 @@ import com.izforge.izpack.api.rules.Condition;
  */
 public class JavaCondition extends Condition
 {
-    private static final long serialVersionUID = -7649870719815066537L;
+    private static final long serialVersionUID = 2019261646805005092L;
 
     private static final transient Logger logger = Logger.getLogger(JavaCondition.class.getName());
 
@@ -48,14 +48,11 @@ public class JavaCondition extends Condition
     protected String returnvalue;
     protected String returnvaluetype;
 
+    private transient Class<?> usedclass;
+    private transient Field usedfield;
+    private transient Method usedmethod;
 
-    protected Class<?> usedclass;
-    protected Field usedfield;
-    protected Method usedmethod;
-
-    public JavaCondition()
-    {
-    }
+    public JavaCondition() {}
 
     public JavaCondition(String classname, String fieldname, boolean complete, String returnvalue, String returnvaluetype)
     {

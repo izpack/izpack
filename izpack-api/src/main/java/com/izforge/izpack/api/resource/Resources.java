@@ -93,7 +93,7 @@ public interface Resources
      * @throws ResourceNotFoundException if the resource cannot be found
      * @throws ResourceException         if the resource cannot be retrieved
      */
-    Object getObject(String name);
+    Object getObject(String name) throws ResourceException, ResourceNotFoundException;
 
     /**
      * Returns an {@code ImageIcon} resource.

@@ -31,7 +31,7 @@ import com.izforge.izpack.api.rules.RulesEngine;
  */
 public class OrCondition extends ConditionWithMultipleOperands
 {
-    private static final long serialVersionUID = 8341350377205144199L;
+    private static final long serialVersionUID = 2215690518636768369L;
 
     protected transient RulesEngine rules;
 

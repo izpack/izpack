@@ -34,7 +34,7 @@ import com.izforge.izpack.api.rules.Condition;
  */
 public class PackSelectionCondition extends Condition
 {
-    private static final long serialVersionUID = 9193011814966195963L;
+    private static final long serialVersionUID = -1509855620741701740L;
 
     /**
      * The pack name.

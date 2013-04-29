@@ -38,16 +38,14 @@ import com.izforge.izpack.api.rules.Condition;
  */
 public class EmptyCondition extends Condition
 {
-    private static final long serialVersionUID = -4626906695822723409L;
+    private static final long serialVersionUID = -5036558553194497000L;
 
     private static final transient Logger logger = Logger.getLogger(EmptyCondition.class.getName());
 
     private ContentType contentType;
     private String content;
 
-    public EmptyCondition()
-    {
-    }
+    public EmptyCondition() {}
 
     @Override
     public boolean isTrue()

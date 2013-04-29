@@ -35,8 +35,7 @@ import com.izforge.izpack.api.data.InstallData;
  */
 public abstract class Condition implements Serializable
 {
-
-    private static final long serialVersionUID = 507592103321711123L;
+    private static final long serialVersionUID = -1294594086621662171L;
 
     private String id;
 

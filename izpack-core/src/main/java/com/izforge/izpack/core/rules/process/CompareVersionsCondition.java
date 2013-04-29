@@ -30,7 +30,7 @@ import com.izforge.izpack.api.rules.ComparisonOperator;
 
 public class CompareVersionsCondition extends CompareCondition
 {
-    private static final long serialVersionUID = -5845914969794400006L;
+    private static final long serialVersionUID = 5605592864539142416L;
 
     @Override
     public boolean isTrue()
@@ -77,6 +77,7 @@ public class CompareVersionsCondition extends CompareCondition
 
     private static class VersionStringComparator implements Comparator<String>
     {
+        @Override
         public int compare(String s1, String s2)
         {
             if (s1 == null && s2 == null)

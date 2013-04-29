@@ -26,27 +26,22 @@ import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.ConditionReference;
 import com.izforge.izpack.api.rules.RulesEngine;
+import com.izforge.izpack.core.rules.process.RefCondition;
 
 /**
  * Negation of a referenced condition
  */
 public class NotCondition extends ConditionReference
 {
+    private static final long serialVersionUID = 2886367480913278231L;
 
-    private static final long serialVersionUID = 3194843222487006309L;
+    private transient RulesEngine rules;
 
-    protected transient RulesEngine rules;
-
-    private IXMLElement referencedConditionXMLElement;
+    private String referencedConditionId;
 
     public NotCondition(RulesEngine rules)
     {
         this.rules = rules;
-    }
-
-    public IXMLElement getReferencedConditionXMLElement()
-    {
-        return referencedConditionXMLElement;
     }
 
     @Override
@@ -61,27 +56,22 @@ public class NotCondition extends ConditionReference
             throw new Exception("Condition \"" + getId() + "\" needs exactly one condition as operand");
         }
 
-        this.referencedConditionXMLElement = xmlcondition.getChildAtIndex(0);
+        RefCondition refCondition = new RefCondition(rules);
+        refCondition.readFromXML(xmlcondition.getChildAtIndex(0));
+        this.referencedConditionId = refCondition.getReferencedConditionId();
     }
-
 
     @Override
     public void resolveReference()
     {
-        String refid = referencedConditionXMLElement.getAttribute("refid");
-
-        Condition condition;
-        if (refid != null)
+        Condition condition = null;
+        if (referencedConditionId != null)
         {
-            condition = rules.getCondition(refid);
-        }
-        else
-        {
-            condition = rules.createCondition(referencedConditionXMLElement);
+            condition = rules.getCondition(referencedConditionId);
         }
         if (condition == null)
         {
-            throw new IzPackException("Referenced condition \"" +  refid + "\" not found");
+            throw new IzPackException("Referenced condition \"" +  referencedConditionId + "\" not found");
         }
         setReferencedCondition(condition);
     }

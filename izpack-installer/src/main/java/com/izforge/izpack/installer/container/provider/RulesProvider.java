@@ -23,6 +23,7 @@ package com.izforge.izpack.installer.container.provider;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.picocontainer.injectors.Provider;
@@ -30,9 +31,11 @@ import org.picocontainer.injectors.Provider;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.exception.ResourceException;
+import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
+import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.rules.ConditionContainer;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
@@ -99,9 +102,13 @@ public class RulesProvider implements Provider
         {
             rules = (Map<String, Condition>) resources.getObject("rules");
         }
-        catch (Exception exception)
+        catch (ResourceNotFoundException rnfe)
         {
-            logger.fine("No optional rules found");
+            logger.fine("No optional rules defined");
+        }
+        catch (ResourceException re)
+        {
+            logger.log(Level.SEVERE, "Optional rules could not be loaded", re);
         }
         return rules;
     }

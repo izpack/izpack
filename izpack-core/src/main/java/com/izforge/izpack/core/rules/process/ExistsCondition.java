@@ -41,16 +41,14 @@ import com.izforge.izpack.api.rules.Condition;
  */
 public class ExistsCondition extends Condition
 {
-    private static final long serialVersionUID = -7424383017678759732L;
+    private static final long serialVersionUID = -1270869273933476894L;
 
     private static final transient Logger logger = Logger.getLogger(ExistsCondition.class.getName());
 
     private ContentType contentType;
     private String content;
 
-    public ExistsCondition()
-    {
-    }
+    public ExistsCondition() {}
 
     public ExistsCondition(ContentType contentType)
     {

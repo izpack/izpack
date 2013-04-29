@@ -171,7 +171,7 @@ public abstract class AbstractResources implements Resources
      * @throws ResourceException         if the resource cannot be retrieved
      */
     @Override
-    public Object getObject(String name)
+    public Object getObject(String name) throws ResourceException, ResourceNotFoundException
     {
         Object result;
         InputStream in = getInputStream(name);

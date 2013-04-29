@@ -27,6 +27,8 @@ import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 
 public abstract class CompareCondition extends Condition
 {
+    private static final long serialVersionUID = 5449799513620657114L;
+
     protected String operand1;
     protected String operand2;
     protected ComparisonOperator operator = ComparisonOperator.EQUAL;

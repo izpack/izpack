@@ -31,7 +31,7 @@ import com.izforge.izpack.api.rules.RulesEngine;
  */
 public class XorCondition extends OrCondition
 {
-    private static final long serialVersionUID = 3148555083095194992L;
+    private static final long serialVersionUID = 7662467959903108087L;
 
     public XorCondition(RulesEngine rules)
     {

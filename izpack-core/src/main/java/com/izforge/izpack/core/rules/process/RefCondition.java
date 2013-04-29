@@ -32,11 +32,10 @@ import com.izforge.izpack.api.rules.RulesEngine;
  */
 public class RefCondition extends ConditionReference
 {
-    private static final long serialVersionUID = -2880915036530702269L;
+    private static final long serialVersionUID = -2298283511093626640L;
 
     protected transient RulesEngine rules;
 
-    Condition referencedcondition;
     private String referencedConditionId;
 
     public RefCondition(RulesEngine rules)
@@ -91,7 +90,7 @@ public class RefCondition extends ConditionReference
         StringBuffer details = new StringBuffer();
         details.append(this.getId());
         details.append(" depends on:<ul><li>");
-        details.append(referencedcondition.getDependenciesDetails());
+        details.append(getReferencedCondition().getDependenciesDetails());
         details.append("</li></ul>");
         return details.toString();
     }

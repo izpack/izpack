@@ -32,8 +32,7 @@ import com.izforge.izpack.api.rules.Condition;
  */
 public class VariableCondition extends Condition
 {
-
-    private static final long serialVersionUID = 2881336115632480575L;
+    private static final long serialVersionUID = 2153074626635361048L;
 
     protected String variablename;
 

@@ -36,7 +36,7 @@ import com.izforge.izpack.api.rules.Condition;
  */
 public class UserCondition extends Condition
 {
-    private static final long serialVersionUID = -2076347348048202718L;
+    private static final long serialVersionUID = -8494645616275891103L;
 
     private static final transient Logger logger = Logger.getLogger(UserCondition.class.getName());
 

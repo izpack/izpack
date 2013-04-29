@@ -25,6 +25,8 @@ import java.util.List;
 
 public abstract class ConditionWithMultipleOperands extends Condition
 {
+    private static final long serialVersionUID = -947580950752190486L;
+
     protected List<Condition> nestedConditions = new ArrayList<Condition>();
 
     public List<Condition> getOperands()

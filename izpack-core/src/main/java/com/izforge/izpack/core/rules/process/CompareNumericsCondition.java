@@ -31,7 +31,7 @@ import com.izforge.izpack.api.rules.ComparisonOperator;
 
 public class CompareNumericsCondition extends CompareCondition
 {
-    private static final long serialVersionUID = -5512232923336878003L;
+    private static final long serialVersionUID = 3463371028276391505L;
 
     private static final transient Logger logger = Logger.getLogger(CompareNumericsCondition.class.getName());
 

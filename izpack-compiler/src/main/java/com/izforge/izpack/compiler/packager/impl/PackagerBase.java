@@ -61,7 +61,6 @@ import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.IoHelper;
 
-
 /**
  * The packager base class. The packager interface <code>IPackager</code> is used by the compiler to put files into an installer, and
  * create the actual installer files. The packager implementation depends on different requirements (e.g. normal packager versus multi volume packager).

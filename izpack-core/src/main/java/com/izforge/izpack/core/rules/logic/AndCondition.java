@@ -33,7 +33,7 @@ import com.izforge.izpack.api.rules.RulesEngine;
  */
 public class AndCondition extends ConditionWithMultipleOperands
 {
-    private static final long serialVersionUID = -5854944262991488370L;
+    private static final long serialVersionUID = -449457141608045073L;
 
     protected transient RulesEngine rules;
 

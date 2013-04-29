@@ -21,6 +21,8 @@ package com.izforge.izpack.api.rules;
 
 public abstract class ConditionReference extends Condition
 {
+    private static final long serialVersionUID = -2118025238727923692L;
+
     private Condition referencedCondition;
 
     public Condition getReferencedCondition()
