@@ -25,6 +25,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
@@ -37,13 +39,16 @@ import com.izforge.izpack.panels.userinput.gui.GUIField;
  *
  * @author Tim Anderson
  */
-public class GUITextField extends GUIField
+public class GUITextField extends GUIField implements FocusListener, DocumentListener
 {
 
     /**
      * The component.
      */
     private final JTextField text;
+
+    private transient boolean changed = false;
+
 
     /**
      * Constructs a {@code GUITextField}.
@@ -57,20 +62,8 @@ public class GUITextField extends GUIField
         text = new JTextField(field.getInitialValue(), field.getSize());
         text.setName(field.getVariable());
         text.setCaretPosition(0);
-
-        text.addFocusListener(new FocusListener()
-        {
-            @Override
-            public void focusGained(FocusEvent event)
-            {
-            }
-
-            @Override
-            public void focusLost(FocusEvent event)
-            {
-                checkUpdate();
-            }
-        });
+        text.getDocument().addDocumentListener(this);
+        text.addFocusListener(this);
         addField(text);
     }
 
@@ -115,23 +108,61 @@ public class GUITextField extends GUIField
         String value = getField().getValue();
         if (value != null)
         {
+            text.getDocument().removeDocumentListener(this);
             text.setText(replaceVariables(value));
+            text.getDocument().addDocumentListener(this);
+            setChanged(false);
             result = true;
         }
         return result;
     }
 
-    /**
-     * Determines if the field has updated. If so, it notifies any registered listener.
-     */
 
-    private void checkUpdate()
+    public synchronized void setChanged(boolean changed)
     {
-        String value = text.getText();
-        String existing = getField().getValue();
-        if ((value != null && !value.equals(existing)) || (value == null && existing != null))
+        this.changed = changed;
+    }
+
+    private synchronized boolean isChanged()
+    {
+        return changed;
+    }
+
+
+    // FocusListener interface
+
+    @Override
+    public void focusGained(FocusEvent event)
+    {
+        text.selectAll();
+    }
+    @Override
+    public void focusLost(FocusEvent event)
+    {
+        if (isChanged())
         {
             notifyUpdateListener();
+            setChanged(false);
         }
+        text.select(0, 0);
+    }
+
+
+    // DocumentListener interface
+
+    @Override
+    public void insertUpdate(DocumentEvent e)
+    {
+        setChanged(true);
+    }
+    @Override
+    public void removeUpdate(DocumentEvent e)
+    {
+        setChanged(true);
+    }
+    @Override
+    public void changedUpdate(DocumentEvent e)
+    {
+        setChanged(true);
     }
 }

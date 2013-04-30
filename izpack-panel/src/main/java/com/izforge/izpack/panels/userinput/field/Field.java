@@ -392,18 +392,26 @@ public abstract class Field
     private void addExistsCondition()
     {
         RulesEngine rules = getRules();
+        final String conditionId = "izpack.input." + variable;
         if (rules != null)
         {
-            ExistsCondition existsCondition = new ExistsCondition();
-            existsCondition.setContentType(ExistsCondition.ContentType.VARIABLE);
-            existsCondition.setContent(variable);
-            existsCondition.setId("izpack.input." + variable);
-            existsCondition.setInstallData(installData);
-            rules.addCondition(existsCondition);
+            if (rules.getCondition(conditionId) == null)
+            {
+                ExistsCondition existsCondition = new ExistsCondition();
+                existsCondition.setContentType(ExistsCondition.ContentType.VARIABLE);
+                existsCondition.setContent(variable);
+                existsCondition.setId(conditionId);
+                existsCondition.setInstallData(installData);
+                rules.addCondition(existsCondition);
+            }
+            else
+            {
+                logger.fine("Condition '" + conditionId + "' for variable '" + variable + "' already exists");
+            }
         }
         else
         {
-            logger.fine("Cannot add exist condition for variable: '" + variable + "'. Rules not supplied");
+            logger.fine("Cannot add  condition '" + conditionId + "' for variable '" + variable + "'. Rules not supplied");
         }
     }
 

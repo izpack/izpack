@@ -190,6 +190,10 @@ public class UserInputPanel extends IzPanel
                 validate();
             }
         }
+        // Focus the first panel component according to the default traversal
+        // policy avoiding forcing the user to click into that field first
+        parent.setFocusCycleRoot(true);
+        parent.requestFocus();
     }
 
     /**
@@ -321,9 +325,9 @@ public class UserInputPanel extends IzPanel
                 if (!view.isDisplayed())
                 {
                     view.setDisplayed(true);
-                    for (Component components : view.getComponents())
+                    for (Component component : view.getComponents())
                     {
-                        panel.add(components.getComponent(), components.getConstraints());
+                        panel.add(component.getComponent(), component.getConstraints());
                     }
                 }
             }
@@ -396,14 +400,8 @@ public class UserInputPanel extends IzPanel
             this.eventsActivated = false;
             if (readInput(LoggingPrompt.INSTANCE)) // read from the input fields, but don't display a prompt for errors
             {
-                // read input
-                // and update elements
-                init();
                 updateVariables();
                 updateUIElements();
-                buildUI();
-                validate();
-                repaint();
             }
             this.eventsActivated = true;
         }

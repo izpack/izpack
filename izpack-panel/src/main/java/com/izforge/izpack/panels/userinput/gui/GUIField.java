@@ -184,6 +184,7 @@ public abstract class GUIField extends AbstractFieldView
 
             // Not editable, but still selectable.
             label.setEditable(false);
+            label.setFocusable(false);
 
             // If html tags are present enable html rendering, otherwise the JTextPane
             // looks exactly like MultiLineLabel.
