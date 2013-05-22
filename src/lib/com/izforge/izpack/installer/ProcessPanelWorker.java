@@ -308,6 +308,18 @@ public class ProcessPanelWorker implements Runnable
             {
                 break;
             }
+
+            // in case of waiting for a service to start
+            // we wait a little to ensure service has started
+            // 1.5s is not to big
+            // issue #1090
+            try
+            {
+                Thread.sleep(1500);
+            }
+            catch (InterruptedException e)
+            {
+            }
         }
 
         boolean unlockNext = true;
@@ -463,7 +475,7 @@ public class ProcessPanelWorker implements Runnable
                     stopMonitor(stdoutMon, stdoutThread);
                     stopMonitor(stderrMon, stderrThread);
 
-                    if (exitStatus != 0)
+                    if (exitStatus != 0 && exitStatus != 3010)
                     {
                         if (this.handler.askQuestion("Process execution failed",
                                 "Continue anyway?", AbstractUIHandler.CHOICES_YES_NO,
