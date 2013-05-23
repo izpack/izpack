@@ -796,7 +796,25 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
         if (STATIC_TEXT.equals(strFieldType))
         {
             String strText = null;
+            
+            String key = field.getAttribute(KEY);
             strText = field.getAttribute(TEXT);
+
+            if ((key != null) && (idata.langpack != null))
+            {
+                try
+                {
+                    String langPackText = idata.langpack.getString(key);
+                    if (langPackText != null && !key.equals(langPackText)) {
+                        strText = langPackText;
+                    }
+                }
+                catch (Throwable exception)
+                {
+                    // no localized text found
+                }
+            }            
+            
             return new Input(strVariableName, null, null, STATIC_TEXT, strText, 0);
         }
 
@@ -919,11 +937,12 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
             if (spec != null)
             {
                 choices = spec.getChildrenNamed(CHOICE);
+                strFieldText = getText(spec, idata);
             }
-            if (description != null)
-            {
-                strFieldText = description.getAttribute(TEXT);
-            }
+            //if (description != null)
+            //{
+            //    strFieldText = description.getAttribute(TEXT);
+            //}
             for (int i = 0; i < choices.size(); i++)
             {
 
@@ -1079,7 +1098,8 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                 {
 
                     IXMLElement pwde = pwds.elementAt(i);
-                    strText = pwde.getAttribute(TEXT);
+                    //strText = pwde.getAttribute(TEXT);
+                    strText = getText(pwde, idata);
                     strSet = pwde.getAttribute(SET);
                     choicesList.add(new Choice(strText, null, strSet));
                     inputs[i] = new Input(strVariableName, strSet, choicesList, strFieldType, strFieldText, 0);
