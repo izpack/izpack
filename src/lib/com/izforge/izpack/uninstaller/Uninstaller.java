@@ -373,6 +373,8 @@ public class Uninstaller
     }
 
     private static boolean isElevationNeeded() {
-        return !getInstallPath().canWrite();
+        // well if we told exec-admin in install.xml then  i think we should elevate à uninstall too !
+        // issue #1016
+        return (Uninstaller.class.getResource("/exec-admin") != null)|| (!getInstallPath().canWrite());
     }
 }
