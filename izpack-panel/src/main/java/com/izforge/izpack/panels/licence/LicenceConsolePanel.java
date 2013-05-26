@@ -27,9 +27,9 @@ import com.izforge.izpack.util.Console;
 
 
 /**
- * Console based License Panel.
+ * Console based Licence Panel.
  */
-public class LicenceConsolePanel extends AbstractLicenseConsolePanel
+public class LicenceConsolePanel extends AbstractLicenceConsolePanel
 {
     /**
      * Constructs a {@code LicenceConsolePanel}.

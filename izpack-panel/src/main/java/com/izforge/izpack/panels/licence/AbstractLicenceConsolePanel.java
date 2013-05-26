@@ -35,7 +35,7 @@ import com.izforge.izpack.util.Console;
  *
  * @author Tim Anderson
  */
-public abstract class AbstractLicenseConsolePanel extends AbstractTextConsolePanel
+public abstract class AbstractLicenceConsolePanel extends AbstractTextConsolePanel
 {
 
     /**
@@ -46,7 +46,7 @@ public abstract class AbstractLicenseConsolePanel extends AbstractTextConsolePan
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractLicenseConsolePanel.class.getName());
+    private static final Logger logger = Logger.getLogger(AbstractLicenceConsolePanel.class.getName());
 
     /**
      * Constructs a {@code AbstractLicenseConsolePanel}.
@@ -54,7 +54,7 @@ public abstract class AbstractLicenseConsolePanel extends AbstractTextConsolePan
      * @param panel     the parent panel/view. May be {@code null}
      * @param resources the resources
      */
-    public AbstractLicenseConsolePanel(PanelView<Console> panel, Resources resources)
+    public AbstractLicenceConsolePanel(PanelView<Console> panel, Resources resources)
     {
         super(panel);
         this.resources = resources;

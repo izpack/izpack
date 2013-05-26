@@ -87,12 +87,12 @@ public class CompilerPathResolver extends PathResolver
         Map<String, List<Mergeable>> mergeableByPackage = new HashMap<String, List<Mergeable>>();
         List<Mergeable> mergeable = new ArrayList<Mergeable>();
         getMergeableByPackage(type, mergeableByPackage);
-        Class consoleType = PanelHelper.getConsolePanel(className);
+        Class consoleType = PanelHelper.getConsolePanel(className, loader);
         if (consoleType != null)
         {
             getMergeableByPackage(consoleType, mergeableByPackage);
         }
-        Class automatedType = PanelHelper.getAutomatedPanel(className);
+        Class automatedType = PanelHelper.getAutomatedPanel(className, loader);
         if (automatedType != null)
         {
             getMergeableByPackage(automatedType, mergeableByPackage);

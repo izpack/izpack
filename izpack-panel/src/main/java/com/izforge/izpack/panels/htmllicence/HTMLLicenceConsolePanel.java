@@ -23,13 +23,13 @@ package com.izforge.izpack.panels.htmllicence;
 
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.panel.PanelView;
-import com.izforge.izpack.panels.licence.AbstractLicenseConsolePanel;
+import com.izforge.izpack.panels.licence.AbstractLicenceConsolePanel;
 import com.izforge.izpack.util.Console;
 
 /**
- * HTML License Panel console helper
+ * HTML Licence Panel console helper
  */
-public class HTMLLicenceConsolePanel extends AbstractLicenseConsolePanel
+public class HTMLLicenceConsolePanel extends AbstractLicenceConsolePanel
 {
 
     /**
