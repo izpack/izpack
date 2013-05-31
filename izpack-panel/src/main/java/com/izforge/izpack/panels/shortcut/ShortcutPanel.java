@@ -29,6 +29,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -794,7 +795,8 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     @Override
     public void makeXMLData(IXMLElement panelRoot)
     {
-        for (IXMLElement element : shortcutPanelLogic.getAutoinstallXMLData())
+    	List<IXMLElement> autoinstallXMLData = shortcutPanelLogic.getAutoinstallXMLData(panelRoot);
+        for (IXMLElement element : autoinstallXMLData)
         {
             panelRoot.addChild(element);
         }

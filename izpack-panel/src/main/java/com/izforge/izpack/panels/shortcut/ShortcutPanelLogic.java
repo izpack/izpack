@@ -432,13 +432,14 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
+     * @param panelRoot 
      * @return a list of xml child elements to write a autoinstall.xml file for later execution
      */
-    public List<IXMLElement> getAutoinstallXMLData()
+    public List<IXMLElement> getAutoinstallXMLData(IXMLElement panelRoot)
     {
         List<IXMLElement> xmlData = new ArrayList<IXMLElement>();
         IXMLElement dataElement;
-        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_SHORTCUTS);
+        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_SHORTCUTS, panelRoot);
         dataElement.setContent(Boolean.toString(isCreateShortcuts()));
         xmlData.add(dataElement);
 
@@ -447,13 +448,13 @@ public class ShortcutPanelLogic implements CleanupClient
             // ----------------------------------------------------
             // add all other items
             // ----------------------------------------------------
-            dataElement = new XMLElementImpl(AUTO_KEY_PROGRAM_GROUP);
+            dataElement = new XMLElementImpl(AUTO_KEY_PROGRAM_GROUP, panelRoot);
             dataElement.setContent(getGroupName());
             xmlData.add(dataElement);
-            dataElement = new XMLElementImpl(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS);
+            dataElement = new XMLElementImpl(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS, panelRoot);
             dataElement.setContent(getGroupName());
             xmlData.add(dataElement);
-            dataElement = new XMLElementImpl(AUTO_KEY_SHORTCUT_TYPE);
+            dataElement = new XMLElementImpl(AUTO_KEY_SHORTCUT_TYPE, panelRoot);
             String userTypeString;
             if (getUserType() == Shortcut.CURRENT_USER)
             {

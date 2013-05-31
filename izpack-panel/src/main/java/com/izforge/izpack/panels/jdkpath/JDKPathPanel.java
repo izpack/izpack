@@ -38,6 +38,8 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import com.coi.tools.os.win.MSWinConstants;
+import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
@@ -627,5 +629,16 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     public String getSummaryBody()
     {
         return (this.installData.getVariable(getVariableName()));
+    }
+    
+    @Override
+    public void makeXMLData(IXMLElement panelRoot) {
+        IXMLElement ipath = new XMLElementImpl("jdkPath", panelRoot);
+        ipath.setContent(pathSelectionPanel.getPath());
+        panelRoot.addChild(ipath);
+        
+        IXMLElement varname = new XMLElementImpl("jdkVarName", panelRoot);
+        varname.setContent(variableName);
+        panelRoot.addChild(varname);
     }
 }

@@ -74,7 +74,7 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
     @Override
     public void makeXMLData(InstallData installData, IXMLElement panelRoot)
     {
-        for (IXMLElement element : shortcutPanelLogic.getAutoinstallXMLData())
+        for (IXMLElement element : shortcutPanelLogic.getAutoinstallXMLData(panelRoot))
         {
             panelRoot.addChild(element);
         }
