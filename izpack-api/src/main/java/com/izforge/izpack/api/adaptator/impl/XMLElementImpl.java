@@ -121,23 +121,34 @@ public class XMLElementImpl implements IXMLElement
         this.element = (Element) node;
     }
 
+    @Override
     public String getName()
     {
         return element.getNodeName();
     }
 
+    @Override
     public void addChild(IXMLElement child)
     {
         hasChanged = true;
-        element.appendChild(child.getElement());
+        Document targetDoc = element.getOwnerDocument();
+        Document sourceDoc = child.getElement().getOwnerDocument();
+        if (targetDoc.equals(sourceDoc)) {
+            element.appendChild(child.getElement());
+        } else {
+            Node firstDocImportedNode = element.getOwnerDocument().importNode(child.getElement(), true);
+            element.appendChild(firstDocImportedNode );
+        }
     }
 
+    @Override
     public void removeChild(IXMLElement child)
     {
         hasChanged = true;
         element.removeChild(child.getElement());
     }
 
+    @Override
     public boolean hasChildren()
     {
         for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())
@@ -166,24 +177,28 @@ public class XMLElementImpl implements IXMLElement
         }
     }
 
+    @Override
     public int getChildrenCount()
     {
         initChildrenList();
         return childrenList.size();
     }
 
+    @Override
     public List<IXMLElement> getChildren()
     {
         initChildrenList();
         return childrenList;
     }
 
+    @Override
     public IXMLElement getChildAtIndex(int index)
     {
         initChildrenList();
         return childrenList.get(index);
     }
 
+    @Override
     public IXMLElement getFirstChildNamed(String name)
     {
         XMLElementImpl res = null;
@@ -195,6 +210,7 @@ public class XMLElementImpl implements IXMLElement
         return res;
     }
 
+    @Override
     public List<IXMLElement> getChildrenNamed(String name)
     {
         List<IXMLElement> res = new ArrayList<IXMLElement>();
@@ -208,11 +224,13 @@ public class XMLElementImpl implements IXMLElement
         return res;
     }
 
+    @Override
     public String getAttribute(String name)
     {
         return this.getAttribute(name, null);
     }
 
+    @Override
     public String getAttribute(String name, String defaultValue)
     {
         Node attribute = element.getAttributes().getNamedItem(name);
@@ -223,6 +241,7 @@ public class XMLElementImpl implements IXMLElement
         return defaultValue;
     }
 
+    @Override
     public void setAttribute(String name, String value)
     {
         NamedNodeMap attributes = element.getAttributes();
@@ -231,11 +250,13 @@ public class XMLElementImpl implements IXMLElement
         attributes.setNamedItem(attribute);
     }
 
+    @Override
     public void removeAttribute(String name)
     {
         this.element.getAttributes().removeNamedItem(name);
     }
 
+    @Override
     public Enumeration enumerateAttributeNames()
     {
         NamedNodeMap namedNodeMap = element.getAttributes();
@@ -248,11 +269,13 @@ public class XMLElementImpl implements IXMLElement
         return properties.keys();
     }
 
+    @Override
     public boolean hasAttribute(String name)
     {
         return (this.element.getAttributes().getNamedItem(name) != null);
     }
 
+    @Override
     public Properties getAttributes()
     {
         Properties properties = new Properties();
@@ -264,6 +287,7 @@ public class XMLElementImpl implements IXMLElement
         return properties;
     }
 
+    @Override
     public int getLineNr()
     {
         Object ln = element.getUserData("ln");
@@ -281,6 +305,7 @@ public class XMLElementImpl implements IXMLElement
         }
     }
 
+    @Override
     public String getContent()
     {
         StringBuilder builder = new StringBuilder();
@@ -318,6 +343,7 @@ public class XMLElementImpl implements IXMLElement
         return (err) ? null : builder.toString().trim();
     }
 
+    @Override
     public void setContent(String content)
     {
         Node child;
@@ -328,6 +354,7 @@ public class XMLElementImpl implements IXMLElement
         element.appendChild(element.getOwnerDocument().createTextNode(content));
     }
 
+    @Override
     public Node getElement()
     {
         return element;

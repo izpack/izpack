@@ -123,6 +123,7 @@ public class PromptUIHandler implements AbstractUIHandler
      * @return The user's choice.
      * @see com.izforge.izpack.api.handler.AbstractUIHandler#askQuestion(String, String, int)
      */
+    @Override
     public int askQuestion(String title, String question, int choices)
     {
         return askQuestion(title, question, choices, -1);
@@ -138,6 +139,7 @@ public class PromptUIHandler implements AbstractUIHandler
      * @return The user's choice.
      * @see com.izforge.izpack.api.handler.AbstractUIHandler#askQuestion(String, String, int, int)
      */
+    @Override
     public int askQuestion(String title, String question, int choices, int default_choice)
     {
         int choice;
@@ -156,7 +158,7 @@ public class PromptUIHandler implements AbstractUIHandler
                 default:
                     defaultValue = null;
             }
-            Option selected = prompt.confirm(QUESTION, question, YES_NO, defaultValue);
+            Option selected = prompt.confirm(QUESTION, title, question, YES_NO, defaultValue);
             choice = (selected == YES) ? AbstractUIHandler.ANSWER_YES : AbstractUIHandler.ANSWER_NO;
         }
         else
@@ -176,7 +178,7 @@ public class PromptUIHandler implements AbstractUIHandler
                 default:
                     defaultValue = null;
             }
-            Option selected = prompt.confirm(QUESTION, question, YES_NO_CANCEL, defaultValue);
+            Option selected = prompt.confirm(QUESTION, title, question, YES_NO_CANCEL, defaultValue);
             if (selected == YES)
             {
                 choice = AbstractUIHandler.ANSWER_YES;

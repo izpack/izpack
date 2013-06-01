@@ -69,6 +69,15 @@ public class XMLElementTest
     }
 
     @Test
+    public void testAddChildToDifferentDocument() throws NoSuchMethodException
+    {
+        IXMLElement element = new XMLElementImpl("child");
+        root.addChild(element);
+        element = root.getChildAtIndex(root.getChildrenCount() - 1);
+        Assert.assertEquals(element.getName(), "child");
+    }
+
+    @Test
     public void testRemoveChild() throws NoSuchMethodException
     {
         IXMLElement element = new XMLElementImpl("child", root);

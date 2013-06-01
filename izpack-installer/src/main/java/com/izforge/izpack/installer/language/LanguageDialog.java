@@ -141,8 +141,16 @@ public class LanguageDialog extends JDialog
     public void initLangPack() throws Exception
     {
         // Loads the suitable langpack
-        if (locales.getLocales().size() > 1)
-        {
+        switch (locales.getLocales().size()) {
+        case 0:
+            // nothing to do at this point
+            break;
+        case 1:
+            // propagate the specified language 
+            String codeOfUniqueLanguage = displayNames.keySet().iterator().next();
+            propagateLocale(codeOfUniqueLanguage);
+            break;
+        default:
             frame.setVisible(false);
             setVisible(true);
         }
@@ -275,16 +283,9 @@ public class LanguageDialog extends JDialog
         {
             throw new RuntimeException("installation canceled");
         }
-        try
-        {
-            propagateLocale(selectedPack);
-            // Configure buttons after locale has been loaded
-            installData.configureGuiButtons();
-        }
-        catch (Exception exception)
-        {
-            logger.log(Level.SEVERE, exception.getMessage(), exception);
-        }
+
+        propagateLocale(selectedPack);
+        
         dispose();
     }
 
@@ -301,6 +302,7 @@ public class LanguageDialog extends JDialog
          *
          * @param e the event.
          */
+        @Override
         public void windowClosing(WindowEvent e)
         {
             System.exit(0);
@@ -327,19 +329,28 @@ public class LanguageDialog extends JDialog
      * Sets the selected locale on the installation data.
      *
      * @param code the locale ISO code
-     * @throws ResourceException for any resource exception
      */
     private void propagateLocale(String code)
     {
-        locales.setLocale(code);
-        Locale newLocale =locales.getLocale();
-        Locale.setDefault(newLocale);
+        try
+        {
+            locales.setLocale(code);
+            Locale newLocale = locales.getLocale();
+            Locale.setDefault(newLocale);
 
-        JComponent.setDefaultLocale(newLocale);
-        SwingUtilities.updateComponentTreeUI(this);
+            JComponent.setDefaultLocale(newLocale);
+            SwingUtilities.updateComponentTreeUI(this);
 
-        installData.setLocale(locales.getLocale(), locales.getISOCode());
-        installData.setMessages(locales.getMessages());
+            installData.setLocale(locales.getLocale(), locales.getISOCode());
+            installData.setMessages(locales.getMessages());
+
+            // Configure buttons after locale has been loaded
+            installData.configureGuiButtons();
+        }
+        catch (Exception exception)
+        {
+            logger.log(Level.SEVERE, exception.getMessage(), exception);
+        }
     }
 
     /**
@@ -359,8 +370,8 @@ public class LanguageDialog extends JDialog
          * @return a component to render the value
          */
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-                                                      boolean cellHasFocus)
+        public Component getListCellRendererComponent(JList list, Object value, int index,
+                boolean isSelected, boolean cellHasFocus)
         {
             String code = (String) value;
             setText(displayNames.get(code));
@@ -414,6 +425,7 @@ public class LanguageDialog extends JDialog
          * @param cellHasFocus Description of the Parameter
          * @return The cell.
          */
+        @Override
         public Component getListCellRendererComponent(JList list, Object value, int index,
                                                       boolean isSelected, boolean cellHasFocus)
         {
