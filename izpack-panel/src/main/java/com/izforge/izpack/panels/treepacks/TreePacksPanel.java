@@ -1007,7 +1007,7 @@ class CheckTreeController extends MouseAdapter
         initTotalSize(root, true);
 
         // must override the bytes being computed at packsModel
-        treePacksPanel.setBytes((int) root.getTotalSize());
+        treePacksPanel.setBytes(root.getTotalSize());
         treePacksPanel.showSpaceRequired();
         tree.treeDidChange();
     }
