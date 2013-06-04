@@ -1,27 +1,45 @@
 /*
- * $Id:$ 
- * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
- * http://izpack.org/ http://izpack.codehaus.org/
- * 
+ * IzPack - Copyright 2001-2013 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
  * Copyright 2006 Klaus Bartz
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.izforge.izpack.util;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * This class tries to remove a given list of files which are locked by this process. For this the
@@ -57,11 +75,6 @@ public class LibraryRemover
      * System property name of phase (1, 2, or 3) indicator.
      */
     private static final String PHASE_KEY = "self.mod.phase";
-
-    /**
-     * VM home Needed for the java command.
-     */
-    private static final String JAVA_HOME = System.getProperty("java.home");
 
     /**
      * Prefix of sandbox, path and log file.
@@ -109,7 +122,7 @@ public class LibraryRemover
         this.phase = phase;
         if (phase == 1)
         {
-            initJavaExec();
+            ProcessHelper.tryExecJava();
         }
         else
         {
@@ -129,32 +142,6 @@ public class LibraryRemover
     {
         LibraryRemover self = new LibraryRemover(1);
         self.invoke1(temporaryFileNames);
-    }
-
-    /**
-     * This call ensures that java can be exec'd in a separate process.
-     *
-     * @throws IOException       if an I/O error occurs, indicating java is unable to be exec'd
-     * @throws SecurityException if a security manager exists and doesn't allow creation of a
-     *                           subprocess
-     */
-    private void initJavaExec() throws IOException
-    {
-        try
-        {
-            Process process = Runtime.getRuntime().exec(javaCommand());
-
-            new StreamProxy(process.getErrorStream(), "err").start();
-            new StreamProxy(process.getInputStream(), "out").start();
-            process.getOutputStream().close();
-
-            // even if it returns an error code, it was at least found
-            process.waitFor();
-        }
-        catch (InterruptedException ie)
-        {
-            throw new IOException("Unable to create a java subprocess");
-        }
     }
 
     /**
@@ -330,11 +317,11 @@ public class LibraryRemover
 
         // invoke from tmpdir, passing target method arguments as args, and
         // SelfModifier parameters as sustem properties
-        String[] javaCmd = new String[]{javaCommand(), "-classpath", sandbox.getAbsolutePath(),
+        String[] javaCmd = new String[]{ProcessHelper.getJavaCommand(), "-classpath", sandbox.getAbsolutePath(),
                 "-D" + BASE_KEY + "=" + base, "-D" + PHASE_KEY + "=" + nextPhase,
                 getClass().getName()};
 
-        StringBuffer sb = new StringBuffer("Spawning phase ");
+        StringBuilder sb = new StringBuilder("Spawning phase ");
         sb.append(nextPhase).append(": ");
         for (String aJavaCmd : javaCmd)
         {
@@ -343,7 +330,7 @@ public class LibraryRemover
         log(sb.toString());
 
         // Just invoke it and let it go, the exception will be caught above
-        return Runtime.getRuntime().exec(javaCmd, null, null); // workDir);
+        return ProcessHelper.exec(javaCmd);
     }
 
     /**
@@ -357,45 +344,15 @@ public class LibraryRemover
         if (file.isDirectory())
         {
             File[] files = file.listFiles();
-            for (File file1 : files)
+            if (files != null)
             {
-                deleteTree(file1);
+                for (File file1 : files)
+                {
+                    deleteTree(file1);
+                }
             }
         }
         return file.delete();
-    }
-
-    /**
-     * Copied from com.izforge.izpack.uninstaller.SelfModifier.
-     *
-     * @return command command extended with extension of executable
-     */
-    private static String addExtension(String command)
-    {
-        // This is the most common extension case - exe for windows and OS/2,
-        // nothing for *nix.
-        return command + (OsVersion.IS_WINDOWS || OsVersion.IS_OS2 ? ".exe" : "");
-    }
-
-    /**
-     * Copied from com.izforge.izpack.uninstaller.SelfModifier. Little addaption for this class.
-     *
-     * @return command for spawning
-     */
-    private static String javaCommand()
-    {
-        String executable = addExtension("java");
-        String dir = new File(JAVA_HOME + "/bin").getAbsolutePath();
-        File jExecutable = new File(dir, executable);
-
-        // Unfortunately on Windows java.home doesn't always refer
-        // to the correct location, so we need to fall back to
-        // assuming java is somewhere on the PATH.
-        if (!jExecutable.exists())
-        {
-            return executable;
-        }
-        return jExecutable.getAbsolutePath();
     }
 
     public static void main(String[] args)
@@ -460,59 +417,6 @@ public class LibraryRemover
         if (checkLog() != null)
         {
             log.println(isoPoint.format(date) + " Phase " + phase + ": " + msg);
-        }
-    }
-
-    public static class StreamProxy extends Thread
-    {
-
-        InputStream in;
-
-        String name;
-
-        OutputStream out;
-
-        public StreamProxy(InputStream in, String name)
-        {
-            this(in, name, null);
-        }
-
-        public StreamProxy(InputStream in, String name, OutputStream out)
-        {
-            this.in = in;
-            this.name = name;
-            this.out = out;
-        }
-
-        public void run()
-        {
-            try
-            {
-                PrintWriter printWriter = null;
-                if (out != null)
-                {
-                    printWriter = new PrintWriter(out);
-                }
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = br.readLine()) != null)
-                {
-                    if (printWriter != null)
-                    {
-                        printWriter.println(line);
-                    }
-                    // System.out.println(name + ">" + line);
-                }
-                if (printWriter != null)
-                {
-                    printWriter.flush();
-                }
-            }
-            catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-            }
         }
     }
 

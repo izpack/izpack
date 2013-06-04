@@ -1,5 +1,5 @@
 /*
- * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
@@ -19,7 +19,10 @@
 
 package com.izforge.izpack.util;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 
 /**
  * This is a grabber for stdout and stderr. It will be launched once at command execution end
@@ -27,14 +30,10 @@ import java.io.*;
  *
  * @author Olexij Tkatchenko <ot@parcs.de>
  */
-public class MonitorInputStream implements Runnable
+public class MonitorInputStream extends RunnableReader
 {
 
-    private BufferedReader reader;
-
     private BufferedWriter writer;
-
-    private boolean shouldStop = false;
 
     /**
      * Construct a new monitor.
@@ -44,40 +43,23 @@ public class MonitorInputStream implements Runnable
      */
     public MonitorInputStream(Reader in, Writer out)
     {
-        this.reader = new BufferedReader(in);
+        super(in);
         this.writer = new BufferedWriter(out);
     }
 
     /**
-     * Request stopping this thread.
+     * Invoked after a line has been read.
+     * <p/>
+     * This echoes the line to the writer.
+     *
+     * @param line the line
+     * @throws IOException for any I/O error
      */
-    public void doStop()
+    @Override
+    protected void read(String line) throws IOException
     {
-        this.shouldStop = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void run()
-    {
-        try
-        {
-            String line;
-            while ((line = this.reader.readLine()) != null)
-            {
-                this.writer.write(line);
-                this.writer.newLine();
-                this.writer.flush();
-                if (this.shouldStop)
-                {
-                    return;
-                }
-            }
-        }
-        catch (IOException ioe)
-        {
-            ioe.printStackTrace(System.out);
-        }
+        writer.write(line);
+        writer.newLine();
+        writer.flush();
     }
 }

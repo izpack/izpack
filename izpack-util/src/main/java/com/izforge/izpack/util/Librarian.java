@@ -1,6 +1,5 @@
 /*
- * $Id$
- * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
@@ -22,8 +21,6 @@
 
 package com.izforge.izpack.util;
 
-import com.izforge.izpack.util.file.FileUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.izforge.izpack.util.file.FileUtils;
 
 /**
  * This class handles loading of native libraries. There must only be one instance of
@@ -163,13 +162,16 @@ public class Librarian implements CleanupClient
         // instead of killing the thread in the dlls which provokes a
         // segmentation violation with a 1.5 (also known as 5.0) VM.
 
-        try
+        if (!temporaryFileNames.isEmpty())
         {
-            LibraryRemover.invoke(temporaryFileNames);
-        }
-        catch (IOException exception)
-        {
-            logger.log(Level.WARNING, "Cleanup failed for native libraries: " + exception.getMessage(), exception);
+            try
+            {
+                LibraryRemover.invoke(temporaryFileNames);
+            }
+            catch (IOException exception)
+            {
+                logger.log(Level.WARNING, "Cleanup failed for native libraries: " + exception.getMessage(), exception);
+            }
         }
         clients.clear();
     }
@@ -276,7 +278,7 @@ public class Librarian implements CleanupClient
                 catch (URISyntaxException exception)
                 {
                     logger.log(Level.WARNING, "Failed to load library: " + name + ": " + exception.getMessage(),
-                            exception);
+                               exception);
                 }
             }
             else if (protocol.equalsIgnoreCase(JAR_PROTOCOL))

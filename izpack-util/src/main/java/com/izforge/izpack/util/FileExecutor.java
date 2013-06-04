@@ -1,5 +1,5 @@
 /*
- * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2013 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
@@ -55,7 +55,7 @@ public class FileExecutor
 
     private boolean stopThread(Thread t, MonitorInputStream monitorInputStream)
     {
-        monitorInputStream.doStop();
+        monitorInputStream.stop();
         long softTimeout = 1000;
         try
         {

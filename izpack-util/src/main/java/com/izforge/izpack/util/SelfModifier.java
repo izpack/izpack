@@ -1,17 +1,17 @@
 /*
- * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ * IzPack - Copyright 2001-2013 Julien Ponge, All Rights Reserved.
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2004 Chadwick McHenry
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,15 +22,12 @@
 package com.izforge.izpack.util;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -294,7 +291,7 @@ public class SelfModifier
         // retrieve reference to target method
         try
         {
-            Class clazz = Class.forName(cName);
+            Class<?> clazz = Class.forName(cName);
             Method method = clazz.getMethod(tName, new Class[]{String[].class});
 
             initMethod(method);
@@ -322,15 +319,15 @@ public class SelfModifier
      * @throws NullPointerException     if <code>method</code> is null
      * @throws IllegalArgumentException if <code>method</code> is not public, static, and take a
      *                                  String array as it's only argument, or of it's declaring class is not public.
-     * @throws IllegalStateException    if process was not invoked from a jar file, or an IOExceptioin
-     *                                  occured while accessing it
-     * @throws IOException              if java is unable to be executed as a separte process
+     * @throws IllegalStateException    if process was not invoked from a jar file,
+     *                                  or an IOException occurred while accessing it
+     * @throws IOException              if java is unable to be executed as a separate process
      * @throws SecurityException        if access to the method, or creation of a subprocess is denied
      */
     public SelfModifier(Method method) throws IOException
     {
         phase = 1;
-        initJavaExec();
+        ProcessHelper.tryExecJava();
         initMethod(method);
     }
 
@@ -372,32 +369,6 @@ public class SelfModifier
         }
 
         this.method = method;
-    }
-
-    /**
-     * This call ensures that java can be exec'd in a separate process.
-     *
-     * @throws IOException       if an I/O error occurs, indicating java is unable to be exec'd
-     * @throws SecurityException if a security manager exists and doesn't allow creation of a
-     *                           subprocess
-     */
-    private void initJavaExec() throws IOException
-    {
-        try
-        {
-            Process process = Runtime.getRuntime().exec(javaCommand());
-
-            new StreamProxy(process.getErrorStream(), "err").start();
-            new StreamProxy(process.getInputStream(), "out").start();
-            process.getOutputStream().close();
-
-            // even if it returns an error code, it was at least found
-            process.waitFor();
-        }
-        catch (InterruptedException ie)
-        {
-            throw new IOException("Unable to create a java subprocess");
-        }
     }
 
     /***********************************************************************************************
@@ -483,7 +454,7 @@ public class SelfModifier
 
         // invoke from tmpdir, passing target method arguments as args, and
         // SelfModifier parameters as system properties
-        String javaCommand = javaCommand();
+        String javaCommand = ProcessHelper.getJavaCommand();
 
         List<String> command = new ArrayList<String>();
         command.add(javaCommand);
@@ -525,9 +496,7 @@ public class SelfModifier
         }
         log(buffer.toString());
 
-//        ProcessBuilder process = new ProcessBuilder(command);       
-//        return process.start();
-        return Runtime.getRuntime().exec(command.toArray(new String[command.size()]), null, null);
+        return ProcessHelper.exec(command);
     }
 
     /**
@@ -613,7 +582,7 @@ public class SelfModifier
                 extracted++;
             }
             log("Extracted " + extracted + " file" + (extracted > 1 ? "s" : "") + " into "
-                    + sandbox.getPath());
+                        + sandbox.getPath());
         }
         finally
         {
@@ -659,10 +628,6 @@ public class SelfModifier
             // spawn phase 3, capture its stdio and wait for it to exit
             Process process = spawn(args, 3);
 
-            new StreamProxy(process.getErrorStream(), "err", log).start();
-            new StreamProxy(process.getInputStream(), "out", log).start();
-            process.getOutputStream().close();
-
             try
             {
                 retVal = process.waitFor();
@@ -691,9 +656,12 @@ public class SelfModifier
         if (file.isDirectory())
         {
             File[] files = file.listFiles();
-            for (File file1 : files)
+            if (files != null)
             {
-                deleteTree(file1);
+                for (File file1 : files)
+                {
+                    deleteTree(file1);
+                }
             }
         }
         return file.delete();
@@ -714,7 +682,7 @@ public class SelfModifier
         try
         {
             errlog("Invoking method: " + method.getDeclaringClass().getName() + "."
-                    + method.getName() + "(String[] args)");
+                           + method.getName() + "(String[] args)");
 
             method.invoke(null, new Object[]{args});
         }
@@ -781,69 +749,6 @@ public class SelfModifier
         }
     }
 
-    public static class StreamProxy extends Thread
-    {
-
-        InputStream in;
-
-        String name;
-
-        OutputStream out;
-
-        public StreamProxy(InputStream in, String name)
-        {
-            this(in, name, null);
-        }
-
-        public StreamProxy(InputStream in, String name, OutputStream out)
-        {
-            this.in = in;
-            this.name = name;
-            this.out = out;
-        }
-
-        public void run()
-        {
-            try
-            {
-                PrintWriter printWriter = null;
-                if (out != null)
-                {
-                    printWriter = new PrintWriter(out);
-                }
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = br.readLine()) != null)
-                {
-                    if (printWriter != null)
-                    {
-                        printWriter.println(line);
-                    }
-                }
-                if (printWriter != null)
-                {
-                    printWriter.flush();
-                }
-            }
-            catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * ********************************************************************************************
-     * --------------------------------------------------------------------- Apache ant code
-     * ---------------------------------------------------------------------
-     */
-    // This was stolen (and specialized from much more modular code) from the
-    // jakarta ant class org.apache.tools.ant.taskdefs.condition.Os
-    // See the javaCommand() method.
-
-    private static final String JAVA_HOME = System.getProperty("java.home");
-
     /**
      * Constructs a file path from a <code>file:</code> URI.
      * <p/>
@@ -906,39 +811,6 @@ public class SelfModifier
         }
 
         return buffer.toString();
-    }
-
-    private static String addExtension(String command)
-    {
-        // This is the most common extension case - exe for windows and OS/2,
-        // nothing for *nix.
-        return command + (OsVersion.IS_WINDOWS || OsVersion.IS_OS2 ? ".exe" : "");
-    }
-
-    private static String javaCommand()
-    {
-        // This was stolen (and specialized from much more modular code) from
-        // the
-        // jakarta ant classes Os & JavaEnvUtils. Also see the following
-        // org.apache.tools.ant.taskdefs.Java
-        // org.apache.tools.ant.taskdefs.Execute
-        // org.apache.tools.ant.taskdefs.condition.Os
-        // org.apache.tools.ant.util.CommandlineJava
-        // org.apache.tools.ant.util.JavaEnvUtils
-        // org.apache.tools.ant.util.FileUtils
-        // TODO: I didn't copy nearly all of their conditions
-        String executable = addExtension("java");
-        String dir = new File(JAVA_HOME + "/bin").getAbsolutePath();
-        File jExecutable = new File(dir, executable);
-
-        // Unfortunately on Windows java.home doesn't always refer
-        // to the correct location, so we need to fall back to
-        // assuming java is somewhere on the PATH.
-        if (!jExecutable.exists())
-        {
-            return executable;
-        }
-        return jExecutable.getAbsolutePath();
     }
 
     /**
