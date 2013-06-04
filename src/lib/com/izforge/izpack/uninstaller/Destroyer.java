@@ -101,6 +101,9 @@ public class Destroyer extends Thread
             
             FileExecutor executor = new FileExecutor(executables);
             executor.executeFiles(ExecutableFile.UNINSTALL, this.handler);
+            
+            // should we wait a little to release all handles ?
+            Thread.sleep(6000);
 
             ArrayList<File> files = getFilesList();
             int size = files.size();
@@ -142,6 +145,10 @@ public class Destroyer extends Thread
                 }
                 
             }
+
+            // should we wait a little to release all handles ?
+            Thread.sleep(6000);
+            
             // We make a complementary cleanup
             handler.progress(size, "[ cleanups ]");
             cleanup(new File(installPath));

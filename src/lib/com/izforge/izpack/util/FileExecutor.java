@@ -340,6 +340,17 @@ public class FileExecutor
                     params[i] = paramList.get(i);
                 }
 
+                try
+                {
+                    // should we wait a little to release all handles ?
+                    Thread.sleep(3000);
+                }
+                catch (InterruptedException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
                 exitStatus = executeCommand(params, output);
 
                 // bring a dialog depending on return code and failure handling
