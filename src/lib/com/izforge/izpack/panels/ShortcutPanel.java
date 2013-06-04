@@ -642,6 +642,11 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         }
 
         self = this;
+
+        // # issue #1059
+        //parent.lockPrevButton();
+        
+
     }
 
     // ~ Methods ****************************************************************************
@@ -794,6 +799,9 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     /*--------------------------------------------------------------------------*/
     public void panelActivate()
     {
+        
+        parent.lockPrevButton();
+        
         try
         {
             readShortcutSpec();
