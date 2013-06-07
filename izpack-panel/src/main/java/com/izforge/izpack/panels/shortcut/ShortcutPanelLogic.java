@@ -847,7 +847,7 @@ public class ShortcutPanelLogic implements CleanupClient
 
     public String getCreateForCurrentUserPrompt()
     {
-        return installData.getMessages().get("ShortcutPanel.regular.allUsers");
+        return installData.getMessages().get("ShortcutPanel.regular.currentUser");
     }
 
     /**
