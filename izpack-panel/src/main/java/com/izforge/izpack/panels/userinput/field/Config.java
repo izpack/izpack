@@ -204,6 +204,24 @@ public class Config
     }
 
     /**
+     * Returns the named attribute value without replacing any variables present.
+     *
+     * @param element      the element
+     * @param name         the attribute name
+     * @param defaultValue the default value if the attribute isn't set
+     * @return the corresponding value
+     */
+    public String getRawString(IXMLElement element, String name, String defaultValue)
+    {
+        String value = element.getAttribute(name);
+        if (value == null)
+        {
+            value = defaultValue;
+        }
+        return value;
+    }
+
+    /**
      * Returns a localised version of a string.
      *
      * @param value the string value

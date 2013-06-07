@@ -182,7 +182,11 @@ public abstract class Field
      */
     public String getDefaultValue()
     {
-        return set;
+        if (set != null)
+        {
+            return installData.getVariables().replace(set);
+        }
+        return null;
     }
 
     /**
@@ -356,9 +360,9 @@ public abstract class Field
     }
 
     /**
-     * Returns the value of the 'set' attribute.
+     * Returns the raw value of the 'set' attribute.
      *
-     * @return the value of the 'set' attribute
+     * @return the raw value of the 'set' attribute
      */
     protected String getSet()
     {

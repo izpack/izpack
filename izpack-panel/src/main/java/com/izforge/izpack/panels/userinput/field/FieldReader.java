@@ -108,6 +108,7 @@ public class FieldReader extends ElementReader implements FieldConfig
      * @return the 'variable' attribute, or {@code null} if the variable is optional but not present
      * @throws IzPackException if the 'variable' attribute is mandatory but not present
      */
+    @Override
     public String getVariable()
     {
         return getConfig().getAttribute(getField(), VARIABLE);
@@ -118,6 +119,7 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return the list of pack names
      */
+    @Override
     public List<String> getPacks()
     {
         return getPacks(field);
@@ -128,21 +130,23 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return the operating systems, or an empty list if the field applies to all operating systems
      */
+    @Override
     public List<OsModel> getOsModels()
     {
         return getOsModels(field);
     }
 
     /**
-     * Returns the default value of the field.
+     * Returns the default value of the field without replacing variables.
      * <p/>
      * This is obtained from the 'set' attribute of the 'spec' element.
      *
      * @return the default value. May be {@code null}
      */
+    @Override
     public String getDefaultValue()
     {
-        return (spec != null) ? getConfig().getString(spec, "set", null) : null;
+        return (spec != null) ? getConfig().getRawString(spec, "set", null) : null;
     }
 
     /**
@@ -150,6 +154,7 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return the field size, or {@code -1} if no size is specified, or the specified size is invalid
      */
+    @Override
     public int getSize()
     {
         int result = -1;
@@ -165,6 +170,7 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return the validators for the field
      */
+    @Override
     public List<FieldValidator> getValidators()
     {
         List<FieldValidator> result = new ArrayList<FieldValidator>();
@@ -183,6 +189,7 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return the field processor, or {@code null} if none exists
      */
+    @Override
     public FieldProcessor getProcessor()
     {
         IXMLElement element = (spec != null) ? spec.getFirstChildNamed("processor") : null;
@@ -194,6 +201,7 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return the field description. May be @{code null}
      */
+    @Override
     public String getDescription()
     {
         return getText(field.getFirstChildNamed("description"));
@@ -204,6 +212,7 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return the field label. May be {@code null}
      */
+    @Override
     public String getLabel()
     {
         return getText(getSpec());
@@ -214,6 +223,7 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return {@code true} if the field triggers revalidation
      */
+    @Override
     public boolean getRevalidate()
     {
         return (spec != null) && getConfig().getBoolean(spec, "revalidate", false);
@@ -224,6 +234,7 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return the condition. May be {@code null}
      */
+    @Override
     public String getCondition()
     {
         return getConfig().getString(getField(), "conditionid", null);
