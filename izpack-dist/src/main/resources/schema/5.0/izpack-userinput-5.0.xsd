@@ -19,9 +19,7 @@
   -->
 
 <!--
- | Schema for user input specification. The structure is re-engineered as
- | IzPack does not provide a structure description.
- |______________________________________________________________________________
+ | Schema for user input specification.
  |
  | Author: jochen.hinrichsen@kambrium.net
  |         Tim Anderson
@@ -182,7 +180,7 @@
         <xs:attribute name="type" type="typeType" use="required"/>
         <xs:attribute name="variable" type="xs:string" use="optional"/>
         <xs:attribute name="conditionid" type="xs:string" use="optional"/>
-        <xs:attribute name="key" type="xs:string" use="optional"/>
+        <xs:attribute name="id" type="xs:string" use="optional"/>
         <xs:attribute name="txt" type="xs:string" use="optional"/>
         <xs:attribute name="bold" type="xs:boolean" use="optional"/>
         <xs:attribute name="size" type="xs:float" use="optional">
