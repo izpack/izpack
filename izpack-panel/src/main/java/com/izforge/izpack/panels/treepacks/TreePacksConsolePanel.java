@@ -121,7 +121,7 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
         treeData = new HashMap<String, List<String>>();
         idToPack = new HashMap<String, Pack>();
 
-        for (Pack pack : installData.getAvailablePacks())
+        for (Pack pack : getAvailableShowablePacks(installData))
         {
             idToPack.put(pack.getName(), pack);
             if (pack.getParent() != null)
@@ -140,7 +140,6 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
             }
         }
     }
-
 
     private void out(Type type, String message)
     {
@@ -294,5 +293,21 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
     private boolean askUser(String message)
     {
         return Option.YES == prompt.confirm(Type.QUESTION, message, Options.YES_NO);
+    }
+
+    private List<Pack> getAvailableShowablePacks(InstallData installData)
+    {
+        List<Pack> packs = new ArrayList<Pack>();
+        List<Pack> availablePacks = installData.getAvailablePacks();
+
+        for (Pack pack : availablePacks)
+        {
+            if (!pack.isHidden())
+            {
+                packs.add(pack);
+            }
+        }
+
+        return packs;
     }
 }

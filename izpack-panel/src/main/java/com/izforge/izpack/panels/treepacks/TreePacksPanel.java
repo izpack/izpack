@@ -632,7 +632,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
         treeData = new HashMap<String, List<String>>();
         nameToPack = new HashMap<String, Pack>();
 
-        for (Pack pack : this.installData.getAvailablePacks())
+        for (Pack pack : getAvailableShowablePacks())
         {
             nameToPack.put(pack.getName(), pack);
             if (pack.getParent() != null)
@@ -700,9 +700,9 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
             int i = getRowIndex(pack);
             if (pack.getExcludeGroup() != null)
             {
-                for (int q = 0; q < this.installData.getAvailablePacks().size(); q++)
+                for (int q = 0; q < getAvailableShowablePacks().size(); q++)
                 {
-                    Pack otherpack = this.installData.getAvailablePacks().get(q);
+                    Pack otherpack = getAvailableShowablePacks().get(q);
                     String exgroup = otherpack.getExcludeGroup();
                     if (exgroup != null)
                     {
@@ -757,7 +757,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
         if (parent == null) // the root node
         {
             List<TreeNode> rootNodes = new ArrayList<TreeNode>();
-            for (Pack pack : this.installData.getAvailablePacks())
+            for (Pack pack : getAvailableShowablePacks())
             {
                 if (pack.getParent() == null)
                 {
@@ -827,9 +827,9 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
 
             //initialize helper map to increa performance
             packToRowNumber = new HashMap<Pack, Integer>();
-            for (Pack pack : this.installData.getAvailablePacks())
+            for (Pack pack : getAvailableShowablePacks())
             {
-                packToRowNumber.put(pack, this.installData.getAvailablePacks().indexOf(pack));
+                packToRowNumber.put(pack, getAvailableShowablePacks().indexOf(pack));
             }
 
             // Init tree structures
@@ -857,7 +857,7 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
             // set the JCheckBoxes to the currently selected panels. The
             // selection might have changed in another panel
             bytes = 0;
-            for (Pack pack : this.installData.getAvailablePacks())
+            for (Pack pack : getAvailableShowablePacks())
             {
                 if (pack.isRequired())
                 {
@@ -907,7 +907,23 @@ public class TreePacksPanel extends IzPanel implements PacksPanelInterface
         return packsTree;
     }
 
+    private List<Pack> getAvailableShowablePacks()
+    {
+        List<Pack> packs = new ArrayList<Pack>();
+        List<Pack> availablePacks = this.installData.getAvailablePacks();
+
+        for (Pack pack : availablePacks)
+        {
+            if (!pack.isHidden())
+            {
+                packs.add(pack);
+            }
+        }
+
+        return packs;
+    }
 }
+
 
 /**
  * Controller class which handles the mouse clicks on checkbox nodes. Also
