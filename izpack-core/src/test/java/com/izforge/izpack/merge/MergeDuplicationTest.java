@@ -47,12 +47,10 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestMergeContainer.class)
 public class MergeDuplicationTest
 {
-    private PathResolver pathResolver;
     private MergeableResolver mergeableResolver;
 
     public MergeDuplicationTest(PathResolver pathResolver, MergeableResolver mergeableResolver)
     {
-        this.pathResolver = pathResolver;
         this.mergeableResolver = mergeableResolver;
     }
 
