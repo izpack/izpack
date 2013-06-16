@@ -154,6 +154,8 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
 
     private ShortcutPanelLogic shortcutPanelLogic;
 
+    private boolean prevButtonVisible;
+
     /**
      * The logger.
      */
@@ -177,6 +179,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
                          InstallerListeners listeners, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, "link16x16", resources);
+        prevButtonVisible = panel.getPrevButton();
         layout = (GridBagLayout) super.getLayout();
         Object con = getLayoutHelper().getDefaultConstraints();
         if (con instanceof GridBagConstraints)
@@ -339,6 +342,11 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
                 initialised = true;
                 if (shortcutPanelLogic.isSupported())
                 {
+                    if(! this.prevButtonVisible)
+                    {
+                        parent.lockPrevButton();
+                        parent.setPreviousVisible(true);
+                    }
                     isRootUser = shortcutPanelLogic.initUserType();
                     buildUI(shortcutPanelLogic.getProgramsFolder(shortcutPanelLogic.getUserType()));
                 }

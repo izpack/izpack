@@ -58,6 +58,11 @@ public class Panel implements Serializable
     private String panelId;
 
     /**
+     * determines in the previous buton is active
+     */
+    private boolean prevButton = true;
+
+    /**
      * condition for this panel
      */
     private String condition;
@@ -122,6 +127,18 @@ public class Panel implements Serializable
     {
         this.panelId = panelId;
     }
+
+    // -----------------------------------
+    public boolean getPrevButton()
+    {
+        return this.prevButton;
+    }
+
+    public void setPrevButton(boolean show)
+    {
+        this.prevButton = show;
+    }
+    // -----------------------------------
 
     @Deprecated
     public String getPanelid()
@@ -302,6 +319,7 @@ public class Panel implements Serializable
                 ", condition='" + condition + '\'' +
                 ", actions=" + actions +
                 ", validator='" + validator + '\'' +
+                ", prevButton='" + (prevButton ? "True" : "False") + '\'' +
                 ", helps=" + helps +
                 '}';
     }

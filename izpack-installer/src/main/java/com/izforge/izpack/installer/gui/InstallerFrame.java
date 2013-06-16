@@ -826,6 +826,16 @@ public class InstallerFrame extends JFrame implements InstallerView
     }
 
     /**
+     * Makes the 'previous' button visible/invisible.
+     *
+     * @param visible if (prevbutton = true) makes the button visible, otherwise makes it invisible.
+     */
+    public void setPreviousVisible(boolean show)
+    {
+        navigator.setPreviousVisible(show);
+    }
+
+    /**
      * Locks the 'next' button.
      */
     @Override

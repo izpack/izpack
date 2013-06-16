@@ -176,7 +176,7 @@ public class CompilerConfig extends Thread
      * @see #mergePacksLangFiles()
      */
     private Map<String, List<URL>> packsLangUrlMap = new HashMap<String, List<URL>>();
- 
+
     /**
      * UserInputPanel IDs for cross check whether given user input panel
      * referred in the installation descriptor are really defined
@@ -1171,6 +1171,7 @@ public class CompilerConfig extends Thread
             String encoding = parsableNode.getAttribute("encoding", null);
             List<OsModel> osList = OsConstraintHelper.getOsList(parsableNode); // TODO: unverified
             String condition = parsableNode.getAttribute("condition");
+
             if (target != null)
             {
                 ParsableFile parsable = new ParsableFile(target, type, encoding, osList);
@@ -1506,9 +1507,13 @@ public class CompilerConfig extends Thread
             panel.setOsConstraints(OsConstraintHelper.getOsList(panelElement));
             String className = xmlCompilerHelper.requireAttribute(panelElement, "classname");
 
-            // add an id                               
+            // add an id
             String id = panelElement.getAttribute("id");
             panel.setPanelId(id);
+
+            boolean prevButton = Boolean.parseBoolean(panelElement.getAttribute("prevbutton", "true"));
+            panel.setPrevButton(prevButton);
+
             String condition = panelElement.getAttribute("condition");
             panel.setCondition(condition);
 
