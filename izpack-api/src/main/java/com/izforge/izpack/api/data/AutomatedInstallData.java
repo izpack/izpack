@@ -342,7 +342,7 @@ public class AutomatedInstallData implements InstallData
         getXmlData().setAttribute("langpack", locale);
         // We load the langpack
         setVariable(ScriptParserConstant.ISO3_LANG, getLocaleISO3());
-        setVariable(ScriptParserConstant.ISO2_LANG, getLocaleISO3());
+        setVariable(ScriptParserConstant.ISO2_LANG, getLocaleISO2());
         setMessages(localeDatabase);
     }
 

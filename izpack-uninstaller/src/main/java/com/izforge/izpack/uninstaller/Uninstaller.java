@@ -117,7 +117,7 @@ public class Uninstaller
             System.err.println(ioeOrTypo.getMessage());
             ioeOrTypo.printStackTrace();
             System.err.println("Unable to exec java as a subprocess.");
-            System.err.println("The uninstall may not fully complete.");
+            System.err.println("The uninstall may not be fully complete.");
             uninstall(args);
         }
     }

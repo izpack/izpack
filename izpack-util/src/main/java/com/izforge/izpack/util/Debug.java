@@ -447,9 +447,9 @@ public class Debug
     }
 
     /**
-     * Gets the current TRACE flag
+     * Gets the current STACKTRACE flag
      *
-     * @return Returns the TRACE.
+     * @return Returns the STACKTRACE.
      */
     public static boolean isSTACKTRACE()
     {
@@ -457,9 +457,9 @@ public class Debug
     }
 
     /**
-     * Gets the current TRACE flag
+     * Gets the current DEBUG flag
      *
-     * @return Returns the TRACE.
+     * @return Returns the DEBUG.
      */
     public static boolean isDEBUG()
     {

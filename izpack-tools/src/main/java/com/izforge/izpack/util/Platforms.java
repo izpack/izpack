@@ -154,7 +154,7 @@ public class Platforms
     public static Platform WINDOWS_7 = new Platform(Name.WINDOWS, "WINDOWS_7", OsVersionConstants.WINDOWS_7_VERSION);
 
     /**
-     * Windows 7 platform.
+     * Windows 8 platform.
      */
     public static Platform WINDOWS_8 = new Platform(Name.WINDOWS, "WINDOWS_8", OsVersionConstants.WINDOWS_8_VERSION);
 

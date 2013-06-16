@@ -1477,7 +1477,7 @@ public class CompilerConfig extends Thread
     }
 
     /**
-     * Parse panels and their paramters, locate the panels resources and add to the Packager.
+     * Parse panels and their parameters, locate the panels resources and add to the Packager.
      *
      * @param data The XML data.
      * @throws CompilerException Description of the Exception
@@ -1495,7 +1495,7 @@ public class CompilerConfig extends Thread
         }
 
         // We process each panel markup
-        // We need a panel counter to build unique panel dependet resource names
+        // We need a panel counter to build unique panel dependent resource names
         int panelCounter = 0;
         for (IXMLElement panelElement : panels)
         {
