@@ -460,7 +460,7 @@ public abstract class PackagerBase implements IPackager
     protected void writeManifest() throws IOException
     {
         // Add splash screen configuration
-        List<String> lines = IOUtils.readLines(getClass().getResourceAsStream("MANIFEST.MF"));
+        List<String> lines = IOUtils.readLines(PackagerBase.class.getResourceAsStream("MANIFEST.MF"));
         if (splashScreenImage != null)
         {
             String destination = String.format("META-INF/%s", splashScreenImage.getName());
