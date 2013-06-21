@@ -176,7 +176,7 @@ public class CompilerConfig extends Thread
      * @see #mergePacksLangFiles()
      */
     private Map<String, List<URL>> packsLangUrlMap = new HashMap<String, List<URL>>();
- 
+
     /**
      * UserInputPanel IDs for cross check whether given user input panel
      * referred in the installation descriptor are really defined
@@ -1171,6 +1171,7 @@ public class CompilerConfig extends Thread
             String encoding = parsableNode.getAttribute("encoding", null);
             List<OsModel> osList = OsConstraintHelper.getOsList(parsableNode); // TODO: unverified
             String condition = parsableNode.getAttribute("condition");
+
             if (target != null)
             {
                 ParsableFile parsable = new ParsableFile(target, type, encoding, osList);
@@ -1477,7 +1478,7 @@ public class CompilerConfig extends Thread
     }
 
     /**
-     * Parse panels and their paramters, locate the panels resources and add to the Packager.
+     * Parse panels and their parameters, locate the panels resources and add to the Packager.
      *
      * @param data The XML data.
      * @throws CompilerException Description of the Exception
@@ -1495,7 +1496,7 @@ public class CompilerConfig extends Thread
         }
 
         // We process each panel markup
-        // We need a panel counter to build unique panel dependet resource names
+        // We need a panel counter to build unique panel dependent resource names
         int panelCounter = 0;
         for (IXMLElement panelElement : panels)
         {
@@ -1506,9 +1507,13 @@ public class CompilerConfig extends Thread
             panel.setOsConstraints(OsConstraintHelper.getOsList(panelElement));
             String className = xmlCompilerHelper.requireAttribute(panelElement, "classname");
 
-            // add an id                               
+            // add an id
             String id = panelElement.getAttribute("id");
             panel.setPanelId(id);
+
+            boolean prevButton = Boolean.parseBoolean(panelElement.getAttribute("prevbutton", "true"));
+            panel.setPrevButton(prevButton);
+
             String condition = panelElement.getAttribute("condition");
             panel.setCondition(condition);
 

@@ -96,9 +96,18 @@ public class CheckedHelloPanel extends HelloPanel
         {
             path = "<not found>";
         }
-        String noLuck = getString("CheckedHelloPanel.productAlreadyExist0") + path + " . "
-                + getString("CheckedHelloPanel.productAlreadyExist1");
-        return (askQuestion(getString("installer.error"), noLuck,
+
+        String noLuck0 = getString("CheckedHelloPanel.productAlreadyExist0");
+        String noLuck1 = getString("CheckedHelloPanel.productAlreadyExist1");
+        int maxlen = Math.max(noLuck0.length(), Math.max(noLuck1.length(), path.length()));
+
+        String spaces0 = new String(new char[Math.abs(maxlen - noLuck0.length()) / 2]).replace('\0', ' ');
+        String spaces1 = new String(new char[Math.abs(maxlen - path.length()) / 2]).replace('\0', ' ');
+        String spaces2 = new String(new char[Math.abs(maxlen - noLuck1.length()) / 2]).replace('\0', ' ');
+
+        String notice = spaces0 + noLuck0 + "\n" + spaces1 + path + "\n" + spaces2 + noLuck1;
+
+        return (askQuestion(getString("installer.error"), notice,
                             AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES);
     }
 

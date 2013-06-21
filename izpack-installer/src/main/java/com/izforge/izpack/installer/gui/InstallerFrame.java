@@ -826,6 +826,16 @@ public class InstallerFrame extends JFrame implements InstallerView
     }
 
     /**
+     * Makes the 'previous' button visible/invisible.
+     *
+     * @param visible if (prevbutton = true) makes the button visible, otherwise makes it invisible.
+     */
+    public void setPreviousVisible(boolean show)
+    {
+        navigator.setPreviousVisible(show);
+    }
+
+    /**
      * Locks the 'next' button.
      */
     @Override
@@ -1411,11 +1421,11 @@ public class InstallerFrame extends JFrame implements InstallerView
             String message = String.format(
                     "%s %d %s %d",
                     messages.get("installer.step"), curPanelNo + 1,
-                    messages.get("installer.of"), visPanelsCount + 1
+                    messages.get("installer.of"), visPanelsCount
             );
             if (headingCounterComponent instanceof JProgressBar)
             {
-                updateProgressBar(visPanelsCount + 1, curPanelNo + 1, message);
+                updateProgressBar(visPanelsCount, curPanelNo + 1, message);
             }
             else
             {
