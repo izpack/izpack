@@ -1,279 +1,279 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
-
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+ 
 <!-- The Portuguese langpack -->
-
+ 
 <izpack:langpack version="5.0"
                  xmlns:izpack="http://izpack.org/schema/langpack"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
-
-
+ 
+ 
     <!-- Heading messages START -->
     <str id="CheckedHelloPanel.headline" txt="Bem Vindo"/>
-    <str id="CompilePanel.headline" txt="Compilar C�digo Java"/>
+    <str id="CompilePanel.headline" txt="Compilar Código Java"/>
     <str id="ConditionalUserInputPanel.headline" txt="Dados do Utilizador"/>
-    <str id="ExtendedInstallPanel.headline" txt="Instala��o e Configura��o"/>
-    <str id="FinishPanel.headline" txt="Instala��o Terminada"/>
+    <str id="ExtendedInstallPanel.headline" txt="Instalação e Configuração"/>
+    <str id="FinishPanel.headline" txt="Instalação Terminada"/>
     <str id="HelloPanel.headline" txt="Bem Vindo"/>
-    <str id="HTMLInfoPanel.headline" txt="Informa��o"/>
-    <str id="HTMLLicencePanel.headline" txt="Acordo de Licen�a"/>
-    <str id="ImgPacksPanel.headline" txt="Seleccione os Pacotes de Instala��o"/>
-    <str id="InfoPanel.headline" txt="Informa��o"/>
-    <str id="InstallPanel.headline" txt="Instala��o"/>
-    <str id="JDKPathPanel.headline" txt="Localiza��o do JDK"/>
-    <str id="LicencePanel.headline" txt="Acordo de Licen�a"/>
-    <str id="PacksPanel.headline" txt="Seleccione os Pacotes de Instala��o"/>
+    <str id="HTMLInfoPanel.headline" txt="Informação"/>
+    <str id="HTMLLicencePanel.headline" txt="Acordo de Licença"/>
+    <str id="ImgPacksPanel.headline" txt="Seleccione os Pacotes de Instalação"/>
+    <str id="InfoPanel.headline" txt="Informação"/>
+    <str id="InstallPanel.headline" txt="Instalação"/>
+    <str id="JDKPathPanel.headline" txt="Localização do JDK"/>
+    <str id="LicencePanel.headline" txt="Acordo de Licença"/>
+    <str id="PacksPanel.headline" txt="Seleccione os Pacotes de Instalação"/>
     <str id="ProcessPanel.headline" txt="Executar processos externos"/>
     <str id="ShortcutPanel.headline" txt="Configurar Atalhos"/>
-    <str id="SimpleFinishPanel.headline" txt="Instala��o Terminada"/>
-    <str id="SummaryPanel.headline" txt="Resumo dos Dados de Configura��o"/>
-    <str id="TargetPanel.headline" txt="Localiza��o de Destino"/>
+    <str id="SimpleFinishPanel.headline" txt="Instalação Terminada"/>
+    <str id="SummaryPanel.headline" txt="Resumo dos Dados de Configuração"/>
+    <str id="TargetPanel.headline" txt="Localização de Destino"/>
     <str id="UserInputPanel.headline" txt="Dados do Utilizador"/>
-    <str id="UserPathPanel.headline" txt="Seleccione a Localiza��o"/>
-    <str id="InstallationTypePanel.headline" txt="Tipo de Instala��o"/>
-
+    <str id="UserPathPanel.headline" txt="Seleccione a Localização"/>
+    <str id="InstallationTypePanel.headline" txt="Tipo de Instalação"/>
+ 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Instala��o de "/>
+    <str id="installer.title" txt="IzPack - Instalação de "/>
     <str id="installer.next" txt="Seguinte"/>
     <str id="installer.prev" txt="Anterior"/>
     <str id="installer.quit" txt="Sair"/>
     <str id="installer.madewith" txt="(Criado com IzPack - http://izpack.org/)"/>
-    <str id="installer.quit.title" txt="Tem a certeza que deseja sair da aplica��o?"/>
-    <str id="installer.quit.message" txt="A instala��o vai ser cancelada!"/>
+    <str id="installer.quit.title" txt="Tem a certeza que deseja sair da aplicação?"/>
+    <str id="installer.quit.message" txt="A instalação vai ser cancelada!"/>
     <str id="installer.warning" txt="Aviso!"/>
     <str id="installer.yes" txt="Sim"/>
-    <str id="installer.no" txt="N�o"/>
+    <str id="installer.no" txt="Não"/>
     <str id="installer.cancel" txt="Cancelar"/>
     <str id="installer.error" txt="Erro"/>
     <str id="installer.help" txt="Ajuda"/>
     <str id="installer.step" txt="Passo"/>
     <str id="installer.of" txt="de"/>
     <str id="installer.Message" txt="Mensagem"/>
-
+ 
     <!-- Uninstaller specific strings -->
-    <str id="uninstaller.warning" txt="A aplica��o vai ser removida!"/>
-    <str id="uninstaller.destroytarget" txt=" For�ar a remo��o de "/>
+    <str id="uninstaller.warning" txt="A aplicação vai ser removida!"/>
+    <str id="uninstaller.destroytarget" txt=" Forçar a remoção de "/>
     <str id="uninstaller.uninstall" txt="Remover"/>
-
+ 
     <!-- The strings for the 'official' IzPack plugins -->
     <!-- HelloPanel strings -->
-    <str id="HelloPanel.welcome1" txt="Bem vindo � instala��o de "/>
+    <str id="HelloPanel.welcome1" txt="Bem vindo à instalação de "/>
     <str id="HelloPanel.welcome2" txt="!"/>
     <str id="HelloPanel.authors" txt="Este programa foi desenvolvido por: "/>
-    <str id="HelloPanel.url" txt="A p�gina web est� dispon�vel em: "/>
-
+    <str id="HelloPanel.url" txt="A página web está disponível em: "/>
+ 
     <!-- LicensePanel strings -->
-    <str id="LicencePanel.info" txt="Por favor, leia atentamente o seguinte contrato de licen�a:"/>
-    <str id="LicencePanel.agree" txt="Concordo com este contrato de licen�a."/>
-    <str id="LicencePanel.notagree" txt="N�o concordo com este contrato de licen�a."/>
+    <str id="LicencePanel.info" txt="Por favor, leia atentamente o seguinte contrato de licença:"/>
+    <str id="LicencePanel.agree" txt="Concordo com este contrato de licença."/>
+    <str id="LicencePanel.notagree" txt="Não concordo com este contrato de licença."/>
     <str id="LicencePanel.yes" txt="Sim"/>
-    <str id="LicencePanel.no" txt="N�o"/>
-
+    <str id="LicencePanel.no" txt="Não"/>
+ 
     <!-- PrinterSelect Panel -->
     <str id="PrinterSelectPanel.select_printer"
-         txt="Selecione a impressora para utilizar na configura��o inicial e testes."/>
-
+         txt="Selecione a impressora para utilizar na configuração inicial e testes."/>
+ 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Por favor, leia atentamente a seguinte informa��o: "/>
-
+    <str id="InfoPanel.info" txt="Por favor, leia atentamente a seguinte informação: "/>
+ 
     <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.required" txt="A pasta seleccionada dever� existir."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="A pasta seleccionada dever� existir."/>
-    <str id="PathInputPanel.notValid" txt="A pasta seleccionada n�o contem o producto necess�rio."/>
-
+    <str id="PathInputPanel.required" txt="A pasta seleccionada deverá existir."/>
+    <str id="PathInputPanel.required.forModificationInstallation" txt="A pasta seleccionada deverá existir."/>
+    <str id="PathInputPanel.notValid" txt="A pasta seleccionada não contém o produto necessário."/>
+ 
     <!-- TargetPanel strings -->
-    <str id="TargetPanel.info" txt="Seleccione o local de instala��o: "/>
+    <str id="TargetPanel.info" txt="Seleccione o local de instalação: "/>
     <str id="TargetPanel.browse" txt="Procurar..."/>
     <str id="TargetPanel.warn"
-         txt="A pasta j� existe ! Tem certeza que quer instalar nesta pasta e possivelmente substituir os ficheiros existentes?"/>
-    <str id="TargetPanel.empty_target" txt="N�o especificou uma localiza��o! Continuar?"/>
-    <str id="TargetPanel.createdir" txt="A pasta especificada ser� criada: "/>
+         txt="A pasta já existe ! Tem certeza que quer instalar nesta pasta e possivelmente substituir os ficheiros existentes?"/>
+    <str id="TargetPanel.empty_target" txt="Não especificou uma localização! Continuar?"/>
+    <str id="TargetPanel.createdir" txt="A pasta especificada será criada: "/>
     <str id="TargetPanel.nodir" txt="Seleccionou um ficheiro! Por favor seleccione uma pasta!"/>
-    <str id="TargetPanel.notwritable" txt="N�o tem permiss�es de escrita! Por favor, seleccione outra localiza��o!!"/>
-
+    <str id="TargetPanel.notwritable" txt="Não tem permissões de escrita! Por favor, seleccione outra localização!!"/>
+ 
     <!-- JDKPathPanel strings -->
     <str id="JDKPathPanel.extendedIntro"
-         txt="Para instalar a aplica��o � necess�rio um JDK com vers�o entre ${JDKPathPanel.minVersion} e ${JDKPathPanel.maxVersion}. Um &quot;Java Runtime Environment&quot; (JRE) n�o � suficiente."/>
+         txt="Para instalar a aplicação é necessário um JDK com versão entre ${JDKPathPanel.minVersion} e ${JDKPathPanel.maxVersion}. Um &quot;Java Runtime Environment&quot; (JRE) não é suficiente."/>
     <str id="JDKPathPanel.intro"
-         txt="A aplica��o instalada necessita de um JDK. Um &quot;Java Runtime Environment&quot; (JRE) n�o � suficiente."/>
-    <str id="JDKPathPanel.info" txt="Selecione a localiza��o do JDK:"/>
-    <str id="JDKPathPanel.badVersion1" txt="O JDK seleccionado apresenta uma vers�o n�o recomendada (Dispon�vel: "/>
-    <str id="JDKPathPanel.badVersion2" txt=" Necess�rio: "/>
+         txt="A aplicação instalada necessita de um JDK. Um &quot;Java Runtime Environment&quot; (JRE) não é suficiente."/>
+    <str id="JDKPathPanel.info" txt="Selecione a localização do JDK:"/>
+    <str id="JDKPathPanel.badVersion1" txt="O JDK seleccionado apresenta uma versão não recomendada (Disponível: "/>
+    <str id="JDKPathPanel.badVersion2" txt=" Necessário: "/>
     <str id="JDKPathPanel.badVersion3" txt="). Usar esse JDK mesmo assim?"/>
     <str id="JDKPathPanel.nonValidPathInReg"
-         txt="O registo do windows cont�m uma localiza��o inv�lida para este JDK. Usar na mesma?"/>
-
+         txt="O registo do windows contém uma localização inválida para este JDK. Usar na mesma?"/>
+ 
     <!-- PacksPanel strings -->
     <str id="PacksPanel.info" txt="Seleccione os pacotes que deseja instalar:"/>
-    <str id="PacksPanel.tip" txt="Nota: Os pacotes a cinza s�o necess�rios."/>
-    <str id="PacksPanel.space" txt="Espa�o total necess�rio: "/>
-    <str id="PacksPanel.freespace" txt="Espa�o dispon�vel: "/>
-    <str id="PacksPanel.description" txt="Descri��o"/>
+    <str id="PacksPanel.tip" txt="Nota: Os pacotes a cinza são necessários."/>
+    <str id="PacksPanel.space" txt="Espaço total necessário: "/>
+    <str id="PacksPanel.freespace" txt="Espaço disponível: "/>
+    <str id="PacksPanel.description" txt="Descrição"/>
     <str id="PacksPanel.dependencyList"
-         txt="O pacote seleccionado apresenta as seguintes depend�ncias e/ou exclus�es"/>
-    <str id="PacksPanel.dependencies" txt="Depend�ncias: "/>
+         txt="O pacote seleccionado apresenta as seguintes dependências e/ou exclusões"/>
+    <str id="PacksPanel.dependencies" txt="Dependências: "/>
     <str id="PacksPanel.excludes" txt="Exclui: "/>
     <str id="PacksPanel.notEnoughSpace"
-         txt="O espa�o em disco necess�rio para a instala��o � maior que o espa�o em disco dispon�vel."/>
-    <str id="PacksPanel.notAscertainable" txt="n�o dedut�vel"/>
-
+         txt="O espaço em disco necessário para a instalação é maior que o espaço em disco disponível."/>
+    <str id="PacksPanel.notAscertainable" txt="não dedutível"/>
+ 
     <!-- InstallPanel strings -->
-    <str id="InstallPanel.info" txt="Clique 'Instalar!' para iniciar o processo de instala��o"/>
+    <str id="InstallPanel.info" txt="Clique 'Instalar!' para iniciar o processo de instalação"/>
     <str id="InstallPanel.install" txt="Instalar!"/>
-    <str id="InstallPanel.tip" txt="Progresso da instala��o:"/>
+    <str id="InstallPanel.tip" txt="Progresso da instalação:"/>
     <str id="InstallPanel.begin" txt=" "/>
     <str id="InstallPanel.finished" txt="[Terminado]"/>
-    <str id="InstallPanel.progress" txt="Progresso total da instala��o:"/>
-    <str id="InstallPanel.overwrite.title" txt="O ficheiro j� existe"/>
-    <str id="InstallPanel.overwrite.question" txt="O ficheiro j� existe. Pretende substituir?"/>
-
+    <str id="InstallPanel.progress" txt="Progresso total da instalação:"/>
+    <str id="InstallPanel.overwrite.title" txt="O ficheiro já existe"/>
+    <str id="InstallPanel.overwrite.question" txt="O ficheiro já existe. Pretende substituir?"/>
+ 
     <!-- InstallationGroupPanel strings -->
     <str id="InstallationGroupPanel.colNameSelected" txt="Seleccionado"/>
-    <str id="InstallationGroupPanel.colNameInstallType" txt="Tipo de Instala��o"/>
+    <str id="InstallationGroupPanel.colNameInstallType" txt="Tipo de Instalação"/>
     <str id="InstallationGroupPanel.colNameSize" txt="Tamanho"/>
-
+ 
     <!-- InstallationTypePanel strings -->
-    <str id="InstallationTypePanel.info" txt="Por favor escolha o tipo de instala��o:"/>
-    <str id="InstallationTypePanel.normal" txt="Nova instala��o"/>
-    <str id="InstallationTypePanel.modify" txt="Modificar a instala��o"/>
-
+    <str id="InstallationTypePanel.info" txt="Por favor escolha o tipo de instalação:"/>
+    <str id="InstallationTypePanel.normal" txt="Nova instalação"/>
+    <str id="InstallationTypePanel.modify" txt="Modificar a instalação"/>
+ 
     <!-- FinishPanel strings -->
-    <str id="FinishPanel.success" txt="Instala��o realizada com sucesso."/>
+    <str id="FinishPanel.success" txt="Instalação realizada com sucesso."/>
     <str id="FinishPanel.done" txt="Pronto"/>
-    <str id="FinishPanel.fail" txt="A instala��o falhou!"/>
-    <str id="FinishPanel.uninst.info" txt="Uma aplica��o de desinstala��o foi criado em: "/>
-    <str id="FinishPanel.auto" txt="Gerar um script para instala��o autom�tica"/>
-    <str id="FinishPanel.auto.tip" txt="Utilize este script para repetir esta instala��o noutros computadores."/>
+    <str id="FinishPanel.fail" txt="A instalação falhou!"/>
+    <str id="FinishPanel.uninst.info" txt="Uma aplicação de desinstalação foi criado em: "/>
+    <str id="FinishPanel.auto" txt="Gerar um script para instalação automática"/>
+    <str id="FinishPanel.auto.tip" txt="Utilize este script para repetir esta instalação noutros computadores."/>
     <str id="FinishPanel.auto.dialog.filterdesc" txt="Ficheiros XML"/>
-
+ 
     <!-- ImgPacksPanel strings -->
-    <str id="ImgPacksPanel.dependencyList" txt="Depend�ncias e/ou exclus�es"/>
-    <str id="ImgPacksPanel.packs" txt="Os seguintes pacotes est�o dispon�veis:"/>
-    <str id="ImgPacksPanel.snap" txt="Visualiza��o do pacote:"/>
+    <str id="ImgPacksPanel.dependencyList" txt="Dependências e/ou exclusões"/>
+    <str id="ImgPacksPanel.packs" txt="Os seguintes pacotes estão disponíveis:"/>
+    <str id="ImgPacksPanel.snap" txt="Visualização do pacote:"/>
     <str id="ImgPacksPanel.checkbox" txt=" Instalar pacote"/>
-
+ 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.regular.list" txt="Seleccione um grupo para os atalhos:"/>
-    <str id="ShortcutPanel.regular.default" txt="Padr�o"/>
+    <str id="ShortcutPanel.regular.default" txt="Padrão"/>
     <str id="ShortcutPanel.regular.desktop" txt="Criar atalhos adicionais no Ambiente de Trabalho"/>
     <str id="ShortcutPanel.regular.create" txt="Criar atalhos no menu Iniciar"/>
     <str id="ShortcutPanel.regular.userIntro" txt="criar atalho para:"/>
     <str id="ShortcutPanel.regular.currentUser" txt="utilizador actual"/>
     <str id="ShortcutPanel.regular.allUsers" txt="todos os utilizadores"/>
     <str id="ShortcutPanel.alternate.apology"
-         txt="Desculpe, mas o IzPack n�o pode criar atalhos neste sistema operativo. Para criar atalhos, consulte o manual do seu sistema operativo."/>
+         txt="Desculpe, mas o IzPack não pode criar atalhos neste sistema operativo. Para criar atalhos, consulte o manual do seu sistema operativo."/>
     <str id="ShortcutPanel.alternate.targetsLabel"
-         txt="Esta � a lista de execut�veis aos quais o autor da aplica��o lhe deu acesso."/>
+         txt="Esta é a lista de executáveis aos quais o autor da aplicação lhe deu acesso."/>
     <str id="ShortcutPanel.alternate.textFileExplanation"
-         txt="Pode guardar informa��es detalhadas sobre os ficheiros execut�veis num ficheiro de texto para refer�ncia futura."/>
+         txt="Pode guardar informações detalhadas sobre os ficheiros executáveis num ficheiro de texto para referência futura."/>
     <str id="ShortcutPanel.alternate.saveButton" txt="Guardar Ficheiro de Texto"/>
     <str id="ShortcutPanel.textFile.header"
-         txt="Informa��o sobre Atalho\n====================\n\nA seguinte � uma listagem de toda informa��o relevante sobre os atalhos\ndesejados. Esta informa��o deve permitir a cria��o manual de atalhos.\n"/>
+         txt="Informação sobre Atalho\n====================\n\nA seguinte é uma listagem de toda informação relevante sobre os atalhos\ndesejados. Esta informação deve permitir a criação manual de atalhos.\n"/>
     <str id="ShortcutPanel.textFile.name" txt="Atalho          : "/>
     <str id="ShortcutPanel.textFile.location" txt="Local Desejado : "/>
-    <str id="ShortcutPanel.textFile.description" txt="Descri��o       : "/>
-    <str id="ShortcutPanel.textFile.target" txt="Localiza��o do Atalho   : "/>
+    <str id="ShortcutPanel.textFile.description" txt="Descrição       : "/>
+    <str id="ShortcutPanel.textFile.target" txt="Localização do Atalho   : "/>
     <str id="ShortcutPanel.textFile.command" txt="Linha de Comandos      : "/>
-    <str id="ShortcutPanel.textFile.iconName" txt="Ficheiro do �cone         : "/>
-    <str id="ShortcutPanel.textFile.iconIndex" txt="�ndice do �cone        : "/>
+    <str id="ShortcutPanel.textFile.iconName" txt="Ficheiro do ícone         : "/>
+    <str id="ShortcutPanel.textFile.iconIndex" txt="Índice do ícone        : "/>
     <str id="ShortcutPanel.textFile.work" txt="Pasta de Trabalho : "/>
     <str id="ShortcutPanel.location.desktop" txt="Ambiente de Trabalho"/>
-    <str id="ShortcutPanel.location.applications" txt="Menu de Aplica��es"/>
+    <str id="ShortcutPanel.location.applications" txt="Menu de Aplicações"/>
     <str id="ShortcutPanel.location.startMenu" txt="Menu Iniciar"/>
     <str id="ShortcutPanel.location.startup" txt="Grupo Iniciar"/>
     <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Menu-Iniciar"/>
     <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="Menu-XDG"/>
-
+ 
     <!-- UserInputPanel strings -->
     <str id="UserInputPanel.error.caption" txt="Erro"/>
-    <str id="UserInputPanel.dir.nodirectory.message" txt="Seleccione uma Pasta v�lida.."/>
-    <str id="UserInputPanel.dir.nodirectory.caption" txt="N�o foi seleccionado uma Pasta"/>
-    <str id="UserInputPanel.dir.notdirectory.message" txt="A Pasta seleccionada n�o existe ou � inv�lida."/>
-    <str id="UserInputPanel.dir.notdirectory.caption" txt="Pasta Inv�lida"/>
-    <str id="UserInputPanel.file.nofile.message" txt="Seleccione um ficheiro v�lido."/>
-    <str id="UserInputPanel.file.nofile.caption" txt="Ficheiro n�o Seleccionado"/>
-    <str id="UserInputPanel.file.notfile.message" txt="O Ficheiro seleccionado n�o existe ou � inv�lido."/>
-    <str id="UserInputPanel.file.notfile.caption" txt="Ficheiro Inv�lido"/>
+    <str id="UserInputPanel.dir.nodirectory.message" txt="Seleccione uma Pasta válida.."/>
+    <str id="UserInputPanel.dir.nodirectory.caption" txt="Não foi seleccionado uma Pasta"/>
+    <str id="UserInputPanel.dir.notdirectory.message" txt="A Pasta seleccionada não existe ou é inválida."/>
+    <str id="UserInputPanel.dir.notdirectory.caption" txt="Pasta Inválida"/>
+    <str id="UserInputPanel.file.nofile.message" txt="Seleccione um ficheiro válido."/>
+    <str id="UserInputPanel.file.nofile.caption" txt="Ficheiro não Seleccionado"/>
+    <str id="UserInputPanel.file.notfile.message" txt="O Ficheiro seleccionado não existe ou é inválido."/>
+    <str id="UserInputPanel.file.notfile.caption" txt="Ficheiro Inválido"/>
     <!-- more descriptive error message would be cool, like specifying what file we looked for -->
-    <str id="UserInputPanel.search.autodetect" txt="Autodetec��o"/>
-    <str id="UserInputPanel.search.autodetect.failed.message" txt="A Detec��o Autom�tica falhou."/>
-    <str id="UserInputPanel.search.autodetect.failed.caption" txt="A Detec��o Autom�tica falhou"/>
+    <str id="UserInputPanel.search.autodetect" txt="Autodetecção"/>
+    <str id="UserInputPanel.search.autodetect.failed.message" txt="A Detecção Automática falhou."/>
+    <str id="UserInputPanel.search.autodetect.failed.caption" txt="A Detecção Automática falhou"/>
     <str id="UserInputPanel.search.autodetect.tooltip"
-         txt="Procure pelo ficheiro ou pasta nas localiza��es seguintes."/>
-    <str id="UserInputPanel.search.location" txt="Indique a localiza��o de {0}."/>
-    <str id="UserInputPanel.search.location.checkedfile" txt="Verifica-se a exist�ncia de {0}."/>
+         txt="Procure pelo ficheiro ou pasta nas localizações seguintes."/>
+    <str id="UserInputPanel.search.location" txt="Indique a localização de {0}."/>
+    <str id="UserInputPanel.search.location.checkedfile" txt="Verifica-se a existência de {0}."/>
     <str id="UserInputPanel.search.browse" txt="Procurar..."/>
     <str id="UserInputPanel.search.wrongselection.message"
-         txt="O ficheiro ou pasta seleccionada n�o existe ou � n�o � apropriado."/>
-    <str id="UserInputPanel.search.wrongselection.caption" txt="Selec��o inv�lida"/>
-
+         txt="O ficheiro ou pasta seleccionada não existe ou não é apropriado."/>
+    <str id="UserInputPanel.search.wrongselection.caption" txt="Selecção inválida"/>
+ 
     <!-- UserPathPanel strings -->
-    <str id="UserPathPanel.required" txt="A pasta seleccionada dever� existir."/>
-    <str id="UserPathPanel.info" txt="Seleccione a localiza��o: "/>
+    <str id="UserPathPanel.required" txt="A pasta seleccionada deverá existir."/>
+    <str id="UserPathPanel.info" txt="Seleccione a localização: "/>
     <str id="UserPathPanel.browse" txt="Procurar"/>
     <str id="UserPathPanel.exists_warn"
-         txt="A pasta j� existe! Deseja instalar nesta localiza��o e possivelmente substituir os ficheiros existentes?"/>
-    <str id="UserPathPanel.empty_target" txt="N�o indicou uma localiza��o de destino! Encontra-se correcto?"/>
-    <str id="UserPathPanel.createdir" txt="A pasta de destino ser� criada: "/>
+         txt="A pasta já existe! Deseja instalar nesta localização e possivelmente substituir os ficheiros existentes?"/>
+    <str id="UserPathPanel.empty_target" txt="Não indicou uma localização de destino! Encontra-se correcto?"/>
+    <str id="UserPathPanel.createdir" txt="A pasta de destino será criada: "/>
     <str id="UserPathPanel.nodir" txt="Seleccionou um ficheiro! Por favor seleccione uma pasta!"/>
-    <str id="UserPathPanel.notwritable" txt="N�o tem permiss�es de escrita na pasta! Seleccione outra pasta!"/>
-
+    <str id="UserPathPanel.notwritable" txt="Não tem permissões de escrita na pasta! Seleccione outra pasta!"/>
+ 
     <!-- CompilePanel strings -->
-    <str id="CompilePanel.heading" txt="Compila��o"/>
-    <str id="CompilePanel.tip" txt="Progresso da compila��o:"/>
+    <str id="CompilePanel.heading" txt="Compilação"/>
+    <str id="CompilePanel.tip" txt="Progresso da compilação:"/>
     <str id="CompilePanel.browse" txt="Procurar..."/>
     <str id="CompilePanel.browse.approve" txt="Usar como Compilador"/>
     <str id="CompilePanel.start" txt="Iniciar"/>
-    <str id="CompilePanel.progress.initial" txt="[Clique no bot�o Iniciar]"/>
+    <str id="CompilePanel.progress.initial" txt="[Clique no botão Iniciar]"/>
     <str id="CompilePanel.progress.finished" txt="[Terminado]"/>
-    <str id="CompilePanel.progress.overall" txt="Progresso global da compila��o:"/>
-    <str id="CompilePanel.error" txt="A compila��o falhou"/>
+    <str id="CompilePanel.progress.overall" txt="Progresso global da compilação:"/>
+    <str id="CompilePanel.error" txt="A compilação falhou"/>
     <str id="CompilePanel.error.reconfigure" txt="Configurar de novo"/>
     <str id="CompilePanel.error.ignore" txt="Ignorar"/>
     <str id="CompilePanel.error.abort" txt="Cancelar"/>
     <str id="CompilePanel.error.seebelow" txt="Veja abaixo o comando que falhou e a sua mensagem."/>
     <str id="CompilePanel.error.nofiles" txt="Erro durante a pesquisa dos ficheiros a compilar."/>
-    <str id="CompilePanel.error.compilernotfound" txt="O compilador n�o pode ser executado."/>
-    <str id="CompilePanel.error.invalidarguments" txt="Os argumentos fornecidos ao compilador s�o inv�lidos"/>
-    <str id="CompilePanel.error.noclassfile" txt="O compilador n�o gerou um ficheiro class para o c�digo fonte "/>
+    <str id="CompilePanel.error.compilernotfound" txt="O compilador não pode ser executado."/>
+    <str id="CompilePanel.error.invalidarguments" txt="Os argumentos fornecidos ao compilador são inválidos"/>
+    <str id="CompilePanel.error.noclassfile" txt="O compilador não gerou um ficheiro class para o código fonte "/>
     <str id="CompilePanel.choose_compiler" txt="Compilador a ser usado:"/>
     <str id="CompilePanel.additional_arguments" txt="Argumentos adicionais do compilador:"/>
-
+ 
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="A processar"/>
-
+ 
     <!-- SummaryPanel strings -->
     <str id="SummaryPanel.info"
-         txt="A Instala��o vai continuar com as configura��es seguintes. Clique em Seguinte para continuar."/>
-    <str id="TargetPanel.summaryCaption" txt="Localiza��o da Instala��o"/>
-    <str id="JDKPathPanel.summaryCaption" txt="Localiza��o do JDK"/>
-    <str id="PacksPanel.summaryCaption" txt="Pacotes de Instala��o Escolhidos"/>
-    <str id="ImgPacksPanel.summaryCaption" txt="Pacotes de Instala��o Escolhidos"/>
-    <str id="TreePacksPanel.summaryCaption" txt="Pacotes de Instala��o Escolhidos"/>
-    <str id="UserPathPanel.summaryCaption" txt="Localiza��o Seleccionada"/>
-    <str id="DefaultTargetPanel.summaryCaption" txt="Localiza��o de Instala��o"/>
-
+         txt="A Instala��o vai continuar com as configurações seguintes. Clique em Seguinte para continuar."/>
+    <str id="TargetPanel.summaryCaption" txt="Localização da Instalação"/>
+    <str id="JDKPathPanel.summaryCaption" txt="Localização do JDK"/>
+    <str id="PacksPanel.summaryCaption" txt="Pacotes de Instalação Escolhidos"/>
+    <str id="ImgPacksPanel.summaryCaption" txt="Pacotes de Instalação Escolhidos"/>
+    <str id="TreePacksPanel.summaryCaption" txt="Pacotes de Instalação Escolhidos"/>
+    <str id="UserPathPanel.summaryCaption" txt="Localização Seleccionada"/>
+    <str id="DefaultTargetPanel.summaryCaption" txt="Localização de Instalação"/>
+ 
     <!-- Strings for the Registry -->
-    <str id="functionFailed.RegOpenKeyEx" txt="N�o foi poss�vel abrir a chave do registo {0}\\{1}."/>
-
+    <str id="functionFailed.RegOpenKeyEx" txt="Não foi possível abrir a chave do registo {0}\\{1}."/>
+ 
     <!-- CheckedHelloPanel strings -->
-    <str id="CheckedHelloPanel.productAlreadyExist0" txt="Este produto j� se encontra instalado em "/>
-    <str id="CheckedHelloPanel.productAlreadyExist1" txt=" . Tem a certeza que quer instalar outra c�pia?"/>
-    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="A chave de desinstala��o ser� chamada: "/>
-
+    <str id="CheckedHelloPanel.productAlreadyExist0" txt="Este produto já se encontra instalado em "/>
+    <str id="CheckedHelloPanel.productAlreadyExist1" txt=" . Tem a certeza que quer instalar outra cópia?"/>
+    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="A chave de desinstalação será chamada: "/>
+ 
     <!-- Next Media Strings -->
-    <str id="nextmedia.title" txt="Disco de instala��o seguinte"/>
-    <str id="nextmedia.msg" txt="Escolha o pr�ximo disco de instala��o."/>
+    <str id="nextmedia.title" txt="Disco de instalação seguinte"/>
+    <str id="nextmedia.msg" txt="Escolha o próximo disco de instalação."/>
     <str id="nextmedia.browsebtn" txt="Procurar"/>
     <str id="nextmedia.okbtn" txt="Aplicar"/>
     <str id="nextmedia.cancelbtn" txt="Cancelar"/>
-    <str id="nextmedia.choosertitle" txt="Escolher disco de instala��o"/>
-    <str id="nextmedia.filedesc" txt="pacotes de instala��o (.pak*)"/>
-
+    <str id="nextmedia.choosertitle" txt="Escolher disco de instalação"/>
+    <str id="nextmedia.filedesc" txt="pacotes de instalação (.pak*)"/>
+ 
     <!-- This string defines the time stamp format in the installation report.
 The format details are documented in java.text.SimpleDateFormat -->
     <str id="log.timeStamp" txt="dd-MM-yyyy [HH:mm:ss]  zzzz"/>
-
+ 
     <!-- Strings for various purposes in the logging/reporting system  -->
     <str id="log.reportHeading" txt="                           IzPack INSTALLATION REPORT"/>
     <str id="log.installFailed" txt="WARNING!!! The installation did not succeed!"/>
@@ -298,12 +298,12 @@ The format details are documented in java.text.SimpleDateFormat -->
          txt="&lt;html&gt;The installation did not succeed!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
     <str id="log.informUserPartial"
          txt="&lt;html&gt;The installation might not have completely succeeded!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
-
+ 
     <!-- Strings for individual messages in the logging/reporting system.
          Numbers for each category (message/warning/error) start at 0  -->
     <str id="log.message_" txt=""/>
     <str id="log.warning_" txt=""/>
     <str id="log.error_0" txt="unable to write ''{0}''"/>
     <str id="debug.changevariable" txt="modify value"/>
-
+ 
 </izpack:langpack>
