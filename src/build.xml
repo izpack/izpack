@@ -590,6 +590,14 @@
         <build-panel name="HelloPanel">
             <include name="com/izforge/izpack/panels/HelloPanel.java"/>
         	<include name="com/izforge/izpack/panels/HelloPanelConsoleHelper.java" />
+        	<include name="com/izforge/izpack/panels/HelloPanelAutomationHelper.java" />
+            <include name="com/izforge/izpack/util/os/*RegistryHandler.java"/>
+            <include name="com/izforge/izpack/util/OSClassHelper.java"/>
+            <include name="com/izforge/izpack/util/os/WrappedNativeLibException.java"/>
+            <include name="com/coi/tools/os/win/*.java"/>
+            <include name="com/coi/tools/os/win/resources/NativeLibErr*.java"/>
+            <include name="com/coi/tools/os/izpack/Registry.java"/>
+            <include name="com/coi/tools/os/izpack/COIOSHelper.java"/>
         </build-panel>
         <build-panel name="SelectPrinterPanel">
             <include name="com/izforge/izpack/panels/SelectPrinterPanel.java"/>
@@ -950,8 +958,34 @@
             <include name="com/coi/tools/os/izpack/COIOSHelper.java"/>
         </build-installer-listener>
 
+        <build-installer-listener name="AdxCompInstallerListener">
+            <include name="com/izforge/izpack/event/RegistryInstallerListener.java"/>
+            <include name="com/izforge/izpack/event/AdxCompInstallerListener.java"/>
+            <include name="com/izforge/izpack/event/NativeInstallerListener.java"/>
+            <include name="com/izforge/izpack/util/os/*RegistryHandler.java"/>
+            <include name="com/izforge/izpack/util/OSClassHelper.java"/>
+            <include name="com/izforge/izpack/util/os/WrappedNativeLibException.java"/>
+            <include name="com/coi/tools/os/win/*.java"/>
+            <include name="com/coi/tools/os/win/resources/NativeLibErr*.java"/>
+            <include name="com/coi/tools/os/izpack/Registry.java"/>
+            <include name="com/coi/tools/os/izpack/COIOSHelper.java"/>
+        </build-installer-listener>
+
         <build-uninstaller-listener name="RegistryUninstallerListener">
             <include name="com/izforge/izpack/event/RegistryUninstallerListener.java"/>
+            <include name="com/izforge/izpack/event/NativeUninstallerListener.java"/>
+            <include name="com/izforge/izpack/util/os/*RegistryHandler.java"/>
+            <include name="com/izforge/izpack/util/OSClassHelper.java"/>
+            <include name="com/izforge/izpack/util/os/WrappedNativeLibException.java"/>
+            <include name="com/coi/tools/os/win/*.java"/>
+            <include name="com/coi/tools/os/win/resources/NativeLibErr*.java"/>
+            <include name="com/coi/tools/os/izpack/Registry.java"/>
+            <include name="com/coi/tools/os/izpack/COIOSHelper.java"/>
+        </build-uninstaller-listener>
+
+        <build-uninstaller-listener name="AdxCompUninstallerListener">
+            <include name="com/izforge/izpack/event/RegistryUninstallerListener.java"/>
+            <include name="com/izforge/izpack/event/AdxCompUninstallerListener.java"/>
             <include name="com/izforge/izpack/event/NativeUninstallerListener.java"/>
             <include name="com/izforge/izpack/util/os/*RegistryHandler.java"/>
             <include name="com/izforge/izpack/util/OSClassHelper.java"/>

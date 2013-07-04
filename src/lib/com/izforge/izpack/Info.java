@@ -106,6 +106,8 @@ public class Info implements Serializable
     
     private boolean isAdxAdmin = false;
 
+    private boolean needAdxAdmin = false;
+
     private boolean requirePrivilegedExecution = false;
 
     private boolean requirePrivilegedExecutionUninstaller = false;
@@ -348,6 +350,11 @@ public class Info implements Serializable
         this.isAdxAdmin = isAdxAdmin;
     }
 
+    public void setNeedAdxAdmin(boolean needAdxAdmin)
+    {
+        this.needAdxAdmin = needAdxAdmin;
+    }
+
     public boolean isPack200Compression()
     {
         return pack200Compression;
@@ -356,6 +363,10 @@ public class Info implements Serializable
     public boolean isAdxAdmin()
     {
         return isAdxAdmin;
+    }
+    public boolean needAdxAdmin()
+    {
+        return needAdxAdmin;
     }
 
     /**

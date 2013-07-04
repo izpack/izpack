@@ -28,6 +28,10 @@ import com.izforge.izpack.gui.LayoutConstants;
 import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.InstallerFrame;
 import com.izforge.izpack.installer.IzPanel;
+import com.izforge.izpack.util.Debug;
+import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.os.RegistryDefaultHandler;
+import com.izforge.izpack.util.os.RegistryHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +42,7 @@ import java.util.ArrayList;
  *
  * @author Julien Ponge
  */
-public class HelloPanel extends IzPanel
+public class HelloPanel extends IzPanel 
 {
 
     /**
@@ -144,4 +148,59 @@ public class HelloPanel extends IzPanel
     {
         return true;
     }
+    
+    public void panelActivate()
+    {
+        if (idata.info.needAdxAdmin())
+        {
+            try
+            {
+                // vérifier la présence d'un adxadmin
+                RegistryHandler rh = RegistryDefaultHandler.getInstance();
+                if (rh != null)
+                {
+    
+                    rh.verify(idata);
+    
+                    // test adxadmin déjà installé avec registry
+                    if (!rh.adxadminProductRegistered())
+                    {
+                        // pas d'adxadmin
+                        JOptionPane.showMessageDialog(null, parent.langpack.getString( "uninstaller.adxadmin.notfound"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                        parent.lockNextButton();
+                    }
+                }
+                else
+                {
+    
+                    // else we are on a os which has no registry or the
+                    // needed dll was not bound to this installation. In
+                    // both cases we forget the "already exist" check.
+                    
+                    // test adxadmin sous unix avec /adonix/adxadm ?
+                        if (OsVersion.IS_UNIX)
+                        {
+                            java.io.File adxadmFile = new java.io.File ("/sage/adxadm");
+                            if (!adxadmFile.exists())
+                            {
+                                adxadmFile = new java.io.File ("/sage/adxadm");
+                                if (!adxadmFile.exists())
+                                {
+                                    // pas d'adxadmin
+                                    JOptionPane.showMessageDialog(null, parent.langpack.getString( "uninstaller.adxadmin.notfound"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                                    parent.lockNextButton();
+                                }
+                            }
+                        }
+                }
+            }
+            catch (Exception e)
+            { // Will only be happen if registry handler is good, but an
+                // exception at performing was thrown. This is an error...
+                Debug.log(e);
+                JOptionPane.showMessageDialog(null, e.getMessage(), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                parent.lockNextButton();
+            }
+        }
+    }    
 }

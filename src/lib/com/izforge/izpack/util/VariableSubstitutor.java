@@ -92,9 +92,19 @@ public class VariableSubstitutor implements Serializable
     protected final static int TYPE_ANT = 6;
 
     /**
+     * A constant for file type. Plain file with X3Web variables markers, ie $$param$$
+     */
+    protected final static int TYPE_X3WEB = 7;
+
+    /**
      * PLAIN = "plain"
      */
     public final static String PLAIN = "plain";
+
+    /**
+     * X3WEB = "x3web"
+     */
+    public final static String X3WEB = "x3web";
 
     /**
      * A mapping of file type names to corresponding integer constants.
@@ -112,6 +122,7 @@ public class VariableSubstitutor implements Serializable
         typeNameToConstantMap.put("shell", TYPE_SHELL);
         typeNameToConstantMap.put("at", TYPE_AT);
         typeNameToConstantMap.put("ant", TYPE_ANT);
+        typeNameToConstantMap.put("x3web", TYPE_X3WEB);
     }
 
     /**
@@ -213,8 +224,11 @@ public class VariableSubstitutor implements Serializable
         OutputStreamWriter writer = (encoding != null ? new OutputStreamWriter(out, encoding)
                 : new OutputStreamWriter(out));
 
+        int subs=0;
+        
         // Copy the data and substitute variables
-        int subs = substitute(reader, writer, type);
+        if (X3WEB.equals(type)) subs = substituteforweb(reader, writer, type);
+        else subs = substitute(reader, writer, type);
 
         // Flush the write so that everything gets written out
         writer.flush();
@@ -271,7 +285,50 @@ public class VariableSubstitutor implements Serializable
         return writer.getBuffer().toString();
     }
 
+    public int substituteforweb(Reader reader, Writer writer, String type)
+    throws IllegalArgumentException, IOException
+    {
+        int subs = 0;
+        
+        BufferedReader strReader = new BufferedReader(reader);
+        
+        while (true)
+        {
+            String nextLine = strReader.readLine();
+            
+            // reached the end of stream
+            if (nextLine == null) break;
+            
+            String[] chunks = nextLine.split("\\$\\$");
+            
+            for  (int i=0; i<chunks.length; i++)
+            {
+                if (variables.containsKey(chunks[i]))
+                {
+                    String varvalue = variables.getProperty(chunks[i]);
+                    if (varvalue !=null )
+                    {
+                        writer.write(varvalue);
+                        subs++;
+                    }
+                    else
+                    {
+                        //????
+                        writer.write(chunks[i]);
+                    }
+                }
+                else
+                {
+                    writer.write(chunks[i]);
+                }
+            }
 
+            writer.write("\r\n");
+
+        }
+        
+        return subs;
+    }
     /**
      * Substitutes the variables found in the data read from the specified reader. Escapes special
      * characters using file type specific escaping if necessary.

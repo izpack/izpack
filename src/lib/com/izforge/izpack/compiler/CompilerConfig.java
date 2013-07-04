@@ -1856,6 +1856,10 @@ public class CompilerConfig extends Thread {
         IXMLElement isAdxAdmin = root.getFirstChildNamed("is-adxadmin");
         info.setIsAdxAdmin(isAdxAdmin != null);
         
+        // NEEDAdxAdmin
+        IXMLElement needAdxAdmin = root.getFirstChildNamed("need-adxadmin");
+        info.setNeedAdxAdmin(needAdxAdmin != null);
+        
 
         // Privileged execution
         IXMLElement privileged = root.getFirstChildNamed("run-privileged");

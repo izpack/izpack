@@ -84,7 +84,7 @@ public class UninstallerConsole
         
         // we must test here if we are an adxadmin setup
         // thus allowing to test that there are no components installed anymore in the file adxinstall.xml
-        if (UninstallerFrame.class.getResource("/is-adxadmin")!=null)
+        if (UninstallerConsole.class.getResource("/is-adxadmin")!=null)
         {
             File adxinstall = new File (installPath+"/inst/adxinstalls.xml");
             if (adxinstall.exists())
@@ -133,7 +133,7 @@ public class UninstallerConsole
                 File deleteScript = File.createTempFile("izpack", ".js");
                 Writer blout = new java.io.BufferedWriter(new java.io.OutputStreamWriter(new FileOutputStream(deleteScript), "8859_1"));
                 blout.write("var fso = new ActiveXObject(\"Scripting.FileSystemObject\");\r\n");
-                blout.write("WScript.Sleep(3000);\r\n");
+                blout.write("WScript.Sleep(6000);\r\n");
                 blout.write("fso.DeleteFile(\""+selfjar.getAbsolutePath().replace("\\", "\\\\")+"\");\r\n");
                 if (destroy) blout.write("fso.DeleteFolder(\""+installPath.replace("\\", "\\\\")+"\", true);");
                 blout.flush();

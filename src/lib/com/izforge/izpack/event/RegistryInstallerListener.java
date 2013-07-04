@@ -209,10 +209,7 @@ public class RegistryInstallerListener extends NativeInstallerListener implement
             {
                 return;
             }
-            if (registryHandler == null)
-            {
-                return;
-            }
+
             registryHandler.activateLogging();
             registryHandler.setLoggingInfo(registryModificationLog);
             registryHandler.rewind();

@@ -390,6 +390,18 @@ public class RegistryHandler extends OSClassHelper implements MSWinConstants
         setRoot(oldVal);
         return (retval);
     }
+    
+    public boolean adxadminProductRegistered() throws NativeLibException
+    {
+        String keyName = "SOFTWARE\\Adonix\\X3RUNTIME\\ADXADMIN";
+        int oldVal = getRoot();
+        setRoot(HKEY_LOCAL_MACHINE);
+        boolean retval = keyExist(keyName);
+        keyName = "SOFTWARE\\Wow6432Node\\Adonix\\X3RUNTIME\\ADXADMIN";
+        retval = retval || keyExist(keyName);
+        setRoot(oldVal);
+        return (retval);        
+    }
 
     public void setUninstallName(String name)
     {

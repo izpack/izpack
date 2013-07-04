@@ -145,12 +145,12 @@ public class PrivilegedRunner
             parameters+=param;
         }
         
-        ProcessBuilder builder = new ProcessBuilder(getElevator(javaCommand, installer+parameters));
+        ProcessBuilder builder = new ProcessBuilder(getElevator(javaCommand, installer, parameters));
         builder.environment().put("izpack.mode", "privileged");
         return builder.start().waitFor();
     }
 
-    private List<String> getElevator(String javaCommand, String installer) throws IOException, InterruptedException
+    private List<String> getElevator(String javaCommand, String installer, String parameters) throws IOException, InterruptedException
     {
         List<String> elevator = new ArrayList<String>();
 
@@ -160,6 +160,7 @@ public class PrivilegedRunner
             elevator.add(javaCommand);
             elevator.add("-jar");
             elevator.add(installer);
+            if (!"".equals(parameters)) elevator.add(parameters);
         }
         else if (OsVersion.IS_UNIX)
         {
@@ -171,6 +172,7 @@ public class PrivilegedRunner
             elevator.add(javaCommand);
             elevator.add("-jar");
             elevator.add(installer);
+            if (!"".equals(parameters)) elevator.add(parameters);
         }
         else if (OsVersion.IS_WINDOWS)
         {
@@ -180,6 +182,7 @@ public class PrivilegedRunner
             elevator.add("-Dizpack.mode=privileged");
             elevator.add("-jar");
             elevator.add(installer);
+            if (!"".equals(parameters)) elevator.add(parameters);
         }
 
         return elevator;

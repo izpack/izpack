@@ -1,61 +1,107 @@
-/*
- * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
+/**
  * 
- * http://izpack.org/
- * http://izpack.codehaus.org/
- * 
- * Copyright 2002 Jan Blok
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- *     
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package com.izforge.izpack.panels;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Properties;
-
-import javax.swing.JOptionPane;
 
 import com.izforge.izpack.Info;
+import com.izforge.izpack.adaptator.IXMLElement;
 import com.izforge.izpack.installer.AutomatedInstallData;
-import com.izforge.izpack.installer.PanelConsole;
-import com.izforge.izpack.installer.PanelConsoleHelper;
+import com.izforge.izpack.installer.InstallerException;
+import com.izforge.izpack.installer.PanelAutomation;
+import com.izforge.izpack.installer.PanelAutomationHelper;
+import com.izforge.izpack.util.AbstractUIProgressHandler;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.os.RegistryDefaultHandler;
 import com.izforge.izpack.util.os.RegistryHandler;
+import com.coi.tools.os.win.MSWinConstants;
+import com.coi.tools.os.win.RegDataContainer;
+
 
 /**
- * Hello Panel console helper
- * 
- * @author Mounir el hajj
+ * @author apozzo
+ *
  */
-public class HelloPanelConsoleHelper extends PanelConsoleHelper implements PanelConsole
+public class HelloPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation,
+        AbstractUIProgressHandler, MSWinConstants
 {
 
-    public boolean runConsoleFromPropertiesFile(AutomatedInstallData installData, Properties p)
+    /**
+     * Flag to break installation or not.
+     */
+    protected boolean abortInstallation;
+    /**
+     * The installer internal data (actually a melting-pot class with all-public fields.
+     */
+    protected AutomatedInstallData idata;
+    
+
+    /* (non-Javadoc)
+     * @see com.izforge.izpack.util.AbstractUIProgressHandler#startAction(java.lang.String, int)
+     */
+    public void startAction(String name, int no_of_steps)
     {
-        return true;
+        // TODO Auto-generated method stub
+
     }
 
-    public boolean runGeneratePropertiesFile(AutomatedInstallData installData,
-            PrintWriter printWriter)
+    /* (non-Javadoc)
+     * @see com.izforge.izpack.util.AbstractUIProgressHandler#stopAction()
+     */
+    public void stopAction()
     {
-        return true;
+        // TODO Auto-generated method stub
+
     }
 
-    public boolean runConsole(AutomatedInstallData idata)
+    /* (non-Javadoc)
+     * @see com.izforge.izpack.util.AbstractUIProgressHandler#nextStep(java.lang.String, int, int)
+     */
+    public void nextStep(String step_name, int step_no, int no_of_substeps)
     {
+        // TODO Auto-generated method stub
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.izforge.izpack.util.AbstractUIProgressHandler#setSubStepNo(int)
+     */
+    public void setSubStepNo(int no_of_substeps)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.izforge.izpack.util.AbstractUIProgressHandler#progress(int, java.lang.String)
+     */
+    public void progress(int substep_no, String message)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.izforge.izpack.installer.PanelAutomation#makeXMLData(com.izforge.izpack.installer.AutomatedInstallData, com.izforge.izpack.adaptator.IXMLElement)
+     */
+    public void makeXMLData(AutomatedInstallData installData, IXMLElement panelRoot)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.izforge.izpack.installer.PanelAutomation#runAutomated(com.izforge.izpack.installer.AutomatedInstallData, com.izforge.izpack.adaptator.IXMLElement)
+     */
+    public void runAutomated(AutomatedInstallData installData, IXMLElement panelRoot)
+            throws InstallerException
+    {
+        // méthode pour l'installation automatique
+        
+        this.idata = installData;
+
         String str;
         str = idata.langpack.getString("HelloPanel.welcome1") + idata.info.getAppName() + " "
                 + idata.info.getAppVersion() + idata.langpack.getString("HelloPanel.welcome2");
@@ -90,23 +136,8 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
         // recherche d'un adxadmin
         if (!adxadminPresent ( idata))
         {
-            return false;
-        }
-        
-        
-        
-        int i = askEndOfConsolePanel(idata);
-        if (i == 1)
-        {
-            return true;
-        }
-        else if (i == 2)
-        {
-            return false;
-        }
-        else
-        {
-            return runConsole(idata);
+            emitErrorAndBlockNext ("",idata.langpack
+                    .getString("installer.quit.message"));
         }
     }
     
@@ -167,4 +198,6 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
         return true;
 
     }
+    
+
 }

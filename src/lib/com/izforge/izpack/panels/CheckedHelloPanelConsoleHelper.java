@@ -18,6 +18,8 @@ import com.izforge.izpack.installer.PanelConsole;
 import com.izforge.izpack.installer.PanelConsoleHelper;
 
 import com.coi.tools.os.win.RegDataContainer;
+import com.izforge.izpack.util.Debug;
+import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.os.RegistryDefaultHandler;
 import com.izforge.izpack.util.os.RegistryHandler;
 
@@ -329,10 +331,39 @@ public class CheckedHelloPanelConsoleHelper extends PanelConsoleHelper implement
                 rh.verify(idata);
                 retval = rh.isProductRegistered();
 
+                // test adxadmin déjà installé avec registry
+                if (!retval && idata.info.isAdxAdmin())
+                {
+                    retval = rh.adxadminProductRegistered();
+                }
             }
-            // else we are on a os which has no registry or the
-            // needed dll was not bound to this installation. In
-            // both cases we forget the "already exist" check.
+            else
+            {
+                // else we are on a os which has no registry or the
+                // needed dll was not bound to this installation. In
+                // both cases we forget the "already exist" check.
+                
+                // test adxadmin sous unix avec /adonix/adxadm ?
+                if (!retval && idata.info.isAdxAdmin())
+                {
+                    if (OsVersion.IS_UNIX)
+                    {
+                        java.io.File adxadmFile = new java.io.File ("/sage/adxadm");
+                        if (!adxadmFile.exists())
+                        {
+                            adxadmFile = new java.io.File ("/adonix/adxadm");
+                            if (adxadmFile.exists())
+                            {
+                                retval = true;
+                            }
+                        }
+                        else
+                        {
+                            retval = true;
+                        }
+                    }
+                }
+            }
 
         }
         catch (Exception e)

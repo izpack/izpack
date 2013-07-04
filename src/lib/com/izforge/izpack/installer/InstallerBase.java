@@ -306,22 +306,32 @@ public class InstallerBase
             PrivilegedRunner runner = new PrivilegedRunner(!shouldElevate);
             if (runner.isPlatformSupported() && runner.isElevationNeeded())
             {
-                try
+                if (OsVersion.IS_WINDOWS && this instanceof ConsoleInstaller)
                 {
-                    if (runner.relaunchWithElevatedRights(cmdLineArgs) == 0)
-                    {
-                        System.exit(0);
-                    }
-                    else
-                    {
-                        throw new RuntimeException("Launching an installer with elevated permissions failed.");
-                    }
+                    // we can't continue since elevated rights in console mode can't work
+                    // because we loose standard input/output
+                    
+                    throw new RuntimeException("This installer should be run by an administrator.\n");
                 }
-                catch (Exception e)
+                else
                 {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "The installer could not launch itself with administrator permissions.\n" +
-                        "The installation will still continue but you may encounter problems due to insufficient permissions.");
+                    try
+                    {
+                        if (runner.relaunchWithElevatedRights(cmdLineArgs) == 0)
+                        {
+                            System.exit(0);
+                        }
+                        else
+                        {
+                            throw new RuntimeException("Launching an installer with elevated permissions failed.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "The installer could not launch itself with administrator permissions.\n" +
+                            "The installation will still continue but you may encounter problems due to insufficient permissions.");
+                    }
                 }
             }
             else if (!runner.isPlatformSupported())
@@ -329,6 +339,7 @@ public class InstallerBase
                 JOptionPane.showMessageDialog(null, "This installer should be run by an administrator.\n" +
                     "The installation will still continue but you may encounter problems due to insufficient permissions.");
             }
+            
         }
 
     }

@@ -91,6 +91,17 @@ public class TargetPanel extends PathInputPanel
     {
         // Resolve the default for chosenPath
         super.panelActivate();
+
+        // load the default directory info (if present)
+        loadDefaultDir();
+        String defDir = getDefaultDir();
+        if (defDir != null)
+        {
+            // override the system default that uses app name (which is set in
+            // the Installer class)
+            idata.setInstallPath(defDir);
+        }
+        
         // Set the default or old value to the path selection panel.
         pathSelectionPanel.setPath(idata.getInstallPath());
     }

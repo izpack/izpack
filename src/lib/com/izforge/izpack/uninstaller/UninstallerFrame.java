@@ -20,6 +20,9 @@
 package com.izforge.izpack.uninstaller;
 
 import com.izforge.izpack.LocaleDatabase;
+import com.izforge.izpack.adaptator.IXMLElement;
+import com.izforge.izpack.adaptator.IXMLParser;
+import com.izforge.izpack.adaptator.impl.XMLParser;
 import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.util.AbstractUIHandler;
@@ -30,6 +33,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -42,6 +47,7 @@ import java.net.URL;
 public class UninstallerFrame extends JFrame
 {
 
+    private UninstallerFrame thisJframe;
     /**
      *
      */
@@ -86,6 +92,8 @@ public class UninstallerFrame extends JFrame
      * The installation path.
      */
     protected String installPath;
+    
+    protected String title;
 
     /**
      * The constructor.
@@ -99,6 +107,8 @@ public class UninstallerFrame extends JFrame
     {
         super();
 
+        thisJframe = this;
+        
         // Initializations
         langpack = new LocaleDatabase(UninstallerFrame.class.getResourceAsStream("/langpack.xml"));
         InputStream is = UninstallerFrame.class.getResourceAsStream("/customlangpack.xml");
@@ -107,7 +117,7 @@ public class UninstallerFrame extends JFrame
         }
         
         
-        String title = langpack.getString("uninstaller.title");
+        title = langpack.getString("uninstaller.title");
         if (null == title || "uninstaller.title".equals(title))
         {
             title = "IzPack - Uninstaller";
@@ -321,6 +331,43 @@ public class UninstallerFrame extends JFrame
     private final class WindowHandler extends WindowAdapter
     {
 
+
+        public void windowOpened(WindowEvent e) {
+         
+            
+            if (UninstallerFrame.class.getResource("/is-adxadmin")!=null)
+            {
+                File adxinstall = new File (installPath+"/inst/adxinstalls.xml");
+                if (adxinstall.exists())
+                {
+                    try
+                    {
+                        IXMLParser parser = new XMLParser();
+                        IXMLElement data = null;
+                        data = parser.parse(new FileInputStream(adxinstall),adxinstall.getAbsolutePath());
+                        
+                        if (data.hasChildren() && data.getFirstChildNamed("module")!=null)
+                        {
+                            // remaining modules children
+                            // cancel installation !
+                            
+                            JOptionPane.showMessageDialog(thisJframe, langpack.getString("uninstaller.adxadmin.remainingmodules"), title, JOptionPane.ERROR_MESSAGE );
+                            destroyButton.setEnabled(false);
+                            return;
+                        }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        JOptionPane.showMessageDialog(thisJframe, langpack.getString("uninstaller.adxadmin.errparseadxinstall"), title, JOptionPane.ERROR_MESSAGE );
+                        destroyButton.setEnabled(false);
+                        return;
+                    }
+                }
+            }
+            
+        }
+        
         /**
          * We can't avoid the exit here, so don't call exit elsewhere.
          *

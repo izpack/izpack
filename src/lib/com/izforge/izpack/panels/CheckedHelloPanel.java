@@ -24,8 +24,10 @@ import com.coi.tools.os.win.RegDataContainer;
 import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.InstallerFrame;
 import com.izforge.izpack.util.AbstractUIHandler;
+import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.os.RegistryDefaultHandler;
 import com.izforge.izpack.util.os.RegistryHandler;
+import com.izforge.izpack.util.Debug;
 
 /**
  * An extended hello panel class which detects whether the product was already installed or not.
@@ -182,16 +184,50 @@ public class CheckedHelloPanel extends HelloPanel implements MSWinConstants
         try
         {
             // Get the default registry handler.
+            Debug.log("CheckedHelloPanel - Getting Registryhandler ...");
             RegistryHandler rh = RegistryDefaultHandler.getInstance();
             if (rh != null)
             {
+                Debug.log("CheckedHelloPanel - Got " + rh.toString());
+
                 rh.verify(idata);
                 retval = rh.isProductRegistered();
 
+                // test adxadmin déjà installé avec registry
+                if (!retval && idata.info.isAdxAdmin())
+                {
+                    retval = rh.adxadminProductRegistered();
+                }
             }
-            // else we are on a os which has no registry or the
-            // needed dll was not bound to this installation. In
-            // both cases we forget the "already exist" check.
+            else
+            {
+                Debug.log("CheckedHelloPanel - Could not get RegistryHandler !");
+
+                // else we are on a os which has no registry or the
+                // needed dll was not bound to this installation. In
+                // both cases we forget the "already exist" check.
+                
+                // test adxadmin sous unix avec /adonix/adxadm ?
+                if (!retval && idata.info.isAdxAdmin())
+                {
+                    if (OsVersion.IS_UNIX)
+                    {
+                        java.io.File adxadmFile = new java.io.File ("/sage/adxadm");
+                        if (!adxadmFile.exists())
+                        {
+                            adxadmFile = new java.io.File ("/adonix/adxadm");
+                            if (adxadmFile.exists())
+                            {
+                                retval = true;
+                            }
+                        }
+                        else
+                        {
+                            retval = true;
+                        }
+                    }
+                }
+            }
 
         }
         catch (Exception e)
