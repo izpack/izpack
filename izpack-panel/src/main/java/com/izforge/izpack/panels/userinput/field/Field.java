@@ -224,6 +224,7 @@ public abstract class Field
      */
     public void setValue(String value)
     {
+    	value = process(value);
         if (logger.isLoggable(Level.FINE))
         {
             logger.fine("Field setting variable=" + variable + " to value=" + value);
