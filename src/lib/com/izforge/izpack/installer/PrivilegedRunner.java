@@ -278,6 +278,6 @@ public class PrivilegedRunner
 
     public static boolean isPrivilegedMode()
     {
-       return "privileged".equals(System.getenv("izpack.mode")) || "privileged".equals(System.getProperty("izpack.mode"));
+       return "root".equals(System.getProperty("user.name")) || "privileged".equals(System.getenv("izpack.mode")) || "privileged".equals(System.getProperty("izpack.mode"));
     }
 }

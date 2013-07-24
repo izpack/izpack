@@ -34,6 +34,7 @@ import com.izforge.izpack.util.*;
 
 import javax.swing.*;
 
+import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -336,8 +337,18 @@ public class InstallerBase
             }
             else if (!runner.isPlatformSupported())
             {
-                JOptionPane.showMessageDialog(null, "This installer should be run by an administrator.\n" +
+                if (GraphicsEnvironment.isHeadless())
+                {
+                    System.out.println("This installer should be run by an administrator.\n" +
                     "The installation will still continue but you may encounter problems due to insufficient permissions.");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "This installer should be run by an administrator.\n" +
+                        "The installation will still continue but you may encounter problems due to insufficient permissions.");
+    //                JOptionPane.showMessageDialog(null, "This uninstaller should be run by an administrator.\n");
+    //                System.exit(1);
+                }
             }
             
         }

@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import javax.swing.*;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -287,8 +288,19 @@ public class Uninstaller
             }
             else if (!runner.isPlatformSupported())
             {
-                JOptionPane.showMessageDialog(null, "This uninstaller should be run by an administrator.\n" +
+                if (GraphicsEnvironment.isHeadless())
+                {
+                    System.out.println("This uninstaller should be run by an administrator.\n" +
                     "The uninstallation will still continue but you may encounter problems due to insufficient permissions.");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "This uninstaller should be run by an administrator.\n" +
+                    "The uninstallation will still continue but you may encounter problems due to insufficient permissions.");
+    //                JOptionPane.showMessageDialog(null, "This uninstaller should be run by an administrator.\n");
+    //                System.exit(1);
+                }
+                
             }
         }
     }
