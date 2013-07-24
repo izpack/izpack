@@ -301,6 +301,9 @@
     <str id="consolehelper.askyesno" txt="appuyez sur 1 pour oui, 2 pour non , 3 pour quitter" />
     <str id="consolehelper.askyesnocancel" txt="appuyez sur 1 pour oui, 2 pour non , 3 pour annuler" />
 
-	    <str id="osrequirementfailed" txt="La vérification du prérequis système d'exploitation a échoué ! Fin du programme."/>
+	<str id="osrequirementfailed" txt="La vérification du prérequis système d'exploitation a échoué ! Fin du programme."/>
+	<str id="adxadminNotRegistered" txt="Vous devez installer un moteur d'administration Adxadmin en premier ! Fin du programme."/>
+	<str id="adxadminNoAdxDir" txt="Impossible de lire le chemin d'installation du moteur d'administration adxadmin !"/>
+	<str id="adxadminParseError" txt="Le chemin d'installation du moteur d'administration adxadmin est erroné !"/>
 
 </langpack>

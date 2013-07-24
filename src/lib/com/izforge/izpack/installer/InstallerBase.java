@@ -198,7 +198,7 @@ public class InstallerBase
             IPAddress = addr.getHostAddress();
 
             // Get hostname
-            hostname = addr.getHostName();
+            hostname = addr.getHostName().toLowerCase();
         }
         catch (Exception e)
         {
