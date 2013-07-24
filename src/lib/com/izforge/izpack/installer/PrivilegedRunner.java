@@ -74,7 +74,8 @@ public class PrivilegedRunner
      */
     public boolean isPlatformSupported()
     {
-        return OsVersion.IS_MAC || OsVersion.IS_UNIX || OsVersion.IS_WINDOWS;
+        //return OsVersion.IS_MAC || OsVersion.IS_UNIX || OsVersion.IS_WINDOWS;
+        return OsVersion.IS_WINDOWS;
     }
 
     /**
