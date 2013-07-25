@@ -44,6 +44,7 @@ public interface Registry extends Profile
         REG_EXPAND_SZ("hex(2)"),
         REG_BINARY("hex"),
         REG_DWORD("dword"),
+        REG_DWORD_4("hex(4)"),
         REG_DWORD_BIG_ENDIAN("hex(5)"),
         REG_LINK("hex(6)"),
         REG_MULTI_SZ("hex(7)"),

@@ -290,12 +290,14 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
     private void regExport(String registryKey, File file) throws IOException
     {
         requireWindows();
+        file.delete();		// reg export hangs if the file already exists
         exec(new String[] { "cmd", "/c", "reg", "export", registryKey, file.getAbsolutePath() });
     }
 
     private void regImport(File file) throws IOException
     {
         requireWindows();
+        file.delete();		// reg export hangs if the file already exists
         exec(new String[] { "cmd", "/c", "reg", "import", file.getAbsolutePath() });
     }
 

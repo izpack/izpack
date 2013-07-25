@@ -57,6 +57,7 @@ public class RegEscapeTool extends EscapeTool
                 break;
 
             case REG_DWORD:
+            case REG_DWORD_4:
                 value = String.valueOf(Long.parseLong(value, HEX_RADIX));
                 break;
 

@@ -114,13 +114,24 @@ abstract class AbstractParser
         return getConfig().isEscape() ? EscapeTool.getInstance().unescape(line) : line;
     }
 
-    private int indexOfOperator(String line)
+    protected int indexOfOperator(String line)
     {
         int idx = -1;
+        // skip the operator characters that are enclosed within quotes
+        // eg: "http://+:80/Temporary_Listen_Addresses/"=hex:
+        int start = 0;
+        boolean inQuotes = line.charAt(0) == '"';
+        while( inQuotes ) {
+        	start = line.indexOf('"', start + 1);
+        	if( line.charAt(start - 1) != '\\' || line.charAt(start - 2) == '\\' ) {
+        		inQuotes = false;
+        		start++;
+        	}
+        }
 
         for (char c : _operators.toCharArray())
         {
-            int index = line.indexOf(c);
+            int index = line.indexOf(c, start);
 
             if ((index >= 0) && ((idx == -1) || (index < idx)))
             {

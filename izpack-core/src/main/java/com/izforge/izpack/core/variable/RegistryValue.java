@@ -38,6 +38,7 @@ public class RegistryValue extends ValueImpl implements Serializable
     public String root; // optional
     public String key; // mandatory
     public String value; // optional; if null -> use default value
+    private String resolvedValue;
 
     public RegistryValue(String root, String key, String value)
     {
@@ -87,6 +88,24 @@ public class RegistryValue extends ValueImpl implements Serializable
             throw new Exception("No or empty registry key path");
         }
     }
+    
+    @Override
+    public String toString() {
+    	StringBuilder str = new StringBuilder();
+    	if( root != null ) {
+    		str.append("root: ").append(root).append(", ");
+    	}
+    	if( key != null ) {
+    		str.append("key: ").append(key).append(", ");
+    	}
+    	if( value != null ) {
+    		str.append("value: ").append(value).append(", ");
+    	}
+    	if( resolvedValue != null ) {
+    		str.append("resolved: ").append(resolvedValue);
+    	}
+    	return str.toString();
+    }
 
     @Override
     public String resolve() throws Exception
@@ -106,7 +125,8 @@ public class RegistryValue extends ValueImpl implements Serializable
         {
             if (reg == null)
             {
-                reg = new Reg();
+            	// If the regRoot is not provided, load the portion of the registry indicated by regKey
+                reg = new Reg(key);
             }
             regkey = reg.get(key);
         }
@@ -125,30 +145,32 @@ public class RegistryValue extends ValueImpl implements Serializable
         {
             throw new Exception("Registry access allowed only on Windows OS");
         }
-
+        
         Reg reg = null;
         Reg.Key regkey = null;
         if (root != null)
         {
             String _root_ = root;
             for (VariableSubstitutor substitutor : substitutors)
-            {
+            {            	
                 _root_ = substitutor.substitute(_root_);
             }
             reg = new Reg(_root_);
         }
         if (key != null)
         {
-            if (reg == null)
-            {
-                reg = new Reg();
-            }
-            String _key_ = key;
+        	String _key_ = key;
             for (VariableSubstitutor substitutor : substitutors)
             {
                 _key_ = substitutor.substitute(_key_);
             }
-            regkey = reg.get(_key_);
+            
+            if (reg == null)
+            {
+            	// If the regRoot is not provided, load the portion of the registry indicated by regKey
+                reg = new Reg(_key_);
+            }        
+            regkey = reg.get(_key_);            
         }
         if (regkey != null)
         {
@@ -156,7 +178,7 @@ public class RegistryValue extends ValueImpl implements Serializable
             for (VariableSubstitutor substitutor : substitutors)
             {
                 _value_ = substitutor.substitute(_value_);
-            }
+            }             
             return regkey.get(_value_);
         }
 

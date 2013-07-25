@@ -32,6 +32,18 @@ class BasicRegistryKey extends BasicProfileSection implements Registry.Key
     {
         super(registry, name);
     }
+    
+    @Override
+    public String toString() {
+    	String name = getName();
+    	String[] children = childrenNames();
+    	StringBuilder str = new StringBuilder(name + ":[");
+    	for(String childName : children) {
+			str.append(childName).append(":").append(getChild(childName)).append(",");
+		}
+    	str.setCharAt(str.length() - 1, ']');
+    	return str.toString();
+    }
 
     @Override public Key getChild(String key)
     {
