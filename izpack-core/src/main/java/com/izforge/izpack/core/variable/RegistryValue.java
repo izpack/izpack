@@ -145,14 +145,14 @@ public class RegistryValue extends ValueImpl implements Serializable
         {
             throw new Exception("Registry access allowed only on Windows OS");
         }
-        
+
         Reg reg = null;
         Reg.Key regkey = null;
         if (root != null)
         {
             String _root_ = root;
             for (VariableSubstitutor substitutor : substitutors)
-            {            	
+            {
                 _root_ = substitutor.substitute(_root_);
             }
             reg = new Reg(_root_);
@@ -178,7 +178,7 @@ public class RegistryValue extends ValueImpl implements Serializable
             for (VariableSubstitutor substitutor : substitutors)
             {
                 _value_ = substitutor.substitute(_value_);
-            }             
+            }
             return regkey.get(_value_);
         }
 

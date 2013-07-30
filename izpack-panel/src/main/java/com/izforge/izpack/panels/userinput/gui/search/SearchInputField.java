@@ -191,6 +191,15 @@ public class SearchInputField implements ActionListener
     public boolean autodetect()
     {
         List<String> items = new ArrayList<String>();
+        
+        // Try all of <choice> options - see if any are valid
+        for (int x = 0; x < pathComboBox.getItemCount(); x++)
+        {
+        	if( pathMatches( (String)pathComboBox.getItemAt(x) ) ) {
+        		pathComboBox.setSelectedIndex(x);
+        		break;
+        	}
+        }
 
         /*
          * Check if the user has entered installDataGUI into the ComboBox and add it to the Itemlist
@@ -216,6 +225,7 @@ public class SearchInputField implements ActionListener
         }
 
         // Checks whether a placeholder item is in the combobox
+        // and resolve the paths automatically:
         // and resolve the pathes automatically:
         // /usr/lib/* searches all folders in usr/lib to find
         // /usr/lib/*/lib/tools.jar
@@ -316,6 +326,17 @@ public class SearchInputField implements ActionListener
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             }
 
+            String startingPath = (String)pathComboBox.getSelectedItem();
+            if( startingPath == null && pathComboBox.getItemCount() != 0 ) {
+            	startingPath = (String)pathComboBox.getItemAt(0);
+            }
+            if( startingPath != null ) {
+            	File dir = new File(startingPath);
+            	if( dir.exists() ) {
+            		chooser.setCurrentDirectory(dir);
+            	}
+            }
+            
             int result = chooser.showOpenDialog(parent);
 
             if (result == JFileChooser.APPROVE_OPTION)

@@ -158,14 +158,15 @@ public class SearchFieldReader extends FieldReader implements SearchFieldConfig
         List<String> result = new ArrayList<String>();
         Config config = getConfig();
         IXMLElement spec = getSpec();
+        String set = config.getString(spec, "set", null);
         for (IXMLElement element : spec.getChildrenNamed("choice"))
         {
             List<OsModel> models = OsConstraintHelper.getOsList(element);
+            
             if (matcher.matchesCurrentPlatform(models))
             {
                 String value = config.getString(element, "value", null);
-                boolean set = config.getBoolean(spec, "set", false);
-                if (set)
+                if( value.equals(set) )
                 {
                     selected = result.size();
                 }
