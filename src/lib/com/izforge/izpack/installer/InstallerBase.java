@@ -188,8 +188,8 @@ public class InstallerBase
         }
 
         // We determine the hostname and IPAdress
-        String hostname;
-        String IPAddress;
+        String hostname="";
+        String IPAddress="";
 
         try
         {
@@ -207,8 +207,13 @@ public class InstallerBase
             IPAddress = "";
         }
 
-        if (OsVersion.IS_UNIX)
-        {
+        if (OsVersion.IS_UNIX) {
+            // if hostname could not be read
+            if ("".equals(hostname)) {
+                // read from $HOSTNAME
+                hostname=System.getenv("HOSTNAME");
+            }
+                
 
 
             try {
@@ -222,6 +227,11 @@ public class InstallerBase
                 installdata.setVariable(ScriptParser.GROUP_NAME, line);
 
             } catch (Exception e) {
+            }
+        } else {
+            if ("".equals(hostname)) {
+                // read from $HOSTNAME
+                hostname=System.getenv("COMPUTERNAME");
             }
         }
 
