@@ -81,7 +81,7 @@
                         <!-- copies sources from izpack-dist to test-classes/samples/izpack -->
                         <!-- for IzpackGenerationTest, IzpackInstallationTest               -->
                         <id>Unpack izpack installer files</id>
-                        <phase>process-resources</phase>
+                        <phase>process-test-resources</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
@@ -94,7 +94,7 @@
                     </execution>
                     <execution>
                         <id>Copy test listeners to samples/event/lib</id>
-                        <phase>process-resources</phase>
+                        <phase>process-test-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
@@ -106,7 +106,7 @@
                     </execution>
                     <execution>
                         <id>Copy test listeners to samples/packaging</id>
-                        <phase>process-resources</phase>
+                        <phase>process-test-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
