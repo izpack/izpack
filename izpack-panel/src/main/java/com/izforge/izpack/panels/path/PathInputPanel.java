@@ -98,6 +98,14 @@ public class PathInputPanel extends IzPanel implements ActionListener
                 introText = "";
             }
         }
+        String mustExist;
+        if ((mustExist = panel.getConfiguration("mustExist")) != null) {
+        	try {
+        		this.mustExist = Boolean.parseBoolean(mustExist);
+        	} catch (Exception ex) {
+        		// swallow the exception, don't know if it is permitted to throw something here...
+        	}
+        }
         // Intro
         // row 0 column 0
         add(createMultiLineLabel(introText));
