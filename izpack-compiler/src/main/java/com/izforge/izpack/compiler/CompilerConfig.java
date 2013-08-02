@@ -1460,14 +1460,13 @@ public class CompilerConfig extends Thread
 
         }
 
+        // This corrects issues that could arise due to subfolders
+        Collections.sort(allDirList);
         for (String dirName : allDirList)
         {
             File tmp = new File(dirName);
-            if (!tmp.mkdirs() && !tmp.exists())
-            {
-                throw new CompilerException("Failed to create directory: " + tmp);
-            }
-            tmp.deleteOnExit();
+            org.apache.commons.io.FileUtils.forceMkdir(tmp);
+            org.apache.commons.io.FileUtils.forceDeleteOnExit(tmp); 
             String target = targetdir + "/" + dirName;
             logger.info("Adding file: " + tmp + ", as target file=" + target);
             pack.addFile(baseDir, tmp, target, osList,
