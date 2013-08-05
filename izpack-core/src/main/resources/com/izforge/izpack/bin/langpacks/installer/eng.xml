@@ -160,6 +160,7 @@
     <str id="FinishPanel.auto.tip"
          txt="Use this script to repeat this installation on other computers."/>
     <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
+    <str id="FinishPanel.launchAfterInstall.combo.text" txt="Launch application after install"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.dependencyList" txt="Dependencies and/or excludes"/>
