@@ -159,6 +159,8 @@ public class FinishPanel extends IzPanel implements ActionListener
     private boolean launchOnFinish = true;
     
     private void addLaunchApplicationCheckbox(GridBagConstraints constraints) {
+    	if (getExecutionCommand().length == 0) return;
+    	
     	JCheckBox check = new JCheckBox(getString("FinishPanel.launchAfterInstall.combo.text"));
     	check.setSelected(launchOnFinish);
     	check.addItemListener(new ItemListener() {
@@ -184,7 +186,8 @@ public class FinishPanel extends IzPanel implements ActionListener
     
     protected void runApp() {
     	String[] cmd = getExecutionCommand();
-    	File execDir = new File(installData.getVariable("FinishPanel.executableDir"));
+    	String execDirVariable = installData.getVariable("FinishPanel.executableDir");
+    	File execDir = execDirVariable == null ? new File("") : new File(execDirVariable);
     	try {
     		log.addDebugMessage("Executing {0} in {1}", new String[]{Arrays.toString(cmd), execDir.toString()}, Log.PANEL_TRACE, null);
 	    	Runtime.getRuntime().exec(cmd, null, execDir);
