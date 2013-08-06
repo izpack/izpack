@@ -170,7 +170,7 @@ public class FinishPanel extends IzPanel implements ActionListener
 			}
 		});
     	constraints.gridx = 0;
-    	constraints.insets = new Insets(50, 0, 0, 0);
+    	constraints.insets = new Insets(50, 20, 2, 2);
     	add(check, constraints);
     	Runtime.getRuntime().addShutdownHook(new Thread("Application launcher thread") {
     		@Override
