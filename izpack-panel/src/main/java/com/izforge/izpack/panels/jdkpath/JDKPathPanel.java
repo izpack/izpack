@@ -218,7 +218,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     {
         // Resolve the default for chosenPath
         super.panelActivate();
-        String chosenPath;
+        String chosenPath = "";
 
         String msg = getString("JDKPathPanel.jdkDownload");
         if (msg != null && !msg.isEmpty())
@@ -250,8 +250,10 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
             }
             else
             {
-                // Try the JAVA_HOME as child dir of the jdk path
-                chosenPath = (new File(installData.getVariable("JAVA_HOME"))).getParent();
+            	String javaHome = installData.getVariable("JAVA_HOME");
+            	if (javaHome != null) {
+            		chosenPath = new File(javaHome).getAbsolutePath();
+            	}
             }
         }
         // Set the path for method pathIsValid ...

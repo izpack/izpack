@@ -392,7 +392,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
      */
     protected boolean checkRequiredFilesExist(String path)
     {
-        if (existFiles == null)
+        if (existFiles == null || path == null || path.isEmpty())
         {
             return true;
         }
