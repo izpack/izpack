@@ -24,17 +24,27 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.AutomatedInstallScriptFilter;
 import com.izforge.izpack.gui.ButtonFactory;
@@ -135,6 +145,7 @@ public class FinishPanel extends IzPanel implements ActionListener
             autoButton.addActionListener(this);
             add(autoButton, constraints);
             constraints.gridy++;
+            addLaunchApplicationCheckbox(constraints);
         }
         else
         {
@@ -145,7 +156,59 @@ public class FinishPanel extends IzPanel implements ActionListener
         log.informUser();
     }
 
-    /**
+    private boolean launchOnFinish = true;
+    
+    private void addLaunchApplicationCheckbox(GridBagConstraints constraints) {
+    	if (getExecutionCommand().length == 0) return;
+    	
+    	JCheckBox check = new JCheckBox(getString("FinishPanel.launchAfterInstall.combo.text"));
+    	check.setSelected(launchOnFinish);
+    	check.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				launchOnFinish = e.getStateChange() == ItemEvent.SELECTED;
+			}
+		});
+    	constraints.gridx = 0;
+    	constraints.insets = new Insets(50, 20, 2, 2);
+    	add(check, constraints);
+    	Runtime.getRuntime().addShutdownHook(new Thread("Application launcher thread") {
+    		@Override
+    		public void run() {
+    			if (launchOnFinish) {
+    				runApp();
+    			} else {
+    				log.addDebugMessage("Skipping application launch", new String[0], Log.PANEL_TRACE, null);
+    			}
+    		}
+    	});
+	}
+    
+    protected void runApp() {
+    	String[] cmd = getExecutionCommand();
+    	String execDirVariable = installData.getVariable("FinishPanel.executableDir");
+    	File execDir = execDirVariable == null ? new File("") : new File(execDirVariable);
+    	try {
+    		log.addDebugMessage("Executing {0} in {1}", new String[]{Arrays.toString(cmd), execDir.toString()}, Log.PANEL_TRACE, null);
+	    	Runtime.getRuntime().exec(cmd, null, execDir);
+    	} catch (IOException e) {
+    		throw new RuntimeException("Failed to launch "+Arrays.toString(cmd)+" in "+execDir, e);
+    	}
+	}
+    
+	protected String[] getExecutionCommand() {
+		Variables variables = installData.getVariables();
+		SortedMap<String, String> commands = new TreeMap<String, String>();
+		Set<Entry<Object, Object>> allVariables = variables.getProperties().entrySet();
+		for (Entry<Object, Object> entry : allVariables) {
+			if(entry.getKey().toString().startsWith("FinishPanel.executableCmd")) {
+				commands.put(entry.getKey().toString(), entry.getValue().toString());
+			}
+		}
+		return commands.values().toArray(new String[0]);
+	}
+
+	/**
      * Actions-handling method.
      *
      * @param e The event.
