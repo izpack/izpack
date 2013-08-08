@@ -251,7 +251,8 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
             else
             {
             	String javaHome = installData.getVariable("JAVA_HOME");
-            	if (javaHome != null) {
+            	if (javaHome != null)
+            	{
             		chosenPath = new File(javaHome).getAbsolutePath();
             	}
             }

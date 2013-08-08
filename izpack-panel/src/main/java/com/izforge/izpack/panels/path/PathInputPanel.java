@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.PanelActionConfiguration;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.IzPanelLayout;
@@ -184,7 +185,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
 
         if (isMustExist())
         {
-            if (!checkExists(file) || !pathIsValid() || (modifyInstallation() && !checkInstallationInformation(file)))
+            if (!checkExists(file) || !pathIsValid(true) || (modifyInstallation() && !checkInstallationInformation(file)))
             {
                 return false;
             }
@@ -392,7 +393,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
      */
     protected boolean checkRequiredFilesExist(String path)
     {
-        if (existFiles == null || path == null || path.isEmpty())
+    	if (existFiles == null || path == null || path.isEmpty())
         {
             return true;
         }
@@ -401,7 +402,6 @@ public class PathInputPanel extends IzPanel implements ActionListener
             File file = new File(path, existFile).getAbsoluteFile();
             if (!file.exists())
             {
-                emitError(getString("installer.error"), getString(getI18nStringForClass("notValid", "PathInputPanel")));
                 return false;
             }
         }
@@ -451,16 +451,31 @@ public class PathInputPanel extends IzPanel implements ActionListener
     }
 
     /**
-     * Returns whether the chosen path is true or not. If existFiles are not null, the existence of
+     * Same as calling {@link #pathIsValid(boolean) pathIsValid(false)}.
+     */
+    protected boolean pathIsValid()
+    {
+        return pathIsValid(false);
+    }
+    
+    /**
+     * Returns whether the chosen path is valid or not. If existFiles are not null, the existence of
      * it under the chosen path are detected. This method can be also implemented in derived
      * classes to handle special verification of the path.
      *
      * @return true if existFiles are exist or not defined, else false
      */
-    protected boolean pathIsValid()
+    protected boolean pathIsValid(boolean notifyUserIfInvalid)
     {
-        return checkRequiredFilesExist(getPath());
+    	String pathToBeChecked = getPath();
+        boolean isValid = checkRequiredFilesExist(pathToBeChecked);
+        if (!isValid && notifyUserIfInvalid)
+        {
+        	String errMsg = getString(getI18nStringForClass("notValid", "PathInputPanel"));
+        	logger.log(Level.WARNING, String.format("%s: '%s'", errMsg, pathToBeChecked));
+        	emitError(getString("installer.error"), errMsg);
+        }
+    	return isValid;
     }
-
 
 }
