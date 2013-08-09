@@ -193,7 +193,7 @@ public class RuleField extends Field
         ValidationStatus status = layout.validate(value);
         if (status.isValid())
         {
-            status = super.validate(status.getValues());
+            status = super.validate(value);
         }
         return status;
     }
