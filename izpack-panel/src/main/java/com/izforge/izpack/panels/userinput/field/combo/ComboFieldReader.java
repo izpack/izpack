@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.Config;
@@ -72,7 +73,7 @@ public class ComboFieldReader extends FieldReader implements ChoiceFieldConfig<C
      * @return the choices
      */
     @Override
-    public List<Choice> getChoices()
+    public List<Choice> getChoices(RulesEngine rules)
     {
         selected = -1;
         List<Choice> result = new ArrayList<Choice>();

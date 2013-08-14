@@ -52,7 +52,7 @@ public abstract class ChoiceField<T extends Choice> extends Field
     public ChoiceField(ChoiceFieldConfig<T> config, InstallData installData)
     {
         super(config, installData);
-        this.choices = config.getChoices();
+        this.choices = config.getChoices(installData.getRules());
         this.selected = config.getSelectedIndex();
     }
 

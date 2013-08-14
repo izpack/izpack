@@ -23,6 +23,7 @@ package com.izforge.izpack.panels.userinput.field.choice;
 
 import java.util.List;
 
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
@@ -65,7 +66,7 @@ public class TestChoiceFieldConfig<T extends Choice> extends TestFieldConfig imp
      * @return the choices
      */
     @Override
-    public List<T> getChoices()
+    public List<T> getChoices(RulesEngine rules)
     {
         return choices;
     }

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.Config;
 import com.izforge.izpack.panels.userinput.field.FieldReader;
@@ -58,7 +59,7 @@ public class RadioFieldReader extends FieldReader implements ChoiceFieldConfig<R
      *
      * @return the choices
      */
-    public List<RadioChoice> getChoices()
+    public List<RadioChoice> getChoices(RulesEngine rules)
     {
         selected = -1;
         List<RadioChoice> result = new ArrayList<RadioChoice>();
@@ -71,7 +72,11 @@ public class RadioFieldReader extends FieldReader implements ChoiceFieldConfig<R
                 selected = result.size();
             }
             boolean revalidate = config.getBoolean(choice, "revalidate", false);
-            result.add(new RadioChoice(value, getText(choice), revalidate));
+            String conditionId = config.getString(choice, "conditionid", null);
+            if (rules == null || conditionId == null || rules.isConditionTrue(conditionId))
+            {
+                result.add(new RadioChoice(value, getText(choice), revalidate));
+            }
         }
 
         return result;
@@ -82,7 +87,7 @@ public class RadioFieldReader extends FieldReader implements ChoiceFieldConfig<R
      * <p/>
      * A choice is selected if the "set" attribute is 'true'.
      * <p/>
-     * This is only valid after {@link #getChoices()} is invoked.
+     * This is only valid after {@link #getChoices(RulesEngine)} is invoked.
      *
      * @return the selected index or {@code -1} if no choice is selected
      */
