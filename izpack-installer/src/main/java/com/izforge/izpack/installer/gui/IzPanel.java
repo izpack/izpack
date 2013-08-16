@@ -27,17 +27,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager2;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
@@ -131,11 +127,6 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
     private String helpUrl = null;
 
     /**
-     * The logger.
-     */
-    private static final Logger logger = Logger.getLogger(IzPanel.class.getName());
-
-    /**
      * Constructs an <tt>IzPanel</tt>.
      *
      * @param panel       the panel meta-data
@@ -181,30 +172,16 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
      *
      * @param panel       the panel meta-data
      * @param parent      the parent IzPack installer frame
-     * @param iconName    the Headline icon name
-     * @param installData the installation data
-     * @param resources   the resources
-     */
-    public IzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, String iconName, Resources resources)
-    {
-        this(panel, parent, installData, iconName, -1, resources);
-    }
-
-    /**
-     * Constructs an <tt>IzPanel</tt>.
-     *
-     * @param panel       the panel meta-data
-     * @param parent      the parent IzPack installer frame
      * @param installData the installation data
      * @param iconName    the Headline icon name
      * @param instance    an instance counter
      * @param resources   the resources
      */
-    public IzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, String iconName, int instance,
+    public IzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, String iconName,
                    Resources resources)
     {
         this(panel, parent, installData, resources);
-        buildHeadline(iconName, instance);
+        buildHeadline(iconName);
     }
 
     /**
@@ -217,7 +194,7 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
      * @param instanceNumber an panel instance
      * @return true if successful build
      */
-    protected boolean buildHeadline(String imageIconName, int instanceNumber)
+    protected boolean buildHeadline(String imageIconName)
     {
         boolean result = false;
         if (parent.isHeading(this))
@@ -225,38 +202,7 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
             return (false);
         }
 
-        // TODO: proteced instancenumber
-        // TODO: is to be validated
-        // TODO:
-        // TODO: first Test if a Resource for your protected Instance exists.
-        String headline;
-        String headlineSearchBaseKey = getClass().getSimpleName() + DELIMITER + "headline"; // Results for example in
-        // "ShortcutPanel.headline"
-        // :
-
-        if (instanceNumber > -1) // Search for Results for example in "ShortcutPanel.headline.1,
-        // 2, 3 etc." :
-        {
-            String instanceSearchKey = headlineSearchBaseKey + DELIMITER + Integer.toString(instanceNumber);
-
-            String instanceHeadline = getString(instanceSearchKey);
-
-            logger.fine("found headline: " + instanceHeadline + DELIMITER + " for instance # "
-                                + instanceNumber);
-            if (!instanceSearchKey.equals(instanceHeadline))
-            {
-                headline = instanceHeadline;
-            }
-            else
-            {
-                headline = getString(headlineSearchBaseKey);
-            }
-        }
-        else
-        {
-            headline = getString(headlineSearchBaseKey);
-        }
-
+        String headline = getString(getMetadata().getPanelId() + DELIMITER + "headline");
         if (headline != null)
         {
             if ((imageIconName != null) && !"".equals(imageIconName))
@@ -480,6 +426,13 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
     public String getI18nStringForClass(String subkey)
     {
         String retval = null;
+
+        String panelId = getMetadata().getPanelId();
+        if (panelId != null)
+        {
+            return getString(panelId + "." + subkey);
+        }
+
         Class<?> clazz = this.getClass();
         while (retval == null && !clazz.getName().endsWith(".IzPanel"))
         {
