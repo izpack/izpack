@@ -27,7 +27,7 @@ public class AutomatedInstallDataProvider extends AbstractInstallDataProvider
 
         loadDefaultLocale(automatedInstallData, locales);
         // Load custom langpack if exist.
-        addCustomLangpack(automatedInstallData, locales);
+        AbstractInstallDataProvider.addCustomLangpack(automatedInstallData, locales);
         loadDynamicVariables(variables, automatedInstallData, resources);
         loadDynamicConditions(automatedInstallData, resources);
         loadInstallerRequirements(automatedInstallData, resources);

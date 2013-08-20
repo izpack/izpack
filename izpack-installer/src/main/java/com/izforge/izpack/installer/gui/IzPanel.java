@@ -27,6 +27,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager2;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -177,6 +179,8 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
      * @param instance    an instance counter
      * @param resources   the resources
      */
+    @Deprecated
+    // FIXME: This constructor is used just in ShortcutPanel, move it there
     public IzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, String iconName,
                    Resources resources)
     {
@@ -194,15 +198,27 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
      * @param instanceNumber an panel instance
      * @return true if successful build
      */
-    protected boolean buildHeadline(String imageIconName)
+    @Deprecated
+    private void buildHeadline(String imageIconName)
     {
-        boolean result = false;
         if (parent.isHeading(this))
         {
-            return (false);
+            return;
         }
 
-        String headline = getString(getMetadata().getPanelId() + DELIMITER + "headline");
+        String headline = null;
+        String searchkey = getMetadata().getPanelId() + DELIMITER + "headline";
+        if (getMetadata().hasPanelId() && installData.getMessages().getMessages().containsKey(searchkey))
+        {
+            headline = getString(getMetadata().getPanelId() + DELIMITER + "headline");
+        }
+        else {
+            searchkey = getClass().getSimpleName() + DELIMITER + "headline";
+            if (installData.getMessages().getMessages().containsKey(searchkey))
+            {
+                headline = getString(searchkey);
+            }
+        }
         if (headline != null)
         {
             if ((imageIconName != null) && !"".equals(imageIconName))
@@ -235,8 +251,6 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
 
             add(headLineLabel);
         }
-
-        return result;
     }
 
     /**
@@ -425,21 +439,7 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
      */
     public String getI18nStringForClass(String subkey)
     {
-        String retval = null;
-
-        String panelId = getMetadata().getPanelId();
-        if (panelId != null)
-        {
-            return getString(panelId + "." + subkey);
-        }
-
-        Class<?> clazz = this.getClass();
-        while (retval == null && !clazz.getName().endsWith(".IzPanel"))
-        {
-            retval = getI18nStringForClass(clazz.getName(), subkey, null);
-            clazz = clazz.getSuperclass();
-        }
-        return (retval);
+        return getI18nStringForClass(subkey, null);
     }
 
     /**
@@ -454,40 +454,45 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
      */
     public String getI18nStringForClass(String subkey, String alternateClass)
     {
-        return (getI18nStringForClass(getClass().getName(), subkey, alternateClass));
-
-    }
-
-    private String getI18nStringForClass(String curClassName, String subkey, String alternateClass)
-    {
-
-        int nameStart = curClassName.lastIndexOf('.') + 1;
-        curClassName = curClassName.substring(nameStart, curClassName.length());
-        StringBuilder buffer = new StringBuilder();
-        buffer.append(curClassName).append(".").append(subkey);
-        String fullkey = buffer.toString();
-        String panelId = getMetadata().getPanelId();
         String retval = null;
-        if (panelId != null)
+
+        List<String> panelIdParts = new ArrayList<String>();
+        if (getMetadata().hasPanelId())
         {
-            buffer.append(".");
-            buffer.append(panelId);
-            retval = getString(buffer.toString());
+            panelIdParts.add("." + getMetadata().getPanelId());
         }
-        if (retval == null || retval.startsWith(fullkey))
+        panelIdParts.add("");
+
+        for (String panelIdPart : panelIdParts)
         {
-            retval = getString(fullkey);
-        }
-        if (retval == null || retval.startsWith(fullkey))
-        {
-            if (alternateClass == null)
+          Class<?> clazz = this.getClass();
+          while (retval == null && !clazz.equals(IzPanel.class))
+          {
+            // Try <full class name>[.<panel id>].<subkey>
+            String className = alternateClass==null?clazz.getName():alternateClass;
+            String searchkey = className + panelIdPart + "." + subkey;
+            if (installData.getMessages().getMessages().containsKey(searchkey))
             {
-                return (null);
+                retval = getString(searchkey);
             }
-            buffer.delete(0, buffer.length());
-            buffer.append(alternateClass).append(".").append(subkey);
-            retval = getString(buffer.toString());
+            if (retval == null)
+            {
+                // Try <simple class name>[.<panel id>].<subkey>
+                className = alternateClass==null?clazz.getSimpleName():alternateClass;            // Try <simple class name>.<panel id>.<subkey>
+                searchkey = className + panelIdPart + "." + subkey;
+                if (installData.getMessages().getMessages().containsKey(searchkey))
+                {
+                    retval = getString(searchkey);
+                }
+            }
+            if (alternateClass != null)
+            {
+                break;
+            }
+            clazz = clazz.getSuperclass();
+          }
         }
+
         if (retval != null && retval.indexOf('$') > -1)
         {
             retval = installData.getVariables().replace(retval);

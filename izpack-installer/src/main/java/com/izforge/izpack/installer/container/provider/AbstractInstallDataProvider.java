@@ -47,7 +47,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      * The base name of the XML file that specifies the custom langpack. Searched is for the file
      * with the name expanded by _ISO3.
      */
-    protected static final String LANG_FILE_NAME = "CustomLangPack.xml";
+    protected static final String CUSTOM_TRANSLATIONS_RESOURCE_NAME = "CustomLangPack.xml";
 
     /**
      * The logger.
@@ -213,17 +213,17 @@ public abstract class AbstractInstallDataProvider implements Provider
      *
      * @param installData the install data to be used
      */
-    protected void addCustomLangpack(AutomatedInstallData installData, Locales locales)
+    public static void addCustomLangpack(AutomatedInstallData installData, Locales locales)
     {
         // We try to load and add a custom langpack.
         try
         {
-            installData.getMessages().add(locales.getMessages(LANG_FILE_NAME));
+            installData.getMessages().add(locales.getMessages(CUSTOM_TRANSLATIONS_RESOURCE_NAME));
             logger.fine("Found custom langpack for " + installData.getLocaleISO3());
         }
         catch (ResourceNotFoundException exception)
         {
-            logger.info("No custom langpack for " + installData.getLocaleISO3() + " available");
+            logger.fine("No custom langpack for " + installData.getLocaleISO3() + " available");
         }
     }
 

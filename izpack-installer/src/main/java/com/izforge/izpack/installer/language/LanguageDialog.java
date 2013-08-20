@@ -54,6 +54,7 @@ import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.installer.container.provider.AbstractInstallDataProvider;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.requirement.RequirementsChecker;
 
@@ -146,7 +147,7 @@ public class LanguageDialog extends JDialog
             // nothing to do at this point
             break;
         case 1:
-            // propagate the specified language 
+            // propagate the specified language
             String codeOfUniqueLanguage = displayNames.keySet().iterator().next();
             propagateLocale(codeOfUniqueLanguage);
             break;
@@ -285,7 +286,7 @@ public class LanguageDialog extends JDialog
         }
 
         propagateLocale(selectedPack);
-        
+
         dispose();
     }
 
@@ -343,6 +344,8 @@ public class LanguageDialog extends JDialog
 
             installData.setLocale(locales.getLocale(), locales.getISOCode());
             installData.setMessages(locales.getMessages());
+
+            AbstractInstallDataProvider.addCustomLangpack(installData, locales);
 
             // Configure buttons after locale has been loaded
             installData.configureGuiButtons();

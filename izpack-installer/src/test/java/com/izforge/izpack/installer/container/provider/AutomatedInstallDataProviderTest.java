@@ -102,7 +102,7 @@ public class AutomatedInstallDataProviderTest
                                                 "str id='overridden.message' txt='Message overridden'");
 
         mock(loader, "resources/langpacks/eng.xml", defaultPack);
-        mock(loader, "resources/" + AbstractInstallDataProvider.LANG_FILE_NAME + "_eng", customPack);
+        mock(loader, "resources/" + AbstractInstallDataProvider.CUSTOM_TRANSLATIONS_RESOURCE_NAME + "_eng", customPack);
 
         // set up the locale
         Locales locales = new LocalesProvider().provide(resources);

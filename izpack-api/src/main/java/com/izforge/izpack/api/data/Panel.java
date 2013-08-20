@@ -1,17 +1,17 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2004 Jan Blok
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -109,11 +109,16 @@ public class Panel implements Serializable
         this.className = className;
     }
 
+    public boolean hasPanelId()
+    {
+        return (panelId != null);
+    }
+
     public String getPanelId()
     {
         if (panelId == null)
         {
-            panelId = "UNKNOWN (" + className + ")";
+            return "UNKNOWN (" + className + ")";
         }
         return panelId;
     }
@@ -298,7 +303,7 @@ public class Panel implements Serializable
         return "Panel{" +
                 "className='" + className + '\'' +
                 ", osConstraints=" + osConstraints +
-                ", panelid='" + panelId + '\'' +
+                ", panelid='" + getPanelId() + '\'' +
                 ", condition='" + condition + '\'' +
                 ", actions=" + actions +
                 ", validator='" + validator + '\'' +

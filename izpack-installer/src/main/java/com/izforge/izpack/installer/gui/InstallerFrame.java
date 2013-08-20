@@ -1342,7 +1342,7 @@ public class InstallerFrame extends JFrame implements InstallerView
         {
             return (true);
         }
-        return (caller.getI18nStringForClass("headline", null) != null);
+        return (caller.getI18nStringForClass("headline") != null);
 
     }
 
