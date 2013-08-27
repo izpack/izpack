@@ -199,10 +199,11 @@ public class InstallerBase
             IPAddress = addr.getHostAddress();
 
             // Get hostname
-            hostname = addr.getHostName().toLowerCase();
+            hostname = addr.getHostName().toLowerCase().trim();
         }
         catch (Exception e)
         {
+            Debug.log(e);
             hostname = "";
             IPAddress = "";
         }
@@ -213,18 +214,19 @@ public class InstallerBase
                 // read from $HOSTNAME
                 hostname=System.getenv("HOSTNAME");
             }
-                
-
 
             try {
-                Runtime rt = Runtime.getRuntime();
-                Process pr = rt.exec("id -gn");
+                //Runtime rt = Runtime.getRuntime();
+                ProcessBuilder pb = new ProcessBuilder(new String[] {"id","-gn"});
+                Process pr = pb.start();
+                //Process pr = rt.exec("id -gn");
 
                 BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
 
                 String line=input.readLine();
 
                 installdata.setVariable(ScriptParser.GROUP_NAME, line);
+                Debug.log("groupname : "+line);
 
             } catch (Exception e) {
             }
@@ -235,6 +237,8 @@ public class InstallerBase
             }
         }
 
+        Debug.log("hostname : "+hostname);
+        
         installdata.setVariable("APPLICATIONS_DEFAULT_ROOT", dir);
         dir += File.separator;
         installdata.setVariable(ScriptParser.JAVA_HOME, System.getProperty("java.home"));

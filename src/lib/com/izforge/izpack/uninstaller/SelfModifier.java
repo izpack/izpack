@@ -363,7 +363,9 @@ public class SelfModifier
     {
         try
         {
-            Process p = Runtime.getRuntime().exec(javaCommand());
+            //Process p = Runtime.getRuntime().exec(javaCommand());
+            ProcessBuilder pb = new ProcessBuilder(new String[] {javaCommand()});
+            Process p = pb.start();
 
             new StreamProxy(p.getErrorStream(), "err").start();
             new StreamProxy(p.getInputStream(), "out").start();
@@ -489,9 +491,9 @@ public class SelfModifier
         }
         log(sb.toString());
 
-//        ProcessBuilder process = new ProcessBuilder(command);       
-//        return process.start();
-        return Runtime.getRuntime().exec(command.toArray(new String[command.size()]),null,null);
+        ProcessBuilder process = new ProcessBuilder(command);       
+        return process.start();
+        //return Runtime.getRuntime().exec(command.toArray(new String[command.size()]),null,null);
     }
 
     /**

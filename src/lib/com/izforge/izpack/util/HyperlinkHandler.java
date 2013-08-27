@@ -45,7 +45,9 @@ public class HyperlinkHandler implements HyperlinkListener
                 String urls = e.getURL().toExternalForm();
                 if (com.izforge.izpack.util.OsVersion.IS_OSX)
                 {
-                    Runtime.getRuntime().exec("open " + urls);
+                    //Runtime.getRuntime().exec("open " + urls);
+                    ProcessBuilder pbOSX = new ProcessBuilder(new String [] {"open", urls});
+                    pbOSX.start();
                 }
                 else if (com.izforge.izpack.util.OsVersion.IS_UNIX)
                 {
@@ -57,6 +59,9 @@ public class HyperlinkHandler implements HyperlinkListener
                     {
                         try
                         {
+                            // not windows platform
+                            // http://www.oracle.com/technetwork/java/javase/7u25-relnotes-1955741.html#jruntime
+                            // TODO
                             Runtime.getRuntime().exec(launcher.replaceAll("QqzURL", urls));
                             System.out.println("OK");
                             break;
@@ -70,7 +75,9 @@ public class HyperlinkHandler implements HyperlinkListener
                 else
                 // windows
                 {
-                    Runtime.getRuntime().exec("cmd /C start " + urls);
+                    //Runtime.getRuntime().exec("cmd /C start " + urls);
+                    ProcessBuilder pbWIn = new ProcessBuilder(new String[] {"cmd.exe", "/C", "start", urls});
+                    pbWIn.start ();
                 }
             }
         }

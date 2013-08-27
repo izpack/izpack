@@ -50,7 +50,9 @@ public final class Console
              * Start a new process in which to execute the commands in cmd, using the environment in
              * env and use pwd as the current working directory.
              */
-            p = rt.exec(args);// , env, pwd);
+            ProcessBuilder pb = new ProcessBuilder(args);
+            p = pb.start();
+            //p = rt.exec(args);// , env, pwd);
             new Console(p);
             System.exit(p.exitValue());
         }

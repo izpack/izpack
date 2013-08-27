@@ -148,7 +148,9 @@ public class UninstallerConsole
                 command.add("\""+deleteScript.getAbsolutePath()+"\"");
                 
                 //String strCommand = "cmd.exe /c \"start \"\" /B wscript /B \""+deleteScript.getAbsolutePath()+"\" > c:\\temp\\log.txt \" ";
-                Runtime.getRuntime().exec (command.toArray(new String[command.size()]),null,null);
+                //Runtime.getRuntime().exec (command.toArray(new String[command.size()]),null,null);
+                ProcessBuilder pb = new ProcessBuilder(command);
+                pb.start();
             }
             
         }

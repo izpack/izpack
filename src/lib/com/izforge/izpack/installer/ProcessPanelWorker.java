@@ -552,7 +552,10 @@ public class ProcessPanelWorker implements Runnable
                     {
                         String Charset = "CP850";
                         
-                        Process procu = Runtime.getRuntime().exec("cmd.exe /C chcp");
+                        ProcessBuilder pb = new ProcessBuilder(new String[] {"cmd.exe", "/C", "chcp"});
+                        
+                        Process procu = pb.start();
+                        //Process procu = Runtime.getRuntime().exec("cmd.exe /C chcp");
                         procu.waitFor();
                         BufferedReader forCHCP = new BufferedReader(new InputStreamReader(procu.getInputStream()));
                         String chcpout = forCHCP.readLine();

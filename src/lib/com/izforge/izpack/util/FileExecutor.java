@@ -167,7 +167,9 @@ public class FileExecutor
         try
         {
             // execute command
-            process = Runtime.getRuntime().exec(params);
+            ProcessBuilder pb = new ProcessBuilder(params);
+            process = pb.start();
+            //process = Runtime.getRuntime().exec(params);
 
             boolean console = false;// TODO: impl from xml <execute
             // in_console=true ...>, but works already

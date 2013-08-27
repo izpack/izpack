@@ -141,7 +141,9 @@ public class LibraryRemover
     {
         try
         {
-            Process p = Runtime.getRuntime().exec(javaCommand());
+            ProcessBuilder p2 = new ProcessBuilder( new String[] {javaCommand()});
+            Process p = p2.start();
+            //Process p = Runtime.getRuntime().exec(javaCommand());
 
             new StreamProxy(p.getErrorStream(), "err").start();
             new StreamProxy(p.getInputStream(), "out").start();
@@ -344,7 +346,9 @@ public class LibraryRemover
         log(sb.toString());
 
         // Just invoke it and let it go, the exception will be caught above
-        return Runtime.getRuntime().exec(javaCmd, null, null); // workDir);
+        ProcessBuilder p2 = new ProcessBuilder(javaCmd);
+        return p2.start();
+        //return Runtime.getRuntime().exec(javaCmd, null, null); // workDir);
     }
 
     /**
