@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.userinput.field.rule;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -193,9 +194,38 @@ public class RuleField extends Field
         ValidationStatus status = layout.validate(value);
         if (status.isValid())
         {
-            status = super.validate(value);
+            String[] values = status.getValues();
+            status = super.validate(getValidationFormat(values), values);
         }
         return status;
+    }
+
+    /**
+     * Generates array of values and formatting elements in the current order just for validation purposes.
+     * The validation is made from a concatenation of them all in the given order.
+     * @param values the ordered user input values
+     * @return the ordered validation parts
+     */
+    private MessageFormat getValidationFormat(String[] values)
+    {
+        StringBuffer sBuffer = new StringBuffer();
+        int index = 0;
+        for (Object item : layout.getLayout())
+        {
+            if (item instanceof String)
+            {
+                sBuffer.append((String)item);
+            }
+            else
+            {
+                if (index < values.length)
+                {
+                    sBuffer.append("{"+index+"}");
+                    ++index;
+                }
+            }
+        }
+        return new MessageFormat(sBuffer.toString());
     }
 
     /**

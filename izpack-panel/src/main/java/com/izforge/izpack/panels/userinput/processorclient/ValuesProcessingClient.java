@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.userinput.processorclient;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 
@@ -36,6 +37,8 @@ public class ValuesProcessingClient implements ProcessingClient
      */
     private final String[] values;
 
+    private final MessageFormat format;
+
     /**
      * The parameters. May be {@code null}.
      */
@@ -48,7 +51,17 @@ public class ValuesProcessingClient implements ProcessingClient
      */
     public ValuesProcessingClient(String[] values)
     {
-        this(values, null);
+        this(null, values);
+    }
+
+    /**
+     * Constructs a {@code ValuesProcessingClient}.
+     *
+     * @param values the values to process
+     */
+    public ValuesProcessingClient(MessageFormat format, String[] values)
+    {
+        this(format, values, null);
     }
 
     /**
@@ -57,8 +70,9 @@ public class ValuesProcessingClient implements ProcessingClient
      * @param values     the values to process
      * @param parameters the parameters to pass to the processor
      */
-    public ValuesProcessingClient(String[] values, Map<String, String> parameters)
+    public ValuesProcessingClient(MessageFormat format, String[] values, Map<String, String> parameters)
     {
+        this.format = format;
         this.values = values;
         this.parameters = parameters;
     }
@@ -108,19 +122,26 @@ public class ValuesProcessingClient implements ProcessingClient
     }
 
     /**
-     * Returns the field contents.
+     * Returns the field contents as one formatted or concatenated text.
      *
      * @return the field contents
      */
     @Override
     public String getText()
     {
-        StringBuilder result = new StringBuilder();
-        for (String value : values)
+        if (format != null)
         {
-            result.append(value);
+            return format.format((Object[])values);
         }
-        return result.toString();
+        else
+        {
+           StringBuilder result = new StringBuilder();
+            for (String value : values)
+            {
+                result.append(value);
+            }
+            return result.toString();
+        }
     }
 
     /**
