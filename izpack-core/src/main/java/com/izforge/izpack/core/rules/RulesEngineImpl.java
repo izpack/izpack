@@ -48,6 +48,7 @@ import com.izforge.izpack.core.rules.logic.OrCondition;
 import com.izforge.izpack.core.rules.logic.XorCondition;
 import com.izforge.izpack.core.rules.process.CompareNumericsCondition;
 import com.izforge.izpack.core.rules.process.CompareVersionsCondition;
+import com.izforge.izpack.core.rules.process.ContainsCondition;
 import com.izforge.izpack.core.rules.process.EmptyCondition;
 import com.izforge.izpack.core.rules.process.ExistsCondition;
 import com.izforge.izpack.core.rules.process.JavaCondition;
@@ -98,6 +99,7 @@ public class RulesEngineImpl implements RulesEngine
         TYPE_CLASS_NAMES.put("compareversions", CompareVersionsCondition.class.getName());
         TYPE_CLASS_NAMES.put("empty", EmptyCondition.class.getName());
         TYPE_CLASS_NAMES.put("exists", ExistsCondition.class.getName());
+        TYPE_CLASS_NAMES.put("contains", ContainsCondition.class.getName());
         TYPE_CLASS_NAMES.put("java", JavaCondition.class.getName());
         TYPE_CLASS_NAMES.put("packselection", PackSelectionCondition.class.getName());
         TYPE_CLASS_NAMES.put("ref", RefCondition.class.getName());
