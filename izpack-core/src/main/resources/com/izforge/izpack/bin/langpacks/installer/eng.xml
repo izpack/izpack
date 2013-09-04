@@ -269,6 +269,7 @@ file we looked for -->
          txt="Installation will proceed with the following settings. Press Next to continue."/>
     <str id="TargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK Path"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
     <str id="PacksPanel.summaryCaption" txt="Chosen Installation Packs"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Chosen Installation Packs"/>
     <str id="TreePacksPanel.summaryCaption" txt="Chosen Installation Packs"/>

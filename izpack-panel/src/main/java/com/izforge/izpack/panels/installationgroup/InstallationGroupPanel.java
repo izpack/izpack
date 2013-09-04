@@ -286,6 +286,18 @@ public class InstallationGroupPanel extends IzPanel
         helper.makeXMLData(this.installData, panelRoot);
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.izforge.izpack.installer.IzPanel#getSummaryBody()
+     */
+
+    @Override
+    public String getSummaryBody()
+    {
+        return (rows[selectedGroup].name);
+    }
+
     /**
      * Create the panel ui.
      */
