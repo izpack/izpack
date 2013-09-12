@@ -101,6 +101,8 @@ public class RulesEngine implements Serializable
         createBuiltinOsCondition("IS_SUSE_LINUX", "izpack.linuxinstall.suse");
         createBuiltinOsCondition("IS_DEBIAN_LINUX", "izpack.linuxinstall.debian");
         createBuiltinOsCondition("IS_ORACLE_LINUX", "izpack.linuxinstall.oracle");
+        createBuiltinOsCondition("IS_CENTOS_LINUX", "izpack.linuxinstall.centos");
+        createBuiltinOsCondition("IS_AMI_LINUX", "izpack.linuxinstall.ami");
         
     }
 

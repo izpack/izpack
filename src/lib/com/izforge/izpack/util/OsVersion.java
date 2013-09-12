@@ -163,10 +163,16 @@ public final class OsVersion implements OsVersionConstants, StringConstants
     public static final boolean IS_UNIX = !IS_OS2 && !IS_WINDOWS;
 
     /**
+     * True if CentOS Linux was detected
+     */
+    public static final boolean IS_CENTOS_LINUX = IS_LINUX
+            && FileUtil.fileContains(getReleaseFileName(), CENTOS);
+
+    /**
      * True if RedHat Linux was detected
      */
     public static final boolean IS_REDHAT_LINUX = IS_LINUX
-            && (IS_LINUX && !new File("/etc/oracle-release").exists()) && ((FileUtil.fileContains("/etc/redhat-release", REDHAT) || FileUtil.fileContains("/etc/redhat-release",
+            && !IS_CENTOS_LINUX && (IS_LINUX && !new File("/etc/oracle-release").exists()) && ((FileUtil.fileContains("/etc/redhat-release", REDHAT) || FileUtil.fileContains("/etc/redhat-release",
             RED_HAT)));
 
     /**
@@ -192,6 +198,12 @@ public final class OsVersion implements OsVersionConstants, StringConstants
      */
     public static final boolean IS_MANDRAKE_LINUX = IS_LINUX
             && FileUtil.fileContains("/etc/mandrake-release", MANDRAKE);
+
+    /**
+     * True if Amazon AMI Linux was detected
+     */
+    public static final boolean IS_AMI_LINUX = IS_LINUX
+            && FileUtil.fileContains(getReleaseFileName(), AMI);
 
     /**
      * True if Mandrake/Mandriva Linux was detected

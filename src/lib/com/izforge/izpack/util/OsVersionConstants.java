@@ -230,6 +230,16 @@ public interface OsVersionConstants
     public final static String SUSE = "SuSE";
 
     /**
+     * CENTOS = "CentOS"
+     */
+    public final static String CENTOS = "CentOS";
+
+    /**
+     * AMI = "Amazon Linux AMI"
+     */
+    public final static String AMI = "Amazon Linux AMI";
+
+    /**
      * DEBIAN = "Debian"
      */
     public final static String DEBIAN = "Debian";
