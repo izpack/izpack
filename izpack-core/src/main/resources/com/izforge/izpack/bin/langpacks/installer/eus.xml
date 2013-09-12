@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
 
-<!-- The English langpack -->
+<!-- The Basque langpack -->
 
 <izpack:langpack version="5.0"
                  xmlns:izpack="http://izpack.org/schema/langpack"
@@ -47,6 +47,7 @@
     <str id="installer.cancel" txt="Ezeztatu"/>
     <str id="installer.error" txt="Errorea"/>
     <str id="installer.help" txt="Laguntza"/>
+    <str id="installer.help.close" txt="Itxi"/>
     <str id="installer.step" txt="Pausua"/>
     <str id="installer.of" txt=" - "/>
     <str id="installer.Message" txt="Mezua"/>

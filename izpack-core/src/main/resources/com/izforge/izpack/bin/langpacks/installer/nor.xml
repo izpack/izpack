@@ -55,6 +55,7 @@
     <str id="installer.cancel" txt="Avbryt"/>
     <str id="installer.error" txt="Feil"/>
     <str id="installer.help" txt="Hjelp"/>
+    <str id="installer.help.close" txt="Lukk"/>
 
     <str id="installer.step" txt="Steg"/>
     <str id="installer.of" txt="av"/>

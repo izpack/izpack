@@ -46,6 +46,7 @@
     <str id="installer.cancel" txt="Batal"/>
     <str id="installer.error" txt="Kesalahan"/>
     <str id="installer.help" txt="Pertolongan"/>
+    <str id="installer.help.close" txt="Tutup"/>
     <str id="installer.of" txt="dari"/>
     <str id="installer.step" txt="Langkah"/>
     <str id="installer.Message" txt="Pesan"/>

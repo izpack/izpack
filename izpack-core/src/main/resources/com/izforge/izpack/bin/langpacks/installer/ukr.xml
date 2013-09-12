@@ -47,6 +47,7 @@
     <str id="installer.cancel" txt="Відміна"/>
     <str id="installer.error" txt="Помилка"/>
     <str id="installer.help" txt="Допомога"/>
+    <str id="installer.help.close" txt="Закрити"/>
     <str id="installer.step" txt="Крок"/>
     <str id="installer.of" txt="з"/>
     <str id="installer.Message" txt="Повідомлення"/>

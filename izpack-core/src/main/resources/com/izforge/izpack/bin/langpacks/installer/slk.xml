@@ -53,6 +53,7 @@
     <str id="installer.cancel" txt="Zrušiť"/>
     <str id="installer.error" txt="Chyba"/>
     <str id="installer.help" txt="Pomoc"/>
+    <str id="installer.help.close" txt="Zavrieť"/>
     <str id="installer.step" txt="Krok"/>
     <str id="installer.of" txt=" - "/>
     <str id="installer.Message" txt="Správa"/>

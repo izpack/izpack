@@ -42,6 +42,7 @@
     <str id="installer.cancel" txt="Megszakít"/>
     <str id="installer.error" txt="Hiba"/>
     <str id="installer.help" txt="Súgó"/>
+    <str id="installer.help.close" txt="Bezár"/>
     <str id="installer.step" txt="Lépés"/>
     <str id="installer.of" txt="-nak/nek"/>
     <str id="installer.Message" txt="Kijelzés"/>

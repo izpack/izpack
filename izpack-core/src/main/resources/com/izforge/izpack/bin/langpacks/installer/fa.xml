@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 
-<!-- The English langpack -->
+<!-- The Persian langpack -->
 
 <izpack:langpack version="5.0"
                  xmlns:izpack="http://izpack.org/schema/langpack"
@@ -44,6 +44,7 @@
     <str id="installer.cancel" txt="لغو"/>
     <str id="installer.error" txt="خطا"/>
     <str id="installer.help" txt="راهنمایی"/>
+    <str id="installer.help.close" txt="بستن"/>
     <str id="installer.step" txt="گام"/>
     <str id="installer.of" txt=" "/>
     <str id="installer.Message" txt="پیغام"/>

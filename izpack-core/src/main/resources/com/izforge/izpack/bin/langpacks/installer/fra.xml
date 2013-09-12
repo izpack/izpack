@@ -46,6 +46,7 @@
     <str id="installer.cancel" txt="Annuler"/>
     <str id="installer.error" txt="Erreur"/>
     <str id="installer.help" txt="Aide"/>
+    <str id="installer.help.close" txt="Fermer"/>
     <str id="installer.step" txt="Etape"/>
     <str id="installer.of" txt="sur"/>
     <str id="installer.Message" txt="Message"/>

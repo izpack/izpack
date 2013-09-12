@@ -51,6 +51,7 @@
     <str id="installer.cancel" txt="Cancelar"/>
     <str id="installer.error" txt="Erro"/>
     <str id="installer.help" txt="Axuda"/>
+    <str id="installer.help.close" txt="Pechar"/>
     <str id="installer.step" txt="Paso"/>
     <str id="installer.of" txt="de"/>
     <str id="installer.Message" txt="Mensaxe"/>

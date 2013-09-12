@@ -5,6 +5,9 @@
 	Created by: IzPack Translation Helper
 	Created at: 2009-04-22 12:36
 -->
+
+<!-- The Polish langpack -->
+
 <izpack:langpack version="5.0"
                  xmlns:izpack="http://izpack.org/schema/langpack"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -72,6 +75,7 @@
     <str id="installer.cancel" txt="Anuluj"/>
     <str id="installer.error" txt="Błąd"/>
     <str id="installer.help" txt="Pomoc"/>
+    <str id="installer.help.close" txt="Zamknij"/>
     <str id="installer.madewith" txt="(Utworzono za pomocą IzPack - http://izpack.org/)"/>
     <str id="installer.Message" txt="Wiadomość"/>
     <str id="installer.next" txt="Dalej"/>

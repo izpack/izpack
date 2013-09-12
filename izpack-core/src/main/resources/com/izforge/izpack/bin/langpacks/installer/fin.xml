@@ -52,6 +52,7 @@
     <str id="installer.cancel" txt="Peruuta"/>
     <str id="installer.error" txt="Virhe"/>
     <str id="installer.help" txt="Apua"/>
+    <str id="installer.help.close" txt="Sulje"/>
     <str id="installer.step" txt="Vaihe"/>
     <str id="installer.of" txt="/"/>
     <str id="installer.Message" txt="Viesti"/>
