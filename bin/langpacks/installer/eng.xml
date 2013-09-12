@@ -301,6 +301,7 @@
     <str id="consolehelper.askyesnocancel" txt="press 1 for yes, 2 no, 3 for cancel" />
 
     <str id="osrequirementfailed" txt="Operating System requirement not fulfilled ! Exiting now."/>
+	<str id="x86requirementfailed" txt="Java x86_64 platform requirement not fulfilled ! Exiting now."/>
 	<str id="adxadminNotRegistered" txt="You must install an adxadmin administration runtime first ! Exiting now."/>
 	<str id="adxadminNoAdxDir" txt="Could not read adxadmin administration runtime install path !"/>
 	<str id="adxadminParseError" txt="The adxadmin administration runtime install path is invalid!"/>
