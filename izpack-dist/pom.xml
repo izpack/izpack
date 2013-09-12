@@ -88,7 +88,7 @@
                 <executions>
                     <execution>
                         <id>Unpack izpack utils</id>
-                        <phase>pre-package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
@@ -100,7 +100,7 @@
                     </execution>
                     <execution>
                         <id>Copy libs</id>
-                        <phase>pre-package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
