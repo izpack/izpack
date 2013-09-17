@@ -280,9 +280,7 @@ public class FileCopyTask
                         destFile = new File(destDir, file.getName());
                     }
 
-                    if (forceOverwrite || !destFile.exists()
-                            || (file.lastModified() - granularity
-                            > destFile.lastModified()))
+                    if (shouldAllowFileOperation(file, destFile))
                     {
                         fileCopyMap.put(file.getAbsolutePath(),
                                 new String[]{destFile.getAbsolutePath()});
@@ -386,6 +384,26 @@ public class FileCopyTask
      ************************************************************************/
 
     /**
+     * Whether to allow a specified destination file to be overwritten with 
+     * the contents of the specified source file. Functionality extracted
+     * from {@link #execute()} to allow sub-classes to define consistent
+     * rules for allowing an operation without overriding {@code execute()}.
+     * This method is called only once in {@code FileCopyTask}, when no 
+     * filesets are specified (i.e. a single copy operation, {@code file} 
+     * &rarr; {@code destFile}).
+     * 
+     * @param file the source file
+     * @param destFile the destination file
+     * @return true if {@code destFile} can be overwritten
+     */
+    protected boolean shouldAllowFileOperation(File file, File destFile)
+    {
+    	return forceOverwrite || !destFile.exists()
+    			|| (file.lastModified() - granularity
+    					> destFile.lastModified());
+    }
+
+    /**
      * Ensure we have a consistent and legal set of attributes, and set
      * any internal flags necessary based on different combinations
      * of attributes.
@@ -420,8 +438,7 @@ public class FileCopyTask
         {
             if (filesets.size() > 1)
             {
-                throw new Exception(
-                        "Cannot concatenate multiple files into a single file.");
+            	validateMergeMultipleFiles();
             }
             else
             {
@@ -443,14 +460,12 @@ public class FileCopyTask
                     }
                     else
                     {
-                        throw new Exception("Cannot concatenate multiple "
-                                + "files into a single file.");
+                    	validateMergeMultipleFiles();
                     }
                 }
                 else
                 {
-                    throw new Exception("Cannot concatenate multiple "
-                            + "files into a single file.");
+                	validateMergeMultipleFiles();
                 }
             }
         }
@@ -460,6 +475,29 @@ public class FileCopyTask
             destDir = fileUtils.getParentFile(destFile);
         }
 
+    }
+    
+    /**
+     * Supports merge-capable sub-classes by setting 
+     * {@link MergeableFileTask#useMerge(boolean) useMerge(true)}, or throws
+     * an exception if this task is not a merge-capable sub-class.
+     * 
+     * @throws Exception if this task does not implement 
+     * {@code MergeableFileTask}; otherwise, sets {@code useMerge(true)} 
+     * @see MergeableFileTask
+     * @see MergeableConfigFileTask
+     */
+    private void validateMergeMultipleFiles() throws Exception
+    {
+    	if (this instanceof MergeableFileTask)
+    	{
+    		((MergeableFileTask) this).useMerge(true);
+    	}
+    	else
+    	{
+            throw new Exception(
+                    "Cannot concatenate multiple files into a single file.");            		
+    	}    	
     }
 
     /**

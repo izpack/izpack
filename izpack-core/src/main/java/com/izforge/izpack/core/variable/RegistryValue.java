@@ -110,33 +110,7 @@ public class RegistryValue extends ValueImpl implements Serializable
     @Override
     public String resolve() throws Exception
     {
-        if (!OsVersion.IS_WINDOWS)
-        {
-            throw new Exception("Registry access allowed only on Windows OS");
-        }
-
-        Reg reg = null;
-        Reg.Key regkey = null;
-        if (root != null)
-        {
-            reg = new Reg(root);
-        }
-        if (key != null)
-        {
-            if (reg == null)
-            {
-            	// If the regRoot is not provided, load the portion of the registry indicated by regKey
-                reg = new Reg(key);
-            }
-            regkey = reg.get(key);
-        }
-        if (regkey != null)
-        {
-        	resolvedValue = regkey.get(value);
-            return resolvedValue;
-        }
-
-        return null;
+        return resolve((VariableSubstitutor[])null);
     }
 
     @Override
@@ -146,41 +120,43 @@ public class RegistryValue extends ValueImpl implements Serializable
         {
             throw new Exception("Registry access allowed only on Windows OS");
         }
-
-        Reg reg = null;
-        Reg.Key regkey = null;
-        if (root != null)
+        
+        String _root_ = root;
+        String _key_ = key;
+        String _value_ = value;
+        if (substitutors != null)
         {
-            String _root_ = root;
             for (VariableSubstitutor substitutor : substitutors)
             {
                 _root_ = substitutor.substitute(_root_);
-            }
-            reg = new Reg(_root_);
-        }
-        if (key != null)
-        {
-        	String _key_ = key;
-            for (VariableSubstitutor substitutor : substitutors)
-            {
                 _key_ = substitutor.substitute(_key_);
+                _value_ = substitutor.substitute(_value_);
             }
-            
+        }
+
+        Reg reg = null;
+        Reg.Key regkey = null;
+        if (_root_ != null)
+        {
+            reg = new Reg(_root_, false);
+            if (!_key_.startsWith(_root_))
+            {
+                //keys in Reg object are stored with full path - prepend root if _key_ is relative
+                _key_ = _root_ + "\\" + _key_;
+            }
+        }
+        if (_key_ != null)
+        {
             if (reg == null)
             {
-            	// If the regRoot is not provided, load the portion of the registry indicated by regKey
-                reg = new Reg(_key_);
-            }        
-            regkey = reg.get(_key_);            
+                // If the regRoot is not provided, load the portion of the registry indicated by regKey
+                reg = new Reg(_key_, false);
+            }
+            regkey = reg.get(_key_);
         }
         if (regkey != null)
         {
-            String _value_ = value;
-            for (VariableSubstitutor substitutor : substitutors)
-            {
-                _value_ = substitutor.substitute(_value_);
-            }
-            resolvedValue = regkey.get(_value_);
+            resolvedValue=regkey.get(_value_);
             return resolvedValue;
         }
 

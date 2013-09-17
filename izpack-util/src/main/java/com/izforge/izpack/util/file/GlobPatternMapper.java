@@ -75,6 +75,15 @@ public class GlobPatternMapper implements FileNameMapper
     {
         this.handleDirSep = handleDirSep;
     }
+    
+    /**
+     * Attribute specifying whether to ignore the difference
+     * between / and \ (the two common directory characters).
+     */
+    public boolean getHandleDirSep()
+    {
+        return handleDirSep;
+    }
 
     /**
      * Attribute specifing whether to ignore the case difference

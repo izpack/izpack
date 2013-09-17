@@ -178,7 +178,7 @@ public class Mapper extends DataType implements Cloneable
     public enum MapperType
     {
         IDENTITY("identity"), FLATTEN("flatten"), GLOB("glob"),
-        MERGE("merge"), REGEXP("regexp"), PACKAGE("package"), UNPACKAGE("unpackage");
+        MERGE("merge"), REGEXP("regexp");
 
         private static Map<String, MapperType> lookup;
         private static Hashtable<MapperType, String> implementations;
@@ -203,8 +203,6 @@ public class Mapper extends DataType implements Cloneable
             implementations.put(GLOB, "com.izforge.izpack.util.file.GlobPatternMapper");
             implementations.put(MERGE, "com.izforge.izpack.util.file.MergingMapper");
             implementations.put(REGEXP, "com.izforge.izpack.util.file.RegexpPatternMapper");
-            implementations.put(PACKAGE, "com.izforge.izpack.util.file.PackageNameMapper");
-            implementations.put(UNPACKAGE, "com.izforge.izpack.util.file.UnPackageNameMapper");
         }
 
         public String getAttribute()

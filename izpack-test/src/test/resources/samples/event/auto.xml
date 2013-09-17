@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<AutomatedInstallation langpack="eng">
+    <com.izforge.izpack.panels.hello.HelloPanel id="UNKNOWN (com.izforge.izpack.panels.hello.HelloPanel)"/>
+    <com.izforge.izpack.panels.install.InstallPanel id="UNKNOWN (com.izforge.izpack.panels.install.InstallPanel)"/>
+    <com.izforge.izpack.panels.finish.FinishPanel id="UNKNOWN (com.izforge.izpack.panels.simplefinish.SimpleFinishPanel)"/>
+</AutomatedInstallation>
