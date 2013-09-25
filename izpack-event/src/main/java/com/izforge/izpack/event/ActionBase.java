@@ -43,7 +43,7 @@ public class ActionBase implements Serializable
 
     public static final String NAME = "name";
 
-    public static final String CONDITIONID = "condition";
+    public static final String ANTCALL_CONDITIONID_ATTR = "condition";
 
     // Order related "symbols"
     public static final String ORDER = "order";
@@ -66,23 +66,17 @@ public class ActionBase implements Serializable
 
     public static final String VALUE = "value";
 
-    public static final String YES = "yes";
+    public static final String ANTCALL_QUIET_ATTR = "quiet";
 
-    public static final String NO = "no";
+    public static final String ANTCALL_VERBOSE_ATTR = "verbose";
 
-    public static final String FALSE = "false";
+    public static final String ANTCALL_LOGFILE_ATTR = "logfile";
 
-    public static final String TRUE = "true";
+    public static final String ANTCALL_DIR_ATTR = "dir";
 
-    public static final String QUIET = "quiet";
+    public static final String ANTCALL_BUILDFILE_ATTR = "buildfile";
 
-    public static final String VERBOSE = "verbose";
-
-    public static final String LOGFILE = "logfile";
-
-    public static final String BUILDFILE = "buildfile";
-
-    public static final String BUILDRESOURCE = "buildresource";
+    public static final String ANTCALL_BUILDRESOURCE_ATTR = "buildresource";
 
     public static final String PROPERTYFILE = "propertyfile";
 
@@ -120,7 +114,7 @@ public class ActionBase implements Serializable
 
     public static final String FILESET = "fileset";
 
-    public static final String MESSAGEID = "messageid";
+    public static final String ANTCALL_MESSAGEID_ATTR = "messageid";
 
     public static final String INCLUDE = "include";
 

@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -329,8 +330,8 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
      */
     private AntAction readAntCall(IXMLElement el)
     {
+        String buildDir;
         String buildFile;
-        String buildResource;
 
         if (el == null)
         {
@@ -347,39 +348,47 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
             throw new InstallerException(e);
         }
 
-        act.setQuiet(spec.isAttributeYes(el, ActionBase.QUIET, false));
-        act.setVerbose(spec.isAttributeYes(el, ActionBase.VERBOSE, false));
-        buildFile = el.getAttribute(ActionBase.BUILDFILE);
-        act.setConditionId(el.getAttribute(ActionBase.CONDITIONID));
-        buildResource = processBuildfileResource(spec, el);
-        if (null == buildFile && null == buildResource)
+        act.setQuiet(spec.isAttributeYes(el, ActionBase.ANTCALL_QUIET_ATTR, false));
+        act.setVerbose(spec.isAttributeYes(el, ActionBase.ANTCALL_VERBOSE_ATTR, false));
+        buildDir = el.getAttribute(ActionBase.ANTCALL_DIR_ATTR);
+        if (buildDir != null)
+        {
+            buildDir = replacer.substitute(buildDir);
+            act.setBuildDir(new File(replacer.substitute(buildDir)));
+        }
+        buildFile = el.getAttribute(ActionBase.ANTCALL_BUILDFILE_ATTR);
+        act.setConditionId(el.getAttribute(ActionBase.ANTCALL_CONDITIONID_ATTR));
+        File buildResourceFile = getBuildFileFromResource(spec, el);
+        if (null == buildFile && null == buildResourceFile)
         {
             throw new InstallerException(
                     "Invalid " + SPEC_FILE_NAME + ": either buildfile or buildresource must be specified");
         }
-        if (null != buildFile && null != buildResource)
+        if (null != buildFile && null != buildResourceFile)
         {
             throw new InstallerException(
                     "Invalid " + SPEC_FILE_NAME + ": cannot specify both buildfile and buildresource");
         }
         InstallData installData = getInstallData();
+        File effectiveBuildFile;
+        String effectiveBaseDir = buildDir!=null ? buildDir : installData.getInstallPath();
         if (null != buildFile)
         {
             try
             {
-                act.setBuildFile(FileUtil.getAbsoluteFile(replacer.substitute(buildFile),
-                                                          installData.getInstallPath()));
+                effectiveBuildFile = FileUtil.getAbsoluteFile(replacer.substitute(buildFile), effectiveBaseDir);
             }
             catch (Exception e)
             {
-                act.setBuildFile(FileUtil.getAbsoluteFile(buildFile, installData.getInstallPath()));
+                effectiveBuildFile = FileUtil.getAbsoluteFile(buildFile, effectiveBaseDir);
             }
         }
         else
         {
-            act.setBuildFile(new File(buildResource));
+            effectiveBuildFile = buildResourceFile;
         }
-        String str = el.getAttribute(ActionBase.LOGFILE);
+        act.setBuildFile(effectiveBuildFile);
+        String str = el.getAttribute(ActionBase.ANTCALL_LOGFILE_ATTR);
         if (str != null)
         {
             try
@@ -391,7 +400,7 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
                 act.setLogFile(FileUtil.getAbsoluteFile(str, installData.getInstallPath()));
             }
         }
-        String msgId = el.getAttribute(ActionBase.MESSAGEID);
+        String msgId = el.getAttribute(ActionBase.ANTCALL_MESSAGEID_ATTR);
         if (msgId != null && msgId.length() > 0)
         {
             act.setMessageID(msgId);
@@ -423,21 +432,21 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
         }
 
         // see if this was an build_resource and there were uninstall actions
-        if (null != buildResource && act.getUninstallTargets().size() > 0)
+        if (null != buildResourceFile && act.getUninstallTargets().size() > 0)
         {
             // We need to add the build_resource file to the uninstaller
-            addBuildResourceToUninstallerData(buildResource);
+            addBuildResourceToUninstallerData(buildResourceFile);
         }
 
         return act;
     }
 
-    private String processBuildfileResource(SpecHelper spec, IXMLElement el)
+    private File getBuildFileFromResource(SpecHelper spec, IXMLElement el)
     {
-        String buildResource = null;
+        File buildResourceFile = null;
 
         // See if the build file is a resource
-        String attr = el.getAttribute(ActionBase.BUILDRESOURCE);
+        String attr = el.getAttribute(ActionBase.ANTCALL_BUILDRESOURCE_ATTR);
         if (null != attr)
         {
             // Get the resource
@@ -446,7 +455,7 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
             try
             {
                 // Write the resource to a temporary file
-                File tempFile = File.createTempFile("buildfile_resource", "xml");
+                File tempFile = File.createTempFile("resource_"+attr, ".xml");
                 tempFile.deleteOnExit();
                 bos = new BufferedOutputStream(new FileOutputStream(tempFile));
                 int aByte;
@@ -454,26 +463,24 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
                 {
                     bos.write(aByte);
                 }
-                bis.close();
-                bos.close();
-                buildResource = tempFile.getAbsolutePath();
+                buildResourceFile = tempFile;
             }
-            catch (Exception x)
+            catch (IOException x)
             {
-                throw new InstallerException("Failed to write buildfile_resource", x);
+                throw new InstallerException("I/O error during writing resource " + attr + " to a temporary buildfile", x);
             }
             finally
             {
                 FileUtils.close(bos);
+                FileUtils.close(bis);
             }
         }
-        return buildResource;
+        return buildResourceFile;
     }
 
-    private void addBuildResourceToUninstallerData(String buildResource) throws InstallerException
+    private void addBuildResourceToUninstallerData(File buildFile) throws InstallerException
     {
         byte[] content;
-        File buildFile = new File(buildResource);
         ByteArrayOutputStream bos = new ByteArrayOutputStream((int) buildFile.length());
         BufferedInputStream bis = null;
         try

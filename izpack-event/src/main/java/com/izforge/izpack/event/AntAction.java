@@ -76,6 +76,8 @@ public class AntAction extends ActionBase
 
     private File logFile = null;
 
+    private File buildDir = null;
+
     private File buildFile = null;
 
     private String conditionId = null;
@@ -131,7 +133,9 @@ public class AntAction extends ActionBase
     {
         if (verbose)
         {
-            System.out.println("Calling ANT with buildfile: " + buildFile);
+            System.out.print("Calling ANT with buildfile: " + buildFile);
+            System.out.print(buildDir!=null ? " in directory "+buildDir : " in default base directory");
+            System.out.println();
         }
         SecurityManager oldsm = null;
         if (!JavaEnvUtils.isJavaVersion("1.0") && !JavaEnvUtils.isJavaVersion("1.1"))
@@ -160,7 +164,11 @@ public class AntAction extends ActionBase
                 for (String choosenTarget : choosenTargets)
                 {
                     antcall = (Ant) antProj.createTask("ant");
-                    antcall.setAntfile(getBuildFile().getAbsolutePath());
+                    if (buildDir != null)
+                    {
+                        antcall.setDir(buildDir);
+                    }
+                    antcall.setAntfile(buildFile.getAbsolutePath());
                     antcall.setTarget(choosenTarget);
                     antcalls.add(antcall);
                 }
@@ -222,6 +230,26 @@ public class AntAction extends ActionBase
     public void setBuildFile(File buildFile)
     {
         this.buildFile = buildFile;
+    }
+
+    /**
+     * Returns the build working directory.
+     *
+     * @return the working directory
+     */
+    public File getBuildDir()
+    {
+        return buildDir;
+    }
+
+    /**
+     * Sets the build working directory to be used to the given string.
+     *
+     * @param buildFile build working directory path to be used
+     */
+    public void setBuildDir(File buildDir)
+    {
+        this.buildDir = buildDir;
     }
 
     /**

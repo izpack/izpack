@@ -24,6 +24,10 @@
             <artifactId>izpack-installer</artifactId>
         </dependency>
         <dependency>
+          <groupId>org.apache.ant</groupId>
+          <artifactId>ant</artifactId>
+        </dependency>
+        <dependency>
             <groupId>bsf</groupId>
             <artifactId>bsf</artifactId>
         </dependency>

@@ -852,7 +852,6 @@ public class IoHelper
         {
             copyStream(zin, out);
         }
-        out.closeEntry();
     }
 
     public static void copyStreamToJar(InputStream zin, java.util.zip.ZipOutputStream out, String currentName,
