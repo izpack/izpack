@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -42,6 +43,16 @@ import com.izforge.izpack.util.VariableSubstitutor;
 abstract public class PanelConsoleHelper 
 {
     
+    protected AutomatedInstallData instalData = null;
+    
+    private DataValidator validationService = null;
+
+    private java.util.List<PanelAction> preActivateActions = null;
+    
+    private java.util.List<PanelAction> preValidateActions = null;
+    
+    private java.util.List<PanelAction> postValidateActions = null;
+
     public String getI18NPackName(AutomatedInstallData idata, Pack pack)
     {
         // Internationalization code
@@ -174,5 +185,76 @@ abstract public class PanelConsoleHelper
         
         return pDef;
     }
+    
+    public void addPreActivationAction(PanelAction preActivateAction)
+    {
+        if (preActivateActions == null)
+        {
+            preActivateActions = new ArrayList<PanelAction>();
+        }
+        this.preActivateActions.add(preActivateAction);
+    }
+
+    public void addPreValidationAction(PanelAction preValidateAction)
+    {
+        if (preValidateActions == null)
+        {
+            preValidateActions = new ArrayList<PanelAction>();
+        }
+        this.preValidateActions.add(preValidateAction);
+    }
+
+    public void addPostValidationAction(PanelAction postValidateAction)
+    {
+        if (postValidateActions == null)
+        {
+            postValidateActions = new ArrayList<PanelAction>();
+        }
+        this.postValidateActions.add(postValidateAction);
+    }
+    
+    public final void executePreActivationActions()
+    {
+        if (preActivateActions != null)
+        {
+            for (int actionIndex = 0; actionIndex < preActivateActions.size(); actionIndex++)
+            {
+                preActivateActions.get(actionIndex).executeAction(this.instalData, null);
+            }
+        }
+    }
+
+    public final void executePreValidationActions()
+    {
+        if (preValidateActions != null)
+        {
+            for (int actionIndex = 0; actionIndex < preValidateActions.size(); actionIndex++)
+            {
+                preValidateActions.get(actionIndex).executeAction(this.instalData, null);
+            }
+        }
+    }
+
+    public final void executePostValidationActions()
+    {
+        if (postValidateActions != null)
+        {
+            for (int actionIndex = 0; actionIndex < postValidateActions.size(); actionIndex++)
+            {
+                postValidateActions.get(actionIndex).executeAction(this.instalData, null);
+            }
+        }
+    }
+    
+    public void setValidationService(DataValidator validationService)
+    {
+        this.validationService = validationService;
+    }
+
+    public void setAutomatedInstallData (AutomatedInstallData idata)
+    {
+        this.instalData = idata;
+    }
+
 
 }

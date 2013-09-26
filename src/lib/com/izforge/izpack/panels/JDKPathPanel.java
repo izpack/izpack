@@ -100,7 +100,7 @@ public class JDKPathPanel extends PathInputPanel
     public boolean isValidated()
     {
         boolean retval = false;
-        if (super.isValidated())
+        if (true)
         {
             switch (verifyVersionEx())
             {

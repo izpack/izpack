@@ -23,7 +23,6 @@ package com.izforge.izpack.installer;
 import java.util.zip.ZipOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,7 +33,6 @@ import java.io.PrintWriter;
 import java.io.BufferedWriter;
 import java.io.ObjectOutputStream;
 import java.io.ByteArrayOutputStream;
-
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Map;
@@ -149,10 +147,26 @@ public class ConsoleInstaller extends InstallerBase
                 PanelConsole consoleHelperInstance = null;
                 if (consoleHelperClass != null)
                 {
+                    
+                    
                     try
                     {
-                        Debug.log("Instantiate :" + consoleHelperClassName);
                         refreshDynamicVariables(substitutor, installdata);
+                        
+                        Debug.log("Precontruct action stage ..." );
+                        List<String> preConstgructionActions = p.getPreConstructionActions();
+                        if (preConstgructionActions != null)
+                        {
+                            for (int actionIndex = 0; actionIndex < preConstgructionActions.size(); actionIndex++)
+                            {
+                                PanelAction action = PanelActionFactory.createPanelAction(preConstgructionActions.get(actionIndex));
+                                action.initialize(p.getPanelActionConfiguration(preConstgructionActions.get(actionIndex)));
+                                action.executeAction(AutomatedInstallData.getInstance(), null);
+                            }
+                        }
+                        Debug.log("Precontruct action stage done !" );
+                        
+                        Debug.log("Instantiate :" + consoleHelperClassName);
                         consoleHelperInstance = consoleHelperClass.newInstance();
                     }
                     catch (Exception e)
@@ -167,6 +181,9 @@ public class ConsoleInstaller extends InstallerBase
                 {
                     try
                     {
+                        // setting installdata
+                        consoleHelperInstance.setAutomatedInstallData(this.installdata);
+                        
                         Debug.log("consoleHelperInstance." + strAction + ":"
                                 + consoleHelperClassName + " entered.");
                         boolean bActionResult = true;
@@ -177,36 +194,126 @@ public class ConsoleInstaller extends InstallerBase
                             bIsConditionFulfilled = installdata.getRules().isConditionTrue(
                                     strCondition);
                         }
+                        
+                        if (bIsConditionFulfilled)
+                        {
 
-                        if (strAction.equals("doInstall") && bIsConditionFulfilled)
-                        {
-                            do
-                            {
-                                bActionResult = consoleHelperInstance.runConsole(this.installdata);
+                            String dataValidator = p.getValidator();
+                            if (dataValidator != null) {
+                                consoleHelperInstance.setValidationService(DataValidatorFactory.createDataValidator(dataValidator));
                             }
-                            while (!validatePanel(p));
+
+                            List<String> preActivateActions = p.getPreActivationActions();
+                            if (preActivateActions != null)
+                            {
+                                for (int actionIndex = 0; actionIndex < preActivateActions.size(); actionIndex++)
+                                {
+                                    String panelActionClass = preActivateActions.get(actionIndex);
+                                    PanelAction action = PanelActionFactory.createPanelAction(panelActionClass);
+                                    action.initialize(p.getPanelActionConfiguration(panelActionClass));
+                                    consoleHelperInstance.addPreActivationAction(action);
+                                }
+                            }
+                            List<String> preValidateActions = p.getPreValidationActions();
+                            if (preValidateActions != null)
+                            {
+                                for (int actionIndex = 0; actionIndex < preValidateActions.size(); actionIndex++)
+                                {
+                                    String panelActionClass = preValidateActions.get(actionIndex);
+                                    PanelAction action = PanelActionFactory.createPanelAction(panelActionClass);
+                                    action.initialize(p.getPanelActionConfiguration(panelActionClass));
+                                    consoleHelperInstance.addPreValidationAction(action);
+                                }
+                            }
+                            List<String> postValidateActions = p.getPostValidationActions();
+                            if (postValidateActions != null)
+                            {
+                                for (int actionIndex = 0; actionIndex < postValidateActions.size(); actionIndex++)
+                                {
+                                    String panelActionClass = postValidateActions.get(actionIndex);
+                                    PanelAction action = PanelActionFactory.createPanelAction(panelActionClass);
+                                    action.initialize(p.getPanelActionConfiguration(panelActionClass));
+                                    consoleHelperInstance.addPostValidationAction(action);
+                                }
+                            }
+                            
+                            
+                            
+                            if (strAction.equals("doInstall") && bIsConditionFulfilled)
+                            {
+                                consoleHelperInstance.executePreActivationActions();
+                                boolean bvalidated = false;
+
+                                do
+                                {
+                                    bActionResult = consoleHelperInstance.runConsole(this.installdata);
+                                    
+                                    if (!bActionResult)
+                                    {
+                                        this.result = false;
+                                        return;
+                                    }
+                                    
+                                    consoleHelperInstance.executePreValidationActions();
+                                    bvalidated = validatePanel(p);
+                                    
+                                    if (bvalidated)
+                                    {
+                                        consoleHelperInstance.executePostValidationActions();
+                                    }
+
+                                }
+                                while (!bvalidated);
+                            }
+                            else if (strAction.equals("doGeneratePropertiesFile"))
+                            {
+                                bActionResult = consoleHelperInstance.runGeneratePropertiesFile(
+                                        this.installdata, this.printWriter);
+                            }
+                            else if (strAction.equals("doInstallFromPropertiesFile")
+                                    && bIsConditionFulfilled)
+                            {
+                                
+                                consoleHelperInstance.executePreActivationActions();
+                                boolean bvalidated = false;
+
+                                do
+                                {
+                                    bActionResult = consoleHelperInstance.runConsoleFromPropertiesFile(
+                                            this.installdata, this.properties);
+                                    
+                                    if (!bActionResult)
+                                    {
+                                        this.result = false;
+                                        return;
+                                    }
+                                    
+                                    consoleHelperInstance.executePreValidationActions();
+                                    bvalidated = validatePanel(p);
+                                    
+                                    if (bvalidated)
+                                    {
+                                        consoleHelperInstance.executePostValidationActions();
+                                    }
+
+                                }
+                                while (!bvalidated);
+                                
+                            }
                         }
-                        else if (strAction.equals("doGeneratePropertiesFile"))
-                        {
-                            bActionResult = consoleHelperInstance.runGeneratePropertiesFile(
-                                    this.installdata, this.printWriter);
-                        }
-                        else if (strAction.equals("doInstallFromPropertiesFile")
-                                && bIsConditionFulfilled)
-                        {
-                            bActionResult = consoleHelperInstance.runConsoleFromPropertiesFile(
-                                    this.installdata, this.properties);
-                        }
-                        if (!bActionResult)
-                        {
-                            this.result = false;
-                            return;
-                        }
-                        else
-                        {
+                        
+                        
+                        
+                        //if (!bActionResult)
+                        //{
+                        //    this.result = false;
+                        //    return;
+                        //}
+                        //else
+                        //{
                             Debug.log("consoleHelperInstance." + strAction + ":"
                                     + consoleHelperClassName + " successfully done.");
-                        }
+                        //}
                     }
                     catch (Exception e)
                     {

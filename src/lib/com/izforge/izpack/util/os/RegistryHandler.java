@@ -371,7 +371,8 @@ public class RegistryHandler extends OSClassHelper implements MSWinConstants
         {
             return (null);
         }
-        return (installdata.getVariable("APP_NAME") + " " + installdata.getVariable("APP_VER"));
+        //return (installdata.getVariable("APP_NAME") + " " + installdata.getVariable("APP_VER"));
+        return installdata.getVariable("APP_NAME");
     }
 
     public boolean isProductRegistered() throws NativeLibException
@@ -420,6 +421,7 @@ public class RegistryHandler extends OSClassHelper implements MSWinConstants
                 + installdata.getVariable("INSTALL_PATH") + "\\uninstaller\\uninstaller.jar\"";
         String appVersion = installdata.getVariable("APP_VER");
         String appUrl = installdata.getVariable("APP_URL");
+        String publisher = installdata.getVariable("publisher");
 
         int oldVal = getRoot();
         try
@@ -435,6 +437,7 @@ public class RegistryHandler extends OSClassHelper implements MSWinConstants
         }
         setValue(keyName, "UninstallString", cmd);
         setValue(keyName, "DisplayVersion", appVersion);
+        if (publisher!=null && !"".equals(publisher)) setValue(keyName, "Publisher", publisher);
         if (appUrl != null && appUrl.length() > 0)
         {
             setValue(keyName, "HelpLink", appUrl);

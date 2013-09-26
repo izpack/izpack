@@ -644,6 +644,14 @@ public class CompilerConfig extends Thread {
             // Trivial initialisations
             String name = requireAttribute(el, "name");
             String id = el.getAttribute("id");
+            
+            // id is mandatory for our needs
+            if (id==null)
+            {
+                parseError(el, "An id for each pack is mandatory !", new Exception(
+                        "An id for each pack is mandatory !"));
+            }
+            
             String packImgId = el.getAttribute("packImgId");
 
             boolean loose = "true".equalsIgnoreCase(el.getAttribute("loose", "false"));

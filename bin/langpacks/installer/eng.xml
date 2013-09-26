@@ -128,6 +128,7 @@
     <str id="InstallationTypePanel.info" txt="Please choose the type of installation:"/>
     <str id="InstallationTypePanel.normal" txt="New installation"/>
     <str id="InstallationTypePanel.modify" txt="Modify installation"/>
+    <str id="InstallationTypePanel.asktype" txt="Press 1 for a new install, 2 to update, 3 to exit"/>
 
 		<!-- FinishPanel strings -->
 		<str id="FinishPanel.success" txt="Installation has completed successfully."/>

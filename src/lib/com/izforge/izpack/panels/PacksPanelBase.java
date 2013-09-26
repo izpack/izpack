@@ -670,21 +670,21 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
             Pack pack = (Pack) iter.next();
             retval.append(getI18NPackName(pack));
         }
-        if (packsModel != null && packsModel.isModifyinstallation())
-        {
-            Map installedpacks = packsModel.getInstalledpacks();
-            iter = installedpacks.keySet().iterator();
-            retval.append("<br><b>");
-            retval.append(langpack.getString("PacksPanel.installedpacks.summarycaption"));
-            retval.append("</b>");
-            retval.append("<br>");
-            while (iter.hasNext())
-            {
-                Pack pack = (Pack) installedpacks.get(iter.next());
-                retval.append(getI18NPackName(pack));
-                retval.append("<br>");
-            }
-        }
+//        if (packsModel != null && packsModel.isModifyinstallation())
+//        {
+//            Map installedpacks = packsModel.getInstalledpacks();
+//            iter = installedpacks.keySet().iterator();
+//            retval.append("<br><b>");
+//            retval.append(langpack.getString("PacksPanel.installedpacks.summarycaption"));
+//            retval.append("</b>");
+//            retval.append("<br>");
+//            while (iter.hasNext())
+//            {
+//                Pack pack = (Pack) installedpacks.get(iter.next());
+//                retval.append(getI18NPackName(pack));
+//                retval.append("<br>");
+//            }
+//        }
         return (retval.toString());
     }
 

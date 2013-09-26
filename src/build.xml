@@ -786,6 +786,15 @@
         </build-panel>
         <build-panel name="InstallationTypePanel">
             <include name="com/izforge/izpack/panels/InstallationTypePanel.java"/>
+            <include name="com/izforge/izpack/panels/InstallationTypePanelConsoleHelper.java"/>
+            <include name="com/izforge/izpack/panels/InstallationTypePanelAutomationHelper.java"/>
+            <include name="com/izforge/izpack/util/os/*RegistryHandler.java"/>
+            <include name="com/izforge/izpack/util/OSClassHelper.java"/>
+            <include name="com/izforge/izpack/util/os/WrappedNativeLibException.java"/>
+            <include name="com/coi/tools/os/win/*.java"/>
+            <include name="com/coi/tools/os/win/resources/NativeLibErr*.java"/>
+            <include name="com/coi/tools/os/izpack/Registry.java"/>
+            <include name="com/coi/tools/os/izpack/COIOSHelper.java"/>
         </build-panel>
         <build-panel name="HTMLHelloPanel">
             <include name="com/izforge/izpack/panels/HTMLHelloPanel.java"/>
@@ -884,7 +893,8 @@
             </build-listener>
         </sequential>
     </macrodef>
-
+    
+    
     <!-- Convenience macro to call build-listener for installer listeners -->
     <macrodef name="build-installer-listener">
         <attribute name="name"/>
@@ -918,7 +928,7 @@
             </build-listener>
         </sequential>
     </macrodef>
-
+    
     <!-- Compile all custom actions (listener) and put them at the right location -->
     <!--
          If you add a another, and the build fails because it can't find a class,
@@ -969,6 +979,10 @@
             <include name="com/coi/tools/os/win/resources/NativeLibErr*.java"/>
             <include name="com/coi/tools/os/izpack/Registry.java"/>
             <include name="com/coi/tools/os/izpack/COIOSHelper.java"/>
+        </build-installer-listener>
+
+        <build-installer-listener name="UpdateListener">
+            <include name="com/izforge/izpack/event/UpdateListener.java"/>
         </build-installer-listener>
 
         <build-uninstaller-listener name="RegistryUninstallerListener">

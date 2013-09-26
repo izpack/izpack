@@ -109,6 +109,11 @@ public class AutomatedInstallData implements Serializable
     public List<Pack> selectedPacks;
 
     /**
+     * The already installed packs in update mode.
+     */
+    public List<Pack> installedPacks;
+
+    /**
      * The panels list.
      */
     public List<IzPanel> panels;

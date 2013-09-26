@@ -22,6 +22,8 @@
 package com.izforge.izpack.installer;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -59,5 +61,22 @@ public interface PanelConsole
      * @param installData The installation data *
      */
     public boolean runConsole(AutomatedInstallData installData);
+    
+    public void addPreActivationAction(PanelAction preActivateAction);
+
+    public void addPreValidationAction(PanelAction preValidateAction);
+
+    public void addPostValidationAction(PanelAction postValidateAction);
+    
+    public void executePreActivationActions();
+
+    public void executePreValidationActions();
+
+    public void executePostValidationActions();
+
+    public void setValidationService(DataValidator validationService);
+
+    public void setAutomatedInstallData (AutomatedInstallData idata);
+    
 
 }

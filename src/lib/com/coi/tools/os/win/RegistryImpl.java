@@ -41,7 +41,7 @@ public class RegistryImpl implements MSWinConstants
 
     private int currentRoot = HKEY_CURRENT_USER;
 
-    private boolean logPrevSetValueFlag = true;
+    private boolean logPrevSetValueFlag = false;
 
     private List logging = new ArrayList();
 

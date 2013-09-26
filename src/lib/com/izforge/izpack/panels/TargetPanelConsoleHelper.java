@@ -187,6 +187,7 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
         String chosenPath = pstrPath;
         boolean ok = true;
         int nRet = 0;
+        boolean mustExist = false;
 
         // We put a warning if the specified target is nameless
         if (chosenPath.length() == 0)
@@ -213,6 +214,22 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
         // Normalize the path
         File path = new File(chosenPath).getAbsoluteFile();
         chosenPath = path.toString();
+        
+        boolean modifyinstallation = Boolean.valueOf(idata.getVariable(InstallData.MODIFY_INSTALLATION));
+        if (modifyinstallation)
+        {
+            // installation directory has to exist in a modification installation
+            mustExist = true;
+
+            File installationinformation = new File(chosenPath + File.separator + AutomatedInstallData.INSTALLATION_INFORMATION);
+            if (!installationinformation.exists())
+            {
+                emitError(idata, idata.langpack.getString("installer.error"), idata.langpack.getString("PathInputPanel.required.forModificationInstallation"));
+
+                return false;
+            }
+        }
+        
 
         // We assume, that we would install something into this dir
         if (!isWriteable(chosenPath))
@@ -222,28 +239,11 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
         }
         // We put a warning if the directory exists else we warn
         // that it will be created
-        if (path.exists())
+        if (!mustExist)
         {
-            nRet = emitWarning(idata, idata.langpack.getString("installer.warning"), warnMsg);
-            if ( nRet==3)
+            if ( path.exists())
             {
-                return false;
-            }
-            else if ( nRet==2)
-            {
-                return runConsole(idata, false);
-            }
-            nRet=0;
-        }
-        else
-        {
-               //if 'ShowCreateDirectoryMessage' variable set to 'false'
-               // then don't show "directory will be created" dialog:
-            final String vStr =
-                        idata.getVariable("ShowCreateDirectoryMessage");
-            if (vStr == null || Boolean.getBoolean(vStr))
-            {
-                nRet = emitWarning(idata, idata.langpack.getString("installer.warning"), idata.langpack.getString("TargetPanel.createdir")+ " " + chosenPath);
+                nRet = emitWarning(idata, idata.langpack.getString("installer.warning"), warnMsg);
                 if ( nRet==3)
                 {
                     return false;
@@ -253,6 +253,26 @@ public class TargetPanelConsoleHelper extends PanelConsoleHelper implements Pane
                     return runConsole(idata, false);
                 }
                 nRet=0;
+            }
+            else
+            {
+                   //if 'ShowCreateDirectoryMessage' variable set to 'false'
+                   // then don't show "directory will be created" dialog:
+                final String vStr =
+                            idata.getVariable("ShowCreateDirectoryMessage");
+                if (vStr == null || Boolean.getBoolean(vStr))
+                {
+                    nRet = emitWarning(idata, idata.langpack.getString("installer.warning"), idata.langpack.getString("TargetPanel.createdir")+ " " + chosenPath);
+                    if ( nRet==3)
+                    {
+                        return false;
+                    }
+                    else if ( nRet==2)
+                    {
+                        return runConsole(idata, false);
+                    }
+                    nRet=0;
+                }
             }
         }
 

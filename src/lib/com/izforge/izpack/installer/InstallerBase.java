@@ -28,6 +28,7 @@ import com.izforge.izpack.Panel;
 import com.izforge.izpack.adaptator.IXMLElement;
 import com.izforge.izpack.adaptator.impl.XMLParser;
 import com.izforge.izpack.compiler.DynamicVariable;
+import com.izforge.izpack.event.InstallerListener;
 import com.izforge.izpack.rules.Condition;
 import com.izforge.izpack.rules.RulesEngine;
 import com.izforge.izpack.util.*;
@@ -300,6 +301,14 @@ public class InstallerBase
         installdata.setInstallPath(installPath);
         // Load custom action data.
         loadCustomData(installdata);
+        
+        // call for afterInstallerInitialization
+        List installListeners = installdata.customData.get(AutomatedInstallData.CUSTOM_ACTION_TYPES[0]);
+        
+        for (Object listener : installListeners)
+        {
+            ((InstallerListener) listener).afterInstallerInitialization(installdata);
+        }
 
     }
 

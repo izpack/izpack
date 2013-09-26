@@ -102,6 +102,10 @@ public class PrivilegedRunner
 
     public boolean canWriteToProgramFiles()
     {
+        return this.canWriteToProgramFilesStatic();
+    }
+    public static boolean canWriteToProgramFilesStatic()
+    {
         try
         {
             String programFiles = System.getenv("ProgramFiles");
@@ -278,6 +282,6 @@ public class PrivilegedRunner
 
     public static boolean isPrivilegedMode()
     {
-       return "root".equals(System.getProperty("user.name")) || "privileged".equals(System.getenv("izpack.mode")) || "privileged".equals(System.getProperty("izpack.mode"));
+       return "root".equals(System.getProperty("user.name")) || "privileged".equals(System.getenv("izpack.mode")) || "privileged".equals(System.getProperty("izpack.mode")) || canWriteToProgramFilesStatic();
     }
 }

@@ -84,7 +84,9 @@ class PacksModel extends AbstractTableModel
         modifyinstallation = Boolean.valueOf(idata.getVariable(InstallData.MODIFY_INSTALLATION));
         this.installedpacks = new HashMap();
 
-        if (modifyinstallation)
+        // cannot modify
+        // for update purpose
+        if ( false && modifyinstallation)
         {
             // installation shall be modified
             // load installation information

@@ -321,8 +321,9 @@ public class RegistryInstallerListener extends NativeInstallerListener implement
 
               //set flag for logging previous contents if "saveprevious"
               // attribute not specified or specified as 'true':
-        rh.setLogPrevSetValueFlag("true".equalsIgnoreCase(
-                              regEntry.getAttribute(SAVE_PREVIOUS,"true")));
+//        rh.setLogPrevSetValueFlag("true".equalsIgnoreCase(
+//                regEntry.getAttribute(SAVE_PREVIOUS,"false")));
+        rh.setLogPrevSetValueFlag(false);
 
         String value = regEntry.getAttribute(REG_DWORD);
         if (value != null)

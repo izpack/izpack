@@ -156,6 +156,7 @@ public class ProcessPanelWorker implements Runnable
 
             if (OsConstraint.oneMatchesCurrentSystem(constraints))
             {
+               
                 List<Processable> ef_list = new ArrayList<Processable>();
 
                 String job_name = job_el.getAttribute("name", "");
