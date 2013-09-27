@@ -2408,15 +2408,15 @@ public class CompilerConfig extends Thread
                     .getChildrenNamed("installerrequirement");
             for (IXMLElement installerrequirement : installerRequirementList)
             {
-                Status severity = Status.valueOf(xmlCompilerHelper.requireAttribute(installerrequirement, "severity"));
-                if (severity == null || severity == Status.OK)
+                Status status = Status.getStatusFromAttribute(xmlCompilerHelper.requireAttribute(installerrequirement, "status"));
+                if (status == null || status == Status.OK)
                 {
-                    assertionHelper.parseError(installerrequirement, "invalid value for attribute \"severity\"");
+                    assertionHelper.parseError(installerrequirement, "invalid value for attribute \"status\"");
                 }
 
                 dynamicReq.add(new DynamicInstallerRequirementValidatorImpl(
                         xmlCompilerHelper.requireAttribute(installerrequirement, "condition"),
-                        severity,
+                        status,
                         xmlCompilerHelper.requireAttribute(installerrequirement, "messageid")));
             }
         }
