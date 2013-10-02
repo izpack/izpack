@@ -23,6 +23,7 @@ import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.os.RegistryDefaultHandler;
 import com.izforge.izpack.util.os.RegistryHandler;
+import com.izforge.izpack.util.xml.XMLHelper;
 
 
 public class AdxCompUninstallerListener extends SimpleUninstallerListener
@@ -134,6 +135,8 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
         {
             xdoc = dBuilder.parse(fileAdxinstalls);
         }
+        
+        XMLHelper.cleanEmptyTextNodes((Node)xdoc);
         
         xdoc2 = dBuilder.parse(in);
         xmodule2 = (Element) xdoc2.getDocumentElement().getElementsByTagName("module").item(0);

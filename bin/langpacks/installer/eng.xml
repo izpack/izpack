@@ -73,7 +73,7 @@
 
 		<!-- PathInputPanel strings -->
 		<str id="PathInputPanel.required" txt="The chosen directory should exist."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
+    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory is not a previous installation directory !"/>
     <str id="PathInputPanel.notValid" txt="The chosen directory does not contain the required product."/>
 
 		<!-- TargetPanel strings -->

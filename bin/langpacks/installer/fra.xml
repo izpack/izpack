@@ -73,7 +73,7 @@
 
     <!-- PathInputPanel strings -->
     <str id="PathInputPanel.required" txt="Le répertoire choisi devrait exister."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Le répertoire choisi devrait exister."/>
+    <str id="PathInputPanel.required.forModificationInstallation" txt="Le répertoire choisi n'est pas un répertoire d'installation d'une version précédente !"/>
     <str id="PathInputPanel.notValid" txt="Le répertoire choisi ne contient pas le produit requis"/>
 
     <!-- TargetPanel strings -->

@@ -11,11 +11,17 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import com.izforge.izpack.adaptator.IXMLElement;
 import com.izforge.izpack.installer.AutomatedInstallData;
+import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.util.AbstractUIProgressHandler;
 import com.izforge.izpack.util.CleanupClient;
 import com.izforge.izpack.util.Debug;
@@ -23,6 +29,7 @@ import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.VariableSubstitutor;
 import com.izforge.izpack.util.os.RegistryDefaultHandler;
 import com.izforge.izpack.util.os.RegistryHandler;
+import com.izforge.izpack.util.xml.XMLHelper;
 
 
 public class AdxCompInstallerListener extends SimpleInstallerListener implements CleanupClient
@@ -157,35 +164,67 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
             xdoc = dBuilder.parse(fileAdxinstalls);
         }
         
+        XMLHelper.cleanEmptyTextNodes ((Node)xdoc);
+        
         // adxinstalls.xml lu ou crée
         // il faut ajouter le module
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        transformerFactory.setAttribute("indent-number", 4);
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty(OutputKeys.METHOD, "xml");        
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        
         IXMLElement elemSpec = getSpecHelper().getSpec();
         IXMLElement moduleSpec = elemSpec.getFirstChildNamed("module");
         VariableSubstitutor substitutor = new VariableSubstitutor(idata.getVariables());
-        
-        // création du module
-        Element module = xdoc.createElement("module");
-        module.setAttribute("name", substitutor.substitute(moduleSpec.getAttribute("name"), VariableSubstitutor.PLAIN)); 
-        module.setAttribute("family", substitutor.substitute(moduleSpec.getAttribute("family"), VariableSubstitutor.PLAIN)); 
-        module.setAttribute("type", substitutor.substitute(moduleSpec.getAttribute("type"), VariableSubstitutor.PLAIN)); 
 
-        for(IXMLElement param : moduleSpec.getChildren()){
-            Element xmlParam = xdoc.createElement(param.getName());
-            xmlParam.setTextContent(substitutor.substitute(param.getContent(), VariableSubstitutor.PLAIN));
-            module.appendChild(xmlParam);
+        String name = substitutor.substitute(moduleSpec.getAttribute("name"), VariableSubstitutor.PLAIN);
+        String family = substitutor.substitute(moduleSpec.getAttribute("family"), VariableSubstitutor.PLAIN);
+        String type = substitutor.substitute(moduleSpec.getAttribute("type"), VariableSubstitutor.PLAIN);
+                
+        Element module = null;
+                
+        boolean modifyinstallation = Boolean.valueOf(idata.getVariable(InstallData.MODIFY_INSTALLATION));
+        if (modifyinstallation)
+        {
+            Element xmlinstall = xdoc.getDocumentElement();
+            XPath xPath =  XPathFactory.newInstance().newXPath();
+            Node status = (Node) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']/component."+family.toLowerCase()+".installstatus").evaluate(xdoc, XPathConstants.NODE);
+            module = (Element) status.getParentNode();
+            if (status.getTextContent().equalsIgnoreCase("active"))
+            {
+                status.setTextContent("update");
+            }
+            
+            
         }
+        else
+        {
+            
+            // création du module
+            module = xdoc.createElement("module");
+            module.setAttribute("name", name); 
+            module.setAttribute("family", family ); 
+            module.setAttribute("type", type ); 
+    
+            for(IXMLElement param : moduleSpec.getChildren()){
+                Element xmlParam = xdoc.createElement(param.getName());
+                xmlParam.setTextContent(substitutor.substitute(param.getContent(), VariableSubstitutor.PLAIN));
+                module.appendChild(xmlParam);
+            }
+            
+            xdoc.getDocumentElement().appendChild(module);
+
         
-        xdoc.getDocumentElement().appendChild(module);
+        }
         
         // en principe c'est bon
         // le module est ajouté
         // réécriture du XML
         
         // write the content into xml file
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         DOMSource source = new DOMSource(xdoc);
         StreamResult result = new StreamResult(fileAdxinstalls);
  
@@ -193,6 +232,7 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         // StreamResult result = new StreamResult(System.out);
         transformer.transform(source, result);        
         
+
         // create ressource for uninstall
         Document xdoc2 = dBuilder.newDocument();
         
@@ -215,4 +255,5 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         
         
     }
+    
 }
