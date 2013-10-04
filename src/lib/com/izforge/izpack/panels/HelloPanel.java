@@ -166,7 +166,7 @@ public class HelloPanel extends IzPanel
                     if (!rh.adxadminProductRegistered())
                     {
                         // pas d'adxadmin
-                        JOptionPane.showMessageDialog(null, parent.langpack.getString( "uninstaller.adxadmin.notfound"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNotRegistered"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
                         parent.lockNextButton();
                     }
                 }
@@ -187,7 +187,7 @@ public class HelloPanel extends IzPanel
                                 if (!adxadmFile.exists())
                                 {
                                     // pas d'adxadmin
-                                    JOptionPane.showMessageDialog(null, parent.langpack.getString( "uninstaller.adxadmin.notfound"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNotRegistered"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
                                     parent.lockNextButton();
                                 }
                             }

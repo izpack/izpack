@@ -166,13 +166,19 @@ public final class OsVersion implements OsVersionConstants, StringConstants
      * True if CentOS Linux was detected
      */
     public static final boolean IS_CENTOS_LINUX = IS_LINUX
-            && FileUtil.fileContains(getReleaseFileName(), CENTOS);
+            && FileUtil.fileContains("/etc/centos-release", CENTOS);
+
+    /**
+     * True if Oracle Linux was detected
+     */
+    public static final boolean IS_ORACLE_LINUX = IS_LINUX
+            && ((FileUtil.fileContains("/etc/oracle-release", ORACLE) || FileUtil.fileContains("/etc/oracle-release", EL)));
 
     /**
      * True if RedHat Linux was detected
      */
     public static final boolean IS_REDHAT_LINUX = IS_LINUX
-            && !IS_CENTOS_LINUX && (IS_LINUX && !new File("/etc/oracle-release").exists()) && ((FileUtil.fileContains("/etc/redhat-release", REDHAT) || FileUtil.fileContains("/etc/redhat-release",
+            && !IS_CENTOS_LINUX && !IS_ORACLE_LINUX && ((FileUtil.fileContains("/etc/redhat-release", REDHAT) || FileUtil.fileContains("/etc/redhat-release",
             RED_HAT)));
 
     /**
@@ -186,12 +192,6 @@ public final class OsVersion implements OsVersionConstants, StringConstants
      */
     public static final boolean IS_UBUNTU_LINUX = IS_LINUX
             && FileUtil.fileContains("/etc/lsb-release", UBUNTU);
-
-    /**
-     * True if Oracle Linux was detected
-     */
-    public static final boolean IS_ORACLE_LINUX = IS_LINUX
-            && ((FileUtil.fileContains("/etc/oracle-release", ORACLE) || FileUtil.fileContains("/etc/oracle-release", EL)));
 
     /**
      * True if Mandriva(Mandrake) Linux was detected
@@ -333,6 +333,10 @@ public final class OsVersion implements OsVersionConstants, StringConstants
         {
             result = getLinuxVersionFromFile ("/etc/redhat-release");
         }
+        else if (IS_CENTOS_LINUX)
+        {
+            result = getLinuxVersionFromFile ("/etc/centos-release");
+        }
         else if (IS_ORACLE_LINUX)
         {
             result = getLinuxVersionFromFile ("/etc/oracle-release");
@@ -401,7 +405,18 @@ public final class OsVersion implements OsVersionConstants, StringConstants
         {
             try
             {
-                result = REDHAT + SP + LINUX + NL + StringTool.stringArrayListToString(FileUtil.getFileContent(getReleaseFileName()));
+                result = REDHAT + SP + LINUX + NL + StringTool.stringArrayListToString(FileUtil.getFileContent("/etc/redhat-release"));
+            }
+            catch (IOException e)
+            {
+                // TODO ignore
+            }
+        }
+        else if (IS_CENTOS_LINUX)
+        {
+            try
+            {
+                result = CENTOS + SP + LINUX + NL + StringTool.stringArrayListToString(FileUtil.getFileContent("/etc/centos-release"));
             }
             catch (IOException e)
             {

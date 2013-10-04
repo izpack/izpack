@@ -1,4 +1,4 @@
-package com.izforge.izpack.event;
+﻿package com.izforge.izpack.event;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

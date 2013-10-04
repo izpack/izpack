@@ -158,7 +158,7 @@ public class HelloPanelAutomationHelper extends PanelAutomationHelper implements
                     if (!rh.adxadminProductRegistered())
                     {
                         // pas d'adxadmin
-                        System.out.println(idata.langpack.getString( "uninstaller.adxadmin.notfound"));
+                        System.out.println(idata.langpack.getString( "adxadminNotRegistered"));
                         return false;
                     }
                 }
@@ -179,7 +179,7 @@ public class HelloPanelAutomationHelper extends PanelAutomationHelper implements
                                 if (!adxadmFile.exists())
                                 {
                                     // pas d'adxadmin
-                                    System.out.println(idata.langpack.getString( "uninstaller.adxadmin.notfound"));
+                                    System.out.println(idata.langpack.getString( "adxadminNotRegistered"));
                                     return false;
                                 }
                             }

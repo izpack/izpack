@@ -127,7 +127,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
                     if (!rh.adxadminProductRegistered())
                     {
                         // pas d'adxadmin
-                        System.out.println(idata.langpack.getString( "uninstaller.adxadmin.notfound"));
+                        System.out.println(idata.langpack.getString( "adxadminNotRegistered"));
                         return false;
                     }
                 }
@@ -148,7 +148,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
                                 if (!adxadmFile.exists())
                                 {
                                     // pas d'adxadmin
-                                    System.out.println(idata.langpack.getString( "uninstaller.adxadmin.notfound"));
+                                    System.out.println(idata.langpack.getString( "adxadminNotRegistered"));
                                     return false;
                                 }
                             }
