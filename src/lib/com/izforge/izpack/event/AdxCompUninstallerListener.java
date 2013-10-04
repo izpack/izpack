@@ -1,4 +1,4 @@
-Ôªøpackage com.izforge.izpack.event;
+package com.izforge.izpack.event;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -45,7 +45,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
             return;
         }
         
-        // r√©cup√©rer le fichier adxinstalls
+        // rÈcupÈrer le fichier adxinstalls
         
         // here we need to update adxinstalls.xml
         
@@ -57,7 +57,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
         {
             //rh.verify(idata);
 
-            // test adxadmin d√©j√† install√© avec registry
+            // test adxadmin dÈj‡ installÈ avec registry
             if (rh.adxadminProductRegistered())
             {
 
@@ -67,7 +67,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
                 if (!rh.valueExist(keyName, "ADXDIR")) keyName = "SOFTWARE\\Wow6432Node\\Adonix\\X3RUNTIME\\ADXADMIN";
                 if (!rh.valueExist(keyName, "ADXDIR")) return;
                 
-                // r√©cup path
+                // rÈcup path
                 strAdxAdminPath = rh.getValue(keyName, "ADXDIR").getStringData();
 
                 // free RegistryHandler
@@ -104,7 +104,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
         }
         
         
-        // v√©rification strAdxAdminPath
+        // vÈrification strAdxAdminPath
         
         if (strAdxAdminPath == null || "".equals(strAdxAdminPath)) return;
         
@@ -156,7 +156,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
             
         }  
         
-        // module non trouv√© :(
+        // module non trouvÈ :(
         if (xmodule==null) return;
         
         xmodule.getParentNode().removeChild(xmodule);
