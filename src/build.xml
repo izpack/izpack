@@ -979,7 +979,7 @@
             <include name="com/coi/tools/os/win/resources/NativeLibErr*.java"/>
             <include name="com/coi/tools/os/izpack/Registry.java"/>
             <include name="com/coi/tools/os/izpack/COIOSHelper.java"/>
-            <include name="com/izforge/izpack/util/xml/XMLHelper"/>
+            <include name="com/izforge/izpack/util/xml/XMLHelper.java"/>
         </build-installer-listener>
 
         <build-installer-listener name="UpdateListener">
@@ -1009,7 +1009,7 @@
             <include name="com/coi/tools/os/win/resources/NativeLibErr*.java"/>
             <include name="com/coi/tools/os/izpack/Registry.java"/>
             <include name="com/coi/tools/os/izpack/COIOSHelper.java"/>
-            <include name="com/izforge/izpack/util/xml/XMLHelper"/>
+            <include name="com/izforge/izpack/util/xml/XMLHelper.java"/>
         </build-uninstaller-listener>
 
         <build-installer-listener name="BSFInstallerListener" classpath-ext="$${basedir}/lib/bsf.jar">
