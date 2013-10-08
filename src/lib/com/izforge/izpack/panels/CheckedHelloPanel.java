@@ -69,7 +69,7 @@ public class CheckedHelloPanel extends HelloPanel implements MSWinConstants
      * @return whether a multiple Install should be performed or not.
      * @throws Exception
      */
-    protected boolean multipleInstall() throws Exception
+    protected String getOldInstallPath() throws Exception
     {
         // Let us play a little bit with the regstry...
         // Just for fun we would resolve the path of the already
@@ -161,7 +161,13 @@ public class CheckedHelloPanel extends HelloPanel implements MSWinConstants
         }
 
         rh.setRoot(oldVal); // Only for security...
+        
+        return oldInstallPath;
+    }
 
+    protected boolean multipleInstall() throws Exception
+    {
+        String oldInstallPath = getOldInstallPath();
         // The text will be to long for one line. Therefore we should use
         // the multi line label. Unfortunately it has no icon. Nothing is
         // perfect...
@@ -281,9 +287,37 @@ public class CheckedHelloPanel extends HelloPanel implements MSWinConstants
             }
             else
             {
-                parent.lockNextButton();
-                emitNotification(parent.langpack
-                        .getString("CheckedHelloPanel.infoMultipleInstallNotAllowed"));
+                
+                String allowUpdateMode = idata.getVariable("CheckedHelloPanel.allowUpdateMode");
+                
+                if (Boolean.TRUE.toString().equalsIgnoreCase(allowUpdateMode))
+                {
+                    try
+                    {
+                        String oldInstallPath = getOldInstallPath();
+                        idata.setInstallPath(oldInstallPath);
+                        // positionnement update
+                        Debug.trace("modification installation");
+                        idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                        abortInstallation = false;
+                        parent.unlockNextButton();
+                        
+                    }
+                    catch (Exception e)
+                    {
+                        emitNotification(parent.langpack
+                                .getString("FinishPanel.fail"));
+                    }
+
+                }
+                else
+                {
+                    parent.lockNextButton();
+                    emitNotification(parent.langpack
+                            .getString("CheckedHelloPanel.infoMultipleInstallNotAllowed"));
+                    
+                }
+                
             }
 
         }
