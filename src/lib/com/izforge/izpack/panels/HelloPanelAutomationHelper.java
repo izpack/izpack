@@ -3,11 +3,20 @@
  */
 package com.izforge.izpack.panels;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import com.izforge.izpack.Info;
 import com.izforge.izpack.adaptator.IXMLElement;
 import com.izforge.izpack.installer.AutomatedInstallData;
+import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.InstallerException;
 import com.izforge.izpack.installer.PanelAutomation;
 import com.izforge.izpack.installer.PanelAutomationHelper;
@@ -194,10 +203,58 @@ public class HelloPanelAutomationHelper extends PanelAutomationHelper implements
                 return false;
             }
         }
+        else if (idata.info.isAdxAdmin())
+        {
+            // unix case
+            // search for /sage/adxadm
+            
+            File adxadmFile = new File ("/sage/adxadm");
+            if (adxadmFile.exists())
+            {
+                // il semble que ce soit une mise à jour
+                // on positionne update mode
+                // puis on charge .installinformation
+                
+                try
+                {
+                    String adxadmPath = readFile (OsVersion.IS_UNIX?"/sage/adxadm":"c:\\sage\\adxadm", Charset.defaultCharset());
+                    adxadmPath = adxadmPath.replace("\r\n", "").replace("\n", "").trim();
+                    String installInformation = adxadmPath+"/"+AutomatedInstallData.INSTALLATION_INFORMATION;
+                    File installInformationFile = new File (installInformation);
+                    if (!installInformationFile.exists())
+                    {
+                        System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                        return false;
+                    }
+                    else
+                    {
+                        // relecture installInformation
+                        idata.setInstallPath(adxadmPath);
+                        // positionnement update
+                        Debug.trace("modification installation");
+                        idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                        
+                    }
+                }
+                catch (IOException e)
+                {
+                    System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                    return false;
+                }
+                
+            }
+            
+        }
         
         return true;
 
     }
     
+    static String readFile(String path, Charset encoding) 
+            throws IOException 
+    {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return encoding.decode(ByteBuffer.wrap(encoded)).toString();
+    }
 
 }

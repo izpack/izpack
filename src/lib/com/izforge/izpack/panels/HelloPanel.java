@@ -25,6 +25,7 @@ import com.izforge.izpack.Info;
 import com.izforge.izpack.gui.IzPanelLayout;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.gui.LayoutConstants;
+import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.InstallerFrame;
 import com.izforge.izpack.installer.IzPanel;
@@ -34,7 +35,14 @@ import com.izforge.izpack.util.os.RegistryDefaultHandler;
 import com.izforge.izpack.util.os.RegistryHandler;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -202,5 +210,54 @@ public class HelloPanel extends IzPanel
                 parent.lockNextButton();
             }
         }
+        else if (idata.info.isAdxAdmin())
+        {
+            // unix case
+            // search for /sage/adxadm
+            
+            File adxadmFile = new File ("/sage/adxadm");
+            if (adxadmFile.exists())
+            {
+                // il semble que ce soit une mise à jour
+                // on positionne update mode
+                // puis on charge .installinformation
+                
+                try
+                {
+                    String adxadmPath = readFile (OsVersion.IS_UNIX?"/sage/adxadm":"c:\\sage\\adxadm", Charset.defaultCharset());
+                    adxadmPath = adxadmPath.replace("\r\n", "").replace("\n", "").trim();
+                    String installInformation = adxadmPath+"/"+AutomatedInstallData.INSTALLATION_INFORMATION;
+                    File installInformationFile = new File (installInformation);
+                    if (!installInformationFile.exists())
+                    {
+                        JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNoAdxDir"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                        parent.lockNextButton();
+                    }
+                    else
+                    {
+                        // relecture installInformation
+                        idata.setInstallPath(adxadmPath);
+                        // positionnement update
+                        Debug.trace("modification installation");
+                        idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                        
+                    }
+                }
+                catch (IOException e)
+                {
+                    JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNoAdxDir"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                    parent.lockNextButton();
+                }
+                
+            }
+            
+        }
     }    
+    
+    static String readFile(String path, Charset encoding) 
+            throws IOException 
+    {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return encoding.decode(ByteBuffer.wrap(encoded)).toString();
+    }
 }
