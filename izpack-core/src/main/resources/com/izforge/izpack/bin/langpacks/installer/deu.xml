@@ -68,14 +68,14 @@
     <str id="HelloPanel.welcome2" txt="!"/>
     <str id="HelloPanel.authors" txt="Der(die) Autor(en) dieser Software ist(sind): "/>
     <str id="HelloPanel.url" txt="Die Homepage für diese Software: "/>
-	
+
     <!-- LicensePanel strings -->
     <str id="LicencePanel.info" txt="Bitte lesen Sie die folgenden Lizenzvereinbarungen durch:"/>
     <str id="LicencePanel.agree" txt="Ja, ich stimme diesen Lizenzvereinbarungen zu."/>
     <str id="LicencePanel.notagree" txt="Nein, ich stimme diesen Lizenzvereinbarungen nicht zu."/>
     <str id="LicencePanel.yes" txt="Ja"/>
     <str id="LicencePanel.no" txt="Nein"/>
-	
+
     <!-- PrinterSelect Panel -->
     <str id="PrinterSelectPanel.select_printer" txt="Wählen Sie den Drucker für die erste Einrichtung und Prüfung."/>
 
@@ -85,7 +85,7 @@
     <!-- PathInputPanel strings -->
     <str id="PathInputPanel.required" txt="Das gewählte Verzeichnis muss existieren."/>
     <str id="PathInputPanel.required.forModificationInstallation" txt="Das gewählte Verzeichnis muss existieren."/>
-    <str id="PathInputPanel.notValid" 
+    <str id="PathInputPanel.notValid"
          txt="Das gewählte Verzeichnis enthält nicht das benötigte Produkt."/>
 
     <!-- TargetPanel strings -->
@@ -93,7 +93,7 @@
     <str id="TargetPanel.browse" txt="Auswählen..."/>
     <str id="TargetPanel.warn"
          txt="Das Verzeichnis existiert bereits! Sind Sie sicher, dass Sie in diesem Verzeichnis installieren wollen?"/>
-    <str id="TargetPanel.empty_target" 
+    <str id="TargetPanel.empty_target"
          txt="Sie haben ein namenloses Ziel eingegeben! Wollen Sie fortfahren?"/>
     <str id="TargetPanel.createdir" txt="Das folgende Verzeichnis wird erstellt:"/>
     <str id="TargetPanel.nodir"
@@ -127,7 +127,7 @@
     <str id="PacksPanel.space" txt="Erforderlicher Speicherplatz: "/>
     <str id="PacksPanel.freespace" txt="Verfügbarer Speicherplatz: "/>
     <str id="PacksPanel.description" txt="Beschreibung"/>
-    <str id="PacksPanel.dependencyList" 
+    <str id="PacksPanel.dependencyList"
          txt="Das Paket hat folgende Abhängigkeiten und/oder Ausschlüsse:"/>
     <str id="PacksPanel.dependencies" txt="Abhängigkeiten: "/>
     <str id="PacksPanel.excludes" txt="Ausschlüsse: "/>
@@ -215,7 +215,7 @@
     <str id="UserInputPanel.dir.notdirectory.caption" txt="Ungültiges Verzeichnis"/>
     <str id="UserInputPanel.file.nofile.message" txt="Wählen Sie eine gültige Datei."/>
     <str id="UserInputPanel.file.nofile.caption" txt="Keine Datei ausgewählt"/>
-    <str id="UserInputPanel.file.notfile.message" 
+    <str id="UserInputPanel.file.notfile.message"
          txt="Die gewählte Datei existiert nicht oder ist nicht gültig."/>
     <str id="UserInputPanel.file.notfile.caption" txt="Ungültige Datei"/>
 
@@ -239,7 +239,7 @@ file we looked for -->
     <str id="UserPathPanel.browse" txt="Auswählen"/>
     <str id="UserPathPanel.exists_warn"
          txt="Das Verzeichnis existiert bereits! Sind Sie sicher, dass Sie in diesem Verzeichnis installieren und möglicherweise bestehende Dateien üvberschreiben wollen?"/>
-    <str id="UserPathPanel.empty_target" 
+    <str id="UserPathPanel.empty_target"
          txt="Sie haben kein Zielverzeichnis ausgewählt! Ist das korrekt?"/>
     <str id="UserPathPanel.createdir" txt="Das Zielverzeichnis wird erstellt: "/>
     <str id="UserPathPanel.nodir" txt="Sie haben eine Datei ausgewählt! Bitte wählen Sie ein Verzeichnis aus!"/>
@@ -263,7 +263,7 @@ file we looked for -->
     <str id="CompilePanel.error.nofiles" txt="Beim Suchen der Dateien für die Kompilierung trat ein Fehler auf."/>
     <str id="CompilePanel.error.compilernotfound" txt="Der Compiler konnte nicht gefunden werden."/>
     <str id="CompilePanel.error.invalidarguments" txt="Der Compiler versteht die zusätzlichen Parameter nicht."/>
-    <str id="CompilePanel.error.noclassfile" 
+    <str id="CompilePanel.error.noclassfile"
          txt="Der Compiler hat keine Klassendatei erzeugt für die Quelldatei "/>
     <str id="CompilePanel.choose_compiler" txt="Zu verwendender Compiler:"/>
     <str id="CompilePanel.additional_arguments" txt="Zusätzliche Compilerparameter:"/>
@@ -287,10 +287,24 @@ file we looked for -->
     <str id="functionFailed.RegOpenKeyEx" txt="Der Registry-Schlüssel {0}\\{1} konnte nicht geöffnet werden."/>
 
     <!-- CheckedHelloPanel strings -->
-    <str id="CheckedHelloPanel.productAlreadyExist0" 
+    <str id="CheckedHelloPanel.productAlreadyExist0"
          txt="Das Produkt ist bereits auf Ihrem Computer unter "/>
     <str id="CheckedHelloPanel.productAlreadyExist1" txt=" installiert. Soll eine weitere Version installiert werden?"/>
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="Der Deinstallationschlüssel lautet wie folgt: "/>
+
+    <!-- ConsolePrompt strings -->
+    <str id="ConsolePrompt.okCancel" txt="Eingabe O (OK), A (Abbrechen): "/>
+    <str id="ConsolePrompt.yesNo" txt="Eingabe J (Ja), N (Nein): "/>
+    <str id="ConsolePrompt.yesNoCancel" txt="Eingabe J (Ja), N (Nein), A (Abbrechen): "/>
+    <str id="ConsolePrompt.ok" txt="O"/>
+    <str id="ConsolePrompt.cancel" txt="A"/>
+    <str id="ConsolePrompt.yes" txt="J"/>
+    <str id="ConsolePrompt.no" txt="N"/>
+
+    <!-- ConsoleInstaller strings -->
+    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Eingabe 1 (Weiter), 2 (Beenden), 3 (Erneut anzeigen)"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Eingabe 1 (Bestätigen), 2 (Ablehnen), 3 (Erneut anzeigen)"/>
+    <str id="ConsoleInstaller.redisplayQuit" txt="Eingabe 1 (Erneut anzeigen), 2 (Beenden)"/>
 
     <!-- Add your own panels specific strings here if you need or use a custom
 langpack with the same syntax referred as resoure CustomLangpack.xml_[ISO3]" -->
@@ -314,9 +328,9 @@ The format details are documented in java.text.SimpleDateFormat -->
     <!-- Strings for various purposes in the logging/reporting system -->
     <str id="log.reportHeading" txt="                          IzPack INSTALLATIONSREPORT"/>
     <str id="log.installFailed" txt="Achtung!!! Die Installation ist fehlgeschlagen!"/>
-    <str id="log.partialInstall" 
+    <str id="log.partialInstall"
          txt="Achtung!!! Die Installation konnte nicht vollständig ausgeführt werden!"/>
-    <str id="log.messageCount" 
+    <str id="log.messageCount"
          txt="Dieser Report enthält {0} Meldung(en), {1} Warnung(en) und {2} Fehlermeldung(en)"/>
     <str id="log.application" txt="Installationsreport für : {0} Version {1}"/>
     <str id="log.timePrefix" txt="Install time            : {0}"/>
