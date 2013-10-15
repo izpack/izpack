@@ -38,8 +38,13 @@ public class Options extends BasicOptionMap implements Persistable, Configurable
 
     public Options()
     {
-        _config = Config.getGlobal().clone();
-        _config.setEmptyOption(true);
+        this(Config.getGlobal().clone());
+    }
+
+    public Options(Config config)
+    {
+        config.setEmptyOption(true);
+        setConfig(config);
     }
 
     public Options(Reader input) throws IOException, InvalidFileFormatException

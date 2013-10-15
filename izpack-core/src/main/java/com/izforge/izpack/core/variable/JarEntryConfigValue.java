@@ -30,9 +30,9 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 public class JarEntryConfigValue extends ZipEntryConfigFileValue
 {
 
-    public JarEntryConfigValue(String filename, String entryname, int type, String section, String key)
+    public JarEntryConfigValue(String filename, String entryname, int type, String section, String key, boolean escape)
     {
-        super(filename, entryname, type, section, key);
+        super(filename, entryname, type, section, key, escape);
     }
 
     @Override

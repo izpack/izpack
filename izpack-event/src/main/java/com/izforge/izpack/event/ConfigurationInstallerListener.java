@@ -1023,10 +1023,16 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                     String stype = var.getAttribute("type");
                     String filesection = var.getAttribute("section");
                     String filekey = requireAttribute(var, "key");
+                    String escapeVal = var.getAttribute("escape");
+                    boolean escape = true;
+                    if (escapeVal != null)
+                    {
+                        escape = Boolean.parseBoolean(escapeVal);
+                    }
                     if (dynamicVariable.getValue() == null)
                     {
                         dynamicVariable.setValue(new PlainConfigFileValue(value, getConfigFileType(
-                                name, stype), filesection, filekey));
+                                name, stype), filesection, filekey, escape));
                     }
                     else
                     {
@@ -1042,11 +1048,17 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                     String stype = var.getAttribute("type");
                     String filesection = var.getAttribute("section");
                     String filekey = requireAttribute(var, "key");
+                    String escapeVal = var.getAttribute("escape");
+                    boolean escape = true;
+                    if (escapeVal != null)
+                    {
+                        escape = Boolean.parseBoolean(escapeVal);
+                    }
                     if (dynamicVariable.getValue() == null)
                     {
                         dynamicVariable.setValue(new ZipEntryConfigFileValue(value, entryname,
                                                                              getConfigFileType(name, stype), filesection,
-                                                                             filekey));
+                                                                             filekey, escape));
                     }
                     else
                     {
@@ -1062,11 +1074,17 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                     String stype = var.getAttribute("type");
                     String filesection = var.getAttribute("section");
                     String filekey = requireAttribute(var, "key");
+                    String escapeVal = var.getAttribute("escape");
+                    boolean escape = true;
+                    if (escapeVal != null)
+                    {
+                        escape = Boolean.parseBoolean(escapeVal);
+                    }
                     if (dynamicVariable.getValue() == null)
                     {
                         dynamicVariable.setValue(new JarEntryConfigValue(value, entryname,
                                                                          getConfigFileType(name, stype), filesection,
-                                                                         filekey));
+                                                                         filekey, escape));
                     }
                     else
                     {

@@ -35,9 +35,9 @@ public class PlainConfigFileValue extends ConfigFileValue implements Serializabl
 
     public String location; // mandatory
 
-    public PlainConfigFileValue(String location, int type, String section, String key)
+    public PlainConfigFileValue(String location, int type, String section, String key, boolean escape)
     {
-        super(type, section, key);
+        super(type, section, key, escape);
         this.location = location;
     }
 

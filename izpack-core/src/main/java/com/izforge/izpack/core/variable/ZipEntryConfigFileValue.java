@@ -33,9 +33,9 @@ public class ZipEntryConfigFileValue extends ConfigFileValue
     private String filename;
     private String entryname;
 
-    public ZipEntryConfigFileValue(String filename, String entryname, int type, String section, String key)
+    public ZipEntryConfigFileValue(String filename, String entryname, int type, String section, String key, boolean escape)
     {
-        super(type, section, key);
+        super(type, section, key, escape);
         this.filename = filename;
         this.entryname = entryname;
     }

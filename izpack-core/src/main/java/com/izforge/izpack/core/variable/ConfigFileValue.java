@@ -39,6 +39,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
+import com.izforge.izpack.util.config.base.Config;
 import com.izforge.izpack.util.config.base.Ini;
 import com.izforge.izpack.util.config.base.Options;
 
@@ -57,12 +58,15 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
     public String section; // mandatory for type = "ini"
     public String key; // mandatory
 
-    public ConfigFileValue(int type, String section, String key)
+    public boolean escape = true; // optional
+
+    public ConfigFileValue(int type, String section, String key, boolean escape)
     {
         super();
         this.type = type;
         this.section = section;
         this.key = key;
+        setEscape(escape);
     }
 
     public int getType()
@@ -95,6 +99,16 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
         this.key = key;
     }
 
+    public boolean isEscape()
+    {
+        return escape;
+    }
+
+    public void setEscape(boolean escape)
+    {
+        this.escape = escape;
+    }
+
     @Override
     public void validate() throws Exception
     {
@@ -110,15 +124,20 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
 
     protected String resolve(InputStream in) throws Exception
     {
+        Config config;
         switch (type)
         {
             case CONFIGFILE_TYPE_OPTIONS:
-                Options opts;
-                opts = new Options(in);
+                config = Config.getGlobal().clone();
+                config.setEscape(isEscape());
+                Options opts = new Options(config);
+                opts.load(in);
                 return opts.get(key);
             case CONFIGFILE_TYPE_INI:
-                Ini ini;
-                ini = new Ini(in);
+                config = Config.getGlobal().clone();
+                config.setEscape(isEscape());
+                Ini ini = new Ini(config);
+                ini.load(in);
                 return ini.get(section, key);
             case CONFIGFILE_TYPE_XML:
                 return parseXPath(in, key, System.getProperty("line.separator"));

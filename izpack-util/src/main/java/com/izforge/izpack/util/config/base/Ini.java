@@ -37,7 +37,12 @@ public class Ini extends BasicProfile implements Persistable, Configurable
 
     public Ini()
     {
-        _config = Config.getGlobal();
+        this(Config.getGlobal().clone());
+    }
+
+    public Ini(Config config)
+    {
+        setConfig(config);
     }
 
     public Ini(Reader input) throws IOException, InvalidFileFormatException

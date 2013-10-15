@@ -176,7 +176,7 @@ public class CompilerConfig extends Thread
      * @see #mergePacksLangFiles()
      */
     private Map<String, List<URL>> packsLangUrlMap = new HashMap<String, List<URL>>();
- 
+
     /**
      * UserInputPanel IDs for cross check whether given user input panel
      * referred in the installation descriptor are really defined
@@ -1466,7 +1466,7 @@ public class CompilerConfig extends Thread
         {
             File tmp = new File(dirName);
             org.apache.commons.io.FileUtils.forceMkdir(tmp);
-            org.apache.commons.io.FileUtils.forceDeleteOnExit(tmp); 
+            org.apache.commons.io.FileUtils.forceDeleteOnExit(tmp);
             String target = targetdir + "/" + dirName;
             logger.info("Adding file: " + tmp + ", as target file=" + target);
             pack.addFile(baseDir, tmp, target, osList,
@@ -1505,7 +1505,7 @@ public class CompilerConfig extends Thread
             panel.setOsConstraints(OsConstraintHelper.getOsList(panelElement));
             String className = xmlCompilerHelper.requireAttribute(panelElement, "classname");
 
-            // add an id                               
+            // add an id
             String id = panelElement.getAttribute("id");
             panel.setPanelId(id);
             String condition = panelElement.getAttribute("condition");
@@ -2209,10 +2209,16 @@ public class CompilerConfig extends Thread
                 String stype = var.getAttribute("type");
                 String filesection = var.getAttribute("section");
                 String filekey = xmlCompilerHelper.requireAttribute(var, "key");
+                String escapeVal = var.getAttribute("escape");
+                boolean escape = true;
+                if (escapeVal != null)
+                {
+                    escape = Boolean.parseBoolean(escapeVal);
+                }
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new PlainConfigFileValue(value, getConfigFileType(
-                            name, stype), filesection, filekey));
+                            name, stype), filesection, filekey, escape));
                 }
                 else
                 {
@@ -2228,11 +2234,17 @@ public class CompilerConfig extends Thread
                 String stype = var.getAttribute("type");
                 String filesection = var.getAttribute("section");
                 String filekey = xmlCompilerHelper.requireAttribute(var, "key");
+                String escapeVal = var.getAttribute("escape");
+                boolean escape = true;
+                if (escapeVal != null)
+                {
+                    escape = Boolean.parseBoolean(escapeVal);
+                }
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new ZipEntryConfigFileValue(value, entryname,
                                                                          getConfigFileType(name, stype), filesection,
-                                                                         filekey));
+                                                                         filekey, escape));
                 }
                 else
                 {
@@ -2248,11 +2260,17 @@ public class CompilerConfig extends Thread
                 String stype = var.getAttribute("type");
                 String filesection = var.getAttribute("section");
                 String filekey = xmlCompilerHelper.requireAttribute(var, "key");
+                String escapeVal = var.getAttribute("escape");
+                boolean escape = true;
+                if (escapeVal != null)
+                {
+                    escape = Boolean.parseBoolean(escapeVal);
+                }
                 if (dynamicVariable.getValue() == null)
                 {
                     dynamicVariable.setValue(new JarEntryConfigValue(value, entryname,
                                                                      getConfigFileType(name, stype), filesection,
-                                                                     filekey));
+                                                                     filekey, escape));
                 }
                 else
                 {
