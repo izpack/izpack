@@ -22,7 +22,7 @@
 
 package com.izforge.izpack.util.xmlmerge.factory;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 import com.izforge.izpack.util.xmlmerge.Operation;
 import com.izforge.izpack.util.xmlmerge.OperationFactory;

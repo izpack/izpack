@@ -30,8 +30,7 @@ import org.w3c.dom.Document;
 import com.izforge.izpack.util.xmlmerge.AbstractXmlMergeException;
 import com.izforge.izpack.util.xmlmerge.ConfigurationException;
 import com.izforge.izpack.util.xmlmerge.Configurer;
-import com.izforge.izpack.util.xmlmerge.Mapper;
-import com.izforge.izpack.util.xmlmerge.MergeAction;
+import com.izforge.izpack.util.xmlmerge.OperationFactory;
 import com.izforge.izpack.util.xmlmerge.XmlMerge;
 import com.izforge.izpack.util.xmlmerge.merge.DefaultXmlMerge;
 
@@ -99,15 +98,15 @@ public class ConfigurableXmlMerge implements XmlMerge
     }
 
     @Override
-    public void setRootMapper(Mapper rootMapper)
+    public void setRootMergeMapperFactory(OperationFactory factory)
     {
-        m_wrappedXmlMerge.setRootMapper(rootMapper);
+        m_wrappedXmlMerge.setRootMergeMapperFactory(factory);
     }
 
     @Override
-    public void setRootMergeAction(MergeAction rootMergeAction)
+    public void setRootMergeActionFactory(OperationFactory factory)
     {
-        m_wrappedXmlMerge.setRootMergeAction(rootMergeAction);
+        m_wrappedXmlMerge.setRootMergeActionFactory(factory);
     }
 
 }

@@ -22,7 +22,7 @@
 
 package com.izforge.izpack.util.xmlmerge;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Compares two elements to know if they correspond for merging.

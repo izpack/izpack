@@ -27,18 +27,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.jdom.Attribute;
-import org.jdom.Comment;
-import org.jdom.Content;
-import org.jdom.Element;
-import org.jdom.Text;
+import org.jdom2.Attribute;
+import org.jdom2.Comment;
+import org.jdom2.Content;
+import org.jdom2.Element;
+import org.jdom2.Text;
 
 import com.izforge.izpack.util.xmlmerge.AbstractXmlMergeException;
 import com.izforge.izpack.util.xmlmerge.Action;
 import com.izforge.izpack.util.xmlmerge.DocumentException;
 import com.izforge.izpack.util.xmlmerge.Mapper;
 import com.izforge.izpack.util.xmlmerge.Matcher;
-import com.izforge.izpack.util.xmlmerge.MergeAction;
 
 /**
  * Merge implementation traversing element contents undependend of their order.
@@ -186,16 +185,6 @@ public class FullMergeAction extends AbstractMergeAction
     {
         Action action = (Action) m_actionFactory.getOperation(originalElement, patchElement);
         Mapper mapper = (Mapper) m_mapperFactory.getOperation(originalElement, patchElement);
-
-        // Propagate the factories to deeper merge actions
-        // TODO: find a way to make it cleaner
-        if (action instanceof MergeAction)
-        {
-            MergeAction mergeAction = (MergeAction) action;
-            mergeAction.setActionFactory(m_actionFactory);
-            mergeAction.setMapperFactory(m_mapperFactory);
-            mergeAction.setMatcherFactory(m_matcherFactory);
-        }
 
         action.perform(originalElement, mapper.map(patchElement), workingParent);
     }

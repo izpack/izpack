@@ -201,7 +201,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
         actionFactory.setOperationMap(m_actions);
         m_rootMergeAction.setActionFactory(actionFactory);
 
-        xmlMerge.setRootMergeAction(m_rootMergeAction);
+        xmlMerge.setRootMergeActionFactory(actionFactory);
     }
 
     /**

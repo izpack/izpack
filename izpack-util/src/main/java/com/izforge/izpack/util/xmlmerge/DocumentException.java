@@ -22,7 +22,7 @@
 
 package com.izforge.izpack.util.xmlmerge;
 
-import org.jdom.Document;
+import org.jdom2.Document;
 
 /**
  * Thrown when something is wrong with a source or output document.

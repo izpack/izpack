@@ -77,13 +77,13 @@ public interface XmlMerge
      *
      * @param rootMergeAction The MergeAction which will be applied to the root element
      */
-    public void setRootMergeAction(MergeAction rootMergeAction);
+    public void setRootMergeActionFactory(OperationFactory factory);
 
     /**
      * Sets the Mapper which will be applied to the root element.
      *
      * @param rootMapper The Mapper which will be applied to the root element
      */
-    public void setRootMapper(Mapper rootMapper);
+    public void setRootMergeMapperFactory(OperationFactory factory);
 
 }

@@ -24,9 +24,9 @@ package com.izforge.izpack.util.xmlmerge.config;
 
 import com.izforge.izpack.util.xmlmerge.ConfigurationException;
 import com.izforge.izpack.util.xmlmerge.Configurer;
-import com.izforge.izpack.util.xmlmerge.Mapper;
 import com.izforge.izpack.util.xmlmerge.Matcher;
 import com.izforge.izpack.util.xmlmerge.MergeAction;
+import com.izforge.izpack.util.xmlmerge.OperationFactory;
 import com.izforge.izpack.util.xmlmerge.XmlMerge;
 import com.izforge.izpack.util.xmlmerge.action.FullMergeAction;
 import com.izforge.izpack.util.xmlmerge.action.StandardActions;
@@ -67,15 +67,15 @@ public class AttributeMergeConfigurer implements Configurer
 
         MergeAction defaultMergeAction = new FullMergeAction();
 
-        Mapper mapper = new NamespaceFilterMapper(ATTRIBUTE_NAMESPACE);
-
-        defaultMergeAction.setMapperFactory(new StaticOperationFactory(mapper));
+        OperationFactory mapperFactory = new StaticOperationFactory(new NamespaceFilterMapper(ATTRIBUTE_NAMESPACE));
+        defaultMergeAction.setMapperFactory(mapperFactory);
 
         // Configure the action factory
         OperationResolver actionResolver = new OperationResolver(StandardActions.class);
 
-        defaultMergeAction.setActionFactory(new AttributeOperationFactory(defaultMergeAction,
-                actionResolver, ACTION_ATTRIBUTE, ATTRIBUTE_NAMESPACE));
+        OperationFactory actionFactory = new AttributeOperationFactory(defaultMergeAction,
+                actionResolver, ACTION_ATTRIBUTE, ATTRIBUTE_NAMESPACE);
+        defaultMergeAction.setActionFactory(actionFactory);
 
         // Configure the matcher factory
         Matcher defaultMatcher = new AttributeMatcher();
@@ -85,8 +85,8 @@ public class AttributeMergeConfigurer implements Configurer
         defaultMergeAction.setMatcherFactory(new AttributeOperationFactory(defaultMatcher,
                 matcherResolver, MATCHER_ATTRIBUTE, ATTRIBUTE_NAMESPACE));
 
-        xmlMerge.setRootMapper(mapper);
-        xmlMerge.setRootMergeAction(defaultMergeAction);
+        xmlMerge.setRootMergeMapperFactory(mapperFactory);
+        xmlMerge.setRootMergeActionFactory(actionFactory);
     }
 
 }

@@ -21,18 +21,23 @@
         </dependency>
         <dependency>
             <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
+            <artifactId>jdom2</artifactId>
+            <version>2.0.5</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <!-- Needed for XPath queries in ConfigurationInstallerListener -->
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
-            <scope>compile</scope>
+            <version>1.1.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
+            <!-- Needed if using "DTD" XML merge action in ConfigurationInstallerListener -->
             <groupId>com.wutka</groupId>
             <artifactId>dtdparser</artifactId>
-            <scope>compile</scope>
+            <version>1.21</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

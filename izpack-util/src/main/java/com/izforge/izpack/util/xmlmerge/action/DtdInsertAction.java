@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 import com.izforge.izpack.util.xmlmerge.AbstractXmlMergeException;
 import com.izforge.izpack.util.xmlmerge.Action;

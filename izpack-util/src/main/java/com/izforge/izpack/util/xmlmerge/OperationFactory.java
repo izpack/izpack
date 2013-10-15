@@ -22,7 +22,7 @@
 
 package com.izforge.izpack.util.xmlmerge;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Creates operation (action, mapper and matcher) instances corresponding to a pair of elements from

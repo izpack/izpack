@@ -16,3 +16,4 @@ izpack-compiler/out.zip
 .classpath
 .metadata
 .idea
+/bin

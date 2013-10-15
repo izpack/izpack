@@ -25,11 +25,13 @@ package com.izforge.izpack.util.xmlmerge.factory;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jaxen.JaxenException;
-import org.jaxen.jdom.JDOMXPath;
-import org.jdom.Element;
+import org.jdom2.Element;
+import org.jdom2.filter.Filters;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
 
 import com.izforge.izpack.util.xmlmerge.AbstractXmlMergeException;
+import com.izforge.izpack.util.xmlmerge.ConfigurationException;
 import com.izforge.izpack.util.xmlmerge.MatchException;
 import com.izforge.izpack.util.xmlmerge.Operation;
 import com.izforge.izpack.util.xmlmerge.OperationFactory;
@@ -80,7 +82,16 @@ public class XPathOperationFactory implements OperationFactory
     {
         for (String xPath : m_map.keySet())
         {
-            if (matches(originalElement, xPath) || matches(patchElement, xPath))
+            XPathExpression<Element> compiledExpression;
+            try
+            {
+                compiledExpression = XPathFactory.instance().compile(xPath, Filters.element());
+            }
+            catch (IllegalArgumentException e)
+            {
+                throw new ConfigurationException(e.getMessage(), e);
+            }
+            if (matches(originalElement, compiledExpression) || matches(patchElement, compiledExpression))
             {
                 return m_map.get(xPath);
             }
@@ -96,21 +107,15 @@ public class XPathOperationFactory implements OperationFactory
      * @return True if the given element matches the given XPath string
      * @throws AbstractXmlMergeException If an error occurred during the matching process
      */
-    private boolean matches(Element element, String xPathString) throws AbstractXmlMergeException
+    private boolean matches(Element element, XPathExpression<Element> compiledExpression) throws AbstractXmlMergeException
     {
-
-        if (element == null) { return false; }
 
         try
         {
-            JDOMXPath xPath = new JDOMXPath(xPathString);
-
-            boolean result = xPath.selectNodes(element.getParent()).contains(element);
-
-            return result;
-
+            if (element == null) { return false; }
+            return compiledExpression.evaluate(element).contains(element);
         }
-        catch (JaxenException e)
+        catch (IllegalStateException e)
         {
             throw new MatchException(element, e);
         }
