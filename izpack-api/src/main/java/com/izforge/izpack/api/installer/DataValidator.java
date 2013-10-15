@@ -24,7 +24,6 @@ package com.izforge.izpack.api.installer;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.izforge.izpack.api.data.InstallData;
 
 public interface DataValidator
@@ -36,7 +35,7 @@ public interface DataValidator
 
         private static Map<String, Status> lookup;
 
-        private String attribute;
+        private final String attribute;
 
         Status(String attribute)
         {
@@ -59,11 +58,8 @@ public interface DataValidator
 
         public static Status getStatusFromAttribute(String attribute)
         {
-            if (attribute != null && lookup.containsKey(attribute))
-            {
-                return lookup.get(attribute);
-            }
-            return null;
+            if (attribute == null) return null;
+            return lookup.get(attribute.toLowerCase());
         }
 
     }

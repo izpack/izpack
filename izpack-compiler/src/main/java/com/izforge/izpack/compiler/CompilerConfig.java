@@ -2408,7 +2408,7 @@ public class CompilerConfig extends Thread
                     .getChildrenNamed("installerrequirement");
             for (IXMLElement installerrequirement : installerRequirementList)
             {
-                Status severity = Status.valueOf(xmlCompilerHelper.requireAttribute(installerrequirement, "severity"));
+                Status severity = Status.getStatusFromAttribute(xmlCompilerHelper.requireAttribute(installerrequirement, "severity"));
                 if (severity == null || severity == Status.OK)
                 {
                     assertionHelper.parseError(installerrequirement, "invalid value for attribute \"severity\"");

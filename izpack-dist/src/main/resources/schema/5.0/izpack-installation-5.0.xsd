@@ -159,7 +159,7 @@
         <xs:sequence>
             <xs:element name="installerrequirement" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
-                    <xs:attribute name="status" use="required">
+                    <xs:attribute name="severity" use="required">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
                                 <xs:enumeration value="warning"/>
