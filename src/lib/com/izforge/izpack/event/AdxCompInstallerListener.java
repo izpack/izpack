@@ -2,6 +2,10 @@ package com.izforge.izpack.event;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -149,6 +153,19 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         if (!fileAdxinstalls.exists())
         {
             fileAdxinstalls.createNewFile();
+            
+            Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
+            //add owners permission
+            perms.add(PosixFilePermission.OWNER_READ);
+            perms.add(PosixFilePermission.OWNER_WRITE);
+            //add group permissions
+            perms.add(PosixFilePermission.GROUP_READ);
+            perms.add(PosixFilePermission.GROUP_WRITE);
+            //add others permissions
+            perms.add(PosixFilePermission.OTHERS_READ);
+            perms.add(PosixFilePermission.OTHERS_WRITE);
+            
+            Files.setPosixFilePermissions(fileAdxinstalls.toPath(), perms);
             xdoc = dBuilder.newDocument();
 
              // Propriétés du DOM
