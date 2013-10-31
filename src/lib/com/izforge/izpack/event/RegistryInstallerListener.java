@@ -22,8 +22,10 @@
 package com.izforge.izpack.event;
 
 import com.coi.tools.os.win.NativeLibException;
+import com.coi.tools.os.win.RegistryLogItem;
 import com.izforge.izpack.Pack;
 import com.izforge.izpack.installer.AutomatedInstallData;
+import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.UninstallData;
 import com.izforge.izpack.installer.Unpacker;
 import com.izforge.izpack.rules.RulesEngine;
@@ -38,6 +40,7 @@ import com.izforge.izpack.util.os.RegistryHandler;
 import com.izforge.izpack.util.os.WrappedNativeLibException;
 import com.izforge.izpack.adaptator.IXMLElement;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -434,6 +437,14 @@ public class RegistryInstallerListener extends NativeInstallerListener implement
         if (!rh.keyExist(keypath))
         {
             rh.createKey(keypath);
+        }
+        else
+        {
+            RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.CREATED_KEY, rootId, keypath, null,
+                    null, null);
+            ArrayList lstLog = new ArrayList ();
+            lstLog.add(rli);
+            rh.addLoggingInfo(lstLog);
         }
     }
 

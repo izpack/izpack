@@ -25,6 +25,7 @@ package com.izforge.izpack.util.os;
 import com.coi.tools.os.win.MSWinConstants;
 import com.coi.tools.os.win.NativeLibException;
 import com.coi.tools.os.win.RegDataContainer;
+import com.coi.tools.os.win.RegistryLogItem;
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.ResourceManager;
 import com.izforge.izpack.util.Debug;
@@ -33,6 +34,7 @@ import com.izforge.izpack.util.OSClassHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -411,6 +413,7 @@ public class RegistryHandler extends OSClassHelper implements MSWinConstants
 
     public void registerUninstallKey() throws NativeLibException
     {
+        setLogPrevSetValueFlag (false);
         String uninstallName = getUninstallName();
         if (uninstallName == null)
         {
@@ -427,12 +430,30 @@ public class RegistryHandler extends OSClassHelper implements MSWinConstants
         try
         {
             setRoot(HKEY_LOCAL_MACHINE);
+            if (keyExist(keyName)) 
+            {
+                RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.CREATED_KEY, HKEY_LOCAL_MACHINE, keyName, null,
+                        null, null);
+                ArrayList lstLog = new ArrayList ();
+                lstLog.add(rli);
+               addLoggingInfo(lstLog);
+                
+            }
             setValue(keyName, "DisplayName", uninstallName);
         }
         catch (NativeLibException exception)
         { // Users without administrative rights should be able to install the app for themselves
             Debug.trace("Failed to register uninstaller in HKEY_LOCAL_MACHINE hive, trying HKEY_CURRENT_USER: " + exception.getMessage());
             setRoot(HKEY_CURRENT_USER);
+            if (keyExist(keyName)) 
+            {
+                RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.CREATED_KEY, HKEY_CURRENT_USER, keyName, null,
+                        null, null);
+                ArrayList lstLog = new ArrayList ();
+                lstLog.add(rli);
+               addLoggingInfo(lstLog);
+                
+            }
             setValue(keyName, "DisplayName", uninstallName);
         }
         setValue(keyName, "UninstallString", cmd);

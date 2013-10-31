@@ -13,6 +13,9 @@
                because there the variable will be declared. With that variabel it is possible
                to install more as one instances of the product on one machine each with an
                unique uninstall key. -->
+        <key
+               keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"/>
         <value name="DisplayName"
                keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
                root="HKLM"
