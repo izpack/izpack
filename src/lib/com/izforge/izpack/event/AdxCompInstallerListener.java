@@ -154,18 +154,22 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         {
             fileAdxinstalls.createNewFile();
             
-            Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
-            //add owners permission
-            perms.add(PosixFilePermission.OWNER_READ);
-            perms.add(PosixFilePermission.OWNER_WRITE);
-            //add group permissions
-            perms.add(PosixFilePermission.GROUP_READ);
-            perms.add(PosixFilePermission.GROUP_WRITE);
-            //add others permissions
-            perms.add(PosixFilePermission.OTHERS_READ);
-            perms.add(PosixFilePermission.OTHERS_WRITE);
+            if (OsVersion.IS_UNIX)
+            {
+                Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
+                //add owners permission
+                perms.add(PosixFilePermission.OWNER_READ);
+                perms.add(PosixFilePermission.OWNER_WRITE);
+                //add group permissions
+                perms.add(PosixFilePermission.GROUP_READ);
+                perms.add(PosixFilePermission.GROUP_WRITE);
+                //add others permissions
+                perms.add(PosixFilePermission.OTHERS_READ);
+                perms.add(PosixFilePermission.OTHERS_WRITE);
+                
+                Files.setPosixFilePermissions(fileAdxinstalls.toPath(), perms);
+            }
             
-            Files.setPosixFilePermissions(fileAdxinstalls.toPath(), perms);
             xdoc = dBuilder.newDocument();
 
              // Propriétés du DOM
