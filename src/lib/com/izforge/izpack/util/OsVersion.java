@@ -284,11 +284,11 @@ public final class OsVersion implements OsVersionConstants, StringConstants
             
             Iterator linesIter = lstLines.iterator();
 
-            if (linesIter.hasNext())
+            while (linesIter.hasNext())
             {
                     String strline = (String)linesIter.next();
                     
-                    String[] strPattern =  strline.split(" ");
+                    String[] strPattern =  strline.split(" |=");
                     
                     for (int i=0; i<strPattern.length;i++)
                     {
