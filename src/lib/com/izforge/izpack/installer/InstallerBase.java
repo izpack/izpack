@@ -314,12 +314,12 @@ public class InstallerBase
 
     private void checkForPrivilegedExecution(Info info)
     {
-        if (PrivilegedRunner.isPrivilegedMode())
+        if (!PrivilegedRunner.runFromUNCPath() && PrivilegedRunner.isPrivilegedMode())
         {
             // We have been launched through a privileged execution, so stop the checkings here!
             return;
         }
-        else if (info.isPrivilegedExecutionRequired())
+        else if (PrivilegedRunner.runFromUNCPath() || info.isPrivilegedExecutionRequired())
         {
             boolean shouldElevate = true;
             final String conditionId = info.getPrivilegedExecutionConditionID();
@@ -328,14 +328,14 @@ public class InstallerBase
                 shouldElevate = RulesEngine.getCondition(conditionId).isTrue();
             }
             PrivilegedRunner runner = new PrivilegedRunner(!shouldElevate);
-            if (runner.isPlatformSupported() && runner.isElevationNeeded())
+            if (runner.isPlatformSupported() && (runner.isElevationNeeded() || PrivilegedRunner.runFromUNCPath()))
             {
                 if (OsVersion.IS_WINDOWS && this instanceof ConsoleInstaller)
                 {
                     // we can't continue since elevated rights in console mode can't work
                     // because we loose standard input/output
                     
-                    throw new RuntimeException("This installer should be run by an administrator.\n");
+                    throw new RuntimeException("This installer should be run by an administrator and could not be run from a UNC path.\n");
                 }
                 else
                 {

@@ -26,6 +26,7 @@ import com.izforge.izpack.util.OsVersion;
 import java.io.*;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,6 +153,7 @@ public class PrivilegedRunner
         
         ProcessBuilder builder = new ProcessBuilder(getElevator(javaCommand, installer, parameters));
         builder.environment().put("izpack.mode", "privileged");
+        builder.directory(Files.createTempDirectory("IzPack").toFile());
         return builder.start().waitFor();
     }
 
@@ -280,6 +282,12 @@ public class PrivilegedRunner
         }
     }
 
+    public static boolean runFromUNCPath ()
+    {
+        String userdir = System.getProperty("user.dir");
+        return System.getProperty("user.dir").startsWith("\\\\");
+    }
+    
     public static boolean isPrivilegedMode()
     {
        return "root".equals(System.getProperty("user.name")) || "privileged".equals(System.getenv("izpack.mode")) || "privileged".equals(System.getProperty("izpack.mode")) || canWriteToProgramFilesStatic();
