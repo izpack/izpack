@@ -13,6 +13,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.ServerAddress;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class MongoDBValidator implements com.izforge.izpack.installer.DataValidator 
 {
@@ -46,12 +47,26 @@ public class MongoDBValidator implements com.izforge.izpack.installer.DataValida
                 }
             }
             db.getCollectionNames();
+            
             bReturn = Status.OK; 
+
+            // test if syracuse db already exists
+            List<String> lstDb = mongoClient.getDatabaseNames();
+            
+            for (String dbb : lstDb)
+            {
+                if (dbb.equals("syracuse"))
+                {
+                    bReturn = Status.WARNING;
+                }
+            }
+            
 
         }
         catch (Exception ex)
         {
             Debug.trace(ex.getMessage());
+            bReturn = Status.ERROR; 
         }
 
         return bReturn;
@@ -66,7 +81,7 @@ public class MongoDBValidator implements com.izforge.izpack.installer.DataValida
     public String getWarningMessageId()
     {
         // TODO Auto-generated method stub
-        return "mongodbtesterror";
+        return "mongodbtestwarn";
     }
 
     public boolean getDefaultAnswer()
