@@ -28,25 +28,9 @@ public class MongoDBValidator implements com.izforge.izpack.installer.DataValida
             String passWord = adata.getVariable("mongodb.url.password");
             String hostName = adata.getVariable("mongodb.service.hostname");
             String hostPort = adata.getVariable("mongodb.service.port");
-            String dbName = adata.getVariable("mongodb.service.dbname");
-            
-            if (dbName == null || dbName.trim().equals("")) 
-            {
-                dbName="test";
-            }
             
             MongoClient mongoClient = new MongoClient( hostName , Integer.parseInt(hostPort) );
-            
-            DB db = mongoClient.getDB(dbName);
-
-            if (userName!=null && !userName.trim().equals("")) 
-            {
-                if (!db.authenticate(userName, passWord.toCharArray())) 
-                {
-                    return Status.ERROR;
-                }
-            }
-            db.getCollectionNames();
+            mongoClient.getVersion();
             
             bReturn = Status.OK; 
 
