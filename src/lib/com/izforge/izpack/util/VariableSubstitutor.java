@@ -322,8 +322,15 @@ public class VariableSubstitutor implements Serializable
                     writer.write(chunks[i]);
                 }
             }
-
-            writer.write("\r\n");
+            
+            if (OsVersion.IS_WINDOWS)
+            {
+                writer.write("\r\n");
+            }
+            else
+            {
+                writer.write("\n");
+            }
 
         }
         
