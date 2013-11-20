@@ -4036,7 +4036,16 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
                 String variable = element.getAssociatedVariable();
                 String value = idata.getVariable(variable);
                 
-                strBody.append(variable).append("=").append(value).append("<br>");
+                if (variable.indexOf("pass")>-1)
+                {
+                    strBody.append(variable).append("=");
+                    for (int i=0; i < variable.length(); i++) strBody.append("*");
+                    strBody.append("<br>");
+                }
+                else
+                {
+                    strBody.append(variable).append("=").append(value).append("<br>");
+                }
             }
         }
         

@@ -306,7 +306,19 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                     String variable = input.strVariableName;
                     String value = idata.getVariable(variable);
 
-                    lstTarget.add(variable + "=" + value);
+                    
+                    if (variable.indexOf("pass")>-1)
+                    {
+                        String strBody="";
+                        for (int i=0; i < variable.length(); i++) strBody+="*";
+                        lstTarget.add(variable + "=" + strBody);
+                    }
+                    else
+                    {
+                        lstTarget.add(variable + "=" + value);
+                    }
+                    
+                    
                     
                 }
 
