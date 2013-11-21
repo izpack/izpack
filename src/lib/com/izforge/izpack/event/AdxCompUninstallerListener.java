@@ -18,21 +18,38 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.izforge.izpack.LocaleDatabase;
 import com.izforge.izpack.util.AbstractUIProgressHandler;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.os.RegistryDefaultHandler;
 import com.izforge.izpack.util.os.RegistryHandler;
+import com.izforge.izpack.util.os.WrappedNativeLibException;
 import com.izforge.izpack.util.xml.XMLHelper;
 
 
 public class AdxCompUninstallerListener extends SimpleUninstallerListener
 {
     private static final String SPEC_FILE_NAME = "AdxCompSpec.xml";
+    protected static LocaleDatabase langpack = null;
+    
 
     public AdxCompUninstallerListener()
     {
         super();
+
+        if (langpack == null)
+        {
+            // Load langpack. Do not stop uninstall if not found.
+            try
+            {
+                AdxCompUninstallerListener.langpack = new LocaleDatabase(
+                        AdxCompUninstallerListener.class.getResourceAsStream("/langpack.xml"));
+            }
+            catch (Throwable exception)
+            {
+            }
+        }
         
     }
 
@@ -158,6 +175,27 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
         
         // module non trouvé :(
         if (xmodule==null) return;
+        
+        NodeList lstChilds = xmodule.getElementsByTagName("*");
+        
+        //
+        for (int i=0; i<lstChilds.getLength(); i++)
+        {
+            Element elem = (Element) lstChilds.item(i);
+            
+            if (elem.getTagName().endsWith(".installstatus"))
+            {
+                String modstatus = elem.getTextContent();
+                
+                if (!"idle".equalsIgnoreCase(modstatus))
+                {
+                    handler.emitError(langpack.getString("installer.error"), langpack.getString("notidle"));
+                    System.exit(1);
+                }
+            }
+        }
+        
+
         
         xmodule.getParentNode().removeChild(xmodule);
         

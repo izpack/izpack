@@ -306,5 +306,6 @@
 	<str id="adxadminNotRegistered" txt="You must install an adxadmin administration runtime first ! Exiting now."/>
 	<str id="adxadminNoAdxDir" txt="Could not read adxadmin administration runtime install path !"/>
 	<str id="adxadminParseError" txt="The adxadmin administration runtime install path is invalid!"/>
+	<str id="notidle" txt="This component is currently used and cannot be uninstalled."/>
 
 </langpack>
