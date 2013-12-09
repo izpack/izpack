@@ -42,7 +42,7 @@ public class AutomatedInstallData implements Serializable
 {
 
     // --- Static members -------------------------------------------------
-    public static final String MODIFY_INSTALLATION = "modify.izpack.install";
+    public static final String MODIFY_INSTALLATION = "MODIFY.IZPACK.INSTALL";
     public static final String INSTALLATION_INFORMATION = ".installationinformation";
 
     /**
