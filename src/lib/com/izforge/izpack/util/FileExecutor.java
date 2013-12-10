@@ -277,7 +277,7 @@ public class FileExecutor
                 continue;
             }
 
-            if (ExecutableFile.BIN == efile.type && currentStage != ExecutableFile.UNINSTALL && OsVersion.IS_UNIX)
+            if (ExecutableFile.BIN == efile.type && (currentStage == efile.executionStage || (currentStage != ExecutableFile.UNINSTALL && ExecutableFile.NEVER == efile.executionStage)) && OsVersion.IS_UNIX)
             {
                 // fix executable permission for unix systems
                 Debug.trace("making file executable (setting executable flag)");
