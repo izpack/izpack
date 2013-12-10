@@ -99,17 +99,17 @@ public class Destroyer extends Thread
             // We get the original uninstaller location
             String uninstallerLoc = getUninstalllocation();
             
-            FileExecutor executor = new FileExecutor(executables);
-            executor.executeFiles(ExecutableFile.UNINSTALL, this.handler);
-            
-            // should we wait a little to release all handles ?
-            Thread.sleep(6000);
-
             ArrayList<File> files = getFilesList();
             int size = files.size();
 
             // Custem action listener stuff --- beforeDeletion ----
             informListeners(listeners[0], UninstallerListener.BEFORE_DELETION, files, handler);
+            
+            FileExecutor executor = new FileExecutor(executables);
+            executor.executeFiles(ExecutableFile.UNINSTALL, this.handler);
+            
+            // should we wait a little to release all handles ?
+            Thread.sleep(6000);
 
             handler.startAction("destroy", size);
 
