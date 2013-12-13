@@ -1071,7 +1071,7 @@
 
     <!-- Builds all compilation targets -->
     <target name="all"
-            depends="splashscreen, copy.dist.natives,build.compiler, build.compiler, build.installer, build.uninstaller, build.uninstaller-ext, build.panels, build.listeners, build.standalone-compiler"
+            depends="clean, splashscreen, copy.dist.natives,build.compiler, build.compiler, build.installer, build.uninstaller, build.uninstaller-ext, build.panels, build.listeners, build.standalone-compiler"
             description="base: compiles a developer version"/>
 
     <!-- Builds the Javadoc -->
