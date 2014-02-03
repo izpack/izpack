@@ -51,7 +51,14 @@ public class InstallationTypePanelAutomationHelper extends PanelAutomationHelper
         IXMLElement ipath = new XMLElementImpl(InstallData.MODIFY_INSTALLATION,panelRoot);
         // check this writes even if value is the default,
         // because without the constructor, default does not get set.
-        ipath.setContent(installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        if (installData.getVariable(InstallData.MODIFY_INSTALLATION)!=null)
+        {
+            ipath.setContent(installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        }
+        else
+        {
+            ipath.setContent(Boolean.FALSE.toString());
+        }
 
         IXMLElement prev = panelRoot.getFirstChildNamed(InstallData.MODIFY_INSTALLATION);
         if (prev != null)
