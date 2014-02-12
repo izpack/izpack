@@ -978,7 +978,25 @@ public abstract class UnpackerBase implements IUnpacker
             oout.writeObject(pack);
         }
         */
-        oout.writeObject(idata.variables);
+        
+        Properties vars = new Properties ();
+        
+        for (Map.Entry e : idata.variables.entrySet()) 
+        {  
+            String key = (String) e.getKey();  
+            String value = (String) e.getValue();  
+            
+            // now do something with key and value  
+            // passphrase, password and passwd should be avoided
+            
+            if (!(key.toLowerCase().endsWith("passphrase") || key.toLowerCase().endsWith("password") || key.toLowerCase().endsWith("passwd")))
+            {
+                vars.setProperty(key, value);
+            }
+            
+        }  
+        
+        oout.writeObject(vars);
         Debug.trace("done.");
         oout.close();
         fout.close();
