@@ -115,7 +115,7 @@ public class TargetPanel extends PathInputPanel
         String path = loadDefaultDirFromVariables(idata.getVariables());
         
         if (path != null) {
-            System.out.println("Found default install dir in variables: " + path);
+            //System.out.println("Found default install dir in variables: " + path);
             setDefaultInstallDir(path);
             return;
         }
