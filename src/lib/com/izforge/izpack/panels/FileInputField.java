@@ -173,13 +173,13 @@ public class FileInputField extends JPanel implements ActionListener
     public boolean validateField()
     {
         boolean result = false;
-        String input = filetxt.getText();
+        String input = filetxt.getText().trim();
         
         if (allowEmpty && ((input == null) || (input.length() == 0)))
         {
             result = true;
         }
-        else if (input != null)
+        else if (input != null && !input.equals(""))
         {
             // Expand unix home reference
             if (input.startsWith("~"))
