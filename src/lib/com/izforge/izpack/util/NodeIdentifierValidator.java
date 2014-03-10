@@ -13,113 +13,27 @@ import java.util.Random;
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.DataValidator;
 import com.izforge.izpack.installer.DataValidator.Status;
+import com.izforge.izpack.panels.ProcessingClient;
+import com.izforge.izpack.panels.Validator;
 import com.mongodb.MongoClient;
 
 
-/**
- * @author apozzo
- *
- */
-public class NodeIdentifierValidator implements DataValidator
+
+public class NodeIdentifierValidator implements Validator
 {
+    NodeIdentifierDataValidator validator = new NodeIdentifierDataValidator();
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.installer.DataValidator#validateData(com.izforge.izpack.installer.AutomatedInstallData)
-     */
-    public Status validateData(AutomatedInstallData adata)
+    public boolean validate(ProcessingClient client)
     {
-        Status bReturn = Status.ERROR;
-        try
-        {
+        // find app_name
+        String appname = client.getValidatorParams().get("APP_NAME");
         
-            String nodeName = adata.getVariable("component.node.name");
-            
-            // check node unicity by service name ?
-            // is there a better way ?
-            String serviceName = "";
-            
-            if (OsVersion.IS_UNIX)
-            {
-                // check file /etc/init/syracuse-$SERVICE_NAME.conf
-                // SERVICE_NAME = node name
-                serviceName = "/etc/init/sagesyracuse-"+nodeName.toLowerCase()+".conf";
-                File serviceFile = new File (serviceName);
-                if (!serviceFile.exists()) bReturn = Status.OK; 
-            }
-            else
-            {
-                // windows
-                bReturn = Status.OK;
-                serviceName = adata.getVariable("APP_NAME")+" - "+nodeName;
-                String commandquery = "sc query state= all | findstr /R /C:\""+serviceName+"\"";
-                String[] command = {"CMD", "/C", commandquery};
-                
-                ProcessBuilder probuilder = new ProcessBuilder( command );
-
-                Process process = probuilder.start();
-                
-                //Read out dir output
-                InputStream is = process.getInputStream();
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
-                String line;
-
-                while ((line = br.readLine()) != null) 
-                {
-                    // to find : DISPLAY_NAME: serviceName
-                    if (line.startsWith("DISPLAY_NAME: "+ serviceName))
-                    {
-                        bReturn = Status.ERROR;
-                    }
-                }
-                
-                //Wait to get exit value
-                try {
-                    int exitValue = process.waitFor();
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }                
-                
-            }
-            
-        }
-        catch (Exception ex)
-        {
-            // got exception
-            Debug.trace(ex.getMessage());
-            bReturn = Status.ERROR; 
-        }
-
-        return bReturn;
+        // then validate
+        String nodename = client.getText();
+        
+        return (validator.validate(nodename, appname)==Status.OK);
     }
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.installer.DataValidator#getErrorMessageId()
-     */
-    public String getErrorMessageId()
-    {
-        // TODO Auto-generated method stub
-        return "nodealreadyexisterror";
-    }
-
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.installer.DataValidator#getWarningMessageId()
-     */
-    public String getWarningMessageId()
-    {
-        // TODO Auto-generated method stub
-        return "nodealreadyexistwarn";
-    }
-
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.installer.DataValidator#getDefaultAnswer()
-     */
-    public boolean getDefaultAnswer()
-    {
-        // can we validate in automated mode ?
-        // say yes for now
-        return true;
-    }
 
 }
+
