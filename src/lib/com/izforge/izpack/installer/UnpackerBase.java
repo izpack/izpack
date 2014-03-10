@@ -989,7 +989,7 @@ public abstract class UnpackerBase implements IUnpacker
             // now do something with key and value  
             // passphrase, password and passwd should be avoided
             
-            if (!(key.toLowerCase().endsWith("passphrase") || key.toLowerCase().endsWith("password") || key.toLowerCase().endsWith("passwd")))
+            if (!(key.toLowerCase().endsWith("passphrase") || key.toLowerCase().endsWith("password") || key.toLowerCase().endsWith("passwd") || key.toLowerCase().endsWith("oldvalue")))
             {
                 vars.setProperty(key, value);
             }
