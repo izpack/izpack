@@ -285,7 +285,8 @@
                target="${compat.target}"
                deprecation="on"
                debug="${debug}"
-               debuglevel="${debuglevel}">
+               debuglevel="${debuglevel}"
+   		 	   encoding="utf-8">
             <include name="com/izforge/izpack/*.java"/>
             <include name="com/izforge/izpack/io/*.java"/>
             <include name="com/izforge/izpack/compiler/*.java"/>
@@ -380,7 +381,8 @@
                target="${compat.target}"
                deprecation="on"
                debug="${debug}"
-               debuglevel="${debuglevel}">
+               debuglevel="${debuglevel}"
+        	   encoding="utf-8">
             <include name="com/izforge/izpack/panels/PathSelectionPanel.java"/>
             <include name="com/izforge/izpack/*.java"/>
             <include name="com/izforge/izpack/gui/*.java"/>
@@ -455,7 +457,8 @@
                target="${compat.target}"
                deprecation="on"
                debug="${debug}"
-               debuglevel="${debuglevel}">
+               debuglevel="${debuglevel}"
+        	   encoding="utf-8">
             <include name="com/izforge/izpack/LocaleDatabase.java"/>
             <include name="com/izforge/izpack/gui/*.java"/>
 

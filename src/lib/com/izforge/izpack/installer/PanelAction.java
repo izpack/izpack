@@ -14,7 +14,7 @@ import com.izforge.izpack.util.AbstractUIHandler;
  * 
  * http://izpack.org/ http://izpack.codehaus.org/
  * 
- * Copyright 2008 Florian Bühlmann
+ * Copyright 2008 Florian Buhlmann
  * Copyright 2009 Dennis Reil
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
