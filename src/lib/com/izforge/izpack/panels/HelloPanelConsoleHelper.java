@@ -178,7 +178,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
             File adxadmFile = new File ("/sage/adxadm");
             if (adxadmFile.exists())
             {
-                // il semble que ce soit une mise à jour
+                // il semble que ce soit une mise a jour
                 // on positionne update mode
                 // puis on charge .installinformation
                 

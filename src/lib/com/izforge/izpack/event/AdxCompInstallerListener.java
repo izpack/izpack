@@ -82,7 +82,7 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         {
             rh.verify(idata);
 
-            // test adxadmin dÈj‡ installÈ avec registry
+            // test adxadmin d√©j√† install√© avec registry
             if (rh.adxadminProductRegistered())
             {
 
@@ -92,7 +92,7 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
                 if (!rh.valueExist(keyName, "ADXDIR")) keyName = "SOFTWARE\\Wow6432Node\\Adonix\\X3RUNTIME\\ADXADMIN";
                 if (!rh.valueExist(keyName, "ADXDIR")) throw new Exception(langpack.getString("adxadminNoAdxDir"));
                 
-                // rÈcup path
+                // r√©cup path
                 strAdxAdminPath = rh.getValue(keyName, "ADXDIR").getStringData();
 
                 // free RegistryHandler
@@ -129,7 +129,7 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         }
         
         
-        // vÈrification strAdxAdminPath
+        // v√©rification strAdxAdminPath
         
         if (strAdxAdminPath == null || "".equals(strAdxAdminPath)) throw new Exception(langpack.getString("adxadminParseError"));
         
@@ -172,11 +172,11 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
             
             xdoc = dBuilder.newDocument();
 
-             // PropriÈtÈs du DOM
+             // Propri√©t√©s du DOM
             xdoc.setXmlVersion("1.0");
             xdoc.setXmlStandalone(true);
     
-            // CrÈation de l'arborescence du DOM
+            // Cr√©ation de l'arborescence du DOM
             Element racine = xdoc.createElement("install");
             xdoc.appendChild(racine);
          }
@@ -187,7 +187,7 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         
         XMLHelper.cleanEmptyTextNodes ((Node)xdoc);
         
-        // adxinstalls.xml lu ou crÈe
+        // adxinstalls.xml lu ou cr√©e
         // il faut ajouter le module
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         transformerFactory.setAttribute("indent-number", 4);
@@ -228,7 +228,7 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         else
         {
             
-            // crÈation du module
+            // cr√©ation du module
             module = xdoc.createElement("module");
             module.setAttribute("name", name); 
             module.setAttribute("family", family ); 
@@ -246,8 +246,8 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         }
         
         // en principe c'est bon
-        // le module est ajoutÈ
-        // rÈÈcriture du XML
+        // le module est ajout√©
+        // r√©√©criture du XML
         
         // write the content into xml file
         DOMSource source = new DOMSource(xdoc);
@@ -261,11 +261,11 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         // create ressource for uninstall
         Document xdoc2 = dBuilder.newDocument();
         
-        // PropriÈtÈs du DOM
+        // Propri√©t√©s du DOM
         xdoc2.setXmlVersion("1.0");
         xdoc2.setXmlStandalone(true);
         
-        // CrÈation de l'arborescence du DOM
+        // Cr√©ation de l'arborescence du DOM
         Element racine2 = xdoc2.createElement("install");
         xdoc2.appendChild(racine2);
         xdoc2.getDocumentElement().appendChild(xdoc2.importNode(module, true));

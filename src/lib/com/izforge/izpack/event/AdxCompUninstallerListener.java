@@ -62,7 +62,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
             return;
         }
         
-        // récupérer le fichier adxinstalls
+        // rÃ©cupÃ©rer le fichier adxinstalls
         
         // here we need to update adxinstalls.xml
         
@@ -74,7 +74,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
         {
             //rh.verify(idata);
 
-            // test adxadmin déjà installé avec registry
+            // test adxadmin dÃ©ja installÃ© avec registry
             if (rh.adxadminProductRegistered())
             {
 
@@ -84,7 +84,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
                 if (!rh.valueExist(keyName, "ADXDIR")) keyName = "SOFTWARE\\Wow6432Node\\Adonix\\X3RUNTIME\\ADXADMIN";
                 if (!rh.valueExist(keyName, "ADXDIR")) return;
                 
-                // récup path
+                // rÃ©cup path
                 strAdxAdminPath = rh.getValue(keyName, "ADXDIR").getStringData();
 
                 // free RegistryHandler
@@ -121,7 +121,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
         }
         
         
-        // vérification strAdxAdminPath
+        // vÃ©rification strAdxAdminPath
         
         if (strAdxAdminPath == null || "".equals(strAdxAdminPath)) return;
         
@@ -173,7 +173,7 @@ public class AdxCompUninstallerListener extends SimpleUninstallerListener
             
         }  
         
-        // module non trouvé :(
+        // module non trouvÃ© :(
         if (xmodule==null) return;
         
         NodeList lstChilds = xmodule.getElementsByTagName("*");
