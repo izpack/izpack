@@ -526,7 +526,8 @@
                target="${compat.target}"
                deprecation="on"
                debug="${debug}"
-               debuglevel="${debuglevel}">
+               debuglevel="${debuglevel}"
+		 	   encoding="utf-8">
             <include name="com/izforge/izpack/util/*.java"/>
             <include name="com/izforge/izpack/util/os/*.java"/>
             <include name="com/izforge/izpack/util/os/unix/*.java"/>
@@ -831,7 +832,8 @@
                deprecation="on"
                debug="${debug}"
                debuglevel="${debuglevel}"
-               classpath="${installer.jar};${compiler.jar}">
+               classpath="${installer.jar};${compiler.jar}"
+		 	   encoding="utf-8">
             <include name="com/izforge/izpack/event/ActionBase.java"/>
             <include name="com/izforge/izpack/event/Simple*nstallerListener.java"/>
             <include name="com/izforge/izpack/event/SimpleCompilerListener.java"/>
@@ -880,7 +882,8 @@
                    debug="${debug}"
                    source="${compat.source}"
                    target="${compat.target}"
-                   debuglevel="${debuglevel}">
+                   debuglevel="${debuglevel}"
+    		 	   encoding="utf-8">
                 <listener-fileset/>
             </javac>
             <jar jarfile="${bin.dir}/customActions/@{name}.jar"
