@@ -50,7 +50,7 @@ public class PreValidatePacksPanelAction implements PanelAction
                     }
                 }
                 
-                //this.removeAlreadyInstalledPacks(adata.selectedPacks);
+                this.removeAlreadyInstalledPacks(adata.selectedPacks);
                 adata.installedPacks = packsinstalled;
                 
                 for (Object aPack : adata.availablePacks)
@@ -79,6 +79,12 @@ public class PreValidatePacksPanelAction implements PanelAction
                     {
                         adata.setVariable( key, (String) variables.get(key));
                         Debug.trace((String) key+"="+ (String) variables.get(key));
+                    }
+                    
+                    // TODO : verrue !
+                    if (key.equals("syracuse.winservice.username"))
+                    {
+                        adata.setVariable( "syracuse.winservice.username.oldvalue", (String) variables.get(key));
                     }
                 }
                 

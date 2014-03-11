@@ -255,7 +255,11 @@ public class ConsoleInstaller extends InstallerBase
                                     }
                                     
                                     consoleHelperInstance.executePreValidationActions();
-                                    bvalidated = validatePanel(p);
+                                    
+                                    // need ConsoleHelper instance for handling of terminal
+                                    // ask to continue even if validation fail
+                                    // need to have same functionality as GUI
+                                    bvalidated = validatePanel(p,consoleHelperInstance);
                                     
                                     if (bvalidated)
                                     {
@@ -289,7 +293,7 @@ public class ConsoleInstaller extends InstallerBase
                                     }
                                     
                                     consoleHelperInstance.executePreValidationActions();
-                                    bvalidated = validatePanel(p);
+                                    bvalidated = validatePanel(p, consoleHelperInstance);
                                     
                                     if (bvalidated)
                                     {
@@ -636,7 +640,7 @@ public class ConsoleInstaller extends InstallerBase
      * @param p The panel to validate
      * @return The status of the validation - false makes the installation fail
      */
-    private boolean validatePanel(final Panel p) throws InstallerException
+    private boolean validatePanel(final Panel p, PanelConsole consoleHelperInstance) throws InstallerException
     {
         String dataValidator = p.getValidator();
         if (dataValidator != null)
@@ -645,15 +649,35 @@ public class ConsoleInstaller extends InstallerBase
             Status validationResult = validator.validateData(installdata);
             if (validationResult != DataValidator.Status.OK)
             {
-                // if defaultAnswer is true, result is ok
-                if (validationResult == Status.WARNING && validator.getDefaultAnswer())
+                                                        // if defaultAnswer is true, result is ok
+                if (validationResult == Status.WARNING) // && validator.getDefaultAnswer())
                 {
-                    System.out
-                            .println("Configuration said, it's ok to go on, if validation is not successfull");
+                    // if instance of PanelConsoleHelper then we can ask for what to do
+                    if (consoleHelperInstance instanceof PanelConsoleHelper)
+                    {
+                        System.out.println(this.installdata.langpack.getString(validator.getWarningMessageId()));
+                        
+                        switch ( ((PanelConsoleHelper)consoleHelperInstance).askQuestion(this.installdata, this.installdata.langpack.getString("consolehelper.askyesno"), 2))
+                        {
+                            case 1 : return true;
+                            case 3 : System.exit (0);
+                            default : return false;
+                        }
+                        
+                    }
+                    else
+                    {
+                        // make installation fail instantly
+                        System.out.println(this.installdata.langpack.getString(validator.getErrorMessageId()));
+                        System.out.println("Validation failed, please verify your input");
+                        return false;
+                    }
+                    
                 }
                 else
                 {
                     // make installation fail instantly
+                    System.out.println(this.installdata.langpack.getString(validator.getErrorMessageId()));
                     System.out.println("Validation failed, please verify your input");
                     return false;
                 }

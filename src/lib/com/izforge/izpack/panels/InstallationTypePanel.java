@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.panels;
 
+import com.izforge.izpack.adaptator.IXMLElement;
 import com.izforge.izpack.gui.IzPanelLayout;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.InstallData;
@@ -28,6 +29,7 @@ import com.izforge.izpack.installer.IzPanel;
 import com.izforge.izpack.util.Debug;
 
 import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -115,5 +117,34 @@ public class InstallationTypePanel extends IzPanel implements ActionListener
         } */
 
     }
+    
+    /**
+     * Asks to make the XML panel data.
+     *
+     * @param panelRoot The tree to put the data in.
+     */
+    public void makeXMLData(IXMLElement panelRoot)
+    {
+        new InstallationTypePanelAutomationHelper().makeXMLData(idata, panelRoot);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.izforge.izpack.installer.IzPanel#getSummaryBody()
+     */
+    public String getSummaryBody()
+    {
+
+        if (Boolean.parseBoolean(idata.getVariable(InstallData.MODIFY_INSTALLATION)))
+        {
+            return parent.langpack.getString("InstallationTypePanel.modify");
+        }
+        else
+        {
+            return parent.langpack.getString("InstallationTypePanel.normal");
+        }        
+    }
+    
 }
 

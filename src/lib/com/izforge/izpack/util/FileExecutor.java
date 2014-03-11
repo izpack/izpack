@@ -384,7 +384,7 @@ public class FileExecutor
                     else
                     {
                         if (handler
-                                .askQuestion("Execution Failed", message + "\nContinue Installation?", AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES)
+                                .askQuestion("Execution Failed", message + "\nContinue ?", AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES)
                         {
                             exitStatus = 0;
                         }

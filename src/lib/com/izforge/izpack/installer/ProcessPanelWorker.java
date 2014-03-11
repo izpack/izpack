@@ -271,7 +271,11 @@ public class ProcessPanelWorker implements Runnable
 
             if (appVersion != null)
             {
-                appVersion = "V" + appVersion;
+                //appVersion = "V" + appVersion;
+                if (!(appVersion.startsWith("V") || appVersion.startsWith("v")))
+                {
+                    appVersion = "V" + appVersion;
+                }
             }
             else
             {

@@ -204,6 +204,7 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         String name = substitutor.substitute(moduleSpec.getAttribute("name"), VariableSubstitutor.PLAIN);
         String family = substitutor.substitute(moduleSpec.getAttribute("family"), VariableSubstitutor.PLAIN);
         String type = substitutor.substitute(moduleSpec.getAttribute("type"), VariableSubstitutor.PLAIN);
+        String version = substitutor.substitute(moduleSpec.getFirstChildNamed("component."+family.toLowerCase()+".version").getContent(), VariableSubstitutor.PLAIN);
                 
         Element module = null;
                 
@@ -218,6 +219,9 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
             {
                 status.setTextContent("update");
             }
+
+            Node nodeVersion = (Node) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']/component."+family.toLowerCase()+".version").evaluate(xdoc, XPathConstants.NODE);
+            nodeVersion.setTextContent(version);
             
             
         }
