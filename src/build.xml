@@ -577,7 +577,8 @@
                    debug="${debug}"
                    source="${compat.source}"
                    target="${compat.target}"
-                   debuglevel="${debuglevel}">
+                   debuglevel="${debuglevel}"
+            	   encoding="utf-8">
                 <panel-fileset/>
             </javac>
             <jar jarfile="${bin.dir}/panels/@{name}.jar" basedir="${bin.dir}/panels/@{name}"/>
