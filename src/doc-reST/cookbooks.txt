@@ -97,16 +97,16 @@ c. Discussion
                         <description align="left" txt=""
     id="description3.text"/>
                         <spec>
-                        <pwd txt="-> Type the password for the
+                                <pwd txt="-> Type the password for the
     connection:" id="pwd.label" size="10" set=""/>
                                 <pwd txt="-> Retype the password for the
     connection:" id="pwd.label2" size="10" set=""/>
+                                <processor
+    class="com.izforge.sample.PWDEncryptor"/>
                         </spec>
                         <validator
     class="com.izforge.sample.PWDValidator" txt="Both versions of the
     password must match" id="error.label"/>
-                        <processor
-    class="com.izforge.sample.PWDEncryptor"/>
                 </field>
                 <field type="space" align="center"/>
                 <field type="divider" align="center"/>
