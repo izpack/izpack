@@ -36,6 +36,7 @@ public class WinServiceUserValidator implements DataValidator
             String userName = adata.getVariable("syracuse.winservice.username");
             String passWord = adata.getVariable("syracuse.winservice.password");
             String strDomain = ".";
+            String bUseDomain = "true";
             
             // check domain
             if (userName.contains("\\"))
@@ -46,6 +47,11 @@ public class WinServiceUserValidator implements DataValidator
             else if (userName.contains("@"))
             {
                 strDomain = null;
+            }
+            else
+            {
+                // local database
+                bUseDomain = "false";
             }
             
             
@@ -127,6 +133,7 @@ public class WinServiceUserValidator implements DataValidator
             Kernel32.INSTANCE.CloseHandle(phToken.getValue());
             //userName = strDomain + "\\" + userName;
             //adata.setVariable("syracuse.winservice.username", userName);
+            adata.setVariable("syracuse.winservice.usedomain", bUseDomain);
             if (strDomain != null && ".".equals(strDomain))
             {
                 // local database

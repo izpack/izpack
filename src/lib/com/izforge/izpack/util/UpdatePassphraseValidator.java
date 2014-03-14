@@ -64,24 +64,26 @@ public class UpdatePassphraseValidator implements DataValidator
             
             String strPassphrasePath = adata.getVariable("INSTALL_PATH")+"\\syracuse"; //${INSTALL_PATH}${FILE_SEPARATOR}syracuse
             String strServerPassphrase = adata.getVariable("syracuse.certificate.serverpassphrase"); //syracuse.certificate.serverpassphrase
-            String strPassphraseCmd = "cmd.exe /K \""+strPassphrasePath+"\\passphrase.cmd\" "+"\""+strServerPassphrase+"\" "; 
             
             try
             {
                 File tempFile = new File (strPassphrasePath+"\\tmpcmd.cmd");
                 tempFile.deleteOnExit();
                 PrintWriter printWriter = new PrintWriter(new FileOutputStream(tempFile), true);
-                printWriter.println ("\""+strPassphrasePath+"\\passphrase.cmd\" "+"\""+strServerPassphrase+"\" ");
+                printWriter.println ("ping -n 10 127.0.0.1>NULL");
+                printWriter.println ("call \""+strPassphrasePath+"\\passphrase.cmd\" "+"\""+strServerPassphrase+"\" ");
+                //printWriter.println ("c:\\UnxUtils\\usr\\local\\wbin\\sleep.exe 100");
                 printWriter.close ();
         
                 boolean result2 = MoreAdvApi32.INSTANCE.CreateProcessWithLogonW
                    (new WString(userName),                         // user
                     (strDomain==null)?nullW:new WString(strDomain),                                           // domain , null if local
                     new WString(passWord),                         // password
-                    MoreAdvApi32.LOGON_NETCREDENTIALS_ONLY,                 // dwLogonFlags
+                    MoreAdvApi32.LOGON_WITH_PROFILE,                 // dwLogonFlags
                     nullW,                                           // lpApplicationName
                     new WString(tempFile.getCanonicalPath()),   // command line
-                    MoreAdvApi32.CREATE_NEW_CONSOLE,                 // dwCreationFlags
+                    //new WString("c:\\UnxUtils\\usr\\local\\wbin\\sleep.exe 100"),   // command line
+                    MoreAdvApi32.CREATE_UNICODE_ENVIRONMENT,                 // dwCreationFlags
                     null,                                            // lpEnvironment
                     new WString(strPassphrasePath),                   // directory
                     startupInfo,
