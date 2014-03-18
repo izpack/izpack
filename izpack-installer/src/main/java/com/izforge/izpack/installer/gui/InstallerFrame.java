@@ -665,13 +665,18 @@ public class InstallerFrame extends JFrame implements InstallerView
     /**
      * Quits the installer.
      * <p/>
-     * If installation is complete, this writes any uninstallation data, and shuts down.
      * If installation is incomplete, a confirmation dialog will be displayed.
+     * If installation is complete, this writes any uninstallation data, and shuts down.
      */
     void quit()
     {
         // FIXME !!! Reboot handling
-        if (installdata.isCanClose() || (!navigator.isNextEnabled() && !navigator.isPreviousEnabled()))
+        if(!installdata.isCanClose())
+        {
+            // The installation is not over
+            confirmExit();
+        }
+        else
         {
             if (!writeUninstallData())
             {
@@ -681,11 +686,6 @@ public class InstallerFrame extends JFrame implements InstallerView
                 //                         registry changes
             }
             shutdown();
-        }
-        else
-        {
-            // The installation is not over
-            confirmExit();
         }
     }
 

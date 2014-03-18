@@ -368,7 +368,7 @@ public class DefaultNavigator implements Navigator
     }
 
     /**
-     * Quits installation, if quit is enabled, and installation is complete.
+     * Quits installation, if quit is enabled.
      * <p/>
      * This method does not return if the quit is accepted.
      */
