@@ -6,9 +6,12 @@ package com.izforge.izpack.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.DataValidator;
+import com.izforge.izpack.installer.DataValidator.Status;
 import com.izforge.izpack.util.os.MoreAdvApi32;
 import com.sun.jna.WString;
 import com.sun.jna.platform.win32.Kernel32;
@@ -16,6 +19,7 @@ import com.sun.jna.platform.win32.Kernel32Util;
 import com.sun.jna.platform.win32.WinBase.PROCESS_INFORMATION;
 import com.sun.jna.platform.win32.WinBase.STARTUPINFO;
 import com.sun.jna.platform.win32.WinDef.WORD;
+import com.sun.jna.ptr.IntByReference;
 
 
 /**
@@ -28,6 +32,7 @@ public class UpdatePassphraseValidator implements DataValidator
     private String strMessage = "";
     public static final String strMessageId = "messageid";
     public static final String strMessageValue = "message.oldvalue"; // not to be stored
+    public static final int STILL_ACTIVE = 259;
 
     /* (non-Javadoc)
      * @see com.izforge.izpack.installer.DataValidator#validateData(com.izforge.izpack.installer.AutomatedInstallData)
@@ -64,16 +69,27 @@ public class UpdatePassphraseValidator implements DataValidator
             
             String strPassphrasePath = adata.getVariable("INSTALL_PATH")+"\\syracuse"; //${INSTALL_PATH}${FILE_SEPARATOR}syracuse
             String strServerPassphrase = adata.getVariable("syracuse.certificate.serverpassphrase"); //syracuse.certificate.serverpassphrase
+            String strCertsDir = adata.getVariable("syracuse.dir.certs"); // syracuse.dir.certs
+            String strHOST_NAME = adata.getVariable("HOST_NAME");
+            String strPassPhraseFile = strCertsDir+"\\"+strHOST_NAME+"\\"+strHOST_NAME+".pwd";
             
             try
             {
-                File tempFile = new File (strPassphrasePath+"\\tmpcmd.cmd");
+                
+                //delete old passphrase ?
+                File oldPassphrase = new File (strPassPhraseFile);
+                if (oldPassphrase.exists() && !oldPassphrase.delete()) throw new Exception(strPassPhraseFile);
+
+                
+                File tempFile = new File(strPassphrasePath+"\\tmpcmd.cmd");
                 tempFile.deleteOnExit();
                 PrintWriter printWriter = new PrintWriter(new FileOutputStream(tempFile), true);
-                printWriter.println ("ping -n 10 127.0.0.1>NULL");
-                printWriter.println ("call \""+strPassphrasePath+"\\passphrase.cmd\" "+"\""+strServerPassphrase+"\" ");
-                //printWriter.println ("c:\\UnxUtils\\usr\\local\\wbin\\sleep.exe 100");
+                printWriter.println ("ping -n 5 127.0.0.1>NUL");
+                
+                printWriter.println ("\""+strPassphrasePath+"\\passphrase.cmd\" \""+strServerPassphrase+"\" 1>out.log 2>err.log");
+                printWriter.println ("if errorlevel 1 exit /B 1");
                 printWriter.close ();
+                String strcommand = "/C /E:ON \""+tempFile.getCanonicalPath()+"\" \""+strServerPassphrase+"\"";
         
                 boolean result2 = MoreAdvApi32.INSTANCE.CreateProcessWithLogonW
                    (new WString(userName),                         // user
@@ -88,7 +104,7 @@ public class UpdatePassphraseValidator implements DataValidator
                     new WString(strPassphrasePath),                   // directory
                     startupInfo,
                     processInformation);
-        
+                
                     if (!result2) 
                     {
                       int error = Kernel32.INSTANCE.GetLastError();
@@ -98,13 +114,86 @@ public class UpdatePassphraseValidator implements DataValidator
                       strMessage = "OS error #" + error + " - " + Kernel32Util.formatMessageFromLastErrorCode(error);
                       
                       adata.setVariable(strMessageValue, strMessage);
-                      sreturn = Status.WARNING;
+                      return Status.WARNING;
                       
                     }
+                    
+                    // join the process ?
+                    boolean bFinished = false;
+                    int loop = 0;
+                    
+                    while (!bFinished)
+                    {    
+                    
+                        IntByReference lpExitCode = new IntByReference(9999);
+                        result2 = Kernel32.INSTANCE.GetExitCodeProcess(processInformation.hProcess, lpExitCode) ; 
+    
+                        if (!result2) 
+                        {
+                          int error = Kernel32.INSTANCE.GetLastError();
+                          //System.out.println("OS error #" + error);
+                          //System.out.println(Kernel32Util.formatMessageFromLastErrorCode(error));
+                          
+                          strMessage = "OS error #" + error + " - " + Kernel32Util.formatMessageFromLastErrorCode(error);
+                          
+                          adata.setVariable(strMessageValue, strMessage);
+                          return Status.WARNING;
+                          
+                        }
+    
+                        if (lpExitCode.getValue() != STILL_ACTIVE)
+                        {
+                            // process has finished
+                            // how to interpret exit code ?
+                            int nexitCode = lpExitCode.getValue(); 
+                            bFinished = true;
+                        }
+                        
+                        loop+=1;
+                        
+                        if (loop > 30)
+                        {
+                            // more than 30 s !
+                            strMessage = "Error # Could not update passphrase ! ("+strPassPhraseFile+")";
+                            
+                            adata.setVariable(strMessageValue, strMessage);
+                            return Status.WARNING;
+                            
+                        }
+                        
+                        // process is not finished
+                        // wait a little
+                        Thread.sleep(1000);
+                    }
+                    
+                    // read err and out
+                    String strErr = new String(Files.readAllBytes(Paths.get(strPassphrasePath+"\\err.log")));
+                    File strOutFile = new File (strPassphrasePath+"\\out.log");
+                    File strErrFile = new File (strPassphrasePath+"\\err.log");
+                    
+                    strOutFile.delete ();
+                    strErrFile.delete ();
+                    
+                    // test for passphrase ?
+                    if (!oldPassphrase.exists())
+                    {
+                        strMessage = "Error # Passphrase update failed ! ("+strPassPhraseFile+")\r\n"+strErr;
+                        
+                        adata.setVariable(strMessageValue, strMessage);
+                        return Status.WARNING;
+                    }
+                    
+                    
             }
             catch (Exception ex)
             {
+                Debug.trace(ex);
+                Debug.trace(ex.getMessage());
                 
+                strMessage = "OS error #" + ex.getMessage();
+                
+                adata.setVariable(strMessageValue, strMessage);
+                sreturn = Status.WARNING;
             }
         }
         
