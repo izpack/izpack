@@ -40,8 +40,12 @@ public class UpdatePassphraseValidator implements DataValidator
     public Status validateData(AutomatedInstallData adata)
     {
         Status sreturn = Status.OK;
+
+        boolean updateMode = (adata.getVariable("MODIFY.IZPACK.INSTALL")=="true");
+        boolean createCertificate = (adata.getVariable("syracuse.certificate.install")=="true");
         
-        if (OsVersion.IS_WINDOWS)
+        
+        if (OsVersion.IS_WINDOWS && updateMode && createCertificate)
         {
         
             String userName = adata.getVariable("syracuse.winservice.username");
