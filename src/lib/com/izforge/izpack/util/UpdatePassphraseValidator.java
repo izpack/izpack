@@ -41,8 +41,8 @@ public class UpdatePassphraseValidator implements DataValidator
     {
         Status sreturn = Status.OK;
 
-        boolean updateMode = (adata.getVariable("MODIFY.IZPACK.INSTALL")=="true");
-        boolean createCertificate = (adata.getVariable("syracuse.certificate.install")=="true");
+        boolean updateMode = adata.getVariable("MODIFY.IZPACK.INSTALL").equalsIgnoreCase("true");
+        boolean createCertificate = adata.getVariable("syracuse.certificate.install").equalsIgnoreCase("true");
         
         
         if (OsVersion.IS_WINDOWS && updateMode && createCertificate)
