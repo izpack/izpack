@@ -66,7 +66,7 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
         }
         
         // controls # of lines to display at a time, to allow simulated scrolling down
-        int lines=25;
+        int lines=12;
         int l = 0;
         
         StringTokenizer st = new StringTokenizer(license, "\n");
@@ -74,6 +74,7 @@ public class LicencePanelConsoleHelper extends PanelConsoleHelper implements Pan
         {
              String token = st.nextToken();
              System.out.println(token);
+             System.out.println();
              l++;
              if (l >= lines) {
                  int strIn = doContinue(idata); 
