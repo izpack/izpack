@@ -59,6 +59,7 @@ public class InstallerBase
      * Resource name of the conditions specification
      */
     private static final String CONDITIONS_SPECRESOURCENAME = "conditions.xml";
+    private static final String INSTALLER = "INSTALLER";
 
     private RulesEngine rules;
     private List<InstallerRequirement> installerrequirements;
@@ -249,6 +250,19 @@ public class InstallerBase
         installdata.setVariable(ScriptParser.IP_ADDRESS, IPAddress);
         installdata.setVariable(ScriptParser.HOST_NAME, hostname);
         installdata.setVariable(ScriptParser.FILE_SEPARATOR, File.separator);
+        
+        if (this instanceof ConsoleInstaller)
+        {
+            installdata.setVariable(INSTALLER, "console");
+        } 
+        else if (this instanceof GUIInstaller)
+        {
+            installdata.setVariable(INSTALLER, "gui");
+        }
+        else 
+        {
+            installdata.setVariable(INSTALLER, "automated");
+        }
 
         Enumeration e = System.getProperties().keys();
         while (e.hasMoreElements())
