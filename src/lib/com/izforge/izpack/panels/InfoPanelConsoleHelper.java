@@ -65,7 +65,7 @@ public class InfoPanelConsoleHelper extends PanelConsoleHelper implements PanelC
         }
         
         // controls # of lines to display at a time, to allow simulated scrolling down
-        int lines=25;
+        int lines=12;
         int l = 0;
         
         StringTokenizer st = new StringTokenizer(readme, "\n");
@@ -73,6 +73,7 @@ public class InfoPanelConsoleHelper extends PanelConsoleHelper implements PanelC
         {
              String token = st.nextToken();
              System.out.println(token);
+             System.out.println();
              l++;
              if (l >= lines) {
                  int strIn = doContinue(installData); 
