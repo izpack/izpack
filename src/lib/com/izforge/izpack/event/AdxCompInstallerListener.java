@@ -223,6 +223,19 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
             Node nodeVersion = (Node) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']/component."+family.toLowerCase()+".version").evaluate(xdoc, XPathConstants.NODE);
             nodeVersion.setTextContent(version);
             
+            if (family.equalsIgnoreCase("RUNTIME"))
+            {
+                //SAM (Syracuse) 99562 New Bug 'Performance issue with Oracle Instant Client'
+                // do not use instant client by default but only when n-tiers
+
+                //runtime.odbc.dbhome
+                Node nodedbhome = (Node) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']/runtime.odbc.dbhome").evaluate(xdoc, XPathConstants.NODE);
+                nodedbhome.setTextContent("");
+                //runtime.odbc.forcedblink
+                Node nodedblink = (Node) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']/runtime.odbc.forcedblink").evaluate(xdoc, XPathConstants.NODE);
+                nodedblink.setTextContent("False");
+                
+            }
             
         }
         else
