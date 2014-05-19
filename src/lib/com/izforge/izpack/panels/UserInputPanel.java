@@ -44,6 +44,7 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -60,6 +61,7 @@ import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
@@ -1118,8 +1120,12 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
     /*--------------------------------------------------------------------------*/
     private void buildUI()
     {
+        
         for (UIElement element : elements)
         {
+            
+            //element.getComponent().setBorder(BorderFactory.createLineBorder(Color.black));
+            
             if (itemRequiredFor(element.getForPacks()) && itemRequiredForOs(element.getForOs()))
             {
                 if (!element.isDisplayed())
@@ -1885,7 +1891,9 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         String variable = spec.getAttribute(VARIABLE);
         TextValuePair listItem = null;
         JComboBox field = new JComboBox();
+        //field.setRenderer(new DefaultListCellRenderer());
         field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),BorderFactory.createEmptyBorder(6, 5, 6, 0)));
+        //field.setBorder(BorderFactory.createLineBorder(Color.black));
 
         
         JLabel label;
@@ -2036,6 +2044,8 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
 
         // uiElements
         // .add(new Object[] { null, FIELD_LABEL, null, constraints, label, forPacks, forOs});
+        JPanel tmppanel = new JPanel();
+        tmppanel.add(field);
 
         TwoColumnConstraints constraints2 = new TwoColumnConstraints();
         constraints2.position = TwoColumnConstraints.EAST;
@@ -2043,7 +2053,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         UIElement comboUiElement = new UIElement();
         comboUiElement.setType(UIElementType.COMBOBOX);
         comboUiElement.setConstraints(constraints2);
-        comboUiElement.setComponent(field);
+        comboUiElement.setComponent(tmppanel);
         comboUiElement.setForPacks(forPacks);
         comboUiElement.setForOs(forOs);
         comboUiElement.setAssociatedVariable(variable);
