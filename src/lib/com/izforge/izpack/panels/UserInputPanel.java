@@ -2081,7 +2081,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         try
         {
             variable = (String) field.getAssociatedVariable();
-            comboBox = (JComboBox) field.getComponent();
+            comboBox = (JComboBox) ((JPanel) field.getComponent()).getComponent(0);
             value = ((TextValuePair) comboBox.getSelectedItem()).getValue();
         }
         catch (Throwable exception)
