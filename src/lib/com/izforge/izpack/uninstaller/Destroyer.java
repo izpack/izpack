@@ -30,6 +30,8 @@ import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.os.unix.ShellScript;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 
@@ -99,11 +101,33 @@ public class Destroyer extends Thread
             // We get the original uninstaller location
             String uninstallerLoc = getUninstalllocation();
             
-            ArrayList<File> files = getFilesList();
-            int size = files.size();
+            //ArrayList<File> files = getFilesList();
+            //int size = files.size();
+            
+            
+            
+            ///////////////////////////////////////////////////////////////
+            InputStream in = Destroyer.class.getResourceAsStream("/install.log");
+            InputStreamReader inReaderCount = new InputStreamReader(in);
+            
+            BufferedReader readerCount = new BufferedReader(inReaderCount);
+            int lines = 0;
+            while (readerCount.readLine() != null) lines++;
+            readerCount.close();     
+            
+            ///////////////////////////////////////////////////////////////
+            in = Destroyer.class.getResourceAsStream("/install.log");
+            InputStreamReader inReader = new InputStreamReader(in);
+            BufferedReader reader = new BufferedReader(inReader);
+
+            // We skip the first line (the installation path)
+            reader.readLine();
+            int size = 1;
+            ///////////////////////////////////////////////////////////////
+            
 
             // Custem action listener stuff --- beforeDeletion ----
-            informListeners(listeners[0], UninstallerListener.BEFORE_DELETION, files, handler);
+            informListeners(listeners[0], UninstallerListener.BEFORE_DELETION, null, handler);
             
             FileExecutor executor = new FileExecutor(executables);
             executor.executeFiles(ExecutableFile.UNINSTALL, this.handler);
@@ -111,29 +135,54 @@ public class Destroyer extends Thread
             // should we wait a little to release all handles ?
             Thread.sleep(6000);
 
-            handler.startAction("destroy", size);
+            handler.startAction("destroy", lines);
 
             // We destroy the files
-            for (int i = 0; i < size; i++)
+            //for (int i = 0; i < size; i++)
+            //{
+                //File file = files.get(i);
+            
+            ///////////////////////////////////////////////////////////////
+            
+            
+            // We read it
+            String read = reader.readLine();
+            while (read != null)
             {
-                File file = files.get(i);
+                File file = new File(read);
+                size=size+1;
 
                 if (!deleteSelf || !file.getAbsoluteFile().equals(uninstallerLoc))
                 {
                     // Custem action listener stuff --- beforeDelete ----
                     informListeners(listeners[1], UninstallerListener.BEFORE_DELETE, file, handler);
     
-                    file.delete();
+                    //file.delete();
+                    Files.deleteIfExists(file.toPath());
     
                     // Custem action listener stuff --- afterDelete ----
                     informListeners(listeners[1], UninstallerListener.AFTER_DELETE, file, handler);
                 }
 
-                handler.progress(i, file.getAbsolutePath());
+                handler.progress(size, read);
+                
+                
+                read = reader.readLine();
+
+            
+            
             }
+            
+
+                
+                
+                
+                ///////////////////////////////////////////////////////////////
+                
+            //}
 
             // Custem action listener stuff --- afterDeletion ----
-            informListeners(listeners[0], UninstallerListener.AFTER_DELETION, files, handler);
+            informListeners(listeners[0], UninstallerListener.AFTER_DELETION, null, handler);
 
             if (OsVersion.IS_UNIX)
             {
@@ -224,7 +273,8 @@ public class Destroyer extends Thread
     private ArrayList<File> getFilesList() throws Exception
     {
         // Initialisations
-        TreeSet<File> files = new TreeSet<File>(Collections.reverseOrder());
+        ArrayList<File> files = new ArrayList<File>(250000);
+        //TreeSet<File> files = new TreeSet<File>(Collections.reverseOrder());
         InputStream in = Destroyer.class.getResourceAsStream("/install.log");
         InputStreamReader inReader = new InputStreamReader(in);
         BufferedReader reader = new BufferedReader(inReader);
@@ -239,9 +289,12 @@ public class Destroyer extends Thread
             files.add(new File(read));
             read = reader.readLine();
         }
+        
+        Collections.sort(files, Collections.reverseOrder());
 
         // We return it
-        return new ArrayList<File>(files);
+        //return new ArrayList<File>(files);
+        return files;
     }
 
     /**
