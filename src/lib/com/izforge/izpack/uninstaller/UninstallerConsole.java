@@ -37,6 +37,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,48 +82,54 @@ public class UninstallerConsole
      */
     public void runUninstall(boolean destroy)
     {
-        
-        // we must test here if we are an adxadmin setup
-        // thus allowing to test that there are no components installed anymore in the file adxinstall.xml
-        if (UninstallerConsole.class.getResource("/is-adxadmin")!=null)
+        try
         {
-            File adxinstall = new File (installPath+"/inst/adxinstalls.xml");
-            if (adxinstall.exists())
+        
+            // we must test here if we are an adxadmin setup
+            // thus allowing to test that there are no components installed anymore in the file adxinstall.xml
+            if (UninstallerConsole.class.getResource("/is-adxadmin")!=null)
             {
-                try
+                File adxinstall = new File (installPath+"/inst/adxinstalls.xml");
+                if (adxinstall.exists())
                 {
-                    IXMLParser parser = new XMLParser();
-                    IXMLElement data = null;
-                    data = parser.parse(new FileInputStream(adxinstall),adxinstall.getAbsolutePath());
-                    
-                    if (data.hasChildren() && data.getFirstChildNamed("module")!=null)
+                    try
                     {
-                        // remaining modules children
-                        // cancel installation !
+                        IXMLParser parser = new XMLParser();
+                        IXMLElement data = null;
+                        data = parser.parse(new FileInputStream(adxinstall),adxinstall.getAbsolutePath());
                         
-                        System.out.println (langpack.getString("uninstaller.adxadmin.remainingmodules"));
+                        if (data.hasChildren() && data.getFirstChildNamed("module")!=null)
+                        {
+                            // remaining modules children
+                            // cancel installation !
+                            
+                            System.out.println (langpack.getString("uninstaller.adxadmin.remainingmodules"));
+                            return;
+                        }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        System.out.println (langpack.getString("uninstaller.adxadmin.errparseadxinstall"));
                         return;
                     }
-                    
                 }
-                catch (Exception ex)
-                {
-                    System.out.println (langpack.getString("uninstaller.adxadmin.errparseadxinstall"));
-                    return;
-                }
+                
+                // delete adxadm file
+                String stradxadmfile = "c:\\sage\\adxadm";
+                if (OsVersion.IS_UNIX) stradxadmfile = "/sage/adxadm";
+                File adxadmfile = new File(stradxadmfile);
+                Files.deleteIfExists(adxadmfile.toPath());
             }
-        }
-        
-        Destroyer destroyer = new Destroyer(installPath,
-                destroy, true, new DestroyerHandler());
-        destroyer.start();
+            
+            Destroyer destroyer = new Destroyer(installPath,
+                    destroy, true, new DestroyerHandler());
+            destroyer.start();
         
         
         // on windows platform
         // self delete must be delayed
         
-        try
-        {
             destroyer.join();
         
             if (OsVersion.IS_WINDOWS)

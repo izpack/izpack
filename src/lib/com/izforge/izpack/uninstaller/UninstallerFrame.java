@@ -27,6 +27,7 @@ import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.util.AbstractUIHandler;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.OsVersion;
 
 import javax.swing.*;
 
@@ -38,6 +39,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Files;
 
 /**
  * The uninstaller frame class.
@@ -364,6 +366,20 @@ public class UninstallerFrame extends JFrame
                         return;
                     }
                 }
+                
+                try
+                {
+                    // delete adxadm file
+                    String stradxadmfile = "c:\\sage\\adxadm";
+                    if (OsVersion.IS_UNIX) stradxadmfile = "/sage/adxadm";
+                    File adxadmfile = new File(stradxadmfile);
+                    Files.deleteIfExists(adxadmfile.toPath());
+                }
+                catch (Exception ex)
+                {
+                    // nothing, we don't care
+                }
+                
             }
             
         }

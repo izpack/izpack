@@ -174,38 +174,150 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
         {
             // unix case
             // search for /sage/adxadm
-            
-            File adxadmFile = new File ("/sage/adxadm");
-            if (adxadmFile.exists())
+            if (OsVersion.IS_UNIX)
             {
-                // il semble que ce soit une mise a jour
-                // on positionne update mode
-                // puis on charge .installinformation
-                
-                try
+            
+                File adxadmFileUnix = new File ("/sage/adxadm");
+                if (adxadmFileUnix.exists())
                 {
-                    String adxadmPath = readFile (OsVersion.IS_UNIX?"/sage/adxadm":"c:\\sage\\adxadm", Charset.defaultCharset());
-                    adxadmPath = adxadmPath.replace("\r\n", "").replace("\n", "").trim();
-                    String installInformation = adxadmPath+"/"+AutomatedInstallData.INSTALLATION_INFORMATION;
-                    File installInformationFile = new File (installInformation);
-                    if (!installInformationFile.exists())
+                    // il semble que ce soit une mise a jour
+                    // on positionne update mode
+                    // puis on charge .installinformation
+                    
+                    try
+                    {
+                        String adxadmPath = readFile ("/sage/adxadm", Charset.defaultCharset());
+                        adxadmPath = adxadmPath.replace("\r\n", "").replace("\n", "").trim();
+                        String installInformation = adxadmPath+"/"+AutomatedInstallData.INSTALLATION_INFORMATION;
+                        File installInformationFile = new File (installInformation);
+                        if (!installInformationFile.exists())
+                        {
+                            System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                            return false;
+                        }
+                        else
+                        {
+                            // relecture installInformation
+                            idata.setInstallPath(adxadmPath);
+                            // positionnement update
+                            Debug.trace("modification installation");
+                            idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                            
+                        }
+                    }
+                    catch (IOException e)
                     {
                         System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
                         return false;
                     }
-                    else
+                    
+                }
+                else
+                {
+                    // adxadmin V6 ?
+                    // in /adonix/adxadm
+                    adxadmFileUnix = new File ("/adonix/adxadm");
+                    if (adxadmFileUnix.exists())
                     {
-                        // relecture installInformation
-                        idata.setInstallPath(adxadmPath);
-                        // positionnement update
-                        Debug.trace("modification installation");
-                        idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
-                        
+                        try
+                        {
+                            String adxadmPath = readFile ("/sage/adxadm", Charset.defaultCharset());
+                            adxadmPath = adxadmPath.replace("\r\n", "").replace("\n", "").trim();
+                            
+                            System.out.println(idata.langpack.getString( "adxadminV6found"));
+                            System.out.println(adxadmPath);
+                            return false;
+                            
+                        }
+                        catch (IOException e)
+                        {
+                            System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                            return false;
+                        }
+                       
+                    }
+                    
+                    
+                }
+            }
+            else
+            {
+                try
+                {
+                    String strAdxAdminPath = "";
+                    // win32 pltaform
+                    // vérifier la présence d'un adxadmin
+                    RegistryHandler rh = RegistryDefaultHandler.getInstance();
+                    if (rh != null)
+                    {
+        
+                        rh.verify(idata);
+        
+                        // test adxadmin déjà installé avec registry
+                        if (rh.adxadminProductRegistered())
+                        {
+                            // adxadmin ok
+                            // read path and test for .installationinformation
+                            
+                            String keyName = "SOFTWARE\\Adonix\\X3RUNTIME\\ADXADMIN";
+                            int oldVal = rh.getRoot();
+                            rh.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
+                            if (!rh.valueExist(keyName, "ADXDIR")) 
+                            {
+                                keyName = "SOFTWARE\\Wow6432Node\\Adonix\\X3RUNTIME\\ADXADMIN";
+                                if (!rh.valueExist(keyName, "ADXDIR")) 
+                                {
+                                    System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                                    // free RegistryHandler
+                                    rh.setRoot(oldVal);
+                                    return false;
+                                }
+                                else
+                                {
+                                    // adxadmin 32bits
+                                    // récup path
+                                    strAdxAdminPath = rh.getValue(keyName, "ADXDIR").getStringData();                            
+                                }
+                            }
+                            else
+                            {
+                                // récup path
+                                strAdxAdminPath = rh.getValue(keyName, "ADXDIR").getStringData();                            
+                            }
+                            
+                            // free RegistryHandler
+                            rh.setRoot(oldVal);
+
+                            // test .installationinformation
+                            File fInstallINf = new File (strAdxAdminPath+ File.separator + AutomatedInstallData.INSTALLATION_INFORMATION);
+                            
+                            if (!fInstallINf.exists())
+                            {
+                                //adxadmin V6
+                                System.out.println(idata.langpack.getString( "adxadminV6found"));
+                                System.out.println(strAdxAdminPath);
+                                return false;
+                                
+                            }
+                            else
+                            {
+                                // relecture installInformation
+                                idata.setInstallPath(strAdxAdminPath);
+                                // positionnement update
+                                Debug.trace("modification installation");
+                                idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                                
+                            }
+                            
+                            
+                        }
                     }
                 }
-                catch (IOException e)
-                {
-                    System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                catch (Exception e)
+                { // Will only be happen if registry handler is good, but an
+                    // exception at performing was thrown. This is an error...
+                    Debug.log(e);
+                    System.out.println(idata.langpack.getString( "installer.error"));
                     return false;
                 }
                 
