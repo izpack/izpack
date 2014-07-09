@@ -62,6 +62,8 @@ public class Destroyer extends Thread
      * the destroyer listener.
      */
     private AbstractUIProgressHandler handler;
+    
+    private Integer size = new Integer (1);
 
     /**
      * The constructor.
@@ -86,6 +88,63 @@ public class Destroyer extends Thread
         this.deleteSelf = false;
     }
 
+    
+    public void delete(String read, boolean recursive, List[] listeners, String uninstallerLoc,  ArrayList<String> postponedDirectoriesToDelete) {
+        File file = new File (read);
+        if (file.exists()) {
+
+            if (!file.isDirectory())
+            {
+                if (!deleteSelf || !file.getAbsoluteFile().equals(uninstallerLoc))
+                {
+                    // Custem action listener stuff --- beforeDelete ----
+                    informListeners(listeners[1], UninstallerListener.BEFORE_DELETE, file, handler);
+    
+                    file.delete();
+    
+                    // Custem action listener stuff --- afterDelete ----
+                    informListeners(listeners[1], UninstallerListener.AFTER_DELETE, file, handler);
+                }
+                
+                size=size+1;
+    
+                handler.progress(size, read);
+                
+                return;
+                
+            }
+            else {
+                
+                if (recursive) {
+                    String[] list = file.list();
+                    for (int i = 0; i < list.length; i++) {
+                        delete(read + File.separator + list[i], true, listeners, uninstallerLoc, postponedDirectoriesToDelete);
+                    }
+                }
+            }
+                
+            // try to delete directory
+            // if not possible try later
+            informListeners(listeners[1], UninstallerListener.BEFORE_DELETE, file, handler);
+            if (!file.delete()) {
+                postponedDirectoriesToDelete.add(read);
+            }
+            else {
+                informListeners(listeners[1], UninstallerListener.AFTER_DELETE, file, handler);
+                
+                size=size+1;
+                
+                handler.progress(size, read);
+            }
+                
+        }
+//        else {
+//            size=size+1;
+//            handler.progress(size, read);
+//        }
+            
+    }    
+    
     /**
      * The run method.
      */
@@ -97,6 +156,7 @@ public class Destroyer extends Thread
             List[] listeners = getListenerLists();
             // We get the list of the files to delete
             ArrayList<ExecutableFile> executables = getExecutablesList();
+            ArrayList<String> postponedDirectoriesToDelete = new ArrayList<String>();
 
             // We get the original uninstaller location
             String uninstallerLoc = getUninstalllocation();
@@ -122,7 +182,7 @@ public class Destroyer extends Thread
 
             // We skip the first line (the installation path)
             reader.readLine();
-            int size = 1;
+
             ///////////////////////////////////////////////////////////////
             
 
@@ -150,27 +210,20 @@ public class Destroyer extends Thread
             while (read != null)
             {
                 File file = new File(read);
-                size=size+1;
-
-                if (!deleteSelf || !file.getAbsoluteFile().equals(uninstallerLoc))
-                {
-                    // Custem action listener stuff --- beforeDelete ----
-                    informListeners(listeners[1], UninstallerListener.BEFORE_DELETE, file, handler);
-    
-                    //file.delete();
-                    Files.deleteIfExists(file.toPath());
-    
-                    // Custem action listener stuff --- afterDelete ----
-                    informListeners(listeners[1], UninstallerListener.AFTER_DELETE, file, handler);
-                }
-
-                handler.progress(size, read);
-                
+                delete(read , true, listeners, uninstallerLoc, postponedDirectoriesToDelete);
                 
                 read = reader.readLine();
-
+            }
             
-            
+            for (String directory: postponedDirectoriesToDelete )
+            {
+                File dirFile = new File (directory);
+                dirFile.delete();
+                
+                informListeners(listeners[1], UninstallerListener.AFTER_DELETE, dirFile, handler);
+                size=size+1;
+                
+                handler.progress(size, read);
             }
             
 
