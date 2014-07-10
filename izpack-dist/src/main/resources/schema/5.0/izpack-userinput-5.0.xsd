@@ -178,7 +178,7 @@
                     </xs:attribute>
                     <xs:attribute name="mustExist" type="xs:boolean" use="optional" default="true">
                         <xs:annotation>
-                            <xs:documentation>Used by "dir" fields</xs:documentation>
+                            <xs:documentation>Used by "dir", file fields</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                     <xs:attribute name="layout" type="xs:string" use="optional">
