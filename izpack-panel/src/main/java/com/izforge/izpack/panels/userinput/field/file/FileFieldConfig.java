@@ -52,4 +52,10 @@ public interface FileFieldConfig extends FieldConfig
      */
     boolean getAllowEmptyValue();
 
+    /**
+     * Determine if the file must exist.
+     *
+     * @return  @return {@code true} if file must exist
+     */
+    boolean mustExist();
 }

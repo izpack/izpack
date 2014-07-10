@@ -91,4 +91,10 @@ public class TestDirFieldConfig extends TestFileFieldConfig implements DirFieldC
     {
         this.create = create;
     }
+
+    @Override
+    public boolean mustExist()
+    {
+        return true;
+    }
 }

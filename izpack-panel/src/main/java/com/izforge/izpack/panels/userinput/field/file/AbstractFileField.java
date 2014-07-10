@@ -53,6 +53,11 @@ public class AbstractFileField extends Field
 
 
     /**
+     * Determines if the file must exist
+     */
+    protected final boolean mustExist;
+
+    /**
      * Constructs an {@code AbstractFileField}.
      *
      * @param config      the configuration to get field information from
@@ -65,6 +70,7 @@ public class AbstractFileField extends Field
         fileExtension = config.getFileExtension();
         fileExtensionDescription = config.getFileExtensionDescription();
         allowEmptyValue = config.getAllowEmptyValue();
+        mustExist = config.mustExist();
     }
 
     /**
@@ -96,6 +102,17 @@ public class AbstractFileField extends Field
     {
         return allowEmptyValue;
     }
+
+    /**
+     * Determines if the file must exist
+     *
+     * @return {@code true} if the file must exist, otherwise {@code false}
+     */
+    public boolean isMustExist()
+    {
+        return mustExist;
+    }
+
 
     /**
      * Returns the absolute file for the specified path, expanding any unix home reference (~).

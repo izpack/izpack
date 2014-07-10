@@ -143,7 +143,7 @@ public class FileFieldView
     protected boolean validate(File value)
     {
         boolean result = false;
-        if (value.isFile())
+        if (!field.mustExist || value.isFile())
         {
             result = true;
         }

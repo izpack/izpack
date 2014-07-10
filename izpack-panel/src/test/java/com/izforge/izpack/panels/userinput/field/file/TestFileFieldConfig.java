@@ -80,6 +80,12 @@ public class TestFileFieldConfig extends TestFieldConfig implements FileFieldCon
         return false;
     }
 
+    @Override
+    public boolean mustExist()
+    {
+        return true;
+    }
+
     /**
      * Determines if empty input values are allowed.
      *

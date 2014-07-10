@@ -76,4 +76,14 @@ public abstract class AbstractFileFieldReader extends FieldReader implements Fil
     {
         return getConfig().getBoolean(getSpec(), "allowEmptyValue", false);
     }
+
+    /**
+     * Determine if the file must exist.
+     *
+     * @return {@code true} if file must exist
+     */
+    public boolean mustExist()
+    {
+        return getConfig().getBoolean(getSpec(), "mustExist", true);
+    }
 }
