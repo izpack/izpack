@@ -68,7 +68,12 @@ public class AbstractConsoleFileField extends ConsoleField
         printDescription();
         AbstractFileField field = getField();
         String initialValue = field.getInitialValue();
-        String prompt = field.getLabel() + "[" + ((initialValue != null) ? initialValue : "") + "] ";
+        String label = field.getLabel();
+        if (label == null)
+        {
+            label = "";
+        }
+        String prompt = label + "[" + ((initialValue != null) ? initialValue : "") + "] ";
         String path = getConsole().promptLocation(prompt, null);
         if (path != null)
         {
