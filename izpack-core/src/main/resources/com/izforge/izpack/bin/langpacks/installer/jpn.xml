@@ -58,6 +58,7 @@
     <str id="SimpleFinishPanel.headline" txt="�C���X�g�[������"/>
     <str id="SummaryPanel.headline" txt="�ݒ��f�[�^�̃T�}��"/>
     <str id="TargetPanel.headline" txt="�C���X�g�[����"/>
+    <str id="TreePacksPanel.headline" txt="�C���X�g�[���p�b�P�[�W�̑I��"/>
     <str id="UserInputPanel.headline" txt="���[�U�f�[�^"/>
     <str id="UserPathPanel.headline" txt="�p�X�̑I��"/>
     <str id="InstallationTypePanel.headline" txt="�C���X�g�[���̎���"/>

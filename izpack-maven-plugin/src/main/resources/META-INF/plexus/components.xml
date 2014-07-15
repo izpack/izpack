@@ -44,14 +44,14 @@
     </component>
     <component>
       <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
-      <role-hint>izpack</role-hint>
+      <role-hint>izpack-jar</role-hint>
       <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
       <configuration>
         <type>izpack</type>
-        <includesDependencies>false</includesDependencies>
+        <includesDependencies>true</includesDependencies>
         <language>java</language>
         <extension>jar</extension>
-        <addedToClasspath>true</addedToClasspath>
+        <addedToClasspath>false</addedToClasspath>
         <packaging>izpack-jar</packaging>
       </configuration>
     </component>

@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.panels.target;
 
+import java.io.File;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -62,12 +64,8 @@ public class TargetPanel extends PathInputPanel
     @Override
     public void panelActivate()
     {
-        // load the default directory info (if present)
-        String path = installData.getInstallPath();
-        if (path == null) 
-        {
-            path = TargetPanelHelper.getPath(installData);
-        }
+       String path = TargetPanelHelper.getPath(installData);
+
         if (path != null)
         {
             pathSelectionPanel.setPath(path);
@@ -76,18 +74,26 @@ public class TargetPanel extends PathInputPanel
         super.panelActivate();
     }
 
-    /**
-     * Indicates whether the panel has been validated or not.
-     *
-     * @return Whether the panel has been validated or not.
-     */
+    @Override
+    public void saveData()
+    {
+        String path = pathSelectionPanel.getPath();
+        installData.setInstallPath(path);
+    }
+
     @Override
     public boolean isValidated()
     {
         boolean result = false;
+        File targetPathFile = new File(getPath());
         if (TargetPanelHelper.isIncompatibleInstallation(getPath()))
         {
             emitError(getString("installer.error"), getString("TargetPanel.incompatibleInstallation"));
+        }
+        else if (targetPathFile.isFile())
+        {
+            emitError(getString("installer.error"), getString(getI18nStringForClass("isfile", "PathInputPanel")));
+            return false;
         }
         else if (super.isValidated())
         {
@@ -98,27 +104,16 @@ public class TargetPanel extends PathInputPanel
         return result;
     }
 
-    /**
-     * Asks to make the XML panel installDataGUI.
-     *
-     * @param panelRoot The tree to put the installDataGUI in.
-     */
     @Override
-    public void makeXMLData(IXMLElement panelRoot)
+    public void createInstallationRecord(IXMLElement panelRoot)
     {
-        new TargetPanelAutomation().makeXMLData(installData, panelRoot);
+        new TargetPanelAutomation().createInstallationRecord(installData, panelRoot);
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.izforge.izpack.installer.IzPanel#getSummaryBody()
-     */
 
     @Override
     public String getSummaryBody()
     {
-        return (this.installData.getInstallPath());
+        return (installData.getInstallPath());
     }
 
 }

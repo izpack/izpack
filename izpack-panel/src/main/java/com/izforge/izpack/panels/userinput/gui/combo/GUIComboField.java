@@ -21,15 +21,14 @@
 
 package com.izforge.izpack.panels.userinput.gui.combo;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.JComboBox;
-
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
+
+import javax.swing.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 
 /**
@@ -69,16 +68,18 @@ public class GUIComboField extends GUIField
         });
 
         addField(combo);
+        addTooltip();
     }
 
     /**
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
+     * @param skipValidation set to true when wanting to save field data without validating
      * @return {@code true} if the field was updated, {@code false} if the view is invalid
      */
     @Override
-    public boolean updateField(Prompt prompt)
+    public boolean updateField(Prompt prompt, boolean skipValidation)
     {
         Choice selected = (Choice) combo.getSelectedItem();
         String value = (selected != null) ? selected.getKey() : null;

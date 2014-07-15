@@ -3,7 +3,7 @@
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.0.0-rc2-SNAPSHOT</version>
+        <version>5.0.0-rc3-SNAPSHOT</version>
     </parent>    
     <modelVersion>4.0.0</modelVersion>
 

@@ -21,10 +21,6 @@
 
 package com.izforge.izpack.panels.userinput.gui.search;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.gui.ButtonFactory;
@@ -34,6 +30,8 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.panels.userinput.field.search.SearchField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
+
+import javax.swing.*;
 
 
 /**
@@ -117,16 +115,18 @@ public class GUISearchField extends GUIField
 
         addComponent(buttonPanel, new TwoColumnConstraints(TwoColumnConstraints.EASTONLY));
         searchInputField = new SearchInputField(field, frame, combo, autoDetect, browse, installData);
+        addTooltip();
     }
 
     /**
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
+     * @param skipValidation set to true when wanting to save field data without validating
      * @return {@code true} if the field was updated, {@code false} if the view is invalid
      */
     @Override
-    public boolean updateField(Prompt prompt)
+    public boolean updateField(Prompt prompt, boolean skipValidation)
     {
         getField().setValue(searchInputField.getResult());
         return true;

@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,6 @@ public class IniFormatter extends AbstractFormatter implements IniHandler
 
     @Override public void startSection(String sectionName)
     {
-        setHeader(false);
         if (!getConfig().isGlobalSection() || !sectionName.equals(getConfig().getGlobalSectionName()))
         {
             getOutput().print(IniParser.SECTION_BEGIN);

@@ -28,6 +28,7 @@
     <str id="SimpleFinishPanel.headline" txt="Instalación completada"/>
     <str id="SummaryPanel.headline" txt="Resumen de los datos de configuración"/>
     <str id="TargetPanel.headline" txt="Ruta destino"/>
+    <str id="TreePacksPanel.headline" txt="Seleccione los paquetes para la instalación"/>
     <str id="UserInputPanel.headline" txt="Datos del usuario"/>
     <str id="InstallationTypePanel.headline" txt="Tipo de instalación"/>
 

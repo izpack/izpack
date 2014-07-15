@@ -1,17 +1,17 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
  *
  * Copyright 2003 Jonathan Halliday
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,13 +40,12 @@ public interface PanelAutomation
 {
 
     /**
-     * Asks the panel to set its own XML data that can be brought back for an automated installation
-     * process. Use it as a blackbox if your panel needs to do something even in automated mode.
+     * Creates an installation record for unattended installations and adds it to a XML root element.
      *
      * @param installData The installation data
-     * @param panelRoot   The XML root element of the panels blackbox tree.
+     * @param rootElement The root element to add panel-specific child elements to
      */
-    public void makeXMLData(InstallData installData, IXMLElement panelRoot);
+    void createInstallationRecord(InstallData installData, IXMLElement rootElement);
 
     /**
      * Makes the panel work in automated mode. Default is to do nothing, but any panel doing
@@ -57,5 +56,5 @@ public interface PanelAutomation
      * @throws com.izforge.izpack.api.exception.InstallerException
      *          if the automated work  failed critically.
      */
-    public void runAutomated(InstallData installData, IXMLElement panelRoot) throws InstallerException;
+    void runAutomated(InstallData installData, IXMLElement panelRoot) throws InstallerException;
 }

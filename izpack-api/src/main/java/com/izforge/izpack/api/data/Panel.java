@@ -63,11 +63,23 @@ public class Panel implements Serializable
     private String condition;
 
     /**
-     * The validator for this panel
+     * The list of validators for this panel
      */
-    private String validator = null;
+    private List<String> validators = new ArrayList<String>();
+
+    /**
+     * The map of validator conditions for this panel depending on the validator
+     * Condition whether the validator has to be asked for validation.
+     */
+    private Map<Integer, String> validatorConditionIds = new HashMap<Integer, String>();
+
 
     private List<Action> actions;
+
+    /**
+     * Whether the panel has been visited for summarizing the installation story
+     */
+    private transient boolean visited = false;
 
     /**
      * list of all pre panel construction actions
@@ -116,10 +128,6 @@ public class Panel implements Serializable
 
     public String getPanelId()
     {
-        if (panelId == null)
-        {
-            return "UNKNOWN (" + className + ")";
-        }
         return panelId;
     }
 
@@ -161,14 +169,40 @@ public class Panel implements Serializable
         return this.condition != null;
     }
 
-    public String getValidator()
+    /**
+     * Get validator and validator condition entries for this panel
+     * @return Returns a list of validator class names and optional conditions defining
+     *  whether the panel validator should be asked at all.
+     */
+    public List<String> getValidators()
     {
-        return validator;
+        return validators;
     }
 
-    public void setValidator(String validator)
+    /**
+     * Gets a validator condition
+     * @param index
+     * @return the validator condition of a validator at the given index for this panel
+     */
+    public String getValidatorCondition(int index)
     {
-        this.validator = validator;
+        return this.validatorConditionIds.get(Integer.valueOf(index));
+    }
+
+    /**
+     * Adds a panel validator and a condition defining whether the panel validator should be asked at all.
+     * @param validatorClassName
+     * @param validatorConditionId the validator condition for this panel (set null for no condition)
+     */
+    public void addValidator(String validatorClassName, String validatorConditionId)
+    {
+        this.validators.add(validatorClassName);
+        if (validatorConditionId != null)
+        {
+            // There must be used the index in the ordered list of validators as key, because the validator
+            // has no own ID and its classname might not be unique.
+            this.validatorConditionIds.put(Integer.valueOf(validators.size()-1), validatorConditionId);
+        }
     }
 
     public List<Help> getHelps()
@@ -306,8 +340,25 @@ public class Panel implements Serializable
                 ", panelid='" + getPanelId() + '\'' +
                 ", condition='" + condition + '\'' +
                 ", actions=" + actions +
-                ", validator='" + validator + '\'' +
+                ", validator count='" + validators.size() + '\'' +
                 ", helps=" + helps +
                 '}';
+    }
+
+    /**
+     * @return Whether the panel has been visited for summarizing the installation story
+     */
+    public boolean isVisited()
+    {
+        return visited;
+    }
+
+    /**
+     * Mark panel visited for summarizing the installation story
+     * @param visited
+     */
+    public void setVisited(boolean visited)
+    {
+        this.visited = visited;
     }
 }

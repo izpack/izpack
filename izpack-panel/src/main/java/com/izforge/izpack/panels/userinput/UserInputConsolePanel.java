@@ -168,7 +168,7 @@ public class UserInputConsolePanel extends AbstractConsolePanel
             boolean rerun = false;
             for (ConsoleField field : fields)
             {
-                if (!field.display())
+                if (field.getField().isConditionTrue() && !field.display())
                 {
                     // field is invalid
                     rerun = true;

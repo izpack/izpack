@@ -35,17 +35,17 @@
         <field type="radio" variable="radioB">
             <description txt="Radio B"/>
             <spec>
-                <choice txt="Choice X" id="choice1.id" value="valueX" revalidate="true"/>
-                <choice txt="Choice Y" id="choice2.id" value="valueY" revalidate="true"/>
-                <choice txt="Choice Z" id="choice3.id" value="valueZ" revalidate="true"/>
+                <choice txt="Choice X" id="choice1.id" value="valueX" />
+                <choice txt="Choice Y" id="choice2.id" value="valueY" />
+                <choice txt="Choice Z" id="choice3.id" value="valueZ" />
             </spec>
         </field>
         <field type="radio" variable="radioC">
             <description txt="Radio C"/>
             <spec>
-                <choice txt="Choice Q" id="choice1.id" value="valueQ" revalidate="true"/>
-                <choice txt="Choice R" id="choice2.id" value="valueR" revalidate="true"/>
-                <choice txt="Choice S" id="choice3.id" value="valueS" revalidate="true" set="true"/>
+                <choice txt="Choice Q" id="choice1.id" value="valueQ" />
+                <choice txt="Choice R" id="choice2.id" value="valueR" />
+                <choice txt="Choice S" id="choice3.id" value="valueS" set="true"/>
             </spec>
         </field>
     </panel>

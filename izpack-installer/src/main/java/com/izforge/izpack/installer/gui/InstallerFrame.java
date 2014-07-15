@@ -41,7 +41,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -64,9 +63,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
-import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.adaptator.IXMLWriter;
-import com.izforge.izpack.api.adaptator.impl.XMLWriter;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.data.Panel;
@@ -350,6 +346,11 @@ public class InstallerFrame extends JFrame implements InstallerView
         this.helpButton.setName(BUTTON_HELP.id);
         this.helpButton.addActionListener(new HelpHandler());
 
+        // update navigation panel and help button mnemonic shortcuts for selected language.
+        ButtonFactory.clearAllMnemonics();
+        ButtonFactory.reserveButtonMnemonics(new JButton [] { helpButton });
+        navigator.reserveNavigatorButtonMnemonics();
+
         navPanel.add(Box.createHorizontalGlue());
         navPanel.add(navigator.getPrevious());
         navPanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -568,6 +569,7 @@ public class InstallerFrame extends JFrame implements InstallerView
                 panelsContainer.remove(oldView);
                 oldView.panelDeactivate();
             }
+
             panelsContainer.add(newView);
             installdata.setCurPanelNumber(newPanel.getIndex());
 
@@ -722,29 +724,16 @@ public class InstallerFrame extends JFrame implements InstallerView
     }
 
     /**
-     * Writes an XML tree.
+     * Writes the installation record to a file.
      *
-     * @param root The XML tree to write out.
-     * @param out  The stream to write on.
+     * @param out  The file to write to.
      * @throws Exception Description of the Exception
      */
-    public void writeXMLTree(IXMLElement root, OutputStream out) throws Exception
+    public void writeInstallationRecord(File file) throws Exception
     {
-        IXMLWriter writer = new XMLWriter(out);
-        // fix bug# 4551
-        // write.write(root);
-        for (int i = 0; i < installdata.getPanels().size(); i++)
-        {
-            IzPanel panel = installdata.getPanels().get(i);
-            if (!rules.canShowPanel(panel.getMetadata().getPanelId(), variables) ||
-            		(panel.getMetadata().hasCondition() && !rules.isConditionTrue(panel.getMetadata().getCondition(), installdata))) {
-            	continue;
-            }
-            panel.makeXMLData(installdata.getXmlData().getChildAtIndex(i));
-        }
-        writer.write(root);
-
+        panels.writeInstallationRecord(file);
     }
+
 
     /**
      * Changes the quit button text. If <tt>text</tt> is null, the default quit text is used.
@@ -996,7 +985,7 @@ public class InstallerFrame extends JFrame implements InstallerView
     class HelpHandler implements ActionListener
     {
 
-        /**
+        /**Button
          * Actions handler.
          *
          * @param e The event.

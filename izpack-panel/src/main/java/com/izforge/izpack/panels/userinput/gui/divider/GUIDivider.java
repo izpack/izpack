@@ -21,15 +21,13 @@
 
 package com.izforge.izpack.panels.userinput.gui.divider;
 
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
 import com.izforge.izpack.gui.TwoColumnConstraints;
 import com.izforge.izpack.panels.userinput.field.Alignment;
 import com.izforge.izpack.panels.userinput.field.divider.Divider;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Divider field view.
@@ -62,6 +60,7 @@ public class GUIDivider extends GUIField
         TwoColumnConstraints constraints = new TwoColumnConstraints(TwoColumnConstraints.BOTH);
         constraints.stretch = true;
         addComponent(panel, constraints);
+        addTooltip();
     }
 
 }

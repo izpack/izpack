@@ -36,6 +36,7 @@ import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.adaptator.impl.XMLWriter;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.rules.Condition;
@@ -361,18 +362,37 @@ public class RulesEngineImpl implements RulesEngine
      *         condition was not met
      */
     @Override
-    public boolean canShowPanel(String panelid, Variables variables)
+    public boolean canShowPanel(String panelId, Variables variables)
     {
-        if (!this.panelConditions.containsKey(panelid))
+        if (!this.panelConditions.containsKey(panelId))
         {
-            logger.fine("Panel " + panelid + " unconditionally activated");
+            logger.fine("Panel " + panelId + " unconditionally activated");
             return true;
         }
-        Condition condition = getCondition(this.panelConditions.get(panelid));
+        Condition condition = getCondition(this.panelConditions.get(panelId));
         boolean b = condition.isTrue();
-        logger.fine("Panel " + panelid + ": activation depends on condition "
+        logger.fine("Panel " + panelId + ": activation depends on condition "
                             + condition.getId() + " -> " + b);
         return b;
+    }
+
+    @Override
+    public void addPanelCondition(Panel panel, Condition newCondition)
+    {
+        String panelId = panel.getPanelId();
+        String panelCondString = panel.getCondition();
+        if (panelCondString != null)
+        {
+            AndCondition andCondition = new AndCondition(this);
+            andCondition.setId(andCondition.toString());
+            andCondition.addOperands(newCondition);
+            andCondition.addOperands(getCondition(panelCondString));
+            newCondition = andCondition;
+        }
+
+        addCondition(newCondition);
+        panel.setCondition(newCondition.getId());
+        this.panelConditions.put(panelId, newCondition.getId());
     }
 
     /**

@@ -22,6 +22,7 @@
 
 package com.izforge.izpack.util.config;
 
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -59,7 +60,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     protected boolean createConfigurable = true;
 
     /*
-     * ini4j settings
+     * ini4j-like settings
      */
     private boolean escape = Config.getGlobal().isEscape();
     private boolean escapeNewLine = Config.getGlobal().isEscapeNewline();
@@ -67,6 +68,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     private boolean emptyLines = true;
     private boolean autoNumbering = true;
     private String operator = Config.getGlobal().getOperator();
+    private Charset encoding = Config.getGlobal().getFileEncoding();
 
 
     /*
@@ -177,6 +179,16 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     }
 
     /**
+     * The encoding to be used for loading and saving configuration files
+     *
+     * @param encoding - an encoding string
+     */
+    public void setEncoding(Charset encoding)
+    {
+        this.encoding = encoding;
+    }
+
+    /**
      * Whether the configuration file or registry root entry should be created if it doesn't already
      * exist (default: true).
      *
@@ -196,6 +208,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         Config.getGlobal().setEscape(escape);
         Config.getGlobal().setEscapeNewline(escapeNewLine);
         Config.getGlobal().setOperator(operator);
+        Config.getGlobal().setFileEncoding(encoding);
         checkAttributes();
         readConfigurable();
         readSourceConfigurable();

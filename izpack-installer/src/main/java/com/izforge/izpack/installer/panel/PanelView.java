@@ -1,5 +1,6 @@
 package com.izforge.izpack.installer.panel;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
@@ -86,9 +87,22 @@ public interface PanelView<T>
     boolean isValid();
 
     /**
+     * Save the contents of the panel into install data.
+     */
+    void saveData();
+
+    /**
      * Determines if the panel can be shown.
      *
      * @return {@code true} if the panel can be shown
      */
     boolean canShow();
+
+    /**
+     * Creates an installation record for unattended installations and adds it to a XML root element.
+     *
+     * @param rootElement the root to add child elements to
+     */
+    void createInstallationRecord(IXMLElement rootElement);
+
 }

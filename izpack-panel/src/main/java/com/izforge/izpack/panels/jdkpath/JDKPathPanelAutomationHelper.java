@@ -9,25 +9,25 @@ import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 
 public class JDKPathPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation {
 
-	@Override
-	public void makeXMLData(InstallData installData, IXMLElement panelRoot) {
-		IXMLElement varname = new XMLElementImpl("jdkVarName", panelRoot);
-		varname.setContent(installData.getVariable("jdkVarName"));
-		panelRoot.addChild(varname);
-		
-		IXMLElement jdkPath = new XMLElementImpl("jdkPath", panelRoot);
-		jdkPath.setContent(installData.getVariable(installData.getVariable("jdkVarName")));
-		panelRoot.addChild(jdkPath);
-	}
+    @Override
+    public void createInstallationRecord(InstallData installData, IXMLElement rootElement) {
+        IXMLElement varname = new XMLElementImpl("jdkVarName", rootElement);
+        varname.setContent(installData.getVariable("jdkVarName"));
+        rootElement.addChild(varname);
 
-	@Override
-	public void runAutomated(InstallData installData, IXMLElement panelRoot) throws InstallerException {
-		IXMLElement jdkPathElement = panelRoot.getFirstChildNamed("jdkPath");
-		String jdkPath = jdkPathElement.getContent();
-		
-		IXMLElement jdkVarNameElement = panelRoot.getFirstChildNamed("jdkVarName");
-		String jdkVarName = jdkVarNameElement.getContent();
-		
-		installData.setVariable(jdkVarName, jdkPath);
-	}
+        IXMLElement jdkPath = new XMLElementImpl("jdkPath", rootElement);
+        jdkPath.setContent(installData.getVariable(installData.getVariable("jdkVarName")));
+        rootElement.addChild(jdkPath);
+    }
+
+    @Override
+    public void runAutomated(InstallData installData, IXMLElement panelRoot) throws InstallerException {
+        IXMLElement jdkPathElement = panelRoot.getFirstChildNamed("jdkPath");
+        String jdkPath = jdkPathElement.getContent();
+
+        IXMLElement jdkVarNameElement = panelRoot.getFirstChildNamed("jdkVarName");
+        String jdkVarName = jdkVarNameElement.getContent();
+
+        installData.setVariable(jdkVarName, jdkPath);
+    }
 }

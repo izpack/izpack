@@ -23,13 +23,10 @@
 package com.izforge.izpack.util.config;
 
 import java.io.File;
+import java.util.List;
 
 public abstract class ConfigFileTask extends SingleConfigurableTask
 {
-    /*
-     * Instance variables.
-     */
-
     protected File oldFile;
 
     protected File newFile;
@@ -42,7 +39,7 @@ public abstract class ConfigFileTask extends SingleConfigurableTask
     /**
      * Use this to prepend a comment to the configuration file's header
      */
-    private String comment;
+    private List<String> comment;
 
     /**
      * Location of the configuration file to be patched to; optional. If not set, any empty
@@ -83,12 +80,12 @@ public abstract class ConfigFileTask extends SingleConfigurableTask
     /**
      * optional header comment for the file
      */
-    public void setComment(String hdr)
+    public void setComment(List<String> hdr)
     {
         comment = hdr;
     }
 
-    protected String getComment()
+    protected List<String> getComment()
     {
         return this.comment;
     }

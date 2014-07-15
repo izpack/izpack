@@ -28,6 +28,7 @@
     <str id="SimpleFinishPanel.headline" txt="Asennus on päättynyt"/>
     <str id="SummaryPanel.headline" txt="Yhteenveto asetustiedoista"/>
     <str id="TargetPanel.headline" txt="Kohdepolku"/>
+    <str id="TreePacksPanel.headline" txt="Valitse asennuspaketit"/>
     <str id="UserInputPanel.headline" txt="Käyttäjän data"/>
     <str id="UserPathPanel.headline" txt="Valitse polku"/>
     <str id="InstallationTypePanel.headline" txt="Asennuksen tyyppi"/>

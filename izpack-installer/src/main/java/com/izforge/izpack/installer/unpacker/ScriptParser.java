@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.data.ParsableFile;
@@ -40,6 +41,8 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  */
 public class ScriptParser
 {
+    private static final Logger logger = Logger.getLogger(ScriptParser.class.getName());
+
     /**
      * The variable replacer.
      */
@@ -80,6 +83,9 @@ public class ScriptParser
         // Create a temporary file for the parsed data
         // (Use the same directory so that renaming works later)
         File file = new File(parsable.getPath());
+
+        logger.fine("Parsing and replacing variables in file " + file + "...");
+
         File parsedFile;
         try
         {

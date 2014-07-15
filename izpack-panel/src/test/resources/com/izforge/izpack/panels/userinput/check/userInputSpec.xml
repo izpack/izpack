@@ -48,7 +48,7 @@
         <field type="staticText" txt="Check boxes initialised via variables"/>
 
         <field type="check" variable="check5">
-            <spec txt="Check 5: " true="check5set" false="check5unset" revalidate="true"/>
+            <spec txt="Check 5: " true="check5set" false="check5unset" />
         </field>
 
         <field type="text" variable="check5text" conditionid="cond.check5set">
@@ -56,7 +56,7 @@
         </field>
 
         <field type="check" variable="check6">
-            <spec txt="Check 6: " true="check6set" false="check6unset" revalidate="true"/>
+            <spec txt="Check 6: " true="check6set" false="check6unset" />
         </field>
 
         <field type="text" variable="check6text" conditionid="cond.check6unset">

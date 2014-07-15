@@ -28,8 +28,6 @@ import java.util.Set;
 
 import org.picocontainer.injectors.Provider;
 
-import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -48,7 +46,6 @@ public abstract class PanelsProvider implements Provider
     /**
      * Prepares panels for the current platform.
      * <br/>
-     * This adds XML to the {@link InstallData#getXmlData() XML data} for each panel.
      *
      * @param installData the installation data
      * @param matcher     The platform-model matcher
@@ -70,28 +67,10 @@ public abstract class PanelsProvider implements Provider
                     throw new IzPackException("Duplicate panel: " + key);
                 }
 
-                addPanelXml(panel, installData);
 
                 result.add(panel);
             }
         }
         return result;
-    }
-
-    /**
-     * Adds XML to the {@link InstallData#getXmlData() XML data} for the supplied panel.
-     *
-     * @param panel       the panel
-     * @param installData the installation data
-     */
-    protected void addPanelXml(Panel panel, InstallData installData)
-    {
-        IXMLElement panelRoot = new XMLElementImpl(panel.getClassName(), installData.getXmlData());
-        String panelId = panel.getPanelId();
-        if (panelId != null)
-        {
-            panelRoot.setAttribute("id", panelId);
-        }
-        installData.getXmlData().addChild(panelRoot);
     }
 }

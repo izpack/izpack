@@ -25,12 +25,12 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.izforge.izpack.panels.userinput.field.Choice;
 import org.junit.Test;
 
 import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.choice.TestChoiceFieldConfig;
-import com.izforge.izpack.panels.userinput.field.radio.RadioChoice;
 import com.izforge.izpack.panels.userinput.field.radio.RadioField;
 
 
@@ -73,11 +73,11 @@ public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
      */
     private ConsoleRadioField createField(int selected)
     {
-        List<RadioChoice> choices = new ArrayList<RadioChoice>();
-        choices.add(new RadioChoice("A", "A Choice", false));
-        choices.add(new RadioChoice("B", "B Choice", false));
-        choices.add(new RadioChoice("C", "C Choice", false));
-        ChoiceFieldConfig<RadioChoice> config = new TestChoiceFieldConfig<RadioChoice>("radio", choices, selected);
+        List<Choice> choices = new ArrayList<Choice>();
+        choices.add(new Choice("A", "A Choice"));
+        choices.add(new Choice("B", "B Choice"));
+        choices.add(new Choice("C", "C Choice"));
+        ChoiceFieldConfig config = new TestChoiceFieldConfig("radio", choices, selected);
 
         RadioField model = new RadioField(config, installData);
         return new ConsoleRadioField(model, console, prompt);

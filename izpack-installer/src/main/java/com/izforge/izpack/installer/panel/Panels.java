@@ -147,6 +147,14 @@ public interface Panels
     int getNext(int index, boolean visibleOnly);
 
     /**
+     * Determines if there is another panel after the current index.
+     *
+     * @param visibleOnly if {@code true}, only examine visible panels
+     * @return {@code true} if there is another panel
+     */
+    int getNext(boolean visibleOnly);
+
+    /**
      * Determines if there is another panel prior to the specified index.
      *
      * @param index       the panel index
@@ -154,6 +162,14 @@ public interface Panels
      * @return the previous panel index, or {@code -1} if there are no more panels
      */
     int getPrevious(int index, boolean visibleOnly);
+
+    /**
+     * Determines if there is another panel prior to the current index.
+     *
+     * @param visibleOnly if {@code true}, only examine visible panels
+     * @return the previous panel index, or {@code -1} if there are no more panels
+     */
+    int getPrevious(boolean visibleOnly);
 
     /**
      * Returns the number of visible panels.

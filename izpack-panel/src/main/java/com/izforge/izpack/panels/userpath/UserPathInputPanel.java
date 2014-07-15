@@ -101,6 +101,12 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
         super(panel, parent, installData, new IzPanelLayout(log), resources);
         _targetPanel = targetPanel;
         _variableName = getString(targetPanel + ".variableName");
+
+        String mustExist;
+        if ((mustExist = panel.getConfiguration("mustExist")) != null) {
+            this._mustExist = Boolean.parseBoolean(mustExist);
+        }
+
         // Set default values
         loadMessages();
         String introText = getI18nStringForClass("extendedIntro", _thisPanel);

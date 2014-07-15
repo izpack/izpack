@@ -3,7 +3,7 @@
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.0.0-rc2-SNAPSHOT</version>
+        <version>5.0.0-rc3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,8 +16,20 @@
             <artifactId>izpack-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>izpack-tools</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jline</groupId>
+            <artifactId>jline</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jdom</groupId>
@@ -38,6 +50,12 @@
             <artifactId>dtdparser</artifactId>
             <version>1.21</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+          <scope>test</scope>
         </dependency>
     </dependencies>
 

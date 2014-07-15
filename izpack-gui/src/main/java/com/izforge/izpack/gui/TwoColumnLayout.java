@@ -114,9 +114,16 @@ public class TwoColumnLayout implements LayoutManager2
     private int margin = 0;
 
     /**
-     * the setting for the buffer area on top of hte comonent cluster in % of the left over height.
+     * the setting for the buffer area on top of the component cluster in % of the left over height.
+     * if rigid is set to true, the setting for this will be the setting for the buffer area on top in terms of pixels
      */
     private int topBuffer = 0;
+
+    /**
+     * the setting for the buffer area on top of the component to be used in pixels if true
+     * this setting is false by default
+     */
+    private boolean rigid = false;
 
     /**
      * the indent setting in % of the conteiner's width
@@ -155,17 +162,18 @@ public class TwoColumnLayout implements LayoutManager2
      *                  width.
      * @param alignment how to align the overall layout. Legal values are LEFT, CENTER, RIGHT.
      */
-    public TwoColumnLayout(int margin, int gap, int indent, int topBuffer, int colWidth, int alignment)
+    public TwoColumnLayout(int margin, int gap, int indent, int topBuffer, boolean rigid, int colWidth, int alignment)
     {
         this.indent = indent;
         this.gap = gap;
         this.colWidth = colWidth;
+        this.rigid = rigid;
 
         if ((margin >= 0) && (margin <= 50))
         {
             this.margin = margin;
         }
-        if ((topBuffer >= 0) && (topBuffer <= 100))
+        if ((topBuffer >= 0) && (topBuffer <= 100) || rigid)
         {
             this.topBuffer = topBuffer;
         }
@@ -188,9 +196,9 @@ public class TwoColumnLayout implements LayoutManager2
      *                  cluster. Values between 0% and 100% are accepted.
      * @param alignment how to align the overall layout. Legal values are LEFT, CENTER, RIGHT.
      */
-    public TwoColumnLayout(int margin, int gap, int indent, int topBuffer, int alignment)
+    public TwoColumnLayout(int margin, int gap, int indent, int topBuffer, boolean rigid, int alignment)
     {
-        this(margin, gap, indent, topBuffer, 0, alignment);
+        this(margin, gap, indent, topBuffer, rigid, 0, alignment);
     }
 
     /**
@@ -814,6 +822,7 @@ public class TwoColumnLayout implements LayoutManager2
 
     /**
      * Computes the top buffer value based on the container width and the setting for the top buffer
+     * If rigid is set to true simply return the number of pixels to use as a top buffer indicated by the topBuffer variable
      *
      * @param usedHeight the amount of the parent component's height that is already in use (height
      *                   of the title and the combined height of all rows).
@@ -821,10 +830,16 @@ public class TwoColumnLayout implements LayoutManager2
      */
     private int topBuffer(int usedHeight, Container parent)
     {
-        int amount = ((int) parent.getSize().getHeight()) - usedHeight;
-        amount = amount * topBuffer / 100;
-
-        return (amount);
+        if (rigid)
+        {
+            return topBuffer;
+        }
+        else
+        {
+            int amount = ((int) parent.getSize().getHeight()) - usedHeight;
+            amount = amount * topBuffer / 100;
+            return (amount);
+        }
     }
 
     /*--------------------------------------------------------------------------*/
@@ -864,6 +879,11 @@ public class TwoColumnLayout implements LayoutManager2
 
         int width = minimumBothColumnsWidth(parent);
         int height = minimumClusterHeight() + titleHeight;
+
+        if (rigid)
+        {
+            height = height+ topBuffer;
+        }
 
         return (new Dimension(width, height));
     }

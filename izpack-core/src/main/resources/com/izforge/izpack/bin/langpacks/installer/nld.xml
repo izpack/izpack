@@ -31,6 +31,7 @@
     <str id="SummaryPanel.headline"
          txt="Overzicht configuratiegegevens"/>
     <str id="TargetPanel.headline" txt="Installatiepad"/>
+    <str id="TreePacksPanel.headline" txt="Selecteer Installatiepakketten"/>
     <str id="UserInputPanel.headline" txt="Gebruikersgegevens"/>
     <str id="UserPathPanel.headline" txt="Selekteer pad"/>
     <str id="InstallationTypePanel.headline" txt="Installatietype"/>

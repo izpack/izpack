@@ -21,11 +21,6 @@
 
 package com.izforge.izpack.panels.userinput.gui.password;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JPasswordField;
-
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.gui.TwoColumnConstraints;
 import com.izforge.izpack.panels.userinput.field.Field;
@@ -33,6 +28,10 @@ import com.izforge.izpack.panels.userinput.field.ValidationStatus;
 import com.izforge.izpack.panels.userinput.field.password.PasswordField;
 import com.izforge.izpack.panels.userinput.field.password.PasswordGroupField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -70,22 +69,24 @@ public class GUIPasswordGroupField extends GUIField
             passwords.add(component);
             addComponent(component, new TwoColumnConstraints(TwoColumnConstraints.EAST));
         }
+        addTooltip();
     }
 
     /**
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
+     * @param skipValidation set to true when wanting to save field data without validating
      * @return {@code true} if the field was updated, {@code false} if the view is invalid
      */
     @Override
-    public boolean updateField(Prompt prompt)
+    public boolean updateField(Prompt prompt, boolean skipValidation)
     {
         boolean result = false;
         Field field = getField();
         String[] values = getPasswords();
         ValidationStatus status = field.validate(new PasswordGroup(values));
-        if (status.isValid())
+        if (skipValidation || status.isValid())
         {
             try
             {
@@ -115,12 +116,10 @@ public class GUIPasswordGroupField extends GUIField
     {
         boolean result = false;
         String value = getField().getValue();
+
         if (value != null)
         {
-            for (JPasswordField view : passwords)
-            {
-                view.setText(replaceVariables(value));
-            }
+            passwords.get(0).setText(replaceVariables(value));
             result = true;
         }
         return result;

@@ -76,7 +76,12 @@ public interface DataValidator
     /**
      * attribute for class to use
      */
-    public static final String DATA_VALIDATOR_CLASSNAME_TAG = "classname";
+    public static final String DATA_VALIDATOR_CLASSNAME_ATTR = "classname";
+
+    /**
+     * attribute for validator condition to apply
+     */
+    public static final String DATA_VALIDATOR_CONDITION_ATTR = "condition";
 
     /**
      * Method to validate an {@link InstallData}.

@@ -68,7 +68,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
  * @author Julien Ponge
  * @author Klaus Bartz
  */
-public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstants, ISummarisable
+public abstract class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstants, ISummarisable
 {
     private static final long serialVersionUID = 3256442495255786038L;
 
@@ -295,6 +295,11 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
         return true;
     }
 
+    protected void saveData()
+    {
+        //Save Data
+    }
+
     public boolean panelValidated()
     {
         return isValidated();
@@ -317,15 +322,10 @@ public class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstant
     {
     }
 
-    /**
-     * Asks the panel to set its own XML data that can be brought back for an automated installation
-     * process. Use it as a blackbox if your panel needs to do something even in automated mode.
-     *
-     * @param panelRoot The XML root element of the panels blackbox tree.
-     */
-    public void makeXMLData(IXMLElement panelRoot)
+    public void createInstallationRecord(IXMLElement rootElement)
     {
-    }
+        // Default method, override to record panel contents
+    };
 
     /**
      * Ask the user a question.

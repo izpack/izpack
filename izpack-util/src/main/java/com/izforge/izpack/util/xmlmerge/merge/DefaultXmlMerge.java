@@ -83,6 +83,7 @@ public class DefaultXmlMerge implements XmlMerge
         this.m_rootMergeAction.setActionFactory(factory);
     }
 
+    @Override
     public void setRootMergeMatcherFactory(OperationFactory factory)
     {
         m_rootMergeAction.setMatcherFactory(factory);
@@ -226,7 +227,7 @@ public class DefaultXmlMerge implements XmlMerge
         Document result = doMerge(docs);
 
         Format prettyFormatter = Format.getPrettyFormat();
-        // Use system line seperator to avoid problems
+        // Use system line separator to avoid problems
         // with carriage return under linux
         prettyFormatter.setLineSeparator(System.getProperty("line.separator"));
         XMLOutputter sortie = new XMLOutputter(prettyFormatter);
@@ -297,26 +298,5 @@ public class DefaultXmlMerge implements XmlMerge
         }
 
         root.sortChildren(comparator);
-    }
-
-
-    public static void main(String [] args)
-    {
-        DefaultXmlMerge merger = new DefaultXmlMerge();
-        try
-        {
-            File targetFile = new File("/home/rkrell/gkretail/sm.server/config/sm_client_log4j.xml.confignew");
-            if (targetFile.exists() && !targetFile.delete())
-            {
-                System.err.println("Delete error");
-            }
-            merger.merge(new File[] { new File("/home/rkrell/gkretail/sm.server/config/sm_client_log4j.xml.configbak"),
-                    new File("/home/rkrell/gkretail/sm.server/config/sm_client_log4j.xml")}, targetFile);
-        }
-        catch (AbstractXmlMergeException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 }

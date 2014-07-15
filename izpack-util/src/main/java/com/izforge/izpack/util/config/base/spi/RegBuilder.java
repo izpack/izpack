@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,11 +45,6 @@ public class RegBuilder extends AbstractProfileBuilder
     public void setReg(Reg value)
     {
         _reg = value;
-    }
-
-    @Override public void handleEmptyLine()
-    {
-        // do nothing on empty lines for registry
     }
 
     @Override public void handleOption(String rawName, String rawValue)

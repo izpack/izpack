@@ -116,7 +116,7 @@ public class SingleOptionFileTask extends ConfigFileTask
             }
             Options opts = (Options) configurable;
             opts.setFile(toFile);
-            opts.setComment(getComment());
+            opts.setHeaderComment(getComment());
             opts.store();
         }
         catch (IOException ioe)

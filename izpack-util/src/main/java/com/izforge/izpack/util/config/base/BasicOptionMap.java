@@ -280,7 +280,7 @@ public class BasicOptionMap extends CommonMultiMap<String, String> implements Op
         }
     }
 
-    private void requireArray(Class clazz)
+    private void requireArray(Class<? extends Object> clazz)
     {
         if (!clazz.isArray())
         {

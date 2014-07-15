@@ -258,7 +258,7 @@ public abstract class UnpackerBase implements IUnpacker
             List<Pack> packs = installData.getSelectedPacks();
             preUnpack(packs);
             unpack(packs, queue, parsables, executables, updateChecks);
-            postUnpack(packs, queue, parsables, executables, updateChecks);
+            postUnpack(packs, queue, updateChecks);
         }
         catch (Exception exception)
         {
@@ -405,6 +405,19 @@ public abstract class UnpackerBase implements IUnpacker
                 listeners.beforePack(pack, i, listener);
                 unpack(pack, i, queue, parsables, executables, updateChecks);
                 checkInterrupt();
+
+                logger.fine("Found " + parsables.size() + " parsable files");
+                parseFiles(parsables);
+                checkInterrupt();
+
+                logger.fine("Found " + parsables.size() + " executable files");
+                executeFiles(executables);
+                checkInterrupt();
+
+                // update checks should be done _after_ uninstaller was put, so we don't delete it. TODO
+                performUpdateChecks(updateChecks);
+                checkInterrupt();
+
                 listeners.afterPack(pack, i, listener);
             }
         }
@@ -667,8 +680,7 @@ public abstract class UnpackerBase implements IUnpacker
      * @throws ResourceInterruptedException if installation is cancelled
      * @throws IOException                  for any I/O error
      */
-    protected void postUnpack(List<Pack> packs, FileQueue queue, List<ParsableFile> parsables,
-                              List<ExecutableFile> executables, List<UpdateCheck> updateChecks) throws IOException
+    protected void postUnpack(List<Pack> packs, FileQueue queue, List<UpdateCheck> updateChecks) throws IOException
     {
         InstallData installData = getInstallData();
 
@@ -678,16 +690,6 @@ public abstract class UnpackerBase implements IUnpacker
             queue.execute();
             installData.setRebootNecessary(queue.isRebootNecessary());
         }
-        checkInterrupt();
-
-        parseFiles(parsables);
-        checkInterrupt();
-
-        executeFiles(executables);
-        checkInterrupt();
-
-        // update checks should be done _after_ uninstaller was put, so we don't delete it. TODO
-        performUpdateChecks(updateChecks);
         checkInterrupt();
 
         listeners.afterPacks(packs, listener);
@@ -1301,6 +1303,7 @@ public abstract class UnpackerBase implements IUnpacker
         for (int i = 0; i < count; ++i)
         {
             ParsableFile file = (ParsableFile) stream.readObject();
+            logger.fine("Unpacked parsable: " + file.toString());
             if (!file.hasCondition() || isConditionTrue(file.getCondition()))
             {
                 String path = IoHelper.translatePath(file.getPath(), installData.getVariables());
@@ -1326,6 +1329,7 @@ public abstract class UnpackerBase implements IUnpacker
         for (int i = 0; i < count; ++i)
         {
             ExecutableFile file = (ExecutableFile) stream.readObject();
+            logger.fine("Unpacked executable: " + file.toString());
             if (!file.hasCondition() || isConditionTrue(file.getCondition()))
             {
                 Variables variables = installData.getVariables();

@@ -123,9 +123,11 @@
             </xs:simpleType>
         </xs:attribute>
         <xs:attribute name="logfile" type="xs:string"/>
+        <xs:attribute name="logfile_append" type="xs:boolean" default="false"/>
         <xs:attribute name="messageid" type="xs:string"/>
         <xs:attribute name="buildfile" type="xs:string"/>
         <xs:attribute name="buildresource" type="xs:string"/>
+        <xs:attribute name="condition" type="xs:string" use="optional"/>
     </xs:complexType>
 
     <xs:complexType name="propertyType">

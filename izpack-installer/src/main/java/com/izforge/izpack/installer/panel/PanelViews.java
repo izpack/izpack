@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.panel;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -60,5 +61,13 @@ public interface PanelViews<T extends AbstractPanelView<V>, V> extends Panels
      * @return the panel's visible index, or {@code -1} if the panel is not visible
      */
     int getVisibleIndex(T panel);
+
+    /**
+     * Writes an XML tree to a file.
+     *
+     * @param out  The file to write to.
+     * @throws Exception
+     */
+    void writeInstallationRecord(File file) throws Exception;
 
 }

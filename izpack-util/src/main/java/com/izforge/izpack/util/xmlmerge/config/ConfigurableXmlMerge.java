@@ -109,4 +109,10 @@ public class ConfigurableXmlMerge implements XmlMerge
         m_wrappedXmlMerge.setRootMergeActionFactory(factory);
     }
 
+    @Override
+    public void setRootMergeMatcherFactory(OperationFactory factory)
+    {
+        m_wrappedXmlMerge.setRootMergeMatcherFactory(factory);
+    }
+
 }

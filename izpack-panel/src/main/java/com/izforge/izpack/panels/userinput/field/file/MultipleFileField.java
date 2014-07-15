@@ -83,11 +83,17 @@ public class MultipleFileField extends AbstractFileField
      * Sets the values. If multiple variables are being used, this creates a variable for each value,
      * using the naming convention: name, name_1, name_2....
      * If a single variable is being used, the values are concatenated together separated by ';'.
+     * If values is empty or doesn't exist, don't so anything.
      *
      * @param values the file names
      */
     public void setValues(List<String> values)
     {
+        if (values == null || values.size() == 0)
+        {
+            return;
+        }
+
         if (multipleVariables)
         {
             InstallData installData = getInstallData();

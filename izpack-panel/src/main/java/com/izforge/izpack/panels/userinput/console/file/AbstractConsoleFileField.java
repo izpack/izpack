@@ -27,7 +27,6 @@ import com.izforge.izpack.panels.userinput.field.file.AbstractFileField;
 import com.izforge.izpack.panels.userinput.field.file.FileFieldView;
 import com.izforge.izpack.util.Console;
 
-
 /**
  * Base class for console presentations of file fields.
  *
@@ -70,7 +69,7 @@ public class AbstractConsoleFileField extends ConsoleField
         AbstractFileField field = getField();
         String initialValue = field.getInitialValue();
         String prompt = field.getLabel() + "[" + ((initialValue != null) ? initialValue : "") + "] ";
-        String path = getConsole().prompt(prompt, null);
+        String path = getConsole().promptLocation(prompt, null);
         if (path != null)
         {
             path = path.trim();

@@ -21,15 +21,16 @@
  */
 package com.izforge.izpack.util.config.base;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CommentedMap<K, V> extends Map<K, V>
 {
-    String getComment(Object key);
+    List<String> getComment(Object key);
 
-    String putComment(K key, String comment);
+    List<String> putComment(K key, List<String> comment);
 
-    String removeComment(Object key);
+    List<String> removeComment(Object key);
 
     int getNewLineCount(Object key);
 

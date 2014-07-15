@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<maps enabled="false" handler="client">
+  <address-source street="information.properties/STREET" city="information.properties/CITY" zip="information.properties/ZIP" state="information.properties/COUNTRY" federal_state="information.properties/FEDERAL_STATE" />
+  <caches>
+    <compressed-image-cache size="10000" />
+    <image-cache size="20000" />
+  </caches>
+  <geo-position-providers use="MapQuest">
+    <geo-position-provider id="MapQuest" geo-class="com.mysoft.util.maps.geo.GeoPositionProviderMapQuest">
+      <param name="key" value="123456789ABCDEFG%$§$)(=)" />
+    </geo-position-provider>
+  </geo-position-providers>
+  <proxy enabled="true" address="proxy.mycompany.com" port="33128" />
+  <tile-providers use="Open Street Maps">
+    <tile-provider id="Open Street Maps" tile-class="com.mysoft.client.ui.maps.tile.OSMTileFactoryInfo" />
+  </tile-providers>
+</maps>

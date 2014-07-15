@@ -23,6 +23,7 @@ package com.izforge.izpack.installer.console;
 
 import java.util.List;
 
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.installer.panel.AbstractPanels;
 import com.izforge.izpack.installer.panel.Panels;
@@ -48,9 +49,9 @@ public class ConsolePanels extends AbstractPanels<ConsolePanelView, ConsolePanel
      * @param panels    the panels
      * @param variables the variables. These are refreshed prior to each panel switch
      */
-    public ConsolePanels(List<ConsolePanelView> panels, Variables variables)
+    public ConsolePanels(List<ConsolePanelView> panels, InstallData installData)
     {
-        super(panels, variables);
+        super(panels, installData);
     }
 
     /**

@@ -210,7 +210,7 @@ public class UserInputConsolePanelTest
         panel.setClassName(panelClass.getName());
         panel.setPanelId(id);
         ConsolePanelView panelView = new ConsolePanelView(panel, factory, installData, console);
-        ConsolePanels panels = new ConsolePanels(Arrays.asList(panelView), installData.getVariables());
+        ConsolePanels panels = new ConsolePanels(Arrays.asList(panelView), installData);
         container.addComponent(ConsolePanels.class, panels);
         panels.setAction(new ConsoleInstallAction(console, installData, mock(UninstallDataWriter.class)));
         return panels;

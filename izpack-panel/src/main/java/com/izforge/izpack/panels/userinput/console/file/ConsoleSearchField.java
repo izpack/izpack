@@ -27,7 +27,8 @@ public class ConsoleSearchField extends ConsoleField { // ConsoleComboField { //
     }
 
     @Override
-    public boolean display() {
+    public boolean display()
+    {
     	SearchField field = (SearchField)getField();
         printDescription();
 

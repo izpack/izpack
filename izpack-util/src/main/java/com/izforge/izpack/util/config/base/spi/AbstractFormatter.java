@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,43 +23,41 @@
 package com.izforge.izpack.util.config.base.spi;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import com.izforge.izpack.util.config.base.Config;
 
 abstract class AbstractFormatter implements HandlerBase
 {
     private static final char COMMENT = '#';
-    private static final char SPACE = ' ';
     private Config _config = Config.getGlobal();
-    private boolean _header = true;
     private PrintWriter _output;
 
-    @Override public void handleEmptyLine()
+    @Override public void handleEmptyLine() {}
+
+    @Override public void handleComment(List<String> comment)
     {
-        if (getConfig().isEmptyLines())
+        if (comment != null &&  getConfig().isComment())
         {
-            getOutput().print(getConfig().getLineSeparator());
-        }
-    }
-
-    @Override public void handleComment(String comment)
-    {
-        if (getConfig().isComment() && (!_header || getConfig().isHeaderComment()) && (comment != null) && (comment.length() != 0))
-        {
-            for (String line : comment.split(getConfig().getLineSeparator()))
+            for (String singleComment : comment)
             {
-                getOutput().print(COMMENT);
-                getOutput().print(line);
-                getOutput().print(getConfig().getLineSeparator());
-            }
-
-            if (_header)
-            {
-                getOutput().print(getConfig().getLineSeparator());
+                if (singleComment.startsWith("\0"))
+                {
+                    // Trick to add intermediate comments separated by new line
+                    // before a property and not to loose them
+                    getOutput().print(getConfig().getLineSeparator());
+                }
+                else
+                {
+                    for (String line : singleComment.split(getConfig().getLineSeparator()))
+                    {
+                        getOutput().print(COMMENT);
+                        getOutput().print(line);
+                        getOutput().print(getConfig().getLineSeparator());
+                    }
+                }
             }
         }
-
-        _header = false;
     }
 
     @Override public void handleOption(String optionName, String optionValue)
@@ -87,26 +85,15 @@ abstract class AbstractFormatter implements HandlerBase
         else
         {
             String value = ((optionValue == null) && getConfig().isEmptyOption()) ? "" : optionValue;
-            final boolean isOperatorDefault = operator.equals(Config.DEFAULT_OPERATOR);
 
             if (value != null)
             {
                 getOutput().print(escapeFilter(optionName));
-                if (isOperatorDefault)
-                {
-                    getOutput().print(SPACE);
-                }
                 getOutput().print(operator);
-                if (isOperatorDefault)
-                {
-                    getOutput().print(SPACE);
-                }
                 getOutput().print(escapeFilter(value));
                 getOutput().print(getConfig().getLineSeparator());
             }
         }
-
-        setHeader(false);
     }
 
     protected Config getConfig()
@@ -127,11 +114,6 @@ abstract class AbstractFormatter implements HandlerBase
     protected void setOutput(PrintWriter value)
     {
         _output = value;
-    }
-
-    void setHeader(boolean value)
-    {
-        _header = value;
     }
 
     String escapeFilter(String input)

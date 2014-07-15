@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ package com.izforge.izpack.util.config.base;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 
-@SuppressWarnings("PMD.ExcessivePublicCount")
 public class Config implements Cloneable, Serializable
 {
     public static final String KEY_PREFIX = "org.ini4j.config.";
@@ -48,7 +47,6 @@ public class Config implements Cloneable, Serializable
     public static final String PROP_FILE_ENCODING = "fileEncoding";
     public static final String PROP_LINE_SEPARATOR = "lineSeparator";
     public static final String PROP_COMMENT = "comment";
-    public static final String PROP_HEADER_COMMENT = "headerComment";
     public static final String PROP_EMPTY_LINES = "emptyLines";
     public static final String PROP_AUTO_NUMBERING = "autoNumbering";
     public static final boolean DEFAULT_EMPTY_OPTION = false;
@@ -416,7 +414,6 @@ public class Config implements Cloneable, Serializable
         _lineSeparator = getString(PROP_LINE_SEPARATOR, DEFAULT_LINE_SEPARATOR);
         _fileEncoding = getCharset(PROP_FILE_ENCODING, DEFAULT_FILE_ENCODING);
         _comment = getBoolean(PROP_COMMENT, DEFAULT_COMMENT);
-        _headerComment = getBoolean(PROP_HEADER_COMMENT, DEFAULT_HEADER_COMMENT);
         _emptyLines = getBoolean(PROP_EMPTY_LINES, DEFAULT_EMPTY_LINES);
         _autoNumbering = getBoolean(PROP_AUTO_NUMBERING, DEFAULT_AUTO_NUMBERING);
     }

@@ -158,6 +158,11 @@ public class RuleField extends Field
     {
         String value = super.getInitialValue();
 
+        if (hasDefaultValues())
+        {
+            return defaultValues;
+        }
+
         if (value != null)
         {
             ValidationStatus status = layout.validate(value);
@@ -165,11 +170,6 @@ public class RuleField extends Field
             {
                 return status.getValues();
             }
-        }
-
-        if (hasDefaultValues())
-        {
-            return defaultValues;
         }
 
         return new String[0];
@@ -453,3 +453,4 @@ public class RuleField extends Field
     }
 
 }
+

@@ -21,12 +21,9 @@
 
 package com.izforge.izpack.panels.path;
 
-import static com.izforge.izpack.util.Platform.Name.UNIX;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,8 +36,6 @@ import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
-import com.izforge.izpack.util.IoHelper;
-import com.izforge.izpack.util.Platforms;
 
 /**
  * Base class for panels which asks for paths.
@@ -123,18 +118,8 @@ public class PathInputPanel extends IzPanel implements ActionListener
     public String getPath()
     {
         String chosenPath = pathSelectionPanel.getPath();
-        if (chosenPath == null)
-        {
-            chosenPath = "";
-        }
-
-        if (chosenPath.startsWith("~") && installData.getPlatform().isA(UNIX))
-        {
-            // Expand unix home reference
-            String home = System.getProperty("user.home");
-            chosenPath = home + chosenPath.substring(1);
-        }
-        return chosenPath;
+        String normalizedPath = PathInputBase.normalizePath(chosenPath);
+        return normalizedPath;
     }
 
     /**
@@ -171,16 +156,16 @@ public class PathInputPanel extends IzPanel implements ActionListener
     public boolean isValidated()
     {
         String path = getPath();
+        String normalizedPath = PathInputBase.normalizePath(path);
+        File file = new File(normalizedPath).getAbsoluteFile();
 
-        if (path.length() == 0 && !checkEmptyPath())
+        if (normalizedPath.length() == 0 && !checkEmptyPath())
         {
             // Empty path disallowed
             return false;
         }
 
-        // Normalize the path
-        File file = new File(path).getAbsoluteFile();
-        pathSelectionPanel.setPath(file.toString());
+        pathSelectionPanel.setPath(normalizedPath);
 
         if (isMustExist())
         {
@@ -192,8 +177,9 @@ public class PathInputPanel extends IzPanel implements ActionListener
         }
         else
         {
-            if (!checkWritable(file))
+            if (!PathInputBase.isWritable(file))
             {
+                emitError(getString("installer.error"), getI18nStringForClass("notwritable", "TargetPanel"));
                 return false;
             }
 
@@ -227,6 +213,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
             // installation directory has to exist if an installation is being modified
             mustExist = true;
         }
+        PathInputBase.setInstallData(installData);
     }
 
     /**
@@ -270,56 +257,6 @@ public class PathInputPanel extends IzPanel implements ActionListener
     }
 
     /**
-     * This method determines whether the chosen dir is writeable or not.
-     *
-     * @return whether the chosen dir is writeable or not
-     */
-    public boolean isWriteable()
-    {
-        String path = getPath();
-        return isWriteable(new File(path));
-    }
-
-    /**
-     * Determines if the specified path can be written to.
-     *
-     * @param path the path
-     * @return {@code true} if the path can be written to
-     */
-    protected boolean isWriteable(File path)
-    {
-        boolean result = false;
-        File existParent = IoHelper.existingParent(path);
-        if (existParent != null)
-        {
-            // On windows we cannot use canWrite because it looks to the dos flags which are not valid
-            // on NT or 2k XP or ...
-            if (installData.getPlatform().isA(Platforms.WINDOWS))
-            {
-                File tmpFile;
-                try
-                {
-                    tmpFile = File.createTempFile("izWrTe", ".tmp", existParent);
-                    result = true;
-                    if (!tmpFile.delete())
-                    {
-                        tmpFile.deleteOnExit();
-                    }
-                }
-                catch (IOException e)
-                {
-                    logger.log(Level.WARNING, e.toString(), e);
-                }
-            }
-            else
-            {
-                result = existParent.canWrite();
-            }
-        }
-        return result;
-    }
-
-    /**
      * Verifies that the specified file exists.
      *
      * @param file the file to check
@@ -348,23 +285,6 @@ public class PathInputPanel extends IzPanel implements ActionListener
             return false;
         }
         return emitWarning(getString("installer.warning"), emptyTargetMsg);
-    }
-
-    /**
-     * Verifies that the path is writable.
-     *
-     * @param file the path
-     * @return {@code true} if the path is writable
-     */
-    protected boolean checkWritable(File file)
-    {
-        // We assume, that we would install something into this dir
-        if (!isWriteable(file))
-        {
-            emitError(getString("installer.error"), getI18nStringForClass("notwritable", "TargetPanel"));
-            return false;
-        }
-        return true;
     }
 
     /**

@@ -55,13 +55,19 @@ public abstract class AbstractGUIFileField extends GUIField
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
+     * @param skipValidation set to true when wanting to save field data without validating
      * @return {@code true} if the field was updated, {@code false} if the view is invalid
      */
     @Override
-    public boolean updateField(Prompt prompt)
+    public boolean updateField(Prompt prompt, boolean skipValidation)
     {
         boolean result = false;
-        if (fileInput.validateField())
+        if (skipValidation)
+        {
+            getField().setValue(fileInput.filetxt.getText());
+            result = true;
+        }
+        else if (fileInput.validateField())
         {
             File selectedFile = fileInput.getSelectedFile();
             if (selectedFile == null)
@@ -85,11 +91,13 @@ public abstract class AbstractGUIFileField extends GUIField
     {
         boolean result = false;
         String value = getField().getValue();
+
         if (value != null)
         {
             fileInput.setFile(value);
             result = true;
         }
+
         return result;
     }
 
@@ -101,6 +109,10 @@ public abstract class AbstractGUIFileField extends GUIField
     protected void init(FileInputField inputField)
     {
         this.fileInput = inputField;
+        if(getField().getDescription() != null)
+        {
+            addDescription();
+        }
         if (getField().getLabel() != null)
         {
             addLabel();
@@ -111,4 +123,5 @@ public abstract class AbstractGUIFileField extends GUIField
             addComponent(inputField, new TwoColumnConstraints(TwoColumnConstraints.BOTH));
         }
     }
+
 }

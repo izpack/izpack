@@ -73,17 +73,23 @@ public interface XmlMerge
     public String merge(String[] sources) throws AbstractXmlMergeException;
 
     /**
-     * Sets the MergeAction which will be applied to the root element.
+     * Sets the merge actions which will be applied to the root element.
      *
-     * @param rootMergeAction The MergeAction which will be applied to the root element
+     * @param rootMergeAction The merge actions which will be applied to the root element
      */
     public void setRootMergeActionFactory(OperationFactory factory);
 
     /**
-     * Sets the Mapper which will be applied to the root element.
+     * Sets the mappers which will be applied to the root element.
      *
-     * @param rootMapper The Mapper which will be applied to the root element
+     * @param rootMapper The mappers which will be applied to the root element
      */
     public void setRootMergeMapperFactory(OperationFactory factory);
 
+    /**
+     * Sets the matchers which will be applied to the root element.
+     *
+     * @param rootMapper The matchers which will be applied to the root element
+     */
+    public void setRootMergeMatcherFactory(OperationFactory factory);
 }

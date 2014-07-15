@@ -30,6 +30,7 @@
     <str id="SimpleFinishPanel.headline" txt="Installasjon fullført"/>
     <str id="SummaryPanel.headline" txt="Oppsummering av konfigurasjon"/>
     <str id="TargetPanel.headline" txt="Målsti"/>
+    <str id="TreePacksPanel.headline" txt="Velg installasjonspakker"/>
     <str id="UserInputPanel.headline" txt="Brukerdata"/>
     <str id="UserPathPanel.headline" txt="Velg mål"/>
     <str id="InstallationTypePanel.headline" txt="Installasjonstype"/>

@@ -72,7 +72,7 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
      * @param panelRoot   panel specific data for autoinstall.xml
      */
     @Override
-    public void makeXMLData(InstallData installData, IXMLElement panelRoot)
+    public void createInstallationRecord(InstallData installData, IXMLElement panelRoot)
     {
         for (IXMLElement element : shortcutPanelLogic.getAutoinstallXMLData(panelRoot))
         {

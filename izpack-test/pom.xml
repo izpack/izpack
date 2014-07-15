@@ -3,7 +3,7 @@
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.0.0-rc2-SNAPSHOT</version>
+        <version>5.0.0-rc3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,6 +17,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>izpack-dist</artifactId>
             <classifier>sources</classifier>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -34,6 +35,10 @@
         </dependency>
 
         <!-- test -->
+        <dependency>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>izpack-compiler</artifactId>
@@ -81,7 +86,7 @@
                         <!-- copies sources from izpack-dist to test-classes/samples/izpack -->
                         <!-- for IzpackGenerationTest, IzpackInstallationTest               -->
                         <id>Unpack izpack installer files</id>
-                        <phase>process-test-resources</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
@@ -89,31 +94,31 @@
                             <includeArtifactIds>izpack-dist</includeArtifactIds>
                             <includeClassifiers>sources</includeClassifiers>
                             <excludeTransitive>true</excludeTransitive>
-                            <outputDirectory>${basedir}/target/test-classes/samples/izpack</outputDirectory>
+                            <outputDirectory>${project.build.directory}/test-classes/samples/izpack</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
                         <id>Copy test listeners to samples/event/lib</id>
-                        <phase>process-test-resources</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
                             <stripVersion>true</stripVersion>
                             <includeArtifactIds>izpack-test-listener</includeArtifactIds>
-                            <outputDirectory>${basedir}/target/test-classes/samples/event/lib</outputDirectory>
+                            <outputDirectory>${project.build.directory}/test-classes/samples/event/lib</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
                         <id>Copy test listeners to samples/packaging</id>
-                        <phase>process-test-resources</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
                             <stripVersion>true</stripVersion>
                             <includeArtifactIds>izpack-test-listener</includeArtifactIds>
-                            <outputDirectory>${basedir}/target/test-classes/samples/packaging</outputDirectory>
+                            <outputDirectory>${project.build.directory}/test-classes/samples/packaging</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

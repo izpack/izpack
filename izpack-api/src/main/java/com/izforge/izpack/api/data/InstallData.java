@@ -265,7 +265,7 @@ public interface InstallData
      *
      * @return the XML data
      */
-    IXMLElement getXmlData();
+    IXMLElement getInstallationRecord();
 
     /**
      * Returns the installer requirements.

@@ -46,8 +46,6 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
     // ------------------------------------------------------
     // automatic script section keys
     // ------------------------------------------------------
-    private static final String AUTO_KEY_USER_INPUT = "userInput";
-
     private static final String AUTO_KEY_ENTRY = "entry";
 
     // ------------------------------------------------------
@@ -81,20 +79,13 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
     /**
      * Serialize state to XML and insert under panelRoot.
      *
-     * @param idata     The installation installDataGUI.
-     * @param panelRoot The XML root element of the panels blackbox tree.
+     * @param installData The installation installData GUI.
+     * @param rootElement The XML root element of the panels blackbox tree.
      */
     @Override
-    public void makeXMLData(InstallData idata, IXMLElement panelRoot)
+    public void createInstallationRecord(InstallData installData, IXMLElement rootElement)
     {
-        IXMLElement userInput;
         IXMLElement dataElement;
-
-        // ----------------------------------------------------
-        // add the item that combines all entries
-        // ----------------------------------------------------
-        userInput = new XMLElementImpl(AUTO_KEY_USER_INPUT, panelRoot);
-        panelRoot.addChild(userInput);
 
         // ----------------------------------------------------
         // add all entries
@@ -102,11 +93,11 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
         for (String key : this.entries.keySet())
         {
             String value = this.entries.get(key);
-            dataElement = new XMLElementImpl(AUTO_KEY_ENTRY, userInput);
+            dataElement = new XMLElementImpl(AUTO_KEY_ENTRY, rootElement);
             dataElement.setAttribute(AUTO_ATTRIBUTE_KEY, key);
             dataElement.setAttribute(AUTO_ATTRIBUTE_VALUE, value);
 
-            userInput.addChild(dataElement);
+            rootElement.addChild(dataElement);
         }
     }
 
@@ -121,26 +112,10 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
     @Override
     public void runAutomated(InstallData idata, IXMLElement panelRoot) throws InstallerException
     {
-        IXMLElement userInput;
         String variable;
         String value;
 
-        // ----------------------------------------------------
-        // get the section containing the user entries
-        // ----------------------------------------------------
-        userInput = panelRoot.getFirstChildNamed(AUTO_KEY_USER_INPUT);
-
-        if (userInput == null)
-        {
-            throw new InstallerException("Missing userInput element on line " + panelRoot.getLineNr());
-        }
-
-        List<IXMLElement> userEntries = userInput.getChildrenNamed(AUTO_KEY_ENTRY);
-
-        if (userEntries == null)
-        {
-            throw new InstallerException("Missing entry element(s) on line " + panelRoot.getLineNr());
-        }
+        List<IXMLElement> userEntries = panelRoot.getChildrenNamed(AUTO_KEY_ENTRY);
 
         // ----------------------------------------------------
         // retieve each entry and substitute the associated

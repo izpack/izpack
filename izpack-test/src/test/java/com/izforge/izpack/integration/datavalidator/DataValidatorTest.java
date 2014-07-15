@@ -163,13 +163,13 @@ public class DataValidatorTest
 
         // verify that all class names are fully qualified
         assertEquals(HelloPanel.class.getName(), hello.getClassName());
-        assertEquals(TestDataValidator.class.getName(), hello.getValidator());
+        assertEquals(TestDataValidator.class.getName(), hello.getValidators().iterator().next());
 
         assertEquals(InstallPanel.class.getName(), install.getClassName());
-        assertEquals(TestDataValidator.class.getName(), install.getValidator());
+        assertEquals(TestDataValidator.class.getName(), install.getValidators().iterator().next());
 
         assertEquals(SimpleFinishPanel.class.getName(), finish.getClassName());
-        assertEquals(TestDataValidator.class.getName(), finish.getValidator());
+        assertEquals(TestDataValidator.class.getName(), finish.getValidators().iterator().next());
 
         frameFixture = HelperTestMethod.prepareFrameFixture(frame, controller);
 

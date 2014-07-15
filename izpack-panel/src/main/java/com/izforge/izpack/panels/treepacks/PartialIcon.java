@@ -12,6 +12,18 @@ import java.awt.*;
  */
 class PartialIcon implements Icon
 {
+    Color color;
+    public PartialIcon(boolean enabled)
+    {
+        if(enabled)
+        {
+            color = Color.green;
+        }
+        else
+        {
+            color = Color.gray;
+        }
+    }
     protected int getControlSize()
     {
         return 13;
@@ -24,7 +36,7 @@ class PartialIcon implements Icon
         graphics.fillRect(x, y, controlSize - 1, controlSize - 1);
         drawBorder(graphics, x, y, controlSize, controlSize);
 
-        graphics.setColor(Color.green);
+        graphics.setColor(this.color);
         drawCheck(component, graphics, x, y);
     }
 

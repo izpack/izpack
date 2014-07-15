@@ -23,7 +23,7 @@ package com.izforge.izpack.panels.userinput.console.radio;
 
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.panels.userinput.console.ConsoleChoiceField;
-import com.izforge.izpack.panels.userinput.field.radio.RadioChoice;
+import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.radio.RadioField;
 import com.izforge.izpack.util.Console;
 
@@ -32,7 +32,7 @@ import com.izforge.izpack.util.Console;
  *
  * @author Tim Anderson
  */
-public class ConsoleRadioField extends ConsoleChoiceField<RadioChoice>
+public class ConsoleRadioField extends ConsoleChoiceField<Choice>
 {
 
     /**

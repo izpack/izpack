@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -209,8 +209,7 @@ public class BeanTool
         return (T) o;
     }
 
-    @SuppressWarnings(Warnings.UNCHECKED)
-    protected Object parseSpecialValue(String value, Class clazz) throws IllegalArgumentException
+    protected <T> Object parseSpecialValue(String value, Class<T> clazz) throws IllegalArgumentException
     {
         Object o;
 
@@ -254,7 +253,7 @@ public class BeanTool
         return o;
     }
 
-    private PropertyDescriptor[] getPropertyDescriptors(Class clazz)
+    private <T> PropertyDescriptor[] getPropertyDescriptors(Class<T> clazz)
     {
         try
         {
@@ -266,7 +265,7 @@ public class BeanTool
         }
     }
 
-    private Object parsePrimitiveValue(String value, Class clazz) throws IllegalArgumentException
+    private <T> Object parsePrimitiveValue(String value, Class<T> clazz) throws IllegalArgumentException
     {
         Object o = null;
 

@@ -141,5 +141,25 @@ public class GUIRuleFieldTest
         assertEquals("192.168.0.1", installData.getVariable(variable));
     }
 
+    /**
+     * Tests the specification of a {@link Processor} as part of the 'set' attribute.
+     */
+    @Test
+    public void testDefaultValueProcessorOnePart()
+    {
+        String layout = "O:25:U";
+        String variable = "variable1";
+        String separator = null;
+        TestRuleFieldConfig config = new TestRuleFieldConfig(variable, layout, separator, RuleFormat.DISPLAY_FORMAT);
+        config.setDefaultValue("0:localhost");
+        RuleField model = new RuleField(config, installData, factory);
+
+        GUIRuleField field = new GUIRuleField(model);
+        assertEquals("localhost", field.getValue());
+
+        assertNull(installData.getVariable("variable1"));
+        assertTrue(field.updateField(LoggingPrompt.INSTANCE));
+        assertEquals("localhost", installData.getVariable(variable));
+    }
 }
 

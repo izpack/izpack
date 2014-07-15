@@ -29,6 +29,7 @@
     <str id="SimpleFinishPanel.headline" txt="Встановлення завершено"/>
     <str id="SummaryPanel.headline" txt="Загальне налаштування"/>
     <str id="TargetPanel.headline" txt="Шлях встановлення"/>
+    <str id="TreePacksPanel.headline" txt="Виберіть пакунки для встановлення"/>
     <str id="UserInputPanel.headline" txt="Дані користувача"/>
     <str id="UserPathPanel.headline" txt="Виберіть шлях"/>
     <str id="InstallationTypePanel.headline" txt="Тип встановлення"/>

@@ -28,6 +28,7 @@
     <str id="SimpleFinishPanel.headline" txt="Inštalácia ukončená"/>
     <str id="SummaryPanel.headline" txt="Sumár konfiguračných dát"/>
     <str id="TargetPanel.headline" txt="Cieľová cesta"/>
+    <str id="TreePacksPanel.headline" txt="Vyberte inštalačné balíky"/>
     <str id="UserInputPanel.headline" txt="Použivateľské data"/>
     <str id="UserPathPanel.headline" txt="Select Path"/>
     <str id="InstallationTypePanel.headline" txt="Typ inštalácie"/>

@@ -35,6 +35,7 @@
     <str id="SimpleFinishPanel.headline" txt="Kurulum Tamamlandı"/>
     <str id="SummaryPanel.headline" txt="Özet Kurulum Bilgileri"/>
     <str id="TargetPanel.headline" txt="Hedef Dizin"/>
+    <str id="TreePacksPanel.headline" txt="Kurmak İstediğiniz Paketleri Seçiniz"/>
     <str id="UserInputPanel.headline" txt="Kullanıcı Bilgileri"/>
 
     <!-- Genel kurulum karakter dizileri -->

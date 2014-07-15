@@ -75,6 +75,7 @@ import com.izforge.izpack.api.data.Info.TempDir;
 import com.izforge.izpack.api.data.InstallerRequirement;
 import com.izforge.izpack.api.data.LookAndFeels;
 import com.izforge.izpack.api.data.OverrideType;
+import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.PanelActionConfiguration;
 import com.izforge.izpack.api.data.binding.Help;
@@ -98,6 +99,7 @@ import com.izforge.izpack.compiler.listener.CompilerListener;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.packager.IPackager;
 import com.izforge.izpack.compiler.resource.ResourceFinder;
+import com.izforge.izpack.compiler.util.AntPathMatcher;
 import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.core.data.DynamicInstallerRequirementValidatorImpl;
 import com.izforge.izpack.core.data.DynamicVariableImpl;
@@ -801,12 +803,6 @@ public class CompilerConfig extends Thread
                 pack.setPackImgId(packImgId);
             }
 
-            List<IXMLElement> parsableChildren = packElement.getChildrenNamed("parsable");
-            processParsableChildren(pack, parsableChildren);
-
-            List<IXMLElement> executableChildren = packElement.getChildrenNamed("executable");
-            processExecutableChildren(pack, executableChildren);
-
             processFileChildren(baseDir, packElement, pack);
 
             processSingleFileChildren(baseDir, packElement, pack);
@@ -814,6 +810,16 @@ public class CompilerConfig extends Thread
             processFileSetChildren(baseDir, packElement, pack);
 
             processUpdateCheckChildren(packElement, pack);
+
+            processOnSelect(packElement, pack);
+
+            processOnDeselect(packElement, pack);
+
+            List<IXMLElement> parsableChildren = packElement.getChildrenNamed("parsable");
+            processParsableChildren(pack, parsableChildren);
+
+            List<IXMLElement> executableChildren = packElement.getChildrenNamed("executable");
+            processExecutableChildren(pack, executableChildren);
 
             // We get the dependencies
             for (IXMLElement dependsNode : packElement.getChildrenNamed("depends"))
@@ -965,6 +971,36 @@ public class CompilerConfig extends Thread
         }
     }
 
+    /**
+     * Process onSelect tags within pack tags
+     * @param packElement
+     * @param pack
+     */
+    private void processOnSelect(IXMLElement packElement, PackInfo pack)
+    {
+        for (IXMLElement selectNode : packElement.getChildrenNamed("onSelect"))
+        {
+            String name = xmlCompilerHelper.requireAttribute(selectNode, "name");
+            String condition = selectNode.getAttribute("condition");
+            pack.addOnSelect(name, condition);
+        }
+    }
+
+    /**
+     * Process onDeselect tags within pack tags
+     * @param packElement
+     * @param pack
+     */
+    private void processOnDeselect(IXMLElement packElement, PackInfo pack)
+    {
+        for (IXMLElement deselectNode : packElement.getChildrenNamed("onDeselect"))
+        {
+            String name = xmlCompilerHelper.requireAttribute(deselectNode, "name");
+            String condition = deselectNode.getAttribute("condition");
+            pack.addOnDeselect(name, condition);
+        }
+    }
+
     private void processSingleFileChildren(File baseDir, IXMLElement packElement, PackInfo pack)
             throws CompilerException
     {
@@ -1036,7 +1072,8 @@ public class CompilerConfig extends Thread
                 {
                     fs.setFile(abssrcfile);
                 }
-                fs.setTargetDir(xmlCompilerHelper.requireAttribute(fileNode, "targetdir"));
+
+                fs.setTargetDir(fileNode.getAttribute("targetdir", "${INSTALL_PATH}"));
                 List<OsModel> osList = OsConstraintHelper.getOsList(fileNode); // TODO: unverified
                 fs.setOsList(osList);
                 fs.setOverride(getOverrideValue(fileNode));
@@ -1100,66 +1137,100 @@ public class CompilerConfig extends Thread
     {
         for (IXMLElement executableNode : childrenNamed)
         {
-            ExecutableFile executable = new ExecutableFile();
-            String val; // temp value
+            String target = executableNode.getAttribute("targetfile");
             String condition = executableNode.getAttribute("condition");
-            executable.setCondition(condition);
-            executable.path = xmlCompilerHelper.requireAttribute(executableNode, "targetfile");
+            List<OsModel> osList = OsConstraintHelper.getOsList(executableNode); // TODO: unverified
+            int executionStage = ExecutableFile.NEVER, type = ExecutableFile.BIN, onFailure = ExecutableFile.ASK;
+            String mainClass = null;
+            boolean keepFile;
 
-            // when to execute this executable
-            val = executableNode.getAttribute("stage", "never");
+            String val = executableNode.getAttribute("stage", "never");
             if ("postinstall".equalsIgnoreCase(val))
             {
-                executable.executionStage = ExecutableFile.POSTINSTALL;
+                executionStage = ExecutableFile.POSTINSTALL;
             }
             else if ("uninstall".equalsIgnoreCase(val))
             {
-                executable.executionStage = ExecutableFile.UNINSTALL;
+                executionStage = ExecutableFile.UNINSTALL;
             }
 
             // type of this executable
             val = executableNode.getAttribute("type", "bin");
             if ("jar".equalsIgnoreCase(val))
             {
-                executable.type = ExecutableFile.JAR;
-                executable.mainClass = executableNode.getAttribute("class"); // executable
-                // class
+                type = ExecutableFile.JAR;
+                mainClass = executableNode.getAttribute("class"); // executable class
             }
 
             // what to do if execution fails
             val = executableNode.getAttribute("failure", "ask");
             if ("abort".equalsIgnoreCase(val))
             {
-                executable.onFailure = ExecutableFile.ABORT;
+                onFailure = ExecutableFile.ABORT;
             }
             else if ("warn".equalsIgnoreCase(val))
             {
-                executable.onFailure = ExecutableFile.WARN;
+                onFailure = ExecutableFile.WARN;
             }
             else if ("ignore".equalsIgnoreCase(val))
             {
-                executable.onFailure = ExecutableFile.IGNORE;
+                onFailure = ExecutableFile.IGNORE;
             }
 
             // whether to keep the executable after executing it
             val = executableNode.getAttribute("keep");
-            executable.keepFile = Boolean.parseBoolean(val);
+            keepFile = Boolean.parseBoolean(val);
 
             // get arguments for this executable
             IXMLElement args = executableNode.getFirstChildNamed("args");
+            List<String> argsList = new ArrayList<String>();
             if (null != args)
             {
                 for (IXMLElement ixmlElement : args.getChildrenNamed("arg"))
                 {
-                    executable.argList.add(xmlCompilerHelper.requireAttribute(ixmlElement, "value"));
+                    argsList.add(xmlCompilerHelper.requireAttribute(ixmlElement, "value"));
                 }
             }
 
-            executable.osList = OsConstraintHelper.getOsList(executableNode); // TODO:
-            // unverified
-
-            pack.addExecutable(executable);
+            if (target != null)
+            {
+                addNewExecutableFile(pack, target, condition, osList, executionStage, type, mainClass,
+                        onFailure, keepFile, argsList);
+                logger.info("Marked target file executable: " + target);
+            }
+            for (IXMLElement fileSetElement : executableNode.getChildrenNamed("fileset"))
+            {
+                String targetdir = fileSetElement.getAttribute("targetdir", "${INSTALL_PATH}");
+                Set<String> includedFiles = getFilesetIncludedFiles(pack, fileSetElement, targetdir);
+                for (String filePath : includedFiles)
+                {
+                    addNewExecutableFile(pack, filePath, condition, osList, executionStage, type, mainClass,
+                            onFailure, keepFile, argsList);
+                    logger.info("Marked target file executable: " + filePath);
+                }
+            }
         }
+    }
+
+    private void addNewExecutableFile(PackInfo pack, String target, String condition, List<OsModel> osList,
+            int executionStage, int type, String mainClass, int onFailure, boolean keepFile, List<String> argsList
+            ) throws CompilerException
+    {
+        ExecutableFile executable = new ExecutableFile();
+        executable.path = target;
+        executable.setCondition(condition);
+        executable.osList = osList;
+        executable.executionStage = executionStage;
+        executable.type = type;
+        executable.mainClass = mainClass;
+        executable.onFailure = onFailure;
+        executable.keepFile = keepFile;
+        for (String arg : argsList)
+        {
+            executable.argList.add(arg);
+        }
+
+        pack.addExecutable(executable);
     }
 
     private void processParsableChildren(PackInfo pack, List<IXMLElement> parsableChildren) throws CompilerException
@@ -1176,58 +1247,27 @@ public class CompilerConfig extends Thread
                 ParsableFile parsable = new ParsableFile(target, type, encoding, osList);
                 parsable.setCondition(condition);
                 pack.addParsable(parsable);
+                logger.info("Marked target file parsable: " + target);
             }
-            //FIXME Use different type of fileset to scan already added files instead of the local filesystem
             for (IXMLElement fileSetElement : parsableNode.getChildrenNamed("fileset"))
             {
-                String targetdir = xmlCompilerHelper.requireAttribute(fileSetElement, "targetdir");
-                String dir_attr = xmlCompilerHelper.requireAttribute(fileSetElement, "dir");
-                File dir = new File(dir_attr);
-                if (!dir.isAbsolute())
+                String targetdir = fileSetElement.getAttribute("targetdir", "${INSTALL_PATH}");
+                Set<String> includedFiles = getFilesetIncludedFiles(pack, fileSetElement, targetdir);
+                for (String filePath : includedFiles)
                 {
-                    dir = new File(compilerData.getBasedir(), dir_attr);
-                }
-                if (!dir.isDirectory()) // also tests '.exists()'
-                {
-                    assertionHelper.parseError(fileSetElement, "Invalid directory 'dir': " + dir_attr);
-                }
-                String[] includedFiles = getFilesetIncludedFiles(fileSetElement);
-                if (includedFiles != null)
-                {
-                    for (String filePath : includedFiles)
-                    {
-                        File file = new File(dir, filePath);
-                        if (file.exists() && file.isFile())
-                        {
-                            String targetFile = new File(targetdir, filePath).getPath().replace(File.separatorChar,
-                                                                                                '/');
-                            ParsableFile parsable = new ParsableFile(targetFile, type, encoding, osList);
-                            parsable.setCondition(condition);
-                            pack.addParsable(parsable);
-                        }
-                    }
+                    ParsableFile parsable = new ParsableFile(filePath, type, encoding, osList);
+                    parsable.setCondition(condition);
+                    pack.addParsable(parsable);
+                    logger.info("Marked target file parsable: " + filePath);
                 }
             }
         }
     }
 
-    private String[] getFilesetIncludedFiles(IXMLElement fileSetElement) throws CompilerException
+    private Set<String> getFilesetIncludedFiles(PackInfo info, IXMLElement fileSetElement, String targetDir)
+    throws CompilerException
     {
-        List<String> includedFiles = new ArrayList<String>();
-        String dir_attr = xmlCompilerHelper.requireAttribute(fileSetElement, "dir");
-
-        File dir = new File(dir_attr);
-        if (!dir.isAbsolute())
-        {
-            dir = new File(compilerData.getBasedir(), dir_attr);
-        }
-        if (!dir.isDirectory()) // also tests '.exists()'
-        {
-            assertionHelper.parseError(fileSetElement, "Invalid directory 'dir': " + dir_attr);
-        }
-
         boolean casesensitive = xmlCompilerHelper.validateYesNoAttribute(fileSetElement, "casesensitive", YES);
-        boolean defexcludes = xmlCompilerHelper.validateYesNoAttribute(fileSetElement, "defaultexcludes", YES);
 
         // get includes and excludes
         List<IXMLElement> xcludesList;
@@ -1269,8 +1309,7 @@ public class CompilerConfig extends Thread
                 String[] nCont = null;
                 if (containers[j] != null && containers[j].length > 0)
                 {   // old container exist; create a new which can hold
-                    // all values
-                    // and copy the old stuff to the front
+                    // all values and copy the old stuff to the front
                     newSize += containers[j].length;
                     nCont = new String[newSize];
                     System.arraycopy(containers[j], 0, nCont, 0, containers[j].length);
@@ -1292,33 +1331,43 @@ public class CompilerConfig extends Thread
         excludes = containers[1]; // push the new excludes to the
         // local var
 
-        // scan and add fileset
-        DirectoryScanner directoryScanner = new DirectoryScanner();
-        directoryScanner.setIncludes(includes);
-        directoryScanner.setExcludes(excludes);
-        if (defexcludes)
-        {
-            directoryScanner.addDefaultExcludes();
-        }
-        directoryScanner.setBasedir(dir);
-        directoryScanner.setCaseSensitive(casesensitive);
-        try
-        {
-            directoryScanner.scan();
 
-            String[] files = directoryScanner.getIncludedFiles();
-            String[] dirs = directoryScanner.getIncludedDirectories();
-            // Directory scanner has done recursion, add files and
-            // directories
-            Collections.addAll(includedFiles, files);
-            Collections.addAll(includedFiles, dirs);
-        }
-        catch (Exception e)
+        HashSet<String> matches = new HashSet<String>();
+        AntPathMatcher matcher = new AntPathMatcher();
+
+        if (includes == null || includes.length == 0)
         {
-            throw new CompilerException(e.getMessage());
+            throw new CompilerException("At least one included file required in a fileset");
         }
 
-        return includedFiles.toArray(new String[includedFiles.size()]);
+        logger.fine("Fileset (targetDir=\""+targetDir+"\"");
+        for (String include : includes)
+        {
+            logger.fine("Processing include: \"" + include+"\"");
+            for (PackFile s:info.getPackFiles()) {
+                String targetPath = s.getTargetPath();
+                if (matcher.match(targetDir + "/" + include, targetPath, casesensitive))
+                {
+                    matches.add(targetPath);
+                }
+            }
+        }
+
+        if (excludes != null)
+        {
+            for (int i = 0; i < excludes.length; i++)
+            {
+                for (PackFile s:info.getPackFiles()) {
+                    String targetPath = s.getTargetPath();
+                    if (matcher.match(excludes[i], targetPath, casesensitive))
+                    {
+                        matches.remove(targetPath);
+                    }
+                }
+            }
+        }
+
+        return matches;
     }
 
     private IXMLElement readRefPackData(String refFileName, boolean isselfcontained)
@@ -1375,7 +1424,8 @@ public class CompilerConfig extends Thread
 
         // Now checked the loaded XML file for basic syntax
         // We check it
-        if (!"installation".equalsIgnoreCase(refXMLData.getName()))
+        if (! (  "izpack:installation".equalsIgnoreCase(refXMLData.getName())  // normally with the namespace prefix
+            || "installation".equalsIgnoreCase(refXMLData.getName())))       // optional without
         {
             assertionHelper.parseError(refXMLData, "this is not an IzPack XML installation file");
         }
@@ -1507,7 +1557,12 @@ public class CompilerConfig extends Thread
 
             // add an id
             String id = panelElement.getAttribute("id");
+            if (id == null)
+            {
+                id = className + "_" + Integer.valueOf(panelCounter - 1);
+            }
             panel.setPanelId(id);
+
             String condition = panelElement.getAttribute("condition");
             panel.setCondition(condition);
 
@@ -1544,14 +1599,15 @@ public class CompilerConfig extends Thread
             }
 
             // adding validator
-            IXMLElement validatorElement = panelElement.getFirstChildNamed(DataValidator.DATA_VALIDATOR_TAG);
-            if (validatorElement != null)
+            List<IXMLElement> validatorElements = panelElement.getChildrenNamed(DataValidator.DATA_VALIDATOR_TAG);
+            for (IXMLElement validatorElement : validatorElements)
             {
-                String validator = validatorElement.getAttribute(DataValidator.DATA_VALIDATOR_CLASSNAME_TAG);
+                String validator = validatorElement.getAttribute(DataValidator.DATA_VALIDATOR_CLASSNAME_ATTR);
                 if (!"".equals(validator))
                 {
+                    String validatorCondition = validatorElement.getAttribute(DataValidator.DATA_VALIDATOR_CONDITION_ATTR);
                     Class<DataValidator> validatorType = classLoader.loadClass(validator, DataValidator.class);
-                    panel.setValidator(validatorType.getName());
+                    panel.addValidator(validatorType.getName(), validatorCondition);
                 }
             }
             // adding helps
@@ -2997,7 +3053,7 @@ public class CompilerConfig extends Thread
     {
         TargetFileSet fs = new TargetFileSet();
 
-        fs.setTargetDir(xmlCompilerHelper.requireAttribute(fileSetNode, "targetdir"));
+        fs.setTargetDir(fileSetNode.getAttribute("targetdir", "${INSTALL_PATH}"));
         List<OsModel> osList = OsConstraintHelper.getOsList(fileSetNode); // TODO: unverified
         fs.setOsList(osList);
         fs.setOverride(getOverrideValue(fileSetNode));

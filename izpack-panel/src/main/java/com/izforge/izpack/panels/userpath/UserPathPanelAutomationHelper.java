@@ -39,13 +39,8 @@ public class UserPathPanelAutomationHelper implements PanelAutomation
     {
     }
 
-    /**
-     * Asks to make the XML panel installDataGUI.
-     *
-     * @param idata     The installation installDataGUI.
-     * @param panelRoot The tree to put the installDataGUI in.
-     */
-    public void makeXMLData(InstallData idata, IXMLElement panelRoot)
+    @Override
+    public void createInstallationRecord(InstallData idata, IXMLElement panelRoot)
     {
         // Installation path markup
         IXMLElement ipath = new XMLElementImpl(UserPathPanel.pathElementName, panelRoot);
@@ -62,12 +57,7 @@ public class UserPathPanelAutomationHelper implements PanelAutomation
         panelRoot.addChild(ipath);
     }
 
-    /**
-     * Asks to run in the automated mode.
-     *
-     * @param idata     The installation installDataGUI.
-     * @param panelRoot The XML tree to read the installDataGUI from.
-     */
+    @Override
     public void runAutomated(InstallData idata, IXMLElement panelRoot)
     {
         // We set the installation path

@@ -110,11 +110,6 @@ public class UserPathPanel extends UserPathInputPanel
         _pathSelectionPanel.setPath(expandedPath);
     }
 
-    /**
-     * Indicates whether the panel has been validated or not.
-     *
-     * @return Whether the panel has been validated or not.
-     */
     @Override
     public boolean isValidated()
     {
@@ -127,25 +122,14 @@ public class UserPathPanel extends UserPathInputPanel
         return (true);
     }
 
-    /**
-     * Asks to make the XML panel installDataGUI.
-     *
-     * @param panelRoot The tree to put the installDataGUI in.
-     */
     @Override
-    public void makeXMLData(IXMLElement panelRoot)
+    public void createInstallationRecord(IXMLElement panelRoot)
     {
         if (!(skip))
         {
-            new UserPathPanelAutomationHelper().makeXMLData(installData, panelRoot);
+            new UserPathPanelAutomationHelper().createInstallationRecord(installData, panelRoot);
         }
     }
-
-    /*
-    * (non-Javadoc)
-    *
-    * @see com.izforge.izpack.installer.IzPanel#getSummaryBody()
-    */
 
     @Override
     public String getSummaryBody()

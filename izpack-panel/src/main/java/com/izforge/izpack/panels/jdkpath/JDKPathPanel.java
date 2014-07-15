@@ -151,6 +151,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
      *
      * @return Wether the panel has been validated or not.
      */
+    @Override
     public boolean isValidated()
     {
         boolean retval = false;
@@ -214,6 +215,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     /**
      * Called when the panel becomes active.
      */
+    @Override
     public void panelActivate()
     {
         // Resolve the default for chosenPath
@@ -250,11 +252,11 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
             }
             else
             {
-            	String javaHome = installData.getVariable("JAVA_HOME");
-            	if (javaHome != null)
-            	{
-            		chosenPath = new File(javaHome).getAbsolutePath();
-            	}
+                String javaHome = installData.getVariable("JAVA_HOME");
+                if (javaHome != null)
+                {
+                    chosenPath = new File(javaHome).getAbsolutePath();
+                }
             }
         }
         // Set the path for method pathIsValid ...
@@ -623,23 +625,18 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         this.variableName = variableName;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.izforge.izpack.installer.IzPanel#getSummaryBody()
-     */
-
+    @Override
     public String getSummaryBody()
     {
         return (this.installData.getVariable(getVariableName()));
     }
-    
+
     @Override
-    public void makeXMLData(IXMLElement panelRoot) {
+    public void createInstallationRecord(IXMLElement panelRoot) {
         IXMLElement ipath = new XMLElementImpl("jdkPath", panelRoot);
         ipath.setContent(pathSelectionPanel.getPath());
         panelRoot.addChild(ipath);
-        
+
         IXMLElement varname = new XMLElementImpl("jdkVarName", panelRoot);
         varname.setContent(variableName);
         panelRoot.addChild(varname);

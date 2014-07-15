@@ -1,17 +1,17 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2003 Jonathan Halliday
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,16 +55,8 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
         unpacker.setProgressListener(this);
     }
 
-    /**
-     * Null op - this panel type has no state to serialize.
-     *
-     * @param installData unused.
-     * @param panelRoot   unused.
-     */
-    public void makeXMLData(InstallData installData, IXMLElement panelRoot)
-    {
-        // do nothing.
-    }
+    @Override
+    public void createInstallationRecord(InstallData idata, IXMLElement panelRoot) {}
 
     /**
      * Perform the installation actions.

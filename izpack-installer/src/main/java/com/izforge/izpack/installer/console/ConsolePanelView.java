@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.console;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -113,4 +114,9 @@ public class ConsolePanelView extends AbstractPanelView<ConsolePanel>
         };
     }
 
+    @Override
+    public void createInstallationRecord(IXMLElement panelRoot)
+    {
+        // TODO Auto-generated method stub
+    }
 }

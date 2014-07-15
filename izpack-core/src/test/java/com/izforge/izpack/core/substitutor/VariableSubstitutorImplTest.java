@@ -30,6 +30,10 @@ import org.junit.Test;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.fail;
+
+
 /**
  * Unit tests of substitutor features
  *
@@ -85,5 +89,22 @@ public class VariableSubstitutorImplTest
                 Is.is("onetwo"));
     }
 
+    @Test
+    public void testSystemPropertiesSubstition() throws Exception
+    {
+        String substituted = variableSubstitutor.substitute("${SYSTEM[user.dir]}");
+        assertNotNull(substituted);
+        if (substituted.trim().isEmpty() || substituted.startsWith("${SYSTEM["))
+        {
+            fail("The system variable resolution of ${SYSTEM[user.dir]} resulted in an invalid string '" + substituted + "\"");
+        }
+        // TODO: This is just for backward compatibility, remove in future
+        substituted = variableSubstitutor.substitute("${SYSTEM_user_dir}");
+        assertNotNull(substituted);
+        if (substituted.trim().isEmpty() || substituted.startsWith("${SYSTEM_"))
+        {
+            fail("The system variable resolution of ${SYSTEM_user_dir} resulted in an invalid string '" + substituted + "\"");
+        }
+    }
 
 }

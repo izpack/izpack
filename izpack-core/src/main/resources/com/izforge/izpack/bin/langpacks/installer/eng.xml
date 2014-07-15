@@ -28,9 +28,34 @@
     <str id="SimpleFinishPanel.headline" txt="Installation Finished"/>
     <str id="SummaryPanel.headline" txt="Summary Configuration Data"/>
     <str id="TargetPanel.headline" txt="Target Path"/>
+    <str id="TreePacksPanel.headline" txt="Select Installation Packages"/>
     <str id="UserInputPanel.headline" txt="User Data"/>
     <str id="UserPathPanel.headline" txt="Select Path"/>
     <str id="InstallationTypePanel.headline" txt="Installation Type"/>
+
+    <!-- TreePacksPanel Strings -->
+    <str id="TreePacksPanel.confirm"
+         txt="Press 0 to confirm your selections."/>
+    <str id="TreePacksPanel.prompt"
+         txt="Please select which packs you want to install."/>
+    <str id="TreePacksPanel.no.packs"
+         txt="You have not selected any packs!\nAre you sure you want to continue?"/>
+    <str id="TreePacksPanel.space.required"
+         txt="Total space required:"/>
+    <str id="TreePacksPanel.invalid"
+         txt="Invalid pack selected"/>
+    <str id="TreePacksPanel.dependent"
+         txt="Dependencies"/>
+    <str id="TreePacksPanel.children"
+         txt="Children"/>
+    <str id="TreePacksPanel.no.number"
+         txt="Please enter a number from the selection above."/>
+    <str id="TreePacksPanel.required"
+         txt="Required"/>
+    <str id="TreePacksPanel.unselectable"
+         txt="Unselectable"/>
+    <str id="TreePacksPanel.done"
+         txt="Done!"/>
 
     <!-- General installer strings -->
     <str id="installer.title" txt="IzPack - Installation of "/>
@@ -83,6 +108,8 @@
     <str id="InfoPanel.info" txt="Please read the following information: "/>
 
     <!-- PathInputPanel strings -->
+    <str id="PathInputPanel.isfile"
+        txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="PathInputPanel.required" txt="The chosen directory should exist."/>
     <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
     <str id="PathInputPanel.notValid"
@@ -101,6 +128,7 @@
          txt="This directory can not be written! Please choose another directory!"/>
     <str id="TargetPanel.incompatibleInstallation"
          txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+
 
     <!-- JDKPathPanel strings -->
     <str id="JDKPathPanel.extendedIntro"

@@ -167,4 +167,11 @@ public class FileInputField extends JPanel implements ActionListener
         this.add(browseBtn, fileButtonConstraint);
     }
 
+    @Override
+    public void setEnabled(boolean enabled)
+    {
+        filetxt.setEnabled(enabled);
+        browseBtn.setEnabled(enabled);
+    }
+
 }

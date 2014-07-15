@@ -405,13 +405,19 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
         String str = el.getAttribute(ActionBase.ANTCALL_LOGFILE_ATTR);
         if (str != null)
         {
+            String logAppendValue = el.getAttribute(ActionBase.LOGFILE_APPEND);
+            boolean logAppend = false;
+            if (logAppendValue != null)
+            {
+                logAppend = Boolean.parseBoolean(logAppendValue);
+            }
             try
             {
-                act.setLogFile(FileUtil.getAbsoluteFile(replacer.substitute(str), installData.getInstallPath()));
+                act.setLogFile(FileUtil.getAbsoluteFile(replacer.substitute(str), installData.getInstallPath()), logAppend);
             }
             catch (Exception e)
             {
-                act.setLogFile(FileUtil.getAbsoluteFile(str, installData.getInstallPath()));
+                act.setLogFile(FileUtil.getAbsoluteFile(str, installData.getInstallPath()), logAppend);
             }
         }
         String msgId = el.getAttribute(ActionBase.ANTCALL_MESSAGEID_ATTR);

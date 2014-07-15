@@ -72,6 +72,16 @@ public abstract class AbstractFieldView implements FieldView
     }
 
     /**
+     * Returns the summary key  associated with the field.
+     *
+     * @return the summary key, or {@code null} if the field doesn't update a summary
+     */
+    public String getSummaryKey()
+    {
+        return field.getSummaryKey();
+    }
+
+    /**
      * Determines if the view is being displayed.
      *
      * @return {@code true} if the view is being displayed

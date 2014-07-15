@@ -21,11 +21,11 @@
 
 package com.izforge.izpack.panels.userinput.gui.space;
 
-import javax.swing.JPanel;
-
 import com.izforge.izpack.gui.TwoColumnConstraints;
 import com.izforge.izpack.panels.userinput.field.space.Spacer;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
+
+import javax.swing.*;
 
 
 /**
@@ -49,6 +49,7 @@ public class GUISpacer extends GUIField
         constraints.stretch = true;
 
         addComponent(panel, constraints);
+        addTooltip();
     }
 
 }

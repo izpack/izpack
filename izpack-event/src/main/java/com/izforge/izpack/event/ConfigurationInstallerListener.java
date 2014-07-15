@@ -24,7 +24,6 @@ package com.izforge.izpack.event;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1222,8 +1221,6 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
 
         if (dynamicvariables != null)
         {
-            Collection<DynamicVariable> removeDynamicVariables = new ArrayList<DynamicVariable>();
-
             logger.fine("Evaluating configuration variables");
             RulesEngine rules = getInstallData().getRules();
             for (DynamicVariable dynvar : dynamicvariables)
@@ -1254,20 +1251,20 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 {
                     try
                     {
-                        String newValue = dynvar.evaluate(replacer);
-                        if (newValue != null)
+                        if (!(dynvar.isCheckonce() && dynvar.isChecked()))
                         {
-                            logger.fine("Configuration variable " + name + ": " + newValue);
-                            props.setProperty(name, newValue);
-                            if (dynvar.isCheckonce())
+                            String newValue = dynvar.evaluate(replacer);
+                            if (newValue != null)
                             {
-                                removeDynamicVariables.add(dynvar);
+                                logger.fine("Configuration variable " + name + ": " + newValue);
+                                props.setProperty(name, newValue);
+                            }
+                            else
+                            {
+                                logger.fine("Configuration variable " + name + " unchanged: " + dynvar.getValue());
                             }
                         }
-                        else
-                        {
-                            logger.fine("Configuration variable " + name + " unchanged: " + dynvar.getValue());
-                        }
+                        dynvar.setChecked();
                     }
                     catch (Exception e)
                     {
@@ -1275,8 +1272,6 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                     }
                 }
             }
-
-            dynamicvariables.removeAll(removeDynamicVariables);
         }
 
         return props;

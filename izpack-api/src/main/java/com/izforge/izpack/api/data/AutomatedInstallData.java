@@ -26,7 +26,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -40,6 +39,10 @@ import com.izforge.izpack.util.Platform;
  */
 public class AutomatedInstallData implements InstallData
 {
+    /**
+     * The attribute for a panel ID in the auto-install.xml record
+     */
+    public static final String AUTOINSTALL_PANELROOT_ATTR_ID = "id";
 
     private RulesEngine rules;
 
@@ -139,6 +142,11 @@ public class AutomatedInstallData implements InstallData
     private Map<String, Object> attributes;
 
     /**
+     * Index that maps panel IDs to their XML root from the auto-install.xml record
+     */
+    private HashMap<String, IXMLElement> panelRootXml;
+
+    /**
      * The default install path
      */
     public final static String DEFAULT_INSTALL_PATH = "DEFAULT_INSTALL_PATH";
@@ -170,7 +178,6 @@ public class AutomatedInstallData implements InstallData
         setAvailablePacks(new ArrayList<Pack>());
         setSelectedPacks(new ArrayList<Pack>());
         setPanelsOrder(new ArrayList<Panel>());
-        setXmlData(new XMLElementImpl("AutomatedInstallation"));
         setAttributes(new HashMap<String, Object>());
     }
 
@@ -339,7 +346,7 @@ public class AutomatedInstallData implements InstallData
     public void setAndProcessLocal(String locale, LocaleDatabase localeDatabase)
     {
         // We add an xml data information
-        getXmlData().setAttribute("langpack", locale);
+        getInstallationRecord().setAttribute("langpack", locale);
         // We load the langpack
         setVariable(ScriptParserConstant.ISO3_LANG, getLocaleISO3());
         setVariable(ScriptParserConstant.ISO2_LANG, getLocaleISO3());
@@ -363,7 +370,7 @@ public class AutomatedInstallData implements InstallData
     {
         return getVariable(ScriptParserConstant.ISO3_LANG);
     }
-    
+
     @Override
     public String getLocaleISO2()
     {
@@ -394,9 +401,9 @@ public class AutomatedInstallData implements InstallData
     public void setLocale(Locale locale, String code)
     {
         this.locale = locale;
-        getXmlData().setAttribute("langpack", code.toLowerCase());
+        getInstallationRecord().setAttribute("langpack", code.toLowerCase());
         setVariable(ScriptParserConstant.ISO3_LANG, code.toLowerCase());
-        if(locale != null) 
+        if(locale != null)
         {
             setVariable(ScriptParserConstant.ISO2_LANG, locale.getLanguage());
         }
@@ -562,13 +569,25 @@ public class AutomatedInstallData implements InstallData
     }
 
     @Override
-    public IXMLElement getXmlData()
+    public IXMLElement getInstallationRecord()
     {
         return xmlData;
     }
 
-    public void setXmlData(IXMLElement xmlData)
+    public IXMLElement getInstallationRecordPanelRoot(String panelId)
     {
+        return panelRootXml.get(panelId);
+    }
+
+    public void setInstallationRecord(IXMLElement xmlData)
+    {
+        panelRootXml = new HashMap<String, IXMLElement>();
+        List<IXMLElement> panelRoots = xmlData.getChildren();
+        for (IXMLElement panelRoot : panelRoots)
+        {
+            panelRootXml.put(panelRoot.getAttribute(AUTOINSTALL_PANELROOT_ATTR_ID), panelRoot);
+        }
+
         this.xmlData = xmlData;
     }
 

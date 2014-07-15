@@ -21,8 +21,6 @@
 
 package com.izforge.izpack.installer.bootstrap;
 
-import javax.swing.SwingUtilities;
-
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -30,6 +28,8 @@ import com.izforge.izpack.installer.container.impl.GUIInstallerContainer;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.language.LanguageDialog;
+
+import javax.swing.*;
 
 /**
  * Gui-dedicated installer bootstrap

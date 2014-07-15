@@ -9,7 +9,7 @@
 
     <artifactId>izpack</artifactId>
     <groupId>org.codehaus.izpack</groupId>
-    <version>5.0.0-rc2-SNAPSHOT</version>
+    <version>5.0.0-rc3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>IzPack parent</name>
@@ -234,6 +234,11 @@
                 <groupId>${project.groupId}</groupId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <artifactId>izpack-maven-plugin</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Inner dependencies to test jar -->
             <dependency>
@@ -283,7 +288,18 @@
                 <version>1.2.1</version>
                 <scope>test</scope>
             </dependency>
-
+            <dependency>
+                <groupId>org.easytesting</groupId>
+                <artifactId>fest-assert</artifactId>
+                <version>1.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easytesting</groupId>
+                <artifactId>fest-util</artifactId>
+                <version>1.1.3</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>org.apache.maven.shared</groupId>
                 <artifactId>maven-shared-jar</artifactId>
@@ -323,6 +339,11 @@
                 <artifactId>looks</artifactId>
                 <version>2.2.2</version>
             </dependency>
+            <dependency>
+                <groupId>jline</groupId>
+                <artifactId>jline</artifactId>
+                <version>2.12</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -347,6 +368,25 @@
                 </executions>
             </plugin>
             <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>buildnumber-maven-plugin</artifactId>
+               <version>1.3</version>
+               <executions>
+                 <execution>
+                    <phase>initialize</phase>
+                    <goals>
+                      <goal>create</goal>
+                    </goals>
+                 </execution>
+               </executions>
+               <configuration>
+                  <doCheck>false</doCheck>
+                  <doUpdate>false</doUpdate>
+                  <shortRevisionLength>5</shortRevisionLength>
+                  <timestampFormat>{0, date, yyyy-MM-dd HH:mm:ss}</timestampFormat>
+               </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -363,6 +403,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <excludes>
+                        <exclude>**/integration/**</exclude>
                         <exclude>**/Abstract*</exclude>
                         <exclude>**/Test*Container*</exclude>
                         <exclude>**/LanguageDialogTest.java</exclude>
@@ -371,21 +412,7 @@
                         <exclude>**/DefaultTargetPanelTest.java</exclude>
                         <exclude>**/TargetPanelTest.java</exclude>
                         <exclude>**/UserInputPanelTest.java</exclude>
-                        <exclude>**/InstallationTest.java</exclude>
-                        <exclude>**/UninstallDataWriterTest.java</exclude>
                         <exclude>**/ConditionCheckTest.java</exclude>
-                        <exclude>**/EventTest.java</exclude>
-                        <exclude>**/ExecutableFileTest.java</exclude>
-                        <exclude>**/IzpackInstallationTest.java</exclude>
-                        <exclude>**/InstallerListenerTest.java</exclude>
-                        <exclude>**/UninstallerListenerTest.java</exclude>
-                        <exclude>**/WindowsInstallationTest.java</exclude>
-                        <exclude>**/PanelActionTest.java</exclude>
-                        <exclude>**/DataValidatorTest.java</exclude>
-                        <exclude>**/PackValidatorTest.java</exclude>
-                        <exclude>**/PackagingTest.java</exclude>
-                        <exclude>**/PanelActionTest.java</exclude>
-                        <exclude>**/MultiVolumeInstallationTest.java</exclude>
                     </excludes>
                     <parallel>both</parallel>
                     <perCoreThreadCount>true</perCoreThreadCount>
@@ -411,6 +438,15 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                   <archive>
+                        <!-- will put the entries into META-INF/MANIFEST.MF file -->
+                        <manifestEntries>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Implementation-Build>${buildNumber}</Implementation-Build>
+                        </manifestEntries>
+                   </archive>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -506,11 +542,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.4.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>2.8</version>
                 </plugin>
@@ -519,70 +550,55 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>2.4</version>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <!-- Releasing -->
                 <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.5</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.17</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                     <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-dependency-plugin</artifactId>
-                                        <versionRange>[2.8,)</versionRange>
-                                        <goals>
-                                            <goal>unpack-dependencies</goal>
-                                            <goal>copy-dependencies</goal>
-                                            <goal>unpack</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-assembly-plugin</artifactId>
-                                        <versionRange>[2.4,)</versionRange>
-                                        <goals>
-                                            <goal>single</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                  <pluginExecutionFilter>
-                                    <groupId>org.apache.maven.plugins</groupId>
-                                    <artifactId>maven-enforcer-plugin</artifactId>
-                                    <versionRange>[1.3.1,)</versionRange>
-                                    <goals>
-                                      <goal>enforce</goal>
-                                    </goals>
-                                  </pluginExecutionFilter>
-                                  <action>
-                                    <ignore />
-                                  </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                  <pluginExecutionFilter>
-                                      <groupId>${project.groupId}</groupId>
-                                      <artifactId>izpack-maven-plugin</artifactId>
-                                      <versionRange>[${project.version},)</versionRange>
-                                      <goals>
-                                       <goal>izpack</goal>
-                                     </goals>
-                                  </pluginExecutionFilter>
-                                  <action>
-                                    <ignore />
-                                  </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
+                        <includes>
+                            <include>**/integration/**</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/Abstract*</exclude>
+                            <exclude>**/Test*Container*</exclude>
+                            <exclude>**/InstallationTest.java</exclude>
+                            <exclude>**/EventTest.java</exclude>
+                            <exclude>**/ExecutableFileTest.java</exclude>
+                            <exclude>**/IzpackInstallationTest.java</exclude>
+                            <exclude>**/InstallerListenerTest.java</exclude>
+                            <exclude>**/UninstallerListenerTest.java</exclude>
+                            <exclude>**/WindowsInstallationTest.java</exclude>
+                            <exclude>**/PanelActionTest.java</exclude>
+                            <exclude>**/DataValidatorTest.java</exclude>
+                            <exclude>**/PackValidatorTest.java</exclude>
+                            <exclude>**/PackagingTest.java</exclude>
+                            <exclude>**/PanelActionTest.java</exclude>
+                            <exclude>**/MultiVolumeInstallationTest.java</exclude>
+                        </excludes>
                     </configuration>
                 </plugin>
             </plugins>
@@ -604,6 +620,35 @@
         </profile>
 
         <profile>
+          <id>buildhive</id>
+          <build>
+            <plugins>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                  <source>1.6</source>
+                  <target>1.6</target>
+                  <showDeprecation>true</showDeprecation>
+                  <showWarnings>true</showWarnings>
+                  <encoding>UTF-8</encoding>
+                  <executable>/opt/jdk/jdk1.6.0/bin/javac</executable>
+                  <fork>true</fork>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                  <jvm>/opt/jdk/jdk1.6.0/bin/java</jvm>
+                  <forkMode>once</forkMode>
+                </configuration>
+              </plugin>
+            </plugins>
+          </build>
+        </profile>
+
+        <profile>
             <id>release-sign-artifacts</id>
             <activation>
                 <property>
@@ -616,7 +661,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.1</version>
                         <executions>
                             <execution>
                                 <phase>install</phase>
@@ -636,9 +680,9 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.6</version>
                         <configuration>
                             <excludes>
+                                <exclude>**/integration/**</exclude>
                                 <exclude>**/Abstract*</exclude>
                                 <exclude>**/Test*Container*</exclude>
                             </excludes>
@@ -649,22 +693,43 @@
                                 <include>**/DefaultTargetPanelTest.java</include>
                                 <include>**/TargetPanelTest.java</include>
                                 <include>**/UserInputPanelTest.java</include>
-                                <include>**/InstallationTest.java</include>
-                                <include>**/UninstallDataWriterTest.java</include>
                                 <include>**/ConditionCheckTest.java</include>
-                                <include>**/EventTest.java</include>
-                                <include>**/ExecutableFileTest.java</include>
-                                <include>**/IzpackInstallationTest.java</include>
-                                <include>**/InstallerListenerTest.java</include>
-                                <include>**/UninstallerListenerTest.java</include>
-                                <include>**/WindowsInstallationTest.java</include>
-                                <include>**/PanelActionTest.java</include>
-                                <include>**/DataValidatorTest.java</include>
-                                <include>**/PackValidatorTest.java</include>
-                                <include>**/PackagingTest.java</include>
-                                <include>**/PanelActionTest.java</include>
-                                <include>**/MultiVolumeInstallationTest.java</include>
                             </includes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.17</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <includes>
+                                <include>**/integration/**</include>
+                                <exclude>**/InstallationTest.java</exclude>
+                                <exclude>**/EventTest.java</exclude>
+                                <exclude>**/ExecutableFileTest.java</exclude>
+                                <exclude>**/IzpackInstallationTest.java</exclude>
+                                <exclude>**/InstallerListenerTest.java</exclude>
+                                <exclude>**/UninstallerListenerTest.java</exclude>
+                                <exclude>**/WindowsInstallationTest.java</exclude>
+                                <exclude>**/PanelActionTest.java</exclude>
+                                <exclude>**/DataValidatorTest.java</exclude>
+                                <exclude>**/PackValidatorTest.java</exclude>
+                                <exclude>**/PackagingTest.java</exclude>
+                                <exclude>**/PanelActionTest.java</exclude>
+                                <exclude>**/MultiVolumeInstallationTest.java</exclude>
+                            </includes>
+                            <excludes>
+                                <exclude>**/Abstract*</exclude>
+                                <exclude>**/Test*Container*</exclude>
+                            </excludes>
                         </configuration>
                     </plugin>
                 </plugins>

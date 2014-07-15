@@ -29,7 +29,6 @@ package com.izforge.izpack.panels.userinput.field;
  */
 public class Choice
 {
-
     /**
      * The key.
      */
@@ -53,7 +52,7 @@ public class Choice
     }
 
     /**
-     * Returns the key.
+     * Returns the key, otherwise known as the true value.
      *
      * @return the key
      */
@@ -61,6 +60,13 @@ public class Choice
     {
         return key;
     }
+
+    /**
+     * Returns the 'true' value, otherwise known as the key.
+     *
+     * @return the 'true' value
+     */
+    public String getTrueValue() { return getKey(); }
 
     /**
      * Returns the display value.

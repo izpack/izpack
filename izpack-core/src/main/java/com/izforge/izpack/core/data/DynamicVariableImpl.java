@@ -53,6 +53,7 @@ public class DynamicVariableImpl implements DynamicVariable
     private boolean ignorefailure = true;
 
     private transient String currentValue;
+    private transient boolean checked = false;
 
     public DynamicVariableImpl() {}
 
@@ -154,6 +155,8 @@ public class DynamicVariableImpl implements DynamicVariable
             logger.log(Level.FINE,
                        "Error evaluating dynamic variable '" + getName() + "': " + e,
                        e);
+
+            return null; // unset this variable
         }
 
         return newValue;
@@ -263,5 +266,16 @@ public class DynamicVariableImpl implements DynamicVariable
         // TODO: check if this always correct
         return name.hashCode() ^ conditionid.hashCode();
     }
+
+    @Override
+    public boolean isChecked()
+    {
+        return checked;
+    }
+
+    @Override
+    public void setChecked()
+    {
+        checked = true;    }
 
 }

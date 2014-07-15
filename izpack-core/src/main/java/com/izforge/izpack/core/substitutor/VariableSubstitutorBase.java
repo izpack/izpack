@@ -383,6 +383,16 @@ public abstract class VariableSubstitutorBase implements VariableSubstitutor
                         varvalue = "";
                     }
                 }
+                else if (braces && name.startsWith("SYSTEM[")
+                        && (name.lastIndexOf(']') == name.length() - 1))
+                {
+                    varvalue = System.getProperty(name.substring(7, name.length() - 1));
+                }
+                // TODO: Compatibility mode - to be removed in future
+                else if (braces && name.startsWith("SYSTEM_") && name.length() > 7)
+                {
+                    varvalue = System.getProperty(name.substring(7).replace('_', '.'));
+                }
                 else
                 {
                     Value val = getValue(name);

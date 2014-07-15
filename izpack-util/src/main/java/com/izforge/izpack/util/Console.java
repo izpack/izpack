@@ -1,13 +1,12 @@
 package com.izforge.izpack.util;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.awt.event.KeyEvent;
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import jline.console.ConsoleReader;
+import jline.console.completer.FileNameCompleter;
 
 /**
  * I/O streams to support prompting and keyboard input from the console.
@@ -17,6 +16,21 @@ import java.util.logging.Logger;
 public class Console
 {
     private static final Logger logger = Logger.getLogger(Console.class.getName());
+
+    /**
+     * Console reader.
+     */
+    private ConsoleReader consoleReader;
+
+    /**
+     * Check if consoleReader failed to load.
+     */
+    private boolean consoleReaderFailed;
+
+    /**
+     * File name completer allows for tab completion on files and directories.
+     */
+    private final FileNameCompleter fileNameCompleter = new FileNameCompleter();
 
     /**
      * Input stream.
@@ -46,6 +60,16 @@ public class Console
     {
         this.in = new BufferedReader(new InputStreamReader(in));
         this.out = new PrintWriter(out, true);
+        try
+        {
+            this.consoleReader = new ConsoleReader();
+        }
+        catch (IOException e)
+        {
+            consoleReaderFailed = true;
+            logger.log(Level.SEVERE, "Cannot initialize the console reader. Default to regular input stream.");
+        }
+
     }
 
     /**
@@ -59,7 +83,14 @@ public class Console
      */
     public String readLine() throws IOException
     {
-        return in.readLine();
+        if (consoleReaderFailed)
+        {
+            return  in.readLine();
+        }
+        else
+        {
+            return consoleReader.readLine();
+        }
     }
 
     /**
@@ -162,6 +193,154 @@ public class Console
 
     /**
      * Displays a prompt and waits for input.
+     * Allows auto completion of files and directories.
+     * Except a path to a file or directory.
+     * Ensure to expand the tilde character to the user's home directory.
+     * If the input ends with a file separator we will trim it to keep consistency.
+     * 
+     * @param prompt the prompt to display
+     * @param eof the value to return if end of stream is reached
+     * @return the input value or <tt>eof</tt> if the end of stream is reached
+     */
+    public String promptLocation(String prompt, String eof)
+    {
+        return promptLocation(prompt, "", eof);
+    }
+
+    /**
+     * Displays a prompt and waits for input.
+     * Allows auto completion of files and directories.
+     * Except a path to a file or directory.
+     * Ensure to expand the tilde character to the user's home directory.
+     * If the input ends with a file separator we will trim it to keep consistency.
+     * TODO: Perhaps have file separator at the end for directories and no file separator at the end for files
+     *
+     * @param prompt       the prompt to display
+     * @param defaultValue the default value to use, if no input is entered
+     * @param eof          the value to return if end of stream is reached
+     * @return the input value or {@code eof} if the end of stream is reached
+     */
+    public String promptLocation(String prompt, String defaultValue, String eof)
+    {
+        if (consoleReaderFailed)
+        {
+            return prompt(prompt, defaultValue, eof);
+        }
+        String result;
+        consoleReader.addCompleter(fileNameCompleter);
+
+        println(prompt);
+        try
+        {
+            while ((result = consoleReader.readLine().trim()) != null)
+            {
+                if (result.startsWith("~"))
+                {
+                    result = result.replace("~", System.getProperty("user.home"));
+                }
+                if (result.endsWith(File.separator) && result.length() > 1)
+                {
+                    result = result.substring(0, result.length()-1);
+                }
+                if (result.isEmpty())
+                {
+                    result = defaultValue;
+                }
+                break;
+            }
+        }
+        catch (IOException e)
+        {
+            result = eof;
+            logger.log(Level.WARNING, e.getMessage(), e);
+        }
+        finally
+        {
+            consoleReader.removeCompleter(fileNameCompleter);
+        }
+
+        return result;
+    }
+
+    /**
+     * Displays a prompt and waits for input.
+     * Expects a password, characters with be mased with the echoCharacter "*"
+     * @param prompt the prompt to display
+     * @param eof    the value to return if end of stream is reached
+     * @return the input value or <tt>eof</tt> if the end of stream is reached
+     */
+    public String promptPassword(String prompt, String eof)
+    {
+        return promptPassword(prompt, "", eof);
+    }
+
+    /**
+     * Displays a prompt and waits for input.
+     * Expects a password, characters with be mased with the echoCharacter "*"
+     *
+     * @param prompt       the prompt to display
+     * @param defaultValue the default value to use, if no input is entered
+     * @param eof          the value to return if end of stream is reached
+     * @return the input value or {@code eof} if the end of stream is reached
+     */
+    public String promptPassword(String prompt, String defaultValue, String eof)
+    {
+        if (consoleReaderFailed)
+        {
+            return prompt(prompt, defaultValue, eof);
+        }
+
+        int ch;
+        String result = "";
+
+        String backspace = "\b \b";
+        String echoCharacter = "*";
+        StringBuilder stringBuilder = new StringBuilder();
+
+        println(prompt);
+        boolean submitted = false;
+        try
+        {
+            while(!submitted)
+            {
+                switch (ch = consoleReader.readCharacter())
+                {
+                    case -1:
+                    case '\n':
+                    case '\r':
+                        println("");
+                        result = stringBuilder.toString();
+                        submitted = true;
+                        break;
+                    case KeyEvent.VK_BACK_SPACE:
+                    case KeyEvent.VK_DELETE:
+                        if (stringBuilder.length() > 0)
+                        {
+                            print(backspace);
+                            stringBuilder.setLength(stringBuilder.length() - 1);
+                        }
+                        break;
+                    default:
+                        print(echoCharacter);
+                        stringBuilder.append((char) ch);
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            result = eof;
+            logger.log(Level.WARNING, e.getMessage(), e);
+        }
+
+        if(result.isEmpty())
+        {
+            result = defaultValue;
+        }
+        return result;
+    }
+
+    /**
+     * Displays a prompt and waits for input.
      *
      * @param prompt the prompt to display
      * @param eof    the value to return if end of stream is reached
@@ -185,7 +364,7 @@ public class Console
         String result;
         try
         {
-            print(prompt);
+            println(prompt);
             result = readLine();
             if (result == null)
             {
@@ -234,4 +413,8 @@ public class Console
         }
     }
 
+    public void useDefaultInput()
+    {
+        consoleReaderFailed = true;
+    }
 }

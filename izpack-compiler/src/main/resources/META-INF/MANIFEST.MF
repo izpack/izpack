@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
-Built-By: IzPack
+Created-By: ${project.version}-${buildNumber} (IzPack)
 Main-Class: com.izforge.izpack.compiler.Compiler
-Class-Path: lib/ant-1.6.5.jar

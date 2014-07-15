@@ -42,6 +42,7 @@ public class GUIStaticText extends GUIField
     {
         super(field);
         addText(getField().getLabel());
+        addTooltip();
     }
 
 }

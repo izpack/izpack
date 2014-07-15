@@ -34,12 +34,12 @@ import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
  *
  * @author Tim Anderson
  */
-public class TestChoiceFieldConfig<T extends Choice> extends TestFieldConfig implements ChoiceFieldConfig<T>
+public class TestChoiceFieldConfig<T extends Choice> extends TestFieldConfig implements ChoiceFieldConfig
 {
     /**
      * The available choices.
      */
-    private final List<T> choices;
+    private final List<Choice> choices;
 
     /**
      * The selected choice, or {@code -1} if no choice is selected.
@@ -53,7 +53,7 @@ public class TestChoiceFieldConfig<T extends Choice> extends TestFieldConfig imp
      * @param choices  the available choices
      * @param selected the initial selection, or {@code -1} if no choice is selected
      */
-    public TestChoiceFieldConfig(String variable, List<T> choices, int selected)
+    public TestChoiceFieldConfig(String variable, List<Choice> choices, int selected)
     {
         super(variable);
         this.choices = choices;
@@ -66,7 +66,7 @@ public class TestChoiceFieldConfig<T extends Choice> extends TestFieldConfig imp
      * @return the choices
      */
     @Override
-    public List<T> getChoices(RulesEngine rules)
+    public List<Choice> getChoices(RulesEngine rules)
     {
         return choices;
     }

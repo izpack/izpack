@@ -45,7 +45,7 @@
         </panel>
 
         <panel classname="SimpleFinishPanel" id="SimpleFinishPanel">
-            <!-- MOTE: the validator and prevalidate and postvalidate actions associated with last panel are ignored -->
+            <!-- NOTE: the validator and prevalidate and postvalidate actions associated with last panel are ignored -->
             <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
             <actions>
                 <action stage="preconstruct"

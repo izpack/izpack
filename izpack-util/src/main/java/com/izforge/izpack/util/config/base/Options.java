@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ package com.izforge.izpack.util.config.base;
 
 import java.io.*;
 import java.net.URL;
+import java.util.List;
 
 import com.izforge.izpack.util.config.base.spi.OptionsBuilder;
 import com.izforge.izpack.util.config.base.spi.OptionsFormatter;
@@ -32,7 +33,8 @@ import com.izforge.izpack.util.config.base.spi.OptionsParser;
 public class Options extends BasicOptionMap implements Persistable, Configurable
 {
     private static final long serialVersionUID = -1119753444859181822L;
-    private String _comment;
+    private List<String> _headerComment;
+    private List<String> _footerComment;
     private Config _config;
     private File _file;
 
@@ -72,14 +74,24 @@ public class Options extends BasicOptionMap implements Persistable, Configurable
         load();
     }
 
-    public String getComment()
+    public List<String> getHeaderComment()
     {
-        return _comment;
+        return _headerComment;
     }
 
-    public void setComment(String value)
+    public void setHeaderComment(List<String> value)
     {
-        _comment = value;
+        _headerComment = value;
+    }
+
+    public List<String> getFooterComment()
+    {
+        return _footerComment;
+    }
+
+    public void setFooterComment(List<String> value)
+    {
+        _footerComment = value;
     }
 
     @Override public Config getConfig()
@@ -168,10 +180,10 @@ public class Options extends BasicOptionMap implements Persistable, Configurable
     protected void store(OptionsHandler formatter) throws IOException
     {
         formatter.startOptions();
-        storeComment(formatter, _comment);
+        storeComment(formatter, _headerComment);
+
         for (String name : keySet())
         {
-            storeNewLines(formatter, getNewLineCount(name));
             storeComment(formatter, getComment(name));
             int n = getConfig().isMultiOption() || getConfig().isAutoNumbering() ? length(name) : 1;
 
@@ -192,6 +204,11 @@ public class Options extends BasicOptionMap implements Persistable, Configurable
                 }
             }
         }
+        if (_footerComment != null)
+        {
+            formatter.handleEmptyLine();
+            storeComment(formatter, _footerComment);
+        }
 
         formatter.endOptions();
     }
@@ -201,32 +218,8 @@ public class Options extends BasicOptionMap implements Persistable, Configurable
         return getConfig().isPropertyFirstUpper();
     }
 
-    private void storeNewLines(OptionsHandler formatter, int emptyLines)
-    {
-        for (int i = 0; i < emptyLines; i++)
-        {
-            formatter.handleEmptyLine();
-        }
-    }
-
-    private void storeComment(OptionsHandler formatter, String comment)
+    private void storeComment(OptionsHandler formatter, List<String> comment)
     {
         formatter.handleComment(comment);
     }
-
-//    public final static void main(String argv[])
-//    {
-//        Config.getGlobal().setHeaderComment(false);
-//        Config.getGlobal().setEmptyLines(true);
-//        Config.getGlobal().setAutoNumbering(true);
-//        try
-//        {
-//            Options options = new Options(new File("/home/rkrell/test/config_patch/test1/sm_server.wrapper.conf.old"));
-//            options.store(new File("/home/rkrell/test/config_patch/test1/sm_server.wrapper.conf.old.stored"));
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
 }

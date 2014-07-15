@@ -29,11 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Logger;
 
 import javax.swing.table.AbstractTableModel;
@@ -44,7 +40,6 @@ import com.izforge.izpack.api.data.PackColor;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.util.PackHelper;
 
 /**
@@ -53,140 +48,167 @@ import com.izforge.izpack.installer.util.PackHelper;
 public class PacksModel extends AbstractTableModel
 {
     private static final long serialVersionUID = 3258128076746733110L;
-
     private static final transient Logger logger = Logger.getLogger(PacksModel.class.getName());
 
-    private static final String INITAL_PACKSELECTION = "initial.pack.selection";
+    protected List<Pack> packs;
+    protected List<Pack> allPacks;
+    protected List<Pack> hiddenPacks;
+    protected List<Pack> packsToInstall;
 
-    private List<Pack> packs;
-    private List<Pack> hiddenPacks;
+    private Map<String, Pack> installedPacks;
 
-    private List<Pack> packsToInstall;
+    protected int[] checkValues;
 
-    private Map<String, Pack> installedpacks;
-    private boolean modifyinstallation;
+    private Map<String, Pack> nameToPack;
+    private Map<String, Integer> nameToRow;
 
-
-    private PacksPanelInterface panel;
-
+    private InstallData installData;
     private Messages messages;
+    protected RulesEngine rules;
+    protected Variables variables;
 
-    // This is used to represent the status of the checkbox
-    private int[] checkValues;
+    private boolean modifyInstallation;
 
-    // Map to hold the object name relationship
-    Map<String, Pack> namesObj;
+    //Negative number represent that the checkbox is unselectable
+    public final int PARTIAL_SELECTED = 2;
+    public final int SELECTED = 1;
+    public final int DESELECTED = 0;
+    public final int REQUIRED_SELECTED = -1;
+    public final int DEPENDENT_DESELECTED = -2;
+    public final int REQUIRED_PARTIAL_SELECTED = -3;
+    public final int REQUIRED_DESELECTED = -4;
 
-    // Map to hold the object name relationship
-    Map<String, Integer> namesPos;
-
-    // reference to the RulesEngine for validating conditions
-    private RulesEngine rules;
-
-    // reference to the current variables, needed for condition validation
-    private Variables variables;
-
-    private GUIInstallData idata;
-
-    public PacksModel(PacksPanelInterface panel, GUIInstallData idata, RulesEngine rules)
+    public PacksModel(InstallData idata)
     {
-        this.idata = idata;
-        modifyinstallation = Boolean.valueOf(idata.getVariable(InstallData.MODIFY_INSTALLATION));
-        this.installedpacks = new HashMap<String, Pack>();
-
-        if (modifyinstallation)
-        {
-            // installation shall be modified
-            // load installation information
-
-            try
-            {
-                FileInputStream fin = new FileInputStream(new File(
-                        idata.getInstallPath() + File.separator + InstallData.INSTALLATION_INFORMATION));
-                ObjectInputStream oin = new ObjectInputStream(fin);
-                List<Pack> packsinstalled = (List<Pack>) oin.readObject();
-                for (Pack installedpack : packsinstalled)
-                {
-                    this.installedpacks.put(installedpack.getName(), installedpack);
-                }
-                this.removeAlreadyInstalledPacks(idata.getSelectedPacks());
-                logger.fine("Found " + packsinstalled.size() + " installed packs");
-
-                Properties variables = (Properties) oin.readObject();
-
-                for (Object key : variables.keySet())
-                {
-                    idata.setVariable((String) key, (String) variables.get(key));
-                }
-                fin.close();
-            }
-            catch (FileNotFoundException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (ClassNotFoundException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        this.rules = rules;
-
-        this.packs = new ArrayList<Pack>();
-        this.hiddenPacks = new ArrayList<Pack>();
-        for (Pack availablePack : idata.getAvailablePacks())
-        {
-            // only add a pack if not hidden
-            if (!availablePack.isHidden())
-            {
-                this.packs.add(availablePack);
-            }
-            else
-            {
-                this.hiddenPacks.add(availablePack);
-            }
-        }
-
+        this.installData = idata;
+        this.rules = idata.getRules();
+        this.messages = idata.getMessages();
+        this.variables = idata.getVariables();
         this.packsToInstall = idata.getSelectedPacks();
-        this.panel = panel;
-        variables = idata.getVariables();
-        variables.set(INITAL_PACKSELECTION, Boolean.toString(true));
-        messages = panel.getMessages();
-        checkValues = new int[packs.size()];
-        reverseDeps();
-        initvalues();
-        this.updateConditions(true);
-        refreshPacksToInstall();
-        variables.set(INITAL_PACKSELECTION, Boolean.toString(false));
+
+        this.modifyInstallation = Boolean.valueOf(idata.getVariable(InstallData.MODIFY_INSTALLATION));
+        this.installedPacks = loadInstallationInformation(modifyInstallation);
+
+        this.packs = getVisiblePacks();
+        this.hiddenPacks = getHiddenPacks();
+        this.allPacks = idata.getAvailablePacks();
+        this.nameToRow = getNametoRowMapping(packs);
+        this.nameToPack = getNametoPackMapping(allPacks);
+
+        this.packs = setPackProperties(packs, nameToPack);
+        this.checkValues = initCheckValues(packs, packsToInstall);
+
+        updateConditions(true);
+        updatePacksToInstall();
     }
 
+
+    /**
+     * @return a list of hidden packs
+     */
+    private List<Pack> getHiddenPacks()
+    {
+        List<Pack> hiddenPacks = new ArrayList<Pack>();
+        for (Pack availablePack : installData.getAvailablePacks())
+        {
+            if (availablePack.isHidden())
+            {
+                hiddenPacks.add(availablePack);
+            }
+        }
+        return hiddenPacks;
+    }
+
+    /**
+     * @return a list of visible packs
+     */
+    public List<Pack> getVisiblePacks()
+    {
+        List<Pack> visiblePacks = new ArrayList<Pack>();
+        for (Pack availablePack : installData.getAvailablePacks())
+        {
+            if (!availablePack.isHidden())
+            {
+                visiblePacks.add(availablePack);
+            }
+        }
+        return visiblePacks;
+    }
+
+    /**
+     * Generate a map from a pack's name to its pack object.
+     *
+     * @param packs list of pack objects
+     * @return map from a pack's name to its pack object.
+     */
+    private Map<String, Pack> getNametoPackMapping(List<Pack> packs)
+    {
+        Map <String, Pack> nameToPack = new HashMap<String, Pack>();
+        for (Pack pack : packs)
+        {
+            nameToPack.put(pack.getName(), pack);
+        }
+        return nameToPack;
+    }
+
+    /**
+     * Generate a map from a pack's name to its row number visible on the UI.
+     *
+     * @param packs list of pack objects
+     * @return map from a pack's name to its row number visible on the UI
+     */
+    private Map<String, Integer> getNametoRowMapping(List<Pack> packs)
+    {
+        Map<String, Integer> nameToPos = new HashMap<String, Integer>();
+        for (int i = 0; i < packs.size(); i++)
+        {
+            Pack pack = packs.get(i);
+            nameToPos.put(pack.getName(), i);
+        }
+        return nameToPos;
+    }
+
+    /**
+     * Ensure that parent packs know which packs are their children.
+     * Ensure that packs who have dependants know which packs depend on them
+     *
+     * @param packs packs visible to the user
+     * @param nameToPack mapping from pack names to pack objects
+     * @return packs
+     */
+    private List<Pack> setPackProperties(List<Pack> packs, Map<String, Pack> nameToPack)
+    {
+        Pack parent;
+        for (Pack pack : packs)
+        {
+            if (pack.hasParent())
+            {
+                String parentName = pack.getParent();
+                parent = nameToPack.get(parentName);
+                parent.addChild(pack.getName());
+            }
+
+            if (pack.hasDependencies())
+            {
+                for (String name : pack.getDependencies())
+                {
+                    parent = nameToPack.get(name);
+                    parent.addDependant(pack.getName());
+                }
+            }
+        }
+        return packs;
+    }
+
+    /**
+     * Helper function to retrieve a pack object based on which row it is on.
+     *
+     * @param row
+     * @return pack on the given row
+     */
     public Pack getPackAtRow(int row)
     {
         return this.packs.get(row);
-    }
-
-    private void removeAlreadyInstalledPacks(List<Pack> selectedpacks)
-    {
-        List<Pack> removepacks = new ArrayList<Pack>();
-
-        for (Pack selectedpack : selectedpacks)
-        {
-            if (installedpacks.containsKey(selectedpack.getName()))
-            {
-                // pack is already installed, remove it
-                removepacks.add(selectedpack);
-            }
-        }
-        for (Pack removepack : removepacks)
-        {
-            selectedpacks.remove(removepack);
-        }
     }
 
     public void updateConditions()
@@ -194,6 +216,12 @@ public class PacksModel extends AbstractTableModel
         this.updateConditions(false);
     }
 
+    /**
+     * Update the conditions for dependent packages.
+     * Update the conditions for optional packages.
+     *
+     * @param initial indicates if its the first time updating conditions.
+     */
     private void updateConditions(boolean initial)
     {
         boolean changes = true;
@@ -201,151 +229,140 @@ public class PacksModel extends AbstractTableModel
         while (changes)
         {
             changes = false;
-            // look for packages,
             for (Pack pack : packs)
             {
-                int pos = getPos(pack.getName());
-                logger.fine("Conditions fulfilled for: " + pack.getName() + "?");
-                if (!rules.canInstallPack(pack.getName(), variables))
+                String packName = pack.getName();
+                int pos = getPos(packName);
+                logger.fine("Conditions fulfilled for: " + packName + "?");
+                if (!rules.canInstallPack(packName, variables))
                 {
                     logger.fine("no");
-                    if (rules.canInstallPackOptional(pack.getName(), variables))
+                    if (rules.canInstallPackOptional(packName, variables))
                     {
                         logger.fine("optional");
-                        logger.fine(pack.getName() + " can be installed optionally.");
+                        logger.fine(packName + " can be installed optionally.");
                         if (initial)
                         {
-                            if (checkValues[pos] != 0)
+                            if (checkValues[pos] != DESELECTED)
                             {
-                                checkValues[pos] = 0;
+                                checkValues[pos] = DESELECTED;
                                 changes = true;
-                                // let the process start from the beginning
-                                break;
                             }
                         }
                     }
                     else
                     {
-                        logger.fine("Pack" + pack.getName() + " cannot be installed");
-                        if (checkValues[pos] != -2)
+                        if (checkValues[pos] != DEPENDENT_DESELECTED)
                         {
-                            checkValues[pos] = -2;
+                            logger.fine("Pack" + packName + " cannot be installed");
+                            checkValues[pos] = DEPENDENT_DESELECTED;
                             changes = true;
-                            // let the process start from the beginning
-                            break;
                         }
                     }
                 }
             }
-            refreshPacksToInstall();
         }
     }
 
     /**
-     * Creates the reverse dependency graph
+     * Ensure that the table is up to date.
+     * Order does matter
      */
-    private void reverseDeps()
+    public void updateTable()
     {
-        // name to pack map
-        namesObj = new HashMap<String, Pack>();
-        for (Pack pack : packs)
-        {
-            namesObj.put(pack.getName(), pack);
-        }
-        // process each pack
-        for (Pack pack : packs)
-        {
-            List<String> deps = pack.getDependencies();
-            for (int j = 0; deps != null && j < deps.size(); j++)
-            {
-                String name = deps.get(j);
-                Pack parent = namesObj.get(name);
-                parent.addDependant(pack.getName());
-            }
-        }
-
+        updateDeps();
+        updateConditions();
+        updatePacksToInstall();
+        fireTableDataChanged();
     }
 
-    private void initvalues()
+    /**
+     * Initialize the data that represented the checkbox states.
+     *
+     * @param packs
+     * @param packsToInstall
+     * @return
+     */
+    private int[] initCheckValues(List<Pack> packs, List<Pack> packsToInstall)
     {
-        // name to pack position map
-        namesPos = new HashMap<String, Integer>();
-        for (int i = 0; i < packs.size(); i++)
-        {
-            Pack pack = packs.get(i);
-            namesPos.put(pack.getName(), i);
-        }
-        // Init to the first values
+        int[] checkValues = new int[packs.size()];
+
+        // If a pack is indicated to be installed checkbox value should be SELECTED
         for (int i = 0; i < packs.size(); i++)
         {
             Pack pack = packs.get(i);
             if (packsToInstall.contains(pack))
             {
-                checkValues[i] = 1;
+                checkValues[i] = SELECTED;
             }
         }
 
-        // Check out and disable the ones that are excluded by non fullfiled
-        // deps
+        // If a packs dependency cannot be resolved checkboc value should be DEPENDENT_DESELECTED
         for (int i = 0; i < packs.size(); i++)
         {
             Pack pack = packs.get(i);
-            if (checkValues[i] == 0)
+            if (checkValues[i] == DESELECTED)
             {
                 List<String> deps = pack.getDependants();
                 for (int j = 0; deps != null && j < deps.size(); j++)
                 {
                     String name = deps.get(j);
                     int pos = getPos(name);
-                    checkValues[pos] = -2;
+                    checkValues[pos] = DEPENDENT_DESELECTED;
                 }
             }
+
             // for mutual exclusion, uncheck uncompatible packs too
             // (if available in the current installGroup)
-
             if (checkValues[i] > 0 && pack.getExcludeGroup() != null)
             {
                 for (int q = 0; q < packs.size(); q++)
                 {
                     if (q != i)
                     {
-                        Pack otherpack = packs.get(q);
-                        if (pack.getExcludeGroup().equals(otherpack.getExcludeGroup()))
+                        Pack otherPack = packs.get(q);
+                        if (pack.getExcludeGroup().equals(otherPack.getExcludeGroup()))
                         {
-                            if (checkValues[q] == 1)
+                            if (checkValues[q] == SELECTED)
                             {
-                                checkValues[q] = 0;
+                                checkValues[q] = DESELECTED;
                             }
                         }
                     }
                 }
             }
         }
-        // The required ones must propagate their required status to all the
-        // ones
-        // that they depend on
+
+        // Configure required packs
         for (Pack pack : packs)
         {
             if (pack.isRequired())
             {
-                propRequirement(pack.getName());
+                checkValues = propRequirement(pack.getName(), checkValues);
             }
         }
 
-        refreshPacksToInstall();
+        return checkValues;
     }
 
-    private void propRequirement(String name)
+    /**
+     * Configure required packs.
+     * @param name
+     * @param checkValues
+     * @return
+     */
+    private int [] propRequirement(String name, int[] checkValues)
     {
 
         final int pos = getPos(name);
-        checkValues[pos] = -1;
+        checkValues[pos] = REQUIRED_SELECTED;
         List<String> deps = packs.get(pos).getDependencies();
         for (int i = 0; deps != null && i < deps.size(); i++)
         {
             String s = deps.get(i);
-            propRequirement(s);
+            return propRequirement(s, checkValues);
         }
+        return checkValues;
 
     }
 
@@ -357,13 +374,12 @@ public class PacksModel extends AbstractTableModel
      */
     private int getPos(String name)
     {
-        return namesPos.get(name);
+        return nameToRow.get(name);
     }
 
     /*
      * @see TableModel#getRowCount()
      */
-
     @Override
     public int getRowCount()
     {
@@ -373,28 +389,15 @@ public class PacksModel extends AbstractTableModel
     /*
      * @see TableModel#getColumnCount()
      */
-
     @Override
     public int getColumnCount()
     {
-        boolean doNotShowPackSize = Boolean.parseBoolean(idata.guiPrefs.modifier.get("doNotShowPackSizeColumn"));
-
-        int result;
-        if (!doNotShowPackSize)
-        {
-            result = 3;
-        }
-        else
-        {
-            result = 2;
-        }
-        return result;
+        return 3;
     }
 
     /*
      * @see TableModel#getColumnClass(int)
      */
-
     @Override
     public Class<?> getColumnClass(int columnIndex)
     {
@@ -411,7 +414,6 @@ public class PacksModel extends AbstractTableModel
     /*
      * @see TableModel#isCellEditable(int, int)
      */
-
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex)
     {
@@ -428,7 +430,6 @@ public class PacksModel extends AbstractTableModel
     /*
      * @see TableModel#getValueAt(int, int)
      */
-
     @Override
     public Object getValueAt(int rowIndex, int columnIndex)
     {
@@ -436,7 +437,6 @@ public class PacksModel extends AbstractTableModel
         switch (columnIndex)
         {
             case 0:
-
                 return checkValues[rowIndex];
 
             case 1:
@@ -450,111 +450,270 @@ public class PacksModel extends AbstractTableModel
         }
     }
 
+
+    /**
+     * Toggle checkbox value from selected to deselected and vice-versa.
+     * @param rowIndex
+     */
+    public void toggleValueAt(int rowIndex)
+    {
+        if  (checkValues[rowIndex] == SELECTED)
+        {
+            setValueAt(DESELECTED, rowIndex, 0);
+        }
+        else
+        {
+            setValueAt(SELECTED, rowIndex, 0);
+        }
+
+    }
+
     /*
      * @see TableModel#setValueAt(Object, int, int)
+     * Update the value of some checkbox
      */
-
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex)
+    public void setValueAt(Object checkValue, int rowIndex, int columnIndex)
     {
-        if (columnIndex == 0)
+        if (columnIndex != 0 || !(checkValue instanceof Integer))
         {
-            if (aValue instanceof Integer)
-            {
-                Pack pack = packs.get(rowIndex);
-                boolean added;
-                if ((Integer) aValue == 1)
-                {
-                    added = true;
-                    String name = pack.getName();
-                    if (rules.canInstallPack(name, variables) || rules.canInstallPackOptional(name, variables))
-                    {
-                        if (pack.isRequired())
-                        {
-                            checkValues[rowIndex] = -1;
-                        }
-                        else
-                        {
-                            checkValues[rowIndex] = 1;
-                        }
-                    }
-                }
-                else
-                {
-                    added = false;
-                    checkValues[rowIndex] = 0;
-                }
-                updateExcludes(rowIndex);
-                updateDeps();
+            return;
+        }
+        else
+        {
+            Pack pack = packs.get(rowIndex);
 
-                if (added)
+            boolean added;
+            if ((Integer) checkValue == SELECTED)
+            {
+                added = true;
+                String name = pack.getName();
+                if (rules.canInstallPack(name, variables) || rules.canInstallPackOptional(name, variables))
                 {
-                    if (panel.getDebugger() != null)
+                    if (pack.isRequired())
                     {
-                        panel.getDebugger().packSelectionChanged("after adding pack " + pack.getName());
+                        checkValues[rowIndex] = REQUIRED_SELECTED;
                     }
-                    // temporarily add pack to packstoinstall
-                    this.packsToInstall.add(pack);
-                }
-                else
-                {
-                    if (panel.getDebugger() != null)
+                    else
                     {
-                        panel.getDebugger().packSelectionChanged("after removing pack " + pack.getName());
+                        checkValues[rowIndex] = SELECTED;
                     }
-                    // temporarily remove pack from packstoinstall
-                    this.packsToInstall.remove(pack);
                 }
+            }
+            else
+            {
+                added = false;
+                checkValues[rowIndex] = DESELECTED;
+            }
+
+            updateExcludes(rowIndex);
+            updateDeps();
+
+            if (added)
+            {
+                onSelectionUpdate(rowIndex);
+                this.packsToInstall.add(pack);    //Temporarily add
                 updateConditions();
-                if (added)
-                {
-                    // redo
-                    this.packsToInstall.remove(pack);
-                }
-                else
-                {
-                    // redo
-                    this.packsToInstall.add(pack);
-                }
-                refreshPacksToInstall();
-                updateBytes();
-                fireTableDataChanged();
-                panel.showSpaceRequired();
+                this.packsToInstall.remove(pack); //Redo
+            }
+            else
+            {
+                onDeselectionUpdate(rowIndex);
+                this.packsToInstall.remove(pack); //Temporarily remove
+                updateConditions();
+                this.packsToInstall.add(pack); //Redo
+            }
+
+            updatePacksToInstall();
+
+            if (pack.hasParent())
+            {
+                updateParent(pack);
+            }
+            else if (pack.hasChildren())
+            {
+                updateChildren(pack);
+            }
+
+            fireTableDataChanged();
+        }
+    }
+
+    /**
+     * Set the value of the parent pack of the given pack to SELECTED, PARTIAL_SELECT, or DESELECTED.
+     * Value of the pack is dependent of its children values.
+     *
+     * @param childPack
+     */
+    private void updateParent(Pack childPack)
+    {
+        String parentName = childPack.getParent();
+        Pack parentPack = nameToPack.get(parentName);
+        int parentPosition = nameToRow.get(parentName);
+
+        int childrenSelected = 0;
+        for (String childName : parentPack.getChildren())
+        {
+            int childPosition = nameToRow.get(childName);
+            if (isChecked(childPosition))
+            {
+                childrenSelected += 1;
+            }
+        }
+
+        if (parentPack.getChildren().size() == childrenSelected)
+        {
+            if (checkValues[parentPosition] < 0)
+            {
+                checkValues[parentPosition] = REQUIRED_SELECTED;
+            }
+            else
+            {
+                checkValues[parentPosition] = SELECTED;
+            }
+        }
+        else if (childrenSelected > 0)
+        {
+
+            if (checkValues[parentPosition] < 0)
+            {
+                checkValues[parentPosition] = REQUIRED_PARTIAL_SELECTED;
+            }
+            else
+            {
+                checkValues[parentPosition] = PARTIAL_SELECTED;
+            }
+        }
+        else
+        {
+            if (checkValues[parentPosition] < 0)
+            {
+                checkValues[parentPosition] = REQUIRED_DESELECTED;
+            }
+            else
+            {
+                checkValues[parentPosition] = DESELECTED;
             }
         }
     }
 
-    private void refreshPacksToInstall()
-    {
 
+    /**
+     * Set the value of children packs to the same value as the parent pack.
+     *
+     * @param parentPack
+     */
+    private void updateChildren(Pack parentPack)
+    {
+        String parentName = parentPack.getName();
+        int parentPosition = nameToRow.get(parentName);
+        int parentValue = checkValues[parentPosition];
+
+        for (String childName : parentPack.getChildren())
+        {
+            int childPosition = nameToRow.get(childName);
+            checkValues[childPosition] = parentValue;
+        }
+    }
+
+    /**
+     * Select/Deselect pack(s) based on packsData mapping.
+     * This is related to the onSelect and onDeselect attributes for packs.
+     * User is not allowed to has a required pack for onSelect and onDeselect.
+     *
+     * @param packsData
+     */
+    private void selectionUpdate(Map<String, String> packsData)
+    {
+        RulesEngine rules = installData.getRules();
+        for (Map.Entry<String, String> packData : packsData.entrySet())
+        {
+            int value, packPos;
+            String packName = packData.getKey();
+            String condition = packData.getValue();
+
+            if(condition != null && !rules.isConditionTrue(condition))
+            {
+                return; //Do nothing if condition is false
+            }
+
+            Pack pack;
+
+            if (packName.startsWith("!"))
+            {
+                packName = packName.substring(1);
+                pack  = nameToPack.get(packName);
+                packPos = getPos(packName);
+                value = DESELECTED;
+            }
+            else
+            {
+                pack  = nameToPack.get(packName);
+                packPos = getPos(packName);
+                value = SELECTED;
+            }
+            if (!pack.isRequired() && dependenciesResolved(pack))
+            {
+                checkValues[packPos] = value;
+            }
+        }
+    }
+
+    /**
+     * Update checkboxes based on the onSelect attribute
+     * @param index
+     */
+    protected void onSelectionUpdate(int index)
+    {
+        Pack pack = packs.get(index);
+        Map<String, String> packsData = pack.getOnSelect();
+        selectionUpdate(packsData);
+    }
+
+    /**
+     * Update checkboxes based on the onDeselect attribute
+     * @param index
+     */
+    protected void onDeselectionUpdate(int index)
+    {
+        Pack pack = packs.get(index);
+        Map<String, String> packsData = pack.getOnDeselect();
+        selectionUpdate(packsData);
+    }
+
+    /**
+     * Update packs to installed.
+     * A pack to be installed is:
+     * 1. A visible pack that has its checkbox checked
+     * 2. A hidden pack that condition
+     * @return
+     */
+    public List<Pack> updatePacksToInstall()
+    {
         packsToInstall.clear();
         for (int i = 0; i < packs.size(); i++)
         {
             Pack pack = packs.get(i);
-            if ((Math.abs(checkValues[i]) == 1) && (!installedpacks.containsKey(pack.getName())))
+            if (isChecked(i) && !installedPacks.containsKey(pack.getName()))
             {
                 packsToInstall.add(pack);
             }
-
-        }
-
-        for (int i = 0; i < packs.size(); i++)
-        {
-            Pack pack = packs.get(i);
-
-            if (installedpacks.containsKey(pack.getName()))
+            else if (installedPacks.containsKey(pack.getName()))
             {
-                checkValues[i] = -3;
+                checkValues[i] = REQUIRED_PARTIAL_SELECTED;
             }
         }
-        // add hidden packs
-        for (Pack hiddenpack : this.hiddenPacks)
+
+        for (Pack hiddenPack : this.hiddenPacks)
         {
-            if (this.rules.canInstallPack(hiddenpack.getName(), variables))
+            if (this.rules.canInstallPack(hiddenPack.getName(), variables))
             {
-                packsToInstall.add(hiddenpack);
+                packsToInstall.add(hiddenPack);
             }
         }
+
+        installData.setSelectedPacks(packsToInstall);
+        return packsToInstall;
     }
 
 
@@ -563,8 +722,9 @@ public class PacksModel extends AbstractTableModel
      * installed anymore and enabling those that can after the change. This is accomplished by
      * running a search that pinpoints the packs that must be disabled by a non-fullfiled
      * dependency.
+     * TODO: Look into "+2" and "-2", doesn't look safe
      */
-    private void updateDeps()
+    protected void updateDeps()
     {
         int[] statusArray = new int[packs.size()];
         for (int i = 0; i < statusArray.length; i++)
@@ -576,11 +736,11 @@ public class PacksModel extends AbstractTableModel
         {
             if (statusArray[i] == 0 && checkValues[i] < 0)
             {
-                checkValues[i] += 2;
+                checkValues[i] += PARTIAL_SELECTED;
             }
             if (statusArray[i] == 1 && checkValues[i] >= 0)
             {
-                checkValues[i] = -2;
+                checkValues[i] = DEPENDENT_DESELECTED;
             }
 
         }
@@ -592,7 +752,7 @@ public class PacksModel extends AbstractTableModel
                 String name = pack.getName();
                 if (!(!rules.canInstallPack(name, variables) && rules.canInstallPackOptional(name, variables)))
                 {
-                    propRequirement(name);
+                    checkValues = propRequirement(name, checkValues);
                 }
             }
         }
@@ -602,8 +762,7 @@ public class PacksModel extends AbstractTableModel
     /*
      * Sees which packs (if any) should be unchecked and updates checkValues
      */
-
-    private void updateExcludes(int rowindex)
+    protected void updateExcludes(int rowindex)
     {
         int value = checkValues[rowindex];
         Pack pack = packs.get(rowindex);
@@ -613,14 +772,14 @@ public class PacksModel extends AbstractTableModel
             {
                 if (rowindex != q)
                 {
-                    Pack otherpack = packs.get(q);
-                    String name1 = otherpack.getExcludeGroup();
+                    Pack otherPack = packs.get(q);
+                    String name1 = otherPack.getExcludeGroup();
                     String name2 = pack.getExcludeGroup();
                     if (name2.equals(name1))
                     {
-                        if (checkValues[q] == 1)
+                        if (checkValues[q] == SELECTED)
                         {
-                            checkValues[q] = 0;
+                            checkValues[q] = DESELECTED;
                         }
                     }
                 }
@@ -628,28 +787,6 @@ public class PacksModel extends AbstractTableModel
         }
     }
 
-    private void updateBytes()
-    {
-        long bytes = 0;
-        for (int q = 0; q < packs.size(); q++)
-        {
-            if (Math.abs(checkValues[q]) == 1)
-            {
-                Pack pack = packs.get(q);
-                bytes += pack.getSize();
-            }
-        }
-
-        // add selected hidden bytes
-        for (Pack hidden : this.hiddenPacks)
-        {
-            if (this.rules.canInstallPack(hidden.getName(), variables))
-            {
-                bytes += hidden.getSize();
-            }
-        }
-        panel.setBytes(bytes);
-    }
 
     /**
      * We use a modified dfs graph search algorithm as described in: Thomas H. Cormen, Charles
@@ -691,7 +828,7 @@ public class PacksModel extends AbstractTableModel
         {
             for (String name : deps)
             {
-                Pack v = namesObj.get(name);
+                Pack v = nameToPack.get(name);
                 if (wipe)
                 {
                     status[getPos(v.getName())] = 1;
@@ -710,21 +847,235 @@ public class PacksModel extends AbstractTableModel
         return 0;
     }
 
-
     /**
-     * @return the installedpacks
+     * Get previously installed packs on modifying a pre-installed application
+     * @return the installedPacks
      */
-    public Map<String, Pack> getInstalledpacks()
+    public Map<String, Pack> getInstalledPacks()
     {
-        return this.installedpacks;
+        return this.installedPacks;
     }
 
     /**
-     * @return the modifyinstallation
+     * @return the modifyInstallation
      */
-    public boolean isModifyinstallation()
+    public boolean isModifyInstallation()
     {
-        return this.modifyinstallation;
+        return this.modifyInstallation;
     }
 
+    /**
+     * Remove pack that are already installed
+     * @param selectedPacks
+     */
+    private void removeAlreadyInstalledPacks(List<Pack> selectedPacks)
+    {
+        List<Pack> removePacks = new ArrayList<Pack>();
+
+        for (Pack selectedPack : selectedPacks)
+        {
+            if (installedPacks.containsKey(selectedPack.getName()))
+            {
+                // pack is already installed, remove it
+                removePacks.add(selectedPack);
+            }
+        }
+        for (Pack removePack : removePacks)
+        {
+            selectedPacks.remove(removePack);
+        }
+    }
+
+    private Map<String, Pack> loadInstallationInformation(boolean modifyInstallation)
+    {
+        Map<String, Pack> installedpacks = new HashMap<String, Pack>();
+        if (!modifyInstallation)
+        {
+            return installedpacks;
+        }
+
+        // installation shall be modified
+        // load installation information
+        ObjectInputStream oin = null;
+        try
+        {
+            FileInputStream fin = new FileInputStream(new File(
+                    installData.getInstallPath() + File.separator + InstallData.INSTALLATION_INFORMATION));
+            oin = new ObjectInputStream(fin);
+            List<Pack> packsinstalled = (List<Pack>) oin.readObject();
+            for (Pack installedpack : packsinstalled)
+            {
+                installedpacks.put(installedpack.getName(), installedpack);
+            }
+            this.removeAlreadyInstalledPacks(installData.getSelectedPacks());
+            logger.fine("Found " + packsinstalled.size() + " installed packs");
+
+            Properties variables = (Properties) oin.readObject();
+
+            for (Object key : variables.keySet())
+            {
+                installData.setVariable((String) key, (String) variables.get(key));
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        finally
+        {
+            if (oin != null)
+            {
+                try { oin.close(); }
+                catch (IOException e) {}
+            }
+        }
+        return installedpacks;
+    }
+
+    /**
+     * Check if a pack's dependencies are resolved.
+     * @param pack
+     * @return
+     */
+    private boolean dependenciesResolved(Pack pack)
+    {
+        if(!pack.hasDependencies())
+        {
+            return true;
+        }
+        for (String dependentPackName : pack.getDependencies())
+        {
+            if (!isChecked(nameToRow.get(dependentPackName)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     * @return mapping from pack name to pack
+     */
+    public Map<String, Pack> getNameToPack()
+    {
+        return nameToPack;
+    }
+
+    /**
+     * @return mapping from pack to row position
+     */
+    public Map<Pack, Integer> getPacksToRowNumbers()
+    {
+        Map<Pack, Integer> packsToRowNumbers = new HashMap<Pack, Integer>();
+        for (Map.Entry<String, Integer> entry : nameToRow.entrySet())
+        {
+            packsToRowNumbers.put(nameToPack.get(entry.getKey()), entry.getValue());
+        }
+        return packsToRowNumbers;
+    }
+
+    /**
+     * @return mapping from pack name to row position
+     */
+    public Map<String, Integer> getNameToRow()
+    {
+        return nameToRow;
+    }
+
+    /**
+     * @return the number of bytes that the installation requires based on selected packs
+     */
+    public int getTotalByteSize()
+    {
+        Map<Pack, Integer> packToRow = getPacksToRowNumbers();
+        int row;
+        int bytes = 0;
+        for (Pack pack : packs)
+        {
+            row = packToRow.get(pack);
+            if(isChecked(row))
+            {
+                bytes += pack.getSize();
+            }
+        }
+        return bytes;
+    }
+
+    /**
+     * Check if the checkbox is selected given its row.
+     *
+     * @param row
+     * @return {@code true} if checkbox is selected else {@code false}
+     */
+    public boolean isChecked(int row)
+    {
+        if(checkValues[row] == SELECTED
+                || checkValues[row] == REQUIRED_SELECTED
+                || checkValues[row] == PARTIAL_SELECTED
+                || checkValues[row] == REQUIRED_PARTIAL_SELECTED)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * @param row
+     * @return {@code true} if checkbox is partially selected else {@code false}
+     */
+    public boolean isPartiallyChecked(int row)
+    {
+        if(checkValues[row] == PARTIAL_SELECTED
+                || checkValues[row] == REQUIRED_PARTIAL_SELECTED)
+        {
+            return true;
+        }
+        return  false;
+    }
+
+    /**
+     * @param row
+     * @return {@code true} if the checkbox is selected else {@code false}
+     */
+    public boolean isCheckBoxSelectable(int row)
+    {
+        return checkValues[row] >= 0;
+    }
+
+    /**
+     * @return {@code true} if any dependencies for the visible packs exists else {@code false}
+     */
+    public boolean dependenciesExist()
+    {
+        for (Pack pack : getVisiblePacks())
+        {
+            if (pack.hasDependencies())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param packName
+     * @return helper method to get a pack object from the pack's name
+     */
+    public Pack getPack(String packName)
+    {
+        return nameToPack.get(packName);
+    }
 }

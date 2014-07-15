@@ -72,6 +72,7 @@ public class TestConsole extends Console
      */
     public TestConsole()
     {
+        super.useDefaultInput();
     }
 
     /**

@@ -21,14 +21,6 @@
 
 package com.izforge.izpack.panels.userinput.gui.title;
 
-import java.awt.Font;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.gui.LabelFactory;
@@ -36,6 +28,11 @@ import com.izforge.izpack.gui.TwoColumnConstraints;
 import com.izforge.izpack.panels.userinput.field.Alignment;
 import com.izforge.izpack.panels.userinput.field.title.TitleField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Title field view.
@@ -105,6 +102,7 @@ public class GUITitleField extends GUIField
             TwoColumnConstraints constraints = new TwoColumnConstraints(TwoColumnConstraints.NORTH, justify);
             addComponent(label, constraints);
         }
+        addTooltip();
     }
 
     /**

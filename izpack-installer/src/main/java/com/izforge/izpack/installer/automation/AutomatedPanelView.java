@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.automation;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -117,5 +118,11 @@ public class AutomatedPanelView extends AbstractPanelView<PanelAutomation>
             handler.emitError(getMessage("data.validation.error.title"), message);
         }
         return defaultAnswer;
+    }
+
+    @Override
+    public void createInstallationRecord(IXMLElement panelRoot)
+    {
+        // TODO Auto-generated method stub
     }
 }

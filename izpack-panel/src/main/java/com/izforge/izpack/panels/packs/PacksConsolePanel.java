@@ -69,6 +69,7 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
      * @param properties  the properties
      * @return <tt>true</tt> if the installation is successful, otherwise <tt>false</tt>
      */
+    @Override
     public boolean run(InstallData installData, Properties properties)
     {
         return true;
@@ -81,6 +82,7 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
      * @param console     the console
      * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
      */
+    @Override
     public boolean run(InstallData installData, Console console)
     {
         out(Type.INFORMATION, "");
@@ -203,7 +205,7 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
             names.put(pack.getName(), pack);
 //            if (pack.getDependencies() != null || pack.getExcludeGroup() != null)
 //            {
-//                dependenciesExist = true;
+//                dependenciesExist2 = true;
 //            }
         }
     }

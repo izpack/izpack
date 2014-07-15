@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,20 @@
  */
 package com.izforge.izpack.util.config.base;
 
+import java.util.List;
+
 
 public interface Profile extends MultiMap<String, Profile.Section>, CommentedMap<String, Profile.Section>
 {
     char PATH_SEPARATOR = '/';
 
-    String getComment();
+    List<String> getHeaderComment();
 
-    void setComment(String value);
+    void setHeaderComment(List<String> value);
+
+    List<String> getFooterComment();
+
+    void setFooterComment(List<String> value);
 
     Section add(String sectionName);
 

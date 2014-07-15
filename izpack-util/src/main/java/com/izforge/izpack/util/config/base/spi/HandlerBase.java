@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,13 @@
 
 package com.izforge.izpack.util.config.base.spi;
 
+import java.util.List;
+
 interface HandlerBase
 {
     void handleEmptyLine();
 
-    void handleComment(String comment);
+    void handleComment(List<String> comment);
 
     void handleOption(String optionName, String optionValue);
 }

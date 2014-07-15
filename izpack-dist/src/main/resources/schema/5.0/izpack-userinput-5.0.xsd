@@ -55,7 +55,39 @@
                                 <xs:documentation>
                                     The percentage of left over vertical space to place on top of the components.
                                     A value of 0 is useful to avoid components moving up and down during
-                                    dynamic validation where components are shown and hidden.
+                                    dynamic validation where components are shown and hidden. The topBuffer may also
+                                    represent the number of pixels to place on top of the components rather than the
+                                    percentage of left over space if the rigid attribute is set to true.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="displayHidden" type="xs:boolean" use="optional" default="false">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    When set to true, fields on this panel will be shown as disabled when the field's
+                                    conditionid evaluates to false. When set to false or not specified, fields will be
+                                    hidden if its conditionid evaluates to false.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="rigid" type="xs:boolean" use="optional" default="false">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    When set to true, the topBuffer will represent the number of pixels to place on top
+                                    of the components rather than the percentage of left over space to place on top of
+                                    the components. This is useful the avoid components moving up and down during
+                                    dynamic validation where components are shown and hidden, and where you would still
+                                    like a gap to be placed on top of the components.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="summaryKey" type="xs:string" use="optional">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    The summary key attribute will allow your UserInputPanel to be displayed on the
+                                    SummaryPanel. The value of the summaryKey attribute within the panel tags represents
+                                    the caption/header that will be shown in the SummaryPanel. The value represents the
+                                    key of your string defined in your langpacks.
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:attribute>
@@ -158,11 +190,6 @@
                     <xs:attribute name="set" type="xs:string" use="optional"/>
                     <xs:attribute name="true" type="xs:string" use="optional"/>
                     <xs:attribute name="txt" type="xs:string" use="optional"/>
-                    <xs:attribute name="revalidate" type="xs:boolean" use="optional">
-                        <xs:annotation>
-                            <xs:documentation>Used by "combo" and "check" fields</xs:documentation>
-                        </xs:annotation>
-                    </xs:attribute>
                 </xs:complexType>
             </xs:element>
             <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
@@ -206,6 +233,34 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="summaryKey" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    The summary key attribute will allow your UserInputPanel field to be displayed on the
+                    SummaryPanel. The value of the summaryKey attribute within the panel tags represents
+                    the label/key that will be shown in the SummaryPanel. The value represents the
+                    key of your string defined in your langpacks. On the SummaryPanel the label/key will be followed by
+                    a space and the value of the variable you are summarizing.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="displayHidden" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    When set to true, this field will be shown as disabled when its
+                    conditionid evaluates to false. When set to false or not specified, this field will be
+                    hidden if its conditionid evaluates to false.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    The tooltip attribute allows a UserInputPanel field to add the specified tooltip to its
+                    component children. The value of tooltip must be the id of the string in langpacks.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <!--                                                                                                        -->
@@ -241,7 +296,6 @@
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="value" type="xs:string" use="optional"/>
-        <xs:attribute name="revalidate" type="xs:boolean" use="optional"/>
     </xs:complexType>
 
     <!--                                                                                                        -->

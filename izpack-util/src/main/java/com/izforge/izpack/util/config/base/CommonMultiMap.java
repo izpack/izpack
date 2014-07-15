@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
  */
 package com.izforge.izpack.util.config.base;
 
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -52,10 +53,10 @@ public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements Comment
         return (Integer) putMeta(META_NEWLINE_COUNT, key, Integer.valueOf(newLines.intValue()+1));
     }
 
-
-    @Override public String getComment(Object key)
+    @SuppressWarnings("unchecked")
+    @Override public List<String> getComment(Object key)
     {
-        return (String) getMeta(META_COMMENT, key);
+        return (List<String>) getMeta(META_COMMENT, key);
     }
 
     @Override public void clear()
@@ -83,9 +84,10 @@ public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements Comment
         }
     }
 
-    @Override public String putComment(K key, String comment)
+    @SuppressWarnings("unchecked")
+    @Override public List<String> putComment(K key, List<String> comment)
     {
-        return (String) putMeta(META_COMMENT, key, comment);
+        return (List<String>) putMeta(META_COMMENT, key, comment);
     }
 
     @Override public V remove(Object key)
@@ -109,9 +111,10 @@ public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements Comment
         return ret;
     }
 
-    @Override public String removeComment(Object key)
+    @SuppressWarnings("unchecked")
+    @Override public List<String> removeComment(Object key)
     {
-        return (String) removeMeta(META_COMMENT, key);
+        return (List<String>) removeMeta(META_COMMENT, key);
     }
 
     Object getMeta(String category, Object key)

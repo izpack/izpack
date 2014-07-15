@@ -363,4 +363,34 @@ public class PackInfo implements Serializable
     {
         pack.addValidator(validatorClassName);
     }
+
+    /**
+     * Determines what packs to be selected or deselected when this pack is selected.
+     * Packs to be deselected should have their named pre-appended with a "!".
+     * Packs to be selected should be specified by name.
+     * Additionally a pack will only be selected or deselected if the condition is true.
+     * The condition is based on weather some pack is selected or deselected.
+     *
+     * @param name name of a pack to be selected/deselected
+     * @param condition select/deselect a pack when this pack is selected and condition is satisfied or null
+     */
+    public void addOnSelect(String name, String condition)
+    {
+        pack.setOnSelect(name, condition);
+    }
+
+    /**
+     * Determines what packs to be selected or deselected when this pack is deselected.
+     * Packs to be deselected should have their named pre-appended with a "!".
+     * Packs to be selected should be specified by name.
+     * Additionally a pack will only be selected or deselected if the condition is true.
+     * The condition is based on weather some pack is selected or deselected.
+     *
+     * @param name name of a pack to be selected/deselected
+     * @param condition select/deselect a pack when this pack is deselected and condition is satisfied or null
+     */
+    public void addOnDeselect(String name, String condition)
+    {
+        pack.setOnDeselect(name, condition);
+    }
 }

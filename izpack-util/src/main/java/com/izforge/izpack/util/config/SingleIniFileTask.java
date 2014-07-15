@@ -116,7 +116,7 @@ public class SingleIniFileTask extends ConfigFileTask
             }
             Ini ini = (Ini) configurable;
             ini.setFile(toFile);
-            ini.setComment(getComment());
+            ini.setHeaderComment(getComment());
             ini.store();
         }
         catch (IOException ioe)

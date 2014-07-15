@@ -55,7 +55,7 @@ public class TwoColumnLayoutTestManual implements ActionListener
         converterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         converterFrame.setSize(new Dimension(240, 80));
 
-        TwoColumnLayout layout = new TwoColumnLayout(10, 5, 30, 25, TwoColumnLayout.LEFT);
+        TwoColumnLayout layout = new TwoColumnLayout(10, 5, 30, 25, false, TwoColumnLayout.LEFT);
 
         //Create and set up the panel.
         converterPanel = new JPanel();

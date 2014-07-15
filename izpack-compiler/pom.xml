@@ -4,7 +4,7 @@
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.0.0-rc2-SNAPSHOT</version>
+        <version>5.0.0-rc3-SNAPSHOT</version>
     </parent>
 
     <artifactId>izpack-compiler</artifactId>
@@ -42,6 +42,10 @@
         </dependency>
 
         <dependency>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+        </dependency>
+        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
@@ -56,6 +60,10 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jline</groupId>
+            <artifactId>jline</artifactId>
         </dependency>
 
         <dependency>
@@ -131,6 +139,31 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-test-resources</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                          <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                          <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
+                          <resources>
+                            <resource>
+                              <directory>src/main/resources</directory>
+                              <filtering>true</filtering>
+                              <includes>
+                                  <include>com/izforge/izpack/compiler/container/panelDependencies.properties</include>
+                              </includes>
+                            </resource>
+                          </resources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

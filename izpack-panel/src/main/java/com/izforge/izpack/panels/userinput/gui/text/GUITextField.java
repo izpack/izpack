@@ -21,17 +21,16 @@
 
 package com.izforge.izpack.panels.userinput.gui.text;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
 import com.izforge.izpack.panels.userinput.field.text.TextField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 
 /**
@@ -65,21 +64,23 @@ public class GUITextField extends GUIField implements FocusListener, DocumentLis
         text.getDocument().addDocumentListener(this);
         text.addFocusListener(this);
         addField(text);
+        addTooltip();
     }
 
     /**
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
+     * @param skipValidation set to true when wanting to save field data without validating
      * @return {@code true} if the field was updated, {@code false} if the view is invalid
      */
     @Override
-    public boolean updateField(Prompt prompt)
+    public boolean updateField(Prompt prompt, boolean skipValidation)
     {
         boolean result = false;
         String text = this.text.getText();
         ValidationStatus status = getField().validate(text);
-        if (status.isValid())
+        if (skipValidation || status.isValid())
         {
             getField().setValue(text);
             result = true;
@@ -106,6 +107,7 @@ public class GUITextField extends GUIField implements FocusListener, DocumentLis
     {
         boolean result = false;
         String value = getField().getValue();
+
         if (value != null)
         {
             text.getDocument().removeDocumentListener(this);

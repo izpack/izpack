@@ -23,6 +23,7 @@ package com.izforge.izpack.util.config.base;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Proxy;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +42,8 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
     private static final int G_OPTION = 5;
     private static final int G_OPTION_IDX = 7;
     private static final long serialVersionUID = -1817521505004015256L;
-    private String _comment;
+    private List<String> _comment;
+    private List<String> _footerComment;
     private final boolean _propertyFirstUpper;
     private final boolean _treeMode;
 
@@ -56,14 +58,24 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
         _propertyFirstUpper = propertyFirstUpper;
     }
 
-    @Override public String getComment()
+    @Override public List<String> getHeaderComment()
     {
         return _comment;
     }
 
-    @Override public void setComment(String value)
+    @Override public void setHeaderComment(List<String> value)
     {
         _comment = value;
+    }
+
+    @Override public List<String> getFooterComment()
+    {
+        return _footerComment;
+    }
+
+    @Override public void setFooterComment(List<String> value)
+    {
+        _footerComment = value;
     }
 
     @Override public Section add(String name)
@@ -207,10 +219,14 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
     void store(IniHandler formatter)
     {
         formatter.startIni();
-        store(formatter, getComment());
+        store(formatter, getHeaderComment());
         for (Ini.Section s : values())
         {
             store(formatter, s);
+        }
+        if (_footerComment != null)
+        {
+            store(formatter, _footerComment);
         }
 
         formatter.endIni();
@@ -218,7 +234,6 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
 
     void store(IniHandler formatter, Section s)
     {
-        store(formatter, getNewLineCount(s.getName()));
         store(formatter, getComment(s.getName()));
         formatter.startSection(s.getName());
         for (String name : s.keySet())
@@ -229,22 +244,13 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
         formatter.endSection();
     }
 
-    void store(IniHandler formatter, int emptyLines)
-    {
-        for (int i = 0; i < emptyLines; i++)
-        {
-            formatter.handleEmptyLine();
-        }
-    }
-
-    void store(IniHandler formatter, String comment)
+    void store(IniHandler formatter, List<String> comment)
     {
         formatter.handleComment(comment);
     }
 
     void store(IniHandler formatter, Section section, String option)
     {
-        store(formatter, section.getNewLineCount(option));
         store(formatter, section.getComment(option));
         int n = section.length(option);
 

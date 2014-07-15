@@ -20,10 +20,10 @@
  */
 package com.izforge.izpack.panels.userinput.field;
 
-import java.util.List;
-
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.exception.IzPackException;
+
+import java.util.List;
 
 /**
  * User-input field configuration.
@@ -40,6 +40,22 @@ public interface FieldConfig
      * @throws IzPackException if the 'variable' attribute is mandatory but not present
      */
     String getVariable();
+
+    /**
+     * Returns the summary key associated with the field.
+     *
+     * @return the 'summaryKey' attribute, or {@code null} if the summary attribute is not present
+     */
+    String getSummaryKey();
+
+    /**
+     * Returns if the field should always be displayed on the panel regardless if its conditionid is true or false.
+     * If the conditionid is false, display the field but disable it.
+     * <p/>
+     *
+     * @return the 'displayHidden' attribute, or {@code null}
+     */
+    boolean getDisplayHidden();
 
     /**
      * Returns the packs that this field applies to.
@@ -91,18 +107,18 @@ public interface FieldConfig
     String getDescription();
 
     /**
+     * Returns the field's tooltip.
+     *
+     * @return the field tooltip. May be @{code null}
+     */
+    String getTooltip();
+
+    /**
      * Returns the field label.
      *
      * @return the field label. May be {@code null}
      */
     String getLabel();
-
-    /**
-     * Determines if field updates trigger re-validation.
-     *
-     * @return {@code true} if the field triggers re-validation
-     */
-    boolean getRevalidate();
 
     /**
      * Returns the condition that determines if the field is displayed or not.

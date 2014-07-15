@@ -37,7 +37,6 @@ import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.DemuxOutputStream;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
-import org.apache.tools.ant.input.DefaultInputHandler;
 import org.apache.tools.ant.taskdefs.Ant;
 import org.apache.tools.ant.util.JavaEnvUtils;
 
@@ -77,6 +76,7 @@ public class AntAction extends ActionBase
     private List<String> uninstallTargets = null;
 
     private File logFile = null;
+    private boolean logFileAppend = false;
 
     private File buildDir = null;
 
@@ -151,7 +151,7 @@ public class AntAction extends ActionBase
             Project antProj = new Project();
             antProj.setName("antcallproject");
             antProj.addBuildListener(createLogger());
-            antProj.setInputHandler(new DefaultInputHandler());
+            antProj.setInputHandler(new AntActionInputHandler());
             antProj.setSystemProperties();
             addProperties(antProj, getProperties());
             addPropertiesFromPropertyFiles(antProj);
@@ -268,10 +268,12 @@ public class AntAction extends ActionBase
      * Sets the logfile path to the given string.
      *
      * @param logFile to be set
+     * @append if true, then append new log entries to existing files
      */
-    public void setLogFile(File logFile)
+    public void setLogFile(File logFile, boolean append)
     {
         this.logFile = logFile;
+        this.logFileAppend = append;
     }
 
     /**
@@ -485,7 +487,7 @@ public class AntAction extends ActionBase
             try
             {
                 logFile.getParentFile().mkdirs();
-                printStream = new PrintStream(new FileOutputStream(logFile));
+                printStream = new PrintStream(new FileOutputStream(logFile, logFileAppend));
                 logger.setOutputPrintStream(printStream);
                 logger.setErrorPrintStream(printStream);
             }

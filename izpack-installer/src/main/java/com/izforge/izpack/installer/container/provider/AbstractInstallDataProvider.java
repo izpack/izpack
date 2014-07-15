@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import org.picocontainer.injectors.Provider;
 
+import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
 import com.izforge.izpack.api.data.DynamicVariable;
@@ -195,17 +196,6 @@ public abstract class AbstractInstallDataProvider implements Provider
         installData.setVariable(ScriptParserConstant.IP_ADDRESS, IPAddress);
         installData.setVariable(ScriptParserConstant.HOST_NAME, hostname);
         installData.setVariable(ScriptParserConstant.FILE_SEPARATOR, File.separator);
-
-        Set<String> systemProperties = System.getProperties().stringPropertyNames();
-        for (String varName : systemProperties)
-        {
-            String varValue = System.getProperty(varName);
-            if (varValue != null)
-            {
-                varName = varName.replace('.', '_');
-                installData.setVariable("SYSTEM_" + varName, varValue);
-            }
-        }
     }
 
     /**
@@ -424,6 +414,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         Locale locale = locales.getLocale();
         if (locale != null)
         {
+            installData.setInstallationRecord(new XMLElementImpl("AutomatedInstallation"));
             installData.setLocale(locale, locales.getISOCode());
             installData.setMessages(locales.getMessages());
         }

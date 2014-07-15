@@ -273,17 +273,19 @@ public class InstallationGroupPanel extends IzPanel
         }
     }
 
-    /* Add the installation group to pack mappings
-    * @see com.izforge.izpack.installer.IzPanel#makeXMLData(com.izforge.izpack.api.adaptator.IXMLElement)
-    */
-
+    /**
+     * Creates an installation record for unattended installations on {@link InstallationGroupPanel},
+     * created during GUI installations.
+     *
+     * @param panelRoot the root element to add the xml to
+     */
     @Override
-    public void makeXMLData(IXMLElement panelRoot)
+    public void createInstallationRecord(IXMLElement panelRoot)
     {
         InstallationGroupPanelAutomationHelper helper = new InstallationGroupPanelAutomationHelper();
         this.installData.setAttribute("GroupData", rows);
         this.installData.setAttribute("packsByName", packsByName);
-        helper.makeXMLData(this.installData, panelRoot);
+        helper.createInstallationRecord(this.installData, panelRoot);
     }
 
     /*

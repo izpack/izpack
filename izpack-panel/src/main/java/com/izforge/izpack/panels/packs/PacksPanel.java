@@ -69,12 +69,7 @@ public class PacksPanel extends PacksPanelBase
         super(panel, parent, installData, resources, factory, rules);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.izforge.izpack.panels.packs.PacksPanelBase#createNormalLayout()
-     */
-
+    @Override
     protected void createNormalLayout()
     {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

@@ -34,14 +34,8 @@ import com.izforge.izpack.installer.automation.PanelAutomation;
  */
 public class DefaultTargetPanelAutomationHelper implements PanelAutomation
 {
-
-    /**
-     * Asks to make the XML panel installDataGUI.
-     *
-     * @param idata     The installation installDataGUI.
-     * @param panelRoot The tree to put the installDataGUI in.
-     */
-    public void makeXMLData(InstallData idata, IXMLElement panelRoot)
+    @Override
+    public void createInstallationRecord(InstallData idata, IXMLElement panelRoot)
     {
         // Installation path markup
         IXMLElement ipath = new XMLElementImpl("installpath", panelRoot);

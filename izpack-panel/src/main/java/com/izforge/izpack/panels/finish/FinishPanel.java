@@ -24,9 +24,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -90,14 +88,13 @@ public class FinishPanel extends IzPanel implements ActionListener
      *
      * @return true if the panel has been validated.
      */
+    @Override
     public boolean isValidated()
     {
         return true;
     }
 
-    /**
-     * Called when the panel becomes active.
-     */
+    @Override
     public void panelActivate()
     {
         parent.lockNextButton();
@@ -145,42 +142,32 @@ public class FinishPanel extends IzPanel implements ActionListener
         log.informUser();
     }
 
-    /**
-     * Actions-handling method.
-     *
-     * @param e The event.
-     */
+    @Override
     public void actionPerformed(ActionEvent e)
     {
         // Prepares the file chooser
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setName(GuiId.FINISH_PANEL_FILE_CHOOSER.id);
         fileChooser.setCurrentDirectory(new File(this.installData.getInstallPath()));
+        fileChooser.setSelectedFile(new File(this.installData.getInstallPath(), "auto-install.xml"));
         fileChooser.setMultiSelectionEnabled(false);
         fileChooser.addChoosableFileFilter(new AutomatedInstallScriptFilter(installData.getMessages()));
         // fileChooser.setCurrentDirectory(new File("."));
 
-        // Shows it
         try
         {
             if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
             {
                 // We handle the xml installDataGUI writing
                 File file = fileChooser.getSelectedFile();
-                FileOutputStream out = new FileOutputStream(file);
-                BufferedOutputStream outBuff = new BufferedOutputStream(out, 5120);
-                parent.writeXMLTree(this.installData.getXmlData(), outBuff);
-                outBuff.flush();
-                outBuff.close();
-
+                parent.writeInstallationRecord(file);
                 autoButton.setEnabled(false);
             }
         }
         catch (Exception err)
         {
-            err.printStackTrace();
             JOptionPane.showMessageDialog(this, err.toString(), getString("installer.error"),
-                                          JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,10 @@
 
 package com.izforge.izpack.util.config.base.spi;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.izforge.izpack.util.config.base.CommentedMap;
 import com.izforge.izpack.util.config.base.Config;
 import com.izforge.izpack.util.config.base.Ini;
@@ -30,18 +34,11 @@ import com.izforge.izpack.util.config.base.Profile;
 abstract class AbstractProfileBuilder implements IniHandler
 {
     private Profile.Section _currentSection;
-    private boolean _header;
-    private String _lastComment;
-    private int _emptyLines = 0;
+    private List<String> lastComments = new ArrayList<String>();
 
     @Override public void endIni()
     {
-
-        // comment only .ini files....
-        if ((_lastComment != null) && _header)
-        {
-            setHeaderComment();
-        }
+        setFooterComment();
     }
 
     @Override public void endSection()
@@ -49,25 +46,19 @@ abstract class AbstractProfileBuilder implements IniHandler
         _currentSection = null;
     }
 
-    @Override public void handleComment(String comment)
+    @Override public void handleComment(List<String> comment)
     {
-        if ((_lastComment != null) && _header)
-        {
-            _header = false;
-            setHeaderComment();
-        }
-
-        _lastComment = comment;
+        lastComments.addAll(comment);
     }
 
     @Override public void handleEmptyLine()
     {
-        _emptyLines++;
+        // Trick to add intermediate comments separated by new line before a property and not to loose them
+        lastComments.add("\0");
     }
 
     @Override public void handleOption(String name, String value)
     {
-        _header = false;
         if (getConfig().isMultiOption())
         {
             _currentSection.add(name, value);
@@ -77,25 +68,12 @@ abstract class AbstractProfileBuilder implements IniHandler
             _currentSection.put(name, value);
         }
 
-        if (_lastComment != null)
-        {
-            putComment(_currentSection, name);
-            _lastComment = null;
-        }
-
-        if (_emptyLines > 0)
-        {
-            putEmptyLines(_currentSection, name);
-            _emptyLines = 0;
-        }
+        putComment(_currentSection, name);
     }
 
     @Override public void startIni()
     {
-        if (getConfig().isHeaderComment())
-        {
-            _header = true;
-        }
+        lastComments.clear();
     }
 
     @Override public void startSection(String sectionName)
@@ -111,30 +89,7 @@ abstract class AbstractProfileBuilder implements IniHandler
             _currentSection = (s == null) ? getProfile().add(sectionName) : s;
         }
 
-        if (_lastComment != null)
-        {
-            if (_header)
-            {
-                setHeaderComment();
-            }
-            else
-            {
-                putComment(getProfile(), sectionName);
-            }
-
-            _lastComment = null;
-        }
-
-        if (_emptyLines > 0)
-        {
-            if (!_header)
-            {
-                putEmptyLines(getProfile(), sectionName);
-            }
-            _emptyLines = 0;
-        }
-
-        _header = false;
+       putComment(getProfile(), sectionName);
     }
 
     abstract Config getConfig();
@@ -146,30 +101,23 @@ abstract class AbstractProfileBuilder implements IniHandler
         return _currentSection;
     }
 
-    private void setHeaderComment()
+    private void setFooterComment()
     {
-        if (getConfig().isComment())
+        if (getConfig().isComment() &&  !lastComments.isEmpty())
         {
-            getProfile().setComment(_lastComment);
+            getProfile().setFooterComment((List<String>)lastComments);
         }
     }
+
 
     private void putComment(CommentedMap<String, ?> map, String key)
     {
-        if (getConfig().isComment())
+        if (getConfig().isComment() &&  !lastComments.isEmpty())
         {
-            map.putComment(key, _lastComment);
-        }
-    }
-
-    private void putEmptyLines(CommentedMap<String, ?> map, String key)
-    {
-        if (getConfig().isEmptyLines())
-        {
-            for (int i = 0; i < _emptyLines; i++)
-            {
-                map.addEmptyLine(key);
-            }
+            // TODO Handle comments between multi-options
+            // (currently, the last one appeared replaces the others)
+            map.putComment(key, (List<String>)lastComments);
+            lastComments = new LinkedList<String>();
         }
     }
 }

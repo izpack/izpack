@@ -28,6 +28,7 @@
     <str id="SimpleFinishPanel.headline" txt="نصب به پایان رسید."/>
     <str id="SummaryPanel.headline" txt="خلاصه اطلاعات پیکربندی"/>
     <str id="TargetPanel.headline" txt="مسیر مقصد"/>
+    <str id="TreePacksPanel.headline" txt="انتخاب بسته های نصب"/>
     <str id="UserInputPanel.headline" txt="اطلاعات کاربر"/>
 
     <!-- General installer strings -->

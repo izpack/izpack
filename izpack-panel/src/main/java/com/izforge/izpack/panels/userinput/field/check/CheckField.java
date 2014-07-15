@@ -92,6 +92,7 @@ public class CheckField extends Field
         boolean result = false;
         if (value != null)
         {
+            getInstallData().setVariable(getVariable(), value);
             result = value.equals(trueValue) || Boolean.valueOf(value);
         }
         return result;

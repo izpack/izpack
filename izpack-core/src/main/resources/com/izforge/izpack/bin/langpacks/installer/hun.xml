@@ -25,6 +25,7 @@
     <str id="SimpleFinishPanel.headline" txt="Telepítés befejezõdött"/>
     <str id="SummaryPanel.headline" txt="Konfigurációs fájlok összefoglalása"/>
     <str id="TargetPanel.headline" txt="Telepítési ösvény"/>
+    <str id="TreePacksPanel.headline" txt="Telepítési csomagok kiválasztása"/>
     <str id="UserInputPanel.headline" txt="Fölhasználói adatok"/>
     <str id="InstallationTypePanel.headline" txt="Telepítés módja"/>
 

@@ -28,6 +28,7 @@
     <str id="SimpleFinishPanel.headline" txt="Pemasangan Telah Selesai"/>
     <str id="SummaryPanel.headline" txt="Ringkasan Data Konfigurasi"/>
     <str id="TargetPanel.headline" txt="Alamat Tujuan"/>
+    <str id="TreePacksPanel.headline" txt="Pilih Paket-Paket Pemasangan"/>
     <str id="UserInputPanel.headline" txt="Data Pengguna"/>
     <str id="UserPathPanel.headline" txt="Pilih Lokasi"/>
     <str id="InstallationTypePanel.headline" txt="Jenis Pemasangan"/>

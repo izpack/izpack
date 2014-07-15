@@ -34,37 +34,32 @@ import com.izforge.izpack.panels.installationgroup.InstallationGroupPanel.GroupD
 
 /**
  * An automation helper for the InstallationGroupPanel
- *
- * @author Scott.Stark@jboss.org
- * @version $Revision:$
  */
-public class InstallationGroupPanelAutomationHelper
-        implements PanelAutomation
+public class InstallationGroupPanelAutomationHelper implements PanelAutomation
 {
     private static final Logger logger = Logger.getLogger(InstallationGroupPanelAutomationHelper.class.getName());
 
     @Override
-    public void makeXMLData(InstallData idata, IXMLElement panelRoot)
+    public void createInstallationRecord(InstallData installData, IXMLElement rootElement)
     {
-        GroupData[] rows = (GroupData[]) idata.getAttribute("GroupData");
-        HashMap<String, Pack> packsByName = (HashMap) idata.getAttribute("packsByName");
-        String selectedInstallGroup = idata.getVariable("INSTALL_GROUP");
-        
+        GroupData[] rows = (GroupData[]) installData.getAttribute("GroupData");
+        HashMap<String, Pack> packsByName = (HashMap<String, Pack>) installData.getAttribute("packsByName");
+        String selectedInstallGroup = installData.getVariable("INSTALL_GROUP");
+
         // Write out the group to pack mappings
         for (GroupData groupData : rows)
         {
             if (groupData.name.equals(selectedInstallGroup))
             {
-              IXMLElement xgroup = new XMLElementImpl("group", panelRoot);
+              IXMLElement xgroup = new XMLElementImpl("group", rootElement);
               xgroup.setAttribute("name", groupData.name);
               for (String name : groupData.packNames)
               {
-                  Pack pack = packsByName.get(name);
                   IXMLElement xpack = new XMLElementImpl("pack", xgroup);
                   xpack.setContent(name);
                   xgroup.addChild(xpack);
               }
-              panelRoot.addChild(xgroup);
+              rootElement.addChild(xgroup);
             }
         }
     }
@@ -83,9 +78,9 @@ public class InstallationGroupPanelAutomationHelper
             for (IXMLElement xpack : packs)
             {
                 String packName = xpack.getContent();
-                for (Pack pack: idata.getAvailablePacks()) 
+                for (Pack pack: idata.getAvailablePacks())
                 {
-                    if (pack.getName().equals(packName)) 
+                    if (pack.getName().equals(packName))
                     {
                         idata.getSelectedPacks().add(pack);
                         logger.fine("Added pack: " + pack.getName());

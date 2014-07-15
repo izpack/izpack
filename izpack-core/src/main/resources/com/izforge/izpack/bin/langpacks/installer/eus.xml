@@ -28,6 +28,7 @@
     <str id="SimpleFinishPanel.headline" txt="Instalazioa bukatua"/>
     <str id="SummaryPanel.headline" txt="Konfigurazio Datuen Laburpena"/>
     <str id="TargetPanel.headline" txt="Jopunturako bidea"/>
+    <str id="TreePacksPanel.headline" txt="Paketeak aukeratu"/>
     <str id="UserInputPanel.headline" txt="Erabiltzailearen datuak"/>
     <str id="UserPathPanel.headline" txt="Aukeratu Bidea"/>
     <str id="InstallationTypePanel.headline" txt="Instalazio Mota"/>

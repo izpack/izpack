@@ -95,6 +95,10 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 {
     private static final long serialVersionUID = -727171695900867059L;
 
+    private static final String ACTIONKEY_TOGGLE = "togglePack";
+    private static final String ACTIONKEY_NEXTCOLUMNCELL = "selectNextColumnCell";
+    private static final String ACTIONKEY_PREVIOUSCOLUMNCELL = "selectPreviousColumnCell";
+
     private static final transient Logger logger = Logger.getLogger(PacksPanelBase.class.getName());
 
     // Common used Swing fields
@@ -226,6 +230,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
      */
     abstract protected void createNormalLayout();
 
+    @Override
     public Messages getMessages()
     {
         return messages;
@@ -324,9 +329,9 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
      * @param panelRoot The XML tree to write the installDataGUI in.
      */
     @Override
-    public void makeXMLData(IXMLElement panelRoot)
+    public void createInstallationRecord(IXMLElement panelRoot)
     {
-        new PacksPanelAutomationHelper().makeXMLData(this.installData, panelRoot);
+        new PacksPanelAutomationHelper().createInstallationRecord(this.installData, panelRoot);
     }
 
     @Override
@@ -543,9 +548,11 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         table.setShowGrid(false);
 
         // register an action to toggle the selected pack when SPACE is pressed in the table
-        table.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "togglePack");
-        table.getActionMap().put("togglePack", new AbstractAction()
+        table.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), ACTIONKEY_TOGGLE);
+        table.getActionMap().put(ACTIONKEY_TOGGLE, new AbstractAction()
         {
+            private static final long serialVersionUID = -2367549964368751438L;
+
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -556,8 +563,10 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 
         // register an action for "selectNextColumnCell" to change selection to the next row.
         // When at the last row, move focus outside the table. This avoids the need to use Ctrl-Tab to move focus
-        table.getActionMap().put("selectNextColumnCell", new AbstractAction()
+        table.getActionMap().put(ACTIONKEY_NEXTCOLUMNCELL, new AbstractAction()
         {
+            private static final long serialVersionUID = -8459710483408176528L;
+
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -576,8 +585,10 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         // register an action for "selectPreviousColumnCell" to change selection to the previous row.
         // When at the first, move focus to the prior component. This avoids the need to use Ctrl-Shift-Tab to move
         // focus
-        table.getActionMap().put("selectPreviousColumnCell", new AbstractAction()
+        table.getActionMap().put(ACTIONKEY_PREVIOUSCOLUMNCELL, new AbstractAction()
         {
+            private static final long serialVersionUID = 5846709935309245963L;
+
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -637,9 +648,11 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     @Override
     public void panelActivate()
     {
+        parent.lockNextButton();
+
         try
         {
-            packsModel = new PacksModel(this, installData, rules)
+            packsModel = new PacksModelGUI(this, installData, rules)
             {
                 /**
                  *
@@ -695,6 +708,8 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         showSpaceRequired();
         showFreeSpace();
         packsTable.setRowSelectionInterval(0, 0);
+
+        updateButtons();
     }
 
     @Override
@@ -711,9 +726,9 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
             first = false;
             retval.append(getI18NPackName(pack));
         }
-        if (packsModel.isModifyinstallation())
+        if (packsModel.isModifyInstallation())
         {
-            Map<String, Pack> installedpacks = packsModel.getInstalledpacks();
+            Map<String, Pack> installedpacks = packsModel.getInstalledPacks();
             retval.append("<br><b>");
             retval.append(messages.get("PacksPanel.installedpacks.summarycaption"));
             retval.append("</b>");
@@ -968,6 +983,18 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         packsModel.setValueAt(checked, row, 0);
         packsTable.repaint();
         packsTable.changeSelection(row, 0, false, false);
+        updateButtons();
     }
 
+    private void updateButtons()
+    {
+        if (installData.getSelectedPacks().isEmpty())
+        {
+            parent.lockNextButton();
+        }
+        else
+        {
+            parent.unlockNextButton();
+        }
+    }
 }

@@ -21,12 +21,12 @@
 
 package com.izforge.izpack.panels.userinput.field;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.exception.IzPackException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Field reader.
@@ -51,6 +51,18 @@ public class FieldReader extends ElementReader implements FieldConfig
     protected static final String VARIABLE = "variable";
 
     /**
+     * Variable attribute name.
+     */
+    protected static final String SUMMARY_KEY = "summaryKey";
+
+
+    /**
+     * Variable attribute name.
+     */
+    protected static final String DISPLAY_HIDDEN = "displayHidden";
+
+
+    /**
      * Text size attribute name.
      */
     private static final String TEXT_SIZE = "size";
@@ -65,6 +77,10 @@ public class FieldReader extends ElementReader implements FieldConfig
      */
     private static final String VALIDATOR = "validator";
 
+    /**
+     * The tooltip attribute name.
+     */
+    private static final String TOOLTIP = "tooltip";
 
     /**
      * Constructs a {@code FieldReader}.
@@ -112,6 +128,43 @@ public class FieldReader extends ElementReader implements FieldConfig
     public String getVariable()
     {
         return getConfig().getAttribute(getField(), VARIABLE);
+    }
+
+    /**
+     * Returns the summaryKey that the field is associated with.
+     * <p/>
+     *
+     * @return the 'summaryKey' attribute, or {@code null}
+     */
+    @Override
+    public String getSummaryKey()
+    {
+        boolean optional = true;
+        return getConfig().getAttribute(getField(), SUMMARY_KEY, optional);
+    }
+
+    /**
+     * Returns if the field should always be displayed on the panel regardless if its conditionid is true or false.
+     * If the conditionid is false, display the field but disable it.
+     * <p/>
+     *
+     * @return the 'displayHidden' attribute, or {@code null}
+     */
+    @Override
+    public boolean getDisplayHidden()
+    {
+        boolean displayHidden = false;
+        boolean optional = true;
+        String displayHiddenValue = getConfig().getAttribute(getField(), DISPLAY_HIDDEN, optional);
+        try
+        {
+            displayHidden = Boolean.parseBoolean(displayHiddenValue);
+            return displayHidden;
+        }
+        catch(Exception ignore)
+        {
+            return false;
+        }
     }
 
     /**
@@ -208,6 +261,16 @@ public class FieldReader extends ElementReader implements FieldConfig
     }
 
     /**
+     * Returns the field's tooltip.
+     *
+     * @return the field tooltip. May be @{code null}
+     */
+    @Override
+    public String getTooltip() {
+        return getConfig().getAttribute(field, TOOLTIP, true);
+    }
+
+    /**
      * Returns the field label.
      *
      * @return the field label. May be {@code null}
@@ -216,17 +279,6 @@ public class FieldReader extends ElementReader implements FieldConfig
     public String getLabel()
     {
         return getText(getSpec());
-    }
-
-    /**
-     * Determines if field updates trigger re-validation.
-     *
-     * @return {@code true} if the field triggers revalidation
-     */
-    @Override
-    public boolean getRevalidate()
-    {
-        return (spec != null) && getConfig().getBoolean(spec, "revalidate", false);
     }
 
     /**

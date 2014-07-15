@@ -1,17 +1,17 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2001 Johannes Lehtinen
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -151,4 +151,24 @@ public class ParsableFile implements Serializable
         return this.condition != null;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuffer retval = new StringBuffer();
+        retval.append("path = ").append(path);
+        retval.append("\n");
+        retval.append("type = ").append(type);
+        retval.append("\n");
+        retval.append("osList = ").append(osConstraints);
+        retval.append("\n");
+        if (osConstraints != null)
+        {
+            for (OsModel anOsList : osConstraints)
+            {
+                retval.append("\tos: ").append(anOsList);
+                retval.append("\n");
+            }
+        }
+        return retval.toString();
+    }
 }

@@ -31,14 +31,14 @@ import com.izforge.izpack.api.rules.RulesEngine;
  *
  * @author Tim Anderson
  */
-public interface ChoiceFieldConfig<T extends Choice> extends FieldConfig
+public interface ChoiceFieldConfig extends FieldConfig
 {
     /**
      * Returns the choices.
      *
      * @return the choices
      */
-    List<T> getChoices(RulesEngine rules);
+    List<Choice> getChoices(RulesEngine rules);
 
     /**
      * Returns the index of the selected choice.

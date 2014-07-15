@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,16 @@
 
 package com.izforge.izpack.util.config.base.spi;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.izforge.izpack.util.config.base.Config;
 import com.izforge.izpack.util.config.base.Options;
 
 public class OptionsBuilder implements OptionsHandler
 {
-    private boolean _header;
-    private String _lastComment;
-    private int _emptyLines = 0;
+    private List<String> lastComments = new ArrayList<String>();
     private Options _options;
 
     public static OptionsBuilder newInstance(Options opts)
@@ -48,29 +50,15 @@ public class OptionsBuilder implements OptionsHandler
 
     @Override public void endOptions()
     {
-
-        // comment only .opt file ...
-        if ((_lastComment != null) && _header)
-        {
-            setHeaderComment();
-        }
+        setFooterComment();
     }
 
-    @Override public void handleComment(String comment)
+    @Override public void handleComment(List<String> comment)
     {
-        if ((_lastComment != null) && _header)
-        {
-            setHeaderComment();
-            _header = false;
-        }
-
-        _lastComment = (_lastComment==null ? comment : _lastComment + getConfig().getLineSeparator() + comment);
+        lastComments.addAll(comment);
     }
 
-    @Override public void handleEmptyLine()
-    {
-        _emptyLines++;
-    }
+    @Override public void handleEmptyLine()  {}
 
     @Override public void handleOption(String name, String value)
     {
@@ -107,38 +95,12 @@ public class OptionsBuilder implements OptionsHandler
             }
         }
 
-        if (_emptyLines > 0)
-        {
-            if (!_header)
-            {
-                putEmptyLines(newName);
-            }
-            _emptyLines = 0;
-        }
-
-        if (_lastComment != null)
-        {
-            if (_header)
-            {
-                setHeaderComment();
-            }
-            else
-            {
-                putComment(newName);
-            }
-
-            _lastComment = null;
-        }
-
-        _header = false;
+        putComment(newName);
     }
 
     @Override public void startOptions()
     {
-        if (getConfig().isHeaderComment())
-        {
-            _header = true;
-        }
+        lastComments.clear();
     }
 
     protected static OptionsBuilder newInstance()
@@ -151,32 +113,22 @@ public class OptionsBuilder implements OptionsHandler
         return _options.getConfig();
     }
 
-    private void setHeaderComment()
+    private void setFooterComment()
     {
-        if (getConfig().isComment())
+        if (getConfig().isComment() &&  !lastComments.isEmpty())
         {
-            _options.setComment(_lastComment);
+            _options.setFooterComment((List<String>)lastComments);
         }
     }
 
     private void putComment(String key)
     {
-        if (getConfig().isComment() &&  _lastComment != null)
+        if (getConfig().isComment() &&  !lastComments.isEmpty())
         {
             // TODO Handle comments between multi-options
             // (currently, the last one appeared replaces the others)
-            _options.putComment(key, _lastComment);
-        }
-    }
-
-    private void putEmptyLines(String key)
-    {
-        if (getConfig().isEmptyLines())
-        {
-            for (int i = 0; i < _emptyLines; i++)
-            {
-                _options.addEmptyLine(key);
-            }
+            _options.putComment(key, (List<String>)lastComments);
+            lastComments = new LinkedList<String>();
         }
     }
 }

@@ -385,17 +385,5 @@ public class TargetPanelTest extends AbstractPanelTest
         {
             super(panel, parent, installData, resources, log);
         }
-
-        /**
-         * Determines if the specified path can be written to.
-         *
-         * @param path the path
-         * @return {@code false}
-         */
-        @Override
-        protected boolean isWriteable(File path)
-        {
-            return false;
-        }
     }
 }

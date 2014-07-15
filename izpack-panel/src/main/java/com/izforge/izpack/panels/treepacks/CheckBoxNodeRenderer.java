@@ -66,7 +66,7 @@ class CheckBoxNodeRenderer implements TreeCellRenderer
                                                   boolean selected, boolean expanded, boolean leaf, int row,
                                                   boolean hasFocus)
     {
-        treePacksPanel.fromModel();
+        treePacksPanel.updateViewFromModel(tree);
 
         if (selected)
         {
@@ -134,7 +134,7 @@ class CheckBoxNodeRenderer implements TreeCellRenderer
 
             if (node.isPartial())
             {
-                checkbox.setIcon(new PartialIcon());
+                checkbox.setIcon(new PartialIcon(node.isEnabled()));
             }
             else
             {

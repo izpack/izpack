@@ -1,47 +1,16 @@
-/*
- * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
- *
- * http://izpack.org/
- * http://izpack.codehaus.org/
- *
- * Copyright 2012 Tim Anderson
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.izforge.izpack.panels.userinput.field.combo;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+package com.izforge.izpack.panels.userinput.field;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.panels.userinput.field.Choice;
-import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
-import com.izforge.izpack.panels.userinput.field.Config;
-import com.izforge.izpack.panels.userinput.field.FieldReader;
 import com.izforge.izpack.panels.userinput.processor.Processor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
-/**
- * A reader for 'combo' fields.
- *
- * @author Tim Anderson
- */
-public class ComboFieldReader extends FieldReader implements ChoiceFieldConfig<Choice>
+public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
 {
 
     /**
@@ -52,16 +21,16 @@ public class ComboFieldReader extends FieldReader implements ChoiceFieldConfig<C
     /**
      * The initial selected index.
      */
-    private int selected = -1;
+    private int selected = 0;
+
 
     /**
-     * Constructs a {@code ComboFieldReader}.
+     * Constructs a {@code SimpleChoiceReader}.
      *
-     * @param field       the field element
-     * @param config      the configuration
-     * @param installData the installation data
+     * @param field  the field element to read
+     * @param config the configuration
      */
-    public ComboFieldReader(IXMLElement field, Config config, InstallData installData)
+    public SimpleChoiceReader(IXMLElement field, Config config, InstallData installData)
     {
         super(field, config);
         this.installData = installData;
@@ -72,16 +41,17 @@ public class ComboFieldReader extends FieldReader implements ChoiceFieldConfig<C
      *
      * @return the choices
      */
-    @Override
     public List<Choice> getChoices(RulesEngine rules)
     {
-        selected = -1;
+        selected = 0;
         List<Choice> result = new ArrayList<Choice>();
         Config config = getConfig();
         String variableValue = installData.getVariable(getVariable());
         for (IXMLElement choice : getSpec().getChildrenNamed("choice"))
         {
             String processorClass = choice.getAttribute("processor");
+            String conditionId = config.getString(choice, "conditionid", null);
+
             if (processorClass != null && !"".equals(processorClass))
             {
                 String values;
@@ -93,7 +63,7 @@ public class ComboFieldReader extends FieldReader implements ChoiceFieldConfig<C
                 catch (Throwable exception)
                 {
                     throw new IzPackException("Failed to get choices from processor=" + processorClass + " in "
-                                                      + config.getContext(choice), exception);
+                            + config.getContext(choice), exception);
                 }
                 String set = config.getString(choice, "set", null);
                 StringTokenizer tokenizer = new StringTokenizer(values, ":");
@@ -105,7 +75,10 @@ public class ComboFieldReader extends FieldReader implements ChoiceFieldConfig<C
                     {
                         selected = result.size();
                     }
-                    result.add(new Choice(token, token));
+                    if (isDisplayed(rules, conditionId))
+                    {
+                        result.add(new Choice(token, token));
+                    }
                 }
             }
             else
@@ -115,28 +88,13 @@ public class ComboFieldReader extends FieldReader implements ChoiceFieldConfig<C
                 {
                     selected = result.size();
                 }
-                result.add(new Choice(value, getText(choice)));
+                if (isDisplayed(rules, conditionId))
+                {
+                    result.add(new Choice(value, getText(choice)));
+                }
             }
         }
         return result;
-    }
-
-    /**
-     * Returns the index of the selected choice.
-     * <p/>
-     * A choice is selected if:
-     * <ul>
-     * <li>the variable value is the same as the choice "value" attribute; or</li>
-     * <li>the "set" attribute is 'true'</li>
-     * </ul>
-     * <p/>
-     * This is only valid after {@link #getChoices()} is invoked.
-     *
-     * @return the selected index or {@code -1} if no choice is selected
-     */
-    public int getSelectedIndex()
-    {
-        return selected;
     }
 
     /**
@@ -153,7 +111,7 @@ public class ComboFieldReader extends FieldReader implements ChoiceFieldConfig<C
      * @param variableValue the variable value. May be {@code null}
      * @return {@code true} if the choice is selected
      */
-    private boolean isSelected(String value, IXMLElement choice, String variableValue)
+    protected boolean isSelected(String value, IXMLElement choice, String variableValue)
     {
         boolean result = false;
         if (variableValue != null)
@@ -170,4 +128,26 @@ public class ComboFieldReader extends FieldReader implements ChoiceFieldConfig<C
         return result;
     }
 
+    /**
+     * Returns the index of the selected choice.
+     * <p/>
+     * A choice is selected if:
+     * <ul>
+     * <li>the variable value is the same as the choice "value" attribute; or</li>
+     * <li>the "set" attribute is 'true'</li>
+     * </ul>
+     * <p/>
+     * This is only valid after {@link #()} is invoked.
+     *
+     * @return the selected index or {@code -1} if no choice is selected
+     */
+    public int getSelectedIndex()
+    {
+        return selected;
+    }
+
+    private boolean isDisplayed(RulesEngine rules, String conditionId)
+    {
+        return (rules == null || conditionId == null || rules.isConditionTrue(conditionId));
+    }
 }

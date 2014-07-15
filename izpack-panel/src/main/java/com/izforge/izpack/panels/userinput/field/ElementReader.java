@@ -22,11 +22,21 @@
 package com.izforge.izpack.panels.userinput.field;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.binding.OsModel;
+import com.izforge.izpack.api.rules.Condition;
+import com.izforge.izpack.api.rules.RulesEngine;
+import com.izforge.izpack.core.rules.logic.AndCondition;
+import com.izforge.izpack.core.rules.logic.NotCondition;
+import com.izforge.izpack.core.rules.logic.OrCondition;
+import com.izforge.izpack.core.rules.process.PackSelectionCondition;
 import com.izforge.izpack.util.OsConstraintHelper;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 
 /**
@@ -85,6 +95,131 @@ public class ElementReader
     public List<OsModel> getOsModels(IXMLElement element)
     {
         return OsConstraintHelper.getOsList(element);
+    }
+
+    /**
+     * Gets a global condition for viewing an UserInputPanel depending on the following optional nested tags to the panel tag:
+     * <ul>
+     * <li>createForPack
+     * <li>createForUnselectedPack
+     * <li>os
+     * </ul>
+     * @param spec UserInputPanel descriptor
+     * @param the platform-model matcher
+     * @param the installation data
+     * @param the rules engine
+     * @return
+     */
+    public Condition getComplexPanelCondition(IXMLElement spec, final PlatformModelMatcher matcher,
+            InstallData installData, RulesEngine rules)
+    {
+        List<String> forPacks = getPacks(spec);
+        List<String> forUnselectedPacks = getUnselectedPacks(spec);
+        final List<OsModel> forOs = getOsModels(spec);
+
+        Set<Condition> globalConditions = new HashSet<Condition>();
+
+        if (!forOs.isEmpty())
+        {
+            Condition osMatcherCondition = new Condition() {
+
+                @Override
+                public void readFromXML(IXMLElement xmlcondition) throws Exception {}
+
+                @Override
+                public void makeXMLData(IXMLElement conditionRoot) {}
+
+                @Override
+                public boolean isTrue()
+                {
+                    return matcher.matchesCurrentPlatform(forOs);
+                }
+            };
+            osMatcherCondition.setId(osMatcherCondition.toString());
+            globalConditions.add(osMatcherCondition);
+        }
+
+        if (!forPacks.isEmpty())
+        {
+            Condition newCondition;
+            if (forPacks.size() > 1)
+            {
+                OrCondition orCondition = new OrCondition(rules);
+                orCondition.setId(orCondition.toString());
+                for (String packName : forPacks)
+                {
+                    orCondition.addOperands(createPackSelectionCondition(installData, packName));
+                }
+                newCondition = orCondition;
+            }
+            else
+            {
+                newCondition = createPackSelectionCondition(installData, forPacks.iterator().next());
+            }
+            globalConditions.add(newCondition);
+        }
+
+        if (!forUnselectedPacks.isEmpty())
+        {
+            Condition newCondition;
+            if (forUnselectedPacks.size() > 1)
+            {
+                OrCondition orCondition = new OrCondition(rules);
+                orCondition.setId(orCondition.toString());
+                for (String packName : forUnselectedPacks)
+                {
+                    orCondition.addOperands(createPackUnselectionCondition(installData, rules, packName));
+                }
+                newCondition = orCondition;
+            }
+            else
+            {
+                newCondition = createPackUnselectionCondition(installData, rules, forUnselectedPacks.iterator().next());
+            }
+            globalConditions.add(newCondition);
+        }
+
+        if (!globalConditions.isEmpty())
+        {
+            Condition newCondition;
+            if (globalConditions.size() > 1)
+            {
+                AndCondition andCondition = new AndCondition(rules);
+                andCondition.setId(andCondition.toString());
+                for (Condition globalCondition : globalConditions)
+                {
+                    andCondition.addOperands(globalCondition);
+                }
+                newCondition = andCondition;
+            }
+            else {
+                newCondition = globalConditions.iterator().next();
+            }
+            return newCondition;
+        }
+        return null;
+    }
+
+    private static Condition createPackSelectionCondition(InstallData installData, String packName)
+    {
+        PackSelectionCondition packSelectionCondition = new PackSelectionCondition();
+        packSelectionCondition.setId(packSelectionCondition.toString());
+        packSelectionCondition.setInstallData(installData);
+        packSelectionCondition.setPack(packName);
+        return packSelectionCondition;
+    }
+
+    private static Condition createPackUnselectionCondition(InstallData installData, RulesEngine rules, String packName)
+    {
+        PackSelectionCondition packSelectionCondition = new PackSelectionCondition();
+        packSelectionCondition.setId(packSelectionCondition.toString());
+        packSelectionCondition.setInstallData(installData);
+        packSelectionCondition.setPack(packName);
+        NotCondition packNotSelectedCondition = new NotCondition(rules);
+        packNotSelectedCondition.setId(packNotSelectedCondition.toString());
+        packNotSelectedCondition.setInstallData(installData);
+        packNotSelectedCondition.setReferencedCondition(packSelectionCondition);
+        return packNotSelectedCondition;
     }
 
     /**

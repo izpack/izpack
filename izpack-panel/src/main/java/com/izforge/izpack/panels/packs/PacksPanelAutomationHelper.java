@@ -42,23 +42,17 @@ public class PacksPanelAutomationHelper implements PanelAutomation
 {
     private static final Logger logger = Logger.getLogger(PacksPanelAutomationHelper.class.getName());
 
-    /**
-     * Asks to make the XML panel installDataGUI.
-     *
-     * @param idata     The installation installDataGUI.
-     * @param panelRoot The XML tree to write the installDataGUI in.
-     */
     @Override
-    public void makeXMLData(InstallData idata, IXMLElement panelRoot)
+    public void createInstallationRecord(InstallData installData, IXMLElement panelRoot)
     {
         // We add each pack to the panelRoot element
-        for (int i = 0; i < idata.getAvailablePacks().size(); i++)
+        for (int i = 0; i < installData.getAvailablePacks().size(); i++)
         {
-            Pack pack = idata.getAvailablePacks().get(i);
+            Pack pack = installData.getAvailablePacks().get(i);
             IXMLElement packElement = new XMLElementImpl("pack", panelRoot);
             packElement.setAttribute("index", Integer.toString(i));
             packElement.setAttribute("name", pack.getName());
-            Boolean selected = idata.getSelectedPacks().contains(pack);
+            Boolean selected = installData.getSelectedPacks().contains(pack);
             packElement.setAttribute("selected", selected.toString());
 
             panelRoot.addChild(packElement);
@@ -200,6 +194,6 @@ public class PacksPanelAutomationHelper implements PanelAutomation
         {
             panelRoot.removeChild(panelRoot.getChildAtIndex(0));
         }
-        makeXMLData(idata, panelRoot);
+        createInstallationRecord(idata, panelRoot);
     }
 }

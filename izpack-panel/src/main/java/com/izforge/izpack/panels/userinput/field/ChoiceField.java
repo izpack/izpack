@@ -31,12 +31,12 @@ import com.izforge.izpack.api.data.InstallData;
  *
  * @author Tim Anderson
  */
-public abstract class ChoiceField<T extends Choice> extends Field
+public abstract class ChoiceField extends Field
 {
     /**
      * The available choices.
      */
-    private final List<T> choices;
+    private final List<Choice> choices;
 
     /**
      * The selected index.
@@ -49,7 +49,7 @@ public abstract class ChoiceField<T extends Choice> extends Field
      * @param config      the field configuration
      * @param installData the installation data
      */
-    public ChoiceField(ChoiceFieldConfig<T> config, InstallData installData)
+    public ChoiceField(ChoiceFieldConfig config, InstallData installData)
     {
         super(config, installData);
         this.choices = config.getChoices(installData.getRules());
@@ -61,7 +61,7 @@ public abstract class ChoiceField<T extends Choice> extends Field
      *
      * @return the choices. The key is the choice identifier, the value, the display text
      */
-    public List<T> getChoices()
+    public List<Choice> getChoices()
     {
         return choices;
     }

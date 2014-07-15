@@ -23,6 +23,7 @@
 package com.izforge.izpack.compiler.packager.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,10 +36,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.jar.Attributes.Name;
+import java.util.jar.Manifest;
 import java.util.zip.ZipInputStream;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
 import com.izforge.izpack.api.data.DynamicVariable;
@@ -460,16 +460,15 @@ public abstract class PackagerBase implements IPackager
     protected void writeManifest() throws IOException
     {
         // Add splash screen configuration
-        List<String> lines = IOUtils.readLines(PackagerBase.class.getResourceAsStream("MANIFEST.MF"));
+        Manifest manifest = new Manifest(PackagerBase.class.getResourceAsStream("MANIFEST.MF"));
         if (splashScreenImage != null)
         {
             String destination = String.format("META-INF/%s", splashScreenImage.getName());
             mergeManager.addResourceToMerge(splashScreenImage.getAbsolutePath(), destination);
-            lines.add(String.format("SplashScreen-Image: %s", destination));
+            manifest.getMainAttributes().put(new Name("SplashScreen-Image"), destination);
         }
-        lines.add("");
         File tempManifest = com.izforge.izpack.util.file.FileUtils.createTempFile("MANIFEST", ".MF");
-        FileUtils.writeLines(tempManifest, lines);
+        manifest.write(new FileOutputStream(tempManifest));
         mergeManager.addResourceToMerge(tempManifest.getAbsolutePath(), "META-INF/MANIFEST.MF");
     }
 
@@ -496,6 +495,7 @@ public abstract class PackagerBase implements IPackager
         mergeManager.addResourceToMerge("com/coi/tools/");
         mergeManager.addResourceToMerge("org/apache/tools/zip/");
         mergeManager.addResourceToMerge("org/apache/commons/io/FilenameUtils.class");
+        mergeManager.addResourceToMerge("jline/");
         mergeManager.merge(installerJar);
     }
 

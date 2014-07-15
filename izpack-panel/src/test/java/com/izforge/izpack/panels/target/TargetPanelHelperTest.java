@@ -58,10 +58,9 @@ public class TargetPanelHelperTest
     {
         Variables variables = new DefaultVariables();
         InstallData installData = new AutomatedInstallData(variables, Platforms.WINDOWS_7);
-        assertNull(TargetPanelHelper.getPath(installData));
 
         // verify that the user dir is returned if no other variable is set
-        variables.set("SYSTEM_user_dir", "userdir");
+        System.setProperty("user.dir", "userdir");
         assertEquals("userdir", TargetPanelHelper.getPath(installData));
 
         // verify that the DEFAULT_INSTALL_PATH overrides SYSTEM_user_dir
@@ -82,7 +81,7 @@ public class TargetPanelHelperTest
         Variables variables = new DefaultVariables();
         InstallData installData = new AutomatedInstallData(variables, Platforms.WINDOWS_7);
 
-        variables.set("SYSTEM_user_dir", "userdir");
+        System.setProperty("user.dir", "userdir");
         variables.set("DEFAULT_INSTALL_PATH", "default");
         assertEquals("default", TargetPanelHelper.getPath(installData));
 
@@ -106,7 +105,7 @@ public class TargetPanelHelperTest
         Variables variables = new DefaultVariables();
         InstallData installData = new AutomatedInstallData(variables, Platforms.MAC_OSX);
 
-        variables.set("SYSTEM_user_dir", "userdir");
+        System.setProperty("user.dir", "userdir");
         variables.set("DEFAULT_INSTALL_PATH", "default");
         assertEquals("default", TargetPanelHelper.getPath(installData));
 
@@ -132,7 +131,7 @@ public class TargetPanelHelperTest
         Variables variables = new DefaultVariables();
         InstallData installData = new AutomatedInstallData(variables, Platforms.FEDORA_LINUX);
 
-        variables.set("SYSTEM_user_dir", "userdir");
+        System.setProperty("user.dir", "userdir");
         variables.set("DEFAULT_INSTALL_PATH", "default");
         assertEquals("default", TargetPanelHelper.getPath(installData));
 

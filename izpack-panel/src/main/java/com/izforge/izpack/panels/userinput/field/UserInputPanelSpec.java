@@ -211,10 +211,7 @@ public class UserInputPanelSpec
         for (IXMLElement element : elements)
         {
             Field field = factory.create(element);
-            if (field.isConditionTrue())
-            {
-                result.add(field);
-            }
+            result.add(field);
         }
         return result;
     }

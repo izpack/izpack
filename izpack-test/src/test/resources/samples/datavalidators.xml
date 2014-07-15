@@ -13,14 +13,19 @@
         <langpack iso3="eng"/>
     </locale>
 
+    <condition type="variable" id="isCorrectVersion">
+      <name>APP_VER</name>
+      <value>1.4 beta 666</value>
+    </condition>
+
     <panels>
         <panel classname="HelloPanel" id="HelloPanel">
-            <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
+            <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator" condition="isCorrectVersion"/>
         </panel>
         <panel classname="InstallPanel" id="InstallPanel">
             <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
         </panel>
-        <panel classname="SimpleFinishPanel"> <!-- MOTE: validators associated with last panel are ignored -->
+        <panel classname="SimpleFinishPanel"> <!-- NOTE: validators associated with last panel are ignored -->
             <validator classname="com.izforge.izpack.integration.datavalidator.TestDataValidator"/>
         </panel>
     </panels>

@@ -237,6 +237,55 @@ public class DefaultVariablesTest
     }
 
     /**
+     * Tests simple dynamic variables.
+     */
+    @Test
+    public void testDynamicVariablesUnset()
+    {
+        // set up conditions
+        Map<String, Condition> conditions = new HashMap<String, Condition>();
+        conditions.put("cond1", new VariableCondition("condvar1", "x"));
+        conditions.put("cond2", new VariableCondition("condvar2", "y"));
+
+        // set up the rules
+        AutomatedInstallData installData = new AutomatedInstallData(variables, Platforms.LINUX);
+        RulesEngineImpl rules = new RulesEngineImpl(installData, new ConditionContainer(new DefaultContainer()),
+                                                    installData.getPlatform());
+        rules.readConditionMap(conditions);
+        ((DefaultVariables) variables).setRules(rules);
+
+        DynamicVariable variable1 = createDynamic("unset1", "a", "cond1+cond2");
+        variable1.setCheckonce(true);
+        variables.add(variable1);
+        DynamicVariable variable2 = createDynamic("unset1", "b", "cond1+!cond2");
+        variable2.setCheckonce(true);
+        variables.add(variable2);
+
+        // !cond1+!cond2
+        variables.refresh();
+        assertNull(variables.get("unset1"));
+
+        variables.set("condvar1", "x");
+        // cond1+!cond2
+        variables.refresh();
+        assertEquals("b", variables.get("unset1"));
+        variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
+        assertEquals("b", variables.get("unset1"));
+
+        variables.set("unset1", "anothervalue");
+        variables.refresh(); // Check keep overload from another source like a user input panel
+        assertEquals("anothervalue", variables.get("unset1"));
+
+        variables.set("condvar2", "y");
+        // cond1+cond2 - override the previous value
+        variables.refresh();
+        assertEquals("a", variables.get("unset1"));
+        variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
+        assertEquals("a", variables.get("unset1"));
+    }
+
+
+    /**
      * Creates a dynamic variable.
      *
      * @param name  the variable name

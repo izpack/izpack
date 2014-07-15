@@ -70,6 +70,7 @@ public class ActionBase implements Serializable
     public static final String ANTCALL_VERBOSE_ATTR = "verbose";
     public static final String ANTCALL_LOGLEVEL_ATTR = "loglevel";
     public static final String ANTCALL_LOGFILE_ATTR = "logfile";
+    public static final String LOGFILE_APPEND = "logfile_append";
     public static final String ANTCALL_DIR_ATTR = "dir";
     public static final String ANTCALL_BUILDFILE_ATTR = "buildfile";
     public static final String ANTCALL_BUILDRESOURCE_ATTR = "buildresource";

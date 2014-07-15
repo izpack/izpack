@@ -172,8 +172,22 @@ public class Config
      */
     public String getAttribute(IXMLElement element, String name)
     {
+        return getAttribute(element, name, false);
+    }
+
+    /**
+     * Returns the named attribute value.
+     *
+     * @param element   the element
+     * @param name      the attribute name
+     * @param optional  flag to allow null to be returned if attribute is optional
+     * @return the attribute value, or null if attribute does not exist and attribute is optional
+     * @throws IzPackException if the attribute is not found and attribute is required
+     */
+    public String getAttribute(IXMLElement element, String name, boolean optional)
+    {
         String value = element.getAttribute(name);
-        if (value == null)
+        if (!optional && value == null)
         {
             String message = "<" + element.getName() + "> requires attribute '" + name + "'";
             throw new IzPackException(getContext(element) + ": " + message);

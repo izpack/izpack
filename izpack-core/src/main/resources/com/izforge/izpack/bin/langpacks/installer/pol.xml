@@ -212,6 +212,7 @@
     <str id="TargetPanel.summaryCaption" txt="Katalog docelowy"/>
     <str id="TargetPanel.warn"
          txt="Katalog już istnieje! Czy jesteś pewien, że chcesz kontynuować instalację i nadpisać istniejące pliki?"/>
+    <str id="TreePacksPanel.headline" txt="Wybierz pakiety do zainstalowania"/>
     <str id="TreePacksPanel.summaryCaption" txt="Wybrane pakiety"/>
     <str id="uninstaller.destroytarget" txt=" Wymuś usunięcie "/>
     <str id="uninstaller.uninstall" txt="Odinstaluj"/>

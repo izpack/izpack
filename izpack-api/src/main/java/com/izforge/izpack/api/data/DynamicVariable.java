@@ -71,6 +71,9 @@ public interface DynamicVariable extends Serializable
     boolean isCheckonce();
     void setCheckonce(boolean checkonce);
 
+    boolean isChecked();
+    void setChecked();
+
     void setIgnoreFailure(boolean ignore);
 
     void addFilter(ValueFilter filter);

@@ -21,10 +21,7 @@ package com.izforge.izpack.api.data;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.izforge.izpack.api.data.binding.OsModel;
 
@@ -105,6 +102,16 @@ public class Pack implements Serializable
     private List<String> dependants;
 
     /**
+     * Mapping from packs to be selected/deselected and any conditions.
+     */
+    private Map<String, String> onSelectPacks;
+
+    /**
+     * Mapping from packs to be selected/deselected and any conditions.
+     */
+    private Map<String, String> onDeselectPacks;
+
+    /**
      * True if the pack is required.
      */
     private boolean required;
@@ -128,6 +135,11 @@ public class Pack implements Serializable
      * Parent pack name. May be {@code null}
      */
     private String parent;
+
+    /**
+     * Children pack names.
+     */
+    private List<String> children = new ArrayList<String>();
 
     /**
      * The pack's image resource identifier. May be {@code null}
@@ -195,6 +207,8 @@ public class Pack implements Serializable
         this.excludeGroup = excludeGroup;
         this.uninstall = uninstall;
         this.size = size;
+        this.onSelectPacks = new HashMap<String, String>();
+        this.onDeselectPacks = new HashMap<String, String>();
     }
 
     /**
@@ -275,6 +289,11 @@ public class Pack implements Serializable
     public List<String> getDependencies()
     {
         return dependencies;
+    }
+
+    public boolean hasDependencies()
+    {
+        return dependencies != null;
     }
 
     /**
@@ -511,6 +530,42 @@ public class Pack implements Serializable
     }
 
     /**
+     *
+     * @return {@code true} if the pack has a parent otherwise {@code false}
+     */
+    public boolean hasParent()
+    {
+        return parent != null;
+    }
+
+    /**
+     * Add a child to this pack.
+     */
+    public void addChild(String child)
+    {
+        this.children.add(child);
+    }
+
+    /**
+     * Returns the children pack names.
+     *
+     * @return the names of the children for this pack.
+     */
+    public List<String> getChildren()
+    {
+        return children;
+    }
+
+    /**
+     *
+     * @return {@code true} if the pack has a parent otherwise {@code false}
+     */
+    public boolean hasChildren()
+    {
+        return !children.isEmpty();
+    }
+
+    /**
      * Sets the pack image resource identifier.
      *
      * @param imageId the image resource identifier. May be {@code null}
@@ -640,4 +695,47 @@ public class Pack implements Serializable
         }
     }
 
+    /**
+     * Determines what packs to be selected or deselected when this pack is selected.
+     * Packs to be deselected should have their named pre-appended with a "!".
+     * Packs to be selected should be specified by name.
+     * Additionally a pack will only be selected or deselected if the condition is true.
+     * The condition is based on weather some pack is selected or deselected.
+     *
+     * @param names names of a pack to be selected/deselected separated by a comma
+     * @param condition select/deselect a pack when this pack is selected and condition is satisfied or null
+     */
+    public void setOnSelect(String names, String condition)
+    {
+        for (String name : names.split(","))
+        {
+            this.onSelectPacks.put(name, condition);
+        }
+    }
+
+    public Map<String, String> getOnSelect()
+    {
+        return this.onSelectPacks;
+    }
+    /**
+     * Determines what packs to be selected or deselected when this pack is deselected.
+     * Packs to be deselected should have their named pre-appended with a "!".
+     * Packs to be selected should be specified by name.
+     * Additionally a pack will only be selected or deselected if the condition is true.
+     * The condition is based on weather some pack is selected or deselected.
+     *
+     * @param names name of a pack to be selected/deselected separated by a comma
+     * @param condition select/deselect a pack when this pack is deselected and condition is satisfied or null
+     */
+    public void setOnDeselect(String names, String condition)
+    {
+        for (String name : names.split(","))
+        {
+            this.onDeselectPacks.put(name, condition);
+        }
+    }
+    public Map<String, String> getOnDeselect()
+    {
+        return this.onDeselectPacks;
+    }
 }

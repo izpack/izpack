@@ -5,7 +5,7 @@
  * http://izpack.codehaus.org/
  *
  * Copyright 2005,2009 Ivan SZKIBA
- * Copyright 2010,2011 Rene Krell
+ * Copyright 2010,2014 René Krell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,8 @@ import java.io.InputStream;
 import java.io.LineNumberReader;
 import java.io.Reader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.izforge.izpack.util.config.base.Config;
 
@@ -42,6 +44,7 @@ class IniSource
     private final Config _config;
     private final HandlerBase _handler;
     private final LineNumberReader _reader;
+    List<String> comments = new ArrayList<String>();
 
     IniSource(InputStream input, HandlerBase handler, String comments, Config config)
     {
@@ -121,14 +124,14 @@ class IniSource
         if (buff.length() != 0)
         {
             buff.deleteCharAt(buff.length() - 1);
-            _handler.handleComment(buff.toString());
+            comments.add(buff.toString());
             buff.delete(0, buff.length());
         }
     }
 
     private void handleEmptyLine()
     {
-        _handler.handleEmptyLine();
+        comments.add("\0");
     }
 
     private String handleInclude(String input) throws IOException
@@ -199,13 +202,10 @@ class IniSource
             line = line.trim();
             if (line.length() == 0)
             {
-                if (_config.isEmptyLines() && comment.length() == 0)
-                {
-                    handleEmptyLine();
-                }
-                else
+                if (_config.isEmptyLines())
                 {
                     handleComment(comment);
+                    handleEmptyLine();
                 }
             }
             else if ((_commentChars.indexOf(line.charAt(0)) >= 0) && (buff.length() == 0))
@@ -233,6 +233,9 @@ class IniSource
         {
             handleComment(comment);
         }
+
+        _handler.handleComment(comments);
+        comments.clear();
 
         return line;
     }

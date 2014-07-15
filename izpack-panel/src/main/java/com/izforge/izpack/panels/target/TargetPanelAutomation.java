@@ -39,19 +39,14 @@ public class TargetPanelAutomation implements PanelAutomation
     {
     }
 
-    /**
-     * Asks to make the XML panel installDataGUI.
-     *
-     * @param idata     The installation installDataGUI.
-     * @param panelRoot The tree to put the installDataGUI in.
-     */
-    public void makeXMLData(InstallData idata, IXMLElement panelRoot)
+    @Override
+    public void createInstallationRecord(InstallData installData, IXMLElement panelRoot)
     {
         // Installation path markup
         IXMLElement ipath = new XMLElementImpl("installpath", panelRoot);
         // check this writes even if value is the default,
         // because without the constructor, default does not get set.
-        ipath.setContent(idata.getInstallPath());
+        ipath.setContent(installData.getInstallPath());
 
         // Checkings to fix bug #1864
         IXMLElement prev = panelRoot.getFirstChildNamed("installpath");
@@ -62,25 +57,19 @@ public class TargetPanelAutomation implements PanelAutomation
         panelRoot.addChild(ipath);
     }
 
-    /**
-     * Asks to run in the automated mode.
-     *
-     * @param idata     The installation installDataGUI.
-     * @param panelRoot The XML tree to read the installDataGUI from.
-     * @throws InstallerException if an incompatible installation exists at the specified path
-     */
-    public void runAutomated(InstallData idata, IXMLElement panelRoot)
+    @Override
+    public void runAutomated(InstallData installData, IXMLElement panelRoot)
     {
         // We set the installation path
         IXMLElement ipath = panelRoot.getFirstChildNamed("installpath");
 
         // Allow for variable substitution of the installpath value
         String path = ipath.getContent();
-        path = idata.getVariables().replace(path);
+        path = installData.getVariables().replace(path);
         if (TargetPanelHelper.isIncompatibleInstallation(path))
         {
-            throw new InstallerException(idata.getMessages().get("TargetPanel.incompatibleInstallation"));
+            throw new InstallerException(installData.getMessages().get("TargetPanel.incompatibleInstallation"));
         }
-        idata.setInstallPath(path);
+        installData.setInstallPath(path);
     }
 }

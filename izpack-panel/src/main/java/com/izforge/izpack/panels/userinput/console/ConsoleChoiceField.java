@@ -43,7 +43,7 @@ public abstract class ConsoleChoiceField<T extends Choice> extends ConsoleField
      * @param console the console
      * @param prompt  the prompt
      */
-    public ConsoleChoiceField(ChoiceField<T> field, Console console, Prompt prompt)
+    public ConsoleChoiceField(ChoiceField field, Console console, Prompt prompt)
     {
         super(field, console, prompt);
     }
@@ -55,9 +55,9 @@ public abstract class ConsoleChoiceField<T extends Choice> extends ConsoleField
      */
     @Override
     @SuppressWarnings("unchecked")
-    public ChoiceField<T> getField()
+    public ChoiceField getField()
     {
-        return (ChoiceField<T>) super.getField();
+        return (ChoiceField) super.getField();
     }
 
     /**
@@ -70,10 +70,10 @@ public abstract class ConsoleChoiceField<T extends Choice> extends ConsoleField
     @Override
     public boolean display()
     {
-        ChoiceField<T> field = getField();
+        ChoiceField field = getField();
         printDescription();
 
-        List<T> choices = field.getChoices();
+        List<Choice> choices = field.getChoices();
         listChoices(choices, field.getSelectedIndex());
 
         int selected = getConsole().prompt("input selection: ", 0, choices.size() - 1, field.getSelectedIndex(), -1);
@@ -91,7 +91,7 @@ public abstract class ConsoleChoiceField<T extends Choice> extends ConsoleField
      * @param choices  the choices
      * @param selected the selected choice, or {@code -1} if no choice is selected
      */
-    protected void listChoices(List<T> choices, int selected)
+    protected void listChoices(List<Choice> choices, int selected)
     {
         for (int i = 0; i < choices.size(); ++i)
         {

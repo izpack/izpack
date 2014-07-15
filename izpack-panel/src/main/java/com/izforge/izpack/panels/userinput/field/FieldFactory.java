@@ -27,7 +27,6 @@ import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.check.CheckFieldReader;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
-import com.izforge.izpack.panels.userinput.field.combo.ComboFieldReader;
 import com.izforge.izpack.panels.userinput.field.divider.Divider;
 import com.izforge.izpack.panels.userinput.field.divider.DividerReader;
 import com.izforge.izpack.panels.userinput.field.file.DirField;
@@ -39,7 +38,6 @@ import com.izforge.izpack.panels.userinput.field.file.MultipleFileFieldReader;
 import com.izforge.izpack.panels.userinput.field.password.PasswordGroupField;
 import com.izforge.izpack.panels.userinput.field.password.PasswordGroupFieldReader;
 import com.izforge.izpack.panels.userinput.field.radio.RadioField;
-import com.izforge.izpack.panels.userinput.field.radio.RadioFieldReader;
 import com.izforge.izpack.panels.userinput.field.rule.RuleField;
 import com.izforge.izpack.panels.userinput.field.rule.RuleFieldReader;
 import com.izforge.izpack.panels.userinput.field.search.SearchField;
@@ -125,7 +123,7 @@ public class FieldFactory
                 result = new CheckField(new CheckFieldReader(element, config), installData);
                 break;
             case COMBO:
-                result = new ComboField(new ComboFieldReader(element, config, installData), installData);
+                result = new ComboField(new SimpleChoiceReader(element, config, installData), installData);
                 break;
             case DIR:
                 result = new DirField(new DirFieldReader(element, config), installData);
@@ -143,7 +141,7 @@ public class FieldFactory
                 result = new PasswordGroupField(new PasswordGroupFieldReader(element, config), installData);
                 break;
             case RADIO:
-                result = new RadioField(new RadioFieldReader(element, config), installData);
+                result = new RadioField(new SimpleChoiceReader(element, config, installData), installData);
                 break;
             case RULE:
                 result = new RuleField(new RuleFieldReader(element, config), installData, config.getFactory());

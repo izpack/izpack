@@ -29,10 +29,8 @@ import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.handler.ConsolePrompt;
-import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.test.provider.InstallDataMockProvider;
 import com.izforge.izpack.test.util.TestConsole;
-import com.izforge.izpack.util.Console;
 
 /**
  * Container for testing console panels.

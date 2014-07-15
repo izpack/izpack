@@ -21,22 +21,17 @@
 package com.izforge.izpack.installer.gui;
 
 
-import static com.izforge.izpack.api.GuiId.BUTTON_NEXT;
-import static com.izforge.izpack.api.GuiId.BUTTON_PREV;
-import static com.izforge.izpack.api.GuiId.BUTTON_QUIT;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.SwingUtilities;
-
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.panel.Panels;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static com.izforge.izpack.api.GuiId.*;
 
 /**
  * Default implementation of {@link Navigator}.
@@ -45,7 +40,6 @@ import com.izforge.izpack.installer.panel.Panels;
  */
 public class DefaultNavigator implements Navigator
 {
-
     /**
      * The parent frame.
      */
@@ -115,16 +109,33 @@ public class DefaultNavigator implements Navigator
                                           installData.buttonsHColor);
         quit.setName(BUTTON_QUIT.id);
         quit.addActionListener(navHandler);
+
         configureVisibility();
     }
 
-    protected void updateButtonText(Messages messages) {
+    protected void updateButtonText(Messages messages)
+    {
 
         previous.setText(messages.get("installer.prev"));
         next.setText(messages.get("installer.next"));
         quit.setText(messages.get("installer.quit"));
 
     }
+
+    /**
+     * Call to reserve mnemonics for the buttons used by the navigator.
+     */
+    public void reserveNavigatorButtonMnemonics()
+    {
+        JButton [] buttons = {
+                quit,
+                next,
+                previous
+        };
+
+        ButtonFactory.reserveButtonMnemonics(buttons);
+    }
+
     /**
      * Registers the parent installer frame.
      * <p/>
@@ -326,7 +337,7 @@ public class DefaultNavigator implements Navigator
     public boolean next(boolean validate)
     {
         boolean result = false;
-        if (panels.isNextEnabled() && panels.hasNext())
+        if (panels.isNextEnabled())
         {
             try
             {
@@ -351,7 +362,7 @@ public class DefaultNavigator implements Navigator
     public boolean previous()
     {
         boolean result = false;
-        if (panels.isPreviousEnabled() && panels.hasPrevious())
+        if (panels.isPreviousEnabled())
         {
             try
             {
@@ -462,8 +473,7 @@ public class DefaultNavigator implements Navigator
      */
     private void configureVisibility()
     {
-        int index = panels.getIndex();
-        if (panels.getNext(index, true) == -1)
+        if (panels.getNext(true) == -1)
         {
             // last panel. Disable navigation.
             setPreviousVisible(false);
@@ -476,7 +486,7 @@ public class DefaultNavigator implements Navigator
             if (configurePrevious)
             {
                 // only configure the previous button if it wasn't modified during panel switching
-                boolean enablePrev = panels.getPrevious(index, true) != -1;
+                boolean enablePrev = panels.getPrevious(true) != -1;
                 setPreviousVisible(enablePrev);
                 setPreviousEnabled(enablePrev);
             }
@@ -484,7 +494,7 @@ public class DefaultNavigator implements Navigator
             if (configureNext)
             {
                 // only configure the next button if it wasn't modified during panel switching
-                boolean enableNext = panels.getNext(index, true) != -1;
+                boolean enableNext = panels.getNext(true) != -1;
                 setNextVisible(enableNext);
                 setNextEnabled(enableNext);
             }

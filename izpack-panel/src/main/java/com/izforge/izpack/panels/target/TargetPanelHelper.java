@@ -72,11 +72,17 @@ public class TargetPanelHelper
      */
     public static String getPath(InstallData installData)
     {
+        String currentPath = installData.getInstallPath();
+        if (currentPath != null)
+        {
+            return currentPath;
+        }
+
         String defaultPath = installData.getDefaultInstallPath();
         if (defaultPath == null)
         {
             // Make the default path point to the current location
-            defaultPath = installData.getVariable("SYSTEM_user_dir");
+            defaultPath = System.getProperty("user.dir");
         }
 
         String path = getTargetPanelDir(installData);
