@@ -23,6 +23,7 @@ package com.izforge.izpack.installer.console;
 
 import java.io.PrintWriter;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.installer.panel.PanelView;
@@ -128,4 +129,9 @@ public abstract class AbstractConsolePanel implements ConsolePanel
     {
         return (panel != null) ? panel.getPanel() : null;
     }
+
+    public void createInstallationRecord(IXMLElement rootElement)
+    {
+        // Default method, override to record panel contents
+    };
 }

@@ -41,6 +41,7 @@ import com.izforge.izpack.api.handler.Prompt.Type;
 import com.izforge.izpack.installer.automation.AutomatedPanelView;
 import com.izforge.izpack.installer.automation.AutomatedPanels;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
+import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanelAutomationHelper;
 import com.izforge.izpack.installer.container.provider.AutomatedPanelsProvider;
@@ -57,21 +58,23 @@ import com.izforge.izpack.util.file.FileUtils;
 public class FinishConsolePanel extends AbstractConsolePanel
 {
     private static final Logger LOGGER = Logger.getLogger(FinishConsolePanel.class.getName());
-    private static final String AUTO_INSTALL_SCRIPT_NAME = "autoInstall.xml";
+    private static final String AUTO_INSTALL_SCRIPT_NAME = "auto-install.xml";
 
     private final Prompt prompt;
     private final ObjectFactory factory;
     private final PlatformModelMatcher matcher;
+    private final ConsoleInstaller parent;
 
     /**
      * Constructs an {@code FinishConsolePanel}.
      *
      * @param panel the parent panel/view. May be {@code null}
      */
-    public FinishConsolePanel(final ObjectFactory factory, final PlatformModelMatcher matcher,
+    public FinishConsolePanel(final ObjectFactory factory, ConsoleInstaller parent, final PlatformModelMatcher matcher,
             Prompt prompt, PanelView<ConsolePanel> panel)
     {
         super(panel);
+        this.parent = parent;
         this.prompt = prompt;
         this.factory = factory;
         this.matcher = matcher;
@@ -79,7 +82,7 @@ public class FinishConsolePanel extends AbstractConsolePanel
 
     public FinishConsolePanel(PanelView<ConsolePanel> panel)
     {
-        this(null, null, null, panel);
+        this(null, null, null, null, panel);
     }
 
     /**
@@ -173,6 +176,15 @@ public class FinishConsolePanel extends AbstractConsolePanel
     private void generateAutoInstallScript(final File file, final InstallData installData,
             final Console console)
     {
+        try
+        {
+            parent.writeInstallationRecord(file);
+        }
+        catch (Exception err)
+        {
+            System.out.println("ERROR");
+        }
+        /*
         BufferedOutputStream outputStream;
         outputStream = null;
 
@@ -210,7 +222,7 @@ public class FinishConsolePanel extends AbstractConsolePanel
         finally
         {
             FileUtils.close(outputStream);
-        }
+        }*/
     }
 
     protected AutomatedPanels getAutomatedPanels(final InstallData aInstallData)

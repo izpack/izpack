@@ -67,6 +67,8 @@
                 <module>izpack-native-setupapi-x64</module>
                 <module>izpack-native-shelllink</module>
                 <module>izpack-native-shelllink-x64</module>
+                <module>izpack-native-jansi</module>
+                <module>izpack-native-jansi-x64</module>
                 <module>izpack-native-package</module>
                 <module>izpack-native</module>
             </modules>

@@ -24,6 +24,7 @@ package com.izforge.izpack.panels.defaulttarget;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
@@ -39,14 +40,16 @@ import com.izforge.izpack.util.Console;
 public class DefaultTargetConsolePanel extends AbstractConsolePanel
 {
 
+    private final InstallData installData;
     /**
      * Constructs an {@code DefaultTargetConsolePanel}.
      *
      * @param panel the parent panel/view. May be {@code null}
      */
-    public DefaultTargetConsolePanel(PanelView<ConsolePanel> panel)
+    public DefaultTargetConsolePanel(PanelView<ConsolePanel> panel, InstallData installData)
     {
         super(panel);
+        this.installData = installData;
     }
 
     /**
@@ -92,5 +95,11 @@ public class DefaultTargetConsolePanel extends AbstractConsolePanel
         String path = TargetPanelHelper.getPath(installData);
         installData.setInstallPath(path);
         return true;
+    }
+
+    @Override
+    public void createInstallationRecord(IXMLElement rootElement)
+    {
+        new DefaultTargetPanelAutomationHelper().createInstallationRecord(installData, rootElement);
     }
 }

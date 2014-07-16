@@ -63,6 +63,10 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
         shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData,
                                                     housekeeper, factory, listeners, matcher);
     }
+    public ShortcutPanelAutomationHelper(ShortcutPanelLogic shortcutPanelLogic) throws Exception
+    {
+        this.shortcutPanelLogic = shortcutPanelLogic;
+    }
 
     /**
      * Create the xml configuration content for automatic installation. Normally this method is not

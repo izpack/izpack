@@ -22,9 +22,7 @@
 package com.izforge.izpack.panels.userinput;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
@@ -38,10 +36,7 @@ import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.userinput.console.ConsoleField;
 import com.izforge.izpack.panels.userinput.console.ConsoleFieldFactory;
-import com.izforge.izpack.panels.userinput.field.ElementReader;
-import com.izforge.izpack.panels.userinput.field.Field;
-import com.izforge.izpack.panels.userinput.field.FieldHelper;
-import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
+import com.izforge.izpack.panels.userinput.field.*;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
@@ -88,6 +83,10 @@ public class UserInputConsolePanel extends AbstractConsolePanel
      */
     private List<ConsoleField> fields = new ArrayList<ConsoleField>();
 
+    private Set<String> variables = new HashSet<String>();
+
+    private final InstallData installData;
+
     /**
      * Constructs an {@code UserInputConsolePanel}.
      *
@@ -102,9 +101,10 @@ public class UserInputConsolePanel extends AbstractConsolePanel
      */
     public UserInputConsolePanel(Resources resources, ObjectFactory factory,
                                  RulesEngine rules, PlatformModelMatcher matcher, Console console, Prompt prompt,
-                                 PanelView<ConsolePanel> panel)
+                                 PanelView<ConsolePanel> panel, InstallData installData)
     {
         super(panel);
+        this.installData = installData;
         this.resources = resources;
         this.factory = factory;
         this.rules = rules;
@@ -194,7 +194,7 @@ public class UserInputConsolePanel extends AbstractConsolePanel
         UserInputPanelSpec model = new UserInputPanelSpec(resources, installData, factory, rules, matcher);
         IXMLElement spec = model.getPanelSpec(getPanel());
 
-        model.updateVariables(spec);
+        variables = model.updateVariables(spec);
 
         ElementReader reader = new ElementReader(model.getConfig());
         List<String> forPacks = reader.getPacks(spec);
@@ -213,10 +213,33 @@ public class UserInputConsolePanel extends AbstractConsolePanel
         ConsoleFieldFactory factory = new ConsoleFieldFactory(console, prompt);
         for (Field field : model.createFields(spec))
         {
-            fields.add(factory.create(field));
+            fields.add(factory.create(field, model, spec));
         }
         return true;
     }
 
+    /**
+     * Creates an installation record for unattended installations on {@link UserInputPanel},
+     * created during GUI installations.
+     */
+    @Override
+    public void createInstallationRecord(IXMLElement rootElement)
+    {
+        Map<String, String> entryMap = new HashMap<String, String>();
 
+        for (String variable : variables)
+        {
+            entryMap.put(variable, installData.getVariable(variable));
+        }
+        for (FieldView field : fields)
+        {
+            String variable = field.getField().getVariable();
+            if (variable != null)
+            {
+                entryMap.put(variable, installData.getVariable(variable));
+            }
+        }
+
+        new UserInputPanelAutomationHelper(entryMap).createInstallationRecord(installData, rootElement);
+    }
 }

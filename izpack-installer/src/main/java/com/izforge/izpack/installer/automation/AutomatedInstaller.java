@@ -44,7 +44,7 @@ import com.izforge.izpack.util.Housekeeper;
  * @author Julien Ponge <julien@izforge.com>
  * @author Johannes Lehtinen <johannes.lehtinen@iki.fi>
  */
-public class AutomatedInstaller extends InstallerBase
+public class AutomatedInstaller implements InstallerBase
 {
 
     /**
@@ -223,4 +223,9 @@ public class AutomatedInstaller extends InstallerBase
         return rtn;
     }
 
+    @Override
+    public void writeInstallationRecord(File file) throws Exception
+    {
+        panels.writeInstallationRecord(file);
+    }
 }

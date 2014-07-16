@@ -21,19 +21,19 @@
 
 package com.izforge.izpack.panels.userinput.field;
 
-import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.data.binding.OsModel;
-import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.core.rules.process.ExistsCondition;
-import com.izforge.izpack.panels.userinput.processorclient.ValuesProcessingClient;
-
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.binding.OsModel;
+import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.api.rules.RulesEngine;
+import com.izforge.izpack.core.rules.process.ExistsCondition;
+import com.izforge.izpack.panels.userinput.processorclient.ValuesProcessingClient;
 
 /**
  * Describes a user input field.
@@ -46,7 +46,7 @@ public abstract class Field
     /**
      * The variable. May be {@code null}.
      */
-    private final String variable;
+    private String variable;
 
     /**
      * The variable. May be {@code null}.
@@ -114,6 +114,10 @@ public abstract class Field
     private final InstallData installData;
 
     /**
+     * Field configuration
+     */
+    private final FieldConfig config;
+    /**
      * The logger.
      */
     private static final Logger logger = Logger.getLogger(Field.class.getName());
@@ -127,6 +131,7 @@ public abstract class Field
      */
     public Field(FieldConfig config, InstallData installData)
     {
+        this.config = config;
         variable = config.getVariable();
         summaryKey = config.getSummaryKey();
         set = config.getDefaultValue();
@@ -464,4 +469,10 @@ public abstract class Field
         }
     }
 
+    //TODO: Scary thought to have variable not final
+    //TODO: Need to check that variable doesn't already exist
+    public void setVariable(String newVariableName)
+    {
+        this.variable = newVariableName;
+    }
 }

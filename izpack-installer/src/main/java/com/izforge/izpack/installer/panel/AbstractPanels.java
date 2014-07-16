@@ -41,7 +41,7 @@ import com.izforge.izpack.api.data.Variables;
  *
  * @author Tim Anderson
  */
-public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implements Panels, PanelViews<T, V>
+public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implements PanelViews<T, V>
 {
 
     /**
@@ -88,7 +88,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
      * Constructs an {@code AbstractPanels}.
      *
      * @param panels    the panels
-     * @param variables the variables. These are refreshed prior to each panel switch
+     * @param installData 
      */
     public AbstractPanels(List<T> panels, InstallData installData)
     {
@@ -381,7 +381,6 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     /**
      * Determines if there is another panel prior to the specified index.
      *
-     * @param index       the panel index
      * @param visibleOnly if {@code true}, only examine visible panels
      * @return the previous panel index, or {@code -1} if there are no more panels
      */
@@ -448,7 +447,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
                 Panel panel = panelView.getPanel();
                 if (panel.isVisited())
                 {
-                    IXMLElement panelRoot = panelView.createPanelRootRecord();
+                    IXMLElement panelRoot = panelView.createPanelRootRecord(); //AbstractPanelView
                     panelView.createInstallationRecord(panelRoot);
                     panelsRoot.addChild(panelRoot);
                 }
@@ -492,6 +491,8 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
         T newPanelView = getPanelView(newIndex);
         int oldIndex = index;
         index = newIndex;
+
+        newPanelView.getPanel().setVisited(true);
         if (switchPanel(newPanelView, oldPanelView))
         {
 
@@ -506,7 +507,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
                       futurePanelView.getPanel().setVisited(false);
                   }
             }
-            newPanelView.getPanel().setVisited(true);
+
             logger.fine("Switched panel index: " + oldIndex + " -> " + index);
             result = true;
         }
@@ -514,6 +515,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
         {
             index = oldIndex;
             result = false;
+            newPanelView.getPanel().setVisited(false);
         }
 
        return result;

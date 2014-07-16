@@ -36,7 +36,9 @@ import com.izforge.izpack.panels.userinput.gui.Component;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 import com.izforge.izpack.panels.userinput.gui.GUIFieldFactory;
 import com.izforge.izpack.panels.userinput.gui.UpdateListener;
+import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
 import com.izforge.izpack.util.PlatformModelMatcher;
+import org.apache.tools.ant.util.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -221,9 +223,23 @@ public class UserInputPanel extends IzPanel
         for (FieldView view : views)
         {
             String variable = view.getField().getVariable();
+
             if (variable != null)
             {
                 entryMap.put(variable, installData.getVariable(variable));
+            }
+
+            // Grab all the variables contained within the custom field
+            if (view instanceof GUICustomField)
+            {
+                GUICustomField guiCustomField = (GUICustomField) view;
+                List<String> variables = guiCustomField.getVariables();
+
+                for(String numberedVariable : variables)
+                {
+                    entryMap.put(numberedVariable, installData.getVariable(numberedVariable));
+                }
+
             }
         }
 
@@ -275,7 +291,7 @@ public class UserInputPanel extends IzPanel
         List<Field> fields = userInputModel.createFields(spec);
         for (Field field : fields)
         {
-            GUIField view = viewFactory.create(field);
+            GUIField view = viewFactory.create(field, userInputModel, spec);
             view.setUpdateListener(listener);
             views.add(view);
         }
@@ -503,6 +519,11 @@ public class UserInputPanel extends IzPanel
         }
         return installData.getMessages().get(associatedLabel);
     }
+
+    /**
+     * Summarize all the visible views in the panel.
+     * @return
+     */
     @Override
     public String getSummaryBody()
     {
@@ -513,26 +534,99 @@ public class UserInputPanel extends IzPanel
         else
         {
             StringBuilder entries = new StringBuilder();
-            String  associatedVariable, associatedLabel, key, value;
 
             for (GUIField view : views)
             {
                 if (view.isDisplayed() && view.getVariable() != null)
                 {
-                    associatedVariable = view.getVariable();
-                    associatedLabel = view.getSummaryKey();
-
-                    if (associatedLabel != null)
+                    if (view instanceof GUICustomField)
                     {
-                        key = installData.getMessages().get(associatedLabel);
-                        value = installData.getVariable(associatedVariable);
-                        entries.append(key + " " + value+ "<br>");
+                        entries.append(getCustomSummary((GUICustomField) view));
                     }
-
+                    else
+                    {
+                        entries.append(getViewSummary(view));
+                    }
                 }
 
             }
             return entries.toString();
         }
+    }
+
+    /**
+     * Extract summary information from regular fields
+     *
+     * @param view
+     * @return summary information for a field
+     */
+    private String getViewSummary(GUIField view)
+    {
+        String  associatedVariable, associatedLabel, key, value;
+        associatedVariable = view.getVariable();
+        associatedLabel = view.getSummaryKey();
+
+        if (associatedLabel != null)
+        {
+            key = installData.getMessages().get(associatedLabel);
+            value = installData.getVariable(associatedVariable);
+            return (key + " " + value + "<br>");
+        }
+        return "";
+    }
+
+    /**
+     * Extract summary information from custom fields.
+     *
+     * @param customField
+     * @return summary information for a custom field
+     */
+    private String getCustomSummary(GUICustomField customField)
+    {
+        List<String> labels = customField.getLabels();
+        List<String> variables = customField.getVariables();
+        int numberOfColumns = labels.size();
+
+        int column = 0;
+        int row = 0;
+        String tab = "";
+        String entry = "";
+        String key = "";
+        String value = "";
+
+
+        for(String variable : variables)
+        {
+            boolean firstColumn = (column % numberOfColumns == 0);
+            
+            if(!firstColumn)
+            {
+                tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
+                column++;
+            }
+            else
+            {
+                tab = "";
+                column=1; //Reset to first column
+            }
+
+            key = installData.getMessages().get(installData.getMessages().get(labels.get(column-1)));
+            value = installData.getVariable(variable);
+
+            if (key != null)
+            {
+                if (firstColumn)
+                {
+                    row++;
+                    entry += String.format("%1$-3s", row + ". ");
+                }
+                entry += String.format(tab + key);
+                entry += String.format(" " + value);
+                entry += "<br>";
+            }
+
+        }
+
+        return entry;
     }
 }

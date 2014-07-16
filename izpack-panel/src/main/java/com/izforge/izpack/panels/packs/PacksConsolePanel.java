@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.handler.Prompt;
@@ -55,11 +56,13 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
     private HashMap<String, Pack> names;
 
     private final Prompt prompt;
+    private final InstallData installData;
 
-    public PacksConsolePanel(PanelView<ConsolePanel> panel, Prompt prompt)
+    public PacksConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
     {
         super(panel);
         this.prompt = prompt;
+        this.installData = installData;
     }
 
     /**
@@ -203,10 +206,12 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
         for (Pack pack : packs)
         {
             names.put(pack.getName(), pack);
-//            if (pack.getDependencies() != null || pack.getExcludeGroup() != null)
-//            {
-//                dependenciesExist2 = true;
-//            }
         }
+    }
+
+    @Override
+    public void createInstallationRecord(IXMLElement panelRoot)
+    {
+        new PacksPanelAutomationHelper().createInstallationRecord(installData, panelRoot);
     }
 }

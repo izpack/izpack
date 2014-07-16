@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>izpack-native-parent</artifactId>
+        <groupId>org.codehaus.izpack</groupId>
+        <version>5.0.0-rc3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>izpack-native-jansi</artifactId>
+    <name>IzPack native Jansi module for win32</name>
+    <packaging>dll</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.izpack</groupId>
+            <artifactId>izpack-installer</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <configuration>
+                    <envFactoryName>com.izforge.izpack.maven.natives.MSVC2010x86EnvFactory</envFactoryName>
+
+                    <!-- trigger javah execution -->
+                    <javahClassNames>
+                        <javahClassName>org.fusesource.jansi.internal.Kernel32</javahClassName>
+                    </javahClassNames>
+
+                    <sources>
+                        <source>
+                            <directory>../src/main/native/Jansi/windows</directory>
+                            <includes>
+                                <include>**/*.c</include>
+                            </includes>
+                        </source>
+                    </sources>
+
+
+                    <compilerStartOptions>
+                        <!-- NOTE - cannot use default start options as SetupAPI hasn't been coded to support unicode -->
+                        <compilerStartOption>${commonCompilerOptions}</compilerStartOption>
+                    </compilerStartOptions>
+
+                    <linkerStartOptions>
+                        <linkerStartOption>${commonLinkerOptions}</linkerStartOption>
+                        <linkerStartOption>msvcrt.lib</linkerStartOption>
+                        <linkerStartOption>/MACHINE:X86</linkerStartOption>
+                    </linkerStartOptions>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.izpack</groupId>
+                        <artifactId>izpack-native-maven-plugin</artifactId>
+                        <version>${pom.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>

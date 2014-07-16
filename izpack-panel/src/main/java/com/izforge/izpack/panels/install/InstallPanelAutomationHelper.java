@@ -143,4 +143,5 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
     {
         // no-op
     }
+
 }

@@ -27,6 +27,8 @@ import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.check.CheckFieldReader;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
+import com.izforge.izpack.panels.userinput.field.custom.CustomField;
+import com.izforge.izpack.panels.userinput.field.custom.CustomFieldReader;
 import com.izforge.izpack.panels.userinput.field.divider.Divider;
 import com.izforge.izpack.panels.userinput.field.divider.DividerReader;
 import com.izforge.izpack.panels.userinput.field.file.DirField;
@@ -64,7 +66,7 @@ public class FieldFactory
      */
     enum Type
     {
-        CHECK, COMBO, DIR, DIVIDER, FILE, MULTIFILE, PASSWORD, RADIO, RULE, SPACE, SEARCH, STATICTEXT, TEXT, TITLE
+        CHECK, COMBO, CUSTOM, DIR, DIVIDER, FILE, MULTIFILE, PASSWORD, RADIO, RULE, SPACE, SEARCH, STATICTEXT, TEXT, TITLE
     }
 
     /**
@@ -124,6 +126,9 @@ public class FieldFactory
                 break;
             case COMBO:
                 result = new ComboField(new SimpleChoiceReader(element, config, installData), installData);
+                break;
+            case CUSTOM:
+                result = new CustomField(new CustomFieldReader(element, config, matcher, installData), installData);
                 break;
             case DIR:
                 result = new DirField(new DirFieldReader(element, config), installData);

@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.panels.userinput.field;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.exception.IzPackException;
 
@@ -91,6 +92,15 @@ public interface FieldConfig
      * @return the validators for the field
      */
     List<FieldValidator> getValidators();
+
+
+    /**
+     * Returns the validators for the given field.
+     *
+     * @param field
+     * @return the validators for the given field
+     */
+    List<FieldValidator> getValidators(IXMLElement field);
 
     /**
      * Returns the processor the field.

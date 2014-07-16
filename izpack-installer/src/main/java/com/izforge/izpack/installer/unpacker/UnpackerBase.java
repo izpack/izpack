@@ -22,33 +22,7 @@
 
 package com.izforge.izpack.installer.unpacker;
 
-import static com.izforge.izpack.api.handler.Prompt.Option;
-import static com.izforge.izpack.api.handler.Prompt.Options;
-import static com.izforge.izpack.api.handler.Prompt.Type;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.jar.Pack200;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.data.OverrideType;
-import com.izforge.izpack.api.data.Pack;
-import com.izforge.izpack.api.data.PackFile;
-import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.data.*;
 import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.exception.InstallerException;
@@ -63,6 +37,7 @@ import com.izforge.izpack.core.handler.PromptUIHandler;
 import com.izforge.izpack.data.ExecutableFile;
 import com.izforge.izpack.data.ParsableFile;
 import com.izforge.izpack.data.UpdateCheck;
+import com.izforge.izpack.installer.bootstrap.Installer;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.installer.util.PackHelper;
@@ -75,6 +50,17 @@ import com.izforge.izpack.util.file.FileUtils;
 import com.izforge.izpack.util.file.GlobPatternMapper;
 import com.izforge.izpack.util.file.types.FileSet;
 import com.izforge.izpack.util.os.FileQueue;
+
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
+import java.util.jar.Pack200;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.izforge.izpack.api.handler.Prompt.*;
+import static com.izforge.izpack.installer.bootstrap.Installer.INSTALLER_AUTO;
 
 
 /**
@@ -1210,37 +1196,48 @@ public abstract class UnpackerBase implements IUnpacker
             {
                 result = true;
             }
-            else if (pf.override() == OverrideType.OVERRIDE_UPDATE)
-            {
-                // check mtime of involved files
-                // (this is not 100% perfect, because the
-                // already existing file might
-                // still be modified but the new installed
-                // is just a bit newer; we would
-                // need the creation time of the existing
-                // file or record with which mtime
-                // it was installed...)
-                result = (file.lastModified() < pf.lastModified());
-            }
             else
             {
-                Option defChoice = null;
-
-                if (pf.override() == OverrideType.OVERRIDE_ASK_FALSE)
+                if (pf.override() == OverrideType.OVERRIDE_UPDATE)
                 {
-                    defChoice = Option.NO;
+                    // check mtime of involved files
+                    // (this is not 100% perfect, because the
+                    // already existing file might
+                    // still be modified but the new installed
+                    // is just a bit newer; we would
+                    // need the creation time of the existing
+                    // file or record with which mtime
+                    // it was installed...)
+                    result = (file.lastModified() < pf.lastModified());
                 }
-                else if (pf.override() == OverrideType.OVERRIDE_ASK_TRUE)
+                else
                 {
-                    defChoice = Option.YES;
-                }
+                    Option defChoice = null;
 
-                Messages messages = installData.getMessages();
-                Option answer = prompt.confirm(Type.QUESTION,
-                                               messages.get("InstallPanel.overwrite.title") + " - " + file.getName(),
-                                               messages.get("InstallPanel.overwrite.question") + file.getAbsolutePath(),
-                                               Options.YES_NO, defChoice);
-                result = (answer == Option.YES);
+                    if (pf.override() == OverrideType.OVERRIDE_ASK_FALSE)
+                    {
+                        defChoice = Option.NO;
+                    }
+                    else if (pf.override() == OverrideType.OVERRIDE_ASK_TRUE)
+                    {
+                        defChoice = Option.YES;
+                    }
+
+                    // are we running in automated mode? If so use default choice.
+                    if (Installer.getInstallerMode() == INSTALLER_AUTO)
+                    {
+                        result = (defChoice == Option.YES);
+                    }
+                    else // ask the user
+                    {
+                        Messages messages = installData.getMessages();
+                        Option answer = prompt.confirm(Type.QUESTION,
+                                messages.get("InstallPanel.overwrite.title") + " - " + file.getName(),
+                                messages.get("InstallPanel.overwrite.question") + file.getAbsolutePath(),
+                                Options.YES_NO, defChoice);
+                        result = (answer == Option.YES);
+                    }
+                }
             }
         }
 

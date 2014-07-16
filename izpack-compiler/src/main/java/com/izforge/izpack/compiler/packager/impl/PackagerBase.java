@@ -50,13 +50,14 @@ import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.compiler.compressor.PackCompressor;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.listener.PackagerListener;
-import com.izforge.izpack.compiler.merge.PanelMerge;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
+import com.izforge.izpack.compiler.merge.PanelMerge;
 import com.izforge.izpack.compiler.packager.IPackager;
 import com.izforge.izpack.compiler.stream.JarOutputStream;
 import com.izforge.izpack.data.CustomData;
 import com.izforge.izpack.data.PackInfo;
 import com.izforge.izpack.merge.MergeManager;
+import com.izforge.izpack.merge.file.FileMerge;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.IoHelper;
@@ -215,10 +216,7 @@ public abstract class PackagerBase implements IPackager
         this.compilerData = compilerData;
     }
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.compiler.packager.IPackager#addCustomJar(com.izforge.izpack.CustomData, java.net.URL)
-     */
-
+    @Override
     public void addCustomJar(CustomData ca, URL url)
     {
         if (ca != null)
@@ -232,16 +230,14 @@ public abstract class PackagerBase implements IPackager
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.compiler.packager.IPackager#addJarContent(java.net.URL)
-     */
-
+    @Override
     public void addJarContent(URL jarURL)
     {
         sendMsg("Adding content of jar: " + jarURL.getFile(), PackagerListener.MSG_VERBOSE);
         mergeManager.addResourceToMerge(mergeableResolver.getMergeableFromURL(jarURL));
     }
 
+    @Override
     public void addLangPack(String iso3, URL xmlURL, URL flagURL)
     {
         sendMsg("Adding langpack: " + iso3, PackagerListener.MSG_VERBOSE);
@@ -252,10 +248,7 @@ public abstract class PackagerBase implements IPackager
         installerResourceURLMap.put("langpacks/" + iso3 + ".xml", xmlURL);
     }
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.compiler.packager.IPackager#addNativeLibrary(java.lang.String, java.net.URL)
-     */
-
+    @Override
     public void addNativeLibrary(String name, URL url)
     {
         sendMsg("Adding native library: " + name, PackagerListener.MSG_VERBOSE);
@@ -263,10 +256,7 @@ public abstract class PackagerBase implements IPackager
     }
 
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.compiler.packager.IPackager#addNativeUninstallerLibrary(com.izforge.izpack.CustomData)
-     */
-
+    @Override
     public void addNativeUninstallerLibrary(CustomData data)
     {
         customDataList.add(data); // serialized to keep order/variables
@@ -274,15 +264,13 @@ public abstract class PackagerBase implements IPackager
 
     }
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.compiler.packager.IPackager#addPack(com.izforge.izpack.compiler.PackInfo)
-     */
-
+    @Override
     public void addPack(PackInfo pack)
     {
         packsList.add(pack);
     }
 
+    @Override
     public void addPanel(Panel panel)
     {
         sendMsg("Adding panel: " + panel.getPanelId() + " :: Classname : " + panel.getClassName());
@@ -291,38 +279,26 @@ public abstract class PackagerBase implements IPackager
         mergeManager.addResourceToMerge(mergeable);
     }
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.compiler.packager.IPackager#addResource(java.lang.String, java.net.URL)
-     */
-
+    @Override
     public void addResource(String resId, URL url)
     {
         sendMsg("Adding resource: " + resId, PackagerListener.MSG_VERBOSE);
         installerResourceURLMap.put(resId, url);
     }
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.compiler.packager.IPackager#getPacksList()
-     */
-
+    @Override
     public List<PackInfo> getPacksList()
     {
         return packsList;
     }
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.compiler.packager.IPackager#getVariables()
-     */
-
+    @Override
     public Properties getVariables()
     {
         return properties;
     }
 
-    /* (non-Javadoc)
-     * @see com.izforge.izpack.compiler.packager.IPackager#setGUIPrefs(com.izforge.izpack.GUIPrefs)
-     */
-
+    @Override
     public void setGUIPrefs(GUIPrefs prefs)
     {
         sendMsg("Setting the GUI preferences", PackagerListener.MSG_VERBOSE);
@@ -340,10 +316,7 @@ public abstract class PackagerBase implements IPackager
         splashScreenImage = file;
     }
 
-    /* (non-Javadoc)
-    * @see com.izforge.izpack.compiler.packager.IPackager#setInfo(com.izforge.izpack.Info)
-    */
-
+    @Override
     public void setInfo(Info info)
     {
         sendMsg("Setting the installer information", PackagerListener.MSG_VERBOSE);
@@ -363,6 +336,7 @@ public abstract class PackagerBase implements IPackager
     /**
      * @return the rules
      */
+    @Override
     public Map<String, Condition> getRules()
     {
         return this.rules;
@@ -371,6 +345,7 @@ public abstract class PackagerBase implements IPackager
     /**
      * @return the dynamic variables
      */
+    @Override
     public Map<String, List<DynamicVariable>> getDynamicVariables()
     {
         return dynamicVariables;
@@ -379,19 +354,17 @@ public abstract class PackagerBase implements IPackager
     /**
      * @return the dynamic conditions
      */
+    @Override
     public List<DynamicInstallerRequirementValidator> getDynamicInstallerRequirements()
     {
         return dynamicInstallerRequirements;
     }
 
+    @Override
     public void addInstallerRequirements(List<InstallerRequirement> conditions)
     {
         this.installerRequirements = conditions;
     }
-
-    /* (non-Javadoc)
-    * @see com.izforge.izpack.compiler.packager.IPackager#createInstaller(java.io.File)
-    */
 
     @Override
     public void createInstaller() throws Exception
@@ -496,6 +469,8 @@ public abstract class PackagerBase implements IPackager
         mergeManager.addResourceToMerge("org/apache/tools/zip/");
         mergeManager.addResourceToMerge("org/apache/commons/io/FilenameUtils.class");
         mergeManager.addResourceToMerge("jline/");
+        mergeManager.addResourceToMerge("org/fusesource/jansi");
+
         mergeManager.merge(installerJar);
     }
 

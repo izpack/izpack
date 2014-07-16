@@ -38,10 +38,7 @@ public abstract class ChoiceField extends Field
      */
     private final List<Choice> choices;
 
-    /**
-     * The selected index.
-     */
-    private final int selected;
+    private final ChoiceFieldConfig config;
 
     /**
      * Constructs a {@code ChoiceField}.
@@ -52,8 +49,8 @@ public abstract class ChoiceField extends Field
     public ChoiceField(ChoiceFieldConfig config, InstallData installData)
     {
         super(config, installData);
-        this.choices = config.getChoices(installData.getRules());
-        this.selected = config.getSelectedIndex();
+        this.config = config;
+        this.choices = config.getChoices();
     }
 
     /**
@@ -73,6 +70,6 @@ public abstract class ChoiceField extends Field
      */
     public int getSelectedIndex()
     {
-        return selected;
+        return config.getSelectedIndex(getVariable());
     }
 }

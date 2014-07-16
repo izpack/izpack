@@ -23,7 +23,6 @@ package com.izforge.izpack.panels.userinput.field.choice;
 
 import java.util.List;
 
-import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
@@ -60,24 +59,14 @@ public class TestChoiceFieldConfig<T extends Choice> extends TestFieldConfig imp
         this.selected = selected;
     }
 
-    /**
-     * Returns the choices.
-     *
-     * @return the choices
-     */
     @Override
-    public List<Choice> getChoices(RulesEngine rules)
+    public List<Choice> getChoices()
     {
         return choices;
     }
 
-    /**
-     * Returns the index of the selected choice.
-     *
-     * @return the selected index or {@code -1} if no choice is selected
-     */
     @Override
-    public int getSelectedIndex()
+    public int getSelectedIndex(String variable)
     {
         return selected;
     }

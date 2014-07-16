@@ -1,25 +1,5 @@
 package com.izforge.izpack.panels.process;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.SwingUtilities;
-
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
@@ -33,6 +13,15 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.PlatformModelMatcher;
+
+import javax.swing.*;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class does alle the work for the process panel.
@@ -55,7 +44,20 @@ public class ProcessPanelWorker implements Runnable
 
     private AbstractUIProcessHandler handler;
 
+    /**
+     * List of jobs to run in the process panel (try).
+     */
     private ArrayList<ProcessPanelWorker.ProcessingJob> jobs = new ArrayList<ProcessPanelWorker.ProcessingJob>();
+
+    /**
+     * List of process panel jobs that run only in the event of a process panel failure (catch).
+     */
+    private ArrayList<ProcessPanelWorker.ProcessingJob> catchJobs = new ArrayList<ProcessPanelWorker.ProcessingJob>();
+
+    /**
+     * List of process panel jobs that run regardless of previous job failing (finally).
+     */
+    private ArrayList<ProcessPanelWorker.ProcessingJob> finalJobs = new ArrayList<ProcessPanelWorker.ProcessingJob>();
 
     private boolean result = true;
 
@@ -228,13 +230,22 @@ public class ProcessPanelWorker implements Runnable
                     ef_list.add(new ProcessPanelWorker.ExecutableClass(ef_name, args));
                 }
 
+                Boolean isCatch = job_el.hasAttribute("catch") && Boolean.parseBoolean(job_el.getAttribute("catch"));
+                Boolean isFinal = job_el.hasAttribute("final") && Boolean.parseBoolean(job_el.getAttribute("final"));
+
                 if (ef_list.isEmpty())
                 {
                     logger.fine("Nothing to do for job '" + job_name + "'");
                 }
                 else
                 {
-                    this.jobs.add(new ProcessingJob(job_name, ef_list));
+                    if (isCatch) {
+                        this.catchJobs.add(new ProcessingJob(job_name, ef_list));
+                    } else if (isFinal) {
+                        this.finalJobs.add(new ProcessingJob(job_name, ef_list));
+                    } else {
+                        this.jobs.add(new ProcessingJob(job_name, ef_list));
+                    }
                 }
             }
         }
@@ -328,18 +339,32 @@ public class ProcessPanelWorker implements Runnable
 
         this.handler.startProcessing(this.jobs.size());
 
+        /**
+         * Process panel jobs.
+         */
         for (ProcessPanelWorker.ProcessingJob processingJob : this.jobs)
         {
-            this.handler.startProcess(processingJob.name);
-
-            this.result = processingJob.run(this.handler, idata.getVariables());
-
-            this.handler.finishProcess();
+            this.result = runJob(processingJob);
 
             if (!this.result)
             {
+                /**
+                 * Jobs run in event of failure.
+                 */
+                for (ProcessPanelWorker.ProcessingJob catchJob : this.catchJobs)
+                {
+                    runJob(catchJob);
+                }
                 break;
             }
+        }
+
+        /**
+         * Jobs run every time despite of failure or success.
+         */
+        for (ProcessPanelWorker.ProcessingJob finalJob : this.finalJobs)
+        {
+            runJob(finalJob);
         }
 
         boolean unlockNext = true;
@@ -371,6 +396,24 @@ public class ProcessPanelWorker implements Runnable
         {
             logfile.close();
         }
+    }
+
+    /**
+     * Runs the specified process panel job.
+     * @param job a ProcessPanelWorker job.
+     * @return the job's return value.
+     */
+    private boolean runJob(ProcessPanelWorker.ProcessingJob job)
+    {
+        Boolean val;
+
+        this.handler.startProcess(job.name);
+
+        val = job.run(this.handler, idata.getVariables());
+
+        this.handler.finishProcess();
+
+        return val;
     }
 
     /**

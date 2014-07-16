@@ -1,0 +1,134 @@
+/*
+ * IzPack - Copyright 2001-2014 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Copyright 2014 René Krell
+ * Copyright (c) 2002-2012, the original authors of JLine
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package jline.example;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
+
+import jline.console.ConsoleReader;
+import jline.console.completer.Completer;
+import jline.console.completer.FileNameCompleter;
+import jline.console.completer.StringsCompleter;
+
+public class Example
+{
+    public static void usage() {
+        System.out.println("Usage: java " + Example.class.getName()
+            + " [none/simple/files/dictionary [trigger mask]]");
+        System.out.println("  none - no completors");
+        System.out.println("  simple - a simple completor that comples "
+            + "\"foo\", \"bar\", and \"baz\"");
+        System.out
+            .println("  files - a completor that comples " + "file names");
+        System.out.println("  classes - a completor that comples "
+            + "java class names");
+        System.out
+            .println("  trigger - a special word which causes it to assume "
+                + "the next line is a password");
+        System.out.println("  mask - is the character to print in place of "
+            + "the actual password character");
+        System.out.println("  color - colored prompt and feedback");
+        System.out.println("\n  E.g - java Example simple su '*'\n"
+            + "will use the simple compleator with 'su' triggering\n"
+            + "the use of '*' as a password mask.");
+    }
+
+    public static void main(String[] args) throws IOException {
+        try {
+            Character mask = null;
+            String trigger = null;
+            boolean color = false;
+
+            ConsoleReader reader = new ConsoleReader();
+
+            reader.setPrompt("prompt> ");
+
+            if ((args == null) || (args.length == 0)) {
+                usage();
+
+                return;
+            }
+
+            List<Completer> completors = new LinkedList<Completer>();
+
+            if (args.length > 0) {
+                if (args[0].equals("none")) {
+                }
+                else if (args[0].equals("files")) {
+                    completors.add(new FileNameCompleter());
+                }
+                else if (args[0].equals("simple")) {
+                    completors.add(new StringsCompleter("foo", "bar", "baz"));
+                }
+                else if (args[0].equals("color")) {
+                    color = true;
+                    reader.setPrompt("\u001B[1mfoo\u001B[0m@bar\u001B[32m@baz\u001B[0m> ");
+                }
+                else {
+                    usage();
+
+                    return;
+                }
+            }
+
+            if (args.length == 3) {
+                mask = args[2].charAt(0);
+                trigger = args[1];
+            }
+
+            for (Completer c : completors) {
+                reader.addCompleter(c);
+            }
+
+            String line;
+            PrintWriter out = new PrintWriter(reader.getOutput());
+
+            while ((line = reader.readLine()) != null) {
+                if (color){
+                    out.println("\u001B[33m======>\u001B[0m\"" + line + "\"");
+
+                } else {
+                    out.println("======>\"" + line + "\"");
+                }
+                out.flush();
+
+                // If we input the special word then we will mask
+                // the next line.
+                if ((trigger != null) && (line.compareTo(trigger) == 0)) {
+                    line = reader.readLine("password> ", mask);
+                }
+                if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) {
+                    break;
+                }
+                if (line.equalsIgnoreCase("cls")) {
+                    reader.clearScreen();
+                }
+            }
+        }
+        catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+}

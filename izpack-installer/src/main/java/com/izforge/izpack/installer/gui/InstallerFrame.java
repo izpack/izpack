@@ -78,6 +78,7 @@ import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.EtchedLineBorder;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.gui.log.Log;
+import com.izforge.izpack.installer.base.InstallerBase;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
@@ -93,7 +94,7 @@ import com.izforge.izpack.util.Housekeeper;
  * @author Fabrice Mirabile added fix for alert window on cross button, July 06 2005
  * @author Dennis Reil, added RulesEngine November 10 2006, several changes in January 2007
  */
-public class InstallerFrame extends JFrame implements InstallerView
+public class InstallerFrame extends JFrame implements InstallerBase, InstallerView
 {
     private static final long serialVersionUID = 3257852069162727473L;
 
@@ -348,7 +349,7 @@ public class InstallerFrame extends JFrame implements InstallerView
 
         // update navigation panel and help button mnemonic shortcuts for selected language.
         ButtonFactory.clearAllMnemonics();
-        ButtonFactory.reserveButtonMnemonics(new JButton [] { helpButton });
+        ButtonFactory.reserveButtonMnemonics(new JButton[] {helpButton});
         navigator.reserveNavigatorButtonMnemonics();
 
         navPanel.add(Box.createHorizontalGlue());
@@ -729,6 +730,7 @@ public class InstallerFrame extends JFrame implements InstallerView
      * @param out  The file to write to.
      * @throws Exception Description of the Exception
      */
+    @Override
     public void writeInstallationRecord(File file) throws Exception
     {
         panels.writeInstallationRecord(file);

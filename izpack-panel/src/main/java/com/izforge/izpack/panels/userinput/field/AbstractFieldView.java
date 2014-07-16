@@ -71,6 +71,11 @@ public abstract class AbstractFieldView implements FieldView
         return field.getVariable();
     }
 
+    public void setVariable(String newVariableName)
+    {
+        field.setVariable(newVariableName);
+    }
+
     /**
      * Returns the summary key  associated with the field.
      *

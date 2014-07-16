@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.panels.imgpacks;
 
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
@@ -40,9 +41,9 @@ public final class ImgPacksConsolePanel extends PacksConsolePanel
      * @param panel  the parent panel/view. May be {@code null}
      * @param prompt prompt
      */
-    public ImgPacksConsolePanel(PanelView<ConsolePanel> panel, Prompt prompt)
+    public ImgPacksConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
     {
-        super(panel, prompt);
+        super(panel, installData, prompt);
     }
 
 }

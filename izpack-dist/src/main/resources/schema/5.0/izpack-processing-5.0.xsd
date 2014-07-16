@@ -50,6 +50,8 @@
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="condition" type="xs:string" use="optional"/>
+        <xs:attribute name="catch" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="final" type="xs:boolean" use="optional" default="false"/>
     </xs:complexType>
 
     <xs:complexType name="executeFileType">

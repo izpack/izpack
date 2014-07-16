@@ -21,10 +21,13 @@
 
 package com.izforge.izpack.panels.userinput.console;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.panels.userinput.FieldCommand;
 import com.izforge.izpack.panels.userinput.console.check.ConsoleCheckField;
 import com.izforge.izpack.panels.userinput.console.combo.ConsoleComboField;
+import com.izforge.izpack.panels.userinput.console.custom.ConsoleCustomField;
 import com.izforge.izpack.panels.userinput.console.divider.ConsoleDividerField;
 import com.izforge.izpack.panels.userinput.console.file.ConsoleDirField;
 import com.izforge.izpack.panels.userinput.console.file.ConsoleFileField;
@@ -37,8 +40,10 @@ import com.izforge.izpack.panels.userinput.console.staticText.ConsoleStaticText;
 import com.izforge.izpack.panels.userinput.console.text.ConsoleTextField;
 import com.izforge.izpack.panels.userinput.console.title.ConsoleTitleField;
 import com.izforge.izpack.panels.userinput.field.Field;
+import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
+import com.izforge.izpack.panels.userinput.field.custom.CustomField;
 import com.izforge.izpack.panels.userinput.field.divider.Divider;
 import com.izforge.izpack.panels.userinput.field.file.DirField;
 import com.izforge.izpack.panels.userinput.field.file.FileField;
@@ -50,6 +55,7 @@ import com.izforge.izpack.panels.userinput.field.space.Spacer;
 import com.izforge.izpack.panels.userinput.field.statictext.StaticText;
 import com.izforge.izpack.panels.userinput.field.text.TextField;
 import com.izforge.izpack.panels.userinput.field.title.TitleField;
+import com.izforge.izpack.panels.userinput.gui.GUIField;
 import com.izforge.izpack.util.Console;
 
 
@@ -90,7 +96,7 @@ public class ConsoleFieldFactory
      * @param field the field to display
      * @return a new {@code ConsoleField}
      */
-    public ConsoleField create(Field field)
+    public ConsoleField create(Field field, UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
     {
         ConsoleField result;
         if (field instanceof CheckField)
@@ -145,10 +151,36 @@ public class ConsoleFieldFactory
         {
             result = new ConsoleSearchField((SearchField)field, console, prompt);
         }
+        else if (field instanceof CustomField)
+        {
+            result = new ConsoleCustomField(
+                    (CustomField) field, console, prompt,
+                    new createFieldCommand(userInputPanelSpec, spec),
+                    userInputPanelSpec, spec);
+        }
         else
         {
             throw new IzPackException("Unsupported field type: " + field.getClass().getName());
         }
         return result;
+    }
+
+    /**
+     * Private class to wrap the create command.
+     * This allows us to pass the create command for user later on.
+     */
+    private class createFieldCommand extends FieldCommand
+    {
+        private final UserInputPanelSpec userInputPanelSpec;
+        private final IXMLElement spec;
+        public createFieldCommand(UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
+        {
+            this.userInputPanelSpec = userInputPanelSpec;
+            this.spec = spec;
+        }
+        public ConsoleField createConsoleField(Field field)
+        {
+            return create(field, userInputPanelSpec, spec);
+        }
     }
 }

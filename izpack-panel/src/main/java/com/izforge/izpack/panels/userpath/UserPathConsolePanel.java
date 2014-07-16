@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -56,6 +57,7 @@ public class UserPathConsolePanel extends AbstractConsolePanel
     private static final BufferedReader br;
 
     private Messages messages;
+    private final InstallData installData;
 
     static
     {
@@ -74,9 +76,10 @@ public class UserPathConsolePanel extends AbstractConsolePanel
      *
      * @param panel the parent panel/view. May be {@code null}
      */
-    public UserPathConsolePanel(PanelView<ConsolePanel> panel)
+    public UserPathConsolePanel(PanelView<ConsolePanel> panel, InstallData installData)
     {
         super(panel);
+        this.installData = installData;
     }
 
     private void loadLangpack(InstallData installData)
@@ -124,11 +127,7 @@ public class UserPathConsolePanel extends AbstractConsolePanel
             defaultUserPathPanel = vs.substitute(defaultUserPathPanel, null);
         }
 
-        out(EMPTY);
-        out(pathMessage + " [" + defaultUserPathPanel + "]");
-
-        userPathPanel = readInput();
-        out(EMPTY);
+        userPathPanel = console.promptLocation(pathMessage + " [" + defaultUserPathPanel + "]",defaultUserPathPanel,  null);
 
         // check what the userPathPanel value should be
         if (userPathPanel == null)
@@ -181,22 +180,6 @@ public class UserPathConsolePanel extends AbstractConsolePanel
         }
     }
 
-    private String readInput()
-    {
-        String strIn;
-
-        try
-        {
-            strIn = br.readLine();
-            return strIn.trim();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     private static boolean doesPathExists(String path)
     {
         File file = new File(path);
@@ -218,5 +201,12 @@ public class UserPathConsolePanel extends AbstractConsolePanel
     private static void out(String out)
     {
         System.out.println(out);
+    }
+
+    @Override
+    public void createInstallationRecord(IXMLElement panelRoot)
+    {
+        //TOD: Check if skip
+        new UserPathPanelAutomationHelper().createInstallationRecord(installData, panelRoot);
     }
 }

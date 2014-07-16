@@ -21,35 +21,16 @@
 
 package com.izforge.izpack.installer.base;
 
-import java.util.logging.Logger;
-
-import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.substitutor.VariableSubstitutor;
+import java.io.File;
 
 /**
- * Common utility functions for the GUI and text installers. (Do not import swing/awt classes to
- * this class.)
+ * Interface that all installe types must adhere to.
+ * This includes ConsoleInstaller, AutomatedInstaller and InstallerFrame.
  *
  * @author Jonathan Halliday
  * @author Julien Ponge
  */
-public abstract class InstallerBase
+public interface InstallerBase
 {
-
-    private static final Logger logger = Logger.getLogger(InstallerBase.class.getName());
-
-
-    /**
-     * Refreshes Dynamic Variables.
-     *
-     * @deprecated see {@link com.izforge.izpack.api.data.InstallData#refreshVariables()}
-     */
-    @Deprecated
-    public static void refreshDynamicVariables(InstallData installdata,
-                                               VariableSubstitutor... substitutors) throws Exception
-    {
-        installdata.refreshVariables();
-        logger.fine("Finished refreshing dynamic variables");
-    }
-
+    public void writeInstallationRecord(File file) throws Exception;
 }

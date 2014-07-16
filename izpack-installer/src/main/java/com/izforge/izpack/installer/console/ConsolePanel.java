@@ -24,6 +24,7 @@ package com.izforge.izpack.installer.console;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.Console;
 
@@ -66,4 +67,9 @@ public interface ConsolePanel
      */
     boolean run(InstallData installData, Console console);
 
+    /**
+     * Create th auto-xml
+     * @param rootElement
+     */
+    public void createInstallationRecord(IXMLElement rootElement);
 }

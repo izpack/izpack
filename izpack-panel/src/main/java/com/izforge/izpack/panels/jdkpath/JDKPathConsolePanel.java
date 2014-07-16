@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import com.coi.tools.os.win.MSWinConstants;
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -51,8 +52,11 @@ import com.izforge.izpack.util.Platform;
 public class JDKPathConsolePanel extends AbstractConsolePanel
 {
     private String detectedVersion;
+    private InstallData installData;
     private final VariableSubstitutor variableSubstitutor;
     private final RegistryDefaultHandler handler;
+    private final static String JDK_VAR_NAME = "jdkVarName";
+    private final static String JDK_PATH = "jdkPath";
 
     /**
      * Constructs a <tt>JDKPathConsolePanelHelper</tt>.
@@ -62,9 +66,10 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
      * @param panel               the parent panel/view. May be {@code null}
      */
     public JDKPathConsolePanel(VariableSubstitutor variableSubstitutor, RegistryDefaultHandler handler,
-                               PanelView<ConsolePanel> panel)
+                               PanelView<ConsolePanel> panel, InstallData installData)
     {
         super(panel);
+        this.installData = installData;
         this.variableSubstitutor = variableSubstitutor;
         this.handler = handler;
     }
@@ -110,7 +115,8 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
     {
         String minVersion = installData.getVariable("JDKPathPanel.minVersion");
         String maxVersion = installData.getVariable("JDKPathPanel.maxVersion");
-        String variableName = "JDKPath";
+        String variableName = JDK_PATH;
+        installData.setVariable(JDK_VAR_NAME, variableName);
 
         String strPath;
         String strDefaultPath = installData.getVariable(variableName);
@@ -427,5 +433,10 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
             }
         }
         return (retval);
+    }
+
+    @Override
+    public void createInstallationRecord(IXMLElement panelRoot) {
+        new JDKPathPanelAutomationHelper().createInstallationRecord(installData, panelRoot);
     }
 }

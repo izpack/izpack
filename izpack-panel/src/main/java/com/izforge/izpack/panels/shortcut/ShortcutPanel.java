@@ -795,10 +795,13 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     @Override
     public void createInstallationRecord(IXMLElement panelRoot)
     {
-        List<IXMLElement> autoinstallXMLData = shortcutPanelLogic.getAutoinstallXMLData(panelRoot);
-        for (IXMLElement element : autoinstallXMLData)
+        try
         {
-            panelRoot.addChild(element);
+            new ShortcutPanelAutomationHelper(shortcutPanelLogic).createInstallationRecord(installData, panelRoot);
+        }
+        catch (Exception e)
+        {
+            logger.log(Level.WARNING, "Could generate automatic installer description for shortcuts.");
         }
     }
 }

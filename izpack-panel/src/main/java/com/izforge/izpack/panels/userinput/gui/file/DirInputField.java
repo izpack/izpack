@@ -27,6 +27,8 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.panels.userinput.field.file.DirFieldView;
 
+import java.io.Serializable;
+
 public class DirInputField extends FileInputField
 {
     private static final long serialVersionUID = 8494549823214831160L;

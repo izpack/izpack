@@ -1,0 +1,118 @@
+/*
+ * IzPack - Copyright 2001-2014 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Copyright 2014 René Krell
+ * Copyright (C) 2013, Red Had, Inc. and/or its
+ * subsidiaries or affiliates.  All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include <windows.h>
+
+#define STR_LICENSE \
+  "Licensed under the Apache License, Version 2.0 (the ""License""); "         \
+  "you may not use this file except in compliance with the License. "          \
+  "You may obtain a copy of the License at\r\n"                                \
+  "\r\n"                                                                       \
+  "http://www.apache.org/licenses/LICENSE-2.0\r\n"                             \
+  "\r\n"                                                                       \
+  "Unless required by applicable law or agreed to in writing, software "       \
+  "distributed under the License is distributed on an ""AS IS"" BASIS, "       \
+  "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. "  \
+  "See the License for the specific language governing permissions and "       \
+  "limitations under the License."
+
+#define STR_COPYRIGHT \
+  "Copyright © 2013, Red Hat, Inc. and/or its\r\n"        \
+  "subsidiaries or affiliates. All rights reserved."
+
+#define STR_COMPANY         "Red Hat®, Inc."
+#define STR_TRADEMARK       "™ Red Hat Inc."
+#ifndef STR_PRODUCT
+#define STR_PRODUCT         "Jansi - Java library for generating and interpreting ANSI escape sequences."
+#endif
+#ifndef STR_INTNAME
+#define STR_INTNAME         "jansi"
+#endif
+#ifndef STR_BINNAME
+#define STR_BINNAME         STR_INTNAME ".dll"
+#endif
+
+#ifndef STR_VERSION
+#define STR_VERSION         "1.5.0"
+#endif
+#ifndef CSV_VERSION
+#define CSV_VERSION         1,5,0
+#endif
+
+#define PRIVATE_BUILD       0
+#define PRERELEASE_BUILD    0
+
+#if PRIVATE_BUILD
+#define STR_PRIVATE   "Initial Prerelease"
+#define STR_SPECIAL   "Basic functionality"
+#define STD_FILEFLAGS VS_FF_PRIVATEBUILD | VS_FF_SPECIALBUILD
+#else
+#define STD_FILEFLAGS 0x0L
+#endif
+
+#if PRERELEASE_BUILD
+#define PSTD_FILEFLAGS STD_FILEFLAGS | VS_FF_PRERELEASE
+#else
+#define PSTD_FILEFLAGS STD_FILEFLAGS
+#endif
+
+#ifdef _DEBUG
+#define APP_FILEFLAGS STD_FILEFLAGS | VS_FF_DEBUG
+#else
+#define APP_FILEFLAGS STD_FILEFLAGS
+#endif
+
+1 VERSIONINFO
+ FILEVERSION CSV_VERSION
+ PRODUCTVERSION CSV_VERSION
+ FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+ FILEFLAGS APP_FILEFLAGS
+ FILEOS VOS_NT
+ FILETYPE VFT_APP
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments",  STR_LICENSE "\0"
+            VALUE "CompanyName", STR_COMPANY "\0"
+            VALUE "FileDescription", STR_PRODUCT "\0"
+            VALUE "FileVersion", STR_VERSION "\0"
+            VALUE "InternalName", STR_INTNAME "\0"
+            VALUE "LegalCopyright", STR_COPYRIGHT "\0"
+            VALUE "LegalTrademarks", STR_TRADEMARK "\0"
+            VALUE "OriginalFilename", STR_BINNAME "\0"
+            VALUE "ProductName", STR_PRODUCT "\0"
+            VALUE "ProductVersion", STR_VERSION "\0"
+#if PRIVATE_BUILD
+            VALUE "PrivateBuild", STR_PRIVATE "\0"
+            VALUE "SpecialBuild", STR_SPECIAL "\0"
+#endif
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.panels.path.PathInputBase;
@@ -40,14 +41,16 @@ import com.izforge.izpack.util.Console;
 public class TargetConsolePanel extends AbstractConsolePanel implements ConsolePanel
 {
 
+    private final InstallData installData;
     /**
      * Constructs a {@code TargetConsolePanel}.
      *
      * @param panel the parent panel/view. May be {@code null}
      */
-    public TargetConsolePanel(PanelView<ConsolePanel> panel)
+    public TargetConsolePanel(PanelView<ConsolePanel> panel, InstallData installData)
     {
         super(panel);
+        this.installData = installData;
     }
 
     public boolean generateProperties(InstallData installData, PrintWriter printWriter)
@@ -139,6 +142,12 @@ public class TargetConsolePanel extends AbstractConsolePanel implements ConsoleP
     private String getIncompatibleInstallationMsg(InstallData installData)
     {
         return installData.getMessages().get("TargetPanel.incompatibleInstallation");
+    }
+
+    @Override
+    public void createInstallationRecord(IXMLElement panelRoot)
+    {
+        new TargetPanelAutomation().createInstallationRecord(installData, panelRoot);
     }
 
 }

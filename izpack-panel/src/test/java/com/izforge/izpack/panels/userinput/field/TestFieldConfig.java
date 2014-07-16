@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.userinput.field;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.exception.IzPackException;
 
@@ -154,6 +155,12 @@ public class TestFieldConfig implements FieldConfig
     public List<FieldValidator> getValidators()
     {
         return validators;
+    }
+
+    @Override
+    public List<FieldValidator> getValidators(IXMLElement field)
+    {
+        return getValidators();
     }
 
     /**

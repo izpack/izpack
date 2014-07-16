@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
@@ -36,6 +37,7 @@ import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.installer.util.PackHelper;
 import com.izforge.izpack.panels.packs.PacksModel;
+import com.izforge.izpack.panels.packs.PacksPanelAutomationHelper;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -50,10 +52,10 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
 {
     private Messages messages;
     private final Prompt prompt;
+    private final InstallData installData;
 
     private PacksModel packsModel;
     private static final String LANG_FILE_NAME = "packsLang.xml";
-
 
     private static final String REQUIRED = "TreePacksPanel.required";
     private static final String UNSELECTABLE = "TreePacksPanel.unselectable";
@@ -73,9 +75,10 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
      * @param panel  the parent panel/view. May be {@code null}
      * @param prompt the prompt
      */
-    public TreePacksConsolePanel(PanelView<ConsolePanel> panel, Prompt prompt)
+    public TreePacksConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
     {
         super(panel);
+        this.installData = installData;
         this.prompt = prompt;
     }
 
@@ -274,5 +277,11 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
         }
 
         return mainRow + extraRow;
+    }
+
+    @Override
+    public void createInstallationRecord(IXMLElement panelRoot)
+    {
+        new PacksPanelAutomationHelper().createInstallationRecord(installData, panelRoot);
     }
 }

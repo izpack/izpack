@@ -7,21 +7,26 @@ import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 
-public class JDKPathPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation {
-
+public class JDKPathPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation
+{
     @Override
-    public void createInstallationRecord(InstallData installData, IXMLElement rootElement) {
-        IXMLElement varname = new XMLElementImpl("jdkVarName", rootElement);
-        varname.setContent(installData.getVariable("jdkVarName"));
-        rootElement.addChild(varname);
+    public void createInstallationRecord(InstallData installData, IXMLElement rootElement)
+    {
+        String jdkVarName = installData.getVariable("jdkVarName");
+        String jdkPathName = installData.getVariable(jdkVarName);
 
         IXMLElement jdkPath = new XMLElementImpl("jdkPath", rootElement);
-        jdkPath.setContent(installData.getVariable(installData.getVariable("jdkVarName")));
+        jdkPath.setContent(jdkPathName);
         rootElement.addChild(jdkPath);
+
+        IXMLElement jdkVar = new XMLElementImpl("jdkVarName", rootElement);
+        jdkVar.setContent(jdkVarName);
+        rootElement.addChild(jdkVar);
     }
 
     @Override
-    public void runAutomated(InstallData installData, IXMLElement panelRoot) throws InstallerException {
+    public void runAutomated(InstallData installData, IXMLElement panelRoot) throws InstallerException
+    {
         IXMLElement jdkPathElement = panelRoot.getFirstChildNamed("jdkPath");
         String jdkPath = jdkPathElement.getContent();
 

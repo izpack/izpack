@@ -123,6 +123,6 @@ public class AutomatedPanelView extends AbstractPanelView<PanelAutomation>
     @Override
     public void createInstallationRecord(IXMLElement panelRoot)
     {
-        // TODO Auto-generated method stub
+        //You don't create a auto.xml for an auto installation
     }
 }

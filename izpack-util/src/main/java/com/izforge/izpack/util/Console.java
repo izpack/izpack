@@ -64,12 +64,11 @@ public class Console
         {
             this.consoleReader = new ConsoleReader();
         }
-        catch (IOException e)
+        catch (Throwable e)
         {
             consoleReaderFailed = true;
-            logger.log(Level.SEVERE, "Cannot initialize the console reader. Default to regular input stream.");
+            logger.log(Level.WARNING, "Cannot initialize the advanced console reader. Default to regular input stream.");
         }
-
     }
 
     /**
@@ -197,7 +196,7 @@ public class Console
      * Except a path to a file or directory.
      * Ensure to expand the tilde character to the user's home directory.
      * If the input ends with a file separator we will trim it to keep consistency.
-     * 
+     *
      * @param prompt the prompt to display
      * @param eof the value to return if end of stream is reached
      * @return the input value or <tt>eof</tt> if the end of stream is reached

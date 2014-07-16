@@ -92,6 +92,9 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
 
     private final VariableSubstitutor replacer;
 
+    private final static String JDK_VAR_NAME = "jdkVarName";
+
+    private final static String JDK_PATH = "jdkPath";
     /**
      * The logger.
      */
@@ -122,7 +125,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         }
         setMinVersion(installData.getVariable("JDKPathPanel.minVersion"));
         setMaxVersion(installData.getVariable("JDKPathPanel.maxVersion"));
-        setVariableName("JDKPath");
+        setVariableName(JDK_PATH);
     }
 
     @Override
@@ -623,6 +626,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     public void setVariableName(String variableName)
     {
         this.variableName = variableName;
+        installData.setVariable(JDK_VAR_NAME, variableName);
     }
 
     @Override
@@ -633,12 +637,6 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
 
     @Override
     public void createInstallationRecord(IXMLElement panelRoot) {
-        IXMLElement ipath = new XMLElementImpl("jdkPath", panelRoot);
-        ipath.setContent(pathSelectionPanel.getPath());
-        panelRoot.addChild(ipath);
-
-        IXMLElement varname = new XMLElementImpl("jdkVarName", panelRoot);
-        varname.setContent(variableName);
-        panelRoot.addChild(varname);
+        new JDKPathPanelAutomationHelper().createInstallationRecord(installData, panelRoot);
     }
 }

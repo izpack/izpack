@@ -38,12 +38,12 @@ public interface ChoiceFieldConfig extends FieldConfig
      *
      * @return the choices
      */
-    List<Choice> getChoices(RulesEngine rules);
+    List<Choice> getChoices();
 
     /**
      * Returns the index of the selected choice.
      *
      * @return the selected index or {@code -1} if no choice is selected
      */
-    int getSelectedIndex();
+    int getSelectedIndex(String variable);
 }

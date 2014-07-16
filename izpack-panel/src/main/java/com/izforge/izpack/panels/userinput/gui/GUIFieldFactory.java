@@ -21,15 +21,19 @@
 
 package com.izforge.izpack.panels.userinput.gui;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.panels.userinput.FieldCommand;
 import com.izforge.izpack.panels.userinput.field.Field;
+import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
 import com.izforge.izpack.panels.userinput.field.divider.Divider;
+import com.izforge.izpack.panels.userinput.field.custom.CustomField;
 import com.izforge.izpack.panels.userinput.field.file.DirField;
 import com.izforge.izpack.panels.userinput.field.file.FileField;
 import com.izforge.izpack.panels.userinput.field.file.MultipleFileField;
@@ -43,6 +47,7 @@ import com.izforge.izpack.panels.userinput.field.text.TextField;
 import com.izforge.izpack.panels.userinput.field.title.TitleField;
 import com.izforge.izpack.panels.userinput.gui.check.GUICheckField;
 import com.izforge.izpack.panels.userinput.gui.combo.GUIComboField;
+import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
 import com.izforge.izpack.panels.userinput.gui.divider.GUIDivider;
 import com.izforge.izpack.panels.userinput.gui.file.GUIDirField;
 import com.izforge.izpack.panels.userinput.gui.file.GUIFileField;
@@ -55,6 +60,9 @@ import com.izforge.izpack.panels.userinput.gui.space.GUISpacer;
 import com.izforge.izpack.panels.userinput.gui.statictext.GUIStaticText;
 import com.izforge.izpack.panels.userinput.gui.text.GUITextField;
 import com.izforge.izpack.panels.userinput.gui.title.GUITitleField;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -109,7 +117,7 @@ public class GUIFieldFactory
      * @return the view to display the field
      * @throws IzPackException if the view cannot be created
      */
-    public GUIField create(Field field)
+    public GUIField create(Field field, UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
     {
         GUIField result;
         if (field instanceof RuleField)
@@ -168,10 +176,49 @@ public class GUIFieldFactory
         {
             result = new GUIMultipleFileField((MultipleFileField) field, installData, frame);
         }
+        else if (field instanceof CustomField)
+        {
+            result = createCustom((CustomField) field, userInputPanelSpec, spec);
+        }
         else
         {
             throw new IzPackException("Unsupported field type: " + field.getClass().getName());
         }
         return result;
     }
+
+    /**
+     * Creates a view to display the supplied field.
+     * This field is a container for fields to be placed in columns.
+     *
+     * @param customField field of type CustomField
+     * @return the view to display the field
+     * @throws IzPackException if the view cannot be created
+     */
+    public GUIField createCustom(CustomField customField, UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
+    {
+        List<Field> fields = customField.getFields();
+        FieldCommand fieldCommand = new createFieldCommand(userInputPanelSpec, spec);
+        return new GUICustomField(customField, fieldCommand, userInputPanelSpec, spec, installData, parent);
+    }
+
+    /**
+     * Private class to wrap the create command.
+     * This allows us to pass the create command for user later on.
+     */
+    private class createFieldCommand extends FieldCommand
+    {
+        private final UserInputPanelSpec userInputPanelSpec;
+        private final IXMLElement spec;
+        public createFieldCommand(UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
+        {
+            this.userInputPanelSpec = userInputPanelSpec;
+            this.spec = spec;
+        }
+        public GUIField createGuiField(Field field)
+        {
+            return create(field, userInputPanelSpec, spec);
+        }
+    }
 }
+

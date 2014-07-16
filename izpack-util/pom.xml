@@ -28,10 +28,6 @@
             <artifactId>ant</artifactId>
         </dependency>
         <dependency>
-            <groupId>jline</groupId>
-            <artifactId>jline</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom2</artifactId>
             <version>2.0.5</version>
@@ -57,6 +53,7 @@
           <artifactId>commons-io</artifactId>
           <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 </project>

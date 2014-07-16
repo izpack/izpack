@@ -41,11 +41,12 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
      *
      * @return the choices
      */
-    public List<Choice> getChoices(RulesEngine rules)
+    public List<Choice> getChoices()
     {
         selected = 0;
         List<Choice> result = new ArrayList<Choice>();
         Config config = getConfig();
+        RulesEngine rules = installData.getRules();
         String variableValue = installData.getVariable(getVariable());
         for (IXMLElement choice : getSpec().getChildrenNamed("choice"))
         {
@@ -141,9 +142,30 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
      *
      * @return the selected index or {@code -1} if no choice is selected
      */
-    public int getSelectedIndex()
+    public int getSelectedIndex(String variable)
     {
-        return selected;
+        int selected = 0;
+        Config config = getConfig();
+        RulesEngine rules = installData.getRules();
+        String variableValue = installData.getVariable(variable);
+        for (IXMLElement choice : getSpec().getChildrenNamed("choice"))
+        {
+            String value = config.getAttribute(choice, "value");
+            String conditionId = config.getString(choice, "conditionid", null);
+            if(variableValue == null)
+            {
+               return  selected;
+            }
+            else
+            {
+                if (isDisplayed(rules, conditionId) && isSelected(value, choice, variableValue))
+                {
+                    return  selected;
+                }
+            }
+            selected ++;
+        }
+        return 0;
     }
 
     private boolean isDisplayed(RulesEngine rules, String conditionId)

@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.console;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -46,7 +47,7 @@ import com.izforge.izpack.util.file.FileUtils;
  * @author Mounir el hajj
  * @author Tim Anderson
  */
-public class ConsoleInstaller extends InstallerBase
+public class ConsoleInstaller implements InstallerBase
 {
 
     /**
@@ -389,4 +390,9 @@ public class ConsoleInstaller extends InstallerBase
         }
     }
 
+    @Override
+    public void writeInstallationRecord(File file) throws Exception
+    {
+        panels.writeInstallationRecord(file);
+    }
 }
