@@ -761,7 +761,7 @@ public class RulesEngineImpl implements RulesEngine
      * @return a Condition representing the expression, or null if evaluation failed for any reason
      */
     private Condition evaluateComplexExpression(String condType, String expression, String[]parts){
-        final String warning = "Complex condition: "+expression+" contains undefined condition: %s";
+        final String warning = "Complex condition: "+expression+" contains reference to undefined condition: %s";
         Condition result = instantiateConditionClass(condType);
 
         String operand1Id = parts[0].trim();
