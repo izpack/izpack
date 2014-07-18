@@ -22,21 +22,19 @@
 
 package com.izforge.izpack.panels.userinput;
 
-import java.util.*;
-import java.util.logging.Logger;
-
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.installer.automation.PanelAutomation;
-import com.izforge.izpack.panels.userinput.console.custom.ConsoleCustomField;
 import com.izforge.izpack.panels.userinput.field.AbstractFieldView;
 import com.izforge.izpack.panels.userinput.field.FieldView;
-import com.izforge.izpack.panels.userinput.field.custom.CustomField;
 import com.izforge.izpack.panels.userinput.field.custom.CustomFieldType;
-import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
+import com.izforge.izpack.util.Console;
+
+import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Functions to support automated usage of the UserInputPanel
@@ -60,20 +58,27 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
 
     private static final String AUTO_ATTRIBUTE_VALUE = "value";
 
+    private static final String AUTO_PROMPT_KEY = "AutomatedInstaller.missingValuePrompt";
+
     private Set<String> variables;
 
     private List<? extends AbstractFieldView> views;
+
+    /**
+     * Console used to prompt user when values are missing from auto xml.
+     */
+    private Console console;
 
     /**
      * Default constructor, used during automated installation.
      */
     public UserInputPanelAutomationHelper()
     {
-
+        this.console = new Console();
     }
 
     /**
-     *
+     * Constructor used when creating installation xml records.
      * @param variables
      * @param views
      */
@@ -167,8 +172,15 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
         {
             variable = dataElement.getAttribute(AUTO_ATTRIBUTE_KEY);
 
-            // Substitute variable used in the 'value' field
             value = dataElement.getAttribute(AUTO_ATTRIBUTE_VALUE);
+
+            if (value == null)
+            {
+                // prompt the user if no value is found for this variable.
+                value = console.prompt(idata.getMessages().get(AUTO_PROMPT_KEY, variable), "");
+            }
+
+            // Substitute variable used in the 'value' field.
             value = variables.replace(value);
 
             logger.fine("Setting variable " + variable + " to " + value);
