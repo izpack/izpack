@@ -62,7 +62,7 @@ public interface RulesEngine
     void analyzeXml(IXMLElement conditionsspec);
 
     @Deprecated
-    Condition instanciateCondition(IXMLElement condition);
+    Condition instantiateCondition(IXMLElement condition);
 
     /**
      * Creates a condition given its XML specification.

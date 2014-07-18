@@ -21,15 +21,6 @@
 
 package com.izforge.izpack.core.rules;
 
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Logger;
-
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.XMLException;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
@@ -47,18 +38,15 @@ import com.izforge.izpack.core.rules.logic.AndCondition;
 import com.izforge.izpack.core.rules.logic.NotCondition;
 import com.izforge.izpack.core.rules.logic.OrCondition;
 import com.izforge.izpack.core.rules.logic.XorCondition;
-import com.izforge.izpack.core.rules.process.CompareNumericsCondition;
-import com.izforge.izpack.core.rules.process.CompareVersionsCondition;
-import com.izforge.izpack.core.rules.process.ContainsCondition;
-import com.izforge.izpack.core.rules.process.EmptyCondition;
-import com.izforge.izpack.core.rules.process.ExistsCondition;
-import com.izforge.izpack.core.rules.process.JavaCondition;
-import com.izforge.izpack.core.rules.process.PackSelectionCondition;
-import com.izforge.izpack.core.rules.process.RefCondition;
-import com.izforge.izpack.core.rules.process.UserCondition;
-import com.izforge.izpack.core.rules.process.VariableCondition;
+import com.izforge.izpack.core.rules.process.*;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
+
+import java.io.OutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.logging.Logger;
 
 
 /**
@@ -154,7 +142,7 @@ public class RulesEngineImpl implements RulesEngine
 
     @Override
     @Deprecated
-    public Condition instanciateCondition(IXMLElement condition)
+    public Condition instantiateCondition(IXMLElement condition)
     {
         return createCondition(condition);
     }
@@ -282,7 +270,7 @@ public class RulesEngineImpl implements RulesEngine
      * A simple expression with !,+,|,\
      * A complex expression with !,&&,||,\\ - must begin with char @
      *
-     * @param id
+     * @param id ID to find in the conditionMap
      * @return the condition. May be <tt>null</tt>
      */
     @Override
@@ -356,7 +344,7 @@ public class RulesEngineImpl implements RulesEngine
     /**
      * Can a panel be shown?
      *
-     * @param panelid   - id of the panel, which should be shown
+     * @param panelId   - id of the panel, which should be shown
      * @param variables - the variables
      * @return true - there is no condition or condition is met false - there is a condition and the
      *         condition was not met
@@ -398,7 +386,7 @@ public class RulesEngineImpl implements RulesEngine
     /**
      * Is the installation of a pack possible?
      *
-     * @param packid
+     * @param packid the id of the pack as defined in install.xml
      * @param variables
      * @return true - there is no condition or condition is met false - there is a condition and the
      *         condition was not met
@@ -418,14 +406,14 @@ public class RulesEngineImpl implements RulesEngine
         Condition condition = getCondition(this.packConditions.get(packid));
         boolean b = condition.isTrue();
         logger.fine("Package " + packid + ": installation depends on condition "
-                            + condition.getId() + " -> " + b);
+                + condition.getId() + " -> " + b);
         return b;
     }
 
     /**
      * Is an optional installation of a pack possible if the condition is not met?
      *
-     * @param packid
+     * @param packid id of the pack as defined in install.xml
      * @param variables
      * @return
      */
@@ -445,7 +433,8 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * @param condition
+     * Adds a condition to the conditionsMap.
+     * @param condition the condition to add
      */
     @Override
     public void addCondition(Condition condition)
@@ -582,7 +571,7 @@ public class RulesEngineImpl implements RulesEngine
      * <p/>
      * Parentheses may be added at a later time.
      *
-     * @param expression
+     * @param expression given complex condition
      * @return
      */
     private Condition parseComplexCondition(String expression)
@@ -620,7 +609,7 @@ public class RulesEngineImpl implements RulesEngine
      * Uses the substring up to the first || delimiter as first operand and
      * the rest as second operand.
      *
-     * @param expression
+     * @param expression given complex expression
      * @return OrCondition
      */
     private Condition parseComplexOrCondition(String expression)
@@ -635,7 +624,7 @@ public class RulesEngineImpl implements RulesEngine
     /**
      * Creates a XOR condition from the given complex expression
      *
-     * @param expression
+     * @param expression given complex expression
      * @return
      */
     private Condition parseComplexXorCondition(String expression)
@@ -652,12 +641,12 @@ public class RulesEngineImpl implements RulesEngine
      * Uses the expression up to the first && delimiter as first operand and
      * the rest as second operand.
      *
-     * @param expression
+     * @param expression given complex expression
      * @return AndCondition
      */
     private Condition parseComplexAndCondition(String expression)
     {
-        String[] parts = expression.split("\\&\\&", 2);
+        String[] parts = expression.split("&&", 2);
         AndCondition andCondition = new AndCondition(this);
         andCondition.addOperands(parseComplexCondition(parts[0].trim()), parseComplexCondition(parts[1].trim()));
 
@@ -668,7 +657,7 @@ public class RulesEngineImpl implements RulesEngine
      * Creates a NOT condition from the given complex expression.
      * Negates the result of the whole expression!
      *
-     * @param expression
+     * @param expression given complex expression
      * @return NotCondtion
      */
     private Condition parseComplexNotCondition(String expression)
@@ -691,25 +680,14 @@ public class RulesEngineImpl implements RulesEngine
             {
                 case '+':
                     // and-condition
-                    Condition op1 = conditionsMap.get(conditionexpr.substring(0, index));
-                    conditionexpr.delete(0, index + 1);
-                    result = new AndCondition(this);
-                    ((ConditionWithMultipleOperands) result).addOperands(op1, getConditionByExpr(conditionexpr));
+                    result = evaluateBinaryExpression("and",conditionexpr,index);
                     break;
                 case '|':
-                    // or-condition
-                    op1 = conditionsMap.get(conditionexpr.substring(0, index));
-                    conditionexpr.delete(0, index + 1);
-                    result = new OrCondition(this);
-                    ((ConditionWithMultipleOperands) result).addOperands(op1, getConditionByExpr(conditionexpr));
-
+                    result = evaluateBinaryExpression("or", conditionexpr,index);
                     break;
                 case '\\':
                     // xor-condition
-                    op1 = conditionsMap.get(conditionexpr.substring(0, index));
-                    conditionexpr.delete(0, index + 1);
-                    result = new XorCondition(this);
-                    ((ConditionWithMultipleOperands) result).addOperands(op1, getConditionByExpr(conditionexpr));
+                    result = evaluateBinaryExpression("xor", conditionexpr, index);
                     break;
                 case '!':
                     // not-condition
@@ -739,6 +717,65 @@ public class RulesEngineImpl implements RulesEngine
                 result.setInstallData(installData);
                 conditionexpr.delete(0, conditionexpr.length());
             }
+        }
+        return result;
+    }
+
+    /**
+     * This method replaces some of the functionality in the getConditionByExpr() method. It checks both operands in either side of the relation,
+     * and returns a warning / null value if any of the operands is actually undefined. Fixes the NPE in IZPACK-1009. It also loads the class
+     * dynamically, and thus can easily by used with minimal effort if new condition types are added.
+     * @param condType the name of the class which should be loaded. Corresponds to a key in the TYPE_CLASS_NAMES map
+     * @param expression the remaining characters in the expression
+     * @param index the index where the split in operands is. Example: aaa&bbb would have index = 3.
+     * @return the resultant condition, or null if evaluation failed for any reason
+     */
+    private Condition evaluateBinaryExpression(String condType, StringBuffer expression, int index)  {
+        String condClassName = getClassName(condType);
+        Condition result = null;
+        try {
+            Class<Condition> conditionClass = (Class<Condition>)Class.forName(condClassName);
+            Constructor<Condition> constructor = conditionClass.getConstructor(RulesEngine.class);
+            result = constructor.newInstance(this);
+        } catch (ClassNotFoundException e) {
+            logger.warning("Condition class not found: " + condClassName);
+            return null;
+        } catch (NoSuchMethodException e) {
+            logger.warning("Condition: " + condClassName+ " is missing a constructor with a RulesEngine parameter");
+            return null;
+        } catch (InvocationTargetException e) {
+            logger.warning("Condition: " + condClassName + " constructor threw an exception.");
+            e.printStackTrace();
+            return null;
+        } catch (InstantiationException e) {
+            logger.warning("Attempting to instantiate condition: " + condClassName + " failed. It could be an abstract class");
+            e.printStackTrace();
+            return null;
+        } catch (IllegalAccessException e) {
+            logger.warning("Access to condition: " + condClassName + " constructor was denied");
+            e.printStackTrace();
+            return null;
+        }
+        String warningMsg = "Condition: %s contains reference to undefined condition: %s";
+        String andCondId = expression.toString();
+        String op1Id = expression.substring(0,index);
+        Condition op1 = conditionsMap.get(op1Id);
+        if (op1 != null) {
+            expression.delete(0, index + 1); // delete everything up to the '+' char
+
+            String op2Id = expression.toString(); // only binary conds possible
+            Condition op2 = getConditionByExpr(expression);
+            if (op2 != null){
+                ((ConditionWithMultipleOperands) result).addOperands(op1, op2);
+            } else {
+                // the second sub-condition doesn't exist
+                logger.warning(String.format(warningMsg, andCondId, op2Id));
+                result = null;
+            }
+        } else {
+            // the first sub-condition doesn't exist
+            logger.warning(String.format(warningMsg, andCondId, op1Id));
+            result = null;
         }
         return result;
     }

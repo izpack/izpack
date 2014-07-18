@@ -473,7 +473,8 @@ public class DefaultNavigator implements Navigator
      */
     private void configureVisibility()
     {
-        if (panels.getNext(true) == -1)
+        boolean isLastPanel = panels.getNext(true) == -1;
+        if (isLastPanel)
         {
             // last panel. Disable navigation.
             setPreviousVisible(false);
@@ -494,7 +495,7 @@ public class DefaultNavigator implements Navigator
             if (configureNext)
             {
                 // only configure the next button if it wasn't modified during panel switching
-                boolean enableNext = panels.getNext(true) != -1;
+                boolean enableNext = !isLastPanel;
                 setNextVisible(enableNext);
                 setNextEnabled(enableNext);
             }
