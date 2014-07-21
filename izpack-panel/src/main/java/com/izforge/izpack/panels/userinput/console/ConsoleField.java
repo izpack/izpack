@@ -92,7 +92,7 @@ public abstract class ConsoleField extends AbstractFieldView
         console.println(message);
     }
 
-    /**
+    /** TODO: Not needed here just leave in the Console class
      * Displays a prompt and waits for numeric input.
      *
      * @param prompt       the prompt to display

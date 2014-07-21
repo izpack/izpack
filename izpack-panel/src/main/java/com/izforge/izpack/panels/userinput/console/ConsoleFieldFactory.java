@@ -25,6 +25,7 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.panels.userinput.FieldCommand;
+import com.izforge.izpack.panels.userinput.console.button.ConsoleButtonField;
 import com.izforge.izpack.panels.userinput.console.check.ConsoleCheckField;
 import com.izforge.izpack.panels.userinput.console.combo.ConsoleComboField;
 import com.izforge.izpack.panels.userinput.console.custom.ConsoleCustomField;
@@ -41,6 +42,7 @@ import com.izforge.izpack.panels.userinput.console.text.ConsoleTextField;
 import com.izforge.izpack.panels.userinput.console.title.ConsoleTitleField;
 import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
+import com.izforge.izpack.panels.userinput.field.button.ButtonField;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
 import com.izforge.izpack.panels.userinput.field.custom.CustomField;
@@ -149,6 +151,10 @@ public class ConsoleFieldFactory
         else if (field instanceof SearchField)
         {
             result = new ConsoleSearchField((SearchField)field, console, prompt);
+        }
+        else if (field instanceof ButtonField)
+        {
+            result = new ConsoleButtonField((ButtonField)field, console, prompt);
         }
         else if (field instanceof CustomField)
         {

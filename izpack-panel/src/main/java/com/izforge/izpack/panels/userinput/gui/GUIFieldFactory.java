@@ -30,6 +30,7 @@ import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.panels.userinput.FieldCommand;
 import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
+import com.izforge.izpack.panels.userinput.field.button.ButtonField;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
 import com.izforge.izpack.panels.userinput.field.divider.Divider;
@@ -45,6 +46,7 @@ import com.izforge.izpack.panels.userinput.field.space.Spacer;
 import com.izforge.izpack.panels.userinput.field.statictext.StaticText;
 import com.izforge.izpack.panels.userinput.field.text.TextField;
 import com.izforge.izpack.panels.userinput.field.title.TitleField;
+import com.izforge.izpack.panels.userinput.gui.button.GUIButtonField;
 import com.izforge.izpack.panels.userinput.gui.check.GUICheckField;
 import com.izforge.izpack.panels.userinput.gui.combo.GUIComboField;
 import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
@@ -175,6 +177,10 @@ public class GUIFieldFactory
         else if (field instanceof MultipleFileField)
         {
             result = new GUIMultipleFileField((MultipleFileField) field, installData, frame);
+        }
+        else if (field instanceof ButtonField)
+        {
+            result = new GUIButtonField((ButtonField) field);
         }
         else if (field instanceof CustomField)
         {

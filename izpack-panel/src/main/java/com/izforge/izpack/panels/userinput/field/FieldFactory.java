@@ -24,6 +24,8 @@ package com.izforge.izpack.panels.userinput.field;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.panels.userinput.field.button.ButtonField;
+import com.izforge.izpack.panels.userinput.field.button.ButtonFieldReader;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.check.CheckFieldReader;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
@@ -66,7 +68,7 @@ public class FieldFactory
      */
     enum Type
     {
-        CHECK, COMBO, CUSTOM, DIR, DIVIDER, FILE, MULTIFILE, PASSWORD, RADIO, RULE, SPACE, SEARCH, STATICTEXT, TEXT, TITLE
+        BUTTON, CHECK, COMBO, CUSTOM, DIR, DIVIDER, FILE, MULTIFILE, PASSWORD, RADIO, RULE, SPACE, SEARCH, STATICTEXT, TEXT, TITLE
     }
 
     /**
@@ -121,6 +123,9 @@ public class FieldFactory
         }
         switch (type)
         {
+            case BUTTON:
+                result = new ButtonField(new ButtonFieldReader(element, config), installData);
+                break;
             case CHECK:
                 result = new CheckField(new CheckFieldReader(element, config), installData);
                 break;
