@@ -25,6 +25,8 @@ import com.izforge.izpack.installer.automation.AutomatedInstaller;
 import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
+import com.izforge.izpack.installer.gui.*;
+import com.izforge.izpack.installer.gui.SplashScreen;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.StringTool;
 

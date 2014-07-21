@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import com.izforge.izpack.installer.gui.SplashScreen;
 import org.picocontainer.Characteristics;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.injectors.ProviderAdapter;
@@ -78,6 +79,7 @@ public class GUIInstallerContainer extends InstallerContainer
                 .addComponent(Log.class)
                 .addComponent(GUIPackResources.class)
                 .addComponent(MultiVolumeUnpackerHelper.class)
+                .addComponent(SplashScreen.class)
                 .as(Characteristics.USE_NAMES).addComponent(LanguageDialog.class);
     }
 

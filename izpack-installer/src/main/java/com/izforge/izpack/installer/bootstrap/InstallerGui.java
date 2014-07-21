@@ -27,6 +27,7 @@ import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.installer.container.impl.GUIInstallerContainer;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.installer.gui.InstallerController;
+import com.izforge.izpack.installer.gui.SplashScreen;
 import com.izforge.izpack.installer.language.LanguageDialog;
 
 import javax.swing.*;
@@ -39,23 +40,26 @@ public class InstallerGui
 
     public static void run(final String mediaPath) throws Exception
     {
+        final InstallerContainer applicationComponent = new GUIInstallerContainer();
+        final Container installerContainer = applicationComponent.getComponent(Container.class);
+        final SplashScreen splashScreen = installerContainer.getComponent(SplashScreen.class);
+        splashScreen.displaySplashScreen();
+
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
             {
                 try
                 {
-                    InstallerContainer applicationComponent = new GUIInstallerContainer();
+
                     if (mediaPath != null)
                     {
                         InstallData installData = applicationComponent.getComponent(InstallData.class);
                         installData.setMediaPath(mediaPath);
                     }
 
-                    Container installerContainer = applicationComponent.getComponent(Container.class);
-
                     InstallerController controller = installerContainer.getComponent(InstallerController.class);
-
+                    splashScreen.removeSplashScreen();
                     installerContainer.getComponent(LanguageDialog.class).initLangPack();
                     controller.buildInstallation().launchInstallation();
                 }
@@ -65,6 +69,5 @@ public class InstallerGui
                 }
             }
         });
-
     }
 }
