@@ -92,22 +92,6 @@ public abstract class ConsoleField extends AbstractFieldView
         console.println(message);
     }
 
-    /** TODO: Not needed here just leave in the Console class
-     * Displays a prompt and waits for numeric input.
-     *
-     * @param prompt       the prompt to display
-     * @param min          the minimum allowed value
-     * @param max          the maximum allowed value
-     * @param defaultValue the default value to use, if no input is entered. Use a value {@code < min} if there is no
-     *                     default
-     * @param eof          the value to return if end of stream is reached
-     * @return a value in the range of <tt>from..to</tt>, or <tt>eof</tt> if the end of stream is reached
-     */
-    protected int prompt(String prompt, int min, int max, int defaultValue, int eof)
-    {
-        return console.prompt(prompt, min, max, defaultValue, eof);
-    }
-
     /**
      * Displays an error message.
      *

@@ -130,14 +130,14 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
                 // or you are at the max amount of rows
                 if (initial || numberOfRows == maxRow)
                 {
-                    value = prompt("Enter 1 continue, or 2 to redisplay", 1, 2, -1, -1);
+                    value = getConsole().prompt("Enter 1 continue, or 2 to redisplay", 1, 2, -1, -1);
                     if (value == 2)
                     {
                         value = REDISPLAY;
                     }
                 } else
                 {
-                    value = prompt("Enter 1 continue, or 2 to add another module, 3 to redisplay", 1, 3, -1, -1);
+                    value = getConsole().prompt("Enter 1 continue, or 2 to add another module, 3 to redisplay", 1, 3, -1, -1);
                 }
             }
             if (value != REDISPLAY)
