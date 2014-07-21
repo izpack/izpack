@@ -124,7 +124,7 @@ public class FieldFactory
         switch (type)
         {
             case BUTTON:
-                result = new ButtonField(new ButtonFieldReader(element, config), installData);
+                result = new ButtonField(new ButtonFieldReader(element, config, installData), installData);
                 break;
             case CHECK:
                 result = new CheckField(new CheckFieldReader(element, config), installData);
