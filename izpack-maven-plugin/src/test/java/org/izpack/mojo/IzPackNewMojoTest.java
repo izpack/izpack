@@ -37,17 +37,10 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
         File file = new File( "target/sample/izpackResult.jar" );
         assertThat( file.exists(), Is.is( true ) );
         JarFile jar = new JarFile( file );
-        assertThat( (ZipFile)jar, ZipMatcher.isZipMatching( IsCollectionContaining.hasItems( "com/izforge/izpack/core/container/AbstractContainer.class", "com/izforge/izpack/uninstaller/Destroyer.class", "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class", "META-INF/Test.png" ) ) );
-
-        ZipEntry entry = jar.getEntry( "META-INF/MANIFEST.MF" );
-        InputStream content = jar.getInputStream( entry );
-        try {
-            List<String> list = IOUtils.readLines( content );
-            assertThat( list, IsCollectionContaining.hasItem( "SplashScreen-Image: META-INF/Test.png" ) );
-        } finally {
-            content.close();
-        }
-
+        assertThat( (ZipFile)jar, ZipMatcher.isZipMatching( IsCollectionContaining.hasItems(
+                "com/izforge/izpack/core/container/AbstractContainer.class",
+                "com/izforge/izpack/uninstaller/Destroyer.class",
+                "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class")));
     }
 
     @Test

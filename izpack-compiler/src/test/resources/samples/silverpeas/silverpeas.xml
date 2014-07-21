@@ -14,6 +14,7 @@
     </info>
 
     <guiprefs width="600" height="480" resizable="yes">
+        <modifier key="useSplashScreen" value="1000"/>
         <modifier key="useHeadingPanel" value="yes"/>
         <modifier key="useHeadingForSummary" value="yes"/>
         <modifier key="headingImageOnLeft" value="yes"/>
@@ -30,7 +31,6 @@
             <param name="variant" value="graphite"/>
             <os family="windows"/>
         </laf>
-        <splash>Vim_splash.png</splash>
     </guiprefs>
 
     <locale>
@@ -41,6 +41,7 @@
         <res id="HTMLInfoPanel.info" src="html/readme.html" parse="no"/>
         <res id="LicencePanel.licence" src="license.txt"/>
         <res id="ProcessPanel.Spec.xml" src="postprocess.xml"/>
+        <res id="Splash.image" src="Vim_splash.png"/>
     </resources>
 
     <jar src="vim-panel.jar" stage="both"/>

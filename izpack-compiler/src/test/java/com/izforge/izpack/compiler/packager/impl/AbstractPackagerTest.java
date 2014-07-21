@@ -76,23 +76,9 @@ public abstract class AbstractPackagerTest
     public void noSplash() throws IOException
     {
         PackagerBase packager = createPackager(Mockito.mock(JarOutputStream.class), mergeManager);
-        packager.setSplashScreenImage(null);
         packager.writeManifest();
 
         verify(mergeManager).addResourceToMerge(anyString(), eq("META-INF/MANIFEST.MF"));
-    }
-
-    @Test
-    public void guiPrefsWithSplash() throws IOException
-    {
-        final File splashImage = new File("image.png");
-        PackagerBase packager = createPackager(Mockito.mock(JarOutputStream.class), mergeManager);
-        packager.setGUIPrefs(new GUIPrefs());
-        packager.setSplashScreenImage(splashImage);
-        packager.writeManifest();
-
-        verify(mergeManager, times(1)).addResourceToMerge(anyString(), eq("META-INF/image.png"));
-        verify(mergeManager, times(1)).addResourceToMerge(anyString(), eq("META-INF/MANIFEST.MF"));
     }
 
     @Test
