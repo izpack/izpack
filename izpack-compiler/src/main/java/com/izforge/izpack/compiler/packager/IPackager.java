@@ -69,13 +69,6 @@ public interface IPackager
     public abstract void setGUIPrefs(GUIPrefs prefs);
 
     /**
-     * Sets the splash screen image file.
-     *
-     * @param file the splash screen image file. May be <tt>null</tt>
-     */
-    void setSplashScreenImage(File file);
-
-    /**
      * Allows access to add, remove and update the variables for the project, which are maintained
      * in the packager.
      *

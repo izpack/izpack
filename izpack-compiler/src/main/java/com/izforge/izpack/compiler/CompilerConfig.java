@@ -493,14 +493,6 @@ public class CompilerConfig extends Thread
                     mergeManager.addResourceToMerge(mergeable);
                 }
             }
-            IXMLElement splashNode = guiPrefsElement.getFirstChildNamed("splash");
-            if (splashNode != null)
-            {
-                File file = org.apache.commons.io.FileUtils.toFile(
-                        resourceFinder.findProjectResource(splashNode.getContent(), "Resource", splashNode));
-                packager.setSplashScreenImage(file);
-            }
-
         }
         packager.setGUIPrefs(prefs);
         notifyCompilerListener("addGUIPrefs", CompilerListener.END, data);

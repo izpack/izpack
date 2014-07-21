@@ -133,11 +133,6 @@ public abstract class PackagerBase implements IPackager
     private GUIPrefs guiPrefs;
 
     /**
-     * Splash screen image.
-     */
-    private File splashScreenImage;
-
-    /**
      * The ordered panels.
      */
     protected List<Panel> panelList = new ArrayList<Panel>();
@@ -304,17 +299,6 @@ public abstract class PackagerBase implements IPackager
         guiPrefs = prefs;
     }
 
-    /**
-     * Sets the splash screen image file.
-     *
-     * @param file the splash screen image file. May be <tt>null</tt>
-     */
-    @Override
-    public void setSplashScreenImage(File file)
-    {
-        splashScreenImage = file;
-    }
-
     @Override
     public void setInfo(Info info)
     {
@@ -431,14 +415,7 @@ public abstract class PackagerBase implements IPackager
      */
     protected void writeManifest() throws IOException
     {
-        // Add splash screen configuration
         Manifest manifest = new Manifest(PackagerBase.class.getResourceAsStream("MANIFEST.MF"));
-        if (splashScreenImage != null)
-        {
-            String destination = String.format("META-INF/%s", splashScreenImage.getName());
-            mergeManager.addResourceToMerge(splashScreenImage.getAbsolutePath(), destination);
-            manifest.getMainAttributes().put(new Name("SplashScreen-Image"), destination);
-        }
         File tempManifest = com.izforge.izpack.util.file.FileUtils.createTempFile("MANIFEST", ".MF");
         manifest.write(new FileOutputStream(tempManifest));
         mergeManager.addResourceToMerge(tempManifest.getAbsolutePath(), "META-INF/MANIFEST.MF");
