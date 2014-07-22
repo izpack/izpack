@@ -180,7 +180,7 @@ public class GUIFieldFactory
         }
         else if (field instanceof ButtonField)
         {
-            result = new GUIButtonField((ButtonField) field, prompt);
+            result = new GUIButtonField((ButtonField) field);
         }
         else if (field instanceof CustomField)
         {

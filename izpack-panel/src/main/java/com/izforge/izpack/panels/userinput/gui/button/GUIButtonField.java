@@ -1,6 +1,7 @@
 package com.izforge.izpack.panels.userinput.gui.button;
 
 import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.panels.userinput.action.ButtonAction;
 import com.izforge.izpack.panels.userinput.field.button.ButtonField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
@@ -22,10 +23,10 @@ public class GUIButtonField extends GUIField implements ActionListener
      *
      * @param field the field
      */
-    public GUIButtonField(ButtonField field, Prompt prompt)
+    public GUIButtonField(ButtonField field)
     {
         super(field);
-        this.prompt = prompt;
+        this.prompt = new GUIPrompt();
         this.successMsg = field.getSucessMsg();
         buttonActions = field.getButtonActions();
         button = new JButton(field.getButtonName());

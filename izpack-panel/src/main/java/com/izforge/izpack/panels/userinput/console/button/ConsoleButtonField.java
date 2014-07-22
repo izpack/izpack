@@ -49,10 +49,10 @@ public class ConsoleButtonField  extends ConsoleField
                     break;
                 }
             }
-        }
-        if(proceed)
-        {
-            println(field.getSucessMsg());
+            if(proceed)
+            {
+                println(field.getSucessMsg());
+            }
         }
         return true;
     }
