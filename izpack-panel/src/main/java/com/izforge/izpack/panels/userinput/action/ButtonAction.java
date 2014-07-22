@@ -1,6 +1,7 @@
 package com.izforge.izpack.panels.userinput.action;
 
 import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.Console;
 
 import java.util.HashMap;
@@ -9,9 +10,19 @@ import java.util.Map;
 public abstract class ButtonAction
 {
     /**
+     * Access to installData
+     */
+    final protected InstallData installData;
+
+    /**
      * Messages available for the button
      */
-    Map<String, String> messages = new HashMap<String, String>();
+    protected Map<String, String> messages = new HashMap<String, String>();
+
+    public ButtonAction(InstallData installData)
+    {
+        this.installData = installData;
+    }
 
     /**
      * Give mapping from string name to the actual string value.

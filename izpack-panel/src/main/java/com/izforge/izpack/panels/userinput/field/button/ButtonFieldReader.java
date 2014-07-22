@@ -7,7 +7,7 @@ import com.izforge.izpack.panels.userinput.action.ButtonAction;
 import com.izforge.izpack.panels.userinput.field.Config;
 import com.izforge.izpack.panels.userinput.field.SimpleFieldReader;
 
-import javax.swing.plaf.basic.BasicOptionPaneUI;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +91,10 @@ public class ButtonFieldReader extends SimpleFieldReader implements ButtonFieldC
             String actionClass = runSpec.getAttribute("class");
             try
             {
-                ButtonAction buttonAction = (ButtonAction) Class.forName(actionClass).newInstance();
+                Class<ButtonAction> buttonActionClass = (Class<ButtonAction>) Class.forName(actionClass);
+                Constructor<ButtonAction> buttonActionConstructor = buttonActionClass.getConstructor(InstallData.class);
+                ButtonAction buttonAction = buttonActionConstructor.newInstance(installData);
+
                 for (IXMLElement message : runSpec.getChildrenNamed("msg"))
                 {
                     String id = message.getAttribute("id");
@@ -106,6 +109,7 @@ public class ButtonFieldReader extends SimpleFieldReader implements ButtonFieldC
             catch (Exception e)
             {
                 e.printStackTrace();
+                //Failed to create button
             }
         }
 
