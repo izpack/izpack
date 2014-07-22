@@ -8,7 +8,6 @@ import com.izforge.izpack.panels.userinput.FieldCommand;
 import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
 import com.izforge.izpack.panels.userinput.field.custom.CustomField;
-import com.izforge.izpack.panels.userinput.gui.GUIField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +64,7 @@ public class CustomInputField extends JPanel implements ActionListener
         
         this.setLayout(gridBagLayout);
         this.addComponents(rows, controlPanel);
-        updatePanel();
+        updateControlPanel();
     }
 
     /**
@@ -115,6 +114,7 @@ public class CustomInputField extends JPanel implements ActionListener
         addButton.addActionListener(this);
 
         JButton removeButton = new JButton("remove");
+        removeButton.setEnabled(false);
         removeButton.setActionCommand(removeCommand);
         removeButton.addActionListener(this);
 
@@ -143,13 +143,13 @@ public class CustomInputField extends JPanel implements ActionListener
             rows.removeRow();
         }
 
-        updatePanel();
+        updateControlPanel();
     }
 
     /**
      * Update the panel view.
      */
-    private void updatePanel()
+    private void updateControlPanel()
     {
         controlPanel.getComponent(0).setEnabled(rows.atMax());
         controlPanel.getComponent(1).setEnabled(rows.atMin());
@@ -181,7 +181,15 @@ public class CustomInputField extends JPanel implements ActionListener
         }
         for( Component component : controlPanel.getComponents())
         {
-            component.setEnabled(enabled);
+            if(enabled)
+            {
+                updateControlPanel();
+            }
+            else
+            {
+                component.setEnabled(enabled);
+            }
+
         }
         for (Component component : rows.getComponents())
         {
