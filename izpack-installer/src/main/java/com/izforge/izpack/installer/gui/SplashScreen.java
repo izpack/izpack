@@ -31,16 +31,16 @@ public class SplashScreen extends JFrame
      */
     public void displaySplashScreen()
     {
-        ImageIcon splashIcon = resources.getImageIcon("/resources/Splash.image");
-        if (splashIcon != null)
-        {
-            this.add(new JLabel(splashIcon));
-            this.setSize(splashIcon.getIconWidth(), splashIcon.getIconHeight());
-            this.setLocationRelativeTo(null);
-        }
-
         if (installData.guiPrefs.modifier.containsKey("useSplashScreen"))
         {
+            ImageIcon splashIcon = resources.getImageIcon("/resources/Splash.image");
+            if (splashIcon != null)
+            {
+                this.add(new JLabel(splashIcon));
+                this.setSize(splashIcon.getIconWidth(), splashIcon.getIconHeight());
+                this.setLocationRelativeTo(null);
+            }
+
             this.setVisible(true);
             try
             {
@@ -54,6 +54,7 @@ public class SplashScreen extends JFrame
             {
                 //Failed to sleep
                 //Failed to get duration
+                //Failed to get splash screen resource
             }
         }
     }
