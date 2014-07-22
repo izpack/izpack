@@ -91,6 +91,7 @@ public class CustomInputField extends JPanel implements ActionListener
 
         add(rows, rowConstraints);
 
+
         GridBagConstraints controlPanelConstraints = new GridBagConstraints();
         controlPanelConstraints.fill = GridBagConstraints.NONE;
         controlPanelConstraints.anchor = GridBagConstraints.EAST;
@@ -151,8 +152,16 @@ public class CustomInputField extends JPanel implements ActionListener
      */
     private void updateControlPanel()
     {
-        controlPanel.getComponent(0).setEnabled(rows.atMax());
-        controlPanel.getComponent(1).setEnabled(rows.atMin());
+        if (rows.hideRowControls())
+        {
+            controlPanel.getComponent(0).setVisible(false);
+            controlPanel.getComponent(1).setVisible(false);
+        }
+        else
+        {
+            controlPanel.getComponent(0).setEnabled(rows.atMax());
+            controlPanel.getComponent(1).setEnabled(rows.atMin());
+        }
         revalidate();
         repaint();
     }

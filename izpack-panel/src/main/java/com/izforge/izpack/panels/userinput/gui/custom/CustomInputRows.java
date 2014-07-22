@@ -163,6 +163,11 @@ public class CustomInputRows extends JPanel
         return (numberOfRows > minRow);
     }
 
+    public boolean hideRowControls()
+    {
+        return (maxRow == minRow);
+    }
+
     /**
      * Validate and update installData
      * @param prompt
