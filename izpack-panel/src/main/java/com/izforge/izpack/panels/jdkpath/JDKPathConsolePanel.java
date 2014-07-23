@@ -129,7 +129,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
             else
             {
                 // Try the JAVA_HOME as child dir of the jdk path
-                strDefaultPath = (new File(installData.getVariable("JAVA_HOME"))).getParent();
+                strDefaultPath = installData.getVariable("JAVA_HOME");
             }
         }
 

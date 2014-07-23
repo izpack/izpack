@@ -188,8 +188,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
 
         installData.setVariable("APPLICATIONS_DEFAULT_ROOT", dir);
-        dir += File.separator;
-        installData.setVariable(ScriptParserConstant.JAVA_HOME, System.getProperty("java.home"));
+        installData.setVariable(ScriptParserConstant.JAVA_HOME, new File(System.getProperty("java.home")).getParent());
         installData.setVariable(ScriptParserConstant.CLASS_PATH, System.getProperty("java.class.path"));
         installData.setVariable(ScriptParserConstant.USER_HOME, System.getProperty("user.home"));
         installData.setVariable(ScriptParserConstant.USER_NAME, System.getProperty("user.name"));
