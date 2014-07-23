@@ -138,7 +138,8 @@
     <str id="JDKPathPanel.info" txt="Select the JDK path:"/>
     <str id="JDKPathPanel.badVersion1" txt="The chosen JDK has the wrong version (available: "/>
     <str id="JDKPathPanel.badVersion2" txt=" required: "/>
-    <str id="JDKPathPanel.badVersion3" txt=") should this JDK be used anyway?"/>
+    <str id="JDKPathPanel.badVersion3" txt="). Should this JDK be used anyway?"/>
+    <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
     <str id="JDKPathPanel.nonValidPathInReg"
          txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
     <str id="JDKPathPanel.jdkDownload"

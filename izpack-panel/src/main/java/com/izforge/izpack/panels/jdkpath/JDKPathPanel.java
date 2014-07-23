@@ -131,42 +131,22 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         {
             String detectedJavaVersion;
             String strPath = pathSelectionPanel.getPath();
-            String minVersion = installData.getVariable("JDKPathPanel.minVersion");
-            String maxVersion = installData.getVariable("JDKPathPanel.maxVersion");
 
             detectedJavaVersion = JDKPathPanelHelper.getCurrentJavaVersion(strPath, installData.getPlatform());
-            if (!JDKPathPanelHelper.pathIsValid(strPath))
+            String errorMessage = JDKPathPanelHelper.validate(strPath, detectedJavaVersion, installData.getMessages());
+            if (!errorMessage.isEmpty())
             {
+                if (errorMessage.endsWith("?"))
+                {
+                    if (askQuestion(getString("installer.warning"), errorMessage,
+                            AbstractUIHandler.CHOICES_YES_NO,
+                            AbstractUIHandler.ANSWER_NO) == AbstractUIHandler.ANSWER_YES)
+                    {
+                        this.installData.setVariable(JDKPathPanelHelper.JDK_PATH, pathSelectionPanel.getPath());
+                        return true;
+                    }
+                }
                 return false;
-            }
-            else if (!JDKPathPanelHelper.verifyVersion(detectedJavaVersion))
-            {
-                StringBuilder message = new StringBuilder();
-
-                message.append(getString("JDKPathPanel.badVersion1"))
-                        .append(detectedJavaVersion)
-                        .append(getString("JDKPathPanel.badVersion2"));
-                if (minVersion != null && maxVersion != null)
-                {
-                    message.append(minVersion).append(" - ").append(maxVersion);
-                }
-                else if (minVersion != null)
-                {
-                    message.append(" >= ").append(minVersion);
-                }
-                else if (maxVersion != null)
-                {
-                    message.append(" <= ").append(maxVersion);
-                }
-                message.append(getString("JDKPathPanel.badVersion3"));
-
-                if (askQuestion(getString("installer.warning"), message.toString(),
-                        AbstractUIHandler.CHOICES_YES_NO,
-                        AbstractUIHandler.ANSWER_NO) == AbstractUIHandler.ANSWER_YES)
-                {
-                    this.installData.setVariable(JDKPathPanelHelper.JDK_VAR_NAME, pathSelectionPanel.getPath());
-                    return true;
-                }
             }
             return true;
         }
@@ -193,12 +173,18 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     @Override
     public String getSummaryBody()
     {
-        return this.installData.getVariable(JDKPathPanelHelper.JDK_VAR_NAME);
+        return this.installData.getVariable(JDKPathPanelHelper.JDK_PATH);
     }
 
     @Override
     public void createInstallationRecord(IXMLElement panelRoot)
     {
         new JDKPathPanelAutomationHelper().createInstallationRecord(installData, panelRoot);
+    }
+
+    @Override
+    public void saveData()
+    {
+        this.installData.setVariable(JDKPathPanelHelper.JDK_PATH, pathSelectionPanel.getPath());
     }
 }

@@ -3,6 +3,7 @@ package com.izforge.izpack.panels.jdkpath;
 import com.coi.tools.os.win.MSWinConstants;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.NativeLibException;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
 import com.izforge.izpack.panels.path.PathInputBase;
@@ -49,16 +50,19 @@ public class JDKPathPanelHelper
         String detectedJavaVersion = "";
 
         String defaultValue = installData.getVariable(JDK_PATH);
-        if (defaultValue == null)
+
+        if(defaultValue != null)
         {
-            if (OsVersion.IS_OSX)
-            {
-                defaultValue = OSX_JDK_HOME;
-            }
-            else
-            {
-                defaultValue = installData.getVariable("JAVA_HOME");
-            }
+            return defaultValue;
+        }
+
+        if (OsVersion.IS_OSX)
+        {
+            defaultValue = OSX_JDK_HOME;
+        }
+        else
+        {
+            defaultValue = installData.getVariable("JAVA_HOME");
         }
 
         //See if java from currently running jre is valid, otherwise check the registry.
@@ -166,7 +170,7 @@ public class JDKPathPanelHelper
      *
      * @return true if existFiles are exist or not defined, else false
      */
-    public static boolean pathIsValid(String strPath)
+    private static boolean pathIsValid(String strPath)
     {
         for (String existFile : testFiles)
         {
@@ -185,7 +189,7 @@ public class JDKPathPanelHelper
      * @param javaVersion
      * @return
      */
-    public static boolean verifyVersion(String javaVersion)
+    private static boolean verifyVersion(String javaVersion)
     {
         boolean valid = true;
 
@@ -367,6 +371,45 @@ public class JDKPathPanelHelper
     }
 
     /**
+     * Central validation of java path.
+     * Also gives allowance to central strings.
+     *
+     * @param javaHome JAVA_HOME path to test
+     * @param javaVersion the java version being queried
+     * @param messages available messages
+     * @return error message if validation failed, otherwise an empty string
+     */
+    public static String validate(String javaHome, String javaVersion, Messages messages)
+    {
+        StringBuilder message = new StringBuilder();
+
+        if(!pathIsValid(javaHome))
+        {
+            message.append(messages.get("PathInputPanel.notValid"));
+        }
+        else if (!verifyVersion(javaVersion))
+        {
+            message.append(messages.get("JDKPathPanel.badVersion1"))
+                    .append(javaVersion)
+                    .append(messages.get("JDKPathPanel.badVersion2"));
+            if (minVersion != null && maxVersion != null)
+            {
+                message.append(minVersion).append(" - ").append(maxVersion);
+            }
+            else if (minVersion != null)
+            {
+                message.append(" >= ").append(minVersion);
+            }
+            else if (maxVersion != null)
+            {
+                message.append(" <= ").append(maxVersion);
+            }
+            message.append(messages.get("JDKPathPanel.badVersion3"));
+        }
+
+        return message.toString();
+    }
+    /**
      * Check if JDK panel should be skipped.
      * Return true if panel should be skipped otherwise false.
      *
@@ -381,7 +424,7 @@ public class JDKPathPanelHelper
         if (pathIsValid(path) && skipIfValid != null &&
                 ("yes".equalsIgnoreCase(skipIfValid) || "true".equalsIgnoreCase(skipIfValid)))
         {
-            installData.setVariable(JDK_VAR_NAME, path);
+            installData.setVariable(JDK_PATH, path);
             return true;
         }
         return false;

@@ -26,6 +26,7 @@ import java.util.Properties;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
@@ -44,9 +45,6 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
     private InstallData installData;
     private final VariableSubstitutor variableSubstitutor;
     private final RegistryDefaultHandler handler;
-    private final static String JDK_PATH = "jdkPath";
-    private final static String JDK_VAR_NAME = "jdkVarName";
-
 
     /**
      * Constructs a <tt>JDKPathConsolePanelHelper</tt>.
@@ -99,10 +97,6 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
     public boolean run(InstallData installData, Console console)
     {
         String detectedJavaVersion = "";
-        String minVersion = installData.getVariable("JDKPathPanel.minVersion");
-        String maxVersion = installData.getVariable("JDKPathPanel.maxVersion");
-
-        String variableName = JDK_PATH;
         String defaultValue = JDKPathPanelHelper.getDefaultJavaPath(installData, handler);
 
         if(JDKPathPanelHelper.skipPanel(installData, defaultValue))
@@ -113,6 +107,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
         boolean bKeepAsking = true;
         while (bKeepAsking)
         {
+            Messages messages = installData.getMessages();
             strPath = console.promptLocation("Select JDK path [" + defaultValue + "] ", null);
             if (strPath == null)
             {
@@ -123,37 +118,36 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
             {
                 strPath = defaultValue;
             }
+
             strPath = PathInputBase.normalizePath(strPath);
             detectedJavaVersion = JDKPathPanelHelper.getCurrentJavaVersion(strPath, installData.getPlatform());
 
-            if (!JDKPathPanelHelper.pathIsValid(strPath))
+            String errorMessage = JDKPathPanelHelper.validate(strPath, detectedJavaVersion, messages);
+            if (!errorMessage.isEmpty())
             {
-                console.println("Path " + strPath + " is not valid.");
-            }
-            else if (!JDKPathPanelHelper.verifyVersion(detectedJavaVersion))
-            {
-                String message = "The chosen JDK has the wrong version (available: "
-                        + detectedJavaVersion
-                        + " required: "
-                        + minVersion + " - " + maxVersion + ").";
-                message += "\nContinue anyway? [no]";
-                String strIn = console.prompt(message, null);
-                if (strIn == null)
+                if (errorMessage.endsWith("?"))
                 {
-                    // end of stream
-                    return false;
+                    errorMessage += "\n" + messages.get("JDKPathPanel.badVersion4");
+                    String strIn = console.prompt(errorMessage, null);
+                    if (strIn == null)
+                    {
+                        return false;
+                    }
+                    if (strIn != null && (strIn.equalsIgnoreCase("y") || strIn.equalsIgnoreCase("yes")))
+                    {
+                        bKeepAsking = false;
+                    }
                 }
-                strIn = strIn.toLowerCase();
-                if (strIn != null && (strIn.equals("y") || strIn.equals("yes")))
+                else
                 {
-                    bKeepAsking = false;
+                    console.println(messages.get("PathInputPanel.notValid"));
                 }
             }
             else
             {
                 bKeepAsking = false;
             }
-            installData.setVariable(variableName, strPath);
+            installData.setVariable(JDKPathPanelHelper.JDK_PATH, strPath);
         }
 
         return promptEndPanel(installData, console);
