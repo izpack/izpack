@@ -377,7 +377,8 @@ public class JDKPathPanelHelper
     public static boolean skipPanel(InstallData installData, String path)
     {
         String skipIfValid = installData.getVariable("JDKPathPanel.skipIfValid");
-        if (path.length() > 0 && skipIfValid != null &&
+
+        if (pathIsValid(path) && skipIfValid != null &&
                 ("yes".equalsIgnoreCase(skipIfValid) || "true".equalsIgnoreCase(skipIfValid)))
         {
             installData.setVariable(JDK_VAR_NAME, path);
