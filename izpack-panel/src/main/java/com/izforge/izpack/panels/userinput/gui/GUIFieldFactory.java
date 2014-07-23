@@ -63,10 +63,6 @@ import com.izforge.izpack.panels.userinput.gui.statictext.GUIStaticText;
 import com.izforge.izpack.panels.userinput.gui.text.GUITextField;
 import com.izforge.izpack.panels.userinput.gui.title.GUITitleField;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
  * Factory for {@link GUIField}s.
  *
@@ -136,7 +132,7 @@ public class GUIFieldFactory
         }
         else if (field instanceof RadioField)
         {
-            result = new GUIRadioField((RadioField) field, installData);
+            result = new GUIRadioField((RadioField) field);
         }
         else if (field instanceof PasswordGroupField)
         {
@@ -203,7 +199,6 @@ public class GUIFieldFactory
      */
     public GUIField createCustom(CustomField customField, UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
     {
-        List<Field> fields = customField.getFields();
         FieldCommand fieldCommand = new createFieldCommand(userInputPanelSpec, spec);
         return new GUICustomField(customField, fieldCommand, userInputPanelSpec, spec, installData, parent);
     }

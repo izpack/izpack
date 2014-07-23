@@ -21,7 +21,6 @@
 
 package com.izforge.izpack.panels.userinput.gui.radio;
 
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.gui.TwoColumnConstraints;
 import com.izforge.izpack.panels.userinput.field.Choice;
@@ -53,9 +52,8 @@ public class GUIRadioField extends GUIField
      * Constructs a {@code GUIRadioField}.
      *
      * @param field       the field
-     * @param installData the installation data
      */
-    public GUIRadioField(RadioField field, InstallData installData)
+    public GUIRadioField(RadioField field)
     {
         super(field);
         String variable = field.getVariable();
@@ -90,17 +88,11 @@ public class GUIRadioField extends GUIField
             button.setText(choice.getValue());
             button.addActionListener(l);
 
-            String value = choice.getTrueValue();
-
             group.add(button);
             boolean selected = field.getSelectedIndex() == group.getButtonCount() - 1;
 
             if (selected)
             {
-                if (installData.getVariable(variable) == null)
-                {
-                    installData.setVariable(variable, value);
-                }
                 button.setSelected(true);
             }
 
