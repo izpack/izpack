@@ -103,9 +103,12 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
         String maxVersion = installData.getVariable("JDKPathPanel.maxVersion");
 
         String variableName = JDK_PATH;
-
         String defaultValue = JDKPathPanelHelper.getDefaultJavaPath(installData, handler);
 
+        if(JDKPathPanelHelper.skipPanel(installData, defaultValue))
+        {
+            return true;
+        }
         String strPath;
         boolean bKeepAsking = true;
         while (bKeepAsking)
