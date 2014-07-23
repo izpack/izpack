@@ -21,41 +21,32 @@
 
 package com.izforge.izpack.panels.jdkpath;
 
-import java.io.File;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Properties;
-import java.util.Set;
-import java.util.StringTokenizer;
 
-import com.coi.tools.os.win.MSWinConstants;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
-import com.izforge.izpack.core.os.RegistryHandler;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
+import com.izforge.izpack.panels.path.PathInputBase;
 import com.izforge.izpack.util.Console;
-import com.izforge.izpack.util.OsVersion;
-import com.izforge.izpack.util.Platform;
 
 /**
- * The Target panel console helper class.
+ * The JDKPathPanel panel console helper class.
  *
  * @author Mounir El Hajj
  */
 public class JDKPathConsolePanel extends AbstractConsolePanel
 {
-    private String detectedVersion;
     private InstallData installData;
     private final VariableSubstitutor variableSubstitutor;
     private final RegistryDefaultHandler handler;
-    private final static String JDK_VAR_NAME = "jdkVarName";
     private final static String JDK_PATH = "jdkPath";
+    private final static String JDK_VAR_NAME = "jdkVarName";
+
 
     /**
      * Constructs a <tt>JDKPathConsolePanelHelper</tt>.
@@ -68,15 +59,10 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
                                PanelView<ConsolePanel> panel, InstallData installData)
     {
         super(panel);
+        this.handler = handler;
         this.installData = installData;
         this.variableSubstitutor = variableSubstitutor;
-        this.handler = handler;
-    }
-
-    public boolean generateProperties(InstallData installData, PrintWriter printWriter)
-    {
-        printWriter.println(InstallData.INSTALL_PATH + "=");
-        return true;
+        JDKPathPanelHelper.initialize(installData);
     }
 
     public boolean run(InstallData installData, Properties properties)
@@ -112,60 +98,40 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
     @Override
     public boolean run(InstallData installData, Console console)
     {
+        String detectedJavaVersion = "";
         String minVersion = installData.getVariable("JDKPathPanel.minVersion");
         String maxVersion = installData.getVariable("JDKPathPanel.maxVersion");
+
         String variableName = JDK_PATH;
-        installData.setVariable(JDK_VAR_NAME, variableName);
+
+        String defaultValue = JDKPathPanelHelper.getDefaultJavaPath(installData, handler);
 
         String strPath;
-        String strDefaultPath = installData.getVariable(variableName);
-        if (strDefaultPath == null)
-        {
-            if (OsVersion.IS_OSX)
-            {
-                strDefaultPath = JDKPathPanel.OSX_JDK_HOME;
-            }
-            else
-            {
-                // Try the JAVA_HOME as child dir of the jdk path
-                strDefaultPath = installData.getVariable("JAVA_HOME");
-            }
-        }
-
-        Platform platform = installData.getPlatform();
-        detectedVersion = JDKPathPanelHelper.getCurrentJavaVersion(strDefaultPath, platform);
-        if (!JDKPathPanelHelper.pathIsValid(strDefaultPath) || !JDKPathPanelHelper.verifyVersion(detectedVersion, minVersion, maxVersion))
-        {
-            strDefaultPath = resolveInRegistry(minVersion, maxVersion);
-            if (!JDKPathPanelHelper.pathIsValid(strDefaultPath) || !JDKPathPanelHelper.verifyVersion(detectedVersion, minVersion, maxVersion))
-            {
-                strDefaultPath = "";
-            }
-        }
-
         boolean bKeepAsking = true;
-
         while (bKeepAsking)
         {
-            strPath = console.promptLocation("Select JDK path [" + strDefaultPath + "] ", null);
+            strPath = console.promptLocation("Select JDK path [" + defaultValue + "] ", null);
             if (strPath == null)
             {
-                // end of stream
                 return false;
             }
             strPath = strPath.trim();
             if (strPath.equals(""))
             {
-                strPath = strDefaultPath;
+                strPath = defaultValue;
             }
-            detectedVersion = JDKPathPanelHelper.getCurrentJavaVersion(strPath, installData.getPlatform());
+            strPath = PathInputBase.normalizePath(strPath);
+            detectedJavaVersion = JDKPathPanelHelper.getCurrentJavaVersion(strPath, installData.getPlatform());
+
             if (!JDKPathPanelHelper.pathIsValid(strPath))
             {
                 console.println("Path " + strPath + " is not valid.");
             }
-            else if (!JDKPathPanelHelper.verifyVersion(detectedVersion, minVersion, maxVersion))
+            else if (!JDKPathPanelHelper.verifyVersion(detectedJavaVersion))
             {
-                String message = "The chosen JDK has the wrong version (available: " + detectedVersion + " required: "
+                String message = "The chosen JDK has the wrong version (available: "
+                        + detectedJavaVersion
+                        + " required: "
                         + minVersion + " - " + maxVersion + ").";
                 message += "\nContinue anyway? [no]";
                 String strIn = console.prompt(message, null);
@@ -190,90 +156,16 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
         return promptEndPanel(installData, console);
     }
 
-    /**
-     * Returns the path to the needed JDK if found in the registry. If there are more than one JDKs
-     * registered, that one with the highest allowd version will be returned. Works only on windows.
-     * On Unix an empty string returns.
-     *
-     * @return the path to the needed JDK if found in the windows registry
-     */
-
-    private String resolveInRegistry(String min, String max)
+    @Override
+    public boolean generateProperties(InstallData installData, PrintWriter printWriter)
     {
-        String retval = "";
-        int oldVal = 0;
-        RegistryHandler registryHandler = null;
-        Set<String> badRegEntries = new HashSet<String>();
-        try
-        {
-            // Get the default registry handler.
-            registryHandler = handler.getInstance();
-            if (registryHandler == null)
-            // We are on a os which has no registry or the
-            // needed dll was not bound to this installation. In
-            // both cases we forget the try to get the JDK path from registry.
-            {
-                return (retval);
-            }
-            oldVal = registryHandler.getRoot(); // Only for security...
-            registryHandler.setRoot(MSWinConstants.HKEY_LOCAL_MACHINE);
-            String[] keys = registryHandler.getSubkeys(JDKPathPanel.JDK_ROOT_KEY);
-            if (keys == null || keys.length == 0)
-            {
-                return (retval);
-            }
-            Arrays.sort(keys);
-            int i = keys.length - 1;
-            // We search for the highest allowed version, therefore retrograde
-            while (i > 0)
-            {
-                detectedVersion = JDKPathPanelHelper.getCurrentJavaVersion(keys[i], 4, 4, "__NO_NOT_IDENTIFIER_");
-                if (max == null || JDKPathPanelHelper.compareVersions(detectedVersion, max, false))
-                { // First allowed version found, now we have to test that the min value
-                    // also allows this version.
-                    if (min == null || JDKPathPanelHelper.compareVersions(detectedVersion, min, true))
-                    {
-                        String cv = JDKPathPanel.JDK_ROOT_KEY + "\\" + keys[i];
-                        String path = registryHandler.getValue(cv, JDKPathPanel.JDK_VALUE_NAME).getStringData();
-                        // Use it only if the path is valid.
-                        // Set the path for method JDKPathPanelHelper.pathIsValid ...
-                        if (!JDKPathPanelHelper.pathIsValid(path))
-                        {
-                            badRegEntries.add(keys[i]);
-                        }
-                        else if ("".equals(retval))
-                        {
-                            retval = path;
-                        }
-                    }
-                }
-                i--;
-            }
-        }
-        catch (Exception e)
-        { // Will only be happen if registry handler is good, but an
-            // exception at performing was thrown. This is an error...
-            e.printStackTrace();
-        }
-        finally
-        {
-            if (registryHandler != null && oldVal != 0)
-            {
-                try
-                {
-                    registryHandler.setRoot(MSWinConstants.HKEY_LOCAL_MACHINE);
-                }
-                catch (NativeLibException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return (retval);
+        printWriter.println(InstallData.INSTALL_PATH + "=");
+        return true;
     }
 
     @Override
-    public void createInstallationRecord(IXMLElement panelRoot) {
+    public void createInstallationRecord(IXMLElement panelRoot)
+    {
         new JDKPathPanelAutomationHelper().createInstallationRecord(installData, panelRoot);
     }
 }

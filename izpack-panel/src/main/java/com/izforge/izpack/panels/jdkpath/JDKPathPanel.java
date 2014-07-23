@@ -126,6 +126,21 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         setMinVersion(installData.getVariable("JDKPathPanel.minVersion"));
         setMaxVersion(installData.getVariable("JDKPathPanel.maxVersion"));
         setVariableName(JDK_PATH);
+
+        String msg = getString("JDKPathPanel.jdkDownload");
+        if (msg != null && !msg.isEmpty())
+        {
+            add(IzPanelLayout.createParagraphGap());
+            JEditorPane textArea = new JEditorPane("text/html; charset=utf-8", replacer.substitute(msg, null));
+            textArea.setCaretPosition(0);
+            textArea.setEditable(false);
+            textArea.addHyperlinkListener(this);
+            textArea.setBackground(getBackground());
+
+            JScrollPane scroller = new JScrollPane(textArea);
+            scroller.setAlignmentX(LEFT_ALIGNMENT);
+            add(scroller, NEXT_LINE);
+        }
     }
 
     @Override
@@ -157,6 +172,48 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     @Override
     public boolean isValidated()
     {
+        if(super.isValidated())
+        {
+            String detectedJavaVersion;
+            String strPath = pathSelectionPanel.getPath();
+            detectedJavaVersion = JDKPathPanelHelper.getCurrentJavaVersion(strPath, installData.getPlatform());
+            if (!JDKPathPanelHelper.pathIsValid(strPath))
+            {
+                return false;
+            }
+            else if (!JDKPathPanelHelper.verifyVersion(detectedJavaVersion, minVersion, maxVersion))
+            {
+                StringBuilder message = new StringBuilder();
+
+                message.append(getString("JDKPathPanel.badVersion1"))
+                        .append(getDetectedVersion())
+                        .append(getString("JDKPathPanel.badVersion2"));
+                if (minVersion != null && maxVersion != null)
+                {
+                    message.append(minVersion).append(" - ").append(maxVersion);
+                }
+                else if (minVersion != null)
+                {
+                    message.append(" >= ").append(minVersion);
+                }
+                else if (maxVersion != null)
+                {
+                    message.append(" <= ").append(maxVersion);
+                }
+                message.append(getString("JDKPathPanel.badVersion3"));
+
+                if (askQuestion(getString("installer.warning"), message.toString(),
+                        AbstractUIHandler.CHOICES_YES_NO,
+                        AbstractUIHandler.ANSWER_NO) == AbstractUIHandler.ANSWER_YES)
+                {
+                    this.installData.setVariable(getVariableName(), pathSelectionPanel.getPath());
+                    return true;
+                }
+            }
+        }
+        return true;
+
+        /*
         boolean retval = false;
         if (super.isValidated())
         {
@@ -212,7 +269,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
 
             }
         }
-        return (retval);
+        return (retval);*/
     }
 
     /**
@@ -221,33 +278,10 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     @Override
     public void panelActivate()
     {
-        // Resolve the default for chosenPath
         super.panelActivate();
-        String chosenPath = "";
+        String chosenPath = installData.getVariable(getVariableName());
 
-        String msg = getString("JDKPathPanel.jdkDownload");
-        if (msg != null && !msg.isEmpty())
-        {
-            add(IzPanelLayout.createParagraphGap());
-            JEditorPane textArea = new JEditorPane("text/html; charset=utf-8", replacer.substitute(msg, null));
-            textArea.setCaretPosition(0);
-            textArea.setEditable(false);
-            textArea.addHyperlinkListener(this);
-            textArea.setBackground(getBackground());
-
-            JScrollPane scroller = new JScrollPane(textArea);
-            scroller.setAlignmentX(LEFT_ALIGNMENT);
-            add(scroller, NEXT_LINE);
-        }
-
-        // The variable will be exist if we enter this panel
-        // second time. We would maintain the previos
-        // selected path.
-        if (installData.getVariable(getVariableName()) != null)
-        {
-            chosenPath = installData.getVariable(getVariableName());
-        }
-        else
+        if(chosenPath == null)
         {
             if (installData.getPlatform().isA(Platform.Name.MAC_OSX))
             {
