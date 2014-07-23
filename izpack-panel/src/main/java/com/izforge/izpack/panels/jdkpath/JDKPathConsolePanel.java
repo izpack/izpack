@@ -147,7 +147,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
 
         while (bKeepAsking)
         {
-            strPath = console.prompt("Select JDK path [" + strDefaultPath + "] ", null);
+            strPath = console.promptLocation("Select JDK path [" + strDefaultPath + "] ", null);
             if (strPath == null)
             {
                 // end of stream
@@ -308,7 +308,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
             // Current can have no more tokens if needed has more
             // and if a privious token was not accepted as good version.
             // e.g. 1.4.2_02 needed, 1.4.2 current. The false return
-            // will be right here. Only if e.g. needed is 1.4.2_00 the
+            // will be right here. Only if e.g. fneeded is 1.4.2_00 the
             // return value will be false, but zero should not b e used
             // at the last version part.
             if (!currentTokenizer.hasMoreTokens())
