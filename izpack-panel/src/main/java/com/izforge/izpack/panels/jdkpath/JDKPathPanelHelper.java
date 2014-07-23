@@ -1,20 +1,82 @@
 package com.izforge.izpack.panels.jdkpath;
 
 import com.coi.tools.os.win.MSWinConstants;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
+import com.izforge.izpack.panels.path.PathInputBase;
 import com.izforge.izpack.util.FileExecutor;
+import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.Platform;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 public class JDKPathPanelHelper
 {
+    public static final String[] testFiles = new String[]{"lib" + File.separator + "tools.jar"};
+    public static final String JDK_VALUE_NAME = "JavaHome";
+    public static final String JDK_ROOT_KEY = "Software\\JavaSoft\\Java Development Kit";
+    public static final String OSX_JDK_HOME = "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home/";
+
+    public final static String JDK_PATH = "jdkPath";
+    public final static String JDK_VAR_NAME = "jdkVarName";
+
+    private static String minVersion = null;
+    private static String maxVersion = null;
+
+    /**
+     * MUST always be called in constructor of JDKPathConsolePanel and JDKPathPanel
+     * @param installData
+     */
+    public static void initialize(InstallData installData)
+    {
+        minVersion = installData.getVariable("JDKPathPanel.minVersion");
+        maxVersion = installData.getVariable("JDKPathPanel.maxVersion");
+        installData.setVariable(JDK_VAR_NAME, JDK_PATH);
+    }
+
+    /**
+     * Obtain the default java path
+     * @param installData
+     * @param handler
+     * @return
+     */
+    public static String getDefaultJavaPath(InstallData installData, RegistryDefaultHandler handler)
+    {
+        String detectedJavaVersion = "";
+
+        String defaultValue = installData.getVariable(JDK_PATH);
+        if (defaultValue == null)
+        {
+            if (OsVersion.IS_OSX)
+            {
+                defaultValue = OSX_JDK_HOME;
+            }
+            else
+            {
+                defaultValue = installData.getVariable("JAVA_HOME");
+            }
+        }
+
+        //See if java from currently running jre is valid, otherwise check the registry.
+        //If java is still not found set path ot JAVA_HOME to an empty string.
+        Platform platform = installData.getPlatform();
+        detectedJavaVersion = JDKPathPanelHelper.getCurrentJavaVersion(defaultValue, platform);
+        if (!JDKPathPanelHelper.pathIsValid(defaultValue) || !JDKPathPanelHelper.verifyVersion(detectedJavaVersion))
+        {
+            defaultValue = JDKPathPanelHelper.getJavaHomeFromRegistry(handler);
+            detectedJavaVersion = JDKPathPanelHelper.getCurrentJavaVersion(defaultValue, platform);
+            if (!JDKPathPanelHelper.pathIsValid(defaultValue) || !JDKPathPanelHelper.verifyVersion(detectedJavaVersion))
+            {
+                defaultValue = "";
+            }
+        }
+
+        return PathInputBase.normalizePath(defaultValue);
+    }
 
     /**
      * Returns the path to the needed JDK if found in the registry. If there are more than one JDKs
@@ -23,12 +85,12 @@ public class JDKPathPanelHelper
      *
      * @return the path to the needed JDK if found in the windows registry
      */
-    public static String getJavaHomeFromRegistry(RegistryDefaultHandler handler, String min, String max)
+    public static String getJavaHomeFromRegistry(RegistryDefaultHandler handler)
     {
         String javaHome = "";
         int oldVal = 0;
         RegistryHandler registryHandler = null;
-        Set<String> badRegEntries = new HashSet<String>();
+
         try
         {
             // Get the default registry handler.
@@ -43,7 +105,7 @@ public class JDKPathPanelHelper
 
             oldVal = registryHandler.getRoot(); // Only for security...
             registryHandler.setRoot(MSWinConstants.HKEY_LOCAL_MACHINE);
-            String[] keys = registryHandler.getSubkeys(JDKPathPanel.JDK_ROOT_KEY);
+            String[] keys = registryHandler.getSubkeys(JDK_ROOT_KEY);
             if (keys == null || keys.length == 0)
             {
                 return javaHome;
@@ -55,21 +117,17 @@ public class JDKPathPanelHelper
             while (i > 0)
             {
                 String javaVersion = extractJavaVersion(keys[i]);
-                if (max == null || compareVersions(javaVersion, max, false))
+                if (maxVersion == null || compareVersions(javaVersion, maxVersion, false))
                 {
                     // First allowed version found, now we have to test that the min value
                     // also allows this version.
-                    if (min == null || compareVersions(javaVersion, min, true))
+                    if (minVersion == null || compareVersions(javaVersion, minVersion, true))
                     {
-                        String cv = JDKPathPanel.JDK_ROOT_KEY + "\\" + keys[i];
-                        String path = registryHandler.getValue(cv, JDKPathPanel.JDK_VALUE_NAME).getStringData();
+                        String cv = JDK_ROOT_KEY + "\\" + keys[i];
+                        String path = registryHandler.getValue(cv, JDK_VALUE_NAME).getStringData();
                         // Use it only if the path is valid.
                         // Set the path for method JDKPathPanelHelper.pathIsValid ...
-                        if (!JDKPathPanelHelper.pathIsValid(path))
-                        {
-                            badRegEntries.add(keys[i]);
-                        }
-                        else
+                        if (JDKPathPanelHelper.pathIsValid(path))
                         {
                             javaHome = path;
                             break;
@@ -110,7 +168,7 @@ public class JDKPathPanelHelper
      */
     public static boolean pathIsValid(String strPath)
     {
-        for (String existFile : JDKPathPanel.testFiles)
+        for (String existFile : testFiles)
         {
             File path = new File(strPath, existFile).getAbsoluteFile();
             if (!path.exists())
@@ -125,30 +183,28 @@ public class JDKPathPanelHelper
      * Validate that the given javaVersion meets meets the minimum and maximum java version requirements.
      *
      * @param javaVersion
-     * @param min
-     * @param max
      * @return
      */
-    public static boolean verifyVersion(String javaVersion, String min, String max)
+    public static boolean verifyVersion(String javaVersion)
     {
         boolean valid = true;
 
         // No min and max, version always ok.
-        if (min == null && max == null)
+        if (minVersion == null && maxVersion == null)
         {
             return true;
         }
 
-        if (min != null)
+        if (minVersion != null)
         {
-            if (!compareVersions(javaVersion, min, true))
+            if (!compareVersions(javaVersion, minVersion, true))
             {
                 valid = false;
             }
         }
-        if (max != null)
+        if (maxVersion != null)
         {
-            if (!compareVersions(javaVersion, max, false))
+            if (!compareVersions(javaVersion, maxVersion, false))
             {
                 valid = false;
             }
@@ -308,5 +364,25 @@ public class JDKPathPanelHelper
             }
         }
         return true;
+    }
+
+    /**
+     * Check if JDK panel should be skipped.
+     * Return true if panel should be skipped otherwise false.
+     *
+     * @param installData
+     * @param path
+     * @return
+     */
+    public static boolean skipPanel(InstallData installData, String path)
+    {
+        String skipIfValid = installData.getVariable("JDKPathPanel.skipIfValid");
+        if (path.length() > 0 && skipIfValid != null &&
+                ("yes".equalsIgnoreCase(skipIfValid) || "true".equalsIgnoreCase(skipIfValid)))
+        {
+            installData.setVariable(JDK_VAR_NAME, path);
+            return true;
+        }
+        return false;
     }
 }
