@@ -374,7 +374,7 @@ public class Platform
      */
     public boolean isValidDirectorySyntax(String directoryPath)
     {
-        String[] invalidDirectoryCharacters = {""};
+        String[] invalidDirectoryCharacters = new String[0];
         if (name == Name.WINDOWS)
         {
             invalidDirectoryCharacters = invalidWindowsDirectoryChars;

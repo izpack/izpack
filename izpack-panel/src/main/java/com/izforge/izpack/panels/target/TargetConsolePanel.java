@@ -114,19 +114,24 @@ public class TargetConsolePanel extends AbstractConsolePanel implements ConsoleP
             }
             else if (!PathInputBase.isWritable(normalizedPath))
             {
-                System.out.println(installData.getMessages().get("UserPathPanel.notwritable"));
+                console.println(installData.getMessages().get("UserPathPanel.notwritable"));
                 return run(installData, console);
             }
             else if (!normalizedPath.isEmpty())
             {
                 if (pathFile.isFile())
                 {
-                    System.out.println(installData.getMessages().get("PathInputPanel.isfile"));
+                    console.println(installData.getMessages().get("PathInputPanel.isfile"));
                     return run(installData, console);
                 }
                 else if (pathFile.isDirectory() && pathFile.list().length > 0)
                 {
                     console.println(installData.getMessages().get("TargetPanel.warn"));
+                }
+                else if(!installData.getPlatform().isValidDirectoryPath(pathFile))
+                {
+                    console.println(installData.getMessages().get("TargetPanel.syntax.error"));
+                    return run(installData, console);
                 }
                 installData.setInstallPath(normalizedPath);
                 return promptEndPanel(installData, console);
