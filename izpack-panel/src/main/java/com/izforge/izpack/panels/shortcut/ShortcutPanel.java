@@ -304,6 +304,12 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     @Override
     public boolean isValidated()
     {
+        String errorMessage = shortcutPanelLogic.verifyProgramGroup(programGroup.getText());
+        if(!errorMessage.isEmpty())
+        {
+            emitError("Error", errorMessage);
+            return false;
+        }
         shortcutPanelLogic.setGroupName(programGroup.getText());
         if (allowDesktopShortcut != null)
         {
@@ -323,7 +329,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
                 // ignore exception
             }
         }
-        return (true);
+        return true;
     }
 
     /**
@@ -450,6 +456,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // label the list of existing program groups
         JLabel listLabel = LabelFactory.create(getString("ShortcutPanel.regular.list"), SwingConstants.LEADING);
         Platform platform = installData.getPlatform();
+        shortcutPanelLogic.setPlatform(platform);
         if (platform.isA(WINDOWS))
         {
             constraints.gridx = col;

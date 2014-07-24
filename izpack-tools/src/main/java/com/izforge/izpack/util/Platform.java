@@ -26,6 +26,17 @@ package com.izforge.izpack.util;
 public class Platform
 {
 
+    /** Invalid Windows Characters
+     *  http://msdn.microsoft.com/en-us/library/aa365247.aspx
+     *  Forward slash not included because installer will end up creating directory with backslash
+     *
+     *  NOTE: We choose double backslash to be invalid rather than just backslash, because we are checking against paths
+     *        A normal backslash would just represent another folder
+     */
+    public static final String [] invalidWindowsDirectoryChars = {"<", ">", ":", "\"", "/", "\\\\", "|", "?", "*", "\\ "};
+
+    public static final String [] invalidUnknownDirectoryChars = {""};
+
     /**
      * Platform family name.
      */
@@ -354,6 +365,27 @@ public class Platform
         return this.arch == arch;
     }
 
+    /**
+     * Determine invalid directory character for the given OS
+     *
+     * @return
+     */
+    public boolean isValidDirectorySyntax(String directoryName)
+    {
+        String[] invalidDirectoryCharacters = {""};
+        if (name == Name.WINDOWS)
+        {
+            invalidDirectoryCharacters = invalidWindowsDirectoryChars;
+        }
+        for (String invalidChar : invalidDirectoryCharacters)
+        {
+            if (directoryName.contains(invalidChar))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * Determines if this platform equals another.
      *

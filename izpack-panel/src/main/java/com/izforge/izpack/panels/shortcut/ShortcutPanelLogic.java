@@ -52,14 +52,7 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.data.ExecutableFile;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
-import com.izforge.izpack.util.CleanupClient;
-import com.izforge.izpack.util.FileExecutor;
-import com.izforge.izpack.util.Housekeeper;
-import com.izforge.izpack.util.OsConstraintHelper;
-import com.izforge.izpack.util.OsVersion;
-import com.izforge.izpack.util.PlatformModelMatcher;
-import com.izforge.izpack.util.StringTool;
-import com.izforge.izpack.util.TargetFactory;
+import com.izforge.izpack.util.*;
 import com.izforge.izpack.util.file.FileUtils;
 import com.izforge.izpack.util.os.Shortcut;
 import com.izforge.izpack.util.unix.UnixHelper;
@@ -289,6 +282,7 @@ public class ShortcutPanelLogic implements CleanupClient
 
     private boolean createShortcutsImmediately = true;
 
+    private Platform platform;
     /**
      * Constructs a <tt>ShortcutPanelLogic</tt>.
      *
@@ -1572,5 +1566,29 @@ public class ShortcutPanelLogic implements CleanupClient
                 throw new IzPackException("Failed to create shortcuts", exception);
             }
         }
+    }
+
+    /**
+     * Shortcut Panel should know what platform it is dealing with.
+     * @param platform
+     */
+    public void setPlatform(Platform platform)
+    {
+        this.platform = platform;
+    }
+
+    /**
+     * Validate that groupName is a valid directory path
+     *
+     * @param groupName
+     * @return
+     */
+    public String verifyProgramGroup(String groupName)
+    {
+        if(!platform.isValidDirectorySyntax(groupName))
+        {
+                return installData.getMessages().get("ShortcutPanel.group.error");
+        }
+       return "";
     }
 }

@@ -228,6 +228,7 @@
     <str id="ShortcutPanel.location.startup" txt="Startup Group"/>
     <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Start-Menu"/>
     <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="XDG-Menu"/>
+    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
 
     <!-- UserInputPanel strings -->
     <str id="UserInputPanel.error.caption" txt="Error"/>
