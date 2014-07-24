@@ -18,6 +18,8 @@
 
 package com.izforge.izpack.util;
 
+import java.io.File;
+
 /**
  * Encapsulates details of the operating system platform.
  *
@@ -366,11 +368,11 @@ public class Platform
     }
 
     /**
-     * Determine invalid directory character for the given OS
-     *
+     * Determine invalid directory character for the given OS.
+     * Expects the the driver name has already been trimmed of.
      * @return
      */
-    public boolean isValidDirectorySyntax(String directoryName)
+    public boolean isValidDirectorySyntax(String directoryPath)
     {
         String[] invalidDirectoryCharacters = {""};
         if (name == Name.WINDOWS)
@@ -379,12 +381,35 @@ public class Platform
         }
         for (String invalidChar : invalidDirectoryCharacters)
         {
-            if (directoryName.contains(invalidChar))
+            if (directoryPath.contains(invalidChar))
             {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Check if a fully qualified directory path contains valid syntax.
+     * @param directory
+     * @return
+     */
+    public boolean isValidDirectoryPath(File directory)
+    {
+        return isValidDirectoryPath(directory.getAbsolutePath());
+    }
+    public boolean isValidDirectoryPath(String directoryPath)
+    {
+        String filteredPath = directoryPath;
+        if (name == Name.WINDOWS)
+        {
+            if (!directoryPath.matches("^[A-Z]:.*"))
+            {
+                return false;
+            }
+            filteredPath = directoryPath.substring(2, directoryPath.length());
+        }
+        return isValidDirectorySyntax(filteredPath);
     }
     /**
      * Determines if this platform equals another.

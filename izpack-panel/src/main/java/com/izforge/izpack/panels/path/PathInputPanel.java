@@ -38,7 +38,7 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 
 /**
- * Base class for panels which asks for paths.
+ * Base class for panels which asks for paths to directories.
  *
  * @author Klaus Bartz
  */
@@ -195,6 +195,12 @@ public class PathInputPanel extends IzPanel implements ActionListener
             {
                 return false;
             }
+        }
+
+        if(!installData.getPlatform().isValidDirectoryPath(file))
+        {
+            emitError(getString("installer.error"), getI18nStringForClass("syntax.error", "TargetPanel"));
+            return false;
         }
         return true;
     }

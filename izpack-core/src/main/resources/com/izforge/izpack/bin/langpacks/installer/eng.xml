@@ -128,7 +128,8 @@
          txt="This directory can not be written! Please choose another directory!"/>
     <str id="TargetPanel.incompatibleInstallation"
          txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
-
+    <str id="TargetPanel.syntax.error"
+         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
 
     <!-- JDKPathPanel strings -->
     <str id="JDKPathPanel.extendedIntro"
