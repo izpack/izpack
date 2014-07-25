@@ -445,7 +445,7 @@ public abstract class PackagerBase implements IPackager
         mergeManager.addResourceToMerge("org/apache/tools/zip/");
         mergeManager.addResourceToMerge("org/apache/commons/io/FilenameUtils.class");
         mergeManager.addResourceToMerge("jline/");
-        mergeManager.addResourceToMerge("org/fusesource/jansi/");
+        mergeManager.addResourceToMerge("org/fusesource/");
         mergeManager.addResourceToMerge("META-INF/native/");
         mergeManager.merge(installerJar);
     }
