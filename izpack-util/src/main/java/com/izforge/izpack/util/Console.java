@@ -56,6 +56,7 @@ public class Console
                 }
             }));
             this.consoleReader = new ConsoleReader("IzPack", new FileInputStream(FileDescriptor.in), System.out, null);
+            this.consoleReader.setHandleUserInterrupt(true);
             Terminal terminal = consoleReader.getTerminal();
             if (terminal == null || terminal instanceof UnsupportedTerminal)
             {
