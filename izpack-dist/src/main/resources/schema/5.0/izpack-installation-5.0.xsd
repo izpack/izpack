@@ -78,6 +78,7 @@
             <xs:element name="javaversion" type="xs:string" minOccurs="0"/>
             <xs:element name="requiresjdk" type="xs:string" minOccurs="0"/>
             <xs:element name="pack200" minOccurs="0"/>
+            <xs:element name="tempdir" type="tempDirType" minOccurs="0" />
             <xs:element name="run-privileged" type="runPrivilegedType" minOccurs="0"/>
             <xs:element name="summarylogfilepath" type="xs:string" minOccurs="0"/>
             <xs:element name="uninstaller" type="uninstallerType" minOccurs="0"/>
@@ -97,6 +98,12 @@
         </xs:sequence>
     </xs:complexType>
 
+	<xs:complexType name="tempDirType">
+		<xs:attribute type="xs:string" name="variablename" use="optional" />
+		<xs:attribute type="xs:string" name="prefix" use="optional" />
+		<xs:attribute type="xs:string" name="suffix" use="optional" />
+	</xs:complexType>
+	
     <xs:complexType name="runPrivilegedType">
         <xs:attribute type="xs:string" name="condition" use="optional"/>
     </xs:complexType>
