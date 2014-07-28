@@ -21,15 +21,14 @@
 
 package com.izforge.izpack.util;
 
+import com.izforge.izpack.api.data.Info;
+import com.izforge.izpack.api.rules.RulesEngine;
+
 import static com.izforge.izpack.util.Platform.Name.MAC_OSX;
 import static com.izforge.izpack.util.Platform.Name.UNIX;
 import static com.izforge.izpack.util.Platform.Name.WINDOWS;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +65,7 @@ public class PrivilegedRunner
     {
         this.platform = platform;
     }
+
 
     /**
      * Checks if the current platform is supported.
@@ -121,6 +121,70 @@ public class PrivilegedRunner
             }
         }
         return result;
+    }
+
+    /**
+     * Determine if user has administrative privileges.
+     *
+     * @return
+     */
+    public boolean isAdminUser()
+    {
+        if (platform.isA(WINDOWS))
+        {
+            try
+            {
+                String NTAuthority = "HKU\\S-1-5-19";
+                String command = "reg query \""+ NTAuthority + "\"";
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                return (p.exitValue() == 0);
+            }
+            catch (Exception e)
+            {
+                return canWrite(getProgramFiles());
+            }
+        }
+        try
+        {
+            String command = "id -u";
+            Process p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+
+            InputStream stdIn = p.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stdIn));
+            String value = bufferedReader.readLine();
+            return value.equals("0");
+        }
+        catch (Exception e)
+        {
+            return System.getProperty("user.name").equals("root");
+        }
+    }
+
+    /**
+     * Check if user has correct permissions to use the installer.
+     *
+     * @param info
+     * @param rules
+     * @return
+     */
+    public boolean hasCorrectPermissions(Info info, RulesEngine rules)
+    {
+        if (info.isPrivilegedExecutionRequired())
+        {
+            boolean shouldElevate = true;
+            String conditionId = info.getPrivilegedExecutionConditionID();
+            if (conditionId != null)
+            {
+                shouldElevate = rules.getCondition(conditionId).isTrue();
+            }
+            if (shouldElevate)
+            {
+               return isAdminUser();
+            }
+        }
+        return true;
     }
 
     /**
