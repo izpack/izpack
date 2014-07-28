@@ -194,11 +194,19 @@ public class PrivilegedRunner
      * @throws IOException          if an I/O error occurs
      * @throws InterruptedException if the launch was interrupted
      */
-    public int relaunchWithElevatedRights() throws IOException, InterruptedException
+    public int relaunchWithElevatedRights() throws Exception
     {
-        String javaCommand = getJavaCommand();
+        return relaunchWithElevatedRights(new String[0]);
+    }
+    public int relaunchWithElevatedRights(String ... args) throws Exception
+    {
+        if(args.length > 0 && !platform.isA(WINDOWS))
+        {
+            throw new Exception("Installer should be run as admin");
+        }
+        String javaCommand = getJavaCommand(args);
         String installer = getInstallerJar();
-        ProcessBuilder builder = new ProcessBuilder(getElevator(javaCommand, installer));
+        ProcessBuilder builder = new ProcessBuilder(getElevator(javaCommand, installer, args));
 
         if (logger.isLoggable(Level.INFO))
         {
@@ -216,7 +224,7 @@ public class PrivilegedRunner
                 System.getProperty("izpack.mode"));
     }
 
-    protected List<String> getElevator(String javaCommand, String installer) throws IOException
+    protected List<String> getElevator(String javaCommand, String installer, String[] args) throws IOException
     {
         List<String> jvmArgs = new JVMHelper().getJVMArguments();
         List<String> elevator = new ArrayList<String>();
@@ -250,6 +258,10 @@ public class PrivilegedRunner
             elevator.add("-Dizpack.mode=privileged");
             elevator.add("-jar");
             elevator.add(installer);
+        }
+        for(String arg : args)
+        {
+            elevator.add(arg);
         }
 
         return elevator;
@@ -318,21 +330,30 @@ public class PrivilegedRunner
         return null;
     }
 
-    private String getJavaCommand()
+    private String getJavaCommand(String[] args)
     {
-        return System.getProperty("java.home") + File.separator + "bin" + File.separator + getJavaExecutable();
-    }
-
-    private String getJavaExecutable()
-    {
+        String java;
+        boolean console = false;
+        if(args.length > 0)
+        {
+            console = true;
+        }
         if (platform.isA(WINDOWS))
         {
-            return "javaw.exe";
+            if (console)
+            {
+                java = "java.exe";
+            }
+            else
+            {
+                java = "javaw.exe";
+            }
         }
         else
         {
-            return "java";
+            java = "java";
         }
+        return System.getProperty("java.home") + File.separator + "bin" + File.separator + java;
     }
 
     /**

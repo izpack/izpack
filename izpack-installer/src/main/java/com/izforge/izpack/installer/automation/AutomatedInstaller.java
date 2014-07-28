@@ -109,6 +109,19 @@ public class AutomatedInstaller implements InstallerBase
      */
     public void init(String inputFilename, String mediaPath) throws Exception
     {
+        PrivilegedRunner runner = new PrivilegedRunner(installData.getPlatform());
+        if (!runner.hasCorrectPermissions(installData.getInfo(), installData.getRules()))
+        {
+            try
+            {
+                runner.relaunchWithElevatedRights(inputFilename);
+            }
+            catch (Exception e)
+            {
+                System.out.println(installData.getMessages().get("AutomatedInstaller.permissionError"));
+            }
+            System.exit(0);
+        }
         File input = new File(inputFilename);
         IXMLElement installRecord = getXMLData(input);
         installData.setInstallationRecord(installRecord);
@@ -126,13 +139,6 @@ public class AutomatedInstaller implements InstallerBase
      */
     public void doInstall() throws Exception
     {
-        PrivilegedRunner runner = new PrivilegedRunner(installData.getPlatform());
-        if (!runner.hasCorrectPermissions(installData.getInfo(), installData.getRules()))
-        {
-            System.out.println(installData.getMessages().get("AutomatedInstaller.permissionError"));
-            System.exit(0);
-        }
-
         boolean success = false;
         // check installer conditions
         if (!requirements.check())

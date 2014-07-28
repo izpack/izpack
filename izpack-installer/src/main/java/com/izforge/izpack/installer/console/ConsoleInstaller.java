@@ -114,12 +114,6 @@ public class ConsoleInstaller implements InstallerBase
      */
     public boolean canInstall()
     {
-        PrivilegedRunner runner = new PrivilegedRunner(installData.getPlatform());
-        if (!runner.hasCorrectPermissions(installData.getInfo(), installData.getRules()))
-        {
-            console.println(installData.getMessages().get("ConsoleInstaller.permissionError"));
-            System.exit(0);
-        }
         boolean success = true;
         for (ConsolePanelView panel : panels.getPanelViews())
         {
@@ -153,6 +147,20 @@ public class ConsoleInstaller implements InstallerBase
      */
     public void run(int type, String path)
     {
+        PrivilegedRunner runner = new PrivilegedRunner(installData.getPlatform());
+        if (!runner.hasCorrectPermissions(installData.getInfo(), installData.getRules()))
+        {
+            try
+            {
+                runner.relaunchWithElevatedRights("-console");
+            }
+            catch (Exception e)
+            {
+                console.println(installData.getMessages().get("ConsoleInstaller.permissionError"));
+            }
+            System.exit(0);
+        }
+
         boolean success = false;
         ConsoleAction action = null;
         if (!canInstall())
