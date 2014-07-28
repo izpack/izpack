@@ -115,11 +115,11 @@ public class InstallDataConfiguratorWithRules
             }
             catch (Exception e)
             {
-                e.printStackTrace();
                 JOptionPane.showMessageDialog(null,
-                                              "The installer could not launch itself with administrator permissions.\n" +
-                                                      "The installation will still continue but you may encounter problems due to insufficient permissions.");
+                                              "Administrative privileges required.\n" +
+                                                      "Please re-run the installer with administrative privileges.");
             }
+            System.exit(0);
         }
         else if (!runner.isPlatformSupported())
         {

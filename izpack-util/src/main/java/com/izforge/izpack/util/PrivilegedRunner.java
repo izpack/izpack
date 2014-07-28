@@ -200,7 +200,7 @@ public class PrivilegedRunner
     }
     public int relaunchWithElevatedRights(String ... args) throws Exception
     {
-        if(args.length > 0 && !platform.isA(WINDOWS))
+        if(!platform.isA(WINDOWS))
         {
             throw new Exception("Installer should be run as admin");
         }
