@@ -146,6 +146,10 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
                 {
                     result = createShortcuts(installData, console);
                 }
+                else
+                {
+                    shortcutPanelLogic.setCreateShortcuts(false);
+                }
             }
             else if (!shortcutPanelLogic.isSkipIfNotSupported())
             {

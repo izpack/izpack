@@ -182,47 +182,8 @@ public class FinishConsolePanel extends AbstractConsolePanel
         }
         catch (Exception err)
         {
-            System.out.println("ERROR");
+            console.println("failed to save the installation into file [" + file.getAbsolutePath() + "]");
         }
-        /*
-        BufferedOutputStream outputStream;
-        outputStream = null;
-
-        try
-        {
-            outputStream = new BufferedOutputStream(new FileOutputStream(file), 5120);
-
-            IXMLWriter writer;
-            writer = new XMLWriter(outputStream);
-
-            IXMLElement root;
-            root = installData.getInstallationRecord();
-
-            AutomatedPanels automatedPanels;
-            automatedPanels = getAutomatedPanels(installData);
-
-            List<AutomatedPanelView> panelViews;
-            panelViews = automatedPanels.getPanelViews();
-
-            int index = 0;
-            for (AutomatedPanelView panelView : panelViews)
-            {
-                makeXML(panelView, installData, root.getChildAtIndex(index));
-                index = index + 1;
-            }
-            writer.write(root);
-            outputStream.flush();
-
-        }
-        catch (Exception e)
-        {
-            console.println("failed to save the installation into file [" + file.getAbsolutePath()
-                    + "]");
-        }
-        finally
-        {
-            FileUtils.close(outputStream);
-        }*/
     }
 
     protected AutomatedPanels getAutomatedPanels(final InstallData aInstallData)
