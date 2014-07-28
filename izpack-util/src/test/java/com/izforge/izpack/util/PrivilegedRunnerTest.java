@@ -49,7 +49,7 @@ public class PrivilegedRunnerTest
         }
 
         PrivilegedRunner runner = new PrivilegedRunner(Platforms.UNIX);
-        List<String> elevatorCommand = runner.getElevator("java", "installer.jar");
+        List<String> elevatorCommand = runner.getElevator("java", "installer.jar", new String[0]);
         assertEquals(8, elevatorCommand.size());
 
         assertEquals("xterm", elevatorCommand.get(0));
@@ -81,7 +81,7 @@ public class PrivilegedRunnerTest
         }
 
         PrivilegedRunner runner = new PrivilegedRunner(Platforms.WINDOWS);
-        List<String> elevatorCommand = runner.getElevator("javaw", "installer.jar");
+        List<String> elevatorCommand = runner.getElevator("javaw", "installer.jar", new String[0]);
         assertEquals(6, elevatorCommand.size());
 
         assertEquals("wscript", elevatorCommand.get(0));
@@ -112,7 +112,7 @@ public class PrivilegedRunnerTest
         }
 
         PrivilegedRunner runner = new PrivilegedRunner(Platforms.MAC_OSX);
-        List<String> elevatorCommand = runner.getElevator("java", "installer.jar");
+        List<String> elevatorCommand = runner.getElevator("java", "installer.jar", new String[0]);
         assertEquals(4, elevatorCommand.size());
 
         assertEquals(scriptPath, elevatorCommand.get(0));
