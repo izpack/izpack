@@ -252,7 +252,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         console2.addScript("CheckedHelloPanel", "n");
 
         assertFalse(registryKeyExists(handler2, UNINSTALL_KEY2));
-        installer2.run(Installer.CONSOLE_INSTALL, null);
+        installer2.run(Installer.CONSOLE_INSTALL, null, new String[0]);
 
         // verify the installation thinks it was unsuccessful
         assertFalse(installData2.isInstallSuccess());

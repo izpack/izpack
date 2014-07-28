@@ -107,14 +107,14 @@ public class AutomatedInstaller implements InstallerBase
      * @param mediaPath     the multi-volume media directory. May be <tt>null</tt>
      * @throws Exception
      */
-    public void init(String inputFilename, String mediaPath) throws Exception
+    public void init(String inputFilename, String mediaPath, String[] args) throws Exception
     {
         PrivilegedRunner runner = new PrivilegedRunner(installData.getPlatform());
         if (!runner.hasCorrectPermissions(installData.getInfo(), installData.getRules()))
         {
             try
             {
-                runner.relaunchWithElevatedRights(inputFilename);
+                runner.relaunchWithElevatedRights(args);
             }
             catch (Exception e)
             {

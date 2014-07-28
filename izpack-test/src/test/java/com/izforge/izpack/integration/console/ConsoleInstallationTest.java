@@ -128,7 +128,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         console.addScript("LicensePanel", "\n", "2");
 
         installData.setInstallPath(installPath.getAbsolutePath());
-        installer.run(Installer.CONSOLE_INSTALL, null);
+        installer.run(Installer.CONSOLE_INSTALL, null, new String[0]);
 
         assertFalse(installData.isInstallSuccess());
         assertFalse(installPath.exists());
@@ -168,7 +168,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
         installData.setInstallPath(installPath.getAbsolutePath());
 
-        installer.run(Installer.CONSOLE_GEN_TEMPLATE, file.getPath());
+        installer.run(Installer.CONSOLE_GEN_TEMPLATE, file.getPath(), new String[0]);
 
         // verify the installation thinks it was successful
         assertTrue(installData.isInstallSuccess());
@@ -199,7 +199,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         properties.store(new FileOutputStream(file), "IzPack installation properties");
 
         TestConsole console = installer.getConsole();
-        installer.run(Installer.CONSOLE_FROM_TEMPLATE, file.getPath());
+        installer.run(Installer.CONSOLE_FROM_TEMPLATE, file.getPath(), new String[0]);
 
         // make sure there were no attempts to read from the console, as no prompting should occur
         assertEquals(0, console.getReads());
@@ -229,7 +229,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         assertFalse(installer.canInstall());
 
         // try it anyway
-        installer.run(Installer.CONSOLE_INSTALL, null);
+        installer.run(Installer.CONSOLE_INSTALL, null, new String[0]);
 
         // verify installation failed
         assertFalse(installData.isInstallSuccess());

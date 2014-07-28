@@ -85,7 +85,7 @@ public class AutomatedInstallerTest extends AbstractInstallationTest
         URL url = getClass().getResource("/samples/basicInstall/auto.xml");
         assertNotNull(url);
         String config = FileUtil.convertUrlToFilePath(url);
-        installer.init(config, null);
+        installer.init(config, null, new String[0]);
         installer.doInstall();
 
         // verify the installation thinks it was successful

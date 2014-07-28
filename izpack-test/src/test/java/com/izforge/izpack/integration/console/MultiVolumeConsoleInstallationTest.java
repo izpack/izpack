@@ -72,7 +72,7 @@ public class MultiVolumeConsoleInstallationTest extends AbstractMultiVolumeInsta
         console.addScript("TargetPanel", "\n", "1");
         console.addScript("InstallPanel");
         console.addScript("FinishPanel");
-        installer.run(Installer.CONSOLE_INSTALL, installPath.getPath());
+        installer.run(Installer.CONSOLE_INSTALL, installPath.getPath(), new String[0]);
     }
 
 }

@@ -145,14 +145,14 @@ public class ConsoleInstaller implements InstallerBase
      * @param type the type of the action to perform
      * @param path the path to use for the action. May be <tt>null</tt>
      */
-    public void run(int type, String path)
+    public void run(int type, String path, String[] args)
     {
         PrivilegedRunner runner = new PrivilegedRunner(installData.getPlatform());
         if (!runner.hasCorrectPermissions(installData.getInfo(), installData.getRules()))
         {
             try
             {
-                runner.relaunchWithElevatedRights("-console");
+                runner.relaunchWithElevatedRights(args);
             }
             catch (Exception e)
             {

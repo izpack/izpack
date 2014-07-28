@@ -193,7 +193,7 @@ public class Installer
                 }
             }
 
-            launchInstall(type, consoleAction, path, langcode, media);
+            launchInstall(type, consoleAction, path, langcode, media, args);
 
         }
         catch (Exception e)
@@ -204,7 +204,7 @@ public class Installer
     }
 
     private void launchInstall(int type, int consoleAction, String path, String langCode,
-                               String mediaDir) throws Exception
+                               String mediaDir, String[] args) throws Exception
     {
         // if headless, just use the console mode
         if (type == INSTALLER_GUI && GraphicsEnvironment.isHeadless())
@@ -221,11 +221,11 @@ public class Installer
                 break;
 
             case INSTALLER_AUTO:
-                launchAutomatedInstaller(path, mediaDir);
+                launchAutomatedInstaller(path, mediaDir, args);
                 break;
 
             case INSTALLER_CONSOLE:
-                launchConsoleInstaller(consoleAction, path, langCode, mediaDir);
+                launchConsoleInstaller(consoleAction, path, langCode, mediaDir, args);
                 break;
         }
     }
@@ -237,11 +237,11 @@ public class Installer
      * @param mediaDir the multi-volume media directory. May be <tt>null</tt>
      * @throws Exception for any error
      */
-    private void launchAutomatedInstaller(String path, String mediaDir) throws Exception
+    private void launchAutomatedInstaller(String path, String mediaDir, String[] args) throws Exception
     {
         InstallerContainer container = new ConsoleInstallerContainer();
         AutomatedInstaller automatedInstaller = container.getComponent(AutomatedInstaller.class);
-        automatedInstaller.init(path, mediaDir);
+        automatedInstaller.init(path, mediaDir, args);
         automatedInstaller.doInstall();
     }
 
@@ -253,7 +253,7 @@ public class Installer
      * @param langCode      the language code. May be <tt>null</tt>
      * @param mediaDir      the multi-volume media directory. May be <tt>null</tt>
      */
-    private void launchConsoleInstaller(int consoleAction, String path, String langCode, String mediaDir)
+    private void launchConsoleInstaller(int consoleAction, String path, String langCode, String mediaDir, String[] args)
     {
         InstallerContainer container = new ConsoleInstallerContainer();
         if (langCode != null)
@@ -262,7 +262,7 @@ public class Installer
         }
         ConsoleInstaller consoleInstaller = container.getComponent(ConsoleInstaller.class);
         consoleInstaller.setMediaPath(mediaDir);
-        consoleInstaller.run(consoleAction, path);
+        consoleInstaller.run(consoleAction, path, args);
     }
 
     public static int getInstallerMode() {

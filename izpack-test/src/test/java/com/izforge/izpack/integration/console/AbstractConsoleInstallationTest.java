@@ -73,7 +73,7 @@ public class AbstractConsoleInstallationTest extends AbstractDestroyerTest
      */
     protected void checkInstall(TestConsoleInstaller installer, InstallData installData, boolean expectUninstaller)
     {
-        installer.run(Installer.CONSOLE_INSTALL, null);
+        installer.run(Installer.CONSOLE_INSTALL, null, new String[0]);
 
         // verify the installation thinks it was successful
         assertTrue(installData.isInstallSuccess());
