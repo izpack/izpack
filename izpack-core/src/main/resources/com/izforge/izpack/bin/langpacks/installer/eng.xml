@@ -330,7 +330,10 @@ file we looked for -->
     <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
     <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
     <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required."/>
+    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+
+    <!-- AutomatedInstaller Strings -->
+    <str id="AutomatedInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
 
     <!-- AutomatedInstaller strings -->
     <str id="AutomatedInstaller.missingValuePrompt" txt="Please enter the value for {0}:"/>

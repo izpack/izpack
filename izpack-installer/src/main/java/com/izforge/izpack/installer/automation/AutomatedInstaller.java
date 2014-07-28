@@ -36,6 +36,7 @@ import com.izforge.izpack.installer.base.InstallerBase;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.requirement.RequirementsChecker;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.PrivilegedRunner;
 
 /**
  * Runs the install process in text only (no GUI) mode.
@@ -125,8 +126,14 @@ public class AutomatedInstaller implements InstallerBase
      */
     public void doInstall() throws Exception
     {
-        boolean success = false;
+        PrivilegedRunner runner = new PrivilegedRunner(installData.getPlatform());
+        if (!runner.hasCorrectPermissions(installData.getInfo(), installData.getRules()))
+        {
+            System.out.println(installData.getMessages().get("AutomatedInstaller.permissionError"));
+            System.exit(0);
+        }
 
+        boolean success = false;
         // check installer conditions
         if (!requirements.check())
         {
