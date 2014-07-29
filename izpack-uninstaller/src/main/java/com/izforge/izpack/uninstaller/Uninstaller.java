@@ -74,7 +74,7 @@ public class Uninstaller
         {
             if (!PrivilegedRunner.isPrivilegedMode() && isElevationRequired(platform))
             {
-                if (relaunchWithElevatedRights(platform))
+                if (relaunchWithElevatedRights(platform, args))
                 {
                     System.exit(0);
                 }
@@ -197,7 +197,7 @@ public class Uninstaller
      * @param platform the current platform
      * @return <tt>true</tt> if the relaunch was successful, otherwise <tt>false</tt>
      */
-    private static boolean relaunchWithElevatedRights(Platform platform)
+    private static boolean relaunchWithElevatedRights(Platform platform, String[] args)
     {
         boolean result = false;
         PrivilegedRunner runner = new PrivilegedRunner(platform);
@@ -205,26 +205,23 @@ public class Uninstaller
         {
             try
             {
-                if (runner.relaunchWithElevatedRights() == 0)
+                if (runner.relaunchWithElevatedRights(args) == 0)
                 {
                     result = true;
                 }
             }
             catch (Exception exception)
             {
-                exception.printStackTrace();
-            }
-            if (!result)
-            {
                 JOptionPane.showMessageDialog(null,
-                                              "The uninstaller could not launch itself with administrator permissions.\n" +
-                                                      "The uninstallation will still continue but you may encounter problems due to insufficient permissions.");
+                        "The uninstaller could not launch itself with administrator permissions.\n" +
+                                "Please re-run the installer with administrative privileges.");
+                System.exit(0);
             }
         }
         else
         {
-            JOptionPane.showMessageDialog(null, "This uninstaller should be run by an administrator.\n" +
-                    "The uninstallation will still continue but you may encounter problems due to insufficient permissions.");
+            JOptionPane.showMessageDialog(null, "The current platform you are running is not supported.\n" +
+                    "The uninstallation will still continue but you may encounter problems.");
         }
         return result;
     }
