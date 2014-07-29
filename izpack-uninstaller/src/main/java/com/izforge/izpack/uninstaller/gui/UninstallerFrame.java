@@ -413,10 +413,11 @@ public class UninstallerFrame extends JFrame
             BorderLayout layout = new BorderLayout();
             layout.setHgap(8);
             JPanel panel = new JPanel(layout);
-            JLabel label = new JLabel("The following files could not be removed:");
+            JLabel label = new JLabel("The following files and/or directories could not be removed:");
             panel.add(label, BorderLayout.NORTH);
             panel.add(pane, BorderLayout.CENTER);
-            label = new JLabel("Administrative privileges may be required to remove files.");
+            label = new JLabel("Directories cannot be removed if it is not empty. " +
+                    "Administrative privileges may be required to remove files.");
             panel.add(label, BorderLayout.SOUTH);
             JOptionPane.showMessageDialog(null, panel, "Uninstallation Warning", JOptionPane.WARNING_MESSAGE);
         }
