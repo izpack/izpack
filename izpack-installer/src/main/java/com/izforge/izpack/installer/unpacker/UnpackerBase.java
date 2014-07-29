@@ -1122,18 +1122,13 @@ public abstract class UnpackerBase implements IUnpacker
         FileOutputStream fout = new FileOutputStream(installationInfo);
         ObjectOutputStream oout = new ObjectOutputStream(fout);
         oout.writeObject(installedPacks);
-        /*
-        int selectedpackscount = installData.selectedPacks.size();
-        for (int i = 0; i < selectedpackscount; i++)
-        {
-            Pack pack = (Pack) installData.selectedPacks.get(i);
-            oout.writeObject(pack);
-        }
-        */
         oout.writeObject(installData.getVariables().getProperties());
+
         logger.fine("Writing installation information finished");
         FileUtils.close(oout);
         FileUtils.close(fout);
+
+        uninstallData.addFile(installationInfo.getAbsolutePath(), true);
     }
 
     protected File getAbsoluteInstallSource() throws IOException, InstallerException
