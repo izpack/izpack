@@ -35,6 +35,7 @@ import com.izforge.izpack.api.adaptator.impl.XMLWriter;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.installer.data.UninstallData;
 
 /**
  * Abstract implementation of the {@link PanelViews} interface.
@@ -433,7 +434,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     }
 
     @Override
-    public void writeInstallationRecord(File file) throws Exception
+    public void writeInstallationRecord(File file, UninstallData uninstallData) throws Exception
     {
         FileOutputStream out = new FileOutputStream(file);
         BufferedOutputStream outBuff = new BufferedOutputStream(out);
@@ -457,6 +458,13 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
         finally
         {
             outBuff.close();
+
+            //Only remove the automatic installation for if its placed in installation path
+            //We would like to contain any removal of data within the install path
+            if(file.getAbsolutePath().startsWith(installData.getInstallPath()))
+            {
+                uninstallData.addFile(file.getAbsolutePath(), true);
+            }
         }
     }
 

@@ -45,6 +45,7 @@ import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanelAutomationHelper;
 import com.izforge.izpack.installer.container.provider.AutomatedPanelsProvider;
+import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.PlatformModelMatcher;
@@ -64,6 +65,7 @@ public class FinishConsolePanel extends AbstractConsolePanel
     private final ObjectFactory factory;
     private final PlatformModelMatcher matcher;
     private final ConsoleInstaller parent;
+    private final UninstallData uninstallData;
 
     /**
      * Constructs an {@code FinishConsolePanel}.
@@ -71,18 +73,19 @@ public class FinishConsolePanel extends AbstractConsolePanel
      * @param panel the parent panel/view. May be {@code null}
      */
     public FinishConsolePanel(final ObjectFactory factory, ConsoleInstaller parent, final PlatformModelMatcher matcher,
-            Prompt prompt, PanelView<ConsolePanel> panel)
+            UninstallData uninstallData, Prompt prompt, PanelView<ConsolePanel> panel)
     {
         super(panel);
         this.parent = parent;
         this.prompt = prompt;
         this.factory = factory;
         this.matcher = matcher;
+        this.uninstallData = uninstallData;
     }
 
     public FinishConsolePanel(PanelView<ConsolePanel> panel)
     {
-        this(null, null, null, null, panel);
+        this(null, null, null, null, null, panel);
     }
 
     /**
@@ -110,7 +113,7 @@ public class FinishConsolePanel extends AbstractConsolePanel
     {
         if (doGenerateAutoInstallScript())
         {
-            generateAutoInstallScript(installData, console);
+            generateAutoInstallScript(installData, uninstallData, console);
         }
 
         if (installData.isInstallSuccess())
@@ -130,7 +133,7 @@ public class FinishConsolePanel extends AbstractConsolePanel
         return (factory != null && matcher != null && prompt != null);
     }
 
-    private void generateAutoInstallScript(InstallData installData, Console console)
+    private void generateAutoInstallScript(InstallData installData, UninstallData uninstallData, Console console)
     {
         Option userAnswer;
         userAnswer = prompt.confirm(Type.QUESTION, installData.getMessages()
@@ -168,17 +171,17 @@ public class FinishConsolePanel extends AbstractConsolePanel
             }
             else
             {
-                generateAutoInstallScript(newFile, installData, console);
+                generateAutoInstallScript(newFile, installData, uninstallData, console);
             }
         }
     }
 
     private void generateAutoInstallScript(final File file, final InstallData installData,
-            final Console console)
+            final UninstallData uninstallData, final Console console)
     {
         try
         {
-            parent.writeInstallationRecord(file);
+            parent.writeInstallationRecord(file, uninstallData);
         }
         catch (Exception err)
         {

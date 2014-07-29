@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.installer.base;
 
+import com.izforge.izpack.installer.data.UninstallData;
+
 import java.io.File;
 
 /**
@@ -32,5 +34,12 @@ import java.io.File;
  */
 public interface InstallerBase
 {
-    public void writeInstallationRecord(File file) throws Exception;
+    /**
+     * Write the automatic installation
+     *
+     * @param file
+     * @param uninstallData
+     * @throws Exception
+     */
+    public void writeInstallationRecord(File file, UninstallData uninstallData) throws Exception;
 }

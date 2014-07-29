@@ -39,6 +39,7 @@ import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
+import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
@@ -60,6 +61,8 @@ public class FinishPanel extends IzPanel implements ActionListener
 
     private UninstallDataWriter uninstallDataWriter;
 
+    private UninstallData uninstallData;
+
     /**
      * The log.
      */
@@ -76,9 +79,10 @@ public class FinishPanel extends IzPanel implements ActionListener
      * @param log                 the log
      */
     public FinishPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                       UninstallDataWriter uninstallDataWriter, Log log)
+                       UninstallDataWriter uninstallDataWriter, UninstallData uninstallData, Log log)
     {
         super(panel, parent, installData, new GridBagLayout(), resources);
+        this.uninstallData = uninstallData;
         this.uninstallDataWriter = uninstallDataWriter;
         this.log = log;
     }
@@ -152,7 +156,6 @@ public class FinishPanel extends IzPanel implements ActionListener
         fileChooser.setSelectedFile(new File(this.installData.getInstallPath(), "auto-install.xml"));
         fileChooser.setMultiSelectionEnabled(false);
         fileChooser.addChoosableFileFilter(new AutomatedInstallScriptFilter(installData.getMessages()));
-        // fileChooser.setCurrentDirectory(new File("."));
 
         try
         {
@@ -160,7 +163,7 @@ public class FinishPanel extends IzPanel implements ActionListener
             {
                 // We handle the xml installDataGUI writing
                 File file = fileChooser.getSelectedFile();
-                parent.writeInstallationRecord(file);
+                parent.writeInstallationRecord(file, uninstallData);
                 autoButton.setEnabled(false);
             }
         }

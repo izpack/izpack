@@ -731,9 +731,9 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
      * @throws Exception Description of the Exception
      */
     @Override
-    public void writeInstallationRecord(File file) throws Exception
+    public void writeInstallationRecord(File file, UninstallData uninstallData) throws Exception
     {
-        panels.writeInstallationRecord(file);
+        panels.writeInstallationRecord(file, uninstallData);
     }
 
 

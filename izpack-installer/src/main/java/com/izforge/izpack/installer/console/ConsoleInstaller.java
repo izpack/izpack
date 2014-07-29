@@ -33,6 +33,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.installer.base.InstallerBase;
 import com.izforge.izpack.installer.bootstrap.Installer;
+import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.requirement.RequirementsChecker;
 import com.izforge.izpack.util.Console;
@@ -404,8 +405,8 @@ public class ConsoleInstaller implements InstallerBase
     }
 
     @Override
-    public void writeInstallationRecord(File file) throws Exception
+    public void writeInstallationRecord(File file, UninstallData uninstallData) throws Exception
     {
-        panels.writeInstallationRecord(file);
+        panels.writeInstallationRecord(file, uninstallData);
     }
 }
