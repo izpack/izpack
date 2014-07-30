@@ -62,7 +62,7 @@ public class JDKPathPanelHelper
         }
         else
         {
-            defaultValue = installData.getVariable("JAVA_HOME");
+            defaultValue = (new File(installData.getVariable("JAVA_HOME"))).getParent();
         }
 
         //See if java from currently running jre is valid, otherwise check the registry.
