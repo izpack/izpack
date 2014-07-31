@@ -57,7 +57,7 @@ import com.izforge.izpack.util.file.FileUtils;
 import com.izforge.izpack.util.os.Shortcut;
 import com.izforge.izpack.util.unix.UnixHelper;
 import com.izforge.izpack.util.xml.XMLHelper;
-
+import static com.izforge.izpack.panels.shortcut.ShortcutConstants.*;
 
 /**
  * This class implements a the logic for the creation of shortcuts. The logic is used in the
@@ -69,127 +69,6 @@ import com.izforge.izpack.util.xml.XMLHelper;
 public class ShortcutPanelLogic implements CleanupClient
 {
     private static transient final Logger logger = Logger.getLogger(ShortcutPanelLogic.class.getName());
-
-    public final static String SPEC_ATTRIBUTE_CONDITION = "condition";
-
-    private final static String SPEC_ATTRIBUTE_KDE_USERNAME = "KdeUsername";
-
-    private final static String SPEC_ATTRIBUTE_KDE_SUBST_UID = "KdeSubstUID";
-
-    private final static String SPEC_ATTRIBUTE_URL = "url";
-
-    private final static String SPEC_ATTRIBUTE_TYPE = "type";
-
-    private final static String SPEC_ATTRIBUTE_TERMINAL_OPTIONS = "terminalOptions";
-
-    private final static String SPEC_ATTRIBUTE_TERMINAL = "terminal";
-
-    private final static String SPEC_ATTRIBUTE_MIMETYPE = "mimetype";
-
-    private final static String SPEC_ATTRIBUTE_ENCODING = "encoding";
-
-    private static final String SPEC_CATEGORIES = "categories";
-
-    private static final String SPEC_TRYEXEC = "tryexec";
-
-    private static final String SEPARATOR_LINE = "--------------------------------------------------------------------------------";
-
-    private static final String SPEC_FILE_NAME = "shortcutSpec.xml";
-
-    // ------------------------------------------------------
-    // spec file section keys
-    // -----------------------------------------------------
-    private static final String SPEC_KEY_SKIP_IFNOT_SUPPORTED = "skipIfNotSupported";
-
-    private static final String SPEC_KEY_NOT_SUPPORTED = "notSupported";
-
-    private static final String SPEC_KEY_DEF_CUR_USER = "defaultCurrentUser";
-
-    private static final String SPEC_KEY_LATE_INSTALL = "lateShortcutInstall";
-
-    private static final String SPEC_KEY_PROGRAM_GROUP = "programGroup";
-
-    private static final String SPEC_KEY_SHORTCUT = "shortcut";
-
-    private static final String SPEC_KEY_PACKS = "createForPack";
-
-    // ------------------------------------------------------
-    // spec file key attributes
-    // ------------------------------------------------------
-    private static final String SPEC_ATTRIBUTE_DEFAULT_GROUP = "defaultName";
-
-    private static final String SPEC_ATTRIBUTE_INSTALLGROUP = "installGroup";
-
-    private static final String SPEC_ATTRIBUTE_LOCATION = "location";
-
-    private static final String SPEC_ATTRIBUTE_NAME = "name";
-
-    private static final String SPEC_ATTRIBUTE_SUBGROUP = "subgroup";
-
-    private static final String SPEC_ATTRIBUTE_DESCRIPTION = "description";
-
-    private static final String SPEC_ATTRIBUTE_TARGET = "target";
-
-    private static final String SPEC_ATTRIBUTE_COMMAND = "commandLine";
-
-    private static final String SPEC_ATTRIBUTE_ICON = "iconFile";
-
-    private static final String SPEC_ATTRIBUTE_ICON_INDEX = "iconIndex";
-
-    private static final String SPEC_ATTRIBUTE_WORKING_DIR = "workingDirectory";
-
-    private static final String SPEC_ATTRIBUTE_INITIAL_STATE = "initialState";
-
-    private static final String SPEC_ATTRIBUTE_DESKTOP = "desktop";
-
-    private static final String SPEC_ATTRIBUTE_APPLICATIONS = "applications";
-
-    private static final String SPEC_ATTRIBUTE_START_MENU = "startMenu";
-
-    private static final String SPEC_ATTRIBUTE_STARTUP = "startup";
-
-    private static final String SPEC_ATTRIBUTE_PROGRAM_GROUP = "programGroup";
-
-    private static final String SPEC_ATTRIBUTE_RUN_AS_ADMINISTRATOR = "runAsAdministrator";
-
-    // ------------------------------------------------------
-    // spec file attribute values
-    // ------------------------------------------------------
-
-    private static final String SPEC_VALUE_APPLICATIONS = "applications";
-
-    private static final String SPEC_VALUE_START_MENU = "startMenu";
-
-    private static final String SPEC_VALUE_NO_SHOW = "noShow";
-
-    private static final String SPEC_VALUE_NORMAL = "normal";
-
-    private static final String SPEC_VALUE_MAXIMIZED = "maximized";
-
-    private static final String SPEC_VALUE_MINIMIZED = "minimized";
-
-    // ------------------------------------------------------
-    // automatic script keys attributes values
-    // ------------------------------------------------------
-    private static final String AUTO_KEY_PROGRAM_GROUP = "programGroup";
-
-    private static final String AUTO_KEY_SHORTCUT_TYPE = "shortcutType";
-
-    private static final String AUTO_KEY_CREATE_DESKTOP_SHORTCUTS = "createDesktopShortcuts";
-
-    private static final String AUTO_KEY_CREATE_SHORTCUTS = "createMenuShortcuts";
-
-    private static final String AUTO_KEY_SHORTCUT_TYPE_VALUE_ALL = "all";
-
-    private static final String AUTO_KEY_SHORTCUT_TYPE_VALUE_USER = "user";
-
-    // permission flags
-
-    private static final String CREATE_FOR_ALL = "createForAll";
-
-    // ------------------------------------------------------------------------
-    // Variable Declarations
-    // ------------------------------------------------------------------------
 
     /**
      * The default name to use for the program group. This comes from the XML specification.
