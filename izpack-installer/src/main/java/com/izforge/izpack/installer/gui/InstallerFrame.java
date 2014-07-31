@@ -628,6 +628,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             logger.log(Level.SEVERE, "Error when switching panel", e);
         }
     }

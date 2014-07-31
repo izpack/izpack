@@ -118,7 +118,7 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
             if (shortcutPanelLogic.isSupported())
             {
             }
-            else if (shortcutPanelLogic.isSkipIfNotSupported())
+            else if (shortcutPanelLogic.skipIfNotSupported())
             {
                 result = true;
             }
@@ -147,7 +147,7 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
                     result = createShortcuts(installData, console);
                 }
             }
-            else if (!shortcutPanelLogic.isSkipIfNotSupported())
+            else if (!shortcutPanelLogic.skipIfNotSupported())
             {
                 Messages messages = installData.getMessages();
                 String message = messages.get("ShortcutPanel.alternate.apology");

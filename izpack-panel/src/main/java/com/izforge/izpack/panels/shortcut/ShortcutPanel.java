@@ -96,7 +96,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     /**
      * Determines if the panel has been initialised.
      */
-    private boolean initialised = false;
+    private boolean initialised;
 
     private boolean isRootUser;
 
@@ -189,8 +189,21 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         setLayout(super.getLayout());
         try
         {
-            shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData, housekeeper,
-                                                        factory, listeners, matcher);
+            shortcutPanelLogic = new ShortcutPanelLogic(
+                    installData, resources, uninstallData, housekeeper, factory, listeners, matcher);
+
+            if (shortcutPanelLogic.canCreateShortcuts())
+            {
+                if (shortcutPanelLogic.isSupported())
+                {
+                    isRootUser = shortcutPanelLogic.initUserType();
+                    buildUI(shortcutPanelLogic.getProgramsFolder(shortcutPanelLogic.getUserType()));
+                }
+                else if (!shortcutPanelLogic.skipIfNotSupported())
+                {
+                    buildAlternateUI();
+                }
+            }
         }
         catch (Exception exception)
         {
@@ -198,93 +211,12 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         }
     }
 
-    /**
-     * This method represents the ActionListener interface, invoked when an action occurs.
-     *
-     * @param event the action event.
-     */
-
-    /*--------------------------------------------------------------------------*/
     @Override
-    public void actionPerformed(ActionEvent event)
+    public void panelActivate()
     {
-        Object eventSource = event.getSource();
-
-        // ----------------------------------------------------
-        // create shortcut for the current user was selected
-        // refresh the list of program groups accordingly and
-        // reset the program group to the default setting.
-        // ----------------------------------------------------
-        if (eventSource.equals(currentUser))
+        if (!initialised)
         {
-            if (groupList != null)
-            {
-                groupList.setListData(shortcutPanelLogic.getProgramGroups(Shortcut.CURRENT_USER)
-                                              .toArray());
-            }
-            programGroup.setText(shortcutPanelLogic.getSuggestedProgramGroup());
-            shortcutPanelLogic.setUserType(Shortcut.CURRENT_USER);
-
-        }
-
-        // ----------------------------------------------------
-        // create shortcut for all users was selected
-        // refresh the list of program groups accordingly and
-        // reset the program group to the default setting.
-        // ----------------------------------------------------
-        else if (eventSource.equals(allUsers))
-        {
-            if (groupList != null)
-            {
-                groupList.setListData(shortcutPanelLogic.getProgramGroups(Shortcut.ALL_USERS)
-                                              .toArray());
-            }
-            programGroup.setText(shortcutPanelLogic.getSuggestedProgramGroup());
-            shortcutPanelLogic.setUserType(Shortcut.ALL_USERS);
-
-        }
-
-        // ----------------------------------------------------
-        // The reset button was pressed.
-        // - clear the selection in the list box, because the
-        // selection is no longer valid
-        // - refill the program group edit control with the
-        // suggested program group name
-        // ----------------------------------------------------
-        else if (eventSource.equals(defaultButton))
-        {
-            if (groupList != null && groupList.getSelectionModel() != null)
-            {
-                groupList.getSelectionModel().clearSelection();
-            }
-            programGroup.setText(shortcutPanelLogic.getSuggestedProgramGroup());
-        }
-
-        // ----------------------------------------------------
-        // the save button was pressed. This is a request to
-        // save shortcut information to a text file.
-        // ----------------------------------------------------
-        else if (eventSource.equals(saveButton))
-        {
-            saveToFile();
-        }
-        else if (eventSource.equals(allowMenuShortcut))
-        {
-            boolean create = allowMenuShortcut.isSelected();
-
-            if (groupList != null)
-            {
-                groupList.setEnabled(create);
-            }
-
-            programGroup.setEnabled(create);
-            currentUser.setEnabled(create);
-            defaultButton.setEnabled(create);
-
-            if (isRootUser)
-            {
-                allUsers.setEnabled(create);
-            }
+            parent.skipPanel();
         }
     }
 
@@ -297,6 +229,10 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     @Override
     public boolean isValidated()
     {
+        if(!initialised)
+        {
+            return true;
+        }
         String errorMessage = shortcutPanelLogic.verifyProgramGroup(programGroup.getText());
         if(!errorMessage.isEmpty())
         {
@@ -325,35 +261,75 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         return true;
     }
 
-    /**
-     * Called when the panel is shown to the user.
-     */
+
     @Override
-    public void panelActivate()
+    public void actionPerformed(ActionEvent event)
     {
-        if (shortcutPanelLogic != null)
+        Object eventSource = event.getSource();
+
+        /**
+         *  Choose between installing shortcut between current user or all users
+         *  Refresh the list of program groups accordingly
+         *  Reset the program group to the default setting.
+         */
+        if (eventSource.equals(currentUser) || eventSource.equals(allUsers))
         {
-            if (!initialised)
+            int userType =  userType = Shortcut.CURRENT_USER;
+            if (eventSource.equals(allUsers))
             {
-                initialised = true;
-                if (shortcutPanelLogic.isSupported())
-                {
-                    isRootUser = shortcutPanelLogic.initUserType();
-                    buildUI(shortcutPanelLogic.getProgramsFolder(shortcutPanelLogic.getUserType()));
-                }
-                else if (shortcutPanelLogic.isSkipIfNotSupported())
-                {
-                    parent.skipPanel();
-                }
-                else
-                {
-                    buildAlternateUI();
-                }
+                userType = Shortcut.ALL_USERS;
             }
+            if (groupList != null)
+            {
+                groupList.setListData(
+                        shortcutPanelLogic.getProgramGroups(userType).toArray());
+            }
+            programGroup.setText(shortcutPanelLogic.getSuggestedProgramGroup());
+            shortcutPanelLogic.setUserType(userType);
+
         }
-        else
+
+        /**
+         *  Clear the selection in the list box
+         *  Refill the program group edit control with the suggested program group name
+         */
+        else if (eventSource.equals(defaultButton))
         {
-            parent.skipPanel();
+            if (groupList != null && groupList.getSelectionModel() != null)
+            {
+                groupList.getSelectionModel().clearSelection();
+            }
+            programGroup.setText(shortcutPanelLogic.getSuggestedProgramGroup());
+        }
+
+        /**
+         * Save shortcut information to a text file
+         */
+        else if (eventSource.equals(saveButton))
+        {
+            saveToFile();
+        }
+
+        /**
+         * Enabled/Disable fields based on menu shortcut selection
+         */
+        else if (eventSource.equals(allowMenuShortcut))
+        {
+            boolean create = allowMenuShortcut.isSelected();
+
+            if (groupList != null)
+            {
+                groupList.setEnabled(create);
+            }
+
+            programGroup.setEnabled(create);
+            currentUser.setEnabled(create);
+            defaultButton.setEnabled(create);
+
+            if (isRootUser)
+            {
+                allUsers.setEnabled(create);
+            }
         }
     }
 
@@ -363,8 +339,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
      *
      * @param event the list selection event
      */
-
-    /*--------------------------------------------------------------------------*/
     @Override
     public void valueChanged(ListSelectionEvent event)
     {
@@ -389,8 +363,22 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             value = "";
         }
 
-        programGroup
-                .setText(value + File.separator + shortcutPanelLogic.getSuggestedProgramGroup());
+        programGroup.setText(value + File.separator + shortcutPanelLogic.getSuggestedProgramGroup());
+    }
+
+    /**
+     * This method saves all shortcut information to a text file.
+     */
+    private void saveToFile()
+    {
+        JFileChooser fileDialog = new JFileChooser(installData.getInstallPath());
+        fileDialog.setSelectedFile(new File(TEXT_FILE_NAME));
+
+        if (fileDialog.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+        {
+            File file = fileDialog.getSelectedFile();
+            shortcutPanelLogic.saveToFile(file);
+        }
     }
 
     /**
@@ -408,13 +396,12 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         allowMenuShortcut = new JCheckBox(shortcutPanelLogic.getCreateShortcutsPrompt(), true);
         allowMenuShortcut.setName(GuiId.SHORTCUT_CREATE_CHECK_BOX.id);
         allowMenuShortcut.addActionListener(this);
+
         constraints.gridx = col;
         constraints.gridy = line + 1;
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
 
-        // constraints.weightx = 0.1;
-        // constraints.weighty = 0.2;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.NORTHWEST;
 
@@ -423,30 +410,25 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
 
         constraints.insets = new Insets(0, 10, 0, 0);
 
-        // ----------------------------------------------------
-        // check box to allow the user to decide if a desktop
-        // shortcut should be created.
-        // this should only be created if needed and requested
-        // in the definition file.
-        // ----------------------------------------------------
+        /**
+         * Check box to allow the user to decide if a desktop shortcut should be created.
+         * This should only be created if needed and requested in the definition file.
+         */
         if (shortcutPanelLogic.hasDesktopShortcuts())
         {
             boolean initialAllowedFlag = shortcutPanelLogic.isDesktopShortcutCheckboxSelected();
-            allowDesktopShortcut = new JCheckBox(shortcutPanelLogic.getCreateDesktopShortcutsPrompt(),
-                                                 initialAllowedFlag);
+            allowDesktopShortcut = new JCheckBox(shortcutPanelLogic.getCreateDesktopShortcutsPrompt(), initialAllowedFlag);
+
             constraints.gridx = col;
             constraints.gridy = line + 2;
             constraints.gridwidth = 1;
             constraints.gridheight = 1;
 
-            // constraints.weighty = 0.2;
-            // constraints.weighty = 1.0;
-            // constraints.weighty = 0.5;
             layout.addLayoutComponent(allowDesktopShortcut, constraints);
             add(allowDesktopShortcut);
         }
 
-        // label the list of existing program groups
+        // Label the list of existing program groups
         JLabel listLabel = LabelFactory.create(getString("ShortcutPanel.regular.list"), SwingConstants.LEADING);
         Platform platform = installData.getPlatform();
         shortcutPanelLogic.setPlatform(platform);
@@ -510,9 +492,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
                                 line + 4, 1, 1, GridBagConstraints.BOTH);
         }
 
-        // ----------------------------------------------------
         // radio buttons to select current user or all users.
-        // ----------------------------------------------------
         if (shortcutPanelLogic.isSupportingMultipleUsers())
         {
             // if 'defaultCurrentUser' specified, default to current user:
@@ -554,8 +534,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
                 constraints.anchor = GridBagConstraints.EAST;
             }
 
-            // constraints.weighty = 1.0;
-            // constraints.weightx = 1.0;
             constraints.fill = GridBagConstraints.HORIZONTAL;
             layout.addLayoutComponent(usersPanel, constraints);
             add(usersPanel);
@@ -574,8 +552,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
 
-        // constraints.weighty = 1.0;
-        // constraints.weightx = 1.0;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         layout.addLayoutComponent(programGroup, constraints);
         add(programGroup);
@@ -602,6 +578,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             defaultButton.setVisible(false);
             listLabel.setVisible(false);
         }
+        initialised=true;
     }
 
     /**
@@ -744,6 +721,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         constraints.anchor = GridBagConstraints.CENTER;
         layout.addLayoutComponent(saveButton, constraints);
         add(saveButton);
+        initialised = true;
     }
 
     @Override
@@ -765,31 +743,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
                 - borderInsets.right - 50;
 
         return (size);
-    }
-
-    /**
-     * This method saves all shortcut information to a text file.
-     */
-    private void saveToFile()
-    {
-        File file;
-
-        // ----------------------------------------------------
-        // open a file chooser dialog to get a path / file name
-        // ----------------------------------------------------
-        JFileChooser fileDialog = new JFileChooser(installData.getInstallPath());
-        fileDialog.setSelectedFile(new File(TEXT_FILE_NAME));
-
-        if (fileDialog.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
-        {
-            file = fileDialog.getSelectedFile();
-        }
-        else
-        {
-            return;
-        }
-
-        shortcutPanelLogic.saveToFile(file);
     }
 
     @Override
