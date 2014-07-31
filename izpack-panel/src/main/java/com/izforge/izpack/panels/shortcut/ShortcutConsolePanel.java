@@ -194,7 +194,7 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
         }
         shortcutPanelLogic.setGroupName(programGroup);
         shortcutPanelLogic.setCreateDesktopShortcuts(createDesktopShortcuts);
-        shortcutPanelLogic.setCreateShortcuts(true);
+        shortcutPanelLogic.setCreateMenuShortcuts(true);
         shortcutPanelLogic.setUserType(allUsers ? Shortcut.ALL_USERS : Shortcut.CURRENT_USER);
         if (shortcutPanelLogic.isCreateShortcutsImmediately())
         {

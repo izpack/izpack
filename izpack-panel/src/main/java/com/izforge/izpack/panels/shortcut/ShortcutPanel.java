@@ -29,7 +29,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -130,7 +129,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     /**
      * Checkbox to enable/disable to create ShortCuts
      */
-    private JCheckBox createShortcuts;
+    private JCheckBox allowMenuShortcut;
 
     /**
      * UI element instruct this panel to create shortcuts for the current user only
@@ -269,9 +268,9 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         {
             saveToFile();
         }
-        else if (eventSource.equals(createShortcuts))
+        else if (eventSource.equals(allowMenuShortcut))
         {
-            boolean create = createShortcuts.isSelected();
+            boolean create = allowMenuShortcut.isSelected();
 
             if (groupList != null)
             {
@@ -281,12 +280,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             programGroup.setEnabled(create);
             currentUser.setEnabled(create);
             defaultButton.setEnabled(create);
-
-            // ** There where no Desktop Links or not allowed, this may be null: **//
-            if (allowDesktopShortcut != null)
-            {
-                allowDesktopShortcut.setEnabled(create);
-            }
 
             if (isRootUser)
             {
@@ -315,7 +308,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         {
             shortcutPanelLogic.setCreateDesktopShortcuts(allowDesktopShortcut.isSelected());
         }
-        shortcutPanelLogic.setCreateShortcuts(createShortcuts.isSelected());
+        shortcutPanelLogic.setCreateMenuShortcuts(allowMenuShortcut.isSelected());
 
         if (shortcutPanelLogic.isCreateShortcutsImmediately())
         {
@@ -412,9 +405,9 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         constraints.insets = new Insets(10, 10, 0, 0);
 
         // Add a CheckBox which enables the user to entirely suppress shortcut creation.
-        createShortcuts = new JCheckBox(shortcutPanelLogic.getCreateShortcutsPrompt(), true);
-        createShortcuts.setName(GuiId.SHORTCUT_CREATE_CHECK_BOX.id);
-        createShortcuts.addActionListener(this);
+        allowMenuShortcut = new JCheckBox(shortcutPanelLogic.getCreateShortcutsPrompt(), true);
+        allowMenuShortcut.setName(GuiId.SHORTCUT_CREATE_CHECK_BOX.id);
+        allowMenuShortcut.addActionListener(this);
         constraints.gridx = col;
         constraints.gridy = line + 1;
         constraints.gridwidth = 1;
@@ -425,8 +418,8 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.NORTHWEST;
 
-        layout.addLayoutComponent(createShortcuts, constraints);
-        add(createShortcuts);
+        layout.addLayoutComponent(allowMenuShortcut, constraints);
+        add(allowMenuShortcut);
 
         constraints.insets = new Insets(0, 10, 0, 0);
 
