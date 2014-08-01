@@ -181,6 +181,13 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
             Prompt.Option createDesktopShortcuts = prompt.confirm(QUESTION, shortcutPanelLogic.getCreateDesktopShortcutsPrompt(), YES_NO, selected ? YES : NO);
             shortcutPanelLogic.setCreateDesktopShortcuts(createDesktopShortcuts == YES);
         }
+
+        if (shortcutPanelLogic.hasStartupShortcuts())
+        {
+            boolean selected = shortcutPanelLogic.isStartupShortcutCheckboxSelected();
+            Prompt.Option createStartupShortcuts = prompt.confirm(QUESTION, shortcutPanelLogic.getCreateStartupShortcutsPrompt(), YES_NO, selected ? YES : NO);
+            shortcutPanelLogic.setCreateStartupShortcuts(createStartupShortcuts == YES);
+        }
     }
 
     /**

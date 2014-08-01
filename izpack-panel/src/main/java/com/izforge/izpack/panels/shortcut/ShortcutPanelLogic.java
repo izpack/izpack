@@ -91,11 +91,6 @@ public class ShortcutPanelLogic implements CleanupClient
     private String programGroupComment;
 
     /**
-     * Set to true by createShortcutData() if there are any desktop shortcuts to create.
-     */
-    private boolean hasDesktopShortcuts = false;
-
-    /**
      * Tells wether to skip if the platform is not supported.
      */
     private boolean skipIfNotSupported = false;
@@ -116,6 +111,12 @@ public class ShortcutPanelLogic implements CleanupClient
      * Each object is the complete specification for one shortcut that must be created.
      */
     private List<ShortcutData> desktopShortcuts;
+
+    /**
+     * A list of <ShortcutData> objects that should be placed in the startup location.
+     * Each object is the complete specification for one shortcut that must be created.
+     */
+    private List<ShortcutData> startupShortcuts;
 
     /**
      * Holds a list of all the shortcut files that have been created. Note: this variable contains
@@ -154,6 +155,8 @@ public class ShortcutPanelLogic implements CleanupClient
     private final PlatformModelMatcher matcher;
 
     private boolean createDesktopShortcuts;
+
+    private boolean createStartupShortcuts;
 
     private boolean defaultCurrentUserFlag = false;
 
@@ -218,6 +221,10 @@ public class ShortcutPanelLogic implements CleanupClient
         if (createDesktopShortcuts)
         {
             createShortcuts(desktopShortcuts);
+        }
+        if (createStartupShortcuts)
+        {
+            createShortcuts(startupShortcuts);
         }
         addToUninstaller();
     }
@@ -377,15 +384,12 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     public boolean hasDesktopShortcuts()
     {
-        return hasDesktopShortcuts;
+        return desktopShortcuts.size() > 0;
     }
 
-    /**
-     * @return <code>true</code> if we create desktop shortcuts otherwise <code>false</code>
-     */
-    public boolean isCreateDesktopShortcuts()
+    public boolean hasStartupShortcuts()
     {
-        return createDesktopShortcuts;
+        return startupShortcuts.size() > 0;
     }
 
     /**
@@ -394,6 +398,11 @@ public class ShortcutPanelLogic implements CleanupClient
     public void setCreateDesktopShortcuts(boolean createDesktopShortcuts)
     {
         this.createDesktopShortcuts = createDesktopShortcuts;
+    }
+
+    public void setCreateStartupShortcuts(boolean createStartupShortcuts)
+    {
+        this.createStartupShortcuts = createStartupShortcuts;
     }
 
     /**
@@ -652,6 +661,11 @@ public class ShortcutPanelLogic implements CleanupClient
         return Boolean.valueOf(installData.getVariable("DesktopShortcutCheckboxEnabled"));
     }
 
+    public boolean isStartupShortcutCheckboxSelected()
+    {
+        return Boolean.valueOf(installData.getVariable("StartupShortcutCheckboxEnabled"));
+    }
+
     /**
      * Helper to format a message to create shortcuts for the current platform.
      *
@@ -678,6 +692,11 @@ public class ShortcutPanelLogic implements CleanupClient
     public String getCreateDesktopShortcutsPrompt()
     {
         return installData.getMessages().get("ShortcutPanel.regular.desktop");
+    }
+
+    public String getCreateStartupShortcutsPrompt()
+    {
+        return installData.getMessages().get("ShortcutPanel.regular.startup");
     }
 
     public String getCreateForUserPrompt()
@@ -735,13 +754,11 @@ public class ShortcutPanelLogic implements CleanupClient
         }
 
         /**
-         * 1. Default to desktopShortcuts being false
-         * 2.
-         * 3. Set flag if 'defaultCurrentUser' element found
-         * 4. Find out if we should simulate a not supported scenario
-         * 5. Set flag if 'lateShortcutInstall' element found
+         * 1.
+         * 2. Set flag if 'defaultCurrentUser' element found
+         * 3. Find out if we should simulate a not supported scenario
+         * 4. Set flag if 'lateShortcutInstall' element found
          */
-        hasDesktopShortcuts = false;
         simulateNotSupported = (spec.getFirstChildNamed(SPEC_KEY_NOT_SUPPORTED) != null);
         defaultCurrentUserFlag = (spec.getFirstChildNamed(SPEC_KEY_DEF_CUR_USER) != null);
         skipIfNotSupported = (spec.getFirstChildNamed(SPEC_KEY_SKIP_IFNOT_SUPPORTED) != null);
@@ -829,6 +846,7 @@ public class ShortcutPanelLogic implements CleanupClient
 
         shortcuts = new ArrayList<ShortcutData>();
         desktopShortcuts = new ArrayList<ShortcutData>();
+        startupShortcuts = new ArrayList<ShortcutData>();
 
         for (IXMLElement shortcutSpec : shortcutSpecs)
         {
@@ -949,7 +967,6 @@ public class ShortcutPanelLogic implements CleanupClient
                  */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_DESKTOP))
                 {
-                    hasDesktopShortcuts = true;
                     data.addToGroup = false;
                     data.type = Shortcut.DESKTOP;
                     desktopShortcuts.add(data.clone());
@@ -994,7 +1011,7 @@ public class ShortcutPanelLogic implements CleanupClient
                 {
                     data.addToGroup = false;
                     data.type = Shortcut.START_UP;
-                    shortcuts.add(data.clone());
+                    startupShortcuts.add(data.clone());
                 }
 
                 /**

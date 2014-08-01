@@ -123,6 +123,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
      */
     private JCheckBox allowDesktopShortcut;
 
+    private JCheckBox allowStartupShortcut;
     /**
      * Checkbox to enable/disable to create ShortCuts
      */
@@ -214,8 +215,8 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         try
         {
             shortcutPanelLogic.refreshShortcutData();
-
             allowDesktopShortcut.setVisible(shortcutPanelLogic.hasDesktopShortcuts());
+            allowStartupShortcut.setVisible(shortcutPanelLogic.hasStartupShortcuts());
             usersPanel.setVisible(shortcutPanelLogic.isSupportingMultipleUsers());
             String suggestedProgramGroup = shortcutPanelLogic.getSuggestedProgramGroup();
             if (suggestedProgramGroup == null || "".equals(suggestedProgramGroup))
@@ -259,6 +260,10 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         if (allowDesktopShortcut != null)
         {
             shortcutPanelLogic.setCreateDesktopShortcuts(allowDesktopShortcut.isSelected());
+        }
+        if (allowStartupShortcut != null)
+        {
+            shortcutPanelLogic.setCreateStartupShortcuts(allowStartupShortcut.isSelected());
         }
         shortcutPanelLogic.setCreateMenuShortcuts(allowMenuShortcut.isSelected());
 
@@ -432,6 +437,17 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
 
         layout.addLayoutComponent(allowDesktopShortcut, constraints);
         add(allowDesktopShortcut);
+        
+        boolean defaultStartupValue = shortcutPanelLogic.isStartupShortcutCheckboxSelected();
+        allowStartupShortcut = new JCheckBox(shortcutPanelLogic.getCreateStartupShortcutsPrompt(), defaultStartupValue);
+        allowStartupShortcut.setVisible(false);
+        constraints.gridx = col;
+        constraints.gridy = line + 3;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+
+        layout.addLayoutComponent(allowStartupShortcut, constraints);
+        add(allowStartupShortcut);
 
 
         // Label the list of existing program groups
@@ -441,7 +457,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         if (platform.isA(WINDOWS))
         {
             constraints.gridx = col;
-            constraints.gridy = line + 3;
+            constraints.gridy = line + 4;
 
             constraints.gridwidth = 1;
             constraints.gridheight = 1;
@@ -495,7 +511,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             }
 
             groupList = addList(dirEntries, ListSelectionModel.SINGLE_SELECTION, groupList, col,
-                                line + 4, 1, 1, GridBagConstraints.BOTH);
+                                line + 5, 1, 1, GridBagConstraints.BOTH);
         }
 
         // radio buttons to select current user or all users.
@@ -525,7 +541,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         if (platform.isA(WINDOWS))
         {
             constraints.gridx = col + 1;
-            constraints.gridy = line + 4;
+            constraints.gridy = line + 5;
             constraints.gridwidth = 1;
             constraints.gridheight = 1;
         }
@@ -533,7 +549,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         {
             constraints.insets = new Insets(10, 10, 20, 0);
             constraints.gridx = col;
-            constraints.gridy = line + 4;
+            constraints.gridy = line + 5;
             constraints.gridwidth = 2;
             constraints.gridheight = 1;
             constraints.anchor = GridBagConstraints.EAST;
@@ -554,7 +570,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         programGroup = new JTextField(suggestedProgramGroup, 40); // 40?
 
         constraints.gridx = col;
-        constraints.gridy = line + 5;
+        constraints.gridy = line + 6;
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
 
@@ -571,7 +587,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         defaultButton.addActionListener(this);
 
         constraints.gridx = col + 1;
-        constraints.gridy = line + 5;
+        constraints.gridy = line + 6;
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
         constraints.fill = GridBagConstraints.HORIZONTAL;
