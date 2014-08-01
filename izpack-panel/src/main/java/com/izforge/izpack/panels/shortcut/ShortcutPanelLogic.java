@@ -162,6 +162,10 @@ public class ShortcutPanelLogic implements CleanupClient
 
     private boolean createShortcutsImmediately = true;
 
+    private boolean allowProgramGroup;
+
+    Vector<String> defaultGroup;
+
     private Platform platform;
 
     /**
@@ -190,6 +194,8 @@ public class ShortcutPanelLogic implements CleanupClient
         {
             listeners.add(new LateShortcutInstallListener());
         }
+        this.defaultGroup = new Vector<String>();
+        defaultGroup.add(DEFAULT_FOLDER);
 
         housekeeper.registerForCleanup(this);
     }
@@ -236,6 +242,11 @@ public class ShortcutPanelLogic implements CleanupClient
     public List<String> getProgramGroups(int user)
     {
         return shortcut.getProgramGroups(user);
+    }
+
+    public Vector<String> getDefaultGroup()
+    {
+        return defaultGroup;
     }
 
     /**
@@ -867,7 +878,7 @@ public class ShortcutPanelLogic implements CleanupClient
         shortcuts = new ArrayList<ShortcutData>();
         desktopShortcuts = new ArrayList<ShortcutData>();
         startupShortcuts = new ArrayList<ShortcutData>();
-
+        allowProgramGroup = false;
         for (IXMLElement shortcutSpec : shortcutSpecs)
         {
             if (!matcher.matchesCurrentPlatform(OsConstraintHelper.getOsList(shortcutSpec)))
@@ -1042,6 +1053,7 @@ public class ShortcutPanelLogic implements CleanupClient
                  */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_PROGRAM_GROUP))
                 {
+                    allowProgramGroup = true;
                     data.addToGroup = true;
                     data.type = Shortcut.APPLICATIONS;
                     shortcuts.add(data.clone());
@@ -1476,5 +1488,10 @@ public class ShortcutPanelLogic implements CleanupClient
     public boolean canCreateShortcuts()
     {
         return this.createShortcuts;
+    }
+
+    public boolean allowProgramGroup()
+    {
+        return this.allowProgramGroup;
     }
 }

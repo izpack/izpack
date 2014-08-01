@@ -132,6 +132,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     private JPanel usersPanel;
 
     private JLabel listLabel;
+
     /**
      * UI element instruct this panel to create shortcuts for the current user only
      */
@@ -221,6 +222,10 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             String suggestedProgramGroup = shortcutPanelLogic.getSuggestedProgramGroup();
             if (suggestedProgramGroup == null || "".equals(suggestedProgramGroup))
             {
+                if (groupList != null && !shortcutPanelLogic.allowProgramGroup())
+                {
+                    groupList.setListData(shortcutPanelLogic.getDefaultGroup());
+                }
                 programGroup.setVisible(false);
                 defaultButton.setVisible(false);
                 listLabel.setVisible(false);
@@ -228,6 +233,11 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             else if(programGroup.getText().isEmpty())
             {
                 programGroup.setText(suggestedProgramGroup);
+            }
+
+            if(groupList.getSelectedIndex() < 0)
+            {
+                groupList.setSelectedIndex(0);
             }
         }
         catch (Exception e)
@@ -292,11 +302,14 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             {
                 userType = Shortcut.ALL_USERS;
             }
-            if (groupList != null)
+
+            if (groupList != null && shortcutPanelLogic.allowProgramGroup())
             {
                 groupList.setListData(
                         shortcutPanelLogic.getProgramGroups(userType).toArray());
+                groupList.setSelectedIndex(0);
             }
+
             programGroup.setText(shortcutPanelLogic.getSuggestedProgramGroup());
             shortcutPanelLogic.setUserType(userType);
 
@@ -310,7 +323,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         {
             if (groupList != null && groupList.getSelectionModel() != null)
             {
-                groupList.getSelectionModel().clearSelection();
+                groupList.setSelectedIndex(0);
             }
             programGroup.setText(shortcutPanelLogic.getSuggestedProgramGroup());
         }
@@ -333,7 +346,14 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             if (groupList != null)
             {
                 groupList.setEnabled(create);
+                groupList.getSelectionModel().clearSelection();
+                if(create)
+                {
+                    groupList.setSelectedIndex(0);
+                }
+
             }
+
 
             programGroup.setEnabled(create);
             currentUser.setEnabled(create);
@@ -371,12 +391,14 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             // ignore
         }
 
-        if (value == null)
+        if (value == null || groupList.getSelectedIndex() == 0)
         {
-            value = "";
+            programGroup.setText(shortcutPanelLogic.getSuggestedProgramGroup());
         }
-
-        programGroup.setText(value + File.separator + shortcutPanelLogic.getSuggestedProgramGroup());
+        else
+        {
+            programGroup.setText(value + File.separator + shortcutPanelLogic.getSuggestedProgramGroup());
+        }
     }
 
     /**
@@ -488,7 +510,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // at the intended destination
         // ----------------------------------------------------
         Vector<String> dirEntries = new Vector<String>();
-
+        dirEntries.add(ShortcutConstants.DEFAULT_FOLDER);
         File[] entries = programsFolder.listFiles();
 
         // Quickfix prevent NullPointer on non default compliant Linux - KDEs
@@ -512,6 +534,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
 
             groupList = addList(dirEntries, ListSelectionModel.SINGLE_SELECTION, groupList, col,
                                 line + 5, 1, 1, GridBagConstraints.BOTH);
+            groupList.setSelectedIndex(0);
         }
 
         // radio buttons to select current user or all users.

@@ -129,4 +129,6 @@ public class ShortcutConstants
     // permission flags
 
     static final String CREATE_FOR_ALL = "createForAll";
+
+    static final String DEFAULT_FOLDER = "(Default)";
 }
