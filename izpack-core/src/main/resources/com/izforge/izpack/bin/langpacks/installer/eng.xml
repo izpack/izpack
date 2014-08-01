@@ -202,6 +202,7 @@
     <str id="ShortcutPanel.regular.list" txt="Select a Program Group for the Shortcuts:"/>
     <str id="ShortcutPanel.regular.default" txt="Default"/>
     <str id="ShortcutPanel.regular.desktop" txt="Create additional shortcuts on the desktop"/>
+    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
     <str id="ShortcutPanel.regular.create" txt="Create shortcuts in the StartMenu"/>
     <str id="ShortcutPanel.regular.userIntro" txt="create shortcut for:"/>
     <str id="ShortcutPanel.regular.currentUser" txt="current user"/>

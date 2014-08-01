@@ -112,9 +112,15 @@ public class ShortcutConstants
 
     static final String AUTO_KEY_SHORTCUT_TYPE = "shortcutType";
 
+    static final String AUTO_KEY_CREATE_MENU_SHORTCUTS = "createMenuShortcuts";
+
     static final String AUTO_KEY_CREATE_DESKTOP_SHORTCUTS = "createDesktopShortcuts";
 
-    static final String AUTO_KEY_CREATE_SHORTCUTS = "createMenuShortcuts";
+    static final String AUTO_KEY_CREATE_STARTUP_SHORTCUTS = "createStartupShortcuts";
+
+    static final String[] SHORTCUT_TYPES = {AUTO_KEY_CREATE_MENU_SHORTCUTS, AUTO_KEY_CREATE_DESKTOP_SHORTCUTS, AUTO_KEY_CREATE_STARTUP_SHORTCUTS};
+    //For backwards comparability reasons
+    static final String AUTO_KEY_CREATE_SHORTCUTS_LEGACY = "createShortcuts";
 
     static final String AUTO_KEY_SHORTCUT_TYPE_VALUE_ALL = "all";
 

@@ -249,20 +249,6 @@ public class ShortcutPanelLogic implements CleanupClient
         String path = shortcut.getProgramsFolder(user);
 
         return (new File(path));
-
-        // }
-        // else
-        // {
-        // TODO
-        // 0ptional: Test if KDE is installed.
-        // boolean isKdeInstalled = UnixHelper.kdeIsInstalled();
-        // 1. Test if User can write into
-        // File kdeRootShareApplinkDir = getKDERootShareApplinkDir();
-        // if so: return getKDERootShareApplinkDir()
-        // else
-        // return getKDEUsersShareApplinkDir() +
-        // }
-        // return(result);
     }
 
     /**
@@ -306,35 +292,40 @@ public class ShortcutPanelLogic implements CleanupClient
     public List<IXMLElement> getAutoinstallXMLData(IXMLElement panelRoot)
     {
         List<IXMLElement> xmlData = new ArrayList<IXMLElement>();
+
+        /** For backwards compatibility reasons */
         IXMLElement dataElement;
-        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_SHORTCUTS, panelRoot);
-        dataElement.setContent(Boolean.toString(isCreateMenuShortcuts()));
+        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_MENU_SHORTCUTS, panelRoot);
+
+        //Menu Information
+        dataElement.setContent(Boolean.toString(createMenuShortcuts));
         xmlData.add(dataElement);
 
-        if (isCreateMenuShortcuts())
+        //Program Group Information
+        dataElement = new XMLElementImpl(AUTO_KEY_PROGRAM_GROUP, panelRoot);
+        dataElement.setContent(getGroupName());
+        xmlData.add(dataElement);
+
+        //Desktop Information
+        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS, panelRoot);
+        dataElement.setContent(Boolean.toString(createDesktopShortcuts));
+        xmlData.add(dataElement);
+
+        //Startup Information
+        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_STARTUP_SHORTCUTS, panelRoot);
+        dataElement.setContent(Boolean.toString(createStartupShortcuts));
+        xmlData.add(dataElement);
+
+        //User Information
+        dataElement = new XMLElementImpl(AUTO_KEY_SHORTCUT_TYPE, panelRoot);
+        String userTypeString = AUTO_KEY_SHORTCUT_TYPE_VALUE_USER;
+        if (getUserType() == Shortcut.ALL_USERS)
         {
-            // ----------------------------------------------------
-            // add all other items
-            // ----------------------------------------------------
-            dataElement = new XMLElementImpl(AUTO_KEY_PROGRAM_GROUP, panelRoot);
-            dataElement.setContent(getGroupName());
-            xmlData.add(dataElement);
-            dataElement = new XMLElementImpl(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS, panelRoot);
-            dataElement.setContent(getGroupName());
-            xmlData.add(dataElement);
-            dataElement = new XMLElementImpl(AUTO_KEY_SHORTCUT_TYPE, panelRoot);
-            String userTypeString;
-            if (getUserType() == Shortcut.CURRENT_USER)
-            {
-                userTypeString = AUTO_KEY_SHORTCUT_TYPE_VALUE_USER;
-            }
-            else
-            {
-                userTypeString = AUTO_KEY_SHORTCUT_TYPE_VALUE_ALL;
-            }
-            dataElement.setContent(userTypeString);
-            xmlData.add(dataElement);
+            userTypeString = AUTO_KEY_SHORTCUT_TYPE_VALUE_ALL;
         }
+        dataElement.setContent(userTypeString);
+        xmlData.add(dataElement);
+
         return xmlData;
     }
 
@@ -345,28 +336,57 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     public void setAutoinstallXMLData(IXMLElement panelRoot)
     {
-        IXMLElement dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_SHORTCUTS);
-        setCreateMenuShortcuts(Boolean.valueOf(dataElement.getContent()).booleanValue());
+        IXMLElement dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_SHORTCUTS_LEGACY);
 
-        if (isCreateMenuShortcuts())
+        //Support of legacy auto installation files
+        if (dataElement != null)
         {
-            // ----------------------------------------------------
-            // add all other items
-            // ----------------------------------------------------
+            setCreateMenuShortcuts(Boolean.valueOf(dataElement.getContent()).booleanValue());
+
+            if (isCreateMenuShortcuts())
+            {
+                setCreateStartupShortcuts(true);
+
+                dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_PROGRAM_GROUP);
+                setGroupName(dataElement.getContent());
+                dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS);
+                setCreateDesktopShortcuts(Boolean.valueOf(dataElement.getContent()));
+                dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_SHORTCUT_TYPE);
+                if (AUTO_KEY_SHORTCUT_TYPE_VALUE_USER.equals(dataElement.getContent()))
+                {
+                    setUserType(Shortcut.CURRENT_USER);
+                }
+                else
+                {
+                    setUserType(Shortcut.ALL_USERS);
+                }
+            }
+        }
+        //Current autoamtic installation file parser
+        else
+        {
+            //Set all the shortcut types
+            dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_MENU_SHORTCUTS);
+            setCreateMenuShortcuts(Boolean.valueOf(dataElement.getContent()));
+            dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS);
+            setCreateDesktopShortcuts(Boolean.valueOf(dataElement.getContent()));
+            dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_STARTUP_SHORTCUTS);
+            setCreateStartupShortcuts(Boolean.valueOf(dataElement.getContent()));
+
+            //Set program group
             dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_PROGRAM_GROUP);
             setGroupName(dataElement.getContent());
-            dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS);
-            setCreateDesktopShortcuts(Boolean.valueOf(dataElement.getContent()).booleanValue());
+
+            //Set user information
             dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_SHORTCUT_TYPE);
+            setUserType(Shortcut.ALL_USERS);
             if (AUTO_KEY_SHORTCUT_TYPE_VALUE_USER.equals(dataElement.getContent()))
             {
                 setUserType(Shortcut.CURRENT_USER);
             }
-            else
-            {
-                setUserType(Shortcut.ALL_USERS);
-            }
         }
+
+
     }
 
     /**
