@@ -126,6 +126,16 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
     public boolean run(InstallData installData, Console console)
     {
         boolean result = true;
+        try
+        {
+            shortcutPanelLogic.refreshShortcutData();
+        }
+        catch (Exception e)
+        {
+            return result;
+        }
+
+
         if (shortcutPanelLogic != null  && shortcutPanelLogic.canCreateShortcuts())
         {
             if (shortcutPanelLogic.isSupported())

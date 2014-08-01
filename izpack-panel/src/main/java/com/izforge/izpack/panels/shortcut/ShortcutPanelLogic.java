@@ -160,6 +160,7 @@ public class ShortcutPanelLogic implements CleanupClient
     private boolean createShortcutsImmediately = true;
 
     private Platform platform;
+
     /**
      * Constructs a <tt>ShortcutPanelLogic</tt>.
      *
@@ -182,9 +183,6 @@ public class ShortcutPanelLogic implements CleanupClient
         this.shortcut = factory.makeObject(Shortcut.class);
         this.shortcut.initialize(Shortcut.APPLICATIONS, "-");
 
-        IXMLElement spec = readShortcutSpec();
-        loadClassData(spec);
-        createShortcutData(spec);
         if (!isCreateShortcutsImmediately())
         {
             listeners.add(new LateShortcutInstallListener());
@@ -194,22 +192,25 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * Creates the shortcuts at a specified time. Before this function can be called, a
-     * ShortcutPanel must be used to initialise the logic properly.
+     * Refresh the shortcut data.
+     * Should be done every time the shortcut panel is visited as variables can change,
+     * and we need to make the appropriate substitutions.
      *
      * @throws Exception
      */
-    public void createAndRegisterShortcuts() throws Exception
+    public void refreshShortcutData() throws  Exception
     {
-        String groupName = this.groupName;
-        boolean createShortcuts = this.createMenuShortcuts;
-        boolean createDesktopShortcuts = this.createDesktopShortcuts;
-        IXMLElement spec = readShortcutSpec();  // need to re-read the specs now as variable replacement needs to be done
+        IXMLElement spec = readShortcutSpec();
         loadClassData(spec);
         createShortcutData(spec);
-        this.groupName = groupName;
-        this.createMenuShortcuts = createShortcuts;
-        this.createDesktopShortcuts = createDesktopShortcuts;
+    }
+    /**
+     * Creates the shortcuts
+     *
+     * @throws Exception
+     */
+    public void createAndRegisterShortcuts()
+    {
         if(createMenuShortcuts)
         {
             createShortcuts(shortcuts);
