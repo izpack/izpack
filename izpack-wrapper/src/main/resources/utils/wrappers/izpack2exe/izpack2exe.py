@@ -31,6 +31,8 @@ def parse_options():
     parser.add_option("--output", action="store", dest="output",
                       default="setup.exe",
                       help="The executable file")
+    parser.add_option("--with-jdk", action="store", dest="with_jre", default="",
+      help="The bundled JRE to run the exe independently of the system resources. ")  # choosen JDK that may came with the package
     parser.add_option("--with-7z", action="store", dest="p7z",
                       default="7za",
                       help="Path to the 7-Zip executable")
@@ -63,6 +65,14 @@ def create_exe(settings):
     else:
         filename = ''
     
+    if len(settings.with_jre) > 0:
+        jdk = os.path.basename(settings.with_jre) #inside the jdk/jre that was given, there must be a bin/java.exe file
+        jdk = jdk + "\\bin\\javaw.exe"
+        print(jdk)
+        settings.file.append(settings.with_jre) #jdk/jre is going in the package
+    else:
+        jdk = 'javaw' #java is added somehow to the PATH
+    
     if settings.p7z == '7za':
         p7z = os.path.join(os.path.dirname(sys.argv[0]), '7za')
     else:
@@ -84,7 +94,7 @@ def create_exe(settings):
     config.write('Progress="yes"\n')
     
     if settings.launch == '':
-        config.write('ExecuteFile="javaw"\n')
+        config.write('ExecuteFile="' + jdk +'"\n') # who is going to run my installer.jar?
         config.write('ExecuteParameters="-jar \\\"%s\\\"' % filename)
         if settings.launchargs != '':
             config.write(' %s"\n' % settings.launchargs)
