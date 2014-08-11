@@ -1296,7 +1296,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
             northPanel.setBackground(back);
         }
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.X_AXIS));
-        northPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        northPanel.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
         if (imageLeft)
         {
             northPanel.add(imgPanel);
