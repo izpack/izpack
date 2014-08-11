@@ -57,7 +57,7 @@ import com.izforge.izpack.util.file.FileUtils;
 import com.izforge.izpack.util.os.Shortcut;
 import com.izforge.izpack.util.unix.UnixHelper;
 import com.izforge.izpack.util.xml.XMLHelper;
-
+import static com.izforge.izpack.panels.shortcut.ShortcutConstants.*;
 
 /**
  * This class implements a the logic for the creation of shortcuts. The logic is used in the
@@ -69,127 +69,6 @@ import com.izforge.izpack.util.xml.XMLHelper;
 public class ShortcutPanelLogic implements CleanupClient
 {
     private static transient final Logger logger = Logger.getLogger(ShortcutPanelLogic.class.getName());
-
-    public final static String SPEC_ATTRIBUTE_CONDITION = "condition";
-
-    private final static String SPEC_ATTRIBUTE_KDE_USERNAME = "KdeUsername";
-
-    private final static String SPEC_ATTRIBUTE_KDE_SUBST_UID = "KdeSubstUID";
-
-    private final static String SPEC_ATTRIBUTE_URL = "url";
-
-    private final static String SPEC_ATTRIBUTE_TYPE = "type";
-
-    private final static String SPEC_ATTRIBUTE_TERMINAL_OPTIONS = "terminalOptions";
-
-    private final static String SPEC_ATTRIBUTE_TERMINAL = "terminal";
-
-    private final static String SPEC_ATTRIBUTE_MIMETYPE = "mimetype";
-
-    private final static String SPEC_ATTRIBUTE_ENCODING = "encoding";
-
-    private static final String SPEC_CATEGORIES = "categories";
-
-    private static final String SPEC_TRYEXEC = "tryexec";
-
-    private static final String SEPARATOR_LINE = "--------------------------------------------------------------------------------";
-
-    private static final String SPEC_FILE_NAME = "shortcutSpec.xml";
-
-    // ------------------------------------------------------
-    // spec file section keys
-    // -----------------------------------------------------
-    private static final String SPEC_KEY_SKIP_IFNOT_SUPPORTED = "skipIfNotSupported";
-
-    private static final String SPEC_KEY_NOT_SUPPORTED = "notSupported";
-
-    private static final String SPEC_KEY_DEF_CUR_USER = "defaultCurrentUser";
-
-    private static final String SPEC_KEY_LATE_INSTALL = "lateShortcutInstall";
-
-    private static final String SPEC_KEY_PROGRAM_GROUP = "programGroup";
-
-    private static final String SPEC_KEY_SHORTCUT = "shortcut";
-
-    private static final String SPEC_KEY_PACKS = "createForPack";
-
-    // ------------------------------------------------------
-    // spec file key attributes
-    // ------------------------------------------------------
-    private static final String SPEC_ATTRIBUTE_DEFAULT_GROUP = "defaultName";
-
-    private static final String SPEC_ATTRIBUTE_INSTALLGROUP = "installGroup";
-
-    private static final String SPEC_ATTRIBUTE_LOCATION = "location";
-
-    private static final String SPEC_ATTRIBUTE_NAME = "name";
-
-    private static final String SPEC_ATTRIBUTE_SUBGROUP = "subgroup";
-
-    private static final String SPEC_ATTRIBUTE_DESCRIPTION = "description";
-
-    private static final String SPEC_ATTRIBUTE_TARGET = "target";
-
-    private static final String SPEC_ATTRIBUTE_COMMAND = "commandLine";
-
-    private static final String SPEC_ATTRIBUTE_ICON = "iconFile";
-
-    private static final String SPEC_ATTRIBUTE_ICON_INDEX = "iconIndex";
-
-    private static final String SPEC_ATTRIBUTE_WORKING_DIR = "workingDirectory";
-
-    private static final String SPEC_ATTRIBUTE_INITIAL_STATE = "initialState";
-
-    private static final String SPEC_ATTRIBUTE_DESKTOP = "desktop";
-
-    private static final String SPEC_ATTRIBUTE_APPLICATIONS = "applications";
-
-    private static final String SPEC_ATTRIBUTE_START_MENU = "startMenu";
-
-    private static final String SPEC_ATTRIBUTE_STARTUP = "startup";
-
-    private static final String SPEC_ATTRIBUTE_PROGRAM_GROUP = "programGroup";
-
-    private static final String SPEC_ATTRIBUTE_RUN_AS_ADMINISTRATOR = "runAsAdministrator";
-
-    // ------------------------------------------------------
-    // spec file attribute values
-    // ------------------------------------------------------
-
-    private static final String SPEC_VALUE_APPLICATIONS = "applications";
-
-    private static final String SPEC_VALUE_START_MENU = "startMenu";
-
-    private static final String SPEC_VALUE_NO_SHOW = "noShow";
-
-    private static final String SPEC_VALUE_NORMAL = "normal";
-
-    private static final String SPEC_VALUE_MAXIMIZED = "maximized";
-
-    private static final String SPEC_VALUE_MINIMIZED = "minimized";
-
-    // ------------------------------------------------------
-    // automatic script keys attributes values
-    // ------------------------------------------------------
-    private static final String AUTO_KEY_PROGRAM_GROUP = "programGroup";
-
-    private static final String AUTO_KEY_SHORTCUT_TYPE = "shortcutType";
-
-    private static final String AUTO_KEY_CREATE_DESKTOP_SHORTCUTS = "createDesktopShortcuts";
-
-    private static final String AUTO_KEY_CREATE_SHORTCUTS = "createShortcuts";
-
-    private static final String AUTO_KEY_SHORTCUT_TYPE_VALUE_ALL = "all";
-
-    private static final String AUTO_KEY_SHORTCUT_TYPE_VALUE_USER = "user";
-
-    // permission flags
-
-    private static final String CREATE_FOR_ALL = "createForAll";
-
-    // ------------------------------------------------------------------------
-    // Variable Declarations
-    // ------------------------------------------------------------------------
 
     /**
      * The default name to use for the program group. This comes from the XML specification.
@@ -212,16 +91,6 @@ public class ShortcutPanelLogic implements CleanupClient
     private String programGroupComment;
 
     /**
-     * The parsed result from reading the XML specification from the file
-     */
-    private IXMLElement spec;
-
-    /**
-     * Set to true by analyzeShortcutSpec() if there are any desktop shortcuts to create.
-     */
-    private boolean hasDesktopShortcuts = false;
-
-    /**
      * Tells wether to skip if the platform is not supported.
      */
     private boolean skipIfNotSupported = false;
@@ -232,14 +101,26 @@ public class ShortcutPanelLogic implements CleanupClient
     private Shortcut shortcut;
 
     /**
-     * A list of ShortcutData> objects. Each object is the complete specification for one shortcut
-     * that must be created.
+     * A list of all <ShortcutData> objects, excluding those that should be placed on the desktop.
+     * Each object is the complete specification for one shortcut that must be created.
      */
     private List<ShortcutData> shortcuts;
 
     /**
+     * A list of <ShortcutData> objects that should be placed on the desktop.
+     * Each object is the complete specification for one shortcut that must be created.
+     */
+    private List<ShortcutData> desktopShortcuts;
+
+    /**
+     * A list of <ShortcutData> objects that should be placed in the startup location.
+     * Each object is the complete specification for one shortcut that must be created.
+     */
+    private List<ShortcutData> startupShortcuts;
+
+    /**
      * Holds a list of all the shortcut files that have been created. Note: this variable contains
-     * valid data only after createShortcuts() has been called. This list is created so that the
+     * valid data only after createMenuShortcuts() has been called. This list is created so that the
      * files can be added to the uninstaller.
      */
     private List<String> files;
@@ -251,14 +132,11 @@ public class ShortcutPanelLogic implements CleanupClient
 
     /**
      * If true it indicates that there are shortcuts to create. The value is set by
-     * analyzeShortcutSpec()
+     * createShortcutData()
      */
-    private boolean createShortcuts = false;
+    private boolean createMenuShortcuts = false;
 
-    /**
-     * If true it indicates that the spec file is existing and could be read.
-     */
-    private boolean haveShortcutSpec = false;
+    private boolean createShortcuts = false;
 
     /**
      * This is set to true if the shortcut spec instructs to simulate running on an operating system
@@ -278,11 +156,18 @@ public class ShortcutPanelLogic implements CleanupClient
 
     private boolean createDesktopShortcuts;
 
+    private boolean createStartupShortcuts;
+
     private boolean defaultCurrentUserFlag = false;
 
     private boolean createShortcutsImmediately = true;
 
+    private boolean allowProgramGroup;
+
+    Vector<String> defaultGroup;
+
     private Platform platform;
+
     /**
      * Constructs a <tt>ShortcutPanelLogic</tt>.
      *
@@ -296,62 +181,57 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     public ShortcutPanelLogic(InstallData installData, Resources resources, UninstallData uninstallData,
                               Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
-                              PlatformModelMatcher matcher)
-            throws Exception
+                              PlatformModelMatcher matcher) throws Exception
     {
-        this.installData = installData;
-        this.resources = resources;
-        this.uninstallData = uninstallData;
         this.matcher = matcher;
-        shortcut = factory.makeObject(Shortcut.class);
-        shortcut.initialize(Shortcut.APPLICATIONS, "-");
+        this.resources = resources;
+        this.installData = installData;
+        this.uninstallData = uninstallData;
+        this.shortcut = factory.makeObject(Shortcut.class);
+        this.shortcut.initialize(Shortcut.APPLICATIONS, "-");
 
-        readShortcutSpec();
-        analyzeShortcutSpec();
         if (!isCreateShortcutsImmediately())
         {
             listeners.add(new LateShortcutInstallListener());
         }
+        this.defaultGroup = new Vector<String>();
+        defaultGroup.add(DEFAULT_FOLDER);
 
         housekeeper.registerForCleanup(this);
     }
 
     /**
-     * @return <code>true</code> it the shortcuts will be created after clicking next,
-     *         otherwise <code>false</code>
-     */
-    public final boolean isCreateShortcutsImmediately()
-    {
-        return createShortcutsImmediately;
-    }
-
-    /**
-     * Tell the ShortcutPanel to not create the shortcuts immediately after clicking next.
-     *
-     * @param createShortcutsImmediately
-     */
-    public final void setCreateShortcutsImmediately(boolean createShortcutsImmediately)
-    {
-        this.createShortcutsImmediately = createShortcutsImmediately;
-    }
-
-    /**
-     * Creates the shortcuts at a specified time. Before this function can be called, a
-     * ShortcutPanel must be used to initialise the logic properly.
+     * Refresh the shortcut data.
+     * Should be done every time the shortcut panel is visited as variables can change,
+     * and we need to make the appropriate substitutions.
      *
      * @throws Exception
      */
-    public void createAndRegisterShortcuts() throws Exception
+    public void refreshShortcutData() throws  Exception
     {
-        String groupName = this.groupName;
-        boolean createShortcuts = this.createShortcuts;
-        boolean createDesktopShortcuts = this.createDesktopShortcuts;
-        readShortcutSpec();  // need to re-read the specs now as variable replacement needs to be done
-        analyzeShortcutSpec();
-        this.groupName = groupName;
-        this.createShortcuts = createShortcuts;
-        this.createDesktopShortcuts = createDesktopShortcuts;
-        createShortcuts();
+        IXMLElement spec = readShortcutSpec();
+        loadClassData(spec);
+        createShortcutData(spec);
+    }
+    /**
+     * Creates the shortcuts
+     *
+     * @throws Exception
+     */
+    public void createAndRegisterShortcuts()
+    {
+        if(createMenuShortcuts)
+        {
+            createShortcuts(shortcuts);
+        }
+        if (createDesktopShortcuts)
+        {
+            createShortcuts(desktopShortcuts);
+        }
+        if (createStartupShortcuts)
+        {
+            createShortcuts(startupShortcuts);
+        }
         addToUninstaller();
     }
 
@@ -362,6 +242,11 @@ public class ShortcutPanelLogic implements CleanupClient
     public List<String> getProgramGroups(int user)
     {
         return shortcut.getProgramGroups(user);
+    }
+
+    public Vector<String> getDefaultGroup()
+    {
+        return defaultGroup;
     }
 
     /**
@@ -375,20 +260,6 @@ public class ShortcutPanelLogic implements CleanupClient
         String path = shortcut.getProgramsFolder(user);
 
         return (new File(path));
-
-        // }
-        // else
-        // {
-        // TODO
-        // 0ptional: Test if KDE is installed.
-        // boolean isKdeInstalled = UnixHelper.kdeIsInstalled();
-        // 1. Test if User can write into
-        // File kdeRootShareApplinkDir = getKDERootShareApplinkDir();
-        // if so: return getKDERootShareApplinkDir()
-        // else
-        // return getKDEUsersShareApplinkDir() +
-        // }
-        // return(result);
     }
 
     /**
@@ -432,35 +303,40 @@ public class ShortcutPanelLogic implements CleanupClient
     public List<IXMLElement> getAutoinstallXMLData(IXMLElement panelRoot)
     {
         List<IXMLElement> xmlData = new ArrayList<IXMLElement>();
+
+        /** For backwards compatibility reasons */
         IXMLElement dataElement;
-        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_SHORTCUTS, panelRoot);
-        dataElement.setContent(Boolean.toString(isCreateShortcuts()));
+        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_MENU_SHORTCUTS, panelRoot);
+
+        //Menu Information
+        dataElement.setContent(Boolean.toString(createMenuShortcuts));
         xmlData.add(dataElement);
 
-        if (isCreateShortcuts())
+        //Program Group Information
+        dataElement = new XMLElementImpl(AUTO_KEY_PROGRAM_GROUP, panelRoot);
+        dataElement.setContent(getGroupName());
+        xmlData.add(dataElement);
+
+        //Desktop Information
+        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS, panelRoot);
+        dataElement.setContent(Boolean.toString(createDesktopShortcuts));
+        xmlData.add(dataElement);
+
+        //Startup Information
+        dataElement = new XMLElementImpl(AUTO_KEY_CREATE_STARTUP_SHORTCUTS, panelRoot);
+        dataElement.setContent(Boolean.toString(createStartupShortcuts));
+        xmlData.add(dataElement);
+
+        //User Information
+        dataElement = new XMLElementImpl(AUTO_KEY_SHORTCUT_TYPE, panelRoot);
+        String userTypeString = AUTO_KEY_SHORTCUT_TYPE_VALUE_USER;
+        if (getUserType() == Shortcut.ALL_USERS)
         {
-            // ----------------------------------------------------
-            // add all other items
-            // ----------------------------------------------------
-            dataElement = new XMLElementImpl(AUTO_KEY_PROGRAM_GROUP, panelRoot);
-            dataElement.setContent(getGroupName());
-            xmlData.add(dataElement);
-            dataElement = new XMLElementImpl(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS, panelRoot);
-            dataElement.setContent(getGroupName());
-            xmlData.add(dataElement);
-            dataElement = new XMLElementImpl(AUTO_KEY_SHORTCUT_TYPE, panelRoot);
-            String userTypeString;
-            if (getUserType() == Shortcut.CURRENT_USER)
-            {
-                userTypeString = AUTO_KEY_SHORTCUT_TYPE_VALUE_USER;
-            }
-            else
-            {
-                userTypeString = AUTO_KEY_SHORTCUT_TYPE_VALUE_ALL;
-            }
-            dataElement.setContent(userTypeString);
-            xmlData.add(dataElement);
+            userTypeString = AUTO_KEY_SHORTCUT_TYPE_VALUE_ALL;
         }
+        dataElement.setContent(userTypeString);
+        xmlData.add(dataElement);
+
         return xmlData;
     }
 
@@ -471,28 +347,57 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     public void setAutoinstallXMLData(IXMLElement panelRoot)
     {
-        IXMLElement dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_SHORTCUTS);
-        setCreateShortcuts(Boolean.valueOf(dataElement.getContent()).booleanValue());
+        IXMLElement dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_SHORTCUTS_LEGACY);
 
-        if (isCreateShortcuts())
+        //Support of legacy auto installation files
+        if (dataElement != null)
         {
-            // ----------------------------------------------------
-            // add all other items
-            // ----------------------------------------------------
+            setCreateMenuShortcuts(Boolean.valueOf(dataElement.getContent()).booleanValue());
+
+            if (isCreateMenuShortcuts())
+            {
+                setCreateStartupShortcuts(true);
+
+                dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_PROGRAM_GROUP);
+                setGroupName(dataElement.getContent());
+                dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS);
+                setCreateDesktopShortcuts(Boolean.valueOf(dataElement.getContent()));
+                dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_SHORTCUT_TYPE);
+                if (AUTO_KEY_SHORTCUT_TYPE_VALUE_USER.equals(dataElement.getContent()))
+                {
+                    setUserType(Shortcut.CURRENT_USER);
+                }
+                else
+                {
+                    setUserType(Shortcut.ALL_USERS);
+                }
+            }
+        }
+        //Current autoamtic installation file parser
+        else
+        {
+            //Set all the shortcut types
+            dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_MENU_SHORTCUTS);
+            setCreateMenuShortcuts(Boolean.valueOf(dataElement.getContent()));
+            dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS);
+            setCreateDesktopShortcuts(Boolean.valueOf(dataElement.getContent()));
+            dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_STARTUP_SHORTCUTS);
+            setCreateStartupShortcuts(Boolean.valueOf(dataElement.getContent()));
+
+            //Set program group
             dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_PROGRAM_GROUP);
             setGroupName(dataElement.getContent());
-            dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_CREATE_DESKTOP_SHORTCUTS);
-            setCreateDesktopShortcuts(Boolean.valueOf(dataElement.getContent()).booleanValue());
+
+            //Set user information
             dataElement = panelRoot.getFirstChildNamed(AUTO_KEY_SHORTCUT_TYPE);
+            setUserType(Shortcut.ALL_USERS);
             if (AUTO_KEY_SHORTCUT_TYPE_VALUE_USER.equals(dataElement.getContent()))
             {
                 setUserType(Shortcut.CURRENT_USER);
             }
-            else
-            {
-                setUserType(Shortcut.ALL_USERS);
-            }
         }
+
+
     }
 
     /**
@@ -510,15 +415,12 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     public boolean hasDesktopShortcuts()
     {
-        return hasDesktopShortcuts;
+        return desktopShortcuts.size() > 0;
     }
 
-    /**
-     * @return <code>true</code> if we create desktop shortcuts otherwise <code>false</code>
-     */
-    public boolean isCreateDesktopShortcuts()
+    public boolean hasStartupShortcuts()
     {
-        return createDesktopShortcuts;
+        return startupShortcuts.size() > 0;
     }
 
     /**
@@ -529,36 +431,32 @@ public class ShortcutPanelLogic implements CleanupClient
         this.createDesktopShortcuts = createDesktopShortcuts;
     }
 
+    public void setCreateStartupShortcuts(boolean createStartupShortcuts)
+    {
+        this.createStartupShortcuts = createStartupShortcuts;
+    }
+
     /**
      * @return <code>true</code> if we create shortcuts at all otherwise <code>false</code>
      */
-    public boolean isCreateShortcuts()
+    public boolean isCreateMenuShortcuts()
     {
-        return createShortcuts;
+        return createMenuShortcuts;
     }
 
     /**
-     * @param createShortcuts
+     * @param createMenuShortcuts
      */
-    public final void setCreateShortcuts(boolean createShortcuts)
+    public final void setCreateMenuShortcuts(boolean createMenuShortcuts)
     {
-        this.createShortcuts = createShortcuts;
-    }
-
-    /**
-     * @return <code>true</code> if we do a shortcut creation simulation otherwise
-     *         <code>false</code>
-     */
-    public boolean isSimulateNotSupported()
-    {
-        return simulateNotSupported;
+        this.createMenuShortcuts = createMenuShortcuts;
     }
 
     /**
      * @return <code>true</code> if we skip shortcut panel and shortcut creation if this is not
      *         supported on the current OS otherwise <code>false</code>
      */
-    public boolean isSkipIfNotSupported()
+    public boolean skipIfNotSupported()
     {
         return skipIfNotSupported;
     }
@@ -601,15 +499,11 @@ public class ShortcutPanelLogic implements CleanupClient
 
     /**
      * This method saves all shortcut information to a text file.
-     *
+     * TODO: Show an error dialog if fail to write
      * @param file to save the information to
      */
     public void saveToFile(File file)
     {
-
-        // ----------------------------------------------------
-        // save to the file
-        // ----------------------------------------------------
         FileWriter output = null;
         StringBuilder buffer = new StringBuilder();
         Messages messages = installData.getMessages();
@@ -623,17 +517,14 @@ public class ShortcutPanelLogic implements CleanupClient
         }
         catch (Throwable exception)
         {
-            // !!! show an error dialog
             return;
         }
 
-        // ----------------------------------------------------
-        // break the header down into multiple lines based
-        // on '\n' line breaks.
-        // ----------------------------------------------------
-        int nextIndex = 0;
+        /**
+         *  Break the header down into multiple lines based on '\n' line breaks.
+         */
+        int nextIndex;
         int currentIndex = 0;
-
         do
         {
             nextIndex = header.indexOf("\\n", currentIndex);
@@ -801,6 +692,11 @@ public class ShortcutPanelLogic implements CleanupClient
         return Boolean.valueOf(installData.getVariable("DesktopShortcutCheckboxEnabled"));
     }
 
+    public boolean isStartupShortcutCheckboxSelected()
+    {
+        return Boolean.valueOf(installData.getVariable("StartupShortcutCheckboxEnabled"));
+    }
+
     /**
      * Helper to format a message to create shortcuts for the current platform.
      *
@@ -827,6 +723,11 @@ public class ShortcutPanelLogic implements CleanupClient
     public String getCreateDesktopShortcutsPrompt()
     {
         return installData.getMessages().get("ShortcutPanel.regular.desktop");
+    }
+
+    public String getCreateStartupShortcutsPrompt()
+    {
+        return installData.getMessages().get("ShortcutPanel.regular.startup");
     }
 
     public String getCreateForUserPrompt()
@@ -875,51 +776,37 @@ public class ShortcutPanelLogic implements CleanupClient
         }
     }
 
-    /**
-     * This method analyzes the specifications for creating shortcuts and builds a list of all the
-     * Shortcuts that need to be created.
-     */
-    private void analyzeShortcutSpec()
+    private void loadClassData(IXMLElement spec)
     {
-        if (!haveShortcutSpec)
+        if (spec == null)
         {
             createShortcuts = false;
             return;
         }
 
-        IXMLElement skipper = spec.getFirstChildNamed(SPEC_KEY_SKIP_IFNOT_SUPPORTED);
-        skipIfNotSupported = (skipper != null);
-
-        // set flag if 'defaultCurrentUser' element found:
+        /**
+         * 1.
+         * 2. Set flag if 'defaultCurrentUser' element found
+         * 3. Find out if we should simulate a not supported scenario
+         * 4. Set flag if 'lateShortcutInstall' element found
+         */
+        simulateNotSupported = (spec.getFirstChildNamed(SPEC_KEY_NOT_SUPPORTED) != null);
         defaultCurrentUserFlag = (spec.getFirstChildNamed(SPEC_KEY_DEF_CUR_USER) != null);
-
-        // ----------------------------------------------------
-        // find out if we should simulate a not supported
-        // scenario
-        // ----------------------------------------------------
-        IXMLElement support = spec.getFirstChildNamed(SPEC_KEY_NOT_SUPPORTED);
-
-        if (support != null)
-        {
-            simulateNotSupported = true;
-        }
-
-        // set flag if 'lateShortcutInstall' element found:
+        skipIfNotSupported = (spec.getFirstChildNamed(SPEC_KEY_SKIP_IFNOT_SUPPORTED) != null);
         setCreateShortcutsImmediately(spec.getFirstChildNamed(SPEC_KEY_LATE_INSTALL) == null);
 
-        // ----------------------------------------------------
-        // find out in which program group the shortcuts should
-        // be placed and where this program group should be
-        // located
-        // ----------------------------------------------------
 
+        /**
+         * Find out in which program group the shortcuts should
+         * be placed and where this program group should be located
+         */
         IXMLElement group = null;
         List<IXMLElement> groupSpecs = spec.getChildrenNamed(SPEC_KEY_PROGRAM_GROUP);
         String selectedInstallGroup = this.installData.getVariable("INSTALL_GROUP");
         if (selectedInstallGroup != null)
         {
             // The user selected an InstallGroup before.
-            // We may have some restrictions on the Installationgroup
+            // We may have some restrictions on the installation group
             // search all defined ProgramGroups for the given InstallGroup
             for (IXMLElement g : groupSpecs)
             {
@@ -933,18 +820,15 @@ public class ShortcutPanelLogic implements CleanupClient
         }
         if (group == null)
         {
-            // default (old) behavior
             group = spec.getFirstChildNamed(SPEC_KEY_PROGRAM_GROUP);
         }
 
-        String location = null;
-        hasDesktopShortcuts = false;
-
+        String location;
         if (group != null)
         {
-            suggestedProgramGroup = group.getAttribute(SPEC_ATTRIBUTE_DEFAULT_GROUP, "");
-            programGroupIconFile = group.getAttribute("iconFile", "");
             programGroupComment = group.getAttribute("comment", "");
+            programGroupIconFile = group.getAttribute("iconFile", "");
+            suggestedProgramGroup = group.getAttribute(SPEC_ATTRIBUTE_DEFAULT_GROUP, "");
             location = group.getAttribute(SPEC_ATTRIBUTE_LOCATION, SPEC_VALUE_APPLICATIONS);
         }
         else
@@ -968,19 +852,33 @@ public class ShortcutPanelLogic implements CleanupClient
         {
             // ignore
         }
+    }
+    /**
+     * This method analyzes the specifications for creating shortcuts and builds a list of all the
+     * Shortcuts that need to be created.
+     */
+    private void createShortcutData(IXMLElement spec)
+    {
+        if (spec == null)
+        {
+            return;
+        }
 
-        // ----------------------------------------------------
-        // create a list of all shortcuts that need to be
-        // created, containing all details about each shortcut
-        // ----------------------------------------------------
-        // String temp;
-        List<IXMLElement> shortcutSpecs = spec.getChildrenNamed(SPEC_KEY_SHORTCUT);
+        /**
+         * Create a list of all shortcuts that need to be
+         * created, containing all details about each shortcut
+         */
         ShortcutData data;
+        List<IXMLElement> shortcutSpecs = spec.getChildrenNamed(SPEC_KEY_SHORTCUT);
 
-        shortcuts = new ArrayList<ShortcutData>();
+
         files = new ArrayList<String>();
         execFiles = new ArrayList<ExecutableFile>();
 
+        shortcuts = new ArrayList<ShortcutData>();
+        desktopShortcuts = new ArrayList<ShortcutData>();
+        startupShortcuts = new ArrayList<ShortcutData>();
+        allowProgramGroup = false;
         for (IXMLElement shortcutSpec : shortcutSpecs)
         {
             if (!matcher.matchesCurrentPlatform(OsConstraintHelper.getOsList(shortcutSpec)))
@@ -993,8 +891,8 @@ public class ShortcutPanelLogic implements CleanupClient
             {
                 continue;
             }
-
             logger.fine("Checked Condition for " + shortcutSpec.getAttribute(SPEC_ATTRIBUTE_NAME));
+
             data = new ShortcutData();
 
             data.name = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_NAME);
@@ -1002,48 +900,32 @@ public class ShortcutPanelLogic implements CleanupClient
             data.description = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_DESCRIPTION, "");
 
             // ** Linux **//
-            data.deskTopEntryLinux_Encoding = shortcutSpec
-                    .getAttribute(SPEC_ATTRIBUTE_ENCODING, "");
-            data.deskTopEntryLinux_MimeType = shortcutSpec
-                    .getAttribute(SPEC_ATTRIBUTE_MIMETYPE, "");
-            data.deskTopEntryLinux_Terminal = shortcutSpec
-                    .getAttribute(SPEC_ATTRIBUTE_TERMINAL, "");
-            data.deskTopEntryLinux_TerminalOptions = shortcutSpec.getAttribute(
-                    SPEC_ATTRIBUTE_TERMINAL_OPTIONS, "");
-            data.deskTopEntryLinux_Type = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TYPE, "");
-
             data.deskTopEntryLinux_URL = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_URL, "");
+            data.deskTopEntryLinux_Type = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TYPE, "");
+            data.deskTopEntryLinux_Encoding = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_ENCODING, "");
+            data.deskTopEntryLinux_MimeType = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_MIMETYPE, "");
 
-            data.deskTopEntryLinux_X_KDE_SubstituteUID = shortcutSpec.getAttribute(
-                    SPEC_ATTRIBUTE_KDE_SUBST_UID, "false");
+            data.deskTopEntryLinux_Terminal = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TERMINAL, "");
+            data.deskTopEntryLinux_TerminalOptions = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TERMINAL_OPTIONS, "");
 
-            data.deskTopEntryLinux_X_KDE_UserName = shortcutSpec.getAttribute(
-                    SPEC_ATTRIBUTE_KDE_USERNAME, "root");
+            data.deskTopEntryLinux_X_KDE_UserName = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_KDE_USERNAME, "root");
+            data.deskTopEntryLinux_X_KDE_SubstituteUID = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_KDE_SUBST_UID, "false");
 
-            data.Categories = shortcutSpec.getAttribute(SPEC_CATEGORIES, "");
 
             data.TryExec = shortcutSpec.getAttribute(SPEC_TRYEXEC, "");
-
+            data.Categories = shortcutSpec.getAttribute(SPEC_CATEGORIES, "");
             data.createForAll = Boolean.valueOf(shortcutSpec.getAttribute(CREATE_FOR_ALL, "false"));
+            // ** End of Linux **//
 
-            // ** EndOf LINUX **//
-            // temp =
+            data.commandLine = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_COMMAND, "");
             data.target = fixSeparatorChar(shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TARGET, ""));
 
-            // temp =
-            data.commandLine = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_COMMAND, "");
-
-            // temp =
             data.iconFile = fixSeparatorChar(shortcutSpec.getAttribute(SPEC_ATTRIBUTE_ICON, ""));
-            data.iconIndex = Integer.parseInt(shortcutSpec.getAttribute(SPEC_ATTRIBUTE_ICON_INDEX,
-                                                                        "0"));
+            data.iconIndex = Integer.parseInt(shortcutSpec.getAttribute(SPEC_ATTRIBUTE_ICON_INDEX, "0"));
 
-            // temp =
-            data.workingDirectory = fixSeparatorChar(shortcutSpec.getAttribute(
-                    SPEC_ATTRIBUTE_WORKING_DIR, ""));
+            data.workingDirectory = fixSeparatorChar(shortcutSpec.getAttribute(SPEC_ATTRIBUTE_WORKING_DIR, ""));
 
             String initialState = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_INITIAL_STATE, "");
-
             if (initialState.equals(SPEC_VALUE_NO_SHOW))
             {
                 data.initialState = Shortcut.HIDE;
@@ -1064,22 +946,19 @@ public class ShortcutPanelLogic implements CleanupClient
             {
                 data.initialState = Shortcut.NORMAL;
             }
-            data.runAsAdministrator = Boolean.valueOf(shortcutSpec.getAttribute(SPEC_ATTRIBUTE_RUN_AS_ADMINISTRATOR,
-                                                                                "false"));
+            data.runAsAdministrator = Boolean.valueOf(
+                    shortcutSpec.getAttribute(SPEC_ATTRIBUTE_RUN_AS_ADMINISTRATOR, "false"));
 
-            // LOG System.out.println("installDataGUI.initialState: " +
-            // installDataGUI.initialState);
+            /**
+             * If the minimal installDataGUI requirements are met to create the shortcut,
+             * create one entry each for each of the requested types.
+             * Eventually this will cause the creation of one shortcut in each of the associated locations.
+             */
 
-            // --------------------------------------------------
-            // if the minimal installDataGUI requirements are met to create
-            // the shortcut, create one entry each for each of
-            // the requested types.
-            // Eventually this will cause the creation of one
-            // shortcut in each of the associated locations.
-            // --------------------------------------------------
             // without a name we can not create a shortcut
             if (data.name == null)
             {
+                logger.warning("Shorcut specification is missing the name attribute");
                 continue;
             }
 
@@ -1087,16 +966,12 @@ public class ShortcutPanelLogic implements CleanupClient
             // 2. Marc: "No, Even on Linux a Link can be an URL and has no target."
             if (data.target == null)
             {
-                // TODO: write log info INFO.warn( "Shortcut: " + installDataGUI + " has no target"
-                // );
+                logger.warning("Shortcut " + data.name + "has not target");
                 data.target = "";
             }
+
             // the shortcut is not actually required for any of the selected packs
-
-            // the shortcut is not actually required for any of the selected packs // the shortcut
-            // is not actually required for any of the selected packs
             List<IXMLElement> forPacks = shortcutSpec.getChildrenNamed(SPEC_KEY_PACKS);
-
             if (!shortcutRequiredFor(forPacks))
             {
                 continue;
@@ -1114,14 +989,28 @@ public class ShortcutPanelLogic implements CleanupClient
             // not use 'else if' statements!
             // --------------------------------------------------
             {
+                /**
+                 * Attribute: desktop
+                 *
+                 * 	If the value is true, then a copy of the shortcut is placed on the desktop.
+                 * 	On Unix the shortcuts will only be placed on the KDE desktop of the user currently running the installer.
+                 * 	For Gnome the user can simply copy the .desktop files from *\/Desktop to /gnome-desktop.
+                 */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_DESKTOP))
                 {
-                    hasDesktopShortcuts = true;
                     data.addToGroup = false;
                     data.type = Shortcut.DESKTOP;
-                    shortcuts.add(data.clone());
+                    desktopShortcuts.add(data.clone());
                 }
 
+                /**
+                 * Attribute: applications
+                 *
+                 * If the value is true, then a copy of the shortcut is placed in the applications menu
+                 * (if the target operating system supports this). This is the same location as the applications
+                 * choice for the programGroup element. Setting applications="true" is equivalent to setting
+                 * programGroup="true" on Unix.
+                 */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_APPLICATIONS))
                 {
                     data.addToGroup = false;
@@ -1129,6 +1018,12 @@ public class ShortcutPanelLogic implements CleanupClient
                     shortcuts.add(data.clone());
                 }
 
+                /**
+                 * Attribute: startMenu
+                 *
+                 * If the value is true, then a copy of the shortcut is placed directly in the top most menu
+                 * that is available for placing application shortcuts. This is not supported on Unix.
+                 */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_START_MENU))
                 {
                     data.addToGroup = false;
@@ -1136,15 +1031,29 @@ public class ShortcutPanelLogic implements CleanupClient
                     shortcuts.add(data.clone());
                 }
 
+                /**
+                 * Attribute: startup
+                 *
+                 * If the value is true, then a copy of the shortcut is placed in a location where all
+                 * applications get automatically started at OS launch time, if this is available on the target OS.
+                 * This is not supported on Unix.
+                 */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_STARTUP))
                 {
                     data.addToGroup = false;
                     data.type = Shortcut.START_UP;
-                    shortcuts.add(data.clone());
+                    startupShortcuts.add(data.clone());
                 }
 
+                /**
+                 *  Attribute: programGroup
+                 *
+                 * 	If the value is true, then a copy of this shortcut will be placed in the group menu.
+                 * 	On Unix (KDE) this will always be placed on the top level.
+                 */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_PROGRAM_GROUP))
                 {
+                    allowProgramGroup = true;
                     data.addToGroup = true;
                     data.type = Shortcut.APPLICATIONS;
                     shortcuts.add(data.clone());
@@ -1162,53 +1071,40 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * This returns true if a Shortcut should or can be created. Returns false to suppress Creation
+     * This returns true if a Shortcut should or can be created.
+     * Returns false to suppress Creation
      *
      * @param shortcutSpec
-     * @return true if condtion is resolved positive
+     * @return true if condition is resolved positive
      */
     private boolean checkConditions(IXMLElement shortcutSpec)
     {
         boolean result = true;
-        String conditionid = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_CONDITION);
-        if (conditionid != null)
+        String condition = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_CONDITION);
+        if (condition != null)
         {
-            result = installData.getRules().isConditionTrue(conditionid);
+            result = installData.getRules().isConditionTrue(condition);
         }
-        // Vector conditions = shortcutSpec.getChildrenNamed( Condition.CONDITION );
-        //
-        // for( int i = 0; i < conditions.size(); i++ ) { Condition condition = new Condition(
-        // conditions.elementAt( i ) );
-        //
-        // //System.out.println( "Readed: " + condition.toString( true ) ); boolean result =
-        // condition.eval();
-        //
-        // if( result == false ) { System.out.println( "Unresolved Condition: " + condition );
-        //
-        // return result; } }
-
-        return result; // If there is no Condition defined, just create the shortcut.
+        return result;
     }
 
     /**
      * Creates all shortcuts based on the information in shortcuts.
      */
-    private void createShortcuts()
+    private void createShortcuts(List<ShortcutData> shortcuts)
     {
-        if (!createShortcuts)
+        if(!createShortcuts)
         {
-            logger.warning("No shortcuts to be created");
             return;
         }
-
-        String gn;
+        String groupName;
 
         List<String> startMenuShortcuts = new ArrayList<String>();
         for (ShortcutData data : shortcuts)
         {
             try
             {
-                gn = groupName + data.subgroup;
+                groupName = this.groupName + data.subgroup;
                 shortcut.setUserType(userType);
                 shortcut.setLinkName(data.name);
                 shortcut.setLinkType(data.type);
@@ -1232,91 +1128,70 @@ public class ShortcutPanelLogic implements CleanupClient
                 shortcut.setTryExec(data.TryExec);
                 shortcut.setCategories(data.Categories);
                 shortcut.setCreateForAll(data.createForAll);
-
                 shortcut.setUninstaller(uninstallData);
 
                 if (data.addToGroup)
                 {
-                    shortcut.setProgramGroup(gn);
+                    shortcut.setProgramGroup(groupName);
                 }
                 else
                 {
                     shortcut.setProgramGroup("");
                 }
 
-                try
+                shortcut.save();
+
+                if (data.type == Shortcut.APPLICATIONS || data.addToGroup)
                 {
-                    // ----------------------------------------------
-                    // save the shortcut only if it is either not on
-                    // the desktop or if it is on the desktop and
-                    // the user has signalled that it is ok to place
-                    // shortcuts on the desktop.
-                    // ----------------------------------------------
-                    if ((data.type != Shortcut.DESKTOP)
-                            || ((data.type == Shortcut.DESKTOP) && createDesktopShortcuts))
+                    if (shortcut instanceof com.izforge.izpack.util.os.Unix_Shortcut)
                     {
-                        // save the shortcut
-                        shortcut.save();
-
-                        if (data.type == Shortcut.APPLICATIONS || data.addToGroup)
+                        com.izforge.izpack.util.os.Unix_Shortcut unixcut = (com.izforge.izpack.util.os.Unix_Shortcut) shortcut;
+                        String f = unixcut.getWrittenFileName();
+                        if (f != null)
                         {
-                            if (shortcut instanceof com.izforge.izpack.util.os.Unix_Shortcut)
-                            {
-                                com.izforge.izpack.util.os.Unix_Shortcut unixcut = (com.izforge.izpack.util.os.Unix_Shortcut) shortcut;
-                                String f = unixcut.getWrittenFileName();
-                                if (f != null)
-                                {
-                                    startMenuShortcuts.add(f);
-                                }
-                            }
-                        }
-                        // add the file and directory name to the file list
-                        String fileName = shortcut.getFileName();
-                        files.add(0, fileName);
-
-                        File file = new File(fileName);
-                        File base = new File(shortcut.getBasePath());
-                        Vector<File> intermediates = new Vector<File>();
-
-                        // String directoryName = shortcut.getDirectoryCreated ();
-                        execFiles.add(new ExecutableFile(fileName, ExecutableFile.UNINSTALL,
-                                                         ExecutableFile.IGNORE, new ArrayList<OsModel>(), false));
-
-                        files.add(fileName);
-
-                        while ((file = file.getParentFile()) != null)
-                        {
-                            if (file.equals(base))
-                            {
-                                break;
-                            }
-
-                            intermediates.add(file);
-                        }
-
-                        if (file != null)
-                        {
-                            Enumeration<File> filesEnum = intermediates.elements();
-
-                            while (filesEnum.hasMoreElements())
-                            {
-                                files.add(0, filesEnum.nextElement().toString());
-                            }
+                            startMenuShortcuts.add(f);
                         }
                     }
                 }
-                catch (Exception exception)
+
+                // add the file and directory name to the file list
+                String fileName = shortcut.getFileName();
+                files.add(0, fileName);
+
+                File file = new File(fileName);
+                File base = new File(shortcut.getBasePath());
+                Vector<File> intermediates = new Vector<File>();
+
+                execFiles.add(new ExecutableFile(fileName, ExecutableFile.UNINSTALL,
+                                                 ExecutableFile.IGNORE, new ArrayList<OsModel>(), false));
+                files.add(fileName);
+
+                while ((file = file.getParentFile()) != null)
                 {
+                    if (file.equals(base))
+                    {
+                        break;
+                    }
+                    intermediates.add(file);
+                }
+
+                if (file != null)
+                {
+                    Enumeration<File> filesEnum = intermediates.elements();
+
+                    while (filesEnum.hasMoreElements())
+                    {
+                        files.add(0, filesEnum.nextElement().toString());
+                    }
                 }
             }
-            catch (Throwable exception)
+            catch (Exception exception)
             {
             }
         }
         if (OsVersion.IS_UNIX)
         {
-            writeXDGMenuFile(startMenuShortcuts, groupName, programGroupIconFile,
-                             programGroupComment);
+            writeXDGMenuFile(startMenuShortcuts, this.groupName, programGroupIconFile, programGroupComment);
         }
         shortcut.execPostAction();
 
@@ -1383,52 +1258,47 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * Reads the XML specification for the shortcuts to create. The result is stored in spec.
+     * Attempt to read load specifications from OS specific shortcut specification file.
+     * If fail to read from OS specific shortcut specification file, attempt to load general shortcut specification file.
      *
      * @throws Exception for any problems in reading the specification
+     * TODO: If internal flag mapped installData.isDebug() print out information on substitutedSpec
      */
-
-    private void readShortcutSpec() throws Exception
+    private IXMLElement readShortcutSpec() throws Exception
     {
-        // open an input stream
-        InputStream input = null;
+        IXMLElement spec = null;
+
+        InputStream shortcutSpec = null;
+        try
+        {
+            shortcutSpec = resources.getInputStream(TargetFactory.getCurrentOSPrefix() + SPEC_FILE_NAME);
+        }
+        catch (ResourceNotFoundException resourceNotFound)
+        {
+            try
+            {
+                shortcutSpec = resources.getInputStream(SPEC_FILE_NAME);
+            }
+            catch (ResourceNotFoundException shortcutsNotFound)
+            {
+                //Fail on next try block
+            }
+        }
 
         try
         {
-            input = resources.getInputStream(TargetFactory.getCurrentOSPrefix() + SPEC_FILE_NAME);
+            VariableSubstitutor replacer = new VariableSubstitutorImpl(installData.getVariables());
+            String substitutedSpec = replacer.substitute(shortcutSpec, SubstitutionType.TYPE_XML);
+            IXMLParser parser = new XMLParser();
+            spec = parser.parse(substitutedSpec);
         }
-        catch (ResourceNotFoundException rnfE)
+        catch (Exception e)
         {
-            input = resources.getInputStream(SPEC_FILE_NAME);
-        }
-        if (input == null)
-        {
-            haveShortcutSpec = false;
-
-            return;
+            return null;
         }
 
-        // input.
-        VariableSubstitutor replacer = new VariableSubstitutorImpl(installData.getVariables());
-        String substitutedSpec = replacer.substitute(input, SubstitutionType.TYPE_XML);
-        /*
-         * TODO: internal flag mapped if( installData.isDebug() ) { System.out.println( "SUBSTITUDED
-         * SHORTCUT SPEC" ); System.out.println(
-         * "==================================================================" );
-         * System.out.println( "=================================================================="
-         * ); System.out.println( substitutedSpec ); System.out.println(
-         * "==================================================================" );
-         * System.out.println( "=================================================================="
-         * ); }
-         */
-        IXMLParser parser = new XMLParser();
-
-        // get the installDataGUI
-        spec = parser.parse(substitutedSpec);
-
-        // close the stream
-        input.close();
-        haveShortcutSpec = true;
+        shortcutSpec.close();
+        return spec;
     }
 
     /**
@@ -1549,7 +1419,6 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     protected class LateShortcutInstallListener extends AbstractInstallerListener
     {
-
         /**
          * Triggers the creation of shortcuts.
          * {@inheritDoc}
@@ -1569,15 +1438,6 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * Shortcut Panel should know what platform it is dealing with.
-     * @param platform
-     */
-    public void setPlatform(Platform platform)
-    {
-        this.platform = platform;
-    }
-
-    /**
      * Validate that groupName is a valid directory path
      *
      * @param groupName
@@ -1590,5 +1450,48 @@ public class ShortcutPanelLogic implements CleanupClient
                 return installData.getMessages().get("ShortcutPanel.group.error");
         }
        return "";
+    }
+
+    /**
+     * @return <code>true</code> it the shortcuts will be created after clicking next,
+     *         otherwise <code>false</code>
+     */
+    public final boolean isCreateShortcutsImmediately()
+    {
+        return createShortcutsImmediately;
+    }
+
+    /**
+     * Tell the ShortcutPanel to not create the shortcuts immediately after clicking next.
+     *
+     * @param createShortcutsImmediately
+     */
+    public final void setCreateShortcutsImmediately(boolean createShortcutsImmediately)
+    {
+        this.createShortcutsImmediately = createShortcutsImmediately;
+    }
+
+
+    /**
+     * Shortcut Panel should know what platform it is dealing with.
+     * @param platform
+     */
+    public void setPlatform(Platform platform)
+    {
+        this.platform = platform;
+    }
+
+    /**
+     * If specifications were valid than we can create shortcuts.
+     * @return
+     */
+    public boolean canCreateShortcuts()
+    {
+        return this.createShortcuts;
+    }
+
+    public boolean allowProgramGroup()
+    {
+        return this.allowProgramGroup;
     }
 }

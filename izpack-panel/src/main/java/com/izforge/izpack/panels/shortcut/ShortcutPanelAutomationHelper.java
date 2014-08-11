@@ -98,6 +98,7 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
         {
             try
             {
+                shortcutPanelLogic.refreshShortcutData();
                 shortcutPanelLogic.createAndRegisterShortcuts();
             }
             catch (Exception e)

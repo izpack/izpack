@@ -373,6 +373,7 @@ public class Unix_Shortcut extends Shortcut implements Unix_ShortcutConstants
     public List<String> getProgramGroups(int userType)
     {
         List<String> groups = new ArrayList<String>();
+        groups.add("(Default)"); // Should be the same value as DEFAULT_FOLDER from ShortcutConstants
 
         File kdeShareApplnk = getKdeShareApplnkFolder(userType);
 
@@ -393,7 +394,7 @@ public class Unix_Shortcut extends Shortcut implements Unix_ShortcutConstants
             // ignore and return an empty vector.
         }
 
-        return (groups);
+        return groups;
     }
 
     /**

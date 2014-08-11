@@ -178,7 +178,7 @@ public class Win_Shortcut extends Shortcut
         // the directories.
         // ----------------------------------------------------
         List<String> groups = new ArrayList<String>();
-
+        groups.add("(Default)"); // Should be the same value as DEFAULT_FOLDER from ShortcutConstants
         if (file != null)
         {
             for (File aFile : file)
