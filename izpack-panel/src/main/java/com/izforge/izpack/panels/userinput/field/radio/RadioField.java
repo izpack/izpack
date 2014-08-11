@@ -23,7 +23,6 @@ package com.izforge.izpack.panels.userinput.field.radio;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.ChoiceField;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 

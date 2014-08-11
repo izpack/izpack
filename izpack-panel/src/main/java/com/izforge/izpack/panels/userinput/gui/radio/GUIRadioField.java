@@ -24,7 +24,6 @@ package com.izforge.izpack.panels.userinput.gui.radio;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.gui.TwoColumnConstraints;
 import com.izforge.izpack.panels.userinput.field.Choice;
-import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.panels.userinput.field.radio.RadioField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 
@@ -149,35 +148,36 @@ public class GUIRadioField extends GUIField
 
         if (value != null)
         {
-            splitValue(value);
-            result = true;
+            result = splitValue(value);
         }
-        else
+
+        if (!result) // fallback for invalid values
         {
             // Set default value here for getting current variable values replaced
-            Field f = getField();
-            String defaultValue = f.getDefaultValue();
+            String defaultValue = field.getDefaultValue();
             if (defaultValue != null)
             {
-                splitValue(defaultValue);
+                result = splitValue(defaultValue);
             }
         }
         return result;
     }
 
-    private void splitValue(String value)
+    private boolean splitValue(String value)
     {
         for (RadioChoiceView view : choices)
         {
             if (value.equals(view.choice.getTrueValue()))
             {
                 view.button.setSelected(true);
+                return true;
             }
             else
             {
                 view.button.setSelected(false);
             }
         }
+        return false;
     }
 
     /**

@@ -114,10 +114,6 @@ public abstract class Field
     private final InstallData installData;
 
     /**
-     * Field configuration
-     */
-    private final FieldConfig config;
-    /**
      * The logger.
      */
     private static final Logger logger = Logger.getLogger(Field.class.getName());
@@ -131,7 +127,6 @@ public abstract class Field
      */
     public Field(FieldConfig config, InstallData installData)
     {
-        this.config = config;
         variable = config.getVariable();
         summaryKey = config.getSummaryKey();
         set = config.getDefaultValue();

@@ -23,8 +23,6 @@ package com.izforge.izpack.panels.userinput.field;
 
 import java.util.List;
 
-import com.izforge.izpack.api.rules.RulesEngine;
-
 
 /**
  * Configuration for fields that have a set of pre-defined choices.

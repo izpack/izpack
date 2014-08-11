@@ -19,9 +19,9 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
     private InstallData installData;
 
     /**
-     * The initial selected index.
+     * The fallback value of a radiobutton marked checked.
      */
-    private int selected = 0;
+    private String defaultValue;
 
 
     /**
@@ -34,6 +34,15 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
     {
         super(field, config);
         this.installData = installData;
+
+        for (IXMLElement choice : getSpec().getChildrenNamed("choice"))
+        {
+            if (getConfig().getBoolean(choice, "set", false))
+            {
+                defaultValue = config.getAttribute(choice, "value");
+                break;
+            }
+        }
     }
 
     /**
@@ -43,11 +52,9 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
      */
     public List<Choice> getChoices()
     {
-        selected = 0;
         List<Choice> result = new ArrayList<Choice>();
         Config config = getConfig();
         RulesEngine rules = installData.getRules();
-        String variableValue = installData.getVariable(getVariable());
         for (IXMLElement choice : getSpec().getChildrenNamed("choice"))
         {
             String processorClass = choice.getAttribute("processor");
@@ -66,16 +73,11 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
                     throw new IzPackException("Failed to get choices from processor=" + processorClass + " in "
                             + config.getContext(choice), exception);
                 }
-                String set = config.getString(choice, "set", null);
                 StringTokenizer tokenizer = new StringTokenizer(values, ":");
 
                 while (tokenizer.hasMoreTokens())
                 {
                     String token = tokenizer.nextToken();
-                    if (token.equals(set))
-                    {
-                        selected = result.size();
-                    }
                     if (isDisplayed(rules, conditionId))
                     {
                         result.add(new Choice(token, token));
@@ -85,10 +87,6 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
             else
             {
                 String value = config.getAttribute(choice, "value");
-                if (isSelected(value, choice, variableValue))
-                {
-                    selected = result.size();
-                }
                 if (isDisplayed(rules, conditionId))
                 {
                     result.add(new Choice(value, getText(choice)));
@@ -124,9 +122,15 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
         }
         else
         {
-            result = getConfig().getBoolean(choice, "set", false);
+            result = (defaultValue != null && defaultValue.equals(variableValue));
         }
         return result;
+    }
+
+    @Override
+    public String getDefaultValue()
+    {
+        return defaultValue;
     }
 
     /**
