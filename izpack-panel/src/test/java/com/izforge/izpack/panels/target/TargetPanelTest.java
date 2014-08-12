@@ -88,6 +88,9 @@ public class TargetPanelTest extends AbstractPanelTest
 
     /**
      * Situation: Empty path is entered during target panel
+     *   This is very similar to the testDirectoryExists test, since the current user directory (where JVM was started)
+     *   is most likley to exist. How would you start the JVM from a non-existential location?
+     *
      * 1. Emit a warning in the form of a question
      * 2. Ensure target panel warning is shown in the warning question prompt
      * 3. Ensure that the installation path is set to the 'user.dir' system property.
@@ -165,7 +168,7 @@ public class TargetPanelTest extends AbstractPanelTest
         // attempt to navigate to the next panel
         fixture.button(GuiId.BUTTON_NEXT.id).click();
         Thread.sleep(1000);
-        checkQuestionMessage(fixture, installData.getMessages().get("TargetPanel.warn"));
+        checkWarningQuestion(fixture, installData.getMessages().get("TargetPanel.warn"));
 
         Thread.sleep(1000);
         assertEquals(dir.getAbsolutePath(), installData.getInstallPath());
@@ -180,7 +183,7 @@ public class TargetPanelTest extends AbstractPanelTest
     @Test
     public void testNotWritable() throws Exception
     {
-        File root = temporaryFolder.getRoot();
+        File root = File.listRoots()[0];
         File dir = new File(root, "install");
 
         GUIInstallData installData = getInstallData();

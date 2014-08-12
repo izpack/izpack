@@ -240,5 +240,11 @@ public class ExecutableFileTest extends AbstractDestroyerTest
         {
             return 0;
         }
+
+        @Override
+        public int askWarningQuestion(String title, String question, int choices, int default_choice)
+        {
+            return 0;
+        }
     }
 }
