@@ -361,7 +361,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
      */
     protected boolean checkOverwrite(File dir)
     {
-        return askQuestion(getString("installer.warning"), warnMsg,
+        return askWarningQuestion(getString("installer.warning"), warnMsg,
                            AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES)
                 == AbstractUIHandler.ANSWER_YES;
     }

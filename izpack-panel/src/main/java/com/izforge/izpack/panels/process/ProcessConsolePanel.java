@@ -75,6 +75,12 @@ public class ProcessConsolePanel extends AbstractConsolePanel implements Console
         return handler.askQuestion(title, question, choices, default_choice);
     }
 
+    @Override
+    public int askWarningQuestion(String title, String question, int choices, int default_choice)
+    {
+        return 0;
+    }
+
     public void logOutput(String message, boolean stderr)
     {
         if (stderr)

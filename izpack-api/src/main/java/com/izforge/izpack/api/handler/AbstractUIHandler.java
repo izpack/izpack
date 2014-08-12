@@ -102,4 +102,14 @@ public interface AbstractUIHandler
      */
     public int askQuestion(String title, String question, int choices, int default_choice);
 
+    /**
+     * Ask the use a question in the form of a warning.
+     *
+     * @param title          The title of the question (useful for dialogs). Might be null.
+     * @param question       The question.
+     * @param choices        The set of choices to present. Either CHOICES_YES_NO or CHOICES_YES_NO_CANCEL
+     * @param default_choice The default choice. One of ANSWER_CANCEL, ANSWER_YES or ANSWER_NO.
+     * @return The user's choice. (ANSWER_CANCEL, ANSWER_YES or ANSWER_NO)
+     */
+    public int askWarningQuestion(String title, String question, int choices, int default_choice);
 }

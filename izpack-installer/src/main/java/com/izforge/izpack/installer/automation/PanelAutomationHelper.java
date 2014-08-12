@@ -35,7 +35,7 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
     /*
      * @see com.izforge.izpack.api.handler.AbstractUIHandler#emitNotification(java.lang.String)
      */
-
+    @Override
     public void emitNotification(String message)
     {
         System.out.println(message);
@@ -45,7 +45,7 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
      * @see com.izforge.izpack.api.handler.AbstractUIHandler#emitWarning(java.lang.String,
      * java.lang.String)
      */
-
+    @Override
     public boolean emitWarning(String title, String message)
     {
         System.err.println("[ WARNING: " + message + " ]");
@@ -56,7 +56,7 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
     /*
      * @see com.izforge.izpack.api.handler.AbstractUIHandler#emitError(java.lang.String, java.lang.String)
      */
-
+    @Override
     public void emitError(String title, String message)
     {
         System.err.println("[ ERROR: " + message + " ]");
@@ -66,7 +66,7 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
     * @see com.izforge.izpack.api.handler.AbstractUIHandler#emitErrorAndBlockNext(java.lang.String,
     * java.lang.String)
     */
-
+    @Override
     public void emitErrorAndBlockNext(String title, String message)
     {
         emitError(title, message);
@@ -76,7 +76,7 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
      * @see com.izforge.izpack.api.handler.AbstractUIHandler#askQuestion(java.lang.String,
      * java.lang.String, int)
      */
-
+    @Override
     public int askQuestion(String title, String question, int choices)
     {
         // don't know what to answer
@@ -87,10 +87,15 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
      * @see com.izforge.izpack.api.handler.AbstractUIHandler#askQuestion(java.lang.String,
      * java.lang.String, int, int)
      */
-
+    @Override
     public int askQuestion(String title, String question, int choices, int default_choice)
     {
         return default_choice;
     }
 
+    @Override
+    public int askWarningQuestion(String title, String question, int choices, int default_choice)
+    {
+        return askQuestion(title, question,  choices, default_choice);
+    }
 }

@@ -358,6 +358,12 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
         return new PromptUIHandler(new GUIPrompt(this)).askQuestion(title, question, choices, defaultChoice);
     }
 
+    @Override
+    public int askWarningQuestion(final String title, final String question, int choices, int defaultChoice)
+    {
+        return new PromptUIHandler(new GUIPrompt(this)).askWarningQuestion(title, question, choices, defaultChoice);
+    }
+
     public boolean emitNotificationFeedback(final String message)
     {
         return emitWarning(getString("installer.Message"), message);
