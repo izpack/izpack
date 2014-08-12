@@ -47,8 +47,18 @@
         </field>
         <field type="combo" variable="combo4">
             <spec txt="Combo4:" id="combo4.id">
+                <choice txt="Value 1" value="value1"/>
+                <choice txt="Value 2" value="value2"/>
+                <choice txt="Value 3" value="value3"/>
+                <choice txt="Value 4" value="value4" set="true"/>
+            </spec>
+        </field>
+        <!-- Choices expect a value processor does not seem supported any longer
+        <field type="combo" variable="combo4">
+            <spec txt="Combo4:" id="combo4.id">
                 <choice processor="com.izforge.izpack.panels.userinput.ComboProcessor" set="value4"/>
             </spec>
         </field>
+        -->
     </panel>
 </izpack:userInput>
