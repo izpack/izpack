@@ -189,6 +189,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         InstallData installData = getInstallData();
 
         installData.setVariable("combo2", "value3"); // should select the 3rd value
+        installData.setVariable("combo4", "value4"); // should select the 4rd value
 
         // show the panel
         FrameFixture frame = showUserInputPanel("comboinput");
@@ -202,7 +203,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         // for combo3, there is no initial selection, so default to first value
         checkCombo("combo3", "value1", frame);
 
-        // for combo4, the initial selection is determined by the 'set' attribute
+        // for combo4,  the initial selection is determined by the "combo4" variable and override the set attribute
         checkCombo("combo4", "value4", frame);
 
         frame.comboBox("combo1").component().setSelectedIndex(0);
