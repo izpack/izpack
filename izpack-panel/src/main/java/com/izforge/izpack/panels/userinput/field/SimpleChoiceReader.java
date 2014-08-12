@@ -149,6 +149,7 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
     public int getSelectedIndex(String variable)
     {
         int selected = 0;
+        int result = 0;
         Config config = getConfig();
         RulesEngine rules = installData.getRules();
         String variableValue = installData.getVariable(variable);
@@ -156,9 +157,13 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
         {
             String value = config.getAttribute(choice, "value");
             String conditionId = config.getString(choice, "conditionid", null);
+            String set = config.getAttribute(choice, "set", true);
             if(variableValue == null)
             {
-               return  selected;
+                if(set != null && set.equalsIgnoreCase("true"))
+                {
+                    result = selected;
+                }
             }
             else
             {
@@ -169,7 +174,7 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
             }
             selected ++;
         }
-        return 0;
+        return result;
     }
 
     private boolean isDisplayed(RulesEngine rules, String conditionId)
