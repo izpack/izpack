@@ -98,7 +98,7 @@ public class VariableCondition extends Condition
             else
             {
                 Variables variables = installData.getVariables();
-                return val.equals(variables.replace(value));
+                return variables.replace(val).equals(variables.replace(value));
             }
         }
         else
