@@ -57,6 +57,7 @@ public class UserInputPanelAutomationHelper extends PanelAutomationHelper implem
     private static final String AUTO_ATTRIBUTE_KEY = "key";
 
     private static final String AUTO_ATTRIBUTE_VALUE = "value";
+
     private static final String AUTO_PROMPT_KEY = "UserInputPanelAutomationHelper.MissingValue.Prompt";
 
     private Set<String> variables;
@@ -151,6 +152,7 @@ public class UserInputPanelAutomationHelper extends PanelAutomationHelper implem
     {
         String variable;
         String value;
+        String msg = idata.getMessages().get(AUTO_PROMPT_KEY);
 
         List<IXMLElement> userEntries = panelRoot.getChildrenNamed(AUTO_KEY_ENTRY);
 
@@ -167,7 +169,7 @@ public class UserInputPanelAutomationHelper extends PanelAutomationHelper implem
             value = dataElement.getAttribute(AUTO_ATTRIBUTE_VALUE);
 
             if (value == null) {
-                value = requestInput(String.format("Please enter a value for %s", variable));
+                value = requestInput(String.format(msg, variable));
             }
             value = variables.replace(value);
 
