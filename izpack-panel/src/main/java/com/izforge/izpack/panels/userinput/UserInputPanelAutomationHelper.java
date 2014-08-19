@@ -22,21 +22,19 @@
 
 package com.izforge.izpack.panels.userinput;
 
-import java.util.*;
-import java.util.logging.Logger;
-
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.installer.automation.PanelAutomation;
-import com.izforge.izpack.panels.userinput.console.custom.ConsoleCustomField;
+import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.panels.userinput.field.AbstractFieldView;
 import com.izforge.izpack.panels.userinput.field.FieldView;
-import com.izforge.izpack.panels.userinput.field.custom.CustomField;
 import com.izforge.izpack.panels.userinput.field.custom.CustomFieldType;
-import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
+
+import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Functions to support automated usage of the UserInputPanel
@@ -44,7 +42,7 @@ import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
  * @author Jonathan Halliday
  * @author Elmar Grom
  */
-public class UserInputPanelAutomationHelper implements PanelAutomation
+public class UserInputPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation
 {
     private static final Logger logger = Logger.getLogger(UserInputPanelAutomationHelper.class.getName());
 
@@ -59,6 +57,7 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
     private static final String AUTO_ATTRIBUTE_KEY = "key";
 
     private static final String AUTO_ATTRIBUTE_VALUE = "value";
+    private static final String AUTO_PROMPT_KEY = "UserInputPanelAutomationHelper.MissingValue.Prompt";
 
     private Set<String> variables;
 
@@ -67,10 +66,7 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
     /**
      * Default constructor, used during automated installation.
      */
-    public UserInputPanelAutomationHelper()
-    {
-
-    }
+    public UserInputPanelAutomationHelper() { }
 
     /**
      *
@@ -169,6 +165,10 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
 
             // Substitute variable used in the 'value' field
             value = dataElement.getAttribute(AUTO_ATTRIBUTE_VALUE);
+
+            if (value == null) {
+                value = requestInput(String.format("Please enter a value for %s", variable));
+            }
             value = variables.replace(value);
 
             logger.fine("Setting variable " + variable + " to " + value);
