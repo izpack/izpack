@@ -336,9 +336,6 @@ file we looked for -->
     <!-- AutomatedInstaller Strings -->
     <str id="AutomatedInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
 
-    <!-- AutomatedInstaller strings -->
-    <str id="AutomatedInstaller.missingValuePrompt" txt="Please enter the value for {0}:"/>
-
     <!-- Next Media Strings -->
     <str id="nextmedia.title" txt="Next install media"/>
     <str id="nextmedia.msg" txt="Choose the next install media."/>
