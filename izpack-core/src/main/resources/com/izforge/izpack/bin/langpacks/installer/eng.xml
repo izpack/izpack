@@ -130,6 +130,7 @@
          txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.syntax.error"
          txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TargetPanelAutomation.MissingValue.Prompt" txt="Enter the installation path."/>
 
     <!-- JDKPathPanel strings -->
     <str id="JDKPathPanel.extendedIntro"
@@ -147,6 +148,9 @@
          txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt;
          If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,
          to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanelAutomationHelper.MissingPath.Prompt" txt="Please enter the JDK path."/>
+    <str id="JDKPathPanelAutomationHelper.MissingVar.Prompt" txt="Please enter the JDK variable."/>
+
 
     <!-- PacksPanel strings -->
     <str id="PacksPanel.info" txt="Select the packs you want to install:"/>
@@ -258,6 +262,7 @@ file we looked for -->
     <str id="UserInputPanel.search.wrongselection.message"
          txt="The file or directory you have chosen either does not exist or is not appropriate."/>
     <str id="UserInputPanel.search.wrongselection.caption" txt="Invalid Selection"/>
+    <str id="UserInputPanelAutomationHelper.MissingValue.Prompt" txt="Enter a value for %s."/>
 
     <!-- UserPathPanel strings -->
     <str id="UserPathPanel.required" txt="The chosen directory should exist."/>
@@ -271,6 +276,7 @@ file we looked for -->
     <str id="UserPathPanel.nodir" txt="This file is not a directory! Please choose a directory!"/>
     <str id="UserPathPanel.notwritable"
          txt="This directory can not be written! Please choose another directory!"/>
+    <str id="UserPathPanelAutomationHelper.MissingValue.Prompt" txt="Enter a path for %s."/>
 
     <!-- CompilePanel strings -->
     <str id="CompilePanel.heading" txt="Compilation"/>

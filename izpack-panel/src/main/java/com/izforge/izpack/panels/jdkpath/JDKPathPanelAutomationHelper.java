@@ -9,7 +9,8 @@ import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 
 public class JDKPathPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation
 {
-    private static final String AUTO_PROMPT_KEY = "JDKPathPanelAutomationHelper.MissingValue.Prompt";
+    private static final String PATH_PROMPT_KEY = "JDKPathPanelAutomationHelper.MissingPath.Prompt";
+    private static final String VAR_PROMPT_KEY = "JDKPathPanelAutomationHelper.MissingVar.Prompt";
 
     @Override
     public void createInstallationRecord(InstallData installData, IXMLElement rootElement)
@@ -29,19 +30,20 @@ public class JDKPathPanelAutomationHelper extends PanelAutomationHelper implemen
     @Override
     public void runAutomated(InstallData installData, IXMLElement panelRoot) throws InstallerException
     {
-        String msg = installData.getMessages().get(AUTO_PROMPT_KEY);
         IXMLElement jdkPathElement = panelRoot.getFirstChildNamed("jdkPath");
         String jdkPath = jdkPathElement.getContent();
 
         if (jdkPath == null) {
-            jdkPath = requestInput(String.format(msg, "jdkPath"));
+            String msg = installData.getMessages().get(PATH_PROMPT_KEY);
+            jdkPath = requestInput(msg);
         }
 
         IXMLElement jdkVarNameElement = panelRoot.getFirstChildNamed("jdkVarName");
         String jdkVarName = jdkVarNameElement.getContent();
 
         if (jdkVarName == null) {
-            jdkVarName = requestInput(String.format(msg, "jdkVarName"));
+            String msg = installData.getMessages().get(VAR_PROMPT_KEY);
+            jdkVarName = requestInput(msg);
         }
 
         installData.setVariable(jdkVarName, jdkPath);
