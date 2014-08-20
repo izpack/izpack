@@ -37,8 +37,6 @@ public class Platform
      */
     public static final String [] invalidWindowsDirectoryChars = {"<", ">", ":", "\"", "/", "\\\\", "|", "?", "*", "\\ "};
 
-    public static final String [] invalidUnknownDirectoryChars = {""};
-
     /**
      * Platform family name.
      */
