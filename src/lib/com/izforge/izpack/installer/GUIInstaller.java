@@ -170,6 +170,7 @@ public class GUIInstaller extends InstallerBase
 
         // load dynamic variables
         loadDynamicVariables();
+        refreshDynamicVariables(new VariableSubstitutor(installdata.getVariables()), installdata);
 
         // Load custom langpack if exist.
         addCustomLangpack(installdata);

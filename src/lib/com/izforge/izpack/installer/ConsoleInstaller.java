@@ -91,6 +91,8 @@ public class ConsoleInstaller extends InstallerBase
         loadConditions(installdata);
         loadInstallerRequirements();
         loadDynamicVariables();
+        refreshDynamicVariables(new VariableSubstitutor(installdata.getVariables()), installdata);
+        
         addCustomLangpack(installdata);
         //if (!checkInstallerRequirements(installdata))
         //{

@@ -108,6 +108,8 @@ public class AutomatedInstaller extends InstallerBase
 
         // load dynamic variables
         loadDynamicVariables();
+        refreshDynamicVariables(new VariableSubstitutor(idata.getVariables()), idata);
+        
     }
 
     /**

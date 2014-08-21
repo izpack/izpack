@@ -43,6 +43,7 @@ public class TargetPanel extends PathInputPanel
     private static final long serialVersionUID = 3256443616359429170L;
 
     private boolean noWhitespaces;
+    private static boolean userSet = false;
     
     public static String loadDefaultDirFromVariables(Properties vars)
     {
@@ -95,7 +96,7 @@ public class TargetPanel extends PathInputPanel
         // load the default directory info (if present)
         loadDefaultDir();
         String defDir = getDefaultDir();
-        if (defDir != null)
+        if (!userSet && defDir != null)
         {
             // override the system default that uses app name (which is set in
             // the Installer class)
@@ -145,6 +146,7 @@ public class TargetPanel extends PathInputPanel
             return (false);
         }
         idata.setInstallPath(pathSelectionPanel.getPath());
+        userSet = true;
         return (true);
     }
 

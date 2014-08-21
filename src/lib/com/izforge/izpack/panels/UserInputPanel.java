@@ -599,24 +599,27 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
             // extract the specification details
             // ----------------------------------------------------
             set = element.getAttribute(SET);
-            if (set == null)
-            {
-                set = idata.getVariable(variable);
                 if (set == null)
                 {
-                    set = "";
+                    set = idata.getVariable(variable);
+                    if (set == null)
+                    {
+                        set = "";
+                    }
                 }
-            }
-            else
-            {
-                if (set != null && !"".equals(set))
+                else
                 {
-                    VariableSubstitutor vs = new VariableSubstitutor(idata.getVariables());
-                    set = vs.substitute(set, null);
-
-                    idata.setVariable(variable, set);
+                    if (set != null && !"".equals(set))
+                    {
+                        VariableSubstitutor vs = new VariableSubstitutor(idata.getVariables());
+                        set = vs.substitute(set, null);
+    
+                        if (idata.getVariable(variable)==null || "".equals(idata.getVariable(variable)))
+                        {
+                            idata.setVariable(variable, set);
+                        }
+                    }
                 }
-            }
 
             try
             {
@@ -832,23 +835,26 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
             // extract the specification details
             // ----------------------------------------------------
             set = element.getAttribute(SET);
-            if (set == null)
-            {
-                set = idata.getVariable(variable);
                 if (set == null)
                 {
-                    set = "";
+                    set = idata.getVariable(variable);
+                    if (set == null)
+                    {
+                        set = "";
+                    }
                 }
-            }
-            else
-            {
-                if (set != null && !"".equals(set))
+                else
                 {
-                    VariableSubstitutor vs = new VariableSubstitutor(idata.getVariables());
-                    set = vs.substitute(set, null);
-                    idata.setVariable(variable, set);
+                    if (set != null && !"".equals(set))
+                    {
+                        VariableSubstitutor vs = new VariableSubstitutor(idata.getVariables());
+                        set = vs.substitute(set, null);
+                        if (idata.getVariable(variable)!=null && !"".equals(idata.getVariable(variable)))
+                        {
+                            idata.setVariable(variable, set);
+                        }
+                    }
                 }
-            }
 
             try
             {
