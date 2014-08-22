@@ -24,6 +24,7 @@ package com.izforge.izpack.installer.automation;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -235,6 +236,13 @@ public class AutomatedInstaller implements InstallerBase
         in.close();
 
         return rtn;
+    }
+
+    public void addCmdLineVariables(HashMap<String, String> argVariables)
+    {
+        for (String key : argVariables.keySet()){
+            installData.setVariable(key, argVariables.get(key));
+        }
     }
 
     @Override

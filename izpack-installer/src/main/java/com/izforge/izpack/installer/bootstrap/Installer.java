@@ -32,11 +32,11 @@ import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.StringTool;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -121,7 +121,7 @@ public class Installer
     private void start(String[] args)
     {
         logger.info("Commandline arguments: " + StringTool.stringArrayToSpaceSeparatedString(args));
-
+        HashMap<String,String> argVariables = new HashMap<String,String>();
         // OS X tweaks
         if (System.getProperty("mrj.version") != null)
         {
@@ -180,6 +180,42 @@ public class Installer
                     {
                         media = args_it.next().trim();
                     }
+                    else if ("-variables".equalsIgnoreCase(arg))
+                    {
+                        String newVars = args_it.next().trim();
+                        String [] keyValPairs = newVars.split(",");
+
+                        for (String pair : keyValPairs) {
+                            String[] keyVal = pair.split("=");
+                            argVariables.put(keyVal[0], keyVal[1]);
+                        }
+                    }
+                    else if ("-varfile".equalsIgnoreCase(arg)) {
+                        String pwdFilePath = args_it.next().trim();
+                        File pwdFile = new File(pwdFilePath);
+                        if (pwdFile.exists()) {
+                            Properties props = new Properties();
+                            try {
+                                props.load(new FileInputStream(pwdFile));
+                            } catch (IOException ioe) {
+                                System.err.println("There was an error reading the variable file.");
+                                ioe.printStackTrace();
+                            } catch (IllegalArgumentException iae) {
+                                System.err.println("The variable file seems to be malformed.");
+                                iae.printStackTrace();
+                            }
+                            if (!props.stringPropertyNames().isEmpty()) {
+                                for (String key : props.stringPropertyNames()) {
+                                    argVariables.put(key, props.getProperty(key));
+                                }
+                            } else {
+                                System.err.println("The variable file was empty.");
+                            }
+                        } else {
+                            System.err.println("- ERROR -");
+                            System.err.println("Given properties file does not exist.");
+                        }
+                    }
                     else
                     {
                         type = INSTALLER_AUTO;
@@ -193,7 +229,7 @@ public class Installer
                 }
             }
 
-            launchInstall(type, consoleAction, path, langcode, media, args);
+            launchInstall(type, consoleAction, path, langcode, media, args, argVariables);
 
         }
         catch (Exception e)
@@ -204,7 +240,7 @@ public class Installer
     }
 
     private void launchInstall(int type, int consoleAction, String path, String langCode,
-                               String mediaDir, String[] args) throws Exception
+                               String mediaDir, String[] args, HashMap<String, String> argVariables) throws Exception
     {
         // if headless, just use the console mode
         if (type == INSTALLER_GUI && GraphicsEnvironment.isHeadless())
@@ -221,7 +257,7 @@ public class Installer
                 break;
 
             case INSTALLER_AUTO:
-                launchAutomatedInstaller(path, mediaDir, args);
+                launchAutomatedInstaller(path, mediaDir, args, argVariables);
                 break;
 
             case INSTALLER_CONSOLE:
@@ -237,11 +273,12 @@ public class Installer
      * @param mediaDir the multi-volume media directory. May be <tt>null</tt>
      * @throws Exception for any error
      */
-    private void launchAutomatedInstaller(String path, String mediaDir, String[] args) throws Exception
+    private void launchAutomatedInstaller(String path, String mediaDir, String[] args, HashMap<String, String> argVariables) throws Exception
     {
         InstallerContainer container = new ConsoleInstallerContainer();
         AutomatedInstaller automatedInstaller = container.getComponent(AutomatedInstaller.class);
         automatedInstaller.init(path, mediaDir, args);
+        automatedInstaller.addCmdLineVariables(argVariables);
         automatedInstaller.doInstall();
     }
 
