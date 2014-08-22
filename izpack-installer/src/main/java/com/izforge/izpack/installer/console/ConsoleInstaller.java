@@ -23,6 +23,7 @@ package com.izforge.izpack.installer.console;
 
 import java.io.*;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -401,6 +402,13 @@ public class ConsoleInstaller implements InstallerBase
         finally
         {
             FileUtils.close(in);
+        }
+    }
+
+    public void addCmdLineVariables(HashMap<String, String> argVariables)
+    {
+        for (String key : argVariables.keySet()){
+            installData.setVariable(key, argVariables.get(key));
         }
     }
 

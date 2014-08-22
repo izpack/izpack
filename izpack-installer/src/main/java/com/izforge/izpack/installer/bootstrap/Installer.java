@@ -261,7 +261,7 @@ public class Installer
                 break;
 
             case INSTALLER_CONSOLE:
-                launchConsoleInstaller(consoleAction, path, langCode, mediaDir, args);
+                launchConsoleInstaller(consoleAction, path, langCode, mediaDir, args, argVariables);
                 break;
         }
     }
@@ -290,7 +290,7 @@ public class Installer
      * @param langCode      the language code. May be <tt>null</tt>
      * @param mediaDir      the multi-volume media directory. May be <tt>null</tt>
      */
-    private void launchConsoleInstaller(int consoleAction, String path, String langCode, String mediaDir, String[] args)
+    private void launchConsoleInstaller(int consoleAction, String path, String langCode, String mediaDir, String[] args, HashMap<String, String> argVariables)
     {
         InstallerContainer container = new ConsoleInstallerContainer();
         if (langCode != null)
@@ -299,6 +299,7 @@ public class Installer
         }
         ConsoleInstaller consoleInstaller = container.getComponent(ConsoleInstaller.class);
         consoleInstaller.setMediaPath(mediaDir);
+        consoleInstaller.addCmdLineVariables(argVariables);
         consoleInstaller.run(consoleAction, path, args);
     }
 
