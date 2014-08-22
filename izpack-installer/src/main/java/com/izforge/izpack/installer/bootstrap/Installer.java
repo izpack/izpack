@@ -253,7 +253,7 @@ public class Installer
         switch (type)
         {
             case INSTALLER_GUI:
-                InstallerGui.run(mediaDir);
+                InstallerGui.run(mediaDir, argVariables);
                 break;
 
             case INSTALLER_AUTO:

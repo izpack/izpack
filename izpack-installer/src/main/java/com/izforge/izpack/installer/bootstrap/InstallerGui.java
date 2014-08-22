@@ -31,6 +31,7 @@ import com.izforge.izpack.installer.gui.SplashScreen;
 import com.izforge.izpack.installer.language.LanguageDialog;
 
 import javax.swing.*;
+import java.util.HashMap;
 
 /**
  * Gui-dedicated installer bootstrap
@@ -38,7 +39,7 @@ import javax.swing.*;
 public class InstallerGui
 {
 
-    public static void run(final String mediaPath) throws Exception
+    public static void run(final String mediaPath, final HashMap<String, String> argVariables) throws Exception
     {
         final InstallerContainer applicationComponent = new GUIInstallerContainer();
         final Container installerContainer = applicationComponent.getComponent(Container.class);
@@ -56,6 +57,13 @@ public class InstallerGui
                     {
                         InstallData installData = applicationComponent.getComponent(InstallData.class);
                         installData.setMediaPath(mediaPath);
+                    }
+
+                    if (! argVariables.isEmpty()){
+                        InstallData installData = applicationComponent.getComponent(InstallData.class);
+                        for ( String key : argVariables.keySet()){
+                            installData.setVariable(key, argVariables.get(key));
+                        }
                     }
 
                     InstallerController controller = installerContainer.getComponent(InstallerController.class);
