@@ -190,7 +190,7 @@ public class Installer
                             argVariables.put(keyVal[0], keyVal[1]);
                         }
                     }
-                    else if ("-varfile".equalsIgnoreCase(arg)) {
+                    else if ("-variablefile".equalsIgnoreCase(arg)) {
                         String pwdFilePath = args_it.next().trim();
                         File pwdFile = new File(pwdFilePath);
                         if (pwdFile.exists()) {
