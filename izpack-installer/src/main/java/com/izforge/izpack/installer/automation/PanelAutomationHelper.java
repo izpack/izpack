@@ -22,7 +22,10 @@
 package com.izforge.izpack.installer.automation;
 
 import com.izforge.izpack.api.handler.AbstractUIHandler;
-import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.gui.GUIPrompt;
+import com.izforge.izpack.util.Console;
+
+import java.awt.*;
 
 /**
  * Abstract class implementing basic functions needed by all panel automation helpers.
@@ -31,7 +34,6 @@ import com.izforge.izpack.util.Housekeeper;
  */
 abstract public class PanelAutomationHelper implements AbstractUIHandler
 {
-
     /*
      * @see com.izforge.izpack.api.handler.AbstractUIHandler#emitNotification(java.lang.String)
      */
@@ -97,5 +99,24 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
     public int askWarningQuestion(String title, String question, int choices, int default_choice)
     {
         return askQuestion(title, question,  choices, default_choice);
+    }
+
+    /**
+     * Used to request input from the user when a value is missing from an auto-xml during automated installations.
+     * @return
+     */
+    protected String requestInput(String prompt) {
+        String value = "";
+
+        if (GraphicsEnvironment.isHeadless())
+        {
+            Console console = new Console();
+            value = console.prompt(prompt, "");
+        } else {
+            GUIPrompt guiPrompt = new GUIPrompt();
+            value = guiPrompt.askForValue(prompt);
+        }
+
+        return value;
     }
 }

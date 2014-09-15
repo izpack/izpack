@@ -21,20 +21,13 @@
 
 package com.izforge.izpack.gui;
 
-import static com.izforge.izpack.api.handler.Prompt.Option.CANCEL;
-import static com.izforge.izpack.api.handler.Prompt.Option.NO;
-import static com.izforge.izpack.api.handler.Prompt.Option.OK;
-import static com.izforge.izpack.api.handler.Prompt.Option.YES;
+import com.izforge.izpack.api.handler.AbstractPrompt;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
-import com.izforge.izpack.api.handler.AbstractPrompt;
+import static com.izforge.izpack.api.handler.Prompt.Option.*;
 
 
 /**
@@ -104,6 +97,40 @@ public class GUIPrompt extends AbstractPrompt
             title = getTitle(type);
         }
         showMessageDialog(getMessageType(type), title, message);
+    }
+
+    /**
+     * Asks the user to input a value.
+     * @param msg the message to prompt the user with.
+     */
+    public String askForValue(final String message) {
+        String value = "";
+
+        if (SwingUtilities.isEventDispatchThread())
+        {
+            value = JOptionPane.showInputDialog(parent, message);
+        }
+        else
+        {
+            final String[] input = new String[1];
+            try
+            {
+                SwingUtilities.invokeAndWait(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        input[0] = JOptionPane.showInputDialog(parent, message);
+                    }
+                });
+            }
+            catch (Throwable exception)
+            {
+                throw new IllegalStateException(exception);
+            }
+            value = input[0];
+        }
+        return value;
     }
 
     /**

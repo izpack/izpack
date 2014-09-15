@@ -26,6 +26,7 @@ import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.installer.automation.PanelAutomation;
+import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 
 /**
  * Functions to support automated usage of the TargetPanel
@@ -33,8 +34,10 @@ import com.izforge.izpack.installer.automation.PanelAutomation;
  * @author Jonathan Halliday
  * @author Julien Ponge
  */
-public class TargetPanelAutomation implements PanelAutomation
+public class TargetPanelAutomation extends PanelAutomationHelper implements PanelAutomation
 {
+    private static final String AUTO_PROMPT_KEY = "TargetPanelAutomation.MissingValue.Prompt";
+
     public TargetPanelAutomation()
     {
     }
@@ -60,11 +63,17 @@ public class TargetPanelAutomation implements PanelAutomation
     @Override
     public void runAutomated(InstallData installData, IXMLElement panelRoot)
     {
+        String msg = installData.getMessages().get(AUTO_PROMPT_KEY);
         // We set the installation path
         IXMLElement ipath = panelRoot.getFirstChildNamed("installpath");
 
         // Allow for variable substitution of the installpath value
         String path = ipath.getContent();
+
+        if (path == null) {
+            path = requestInput(String.format(msg));
+        }
+
         path = installData.getVariables().replace(path);
         if (TargetPanelHelper.isIncompatibleInstallation(path))
         {
