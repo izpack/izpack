@@ -2977,7 +2977,7 @@ public class CompilerConfig extends Thread
                     String stage = xmlCompilerHelper.requireAttribute(action, PanelAction.PANEL_ACTION_STAGE_TAG);
                     String actionName = xmlCompilerHelper.requireAttribute(action,
                                                                            PanelAction.PANEL_ACTION_CLASSNAME_TAG);
-                    Class actionType = classLoader.loadClass(actionName, PanelAction.class);
+                    Class<PanelAction> actionType = classLoader.loadClass(actionName, PanelAction.class);
 
                     List<IXMLElement> params = action.getChildrenNamed("param");
                     PanelActionConfiguration config = new PanelActionConfiguration(actionType.getName());
