@@ -156,7 +156,7 @@ public class Debugger
 
         variablesrenderer.clearState();
         // check for changed and new variables
-        Enumeration currentvariableskeys = currentvariables.keys();
+        Enumeration<?> currentvariableskeys = currentvariables.keys();
         boolean changes = false;
         while (currentvariableskeys.hasMoreElements())
         {
