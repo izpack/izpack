@@ -39,6 +39,7 @@ import com.izforge.izpack.api.data.PackColor;
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.data.binding.Stage;
 import com.izforge.izpack.api.event.InstallerListener;
+import com.izforge.izpack.api.event.Listener;
 import com.izforge.izpack.api.event.UninstallerListener;
 import com.izforge.izpack.api.exception.CompilerException;
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
@@ -378,7 +379,7 @@ public class Compiler extends Thread
     public void addListener(String className, Stage stage, List<OsModel> constraints)
     {
         int type = (stage == Stage.install) ? CustomData.INSTALLER_LISTENER : CustomData.UNINSTALLER_LISTENER;
-        Class clazz;
+        Class<? extends Listener> clazz;
         if (stage == Stage.install)
         {
             clazz = loader.loadClass(className, InstallerListener.class);

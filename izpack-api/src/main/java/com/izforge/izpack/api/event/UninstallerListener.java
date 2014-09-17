@@ -35,7 +35,7 @@ import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
  * @author Klaus Bartz
  * @author Tim Anderson
  */
-public interface UninstallerListener
+public interface UninstallerListener extends Listener
 {
 
     // ------------------------------------------------------------------------

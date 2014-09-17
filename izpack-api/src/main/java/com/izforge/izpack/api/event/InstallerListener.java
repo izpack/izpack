@@ -40,7 +40,7 @@ import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
  * @author Klaus Bartz
  * @author Tim Anderson
  */
-public interface InstallerListener
+public interface InstallerListener extends Listener
 {
 
     // ------------------------------------------------------------------------
