@@ -53,14 +53,6 @@ public interface UninstallerListener extends Listener
     @Deprecated
     public static final int AFTER_DELETE = 4;
 
-
-    /**
-     * Initialises the listener.
-     *
-     * @throws IzPackException for any error
-     */
-    void initialise();
-
     /**
      * Invoked before files are deleted.
      *

@@ -72,13 +72,6 @@ public interface InstallerListener extends Listener
     public static final int AFTER_PACKS = 8;
 
     /**
-     * Initialises the listener.
-     *
-     * @throws IzPackException for any error
-     */
-    void initialise();
-
-    /**
      * Invoked before packs are installed.
      *
      * @param packs the packs to be installed
