@@ -369,7 +369,7 @@ public class IzPackTask extends Task implements PackagerListener
         property.execute(); // don't call perform(), so no build events triggered
 
         Properties props = property.getProperties();
-        Enumeration e = props.keys();
+        Enumeration<?> e = props.keys();
         while (e.hasMoreElements())
         {
             String name = (String) e.nextElement();
