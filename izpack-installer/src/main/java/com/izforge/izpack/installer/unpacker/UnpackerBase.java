@@ -1401,10 +1401,6 @@ public abstract class UnpackerBase implements IUnpacker
         return matcher;
     }
 
-    protected boolean isResult() {
-        return result;
-    }
-
     protected Cancellable getCancellable() {
         return cancellable;
     }
