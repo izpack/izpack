@@ -75,82 +75,82 @@ public abstract class UnpackerBase implements IUnpacker
     /**
      * The installation data.
      */
-    protected final InstallData installData;
+    private final InstallData installData;
 
     /**
      * The uninstallation data.
      */
-    protected final UninstallData uninstallData;
+    private final UninstallData uninstallData;
 
     /**
      * The pack resources.
      */
-    protected final PackResources resources;
+    private final PackResources resources;
 
     /**
      * The rules engine.
      */
-    protected final RulesEngine rules;
+    private final RulesEngine rules;
 
     /**
      * The variable replacer.
      */
-    protected final VariableSubstitutor variableSubstitutor;
+    private final VariableSubstitutor variableSubstitutor;
 
     /**
      * The file queue factory.
      */
-    protected final FileQueueFactory queueFactory;
+    private final FileQueueFactory queueFactory;
 
     /**
      * The housekeeper.
      */
-    protected final Housekeeper housekeeper;
+    private final Housekeeper housekeeper;
 
     /**
      * The listeners.
      */
-    protected final InstallerListeners listeners;
+    private final InstallerListeners listeners;
 
     /**
      * The installer listener.
      */
-    protected ProgressListener listener;
+    private ProgressListener listener;
 
     /**
      * The absolute path of the source installation jar.
      */
-    protected File absoluteInstallSource;
+    private File absoluteInstallSource;
 
     /**
      * The Pack200 unpacker.
      */
-    protected Pack200.Unpacker unpacker;
+    private Pack200.Unpacker unpacker;
 
     /**
      * The prompt.
      */
-    protected final Prompt prompt;
+    private final Prompt prompt;
 
     /**
      * The platform-model matcher.
      */
-    protected final PlatformModelMatcher matcher;
+    private final PlatformModelMatcher matcher;
 
     /**
      * The result of the operation.
      */
-    protected boolean result = true;
+    private boolean result = true;
 
     /**
      * Determines if unpack operations should be cancelled.
      */
-    protected final Cancellable cancellable;
+    private final Cancellable cancellable;
 
     /**
      * The unpacking state.
      */
-    protected enum State
+    private enum State
     {
         READY, UNPACKING, INTERRUPT, INTERRUPTED
     }
@@ -158,12 +158,12 @@ public abstract class UnpackerBase implements IUnpacker
     /**
      * The current unpacking state.
      */
-    protected State state = State.READY;
+    private State state = State.READY;
 
     /**
      * If <tt>true</tt>, prevent interrupts.
      */
-    protected boolean disableInterrupt = false;
+    private boolean disableInterrupt = false;
 
     /**
      * The logger.
