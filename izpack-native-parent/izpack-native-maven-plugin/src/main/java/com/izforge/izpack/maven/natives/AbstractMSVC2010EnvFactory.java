@@ -45,7 +45,7 @@ public abstract class AbstractMSVC2010EnvFactory extends AbstractMSVCEnvFactory
      * @throws NativeBuildException for any error
      */
     @Override
-    public Map getEnvironmentVariables() throws NativeBuildException
+    public Map<String,String> getEnvironmentVariables() throws NativeBuildException
     {
         return createEnvs();
     }
@@ -56,10 +56,9 @@ public abstract class AbstractMSVC2010EnvFactory extends AbstractMSVCEnvFactory
      * @return the Visual C++ 2010 environment variables
      * @throws NativeBuildException
      */
-    @SuppressWarnings("unchecked")
-    protected Map createEnvs() throws NativeBuildException
+    protected Map<String, String> createEnvs() throws NativeBuildException
     {
-        Map envs = new HashMap();
+        Map<String, String> envs = new HashMap<String,String>();
 
         File vsCommonToolDir = getCommonToolsDirectory();
 

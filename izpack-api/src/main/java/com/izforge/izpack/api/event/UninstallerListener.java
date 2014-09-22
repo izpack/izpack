@@ -35,7 +35,7 @@ import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
  * @author Klaus Bartz
  * @author Tim Anderson
  */
-public interface UninstallerListener
+public interface UninstallerListener extends Listener
 {
 
     // ------------------------------------------------------------------------
@@ -52,14 +52,6 @@ public interface UninstallerListener
 
     @Deprecated
     public static final int AFTER_DELETE = 4;
-
-
-    /**
-     * Initialises the listener.
-     *
-     * @throws IzPackException for any error
-     */
-    void initialise();
 
     /**
      * Invoked before files are deleted.

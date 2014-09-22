@@ -207,8 +207,8 @@ public class IzPackTask extends Task implements PackagerListener
         try
         {
             ClassLoader loader = new URLClassLoader(getUrlsForClassloader());
-            Class runableClass = loader.loadClass("com.izforge.izpack.ant.IzpackAntRunnable");
-            Constructor constructor = runableClass.getConstructors()[0];
+            Class<?> runableClass = loader.loadClass("com.izforge.izpack.ant.IzpackAntRunnable");
+            Constructor<?> constructor = runableClass.getConstructors()[0];
             Object instance = constructor.newInstance(compression, kind, input, configText, basedir, output, mkdirs, compressionLevel, properties, inheritAll, getProject().getProperties(), izPackDir);
             final Thread thread = new Thread((Runnable) instance);
             thread.setContextClassLoader(loader);
@@ -369,7 +369,7 @@ public class IzPackTask extends Task implements PackagerListener
         property.execute(); // don't call perform(), so no build events triggered
 
         Properties props = property.getProperties();
-        Enumeration e = props.keys();
+        Enumeration<?> e = props.keys();
         while (e.hasMoreElements())
         {
             String name = (String) e.nextElement();

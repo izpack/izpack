@@ -48,7 +48,7 @@ public class IzpackAntRunnable implements Runnable
 
         if (properties != null)
         {
-            Enumeration e = properties.keys();
+            Enumeration<?> e = properties.keys();
             while (e.hasMoreElements())
             {
                 String name = (String) e.nextElement();
@@ -60,7 +60,7 @@ public class IzpackAntRunnable implements Runnable
 
         if (inheritAll)
         {
-            Enumeration e = projectProps.keys();
+            Enumeration<?> e = projectProps.keys();
             while (e.hasMoreElements())
             {
                 String name = (String) e.nextElement();

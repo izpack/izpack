@@ -111,7 +111,7 @@ public class VariableHistoryTableModel extends AbstractTableModel
      * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
      */
 
-    public Class getColumnClass(int columnIndex)
+    public Class<?> getColumnClass(int columnIndex)
     {
         if (columnIndex == 1)
         {

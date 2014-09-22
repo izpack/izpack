@@ -245,7 +245,7 @@ public abstract class AbstractContainer implements Container
     @SuppressWarnings("unchecked")
     public <T> Class<T> getClass(String className, Class<T> superType)
     {
-        Class type;
+        Class<?> type;
         try
         {
             // Using the superclass class loader to load the child to avoid multiple copies of the superclass being

@@ -121,9 +121,9 @@ public abstract class AbstractPackResources implements PackResources
         Object result;
         try
         {
-            Class decoder = Class.forName(className);
+            Class<?> decoder = Class.forName(className);
             Class[] paramsClasses = {java.io.InputStream.class};
-            Constructor constructor = decoder.getDeclaredConstructor(paramsClasses);
+            Constructor<?> constructor = decoder.getDeclaredConstructor(paramsClasses);
             // Our first used decoder input stream (bzip2) reads byte for byte from
             // the source. Therefore we put a buffering stream between it and the source.
             InputStream buffer = new BufferedInputStream(in);

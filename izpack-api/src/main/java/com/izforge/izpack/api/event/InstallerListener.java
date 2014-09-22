@@ -40,7 +40,7 @@ import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
  * @author Klaus Bartz
  * @author Tim Anderson
  */
-public interface InstallerListener
+public interface InstallerListener extends Listener
 {
 
     // ------------------------------------------------------------------------
@@ -70,13 +70,6 @@ public interface InstallerListener
 
     @Deprecated
     public static final int AFTER_PACKS = 8;
-
-    /**
-     * Initialises the listener.
-     *
-     * @throws IzPackException for any error
-     */
-    void initialise();
 
     /**
      * Invoked before packs are installed.
