@@ -150,7 +150,7 @@ public abstract class UnpackerBase implements IUnpacker
     /**
      * The unpacking state.
      */
-    private enum State
+    protected enum State
     {
         READY, UNPACKING, INTERRUPT, INTERRUPTED
     }
@@ -1377,6 +1377,44 @@ public abstract class UnpackerBase implements IUnpacker
         return unpacker;
     }
 
+    protected RulesEngine getRules() {
+        return rules;
+    }
 
+    protected FileQueueFactory getQueueFactory() {
+        return queueFactory;
+    }
+
+    protected Housekeeper getHousekeeper() {
+        return housekeeper;
+    }
+
+    protected InstallerListeners getListeners() {
+        return listeners;
+    }
+
+    protected ProgressListener getListener() {
+        return listener;
+    }
+
+    protected PlatformModelMatcher getMatcher() {
+        return matcher;
+    }
+
+    protected boolean isResult() {
+        return result;
+    }
+
+    protected Cancellable getCancellable() {
+        return cancellable;
+    }
+
+    protected State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
 }
 
