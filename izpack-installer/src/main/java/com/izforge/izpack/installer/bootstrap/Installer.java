@@ -30,6 +30,9 @@ import com.izforge.izpack.installer.gui.*;
 import com.izforge.izpack.installer.gui.SplashScreen;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.StringTool;
+import com.izforge.izpack.util.config.base.Config;
+import com.izforge.izpack.util.config.base.Ini;
+import com.izforge.izpack.util.config.base.Profile;
 
 import java.awt.*;
 import java.io.File;
@@ -194,22 +197,24 @@ public class Installer
                         String pwdFilePath = args_it.next().trim();
                         File pwdFile = new File(pwdFilePath);
                         if (pwdFile.exists()) {
-                            Properties props = new Properties();
-                            try {
-                                props.load(new FileInputStream(pwdFile));
-                            } catch (IOException ioe) {
-                                System.err.println("There was an error reading the variable file.");
-                                ioe.printStackTrace();
-                            } catch (IllegalArgumentException iae) {
-                                System.err.println("The variable file seems to be malformed.");
-                                iae.printStackTrace();
-                            }
-                            if (!props.stringPropertyNames().isEmpty()) {
-                                for (String key : props.stringPropertyNames()) {
-                                    argVariables.put(key, props.getProperty(key));
+                            Config config = new Config();
+                            config.setGlobalSectionName("");
+                            config.setGlobalSection(true);
+                            Ini iniFile = new Ini(config);
+                            iniFile.load(pwdFile);
+                            Set<String> keySet = iniFile.keySet();
+                            for (String key : keySet){
+                                Profile.Section section = iniFile.get(key);
+                                String separator;
+                                if (key.trim().isEmpty()){
+                                    separator = "";
                                 }
-                            } else {
-                                System.err.println("The variable file was empty.");
+                                else{
+                                    separator = ".";
+                                }
+                                for (String field : section.keySet()){
+                                    argVariables.put(key+separator+field, section.get(field));
+                                }
                             }
                         } else {
                             System.err.println("- ERROR -");
