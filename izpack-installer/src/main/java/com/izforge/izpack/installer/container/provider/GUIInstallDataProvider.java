@@ -3,7 +3,6 @@ package com.izforge.izpack.installer.container.provider;
 import java.awt.Color;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 

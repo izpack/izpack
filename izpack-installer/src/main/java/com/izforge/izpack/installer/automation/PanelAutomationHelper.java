@@ -22,7 +22,6 @@
 package com.izforge.izpack.installer.automation;
 
 import com.izforge.izpack.api.handler.AbstractUIHandler;
-import com.izforge.izpack.util.Housekeeper;
 
 /**
  * Abstract class implementing basic functions needed by all panel automation helpers.

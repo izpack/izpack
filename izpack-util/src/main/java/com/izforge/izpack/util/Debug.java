@@ -21,13 +21,6 @@
 
 package com.izforge.izpack.util;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 /**
  * This class is for debug purposes. It is highly recommended to use it on critical or experimental

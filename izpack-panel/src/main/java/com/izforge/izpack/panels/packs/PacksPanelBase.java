@@ -163,11 +163,6 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
      */
     private Messages messages = null;
 
-    /**
-     * The name of the XML file that specifies the panel langpack
-     */
-    private static final String LANG_FILE_NAME = "packsLang.xml";
-
     private Debugger debugger;
 
     /**
@@ -197,7 +192,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 
         try
         {
-            messages = installData.getMessages().newMessages(LANG_FILE_NAME);
+            messages = installData.getMessages().newMessages(PackHelper.LANG_FILE_NAME);
         }
         catch (ResourceNotFoundException exception)
         {

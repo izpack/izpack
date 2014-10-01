@@ -21,28 +21,24 @@
 
 package com.izforge.izpack.installer.bootstrap;
 
-import com.izforge.izpack.installer.automation.AutomatedInstaller;
-import com.izforge.izpack.installer.console.ConsoleInstaller;
-import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
-import com.izforge.izpack.installer.container.impl.CustomDataLoader;
-import com.izforge.izpack.installer.container.impl.InstallerContainer;
-import com.izforge.izpack.installer.gui.*;
-import com.izforge.izpack.installer.gui.SplashScreen;
-import com.izforge.izpack.util.Debug;
-import com.izforge.izpack.util.StringTool;
-import com.izforge.izpack.util.config.base.Config;
-import com.izforge.izpack.util.config.base.Ini;
-import com.izforge.izpack.util.config.base.Profile;
-
-import java.awt.*;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+
+import com.izforge.izpack.installer.automation.AutomatedInstaller;
+import com.izforge.izpack.installer.console.ConsoleInstaller;
+import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
+import com.izforge.izpack.installer.container.impl.InstallerContainer;
+import com.izforge.izpack.util.Debug;
+import com.izforge.izpack.util.StringTool;
+import com.izforge.izpack.util.config.base.Config;
+import com.izforge.izpack.util.config.base.Ini;
+import com.izforge.izpack.util.config.base.Profile;
 
 /**
  * The program entry point. Selects between GUI and text install modes.

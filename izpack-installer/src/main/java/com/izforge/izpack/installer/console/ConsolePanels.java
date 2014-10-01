@@ -24,7 +24,6 @@ package com.izforge.izpack.installer.console;
 import java.util.List;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.installer.panel.AbstractPanels;
 import com.izforge.izpack.installer.panel.Panels;
 

@@ -462,41 +462,37 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     {
         String retval = null;
 
-        List<String> panelIdParts = new ArrayList<String>();
-        if (getMetadata().hasPanelId())
-        {
-            panelIdParts.add("." + getMetadata().getPanelId());
-        }
-        panelIdParts.add("");
+        List<String> prefixes = new ArrayList<String>();
+        String panelId = getMetadata().getPanelId();
+        Class<?> clazz = this.getClass();
 
-        for (String panelIdPart : panelIdParts)
+        String fullClassname = alternateClass==null?clazz.getName():alternateClass;
+        String simpleClassname = alternateClass==null?clazz.getSimpleName():alternateClass;
+
+        do
         {
-          Class<?> clazz = this.getClass();
-          while (retval == null && !clazz.equals(IzPanel.class))
-          {
-            // Try <full class name>[.<panel id>].<subkey>
-            String className = alternateClass==null?clazz.getName():alternateClass;
-            String searchkey = className + panelIdPart + "." + subkey;
+            prefixes.add(fullClassname + "." + panelId);
+            prefixes.add(simpleClassname + "." + panelId);
+            prefixes.add(fullClassname);
+            prefixes.add(simpleClassname);
+
+            clazz = clazz.getSuperclass();
+            fullClassname = clazz.getName();
+            simpleClassname = clazz.getSimpleName();
+        } while (alternateClass == null && !clazz.equals(IzPanel.class));
+        prefixes.add(2, panelId);
+
+        for (String prefix : prefixes)
+        {
+            String searchkey = prefix + "." + subkey;
             if (installData.getMessages().getMessages().containsKey(searchkey))
             {
                 retval = getString(searchkey);
             }
-            if (retval == null)
-            {
-                // Try <simple class name>[.<panel id>].<subkey>
-                className = alternateClass==null?clazz.getSimpleName():alternateClass;            // Try <simple class name>.<panel id>.<subkey>
-                searchkey = className + panelIdPart + "." + subkey;
-                if (installData.getMessages().getMessages().containsKey(searchkey))
-                {
-                    retval = getString(searchkey);
-                }
-            }
-            if (alternateClass != null)
+            if (retval != null)
             {
                 break;
             }
-            clazz = clazz.getSuperclass();
-          }
         }
 
         if (retval != null && retval.indexOf('$') > -1)

@@ -1,8 +1,5 @@
 package com.izforge.izpack.panels.userinput.field.custom;
 
-import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
-
 import java.util.List;
 
 /**

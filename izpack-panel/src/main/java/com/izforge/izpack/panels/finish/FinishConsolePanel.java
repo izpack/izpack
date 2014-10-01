@@ -21,16 +21,11 @@
 
 package com.izforge.izpack.panels.finish;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.adaptator.IXMLWriter;
-import com.izforge.izpack.api.adaptator.impl.XMLWriter;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -49,7 +44,6 @@ import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.PlatformModelMatcher;
-import com.izforge.izpack.util.file.FileUtils;
 
 /**
  * Console implementation of the {@link FinishPanel}.

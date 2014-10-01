@@ -26,7 +26,6 @@ import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -46,7 +45,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.data.Blockable;
-import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.OverrideType;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.compiler.stream.JarOutputStream;

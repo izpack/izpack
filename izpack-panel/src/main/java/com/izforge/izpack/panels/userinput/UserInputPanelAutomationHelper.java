@@ -22,7 +22,11 @@
 
 package com.izforge.izpack.panels.userinput;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -31,12 +35,9 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.installer.automation.PanelAutomation;
-import com.izforge.izpack.panels.userinput.console.custom.ConsoleCustomField;
 import com.izforge.izpack.panels.userinput.field.AbstractFieldView;
 import com.izforge.izpack.panels.userinput.field.FieldView;
-import com.izforge.izpack.panels.userinput.field.custom.CustomField;
 import com.izforge.izpack.panels.userinput.field.custom.CustomFieldType;
-import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
 
 /**
  * Functions to support automated usage of the UserInputPanel

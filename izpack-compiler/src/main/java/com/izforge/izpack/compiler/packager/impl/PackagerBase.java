@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.jar.Attributes.Name;
 import java.util.jar.Manifest;
 import java.util.zip.ZipInputStream;
 

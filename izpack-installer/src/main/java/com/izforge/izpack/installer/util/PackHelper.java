@@ -31,6 +31,10 @@ import com.izforge.izpack.api.resource.Messages;
  */
 public class PackHelper
 {
+    /**
+     * The name of the XML file that specifies the panel langpack
+     */
+    public static final String LANG_FILE_NAME = "packsLang.xml";
 
     /**
      * Returns a localised name for a pack.

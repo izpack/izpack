@@ -23,7 +23,6 @@ package com.izforge.izpack.panels.compile;
 
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
-import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 /**
  * Interface for monitoring compilation progress.

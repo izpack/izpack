@@ -22,7 +22,6 @@
 package com.izforge.izpack.panels.userinput.console.file;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -32,21 +31,10 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.resource.Messages;
-import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.core.container.DefaultContainer;
-import com.izforge.izpack.core.data.DefaultVariables;
-import com.izforge.izpack.core.handler.ConsolePrompt;
-import com.izforge.izpack.core.rules.ConditionContainer;
-import com.izforge.izpack.core.rules.RulesEngineImpl;
 import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.file.FileField;
 import com.izforge.izpack.panels.userinput.field.file.TestFileFieldConfig;
-import com.izforge.izpack.test.util.TestConsole;
-import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.file.FileUtils;
 
 

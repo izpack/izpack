@@ -1,15 +1,14 @@
 package com.izforge.izpack.panels.path;
 
-import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.handler.AbstractUIHandler;
-import com.izforge.izpack.util.IoHelper;
-import com.izforge.izpack.util.Platform;
-import com.izforge.izpack.util.Platforms;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.util.IoHelper;
+import com.izforge.izpack.util.Platform;
+import com.izforge.izpack.util.Platforms;
 
 /**
  * Link common functionality for PathInputPanels here.

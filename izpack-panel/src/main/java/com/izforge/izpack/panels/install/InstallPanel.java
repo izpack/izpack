@@ -102,21 +102,21 @@ public class InstallPanel extends IzPanel implements ProgressListener
     public InstallPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
-        this.tipLabel = LabelFactory.create(getString("InstallPanel.tip"), parent.getIcons().get(iconName), LEADING);
+        this.tipLabel = LabelFactory.create(getI18nStringForClass("tip"), parent.getIcons().get(iconName), LEADING);
         add(this.tipLabel, IzPanelLayout.getDefaultConstraint(FULL_LINE_CONTROL_CONSTRAINT));
         packOpLabel = LabelFactory.create(" ", LEADING);
         add(packOpLabel, IzPanelLayout.getDefaultConstraint(FULL_LINE_CONTROL_CONSTRAINT));
 
         packProgressBar = new JProgressBar();
         packProgressBar.setStringPainted(true);
-        packProgressBar.setString(getString("InstallPanel.begin"));
+        packProgressBar.setString(getI18nStringForClass("begin"));
         packProgressBar.setValue(0);
         add(packProgressBar, IzPanelLayout.getDefaultConstraint(FULL_LINE_CONTROL_CONSTRAINT));
         // make sure there is some space between the progress bars
         add(IzPanelLayout.createVerticalStrut(5));
         //add(IzPanelLayout.createParagraphGap());
 
-        overallOpLabel = LabelFactory.create(getString("InstallPanel.progress"), parent.getIcons().get(iconName),
+        overallOpLabel = LabelFactory.create(getI18nStringForClass("progress"), parent.getIcons().get(iconName),
                                              LEADING);
         add(this.overallOpLabel, IzPanelLayout.getDefaultConstraint(FULL_LINE_CONTROL_CONSTRAINT));
 
@@ -188,7 +188,7 @@ public class InstallPanel extends IzPanel implements ProgressListener
 
                 if (installData.isInstallSuccess())
                 {
-                    packProgressBar.setString(getString("InstallPanel.finished"));
+                    packProgressBar.setString(getI18nStringForClass("finished"));
                 }
                 else
                 {

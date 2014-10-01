@@ -82,7 +82,7 @@ public class PacksModel extends AbstractTableModel
     {
         this.installData = idata;
         this.rules = idata.getRules();
-        this.messages = idata.getMessages();
+        this.messages = idata.getMessages().newMessages(PackHelper.LANG_FILE_NAME);
         this.variables = idata.getVariables();
         this.packsToInstall = idata.getSelectedPacks();
 

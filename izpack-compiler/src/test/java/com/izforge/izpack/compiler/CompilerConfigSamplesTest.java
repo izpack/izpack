@@ -21,13 +21,9 @@ package com.izforge.izpack.compiler;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.io.InputStream;
-import java.util.List;
 import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.commons.io.IOUtils;
 import org.hamcrest.collection.IsCollectionContaining;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;

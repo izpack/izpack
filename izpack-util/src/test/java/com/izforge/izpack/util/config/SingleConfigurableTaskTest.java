@@ -1,13 +1,14 @@
 package com.izforge.izpack.util.config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;

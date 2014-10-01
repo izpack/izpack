@@ -103,7 +103,7 @@ public class FinishPanel extends IzPanel implements ActionListener
     {
         parent.lockNextButton();
         parent.lockPrevButton();
-        parent.setQuitButtonText(getString("FinishPanel.done"));
+        parent.setQuitButtonText(getI18nStringForClass("done"));
         parent.setQuitButtonIcon("done");
         Insets inset = new Insets(10, 20, 2, 2);
         GridBagConstraints constraints = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.LINE_START,
@@ -111,7 +111,7 @@ public class FinishPanel extends IzPanel implements ActionListener
         if (this.installData.isInstallSuccess())
         {
             // We set the information
-            JLabel jLabel = LabelFactory.create(getString("FinishPanel.success"), parent.getIcons().get("preferences"),
+            JLabel jLabel = LabelFactory.create(getI18nStringForClass("success"), parent.getIcons().get("preferences"),
                                                 LEADING);
             jLabel.setName(GuiId.FINISH_PANEL_LABEL.id);
             add(jLabel, constraints);
@@ -121,7 +121,7 @@ public class FinishPanel extends IzPanel implements ActionListener
                 // We prepare a message for the uninstaller feature
                 String path = translatePath("$INSTALL_PATH") + File.separator + "Uninstaller";
 
-                add(LabelFactory.create(getString("FinishPanel.uninst.info"), parent.getIcons()
+                add(LabelFactory.create(getI18nStringForClass("uninst.info"), parent.getIcons()
                         .get("preferences"), LEADING), constraints);
                 constraints.gridy++;
                 add(LabelFactory.create(path, parent.getIcons().get("empty"),
@@ -129,17 +129,17 @@ public class FinishPanel extends IzPanel implements ActionListener
                 constraints.gridy++;
             }
             // We add the autoButton
-            autoButton = ButtonFactory.createButton(getString("FinishPanel.auto"),
+            autoButton = ButtonFactory.createButton(getI18nStringForClass("auto"),
                                                     parent.getIcons().get("edit"), this.installData.buttonsHColor);
             autoButton.setName(GuiId.FINISH_PANEL_AUTO_BUTTON.id);
-            autoButton.setToolTipText(getString("FinishPanel.auto.tip"));
+            autoButton.setToolTipText(getI18nStringForClass("auto.tip"));
             autoButton.addActionListener(this);
             add(autoButton, constraints);
             constraints.gridy++;
         }
         else
         {
-            add(LabelFactory.create(getString("FinishPanel.fail"), parent.getIcons().get("stop"), LEADING),
+            add(LabelFactory.create(getI18nStringForClass("fail"), parent.getIcons().get("stop"), LEADING),
                 constraints);
         }
         getLayoutHelper().completeLayout(); // Call, or call not?

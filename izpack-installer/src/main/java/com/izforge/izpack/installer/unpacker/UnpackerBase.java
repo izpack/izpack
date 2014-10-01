@@ -166,6 +166,11 @@ public abstract class UnpackerBase implements IUnpacker
     private boolean disableInterrupt = false;
 
     /**
+     * Translation cache for packs
+     */
+    private Messages packMessages;
+
+    /**
      * The logger.
      */
     private static final Logger logger = Logger.getLogger(UnpackerBase.class.getName());
@@ -795,8 +800,17 @@ public abstract class UnpackerBase implements IUnpacker
      */
     protected String getStepName(Pack pack)
     {
+        if (packMessages == null)
+        {
+            Messages messages = installData.getMessages();
+            if (messages != null)
+            {
+                packMessages = messages.newMessages(PackHelper.LANG_FILE_NAME);
+            }
+        }
+
         // hide pack name if it is hidden
-        return pack.isHidden() ? "" : PackHelper.getPackName(pack, installData.getMessages());
+        return pack.isHidden() ? "" : PackHelper.getPackName(pack, packMessages);
     }
 
     /**
@@ -1111,12 +1125,15 @@ public abstract class UnpackerBase implements IUnpacker
             {
                 throw new InstallerException("Failed to read previous installation information", exception);
             }
+            finally
+            {
+                FileUtils.close(oin);
+                FileUtils.close(fin);
+            }
             for (Pack pack : packs)
             {
                 installedPacks.add(pack);
             }
-            FileUtils.close(oin);
-            FileUtils.close(fin);
         }
 
         FileOutputStream fout = new FileOutputStream(installationInfo);

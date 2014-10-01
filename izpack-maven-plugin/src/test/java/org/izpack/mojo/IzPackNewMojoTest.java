@@ -3,13 +3,9 @@ package org.izpack.mojo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.File;
-import java.io.InputStream;
-import java.util.List;
 import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.hamcrest.collection.IsCollectionContaining;
 import org.hamcrest.core.Is;
