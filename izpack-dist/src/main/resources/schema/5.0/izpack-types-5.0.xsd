@@ -78,9 +78,9 @@
                     <xs:enumeration value="exists"/>
                     <xs:enumeration value="java"/>
                     <xs:enumeration value="packselection"/>
-                    <xs:enumeration value="ref"/>
                     <xs:enumeration value="user"/>
                     <xs:enumeration value="variable"/>
+                    <xs:enumeration value="contains"/>
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>

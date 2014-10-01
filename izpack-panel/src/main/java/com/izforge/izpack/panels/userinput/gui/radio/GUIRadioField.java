@@ -170,6 +170,7 @@ public class GUIRadioField extends GUIField
             if (value.equals(view.choice.getTrueValue()))
             {
                 view.button.setSelected(true);
+                notifyUpdateListener();
                 return true;
             }
             else

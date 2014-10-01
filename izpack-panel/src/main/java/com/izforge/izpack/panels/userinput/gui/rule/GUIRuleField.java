@@ -119,4 +119,53 @@ public class GUIRuleField extends GUIField
         }
         return result;
     }
+
+    /**
+     * Updates the view from the field.
+     *
+     * @return {@code true} if the view was updated
+     */
+    @Override
+    public boolean updateView()
+    {
+        boolean result = false;
+        String value = getField().getValue();
+
+        if (value != null)
+        {
+            replaceValue(value);
+            result = true;
+        }
+        else
+        {
+            // Set default value here for getting current variable values replaced
+            Field f = getField();
+            String defaultValue = f.getDefaultValue();
+            if (defaultValue != null)
+            {
+                replaceValue(defaultValue);
+            }
+        }
+
+        return result;
+    }
+
+    private void replaceValue(String value)
+    {
+        RuleField f = (RuleField) getField();
+        if (value != null)
+        {
+            ValidationStatus status = f.validateFormatted(value);
+            if (status.isValid())
+            {
+                String[] values = status.getValues();
+                int id = 0;
+                for (JTextField input : component.getInputFields())
+                {
+                    input.setText(values[id]);
+                    id++;
+                }
+            }
+        }
+    }
 }

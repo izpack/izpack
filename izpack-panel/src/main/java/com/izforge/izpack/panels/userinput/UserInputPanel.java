@@ -38,7 +38,6 @@ import com.izforge.izpack.panels.userinput.gui.GUIFieldFactory;
 import com.izforge.izpack.panels.userinput.gui.UpdateListener;
 import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
 import com.izforge.izpack.util.PlatformModelMatcher;
-import org.apache.tools.ant.util.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -569,7 +568,7 @@ public class UserInputPanel extends IzPanel
         for(String variable : variables)
         {
             boolean firstColumn = (column % numberOfColumns == 0);
-            
+
             if(!firstColumn)
             {
                 tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
