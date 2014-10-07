@@ -230,6 +230,9 @@ public class HelloPanelAutomationHelper extends PanelAutomationHelper implements
                         }
                         else
                         {
+                            System.out.println(idata.langpack.getString("compFoundDoUpdate"));
+                            System.out.println();
+
                             // relecture installInformation
                             idata.setInstallPath(adxadmPath);
                             // positionnement update
@@ -334,6 +337,9 @@ public class HelloPanelAutomationHelper extends PanelAutomationHelper implements
                             }
                             else
                             {
+                                System.out.println(idata.langpack.getString("compFoundDoUpdate"));
+                                System.out.println();
+
                                 // relecture installInformation
                                 idata.setInstallPath(strAdxAdminPath);
                                 // positionnement update

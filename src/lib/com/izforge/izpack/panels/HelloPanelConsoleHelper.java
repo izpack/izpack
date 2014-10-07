@@ -197,11 +197,31 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
                         }
                         else
                         {
-                            // relecture installInformation
-                            idata.setInstallPath(adxadmPath);
-                            // positionnement update
-                            Debug.trace("modification installation");
-                            idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                            
+                            System.out.println();
+                            System.out.println(idata.langpack.getString("compFoundAskUpdate"));
+                            
+                            int result = askQuestion(idata, idata.langpack.getString("consolehelper.askyesno"), 1);
+                            if (result == 1 )
+                            {
+                            
+                                // relecture installInformation
+                                idata.setInstallPath(adxadmPath);
+                                // positionnement update
+                                Debug.trace("modification installation");
+                                idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                            
+                            }
+                            else
+                            {
+
+                                emitErrorAndBlockNext ("",idata.langpack
+                                        .getString("FinishPanel.fail"));
+                                
+                            }
+                            
+                            
+                            
                             
                         }
                     }
@@ -301,11 +321,30 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
                             }
                             else
                             {
-                                // relecture installInformation
-                                idata.setInstallPath(strAdxAdminPath);
-                                // positionnement update
-                                Debug.trace("modification installation");
-                                idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                                
+                                
+                                System.out.println();
+                                System.out.println(idata.langpack.getString("compFoundAskUpdate"));
+
+                                int result = askQuestion(idata, idata.langpack.getString("consolehelper.askyesno"), 1);
+                                if (result == 1 )
+                                {
+                                
+                                    // relecture installInformation
+                                    idata.setInstallPath(strAdxAdminPath);
+                                    // positionnement update
+                                    Debug.trace("modification installation");
+                                    idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                                
+                                }
+                                else
+                                {
+
+                                    emitErrorAndBlockNext ("",idata.langpack
+                                            .getString("FinishPanel.fail"));
+                                    
+                                }
+                                
                                 
                             }
                             

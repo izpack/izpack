@@ -167,7 +167,8 @@ public class FinishPanel extends IzPanel implements ActionListener
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new File(idata.getInstallPath()));
         fc.setMultiSelectionEnabled(false);
-        fc.addChoosableFileFilter(new AutomatedInstallScriptFilter());
+        //fc.addChoosableFileFilter(new AutomatedInstallScriptFilter());
+        fc.setFileFilter(new AutomatedInstallScriptFilter());
         // fc.setCurrentDirectory(new File("."));
 
         // Shows it
@@ -177,6 +178,12 @@ public class FinishPanel extends IzPanel implements ActionListener
             {
                 // We handle the xml data writing
                 File file = fc.getSelectedFile();
+                
+                if (!file.getName().toLowerCase().endsWith(".xml"))
+                {
+                    file = new File (file.getAbsolutePath()+".xml");
+                }
+                
                 FileOutputStream out = new FileOutputStream(file);
                 BufferedOutputStream outBuff = new BufferedOutputStream(out, 5120);
                 parent.writeXMLTree(idata.xmlData, outBuff);

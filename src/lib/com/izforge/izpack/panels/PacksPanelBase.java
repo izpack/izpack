@@ -39,6 +39,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -595,6 +596,9 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     {
         try
         {
+            
+            if (Boolean.valueOf(idata.getVariable(InstallData.MODIFY_INSTALLATION))) this.parent.lockPrevButton();
+            
             packsModel = new PacksModel(this, idata, this.parent.getRules())
             {
                 @Override

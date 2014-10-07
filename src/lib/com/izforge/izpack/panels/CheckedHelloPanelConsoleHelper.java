@@ -14,10 +14,11 @@ import com.coi.tools.os.win.MSWinConstants;
 import com.izforge.izpack.Info;
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.ConsoleInstaller;
+import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.PanelConsole;
 import com.izforge.izpack.installer.PanelConsoleHelper;
-
 import com.coi.tools.os.win.RegDataContainer;
+import com.izforge.izpack.util.AbstractUIHandler;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.os.RegistryDefaultHandler;
@@ -92,11 +93,55 @@ public class CheckedHelloPanelConsoleHelper extends PanelConsoleHelper implement
             }
             else
             {
-                emitErrorAndBlockNext ("",idata.langpack
-                        .getString("CheckedHelloPanel.infoMultipleInstallNotAllowed"));
+                
+                String allowUpdateMode = idata.getVariable("CheckedHelloPanel.allowUpdateMode");
+                
+                if (Boolean.TRUE.toString().equalsIgnoreCase(allowUpdateMode))
+                {
+                    try
+                    {
+                        String oldInstallPath = getOldInstallPath();
+                        
+                        System.out.println();
+                        System.out.println(idata.langpack.getString("compFoundAskUpdate"));
+                        
+                        int result = askQuestion(idata, idata.langpack.getString("consolehelper.askyesno"), 1);
+                        if (result == 1 )
+                        {
+                        
+                            idata.setInstallPath(oldInstallPath);
+                            // positionnement update
+                            Debug.trace("modification installation");
+                            idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                            abortInstallation = false;
+                        
+                        }
+                        else
+                        {
+
+                            emitErrorAndBlockNext ("",idata.langpack
+                                    .getString("FinishPanel.fail"));
+                            
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        emitErrorAndBlockNext ("",idata.langpack
+                                .getString("FinishPanel.fail"));
+                    }
+
+                }
+                else
+                {
+                    emitErrorAndBlockNext ("",idata.langpack
+                            .getString("CheckedHelloPanel.infoMultipleInstallNotAllowed"));
+                    
+                }
+                
             }
 
         }
+        
         RegistryHandler rh = RegistryDefaultHandler.getInstance();
         if (rh != null)
         {
@@ -373,6 +418,111 @@ public class CheckedHelloPanelConsoleHelper extends PanelConsoleHelper implement
         }
         return (retval);
     }
+    
+    /**
+     * This method should only be called if this product was allready installed. It resolves the
+     * install path of the first already installed product and asks the user whether to install
+     * twice or not.
+     *
+     * @return whether a multiple Install should be performed or not.
+     * @throws Exception
+     */
+    protected String getOldInstallPath() throws Exception
+    {
+        // Let us play a little bit with the regstry...
+        // Just for fun we would resolve the path of the already
+        // installed application.
+        // First we need a handler. There is no overhead at a
+        // secound call of getInstance, therefore we do not buffer
+        // the handler in this class.
+        RegistryHandler rh = RegistryDefaultHandler.getInstance();
+        int oldVal = rh.getRoot(); // Only for security...
+        // We know, that the product is already installed, else we
+        // would not in this method. Now we search for the path...
+        String uninstallName = rh.getUninstallName();
+        String oldInstallPath = "<not found>";
+        while (true) // My goto alternative :-)
+        {
+
+            if (uninstallName == null)
+            {
+                break; // Should never be...
+            }
+            // First we "create" the reg key.
+            String keyName = RegistryHandler.UNINSTALL_ROOT + uninstallName;
+            rh.setRoot(HKEY_LOCAL_MACHINE);
+            if (!rh.valueExist(keyName, "UninstallString"))
+            // We assume that the application was installed with
+            // IzPack. Therefore there should be the value "UninstallString"
+            // which contains the uninstaller call. If not we can do nothing.
+            {
+                break;
+            }
+            // Now we would get the value. A value can have different types.
+            // Therefore we get an container which can handle all possible types.
+            // There are different ways to handle. Use normally only one of the
+            // ways; at this point more are used to demonstrate the different ways.
+
+            // 1. If we are secure about the type, we can extract the value immediately.
+            String valString = rh.getValue(keyName, "UninstallString").getStringData();
+
+            // 2. If we are not so much interessted at the type, we can get the value
+            // as Object. A DWORD is then a Long Object not a long primitive type.
+            Object valObj = rh.getValue(keyName, "UninstallString").getDataAsObject();
+            if (valObj instanceof String) // Only to inhibit warnings about local variable never read.
+            {
+                valString = (String) valObj;
+            }
+
+            // 3. If we are not secure about the type we should differ between possible
+            // types.
+            RegDataContainer val = rh.getValue(keyName, "UninstallString");
+            int typeOfVal = val.getType();
+            switch (typeOfVal)
+            {
+                case REG_EXPAND_SZ:
+                case REG_SZ:
+                    valString = val.getStringData();
+                    break;
+                case REG_BINARY:
+                case REG_DWORD:
+                case REG_LINK:
+                case REG_MULTI_SZ:
+                    throw new Exception("Bad data type of chosen registry value " + keyName);
+                default:
+                    throw new Exception("Unknown data type of chosen registry value " + keyName);
+            }
+            // That's all with registry this time... Following preparation of
+            // the received value.
+            // It is [java path] -jar [uninstaller path]
+            int start = valString.lastIndexOf("-jar") + 5;
+            if (start < 5 || start >= valString.length())
+            // we do not know what todo with it.
+            {
+                break;
+            }
+            String uPath = valString.substring(start).trim();
+            if (uPath.startsWith("\""))
+            {
+                uPath = uPath.substring(1).trim();
+            }
+            int end = uPath.indexOf("uninstaller");
+            if (end < 0)
+            // we do not know what todo with it.
+            {
+                break;
+            }
+            oldInstallPath = uPath.substring(0, end - 1);
+            // Much work for such a peanuts...
+            break; // That's the problem with the goto alternative. Forget this
+            // break produces an endless loop.
+        }
+
+        rh.setRoot(oldVal); // Only for security...
+        
+        return oldInstallPath;
+    }
+
     
 
 }

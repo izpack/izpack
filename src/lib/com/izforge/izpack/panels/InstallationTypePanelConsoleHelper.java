@@ -23,15 +23,15 @@ public class InstallationTypePanelConsoleHelper extends PanelConsoleHelper imple
 
     public boolean runConsoleFromPropertiesFile(AutomatedInstallData installData, Properties p)
     {
-        String strType = p.getProperty(InstallData.MODIFY_INSTALLATION);
-        if (strType == null || "".equals(strType.trim()))
+        String strType = p.getProperty(InstallData.MODIFY_INSTALLATION).trim();
+        if (strType == null || "".equals(strType))
         {
             // assume a normal install 
             installData.setVariable(InstallData.MODIFY_INSTALLATION, "false");
         }
         else
         {
-            if (Boolean.parseBoolean(strType.trim()))
+            if (Boolean.parseBoolean(strType))
             {
                 installData.setVariable(InstallData.MODIFY_INSTALLATION, "true");
             }

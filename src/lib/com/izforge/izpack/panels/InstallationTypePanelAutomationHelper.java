@@ -78,22 +78,27 @@ public class InstallationTypePanelAutomationHelper extends PanelAutomationHelper
         
         try 
         {    
-            modify=ipath.getContent();
+            modify=ipath.getContent().trim();
         }
         catch (Exception ex)
         {
-            // assume a normal install
+            // assume a normal install 
+            installData.setVariable(InstallData.MODIFY_INSTALLATION, "false");
         }
                  
-        if (modify == null || "".equals(modify.trim()))
+        if (modify == null || "".equals(modify))
         {
             // assume a normal install 
             installData.setVariable(InstallData.MODIFY_INSTALLATION, "false");
         }
         else
         {
-            if (Boolean.parseBoolean(modify.trim()))
+            if (Boolean.parseBoolean(modify))
             {
+                System.out.println();
+                System.out.println(installData.langpack.getString("compFoundDoUpdate"));
+                System.out.println();
+
                 installData.setVariable(InstallData.MODIFY_INSTALLATION, "true");
             }
             else

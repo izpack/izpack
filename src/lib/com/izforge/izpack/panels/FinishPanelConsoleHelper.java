@@ -20,7 +20,9 @@
  */
 package com.izforge.izpack.panels;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.Properties;
 
@@ -45,6 +47,7 @@ public class FinishPanelConsoleHelper extends PanelConsoleHelper implements Pane
 
 	public boolean runConsole(AutomatedInstallData idata) {
 		if (idata.installSuccess) {
+		    
 		    System.out.println();
 			System.out.println(idata.langpack.getString("FinishPanel.success"));
 			System.out.println(idata.langpack.getString("FinishPanel.installed.on") + " " + idata.getInstallPath());
@@ -61,7 +64,12 @@ public class FinishPanelConsoleHelper extends PanelConsoleHelper implements Pane
                
                 System.out.println(idata.langpack
                         .getString("FinishPanel.uninst.info") + " " + path);
-            }			
+            }
+			
+			
+			
+			
+			
 		} else {
             System.out.println();
 			System.out.println(idata.langpack.getString("FinishPanel.fail"));

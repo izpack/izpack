@@ -45,6 +45,11 @@ public class TargetPanel extends PathInputPanel
     private boolean noWhitespaces;
     private static boolean userSet = false;
     
+    public static void reset ()
+    {
+        userSet = false;
+    }
+    
     public static String loadDefaultDirFromVariables(Properties vars)
     {
         String os = System.getProperty("os.name").replace(' ', '_').toLowerCase();

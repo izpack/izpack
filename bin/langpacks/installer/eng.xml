@@ -27,6 +27,7 @@
     <str id="UserInputPanel.headline" txt="User Data"/>
     <str id="UserPathPanel.headline" txt="Select Path"/>
     <str id="InstallationTypePanel.headline" txt="Installation Type"/>
+    <str id="InstallTypePanel.headline" txt="Installation Type"/>
 
     <!-- General installer strings -->
     <str id="installer.title" txt="IzPack - Installation of "/>
@@ -129,6 +130,8 @@
     <str id="InstallationTypePanel.normal" txt="New installation"/>
     <str id="InstallationTypePanel.modify" txt="Modify installation"/>
     <str id="InstallationTypePanel.asktype" txt="Press 1 for a new install, 2 to update, 3 to exit"/>
+    <str id="InstallationTypePanel.askUpdatePath" txt="Please choose installation to update :"/>
+	<str id="InstallationTypePanel.errNoCompFound" txt="No earlier version of this component has been found, this software can not be updated!"/>
 
 		<!-- FinishPanel strings -->
 		<str id="FinishPanel.success" txt="Installation has completed successfully."/>
@@ -137,6 +140,7 @@
     <str id="FinishPanel.installed.on" txt="Application installed on"/>
     <str id="FinishPanel.uninst.info" txt="An uninstaller program has been created in: "/>
     <str id="FinishPanel.auto" txt="Generate an automatic installation script"/>
+    <str id="FinishPanel.auto.ask" txt="Do you want to generate an automatic installation script ?"/>
     <str id="FinishPanel.auto.tip" txt="Use this script to repeat this installation on other computers."/>
     <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
 
@@ -239,6 +243,7 @@
     <str id="UserPathPanel.summaryCaption" txt="Selected Path"/>
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
 	<str id="InstallationTypePanel.summaryCaption" txt="Installation Type"/>
+	<str id="InstallTypePanel.summaryCaption" txt="Installation Type"/>
 
     <!-- Strings for the Registry -->
     <str id="functionFailed.RegOpenKeyEx" txt="Cannot open registry key {0}\\{1}."/>
@@ -308,6 +313,9 @@
 	<str id="adxadminNoAdxDir" txt="Could not read adxadmin administration runtime install path !"/>
 	<str id="adxadminParseError" txt="The adxadmin administration runtime install path is invalid!"/>
 	<str id="adxadminV6found" txt="An earlier version of this component has been found, this software can not be updated!"/>
+	<str id="compFoundAskUpdate" txt="An earlier version of this component has been found on this host, do you want to update this installation ?"/>
+	<str id="compFoundDoUpdate" txt="An earlier version of this component has been found on this host, this setup will continue in update mode !"/>
+	<str id="updateMode" txt="Update mode"/>
 	
 	<str id="notidle" txt="This component is currently used and cannot be uninstalled."/>
 

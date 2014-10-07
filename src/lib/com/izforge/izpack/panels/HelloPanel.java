@@ -29,6 +29,7 @@ import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.InstallerFrame;
 import com.izforge.izpack.installer.IzPanel;
+import com.izforge.izpack.util.AbstractUIHandler;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.os.RegistryDefaultHandler;
@@ -239,11 +240,25 @@ public class HelloPanel extends IzPanel
                         }
                         else
                         {
-                            // relecture installInformation
-                            idata.setInstallPath(adxadmPath);
-                            // positionnement update
-                            Debug.trace("modification installation");
-                            idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                            if (askQuestion(parent.langpack.getString("updateMode"), parent.langpack.getString("compFoundAskUpdate"), AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES) == AbstractUIHandler.ANSWER_YES )
+                            {
+                            
+                                // relecture installInformation
+                                idata.setInstallPath(adxadmPath);
+                                // positionnement update
+                                Debug.trace("modification installation");
+                                idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                            
+                            }
+                            else
+                            {
+
+                                parent.lockNextButton();
+                                
+                            }
+                            
+                            
+                            
                             
                         }
                     }
@@ -347,11 +362,24 @@ public class HelloPanel extends IzPanel
                             }
                             else
                             {
-                                // relecture installInformation
-                                idata.setInstallPath(strAdxAdminPath);
-                                // positionnement update
-                                Debug.trace("modification installation");
-                                idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                                
+                                if (askQuestion(parent.langpack.getString("updateMode"), parent.langpack.getString("compFoundAskUpdate"), AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES) == AbstractUIHandler.ANSWER_YES )
+                                {
+                                
+                                    // relecture installInformation
+                                    idata.setInstallPath(strAdxAdminPath);
+                                    // positionnement update
+                                    Debug.trace("modification installation");
+                                    idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                                
+                                }
+                                else
+                                {
+
+                                    parent.lockNextButton();
+                                    
+                                }
+                                
                                 
                             }
                             

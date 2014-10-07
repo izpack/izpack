@@ -295,13 +295,24 @@ public class CheckedHelloPanel extends HelloPanel implements MSWinConstants
                     try
                     {
                         String oldInstallPath = getOldInstallPath();
-                        idata.setInstallPath(oldInstallPath);
-                        // positionnement update
-                        Debug.trace("modification installation");
-                        idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
-                        abortInstallation = false;
-                        parent.unlockNextButton();
                         
+                        if (askQuestion(parent.langpack.getString("updateMode"), parent.langpack.getString("compFoundAskUpdate"), AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES) == AbstractUIHandler.ANSWER_YES )
+                        {
+                        
+                            idata.setInstallPath(oldInstallPath);
+                            // positionnement update
+                            Debug.trace("modification installation");
+                            idata.setVariable(InstallData.MODIFY_INSTALLATION, "true");
+                            abortInstallation = false;
+                            parent.unlockNextButton();
+                        
+                        }
+                        else
+                        {
+
+                            parent.lockNextButton();
+                            
+                        }
                     }
                     catch (Exception e)
                     {

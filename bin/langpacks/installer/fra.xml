@@ -25,8 +25,9 @@
     <str id="SummaryPanel.headline" txt="Résumé des données de configuration"/>
     <str id="TargetPanel.headline" txt="Chemin d'installation"/>
     <str id="UserInputPanel.headline" txt="Données utilisateur"/>
-		<str id="UserPathPanel.headline" txt="Sélectionnez le chemin"/>
+	<str id="UserPathPanel.headline" txt="Sélectionnez le chemin"/>
     <str id="InstallationTypePanel.headline" txt="Type d'installation"/>
+    <str id="InstallTypePanel.headline" txt="Type d'installation"/>
 
     <!-- General installer strings -->
     <str id="installer.title" txt="IzPack - Installation de "/>
@@ -130,6 +131,8 @@
     <str id="InstallationTypePanel.normal" txt="Nouvelle installation"/>
     <str id="InstallationTypePanel.modify" txt="Mettre à jour une installation existante"/>
     <str id="InstallationTypePanel.asktype" txt="appuyez sur 1 pour une nouvelle installation, 2 pour mettre à jour une installation existante , 3 pour quitter"/>
+    <str id="InstallationTypePanel.askUpdatePath" txt="Veuillez choisir l'installation à mettre à jour :"/>
+	<str id="InstallationTypePanel.errNoCompFound" txt="Aucune version antérieure de ce composant n'a été trouvée, ce logiciel ne peut pas être mis à jour !"/>
 
     <!-- FinishPanel strings -->
     <str id="FinishPanel.success" txt="L'installation est réussie !"/>
@@ -138,6 +141,7 @@
     <str id="FinishPanel.installed.on" txt="l'application a été installée dans le répertoire"/>
     <str id="FinishPanel.uninst.info" txt="Un désinstallateur a été créé :"/>
     <str id="FinishPanel.auto" txt="Générer un script d'installation automatisée"/>
+    <str id="FinishPanel.auto.ask" txt="Voulez-vous générer un script d'installation automatisée ?"/>
     <str id="FinishPanel.auto.tip" txt="Génère un fichier qui permet de refaire automatiquement la meme installation sur une autre machine."/>
 		<str id="FinishPanel.auto.dialog.filterdesc" txt="Fichiers XML"/>
 
@@ -240,6 +244,7 @@
 	<str id="UserPathPanel.summaryCaption" txt="Chemin sélectionné"/>
 	<str id="DefaultTargetPanel.summaryCaption" txt="Chemin de l'installation"/>
 	<str id="InstallationTypePanel.summaryCaption" txt="Type d'installation"/>
+	<str id="InstallTypePanel.summaryCaption" txt="Type d'installation"/>
 
     <!-- Strings for the Registry -->
     <str id="functionFailed.RegOpenKeyEx" txt="Impossible d'ouvrir la clé de registre {0}\\{1}."/>
@@ -309,6 +314,9 @@
 	<str id="adxadminNoAdxDir" txt="Impossible de lire le chemin d'installation du moteur d'administration adxadmin !"/>
 	<str id="adxadminParseError" txt="Le chemin d'installation du moteur d'administration adxadmin est erroné !"/>
 	<str id="adxadminV6found" txt="Une version antérieure de ce composant a été trouvée, ce logiciel ne peut pas être mis à jour !"/>
+	<str id="compFoundAskUpdate" txt="Une version précédente de ce composant a été détecté sur cet ordinateur, Voulez-vous mettre à jour cette installation ?"/>
+	<str id="compFoundDoUpdate" txt="Une version précédente de ce composant a été détecté sur cet ordinateur, ce programme d'installation va continuer en mode mise à jour !"/>
+	<str id="updateMode" txt="Mode de mise à jour"/>
 	
 	<str id="notidle" txt="Ce composant est actuellement utilisé et ne peut pas être désinstallé."/>
 	
