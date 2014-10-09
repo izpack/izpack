@@ -22,11 +22,10 @@
 package com.izforge.izpack.installer.bootstrap;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -37,6 +36,9 @@ import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.StringTool;
+import com.izforge.izpack.util.config.base.Config;
+import com.izforge.izpack.util.config.base.Ini;
+import com.izforge.izpack.util.config.base.Profile;
 
 /**
  * The program entry point. Selects between GUI and text install modes.
@@ -118,7 +120,7 @@ public class Installer
     private void start(String[] args)
     {
         logger.info("Commandline arguments: " + StringTool.stringArrayToSpaceSeparatedString(args));
-
+        HashMap<String,String> argVariables = new HashMap<String,String>();
         // OS X tweaks
         if (System.getProperty("mrj.version") != null)
         {
@@ -177,6 +179,44 @@ public class Installer
                     {
                         media = args_it.next().trim();
                     }
+                    else if ("-variables".equalsIgnoreCase(arg))
+                    {
+                        String newVars = args_it.next().trim();
+                        String [] keyValPairs = newVars.split(",");
+
+                        for (String pair : keyValPairs) {
+                            String[] keyVal = pair.split("=");
+                            argVariables.put(keyVal[0], keyVal[1]);
+                        }
+                    }
+                    else if ("-variablefile".equalsIgnoreCase(arg)) {
+                        String pwdFilePath = args_it.next().trim();
+                        File pwdFile = new File(pwdFilePath);
+                        if (pwdFile.exists()) {
+                            Config config = new Config();
+                            config.setGlobalSectionName("");
+                            config.setGlobalSection(true);
+                            Ini iniFile = new Ini(config);
+                            iniFile.load(pwdFile);
+                            Set<String> keySet = iniFile.keySet();
+                            for (String key : keySet){
+                                Profile.Section section = iniFile.get(key);
+                                String separator;
+                                if (key.trim().isEmpty()){
+                                    separator = "";
+                                }
+                                else{
+                                    separator = ".";
+                                }
+                                for (String field : section.keySet()){
+                                    argVariables.put(key+separator+field, section.get(field));
+                                }
+                            }
+                        } else {
+                            System.err.println("- ERROR -");
+                            System.err.println("Given properties file does not exist.");
+                        }
+                    }
                     else
                     {
                         type = INSTALLER_AUTO;
@@ -190,7 +230,7 @@ public class Installer
                 }
             }
 
-            launchInstall(type, consoleAction, path, langcode, media, args);
+            launchInstall(type, consoleAction, path, langcode, media, args, argVariables);
 
         }
         catch (Exception e)
@@ -201,7 +241,7 @@ public class Installer
     }
 
     private void launchInstall(int type, int consoleAction, String path, String langCode,
-                               String mediaDir, String[] args) throws Exception
+                               String mediaDir, String[] args, HashMap<String, String> argVariables) throws Exception
     {
         // if headless, just use the console mode
         if (type == INSTALLER_GUI && GraphicsEnvironment.isHeadless())
@@ -214,15 +254,15 @@ public class Installer
         switch (type)
         {
             case INSTALLER_GUI:
-                InstallerGui.run(mediaDir);
+                InstallerGui.run(mediaDir, argVariables);
                 break;
 
             case INSTALLER_AUTO:
-                launchAutomatedInstaller(path, mediaDir, args);
+                launchAutomatedInstaller(path, mediaDir, args, argVariables);
                 break;
 
             case INSTALLER_CONSOLE:
-                launchConsoleInstaller(consoleAction, path, langCode, mediaDir, args);
+                launchConsoleInstaller(consoleAction, path, langCode, mediaDir, args, argVariables);
                 break;
         }
     }
@@ -234,11 +274,12 @@ public class Installer
      * @param mediaDir the multi-volume media directory. May be <tt>null</tt>
      * @throws Exception for any error
      */
-    private void launchAutomatedInstaller(String path, String mediaDir, String[] args) throws Exception
+    private void launchAutomatedInstaller(String path, String mediaDir, String[] args, HashMap<String, String> argVariables) throws Exception
     {
         InstallerContainer container = new ConsoleInstallerContainer();
         AutomatedInstaller automatedInstaller = container.getComponent(AutomatedInstaller.class);
         automatedInstaller.init(path, mediaDir, args);
+        automatedInstaller.addCmdLineVariables(argVariables);
         automatedInstaller.doInstall();
     }
 
@@ -250,7 +291,7 @@ public class Installer
      * @param langCode      the language code. May be <tt>null</tt>
      * @param mediaDir      the multi-volume media directory. May be <tt>null</tt>
      */
-    private void launchConsoleInstaller(int consoleAction, String path, String langCode, String mediaDir, String[] args)
+    private void launchConsoleInstaller(int consoleAction, String path, String langCode, String mediaDir, String[] args, HashMap<String, String> argVariables)
     {
         InstallerContainer container = new ConsoleInstallerContainer();
         if (langCode != null)
@@ -259,6 +300,7 @@ public class Installer
         }
         ConsoleInstaller consoleInstaller = container.getComponent(ConsoleInstaller.class);
         consoleInstaller.setMediaPath(mediaDir);
+        consoleInstaller.addCmdLineVariables(argVariables);
         consoleInstaller.run(consoleAction, path, args);
     }
 
