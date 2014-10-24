@@ -526,7 +526,7 @@ public class Packager extends PackagerBase
                     continue;
                 }
             }
-            if (currentSet.contains(currentName))
+            if (currentSet.contains(currentName) || currentName.endsWith(".SF")|| currentName.endsWith(".DSA")|| currentName.endsWith(".RSA") )
             {
                 continue;
             }
