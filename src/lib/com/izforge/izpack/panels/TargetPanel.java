@@ -47,6 +47,8 @@ public class TargetPanel extends PathInputPanel
     public TargetPanel(InstallerFrame parent, InstallData idata)
     {
         super(parent, idata);
+        // load and save default directory from resource
+        super.loadDefaultInstallDir(parent, idata);
     }
 
     /**
@@ -56,6 +58,10 @@ public class TargetPanel extends PathInputPanel
     {
         // load the default directory info (if present)
         String path = TargetPanelConsoleHelper.loadDefaultInstallDirFromVariables(idata.getVariables());
+        // If no default directory in variables, load from resource
+        if (path==null) {
+            path = defaultInstallDir;
+        }
         if(path!=null)
     {
             setDefaultInstallDir(path);
