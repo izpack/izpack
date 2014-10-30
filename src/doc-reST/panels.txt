@@ -680,4 +680,109 @@ overriding the following values (attribute values wrapped for readability):
 
 
 
+LoadPropertiesPanel
+--------------
+
+This panel is a non-visible panel. It simply loads values from a properties file 
+specified by the variable ``load.properties.file`` and sets them to their respective 
+variables. The panel is designed to allow loading and setting variable values from 
+an external resource at runtime. This maybe useful when values are unknown when
+the installer is built.
+
+The ``load.properties.file`` variable is expected to be set before the panel is activated. 
+For instance, the variable maybe specified through a file field on a ``UserInputPanel`` displayed
+prior to the ``LoadPropertiesPanel``. Nothing is loaded if the variable is not set when 
+the panel is activated.
+
+An example use case for this panel would be an installer for an enterprise application 
+ deployed in multiple environments (e.g. UAT, Production, etc.) with each deployment 
+requiring many environment-specific settings such as database information, application URL, etc. 
+While several ``UserInputPanel``s can be used to prompt the user for data, it maybe impossible to set suitable
+default values for each different environments at the installer build time. Furthermore, it
+would be inconvenient and error-prone to have the user manually input all values into the panels. 
+
+One solution would be to have environment-specific properties files--external to the installer--for each environment. 
+During installation, the user can then specify the path to the properties file on a ``UserInputPanel``
+(which sets the ``load.properties.file`` variable) then have the values loaded by a ``LoadPropertiesPanel``.
+The loaded values can be used to set the default values in another ``UserInputPanel`` for the user to inspect 
+and modify, if required. Example:
+
+**install.xml:**
+
+:: 
+
+    (...)
+    <resources>
+        (...)
+        <res src="resource/user_input_spec.xml" id="userInputSpec.xml" parse="yes" type="xml"/>
+        (...)
+    </resources>
+    (...)
+
+    <panels>
+        (...)
+        <panel classname="UserInputPanel" id="userinputpanel.0"/>
+        <panel classname="LoadPropertiesPanel" id="loadpropertiespanel"/>
+        <panel classname="UserInputPanel" id="userinputpanel.1"/>
+        (...)
+    </panels>
+
+
+**user_input_spec.xml:**
+
+:: 
+
+    <userInput>
+        <panel order="0">
+            (...)
+            <field type="file" variable="load.properties.file">
+                <spec txt="Environment Properties File:" size="25" set=""/>
+                <str id="UserInputPanel.file.notfile.message" txt="The properties file you have chosen either does not exist or is not valid."/>
+                <str id="UserInputPanel.file.notfile.caption" txt="Invalid File"/>
+                <validator class="com.izforge.izpack.util.RegularExpressionValidator" txt="Invalid properties file!">
+                    <param name="pattern" value=".*[.]properties|.*[.]PROPERTIES}"/>
+                </validator>
+            </field>
+            (...)
+        </panel>
+        <panel order="1">
+            (...)
+            <field type="text" variable="db.host">
+                <spec txt="Database Host:" size="25" set="${DB_HOST}"/>
+            </field>
+            <field type="text" variable="db.port">
+                <spec txt="Database Port:" size="25" set="${DB_PORT}"/>
+            </field>
+            <field type="text" variable="db.username">
+                <spec txt="Database Username:" size="25" set="${DB_USERNAMES}"/>
+            </field>
+            (...)
+        </panel>
+    </userInput>
+
+
+**Sample properties file for UAT environment:**
+
+:: 
+
+    # UAT environment settings
+    (...)
+    DB_HOST=UATHOST
+    DB_PORT=1521
+    DB_USERNAME=UATUSER
+    (...)
+    
+
+**Sample properties file for Production environment:**
+
+:: 
+
+    # PROD environment settings
+    (...)
+    DB_HOST=PRODHOST
+    DB_PORT=1600
+    DB_USERNAME=PRODUSER
+    (...)
+
+    
 .. include:: include-bottom.inc

@@ -779,6 +779,9 @@
             <include name="com/izforge/izpack/panels/HTMLHelloPanel.java"/>
             <include name="com/izforge/izpack/panels/HTMLInfoPanel.java"/>
         </build-panel>
+    	<build-panel name="LoadPropertiesPanel">
+    	    <include name="com/izforge/izpack/panels/LoadPropertiesPanel.java"/>
+    	</build-panel>
     </target>
 
     <!--

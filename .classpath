@@ -16,6 +16,10 @@
         <attributes>
         </attributes>
     </classpathentry>
+    <classpathentry kind="lib" path="lib/bsf.jar">
+        <attributes>
+        </attributes>
+    </classpathentry>
     <classpathentry kind="src" path="src/tests">
         <attributes>
         </attributes>
