@@ -39,6 +39,9 @@ public class Installer {
 
 	public static final int INSTALLER_GUI = 0, INSTALLER_AUTO = 1, INSTALLER_CONSOLE = 2;
 	public static final int CONSOLE_INSTALL = 0, CONSOLE_GEN_TEMPLATE = 1, CONSOLE_FROM_TEMPLATE = 2;
+	
+	private static String[] args;
+	private static int type;
 
     /*
 	 * The main method (program entry point).
@@ -49,6 +52,9 @@ public class Installer {
 		Debug.log(" - Logger initialized at '" + new Date(System.currentTimeMillis()) + "'.");
 
 		Debug.log(" - commandline args: " + StringTool.stringArrayToSpaceSeparatedString(args));
+		
+		// Save the arguments in case need to re-launch because of privilege escalation.
+		Installer.args = args;
 
 		// OS X tweakings
 		if (System.getProperty("mrj.version") != null) {
@@ -60,7 +66,7 @@ public class Installer {
 		try {
 		    Iterator<String> args_it = Arrays.asList(args).iterator();
 		    
-		    int type = INSTALLER_GUI;
+		    type = INSTALLER_GUI;
 		    int consoleAction = CONSOLE_INSTALL;
 		    String path = null, langcode = null;
 		    
@@ -131,5 +137,13 @@ public class Installer {
 			e.printStackTrace();
 			System.exit(1);
 		}
+	}
+	
+	public static String[] getArgs() {
+	    return args;
+	}
+	
+	public static boolean isGUI() {
+	    return type == INSTALLER_GUI;
 	}
 }

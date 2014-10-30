@@ -25,7 +25,6 @@ import com.izforge.izpack.util.OsVersion;
 
 import java.io.*;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,6 +173,12 @@ public class PrivilegedRunner
             elevator.add(installer);
         }
 
+        // Add command line arguments
+        String[] args = Installer.getArgs();
+        for (String arg : args) {
+            elevator.add(arg);
+        }
+        
         return elevator;
     }
 
@@ -256,7 +261,8 @@ public class PrivilegedRunner
     {
         if (OsVersion.IS_WINDOWS)
         {
-            return "javaw.exe";
+            // if not GUI, use java.exe
+            return Installer.isGUI() ? "javaw.exe" : "java.exe";
         }
         else
         {
