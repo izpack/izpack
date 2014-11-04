@@ -2363,7 +2363,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
 
             // Boolean.valueOf(data.addToGroup)
             if (OsVersion.IS_WINDOWS)
-
             {
                 dataElement.setAttribute(AUTO_ATTRIBUTE_TYPE, Integer.toString(data.type));
             }

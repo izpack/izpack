@@ -23,10 +23,10 @@ public class NodeIdentifierValidator implements Validator
 {
     NodeIdentifierDataValidator validator = new NodeIdentifierDataValidator();
 
-    public boolean validate(ProcessingClient client)
+    public boolean validate(ProcessingClient client, AutomatedInstallData adata)
     {
         // find app_name
-        String appname = client.getValidatorParams().get("APP_NAME");
+        String appname = adata.getVariable("APP_NAME");
         
         // then validate
         String nodename = client.getText();

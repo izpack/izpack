@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.izforge.izpack.installer.InstallData;
+
 /**
  * Validator helper used for validating a group of related fields, e.g. a password group in console
  * based mode.
@@ -39,11 +41,15 @@ public class MultipleFieldValidator implements ProcessingClient
     private ValidatorContainer currentValidator;
     
     private String message;
+    private InstallData idata;
+    
 
-    public MultipleFieldValidator(List<String> inputs, List<ValidatorContainer> validators)
+    public MultipleFieldValidator(InstallData idata, List<String> inputs, List<ValidatorContainer> validators)
     {
         this.inputs = inputs;
         this.validators = validators;
+        this.idata = idata;
+        
     }
 
     public String getFieldContents(int index)
@@ -81,7 +87,7 @@ public class MultipleFieldValidator implements ProcessingClient
                 currentValidator = validator;
                 Validator validatorInstance = currentValidator.getValidator();
                 if (validatorInstance != null){
-                    success = validatorInstance.validate(this);
+                    success = validatorInstance.validate(this, idata);
                     if (!success){
                         message = currentValidator.getMessage();
                         break;

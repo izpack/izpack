@@ -167,7 +167,7 @@ public class PasswordGroup implements ProcessingClient
             Validator validator = container.getValidator();
             if (validator != null)
             {
-                returnValue = validator.validate(this);
+                returnValue = validator.validate(this, idata);
             }
         }
         catch (Exception e)

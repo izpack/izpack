@@ -42,7 +42,21 @@ public class HyperlinkHandler implements HyperlinkListener
         {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
             {
-                String urls = e.getURL().toExternalForm();
+                String urls = null;
+                
+                try 
+                {
+                    if (e.getURL()!=null) urls = e.getURL().toExternalForm();
+                    else urls = e.getDescription();
+                }
+                catch (Exception ex)
+                {
+                    urls = e.getDescription();
+                    Debug.log(ex.getMessage());
+                    Debug.log (ex);
+                }
+                
+                
                 if (com.izforge.izpack.util.OsVersion.IS_OSX)
                 {
                     //Runtime.getRuntime().exec("open " + urls);
@@ -63,12 +77,15 @@ public class HyperlinkHandler implements HyperlinkListener
                             // http://www.oracle.com/technetwork/java/javase/7u25-relnotes-1955741.html#jruntime
                             // TODO
                             Runtime.getRuntime().exec(launcher.replaceAll("QqzURL", urls));
-                            System.out.println("OK");
+                            //System.out.println("OK");
                             break;
                         }
                         catch (Exception ignore)
                         {
-                            System.out.println(launcher + " NOT OK");
+                            Debug.log(ignore.getMessage());
+                            Debug.log (ignore);
+                            
+                            //System.out.println(launcher + " NOT OK");
                         }
                     }
                 }
@@ -83,7 +100,9 @@ public class HyperlinkHandler implements HyperlinkListener
         }
         catch (Exception err)
         {
-            err.printStackTrace();
+            Debug.log(err.getMessage());
+            Debug.log (err);
+
         }
     }
 }

@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.panels;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
+import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.InstallerFrame;
 import com.izforge.izpack.installer.IzPanel;
 import com.izforge.izpack.util.Debug;
@@ -51,6 +53,9 @@ public class TextInputField extends JComponent
      * This composite can only contain one component ie JTextField
      */
     private JTextComponent field;
+    
+    private AutomatedInstallData idata = null;
+
 
     IzPanel parent;
     List<ValidatorContainer> validators;
@@ -71,11 +76,12 @@ public class TextInputField extends JComponent
      * @param validatorParams validator parameters.
      */
     /*--------------------------------------------------------------------------*/
-    public TextInputField(IzPanel parent, String set, int size, int rows, List<ValidatorContainer> validatorConfig)
+    public TextInputField(IzPanel parent, String set, int size, int rows, List<ValidatorContainer> validatorConfig, AutomatedInstallData idata)
     {
         this.parent = parent;
         this.parentFrame = parent.getInstallerFrame();
         this.validators = validatorConfig;
+        this.idata = idata;
 
         com.izforge.izpack.gui.FlowLayout layout = new com.izforge.izpack.gui.FlowLayout();
         layout.setAlignment(com.izforge.izpack.gui.FlowLayout.LEADING);
@@ -143,7 +149,7 @@ public class TextInputField extends JComponent
     public boolean validateContents()
     {
         String input = field.getText();
-        StringInputProcessingClient processingClient = new StringInputProcessingClient(
+        StringInputProcessingClient processingClient = new StringInputProcessingClient((InstallData)idata, 
                 input, validators);
         boolean success = processingClient.validate();
         if (!success)

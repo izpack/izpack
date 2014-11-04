@@ -1778,7 +1778,7 @@ public class UserInputPanel extends IzPanel implements ActionListener, ItemListe
         // ----------------------------------------------------
         List<ValidatorContainer> validatorConfig;
         validatorConfig = analyzeValidator(spec);
-        inputField = new TextInputField(this, set, size, rows, validatorConfig);
+        inputField = new TextInputField(this, set, size, rows, validatorConfig, idata);
         inputField.addFocusListener(this);
         inputField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),BorderFactory.createEmptyBorder(6, 5, 6, 0)));
 

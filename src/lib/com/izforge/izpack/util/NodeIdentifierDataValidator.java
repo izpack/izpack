@@ -2,6 +2,7 @@ package com.izforge.izpack.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -69,11 +70,33 @@ public class NodeIdentifierDataValidator implements DataValidator
             
             if (OsVersion.IS_UNIX)
             {
-                // check file /etc/init/syracuse-$SERVICE_NAME.conf
-                // SERVICE_NAME = node name
-                serviceName = "/etc/init/sagesyracuse-"+nodeName.toLowerCase()+".conf";
-                File serviceFile = new File (serviceName);
-                if (!serviceFile.exists()) bReturn = Status.OK; 
+                // check file /etc/init/xxxxxxx-$SERVICE_NAME.conf
+                // SERVICE_NAME = node name in lower
+                // first line of xxxxxxx-$SERVICE_NAME.conf contains "# pstrAppName"
+                
+                File etcInitDir = new File ("/etc/init");
+                
+                bReturn = Status.OK;
+                
+                //System.out.println("AppName to test : # "+pstrAppName);
+
+                for (File fileEntry : etcInitDir.listFiles()) 
+                {
+                    //System.out.println(fileEntry.getAbsolutePath());
+                    if (fileEntry.getName().endsWith("-"+pstrNodeName.toLowerCase()+".conf"))
+                    {
+                        BufferedReader reader = new BufferedReader(new FileReader(fileEntry));
+                        
+                        String firstLine = reader.readLine();
+                        reader.close();
+                        
+                        //System.out.println(firstLine);
+                        if (firstLine.startsWith("# "+pstrAppName))
+                            return Status.ERROR;
+                        
+                    }
+                }                
+                
             }
             else
             {

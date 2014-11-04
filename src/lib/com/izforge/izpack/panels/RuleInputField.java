@@ -628,7 +628,7 @@ public class RuleInputField extends JComponent implements KeyListener, FocusList
     {
         if (validationService != null)
         {
-            return (validationService.validate(this));
+            return (validationService.validate(this, idata));
         }
         else
         {

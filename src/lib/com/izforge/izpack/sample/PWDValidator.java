@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.sample;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.panels.ProcessingClient;
 import com.izforge.izpack.panels.Validator;
 
@@ -44,7 +45,7 @@ public class PWDValidator implements Validator
      * @return <code>true</code> if the validation passes, otherwise <code>false</code>.
      */
     /*--------------------------------------------------------------------------*/
-    public boolean validate(ProcessingClient client)
+    public boolean validate(ProcessingClient client, AutomatedInstallData adata)
     {
         int numFields = client.getNumFields();
 

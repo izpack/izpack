@@ -219,7 +219,7 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
                 showMessage("file.notfile");
             }
             else {
-                StringInputProcessingClient processingClient = new StringInputProcessingClient(input,validators);
+                StringInputProcessingClient processingClient = new StringInputProcessingClient(data, input,validators);
                 boolean success = processingClient.validate();
                 if (!success){
                     JOptionPane.showMessageDialog(parentFrame, processingClient.getValidationMessage(),

@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.izforge.izpack.installer.InstallData;
+
 public class StringInputProcessingClient implements ProcessingClient
 {
 
@@ -34,11 +36,15 @@ public class StringInputProcessingClient implements ProcessingClient
     private ValidatorContainer currentValidator;
     
     private String message;
+    
+    private InstallData idata = null;
+    
 
-    public StringInputProcessingClient(String input, List<ValidatorContainer> validators)
+    public StringInputProcessingClient(InstallData idata, String input, List<ValidatorContainer> validators)
     {
         this.input = input;
         this.validators = validators;
+        this.idata = idata;
     }
 
     public String getFieldContents(int index)
@@ -76,7 +82,7 @@ public class StringInputProcessingClient implements ProcessingClient
                 currentValidator = validator;
                 Validator validatorInstance = currentValidator.getValidator();
                 if (validatorInstance != null){
-                    success = validatorInstance.validate(this);
+                    success = validatorInstance.validate(this, idata);
                     if (!success){
                         message = currentValidator.getMessage();
                         break;

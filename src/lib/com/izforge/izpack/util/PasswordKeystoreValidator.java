@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.util;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.panels.PasswordGroup;
 import com.izforge.izpack.panels.ProcessingClient;
@@ -60,7 +61,7 @@ public class PasswordKeystoreValidator implements Validator
      * @param client the client object using the services of this validator.
      * @return <code>true</code> if the validation passes, otherwise <code>false</code>.
      */
-    public boolean validate(ProcessingClient client)
+    public boolean validate(ProcessingClient client, AutomatedInstallData adata)
     {
         boolean returnValue = false;
         String keystorePassword = null;

@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.panels;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
+
 /*---------------------------------------------------------------------------*/
 /**
  * Interface for classes that provide rule validation services.
@@ -40,6 +42,6 @@ public interface Validator
      * @return <code>true</code> if the validation passes, otherwise <code>false</code>.
      */
     /*--------------------------------------------------------------------------*/
-    public boolean validate(ProcessingClient client);
+    public boolean validate(ProcessingClient client, AutomatedInstallData adata);
 }
 /*---------------------------------------------------------------------------*/

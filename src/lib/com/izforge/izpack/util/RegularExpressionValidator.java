@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.util;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.panels.PasswordGroup;
 import com.izforge.izpack.panels.ProcessingClient;
 import com.izforge.izpack.panels.Validator;
@@ -41,7 +42,7 @@ public class RegularExpressionValidator implements Validator
 
     private static final String PATTERN_PARAM = "pattern";
 
-    public boolean validate(ProcessingClient client)
+    public boolean validate(ProcessingClient client, AutomatedInstallData adata)
     {
 
         String patternString;

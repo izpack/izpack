@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.util;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.panels.ProcessingClient;
 import com.izforge.izpack.panels.Validator;
 
@@ -38,7 +39,7 @@ import java.net.ServerSocket;
 public class HostAddressValidator implements Validator
 {
 
-    public boolean validate(ProcessingClient client)
+    public boolean validate(ProcessingClient client, AutomatedInstallData adata)
     {
         InetAddress inet = null;
         String host = "";

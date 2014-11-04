@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.util;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.panels.ProcessingClient;
 import com.izforge.izpack.panels.Validator;
 
@@ -32,7 +33,7 @@ import com.izforge.izpack.panels.Validator;
 public class IsPortValidator implements Validator
 {
 
-    public boolean validate(ProcessingClient client)
+    public boolean validate(ProcessingClient client, AutomatedInstallData adata)
     {
         int port = 0;
 

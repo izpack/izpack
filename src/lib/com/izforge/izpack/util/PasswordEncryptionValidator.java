@@ -20,14 +20,17 @@
  */
 package com.izforge.izpack.util;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.panels.PasswordGroup;
 import com.izforge.izpack.panels.ProcessingClient;
 import com.izforge.izpack.panels.Validator;
+
 import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.security.SecureRandom;
 import java.util.Map;
 
@@ -38,7 +41,7 @@ public class PasswordEncryptionValidator implements Validator
 {
     private Cipher encryptCipher;
 
-    public boolean validate(ProcessingClient client)
+    public boolean validate(ProcessingClient client, AutomatedInstallData adata)
     {
         boolean returnValue = true;
         String encryptedPassword = null;
