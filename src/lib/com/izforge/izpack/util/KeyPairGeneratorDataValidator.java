@@ -36,14 +36,13 @@ public class KeyPairGeneratorDataValidator implements com.izforge.izpack.install
         try
         {
         
-            String passPhrase = adata.getVariable("tool.passphrase");
+            String passPhrase = "";
+            if (adata.getVariable("tool.passphrase")!=null) passPhrase = adata.getVariable("tool.passphrase");
             File publicKeyFile = File.createTempFile("public", ".pem");
             File privateKeyFile = File.createTempFile("private", ".pem");
             String publicKeyFileName = publicKeyFile.getAbsolutePath();
             String privateKeyFileName = privateKeyFile.getAbsolutePath();
             
-            adata.setVariable("tool.temp.publickeyfile", publicKeyFileName);
-            adata.setVariable("tool.temp.privatekeyfile", privateKeyFileName);
             
             // generate key pair
             KeyPairGenerator keyGen = KeyPairGenerator
@@ -57,7 +56,10 @@ public class KeyPairGeneratorDataValidator implements com.izforge.izpack.install
             writePrivateKey(privateKeyFileName, pair, passPhrase.toCharArray());
         
             bReturn = Status.OK;
-        
+
+            adata.setVariable("tool.temp.publickeyfile", publicKeyFileName);
+            adata.setVariable("tool.temp.privatekeyfile", privateKeyFileName);
+
         }
         catch (Exception ex)
         {
@@ -102,10 +104,19 @@ public class KeyPairGeneratorDataValidator implements com.izforge.izpack.install
         Writer writer = new FileWriter(filename);
         JcePEMEncryptorBuilder jeb = new JcePEMEncryptorBuilder("DES-EDE3-CBC");
         jeb.setProvider("SunJCE");
-        PEMEncryptor pemEncryptor = jeb.build(passphrase);
+        
         PEMWriter pemWriter = new PEMWriter(new PrintWriter(writer));
         try {
-            pemWriter.writeObject(key, pemEncryptor);
+            
+            if (passphrase!=null && passphrase.length>0)
+            {
+                PEMEncryptor pemEncryptor = jeb.build(passphrase);
+                pemWriter.writeObject(key, pemEncryptor);
+            }
+            else
+            {
+                pemWriter.writeObject(key);
+            }
             pemWriter.flush();
         } finally {
             pemWriter.close();
