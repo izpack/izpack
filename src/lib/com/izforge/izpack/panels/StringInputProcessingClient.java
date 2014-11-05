@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.InstallData;
 
 public class StringInputProcessingClient implements ProcessingClient
@@ -37,10 +38,10 @@ public class StringInputProcessingClient implements ProcessingClient
     
     private String message;
     
-    private InstallData idata = null;
+    private AutomatedInstallData idata = null;
     
 
-    public StringInputProcessingClient(InstallData idata, String input, List<ValidatorContainer> validators)
+    public StringInputProcessingClient(AutomatedInstallData idata, String input, List<ValidatorContainer> validators)
     {
         this.input = input;
         this.validators = validators;

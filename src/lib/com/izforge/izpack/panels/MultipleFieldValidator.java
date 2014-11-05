@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.InstallData;
 
 /**
@@ -41,10 +42,10 @@ public class MultipleFieldValidator implements ProcessingClient
     private ValidatorContainer currentValidator;
     
     private String message;
-    private InstallData idata;
+    private AutomatedInstallData idata;
     
 
-    public MultipleFieldValidator(InstallData idata, List<String> inputs, List<ValidatorContainer> validators)
+    public MultipleFieldValidator(AutomatedInstallData idata, List<String> inputs, List<ValidatorContainer> validators)
     {
         this.inputs = inputs;
         this.validators = validators;

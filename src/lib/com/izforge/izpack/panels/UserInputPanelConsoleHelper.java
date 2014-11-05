@@ -454,7 +454,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                 values.add(idata.getVariable(pwd.input[i].strVariableName));
                 if (i > 0 && pwd.validators != null && !pwd.validators.isEmpty())
                 {
-                    MultipleFieldValidator validation = new MultipleFieldValidator((InstallData) idata, values,
+                    MultipleFieldValidator validation = new MultipleFieldValidator( idata, values,
                             pwd.validators);
                     if (!validation.validate())
                     {
@@ -582,7 +582,7 @@ public class UserInputPanelConsoleHelper extends PanelConsoleHelper implements P
                     done = true;
                     if (input.validators != null && !input.validators.isEmpty())
                     {
-                        StringInputProcessingClient validation = new StringInputProcessingClient((InstallData) instalData, value, input.validators);
+                        StringInputProcessingClient validation = new StringInputProcessingClient( instalData, value, input.validators);
                         if (!validation.validate()) {
                             done = false;
                             System.out.println("Validation failed, please verify your input.");

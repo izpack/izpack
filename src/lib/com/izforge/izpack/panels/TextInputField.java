@@ -149,7 +149,7 @@ public class TextInputField extends JComponent
     public boolean validateContents()
     {
         String input = field.getText();
-        StringInputProcessingClient processingClient = new StringInputProcessingClient((InstallData)idata, 
+        StringInputProcessingClient processingClient = new StringInputProcessingClient(idata, 
                 input, validators);
         boolean success = processingClient.validate();
         if (!success)
