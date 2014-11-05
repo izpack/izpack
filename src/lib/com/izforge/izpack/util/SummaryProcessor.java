@@ -78,17 +78,29 @@ public class SummaryProcessor
         while (iter.hasNext())
         {
             IzPanel panel = iter.next();
-            String caption = panel.getSummaryCaption();
-            String msg = panel.getSummaryBody();
-            // If no caption or/and message, ignore it.
-            if (caption == null || caption.equals("") || msg == null || msg.equals(""))
+            
+            boolean bIsConditionFulfilled = true;
+            String strCondition = panel.getMetadata().getCondition();
+            if (strCondition != null)
             {
-                continue;
+                bIsConditionFulfilled = idata.getRules().isConditionTrue(
+                        strCondition);
             }
             
+            if (bIsConditionFulfilled)
+            {            
             
-            sb.append(HEAD_START).append(caption).append(HEAD_END);
-            sb.append(BODY_START).append(msg).append(BODY_END);
+                String caption = panel.getSummaryCaption();
+                String msg = panel.getSummaryBody();
+                // If no caption or/and message, ignore it.
+                if (caption == null || caption.equals("") || msg == null || msg.equals(""))
+                {
+                    continue;
+                }
+            
+                sb.append(HEAD_START).append(caption).append(HEAD_END);
+                sb.append(BODY_START).append(msg).append(BODY_END);
+            }
         }
         sb.append(HTML_FOOTER);
         return (sb.toString());
