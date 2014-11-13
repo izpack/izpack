@@ -42,7 +42,7 @@ public class X3WebServerValidator implements Validator
                 String strDataPath = variables.getProperty("webserver.dir.data");
                 if (strDataPath!=null)
                 {
-                    adata.setVariable("syracuse.certificate.x3webserverdata", strDataPath + File.separator + "KEYSTORE" + File.separator + "WEBSERVER");
+                    adata.setVariable("syracuse.certificate.x3webserverdata", strDataPath + File.separator + "KEYSTORE" + File.separator + "SYRACUSE");
                     bReturn = true;
                 }
                 
