@@ -20,7 +20,7 @@ public class ElasticSearchValidator implements DataValidator
         {
         
             String hostName = adata.getVariable("elasticsearch.url.hostname");
-            String hostPort = adata.getVariable("elasticsearch.url.port");
+            String hostPort = adata.getVariable("elasticsearch.service.httpport");
             
             String strurl = "http://"+hostName+":"+hostPort+"/_nodes";
             
