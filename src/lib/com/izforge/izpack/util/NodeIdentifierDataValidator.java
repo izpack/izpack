@@ -83,7 +83,7 @@ public class NodeIdentifierDataValidator implements DataValidator
                 for (File fileEntry : etcInitDir.listFiles()) 
                 {
                     //System.out.println(fileEntry.getAbsolutePath());
-                    if (fileEntry.getName().endsWith("-"+pstrNodeName.toLowerCase()+".conf"))
+                    if (fileEntry.getName().endsWith("-"+pstrNodeName.toLowerCase()+".conf") || fileEntry.getName().endsWith("_-_"+pstrNodeName.toLowerCase()+".conf"))
                     {
                         BufferedReader reader = new BufferedReader(new FileReader(fileEntry));
                         
