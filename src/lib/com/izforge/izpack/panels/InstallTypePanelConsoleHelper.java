@@ -415,6 +415,19 @@ public class InstallTypePanelConsoleHelper extends PanelConsoleHelper implements
                     String[] elem = new String[]{name+" "+ strversion +" ("+path+")",name,path, strversion};
                     tblComps.add (elem);
                 }
+               
+                else if (path.endsWith(File.separator +"tool"))
+                {
+                    path = path.substring(0, path.length()-6);
+                    installInformation = new File(path + File.separator + AutomatedInstallData.INSTALLATION_INFORMATION);
+                    
+                    if (installInformation.exists())
+                    {
+                        String[] elem = new String[]{name+" "+ strversion +" ("+path+")",name,path, strversion};
+                        tblComps.add (elem);
+                    }
+                }
+                
             }
             
             return tblComps;

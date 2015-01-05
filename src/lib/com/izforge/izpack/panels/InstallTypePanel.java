@@ -299,6 +299,20 @@ public class InstallTypePanel extends IzPanel implements ActionListener, ListSel
                     //listItems.addElement(new String[] {moduleNode.getAttribute("name")+" "+ strversion +" ("+path+")", path, strversion});
                     
                 }
+                else if (path.endsWith(File.separator +"tool"))
+                {
+                    path = path.substring(0, path.length()-6);
+                    installInformation = new File(path + File.separator + AutomatedInstallData.INSTALLATION_INFORMATION);
+                    
+                    if (installInformation.exists())
+                    {
+                        String key = name + " " + strversion +" ("+path+")";
+                        listItems.addElement(key);
+                        lstCompProps.put(key, new String[] {name, path, strversion});
+                        //listItems.addElement(new String[] {moduleNode.getAttribute("name")+" "+ strversion +" ("+path+")", path, strversion});
+                        
+                    }                    
+                }
             }
         
         }
