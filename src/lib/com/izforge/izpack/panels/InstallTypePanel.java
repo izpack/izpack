@@ -301,7 +301,7 @@ public class InstallTypePanel extends IzPanel implements ActionListener, ListSel
                 }
                 else if (path.endsWith(File.separator +"tool"))
                 {
-                    path = path.substring(0, path.length()-6);
+                    path = path.substring(0, path.length()-5);
                     installInformation = new File(path + File.separator + AutomatedInstallData.INSTALLATION_INFORMATION);
                     
                     if (installInformation.exists())
