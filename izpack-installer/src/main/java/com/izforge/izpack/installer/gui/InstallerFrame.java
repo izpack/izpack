@@ -672,27 +672,33 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     /**
      * Quits the installer.
      * <p/>
-     * If installation is complete, this writes any uninstallation data, and shuts down.
      * If installation is incomplete, a confirmation dialog will be displayed.
+     * If installation is complete, this writes any uninstallation data, and shuts down.
      */
     void quit()
     {
-        // FIXME !!! Reboot handling
-        if (installdata.isCanClose() || (!navigator.isNextEnabled() && !navigator.isPreviousEnabled()))
+        //If fully or partially installed and only option is to quit, write uninstaller and do not prompt user about cancellation
+        if(installdata.isCanClose() && (!navigator.isNextEnabled() && !navigator.isPreviousEnabled()))
         {
-            if (!writeUninstallData())
-            {
-                // TODO - for now just shut down. Alternative approaches include:
-                // . retry
-                // . revert installation - which is what wipeAborted attempts to do, but fails to handle shortcuts and
-                //                         registry changes
-            }
-            shutdown();
+            writeUninstallData();
         }
         else
         {
-            // The installation is not over
-            confirmExit();
+            //Prompt user about cancellation if user has options other than quit
+            if(confirmExit())
+            {
+                //Write uninstaller if installation is fully or partially installed
+                if (installdata.isCanClose())
+                {
+                    writeUninstallData();
+                }
+                //Just quit if nothing was installed
+                else
+                {
+                    wipeAborted();
+                    housekeeper.shutDown(0);
+                }
+            }
         }
     }
 
@@ -1496,7 +1502,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
      *
      * @return <tt>true</tt> if uninstall data was written successfully or is not required, otherwise <tt>false</tt>
      */
-    private boolean writeUninstallData()
+    private void writeUninstallData()
     {
         boolean result = true;
         if (uninstallDataWriter.isUninstallRequired())
@@ -1508,9 +1514,13 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
                 String title = messages.get("installer.error");
                 String message = messages.get("installer.uninstall.writefailed");
                 JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
+                // TODO - for now just shut down. Alternative approaches include:
+                // . retry
+                // . revert installation - which is what wipeAborted attempts to do, but fails to handle shortcuts and
+                //                         registry changes
             }
         }
-        return result;
+        shutdown();
     }
 
     /**
@@ -1561,12 +1571,12 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     /**
      * Confirms exit when installation is not complete.
      */
-    private void confirmExit()
+    private boolean confirmExit()
     {
         if (unpacker.isInterruptDisabled() && interruptCount < MAX_INTERRUPT)
         { // But we should not interrupt.
             interruptCount++;
-            return;
+            return false;
         }
 
         Messages messages = locales.getMessages();
@@ -1591,11 +1601,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         title = variables.replace(title);
 
         int res = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION);
-        if (res == JOptionPane.YES_OPTION)
-        {
-            wipeAborted();
-            housekeeper.shutDown(0);
-        }
+        return (res == JOptionPane.YES_OPTION);
     }
 
 }
