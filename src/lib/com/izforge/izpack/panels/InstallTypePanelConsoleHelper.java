@@ -224,7 +224,7 @@ public class InstallTypePanelConsoleHelper extends PanelConsoleHelper implements
                 
             rh.verify(installData);
 
-            String UninstallKeyName = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
+            String UninstallKeyName = RegistryHandler.UNINSTALL_ROOT; //"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
             int oldVal = rh.getRoot();
             rh.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
             

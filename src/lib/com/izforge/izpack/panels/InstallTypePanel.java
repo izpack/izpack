@@ -114,7 +114,7 @@ public class InstallTypePanel extends IzPanel implements ActionListener, ListSel
                 
             rh.verify(idata);
 
-            String UninstallKeyName = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
+            String UninstallKeyName = RegistryHandler.UNINSTALL_ROOT; // "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
             int oldVal = rh.getRoot();
             rh.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
             

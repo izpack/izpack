@@ -318,5 +318,9 @@
 	<str id="updateMode" txt="Update mode"/>
 	
 	<str id="notidle" txt="This component is currently used and cannot be uninstalled."/>
+	
+	<str id="specFileMissing" txt="The file productsSpec.txt is missing, this setup cannot continue !" />
+    <str id="errIsProductFound" txt="A %1$s component is already installed ! You must uninstall this component to be able to continue this installation."/>
+	
 
 </langpack>

@@ -320,5 +320,8 @@
 	
 	<str id="notidle" txt="Ce composant est actuellement utilisé et ne peut pas être désinstallé."/>
 	
+	<str id="specFileMissing" txt="Le fichier productsSpec.txt est manquant, impossible de continuer !" />
+	<str id="errIsProductFound" txt="Un composant %1$s est déjà présent sur ce système ! Vous devez désinstaller ce composant avant de continuer cette installation." />
+	
 
 </langpack>
