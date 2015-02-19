@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.PanelConsole;
 import com.izforge.izpack.installer.PanelConsoleHelper;
+import com.izforge.izpack.installer.ResourceManager;
 import com.izforge.izpack.installer.ScriptParser;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.OsVersion;
@@ -36,6 +38,8 @@ import com.izforge.izpack.util.os.RegistryHandler;
 
 public class InstallTypePanelConsoleHelper extends PanelConsoleHelper implements PanelConsole
 {
+
+    private static final String SPEC_FILE_NAME = "productsSpec.txt";
 
     public static String ADX_NODE_TYPE = "component.node.type";  
     public static String ADX_NODE_FAMILY = "component.node.family";  
@@ -208,11 +212,40 @@ public class InstallTypePanelConsoleHelper extends PanelConsoleHelper implements
             String uninstallName = installData.getVariable("UNINSTALL_NAME");
             String uninstallKeySuffix = installData.getVariable("UninstallKeySuffix");
             String uninstallKeyPrefix = new String (uninstallName);
+            ArrayList<String> uninstallKeyPrefixList = new ArrayList<String>();
             
             if (uninstallKeySuffix!=null && !"".equals(uninstallKeySuffix))
             {
                 uninstallKeyPrefix = uninstallKeyPrefix.substring(0, uninstallKeyPrefix.length() -  uninstallKeySuffix.length());
             }
+            
+            uninstallKeyPrefixList.add(uninstallKeyPrefix);
+            
+            // load additionnal prefix from resource
+
+            try
+            {
+                InputStream input = ResourceManager.getInstance().getInputStream(SPEC_FILE_NAME);
+                
+                if (input != null)
+                {
+                    
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder out = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) 
+                    {
+                        uninstallKeyPrefixList.add(line.trim());
+                    }
+                    reader.close();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+               Debug.log(ex);
+            }            
+            
             
             // load registry
             RegistryHandler rh = RegistryDefaultHandler.getInstance();
@@ -234,28 +267,31 @@ public class InstallTypePanelConsoleHelper extends PanelConsoleHelper implements
             
             for (String uninstallKey : lstSubKeys) 
             {
-                if (uninstallKey.startsWith(uninstallKeyPrefix))
+                for (String keyToSearchFor : uninstallKeyPrefixList )
                 {
-                    // read path from uninstall string :((
-                    String productPath =  rh.getValue(UninstallKeyName+"\\"+uninstallKey, "UninstallString").getStringData();
-                    productPath = productPath.substring(productPath.lastIndexOf("\"", productPath.length()-2)+1, productPath.length()-29);
-                    
-                    String productVersion = rh.getValue(UninstallKeyName+"\\"+uninstallKey, "DisplayVersion").getStringData();
-                    
-                    String name = uninstallKey;
-                    if (name.indexOf(" - ")>0)
+                    if (uninstallKey.startsWith(keyToSearchFor))
                     {
-                        name=name.substring(name.indexOf(" - ")+3);
-                    }
-                    
-                    // test for .installinformation existence
-                    
-                    File installInformation = new File(productPath + File.separator + AutomatedInstallData.INSTALLATION_INFORMATION);
-                    
-                    if (installInformation.exists())
-                    {
-                        String[] elem = new String[]{name+ " " + productVersion +" ("+productPath+")",name,productPath, productVersion};
-                        tblComps.add (elem);
+                        // read path from uninstall string :((
+                        String productPath =  rh.getValue(UninstallKeyName+"\\"+uninstallKey, "UninstallString").getStringData();
+                        productPath = productPath.substring(productPath.lastIndexOf("\"", productPath.length()-2)+1, productPath.length()-29);
+                        
+                        String productVersion = rh.getValue(UninstallKeyName+"\\"+uninstallKey, "DisplayVersion").getStringData();
+                        
+                        String name = uninstallKey;
+                        if (name.indexOf(" - ")>0)
+                        {
+                            name=name.substring(name.indexOf(" - ")+3);
+                        }
+                        
+                        // test for .installinformation existence
+                        
+                        File installInformation = new File(productPath + File.separator + AutomatedInstallData.INSTALLATION_INFORMATION);
+                        
+                        if (installInformation.exists())
+                        {
+                            String[] elem = new String[]{name+ " " + productVersion +" ("+productPath+")",name,productPath, productVersion};
+                            tblComps.add (elem);
+                        }
                     }
                 }
             }

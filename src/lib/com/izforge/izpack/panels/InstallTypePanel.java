@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,6 +46,8 @@ import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.InstallerFrame;
 import com.izforge.izpack.installer.IzPanel;
+import com.izforge.izpack.installer.ResourceManager;
+import com.izforge.izpack.installer.DataValidator.Status;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.os.RegistryDefaultHandler;
@@ -53,6 +57,8 @@ import com.izforge.izpack.util.os.RegistryHandler;
 public class InstallTypePanel extends IzPanel implements ActionListener, ListSelectionListener
 {
 
+    private static final String SPEC_FILE_NAME = "productsSpec.txt";
+    
     public static String ADX_NODE_TYPE = "component.node.type";  
     public static String ADX_NODE_FAMILY = "component.node.family";  
     private JRadioButton normalinstall;
@@ -98,11 +104,41 @@ public class InstallTypePanel extends IzPanel implements ActionListener, ListSel
             String uninstallName = idata.getVariable("UNINSTALL_NAME");
             String uninstallKeySuffix = idata.getVariable("UninstallKeySuffix");
             String uninstallKeyPrefix = new String (uninstallName);
+            ArrayList<String> uninstallKeyPrefixList = new ArrayList<String>();
+            
             
             if (uninstallKeySuffix!=null && !"".equals(uninstallKeySuffix))
             {
                 uninstallKeyPrefix = uninstallKeyPrefix.substring(0, uninstallKeyPrefix.length() -  uninstallKeySuffix.length());
             }
+            
+            uninstallKeyPrefixList.add(uninstallKeyPrefix);
+            
+            // load additionnal prefix from resource
+
+            try
+            {
+                InputStream input = ResourceManager.getInstance().getInputStream(SPEC_FILE_NAME);
+                
+                if (input != null)
+                {
+                    
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder out = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) 
+                    {
+                        uninstallKeyPrefixList.add(line.trim());
+                    }
+                    reader.close();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+               Debug.log(ex);
+            }            
+            
             
             // load registry
             RegistryHandler rh = RegistryDefaultHandler.getInstance();
@@ -123,29 +159,33 @@ public class InstallTypePanel extends IzPanel implements ActionListener, ListSel
 
             for (String uninstallKey : lstSubKeys) 
             {
-                if (uninstallKey.startsWith(uninstallKeyPrefix))
+                
+                for (String keyToSearchFor : uninstallKeyPrefixList )
                 {
-                    // read path from uninstall string :((
-                    String productPath =  rh.getValue(UninstallKeyName+"\\"+uninstallKey, "UninstallString").getStringData();
-                    String productVersion = rh.getValue(UninstallKeyName+"\\"+uninstallKey, "DisplayVersion").getStringData();
-
-                    productPath = productPath.substring(productPath.lastIndexOf("\"", productPath.length()-2)+1, productPath.length()-29);
-                    String name = uninstallKey;
-                    if (name.indexOf(" - ")>0)
+                    if (uninstallKey.startsWith(keyToSearchFor))
                     {
-                        name=name.substring(name.indexOf(" - ")+3);
+                        // read path from uninstall string :((
+                        String productPath =  rh.getValue(UninstallKeyName+"\\"+uninstallKey, "UninstallString").getStringData();
+                        String productVersion = rh.getValue(UninstallKeyName+"\\"+uninstallKey, "DisplayVersion").getStringData();
+    
+                        productPath = productPath.substring(productPath.lastIndexOf("\"", productPath.length()-2)+1, productPath.length()-29);
+                        String name = uninstallKey;
+                        if (name.indexOf(" - ")>0)
+                        {
+                            name=name.substring(name.indexOf(" - ")+3);
+                        }
+                        
+                        File installInformation = new File(productPath + File.separator + AutomatedInstallData.INSTALLATION_INFORMATION);
+                        
+                        if (installInformation.exists())
+                        {
+                            String key = name+" "+ productVersion +" ("+productPath+")";
+                            listItems.addElement(key);
+                            //listItems.addElement(new String[] {name+""+ productVersion +" ("+productPath+")", productPath, productVersion});
+                            lstCompProps.put(key, new String[] {name, productPath, productVersion});
+                        }
+                        
                     }
-                    
-                    File installInformation = new File(productPath + File.separator + AutomatedInstallData.INSTALLATION_INFORMATION);
-                    
-                    if (installInformation.exists())
-                    {
-                        String key = name+" "+ productVersion +" ("+productPath+")";
-                        listItems.addElement(key);
-                        //listItems.addElement(new String[] {name+""+ productVersion +" ("+productPath+")", productPath, productVersion});
-                        lstCompProps.put(key, new String[] {name, productPath, productVersion});
-                    }
-                    
                 }
             }
             
