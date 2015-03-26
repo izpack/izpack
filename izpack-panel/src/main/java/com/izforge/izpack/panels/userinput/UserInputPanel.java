@@ -573,7 +573,7 @@ public class UserInputPanel extends IzPanel
         {
             key = installData.getMessages().get(associatedLabel);
             value = installData.getVariable(associatedVariable);
-            return (key + " " + value + "<br>");
+            return (key + " <b>:</b> " + value + "<br>");
         }
         return "";
     }

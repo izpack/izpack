@@ -75,6 +75,30 @@
             <artifactId>hamcrest-all</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        
+        <!-- Added on 26-03-2015 for LDAP, MySQL and Postgres-->
+		<dependency>
+		<groupId>org.springframework.ldap</groupId>
+		<artifactId>spring-ldap-core</artifactId>
+		<version>1.3.1.RELEASE</version>
+		</dependency>
+		
+		
+        <dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.34</version>
+		</dependency>
+        
+        <dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901.jdbc4</version>
+		</dependency>
+		        
+        
+        
         <dependency>
             <!-- the only maven deployment of substance? -->
             <groupId>net.sf.squirrel-sql.thirdparty-non-maven</groupId>

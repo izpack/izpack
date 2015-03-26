@@ -58,11 +58,11 @@
          txt="Done!"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Installation of "/>
+    <str id="installer.title" txt="Installation of "/>
     <str id="installer.next" txt="Next"/>
     <str id="installer.prev" txt="Previous"/>
     <str id="installer.quit" txt="Quit"/>
-    <str id="installer.madewith" txt="(Made with IzPack - http://izpack.org/)"/>
+    <str id="installer.madewith" txt=""/>
     <str id="installer.reboot.ask.title" txt="Reboot required"/>
     <str id="installer.reboot.ask.message"
          txt="Reboot required to apply some changes. Do want to reboot now?"/>
@@ -116,7 +116,7 @@
          txt="The chosen directory does not contain the required product."/>
 
     <!-- TargetPanel strings -->
-    <str id="TargetPanel.info" txt="Select the installation path: "/>
+    <str id="TargetPanel.info" txt="Select Apache Tomcat Location: "/>
     <str id="TargetPanel.browse" txt="Browse..."/>
     <str id="TargetPanel.warn"
          txt="The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"/>
