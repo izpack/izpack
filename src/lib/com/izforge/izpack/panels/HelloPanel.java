@@ -192,7 +192,7 @@ public class HelloPanel extends IzPanel
                             java.io.File adxadmFile = new java.io.File ("/sage/adxadm");
                             if (!adxadmFile.exists())
                             {
-                                adxadmFile = new java.io.File ("/sage/adxadm");
+                                adxadmFile = new java.io.File ("/adonix/adxadm");
                                 if (!adxadmFile.exists())
                                 {
                                     // pas d'adxadmin
@@ -234,7 +234,7 @@ public class HelloPanel extends IzPanel
                         if (!installInformationFile.exists())
                         {
 
-                            JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNoAdxDir"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNoAdxDirSage"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
                             parent.lockNextButton();
                             
                         }
@@ -264,7 +264,7 @@ public class HelloPanel extends IzPanel
                     }
                     catch (IOException e)
                     {
-                        JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNoAdxDir"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNoAdxDirSage"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
                         parent.lockNextButton();
 
                     }
@@ -279,7 +279,7 @@ public class HelloPanel extends IzPanel
                     {
                         try
                         {
-                            String adxadmPath = readFile ("/sage/adxadm", Charset.defaultCharset());
+                            String adxadmPath = readFile ("/adonix/adxadm", Charset.defaultCharset());
                             adxadmPath = adxadmPath.replace("\r\n", "").replace("\n", "").trim();
                             
 
@@ -290,7 +290,7 @@ public class HelloPanel extends IzPanel
                         }
                         catch (IOException e)
                         {
-                            JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNoAdxDir"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminV6found"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
                             parent.lockNextButton();
                         }
                        
@@ -329,7 +329,7 @@ public class HelloPanel extends IzPanel
                                     // free RegistryHandler
                                     rh.setRoot(oldVal);
 
-                                    JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNoAdxDir"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, parent.langpack.getString( "adxadminNoAdxDirReg"), parent.langpack.getString( "installer.error"), JOptionPane.ERROR_MESSAGE);
                                     parent.lockNextButton();
                                     
                                 }

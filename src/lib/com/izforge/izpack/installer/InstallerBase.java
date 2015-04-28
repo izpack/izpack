@@ -43,6 +43,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Common utility functions for the GUI and text installers. (Do not import swing/awt classes to
@@ -213,8 +214,18 @@ public class InstallerBase
         if (OsVersion.IS_UNIX) {
             // if hostname could not be read
             if ("".equals(hostname)) {
+                Debug.log("hostname not set, reading $HOSTNAME");
                 // read from $HOSTNAME
                 hostname=System.getenv("HOSTNAME");
+                
+                // hostname can be null if not exported
+                if (hostname == null)
+                {
+                    InetAddress addr = InetAddress.getLocalHost();
+                    
+                }
+                
+               
             }
 
             try {

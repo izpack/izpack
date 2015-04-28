@@ -29,6 +29,8 @@ import com.izforge.izpack.util.AbstractUIHandler;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.OsVersion;
 
+import javafx.scene.control.ProgressBar;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -366,20 +368,6 @@ public class UninstallerFrame extends JFrame
                         return;
                     }
                 }
-                
-                try
-                {
-                    // delete adxadm file
-                    String stradxadmfile = "c:\\sage\\adxadm";
-                    if (OsVersion.IS_UNIX) stradxadmfile = "/sage/adxadm";
-                    File adxadmfile = new File(stradxadmfile);
-                    Files.deleteIfExists(adxadmfile.toPath());
-                }
-                catch (Exception ex)
-                {
-                    // nothing, we don't care
-                }
-                
             }
             
         }
@@ -436,6 +424,27 @@ public class UninstallerFrame extends JFrame
             {
                 public void run()
                 {
+                    
+                    
+                    if (UninstallerFrame.class.getResource("/is-adxadmin")!=null)
+                    {
+                        try
+                        {
+                            // delete adxadm file
+                            String stradxadmfile = "c:\\sage\\adxadm";
+                            if (OsVersion.IS_UNIX) stradxadmfile = "/sage/adxadm";
+                            File adxadmfile = new File(stradxadmfile);
+                            Files.deleteIfExists(adxadmfile.toPath());
+                        }
+                        catch (Exception ex)
+                        {
+                            // nothing, we don't care
+                            JOptionPane.showMessageDialog(thisJframe, ex.getLocalizedMessage() , title, JOptionPane.ERROR_MESSAGE );
+                        }
+                        
+                    }
+                    
+                    progressBar.setValue(progressBar.getMaximum());
                     progressBar.setString(langpack.getString("InstallPanel.finished"));
                     targetDestroyCheckbox.setEnabled(false);
                     destroyButton.setEnabled(false);

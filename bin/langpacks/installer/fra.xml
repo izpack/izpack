@@ -312,6 +312,9 @@
 	<str id="x86requirementfailed" txt="La vérification du prérequis plateforme java x86_64 a échoué ! Fin du programme."/>
 	<str id="adxadminNotRegistered" txt="Vous devez installer un moteur d'administration Adxadmin en premier ! Fin du programme."/>
 	<str id="adxadminNoAdxDir" txt="Impossible de lire le chemin d'installation du moteur d'administration adxadmin !"/>
+	<str id="adxadminNoAdxDirReg" txt="Une installation précédente du composant d'administration a été trouvé dans la base de registre mais le programme ne trouve pas le répertoire d'installation, des clés de la base de registre sont manquantes !"/>
+	<str id="adxadminNoAdxDirSage" txt="Une installation précédente du composant d'administration a été trouvé dans le fichier /sage/adxadm mais le programme ne trouve pas le composant dans le répertoire indiqué !"/>
+	<str id="adxadminNoAdxDirAdonix" txt="Une installation précédente du composant d'administration a été trouvé dans le fichier /adonix/adxadm mais le programme ne trouve pas le composant dans le répertoire indiqué !"/>
 	<str id="adxadminParseError" txt="Le chemin d'installation du moteur d'administration adxadmin est erroné !"/>
 	<str id="adxadminV6found" txt="Une version antérieure de ce composant a été trouvée, ce logiciel ne peut pas être mis à jour !"/>
 	<str id="compFoundAskUpdate" txt="Une version précédente de ce composant a été détecté sur cet ordinateur, Voulez-vous mettre à jour cette installation ?"/>
@@ -323,5 +326,6 @@
 	<str id="specFileMissing" txt="Le fichier productsSpec.txt est manquant, impossible de continuer !" />
 	<str id="errIsProductFound" txt="Un composant %1$s est déjà présent sur ce système ! Vous devez désinstaller ce composant avant de continuer cette installation." />
 	
+	<str id="X3NodeIdentifierValidator" txt="Cet identifiant est déjà utilisé !"/>
 
 </langpack>

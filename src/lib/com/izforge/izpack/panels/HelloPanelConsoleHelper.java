@@ -192,7 +192,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
                         File installInformationFile = new File (installInformation);
                         if (!installInformationFile.exists())
                         {
-                            System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                            System.out.println(idata.langpack.getString( "adxadminNoAdxDirSage"));
                             return false;
                         }
                         else
@@ -227,7 +227,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
                     }
                     catch (IOException e)
                     {
-                        System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                        System.out.println(idata.langpack.getString( "adxadminNoAdxDirSage"));
                         return false;
                     }
                     
@@ -241,7 +241,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
                     {
                         try
                         {
-                            String adxadmPath = readFile ("/sage/adxadm", Charset.defaultCharset());
+                            String adxadmPath = readFile ("/adonix/adxadm", Charset.defaultCharset());
                             adxadmPath = adxadmPath.replace("\r\n", "").replace("\n", "").trim();
                             
                             System.out.println(idata.langpack.getString( "adxadminV6found"));
@@ -251,7 +251,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
                         }
                         catch (IOException e)
                         {
-                            System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                            System.out.println(idata.langpack.getString( "adxadminV6found"));
                             return false;
                         }
                        
@@ -287,7 +287,7 @@ public class HelloPanelConsoleHelper extends PanelConsoleHelper implements Panel
                                 keyName = "SOFTWARE\\Wow6432Node\\Adonix\\X3RUNTIME\\ADXADMIN";
                                 if (!rh.valueExist(keyName, "ADXDIR")) 
                                 {
-                                    System.out.println(idata.langpack.getString( "adxadminNoAdxDir"));
+                                    System.out.println(idata.langpack.getString( "adxadminNoAdxDirReg"));
                                     // free RegistryHandler
                                     rh.setRoot(oldVal);
                                     return false;

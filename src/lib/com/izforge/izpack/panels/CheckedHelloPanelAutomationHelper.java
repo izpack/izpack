@@ -104,6 +104,57 @@ public class CheckedHelloPanelAutomationHelper extends PanelAutomationHelper imp
     {
         this.idata = installData;
         
+        if (idata.info.needAdxAdmin())
+        {
+            try
+            {
+                // vérifier la présence d'un adxadmin
+                RegistryHandler rh = RegistryDefaultHandler.getInstance();
+                if (rh != null)
+                {
+    
+                    rh.verify(idata);
+    
+                    // test adxadmin déjà installé avec registry
+                    if (!rh.adxadminProductRegistered())
+                    {
+                        // pas d'adxadmin
+                        emitErrorAndBlockNext("", idata.langpack.getString( "adxadminNotRegistered"));
+                    }
+                }
+                else
+                {
+    
+                    // else we are on a os which has no registry or the
+                    // needed dll was not bound to this installation. In
+                    // both cases we forget the "already exist" check.
+                    
+                    // test adxadmin sous unix avec /adonix/adxadm ?
+                        if (OsVersion.IS_UNIX)
+                        {
+                            java.io.File adxadmFile = new java.io.File ("/sage/adxadm");
+                            if (!adxadmFile.exists())
+                            {
+                                adxadmFile = new java.io.File ("/adonix/adxadm");
+                                if (!adxadmFile.exists())
+                                {
+                                    // pas d'adxadmin
+                                    emitErrorAndBlockNext("", idata.langpack.getString( "adxadminNotRegistered"));
+                                }
+                            }
+                        }
+                }
+            }
+            catch (Exception e)
+            { // Will only be happen if registry handler is good, but an
+                // exception at performing was thrown. This is an error...
+                Debug.log(e);
+                emitErrorAndBlockNext("", idata.langpack.getString( "installer.error"));
+
+            }
+        }
+        
+        
         
         // from HelloPanelConsoleHelper
         String str;

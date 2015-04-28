@@ -311,6 +311,9 @@
 	<str id="x86requirementfailed" txt="Java x86_64 platform requirement not fulfilled ! Exiting now."/>
 	<str id="adxadminNotRegistered" txt="You must install an adxadmin administration runtime first ! Exiting now."/>
 	<str id="adxadminNoAdxDir" txt="Could not read adxadmin administration runtime install path !"/>
+	<str id="adxadminNoAdxDirReg" txt="A previous installation of the adxadmin administration runtime was detected in the registry but the setup is unable to find the installation path, some registry keys are missing !"/>
+	<str id="adxadminNoAdxDirSage" txt="A previous installation of the adxadmin administration runtime was detected in the file /sage/adxadm but the setup is unable to find the software !"/>
+	<str id="adxadminNoAdxDirAdonix" txt="A previous installation of the adxadmin administration runtime was detected in the file /adonix/adxadm but the setup is unable to find the software !"/>
 	<str id="adxadminParseError" txt="The adxadmin administration runtime install path is invalid!"/>
 	<str id="adxadminV6found" txt="An earlier version of this component has been found, this software can not be updated!"/>
 	<str id="compFoundAskUpdate" txt="An earlier version of this component has been found on this host, do you want to update this installation ?"/>
@@ -322,5 +325,6 @@
 	<str id="specFileMissing" txt="The file productsSpec.txt is missing, this setup cannot continue !" />
     <str id="errIsProductFound" txt="A %1$s component is already installed ! You must uninstall this component to be able to continue this installation."/>
 	
+	<str id="X3NodeIdentifierValidator" txt="This node identifier is already used !"/>
 
 </langpack>

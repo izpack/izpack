@@ -90,7 +90,7 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
                 int oldVal = rh.getRoot();
                 rh.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
                 if (!rh.valueExist(keyName, "ADXDIR")) keyName = "SOFTWARE\\Wow6432Node\\Adonix\\X3RUNTIME\\ADXADMIN";
-                if (!rh.valueExist(keyName, "ADXDIR")) throw new Exception(langpack.getString("adxadminNoAdxDir"));
+                if (!rh.valueExist(keyName, "ADXDIR")) throw new Exception(langpack.getString("adxadminNoAdxDirReg"));
                 
                 // récup path
                 strAdxAdminPath = rh.getValue(keyName, "ADXDIR").getStringData();

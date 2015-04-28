@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.DataValidator;
+import com.izforge.izpack.installer.ResourceManager;
 import com.izforge.izpack.installer.DataValidator.Status;
 import com.izforge.izpack.panels.ProcessingClient;
 import com.izforge.izpack.panels.Validator;
@@ -20,6 +22,8 @@ import com.izforge.izpack.panels.Validator;
 public class NodeIdentifierDataValidator implements DataValidator
 {
 
+    private static final String SPEC_FILE_NAME = "productsSpec.txt";
+    
     /* (non-Javadoc)
      * @see com.izforge.izpack.installer.DataValidator#validateData(com.izforge.izpack.installer.AutomatedInstallData)
      */
@@ -63,6 +67,36 @@ public class NodeIdentifierDataValidator implements DataValidator
         {
         
             String nodeName = pstrNodeName;
+            String svcExt = ".service"; 
+            
+            ArrayList<String> uninstallKeyPrefixList = new ArrayList<String>();
+            uninstallKeyPrefixList.add(pstrAppName);
+            
+            // load additionnal prefix from resource
+
+            try
+            {
+                InputStream input = ResourceManager.getInstance().getInputStream(SPEC_FILE_NAME);
+                
+                if (input != null)
+                {
+                    
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder out = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) 
+                    {
+                        uninstallKeyPrefixList.add(line.trim());
+                    }
+                    reader.close();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+               Debug.log(ex);
+            }             
+            
             
             // check node unicity by service name ?
             // is there a better way ?
@@ -74,16 +108,22 @@ public class NodeIdentifierDataValidator implements DataValidator
                 // SERVICE_NAME = node name in lower
                 // first line of xxxxxxx-$SERVICE_NAME.conf contains "# pstrAppName"
                 
-                File etcInitDir = new File ("/etc/init");
+                File etcInitDir = new File ("/etc/systemd/system");
+                
+                if (!(etcInitDir.exists() && etcInitDir.isDirectory()))
+                {
+                    etcInitDir = new File ("/etc/init");
+                    svcExt = ".conf";
+                }
                 
                 bReturn = Status.OK;
                 
-                //System.out.println("AppName to test : # "+pstrAppName);
+                //System.out.println("Service path : "+etcInitDir);
 
                 for (File fileEntry : etcInitDir.listFiles()) 
                 {
                     //System.out.println(fileEntry.getAbsolutePath());
-                    if (fileEntry.getName().endsWith("-"+pstrNodeName.toLowerCase()+".conf") || fileEntry.getName().endsWith("_-_"+pstrNodeName.toLowerCase()+".conf"))
+                    if (fileEntry.getName().endsWith("-"+pstrNodeName.toLowerCase()+svcExt) || fileEntry.getName().endsWith("_-_"+pstrNodeName.toLowerCase()+svcExt))
                     {
                         BufferedReader reader = new BufferedReader(new FileReader(fileEntry));
                         
@@ -91,8 +131,11 @@ public class NodeIdentifierDataValidator implements DataValidator
                         reader.close();
                         
                         //System.out.println(firstLine);
-                        if (firstLine.startsWith("# "+pstrAppName))
-                            return Status.ERROR;
+                        for (String prefix : uninstallKeyPrefixList)
+                        {
+                            if (firstLine.startsWith("# "+prefix))
+                                return Status.ERROR;
+                        }
                         
                     }
                 }                
@@ -102,8 +145,8 @@ public class NodeIdentifierDataValidator implements DataValidator
             {
                 // windows
                 bReturn = Status.OK;
-                serviceName = pstrAppName+" - "+nodeName;
-                String commandquery = "sc query state= all | findstr /R /C:\""+serviceName+"\"";
+                //serviceName = pstrAppName+" - "+nodeName;
+                String commandquery = "sc query state= all | findstr /R /C:\""+nodeName+"\"";
                 String[] command = {"CMD", "/C", commandquery};
                 
                 ProcessBuilder probuilder = new ProcessBuilder( command );
@@ -119,9 +162,12 @@ public class NodeIdentifierDataValidator implements DataValidator
                 while ((line = br.readLine()) != null) 
                 {
                     // to find : DISPLAY_NAME: serviceName
-                    if (line.startsWith("DISPLAY_NAME: "+ serviceName))
+                    for (String prefix : uninstallKeyPrefixList)
                     {
-                        bReturn = Status.ERROR;
+                        if (line.startsWith("DISPLAY_NAME: "+ prefix))
+                        {
+                            bReturn = Status.ERROR;
+                        }
                     }
                 }
                 

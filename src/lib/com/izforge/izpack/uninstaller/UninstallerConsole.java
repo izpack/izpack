@@ -164,7 +164,7 @@ public class UninstallerConsole
         catch (Exception ex)
         {
             // we don't care
-            ex.printStackTrace();
+            System.out.println (ex.getLocalizedMessage());
         }
         
         
