@@ -229,6 +229,16 @@ public final class OsVersion implements OsVersionConstants, StringConstants
     public static final String OS_VERSION = (IS_LINUX)?getLinuxversion():System.getProperty(OSVERSION);
 
     /**
+     * MACHINE_ID = /etc/machine_id || /var/lib/dbus/machine_id
+     */
+    public static final String MACHINE_ID = getLinuxMachineId();
+
+    /**
+     * MACHINE_ID_REGISTERED = Machine_ID != null
+     */
+    public static final boolean MACHINE_ID_REGISTERED = IS_LINUX && (MACHINE_ID!=null);
+    
+    /**
      * True if this is Windows 2008
      */
     public static final boolean IS_WINDOWS_2008 = StringTool.startsWithIgnoreCase(OS_NAME, WINDOWS_2008_NAME) && StringTool.equalsWithIgnoreCase(OS_VERSION, WINDOWS_2008_VERSION); 
@@ -273,6 +283,24 @@ public final class OsVersion implements OsVersionConstants, StringConstants
         return result;
     }
 
+    private static String getLinuxMachineId()
+    {
+        String result = null;
+        
+        File machineIdFile = new File ("/var/lib/dbus/machine-id");
+        
+        try
+        {
+            if (!machineIdFile.exists()) machineIdFile = new File ("/etc/machine-id");
+            if (machineIdFile.exists()) result=(String)FileUtil.getFileContent(machineIdFile.getAbsolutePath()).get(0);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        return result;
+    }
     
     private static String getLinuxVersionFromFile (String strReleaseFile)
     {
