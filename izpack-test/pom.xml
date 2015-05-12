@@ -68,6 +68,12 @@
             <groupId>org.easytesting</groupId>
             <artifactId>fest-swing</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.easytesting</groupId>
+                    <artifactId>fest-util</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
