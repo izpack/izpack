@@ -26,7 +26,7 @@ public class ElasticSearchValidator implements DataValidator
             
             String strHttpResult = getHTML(strurl);
             
-            if (strHttpResult.startsWith("{\"ok\":true,"))  bReturn = Status.OK; 
+            if (strHttpResult.startsWith("{\"ok\":true,") || strHttpResult.startsWith("{\"cluster_name\":\"") )  bReturn = Status.OK; 
 
         }
         catch (Exception ex)
