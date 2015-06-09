@@ -16,6 +16,7 @@
     <icon res="/img/fileopen.png" id="open"/>
     <icon res="/img/home.png" id="home"/>
     <icon res="/img/wizard.png" id="preferences"/>
+    <icon res="/img/restart.png" id="restart"/>
     <icon res="/img/idea.png" id="tip"/>
     <icon res="/img/compfile.png" id="import"/>
     <icon res="/img/compfile.png" id="refresh_cycle"/>

@@ -1,3 +1,16 @@
+package com.izforge.izpack.panels;
+
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+import javax.swing.JLabel;
+
+import com.izforge.izpack.gui.ButtonFactory;
+import com.izforge.izpack.gui.LabelFactory;
+import com.izforge.izpack.installer.InstallData;
+import com.izforge.izpack.installer.InstallerFrame;
+
+
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
  * 
@@ -17,11 +30,8 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.panels;
 
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedOutputStream;
@@ -30,16 +40,11 @@ import java.io.FileOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import com.izforge.izpack.gui.AutomatedInstallScriptFilter;
-import com.izforge.izpack.gui.ButtonFactory;
-import com.izforge.izpack.gui.LabelFactory;
-import com.izforge.izpack.installer.InstallData;
-import com.izforge.izpack.installer.InstallerFrame;
+
 import com.izforge.izpack.installer.IzPanel;
-import com.izforge.izpack.installer.IzPanel.Filler;
 import com.izforge.izpack.util.Log;
 import com.izforge.izpack.util.VariableSubstitutor;
 
@@ -48,7 +53,7 @@ import com.izforge.izpack.util.VariableSubstitutor;
  *
  * @author Julien Ponge
  */
-public class FinishPanel extends IzPanel implements ActionListener
+public class FinishShutdownPanel extends IzPanel implements ActionListener
 {
 
     private static final long serialVersionUID = 3257282535107998009L;
@@ -69,7 +74,7 @@ public class FinishPanel extends IzPanel implements ActionListener
      * @param parent The parent.
      * @param idata  The installation data.
      */
-    public FinishPanel(InstallerFrame parent, InstallData idata)
+    public FinishShutdownPanel(InstallerFrame parent, InstallData idata)
     {
         super(parent, idata, new GridBagLayout());
 
@@ -129,6 +134,26 @@ public class FinishPanel extends IzPanel implements ActionListener
         constraints.insets = new Insets(40,0,0,0);  //top padding
         constraints.gridx = 0;
         add(autoButton, constraints);
+
+         // add the new button and label to inform the user that they need to restart to have a full working device
+         // We set the information
+         JLabel jLabel2 = LabelFactory.create(idata.langpack.getString("FinishPanel.restartLabel"),
+                 parent.icons.getImageIcon("preferences"), LEADING);
+    
+         constraints.gridy = GridBagConstraints.RELATIVE;
+         constraints.gridx = 0;
+    
+         Filler dummy2 = new Filler();
+         add(dummy2, constraints);
+    
+         add(jLabel2, constraints);
+    
+    
+    
+         constraints.weighty = 1.0;   //request any extra vertical space
+         constraints.insets = new Insets(40,0,0,0);  //top padding
+         constraints.gridx = 0;
+         add(autoButton, constraints);
     }
     /**
      * Called when the panel becomes active.
@@ -137,9 +162,10 @@ public class FinishPanel extends IzPanel implements ActionListener
     {
         parent.lockNextButton();
         parent.lockPrevButton();
-        parent.setQuitButtonText(parent.langpack.getString("FinishPanel.done"));
-        parent.setQuitButtonIcon("done");
+        parent.setQuitButtonText(parent.langpack.getString("FinishPanel.restart"));
+        parent.setQuitButtonIcon("restart");
         
+        parent.setRestartButton(); 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.NORTHWEST;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -220,3 +246,4 @@ public class FinishPanel extends IzPanel implements ActionListener
         return destination.replace('/', File.separatorChar);
     }
 }
+

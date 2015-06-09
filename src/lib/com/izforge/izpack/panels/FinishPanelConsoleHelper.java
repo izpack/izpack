@@ -20,13 +20,10 @@
  */
 package com.izforge.izpack.panels;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.Properties;
 
-import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.PanelConsole;
 import com.izforge.izpack.installer.PanelConsoleHelper;
@@ -64,11 +61,7 @@ public class FinishPanelConsoleHelper extends PanelConsoleHelper implements Pane
                
                 System.out.println(idata.langpack
                         .getString("FinishPanel.uninst.info") + " " + path);
-            }
-			
-			
-			
-			
+            }		
 			
 		} else {
             System.out.println();

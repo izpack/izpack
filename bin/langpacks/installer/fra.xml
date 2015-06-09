@@ -34,6 +34,8 @@
     <str id="installer.next" txt="Suivant"/>
     <str id="installer.prev" txt="Précédent"/>
     <str id="installer.quit" txt="Quitter"/>
+    <str id="installer.restart" txt="Redémarrer"/>
+
     <str id="installer.madewith" txt="(Créé avec IzPack - http://izpack.org/)"/>
     <str id="installer.quit.title" txt="Voulez vous vraiment quitter ?"/>
     <str id="installer.quit.message" txt="Ceci va cesser l'installation !"/>
@@ -137,6 +139,8 @@
     <!-- FinishPanel strings -->
     <str id="FinishPanel.success" txt="L'installation est réussie !"/>
     <str id="FinishPanel.done" txt="Terminer"/>
+    <str id="FinishPanel.restart" txt="Redemarrer"/>
+    <str id="FinishPanel.restartLabel" txt="Veuillez redemarrer votre machine pour compléter l'installation"/>
     <str id="FinishPanel.fail" txt="L'installation a échouée ..."/>
     <str id="FinishPanel.installed.on" txt="l'application a été installée dans le répertoire"/>
     <str id="FinishPanel.uninst.info" txt="Un désinstallateur a été créé :"/>

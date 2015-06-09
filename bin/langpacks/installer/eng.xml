@@ -34,6 +34,7 @@
     <str id="installer.next" txt="Next"/>
     <str id="installer.prev" txt="Previous"/>
     <str id="installer.quit" txt="Quit"/>
+    <str id="installer.restart" txt="Restart"/>
     <str id="installer.madewith" txt="(Made with IzPack - http://izpack.org/)"/>
     <str id="installer.quit.title" txt="Are you sure you want to quit?"/>
     <str id="installer.quit.message" txt="This will cancel the installation!"/>
@@ -137,6 +138,8 @@
 		<str id="FinishPanel.success" txt="Installation has completed successfully."/>
     <str id="FinishPanel.done" txt="Done"/>
     <str id="FinishPanel.fail" txt="Installation has failed!"/>
+    <str id="FinishPanel.restart" txt="Restart"/>
+    <str id="FinishPanel.restartLabel" txt="Restart is required to finish the installation"/>
     <str id="FinishPanel.installed.on" txt="Application installed on"/>
     <str id="FinishPanel.uninst.info" txt="An uninstaller program has been created in: "/>
     <str id="FinishPanel.auto" txt="Generate an automatic installation script"/>

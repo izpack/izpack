@@ -41,6 +41,7 @@ import com.izforge.izpack.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -125,6 +126,12 @@ public class InstallerFrame extends JFrame {
      * The quit button.
      */
     protected JButton quitButton;
+    
+    /**
+     * restart button
+     */
+    protected boolean quitButtonMustRestart= false;
+
 
     /**
      * Mapping from "raw" panel number to visible panel number.
@@ -505,6 +512,8 @@ public class InstallerFrame extends JFrame {
         navPanel.add(quitButton);
         quitButton.addActionListener(navHandler);
         contentPane.add(navPanel, BorderLayout.SOUTH);
+        
+
 
         // always initialize debugger
         debugger = new Debugger(installdata, icons, rules);
@@ -1150,6 +1159,26 @@ public class InstallerFrame extends JFrame {
         gbc.weighty = wy;
     }
 
+    
+    public void restart() {
+        String command = "cmd /c shutdown /r";
+        try
+        {
+            Log.getInstance().addCustomMessage("Call shutdown /r", null);
+
+            Runtime.getRuntime().exec(command);
+        }
+        catch (IOException e)
+        {
+            Log.getInstance().addCustomMessage("Call shutdown /r failed "+e.getMessage(),null );
+
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally{
+            Housekeeper.getInstance().shutDown(0);
+        }
+   
+    }
     /**
      * Makes a clean closing.
      */
@@ -1255,6 +1284,12 @@ public class InstallerFrame extends JFrame {
         }
         quitButton.setText(text1);
     }
+    
+    public void setRestartButton() {
+        
+        quitButtonMustRestart = true;
+    }
+
 
     /**
      * Sets a new icon into the quit button if icons should be used, else nothing will be done.
@@ -1268,6 +1303,7 @@ public class InstallerFrame extends JFrame {
             quitButton.setIcon(icons.getImageIcon(iconName));
         }
     }
+  
 
     /**
      * FocusTraversalPolicy objects to handle keybord blocking; the declaration os Object allows to
@@ -1321,6 +1357,8 @@ public class InstallerFrame extends JFrame {
     public void lockPrevButton() {
         prevButton.setEnabled(false);
     }
+
+   
 
     /**
      * Locks the 'next' button.
@@ -1581,7 +1619,14 @@ public class InstallerFrame extends JFrame {
             } else if (source == nextButton) {
                 navigateNext();
             } else if (source == quitButton) {
-                exit();
+                if( quitButtonMustRestart ){
+                    System.out.println("restart");
+                    restart();
+                }else{
+                    System.out.println("exit");
+
+                    exit();
+                }   
             }
         }
     }

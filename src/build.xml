@@ -599,6 +599,10 @@
             <include name="com/izforge/izpack/panels/FinishPanel.java"/>
         	<include name="com/izforge/izpack/panels/FinishPanelConsoleHelper.java" />
         </build-panel>
+        <build-panel name="FinishShutdownPanel">
+            <include name="com/izforge/izpack/panels/FinishShutdownPanel.java"/>
+        	<include name="com/izforge/izpack/panels/FinishShutdownPanelConsoleHelper.java" />
+        </build-panel>
         <build-panel name="HelloPanel">
             <include name="com/izforge/izpack/panels/HelloPanel.java"/>
         	<include name="com/izforge/izpack/panels/HelloPanelConsoleHelper.java" />
