@@ -198,7 +198,14 @@ public class Uninstaller
                         System.out.println();
                         System.out.println(langpack.getString("consolehelper.askredisplay"));
                         String strIn = br.readLine();
-                        if (strIn.equals("1"))
+                        if (strIn == null)
+                        {
+                            System.out.println();
+                            System.out.println("null value");
+                            System.out.println(langpack.getString("CompilePanel.error.abort"));
+                            System.exit (0);
+                        }
+                        else if (strIn.equals("1"))
                         {
                             break;
                         }
