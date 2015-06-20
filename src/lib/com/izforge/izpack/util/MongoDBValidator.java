@@ -11,6 +11,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoIterable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,12 +31,11 @@ public class MongoDBValidator implements com.izforge.izpack.installer.DataValida
             String hostPort = adata.getVariable("mongodb.service.port");
             
             MongoClient mongoClient = new MongoClient( hostName , Integer.parseInt(hostPort) );
-            mongoClient.getVersion();
             
             bReturn = Status.OK; 
 
             // test if syracuse db already exists
-            List<String> lstDb = mongoClient.getDatabaseNames();
+            MongoIterable<String> lstDb = mongoClient.listDatabaseNames();
             
             for (String dbb : lstDb)
             {

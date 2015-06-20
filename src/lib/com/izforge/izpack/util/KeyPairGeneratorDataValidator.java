@@ -1,8 +1,12 @@
 package com.izforge.izpack.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.security.KeyPair;
@@ -123,5 +127,32 @@ public class KeyPairGeneratorDataValidator implements com.izforge.izpack.install
         }
     }
     
+    public static void mergeFiles(File[] files, File mergedFile) throws IOException {
 
+        FileInputStream in = null;
+        FileOutputStream out = null;
+
+        try {
+            out = new FileOutputStream(mergedFile);
+
+            for (File f : files) {
+                in = new FileInputStream(f);
+                int c;
+    
+                while ((c = in.read()) != -1) {
+                    out.write(c);
+                }
+                
+                in.close();
+            }
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+        }
+    }    
+    
 }

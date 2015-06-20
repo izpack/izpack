@@ -39,20 +39,20 @@ public class VariableCondition extends Condition
 
     protected String variablename;
 
-    protected String value;
+    protected String value="";
 
     public VariableCondition(String variablename, String value, HashMap packstoremove)
     {
         super();
         this.variablename = variablename;
-        this.value = value;
+        setValue(value);
     }
 
     public VariableCondition(String variablename, String value)
     {
         super();
         this.variablename = variablename;
-        this.value = value;
+        setValue(value);
     }
 
     public VariableCondition()
@@ -67,7 +67,8 @@ public class VariableCondition extends Condition
 
     public void setValue(String value)
     {
-        this.value = value;
+        if (value==null) this.value ="";
+        else this.value = value;
     }
 
     public String getVariablename()
@@ -90,7 +91,7 @@ public class VariableCondition extends Condition
         try
         {
             this.variablename = xmlcondition.getFirstChildNamed("name").getContent();
-            this.value = xmlcondition.getFirstChildNamed("value").getContent();
+            setValue( xmlcondition.getFirstChildNamed("value").getContent());
         }
         catch (Exception e)
         {
