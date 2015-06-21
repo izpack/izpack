@@ -61,14 +61,14 @@ public class CheckCertificateDataValidator implements com.izforge.izpack.install
         
         // notcreatecert  + update        
         // pem has
-        String fieldPemCertFile = adata.getVariable("mongodb.ssl.certfile");
-        String fieldPemKeyFile = adata.getVariable("mongodb.ssl.pemkeyfile");
-        String fieldPemKeyPassword = adata.getVariable("mongodb.ssl.pemkeypassword");
-        String fieldPemCaFile = adata.getVariable("mongodb.ssl.pemcafile");
+        //String fieldPemCertFile = adata.getVariable("mongodb.ssl.certfile");
+        //String fieldPemKeyFile = adata.getVariable("mongodb.ssl.pemkeyfile");
+        //String fieldPemKeyPassword = adata.getVariable("mongodb.ssl.pemkeypassword");
+        //String fieldPemCaFile = adata.getVariable("mongodb.ssl.pemcafile");
         
         
         //createcert
-        String str
+        //String str
         
         
         try

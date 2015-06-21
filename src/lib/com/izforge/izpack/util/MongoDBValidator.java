@@ -27,12 +27,16 @@ public class MongoDBValidator implements com.izforge.izpack.installer.DataValida
         
             String userName = adata.getVariable("mongodb.url.username");
             String passWord = adata.getVariable("mongodb.url.password");
-            String hostName = adata.getVariable("mongodb.service.hostname");
-            String hostPort = adata.getVariable("mongodb.service.port");
+            boolean bImportMode = ("true".equals(adata.getVariable("MONGODB.DATA.IMPORT")));
+            
+            String hostName = (bImportMode)?adata.getVariable("mongodb.import.hostname"):adata.getVariable("mongodb.service.hostname");
+            String hostPort = (bImportMode)?adata.getVariable("mongodb.import.port"):adata.getVariable("mongodb.service.port");
+            
             
             MongoClient mongoClient = new MongoClient( hostName , Integer.parseInt(hostPort) );
             
-            bReturn = Status.OK; 
+            if (bImportMode) bReturn = Status.WARNING;
+            else bReturn = Status.OK; 
 
             // test if syracuse db already exists
             MongoIterable<String> lstDb = mongoClient.listDatabaseNames();
@@ -41,7 +45,8 @@ public class MongoDBValidator implements com.izforge.izpack.installer.DataValida
             {
                 if (dbb.equals("syracuse"))
                 {
-                    bReturn = Status.WARNING;
+                    if (bImportMode) bReturn = Status.OK;
+                    else bReturn = Status.WARNING; 
                 }
             }
             
