@@ -50,6 +50,7 @@ public class Installer
      * Used to keep track of the current installation mode.
      */
     private static int installerMode = 0;
+    private static int consoleMode = 0;
     private static Logger logger;
 
     public static final int INSTALLER_GUI = 0, INSTALLER_AUTO = 1, INSTALLER_CONSOLE = 2;
@@ -210,6 +211,7 @@ public class Installer
         }
 
         installerMode = type;
+        consoleMode = consoleAction;
 
         switch (type)
         {
@@ -265,5 +267,5 @@ public class Installer
     public static int getInstallerMode() {
         return installerMode;
     }
-
+    public static int getConsoleMode() { return consoleMode; }
 }
