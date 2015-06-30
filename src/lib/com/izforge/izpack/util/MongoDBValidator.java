@@ -27,6 +27,9 @@ public class MongoDBValidator implements com.izforge.izpack.installer.DataValida
         
             String userName = adata.getVariable("mongodb.url.username");
             String passWord = adata.getVariable("mongodb.url.password");
+            
+            if ("false".equalsIgnoreCase( adata.getVariable("MONGODB.DATA.IMPORT"))) return Status.OK;
+            
             boolean bImportMode = ("true".equals(adata.getVariable("MONGODB.DATA.IMPORT")));
             
             String hostName = (bImportMode)?adata.getVariable("mongodb.import.hostname"):adata.getVariable("mongodb.service.hostname");

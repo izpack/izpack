@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.Security;
@@ -17,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+
+import javafx.stage.DirectoryChooser;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -58,6 +63,7 @@ public class CheckCertificateDataValidator implements com.izforge.izpack.install
         String fieldPemKeyFile = adata.getVariable("mongodb.ssl.pemkeyfile");
         String fieldPemKeyPassword = adata.getVariable("mongodb.ssl.pemkeypassword");
         String fieldPemCaFile = adata.getVariable("mongodb.ssl.pemcafile");
+        Boolean useCaFile = false;
         
         // notcreatecert  + update        
         // pem has
@@ -92,6 +98,7 @@ public class CheckCertificateDataValidator implements com.izforge.izpack.install
                 PKIXCertPathBuilderResult verifiedCertChain = CertificateVerifier.verifyCertificate(cert,  new HashSet<X509Certificate> (certCAChain));
                 
                 adata.setVariable("mongodb.ssl.usecafile", "true");
+                useCaFile = true;
             }
 
             // Then check the private key
@@ -131,7 +138,8 @@ public class CheckCertificateDataValidator implements com.izforge.izpack.install
 
             if (Arrays.equals(decrypted, input))
             {
-                
+                File certpath = new File(strCertPath);
+                if (!certpath.exists()) certpath.mkdirs();
                 
                 // we need to copy things
                 File pemKeyFile = new File(strCertPath + File.separator + hostname + ".pem");
@@ -139,6 +147,14 @@ public class CheckCertificateDataValidator implements com.izforge.izpack.install
                 File privKeyFile = new File(fieldPemKeyFile);
                 
                 KeyPairGeneratorDataValidator.mergeFiles(new File[]{certFile,privKeyFile}, pemKeyFile);
+
+                
+                if (useCaFile)
+                {
+                    File caPath = new File (fieldPemCaFile);
+                    File certCaPath = new File (strCertPath+File.pathSeparator+"ca.cacrt");
+                    Files.copy(caPath.toPath(), certCaPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                }
                 
                 // we need to says that this step was done at least one time
                 adata.setVariable("mongodb.ssl.alreadydone", "true");
