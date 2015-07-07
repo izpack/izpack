@@ -67,6 +67,8 @@ public class CreateCertsValidator implements DataValidator
                     state, city, name, email, validity);
             
             String strCertPath = adata.getVariable("mongodb.dir.certs");
+            File dirCerts =  new File (strCertPath);
+            if (!dirCerts.exists()) dirCerts.mkdirs();
             
             FileWriter cacertfile = new FileWriter(strCertPath + File.separator + "ca.cacrt");
             PEMWriter pem = new PEMWriter(cacertfile);

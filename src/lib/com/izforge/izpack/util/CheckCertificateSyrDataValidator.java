@@ -2,30 +2,20 @@ package com.izforge.izpack.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.Security;
 import java.security.cert.CertificateFactory;
 import java.security.cert.PKIXCertPathBuilderResult;
 import java.security.cert.X509Certificate;
-import java.security.spec.RSAPrivateCrtKeySpec;
-import java.security.spec.RSAPublicKeySpec;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 
-import javafx.stage.DirectoryChooser;
-
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.openssl.PEMDecryptorProvider;
 import org.bouncycastle.openssl.PEMEncryptedKeyPair;
@@ -33,9 +23,6 @@ import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
-import org.bouncycastle.util.io.pem.PemHeader;
-import org.bouncycastle.util.io.pem.PemObject;
-import org.bouncycastle.util.io.pem.PemReader;
 
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.DataValidator;
@@ -43,27 +30,27 @@ import com.izforge.izpack.installer.DataValidator.Status;
 import com.izforge.izpack.util.ssl.CertificateVerifier;
 
 
-public class CheckCertificateDataValidator implements com.izforge.izpack.installer.DataValidator
+public class CheckCertificateSyrDataValidator implements DataValidator
 {
-    
+
     private String strMessage = "";
     public static final String strMessageId = "messageid";
     public static final String strMessageValue = "message.oldvalue"; // not to be stored
-    
+
     public Status validateData(AutomatedInstallData adata)
     {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());        
         
-        String strCertPath = adata.getVariable("mongodb.dir.certs");
-        String hostname = adata.getVariable("HOST_NAME");
+        //String strCertPath = adata.getVariable("mongodb.dir.certs");
+        //String hostname = adata.getVariable("HOST_NAME");
 
         // notcreatecert  + notupdate        
         // at least pemkeyfile and certfile must be provided
-        String fieldPemCertFile = adata.getVariable("mongodb.ssl.certfile");
-        String fieldPemKeyFile = adata.getVariable("mongodb.ssl.pemkeyfile");
-        String fieldPemKeyPassword = adata.getVariable("mongodb.ssl.pemkeypassword");
-        String fieldPemCaFile = adata.getVariable("mongodb.ssl.pemcafile");
-        Boolean useCaFile = false;
+        String fieldPemCertFile = adata.getVariable("syracuse.ssl.certfile");
+        String fieldPemKeyFile = adata.getVariable("syracuse.ssl.pemkeyfile");
+        String fieldPemKeyPassword = adata.getVariable("syracuse.ssl.pemkeypassword");
+        String fieldPemCaFile = adata.getVariable("syracuse.ssl.pemcafile");
+        //Boolean useCaFile = false;
         
         // notcreatecert  + update        
         // pem has
@@ -87,19 +74,14 @@ public class CheckCertificateDataValidator implements com.izforge.izpack.install
             X509Certificate cert = (X509Certificate) factory.generateCertificate(inPemCertFile);
             
             // if a CA was provided then we need to check the validity of our certificate
-            if (fieldPemCaFile!=null && !fieldPemCaFile.trim().equals(""))
-            {
-                InputStream inPemCaFile = new FileInputStream(fieldPemCaFile);
-                Collection<X509Certificate> certCAChain = (Collection<X509Certificate>) factory.generateCertificates(inPemCaFile);
+            InputStream inPemCaFile = new FileInputStream(fieldPemCaFile);
+            Collection<X509Certificate> certCAChain = (Collection<X509Certificate>) factory.generateCertificates(inPemCaFile);
+            
+            // cert should be part of the path  to be validated
+            certCAChain.add(cert);
+            
+            PKIXCertPathBuilderResult verifiedCertChain = CertificateVerifier.verifyCertificate(cert,  new HashSet<X509Certificate> (certCAChain));
                 
-                // cert should be part of the path  to be validated
-                certCAChain.add(cert);
-                
-                PKIXCertPathBuilderResult verifiedCertChain = CertificateVerifier.verifyCertificate(cert,  new HashSet<X509Certificate> (certCAChain));
-                
-                adata.setVariable("mongodb.ssl.usecafile", "true");
-                useCaFile = true;
-            }
 
             // Then check the private key
             PEMParser pemParser = new PEMParser(new InputStreamReader(inPemKeyFile));
@@ -138,28 +120,6 @@ public class CheckCertificateDataValidator implements com.izforge.izpack.install
 
             if (Arrays.equals(decrypted, input))
             {
-                File certpath = new File(strCertPath);
-                if (!certpath.exists()) certpath.mkdirs();
-                
-                // we need to copy things
-                File pemKeyFile = new File(strCertPath + File.separator + hostname + ".pem");
-                File certFile = new File(fieldPemCertFile);
-                File privKeyFile = new File(fieldPemKeyFile);
-                
-                KeyPairGeneratorDataValidator.mergeFiles(new File[]{certFile,privKeyFile}, pemKeyFile);
-
-                
-                if (useCaFile)
-                {
-                    File caPath = new File (fieldPemCaFile);
-                    File certCaPath = new File (strCertPath+File.separator+"ca.cacrt");
-                    Files.copy(caPath.toPath(), certCaPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                }
-                
-                // we need to says that this step was done at least one time
-                adata.setVariable("mongodb.ssl.alreadydone", "true");
-                
-                
                 return Status.OK;  
             }
             else
@@ -169,11 +129,6 @@ public class CheckCertificateDataValidator implements com.izforge.izpack.install
                 return Status.ERROR;
             }
 
-            // RSA
-            // KeyFactory keyFac = KeyFactory.getInstance("RSA");
-            // RSAPrivateCrtKeySpec privateKey = keyFac.getKeySpec(kp.getPrivate(), RSAPrivateCrtKeySpec.class);
-            // RSAPublicKeySpec publicKey = keyFac.getKeySpec(cert.getPublicKey(), RSAPublicKeySpec.class);
-           
         }
         catch (Exception ex)
         {
@@ -182,10 +137,6 @@ public class CheckCertificateDataValidator implements com.izforge.izpack.install
             return Status.ERROR;
         }
         
-        
-        // strMessage = "OS error #" + error + " - " ;
-        // adata.setVariable(strMessageValue, strMessage);
-        // return Status.WARNING;
     }
 
     public String getErrorMessageId()

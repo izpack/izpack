@@ -22,11 +22,17 @@
 package com.izforge.izpack.util;
 
 import com.izforge.izpack.installer.AutomatedInstallData;
+import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.panels.ProcessingClient;
 import com.izforge.izpack.panels.Validator;
 
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A validator to check whether a port is available (free) on the localhost.
@@ -39,12 +45,28 @@ import java.net.ServerSocket;
 public class PortValidator implements Validator
 {
 
+    private static final String PARAM_EXCLUDED_PORTS = "excluded";
+
     public boolean validate(ProcessingClient client, AutomatedInstallData adata)
     {
         InetAddress inet = null;
         String host = "localhost";
-        boolean retValue = false;
+        boolean retValue = true;
         int numfields = client.getNumFields();
+        List<String> exludedPorts = new ArrayList<String>();
+        Boolean modifyinstallation = Boolean.valueOf(adata.getVariable(InstallData.MODIFY_INSTALLATION));
+
+        if (client.hasParams())
+        {
+            String param = client.getValidatorParams().get(PARAM_EXCLUDED_PORTS);
+            
+            if (param!=null && !"".equals(param)) 
+            {
+                VariableSubstitutor vs = new VariableSubstitutor(adata.getVariables());
+                param = vs.substitute(param, null);
+                exludedPorts.addAll(Arrays.asList( param.split(";")));
+            }
+        }
 
         for (int i = 0; i < numfields; i++)
         {
@@ -54,21 +76,19 @@ public class PortValidator implements Validator
             {
                 return false;
             }
+            else if (modifyinstallation && exludedPorts.contains(value.trim())) continue;
 
             try
             {
-                inet = InetAddress.getByName(host);
-                ServerSocket socket = new ServerSocket(Integer.parseInt(value), 0, inet);
-                retValue = socket.getLocalPort() > 0;
-                if (!retValue)
-                {
-                    break;
-                }
+                Socket socket = new Socket("localhost",Integer.parseInt(value));
                 socket.close();
+                // Someone responding on port - seems not open
+                retValue = false;
             }
             catch (Exception ex)
             {
-                retValue = false;
+                if (ex.getMessage().contains("refused")) retValue=true;
+                else retValue = false;
             }
         }
         return retValue;
