@@ -21,8 +21,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 
-import javafx.stage.DirectoryChooser;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
