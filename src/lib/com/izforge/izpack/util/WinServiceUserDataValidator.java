@@ -18,7 +18,7 @@ import com.sun.jna.platform.win32.Kernel32Util;
 import com.sun.jna.platform.win32.WinBase.PROCESS_INFORMATION;
 import com.sun.jna.platform.win32.WinBase.STARTUPINFO;
 
-public class WinServiceUserValidator implements DataValidator
+public class WinServiceUserDataValidator implements DataValidator
 {
     private final static String errLogon = "errwinsrvaccount";
     private final static String errLogonService = "warnwinsrvaccount";

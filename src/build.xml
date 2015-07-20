@@ -655,6 +655,10 @@
             <include name="com/izforge/izpack/panels/LicencePanel.java"/>
             <include name="com/izforge/izpack/panels/LicencePanelConsoleHelper.java"/>
         </build-panel>
+        <build-panel name="LicenceParamPanel">
+            <include name="com/izforge/izpack/panels/LicenceParamPanel.java"/>
+            <include name="com/izforge/izpack/panels/LicenceParamPanelConsoleHelper.java"/>
+        </build-panel>
         <build-panel name="PacksPanel">
             <include name="com/izforge/izpack/panels/ImgPacksPanelAutomationHelper.java"/>
             <include name="com/izforge/izpack/panels/ImgPacksPanelBase.java"/>
@@ -677,6 +681,10 @@
         <build-panel name="HTMLLicencePanel">
             <include name="com/izforge/izpack/panels/HTMLLicencePanel.java"/>
             <include name="com/izforge/izpack/panels/HTMLLicencePanelConsoleHelper.java"/>
+        </build-panel>
+        <build-panel name="HTMLLicenceParamPanel">
+            <include name="com/izforge/izpack/panels/HTMLLicenceParamPanel.java"/>
+            <include name="com/izforge/izpack/panels/HTMLLicenceParamPanelConsoleHelper.java"/>
         </build-panel>
         <build-panel name="HTMLInfoPanel">
             <include name="com/izforge/izpack/panels/HTMLInfoPanel.java"/>

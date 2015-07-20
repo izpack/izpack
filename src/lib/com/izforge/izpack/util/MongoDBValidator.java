@@ -66,19 +66,16 @@ public class MongoDBValidator implements com.izforge.izpack.installer.DataValida
 
     public String getErrorMessageId()
     {
-        // TODO Auto-generated method stub
         return "mongodbtesterror";
     }
 
     public String getWarningMessageId()
     {
-        // TODO Auto-generated method stub
         return "mongodbtestwarn";
     }
 
     public boolean getDefaultAnswer()
     {
-        // TODO Auto-generated method stub
         return false;
     }
 

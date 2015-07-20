@@ -10,7 +10,7 @@ import com.izforge.izpack.installer.DataValidator;
 import com.izforge.izpack.installer.DataValidator.Status;
 
 
-public class ElasticSearchValidator implements DataValidator
+public class ElasticSearchDataValidator implements DataValidator
 {
 
     public Status validateData(AutomatedInstallData adata)

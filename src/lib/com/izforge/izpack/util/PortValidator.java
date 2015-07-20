@@ -74,6 +74,7 @@ public class PortValidator implements Validator
 
             if ((value == null) || (value.length() == 0))
             {
+                Debug.log("Port value is null");
                 return false;
             }
             else if (modifyinstallation && exludedPorts.contains(value.trim())) continue;
@@ -82,13 +83,14 @@ public class PortValidator implements Validator
             {
                 Socket socket = new Socket("localhost",Integer.parseInt(value));
                 socket.close();
+                Debug.log("Someone responding on port - seems not open");
                 // Someone responding on port - seems not open
                 retValue = false;
             }
             catch (Exception ex)
             {
-                if (ex.getMessage().contains("refused")) retValue=true;
-                else retValue = false;
+                Debug.log(ex);
+                retValue=true;
             }
         }
         return retValue;

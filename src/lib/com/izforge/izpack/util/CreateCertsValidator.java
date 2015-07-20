@@ -76,7 +76,7 @@ public class CreateCertsValidator implements DataValidator
             pem.close();
             
             String capassphrase = adata.getVariable("mongodb.ssl.capassphrase");
-            KeyPairGeneratorDataValidator.writePrivateKey(strCertPath + File.separator + "cakey.pem", pairCA, capassphrase.toCharArray());
+            KeyPairGeneratorDataValidator.writePrivateKey(strCertPath + File.separator + "ca.key", pairCA, capassphrase.toCharArray());
             
             
             // then create server cert
@@ -92,13 +92,13 @@ public class CreateCertsValidator implements DataValidator
             pem.close();
             
             String serverpassphrase = adata.getVariable("mongodb.ssl.serverpassphrase");
-            KeyPairGeneratorDataValidator.writePrivateKey(strCertPath + File.separator + hostname + "_key.pem", pairServer, serverpassphrase.toCharArray());
+            KeyPairGeneratorDataValidator.writePrivateKey(strCertPath + File.separator + hostname + ".key", pairServer, serverpassphrase.toCharArray());
            
             adata.setVariable("mongodb.ssl.usecafile", "true");
             
             File pemKeyFile = new File(strCertPath + File.separator + hostname + ".pem");
             File certFile = new File(strCertPath + File.separator + hostname + ".crt");
-            File privKeyFile = new File(strCertPath + File.separator + hostname + "_key.pem");
+            File privKeyFile = new File(strCertPath + File.separator + hostname + ".key");
             
             KeyPairGeneratorDataValidator.mergeFiles(new File[]{certFile,privKeyFile}, pemKeyFile);
 
@@ -113,11 +113,11 @@ public class CreateCertsValidator implements DataValidator
             pem.close();
             
             //String serverpassphrase = adata.getVariable("mongodb.ssl.serverpassphrase");
-            KeyPairGeneratorDataValidator.writePrivateKey(strCertPath + File.separator + "client_key.pem", pairClient, null);
+            KeyPairGeneratorDataValidator.writePrivateKey(strCertPath + File.separator + "client.key", pairClient, null);
 
             File pemClientKeyFile = new File(strCertPath + File.separator + "client.pem");
             File certClientFile = new File(strCertPath + File.separator + "client.crt");
-            File privClientKeyFile = new File(strCertPath + File.separator + "client_key.pem");
+            File privClientKeyFile = new File(strCertPath + File.separator + "client.key");
             
             KeyPairGeneratorDataValidator.mergeFiles(new File[]{certClientFile,privClientKeyFile}, pemClientKeyFile);
             
@@ -239,6 +239,7 @@ public class CreateCertsValidator implements DataValidator
         certGen.addExtension(Extension.basicConstraints, false, new BasicConstraints(false));
         certGen.addExtension(Extension.keyUsage, true, new KeyUsage(
                 KeyUsage.digitalSignature
+                | KeyUsage.keyEncipherment
                 | KeyUsage.dataEncipherment
                 | KeyUsage.keyAgreement));
         
@@ -275,10 +276,10 @@ public class CreateCertsValidator implements DataValidator
             builder.addRDN(BCStyle.ST,state);
         if (locality !=null && !locality.equals(""))
             builder.addRDN(BCStyle.L,locality);
-        if (name !=null && !name.equals(""))
-            builder.addRDN(BCStyle.CN,name);
-        if (email !=null && !email.equals(""))
-            builder.addRDN(BCStyle.E,email);
+        //if (name !=null && !name.equals(""))
+            builder.addRDN(BCStyle.CN,"client");
+        //if (email !=null && !email.equals(""))
+        //    builder.addRDN(BCStyle.E,email);
         
         Date notBefore=new Date();
         Calendar cal = Calendar.getInstance();
