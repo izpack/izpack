@@ -63,6 +63,8 @@ public class CertManagerDataValidator implements DataValidator
     public Status validateData(AutomatedInstallData adata)
     {
         Boolean modifyinstallation = Boolean.valueOf(adata.getVariable(InstallData.MODIFY_INSTALLATION));
+        Boolean mongoSSL = Boolean.valueOf(adata.getVariable("mongodb.ssl.enable"));
+        
         Status statusReturn = Status.OK;
         try
         {
@@ -109,6 +111,8 @@ public class CertManagerDataValidator implements DataValidator
             }
             
 
+            if (mongoSSL)
+            {
             ///////////////////////////////////////////////////////////////////////////////////////////
             // Second MongoDB part
             if (!modifyinstallation)
@@ -152,6 +156,8 @@ public class CertManagerDataValidator implements DataValidator
             {
                 clientPutInPlace (adata, adata.getVariable("mongodb.ssl.pemcafile"));
             }
+            }
+            
             
             return Status.OK;
         
