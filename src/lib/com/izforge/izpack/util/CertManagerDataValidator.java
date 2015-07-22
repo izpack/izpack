@@ -311,21 +311,21 @@ public class CertManagerDataValidator implements DataValidator
         
         // copy Cert in output directory
         File sourceserverCRT = new File (fieldPemCertFile);
-        File certToolOutputServerCRT = new File (strCertToolPath+File.separator+"output" + File.separator + cn +".crt");
-        File certsServerCRT = new File (strCertPath + File.separator + cn + ".crt");
+        File certToolOutputServerCRT = new File (strCertToolPath+File.separator+"output" + File.separator + localHOST_NAME +".crt");
+        File certsServerCRT = new File (strCertPath + File.separator + localHOST_NAME + ".crt");
         Files.copy(sourceserverCRT.toPath(), certToolOutputServerCRT.toPath(), StandardCopyOption.REPLACE_EXISTING);
         Files.copy(sourceserverCRT.toPath(), certsServerCRT.toPath(), StandardCopyOption.REPLACE_EXISTING);
         
         // copy key in output directory
         File sourceserverKey = new File (fieldPemKeyFile);
-        File certToolOutputServerkey = new File (strCertToolPath+File.separator+"output" + File.separator + cn +".key");
-        File certsServerkey = new File (strCertPath + File.separator + cn + ".key");
+        File certToolOutputServerkey = new File (strCertToolPath+File.separator+"output" + File.separator + localHOST_NAME +".key");
+        File certsServerkey = new File (strCertPath + File.separator + localHOST_NAME + ".key");
         Files.copy(sourceserverKey.toPath(), certToolOutputServerkey.toPath(), StandardCopyOption.REPLACE_EXISTING);
         Files.copy(sourceserverKey.toPath(), certsServerkey.toPath(), StandardCopyOption.REPLACE_EXISTING);
         
         // public key in output directoru
         PublicKey pubKey = cert.getPublicKey();
-        File certToolOutputServerPub = new File (strCertToolPath+File.separator+"output" + File.separator + cn+".pem");
+        File certToolOutputServerPub = new File (strCertToolPath+File.separator+"output" + File.separator + localHOST_NAME+".pem");
         FileWriter serverpubfile = new FileWriter(certToolOutputServerPub);
         PEMWriter pem = new PEMWriter(serverpubfile);
         pem.writeObject(pubKey);
@@ -336,7 +336,7 @@ public class CertManagerDataValidator implements DataValidator
         if (setx3runtime)
         {
             String strX3RuntimePath = adata.getVariable("syracuse.certificate.x3runtime");
-            String pemName = cn.replace('@', '_').replace('$', '_').replace('.', '_');
+            String pemName = localHOST_NAME.replace('@', '_').replace('$', '_').replace('.', '_');
             File x3ServerPub = new File (strX3RuntimePath+File.separator+"keys" + File.separator + pemName+".pem");
             Files.copy(certToolOutputServerPub.toPath(), x3ServerPub.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
@@ -346,7 +346,7 @@ public class CertManagerDataValidator implements DataValidator
         if (setx3webserver)
         {
             String strX3WebserverPath = adata.getVariable("syracuse.certificate.x3webserverdata");
-            String pemName = cn.replace('@', '_').replace('$', '_').replace('.', '_');
+            String pemName = localHOST_NAME.replace('@', '_').replace('$', '_').replace('.', '_');
             File x3ServerPub = new File (strX3WebserverPath + File.separator + pemName+".pem");
             Files.copy(certToolOutputServerPub.toPath(), x3ServerPub.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
@@ -435,26 +435,26 @@ public class CertManagerDataValidator implements DataValidator
                 state, city, hostname, null, validity, cacert , pairCA);
         
         // copy in certs directory
-        File certsServerCRT = new File (strCertPath + File.separator + hostname+".crt");
+        File certsServerCRT = new File (strCertPath + File.separator + localHOST_NAME+".crt");
         FileWriter servercertfile = new FileWriter(certsServerCRT);
         pem = new PEMWriter(servercertfile);
         pem.writeObject(servercert);
         pem.close();
 
         // copy in output directory
-        File certToolOutputServerCRT = new File (strCertToolPath+File.separator+"output" + File.separator + hostname+".crt");
+        File certToolOutputServerCRT = new File (strCertToolPath+File.separator+"output" + File.separator + localHOST_NAME+".crt");
         Files.copy(certsServerCRT.toPath(), certToolOutputServerCRT.toPath(), StandardCopyOption.REPLACE_EXISTING);
         
         
         // private key in certs directory and output
         String serverpassphrase = adata.getVariable("syracuse.certificate.serverpassphrase");
-        KeyPairGeneratorDataValidator.writePrivateKey(strCertPath + File.separator + hostname + ".key", pairServer, serverpassphrase.toCharArray());
-        File certToolOutputServerkey = new File (strCertToolPath+File.separator+"output" + File.separator + hostname+".key");
-        File certsServerkey = new File (strCertPath + File.separator + hostname + ".key");
+        KeyPairGeneratorDataValidator.writePrivateKey(strCertPath + File.separator + localHOST_NAME + ".key", pairServer, serverpassphrase.toCharArray());
+        File certToolOutputServerkey = new File (strCertToolPath+File.separator+"output" + File.separator + localHOST_NAME+".key");
+        File certsServerkey = new File (strCertPath + File.separator + localHOST_NAME + ".key");
         Files.copy(certsServerkey.toPath(), certToolOutputServerkey.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         // public key in output
-        File certToolOutputServerPub = new File (strCertToolPath+File.separator+"output" + File.separator + hostname+".pem");
+        File certToolOutputServerPub = new File (strCertToolPath+File.separator+"output" + File.separator + localHOST_NAME+".pem");
         FileWriter serverpubfile = new FileWriter(certToolOutputServerPub);
         pem = new PEMWriter(serverpubfile);
         pem.writeObject(pairServer.getPublic());
@@ -465,7 +465,7 @@ public class CertManagerDataValidator implements DataValidator
         if (setx3runtime)
         {
             String strX3RuntimePath = adata.getVariable("syracuse.certificate.x3runtime");
-            String pemName = hostname.replace('@', '_').replace('$', '_').replace('.', '_');
+            String pemName = localHOST_NAME.replace('@', '_').replace('$', '_').replace('.', '_');
             File x3ServerPub = new File (strX3RuntimePath+File.separator+"keys" + File.separator + pemName+".pem");
             Files.copy(certToolOutputServerPub.toPath(), x3ServerPub.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
@@ -475,7 +475,7 @@ public class CertManagerDataValidator implements DataValidator
         if (setx3webserver)
         {
             String strX3WebserverPath = adata.getVariable("syracuse.certificate.x3webserverdata");
-            String pemName = hostname.replace('@', '_').replace('$', '_').replace('.', '_');
+            String pemName = localHOST_NAME.replace('@', '_').replace('$', '_').replace('.', '_');
             File x3ServerPub = new File (strX3WebserverPath + File.separator + pemName+".pem");
             Files.copy(certToolOutputServerPub.toPath(), x3ServerPub.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }

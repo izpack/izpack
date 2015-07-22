@@ -246,7 +246,8 @@
     <property name="debuglevel" value="lines,vars,source"/>
     <property name="compat.source" value="1.7"/>
     <property name="compat.target" value="1.7"/>
-
+	<property name="ant.build.javac.source" value="1.7"/>
+	<property name="ant.build.javac.target" value="1.7"/>
 
     <!-- paths -->
     <path id="classpath">
