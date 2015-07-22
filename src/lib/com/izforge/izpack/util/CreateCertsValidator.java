@@ -11,8 +11,10 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.security.SignatureException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
@@ -20,6 +22,8 @@ import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier;
 import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.ExtendedKeyUsage;
 import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.asn1.x509.GeneralName;
+import org.bouncycastle.asn1.x509.GeneralNames;
 import org.bouncycastle.asn1.x509.KeyPurposeId;
 import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.asn1.x509.X509Extension;
@@ -248,6 +252,12 @@ public class CreateCertsValidator implements DataValidator
 
         AuthorityKeyIdentifierStructure keyidCA = new AuthorityKeyIdentifierStructure(certCA);
         certGen.addExtension(Extension.authorityKeyIdentifier, false, keyidCA);
+        
+        List<GeneralName> subjectNames = new ArrayList<>();
+        subjectNames.add(new GeneralName(GeneralName.dNSName,name));
+        
+        certGen.addExtension(Extension.subjectAlternativeName, false, new GeneralNames(
+                subjectNames.toArray(new GeneralName[0])));
 
         ContentSigner sigGen=new JcaContentSignerBuilder("SHA256WithRSAEncryption").setProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()).build(pairCA.getPrivate());
         X509Certificate cert=new JcaX509CertificateConverter().setProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()).getCertificate(certGen.build(sigGen));

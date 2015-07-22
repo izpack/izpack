@@ -134,7 +134,6 @@ public class MongoDBDataValidator implements DataValidator
                 System.setProperty("javax.net.ssl.keyStorePassword", "keystore");
                 //System.setProperty("javax.net.debug", "ssl");
                 
-
                 MongoClient mongoClient = new MongoClient( new ServerAddress(hostName, Integer.parseInt(hostPort)) , new MongoClientOptions.Builder().sslEnabled(true).build());
                 
                 // test if syracuse db already exists

@@ -87,7 +87,8 @@ public class UpdatePassphraseValidator implements DataValidator
 
             Boolean certCreate = Boolean.valueOf(adata.getVariable("syracuse.certificate.install"));
 
-            String strHOST_NAME = adata.getVariable("syracuse.certificate.hostname");
+            //String strHOST_NAME = adata.getVariable("syracuse.certificate.hostname");
+            String strHOST_NAME = adata.getVariable("HOST_NAME").toLowerCase();
             String strServerPassphrase = adata.getVariable("syracuse.certificate.serverpassphrase"); //syracuse.certificate.serverpassphrase
             
             
