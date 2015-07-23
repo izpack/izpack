@@ -13,6 +13,11 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 
+import javax.net.SocketFactory;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 import org.bouncycastle.openssl.PEMKeyPair;
@@ -25,12 +30,18 @@ import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.DataValidator.Status;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientURI;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoIterable;
 
 
 public class MongoDBDataValidator implements DataValidator
 {
+	
+//	// Ignore differences between given hostname and certificate hostname
+//    private static HostnameVerifier hostVerifier = new HostnameVerifier() {
+//        public boolean verify(String hostname, SSLSession session) { return true; }
+//    };	
 
     public Status validateData(AutomatedInstallData adata)
     {
@@ -43,7 +54,7 @@ public class MongoDBDataValidator implements DataValidator
             //String userName = adata.getVariable("mongodb.url.username");
             //String passWord = adata.getVariable("mongodb.url.password");
             
-            String hostName = adata.getVariable("mongodb.service.hostname");
+            String hostName = new String (adata.getVariable("mongodb.service.hostname"));
             String hostPort = adata.getVariable("mongodb.service.port");
             boolean sslEnabled = "true".equalsIgnoreCase(adata.getVariable("mongodb.ssl.enable"));
             String certFile = adata.getVariable("mongodb.ssl.client.certfile");
@@ -114,7 +125,7 @@ public class MongoDBDataValidator implements DataValidator
                 JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider("BC");
                 PEMKeyPair ukp = (PEMKeyPair) object;
                 KeyPair kp = converter.getKeyPair(ukp);                
-
+                
                 keyStore.setCertificateEntry(cert.getSubjectX500Principal().toString(), cert);
                 
                 chainArray.add (cert);
@@ -134,7 +145,14 @@ public class MongoDBDataValidator implements DataValidator
                 System.setProperty("javax.net.ssl.keyStorePassword", "keystore");
                 //System.setProperty("javax.net.debug", "ssl");
                 
+                System.setProperty("jdk.tls.trustNameService","true");
+                
+        		
+                //MongoClientURI cliUri = new MongoClientURI ("mongodb://"+hostName+":"+hostPort+"/syracuse?ssl=true", new MongoClientOptions.Builder().sslEnabled(true).build());
+                
+                
                 MongoClient mongoClient = new MongoClient( new ServerAddress(hostName, Integer.parseInt(hostPort)) , new MongoClientOptions.Builder().sslEnabled(true).build());
+                //MongoClient mongoClient = new MongoClient(cliUri);
                 
                 // test if syracuse db already exists
                 MongoIterable<String> lstDb = mongoClient.listDatabaseNames();
