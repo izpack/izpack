@@ -105,7 +105,7 @@ public class UpdatePassphraseValidator implements DataValidator
                     
                     X500Name x500Name = new X500Name(cert.getSubjectX500Principal().getName()); 
                     
-                    strHOST_NAME=x500Name.getCommonName().toLowerCase();
+                    //strHOST_NAME=x500Name.getCommonName().toLowerCase();
                     
                     strServerPassphrase = adata.getVariable("syracuse.ssl.pemkeypassword");
                 }
