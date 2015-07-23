@@ -103,8 +103,8 @@ public class CertManagerDataValidator implements DataValidator
 
                 // set for mongodb install
                 adata.setVariable("mongodb.ssl.server.serverpassphrase",adata.getVariable("syracuse.certificate.serverpassphrase"));
-                adata.setVariable("mongodb.ssl.server.certfile",strCertPath + File.separator + hostname+".crt");
-                adata.setVariable("mongodb.ssl.server.pemkeyfile",strCertPath + File.separator + hostname+".key");
+                adata.setVariable("mongodb.ssl.server.certfile",strCertPath + File.separator + localHOST_NAME+".crt");
+                adata.setVariable("mongodb.ssl.server.pemkeyfile",strCertPath + File.separator + localHOST_NAME+".key");
                 adata.setVariable("mongodb.ssl.server.pemcafile",strCertPath + File.separator + "ca.cacrt");
                 
 
