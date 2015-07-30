@@ -1,19 +1,13 @@
-#Mon Feb 25 16:38:55 CET 2008
-        comment_clear_blank_lines=false
-        comment_format_comments=true
-        comment_format_header=true
-        comment_format_html=true
-        comment_format_source_code=true
-        comment_indent_parameter_description=true
-        comment_indent_root_tags=false
-        comment_line_length=100
-        comment_new_line_for_parameter=false
-        comment_separate_root_tags=true
-        eclipse.preferences.version=1
-        formatter_settings_version=8
-        org.eclipse.jdt.ui.exception.name=e
-        org.eclipse.jdt.ui.gettersetter.use.is=true
-        org.eclipse.jdt.ui.javadoc=false
-        org.eclipse.jdt.ui.overrideannotation=true
-        org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8"?>\n
-<templates/>
+<templates/>=
+comment_clear_blank_lines=false
+comment_format_comments=true
+comment_format_header=true
+comment_format_html=true
+comment_format_source_code=true
+comment_indent_parameter_description=true
+comment_indent_root_tags=false
+comment_line_length=100
+comment_new_line_for_parameter=false
+comment_separate_root_tags=true
+eclipse.preferences.version=1
+formatter_settings_version=12
