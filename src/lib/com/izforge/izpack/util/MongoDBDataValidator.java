@@ -66,21 +66,30 @@ public class MongoDBDataValidator implements DataValidator
             
                 MongoClient mongoClient = new MongoClient( hostName , Integer.parseInt(hostPort) );
                 
-                //if (bImportMode) bReturn = Status.WARNING;
-                //else bReturn = Status.OK; 
-    
-                // test if syracuse db already exists
-                MongoIterable<String> lstDb = mongoClient.listDatabaseNames();
+                String version = mongoClient.getDB("test").command("buildInfo").getString("version");
                 
-                for (String dbb : lstDb)
+                if (!version.startsWith("3.")) 
+            	{
+            		bReturn = Status.ERROR;
+            	}
+                else
                 {
-                    if (dbb.equals("syracuse"))
-                    {
-                        if (modifyinstallation) bReturn = Status.OK;
-                        else bReturn = Status.WARNING;
-                        break;
-                    }
+	    
+	                // test if syracuse db already exists
+	                MongoIterable<String> lstDb = mongoClient.listDatabaseNames();
+	                
+	                for (String dbb : lstDb)
+	                {
+	                    if (dbb.equals("syracuse"))
+	                    {
+	                        if (modifyinstallation) bReturn = Status.OK;
+	                        else bReturn = Status.WARNING;
+	                        break;
+	                    }
+	                }
                 }
+                
+                
                 
                 mongoClient.close();
             }
@@ -153,18 +162,27 @@ public class MongoDBDataValidator implements DataValidator
                 
                 MongoClient mongoClient = new MongoClient( new ServerAddress(hostName, Integer.parseInt(hostPort)) , new MongoClientOptions.Builder().sslEnabled(true).build());
                 //MongoClient mongoClient = new MongoClient(cliUri);
+
+                String version = mongoClient.getDB("test").command("buildInfo").getString("version");
                 
-                // test if syracuse db already exists
-                MongoIterable<String> lstDb = mongoClient.listDatabaseNames();
-                
-                for (String dbb : lstDb)
+                if (!version.startsWith("3.")) 
+            	{
+            		bReturn = Status.ERROR;
+            	}
+                else
                 {
-                    if (dbb.equals("syracuse"))
-                    {
-                        if (modifyinstallation) bReturn = Status.OK;
-                        else bReturn = Status.WARNING;
-                        break;
-                    }
+	                // test if syracuse db already exists
+	                MongoIterable<String> lstDb = mongoClient.listDatabaseNames();
+	                
+	                for (String dbb : lstDb)
+	                {
+	                    if (dbb.equals("syracuse"))
+	                    {
+	                        if (modifyinstallation) bReturn = Status.OK;
+	                        else bReturn = Status.WARNING;
+	                        break;
+	                    }
+	                }
                 }
                 
                 mongoClient.close();
