@@ -52,7 +52,7 @@ public class DynamicVariableImpl implements DynamicVariable
 
     private boolean autounset = true;
 
-    private boolean ignorefailure = true;
+    private boolean ignorefailure = false;
 
     private transient String currentValue;
     private transient boolean checked = false;

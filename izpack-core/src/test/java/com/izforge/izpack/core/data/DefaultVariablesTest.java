@@ -611,7 +611,6 @@ public class DefaultVariablesTest
        variables.set("var4", "static");
        variables.set("var5", "static");
        variables.set("var6", "static");
-       variables.add(createDynamicFromIni("found",unset));
        variables.add(createDynamicFromIni("var1",unset));
        variables.add(createDynamicFromIni("var2",unset));
        variables.add(createDynamicFromIni("var3",unset));
@@ -622,8 +621,6 @@ public class DefaultVariablesTest
        // common tests for testMixedVariablesFromIniFileUnsetTrue and testMixedVariablesFromIniFileUnsetFalse
        assertEquals("static value", "static", variables.get("var1"));       // dynamic variable not resolved till variables refreshed
        variables.refresh();
-       assertEquals("ini not found","true",   variables.get("found"));      // check, whether ini was found at all
-
        // static variable replaced by dynamic value from ini
        assertEquals("value from ini", "ini1", variables.get("var1"));
        assertEquals("value from ini with spaces", "ini2", variables.get("var2")); 
