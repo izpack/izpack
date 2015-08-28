@@ -175,6 +175,10 @@ public class PathInputPanel extends IzPanel implements ActionListener
                 return false;
             }
         }
+        else
+        {
+        	mustExist=false;
+        }
 
         // We put a warning if the specified target is nameless
         if (chosenPath.length() == 0)
