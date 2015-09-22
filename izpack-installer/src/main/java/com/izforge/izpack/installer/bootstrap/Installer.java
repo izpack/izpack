@@ -212,6 +212,7 @@ public class Installer
 
         installerMode = type;
         consoleMode = consoleAction;
+        propsPath = path;
 
         switch (type)
         {
@@ -268,4 +269,5 @@ public class Installer
         return installerMode;
     }
     public static int getConsoleMode() { return consoleMode; }
+    public static String getPropsPath() { return propsPath; }
 }
