@@ -297,7 +297,7 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * @param panelRoot 
+     * @param panelRoot
      * @return a list of xml child elements to write a autoinstall.xml file for later execution
      */
     public List<IXMLElement> getAutoinstallXMLData(IXMLElement panelRoot)
@@ -992,9 +992,9 @@ public class ShortcutPanelLogic implements CleanupClient
                 /**
                  * Attribute: desktop
                  *
-                 * 	If the value is true, then a copy of the shortcut is placed on the desktop.
-                 * 	On Unix the shortcuts will only be placed on the KDE desktop of the user currently running the installer.
-                 * 	For Gnome the user can simply copy the .desktop files from *\/Desktop to /gnome-desktop.
+                 *     If the value is true, then a copy of the shortcut is placed on the desktop.
+                 *     On Unix the shortcuts will only be placed on the KDE desktop of the user currently running the installer.
+                 *     For Gnome the user can simply copy the .desktop files from *\/Desktop to /gnome-desktop.
                  */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_DESKTOP))
                 {
@@ -1048,8 +1048,8 @@ public class ShortcutPanelLogic implements CleanupClient
                 /**
                  *  Attribute: programGroup
                  *
-                 * 	If the value is true, then a copy of this shortcut will be placed in the group menu.
-                 * 	On Unix (KDE) this will always be placed on the top level.
+                 *     If the value is true, then a copy of this shortcut will be placed in the group menu.
+                 *     On Unix (KDE) this will always be placed on the top level.
                  */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_PROGRAM_GROUP))
                 {
@@ -1199,15 +1199,14 @@ public class ShortcutPanelLogic implements CleanupClient
         {
             if (execFiles != null)
             {
-                FileExecutor executor = new FileExecutor(execFiles);
-
                 //
                 // TODO: Hi Guys,
-                // TODO The following commented-out line sometimes produces an uncatchable
+                // TODO The following commented lines sometimes produces an uncatchable
                 // nullpointer Exception!
                 // TODO evaluate for what reason the files should exec.
                 // TODO if there is a serious explanation, why to do that,
                 // TODO the code must be more robust
+                //FileExecutor executor = new FileExecutor(execFiles);
                 // evaluate executor.executeFiles( ExecutableFile.NEVER, null );
             }
         }

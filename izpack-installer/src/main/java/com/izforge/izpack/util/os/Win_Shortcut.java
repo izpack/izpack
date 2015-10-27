@@ -21,15 +21,15 @@
 
 package com.izforge.izpack.util.os;
 
-import com.izforge.izpack.util.Librarian;
-import com.izforge.izpack.util.StringTool;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.izforge.izpack.util.Librarian;
+import com.izforge.izpack.util.StringTool;
 
 /*---------------------------------------------------------------------------*/
 
