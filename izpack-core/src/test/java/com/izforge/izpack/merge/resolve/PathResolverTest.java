@@ -30,6 +30,7 @@ import java.util.Set;
 
 import org.hamcrest.collection.IsCollectionContaining;
 import org.hamcrest.core.Is;
+import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsNot;
 import org.hamcrest.number.IsGreaterThan;
 import org.hamcrest.text.StringContains;
@@ -66,7 +67,7 @@ public class PathResolverTest
         List<Mergeable> jarMergeList = pathResolver.getMergeableFromPath("junit/framework");
         assertThat(jarMergeList.size(), Is.is(1));
         Mergeable jarMerge = jarMergeList.get(0);
-        assertThat(jarMerge, Is.is(JarMerge.class));
+        assertThat(jarMerge, IsInstanceOf.instanceOf(JarMerge.class));
         assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("junit/framework/Assert.class",
                 "junit/framework/AssertionFailedError.class"
         ));
