@@ -1,17 +1,17 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2002 Elmar Grom
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,10 +21,10 @@
 
 package com.izforge.izpack.util.os;
 
-import com.izforge.izpack.installer.data.UninstallData;
-
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+
+import com.izforge.izpack.installer.data.UninstallData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,7 +37,7 @@ import java.util.List;
  * @version 0.0.1 / 3/4/02
  * @see com.izforge.izpack.util.TargetFactory
  */
-public class Shortcut
+public abstract class Shortcut
 {
 
     // ------------------------------------------------------------------------
@@ -113,9 +113,7 @@ public class Shortcut
      * @param type the type or classification of the program group in which the link should exist.
      * @param name the name of the shortcut.
      */
-    public void initialize(int type, String name) throws Exception
-    {
-    }
+    public abstract void initialize(int type, String name) throws Exception;
 
     /*--------------------------------------------------------------------------*/
 
@@ -141,45 +139,36 @@ public class Shortcut
      * Start Menu\Programs menu would be returned.
      *
      * @param userType the type of user for the program group set.
-     * @return a <code>Vector</code> of <code>String</code> objects that represent the names of
-     *         the existing program groups. It is theoretically possible that this list is empty.
+     * @return a <code>Vector</code> of <code>String</code> objects that represent the names of the
+     * existing program groups. It is theoretically possible that this list is empty.
      * @see #APPLICATIONS
      * @see #START_MENU
      */
-    public List<String> getProgramGroups(int userType)
-    {
-        return null;
-    }
+    public abstract List<String> getProgramGroups(int userType);
 
     /*--------------------------------------------------------------------------*/
 
     /**
      * Subclass implementations return the fully qualified file name under which the link is saved
-     * on disk. <b>Note:</b> this method returns valid results only if the instance was created
-     * from a file on disk or after a successful save operation. An instance of this class returns
-     * an empty string.
+     * on disk. <b>Note:</b> this method returns valid results only if the instance was created from
+     * a file on disk or after a successful save operation. An instance of this class returns an
+     * empty string.
      *
      * @return an empty <code>String</code>
      */
-    public String getFileName()
-    {
-        return ("");
-    }
+    public abstract String getFileName();
 
     /*--------------------------------------------------------------------------*/
 
     /**
      * Subclass implementations return the path of the directory where the link file is stored, if
      * it was necessary during the previous save operation to create the directory. This method
-     * returns <code>null</code> if no save operation was carried out or there was no need to
-     * create a directory during the previous save operation.
+     * returns <code>null</code> if no save operation was carried out or there was no need to create
+     * a directory during the previous save operation.
      *
      * @return this implementation returns always <code>null</code>.
      */
-    public String getDirectoryCreated()
-    {
-        return (null);
-    }
+    public abstract String getDirectoryCreated();
 
     /*--------------------------------------------------------------------------*/
 
@@ -188,10 +177,7 @@ public class Shortcut
      *
      * @return <code>true</code> if the target OS supports current and all users.
      */
-    public boolean multipleUsers()
-    {
-        return (false);
-    }
+    public abstract boolean multipleUsers();
 
     /*--------------------------------------------------------------------------*/
 
@@ -206,13 +192,10 @@ public class Shortcut
      * client code can now determine by calling this method if the active OS is supported and take
      * appropriate action.
      *
-     * @return <code>true</code> if the creation of shortcuts is supported, <code>false</code>
-     *         if this is not supported.
+     * @return <code>true</code> if the creation of shortcuts is supported, <code>false</code> if
+     * this is not supported.
      */
-    public boolean supported()
-    {
-        return (false);
-    }
+    public abstract boolean supported();
 
     /*--------------------------------------------------------------------------*/
 
@@ -221,9 +204,7 @@ public class Shortcut
      *
      * @param arguments the command line arguments
      */
-    public void setArguments(String arguments)
-    {
-    }
+    public abstract void setArguments(String arguments);
 
     /*--------------------------------------------------------------------------*/
 
@@ -232,34 +213,27 @@ public class Shortcut
      *
      * @param description the descriptiojn string
      */
-    public void setDescription(String description)
-    {
-    }
+    public abstract void setDescription(String description);
 
     /*--------------------------------------------------------------------------*/
 
     /**
-     * Sets the location of the icon that is shown for the shortcut on the desktop.
+     * Sets the path of the shortcut icon that will be shown on the desktop.
      *
-     * @param path  a fully qualified file name of a file that contains the icon.
+     * @param path a fully qualified file name of a file that contains the icon.
      * @param index the index of the specific icon to use in the file. If there is only one icon in
-     *              the file, use an index of 0.
+     * the file, use an index of 0.
      */
-    public void setIconLocation(String path, int index)
-    {
-    }
+    public abstract void setIconLocation(String path, int index);
 
     /*--------------------------------------------------------------------------*/
 
     /**
-     * returns icon Location
+     * Returns the path of the shortcut icon that will be shown on the desktop.
      *
-     * @return iconLocation
+     * @return icon path
      */
-    public String getIconLocation()
-    {
-        return "";
-    }
+    public abstract String getIconLocation();
 
     /*--------------------------------------------------------------------------*/
 
@@ -268,9 +242,7 @@ public class Shortcut
      *
      * @param groupName the name of the program group
      */
-    public void setProgramGroup(String groupName)
-    {
-    }
+    public abstract void setProgramGroup(String groupName);
 
     /*--------------------------------------------------------------------------*/
 
@@ -280,22 +252,20 @@ public class Shortcut
      * minimized, maximized or visible at all. <br>
      * <br>
      * <b>Note:</b><br>
-     * Using <code>HIDE</code> will cause the target window not to show at all. There is not even
-     * a button on the taskbar. This is a very useful setting when batch files are used to launch a
+     * Using <code>HIDE</code> will cause the target window not to show at all. There is not even a
+     * button on the taskbar. This is a very useful setting when batch files are used to launch a
      * Java application as it will then appear to run just like any native Windows application.<br>
      *
      * @param show the show command. Valid settings are: <br>
-     *             <ul>
-     *             <li>{@link com.izforge.izpack.util.os.Shortcut#HIDE}
-     *             <li>{@link com.izforge.izpack.util.os.Shortcut#NORMAL}
-     *             <li>{@link com.izforge.izpack.util.os.Shortcut#MINIMIZED}
-     *             <li>{@link com.izforge.izpack.util.os.Shortcut#MAXIMIZED}
-     *             </ul>
+     * <ul>
+     * <li>{@link com.izforge.izpack.util.os.Shortcut#HIDE}
+     * <li>{@link com.izforge.izpack.util.os.Shortcut#NORMAL}
+     * <li>{@link com.izforge.izpack.util.os.Shortcut#MINIMIZED}
+     * <li>{@link com.izforge.izpack.util.os.Shortcut#MAXIMIZED}
+     * </ul>
      * @see #getShowCommand
      */
-    public void setShowCommand(int show)
-    {
-    }
+    public abstract void setShowCommand(int show);
 
     /*
      * retrieves showCommand from the OS. Translates it into Shortcut.XXX terms.
@@ -313,9 +283,7 @@ public class Shortcut
      *
      * @param path the fully qualified file name of the target
      */
-    public void setTargetPath(String path)
-    {
-    }
+    public abstract void setTargetPath(String path);
 
     /*--------------------------------------------------------------------------*/
 
@@ -324,9 +292,7 @@ public class Shortcut
      *
      * @param dir the working directory
      */
-    public void setWorkingDirectory(String dir)
-    {
-    }
+    public abstract void setWorkingDirectory(String dir);
 
     /*--------------------------------------------------------------------------*/
 
@@ -346,11 +312,9 @@ public class Shortcut
      * Sets the name shown in a menu or on the desktop for the link.
      *
      * @param name The name that the link should display on a menu or on the desktop. Do not include
-     *             a file extension.
+     * a file extension.
      */
-    public void setLinkName(String name)
-    {
-    }
+    public abstract void setLinkName(String name);
 
     /*--------------------------------------------------------------------------*/
 
@@ -363,11 +327,7 @@ public class Shortcut
      * <li>{@link com.izforge.izpack.util.os.Shortcut#START_UP}
      * </ul>
      */
-    public int getLinkType()
-    {
-        // fake default.
-        return Shortcut.DESKTOP;
-    }
+    public abstract int getLinkType();
 
     /*--------------------------------------------------------------------------*/
 
@@ -375,18 +335,17 @@ public class Shortcut
      * Sets the type of link
      *
      * @param type The type of link desired. The following values can be set:<br>
-     *             <ul>
-     *             <li>{@link com.izforge.izpack.util.os.Shortcut#DESKTOP}
-     *             <li>{@link com.izforge.izpack.util.os.Shortcut#APPLICATIONS}
-     *             <li>{@link com.izforge.izpack.util.os.Shortcut#START_MENU}
-     *             <li>{@link com.izforge.izpack.util.os.Shortcut#START_UP}
-     *             </ul>
-     * @throws IllegalArgumentException     if an an invalid type is passed
+     * <ul>
+     * <li>{@link com.izforge.izpack.util.os.Shortcut#DESKTOP}
+     * <li>{@link com.izforge.izpack.util.os.Shortcut#APPLICATIONS}
+     * <li>{@link com.izforge.izpack.util.os.Shortcut#START_MENU}
+     * <li>{@link com.izforge.izpack.util.os.Shortcut#START_UP}
+     * </ul>
+     * @throws IllegalArgumentException if an an invalid type is passed
      * @throws UnsupportedEncodingException
      */
-    public void setLinkType(int type) throws IllegalArgumentException, UnsupportedEncodingException
-    {
-    }
+    public abstract void setLinkType(int type)
+            throws IllegalArgumentException, UnsupportedEncodingException;
 
     /*--------------------------------------------------------------------------*/
 
@@ -397,9 +356,7 @@ public class Shortcut
      * @see #CURRENT_USER
      * @see #ALL_USERS
      */
-    public void setUserType(int type)
-    {
-    }
+    public abstract void setUserType(int type);
 
     /*--------------------------------------------------------------------------*/
 
@@ -410,17 +367,15 @@ public class Shortcut
      * @see #CURRENT_USER
      * @see #ALL_USERS
      */
-    public int getUserType()
-    {
-        return CURRENT_USER;
-    }
+    public abstract int getUserType();
 
     /**
      * Determines if the shortcut target should be run with administrator privileges.
      *
      * @param runAsAdministrator if {@code true}, run the target with administrator privileges.
      */
-    public void setRunAsAdministrator(boolean runAsAdministrator) {
+    public void setRunAsAdministrator(boolean runAsAdministrator)
+    {
     }
 
     /**
@@ -428,7 +383,8 @@ public class Shortcut
      *
      * @return {@code true}, if the target will run with administrator privileges
      */
-    public boolean getRunAsAdministrator() {
+    public boolean getRunAsAdministrator()
+    {
         return false;
     }
 
@@ -439,9 +395,7 @@ public class Shortcut
      *
      * @throws Exception if problems are encountered
      */
-    public void save() throws Exception
-    {
-    }
+    public abstract void save() throws Exception;
 
     /*--------------------------------------------------------------------------*/
 
@@ -545,10 +499,7 @@ public class Shortcut
      * @param current_user one of current or all
      * @return The Foldername or null on unsupported platforms.
      */
-    public String getProgramsFolder(int current_user)
-    {
-        return null;
-    }
+    public abstract String getProgramsFolder(int current_user);
 
     /**
      * Sets the flag which indicates, that this should created for all.
@@ -603,19 +554,17 @@ public class Shortcut
      */
     public void execPostAction()
     {
-        //Debug.log("Call of unused execPostAction Method in " + this.getClass().getName() );
+        // Debug.log("Call of unused execPostAction Method in " + this.getClass().getName() );
     }
 
     /**
-     * Clean Up Method to do some cleanups after Shortcut Creation.
-     * <br>
+     * Clean Up Method to do some cleanups after Shortcut Creation. <br>
      * currently unused.
      */
     public void cleanUp()
     {
-        //Debug.log("Call of unused cleanUp Method in " + this.getClass().getName() );     
+        // Debug.log("Call of unused cleanUp Method in " + this.getClass().getName() );
     }
 
 }
 /*---------------------------------------------------------------------------*/
-

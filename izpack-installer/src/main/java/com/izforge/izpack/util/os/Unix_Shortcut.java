@@ -85,7 +85,7 @@ public class Unix_Shortcut extends Shortcut
     // ***********************************************************************
     // ~ Static fields/initializers
     // ***********************************************************************
-    
+
     private static final Logger logger = Logger.getLogger(Unix_Shortcut.class.getName());
 
     /**
@@ -274,10 +274,10 @@ public class Unix_Shortcut extends Shortcut
                 result.append(S).append(arguments);
             result.append(N);
         }
-        
+
         result.append("GenericName=").append(N);
         result.append("GenericName[").append(userLanguage).append("]=").append(N);
-        
+
         result.append("Icon=").append(iconLocation).append(N);
         result.append("MimeType=").append(mimeType).append(N);
         result.append("Name=").append(linkName).append(N);
@@ -287,13 +287,13 @@ public class Unix_Shortcut extends Shortcut
         result.append("ServiceTypes=").append(N);
         result.append("SwallowExec=").append(N);
         result.append("SwallowTitle=").append(N);
-        
+
         result.append("Terminal=").append(terminal).append(N);
         if (!terminal.isEmpty() && !terminal.equals("true") && !terminal.equals("false"))
             logger.warning(String.format("Shortcut '%s' has terminal '%s' but should be 'true' or 'false'", linkName, terminal));
-        
+
         result.append("TerminalOptions=").append(terminalOptions).append(N);
-        
+
         result.append("Type=").append(type).append(N);
         if (type.equalsIgnoreCase("Link") && url.isEmpty())
                 logger.warning(String.format("Shortcut '%s' has type '%s' but URL is empty", linkName, type));
@@ -304,14 +304,14 @@ public class Unix_Shortcut extends Shortcut
             if (!type.equalsIgnoreCase("Link"))
                 logger.warning(String.format("Shortcut '%s' has URL but type ('%s') is not 'Link'", linkName, type));
         }
-        
+
         result.append("X-KDE-SubstituteUID=").append(kdeSubstituteUID).append(N);
         result.append("X-KDE-Username=").append(kdeUserName).append(N);
         result.append(N);
         result.append(C + "created by" + S).append(getClass().getName()).append(S).append(rev).append(
                 N);
         result.append(C).append(version);
-        
+
         return result.toString();
     }
 
@@ -334,7 +334,7 @@ public class Unix_Shortcut extends Shortcut
     /**
      * This indicates that Unix will be supported.
      *
-     * @return 
+     * @return
      * @see com.izforge.izpack.util.os.Shortcut#supported()
      */
     @Override
@@ -343,11 +343,11 @@ public class Unix_Shortcut extends Shortcut
         return true;
     }
 
-    
+
     /**
      * Dummy
      *
-     * @return 
+     * @return
      * @see com.izforge.izpack.util.os.Shortcut#getDirectoryCreated()
      */
     @Override
@@ -356,11 +356,11 @@ public class Unix_Shortcut extends Shortcut
         return this.createdDirectory; // while not stored...
     }
 
-    
+
     /**
      * Dummy
      *
-     * @return 
+     * @return
      * @see com.izforge.izpack.util.os.Shortcut#getFileName()
      */
     @Override
@@ -369,11 +369,11 @@ public class Unix_Shortcut extends Shortcut
         return (this.itsFileName);
     }
 
-    
+
     /**
      * Overridden compatibility method. Returns all directories in $USER/.kde/share/applink.
      *
-     * @return 
+     * @return
      * @see com.izforge.izpack.util.os.Shortcut#getProgramGroups(int)
      */
     @Override
@@ -404,11 +404,11 @@ public class Unix_Shortcut extends Shortcut
         return groups;
     }
 
-    
+
     /**
      * Gets the Programsfolder for the given User (non-Javadoc).
      *
-     * @return 
+     * @return
      * @see com.izforge.izpack.util.os.Shortcut#getProgramsFolder(int)
      */
     @Override
@@ -445,20 +445,20 @@ public class Unix_Shortcut extends Shortcut
 
     }
 
-    
+
     /**
      * Makes a filename usable in a script by escaping spaces.
-     * This should <b>not</b> be used for filenames passed to Java filesystem 
+     * This should <b>not</b> be used for filenames passed to Java filesystem
      * methods.
      * @param filename
-     * @return 
+     * @return
      */
     private String makeFilenameScriptable(String filename)
     {
         return filename.replace(" ", "\\ ");
     }
-    
-    
+
+
     /**
      * overridden method
      *
@@ -472,7 +472,7 @@ public class Unix_Shortcut extends Shortcut
         return (true);
     }
 
-    
+
     /**
      * Creates and stores the shortcut-files.
      *
@@ -549,15 +549,15 @@ public class Unix_Shortcut extends Shortcut
                 createExtXdgDesktopIconCmd(shortCutLocation);
                 // / TODO: DELETE the ScriptFiles
                 myInstallScript.appendln(new String[]{
-                    makeFilenameScriptable(myXdgDesktopIconCmd), 
+                    makeFilenameScriptable(myXdgDesktopIconCmd),
                     "install",
-                    "--novendor", 
+                    "--novendor",
                     StringTool.escapeSpaces(writtenDesktopFile.toString())});
                 ShellScript myUninstallScript = new ShellScript();
                 myUninstallScript.appendln(new String[]{
-                    makeFilenameScriptable(myXdgDesktopIconCmd), 
+                    makeFilenameScriptable(myXdgDesktopIconCmd),
                     "uninstall",
-                    "--novendor", 
+                    "--novendor",
                     StringTool.escapeSpaces(writtenDesktopFile.toString())});
                 uninstaller.addUninstallScript(myUninstallScript.getContentAsString());
             }
@@ -625,8 +625,8 @@ public class Unix_Shortcut extends Shortcut
                     catch (Exception e)
                     {
                         logger.log(Level.WARNING,
-                                   "Could not copy " + theIcon + " to " + commonIcon + "( "
-                                           + e.getMessage() + " )",
+                                   "Could not copy " + theIcon + " to " + commonIcon + " ("
+                                           + e.getMessage() + ")",
                                    e);
                     }
 
@@ -673,10 +673,8 @@ public class Unix_Shortcut extends Shortcut
                 }
                 catch (Exception e)
                 {
-                    logger.log(Level.WARNING,
-                               "Could not copy " + theIcon + " to " + commonIcon + "( "
-                                       + e.getMessage() + " )",
-                               e);
+                    logger.log(Level.WARNING, "Could not copy " + theIcon + " to " + commonIcon
+                            + " (" + e.getMessage() + ")", e);
                 }
 
                 // write *.desktop in the local folder
@@ -763,7 +761,7 @@ public class Unix_Shortcut extends Shortcut
         return su;
     }
 
-    
+
     private String getXdgDesktopIconCmd()
     {
         if (xdgDesktopIconCmd == null)
@@ -773,7 +771,7 @@ public class Unix_Shortcut extends Shortcut
         return xdgDesktopIconCmd;
     }
 
-    
+
     private List<UnixUser> getUsers()
     {
         if (users == null)
@@ -783,7 +781,7 @@ public class Unix_Shortcut extends Shortcut
         return users;
     }
 
-    
+
     /**
      * @param writtenDesktopFile
      * @throws IOException
@@ -986,7 +984,7 @@ public class Unix_Shortcut extends Shortcut
         writtenFileName = s;
     }
 
-    
+
     /**
      * Write the given ShortDefinition in a File $ShortcutName-$timestamp.desktop in the given
      * TargetPath.
@@ -1001,7 +999,7 @@ public class Unix_Shortcut extends Shortcut
         return writeAppShortcutWithSimpleSpacehandling(targetPath, shortcutName, shortcutDef, false);
     }
 
-    
+
     /**
      * Write the given ShortDefinition in a File $ShortcutName-$timestamp.desktop in the given
      * TargetPath. ALSO all WhiteSpaces in the ShortCutName will be repalced with "-"
@@ -1017,7 +1015,7 @@ public class Unix_Shortcut extends Shortcut
         return writeAppShortcutWithSimpleSpacehandling(targetPath, shortcutName, shortcutDef, true);
     }
 
-    
+
     /**
      * Write the given ShortDefinition in a File $ShortcutName-$timestamp.desktop in the given
      * TargetPath. If the given replaceSpaces was true ALSO all WhiteSpaces in the ShortCutName will
@@ -1081,7 +1079,7 @@ public class Unix_Shortcut extends Shortcut
 
     }
 
-    
+
     /**
      * Set the command line Arguments
      *
@@ -1106,7 +1104,7 @@ public class Unix_Shortcut extends Shortcut
         this.categories = theCategories;
     }
 
-    
+
     /**
      * Sets the Description
      *
@@ -1118,7 +1116,7 @@ public class Unix_Shortcut extends Shortcut
         this.description = description;
     }
 
-    
+
     /**
      * Sets The Encoding
      *
@@ -1131,7 +1129,7 @@ public class Unix_Shortcut extends Shortcut
         this.encoding = aEncoding;
     }
 
-    
+
     /**
      * Sets The KDE Specific subst UID property
      *
@@ -1144,7 +1142,7 @@ public class Unix_Shortcut extends Shortcut
         this.kdeSubstituteUID = trueFalseOrNothing;
     }
 
-    
+
     /**
      * Sets The KDE Specific subst UID property
      *
@@ -1157,18 +1155,20 @@ public class Unix_Shortcut extends Shortcut
         this.kdeUserName = aUserName;
     }
 
-    /**
-     * Sets The Icon Path
-     *
-     * @see com.izforge.izpack.util.os.Shortcut#setIconLocation(java.lang.String, int)
-     */
+
     @Override
     public void setIconLocation(String path, int index)
     {
         this.iconLocation = path;
     }
 
-    
+    @Override
+    public String getIconLocation()
+    {
+        return this.iconLocation;
+    }
+
+
     /**
      * Sets the Name of this Shortcut
      *
@@ -1181,25 +1181,18 @@ public class Unix_Shortcut extends Shortcut
         this.linkName = aName;
     }
 
-    
-    /**
-     * Sets the type of this Shortcut
-     *
-     * @param aType
-     * @throws java.io.UnsupportedEncodingException
-     * @see com.izforge.izpack.util.os.Shortcut#setLinkType(int)
-     */
+
     @Override
     public void setLinkType(int aType) throws IllegalArgumentException,
             UnsupportedEncodingException
     {
         this.linkType = aType;
     }
+
     @Override
     public int getLinkType()
     {
         return linkType;
-        // return Shortcut.DESKTOP;
     }
 
 
@@ -1215,7 +1208,7 @@ public class Unix_Shortcut extends Shortcut
         this.mimeType = aMimeType;
     }
 
-    
+
     /**
      * Sets the ProgramGroup
      *
@@ -1228,7 +1221,7 @@ public class Unix_Shortcut extends Shortcut
         this.programGroup = aGroupName;
     }
 
-    
+
     /**
      * Sets the ShowMode
      *
@@ -1252,7 +1245,7 @@ public class Unix_Shortcut extends Shortcut
         this.targetPath = aPath;
     }
 
-    
+
     /**
      * Sets the user type.
      *
@@ -1267,7 +1260,7 @@ public class Unix_Shortcut extends Shortcut
     /**
      * Gets the user type of the Shortcut.
      *
-     * @return 
+     * @return
      * @see com.izforge.izpack.util.os.Shortcut#getUserType()
      */
     @Override
@@ -1277,7 +1270,7 @@ public class Unix_Shortcut extends Shortcut
     }
 
 
-    
+
     /**
      * Sets the working-directory
      *
@@ -1290,7 +1283,7 @@ public class Unix_Shortcut extends Shortcut
         this.workingDirectory = aDirectory;
     }
 
-    
+
     /**
      * Sets the terminal
      *
@@ -1327,7 +1320,7 @@ public class Unix_Shortcut extends Shortcut
         // currently ignored
     }
 
-    
+
     /**
      * Sets the Shortcut type (one of Application, Link or Device)
      *
@@ -1340,7 +1333,7 @@ public class Unix_Shortcut extends Shortcut
         this.type = aType;
     }
 
-    
+
     /**
      * Sets the Url for type Link. Can be also a absolute file/path
      *
@@ -1353,7 +1346,7 @@ public class Unix_Shortcut extends Shortcut
         this.url = anUrl;
     }
 
-    
+
     /**
      * Dumps the Name to console.
      *
