@@ -339,6 +339,7 @@
                 <include name="com/izforge/izpack/event/SimpleCompilerListener.class"/>
                 <include name="com/izforge/izpack/rules/*.class"/>
                 <include name="com/izforge/izpack/installer/*.class"/>
+            	<include name="com/izforge/izpack/panels/*.class"/>
                 <include name="com/izforge/izpack/adaptator/**/*.class"/>
                 <include name="com/izforge/izpack/adaptator/*.class"/>
             </fileset>
@@ -600,10 +601,14 @@
             <include name="com/izforge/izpack/panels/FinishPanel.java"/>
         	<include name="com/izforge/izpack/panels/FinishPanelConsoleHelper.java" />
         </build-panel>
-        <build-panel name="FinishShutdownPanel">
-            <include name="com/izforge/izpack/panels/FinishShutdownPanel.java"/>
-        	<include name="com/izforge/izpack/panels/FinishShutdownPanelConsoleHelper.java" />
+        <build-panel name="FinishRestartPanel">
+        	<include name="com/izforge/izpack/panels/FinishPanel.java"/>
+            <include name="com/izforge/izpack/panels/sage/FinishRestartPanel.java"/>
         </build-panel>
+    	 <build-panel name="FinishMBPanel">
+    	        	<include name="com/izforge/izpack/panels/FinishPanel.java"/>
+    	            <include name="com/izforge/izpack/panels/sage/FinishMBPanel.java"/>
+    	        </build-panel>
         <build-panel name="HelloPanel">
             <include name="com/izforge/izpack/panels/HelloPanel.java"/>
         	<include name="com/izforge/izpack/panels/HelloPanelConsoleHelper.java" />

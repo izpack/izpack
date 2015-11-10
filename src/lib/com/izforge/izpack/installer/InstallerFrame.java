@@ -126,12 +126,12 @@ public class InstallerFrame extends JFrame {
      * The quit button.
      */
     protected JButton quitButton;
+ 
     
     /**
-     * restart button
+     * Set quit button with restart choice
      */
-    protected boolean quitButtonMustRestart= false;
-
+    protected boolean quitRestartEnabled = false;
 
     /**
      * Mapping from "raw" panel number to visible panel number.
@@ -511,6 +511,7 @@ public class InstallerFrame extends JFrame {
                 .getImageIcon("stop"), installdata.buttonsHColor);
         navPanel.add(quitButton);
         quitButton.addActionListener(navHandler);
+      
         contentPane.add(navPanel, BorderLayout.SOUTH);
         
 
@@ -1285,12 +1286,6 @@ public class InstallerFrame extends JFrame {
         quitButton.setText(text1);
     }
     
-    public void setRestartButton() {
-        
-        quitButtonMustRestart = true;
-    }
-
-
     /**
      * Sets a new icon into the quit button if icons should be used, else nothing will be done.
      *
@@ -1303,8 +1298,11 @@ public class InstallerFrame extends JFrame {
             quitButton.setIcon(icons.getImageIcon(iconName));
         }
     }
+    
+    public void setQuitButtonRestartEnabled() {
+    	quitRestartEnabled = true;
+    }
   
-
     /**
      * FocusTraversalPolicy objects to handle keybord blocking; the declaration os Object allows to
      * use a pre version 1.4 VM.
@@ -1586,7 +1584,7 @@ public class InstallerFrame extends JFrame {
      */
     class NavigationHandler implements ActionListener {
 
-        public void actionPerformed(final ActionEvent e) {
+		public void actionPerformed(final ActionEvent e) {
             /*
                 Some panels activation may be slow, hence we
                 block the GUI, spin a thread to handle navigation then
@@ -1619,15 +1617,22 @@ public class InstallerFrame extends JFrame {
             } else if (source == nextButton) {
                 navigateNext();
             } else if (source == quitButton) {
-                if( quitButtonMustRestart ){
-                    System.out.println("restart");
-                    restart();
-                }else{
-                    System.out.println("exit");
-
+            	// MB 9-11-15
+            	if (quitRestartEnabled) {
+	            	String title = langpack.getString("installer.change-restart.title");
+	            	String message = langpack.getString("installer.change-restart");
+	            	message = message.replaceAll("\\\\n", System.getProperty("line.separator", "\n"));
+	            	int option = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
+	            		
+	            	if(option == JOptionPane.OK_OPTION){
+	                    restart();
+	                }else{
+	                    exit();
+	                }   
+            	} else {
                     exit();
-                }   
-            }
+            	}
+            } 
         }
     }
 
