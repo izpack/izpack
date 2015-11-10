@@ -11,6 +11,6 @@
 	<classpathentry kind="lib" path="lib/bcpkix-jdk15on-150.jar"/>
 	<classpathentry kind="lib" path="lib/bcprov-jdk15on-150.jar"/>
 	<classpathentry kind="lib" path="lib/mongo-java-driver-3.0.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_76"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="eclipse-bin"/>
 </classpath>

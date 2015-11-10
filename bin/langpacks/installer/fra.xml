@@ -34,10 +34,11 @@
     <str id="installer.next" txt="Suivant"/>
     <str id="installer.prev" txt="Précédent"/>
     <str id="installer.quit" txt="Quitter"/>
-    <str id="installer.restart" txt="Redémarrer"/>
-
+    <str id="installer.change-restart" txt="vous devez redémarrer votre serveur pour que les nouveaux paramètres soient pris en compte.\n\nVoulez vous redémarrer maintenant ?\n"/>
     <str id="installer.madewith" txt="(Créé avec IzPack - http://izpack.org/)"/>
+    <str id="installer.change-restart.title" txt="Mise à jour Paramètres Système"/>
     <str id="installer.quit.title" txt="Voulez vous vraiment quitter ?"/>
+    <str id="installer.restart.message" txt="Ceci va redémarrer le serveur !"/>
     <str id="installer.quit.message" txt="Ceci va cesser l'installation !"/>
     <str id="installer.warning" txt="Attention !"/>
     <str id="installer.yes" txt="Oui"/>

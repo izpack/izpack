@@ -34,9 +34,11 @@
     <str id="installer.next" txt="Next"/>
     <str id="installer.prev" txt="Previous"/>
     <str id="installer.quit" txt="Quit"/>
-    <str id="installer.restart" txt="Restart"/>
+    <str id="installer.change-restart" txt="You must restart your computer before the new settings will take effect.\n\nDo you want to restart your computer now ?\n"/>
     <str id="installer.madewith" txt="(Made with IzPack - http://izpack.org/)"/>
+    <str id="installer.change-restart.title" txt="System Settings Change"/>
     <str id="installer.quit.title" txt="Are you sure you want to quit?"/>
+    <str id="installer.restart.message" txt="This will restart the server!"/>
     <str id="installer.quit.message" txt="This will cancel the installation!"/>
     <str id="installer.warning" txt="Warning!"/>
     <str id="installer.yes" txt="Yes"/>
