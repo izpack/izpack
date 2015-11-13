@@ -324,6 +324,7 @@
 	<str id="adxadminV6found" txt="Une version antérieure de ce composant a été trouvée, ce logiciel ne peut pas être mis à jour !"/>
 	<str id="compFoundAskUpdate" txt="Une version précédente de ce composant a été détecté sur cet ordinateur, Voulez-vous mettre à jour cette installation ?"/>
 	<str id="compFoundDoUpdate" txt="Une version précédente de ce composant a été détecté sur cet ordinateur, ce programme d'installation va continuer en mode mise à jour !"/>
+	<str id="sectionNotFound" txt="La section du module '%s' n'est pas définie dans le fichier adxinstall.xml. Veuillez désinstaller le composant avant de le réinstaller."/>
 	<str id="updateMode" txt="Mode de mise à jour"/>
 	
 	<str id="notidle" txt="Ce composant est actuellement utilisé et ne peut pas être désinstallé."/>

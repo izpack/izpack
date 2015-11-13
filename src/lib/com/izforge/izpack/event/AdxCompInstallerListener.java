@@ -1,6 +1,7 @@
 package com.izforge.izpack.event;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.attribute.PosixFilePermission;
@@ -23,9 +24,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.izforge.izpack.LocaleDatabase;
 import com.izforge.izpack.adaptator.IXMLElement;
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.InstallData;
+import com.izforge.izpack.installer.ResourceManager;
 import com.izforge.izpack.util.AbstractUIProgressHandler;
 import com.izforge.izpack.util.CleanupClient;
 import com.izforge.izpack.util.Debug;
@@ -57,7 +60,9 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
     public void beforePacks(AutomatedInstallData idata, Integer npacks,
             AbstractUIProgressHandler handler) throws Exception
     {
-        super.beforePacks(idata, npacks, handler);
+       super.beforePacks(idata, npacks, handler);
+       SimpleInstallerListener.langpack = idata.langpack;
+
         getSpecHelper().readSpec(SPEC_FILE_NAME);
         
         RegistryHandler rh = RegistryDefaultHandler.getInstance();
@@ -139,7 +144,7 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         
         StringBuilder strBuilder = new StringBuilder();
         strBuilder.append(dirAdxDir.getAbsolutePath());
-        strBuilder.append(dirAdxDir.separator);
+        strBuilder.append(File.separator);
         strBuilder.append("inst");
         strBuilder.append(dirAdxDir.separator);
         strBuilder.append("adxinstalls.xml");
@@ -213,14 +218,25 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
         {
             Element xmlinstall = xdoc.getDocumentElement();
             XPath xPath =  XPathFactory.newInstance().newXPath();
-            Node status = (Node) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']/component."+family.toLowerCase()+".installstatus").evaluate(xdoc, XPathConstants.NODE);
-            module = (Element) status.getParentNode();
+            
+ 
+            module = (Element) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']").evaluate(xdoc, XPathConstants.NODE);
+            if (module == null) throw new Exception(String.format(langpack.getString("sectionNotFound"), name));
+            
+            Node status = module.getElementsByTagName("component."+family.toLowerCase()+".installstatus").item(0);
+            if (status == null) {
+                status = module.appendChild(xdoc.createElement("component."+family.toLowerCase()+".installstatus"));
+                status.setTextContent("update");
+            }
+
+            //module = (Element) status.getParentNode();
             if (status.getTextContent().equalsIgnoreCase("active"))
             {
                 status.setTextContent("update");
             }
 
-            Node nodeVersion = (Node) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']/component."+family.toLowerCase()+".version").evaluate(xdoc, XPathConstants.NODE);
+            Node nodeVersion = module.getElementsByTagName("component."+family.toLowerCase()+".version").item(0);
+            if (nodeVersion == null) nodeVersion = module.appendChild(xdoc.createElement("component."+family.toLowerCase()+".version"));
             nodeVersion.setTextContent(version);
             
             if (family.equalsIgnoreCase("RUNTIME"))
@@ -229,10 +245,13 @@ public class AdxCompInstallerListener extends SimpleInstallerListener implements
                 // do not use instant client by default but only when n-tiers
 
                 //runtime.odbc.dbhome
-                Node nodedbhome = (Node) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']/runtime.odbc.dbhome").evaluate(xdoc, XPathConstants.NODE);
+                Node nodedbhome = module.getElementsByTagName("runtime.odbc.dbhome").item(0);
+                if (nodedbhome == null) nodedbhome = module.appendChild(xdoc.createElement("runtime.odbc.dbhome"));
+
                 nodedbhome.setTextContent("");
                 //runtime.odbc.forcedblink
-                Node nodedblink = (Node) xPath.compile("/install/module[@name='" + name + "' and @type='"+type+"' and @family='"+family+"']/runtime.odbc.forcedblink").evaluate(xdoc, XPathConstants.NODE);
+                Node nodedblink = module.getElementsByTagName("runtime.odbc.forcedblink").item(0);
+                if (nodedblink == null) nodedblink = module.appendChild(xdoc.createElement("runtime.odbc.forcedblink"));
                 nodedblink.setTextContent("False");
                 
             }
