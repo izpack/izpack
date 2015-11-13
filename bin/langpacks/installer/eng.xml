@@ -323,6 +323,7 @@
 	<str id="adxadminV6found" txt="An earlier version of this component has been found, this software can not be updated!"/>
 	<str id="compFoundAskUpdate" txt="An earlier version of this component has been found on this host, do you want to update this installation ?"/>
 	<str id="compFoundDoUpdate" txt="An earlier version of this component has been found on this host, this setup will continue in update mode !"/>
+	<str id="sectionNotFound" txt="Module section '%s' can't be found in adxinstall.xml file. Please uninstall your component before reinstalling it."/>
 	<str id="updateMode" txt="Update mode"/>
 	
 	<str id="notidle" txt="This component is currently used and cannot be uninstalled."/>
