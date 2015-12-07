@@ -117,6 +117,14 @@ public class JDKPathPanel extends PathInputPanel
                     }
                     break;
                 case BAD_REAL_PATH:
+                	if (OsVersion.IS_WINDOWS)
+                	{
+                     emitError("", idata.langpack.getString( "JDKPathPanel.badRealPathW"));
+            		}
+            		else
+            		{
+                        emitError("", idata.langpack.getString( "JDKPathPanel.badRealPathL"));
+            		}
                     break;
                 case BAD_VERSION:
                     String min = getMinVersion();
@@ -151,6 +159,7 @@ public class JDKPathPanel extends PathInputPanel
 
             }
         }
+               
         return (retval);
     }
 
