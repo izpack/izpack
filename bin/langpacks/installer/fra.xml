@@ -94,7 +94,7 @@
     <str id="JDKPathPanel.intro" txt="L’application installée nécessite un JDK. Un java runtime environment (JRE) ne sera pas suffisant."/>
     <str id="JDKPathPanel.info" txt="Choisissez le chemin du JDK:"/>
 	<str id="JDKPathPanel.badRealPathW" txt="La version du JDK choisi est incompatible "/>
-    <str id="JDKPathPanel.badRealPathL" txt="La version du JDK choisi est incompatible linux/>
+    <str id="JDKPathPanel.badRealPathL" txt="La version du JDK choisi est incompatible : absence éventuelle de '/lib/tools.jar' ou autre cause"/>
     <str id="JDKPathPanel.badVersion1" txt="La version du JDK choisi est incompatible (disponible:"/>
     <str id="JDKPathPanel.badVersion2" txt=" requis "/>
     <str id="JDKPathPanel.badVersion3" txt=") voulez-vous vraiment utiliser cette version?"/>
