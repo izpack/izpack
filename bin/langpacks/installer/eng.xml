@@ -93,6 +93,8 @@
     <str id="JDKPathPanel.extendedIntro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
     <str id="JDKPathPanel.intro" txt="The installed application needs a JDK. A java runtime environment (JRE) will be not sufficient."/>
     <str id="JDKPathPanel.info" txt="Select the JDK path:"/>
+    <str id="JDKPathPanel.badRealPathW" txt="The chosen JDK has the wrong version"/>
+	<str id="JDKPathPanel.badRealPathL" txt="The chosen JDK has the wrong version : maybe lack of '/lib/Tools.jar'"/>
     <str id="JDKPathPanel.badVersion1" txt="The chosen JDK has the wrong version (available: "/>
     <str id="JDKPathPanel.badVersion2" txt=" required: "/>
     <str id="JDKPathPanel.badVersion3" txt=") should this JDK be used anyway?"/>
