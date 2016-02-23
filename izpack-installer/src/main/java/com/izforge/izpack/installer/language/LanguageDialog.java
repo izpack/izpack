@@ -25,7 +25,6 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.container.provider.AbstractInstallDataProvider;
 import com.izforge.izpack.installer.data.GUIInstallData;
-import com.izforge.izpack.installer.requirement.RequirementsChecker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,11 +68,6 @@ public class LanguageDialog extends JDialog
     private final Locales locales;
 
     /**
-     * Installation requirements checker.
-     */
-    private final RequirementsChecker requirements;
-
-    /**
      * Maps ISO3 codes to the corresponding language display values.
      */
     private Map<String, String> displayNames = new HashMap<String, String>();
@@ -96,10 +90,8 @@ public class LanguageDialog extends JDialog
      * @param resources    the resources
      * @param locales      the locales
      * @param installData  the installation data
-     * @param requirements the installation requirements
      */
-    public LanguageDialog(Resources resources, Locales locales, GUIInstallData installData, IconsDatabase icons,
-                          RequirementsChecker requirements)
+    public LanguageDialog(Resources resources, Locales locales, GUIInstallData installData, IconsDatabase icons)
     {
         super();
         ImageIcon imageIcon = icons.get("JFrameIcon");
@@ -107,7 +99,6 @@ public class LanguageDialog extends JDialog
         this.resources = resources;
         this.locales = locales;
         this.installData = installData;
-        this.requirements = requirements;
         this.setName(GuiId.DIALOG_PICKER.id);
         initialise();
     }
@@ -132,13 +123,6 @@ public class LanguageDialog extends JDialog
         default:
             super.getOwner().setVisible(false);
             setVisible(true);
-        }
-
-        // check installer conditions
-        if (!requirements.check())
-        {
-            logger.info("Not all installer requirements are fulfilled.");
-            System.exit(-1);
         }
     }
 

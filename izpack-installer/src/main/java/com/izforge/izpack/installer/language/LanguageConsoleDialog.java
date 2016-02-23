@@ -21,7 +21,6 @@ package com.izforge.izpack.installer.language;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.installer.container.provider.AbstractInstallDataProvider;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
-import com.izforge.izpack.installer.requirement.RequirementsChecker;
 import com.izforge.izpack.util.Console;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -34,16 +33,14 @@ public class LanguageConsoleDialog {
   private final ConsoleInstallData installData;
   private final Console console;
   private final Locales locales;
-  private final RequirementsChecker requirements;
   private Map<String, String> displayNames = new LinkedHashMap<String, String>();
   private static final Logger logger = Logger.getLogger(LanguageConsoleDialog.class.getName());
   
-  public LanguageConsoleDialog(Locales locales, ConsoleInstallData installData, Console console, RequirementsChecker requirements)
+  public LanguageConsoleDialog(Locales locales, ConsoleInstallData installData, Console console)
   {
     this.installData = installData;
     this.console = console;
     this.locales = locales;
-    this.requirements = requirements;
   }
   
   /**
@@ -72,11 +69,6 @@ public class LanguageConsoleDialog {
         int numberOfUniqueLanguage = console.prompt(installData.getMessages().get("ConsoleInstaller.inputSelection"), 0, displayNames.keySet().size() - 1, 0, 0);
         String[] keys = displayNames.keySet().toArray(new String[0]);
         propagateLocale(keys[numberOfUniqueLanguage]);
-    }
-    if (!requirements.check())
-    {
-      logger.info("Not all installer requirements are fulfilled.");
-      System.exit(-1);
     }
   }
   

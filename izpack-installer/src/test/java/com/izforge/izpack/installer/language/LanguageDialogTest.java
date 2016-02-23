@@ -32,14 +32,12 @@ import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.container.TestLanguageContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
-import com.izforge.izpack.installer.requirement.RequirementsChecker;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 
@@ -176,7 +174,7 @@ public class LanguageDialogTest
     private LanguageDialog createDialog(String langDisplayType)
     {
         installData.guiPrefs.modifier.put("langDisplayType", langDisplayType);
-        return new LanguageDialog(resources, locales, installData, icons, Mockito.mock(RequirementsChecker.class));
+        return new LanguageDialog(resources, locales, installData, icons);
     }
 
 }

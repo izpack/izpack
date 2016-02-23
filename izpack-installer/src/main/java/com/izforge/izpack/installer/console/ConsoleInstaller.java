@@ -30,7 +30,6 @@ import com.izforge.izpack.installer.bootstrap.Installer;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
-import com.izforge.izpack.installer.requirement.RequirementsChecker;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PrivilegedRunner;
@@ -68,11 +67,6 @@ public class ConsoleInstaller implements InstallerBase
     private ConsoleInstallData installData;
 
     /**
-     * Verifies the installation requirements.
-     */
-    private final RequirementsChecker requirements;
-
-    /**
      * The uninstallation data writer.
      */
     private UninstallDataWriter uninstallDataWriter;
@@ -98,18 +92,16 @@ public class ConsoleInstaller implements InstallerBase
      *
      * @param panels              the panels
      * @param installData         the installation data
-     * @param requirements        the installation requirements
      * @param uninstallDataWriter the uninstallation data writer
      * @param console             the console
      * @param housekeeper         the house-keeper
      * @throws IzPackException for any IzPack error
      */
-    public ConsoleInstaller(ConsolePanels panels, ConsoleInstallData installData, RequirementsChecker requirements,
-                            UninstallDataWriter uninstallDataWriter, Console console, Housekeeper housekeeper)
+    public ConsoleInstaller(ConsolePanels panels, ConsoleInstallData installData,
+            UninstallDataWriter uninstallDataWriter, Console console, Housekeeper housekeeper)
     {
         this.panels = panels;
         this.installData = installData;
-        this.requirements = requirements;
         this.uninstallDataWriter = uninstallDataWriter;
         this.console = console;
         this.housekeeper = housekeeper;
@@ -157,28 +149,24 @@ public class ConsoleInstaller implements InstallerBase
 
         try
         {
-            // refresh variables so they may be used by
-            if (requirements.check())
+            action = createConsoleAction(type, path, console);
+            panels.setAction(action);
+            while (panels.hasNext())
             {
-                action = createConsoleAction(type, path, console);
-                panels.setAction(action);
-                while (panels.hasNext())
+                success = panels.next();
+                success = panels.getView().handlePanelValidationResult(success);
+                if (!success)
                 {
-                    success = panels.next();
-                    success = panels.getView().handlePanelValidationResult(success);
-                    if (!success)
-                    {
-                        break;
-                    }
+                    break;
                 }
+            }
+            if (success)
+            {
+                // last panel needs to be validated
+                success = panels.getView().handlePanelValidationResult(panels.isValid());
                 if (success)
                 {
-                    // last panel needs to be validated
-                    success = panels.getView().handlePanelValidationResult(panels.isValid());
-                    if (success)
-                    {
-                        success = action.complete();
-                    }
+                    success = action.complete();
                 }
             }
         }

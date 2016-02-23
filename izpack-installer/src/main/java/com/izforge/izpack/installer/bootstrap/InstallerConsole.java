@@ -26,12 +26,18 @@ import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.installer.language.LanguageConsoleDialog;
+import com.izforge.izpack.installer.requirement.RequirementsChecker;
+import com.izforge.izpack.util.Housekeeper;
+
+import java.util.logging.Logger;
 
 /**
  * Console installer bootstrap
  */
 public class InstallerConsole
 {
+  private static final Logger logger = Logger.getLogger(InstallerConsole.class.getName());
+  
   public static void run(final int type, final int consoleAction, final String path, final String langCode, final String mediaPath, final String[] args)
   {
     final InstallerContainer applicationComponent = new ConsoleInstallerContainer();
@@ -51,6 +57,11 @@ public class InstallerConsole
       else
       {
         installerContainer.getComponent(LanguageConsoleDialog.class).propagateLocale(langCode);
+      }
+      if (!installerContainer.getComponent(RequirementsChecker.class).check())
+      {
+        logger.info("Not all installer requirements are fulfilled.");
+        installerContainer.getComponent(Housekeeper.class).shutDown(-1);
       }
       consoleInstaller.run(consoleAction, path, args);
     }

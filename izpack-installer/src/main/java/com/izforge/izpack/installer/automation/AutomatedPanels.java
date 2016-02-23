@@ -81,14 +81,14 @@ public class AutomatedPanels extends AbstractPanels<AutomatedPanelView, PanelAut
         }
         else
         {
+        	PanelAutomation view = newPanel.getView();
             newPanel.executePreActivationActions();
-            PanelAutomation view = newPanel.getView();
 
             IXMLElement xml = installData.getInstallationRecordPanelRoot(newPanel.getPanelId());
             if (xml != null)
             {
                 view.runAutomated(installData, xml);
-                result = true;
+                result = executeValidationActions(newPanel, true);
             }
             else
             {
