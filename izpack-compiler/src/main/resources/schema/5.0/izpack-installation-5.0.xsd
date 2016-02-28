@@ -765,6 +765,24 @@
         </xs:attribute>
         <xs:attribute name="keep" type="xs:boolean" use="optional" default="false"/>
         <xs:attribute name="condition" type="xs:string" use="optional"/>
+        <xs:attribute name="type" default="bin" >
+        	<xs:simpleType>
+    		    <xs:restriction base="xs:string">
+    				<xs:enumeration value="bin" />
+    				<xs:enumeration value="jar" />
+    			</xs:restriction>
+        	</xs:simpleType>
+	    </xs:attribute>
+        <xs:attribute name="failure" default="ask" >    
+        	<xs:simpleType>
+    		    <xs:restriction base="xs:string">
+    				<xs:enumeration value="ask" />
+    				<xs:enumeration value="abort" />
+    				<xs:enumeration value="warn" />
+    				<xs:enumeration value="ignore" />
+    			</xs:restriction>
+        	</xs:simpleType>
+	    </xs:attribute>    
     </xs:complexType>
 
     <xs:complexType name="updateCheckType">
