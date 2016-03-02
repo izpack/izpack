@@ -70,14 +70,22 @@ public class PathInputBase
             // on NT or 2k XP or ...
             if (installData.getPlatform().isA(Platforms.WINDOWS))
             {
+                File tmpDir;
                 File tmpFile;
                 try
                 {
-                    tmpFile = File.createTempFile("izWrTe", ".tmp", existParent);
+                    tmpDir = new File(existParent.getAbsoluteFile() + File.separator + "iZwrite" + System.nanoTime());
+                    tmpDir.mkdir();
+                    tmpFile = new File(tmpDir.getAbsoluteFile() + File.separator + "izWrite.tmp");
+                    tmpFile.createNewFile();
                     result = true;
                     if (!tmpFile.delete())
                     {
                         tmpFile.deleteOnExit();
+                    }
+                    if (!tmpDir.delete())
+                    {
+                        tmpDir.deleteOnExit();
                     }
                 }
                 catch (IOException e)
