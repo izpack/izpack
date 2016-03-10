@@ -120,13 +120,14 @@ public class UpdatePassphraseValidator implements DataValidator
                 File oldPassphrase = new File (strPassPhraseFile);
                 if (oldPassphrase.exists() && !oldPassphrase.delete()) throw new Exception(strPassPhraseFile);
 
+                String hexstrServerPassphrase = StringTool.asciiToHex(strServerPassphrase);
                 
                 File tempFile = new File(strPassphrasePath+"\\tmpcmd.cmd");
                 tempFile.deleteOnExit();
                 PrintWriter printWriter = new PrintWriter(new FileOutputStream(tempFile), true);
                 printWriter.println ("ping -n 5 127.0.0.1>NUL");
                 
-                printWriter.println ("\""+strPassphrasePath+"\\passphrase.cmd\" \""+strServerPassphrase+"\" 1>out.log 2>err.log");
+                printWriter.println ("\""+strPassphrasePath+"\\passphrasehex.cmd\" \""+hexstrServerPassphrase+"\" 1>out.log 2>err.log");
                 printWriter.println ("if errorlevel 1 exit /B 1");
                 printWriter.close ();
                 String strcommand = "/C /E:ON \""+tempFile.getCanonicalPath()+"\" \""+strServerPassphrase+"\"";

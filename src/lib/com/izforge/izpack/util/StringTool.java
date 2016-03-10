@@ -341,5 +341,17 @@ public class StringTool
         return (str != null) && (prefix != null)
                 && str.equalsIgnoreCase(prefix) ;
     }
-
+    /* MB 16-2-2016
+     * Convert Ascii to Hex
+     */
+    public static String asciiToHex(String asciiValue)
+    {
+       char[] chars = asciiValue.toCharArray();
+       StringBuffer hex = new StringBuffer();
+       for (int i = 0; i < chars.length; i++)
+       {
+          hex.append(Integer.toHexString((int) chars[i]));
+       }
+       return hex.toString();
+    }
 }
