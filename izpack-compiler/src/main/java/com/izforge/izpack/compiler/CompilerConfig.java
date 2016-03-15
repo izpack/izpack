@@ -89,6 +89,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.*;
@@ -1562,10 +1563,11 @@ public class CompilerConfig extends Thread
         }
 
         // This corrects issues that could arise due to subfolders
+	File tempDir = Files.createTempDirectory("izpack").toFile();
         Collections.sort(allDirList);
         for (String dirName : allDirList)
         {
-            File tmp = new File(dirName);
+            File tmp = new File(tempDir, dirName);
             org.apache.commons.io.FileUtils.forceMkdir(tmp);
             org.apache.commons.io.FileUtils.forceDeleteOnExit(tmp);
             String target = targetdir + "/" + dirName;
