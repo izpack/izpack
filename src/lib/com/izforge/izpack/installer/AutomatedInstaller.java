@@ -539,10 +539,11 @@ public class AutomatedInstaller extends InstallerBase
             if (validationResult != DataValidator.Status.OK)
             {
                 // if defaultAnswer is true, result is ok
-                if (validationResult == Status.WARNING && validator.getDefaultAnswer())
+                if (validationResult == Status.WARNING)
+                	// MB 24-3-2016 sam 115465 ==> && validator.getDefaultAnswer())
                 {
                     System.out
-                            .println("Configuration said, it's ok to go on, if validation is not successfull");
+                            .println("Configuration said, it's ok to go on, if validation is not successfull and Answser is : "+validator.getDefaultAnswer());
                     return;
                 }
                 // make installation fail instantly
