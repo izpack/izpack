@@ -20,6 +20,11 @@ package com.izforge.izpack.core.rules.process;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
@@ -55,7 +60,10 @@ public class ContainsConditionTest
     @Test
     public void testInFile()
     {
-        doTests("contains_in_file.xml");
+        Map<String,Boolean> additional = new HashMap<String, Boolean>();
+        additional.put("regex_multiple_lines_dotall", true);
+        additional.put("regex_multiple_lines", false);
+        doTests("contains_in_file.xml", additional);
     }
     
     /**
@@ -71,10 +79,20 @@ public class ContainsConditionTest
 
     private void doTests(String resource)
     {
-        doTests(new DefaultVariables(), resource);
+        doTests(resource, null);
     }
-    
+
+    private void doTests(String resource, Map<String, Boolean> additional)
+    {
+        doTests(new DefaultVariables(), resource, additional);
+    }
+
     private void doTests(Variables variables, String resource)
+    {
+        doTests(variables, resource, null);
+    }
+
+    private void doTests(Variables variables, String resource, Map<String, Boolean> additional)
     {
         RulesEngine rules = createRulesEngine(new AutomatedInstallData(variables, Platforms.UNIX));
         IXMLParser parser = new XMLParser();
@@ -92,6 +110,15 @@ public class ContainsConditionTest
         assertFalse(rules.isConditionTrue("regex_not_whole_line"));     // a regex not matching the whole line
         assertFalse(rules.isConditionTrue("regex_not_found1"));         // not found because string is uppercase
         assertFalse(rules.isConditionTrue("regex_not_found2"));         // not found because value is uppercase
+
+        if (additional!=null) {
+            for (Entry<String, Boolean> test : additional.entrySet())
+            {
+                String cond = test.getKey();
+                Boolean expected = test.getValue();
+                assertEquals("condition '" + cond + "':", expected, rules.isConditionTrue(cond));
+            }
+        }
     }
 
     /**

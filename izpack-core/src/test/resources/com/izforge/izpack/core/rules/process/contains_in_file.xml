@@ -54,4 +54,15 @@
         <value regex="true">A LINE</value>
     </condition>
 
+    <!-- tests used for <file> only -->
+    <condition type="contains" id="regex_multiple_lines_dotall">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value regex="true" >\A(?s)This is.*line.*text.*line\Z</value>
+    </condition>
+
+    <condition type="contains" id="regex_multiple_lines">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value regex="true" >\AThis is.*line.*text.*line\Z</value>
+    </condition>
+
 </izpack:conditions>
