@@ -126,7 +126,7 @@ public class ContainsCondition extends Condition {
 
     if (isRegEx)
     {
-        pattern = Pattern.compile(value);
+        pattern = Pattern.compile(value,Pattern.MULTILINE);
         if (isByLine)
         {
             return matchesByLine(new StringReader(content));
