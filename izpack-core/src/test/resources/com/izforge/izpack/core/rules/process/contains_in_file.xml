@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<izpack:conditions version="5.0"
+                   xmlns:izpack="http://izpack.org/schema/conditions"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://izpack.org/schema/conditions http://izpack.org/schema/5.0/izpack-conditions-5.0.xsd">
+
+    <condition type="contains" id="value_found">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value regex="false">A line</value>
+    </condition>
+
+    <condition type="contains" id="value_not_found1">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value>a line</value>
+    </condition>
+
+    <condition type="contains" id="value_not_found2">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value>A LINE</value>
+    </condition>
+
+    <condition type="contains" id="value_found_ignore_case">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value caseInsensitive="true">a LINE</value>
+    </condition>
+
+    <condition type="contains" id="trivial_regex">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value regex="true">A line</value>
+    </condition>
+
+    <condition type="contains" id="regex_with_wildcard">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value regex="true">is.*line</value>
+    </condition>
+
+    <condition type="contains" id="regex_whole_line">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value regex="true">^This is.*line.*text$</value>
+    </condition>
+
+    <condition type="contains" id="regex_not_whole_line">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value regex="true">^is.*line.*$</value>
+    </condition>
+
+    <condition type="contains" id="regex_not_found1">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value regex="true">a line</value>
+    </condition>
+
+    <condition type="contains" id="regex_not_found2">
+        <file>src/test/resources/com/izforge/izpack/core/rules/process/contains.txt</file>
+        <value regex="true">A LINE</value>
+    </condition>
+
+</izpack:conditions>

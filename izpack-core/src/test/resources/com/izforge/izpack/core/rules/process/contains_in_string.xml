@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<izpack:conditions version="5.0"
+                   xmlns:izpack="http://izpack.org/schema/conditions"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://izpack.org/schema/conditions http://izpack.org/schema/5.0/izpack-conditions-5.0.xsd">
+
+    <condition type="contains" id="value_found">
+        <string>This is A line of text</string>
+        <value regex="false">A line</value>
+    </condition>
+
+    <condition type="contains" id="value_not_found1">
+        <string>This is A line of text</string>
+        <value>a line</value>
+    </condition>
+
+    <condition type="contains" id="value_not_found2">
+        <string>This is A line of text</string>
+        <value>A LINE</value>
+    </condition>
+
+    <condition type="contains" id="value_found_ignore_case">
+        <string>This is A line of text</string>
+        <value caseInsensitive="true">a LINE</value>
+    </condition>
+
+    <condition type="contains" id="trivial_regex">
+        <string>This is A line of text</string>
+        <value regex="true">A line</value>
+    </condition>
+
+    <condition type="contains" id="regex_with_wildcard">
+        <string>This is A line of text</string>
+        <value regex="true">is.*line</value>
+    </condition>
+
+    <condition type="contains" id="regex_whole_line">
+        <string>This is A line of text</string>
+        <value regex="true">^This is.*line.*text$</value>
+    </condition>
+
+    <condition type="contains" id="regex_not_whole_line">
+        <string>This is A line of text</string>
+        <value regex="true">^is.*line.*$</value>
+    </condition>
+
+    <condition type="contains" id="regex_not_found1">
+        <string>This is A line of text</string>
+        <value regex="true">a line</value>
+    </condition>
+
+    <condition type="contains" id="regex_not_found2">
+        <string>This is A line of text</string>
+        <value regex="true">A LINE</value>
+    </condition>
+
+    <condition type="contains" id="regex_found_ignore_case">
+        <string>This is A line of text</string>
+        <value regex="true" caseInsensitive="true">a LINE</value>
+    </condition>
+
+</izpack:conditions>
