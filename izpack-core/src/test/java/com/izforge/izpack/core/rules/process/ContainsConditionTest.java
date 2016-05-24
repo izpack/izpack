@@ -77,21 +77,45 @@ public class ContainsConditionTest
         doTests(variables, "contains_in_variable.xml");
     }
 
+    /**
+     * Run defined set of tests
+     * 
+     * @param resource      the name of the <conditions> xml
+     */
     private void doTests(String resource)
     {
         doTests(resource, null);
     }
 
+    /**
+     * Run defined set of tests and additional tests
+     * 
+     * @param resource      the name of the <conditions> xml
+     * @param additional    additional tests to be run
+     */
     private void doTests(String resource, Map<String, Boolean> additional)
     {
         doTests(new DefaultVariables(), resource, additional);
     }
 
+    /**
+     * Run defined set of tests with variables set
+     * 
+     * @param variables     defined variables for test
+     * @param resource      the name of the <conditions> xml
+     */
     private void doTests(Variables variables, String resource)
     {
         doTests(variables, resource, null);
     }
 
+    /**
+     * Run defined set of tests and additional tests with variables set
+     * 
+     * @param variables     defined variables for test
+     * @param resource      the name of the <conditions> xml
+     * @param additional    additional tests to be run
+     */
     private void doTests(Variables variables, String resource, Map<String, Boolean> additional)
     {
         RulesEngine rules = createRulesEngine(new AutomatedInstallData(variables, Platforms.UNIX));
