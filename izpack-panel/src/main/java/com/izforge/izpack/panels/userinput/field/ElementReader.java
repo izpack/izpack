@@ -105,9 +105,9 @@ public class ElementReader
      * <li>os
      * </ul>
      * @param spec UserInputPanel descriptor
-     * @param the platform-model matcher
-     * @param the installation data
-     * @param the rules engine
+     * @param matcher the platform-model matcher
+     * @param installData the installation data
+     * @param rules the rules engine
      * @return
      */
     public Condition getComplexPanelCondition(IXMLElement spec, final PlatformModelMatcher matcher,
@@ -134,6 +134,11 @@ public class ElementReader
                 public boolean isTrue()
                 {
                     return matcher.matchesCurrentPlatform(forOs);
+                }
+
+                @Override
+                public Set<String> getNeededVariableNames() {
+                    return new HashSet<String>(0);
                 }
             };
             osMatcherCondition.setId(osMatcherCondition.toString());

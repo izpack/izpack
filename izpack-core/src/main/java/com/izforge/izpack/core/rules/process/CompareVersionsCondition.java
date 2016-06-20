@@ -20,6 +20,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.rules.CompareCondition;
 import com.izforge.izpack.api.rules.ComparisonOperator;
+import com.izforge.izpack.core.variable.utils.ValueUtils;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -122,6 +123,14 @@ public class CompareVersionsCondition extends CompareCondition
         }
         logger.fine(operand1 + " " + operator.getAttribute() + " " + operand2 + ": " + result);
         return result;
+    }
+
+    @Override
+    public Set<String> getNeededVariableNames() {
+        HashSet<String> vars = new HashSet<String>(4);
+        vars.addAll(ValueUtils.parseUnresolvedVariableNames(this.operand1));
+        vars.addAll(ValueUtils.parseUnresolvedVariableNames(this.operand2));
+        return vars;
     }
 
     private class Version implements Comparable<Version> {

@@ -23,6 +23,8 @@ package com.izforge.izpack.api.data;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
+import java.util.Set;
+
 public interface Value
 {
     void validate() throws Exception;
@@ -30,6 +32,8 @@ public interface Value
     String resolve() throws Exception;
 
     String resolve(VariableSubstitutor... substitutors) throws Exception;
+
+    Set<String> getUnresolvedVariableNames();
 
     InstallData getInstallData();
 

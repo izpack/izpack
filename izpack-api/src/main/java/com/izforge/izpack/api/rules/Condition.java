@@ -23,6 +23,7 @@
 package com.izforge.izpack.api.rules;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
@@ -98,4 +99,12 @@ public abstract class Condition implements Serializable
      * @param conditionRoot the root element for this condition
      */
     public abstract void makeXMLData(IXMLElement conditionRoot);
+
+    /**
+     * This element will be called when the order of variable resolutions is 
+     * determined.
+     * 
+     * @return  the names of all variables referenced by this condition 
+     */
+    public abstract Set<String> getNeededVariableNames();
 }

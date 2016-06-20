@@ -21,7 +21,9 @@
 
 package com.izforge.izpack.core.rules.process;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
@@ -110,5 +112,10 @@ public class PackSelectionCondition extends Condition
     public void setPack(String name)
     {
         this.name = name;
+    }
+
+    @Override
+    public Set<String> getNeededVariableNames() {
+        return new HashSet<String>(1);
     }
 }

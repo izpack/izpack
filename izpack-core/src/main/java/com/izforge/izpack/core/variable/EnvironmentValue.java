@@ -25,6 +25,7 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.util.IoHelper;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class EnvironmentValue extends ValueImpl implements Serializable
 {
@@ -76,6 +77,12 @@ public class EnvironmentValue extends ValueImpl implements Serializable
         }
 
         return IoHelper.getenv(_variable_);
+    }
+
+    @Override
+    public Set<String> getUnresolvedVariableNames()
+    {
+        return parseUnresolvedVariableNames(variable);
     }
 
 }

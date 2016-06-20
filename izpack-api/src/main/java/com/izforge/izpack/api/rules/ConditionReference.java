@@ -19,6 +19,8 @@
 
 package com.izforge.izpack.api.rules;
 
+import java.util.Set;
+
 public abstract class ConditionReference extends Condition
 {
     private static final long serialVersionUID = -2118025238727923692L;
@@ -36,4 +38,9 @@ public abstract class ConditionReference extends Condition
     }
 
     public abstract void resolveReference();
+
+    @Override
+    public Set<String> getNeededVariableNames() {
+        return referencedCondition.getNeededVariableNames();
+    }
 }

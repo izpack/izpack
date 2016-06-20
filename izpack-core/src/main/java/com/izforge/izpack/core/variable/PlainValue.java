@@ -24,6 +24,7 @@ package com.izforge.izpack.core.variable;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 import java.io.Serializable;
+import java.util.Set;
 
 
 public class PlainValue extends ValueImpl implements Serializable
@@ -76,5 +77,11 @@ public class PlainValue extends ValueImpl implements Serializable
         }
 
         return _value_;
+    }
+
+    @Override
+    public Set<String> getUnresolvedVariableNames()
+    {
+        return parseUnresolvedVariableNames(value);
     }
 }

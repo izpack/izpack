@@ -22,6 +22,7 @@
 package com.izforge.izpack.core.variable;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.util.OsVersion;
@@ -185,5 +186,11 @@ public class RegistryValue extends ValueImpl implements Serializable
         }
 
         return null;
+    }
+
+    @Override
+    public Set<String> getUnresolvedVariableNames()
+    {
+        return parseUnresolvedVariableNames(new String[]{root, key, value});
     }
 }

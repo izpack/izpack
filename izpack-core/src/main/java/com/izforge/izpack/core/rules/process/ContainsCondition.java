@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -15,7 +17,9 @@ import java.util.regex.Pattern;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.exception.CompilerException;
 import com.izforge.izpack.api.rules.Condition;
+import com.izforge.izpack.core.variable.utils.ValueUtils;
 
 public class ContainsCondition extends Condition {
 
@@ -239,5 +243,30 @@ public class ContainsCondition extends Condition {
       return null;
     }
   }
+
+    @Override
+    public Set<String> getNeededVariableNames() {
+        HashSet<String> vars = new HashSet<String>(2);
+        switch (contentType)
+        {
+            case VARIABLE:
+                if (this.source != null)
+                {
+                    // variable is used in this case
+                    vars.add(this.source);
+                }
+                break;
+            case STRING:
+            case FILE:
+                if (this.source != null)
+                {
+                    // variables are resolved here
+                    vars.addAll(ValueUtils.parseUnresolvedVariableNames(this.source));
+                }
+                break;
+            default: throw new CompilerException("Unimplemented contentType");
+        }
+        return vars;
+    }
 
 }

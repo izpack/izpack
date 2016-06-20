@@ -21,9 +21,11 @@
 
 package com.izforge.izpack.core.variable;
 
+import java.util.Set;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Value;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
+import com.izforge.izpack.core.variable.utils.ValueUtils;
 
 public abstract class ValueImpl implements Value
 {
@@ -64,5 +66,10 @@ public abstract class ValueImpl implements Value
             return false;
         }
         return true;
+    }
+
+    protected static Set<String> parseUnresolvedVariableNames(String... strings)
+    {
+        return ValueUtils.parseUnresolvedVariableNames(strings);
     }
 }

@@ -24,7 +24,9 @@ package com.izforge.izpack.panels.userinput.console.combo;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -134,5 +136,11 @@ public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
         public void makeXMLData(IXMLElement conditionRoot) {}
         @Override
         public boolean isTrue() { return this.value; }
+
+        @Override
+        public Set<String> getNeededVariableNames()
+        {
+            return new HashSet<String>(1);
+        }
     }
 }

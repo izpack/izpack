@@ -33,7 +33,15 @@
     </variables>
     <dynamicvariables>
         <variable name="myPath" value="$INSTALL_PATH/test"/>
+        <variable checkonce="true" name="installAction" value="install"/>
     </dynamicvariables>
+
+    <conditions>
+        <condition id="isInstall" type="variable">
+            <name>installAction</name>
+            <value>install</value>
+        </condition>
+    </conditions>
 
     <!--
         The gui preferences indication.
@@ -79,8 +87,8 @@
     <packs>
         <pack name="Base" required="yes">
             <description>The base files</description>
-            <file src="Readme.txt" targetdir="$INSTALL_PATH"/>
-            <file src="Licence.txt" targetdir="$INSTALL_PATH"/>
+            <file src="Readme.txt" targetdir="$INSTALL_PATH" condition="isInstall"/>
+            <file src="Licence.txt" targetdir="$INSTALL_PATH" condition="isInstall"/>
         </pack>
     </packs>
 

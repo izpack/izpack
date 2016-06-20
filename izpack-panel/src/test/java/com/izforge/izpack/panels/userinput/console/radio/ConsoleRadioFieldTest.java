@@ -23,9 +23,12 @@ package com.izforge.izpack.panels.userinput.console.radio;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.izforge.izpack.panels.userinput.field.Choice;
+
 import org.junit.Test;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -133,5 +136,11 @@ public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
         public void makeXMLData(IXMLElement conditionRoot) {}
         @Override
         public boolean isTrue() { return this.value; }
+
+        @Override
+        public Set<String> getNeededVariableNames()
+        {
+            return new HashSet<String>(1);
+        }
     }
 }

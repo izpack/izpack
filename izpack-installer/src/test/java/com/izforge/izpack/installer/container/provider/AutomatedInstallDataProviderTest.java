@@ -20,33 +20,7 @@
  */
 package com.izforge.izpack.installer.container.provider;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
-import com.izforge.izpack.api.data.DynamicVariable;
-import com.izforge.izpack.api.data.Info;
-import com.izforge.izpack.api.data.InstallerRequirement;
-import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.*;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
@@ -56,6 +30,19 @@ import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.io.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Properties;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests the {@link AutomatedInstallDataProvider} class.
@@ -94,7 +81,7 @@ public class AutomatedInstallDataProviderTest
         mock(loader, "resources/panelsOrder", new ArrayList<Panel>());
         mock(loader, "resources/packs.info", createPacksInfo());
         mock(loader, "resources/vars", new Properties());
-        mock(loader, "resources/dynvariables", new HashMap<String, List<DynamicVariable>>());
+        mock(loader, "resources/dynvariables", new ArrayList<DynamicVariable>());
         mock(loader, "resources/installerrequirements", new ArrayList<InstallerRequirement>());
         mock(loader, "resources/dynconditions", new ArrayList<DynamicInstallerRequirementValidator>());
 

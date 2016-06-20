@@ -37,6 +37,7 @@ import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.IoHelper;
+import com.izforge.izpack.compiler.util.graph.DependencyGraph;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
@@ -381,6 +382,31 @@ public abstract class PackagerBase implements IPackager
         return info != null && info.getWebDirURL() != null;
     }
 
+    private List<DynamicVariable> buildVariableList()
+    {
+        DependencyGraph<DynamicVariable> graph = new DependencyGraph<DynamicVariable>();
+
+        for (List<DynamicVariable> dynVariables : dynamicVariables.values())
+        {
+            for (DynamicVariable var : dynVariables)
+            {
+                graph.addVertex(var);
+                for (String childName : var.getUnresolvedVariableNames(rules))
+                {
+                    List<DynamicVariable> childVars = dynamicVariables.get(childName);
+                    if (childVars != null)
+                    {
+                        for (DynamicVariable childVar : childVars)
+                        {
+                            graph.addEdge(var, childVar);
+                        }
+                    }
+                }
+            }
+        }
+        return graph.getOrderedList();
+    }
+
     /**
      * Writes the installer.
      *
@@ -400,7 +426,7 @@ public abstract class PackagerBase implements IPackager
         writeInstallerObject("customData", customDataList);
         writeInstallerObject("langpacks.info", langpackNameList);
         writeInstallerObject("rules", rules);
-        writeInstallerObject("dynvariables", dynamicVariables);
+        writeInstallerObject("dynvariables", buildVariableList());
         writeInstallerObject("dynconditions", dynamicInstallerRequirements);
         writeInstallerObject("installerrequirements", installerRequirements);
 

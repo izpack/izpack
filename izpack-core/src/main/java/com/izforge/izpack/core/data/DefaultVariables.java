@@ -21,18 +21,6 @@
 
 package com.izforge.izpack.core.data;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.InstallerException;
@@ -40,6 +28,12 @@ import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
+import com.izforge.izpack.core.variable.ValueImpl;
+import com.izforge.izpack.core.variable.utils.ValueUtils;
+
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -312,8 +306,8 @@ public class DefaultVariables implements Variables
     {
         logger.fine("Refreshing dynamic variables");
         Set<DynamicVariable> checkedVariables = new HashSet<DynamicVariable>();
-        Properties setVariables = new Properties();
         Set<String> unsetVariables = new HashSet<String>();
+        Set<String> setVariables = new HashSet<String>();
         // for dependent dynamic variables a size of dynamicVariables.size()+1 would be enough
         // in case of conditions, which depend on dynamic variables also, we need more iterations
         // to be on the safe side, we take 10*dynamicVariables.size()+1
@@ -321,13 +315,15 @@ public class DefaultVariables implements Variables
         int count=maxCount;
         boolean changed = true;
         while (changed) {
+            Hashtable<String,String> originalValues = (Hashtable<String,String>) properties.clone();
             changed = false;
             count--;        // decrement number of remaining loops
             if (count<0) {
                 throw new InstallerException(
-                    String.format("Refresh of dynamic variables seem to produce a loop. "
+                        String.format("Refresh of dynamic variables seem to produce a loop. "
                                 +"Stopped after %1s iterations. "
                                 +"(Maybe a cyclic dependency of variables?)", maxCount));
+
             }
             for (DynamicVariable variable : dynamicVariables)
             {
@@ -362,9 +358,11 @@ public class DefaultVariables implements Variables
                             }
                             else
                             {
-                                setVariables.put(name, newValue);
+                                set(name, newValue); // Set here for properly set conditions
+                                setVariables.add(name);
                             }
-                            if (!(newValue == null || newValue.contains("$")))
+                            // FIXME: Possible problem if regular value contains dollar sign (for example password)
+                            if (!(newValue == null || ValueUtils.isUnresolved(newValue)))
                             {
                                 variable.setChecked();
                             } else {
@@ -373,10 +371,11 @@ public class DefaultVariables implements Variables
                         }
                         else
                         {
-                            String oldvalue = properties.getProperty(name);
-                            if (oldvalue != null)
+                            String previousValue = properties.getProperty(name);
+                            if (previousValue != null)
                             {
-                                setVariables.put(name, oldvalue);
+                                set(name, previousValue); // Set here for properly set conditions
+                                setVariables.add(name);
                             }
                         }
                     }
@@ -398,7 +397,7 @@ public class DefaultVariables implements Variables
             {
                 // Don't unset dynamic variable from one definition, which
                 // are set to a value from another one during this refresh
-                if (!setVariables.containsKey(key))
+                if (!setVariables.contains(key))
                 {
                     if (get(key)!=null)
                     {
@@ -408,17 +407,19 @@ public class DefaultVariables implements Variables
                 }
             }
 
-            for (String key : setVariables.stringPropertyNames())
+            Iterator<String> setIterator = setVariables.iterator();
+            while(setIterator.hasNext())
             {
-                String newValue = setVariables.getProperty(key);
-                String oldValue = get(key);
-                if (oldValue==null || ! oldValue.equals(newValue))
+                String key = setIterator.next();
+                String newValue = get(key);
+                String oldValue = originalValues.get(key);
+                if (oldValue==null || !oldValue.equals(newValue))
                 {
                     changed = true;
-                    set(key,newValue);
                 }
             }
-        }
+        } // while changed
+
         for (DynamicVariable variable : checkedVariables)
         {
             variable.setChecked();

@@ -24,6 +24,8 @@ package com.izforge.izpack.core.variable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -209,5 +211,18 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
             }
         }
         return sb.toString();
+    }
+
+
+    @Override
+    public Set<String> getUnresolvedVariableNames()
+    {
+        Set<String> unresolvedNames = new HashSet<String>();
+        unresolvedNames.add(key);
+        if (type == CONFIGFILE_TYPE_INI)
+        {
+            unresolvedNames.add(section);
+        }
+        return parseUnresolvedVariableNames(unresolvedNames.toArray(new String[unresolvedNames.size()]));
     }
 }

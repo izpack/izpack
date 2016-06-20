@@ -25,6 +25,7 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 import java.io.FileInputStream;
 import java.io.Serializable;
+import java.util.Set;
 
 public class PlainConfigFileValue extends ConfigFileValue implements Serializable
 {
@@ -77,5 +78,13 @@ public class PlainConfigFileValue extends ConfigFileValue implements Serializabl
             _location_ = substitutor.substitute(_location_);
         }
         return resolve(new FileInputStream(_location_), substitutors);
+    }
+
+    @Override
+    public Set<String> getUnresolvedVariableNames()
+    {
+        Set<String> unresolvedNames = super.getUnresolvedVariableNames();
+        unresolvedNames.add(location);
+        return parseUnresolvedVariableNames(unresolvedNames.toArray(new String[unresolvedNames.size()]));
     }
 }

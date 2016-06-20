@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.core.rules.process;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -106,6 +108,11 @@ public class UserCondition extends Condition
         requiredUserEl.setContent(this.requiredUsername);
         conditionRoot.addChild(requiredUserEl);
 
+    }
+
+    @Override
+    public Set<String> getNeededVariableNames() {
+        return new HashSet<String>(1);
     }
 
 }

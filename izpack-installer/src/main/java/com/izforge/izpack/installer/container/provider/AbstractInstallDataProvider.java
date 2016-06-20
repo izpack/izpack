@@ -318,17 +318,12 @@ public abstract class AbstractInstallDataProvider implements Provider
     {
         try
         {
-            Map<String, List<DynamicVariable>> map
-                    = (Map<String, List<DynamicVariable>>) resources.getObject("dynvariables");
-            // Initialize to prepare variable substitution on several attributes
-            for (List<DynamicVariable> dynamicVariables : map.values())
+            List<DynamicVariable> dynamicVariables = (List<DynamicVariable>) resources.getObject("dynvariables");
+            for (DynamicVariable dynamic : dynamicVariables)
             {
-                for (DynamicVariable dynamic : dynamicVariables)
-                {
-                    Value value = dynamic.getValue();
-                    value.setInstallData(installData);
-                    variables.add(dynamic);
-                }
+                Value value = dynamic.getValue();
+                value.setInstallData(installData);
+                variables.add(dynamic);
             }
         }
         catch (Exception e)

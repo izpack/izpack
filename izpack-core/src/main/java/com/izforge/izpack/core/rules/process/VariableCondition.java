@@ -21,6 +21,9 @@
 
 package com.izforge.izpack.core.rules.process;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
@@ -133,5 +136,13 @@ public class VariableCondition extends Condition
         XMLElementImpl valueEl = new XMLElementImpl("value", conditionRoot);
         valueEl.setContent(this.value);
         conditionRoot.addChild(valueEl);
+    }
+
+    @Override
+    public Set<String> getNeededVariableNames() {
+        HashSet<String> vars = new HashSet<String>(2);
+        vars.add(variablename);     // add the referenced variable
+        // in this.value no variable substition is made, therefore not added here 
+        return vars;
     }
 }

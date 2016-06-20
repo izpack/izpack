@@ -29,7 +29,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
@@ -331,6 +333,11 @@ public class UninstallDataWriterTest
             @Override
             public void makeXMLData(IXMLElement conditionRoot)
             {
+            }
+
+            @Override
+            public Set<String> getNeededVariableNames() {
+                return new HashSet<String>(0);
             }
         });
         rulesEngine.readConditionMap(rules); // use this as it doesn't check for rules being registered already

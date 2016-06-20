@@ -21,7 +21,9 @@ package com.izforge.izpack.api.rules;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class ConditionWithMultipleOperands extends Condition
 {
@@ -37,5 +39,14 @@ public abstract class ConditionWithMultipleOperands extends Condition
     public void addOperands(Condition... operands)
     {
         Collections.addAll(nestedConditions, operands);
+    }
+
+    @Override
+    public Set<String> getNeededVariableNames() {
+        HashSet<String> vars = new HashSet<String>();
+        for (Condition condition : nestedConditions) {
+            vars.addAll(condition.getNeededVariableNames());
+        }
+        return vars;
     }
 }

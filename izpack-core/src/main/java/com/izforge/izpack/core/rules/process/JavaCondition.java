@@ -23,6 +23,8 @@ package com.izforge.izpack.core.rules.process;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -231,6 +233,11 @@ public class JavaCondition extends Condition
         details.append(this.returnvalue);
         details.append("</b><br/>");
         return details.toString();
+    }
+
+    @Override
+    public Set<String> getNeededVariableNames() {
+        return new HashSet<String>(1);
     }
 
 }

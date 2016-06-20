@@ -25,13 +25,17 @@ package com.izforge.izpack.core.rules.process;
 import java.io.File;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.exception.CompilerException;
 import com.izforge.izpack.api.rules.Condition;
+import com.izforge.izpack.core.variable.utils.ValueUtils;
 
 /**
  * This condition checks if a certain variable has a value. If it is not
@@ -50,9 +54,10 @@ public class ExistsCondition extends Condition
 
     public ExistsCondition() {}
 
-    public ExistsCondition(ContentType contentType)
+    public ExistsCondition(ContentType contentType, String content)
     {
         this.contentType = contentType;
+        this.content = content;
     }
 
     @Override
@@ -150,6 +155,30 @@ public class ExistsCondition extends Condition
         XMLElementImpl el = new XMLElementImpl(this.contentType.getAttribute(), conditionRoot);
         el.setContent(this.content);
         conditionRoot.addChild(el);
+    }
+
+    @Override
+    public Set<String> getNeededVariableNames() {
+        HashSet<String> vars = new HashSet<String>(2);
+        switch (contentType)
+        {
+            case VARIABLE:
+                if (this.content != null)
+                {
+                    // variable is used in this case
+                    vars.add(this.content);
+                }
+                break;
+            case FILE:
+                if (this.content != null)
+                {
+                    // variables are resolved here
+                    vars.addAll(ValueUtils.parseUnresolvedVariableNames(this.content));
+                }
+                break;
+            default: throw new CompilerException("Unimplemented contentType");
+        }
+        return vars;
     }
 
     public enum ContentType
