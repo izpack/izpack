@@ -93,6 +93,8 @@
     <str id="JDKPathPanel.badVersion3" txt="از همین JDK استفاده شود؟"/>
     <str id="JDKPathPanel.nonValidPathInReg"
          txt="مسیر این JDK در رجیستری ویندوز نامعتبر است. آیا می خواهید از همین JDK استفاده کنید؟"/>
+	<str id="JDKPathPanelJavaHome.javaHomeNotSet" txt="la variable d'environnement JAVA_HOME n'existe pas, vou devez la rajouter pour finir l'installation"/>
+	<str id="JDKPathPanelJavaHome.javaHomeToSet" txt="impossible de trouver la variable d'environment JAVA_HOME"/>
 
     <str id="PacksPanel.info" txt="بسته های موردنظر را برای نصب انتخاب کنید:"/>
     <str id="PacksPanel.tip" txt="توجه:  نصب بسته های خاکستری شده اجباری است."/>

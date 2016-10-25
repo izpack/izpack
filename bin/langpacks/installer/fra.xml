@@ -100,6 +100,9 @@
     <str id="JDKPathPanel.badVersion3" txt=") voulez-vous vraiment utiliser cette version?"/>
 		<str id="JDKPathPanel.nonValidPathInReg" txt="La base de registre contient une chemin non valide pour ce JDK. Ce JDK doit-il être utilisé?"/>
 
+	<str id="JDKPathPanelJavaHome.javaHomeToSet" txt="la variable d'environnement JAVA_HOME n'existe pas, vou devez la rajouter et relancer l'installation"/>
+	<str id="JDKPathPanelJavaHome.javaHomeNotSet" txt="impossible de trouver la variable d'environment JAVA_HOME"/>
+
     <!-- PacksPanel strings -->
     <str id="PacksPanel.info" txt="Choisissez ici les paquetages à installer :"/>
     <str id="PacksPanel.tip" txt="Note : les paquetages grisés ne sont pas optionnels."/>
