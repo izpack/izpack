@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.sudo;
 
 import java.awt.BorderLayout;
@@ -85,15 +84,15 @@ public class SudoPanel extends IzPanel implements ActionListener
     /**
      * The constructor.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window.
+     * @param panel the panel meta-data
+     * @param parent the parent window.
      * @param installData the installation data
-     * @param resources   the resources
-     * @param replacer    the variable replacer
-     * @param matcher     the platform-model matcher
+     * @param resources the resources
+     * @param replacer the variable replacer
+     * @param matcher the platform-model matcher
      */
     public SudoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                     VariableSubstitutor replacer, PlatformModelMatcher matcher)
+            VariableSubstitutor replacer, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, resources);
         this.replacer = replacer;
@@ -102,18 +101,18 @@ public class SudoPanel extends IzPanel implements ActionListener
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add(LabelFactory
-                    .create(
-                            /* installData.getLangpack().getString("SudoPanel.info") */
-                            "For installing administrator privileges are necessary",
-                            JLabel.TRAILING));
+                .create(
+                        /* installData.getLangpack().getString("SudoPanel.info") */
+                        "For installing administrator privileges are necessary",
+                        JLabel.TRAILING));
 
         add(Box.createRigidArea(new Dimension(0, 5)));
 
         add(LabelFactory
-                    .create(
-                            /* installData.getLangpack().getString("SudoPanel.tip") */
-                            "Please note that passwords are case-sensitive",
-                            parent.getIcons().get("tip"), JLabel.TRAILING));
+                .create(
+                        /* installData.getLangpack().getString("SudoPanel.tip") */
+                        "Please note that passwords are case-sensitive",
+                        parent.getIcons().get("tip"), JLabel.TRAILING));
 
         add(Box.createRigidArea(new Dimension(0, 5)));
 
@@ -159,7 +158,6 @@ public class SudoPanel extends IzPanel implements ActionListener
 
     // check if sudo password is correct (so sudo can be used in all other
     // scripts, even without password, lasts for 5 minutes)
-
     private void doSudoCmd()
     {
         String pass = passwordField.getText();
@@ -189,8 +187,8 @@ public class SudoPanel extends IzPanel implements ActionListener
 
             ArrayList<ExecutableFile> executableFiles = new ArrayList<ExecutableFile>();
             ExecutableFile executableFile = new ExecutableFile(file.getAbsolutePath(),
-                                                               ExecutableFile.POSTINSTALL, ExecutableFile.ABORT, oses,
-                                                               false);
+                    ExecutableFile.POSTINSTALL, ExecutableFile.ABORT, oses,
+                    false);
             executableFiles.add(executableFile);
             FileExecutor fileExecutor = new FileExecutor(executableFiles);
             int retval = fileExecutor.executeFiles(ExecutableFile.POSTINSTALL, matcher, this);
@@ -244,7 +242,7 @@ public class SudoPanel extends IzPanel implements ActionListener
         if (!isValid)
         {
             JOptionPane.showInternalMessageDialog(this, "Password", "Password is not valid",
-                                                  JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
         }
         return isValid;
     }

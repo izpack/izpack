@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
 import java.io.BufferedInputStream;
@@ -41,7 +40,8 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  */
 public class ScriptParser
 {
-    private static final Logger logger = Logger.getLogger(ScriptParser.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(ScriptParser.class.getName());
 
     /**
      * The variable replacer.
@@ -54,11 +54,12 @@ public class ScriptParser
     private final PlatformModelMatcher matcher;
 
     /**
-     * Constructs a new parser. The parsable files specified must have pretranslated paths
-     * (variables expanded and file separator characters converted if necessary).
+     * Constructs a new parser. The parsable files specified must have
+     * pretranslated paths (variables expanded and file separator characters
+     * converted if necessary).
      *
      * @param replacer the variable replacer to use
-     * @param matcher  the platform-model matcher
+     * @param matcher the platform-model matcher
      */
     public ScriptParser(VariableSubstitutor replacer, PlatformModelMatcher matcher)
     {
@@ -84,7 +85,7 @@ public class ScriptParser
         // (Use the same directory so that renaming works later)
         File file = new File(parsable.getPath());
 
-        logger.fine("Parsing and replacing variables in file " + file + "...");
+        LOGGER.fine("Parsing and replacing variables in file " + file + "...");
 
         File parsedFile;
         try
@@ -94,7 +95,7 @@ public class ScriptParser
         catch (IOException exception)
         {
             throw new IOException("Failed to create temporary file for " + parsable.getPath() + " in directory "
-                                          + file.getParentFile(), exception);
+                    + file.getParentFile(), exception);
         }
 
         // Parses the file

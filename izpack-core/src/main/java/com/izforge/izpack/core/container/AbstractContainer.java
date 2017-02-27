@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.container;
 
 import org.picocontainer.Characteristics;
@@ -31,7 +30,6 @@ import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
 import com.izforge.izpack.api.exception.IzPackException;
-
 
 /**
  * Abstract implementation of the {@link Container} interface.
@@ -47,7 +45,6 @@ public abstract class AbstractContainer implements Container
      */
     private MutablePicoContainer container;
 
-
     /**
      * Constructs an <tt>AbstractContainer</tt>.
      * <p/>
@@ -61,8 +58,10 @@ public abstract class AbstractContainer implements Container
     /**
      * Constructs an <tt>AbstractContainer</tt>.
      * <p/>
-     * If a container is provided, {@link #initialise(MutablePicoContainer)} will be invoked. Subclasses should only
-     * provide a container if they don't require their constructor to complete before <tt>initialise</tt> is called.
+     * If a container is provided, {@link #initialise(MutablePicoContainer)}
+     * will be invoked. Subclasses should only provide a container if they don't
+     * require their constructor to complete before <tt>initialise</tt> is
+     * called.
      *
      * @param container the underlying container. May be <tt>null</tt>
      * @throws ContainerException if initialisation fails
@@ -97,7 +96,8 @@ public abstract class AbstractContainer implements Container
     /**
      * Register a component.
      *
-     * @param componentKey   the component identifier. This must be unique within the container
+     * @param componentKey the component identifier. This must be unique within
+     * the container
      * @param implementation the component implementation
      * @throws ContainerException if registration fails
      */
@@ -117,10 +117,12 @@ public abstract class AbstractContainer implements Container
     /**
      * Retrieve a component by its component type.
      * <p/>
-     * If the component type is registered but an instance does not exist, then it will be created.
+     * If the component type is registered but an instance does not exist, then
+     * it will be created.
      *
      * @param componentType the type of the component
-     * @return the corresponding object instance, or <tt>null</tt> if it does not exist
+     * @return the corresponding object instance, or <tt>null</tt> if it does
+     * not exist
      * @throws ContainerException if component creation fails
      */
     @Override
@@ -139,10 +141,12 @@ public abstract class AbstractContainer implements Container
     /**
      * Retrieve a component by its component key or type.
      * <p/>
-     * If the component type is registered but an instance does not exist, then it will be created.
+     * If the component type is registered but an instance does not exist, then
+     * it will be created.
      *
      * @param componentKeyOrType the key or type of the component
-     * @return the corresponding object instance, or <tt>null</tt> if it does not exist
+     * @return the corresponding object instance, or <tt>null</tt> if it does
+     * not exist
      * @throws ContainerException if component creation fails
      */
     @Override
@@ -161,7 +165,7 @@ public abstract class AbstractContainer implements Container
     /**
      * Register a config item.
      *
-     * @param name  the name of the config item
+     * @param name the name of the config item
      * @param value the value of the config item
      * @throws ContainerException if registration fails
      */
@@ -182,7 +186,8 @@ public abstract class AbstractContainer implements Container
      * <p/>
      * A child container:
      * <ul>
-     * <li>may have different objects keyed on the same identifiers as its parent.</li>
+     * <li>may have different objects keyed on the same identifiers as its
+     * parent.</li>
      * <li>will query its parent for dependencies if they aren't available</li>
      * <li>is disposed when its parent is disposed</li>
      * </ul>
@@ -222,7 +227,6 @@ public abstract class AbstractContainer implements Container
         return removed;
     }
 
-
     /**
      * Disposes of the container and all of its child containers.
      */
@@ -238,7 +242,8 @@ public abstract class AbstractContainer implements Container
      * @param className the class name
      * @param superType the super type
      * @return the corresponding class
-     * @throws ClassCastException           if <tt>className</tt> does not implement or extend <tt>superType</tt>
+     * @throws ClassCastException if <tt>className</tt> does not implement or
+     * extend <tt>superType</tt>
      * @throws IzPackClassNotFoundException if the class cannot be found
      */
     @Override
@@ -246,7 +251,7 @@ public abstract class AbstractContainer implements Container
     public <T> Class<T> getClass(String className, Class<T> superType)
     {
         @SuppressWarnings("rawtypes")
-		Class type;
+        Class type;
         try
         {
             // Using the superclass class loader to load the child to avoid multiple copies of the superclass being
@@ -262,7 +267,7 @@ public abstract class AbstractContainer implements Container
             if (!superType.isAssignableFrom(type))
             {
                 throw new ClassCastException("Class '" + type.getName() + "' does not implement "
-                                                     + superType.getName());
+                        + superType.getName());
             }
         }
         catch (ClassNotFoundException exception)
@@ -277,7 +282,8 @@ public abstract class AbstractContainer implements Container
      * <p/>
      * This must only be invoked once.
      *
-     * @throws ContainerException if initialisation fails, or the container has already been initialised
+     * @throws ContainerException if initialisation fails, or the container has
+     * already been initialised
      */
     protected void initialise()
     {
@@ -290,7 +296,8 @@ public abstract class AbstractContainer implements Container
      * This must only be invoked once.
      *
      * @param container the container
-     * @throws ContainerException if initialisation fails, or the container has already been initialised
+     * @throws ContainerException if initialisation fails, or the container has
+     * already been initialised
      */
     protected void initialise(MutablePicoContainer container)
     {
@@ -316,16 +323,18 @@ public abstract class AbstractContainer implements Container
     /**
      * Invoked by {@link #initialise} to fill the container.
      * <p/>
-     * This exposes the underlying <tt>PicoContainer</tt> to enable subclasses to perform complex initialisation.
+     * This exposes the underlying <tt>PicoContainer</tt> to enable subclasses
+     * to perform complex initialisation.
      * <p/>
-     * For convenience, implementations are permitted to throw <tt>PicoException</tt> - these
-     * will be rethrown as {@link ContainerException}.
+     * For convenience, implementations are permitted to throw
+     * <tt>PicoException</tt> - these will be rethrown as
+     * {@link ContainerException}.
      * <p/>
      * This implementation delegates to {@link #fillContainer()}.
      *
      * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
+     * @throws PicoException for any PicoContainer error
      */
     protected void fillContainer(MutablePicoContainer container)
     {
@@ -337,11 +346,12 @@ public abstract class AbstractContainer implements Container
      * <p/>
      * This implementation is a no-op.
      * <p/>
-     * For convenience, implementations are permitted to throw <tt>PicoException</tt> - these
-     * will be rethrown as {@link ContainerException}.
+     * For convenience, implementations are permitted to throw
+     * <tt>PicoException</tt> - these will be rethrown as
+     * {@link ContainerException}.
      *
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
+     * @throws PicoException for any PicoContainer error
      */
     protected void fillContainer()
     {
@@ -350,7 +360,8 @@ public abstract class AbstractContainer implements Container
     /**
      * Returns the underlying container.
      *
-     * @return the underlying container, or <tt>null</tt> if {@link #initialise} hasn't been invoked
+     * @return the underlying container, or <tt>null</tt> if {@link #initialise}
+     * hasn't been invoked
      */
     protected MutablePicoContainer getContainer()
     {

@@ -18,17 +18,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.handler;
 
 import com.izforge.izpack.api.handler.AbstractPrompt;
-import com.izforge.izpack.api.handler.Prompt;
 
 /**
  * Automated implementation of {@link Prompt}.
  */
 public class AutomatedPrompt extends AbstractPrompt
 {
+
     @Override
     public void message(Type type, String title, String message, Throwable throwable)
     {

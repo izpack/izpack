@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -27,23 +26,24 @@ import com.izforge.izpack.installer.data.UninstallDataWriter;
 /**
  * A {@link ConsoleAction} for performing installations.
  * <p/>
- * This writes uninstallation information if required, at the end of a successful installation.
+ * This writes uninstallation information if required, at the end of a
+ * successful installation.
  *
  * @author Tim Anderson
  */
 public abstract class AbstractInstallAction extends ConsoleAction
 {
+
     /**
      * The uninstallation data writer.
      */
     private final UninstallDataWriter writer;
 
-
     /**
      * Constructs an <tt>AbstractConsoleInstallAction</tt>.
      *
      * @param installData the installation data
-     * @param writer      the uninstallation data writer
+     * @param writer the uninstallation data writer
      */
     public AbstractInstallAction(InstallData installData, UninstallDataWriter writer)
     {

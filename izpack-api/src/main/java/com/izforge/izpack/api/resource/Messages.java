@@ -18,11 +18,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.resource;
 
-
-import java.text.MessageFormat;
 import java.util.Map;
 
 /**
@@ -34,21 +31,24 @@ public interface Messages
 {
 
     /**
-     * Formats the message with the specified identifier, replacing placeholders with the supplied arguments.
+     * Formats the message with the specified identifier, replacing placeholders
+     * with the supplied arguments.
      * <p/>
      * This uses {@link MessageFormat} to format the message.
      *
-     * @param id   the message identifier
+     * @param id the message identifier
      * @param args message arguments to replace placeholders in the message with
-     * @return the corresponding message, or {@code id} if the message does not exist
+     * @return the corresponding message, or {@code id} if the message does not
+     * exist
      */
     String get(String id, Object... args);
 
     /**
      * Adds messages.
      * <p/>
-     * This merges the supplied messages with the current messages. If an existing message exists with the same
-     * identifier as that supplied, it will be replaced.
+     * This merges the supplied messages with the current messages. If an
+     * existing message exists with the same identifier as that supplied, it
+     * will be replaced.
      *
      * @param messages the messages to add
      */
@@ -62,7 +62,8 @@ public interface Messages
     Map<String, String> getMessages();
 
     /**
-     * Creates a new messages instance from the named resource that inherits the current messages.
+     * Creates a new messages instance from the named resource that inherits the
+     * current messages.
      *
      * @param name the messages resource name
      * @return the messages

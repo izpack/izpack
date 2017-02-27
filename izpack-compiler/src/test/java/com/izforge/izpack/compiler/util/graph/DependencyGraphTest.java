@@ -26,13 +26,16 @@ import java.util.ListIterator;
 
 import org.junit.Test;
 
-public class DependencyGraphTest {
+public class DependencyGraphTest
+{
 
     /**
-     * Test method for {@link com.izforge.izpack.compiler.util.graph.DependencyGraph#getOrderedList()}.
+     * Test method for
+     * {@link com.izforge.izpack.compiler.util.graph.DependencyGraph#getOrderedList()}.
      */
     @Test
-    public void testGetOrderedList() {
+    public void testGetOrderedList()
+    {
         DependencyGraph<String> graph = new DependencyGraph<String>();
         String var1 = "var1";
         String var2 = "var2";
@@ -57,14 +60,14 @@ public class DependencyGraphTest {
 
     private void testContained(List<? extends Object> list, Object var)
     {
-        assertTrue(String.format("'%s' must be contained in list '%s'",var,list), list.contains(var));
+        assertTrue(String.format("'%s' must be contained in list '%s'", var, list), list.contains(var));
     }
 
     private void testOrder(List<? extends Object> list, Object var1, Object var2)
     {
         testContained(list, var1);
         testContained(list, var2);
-        assertTrue(String.format("'%s' must come after '%s' in list '%s'",var1,var2,list), list.indexOf(var1) > list.indexOf(var2));
+        assertTrue(String.format("'%s' must come after '%s' in list '%s'", var1, var2, list), list.indexOf(var1) > list.indexOf(var2));
     }
 
     private void testUnique(List<? extends Object> list)
@@ -76,7 +79,7 @@ public class DependencyGraphTest {
             ListIterator<? extends Object> it2 = list.listIterator(it.nextIndex());
             while (it2.hasNext())
             {
-                assertFalse(String.format("'%s' must occur only once in list '%s'",object,list), object.equals(it2.next()));
+                assertFalse(String.format("'%s' must occur only once in list '%s'", object, list), object.equals(it2.next()));
             }
         }
     }

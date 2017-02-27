@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import java.io.BufferedWriter;
@@ -25,8 +24,8 @@ import java.io.Reader;
 import java.io.Writer;
 
 /**
- * This is a grabber for stdout and stderr. It will be launched once at command execution end
- * terminates if the apropriate stream runs out of data.
+ * This is a grabber for stdout and stderr. It will be launched once at command
+ * execution end terminates if the apropriate stream runs out of data.
  *
  * @author Olexij Tkatchenko <ot@parcs.de>
  */
@@ -38,7 +37,7 @@ public class MonitorInputStream extends RunnableReader
     /**
      * Construct a new monitor.
      *
-     * @param in  The input to read.
+     * @param in The input to read.
      * @param out The writer to write to.
      */
     public MonitorInputStream(Reader in, Writer out)

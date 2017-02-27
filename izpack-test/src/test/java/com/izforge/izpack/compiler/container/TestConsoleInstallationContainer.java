@@ -5,7 +5,6 @@ import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 
-
 /**
  * Container for integration testing
  *
@@ -13,12 +12,12 @@ import com.izforge.izpack.installer.container.impl.InstallerContainer;
  */
 public class TestConsoleInstallationContainer extends AbstractTestInstallationContainer
 {
+
     public TestConsoleInstallationContainer(Class<?> klass, FrameworkMethod frameworkMethod)
     {
         super(klass, frameworkMethod);
         initialise();
     }
-
 
     @Override
     protected InstallerContainer fillInstallerContainer(MutablePicoContainer container)

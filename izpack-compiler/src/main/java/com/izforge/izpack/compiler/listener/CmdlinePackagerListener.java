@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.listener;
 
 import java.util.logging.Logger;
@@ -28,10 +27,11 @@ import java.util.logging.Logger;
  */
 public class CmdlinePackagerListener implements PackagerListener
 {
+
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(CmdlinePackagerListener.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CmdlinePackagerListener.class.getName());
 
     /**
      * Print a message to the console at default priority (MSG_INFO).
@@ -46,7 +46,7 @@ public class CmdlinePackagerListener implements PackagerListener
     /**
      * Print a message to the console at the specified priority.
      *
-     * @param info     The information.
+     * @param info The information.
      * @param priority priority to be used for the message prefix
      */
     public void packagerMsg(String info, int priority)
@@ -55,18 +55,18 @@ public class CmdlinePackagerListener implements PackagerListener
         switch (priority)
         {
             case MSG_DEBUG:
-                logger.fine(info);
+                LOGGER.fine(info);
                 break;
             case MSG_ERR:
-                logger.severe(info);
+                LOGGER.severe(info);
                 break;
             case MSG_WARN:
-                logger.warning(info);
+                LOGGER.warning(info);
                 break;
             case MSG_INFO:
             case MSG_VERBOSE:
             default: // don't die, but don't prepend anything
-                logger.info(info);
+                LOGGER.info(info);
         }
     }
 
@@ -75,8 +75,8 @@ public class CmdlinePackagerListener implements PackagerListener
      */
     public void packagerStart()
     {
-        logger.info("[ Begin ]");
-        logger.info("");
+        LOGGER.info("[ Begin ]");
+        LOGGER.info("");
     }
 
     /**
@@ -84,7 +84,7 @@ public class CmdlinePackagerListener implements PackagerListener
      */
     public void packagerStop()
     {
-        logger.info("");
-        logger.info("[ End ]");
+        LOGGER.info("");
+        LOGGER.info("[ End ]");
     }
 }

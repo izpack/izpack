@@ -1,21 +1,20 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/ http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2007 Dennis Reil
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.installer.multiunpacker;
 
 import java.awt.BorderLayout;
@@ -45,7 +44,6 @@ import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 
-
 /**
  * Dialog for choosing the next volume.
  *
@@ -53,12 +51,12 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
  */
 public class NextMediaDialog extends JDialog implements ActionListener
 {
+
     private static final String NEXTMEDIA_MSG_ID = "nextmedia.msg";
     private static final String NEXTMEDIA_TITLE_ID = "nextmedia.title";
     private static final String BROWSEBTN_ID = "nextmedia.browsebtn";
     private static final String OKBTN_ID = "nextmedia.okbtn";
     private static final String CANCELBTN_ID = "nextmedia.cancelbtn";
-
 
     private static final long serialVersionUID = -2551719029962051020L;
 
@@ -115,13 +113,13 @@ public class NextMediaDialog extends JDialog implements ActionListener
         if (this.icons != null)
         {
             this.msg = LabelFactory.create(messages.get(NEXTMEDIA_MSG_ID), this.icons.get("warning"),
-                                           JLabel.LEFT);
+                    JLabel.LEFT);
             this.browsebtn = ButtonFactory.createButton(messages.get(BROWSEBTN_ID), this.icons.get("open"),
-                                                        new Color(230, 230, 230));
+                    new Color(230, 230, 230));
             this.okbtn = ButtonFactory.createButton(messages.get(OKBTN_ID), this.icons.get("ok"),
-                                                    new Color(230, 230, 230));
+                    new Color(230, 230, 230));
             this.cancelbtn = ButtonFactory.createButton(messages.get(CANCELBTN_ID), this.icons.get("cancel"),
-                                                        new Color(230, 230, 230));
+                    new Color(230, 230, 230));
         }
         else
         {
@@ -169,10 +167,10 @@ public class NextMediaDialog extends JDialog implements ActionListener
             Point position = this.owner.getLocationOnScreen();
             Point centerposition = new Point();
             centerposition.setLocation(position.getX() + 0.5 * ownersize.getWidth(),
-                                       position.getY() + 0.5 * ownersize.getHeight());
+                    position.getY() + 0.5 * ownersize.getHeight());
             Point myposition = new Point();
             myposition.setLocation(centerposition.getX() - 0.5 * mysize.getWidth(),
-                                   centerposition.getY() - 0.5 * mysize.getHeight());
+                    centerposition.getY() - 0.5 * mysize.getHeight());
             this.setLocation(myposition);
         }
     }
@@ -214,8 +212,8 @@ public class NextMediaDialog extends JDialog implements ActionListener
         else if (e.getSource() == this.cancelbtn)
         {
             int option = JOptionPane.showConfirmDialog(this, messages.get("installer.quit.message"),
-                                                       messages.get("installer.quit.title"),
-                                                       JOptionPane.YES_NO_OPTION);
+                    messages.get("installer.quit.title"),
+                    JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.YES_OPTION)
             {
                 // exit

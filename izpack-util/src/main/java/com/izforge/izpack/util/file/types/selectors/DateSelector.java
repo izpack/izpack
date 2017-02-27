@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -100,8 +99,8 @@ public class DateSelector extends BaseExtendSelector
     /**
      * For users that prefer to express time in milliseconds since 1970
      *
-     * @param millis the time to compare file's last modified date to,
-     *               expressed in milliseconds
+     * @param millis the time to compare file's last modified date to, expressed
+     * in milliseconds
      */
     public void setMillis(long millis)
     {
@@ -123,8 +122,7 @@ public class DateSelector extends BaseExtendSelector
     }
 
     /**
-     * Sets the date. The user must supply it in MM/DD/YYYY HH:MM AM_PM
-     * format
+     * Sets the date. The user must supply it in MM/DD/YYYY HH:MM AM_PM format
      *
      * @param dateTime a string in MM/DD/YYYY HH:MM AM_PM format
      */
@@ -144,8 +142,8 @@ public class DateSelector extends BaseExtendSelector
     }
 
     /**
-     * Sets the number of milliseconds leeway we will give before we consider
-     * a file not to have matched a date.
+     * Sets the number of milliseconds leeway we will give before we consider a
+     * file not to have matched a date.
      *
      * @param granularity the number of milliconds leeway
      */
@@ -175,8 +173,8 @@ public class DateSelector extends BaseExtendSelector
     }
 
     /**
-     * When using this as a custom selector, this method will be called.
-     * It translates each parameter into the appropriate setXXX() call.
+     * When using this as a custom selector, this method will be called. It
+     * translates each parameter into the appropriate setXXX() call.
      *
      * @param parameters the complete set of parameters for this selector
      */
@@ -247,8 +245,8 @@ public class DateSelector extends BaseExtendSelector
     }
 
     /**
-     * This is a consistency check to ensure the selector's required
-     * values have been set.
+     * This is a consistency check to ensure the selector's required values have
+     * been set.
      */
     public void verifySettings()
     {
@@ -262,7 +260,7 @@ public class DateSelector extends BaseExtendSelector
             // check millis and only set it once.
             DateFormat df = ((pattern == null)
                     ? DateFormat.getDateTimeInstance(
-                    DateFormat.SHORT, DateFormat.SHORT, Locale.US)
+                            DateFormat.SHORT, DateFormat.SHORT, Locale.US)
                     : new SimpleDateFormat(pattern));
 
             try
@@ -280,18 +278,18 @@ public class DateSelector extends BaseExtendSelector
                 setError("Date of " + dateTime
                         + " Cannot be parsed correctly. It should be in"
                         + ((pattern == null)
-                        ? " MM/DD/YYYY HH:MM AM_PM" : pattern) + " format.");
+                                ? " MM/DD/YYYY HH:MM AM_PM" : pattern) + " format.");
             }
         }
     }
 
     /**
-     * The heart of the matter. This is where the selector gets to decide
-     * on the inclusion of a file in a particular fileset.
+     * The heart of the matter. This is where the selector gets to decide on the
+     * inclusion of a file in a particular fileset.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename is the name of the file to check
-     * @param file     is a java.io.File object the selector can use
+     * @param file is a java.io.File object the selector can use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file)

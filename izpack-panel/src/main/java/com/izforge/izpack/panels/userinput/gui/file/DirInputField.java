@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.file;
 
 import javax.swing.JFileChooser;
@@ -29,6 +28,7 @@ import com.izforge.izpack.panels.userinput.field.file.DirFieldView;
 
 public class DirInputField extends FileInputField
 {
+
     private static final long serialVersionUID = 8494549823214831160L;
 
     public DirInputField(DirFieldView view, IzPanel parent, GUIInstallData installDataGUI)

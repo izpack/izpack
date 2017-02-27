@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.checkedhello;
-
 
 import static com.izforge.izpack.api.handler.Prompt.Option.YES;
 import static com.izforge.izpack.api.handler.Prompt.Options.YES_NO;
@@ -65,19 +63,19 @@ public class CheckedHelloConsolePanel extends HelloConsolePanel
     /**
      * The logger.
      */
-    private static final Logger log = Logger.getLogger(CheckedHelloConsolePanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CheckedHelloConsolePanel.class.getName());
 
     /**
      * Constructs a <tt>CheckedHelloConsolePanel</tt>.
      *
-     * @param handler     the registry handler
+     * @param handler the registry handler
      * @param installData the installation data
-     * @param prompt      the prompt
-     * @param panel       the parent panel/view. May be {@code null}
+     * @param prompt the prompt
+     * @param panel the parent panel/view. May be {@code null}
      * @throws NativeLibException for any native library error
      */
     public CheckedHelloConsolePanel(RegistryDefaultHandler handler, InstallData installData, Prompt prompt,
-                                    PanelView<ConsolePanel> panel)
+            PanelView<ConsolePanel> panel)
             throws NativeLibException
     {
         super(panel);
@@ -90,8 +88,9 @@ public class CheckedHelloConsolePanel extends HelloConsolePanel
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @param console the console
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     @Override
     public boolean run(InstallData installData, Console console)
@@ -112,7 +111,7 @@ public class CheckedHelloConsolePanel extends HelloConsolePanel
                 catch (NativeLibException exception)
                 {
                     result = false;
-                    log.log(Level.SEVERE, exception.getMessage(), exception);
+                    LOGGER.log(Level.SEVERE, exception.getMessage(), exception);
                 }
             }
         }

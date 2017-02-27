@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -37,7 +36,7 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractTextConsolePanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AbstractTextConsolePanel.class.getName());
 
     /**
      * Constructs an {@code AbstractTextConsolePanel}.
@@ -53,7 +52,7 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
      * Runs the panel using the supplied properties.
      *
      * @param installData the installation data
-     * @param properties  the properties
+     * @param properties the properties
      * @return <tt>true</tt>
      */
     @Override
@@ -68,8 +67,9 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
      * If there is no text to display, the panel will return <tt>false</tt>.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @param console the console
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     @Override
     public boolean run(InstallData installData, Console console)
@@ -91,12 +91,12 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
             }
             catch (IOException e)
             {
-                logger.warning("Displaying multiline text failed: " + e.getMessage());
+                LOGGER.warning("Displaying multiline text failed: " + e.getMessage());
             }
         }
         else
         {
-            logger.warning("No text to display");
+            LOGGER.warning("No text to display");
         }
         return promptEndPanel(installData, console);
     }
@@ -109,8 +109,8 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
     protected abstract String getText();
 
     /**
-     * Helper to strip HTML from text.
-     * From code originally developed by Jan Blok.
+     * Helper to strip HTML from text. From code originally developed by Jan
+     * Blok.
      *
      * @param text the text. May be {@code null}
      * @return the text with HTML removed
@@ -130,7 +130,6 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
             // Remove repeating spaces because browsers ignore them
 
             result = result.replaceAll("( )+", " ");
-
 
             result = result.replaceAll("<( )*head([^>])*>", "<head>");
             result = result.replaceAll("(<( )*(/)( )*head( )*>)", "</head>");
@@ -167,7 +166,6 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
             // Remove remaining tags like <a>, links, images,
             // comments etc - anything that's enclosed inside < >
             result = result.replaceAll("<[^>]*>", "");
-
 
             result = result.replaceAll("&bull;", " * ");
             result = result.replaceAll("&lsaquo;", "<");

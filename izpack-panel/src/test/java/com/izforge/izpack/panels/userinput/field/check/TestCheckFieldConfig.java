@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.check;
 
 import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
-
 
 /**
  * Implementation of {@link CheckFieldConfig} for testing purposes.
@@ -42,13 +40,14 @@ public class TestCheckFieldConfig extends TestFieldConfig implements CheckFieldC
      */
     private String falseValue;
 
-
     /**
      * Constructs a {@code TestCheckFieldConfig}.
      *
-     * @param variable   the variable
-     * @param trueValue  the value to assign to the variable when the checkbox is selected
-     * @param falseValue the value to assign to the variable when the checkbox is not selected
+     * @param variable the variable
+     * @param trueValue the value to assign to the variable when the checkbox is
+     * selected
+     * @param falseValue the value to assign to the variable when the checkbox
+     * is not selected
      */
     public TestCheckFieldConfig(String variable, String trueValue, String falseValue)
     {
@@ -58,7 +57,8 @@ public class TestCheckFieldConfig extends TestFieldConfig implements CheckFieldC
     }
 
     /**
-     * Returns the value to assign to the associated variable when the checkbox is selected (i.e. is 'true').
+     * Returns the value to assign to the associated variable when the checkbox
+     * is selected (i.e. is 'true').
      *
      * @return the 'true' value. May be {@code null}
      */
@@ -69,7 +69,8 @@ public class TestCheckFieldConfig extends TestFieldConfig implements CheckFieldC
     }
 
     /**
-     * Returns the value to assign to the associated variable when the checkbox is not selected (i.e. is 'false').
+     * Returns the value to assign to the associated variable when the checkbox
+     * is not selected (i.e. is 'false').
      *
      * @return the 'false' value
      */

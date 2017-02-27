@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration;
 
 import com.izforge.izpack.api.data.Info;
@@ -37,7 +36,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
-
 
 /**
  * Uninstallation helper.
@@ -76,11 +74,13 @@ public class UninstallHelper
     }
 
     /**
-     * Uninstalls the application at the specified path, by running the {@link Destroyer} in the supplied uninstall
-     * jar, using the console uninstaller container.
+     * Uninstalls the application at the specified path, by running the
+     * {@link Destroyer} in the supplied uninstall jar, using the console
+     * uninstaller container.
      * <p/>
-     * The Destroyer is launched in an isolated class loader as it locates resources using its class loader.
-     * This also ensures it has all the classes it needs to run.
+     * The Destroyer is launched in an isolated class loader as it locates
+     * resources using its class loader. This also ensures it has all the
+     * classes it needs to run.
      *
      * @param uninstallJar the uninstall jar
      * @throws Exception for any error
@@ -91,19 +91,21 @@ public class UninstallHelper
         ClassLoader loader = getClassLoader(copy);
 
         // create the container
-		@SuppressWarnings("unchecked")
-		Class<ConsoleUninstallerContainer> containerClass 
-		        = (Class<ConsoleUninstallerContainer>) loader.loadClass(ConsoleUninstallerContainer.class.getName());
+        @SuppressWarnings("unchecked")
+        Class<ConsoleUninstallerContainer> containerClass
+                = (Class<ConsoleUninstallerContainer>) loader.loadClass(ConsoleUninstallerContainer.class.getName());
         Object container = containerClass.newInstance();
 
         runDestroyer(container, loader, copy);
     }
 
     /**
-     * Uninstalls the application at the specified path, by running the GUI uninstaller.
+     * Uninstalls the application at the specified path, by running the GUI
+     * uninstaller.
      * <p/>
-     * The uninstaller is launched in an isolated class loader as it locates resources using its class loader.
-     * This also ensures it has all the classes it needs to run.
+     * The uninstaller is launched in an isolated class loader as it locates
+     * resources using its class loader. This also ensures it has all the
+     * classes it needs to run.
      *
      * @param uninstallJar the uninstall jar
      * @throws Exception for any error
@@ -114,7 +116,7 @@ public class UninstallHelper
         ClassLoader loader = getClassLoader(copy);
 
         @SuppressWarnings("unchecked")
-		Class<GUIUninstallerContainer> containerClass 
+        Class<GUIUninstallerContainer> containerClass
                 = (Class<GUIUninstallerContainer>) loader.loadClass(GUIUninstallerContainer.class.getName());
         Object container = containerClass.newInstance();
 
@@ -123,7 +125,8 @@ public class UninstallHelper
     }
 
     /**
-     * Helper to create an isolated class loader using only those classes in the specified uninstall jar.
+     * Helper to create an isolated class loader using only those classes in the
+     * specified uninstall jar.
      *
      * @param uninstallJar the uninstaller jar
      * @return a new class loader
@@ -132,14 +135,17 @@ public class UninstallHelper
     private static ClassLoader getClassLoader(File uninstallJar) throws MalformedURLException
     {
         // create an isolated class loader for loading classes and resources
-        return new URLClassLoader(new URL[]{uninstallJar.toURI().toURL()}, null);
+        return new URLClassLoader(new URL[]
+        {
+            uninstallJar.toURI().toURL()
+        }, null);
     }
 
     /**
      * Runs the destroyer obtained from the supplied container.
      *
      * @param container the container
-     * @param loader    the isolated class loader to use to load classes
+     * @param loader the isolated class loader to use to load classes
      * @throws Exception for any error
      */
     private static void runDestroyer(Object container, ClassLoader loader, File jar) throws Exception
@@ -148,7 +154,7 @@ public class UninstallHelper
 
         // get the destroyer class
         @SuppressWarnings("unchecked")
-		Class<Destroyer> destroyerClass = (Class<Destroyer>) loader.loadClass(Destroyer.class.getName());
+        Class<Destroyer> destroyerClass = (Class<Destroyer>) loader.loadClass(Destroyer.class.getName());
         Object destroyer = getComponent.invoke(container, destroyerClass);
         Method forceDelete = destroyerClass.getMethod("setForceDelete", boolean.class);
         forceDelete.invoke(destroyer, true);

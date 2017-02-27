@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file;
 
 import java.io.File;
@@ -24,22 +23,23 @@ import java.util.StringTokenizer;
 import org.apache.tools.ant.taskdefs.condition.Os;
 
 /**
- * A Path tokenizer takes a path and returns the components that make up
- * that path.
+ * A Path tokenizer takes a path and returns the components that make up that
+ * path.
  * <p/>
- * The path can use path separators of either ':' or ';' and file separators
- * of either '/' or '\'.
+ * The path can use path separators of either ':' or ';' and file separators of
+ * either '/' or '\'.
  */
 public class PathTokenizer
 {
+
     /**
      * A tokenizer to break the string up based on the ':' or ';' separators.
      */
     private StringTokenizer tokenizer;
 
     /**
-     * A String which stores any path components which have been read ahead
-     * due to DOS filesystem compensation.
+     * A String which stores any path components which have been read ahead due
+     * to DOS filesystem compensation.
      */
     private String lookahead = null;
 
@@ -51,8 +51,8 @@ public class PathTokenizer
     private boolean onNetWare = Os.isFamily("netware");
 
     /**
-     * Flag to indicate whether or not we are running on a platform with a
-     * DOS style filesystem
+     * Flag to indicate whether or not we are running on a platform with a DOS
+     * style filesystem
      */
     private boolean dosStyleFilesystem;
 
@@ -80,11 +80,11 @@ public class PathTokenizer
 
     /**
      * Tests if there are more path elements available from this tokenizer's
-     * path. If this method returns <code>true</code>, then a subsequent call
-     * to nextToken will successfully return a token.
+     * path. If this method returns <code>true</code>, then a subsequent call to
+     * nextToken will successfully return a token.
      *
-     * @return <code>true</code> if and only if there is at least one token
-     *         in the string after the current position; <code>false</code> otherwise.
+     * @return <code>true</code> if and only if there is at least one token in
+     * the string after the current position; <code>false</code> otherwise.
      */
     public boolean hasMoreTokens()
     {
@@ -101,7 +101,7 @@ public class PathTokenizer
      *
      * @return the next path element from this tokenizer.
      * @throws NoSuchElementException if there are no more elements in this
-     *                                tokenizer's path.
+     * tokenizer's path.
      */
     public String nextToken() throws NoSuchElementException
     {

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.regex;
 
 import java.util.Enumeration;
@@ -28,20 +27,23 @@ import java.util.Vector;
  * *************************************************************************
  * Regular Expression utilities
  *
- * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a> (original Ant Contrib implementation part)
- * @author René Krell - changes against the original implementation in Apache Ant 1.6.5 and ant-contrib 1.0b3
- *         **************************************************************************
+ * @author <a href='mailto:mattinger@yahoo.com'>Matthew Inger</a> (original Ant
+ * Contrib implementation part)
+ * @author René Krell - changes against the original implementation in Apache
+ * Ant 1.6.5 and ant-contrib 1.0b3
+ * **************************************************************************
  * @see <a href='http://ant.apache.org'>Apache Ant</a>
  * @see <a href='http://ant-contrib.sourceforge.net'>Ant Contrib project</a>
  */
-
 public class RegexUtil
 {
+
     /**
      * An abritrary node in a select expression
      */
     private static interface SelectNode
     {
+
         /**
          * Select the value based on the groups
          *
@@ -56,6 +58,7 @@ public class RegexUtil
     private static class GroupSelectNode
             implements SelectNode
     {
+
         private int groupNumber;
 
         public GroupSelectNode(int groupNumber)
@@ -87,6 +90,7 @@ public class RegexUtil
     private static class StringSelectNode
             implements SelectNode
     {
+
         private String text;
 
         public StringSelectNode(String text)
@@ -106,9 +110,9 @@ public class RegexUtil
     }
 
     /**
-     * Parses a select string into a List of SelectNode objects.
-     * These objects can then be merged with a group list to produce
-     * an output string (using the "select" method)
+     * Parses a select string into a List of SelectNode objects. These objects
+     * can then be merged with a group list to produce an output string (using
+     * the "select" method)
      *
      * @param input The select string
      * @return a List of SelectNode objects
@@ -144,7 +148,6 @@ public class RegexUtil
             }
         }
 
-
         if (buf.length() > 0)
         {
             nodes.addElement(new StringSelectNode(buf.toString()));
@@ -155,10 +158,9 @@ public class RegexUtil
     }
 
     /**
-     * Parse a select string, and merge it with a match groups
-     * vector to produce an output string.  Each group placeholder
-     * in the select string is replaced with the group at the
-     * corresponding index in the match groups vector
+     * Parse a select string, and merge it with a match groups vector to produce
+     * an output string. Each group placeholder in the select string is replaced
+     * with the group at the corresponding index in the match groups vector
      *
      * @param select The select string
      * @param groups The match groups
@@ -183,7 +185,7 @@ public class RegexUtil
      * Check the options has a particular flag set.
      *
      * @param options an <code>int</code> value
-     * @param flag    an <code>int</code> value
+     * @param flag an <code>int</code> value
      * @return true if the flag is set
      */
     public static boolean hasFlag(int options, int flag)
@@ -195,7 +197,7 @@ public class RegexUtil
      * Remove a particular flag from an int value contains the option flags.
      *
      * @param options an <code>int</code> value
-     * @param flag    an <code>int</code> value
+     * @param flag an <code>int</code> value
      * @return the options with the flag unset
      */
     public static int removeFlag(int options, int flag)

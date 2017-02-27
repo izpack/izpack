@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.logic;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -33,6 +32,7 @@ import com.izforge.izpack.core.rules.process.RefCondition;
  */
 public class NotCondition extends ConditionReference
 {
+
     private static final long serialVersionUID = 2886367480913278231L;
 
     private transient RulesEngine rules;
@@ -54,8 +54,8 @@ public class NotCondition extends ConditionReference
         else
         {
             String type = xmlcondition.getAttribute("type");
-            if (xmlcondition.getChildrenCount() != 1 ||
-               (type == null || (type.equals("ref") && !RefCondition.isValidRefCondition(xmlcondition.getChildAtIndex(0)))))
+            if (xmlcondition.getChildrenCount() != 1
+                    || (type == null || (type.equals("ref") && !RefCondition.isValidRefCondition(xmlcondition.getChildAtIndex(0)))))
             {
                 throw new Exception("Condition \"" + getId() + "\" needs exactly one condition of type \"ref\" as operand");
             }
@@ -76,7 +76,7 @@ public class NotCondition extends ConditionReference
         }
         if (condition == null)
         {
-            throw new IzPackException("Referenced condition \"" +  referencedConditionId + "\" not found");
+            throw new IzPackException("Referenced condition \"" + referencedConditionId + "\" not found");
         }
         setReferencedCondition(condition);
     }
@@ -85,8 +85,10 @@ public class NotCondition extends ConditionReference
     public boolean isTrue()
     {
         Condition condition = getReferencedCondition();
-        if (condition != null) {
-            if (condition.getInstallData() == null) {
+        if (condition != null)
+        {
+            if (condition.getInstallData() == null)
+            {
                 condition.setInstallData(this.getInstallData());
             }
             return !condition.isTrue();
@@ -104,7 +106,6 @@ public class NotCondition extends ConditionReference
         details.append("</li></ul>");
         return details.toString();
     }
-
 
     @Override
     public void makeXMLData(IXMLElement conditionRoot)

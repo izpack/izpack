@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.base;
 
 import com.izforge.izpack.installer.data.UninstallData;
@@ -26,14 +25,15 @@ import com.izforge.izpack.installer.data.UninstallData;
 import java.io.File;
 
 /**
- * Interface that all installe types must adhere to.
- * This includes ConsoleInstaller, AutomatedInstaller and InstallerFrame.
+ * Interface that all installe types must adhere to. This includes
+ * ConsoleInstaller, AutomatedInstaller and InstallerFrame.
  *
  * @author Jonathan Halliday
  * @author Julien Ponge
  */
 public interface InstallerBase
 {
+
     /**
      * Write the automatic installation
      *

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.web;
 
 import java.io.IOException;
@@ -38,6 +37,7 @@ import com.izforge.izpack.api.data.Pack;
  */
 public class LoggedInputStream extends InputStream
 {
+
     private long bytesRead = 0;
     private InputStream is;
     private DownloadPanel downloader;

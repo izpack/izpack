@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.statictext;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -36,7 +35,7 @@ public class StaticTextFieldReader extends SimpleFieldReader
     /**
      * Constructs a {@code StaticTextFieldReader}.
      *
-     * @param field  the field element
+     * @param field the field element
      * @param config the configuration
      */
     public StaticTextFieldReader(IXMLElement field, Config config)

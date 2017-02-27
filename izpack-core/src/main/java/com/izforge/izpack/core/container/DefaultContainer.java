@@ -18,11 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.container;
-
-import com.izforge.izpack.api.container.Container;
-import com.izforge.izpack.api.exception.ContainerException;
 
 /**
  * Default implementation of the {@link Container} interface.

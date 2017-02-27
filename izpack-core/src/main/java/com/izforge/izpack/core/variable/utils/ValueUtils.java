@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.variable.utils;
 
 import java.util.HashSet;
@@ -28,6 +27,7 @@ import java.util.regex.Pattern;
 
 public class ValueUtils
 {
+
     private static final Pattern RESOLVER_PATTERN = Pattern.compile("\\$\\{(.+?)\\}|\\$(.+?)\\b");
 
     public static Set<String> parseUnresolvedVariableNames(String... strings)
@@ -35,19 +35,20 @@ public class ValueUtils
         Set<String> unresolvedNames = new HashSet<String>();
         for (String s : strings)
         {
-            if (s!=null)
+            if (s != null)
             {
                 Matcher matcher = RESOLVER_PATTERN.matcher(s);
-                while (matcher.find()) {
+                while (matcher.find())
+                {
                     for (int i = 0; i < matcher.groupCount(); i++)
                     {
-                        String name = matcher.group(i+1);
+                        String name = matcher.group(i + 1);
                         if (name != null)
                         {
                             unresolvedNames.add(name);
                         }
                     }
-            }
+                }
             }
         }
         return unresolvedNames;

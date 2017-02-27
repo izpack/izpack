@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.config;
 
 import java.io.ByteArrayInputStream;
@@ -33,8 +32,9 @@ import java.util.Set;
 import com.izforge.izpack.util.xmlmerge.ConfigurationException;
 
 /**
- * Reads the {@link com.izforge.izpack.util.xmlmerge.factory.XPathOperationFactory} configuration from
- * a property file or a map.
+ * Reads the
+ * {@link com.izforge.izpack.util.xmlmerge.factory.XPathOperationFactory}
+ * configuration from a property file or a map.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
@@ -80,25 +80,27 @@ public class PropertyXPathConfigurer extends AbstractXPathConfigurer
     /**
      * Configuration properties.
      */
-    Properties m_props;
+    Properties props;
 
     /**
      * Set of XPath paths.
      */
-    Set<String> m_paths = new LinkedHashSet<String>();
+    Set<String> paths = new LinkedHashSet<String>();
 
     /**
-     * Creates a PropertyXPathConfigurer which reads the configuration from a properties file.
+     * Creates a PropertyXPathConfigurer which reads the configuration from a
+     * properties file.
      *
      * @param propString A string representing the name of a properties file
-     * @throws ConfigurationException If an error occurred during the creation of the configurer
+     * @throws ConfigurationException If an error occurred during the creation
+     * of the configurer
      */
     public PropertyXPathConfigurer(String propString) throws ConfigurationException
     {
-        m_props = new Properties();
+        props = new Properties();
         try
         {
-            m_props.load(new ByteArrayInputStream(propString.getBytes()));
+            props.load(new ByteArrayInputStream(propString.getBytes()));
         }
         catch (IOException ioe)
         {
@@ -108,14 +110,15 @@ public class PropertyXPathConfigurer extends AbstractXPathConfigurer
     }
 
     /**
-     * Creates a PropertyXPathConfigurer which reads the configuration from a map.
+     * Creates a PropertyXPathConfigurer which reads the configuration from a
+     * map.
      *
      * @param map A map containing configuration properties
      */
     public PropertyXPathConfigurer(Map<String, String> map)
     {
-        m_props = new Properties();
-        m_props.putAll(map);
+        props = new Properties();
+        props.putAll(map);
     }
 
     /**
@@ -126,7 +129,7 @@ public class PropertyXPathConfigurer extends AbstractXPathConfigurer
      */
     public PropertyXPathConfigurer(Properties properties)
     {
-        m_props = properties;
+        props = properties;
     }
 
     @Override
@@ -134,25 +137,25 @@ public class PropertyXPathConfigurer extends AbstractXPathConfigurer
     {
         String token;
 
-        token = m_props.getProperty(DEFAULT_ACTION_KEY);
+        token = props.getProperty(DEFAULT_ACTION_KEY);
         if (token != null)
         {
             setDefaultAction(token);
         }
 
-        token = m_props.getProperty(DEFAULT_MAPPER_KEY);
+        token = props.getProperty(DEFAULT_MAPPER_KEY);
         if (token != null)
         {
             setDefaultMapper(token);
         }
 
-        token = m_props.getProperty(DEFAULT_MATCHER_KEY);
+        token = props.getProperty(DEFAULT_MATCHER_KEY);
         if (token != null)
         {
             setDefaultMatcher(token);
         }
 
-        Enumeration<Object> keys = m_props.keys();
+        Enumeration<Object> keys = props.keys();
 
         while (keys.hasMoreElements())
         {
@@ -160,26 +163,26 @@ public class PropertyXPathConfigurer extends AbstractXPathConfigurer
 
             if (key.startsWith(PATH_PREFIX))
             {
-                m_paths.add(key.substring(PATH_PREFIX.length()));
+                paths.add(key.substring(PATH_PREFIX.length()));
             }
         }
 
-        for (String path : m_paths)
+        for (String path : paths)
         {
-            token = m_props.getProperty(ACTION_PREFIX + path);
+            token = props.getProperty(ACTION_PREFIX + path);
             if (token != null)
             {
-                addAction(m_props.getProperty(PATH_PREFIX + path), token);
+                addAction(props.getProperty(PATH_PREFIX + path), token);
             }
-            token = m_props.getProperty(MAPPER_PREFIX + path);
+            token = props.getProperty(MAPPER_PREFIX + path);
             if (token != null)
             {
-                addMapper(m_props.getProperty(PATH_PREFIX + path), token);
+                addMapper(props.getProperty(PATH_PREFIX + path), token);
             }
-            token = m_props.getProperty(MATCHER_PREFIX + path);
+            token = props.getProperty(MATCHER_PREFIX + path);
             if (token != null)
             {
-                addMatcher(m_props.getProperty(PATH_PREFIX + path), token);
+                addMatcher(props.getProperty(PATH_PREFIX + path), token);
             }
         }
 

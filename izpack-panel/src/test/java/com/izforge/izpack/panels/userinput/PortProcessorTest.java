@@ -13,10 +13,10 @@ import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
 
 import junit.framework.Assert;
 
-
 @Ignore
 public class PortProcessorTest
 {
+
     @Test
     public void testProcessGenericBoundPort() throws IOException
     {

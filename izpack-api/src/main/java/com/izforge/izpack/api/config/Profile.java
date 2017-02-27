@@ -23,9 +23,9 @@ package com.izforge.izpack.api.config;
 
 import java.util.List;
 
-
 public interface Profile extends MultiMap<String, Profile.Section>, CommentedMap<String, Profile.Section>
 {
+
     char PATH_SEPARATOR = '/';
 
     List<String> getHeaderComment();
@@ -60,6 +60,7 @@ public interface Profile extends MultiMap<String, Profile.Section>, CommentedMap
 
     interface Section extends OptionMap
     {
+
         Section getChild(String key);
 
         String getName();

@@ -18,15 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.file;
 
 import java.io.File;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.Field;
-
 
 /**
  * Common file field functionality.
@@ -51,7 +48,6 @@ public class AbstractFileField extends Field
      */
     protected final boolean allowEmptyValue;
 
-
     /**
      * Determines if the file must exist
      */
@@ -60,7 +56,7 @@ public class AbstractFileField extends Field
     /**
      * Constructs an {@code AbstractFileField}.
      *
-     * @param config      the configuration to get field information from
+     * @param config the configuration to get field information from
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */
@@ -96,7 +92,8 @@ public class AbstractFileField extends Field
     /**
      * Determines if empty input values are allowed.
      *
-     * @return {@code true} if empty input values are allowed; otherwise {@code false}
+     * @return {@code true} if empty input values are allowed; otherwise
+     * {@code false}
      */
     public boolean getAllowEmptyValue()
     {
@@ -113,9 +110,9 @@ public class AbstractFileField extends Field
         return mustExist;
     }
 
-
     /**
-     * Returns the absolute file for the specified path, expanding any unix home reference (~).
+     * Returns the absolute file for the specified path, expanding any unix home
+     * reference (~).
      *
      * @param path the path
      * @return the absolute file for the path

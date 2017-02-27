@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -35,21 +34,24 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- * This condition checks if a certain variable has a value. If it is not
- * in the current list of variables it will evaluate to false.
+ * This condition checks if a certain variable has a value. If it is not in the
+ * current list of variables it will evaluate to false.
  *
  * @author Dennis Reil,<izpack@reil-online.de>
  */
 public class ExistsCondition extends Condition
 {
+
     private static final long serialVersionUID = -1270869273933476894L;
 
-    private static final transient Logger logger = Logger.getLogger(ExistsCondition.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(ExistsCondition.class.getName());
 
     private ContentType contentType;
     private String content;
 
-    public ExistsCondition() {}
+    public ExistsCondition()
+    {
+    }
 
     public ExistsCondition(ContentType contentType, String content)
     {
@@ -87,7 +89,7 @@ public class ExistsCondition extends Condition
                 break;
 
             default:
-                logger.warning("Illegal content type '" + contentType.getAttribute() + "' of ExistsCondition");
+                LOGGER.warning("Illegal content type '" + contentType.getAttribute() + "' of ExistsCondition");
                 break;
         }
         return result;
@@ -128,18 +130,15 @@ public class ExistsCondition extends Condition
         return contentType;
     }
 
-
     public void setContentType(ContentType contentType)
     {
         this.contentType = contentType;
     }
 
-
     public String getContent()
     {
         return content;
     }
-
 
     public void setContent(String content)
     {
@@ -155,7 +154,8 @@ public class ExistsCondition extends Condition
     }
 
     @Override
-    public Set<String> getVarRefs() {
+    public Set<String> getVarRefs()
+    {
         HashSet<String> vars = new HashSet<String>(2);
         switch (contentType)
         {
@@ -173,7 +173,8 @@ public class ExistsCondition extends Condition
                     vars.addAll(ValueUtils.parseUnresolvedVariableNames(this.content));
                 }
                 break;
-            default: throw new CompilerException("Unimplemented contentType");
+            default:
+                throw new CompilerException("Unimplemented contentType");
         }
         return vars;
     }

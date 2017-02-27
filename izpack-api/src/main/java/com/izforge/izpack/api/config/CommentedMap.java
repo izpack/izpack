@@ -26,6 +26,7 @@ import java.util.Map;
 
 public interface CommentedMap<K, V> extends Map<K, V>
 {
+
     List<String> getComment(Object key);
 
     List<String> putComment(K key, List<String> comment);

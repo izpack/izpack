@@ -27,21 +27,23 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 
 /**
- * Dummy panel, used to verify that console installation fails if there is no corresponding console implementation.
+ * Dummy panel, used to verify that console installation fails if there is no
+ * corresponding console implementation.
  *
  * @author Tim Anderson
  */
 public class DummyPanel extends IzPanel
 {
+
     private static final long serialVersionUID = -3873581179467303865L;
 
     /**
      * Constructs a {@code DummyPanel}.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent IzPack installer frame
+     * @param panel the panel meta-data
+     * @param parent the parent IzPack installer frame
      * @param installData the installation data
-     * @param resources   the resources
+     * @param resources the resources
      */
     public DummyPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
     {

@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.mapper;
 
 import java.util.Iterator;
@@ -43,24 +42,27 @@ public class NamespaceFilterMapper implements Mapper
     /**
      * The namespace defining the elements and attributes to be filtered out.
      */
-    Namespace m_namespace;
+    Namespace namespace;
 
     /**
      * Creates a new NamespaceFilterMapper.
      *
-     * @param filteredNamespace String representing the namespace defining the elements and
-     * attributes to be filtered out
+     * @param filteredNamespace String representing the namespace defining the
+     * elements and attributes to be filtered out
      */
     public NamespaceFilterMapper(String filteredNamespace)
     {
-        this.m_namespace = Namespace.getNamespace(filteredNamespace);
+        this.namespace = Namespace.getNamespace(filteredNamespace);
     }
 
     @Override
     public Element map(Element patchElement)
     {
-        if (patchElement == null) { return null; }
-        if (patchElement.getNamespace().equals(m_namespace))
+        if (patchElement == null)
+        {
+            return null;
+        }
+        if (patchElement.getNamespace().equals(namespace))
         {
             return null;
         }
@@ -87,7 +89,7 @@ public class NamespaceFilterMapper implements Mapper
         {
             Attribute attr = it.next();
 
-            if (attr.getNamespace().equals(m_namespace))
+            if (attr.getNamespace().equals(namespace))
             {
                 it.remove();
             }
@@ -97,13 +99,15 @@ public class NamespaceFilterMapper implements Mapper
     }
 
     /**
-     * Sets the namespace defining the elements and attributes to be filtered out.
+     * Sets the namespace defining the elements and attributes to be filtered
+     * out.
      *
-     * @param namespace The namespace defining the elements and attributes to be filtered out.
+     * @param namespace The namespace defining the elements and attributes to be
+     * filtered out.
      */
     public void setFilteredNamespace(Namespace namespace)
     {
-        this.m_namespace = namespace;
+        this.namespace = namespace;
     }
 
 }

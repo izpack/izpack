@@ -23,7 +23,8 @@ import org.hamcrest.core.Is;
  */
 public class ZipMatcher extends TypeSafeMatcher<ZipFile>
 {
-    private static final Logger logger = Logger.getLogger(ZipMatcher.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(ZipMatcher.class.getName());
 
     private Matcher<Iterable<String>> listMatcher;
 
@@ -40,15 +41,16 @@ public class ZipMatcher extends TypeSafeMatcher<ZipFile>
             List<String> fileList = getFileNameListFromZip(file);
             // MatcherAssert.assertThat(fileList, listMatcher); // This prevents the use of IsNot. TODO
             boolean match = listMatcher.matches(fileList);
-            if (logger.isLoggable(Level.FINE) && !match)
+            if (LOGGER.isLoggable(Level.FINE) && !match)
             {
-                logger.fine("++++++++++++++++++++++++++++++++++++++");
-                logger.fine("\nContents of zip file " + file.getName() + ":\n");
-                for (String f : fileList) {
-                  logger.fine("\t" + f);
+                LOGGER.fine("++++++++++++++++++++++++++++++++++++++");
+                LOGGER.fine("\nContents of zip file " + file.getName() + ":\n");
+                for (String f : fileList)
+                {
+                    LOGGER.fine("\t" + f);
                 }
-                logger.fine("\nMATCH: " + match + "\n");
-                logger.fine("++++++++++++++++++++++++++++++++++++++");
+                LOGGER.fine("\nMATCH: " + match + "\n");
+                LOGGER.fine("++++++++++++++++++++++++++++++++++++++");
             }
             return match;
         }
@@ -58,15 +60,15 @@ public class ZipMatcher extends TypeSafeMatcher<ZipFile>
         }
     }
 
-
     public static List<String> getFileNameListFromZip(ZipFile file)
             throws IOException
     {
         List<String> entryList = new ArrayList<String>();
         Enumeration<? extends ZipEntry> zipEntries = file.entries();
-        while (zipEntries.hasMoreElements()) {
-          ZipEntry zipEntry = zipEntries.nextElement();
-          entryList.add(zipEntry.getName());
+        while (zipEntries.hasMoreElements())
+        {
+            ZipEntry zipEntry = zipEntries.nextElement();
+            entryList.add(zipEntry.getName());
         }
         return entryList;
     }

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.test.junit;
 
 import org.junit.runner.notification.RunNotifier;
@@ -30,9 +29,9 @@ import com.izforge.izpack.test.RunOn;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 
-
 /**
- * A JUnit test class runner that supports running tests on specific platforms via the {@link RunOn} annotation.
+ * A JUnit test class runner that supports running tests on specific platforms
+ * via the {@link RunOn} annotation.
  *
  * @author Tim Anderson
  */
@@ -51,10 +50,10 @@ public class PlatformRunner extends BlockJUnit4ClassRunner
     }
 
     /**
-     * Runs the test corresponding to {@code method}, unless it is ignored, or is not intended to be run on
-     * the current platform.
+     * Runs the test corresponding to {@code method}, unless it is ignored, or
+     * is not intended to be run on the current platform.
      *
-     * @param method   the test method
+     * @param method the test method
      * @param notifier the run notifier
      */
     @Override

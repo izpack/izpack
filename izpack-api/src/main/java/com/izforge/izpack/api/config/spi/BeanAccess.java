@@ -19,11 +19,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 public interface BeanAccess
 {
+
     void propAdd(String propertyName, String value);
 
     String propDel(String propertyName);

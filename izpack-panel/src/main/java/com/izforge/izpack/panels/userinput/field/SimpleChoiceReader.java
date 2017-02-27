@@ -28,11 +28,10 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
      */
     private String defaultValue;
 
-
     /**
      * Constructs a {@code SimpleChoiceReader}.
      *
-     * @param field  the field element to read
+     * @param field the field element to read
      * @param config the configuration
      */
     public SimpleChoiceReader(IXMLElement field, Config config, InstallData installData)
@@ -99,12 +98,13 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
      * <p/>
      * A choice is selected if:
      * <ul>
-     * <li>the variable value is the same as the choice "value" attribute; or</li>
+     * <li>the variable value is the same as the choice "value" attribute;
+     * or</li>
      * <li>the "set" attribute is 'true'</li>
      * </ul>
      *
-     * @param value         the choice value
-     * @param choice        the choice element
+     * @param value the choice value
+     * @param choice the choice element
      * @param variableValue the variable value. May be {@code null}
      * @return {@code true} if the choice is selected
      */
@@ -136,7 +136,8 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
      * <p/>
      * A choice is selected if:
      * <ul>
-     * <li>the variable value is the same as the choice "value" attribute; or</li>
+     * <li>the variable value is the same as the choice "value" attribute;
+     * or</li>
      * <li>the "set" attribute is 'true'</li>
      * </ul>
      * <p/>
@@ -156,7 +157,7 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
             String value = config.getAttribute(choice, "value");
             String conditionId = config.getString(choice, "conditionid", null);
             boolean isSet = config.getBoolean(choice, "set", false);
-            if(variableValue == null)
+            if (variableValue == null)
             {
                 if (isSet)
                 {
@@ -168,10 +169,10 @@ public class SimpleChoiceReader extends FieldReader implements ChoiceFieldConfig
             {
                 if (isDisplayed(rules, conditionId) && isSelected(value, choice, variableValue))
                 {
-                    return  selected;
+                    return selected;
                 }
             }
-            selected ++;
+            selected++;
         }
         return result;
     }

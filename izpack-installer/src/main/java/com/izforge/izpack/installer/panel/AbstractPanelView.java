@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.panel;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -33,7 +32,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  * Encapsulates a {@link Panel} and its user-interface representation.
@@ -101,15 +99,14 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractPanelView.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(AbstractPanelView.class.getName());
 
     /**
      * Constructs a {@code PanelView}.
      *
-     * @param panel       the panel
-     * @param viewClass   the panel user interface class
-     * @param factory     the factory for creating the view
+     * @param panel the panel
+     * @param viewClass the panel user interface class
+     * @param factory the factory for creating the view
      * @param installData the installation data
      */
     public AbstractPanelView(Panel panel, Class<T> viewClass, ObjectFactory factory, InstallData installData)
@@ -145,7 +142,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Returns the panel index.
      * <br/>
-     * This is the offset of the panel relative to the other panels, visible or not.
+     * This is the offset of the panel relative to the other panels, visible or
+     * not.
      *
      * @return the panel index
      */
@@ -171,8 +169,9 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
      * <br/>
      * The view will be created if it doesn't exist.
      * <br/>
-     * If the panel has a {@link DataValidator} specified, this will be constructed, with both the panel and view
-     * supplied for injection into it's constructor.
+     * If the panel has a {@link DataValidator} specified, this will be
+     * constructed, with both the panel and view supplied for injection into
+     * it's constructor.
      *
      * @return the panel user interface
      */
@@ -204,7 +203,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Sets the visibility of the panel.
      *
-     * @param visible if {@code true} the panel is visible, otherwise it is hidden
+     * @param visible if {@code true} the panel is visible, otherwise it is
+     * hidden
      */
     @Override
     public void setVisible(boolean visible)
@@ -215,7 +215,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Determines the visibility of the panel.
      *
-     * @return {@code true} if the panel is visible, {@code false} if it is hidden
+     * @return {@code true} if the panel is visible, {@code false} if it is
+     * hidden
      */
     @Override
     public boolean isVisible()
@@ -224,7 +225,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     }
 
     /**
-     * Determines if the panel is valid. Dynamic variables are automatically refreshed.
+     * Determines if the panel is valid. Dynamic variables are automatically
+     * refreshed.
      *
      * @return {@code true} if the panel is valid
      */
@@ -237,7 +239,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Determines if the panel is valid.
      *
-     * @param refreshVariables whether to refresh dynamic variables before validating
+     * @param refreshVariables whether to refresh dynamic variables before
+     * validating
      * @return {@code true} if the panel is valid
      */
     @Override
@@ -277,6 +280,7 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     {
         //Panel specific should be overwritten my the panel
     }
+
     /**
      * Determines if the panel can be shown.
      *
@@ -293,23 +297,23 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
             if (panel.hasCondition())
             {
                 visible = installData.getRules().isConditionTrue(panel.getCondition());
-                logger.fine("Panel '" + getPanelId() + "' depending on condition '" + panel.getCondition() + "' " + (visible?"can be shown":"will be skipped"));
+                LOGGER.fine("Panel '" + getPanelId() + "' depending on condition '" + panel.getCondition() + "' " + (visible ? "can be shown" : "will be skipped"));
             }
             else
             {
                 visible = installData.getRules().canShowPanel(panelId, installData.getVariables());
-                logger.fine("Panel '" + getPanelId() + "' " + (visible?"can be shown":"will be skipped"));
+                LOGGER.fine("Panel '" + getPanelId() + "' " + (visible ? "can be shown" : "will be skipped"));
             }
             if (!visible && panel.isDisplayHidden())
             {
                 visible = true;
-                logger.fine("Panel '" + getPanelId() + "' depending on displayHidden can be shown read-only");
+                LOGGER.fine("Panel '" + getPanelId() + "' depending on displayHidden can be shown read-only");
             }
             if (!visible && panel.hasDisplayHiddenCondition())
             {
                 visible = installData.getRules().isConditionTrue(panel.getDisplayHiddenCondition());
                 panel.setDisplayHidden(visible);
-                logger.fine("Panel '" + getPanelId() + "' depending on displayHiddenCondition '" + panel.getDisplayHiddenCondition() + "' " + (visible?"can be shown read-only":"will be skipped"));
+                LOGGER.fine("Panel '" + getPanelId() + "' depending on displayHiddenCondition '" + panel.getDisplayHiddenCondition() + "' " + (visible ? "can be shown read-only" : "will be skipped"));
             }
             if (visible)
             {
@@ -317,7 +321,7 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
                 {
                     boolean readonly = installData.getRules().isConditionTrue(panel.getReadonlyCondition());
                     panel.setReadonly(readonly);
-                    logger.fine("Panel '" + getPanelId() + "' depending on readonlyCondition '" + panel.getReadonlyCondition() + "' " + (readonly?"is forcibly read-only":"is editable"));
+                    LOGGER.fine("Panel '" + getPanelId() + "' depending on readonlyCondition '" + panel.getReadonlyCondition() + "' " + (readonly ? "is forcibly read-only" : "is editable"));
                 }
             }
         }
@@ -363,7 +367,7 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Creates a new view.
      *
-     * @param panel     the panel to create the view for
+     * @param panel the panel to create the view for
      * @param viewClass the view base class
      * @return the new view
      */
@@ -377,8 +381,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
      * <br/>
      * This implementation is a no-op.
      *
-     * @param view        the view to initialise
-     * @param panel       the panel the view represents
+     * @param view the view to initialise
+     * @param panel the panel the view represents
      * @param installData the installation data
      */
     protected void initialise(T view, Panel panel, InstallData installData)
@@ -389,7 +393,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Validates dynamic conditions.
      *
-     * @return {@code true} if there are no conditions, or conditions validate successfully
+     * @return {@code true} if there are no conditions, or conditions validate
+     * successfully
      */
     protected boolean validateDynamicConditions()
     {
@@ -407,7 +412,7 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
         }
         catch (Throwable exception)
         {
-            logger.log(Level.WARNING, "Panel " + getPanelId() + ": Could not validate dynamic conditions", exception);
+            LOGGER.log(Level.WARNING, "Panel " + getPanelId() + ": Could not validate dynamic conditions", exception);
             result = false;
         }
         return result;
@@ -416,13 +421,15 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Evaluates the panel data validator.
      *
-     * @return {@code true} if the validator evaluated successfully, or with a warning that the user chose to skip;
-     *         otherwise {@code false}
+     * @return {@code true} if the validator evaluated successfully, or with a
+     * warning that the user chose to skip; otherwise {@code false}
      */
     protected boolean validateData()
     {
         boolean result = true;
-        DataValidator[] validatorArray = validators.toArray(new DataValidator[] {});
+        DataValidator[] validatorArray = validators.toArray(new DataValidator[]
+        {
+        });
         for (int i = 0; i < validatorArray.length; i++)
         {
             DataValidator validator = validatorArray[i];
@@ -438,14 +445,15 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Evaluates a validator.
      * <p/>
-     * If the validator returns a warning status, then a prompt will be displayed asking the user to skip the
-     * validation or not.
+     * If the validator returns a warning status, then a prompt will be
+     * displayed asking the user to skip the validation or not.
      *
-     * @param validator   the validator to evaluate
-     * @param index   the index in the list of validators for finding its appropriate validator condition
+     * @param validator the validator to evaluate
+     * @param index the index in the list of validators for finding its
+     * appropriate validator condition
      * @param installData the installation data
-     * @return {@code true} if the validator evaluated successfully, or with a warning that the user chose to skip;
-     *         otherwise {@code false}
+     * @return {@code true} if the validator evaluated successfully, or with a
+     * warning that the user chose to skip; otherwise {@code false}
      */
     private boolean isValid(DataValidator validator, Integer index, InstallData installData)
     {
@@ -456,13 +464,13 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
             if (!dataValidatorCondition.isTrue())
             {
                 // Skip panel validation
-                logger.fine("Panel " + getPanelId() + ": Skip validation (" + validator.getClass().getName() +")");
+                LOGGER.fine("Panel " + getPanelId() + ": Skip validation (" + validator.getClass().getName() + ")");
                 return true;
             }
         }
         if (validator instanceof PanelValidator)
         {
-            logger.finer(validator.getClass().getName() + " is a " + PanelValidator.class.getSimpleName() + " instance");
+            LOGGER.finer(validator.getClass().getName() + " is a " + PanelValidator.class.getSimpleName() + " instance");
             PanelValidator panelValidator = (PanelValidator) validator;
             Configurable configurable = getPanel().getValidatorConfiguration(index);
             if (configurable != null)
@@ -479,8 +487,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
         }
         else
         {
-            logger.finer(validator.getClass().getName() + " implements a legacy "
-                            + DataValidator.class.getSimpleName() + " interface");
+            LOGGER.finer(validator.getClass().getName() + " implements a legacy "
+                    + DataValidator.class.getSimpleName() + " interface");
         }
 
         return isValid(validator, installData);
@@ -489,20 +497,20 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Evaluates a validator.
      * <p/>
-     * If the validator returns a warning status, then a prompt will be displayed asking the user to skip the
-     * validation or not.
+     * If the validator returns a warning status, then a prompt will be
+     * displayed asking the user to skip the validation or not.
      *
-     * @param validator   the validator to evaluate
+     * @param validator the validator to evaluate
      * @param installData the installation data
-     * @return {@code true} if the validator evaluated successfully, or with a warning that the user chose to skip;
-     *         otherwise {@code false}
+     * @return {@code true} if the validator evaluated successfully, or with a
+     * warning that the user chose to skip; otherwise {@code false}
      */
     private boolean isValid(DataValidator validator, InstallData installData)
     {
         boolean result = false;
 
         DataValidator.Status status = validator.validateData(installData);
-        logger.fine("Panel " + getPanelId() + ": Data validation status=" + status + " (" + validator.getClass().getName() + ")");
+        LOGGER.fine("Panel " + getPanelId() + ": Data validation status=" + status + " (" + validator.getClass().getName() + ")");
 
         if (status == DataValidator.Status.OK)
         {
@@ -515,7 +523,7 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
                 String message = getMessage(validator.getWarningMessageId(), true);
                 if (message == null)
                 {
-                    logger.warning("Panel " + getPanelId() + ": No warning message for validator " + validator.getClass().getName());
+                    LOGGER.warning("Panel " + getPanelId() + ": No warning message for validator " + validator.getClass().getName());
                 }
                 result = isWarningValid(message, validator.getDefaultAnswer());
             }
@@ -524,7 +532,7 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
                 String message = getMessage(validator.getErrorMessageId(), true);
                 if (message == null)
                 {
-                    logger.warning("Panel " + getPanelId() + ": No error message for validator " + validator.getClass().getName());
+                    LOGGER.warning("Panel " + getPanelId() + ": No error message for validator " + validator.getClass().getName());
                     message = "Validation error";
                 }
                 getHandler().emitError(getMessage("data.validation.error.title"), message);
@@ -536,9 +544,10 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Determines the behaviour when a warning is encountered during validation.
      *
-     * @param message       the validation message. May be {@code null}
+     * @param message the validation message. May be {@code null}
      * @param defaultAnswer the default response for warnings
-     * @return {@code true} if the warning doesn't invalidate the panel; {@code false} if it does
+     * @return {@code true} if the warning doesn't invalidate the panel;
+     * {@code false} if it does
      */
     protected boolean isWarningValid(String message, boolean defaultAnswer)
     {
@@ -548,12 +557,12 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
             if (getHandler().emitWarning(getMessage("data.validation.warning.title"), message))
             {
                 result = true;
-                logger.fine("Panel " + getPanelId() + ": User decided to skip validation warning");
+                LOGGER.fine("Panel " + getPanelId() + ": User decided to skip validation warning");
             }
         }
         else
         {
-            logger.fine("Panel " + getPanelId() + ": No warning message available, using default answer=" + defaultAnswer);
+            LOGGER.fine("Panel " + getPanelId() + ": No warning message available, using default answer=" + defaultAnswer);
             result = defaultAnswer;
         }
         return result;
@@ -597,7 +606,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Executes actions prior to creating the panel.
      * <br/>
-     * Both the panel and view are supplied for injection into the action's constructor.
+     * Both the panel and view are supplied for injection into the action's
+     * constructor.
      */
     private void executePreConstructionActions()
     {
@@ -607,7 +617,7 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
             for (PanelActionConfiguration config : configurations)
             {
                 PanelAction action = factory.create(config.getActionClassName(), PanelAction.class, panel,
-                                                    ActionStage.preconstruct);
+                        ActionStage.preconstruct);
                 action.initialize(config);
                 action.executeAction(installData, null);
             }
@@ -617,21 +627,22 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Creates {@link PanelAction}s, adding them to the supplied list.
      * <br/>
-     * Both the panel and view are supplied for injection into the action's constructor.
+     * Both the panel and view are supplied for injection into the action's
+     * constructor.
      *
      * @param configurations the action class names. May be {@code null}
-     * @param actions        the actions to add to
-     * @param stage          the action stage
+     * @param actions the actions to add to
+     * @param stage the action stage
      */
     private void addActions(List<PanelActionConfiguration> configurations, List<PanelAction> actions,
-                            ActionStage stage)
+            ActionStage stage)
     {
         if (configurations != null)
         {
             for (PanelActionConfiguration config : configurations)
             {
                 PanelAction action = factory.create(config.getActionClassName(), PanelAction.class, panel, view,
-                                                    stage);
+                        stage);
                 action.initialize(config);
                 actions.add(action);
             }
@@ -641,8 +652,9 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     /**
      * Helper to return a localised message, given its id.
      *
-     * @param id      the message identifier
-     * @param replace if {@code true}, replace any variables in the message with their corresponding values
+     * @param id the message identifier
+     * @param replace if {@code true}, replace any variables in the message with
+     * their corresponding values
      * @return the corresponding message or {@code null} if none is found
      */
     private String getMessage(String id, boolean replace)
@@ -661,7 +673,8 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     }
 
     /**
-     * Creates an empty root element prepared for adding auto-installation records for this panel.
+     * Creates an empty root element prepared for adding auto-installation
+     * records for this panel.
      *
      * @return IXMLElement The prepared panel record XML
      */

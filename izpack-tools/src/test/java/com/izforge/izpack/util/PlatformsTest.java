@@ -75,7 +75,7 @@ public class PlatformsTest extends AbstractPlatformTest
     }
 
     /**
-     * Tests the {@link Platforms#getCurrentPlatform(String, String)} method for Linux platforms, by simulating the 
+     * Tests the {@link Platforms#getCurrentPlatform(String, String)} method for Linux platforms, by simulating the
      * responses of the getText() and exists() methods.
      */
     @Test
@@ -111,7 +111,7 @@ public class PlatformsTest extends AbstractPlatformTest
         assertEquals("6.1", windows7x64.getVersion());
     }
 
-	/**
+    /**
      * Tests the {@link Platforms#getCurrentPlatform(String, String, String)} method with windows 8.
      */
     @Test
@@ -129,7 +129,8 @@ public class PlatformsTest extends AbstractPlatformTest
      * Tests the {@link Platforms#getPlatform(String, String)} method.
      */
     @Test
-    public void testGetPlatformByNameArch() {
+    public void testGetPlatformByNameArch()
+    {
         Platforms platforms = new Platforms();
 
         checkPlatform(Platforms.WINDOWS, platforms.getPlatform("windows", null));
@@ -146,7 +147,8 @@ public class PlatformsTest extends AbstractPlatformTest
      * Tests the {@link Platforms#getPlatform(String, String, String)} method.
      */
     @Test
-    public void testGetPlatformByNameArchVersion() {
+    public void testGetPlatformByNameArchVersion()
+    {
         Platforms platforms = new Platforms();
 
         checkPlatform(Platforms.WINDOWS, platforms.getPlatform("windows", null, null));
@@ -155,7 +157,7 @@ public class PlatformsTest extends AbstractPlatformTest
         checkPlatform(new Platform(Platforms.WINDOWS_8, Arch.X86), platforms.getPlatform("windows", "i386",
                 OsVersionConstants.WINDOWS_8_VERSION));
 
-		checkPlatform(new Platform(Platforms.DEBIAN_LINUX, Arch.X64), platforms.getPlatform("debian_linux", "x64",
+        checkPlatform(new Platform(Platforms.DEBIAN_LINUX, Arch.X64), platforms.getPlatform("debian_linux", "x64",
                 null));
     }
 

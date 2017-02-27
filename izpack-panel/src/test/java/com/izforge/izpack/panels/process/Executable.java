@@ -23,14 +23,15 @@ package com.izforge.izpack.panels.process;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
- * Helper for testing {@link ProcessPanel}, {@link ProcessConsolePanel} and {@link ProcessPanelAutomation}.
+ * Helper for testing {@link ProcessPanel}, {@link ProcessConsolePanel} and
+ * {@link ProcessPanelAutomation}.
  *
  * @author Tim Anderson
  */
 public class Executable
 {
+
     /**
      * The result to return from execution.
      */
@@ -96,7 +97,8 @@ public class Executable
      * Returns the arguments for the specified invocation.
      *
      * @param invocation the invocation (starts at 0)
-     * @return the arguments for the invocation, or {@code null} if there was no invocation
+     * @return the arguments for the invocation, or {@code null} if there was no
+     * invocation
      */
     public static String[] getArgs(int invocation)
     {
@@ -107,14 +109,15 @@ public class Executable
      * Runs the executable.
      *
      * @param handler the handler
-     * @param args    the arguments
+     * @param args the arguments
      * @return the value of {@link #setReturn(boolean)}.
      */
     public boolean run(AbstractUIProcessHandler handler, String... args)
     {
         Executable.args.put(invocations, args);
         ++invocations;
-        if (exception) {
+        if (exception)
+        {
             throw new RuntimeException("Executable exception");
         }
         return result;

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput;
 
 import static org.junit.Assert.assertEquals;
@@ -64,7 +63,6 @@ import com.izforge.izpack.panels.test.TestGUIPanelContainer;
 import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.test.Container;
 
-
 /**
  * Tests the {@link UserInputPanel}.
  *
@@ -83,18 +81,18 @@ public class UserInputPanelTest extends AbstractPanelTest
     /**
      * Constructs an {@code UserInputPanelTest}.
      *
-     * @param container           the test container
-     * @param installData         the installation data
-     * @param resourceManager     the resource manager
-     * @param factory             the panel factory
-     * @param rules               the rules
-     * @param icons               the icons
+     * @param container the test container
+     * @param installData the installation data
+     * @param resourceManager the resource manager
+     * @param factory the panel factory
+     * @param rules the rules
+     * @param icons the icons
      * @param uninstallDataWriter the uninstallation data writer
-     * @param locales             the locales
+     * @param locales the locales
      */
     public UserInputPanelTest(TestGUIPanelContainer container, GUIInstallData installData,
-                              ResourceManager resourceManager, ObjectFactory factory, RulesEngine rules,
-                              IconsDatabase icons, UninstallDataWriter uninstallDataWriter, Locales locales)
+            ResourceManager resourceManager, ObjectFactory factory, RulesEngine rules,
+            IconsDatabase icons, UninstallDataWriter uninstallDataWriter, Locales locales)
     {
         super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
     }
@@ -526,7 +524,8 @@ public class UserInputPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verifies that dynamic variables are refreshed when the panel is validated.
+     * Verifies that dynamic variables are refreshed when the panel is
+     * validated.
      *
      * @throws Exception for any error
      */
@@ -563,7 +562,6 @@ public class UserInputPanelTest extends AbstractPanelTest
         assertEquals("${address}", installData.getVariable("dynamicMasterAddress"));
         checkNavigateNext(fixture);
 
-
         // navigation triggers a variable refresh. Make sure dynamicMasterAddress has updated
         assertEquals("myhost", installData.getVariable("dynamicMasterAddress"));
     }
@@ -571,9 +569,9 @@ public class UserInputPanelTest extends AbstractPanelTest
     /**
      * Verifies that the named combo has the expected value.
      *
-     * @param name     the combo name
+     * @param name the combo name
      * @param expected the expected value
-     * @param frame    the frame
+     * @param frame the frame
      * @return the combo
      */
     private JComboBoxFixture checkCombo(String name, String expected, FrameFixture frame)
@@ -594,9 +592,9 @@ public class UserInputPanelTest extends AbstractPanelTest
     /**
      * Verifies that the named check box has the expected value.
      *
-     * @param name     the check box name
+     * @param name the check box name
      * @param expected the expected value
-     * @param frame    the frame
+     * @param frame the frame
      * @return the check box
      */
     private JCheckBox checkCheckBox(String name, boolean expected, FrameFixture frame)
@@ -609,9 +607,9 @@ public class UserInputPanelTest extends AbstractPanelTest
     /**
      * Verifies a radio button selection matches that expected.
      *
-     * @param name     the radio button name
+     * @param name the radio button name
      * @param expected the expected value
-     * @param frame    the frame
+     * @param frame the frame
      * @return the radio button
      */
     private JRadioButton checkRadioButton(String name, boolean expected, FrameFixture frame)
@@ -626,7 +624,8 @@ public class UserInputPanelTest extends AbstractPanelTest
      * Verifies that the next panel can be navigated to.
      *
      * @param frame the frame
-     * @throws InterruptedException if interrupted waiting for the panel to change
+     * @throws InterruptedException if interrupted waiting for the panel to
+     * change
      */
     private void checkNavigateNext(FrameFixture frame) throws InterruptedException
     {
@@ -640,7 +639,8 @@ public class UserInputPanelTest extends AbstractPanelTest
      * Shows the user input panel.
      *
      * @return the frame fixture
-     * @throws InterruptedException if interrupted waiting for the frame to display
+     * @throws InterruptedException if interrupted waiting for the frame to
+     * display
      */
     private FrameFixture showUserInputPanel(String id) throws InterruptedException
     {

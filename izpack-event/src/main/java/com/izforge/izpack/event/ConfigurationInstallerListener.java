@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import java.io.File;
@@ -82,10 +81,10 @@ import com.izforge.izpack.util.file.types.FileSet;
 import com.izforge.izpack.util.file.types.Mapper;
 import com.izforge.izpack.util.helper.SpecHelper;
 
-
 public class ConfigurationInstallerListener extends AbstractProgressInstallerListener
 {
-    private static final Logger logger = Logger.getLogger(ConfigurationInstallerListener.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(ConfigurationInstallerListener.class.getName());
 
     /**
      * Name of the specification file
@@ -117,17 +116,16 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
 
     private VariableSubstitutor substlocal;
 
-
     /**
      * Constructs a <tt>ConfigurationInstallerListener</tt>.
      *
      * @param installData the installation data
-     * @param resources   the resources
-     * @param replacer    the variable replacer
-     * @param notifiers   the progress notifiers
+     * @param resources the resources
+     * @param replacer the variable replacer
+     * @param notifiers the progress notifiers
      */
     public ConfigurationInstallerListener(InstallData installData, Resources resources,
-                                          VariableSubstitutor replacer, ProgressNotifiers notifiers)
+            VariableSubstitutor replacer, ProgressNotifiers notifiers)
     {
         super(installData, notifiers);
         this.resources = resources;
@@ -179,7 +177,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
 
         for (Pack p : packs)
         {
-            logger.fine("Entering beforepacks configuration action for pack " + p.getName());
+            LOGGER.fine("Entering beforepacks configuration action for pack " + p.getName());
 
             // Resolve data for current pack.
             IXMLElement pack = spec.getPackForName(p.getName());
@@ -188,7 +186,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 continue;
             }
 
-            logger.fine("Found configuration action descriptor for pack " + p.getName());
+            LOGGER.fine("Found configuration action descriptor for pack " + p.getName());
             // Prepare the action cache
             Map<Object, List<ConfigurationAction>> packActions = new HashMap<Object, List<ConfigurationAction>>();
             packActions.put(ActionBase.BEFOREPACK, new ArrayList<ConfigurationAction>());
@@ -200,7 +198,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             List<IXMLElement> configActionEntries = pack.getChildrenNamed("configurationaction");
             if (configActionEntries != null)
             {
-                logger.fine("Found " + configActionEntries.size() + " configuration actions");
+                LOGGER.fine("Found " + configActionEntries.size() + " configuration actions");
                 if (configActionEntries.size() >= 1)
                 {
                     for (IXMLElement configActionEntry : configActionEntries)
@@ -208,7 +206,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                         ConfigurationAction act = readConfigAction(configActionEntry);
                         if (act != null)
                         {
-                            logger.fine("Adding " + act.getOrder() + "configuration action with "
+                            LOGGER.fine("Adding " + act.getOrder() + "configuration action with "
                                     + act.getActionTasks().size() + " tasks");
                             (packActions.get(act.getOrder())).add(act);
                         }
@@ -239,7 +237,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
      * Invoked before a pack is installed.
      *
      * @param pack the pack
-     * @param i    the pack number
+     * @param i the pack number
      * @throws IzPackException for any error
      */
     @Override
@@ -248,12 +246,11 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
         performAllActions(pack.getName(), ActionBase.BEFOREPACK, null);
     }
 
-
     /**
      * Invoked after a pack is installed.
      *
      * @param pack the pack
-     * @param i    the pack number
+     * @param i the pack number
      * @throws IzPackException for any error
      */
     @Override
@@ -265,7 +262,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
     /**
      * Invoked after packs are installed.
      *
-     * @param packs    the installed packs
+     * @param packs the installed packs
      * @param listener the progress listener
      * @throws IzPackException for any error
      */
@@ -275,7 +272,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
         if (notifyProgress())
         {
             listener.nextStep(getMessage("ConfigurationAction.pack"), getProgressNotifierId(),
-                              getActionCount(packs, ActionBase.AFTERPACKS));
+                    getActionCount(packs, ActionBase.AFTERPACKS));
         }
         for (Pack pack : packs)
         {
@@ -303,8 +300,10 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
      * Returns the defined actions for the given pack in the requested order.
      *
      * @param packName name of the pack for which the actions should be returned
-     * @param order    order to be used; valid are <i>beforepack</i> and <i>afterpack</i>
-     * @return a list which contains all defined actions for the given pack and order
+     * @param order order to be used; valid are <i>beforepack</i> and
+     * <i>afterpack</i>
+     * @return a list which contains all defined actions for the given pack and
+     * order
      */
     // -------------------------------------------------------
     protected List<ConfigurationAction> getActions(String packName, String order)
@@ -321,8 +320,10 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
     /**
      * Performs all actions which are defined for the given pack and order.
      *
-     * @param packName name of the pack for which the actions should be performed
-     * @param order    order to be used; valid are <i>beforepack</i> and <i>afterpack</i>
+     * @param packName name of the pack for which the actions should be
+     * performed
+     * @param order order to be used; valid are <i>beforepack</i> and
+     * <i>afterpack</i>
      * @throws InstallerException
      */
     private void performAllActions(String packName, String order, ProgressListener listener)
@@ -334,7 +335,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             return;
         }
 
-        logger.fine("Executing all " + order + " configuration actions for " + packName + " ...");
+        LOGGER.fine("Executing all " + order + " configuration actions for " + packName + " ...");
         for (ConfigurationAction act : actList)
         {
             // Inform progress bar if needed. Works only on AFTER_PACKS
@@ -395,7 +396,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
         }
         catch (Exception exception)
         {
-            logger.log(Level.WARNING, "Failed to substitute: " + name, exception);
+            LOGGER.log(Level.WARNING, "Failed to substitute: " + name, exception);
         }
         if (substlocal != null)
         {
@@ -405,7 +406,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             }
             catch (Exception exception)
             {
-                logger.log(Level.WARNING, "Failed to substitute: " + name, exception);
+                LOGGER.log(Level.WARNING, "Failed to substitute: " + name, exception);
             }
         }
         return name;
@@ -449,7 +450,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             }
 
             configtasks.add(new ConfigurationActionTask(task, getAttribute(el, "condition"),
-                                                        getInstallData().getRules()));
+                    getInstallData().getRules()));
         }
         return configtasks;
     }
@@ -574,7 +575,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
     }
 
     private void readConfigFileTaskCommonAttributes(InstallData idata,
-                                                    IXMLElement el, ConfigFileTask task)
+            IXMLElement el, ConfigFileTask task)
             throws InstallerException
     {
         File tofile = FileUtil.getAbsoluteFile(replacer.substitute(requireAttribute(el, "tofile")), idata.getInstallPath());
@@ -634,7 +635,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                     ((SingleXmlFileMergeTask) task).setPatchFile(
                             FileUtil.getAbsoluteFile(getAttribute(el, "patchfile"), idata.getInstallPath()));
                     File originalfile = FileUtil.getAbsoluteFile(getAttribute(el, "originalfile"),
-                                                                 idata.getInstallPath());
+                            idata.getInstallPath());
                     if (originalfile == null)
                     {
                         originalfile = tofile;
@@ -669,11 +670,10 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             }
 
             configtasks.add(new ConfigurationActionTask(task, getAttribute(el, "condition"),
-                                                        getInstallData().getRules()));
+                    getInstallData().getRules()));
         }
         return configtasks;
     }
-
 
     public void readAndAddEntries(IXMLElement parent, SingleConfigurableTask task) throws InstallerException
     {
@@ -735,12 +735,12 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             Operation operation = Operation.getFromAttribute(attrib);
             if (operation == null)
             {
-              // TODO Inform about misconfigured configuration actions during compilation
-              throw new InstallerException(
-                  MessageFormat.format(
-                      ERRMSG_CONFIGACTION_BADATTR,
-                      "operation", attrib)
-                  );
+                // TODO Inform about misconfigured configuration actions during compilation
+                throw new InstallerException(
+                        MessageFormat.format(
+                                ERRMSG_CONFIGACTION_BADATTR,
+                                "operation", attrib)
+                );
             }
             e.setOperation(operation);
         }
@@ -763,7 +763,6 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
         return e;
     }
 
-
     private void readAndAddXPathProperties(IXMLElement parent, SingleXmlFileMergeTask task)
             throws InstallerException
     {
@@ -784,7 +783,6 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
             while (iter.hasNext())
             {
                 IXMLElement f = iter.next();
-
 
                 FileSet fs = new FileSet();
 
@@ -953,13 +951,13 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
         IXMLElement vars = parent.getFirstChildNamed("variables");
         if (vars != null)
         {
-            logger.fine("Reading variables for configuration action");
+            LOGGER.fine("Reading variables for configuration action");
             dynamicVariables = new LinkedList<DynamicVariable>();
 
             for (IXMLElement var : vars.getChildrenNamed("variable"))
             {
                 String name = requireAttribute(var, "name");
-                logger.fine("Reading variable '" + name +"'");
+                LOGGER.fine("Reading variable '" + name + "'");
 
                 DynamicVariable dynamicVariable = new DynamicVariableImpl();
                 dynamicVariable.setName(name);
@@ -1053,8 +1051,8 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                     if (dynamicVariable.getValue() == null)
                     {
                         dynamicVariable.setValue(new ZipEntryConfigFileValue(value, entryname,
-                                                                             getConfigFileType(name, stype), filesection,
-                                                                             filekey, escape));
+                                getConfigFileType(name, stype), filesection,
+                                filekey, escape));
                     }
                     else
                     {
@@ -1079,8 +1077,8 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                     if (dynamicVariable.getValue() == null)
                     {
                         dynamicVariable.setValue(new JarEntryConfigValue(value, entryname,
-                                                                         getConfigFileType(name, stype), filesection,
-                                                                         filekey, escape));
+                                getConfigFileType(name, stype), filesection,
+                                filekey, escape));
                     }
                     else
                     {
@@ -1205,7 +1203,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                 catch (Exception e)
                 {
                     parseError("Error in definition of dynamic variable " + name + ": "
-                                       + e.getMessage());
+                            + e.getMessage());
                 }
 
                 String conditionid = getAttribute(var, "condition");
@@ -1227,29 +1225,29 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
 
         if (dynamicvariables != null)
         {
-            logger.fine("Evaluating configuration variables");
+            LOGGER.fine("Evaluating configuration variables");
             RulesEngine rules = getInstallData().getRules();
             for (DynamicVariable dynvar : dynamicvariables)
             {
                 String name = dynvar.getName();
-                logger.fine("Evaluating configuration variable: " + name);
+                LOGGER.fine("Evaluating configuration variable: " + name);
                 boolean refresh = false;
                 String conditionid = dynvar.getConditionid();
-                logger.fine("Configuration variable condition: " + conditionid);
+                LOGGER.fine("Configuration variable condition: " + conditionid);
                 if ((conditionid != null) && (conditionid.length() > 0))
                 {
                     if ((rules != null) && rules.isConditionTrue(conditionid))
                     {
-                        logger.fine("Refresh configuration variable \"" + name
-                                            + "\" based on global condition \" " + conditionid + "\"");
+                        LOGGER.fine("Refresh configuration variable \"" + name
+                                + "\" based on global condition \" " + conditionid + "\"");
                         // condition for this rule is true
                         refresh = true;
                     }
                 }
                 else
                 {
-                    logger.fine("Refresh configuration variable \"" + name
-                                        + "\" based on local condition \" " + conditionid + "\"");
+                    LOGGER.fine("Refresh configuration variable \"" + name
+                            + "\" based on local condition \" " + conditionid + "\"");
                     // empty condition
                     refresh = true;
                 }
@@ -1262,12 +1260,12 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
                             String newValue = dynvar.evaluate(replacer);
                             if (newValue != null)
                             {
-                                logger.fine("Configuration variable " + name + ": " + newValue);
+                                LOGGER.fine("Configuration variable " + name + ": " + newValue);
                                 props.setProperty(name, newValue);
                             }
                             else
                             {
-                                logger.fine("Configuration variable " + name + " unchanged: " + dynvar.getValue());
+                                LOGGER.fine("Configuration variable " + name + " unchanged: " + dynvar.getValue());
                             }
                         }
                         dynvar.setChecked();
@@ -1284,10 +1282,11 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
     }
 
     /**
-     * Call getAttribute on an element, producing a meaningful error message if not present, or
-     * empty. It is an error for 'element' or 'attribute' to be null.
+     * Call getAttribute on an element, producing a meaningful error message if
+     * not present, or empty. It is an error for 'element' or 'attribute' to be
+     * null.
      *
-     * @param element   The element to get the attribute value of
+     * @param element The element to get the attribute value of
      * @param attribute The name of the attribute to get
      */
     protected String requireAttribute(IXMLElement element, String attribute)
@@ -1323,10 +1322,10 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
     }
 
     /**
-     * Create parse error with consistent messages. Includes file name and line # of parent. It is
-     * an error for 'parent' to be null.     *
+     * Create parse error with consistent messages. Includes file name and line
+     * # of parent. It is an error for 'parent' to be null. *
      *
-     * @param parent  The element in which the error occured
+     * @param parent The element in which the error occured
      * @param message Brief message explaining error
      */
     protected void parseError(IXMLElement parent, String message) throws InstallerException
@@ -1338,7 +1337,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
     {
         OPTIONS("options"), INI("ini"), XML("xml"), REGISTRY("registry");
 
-        private static final Map<String, ConfigType> lookup;
+        private static final Map<String, ConfigType> LOOKUP;
 
         private String attribute;
 
@@ -1349,10 +1348,10 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
 
         static
         {
-            lookup = new HashMap<String, ConfigType>();
+            LOOKUP = new HashMap<String, ConfigType>();
             for (ConfigType operation : EnumSet.allOf(ConfigType.class))
             {
-                lookup.put(operation.getAttribute(), operation);
+                LOOKUP.put(operation.getAttribute(), operation);
             }
         }
 
@@ -1363,9 +1362,9 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
 
         public static ConfigType getFromAttribute(String attribute)
         {
-            if (attribute != null && lookup.containsKey(attribute))
+            if (attribute != null && LOOKUP.containsKey(attribute))
             {
-                return lookup.get(attribute);
+                return LOOKUP.get(attribute);
             }
             return null;
         }

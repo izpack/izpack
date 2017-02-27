@@ -18,7 +18,6 @@ package com.izforge.izpack.event;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,33 +32,41 @@ public enum AntSeverity
     private final String name;
     private final Prompt.Type level;
 
-    AntSeverity(String name, Prompt.Type level) {
+    AntSeverity(String name, Prompt.Type level)
+    {
         this.name = name;
         this.level = level;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public Prompt.Type getLevel() {
+    public Prompt.Type getLevel()
+    {
         return level;
     }
 
-    private final static Map<String, AntSeverity> reversed;
-    static {
-        reversed = new HashMap<String, AntSeverity>();
-        for (AntSeverity l: values()) {
-            reversed.put(l.getName(), l);
+    private final static Map<String, AntSeverity> REVERSED;
+
+    static
+    {
+        REVERSED = new HashMap<String, AntSeverity>();
+        for (AntSeverity l : values())
+        {
+            REVERSED.put(l.getName(), l);
         }
     }
 
-    public static AntSeverity fromName(String name) {
+    public static AntSeverity fromName(String name)
+    {
         return fromName(name, null);
     }
 
-    public static AntSeverity fromName(String name, AntSeverity defaultLevel) {
-        AntSeverity level = reversed.get(name);
+    public static AntSeverity fromName(String name, AntSeverity defaultLevel)
+    {
+        AntSeverity level = REVERSED.get(name);
         if (level == null)
         {
             return defaultLevel;

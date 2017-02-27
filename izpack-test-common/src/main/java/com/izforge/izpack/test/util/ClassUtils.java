@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 public class ClassUtils
 {
+
     @SuppressWarnings("unchecked")
     public static void unloadLastJar()
     {
@@ -46,7 +47,10 @@ public class ClassUtils
         try
         {
             URLClassLoader systemClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-            Method declaredMethod = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
+            Method declaredMethod = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]
+            {
+                URL.class
+            });
             declaredMethod.setAccessible(true);
             declaredMethod.invoke(systemClassLoader, out.toURI().toURL());
         }

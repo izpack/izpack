@@ -22,11 +22,11 @@ import com.izforge.izpack.test.junit.PicoRunner;
 /**
  * Test for an installation
  */
-
 @RunWith(PicoRunner.class)
 @Container(TestCompilationContainer.class)
 public class IzpackGenerationTest
 {
+
     @Rule
     public TestRule globalTimeout = new Timeout(HelperTestMethod.TIMEOUT, TimeUnit.MILLISECONDS);
 

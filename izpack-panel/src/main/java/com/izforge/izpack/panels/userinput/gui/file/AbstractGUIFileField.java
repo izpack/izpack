@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.file;
 
 import java.io.File;
@@ -31,7 +30,6 @@ import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.panels.userinput.field.file.AbstractFileField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 
-
 /**
  * Common functionality for file field views.
  *
@@ -39,6 +37,7 @@ import com.izforge.izpack.panels.userinput.gui.GUIField;
  */
 public abstract class AbstractGUIFileField extends GUIField
 {
+
     /**
      * The field view implementation.
      */
@@ -58,8 +57,10 @@ public abstract class AbstractGUIFileField extends GUIField
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)
@@ -115,7 +116,7 @@ public abstract class AbstractGUIFileField extends GUIField
     protected void init(FileInputField inputField)
     {
         this.fileInput = inputField;
-        if(getField().getDescription() != null)
+        if (getField().getDescription() != null)
         {
             addDescription();
         }

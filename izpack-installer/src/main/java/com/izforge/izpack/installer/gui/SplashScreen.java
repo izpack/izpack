@@ -19,11 +19,12 @@ import com.izforge.izpack.installer.data.GUIInstallData;
  */
 public class SplashScreen
 {
-    private static final Logger logger = Logger.getLogger(SplashScreen.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(SplashScreen.class.getName());
 
     private final Resources resources;
     private final GUIInstallData installData;
-    
+
     private JFrame frame;
 
     public SplashScreen(Resources resources, GUIInstallData installData)
@@ -33,9 +34,9 @@ public class SplashScreen
     }
 
     /**
-     * Display the splash screen.
-     * Will only display if the user has set the guipref modifier.
-     * Splash screen will display for a minimum fo X milliseconds based on the user's useSplashScreen modifier's value.
+     * Display the splash screen. Will only display if the user has set the
+     * guipref modifier. Splash screen will display for a minimum fo X
+     * milliseconds based on the user's useSplashScreen modifier's value.
      */
     public void displaySplashScreen(final Object trigger)
     {
@@ -44,42 +45,48 @@ public class SplashScreen
             ImageIcon splashIcon = resources.getImageIcon("/resources/Splash.image");
             if (splashIcon != null)
             {
-            	try {
-	            	frame = new JFrame();
-	            	frame.setUndecorated(true);
-	            	
-	            	JLabel labelSplash = new JLabel(splashIcon);
-	                
-	            	frame.getContentPane().add(labelSplash, BorderLayout.CENTER);
-	            	frame.pack();
-	                frame.setLocationRelativeTo(null);
-	                
-	                frame.setVisible(true);
-            	}
-            	catch (Exception e) {
-            		logger.log(Level.WARNING, "Prepare and display splashScreen failed.", e);
-            	}
+                try
+                {
+                    frame = new JFrame();
+                    frame.setUndecorated(true);
+
+                    JLabel labelSplash = new JLabel(splashIcon);
+
+                    frame.getContentPane().add(labelSplash, BorderLayout.CENTER);
+                    frame.pack();
+                    frame.setLocationRelativeTo(null);
+
+                    frame.setVisible(true);
+                }
+                catch (Exception e)
+                {
+                    LOGGER.log(Level.WARNING, "Prepare and display splashScreen failed.", e);
+                }
             }
-            else {
-            	logger.log(Level.WARNING, "No splash icon found!!!");
+            else
+            {
+                LOGGER.log(Level.WARNING, "No splash icon found!!!");
             }
-            
+
             try
             {
                 int duration = Integer.parseInt(installData.guiPrefs.modifier.get("useSplashScreen"));
-                if(duration > 0)
+                if (duration > 0)
                 {
-                	// we're in AWT thread already, start a swing timer that notifies the waiting thread
-                    Timer timer = new Timer(duration, new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent e) {
-				            
-				            synchronized (trigger) {
-				            	trigger.notifyAll();
-							}
-						}
-					});
+                    // we're in AWT thread already, start a swing timer that notifies the waiting thread
+                    Timer timer = new Timer(duration, new ActionListener()
+                    {
+
+                        @Override
+                        public void actionPerformed(ActionEvent e)
+                        {
+
+                            synchronized (trigger)
+                            {
+                                trigger.notifyAll();
+                            }
+                        }
+                    });
                     timer.setRepeats(false);
                     timer.start();
                 }
@@ -98,8 +105,9 @@ public class SplashScreen
      */
     public void removeSplashScreen()
     {
-    	if (frame != null) {
-    		frame.setVisible(false);
-    	}
+        if (frame != null)
+        {
+            frame.setVisible(false);
+        }
     }
 }

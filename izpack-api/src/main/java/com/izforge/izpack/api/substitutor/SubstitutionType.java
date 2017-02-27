@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.substitutor;
 
 import java.util.EnumSet;
@@ -35,32 +34,26 @@ public enum SubstitutionType
      * Plain file.
      */
     TYPE_PLAIN("plain"),
-
     /**
      * Java properties file.
      */
     TYPE_JAVA_PROPERTIES("javaprop"),
-
     /**
      * XML file.
      */
     TYPE_XML("xml"),
-
     /**
      * Shell file.
      */
     TYPE_SHELL("shell"),
-
     /**
      * Plain file with '@' start char.
      */
     TYPE_AT("at"),
-
     /**
      * Java file, where \ have to be escaped.
      */
     TYPE_JAVA("java"),
-
     /**
      * Plain file with ANT-like variable markers, ie @param@
      */

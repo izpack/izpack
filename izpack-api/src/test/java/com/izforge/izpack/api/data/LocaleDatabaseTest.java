@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import static org.junit.Assert.assertEquals;
@@ -36,7 +35,7 @@ public class LocaleDatabaseTest
     public void setUp() throws Exception
     {
         db = new LocaleDatabase(LocaleDatabaseTest.class.getResourceAsStream("testing-langpack.xml"),
-                                Mockito.mock(Locales.class));
+                Mockito.mock(Locales.class));
 
     }
 
@@ -58,14 +57,20 @@ public class LocaleDatabaseTest
     public void testNpeHandling()
     {
         assertEquals("Argument1: one, Argument2: N/A", db.getString(
-                "string.with.arguments", new String[]{"one", null}));
+                "string.with.arguments", new String[]
+                {
+                    "one", null
+                }));
     }
 
     @Test
     public void testQuotedPlaceholder()
     {
         assertEquals("Argument1: 'one', Argument2: 'N/A'", db.getString(
-                "string.with.quoted.arguments", new String[]{"one", null}));
+                "string.with.quoted.arguments", new String[]
+                {
+                    "one", null
+                }));
     }
 
 }

@@ -18,20 +18,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.processorclient;
 
 import java.text.MessageFormat;
 import java.util.Map;
 
-
 /**
- * Simple implementation of {@link ProcessingClient} that wraps an array of string values.
+ * Simple implementation of {@link ProcessingClient} that wraps an array of
+ * string values.
  *
  * @author Tim Anderson
  */
 public class ValuesProcessingClient implements ProcessingClient
 {
+
     /**
      * The values.
      */
@@ -67,7 +67,7 @@ public class ValuesProcessingClient implements ProcessingClient
     /**
      * Constructs a {@code ValuesProcessingClient}.
      *
-     * @param values     the values to process
+     * @param values the values to process
      * @param parameters the parameters to pass to the processor
      */
     public ValuesProcessingClient(MessageFormat format, String[] values, Map<String, String> parameters)
@@ -111,7 +111,8 @@ public class ValuesProcessingClient implements ProcessingClient
     /**
      * Returns the contents of the field indicated by <code>index</code>.
      *
-     * @param index the index of the sub-field from which the contents is requested.
+     * @param index the index of the sub-field from which the contents is
+     * requested.
      * @return the contents of the indicated sub-field.
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
@@ -131,11 +132,11 @@ public class ValuesProcessingClient implements ProcessingClient
     {
         if (format != null)
         {
-            return format.format((Object[])values);
+            return format.format((Object[]) values);
         }
         else
         {
-           StringBuilder result = new StringBuilder();
+            StringBuilder result = new StringBuilder();
             for (String value : values)
             {
                 result.append(value);

@@ -31,6 +31,7 @@ import com.izforge.izpack.api.config.spi.RegBuilder;
 
 public class Reg extends BasicRegistry implements Registry, Persistable, Configurable
 {
+
     private static final long serialVersionUID = -1485602876922985912L;
     protected static final String DEFAULT_SUFFIX = ".reg";
     protected static final String TMP_PREFIX = "reg-";
@@ -39,8 +40,8 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
     private static final boolean WINDOWS = Config.getSystemProperty(PROP_OS_NAME, "Unknown").startsWith("Windows");
     private static final char CR = '\r';
     private static final char LF = '\n';
-    private Config _config;
-    private File _file;
+    private Config config;
+    private File file;
 
     public Reg()
     {
@@ -55,7 +56,7 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
         cfg.setPathSeparator(KEY_SEPARATOR);
         cfg.setFileEncoding(FILE_ENCODING);
         cfg.setLineSeparator(LINE_SEPARATOR);
-        _config = cfg;
+        this.config = cfg;
     }
 
     public Reg(String registryKey) throws IOException
@@ -67,7 +68,7 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
     public Reg(File input) throws IOException, InvalidFileFormatException
     {
         this();
-        _file = input;
+        this.file = input;
         load();
     }
 
@@ -94,47 +95,54 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
         return WINDOWS;
     }
 
-    @Override public Config getConfig()
+    @Override
+    public Config getConfig()
     {
-        return _config;
+        return this.config;
     }
 
     public void setConfig(Config value)
     {
-        _config = value;
+        this.config = value;
     }
 
-    @Override public File getFile()
+    @Override
+    public File getFile()
     {
-        return _file;
+        return this.file;
     }
 
-    @Override public void setFile(File value)
+    @Override
+    public void setFile(File value)
     {
-        _file = value;
+        this.file = value;
     }
 
-    @Override public void load() throws IOException, InvalidFileFormatException
+    @Override
+    public void load() throws IOException, InvalidFileFormatException
     {
-        if (_file == null)
+        if (this.file == null)
         {
             throw new FileNotFoundException();
         }
 
-        load(_file);
+        load(this.file);
     }
 
-    @Override public void load(InputStream input) throws IOException, InvalidFileFormatException
+    @Override
+    public void load(InputStream input) throws IOException, InvalidFileFormatException
     {
         load(new InputStreamReader(input, getConfig().getFileEncoding()));
     }
 
-    @Override public void load(URL input) throws IOException, InvalidFileFormatException
+    @Override
+    public void load(URL input) throws IOException, InvalidFileFormatException
     {
         load(new InputStreamReader(input.openStream(), getConfig().getFileEncoding()));
     }
 
-    @Override public void load(Reader input) throws IOException, InvalidFileFormatException
+    @Override
+    public void load(Reader input) throws IOException, InvalidFileFormatException
     {
         int newline = 2;
         StringBuilder buff = new StringBuilder();
@@ -168,7 +176,8 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
         IniParser.newInstance(getConfig()).parse(input, newBuilder());
     }
 
-    @Override public void load(File input) throws IOException, InvalidFileFormatException
+    @Override
+    public void load(File input) throws IOException, InvalidFileFormatException
     {
         load(input.toURI().toURL());
     }
@@ -180,8 +189,9 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
         try
         {
             regExport(registryKey, tmp);
-            if( tmp.exists() ) {
-            	load(tmp);
+            if (tmp.exists())
+            {
+                load(tmp);
             } // otherwise, it didn't find the key
         }
         finally
@@ -190,22 +200,25 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
         }
     }
 
-    @Override public void store() throws IOException
+    @Override
+    public void store() throws IOException
     {
-        if (_file == null)
+        if (this.file == null)
         {
             throw new FileNotFoundException();
         }
 
-        store(_file);
+        store(this.file);
     }
 
-    @Override public void store(OutputStream output) throws IOException
+    @Override
+    public void store(OutputStream output) throws IOException
     {
         store(new OutputStreamWriter(output, getConfig().getFileEncoding()));
     }
 
-    @Override public void store(Writer output) throws IOException
+    @Override
+    public void store(Writer output) throws IOException
     {
         output.write(getVersion());
         output.write(getConfig().getLineSeparator());
@@ -213,7 +226,8 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
         store(IniFormatter.newInstance(output, getConfig()));
     }
 
-    @Override public void store(File output) throws IOException
+    @Override
+    public void store(File output) throws IOException
     {
         OutputStream stream = new FileOutputStream(output);
 
@@ -241,17 +255,20 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
         return RegBuilder.newInstance(this);
     }
 
-    @Override boolean isTreeMode()
+    @Override
+    boolean isTreeMode()
     {
         return getConfig().isTree();
     }
 
-    @Override char getPathSeparator()
+    @Override
+    char getPathSeparator()
     {
         return getConfig().getPathSeparator();
     }
 
-    @Override boolean isPropertyFirstUpper()
+    @Override
+    boolean isPropertyFirstUpper()
     {
         return getConfig().isPropertyFirstUpper();
     }
@@ -275,7 +292,7 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
                 System.out.println(error + " - " + args[4]);
                 // this would probably break on different Windows versions and in non-English locales
 //                if( !"ERROR: The system was unable to find the specified registry key or value.".equals(error) ) {
-//                	throw new IOException(error);
+//                    throw new IOException(error);
 //                }
             }
         }
@@ -297,15 +314,21 @@ public class Reg extends BasicRegistry implements Registry, Persistable, Configu
     private void regExport(String registryKey, File file) throws IOException
     {
         requireWindows();
-        file.delete();		// reg export hangs if the file already exists
-        exec(new String[] { "cmd", "/c", "reg", "export", registryKey, file.getAbsolutePath() });
+        file.delete();        // reg export hangs if the file already exists
+        exec(new String[]
+        {
+            "cmd", "/c", "reg", "export", registryKey, file.getAbsolutePath()
+        });
     }
 
     private void regImport(File file) throws IOException
     {
         requireWindows();
-        file.delete();		// reg export hangs if the file already exists
-        exec(new String[] { "cmd", "/c", "reg", "import", file.getAbsolutePath() });
+        file.delete();        // reg export hangs if the file already exists
+        exec(new String[]
+        {
+            "cmd", "/c", "reg", "import", file.getAbsolutePath()
+        });
     }
 
     private void requireWindows()

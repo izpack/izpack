@@ -14,12 +14,9 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
-
-import org.apache.tools.ant.BuildException;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.file.FileNameMapper;
@@ -33,6 +30,7 @@ import com.izforge.izpack.util.file.types.Mapper;
  */
 public abstract class MappingSelector extends BaseSelector
 {
+
     protected File targetdir = null;
     protected Mapper mapperElement = null;
     protected FileNameMapper map = null;
@@ -46,10 +44,8 @@ public abstract class MappingSelector extends BaseSelector
         granularity = (int) FileUtils.getFileTimestampGranularity();
     }
 
-
     /**
-     * The name of the file or directory which is checked for out-of-date
-     * files.
+     * The name of the file or directory which is checked for out-of-date files.
      *
      * @param targetdir the directory to scan looking for files.
      */
@@ -75,8 +71,8 @@ public abstract class MappingSelector extends BaseSelector
     }
 
     /**
-     * Checks to make sure all settings are kosher. In this case, it
-     * means that the dest attribute has been set and we have a mapper.
+     * Checks to make sure all settings are kosher. In this case, it means that
+     * the dest attribute has been set and we have a mapper.
      */
     public void verifySettings() throws Exception
     {
@@ -99,12 +95,12 @@ public abstract class MappingSelector extends BaseSelector
     }
 
     /**
-     * The heart of the matter. This is where the selector gets to decide
-     * on the inclusion of a file in a particular fileset.
+     * The heart of the matter. This is where the selector gets to decide on the
+     * inclusion of a file in a particular fileset.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename is the name of the file to check
-     * @param file     is a java.io.File object the selector can use
+     * @param file is a java.io.File object the selector can use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file) throws Exception
@@ -137,16 +133,16 @@ public abstract class MappingSelector extends BaseSelector
     /**
      * this test is our selection test that compared the file with the destfile
      *
-     * @param srcfile  file to test; may be null
+     * @param srcfile file to test; may be null
      * @param destfile destination file
      * @return true if source file compares with destination file
      */
     protected abstract boolean selectionTest(File srcfile, File destfile);
 
     /**
-     * Sets the number of milliseconds leeway we will give before we consider
-     * a file out of date. Defaults to 2000 on MS-DOS derivatives as the FAT
-     * file system.
+     * Sets the number of milliseconds leeway we will give before we consider a
+     * file out of date. Defaults to 2000 on MS-DOS derivatives as the FAT file
+     * system.
      *
      * @param granularity the leeway in milliseconds
      */

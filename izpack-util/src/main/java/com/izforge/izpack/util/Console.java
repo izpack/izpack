@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
@@ -41,7 +40,8 @@ import java.util.logging.Logger;
  */
 public class Console
 {
-    private static final Logger logger = Logger.getLogger(Console.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(Console.class.getName());
 
     private java.io.Console console;
 
@@ -61,13 +61,15 @@ public class Console
     private final Messages messages;
 
     /**
-     * Constructs a <tt>Console</tt> with <tt>System.in</tt> and <tt>System.out</tt> as the I/O streams.
+     * Constructs a <tt>Console</tt> with <tt>System.in</tt> and
+     * <tt>System.out</tt> as the I/O streams.
      */
     public Console(Messages messages, ConsolePrefs prefs)
     {
         this.messages = messages;
 
-        Log.setOutput(new PrintStream(new OutputStream() {
+        Log.setOutput(new PrintStream(new OutputStream()
+        {
             @Override
             public void write(int b) throws IOException
             {
@@ -101,12 +103,13 @@ public class Console
         }
         catch (Throwable t)
         {
-            logger.log(Level.WARNING, "Cannot initialize the console reader. Falling back to default console.", t);
+            LOGGER.log(Level.WARNING, "Cannot initialize the console reader. Falling back to default console.", t);
         }
     }
 
     /**
      * Read a character from the console.
+     *
      * @return The character, or -1 if an EOF is received.
      * @throws IOException If an I/O error occurs
      */
@@ -125,12 +128,13 @@ public class Console
     }
 
     /**
-     * Reads a line of text.  A line is considered to be terminated by any one
-     * of a line feed ('\\n'), a carriage return ('\\r'), or a carriage return
+     * Reads a line of text. A line is considered to be terminated by any one of
+     * a line feed ('\\n'), a carriage return ('\\r'), or a carriage return
      * followed immediately by a linefeed.
      *
-     * @return a String containing the contents of the line, not including any line-termination characters, or
-     *         null if the end of the stream has been reached
+     * @return a String containing the contents of the line, not including any
+     * line-termination characters, or null if the end of the stream has been
+     * reached
      * @throws IOException if an I/O error occurs
      */
     public String readLine() throws IOException
@@ -261,7 +265,7 @@ public class Console
     /**
      * Pages through the supplied text.
      *
-     * @param text    the text to display
+     * @param text the text to display
      */
     private void paging(String text) throws IOException
     {
@@ -288,7 +292,8 @@ public class Console
                 {
                     // one step forward
                     showLines = 1;
-                } else if (c != 'q')
+                }
+                else if (c != 'q')
                 {
                     // page forward
                     showLines = height - 2;
@@ -307,10 +312,12 @@ public class Console
 
     private void print(final char c, final int num)
     {
-        if (num == 1) {
+        if (num == 1)
+        {
             print(String.valueOf(c));
         }
-        else {
+        else
+        {
             char[] chars = new char[num];
             Arrays.fill(chars, c);
             print(String.copyValueOf(chars));
@@ -374,10 +381,11 @@ public class Console
      * Displays a prompt and waits for numeric input.
      *
      * @param prompt the prompt to display
-     * @param min    the minimum allowed value
-     * @param max    the maximum allowed value
-     * @param eof    the value to return if end of stream is reached
-     * @return a value in the range of <tt>from..to</tt>, or <tt>eof</tt> if the end of stream is reached
+     * @param min the minimum allowed value
+     * @param max the maximum allowed value
+     * @param eof the value to return if end of stream is reached
+     * @return a value in the range of <tt>from..to</tt>, or <tt>eof</tt> if the
+     * end of stream is reached
      */
     public int prompt(String prompt, int min, int max, int eof)
     {
@@ -387,13 +395,14 @@ public class Console
     /**
      * Displays a prompt and waits for numeric input.
      *
-     * @param prompt       the prompt to display
-     * @param min          the minimum allowed value
-     * @param max          the maximum allowed value
-     * @param defaultValue the default value to use, if no input is entered. Use a value {@code < min} if there is no
-     *                     default
-     * @param eof          the value to return if end of stream is reached
-     * @return a value in the range of <tt>from..to</tt>, or <tt>eof</tt> if the end of stream is reached
+     * @param prompt the prompt to display
+     * @param min the minimum allowed value
+     * @param max the maximum allowed value
+     * @param defaultValue the default value to use, if no input is entered. Use
+     * a value {@code < min} if there is no default
+     * @param eof the value to return if end of stream is reached
+     * @return a value in the range of <tt>from..to</tt>, or <tt>eof</tt> if the
+     * end of stream is reached
      */
     public int prompt(String prompt, int min, int max, int defaultValue, int eof)
     {
@@ -433,22 +442,22 @@ public class Console
         }
         catch (IOException e)
         {
-            logger.log(Level.WARNING, e.getMessage(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             result = eof;
         }
         return result;
     }
 
     /**
-     * Displays a prompt and waits for input.
-     * Allows auto completion of files and directories.
-     * Except a path to a file or directory.
-     * Ensure to expand the tilde character to the user's home directory.
-     * If the input ends with a file separator we will trim it to keep consistency.
+     * Displays a prompt and waits for input. Allows auto completion of files
+     * and directories. Except a path to a file or directory. Ensure to expand
+     * the tilde character to the user's home directory. If the input ends with
+     * a file separator we will trim it to keep consistency.
      *
-     * @param prompt       the prompt to display
+     * @param prompt the prompt to display
      * @param defaultValue the default value to use, if no input is entered
-     * @return the user input value; if the user input is empty (return key pressed) return defaultValue
+     * @return the user input value; if the user input is empty (return key
+     * pressed) return defaultValue
      */
     public String promptLocation(String prompt, String defaultValue)
     {
@@ -485,7 +494,7 @@ public class Console
             catch (IOException e)
             {
                 result = null;
-                logger.log(Level.WARNING, e.getMessage(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
             finally
             {
@@ -501,12 +510,13 @@ public class Console
     }
 
     /**
-     * Displays a prompt and waits for input.
-     * Expects a password, characters with be mased with the echoCharacter "*"
+     * Displays a prompt and waits for input. Expects a password, characters
+     * with be mased with the echoCharacter "*"
      *
-     * @param prompt       the prompt to display
+     * @param prompt the prompt to display
      * @param defaultValue the default value to use, if no input is entered
-     * @return the user input value; if the user input is empty (return key pressed) return defaultValue
+     * @return the user input value; if the user input is empty (return key
+     * pressed) return defaultValue
      */
     public String promptPassword(String prompt, String defaultValue)
     {
@@ -535,7 +545,7 @@ public class Console
         boolean submitted = false;
         try
         {
-            while(!submitted)
+            while (!submitted)
             {
                 switch (ch = consoleReader.readCharacter())
                 {
@@ -563,10 +573,10 @@ public class Console
         catch (IOException e)
         {
             result = null;
-            logger.log(Level.WARNING, e.getMessage(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
 
-        if(result != null && result.isEmpty())
+        if (result != null && result.isEmpty())
         {
             result = defaultValue;
         }
@@ -576,9 +586,10 @@ public class Console
     /**
      * Displays a prompt and waits for input.
      *
-     * @param prompt       the prompt to display
+     * @param prompt the prompt to display
      * @param defaultValue the default value to use, if no input is entered
-     * @return the user input value; if the user input is empty (return key pressed) return defaultValue
+     * @return the user input value; if the user input is empty (return key
+     * pressed) return defaultValue
      */
     public String prompt(String prompt, String defaultValue)
     {
@@ -595,7 +606,7 @@ public class Console
         catch (IOException e)
         {
             result = null;
-            logger.log(Level.WARNING, e.getMessage(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
         return result;
     }
@@ -605,7 +616,8 @@ public class Console
      *
      * @param prompt the prompt to display
      * @param values the valid values
-     * @return the user input value; if the user input is empty (return key pressed) return defaultValue
+     * @return the user input value; if the user input is empty (return key
+     * pressed) return defaultValue
      */
     public String prompt(String prompt, String[] values)
     {
@@ -617,8 +629,10 @@ public class Console
      *
      * @param prompt the prompt to display
      * @param values the valid values
-     * @param defaultValue  the default value to return when the user input is empty
-     * @return the user input value; if the user input is empty (return key pressed) return defaultValue
+     * @param defaultValue the default value to return when the user input is
+     * empty
+     * @return the user input value; if the user input is empty (return key
+     * pressed) return defaultValue
      */
     public String prompt(String prompt, String[] values, String defaultValue)
     {
@@ -653,21 +667,22 @@ public class Console
     }
 
     private char[] readPasswordDefaultInput(String defaultValue, String format, Object... args)
-            throws IOException {
+            throws IOException
+    {
         char[] result;
         if (console != null)
         {
-           result = console.readPassword(format, args);
-           if (result.length == 0)
-           {
-               result = defaultValue!=null?defaultValue.toCharArray():null;
-           }
+            result = console.readPassword(format, args);
+            if (result.length == 0)
+            {
+                result = defaultValue != null ? defaultValue.toCharArray() : null;
+            }
         }
         else
         {
             // Fix ConsolePasswordGroupFieldTest
             String line = readLine();
-            result = line!=null ? line.toCharArray() : null;
+            result = line != null ? line.toCharArray() : null;
         }
         return result;
     }

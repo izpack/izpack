@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.hello;
 
 import java.awt.LayoutManager2;
@@ -54,11 +53,11 @@ public class HelloPanel extends IzPanel
     /**
      * Constructs an <tt>HelloPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public HelloPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
@@ -68,17 +67,17 @@ public class HelloPanel extends IzPanel
     /**
      * Constructs an <tt>HelloPanel</tt> with the given layout manager.
      * <p/>
-     * Valid layout manager are the  {@link IzPanelLayout} and <tt>GridBagLayout</tt>.
-     * New panels should be use IzPanelLayout. If layoutManager is
-     * null, no layout manager will be created or initialized.
+     * Valid layout manager are the {@link IzPanelLayout} and
+     * <tt>GridBagLayout</tt>. New panels should be use IzPanelLayout. If
+     * layoutManager is null, no layout manager will be created or initialized.
      *
-     * @param panel       the panel meta-data
-     * @param parent      The parent IzPack installer frame.
+     * @param panel the panel meta-data
+     * @param parent The parent IzPack installer frame.
      * @param installData The installer internal installDataGUI.
-     * @param layout      layout manager to be used with this IzPanel
+     * @param layout layout manager to be used with this IzPanel
      */
     public HelloPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, LayoutManager2 layout,
-                      Resources resources)
+            Resources resources)
     {
         // Layout handling. This panel was changed from a mixed layout handling
         // with GridBagLayout and BoxLayout to IzPanelLayout. It can be used as an

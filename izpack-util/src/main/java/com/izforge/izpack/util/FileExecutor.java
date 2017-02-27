@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Name.UNIX;
@@ -39,17 +38,17 @@ import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.data.ExecutableFile;
 
 /**
- * Executes a bunch of files. This class is intended to do a system dependent installation
- * postprocessing. Executable file can be any file installed with current package. After execution
- * the file can be optionally removed. Before execution on Unix systems execution flag will be set
- * on processed file.
+ * Executes a bunch of files. This class is intended to do a system dependent
+ * installation postprocessing. Executable file can be any file installed with
+ * current package. After execution the file can be optionally removed. Before
+ * execution on Unix systems execution flag will be set on processed file.
  *
  * @author Olexij Tkatchenko <ot@parcs.de>
  */
 public class FileExecutor
 {
 
-    private static final Logger logger = Logger.getLogger(FileExecutor.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FileExecutor.class.getName());
 
     private static final String JAR_FILE_SUFFIX = ".jar";
 
@@ -85,8 +84,9 @@ public class FileExecutor
     }
 
     /**
-     * Constructs a new executor. The executable files specified must have pretranslated paths
-     * (variables expanded and file separator characters converted if necessary).
+     * Constructs a new executor. The executable files specified must have
+     * pretranslated paths (variables expanded and file separator characters
+     * converted if necessary).
      *
      * @param files the executable files to process
      */
@@ -119,7 +119,7 @@ public class FileExecutor
      * Gets the output of the given (console based) commandline
      *
      * @param aCommandLine to execute
-     * @param dir          the working directory for the execution
+     * @param dir the working directory for the execution
      * @return the result of the command
      */
     public static String getExecOutput(String[] aCommandLine, String dir)
@@ -131,7 +131,7 @@ public class FileExecutor
     /**
      * Gets the output of the given (console based) commandline
      *
-     * @param aCommandLine     to execute
+     * @param aCommandLine to execute
      * @param forceToGetStdOut if true returns stdout
      * @return the result of the command
      */
@@ -142,10 +142,11 @@ public class FileExecutor
     }
 
     /**
-     * Executes the given Command and gets the result of StdOut, or if exec returns !=0:  StdErr.
+     * Executes the given Command and gets the result of StdOut, or if exec
+     * returns !=0: StdErr.
      *
-     * @param aCommandLine     aCommandLine to execute
-     * @param dir              the working directory for the execution
+     * @param aCommandLine aCommandLine to execute
+     * @param dir the working directory for the execution
      * @param forceToGetStdOut if true returns stdout
      * @return the result of the command stdout or stderr if exec returns !=0
      */
@@ -176,8 +177,8 @@ public class FileExecutor
      * Executed a system command and waits for completion.
      *
      * @param params system command as string array
-     * @param output contains output of the command index 0 = standard output index 1 = standard
-     *               error
+     * @param output contains output of the command index 0 = standard output
+     * index 1 = standard error
      * @return exit status of process
      */
     public int executeCommand(String[] params, String[] output)
@@ -189,9 +190,9 @@ public class FileExecutor
      * Executed a system command and waits for completion.
      *
      * @param params system command as string array
-     * @param output contains output of the command index 0 = standard output index 1 = standard
-     *               error
-     * @param dir    the working directory for the execution
+     * @param output contains output of the command index 0 = standard output
+     * index 1 = standard error
+     * @param dir the working directory for the execution
      * @return exit status of process
      */
     public int executeCommand(String[] params, String[] output, String dir)
@@ -217,7 +218,7 @@ public class FileExecutor
         Thread errMonitorThread = null;
         int exitStatus = -1;
 
-        logger.fine(retval.toString());
+        LOGGER.fine(retval.toString());
 
         try
         {
@@ -260,16 +261,16 @@ public class FileExecutor
 
             // save command output
             output[0] = outWriter.toString();
-            logger.fine("stdout:");
-            logger.fine(output[0]);
+            LOGGER.fine("stdout:");
+            LOGGER.fine(output[0]);
             output[1] = errWriter.toString();
-            logger.fine("stderr:");
-            logger.fine(output[1]);
-            logger.fine("exit status: " + Integer.toString(exitStatus));
+            LOGGER.fine("stderr:");
+            LOGGER.fine(output[1]);
+            LOGGER.fine("exit status: " + Integer.toString(exitStatus));
         }
         catch (InterruptedException e)
         {
-            logger.log(Level.FINE, "Command execution interrupted", e);
+            LOGGER.log(Level.FINE, "Command execution interrupted", e);
             stopThread(outMonitorThread, outMonitor);
             stopThread(errMonitorThread, errMonitor);
             output[0] = "";
@@ -277,7 +278,7 @@ public class FileExecutor
         }
         catch (IOException e)
         {
-            logger.log(Level.FINE, "Command execution failed", e);
+            LOGGER.log(Level.FINE, "Command execution failed", e);
             output[0] = "";
             output[1] = e.getMessage() + "\n";
         }
@@ -298,8 +299,8 @@ public class FileExecutor
      * Executes files specified at construction time.
      *
      * @param currentStage the stage of the installation
-     * @param matcher      the platform-model matcher
-     * @param handler      The AbstractUIHandler to notify on errors.
+     * @param matcher the platform-model matcher
+     * @param handler The AbstractUIHandler to notify on errors.
      * @return 0 on success, else the exit status of the last failed command
      */
     public int executeFiles(int currentStage, PlatformModelMatcher matcher, AbstractUIHandler handler)
@@ -319,7 +320,7 @@ public class FileExecutor
             boolean deleteAfterwards = !efile.keepFile;
             File file = new File(efile.path);
 
-            logger.fine("Handling executable file " + efile + "...");
+            LOGGER.fine("Handling executable file " + efile + "...");
 
             // skip file if not for current OS (it might not have been installed
             // at all)
@@ -331,8 +332,11 @@ public class FileExecutor
             if (ExecutableFile.BIN == efile.type && currentStage != ExecutableFile.UNINSTALL && isUnix)
             {
                 // fix executable permission for unix systems
-                logger.fine("Making file executable (setting executable flag)");
-                String[] params = {"/bin/chmod", permissions, file.toString()};
+                LOGGER.fine("Making file executable (setting executable flag)");
+                String[] params =
+                {
+                    "/bin/chmod", permissions, file.toString()
+                };
                 exitStatus = executeCommand(params, output);
                 if (exitStatus != 0)
                 {
@@ -368,7 +372,7 @@ public class FileExecutor
                     catch (Exception e)
                     {
                         exitStatus = -1;
-                        logger.log(Level.WARNING, e.getMessage(), e);
+                        LOGGER.log(Level.WARNING, e.getMessage(), e);
                     }
                     paramList.add(efile.mainClass);
                 }
@@ -410,14 +414,11 @@ public class FileExecutor
                         // do nothing
                         exitStatus = 0;
                     }
-                    else
+                    else if (handler
+                            .askQuestion("Execution Failed", message + "\nContinue Installation?",
+                                    AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES)
                     {
-                        if (handler
-                                .askQuestion("Execution Failed", message + "\nContinue Installation?",
-                                             AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES)
-                        {
-                            exitStatus = 0;
-                        }
+                        exitStatus = 0;
                     }
 
                 }
@@ -438,10 +439,9 @@ public class FileExecutor
     }
 
     /**
-     * Transform classpath as specified in targetFile attribute into
-     * OS specific classpath. This method also resolves directories
-     * containing jar files. ';' and ':' are valid delimiters allowed
-     * in targetFile attribute.
+     * Transform classpath as specified in targetFile attribute into OS specific
+     * classpath. This method also resolves directories containing jar files.
+     * ';' and ':' are valid delimiters allowed in targetFile attribute.
      *
      * @param targetFile
      * @return valid Java classpath
@@ -451,12 +451,12 @@ public class FileExecutor
     {
         StringBuilder classPath = new StringBuilder();
         List<String> jars = new ArrayList<String>();
-        String rawClassPath =
-                targetFile
-                        .replaceAll(":\\\\", "#DRIVE#")
-                        .replaceAll(";", "#")
-                        .replaceAll(":", "#")
-                        .replace("#DRIVE#", ":\\");
+        String rawClassPath
+                = targetFile
+                .replaceAll(":\\\\", "#DRIVE#")
+                .replaceAll(";", "#")
+                .replaceAll(":", "#")
+                .replace("#DRIVE#", ":\\");
         String[] rawJars = rawClassPath.split("#");
         for (String rawJar : rawJars)
         {
@@ -466,15 +466,15 @@ public class FileExecutor
             if (file.isDirectory())
             {
                 String[] subDirJars = FileUtil.getFileNames(rawJar,
-                                                            new FilenameFilter()
-                                                            {
-                                                                @Override
-                                                                public boolean accept(File dir, String name)
-                                                                {
-                                                                    return name.toLowerCase().endsWith(JAR_FILE_SUFFIX);
-                                                                }
+                        new FilenameFilter()
+                        {
+                            @Override
+                            public boolean accept(File dir, String name)
+                            {
+                                return name.toLowerCase().endsWith(JAR_FILE_SUFFIX);
+                            }
 
-                                                            });
+                        });
                 if (subDirJars != null)
                 {
                     for (String subDirJar : subDirJars)

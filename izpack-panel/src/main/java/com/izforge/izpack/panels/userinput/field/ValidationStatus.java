@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
-
 
 /**
  * Status of running a {@link FieldValidator}.
@@ -48,9 +46,10 @@ public class ValidationStatus
     /**
      * Constructs a {@code ValidationStatus}.
      *
-     * @param valid   indicates if validation was successful or not
-     * @param values  the field values
-     * @param message the validation error message, or {@code null} if validation was successful
+     * @param valid indicates if validation was successful or not
+     * @param values the field values
+     * @param message the validation error message, or {@code null} if
+     * validation was successful
      */
     public ValidationStatus(boolean valid, String[] values, String message)
     {
@@ -60,7 +59,8 @@ public class ValidationStatus
     }
 
     /**
-     * Creates a {@link ValidationStatus} indicating that validation was successful.
+     * Creates a {@link ValidationStatus} indicating that validation was
+     * successful.
      *
      * @param values the field values
      * @return a new validation status
@@ -104,7 +104,8 @@ public class ValidationStatus
     /**
      * The validation error message.
      *
-     * @return the validation error message, {@code null} if validation was successful
+     * @return the validation error message, {@code null} if validation was
+     * successful
      */
     public String getMessage()
     {

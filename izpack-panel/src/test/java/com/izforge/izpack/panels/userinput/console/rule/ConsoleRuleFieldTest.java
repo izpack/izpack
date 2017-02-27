@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.rule;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +30,6 @@ import com.izforge.izpack.panels.userinput.field.rule.RuleField;
 import com.izforge.izpack.panels.userinput.field.rule.RuleFormat;
 import com.izforge.izpack.panels.userinput.field.rule.TestRuleFieldConfig;
 
-
 /**
  * Tests the {@link ConsoleRuleField}.
  *
@@ -39,6 +37,7 @@ import com.izforge.izpack.panels.userinput.field.rule.TestRuleFieldConfig;
  */
 public class ConsoleRuleFieldTest extends AbstractConsoleFieldTest
 {
+
     /**
      * Tests selection of the default value.
      */

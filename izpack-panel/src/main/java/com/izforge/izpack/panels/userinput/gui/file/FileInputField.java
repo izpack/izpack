@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.file;
 
 import java.awt.GridBagConstraints;
@@ -43,9 +42,10 @@ import com.izforge.izpack.panels.userinput.field.file.FileFieldView;
 
 public class FileInputField extends JPanel implements ActionListener
 {
+
     private static final long serialVersionUID = 4673684743657328492L;
 
-    private static final transient Logger logger = Logger.getLogger(FileInputField.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(FileInputField.class.getName());
 
     /**
      * The field view.
@@ -87,7 +87,7 @@ public class FileInputField extends JPanel implements ActionListener
     {
         if (arg0.getSource() == browseBtn)
         {
-            logger.fine("Show file/directory chooser");
+            LOGGER.fine("Show file/directory chooser");
             File initialPath = null;
             String initialText = filetxt.getText();
             if (initialText != null)
@@ -98,7 +98,8 @@ public class FileInputField extends JPanel implements ActionListener
             prepareFileChooser(filechooser);
 
             File prev = null;
-            while (!filechooser.isTraversable(initialPath) && prev != initialPath) {
+            while (!filechooser.isTraversable(initialPath) && prev != initialPath)
+            {
                 prev = initialPath;
                 if (initialPath != null)
                 {
@@ -111,7 +112,7 @@ public class FileInputField extends JPanel implements ActionListener
             {
                 String selectedFile = filechooser.getSelectedFile().getAbsolutePath();
                 filetxt.setText(selectedFile);
-                logger.fine("Setting current file chooser directory to: " + selectedFile);
+                LOGGER.fine("Setting current file chooser directory to: " + selectedFile);
             }
         }
     }
@@ -172,7 +173,7 @@ public class FileInputField extends JPanel implements ActionListener
 
         // TODO: use separate key for button text
         browseBtn = ButtonFactory.createButton(installDataGUI.getMessages().get("UserInputPanel.search.browse"),
-                                               installDataGUI.buttonsHColor);
+                installDataGUI.buttonsHColor);
         browseBtn.addActionListener(this);
         this.add(filetxt, fileTextConstraint);
         this.add(browseBtn, fileButtonConstraint);

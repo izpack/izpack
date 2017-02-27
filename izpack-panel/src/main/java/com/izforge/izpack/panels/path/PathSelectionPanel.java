@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.path;
 
 import java.awt.Dimension;
@@ -42,12 +41,13 @@ import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.gui.LayoutHelper;
 
 /**
- * This is a sub panel which contains a text field and a browse button for path selection. This is
- * NOT an IzPanel, else it is made to use in an IzPanel for any path selection. If the IzPanel
- * parent implements ActionListener, the ActionPerformed method will be called, if
- * PathSelectionPanel.ActionPerformed was called with a source other than the browse button. This
- * can be used to perform parentFrame.navigateNext in the IzPanel parent. An example implementation
- * is done in com.izforge.izpack.panels.path.PathInputPanel.
+ * This is a sub panel which contains a text field and a browse button for path
+ * selection. This is NOT an IzPanel, else it is made to use in an IzPanel for
+ * any path selection. If the IzPanel parent implements ActionListener, the
+ * ActionPerformed method will be called, if PathSelectionPanel.ActionPerformed
+ * was called with a source other than the browse button. This can be used to
+ * perform parentFrame.navigateNext in the IzPanel parent. An example
+ * implementation is done in com.izforge.izpack.panels.path.PathInputPanel.
  *
  * @author Klaus Bartz
  */
@@ -87,9 +87,9 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
     /**
      * Constructs a <tt>PathSelectionPanel</tt>.
      *
-     * @param parent      the parent panel
+     * @param parent the parent panel
      * @param installData the installation data
-     * @param log         the log
+     * @param log the log
      */
     public PathSelectionPanel(IzPanel parent, GUIInstallData installData, Log log)
     {
@@ -105,7 +105,7 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
      */
     protected void createLayout()
     {
-        // We would use the IzPanelLayout also in this "sub" panel.                                                                                      
+        // We would use the IzPanelLayout also in this "sub" panel.
         // In an IzPanel there is support for this layout manager in
         // more than one place, but not in this panel so we have
         // to make all things needed.
@@ -126,8 +126,8 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
         // No explicit constraints for the button (else implicit) because
         // defaults are OK.
         browseButton = ButtonFactory.createButton(parent.getInstallerFrame().getMessages().get("TargetPanel.browse"),
-                                                  parent.getInstallerFrame().getIcons()
-                                                          .get("open"), installData.buttonsHColor);
+                parent.getInstallerFrame().getIcons()
+                        .get("open"), installData.buttonsHColor);
         browseButton.setName(GuiId.BUTTON_BROWSE.id);
         browseButton.addActionListener(this);
         add(browseButton);
@@ -135,7 +135,6 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
 
     // There are problems with the size if no other component needs the
     // full size. Sometimes directly, somtimes only after a back step.
-
     @Override
     public Dimension getMinimumSize()
     {
@@ -204,8 +203,9 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
     }
 
     /**
-     * Returns the text input field for the path. This methode can be used to differ in a
-     * ActionPerformed method of the parent between the browse button and the text field.
+     * Returns the text input field for the path. This methode can be used to
+     * differ in a ActionPerformed method of the parent between the browse
+     * button and the text field.
      *
      * @return the text input field for the path
      */
@@ -215,7 +215,8 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
     }
 
     /**
-     * Returns the browse button object for modification or for use with a different ActionListener.
+     * Returns the browse button object for modification or for use with a
+     * different ActionListener.
      *
      * @return the browse button to open the JFileChooser
      */

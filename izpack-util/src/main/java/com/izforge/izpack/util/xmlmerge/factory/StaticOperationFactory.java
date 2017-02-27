@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.factory;
 
 import org.jdom2.Element;
@@ -28,7 +27,8 @@ import com.izforge.izpack.util.xmlmerge.Operation;
 import com.izforge.izpack.util.xmlmerge.OperationFactory;
 
 /**
- * An operation factory returning always the same operation whatever the specified elements.
+ * An operation factory returning always the same operation whatever the
+ * specified elements.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
@@ -39,7 +39,7 @@ public class StaticOperationFactory implements OperationFactory
     /**
      * The operation operation returned by this factory.
      */
-    Operation m_operation;
+    Operation operation;
 
     /**
      * Creates a StaticOperationFactory returning the given operation.
@@ -48,13 +48,13 @@ public class StaticOperationFactory implements OperationFactory
      */
     public StaticOperationFactory(Operation operation)
     {
-        this.m_operation = operation;
+        this.operation = operation;
     }
 
     @Override
     public Operation getOperation(Element originalElement, Element modifiedElement)
     {
-        return m_operation;
+        return operation;
     }
 
 }

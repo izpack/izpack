@@ -9,6 +9,7 @@ import java.util.Map;
 
 public abstract class ButtonAction
 {
+
     /**
      * Access to installData
      */
@@ -26,6 +27,7 @@ public abstract class ButtonAction
 
     /**
      * Give mapping from string name to the actual string value.
+     *
      * @param messages
      */
     public void setMessages(Map<String, String> messages)
@@ -35,18 +37,21 @@ public abstract class ButtonAction
 
     /**
      * Actual execution logic for the action.
+     *
      * @return
      */
     public abstract boolean execute();
 
     /**
      * Execution method for console.
+     *
      * @return
      */
     public abstract boolean execute(Console console);
 
     /**
      * Execution method for GUI
+     *
      * @param prompt
      * @return
      */

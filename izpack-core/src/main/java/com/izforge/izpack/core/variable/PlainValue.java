@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.variable;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -26,9 +25,9 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import java.io.Serializable;
 import java.util.Set;
 
-
 public class PlainValue extends ValueImpl implements Serializable
 {
+
     /**
      *
      */
@@ -70,13 +69,13 @@ public class PlainValue extends ValueImpl implements Serializable
     @Override
     public String resolve(VariableSubstitutor... substitutors) throws Exception
     {
-        String _value_ = value;
+        String value0 = value;
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _value_ = substitutor.substitute(_value_);
+            value0 = substitutor.substitute(value0);
         }
 
-        return _value_;
+        return value0;
     }
 
     @Override

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -47,6 +46,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestMergeContainer.class)
 public class MergeDuplicationTest
 {
+
     private PathResolver pathResolver;
     private MergeableResolver mergeableResolver;
 

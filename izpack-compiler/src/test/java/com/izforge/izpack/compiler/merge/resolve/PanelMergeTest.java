@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.merge.resolve;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -49,6 +48,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestResolveContainer.class)
 public class PanelMergeTest
 {
+
     private PanelMerge panelMerge;
 
     private CompilerPathResolver pathResolver;
@@ -110,7 +110,8 @@ public class PanelMergeTest
     }
 
     /**
-     * Verifies that panel dependencies in a different package to that of the panel are merged.
+     * Verifies that panel dependencies in a different package to that of the
+     * panel are merged.
      */
     @Test
     public void testMergePanelWithDependenciesInAnotherPackage()

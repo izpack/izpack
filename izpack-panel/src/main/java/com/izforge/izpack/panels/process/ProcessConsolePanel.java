@@ -15,9 +15,9 @@ import com.izforge.izpack.util.PlatformModelMatcher;
 import java.io.PrintWriter;
 import java.util.Properties;
 
-
 public class ProcessConsolePanel extends AbstractConsolePanel implements ConsolePanel, AbstractUIProcessHandler
 {
+
     private RulesEngine rules;
     private Resources resources;
 
@@ -35,7 +35,7 @@ public class ProcessConsolePanel extends AbstractConsolePanel implements Console
     private int currentJob = 0;
 
     public ProcessConsolePanel(RulesEngine rules, Resources resources, Prompt prompt, PlatformModelMatcher matcher,
-                               PanelView<ConsolePanel> panel)
+            PanelView<ConsolePanel> panel)
     {
         super(panel);
         this.rules = rules;
@@ -70,13 +70,13 @@ public class ProcessConsolePanel extends AbstractConsolePanel implements Console
         return handler.askQuestion(title, question, choices);
     }
 
-    public int askQuestion(String title, String question, int choices, int default_choice)
+    public int askQuestion(String title, String question, int choices, int defaultChoice)
     {
-        return handler.askQuestion(title, question, choices, default_choice);
+        return handler.askQuestion(title, question, choices, defaultChoice);
     }
 
     @Override
-    public int askWarningQuestion(String title, String question, int choices, int default_choice)
+    public int askWarningQuestion(String title, String question, int choices, int defaultChoice)
     {
         return 0;
     }
@@ -93,17 +93,17 @@ public class ProcessConsolePanel extends AbstractConsolePanel implements Console
         }
     }
 
-    public void startProcessing(int no_of_processes)
+    public void startProcessing(int noOfProcesses)
     {
         logOutput("[ Starting processing ]", false);
-        this.noOfJobs = no_of_processes;
+        this.noOfJobs = noOfProcesses;
     }
 
     public void startProcess(String name)
     {
         this.currentJob++;
         logOutput("Starting process " + name + " (" + Integer.toString(this.currentJob)
-                          + "/" + Integer.toString(this.noOfJobs) + ")", false);
+                + "/" + Integer.toString(this.noOfJobs) + ")", false);
     }
 
     public void finishProcess()
@@ -118,7 +118,7 @@ public class ProcessConsolePanel extends AbstractConsolePanel implements Console
     }
 
     public boolean generateOptions(InstallData installData,
-                                   PrintWriter printWriter)
+            PrintWriter printWriter)
     {
         // TODO finish this
         return false;

@@ -18,23 +18,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.datavalidator;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.installer.DataValidator;
 
-
 /**
  * Test {@link DataValidator} implementation.
  * <p/>
- * This enables the result of the validation for a panel to be determined by specifying a variable named
+ * This enables the result of the validation for a panel to be determined by
+ * specifying a variable named
  * <em>&lt;panelId&gt;.status</em>. E.g.:
  * <pre>
  * installData.setVariable("HelloPanel.status", "ERROR");
- * </pre>
- * A counter <em>&lt;panelId&gt;.validate</em> is incremented each time the validator is called.
+ * </pre> A counter <em>&lt;panelId&gt;.validate</em> is incremented each time
+ * the validator is called.
  *
  * @author Tim Anderson
  */
@@ -51,11 +50,10 @@ public class TestDataValidator implements DataValidator
      */
     private final InstallData installData;
 
-
     /**
      * Constructs a <tt>TestDataValidator</tt>.
      *
-     * @param panel       the panel
+     * @param panel the panel
      * @param installData the installation data
      */
     public TestDataValidator(Panel panel, InstallData installData)
@@ -65,9 +63,10 @@ public class TestDataValidator implements DataValidator
     }
 
     /**
-     * Returns the no. of times validation has been invoked for the specified panel.
+     * Returns the no. of times validation has been invoked for the specified
+     * panel.
      *
-     * @param panelId     the panel identifier
+     * @param panelId the panel identifier
      * @param installData the installation data
      * @return the no. of times validation has been invoked
      */
@@ -114,7 +113,8 @@ public class TestDataValidator implements DataValidator
     }
 
     /**
-     * Determines how the installer responds to a warning when running automated.
+     * Determines how the installer responds to a warning when running
+     * automated.
      *
      * @return boolean
      */
@@ -145,7 +145,8 @@ public class TestDataValidator implements DataValidator
     }
 
     /**
-     * Returns the no. of times validation has been invoked for the current panel.
+     * Returns the no. of times validation has been invoked for the current
+     * panel.
      *
      * @return the no. of invocations
      */
@@ -168,7 +169,7 @@ public class TestDataValidator implements DataValidator
     /**
      * Returns the value of a numeric variable.
      *
-     * @param variable    the variable name
+     * @param variable the variable name
      * @param installData the installation data
      * @return the variable value
      */

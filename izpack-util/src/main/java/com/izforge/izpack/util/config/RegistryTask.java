@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.config;
 
 import java.io.IOException;
@@ -29,12 +28,12 @@ import com.izforge.izpack.api.config.Reg;
 
 public class RegistryTask extends SingleConfigurableTask
 {
-    private static final Logger logger = Logger.getLogger(RegistryTask.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(RegistryTask.class.getName());
 
     /*
      * Instance variables.
      */
-
     protected String key;
     protected String fromKey;
 
@@ -62,7 +61,7 @@ public class RegistryTask extends SingleConfigurableTask
         {
             try
             {
-                logger.fine("Loading from registry: " + this.fromKey);
+                LOGGER.fine("Loading from registry: " + this.fromKey);
                 fromConfigurable = new Reg(this.fromKey);
             }
             catch (IOException ioe)
@@ -79,7 +78,7 @@ public class RegistryTask extends SingleConfigurableTask
         {
             try
             {
-                logger.fine("Loading from registry: " + this.key);
+                LOGGER.fine("Loading from registry: " + this.key);
                 configurable = new Reg(this.key);
             }
             catch (IOException ioe)
@@ -95,7 +94,7 @@ public class RegistryTask extends SingleConfigurableTask
 
         if (configurable == null)
         {
-            logger.warning("Registry key " + this.key
+            LOGGER.warning("Registry key " + this.key
                     + " did not exist and is not allowed to be created");
             return;
         }
@@ -114,6 +113,9 @@ public class RegistryTask extends SingleConfigurableTask
     @Override
     protected void checkAttributes() throws Exception
     {
-        if (this.key == null) { throw new Exception("Key attribute must be set"); }
+        if (this.key == null)
+        {
+            throw new Exception("Key attribute must be set");
+        }
     }
 }

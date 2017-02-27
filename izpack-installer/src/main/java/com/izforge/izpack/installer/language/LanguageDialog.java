@@ -40,9 +40,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Used to prompt the user for the language. Languages can be displayed in iso3 or the native
- * notation or the notation of the default locale. Revising to native notation is based on code
- * from Christian Murphy (patch #395).
+ * Used to prompt the user for the language. Languages can be displayed in iso3
+ * or the native notation or the notation of the default locale. Revising to
+ * native notation is based on code from Christian Murphy (patch #395).
  *
  * @author Julien Ponge
  * @author Christian Murphy
@@ -50,6 +50,7 @@ import java.util.logging.Logger;
  */
 public class LanguageDialog extends JDialog
 {
+
     private static final long serialVersionUID = 3256443616359887667L;
 
     /**
@@ -80,16 +81,16 @@ public class LanguageDialog extends JDialog
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(LanguageDialog.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(LanguageDialog.class.getName());
 
     /**
      * Constructs a {@code LanguageDialog}.
      *
-     * //@param frame        the parent frame
-     * @param resources    the resources
-     * @param locales      the locales
-     * @param installData  the installation data
+     * //@param frame the parent frame
+     *
+     * @param resources the resources
+     * @param locales the locales
+     * @param installData the installation data
      */
     public LanguageDialog(Resources resources, Locales locales, GUIInstallData installData, IconsDatabase icons)
     {
@@ -111,18 +112,19 @@ public class LanguageDialog extends JDialog
     public void initLangPack() throws Exception
     {
         // Loads the suitable langpack
-        switch (locales.getLocales().size()) {
-        case 0:
-            // nothing to do at this point
-            break;
-        case 1:
-            // propagate the specified language
-            String codeOfUniqueLanguage = displayNames.keySet().iterator().next();
-            propagateLocale(codeOfUniqueLanguage);
-            break;
-        default:
-            super.getOwner().setVisible(false);
-            setVisible(true);
+        switch (locales.getLocales().size())
+        {
+            case 0:
+                // nothing to do at this point
+                break;
+            case 1:
+                // propagate the specified language
+                String codeOfUniqueLanguage = displayNames.keySet().iterator().next();
+                propagateLocale(codeOfUniqueLanguage);
+                break;
+            default:
+                super.getOwner().setVisible(false);
+                setVisible(true);
         }
     }
 
@@ -273,9 +275,11 @@ public class LanguageDialog extends JDialog
     }
 
     /**
-     * Returns whether flags should be used in the language selection dialog or not.
+     * Returns whether flags should be used in the language selection dialog or
+     * not.
      *
-     * @return whether flags should be used in the language selection dialog or not
+     * @return whether flags should be used in the language selection dialog or
+     * not
      */
     private boolean useFlags()
     {
@@ -286,7 +290,6 @@ public class LanguageDialog extends JDialog
         }
         return (true);
     }
-
 
     /**
      * Sets the selected locale on the installation data.
@@ -314,7 +317,7 @@ public class LanguageDialog extends JDialog
         }
         catch (Exception exception)
         {
-            logger.log(Level.SEVERE, exception.getMessage(), exception);
+            LOGGER.log(Level.SEVERE, exception.getMessage(), exception);
         }
     }
 
@@ -323,15 +326,17 @@ public class LanguageDialog extends JDialog
      */
     private class LanguageRenderer extends JLabel implements ListCellRenderer
     {
+
         private static final long serialVersionUID = -2714221807803832722L;
 
         /**
-         * Return a component that has been configured to display the specified value.
+         * Return a component that has been configured to display the specified
+         * value.
          *
-         * @param list         the list
-         * @param value        the value to display
-         * @param index        the cells index.
-         * @param isSelected   true if the specified cell was selected.
+         * @param list the list
+         * @param value the value to display
+         * @param index the cells index.
+         * @param isSelected true if the specified cell was selected.
          * @param cellHasFocus true if the specified cell has the focus
          * @return a component to render the value
          */
@@ -362,6 +367,7 @@ public class LanguageDialog extends JDialog
      */
     private class FlagRenderer extends LanguageRenderer
     {
+
         private static final long serialVersionUID = 1L;
 
         /**
@@ -385,16 +391,16 @@ public class LanguageDialog extends JDialog
         /**
          * Returns a suitable cell.
          *
-         * @param list         The list.
-         * @param value        The object.
-         * @param index        The index.
-         * @param isSelected   true if it is selected.
+         * @param list The list.
+         * @param value The object.
+         * @param index The index.
+         * @param isSelected true if it is selected.
          * @param cellHasFocus Description of the Parameter
          * @return The cell.
          */
         @Override
         public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus)
+                boolean isSelected, boolean cellHasFocus)
         {
             Component result = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
@@ -411,7 +417,7 @@ public class LanguageDialog extends JDialog
                 }
                 catch (ResourceException exception)
                 {
-                    logger.log(Level.WARNING, exception.getMessage(), exception);
+                    LOGGER.log(Level.WARNING, exception.getMessage(), exception);
                 }
             }
             if (isSelected || index == -1)

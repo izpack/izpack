@@ -18,21 +18,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.regex;
 
-import org.apache.tools.ant.BuildException;
-
 /**
- * Regular expression factory, which will create Regexp objects.  The
- * actual implementation class depends on the System or Ant Property:
+ * Regular expression factory, which will create Regexp objects. The actual
+ * implementation class depends on the System or Ant Property:
  * <code>izpack.regexp.regexpimpl</code>.
  *
- * @author René Krell - changes against the original implementation in Apache Ant 1.6.5
+ * @author René Krell - changes against the original implementation in Apache
+ * Ant 1.6.5
  * @see <a href='http://ant.apache.org'>Apache Ant</a>
  */
 public class RegexpFactory extends RegexpMatcherFactory
 {
+
     /**
      * Create a new regular expression matcher instance.
      *
@@ -66,23 +65,22 @@ public class RegexpFactory extends RegexpMatcherFactory
         } catch (Exception be) {
             // ignore
         }
-        */
+         */
 
-        /*
+ /*
         try {
             testAvailability("org.apache.regexp.RE");
             return createRegexpInstance("com.izforge.izpack.util.regex.JakartaRegexpRegexp");
         } catch (Exception be) {
             // ignore
         }
-        */
-
+         */
         throw new RuntimeException("No supported regular expression matcher found");
     }
 
     /**
-     * Wrapper over RegexpMatcherFactory.createInstance that ensures that
-     * we are dealing with a Regexp implementation.
+     * Wrapper over RegexpMatcherFactory.createInstance that ensures that we are
+     * dealing with a Regexp implementation.
      *
      * @see RegexpMatcherFactory#createInstance(String)
      * @since 1.3

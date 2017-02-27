@@ -22,7 +22,6 @@ package com.izforge.izpack.panels.userinput.field;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.binding.OsModel;
-import com.izforge.izpack.api.exception.IzPackException;
 
 import java.util.List;
 
@@ -37,30 +36,33 @@ public interface FieldConfig
     /**
      * Returns the variable that the field reads and updates.
      *
-     * @return the 'variable' attribute, or {@code null} if the variable is optional but not present
-     * @throws IzPackException if the 'variable' attribute is mandatory but not present
+     * @return the 'variable' attribute, or {@code null} if the variable is
+     * optional but not present
+     * @throws IzPackException if the 'variable' attribute is mandatory but not
+     * present
      */
     String getVariable();
 
     /**
      * Returns the summary key associated with the field.
      *
-     * @return the 'summaryKey' attribute, or {@code null} if the summary attribute is not present
+     * @return the 'summaryKey' attribute, or {@code null} if the summary
+     * attribute is not present
      */
     String getSummaryKey();
 
     /**
-     * Returns if the field should always be displayed read-only
-     * on the panel regardless if its conditionid is true or false.
+     * Returns if the field should always be displayed read-only on the panel
+     * regardless if its conditionid is true or false.
      *
      * @return the 'displayHidden' attribute, or {@code false}
      */
     Boolean isDisplayHidden();
 
     /**
-     * Returns a condition for which the field should be displayed read-only
-     * on the panel regardless if its conditionid is true or false.
-     * If the condition evaluates false, don't apply displayHidden.
+     * Returns a condition for which the field should be displayed read-only on
+     * the panel regardless if its conditionid is true or false. If the
+     * condition evaluates false, don't apply displayHidden.
      *
      * @return the condition, or {@code null}
      */
@@ -74,13 +76,12 @@ public interface FieldConfig
     Boolean isReadonly();
 
     /**
-     * Returns a condition for which the field should be displayed read-only.
-     * If the conditionid is false, don't apply readonly.
+     * Returns a condition for which the field should be displayed read-only. If
+     * the conditionid is false, don't apply readonly.
      *
      * @return the 'readonlyCondition' attribute, or {@code null}
      */
     String getReadonlyCondition();
-
 
     /**
      * Returns the packs that this field applies to.
@@ -92,7 +93,8 @@ public interface FieldConfig
     /**
      * Returns the operating systems that this field applies to.
      *
-     * @return the operating systems, or an empty list if the field applies to all operating systems
+     * @return the operating systems, or an empty list if the field applies to
+     * all operating systems
      */
     List<OsModel> getOsModels();
 
@@ -106,14 +108,15 @@ public interface FieldConfig
     /**
      * Returns the initial value to be used for the field.
      *
-     * @return the initial  value. May be {@code null}
+     * @return the initial value. May be {@code null}
      */
     String getInitialValue();
 
     /**
      * Returns the field size.
      *
-     * @return the field size, or {@code -1} if no size is specified, or the specified size is invalid
+     * @return the field size, or {@code -1} if no size is specified, or the
+     * specified size is invalid
      */
     int getSize();
 
@@ -123,7 +126,6 @@ public interface FieldConfig
      * @return the validators for the field
      */
     List<FieldValidator> getValidators();
-
 
     /**
      * Returns the validators for the given field.

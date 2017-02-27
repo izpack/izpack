@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.check;
 
 import java.awt.event.ActionEvent;
@@ -32,7 +31,6 @@ import com.izforge.izpack.gui.TwoColumnConstraints;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 
-
 /**
  * GUI check field.
  *
@@ -40,11 +38,11 @@ import com.izforge.izpack.panels.userinput.gui.GUIField;
  */
 public class GUICheckField extends GUIField
 {
+
     /**
      * The checkbox.
      */
     private final JCheckBox checkbox;
-
 
     /**
      * Constructs a {@code GUICheckField}.
@@ -59,13 +57,13 @@ public class GUICheckField extends GUIField
 
         checkbox.setSelected(field.getInitialSelection());
         checkbox.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
             {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    notifyUpdateListener();
-                }
-            });
+                notifyUpdateListener();
+            }
+        });
 
         addDescription();
 
@@ -92,8 +90,10 @@ public class GUICheckField extends GUIField
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)

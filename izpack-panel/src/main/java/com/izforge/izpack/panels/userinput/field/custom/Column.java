@@ -7,11 +7,12 @@ import com.izforge.izpack.panels.userinput.processorclient.ValuesProcessingClien
 import java.util.List;
 
 /**
- * Holds data on a column.
- * Add logic here when added mor attributes to the column
+ * Holds data on a column. Add logic here when added mor attributes to the
+ * column
  */
 public class Column
 {
+
     private final List<FieldValidator> validators;
 
     public Column(List<FieldValidator> validators)
@@ -21,6 +22,7 @@ public class Column
 
     /**
      * Validate based on column.
+     *
      * @param values
      * @return
      */
@@ -28,7 +30,7 @@ public class Column
     {
         for (FieldValidator validator : validators)
         {
-            if(!validator.validate(new ValuesProcessingClient(values)))
+            if (!validator.validate(new ValuesProcessingClient(values)))
             {
                 return ValidationStatus.failed(validator.getMessage());
             }

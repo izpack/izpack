@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import com.izforge.izpack.api.config.Config;
@@ -31,7 +30,8 @@ import com.izforge.izpack.api.config.Registry.Type;
 
 public class RegBuilder extends AbstractProfileBuilder
 {
-    private Reg _reg;
+
+    private Reg reg;
 
     public static RegBuilder newInstance(Reg reg)
     {
@@ -44,10 +44,11 @@ public class RegBuilder extends AbstractProfileBuilder
 
     public void setReg(Reg value)
     {
-        _reg = value;
+        this.reg = value;
     }
 
-    @Override public void handleOption(String rawName, String rawValue)
+    @Override
+    public void handleOption(String rawName, String rawValue)
     {
         String name = (rawName.charAt(0) == EscapeTool.DOUBLE_QUOTE) ? RegEscapeTool.getInstance().unquote(rawName) : rawName;
         TypeValuesPair tv = RegEscapeTool.getInstance().decode(rawValue);
@@ -63,14 +64,16 @@ public class RegBuilder extends AbstractProfileBuilder
         }
     }
 
-    @Override Config getConfig()
+    @Override
+    Config getConfig()
     {
-        return _reg.getConfig();
+        return this.reg.getConfig();
     }
 
-    @Override Profile getProfile()
+    @Override
+    Profile getProfile()
     {
-        return _reg;
+        return this.reg;
     }
 
     private static RegBuilder newInstance()

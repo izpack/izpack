@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.factory;
 
 import java.util.HashMap;
@@ -37,8 +36,9 @@ import com.izforge.izpack.util.xmlmerge.Operation;
 import com.izforge.izpack.util.xmlmerge.OperationFactory;
 
 /**
- * An operation factory that resolves operations given a map { xpath (as String), Operation }. The
- * order in the map is relevant if several XPath matches.
+ * An operation factory that resolves operations given a map { xpath (as
+ * String), Operation }. The order in the map is relevant if several XPath
+ * matches.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
@@ -49,12 +49,12 @@ public class XPathOperationFactory implements OperationFactory
     /**
      * A map containing configuration properties.
      */
-    Map<String, Operation> m_map = new HashMap<String, Operation>();
+    Map<String, Operation> map = new HashMap<String, Operation>();
 
     /**
      * The default operation returned by this factory.
      */
-    Operation m_defaultOperation;
+    Operation defaultOperation;
 
     /**
      * Sets the factory's map containing configuration properties.
@@ -63,7 +63,7 @@ public class XPathOperationFactory implements OperationFactory
      */
     public void setOperationMap(Map<String, Operation> map)
     {
-        this.m_map = map;
+        this.map = map;
     }
 
     /**
@@ -73,14 +73,14 @@ public class XPathOperationFactory implements OperationFactory
      */
     public void setDefaultOperation(Operation operation)
     {
-        this.m_defaultOperation = operation;
+        this.defaultOperation = operation;
     }
 
     @Override
     public Operation getOperation(Element originalElement, Element patchElement)
             throws AbstractXmlMergeException
     {
-        for (String xPath : m_map.keySet())
+        for (String xPath : map.keySet())
         {
             XPathExpression<Element> compiledExpression;
             try
@@ -93,26 +93,31 @@ public class XPathOperationFactory implements OperationFactory
             }
             if (matches(originalElement, compiledExpression) || matches(patchElement, compiledExpression))
             {
-                return m_map.get(xPath);
+                return map.get(xPath);
             }
         }
-        return m_defaultOperation;
+        return defaultOperation;
     }
 
     /**
      * Detects whether the given element matches the given XPath string.
      *
      * @param element The element which will be checked
-     * @param xPathString The XPath expression the element will be checked against
+     * @param xPathString The XPath expression the element will be checked
+     * against
      * @return True if the given element matches the given XPath string
-     * @throws AbstractXmlMergeException If an error occurred during the matching process
+     * @throws AbstractXmlMergeException If an error occurred during the
+     * matching process
      */
     private boolean matches(Element element, XPathExpression<Element> compiledExpression) throws AbstractXmlMergeException
     {
 
         try
         {
-            if (element == null) { return false; }
+            if (element == null)
+            {
+                return false;
+            }
             return compiledExpression.evaluate(element).contains(element);
         }
         catch (IllegalStateException e)

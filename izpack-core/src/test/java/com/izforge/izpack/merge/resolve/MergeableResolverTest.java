@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge.resolve;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,6 +44,7 @@ import com.izforge.izpack.util.FileUtil;
 @Container(TestMergeContainer.class)
 public class MergeableResolverTest
 {
+
     private MergeableResolver mergeableResolver;
     private URL resource;
 
@@ -59,7 +59,6 @@ public class MergeableResolverTest
         resource = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
         resource = new File(FileUtil.convertUrlToFilePath(resource) + "!jar/izforge").toURI().toURL();
     }
-
 
     @Test
     public void testGetMergeableFromURL() throws Exception
@@ -77,13 +76,12 @@ public class MergeableResolverTest
         assertThat(mergeable, MergeMatcher.isMergeableContainingFile("com/sora/panel/VimPanel.class"));
     }
 
-    @Test           
+    @Test
     public void testGetMergeableFromURLWithDestination() throws Exception
     {
         Mergeable jarMerge = mergeableResolver.getMergeableFromURLWithDestination(resource, "ga");
         assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("ga/izpack/panels/hello/HelloPanel.class")
         );
     }
-
 
 }

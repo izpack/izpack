@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import java.util.HashSet;
@@ -32,10 +31,12 @@ import com.izforge.izpack.api.rules.Condition;
 
 /**
  * @author Dennis Reil, <izpack@reil-online.de>
- * @version $Id: PackSelectionCondition.java,v 1.1 2006/11/03 13:03:26 dennis Exp $
+ * @version $Id: PackSelectionCondition.java,v 1.1 2006/11/03 13:03:26 dennis
+ * Exp $
  */
 public class PackSelectionCondition extends Condition
 {
+
     private static final long serialVersionUID = -1509855620741701740L;
 
     /**
@@ -48,7 +49,6 @@ public class PackSelectionCondition extends Condition
      *
      * @see de.reddot.installer.rules.Condition#readFromXML(com.izforge.izpack.api.adaptator.IXMLElement)
      */
-
     @Override
     public void readFromXML(IXMLElement xmlcondition) throws Exception
     {
@@ -115,7 +115,8 @@ public class PackSelectionCondition extends Condition
     }
 
     @Override
-    public Set<String> getVarRefs() {
+    public Set<String> getVarRefs()
+    {
         return new HashSet<String>(1);
     }
 }

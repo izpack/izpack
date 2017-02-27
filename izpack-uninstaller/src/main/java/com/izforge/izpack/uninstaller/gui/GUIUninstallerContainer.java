@@ -22,9 +22,7 @@
 package com.izforge.izpack.uninstaller.gui;
 
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
 
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.uninstaller.container.UninstallerContainer;
 

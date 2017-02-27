@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.requirement;
 
 import com.izforge.izpack.api.installer.RequirementChecker;
@@ -31,6 +30,7 @@ import com.izforge.izpack.core.resource.ResourceManager;
  */
 public class LangPackChecker implements RequirementChecker
 {
+
     /**
      * The resources.
      */

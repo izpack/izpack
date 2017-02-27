@@ -19,11 +19,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge;
 
 /**
- * Abstraction for matchers, mappers or actions two be creatable by the same factory classes.
+ * Abstraction for matchers, mappers or actions two be creatable by the same
+ * factory classes.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)

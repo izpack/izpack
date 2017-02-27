@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CustomFieldConfig extends FieldConfig
 {
+
     /**
      * @return list of columns
      */
@@ -19,6 +20,7 @@ public interface CustomFieldConfig extends FieldConfig
 
     /**
      * Get the minimum amount of rows to show
+     *
      * @return
      */
     int getMinRow();

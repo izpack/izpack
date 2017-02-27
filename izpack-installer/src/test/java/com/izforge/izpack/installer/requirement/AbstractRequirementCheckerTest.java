@@ -24,7 +24,6 @@ import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.handler.Prompt;
-import com.izforge.izpack.api.installer.RequirementChecker;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.handler.ConsolePrompt;

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.cli;
 
 import java.util.List;
@@ -32,13 +31,14 @@ import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.exception.HelpRequestedException;
 import com.izforge.izpack.compiler.exception.NoArgumentException;
 
-
 /**
  * Parse and analyze cli
  *
  * @author Anthonin Bonnefoy
  */
-public class CliAnalyzer {
+public class CliAnalyzer
+{
+
     private static final String ARG_IZPACK_HOME = "h";
     private static final String ARG_BASEDIR = "b";
     private static final String ARG_KIND = "k";
@@ -47,28 +47,28 @@ public class CliAnalyzer {
     private static final String ARG_COMPRESSION_LEVEL = "l";
     private static final String ARG_SCHEMA_VALIDATION = "v";
 
-
     /**
      * Get options for the command line parser
      *
      * @return Options
      */
-    private Options getOptions() {
+    private Options getOptions()
+    {
         Options options = new Options();
         options.addOption("?", false, "Print help");
-        options.addOption(ARG_IZPACK_HOME, true, "IzPack home : the root path of IzPack. This will be needed if the compiler " +
-                "is not called in the root directory of IzPack." +
-                "Do not forget quotations if there are blanks in the path.");
+        options.addOption(ARG_IZPACK_HOME, true, "IzPack home : the root path of IzPack. This will be needed if the compiler "
+                + "is not called in the root directory of IzPack."
+                + "Do not forget quotations if there are blanks in the path.");
         options.addOption(ARG_BASEDIR, true, "base : indicates the base path that the compiler will use for filenames."
                 + " of sources. Default is the current path. Attend to -h.");
         options.addOption(ARG_KIND, true, "kind : indicates the kind of installer to generate, default is standard");
         options.addOption(ARG_OUTPUT, true, "out  : indicates the output file name default is the xml file name\n");
-        options.addOption(ARG_COMPRESSION_FORMAT, true, "compression : indicates the compression format to be used for packs " +
-                "default is the internal deflate compression\n");
+        options.addOption(ARG_COMPRESSION_FORMAT, true, "compression : indicates the compression format to be used for packs "
+                + "default is the internal deflate compression\n");
         options.addOption(ARG_COMPRESSION_LEVEL, true, "compression-level : indicates the level for the used compression format"
                 + " if supported. Only integer are valid\n");
-        options.addOption(ARG_SCHEMA_VALIDATION, true, "schema-validation : indicates whether XML descriptors should " +
-                "be validated during compilation (true|false; default is true)\n");
+        options.addOption(ARG_SCHEMA_VALIDATION, true, "schema-validation : indicates whether XML descriptors should "
+                + "be validated during compilation (true|false; default is true)\n");
         return options;
     }
 
@@ -78,14 +78,16 @@ public class CliAnalyzer {
      * @param args Command line arguments
      * @return Compile data with informations
      */
-    public CompilerData printAndParseArgs(String[] args) throws ParseException {
+    public CompilerData printAndParseArgs(String[] args) throws ParseException
+    {
         printHeader();
         CompilerData result = parseArgs(args);
         printTail(result);
         return result;
     }
 
-    private void printHeader() {
+    private void printHeader()
+    {
         // Outputs some informations
         System.out.println("");
         System.out.println(".::  IzPack - Version " + CompilerData.IZPACK_VERSION + " ::.");
@@ -104,7 +106,8 @@ public class CliAnalyzer {
      *
      * @param result Compile data created from arguments
      */
-    private void printTail(CompilerData result) {
+    private void printTail(CompilerData result)
+    {
         // Outputs what we are going to do
         System.out.println("-> Processing  : " + result.getInstallFile());
         System.out.println("-> Output      : " + result.getOutput());
@@ -112,12 +115,12 @@ public class CliAnalyzer {
         System.out.println("-> Kind        : " + result.getKind());
         System.out.println("-> Compression : " + result.getComprFormat());
         System.out.println("-> Compr. level: " + result.getComprLevel());
-        System.out.println("-> IzPack home : " + CompilerData.IZPACK_HOME);
+        System.out.println("-> IzPack home : " + CompilerData.izpackHome);
         System.out.println("");
     }
 
-
-    public CompilerData parseArgs(String[] args) throws ParseException {
+    public CompilerData parseArgs(String[] args) throws ParseException
+    {
         CommandLineParser parser = new PosixParser();
         CommandLine commandLine = parser.parse(getOptions(), args);
         return analyzeCommandLine(commandLine);
@@ -126,7 +129,8 @@ public class CliAnalyzer {
     /**
      * Print help
      */
-    private void printHelp() {
+    private void printHelp()
+    {
         HelpFormatter formatter = new HelpFormatter();
         String cmdLineUsage = "IzPack -> Command line parameters are : (xml file) [args]";
         String header = "(xml file): the xml file describing the installation";
@@ -140,40 +144,48 @@ public class CliAnalyzer {
      * @param commandLine CommandLine to analyze
      * @return filled compilerData with informations
      */
-    private CompilerData analyzeCommandLine(CommandLine commandLine) {
+    private CompilerData analyzeCommandLine(CommandLine commandLine)
+    {
         validateCommandLine(commandLine);
         String installFile;
         String baseDir = ".";
         String output = "install.jar";
 
-        if (commandLine.hasOption("?")) {
+        if (commandLine.hasOption("?"))
+        {
             printHelp();
             throw new HelpRequestedException();
         }
         List<String> argList = commandLine.getArgList();
         installFile = argList.get(0);
-        if (commandLine.hasOption(ARG_BASEDIR)) {
+        if (commandLine.hasOption(ARG_BASEDIR))
+        {
             baseDir = commandLine.getOptionValue(ARG_BASEDIR).trim();
         }
-        if (commandLine.hasOption(ARG_OUTPUT)) {
+        if (commandLine.hasOption(ARG_OUTPUT))
+        {
             output = commandLine.getOptionValue(ARG_OUTPUT).trim();
         }
         CompilerData compilerData = new CompilerData(installFile, baseDir, output, false, true);
 
-
-        if (commandLine.hasOption(ARG_COMPRESSION_FORMAT)) {
+        if (commandLine.hasOption(ARG_COMPRESSION_FORMAT))
+        {
             compilerData.setComprFormat(commandLine.getOptionValue(ARG_COMPRESSION_FORMAT).trim());
         }
-        if (commandLine.hasOption(ARG_COMPRESSION_LEVEL)) {
+        if (commandLine.hasOption(ARG_COMPRESSION_LEVEL))
+        {
             compilerData.setComprLevel(Integer.parseInt(commandLine.getOptionValue(ARG_COMPRESSION_LEVEL).trim()));
         }
-        if (commandLine.hasOption(ARG_IZPACK_HOME)) {
+        if (commandLine.hasOption(ARG_IZPACK_HOME))
+        {
             CompilerData.setIzpackHome(commandLine.getOptionValue(ARG_IZPACK_HOME).trim());
         }
-        if (commandLine.hasOption(ARG_KIND)) {
+        if (commandLine.hasOption(ARG_KIND))
+        {
             compilerData.setKind(commandLine.getOptionValue(ARG_KIND).trim());
         }
-        if (commandLine.hasOption(ARG_SCHEMA_VALIDATION)) {
+        if (commandLine.hasOption(ARG_SCHEMA_VALIDATION))
+        {
             compilerData.setValidating(Boolean.parseBoolean(commandLine.getOptionValue(ARG_SCHEMA_VALIDATION).trim()));
         }
 
@@ -185,8 +197,10 @@ public class CliAnalyzer {
      *
      * @param commandLine
      */
-    private void validateCommandLine(CommandLine commandLine) {
-        if (commandLine.getArgList().size() == 0) {
+    private void validateCommandLine(CommandLine commandLine)
+    {
+        if (commandLine.getArgList().size() == 0)
+        {
             printHelp();
             throw new NoArgumentException();
         }

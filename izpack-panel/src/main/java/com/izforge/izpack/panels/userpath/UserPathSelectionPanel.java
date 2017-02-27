@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userpath;
 
 import java.awt.Dimension;
@@ -41,12 +40,13 @@ import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.gui.LayoutHelper;
 
 /**
- * This is a sub panel which contains a text field and a browse button for path selection. This is
- * NOT an IzPanel, else it is made to use in an IzPanel for any path selection. If the IzPanel
- * parent implements ActionListener, the ActionPerformed method will be called, if
- * PathSelectionPanel.ActionPerformed was called with a source other than the browse button. This
- * can be used to perform parentFrame.navigateNext in the IzPanel parent. An example implementation
- * is done in com.izforge.izpack.panels.path.PathInputPanel.
+ * This is a sub panel which contains a text field and a browse button for path
+ * selection. This is NOT an IzPanel, else it is made to use in an IzPanel for
+ * any path selection. If the IzPanel parent implements ActionListener, the
+ * ActionPerformed method will be called, if PathSelectionPanel.ActionPerformed
+ * was called with a source other than the browse button. This can be used to
+ * perform parentFrame.navigateNext in the IzPanel parent. An example
+ * implementation is done in com.izforge.izpack.panels.path.PathInputPanel.
  *
  * @author Klaus Bartz
  * @author Jeff Gordon
@@ -82,14 +82,15 @@ public class UserPathSelectionPanel extends JPanel implements ActionListener, La
     /**
      * Constructs an <tt>UserPathSelectionPanel</tt>.
      *
-     * @param parent       the parent panel
-     * @param installData  the installation data
-     * @param targetPanel  the target panel
-     * @param variableName the name of the variable whose value should be displayed
-     * @param log          the log
+     * @param parent the parent panel
+     * @param installData the installation data
+     * @param targetPanel the target panel
+     * @param variableName the name of the variable whose value should be
+     * displayed
+     * @param log the log
      */
     public UserPathSelectionPanel(IzPanel parent, GUIInstallData installData, String targetPanel, String variableName,
-                                  Log log)
+            Log log)
     {
         super();
         this.parent = parent;
@@ -131,14 +132,13 @@ public class UserPathSelectionPanel extends JPanel implements ActionListener, La
             buttonText = parent.getInstallerFrame().getMessages().get(defaultPanelName + ".browse");
         }
         browseButton = ButtonFactory.createButton(buttonText, parent.getInstallerFrame().getIcons().get("open"),
-                                                  installData.buttonsHColor);
+                installData.buttonsHColor);
         browseButton.addActionListener(this);
         add(browseButton);
     }
 
     // There are problems with the size if no other component needs the
     // full size. Sometimes directly, somtimes only after a back step.
-
     public Dimension getMinimumSize()
     {
         Dimension preferredSize = super.getPreferredSize();
@@ -205,8 +205,9 @@ public class UserPathSelectionPanel extends JPanel implements ActionListener, La
     }
 
     /**
-     * Returns the text input field for the path. This methode can be used to differ in a
-     * ActionPerformed method of the parent between the browse button and the text field.
+     * Returns the text input field for the path. This methode can be used to
+     * differ in a ActionPerformed method of the parent between the browse
+     * button and the text field.
      *
      * @return the text input field for the path
      */
@@ -216,7 +217,8 @@ public class UserPathSelectionPanel extends JPanel implements ActionListener, La
     }
 
     /**
-     * Returns the browse button object for modification or for use with a different ActionListener.
+     * Returns the browse button object for modification or for use with a
+     * different ActionListener.
      *
      * @return the browse button to open the JFileChooser
      */

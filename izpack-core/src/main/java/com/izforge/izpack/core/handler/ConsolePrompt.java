@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.handler;
 
 import com.izforge.izpack.api.handler.AbstractPrompt;
-import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.util.Console;
 
@@ -33,6 +31,7 @@ import com.izforge.izpack.util.Console;
  */
 public class ConsolePrompt extends AbstractPrompt
 {
+
     /**
      * The console.
      */
@@ -73,11 +72,10 @@ public class ConsolePrompt extends AbstractPrompt
      */
     private final String no;
 
-
     /**
      * Constructs a {@code ConsolePrompt}.
      *
-     * @param console  the console
+     * @param console the console
      * @param messages the messages to localise the prompt
      */
     public ConsolePrompt(Console console, Messages messages)
@@ -109,10 +107,10 @@ public class ConsolePrompt extends AbstractPrompt
     /**
      * Displays a confirmation message.
      *
-     * @param type          the type of the message
-     * @param title         the message title. May be {@code null}
-     * @param message       the message
-     * @param options       the options which may be selected
+     * @param type the type of the message
+     * @param title the message title. May be {@code null}
+     * @param message the message
+     * @param options the options which may be selected
      * @param defaultOption the default option to select. May be {@code null}
      * @return the selected option
      */
@@ -125,7 +123,10 @@ public class ConsolePrompt extends AbstractPrompt
         if (options == Options.OK_CANCEL)
         {
             String defaultValue = (defaultOption != null && defaultOption == Option.OK) ? ok : cancel;
-            String selected = console.prompt(okCancelPrompt, new String[]{ok, cancel}, defaultValue);
+            String selected = console.prompt(okCancelPrompt, new String[]
+            {
+                ok, cancel
+            }, defaultValue);
             if (ok.equals(selected))
             {
                 result = Option.OK;
@@ -149,7 +150,10 @@ public class ConsolePrompt extends AbstractPrompt
                     defaultValue = no;
                 }
             }
-            String selected = console.prompt(yesNoCancelPrompt, new String[]{yes, no, cancel}, defaultValue);
+            String selected = console.prompt(yesNoCancelPrompt, new String[]
+            {
+                yes, no, cancel
+            }, defaultValue);
             if (yes.equals(selected))
             {
                 result = Option.YES;
@@ -170,7 +174,10 @@ public class ConsolePrompt extends AbstractPrompt
             {
                 defaultValue = yes;
             }
-            String selected = console.prompt(yesNoPrompt, new String[]{yes, no}, defaultValue);
+            String selected = console.prompt(yesNoPrompt, new String[]
+            {
+                yes, no
+            }, defaultValue);
             if (yes.equals(selected))
             {
                 result = Option.YES;

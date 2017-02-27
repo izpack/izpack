@@ -22,7 +22,6 @@
  * Updated by Fabrice Mirabile the 06/01/2006
  *
  */
-
 package com.izforge.izpack.panels.selectprinter;
 
 import java.awt.GridBagConstraints;
@@ -64,14 +63,13 @@ public class SelectPrinterPanel extends IzPanel implements ActionListener
      */
     private JComboBox cbPrinters;
 
-
     /**
      * The constructor.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent
+     * @param panel the panel meta-data
+     * @param parent the parent
      * @param installData the installation data
-     * @param resources   the resources
+     * @param resources the resources
      */
     public SelectPrinterPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
     {
@@ -114,7 +112,6 @@ public class SelectPrinterPanel extends IzPanel implements ActionListener
         centerPanel.add(Box.createVerticalStrut(20));
 
         centerPanel.add(cbPrinters);
-
 
     }
 

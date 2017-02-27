@@ -18,18 +18,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.regex;
-
-import org.apache.tools.ant.BuildException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Regular expression implementation using the JDK 1.4 regular expression package
+ * Regular expression implementation using the JDK 1.4 regular expression
+ * package
  *
- * @author René Krell - changes against the original implementation in Apache Ant 1.6.5
+ * @author René Krell - changes against the original implementation in Apache
+ * Ant 1.6.5
  * @see <a href='http://ant.apache.org'>Apache Ant</a>
  */
 public class JavaRegexp extends JavaRegexpMatcher implements Regexp
@@ -62,9 +61,9 @@ public class JavaRegexp extends JavaRegexpMatcher implements Regexp
     /**
      * Perform a substitution on the regular expression.
      *
-     * @param input    The string to substitute on
+     * @param input The string to substitute on
      * @param argument The string which defines the substitution
-     * @param options  The list of options for the match and replace.
+     * @param options The list of options for the match and replace.
      * @return the result of the operation
      * @throws BuildException on error
      */

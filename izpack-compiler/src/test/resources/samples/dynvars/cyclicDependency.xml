@@ -32,8 +32,12 @@
     </dynamicvariables>
 
     <conditions>
-        <condition id="dyn10set" type="empty"> <variable>dyn10</variable> </condition>
-        <condition id="dyn11set" type="empty"> <variable>dyn11</variable> </condition>
+        <condition id="dyn10set" type="empty"> 
+            <variable>dyn10</variable> 
+        </condition>
+        <condition id="dyn11set" type="empty"> 
+            <variable>dyn11</variable> 
+        </condition>
     </conditions>
 
     <panels>

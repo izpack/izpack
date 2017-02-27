@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge;
 
 import org.jdom2.Element;
@@ -32,12 +31,13 @@ import org.jdom2.Element;
  */
 public class ElementException extends AbstractXmlMergeException
 {
+
     private static final long serialVersionUID = 3523760359350068908L;
 
     /**
      * An element instance.
      */
-    Element m_element;
+    Element element;
 
     /**
      * Constructor.
@@ -47,7 +47,7 @@ public class ElementException extends AbstractXmlMergeException
     public ElementException(Element element)
     {
         super(makeMessage(element));
-        this.m_element = element;
+        this.element = element;
     }
 
     /**
@@ -59,7 +59,7 @@ public class ElementException extends AbstractXmlMergeException
     public ElementException(Element element, String message)
     {
         super(message);
-        this.m_element = element;
+        this.element = element;
     }
 
     /**
@@ -78,7 +78,7 @@ public class ElementException extends AbstractXmlMergeException
      */
     public Element getElement()
     {
-        return m_element;
+        return element;
     }
 
     /**
@@ -86,7 +86,7 @@ public class ElementException extends AbstractXmlMergeException
      */
     public void setElement(Element element)
     {
-        m_element = element;
+        this.element = element;
     }
 
     /**

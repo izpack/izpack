@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.unix;
 
 import com.izforge.izpack.util.FileExecutor;
@@ -27,10 +26,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-
 /**
- * This represents a Unix User. If initialized via fromEtcPasswdLine(),  the users
- * Name, home, uid, gid, and shell can be asked.
+ * This represents a Unix User. If initialized via fromEtcPasswdLine(), the
+ * users Name, home, uid, gid, and shell can be asked.
  *
  * @author marc.eppelmann&#064;reddot.de
  */
@@ -76,10 +74,9 @@ public class UnixUser
     /**
      * internal name
      */
-    private static String XDGDesktopFolderNameScriptFilename;
+    private static String xDGDesktopFolderNameScriptFilename;
 
-
-    private static File XDGDesktopFolderNameScript;
+    private static File xDGDesktopFolderNameScript;
     //~ Methods ****************************************************************************
 
     /**
@@ -153,8 +150,9 @@ public class UnixUser
     }
 
     /**
-     * Parses a Line from /etc/passwd and stores each :token: in their field of the user.
-     * Sample Line from /etc/passwd "eppelmann.local:x:900:100:Marc Eppelmann:/mnt/local/home/eppelmann.local:/bin/bash"
+     * Parses a Line from /etc/passwd and stores each :token: in their field of
+     * the user. Sample Line from /etc/passwd "eppelmann.local:x:900:100:Marc
+     * Eppelmann:/mnt/local/home/eppelmann.local:/bin/bash"
      *
      * @param anEtcPasswdLine A Passwd Line of the User.
      * @return The filled User
@@ -209,9 +207,10 @@ public class UnixUser
     }
 
     /**
-     * Creates a small script, which calls $HOME/.config/user-dirs.dirs then echoes the $XDG_DESKTOP_DIR
-     * in the /tmp folder and returns its pseudo unique absolute filename.
-     * The call of this script should return the absolute Desktop foldername.
+     * Creates a small script, which calls $HOME/.config/user-dirs.dirs then
+     * echoes the $XDG_DESKTOP_DIR in the /tmp folder and returns its pseudo
+     * unique absolute filename. The call of this script should return the
+     * absolute Desktop foldername.
      *
      * @return the absolute Filename of the script.
      */
@@ -244,7 +243,8 @@ public class UnixUser
     }
 
     /**
-     * Gets the Name of the XDG-Desktop Folder if defined in the $HOME/.config/user-dirs.dirs File as absolute File/Pathname
+     * Gets the Name of the XDG-Desktop Folder if defined in the
+     * $HOME/.config/user-dirs.dirs File as absolute File/Pathname
      *
      * @return The absolute File/Pathname of the Desktop foldername.
      */
@@ -253,15 +253,23 @@ public class UnixUser
         File configFile = new File(getHome() + File.separator + ".config" + File.separator + "user-dirs.dirs");
         if (configFile.exists())
         {
-            if (XDGDesktopFolderNameScript == null)
-            /** TODO: can be optimized with a shared script **/
+            if (xDGDesktopFolderNameScript == null)
+            /**
+             * TODO: can be optimized with a shared script *
+             */
             {
-                XDGDesktopFolderNameScriptFilename = getCreatedXDGDesktopFolderNameScriptFilename();
+                xDGDesktopFolderNameScriptFilename = getCreatedXDGDesktopFolderNameScriptFilename();
             }
 
-            FileExecutor.getExecOutput(new String[]{UnixHelper.getCustomCommand("chmod"), "+x", XDGDesktopFolderNameScriptFilename}, true);
-            String xdgDesktopfolder = FileExecutor.getExecOutput(new String[]{XDGDesktopFolderNameScriptFilename}, true).trim();
-            new File(XDGDesktopFolderNameScriptFilename).delete();
+            FileExecutor.getExecOutput(new String[]
+            {
+                UnixHelper.getCustomCommand("chmod"), "+x", xDGDesktopFolderNameScriptFilename
+            }, true);
+            String xdgDesktopfolder = FileExecutor.getExecOutput(new String[]
+            {
+                xDGDesktopFolderNameScriptFilename
+            }, true).trim();
+            new File(xDGDesktopFolderNameScriptFilename).delete();
 
             return xdgDesktopfolder;
 

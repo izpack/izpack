@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -42,7 +41,7 @@ public class ConsoleInstallAction extends AbstractInstallAction
      * Constructs a <tt>ConsoleInstallAction</tt>.
      *
      * @param installData the installation date
-     * @param writer      the uninstallation data writer
+     * @param writer the uninstallation data writer
      */
     public ConsoleInstallAction(Console console, InstallData installData, UninstallDataWriter writer)
     {
@@ -50,12 +49,12 @@ public class ConsoleInstallAction extends AbstractInstallAction
         this.console = console;
     }
 
-
     /**
      * Runs the action for the panel.
      *
      * @param panel the panel
-     * @return {@code true} if the action was successful, otherwise {@code false}
+     * @return {@code true} if the action was successful, otherwise
+     * {@code false}
      */
     @Override
     public boolean run(ConsolePanelView panel)

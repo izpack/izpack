@@ -16,7 +16,7 @@ public class InstallerController
     private InstallerFrame installerFrame;
 
     public InstallerController(InstallDataConfiguratorWithRules installDataRulesEngineManager,
-                               InstallerFrame installerFrame)
+            InstallerFrame installerFrame)
     {
 
         this.installerFrame = installerFrame;

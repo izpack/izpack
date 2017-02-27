@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
-
 
 import com.izforge.izpack.api.exception.InstallerException;
 
@@ -34,10 +32,11 @@ import java.util.Set;
  */
 public interface Variables
 {
+
     /**
      * Sets a variable.
      *
-     * @param name  the variable name
+     * @param name the variable name
      * @param value the variable value. May be {@code null}
      */
     void set(String name, String value);
@@ -53,9 +52,11 @@ public interface Variables
     /**
      * Returns the value of the specified variable.
      *
-     * @param name         the variable name
-     * @param defaultValue the default value if the variable doesn't exist, or is {@code null}
-     * @return the value, or {@code defaultValue} if the variable doesn't exist or is {@code null}
+     * @param name the variable name
+     * @param defaultValue the default value if the variable doesn't exist, or
+     * is {@code null}
+     * @return the value, or {@code defaultValue} if the variable doesn't exist
+     * or is {@code null}
      */
     String get(String name, String defaultValue);
 
@@ -63,16 +64,19 @@ public interface Variables
      * Returns the boolean value of the specified variable.
      *
      * @param name the variable name
-     * @return the boolean value, or {@code false} if the variable doesn't exist or is not a boolean
+     * @return the boolean value, or {@code false} if the variable doesn't exist
+     * or is not a boolean
      */
     boolean getBoolean(String name);
 
     /**
      * Returns the boolean value of the specified variable.
      *
-     * @param name         the variable name
-     * @param defaultValue the default value if the variable doesn't exist, or is {@code null}
-     * @return the boolean value, or {@code defaultValue} if the variable doesn't exist or is not a boolean
+     * @param name the variable name
+     * @param defaultValue the default value if the variable doesn't exist, or
+     * is {@code null}
+     * @return the boolean value, or {@code defaultValue} if the variable
+     * doesn't exist or is not a boolean
      */
     boolean getBoolean(String name, boolean defaultValue);
 
@@ -80,7 +84,8 @@ public interface Variables
      * Returns the integer value of the specified variable.
      *
      * @param name the variable name
-     * @return the integer value, or {@code -1} if the variable doesn't exist or is not an integer
+     * @return the integer value, or {@code -1} if the variable doesn't exist or
+     * is not an integer
      */
     int getInt(String name);
 
@@ -88,7 +93,8 @@ public interface Variables
      * Returns the integer value of the specified variable.
      *
      * @param name the variable name
-     * @return the integer value, or {@code defaultValue} if the variable doesn't exist or is not an integer
+     * @return the integer value, or {@code defaultValue} if the variable
+     * doesn't exist or is not an integer
      */
     int getInt(String name, int defaultValue);
 
@@ -96,7 +102,8 @@ public interface Variables
      * Returns the long value of the specified variable.
      *
      * @param name the variable name
-     * @return the long value, or {@code -1} if the variable doesn't exist or is not a long
+     * @return the long value, or {@code -1} if the variable doesn't exist or is
+     * not a long
      */
     long getLong(String name);
 
@@ -104,7 +111,8 @@ public interface Variables
      * Returns the long value of the specified variable.
      *
      * @param name the variable name
-     * @return the long value, or {@code defaultValue} if the variable doesn't exist or is not a long
+     * @return the long value, or {@code defaultValue} if the variable doesn't
+     * exist or is not a long
      */
     long getLong(String name, long defaultValue);
 
@@ -112,8 +120,8 @@ public interface Variables
      * Replaces any variables in the supplied value.
      *
      * @param value the value. May be {@code null}
-     * @return the value with variables replaced, or {@code value} if there were no variables to replace, or
-     *         replacement failed
+     * @return the value with variables replaced, or {@code value} if there were
+     * no variables to replace, or replacement failed
      */
     String replace(String value);
 

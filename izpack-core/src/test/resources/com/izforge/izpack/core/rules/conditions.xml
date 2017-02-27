@@ -70,11 +70,11 @@
         <condition type="ref" refid="Update" />
     </condition>
     <condition type="and" id="linuxInstallOrUpdate">
-      <condition type="ref" refid="izpack.linuxinstall" />
-      <condition type="or" id="installOrUpdate">
-        <condition type="ref" refid="Install" />
-        <condition type="ref" refid="Update" />
-      </condition>
+        <condition type="ref" refid="izpack.linuxinstall" />
+        <condition type="or" id="installOrUpdate">
+            <condition type="ref" refid="Install" />
+            <condition type="ref" refid="Update" />
+        </condition>
     </condition>
 
 </izpack:conditions>

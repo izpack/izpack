@@ -7,6 +7,7 @@ package com.izforge.izpack.installer.gui;
  */
 public interface InstallerView
 {
+
     void lockPrevButton();
 
     void lockNextButton();

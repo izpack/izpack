@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -43,23 +42,22 @@ public class Unpacker extends UnpackerBase
     /**
      * Constructs an <tt>Unpacker</tt>.
      *
-     * @param installData         the installation data
-     * @param resources           the pack resources
-     * @param rules               the rules engine
+     * @param installData the installation data
+     * @param resources the pack resources
+     * @param rules the rules engine
      * @param variableSubstitutor the variable substituter
-     * @param uninstallData       the uninstallation data
-     * @param factory             the file queue factory
-     * @param housekeeper         the housekeeper
-     * @param listeners           the listeners
-     * @param matcher             the platform-model matcher
+     * @param uninstallData the uninstallation data
+     * @param factory the file queue factory
+     * @param housekeeper the housekeeper
+     * @param listeners the listeners
+     * @param matcher the platform-model matcher
      */
     public Unpacker(InstallData installData, PackResources resources, RulesEngine rules,
-                    VariableSubstitutor variableSubstitutor, UninstallData uninstallData, FileQueueFactory factory,
-                    Housekeeper housekeeper, InstallerListeners listeners, Prompt prompt, PlatformModelMatcher matcher)
+            VariableSubstitutor variableSubstitutor, UninstallData uninstallData, FileQueueFactory factory,
+            Housekeeper housekeeper, InstallerListeners listeners, Prompt prompt, PlatformModelMatcher matcher)
     {
         super(installData, resources, rules, variableSubstitutor, uninstallData, factory, housekeeper, listeners,
-              prompt, matcher);
+                prompt, matcher);
     }
 
 }
-

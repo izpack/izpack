@@ -59,7 +59,7 @@ public class DefaultTargetConsolePanelTest
      * Constructs a {@code DefaultTargetConsolePanelTest}.
      *
      * @param installData the installation data
-     * @param console     the console
+     * @param console the console
      */
     public DefaultTargetConsolePanelTest(InstallData installData, TestConsole console)
     {
@@ -68,7 +68,8 @@ public class DefaultTargetConsolePanelTest
     }
 
     /**
-     * Verifies that if no path is entered, it will default to that of the <em>user.dir</em> system property.
+     * Verifies that if no path is entered, it will default to that of the
+     * <em>user.dir</em> system property.
      *
      * @throws Exception for any error
      */
@@ -80,7 +81,8 @@ public class DefaultTargetConsolePanelTest
     }
 
     /**
-     * Verifies that if the <em>TargetPanel.dir</em> property is set, it will be used.
+     * Verifies that if the <em>TargetPanel.dir</em> property is set, it will be
+     * used.
      *
      * @throws Exception for any error
      */
@@ -93,7 +95,8 @@ public class DefaultTargetConsolePanelTest
     }
 
     /**
-     * Verifies that if no <em>TargetPanel.dir</em> property is set, the default install path will be used.
+     * Verifies that if no <em>TargetPanel.dir</em> property is set, the default
+     * install path will be used.
      *
      * @throws Exception for any error
      */
@@ -106,8 +109,9 @@ public class DefaultTargetConsolePanelTest
     }
 
     /**
-     * Verifies that when the <em>TargetPanel.dir.&lt;platform&gt;</em> variable is set for the current platform,
-     * it will be used in preference to any other.
+     * Verifies that when the <em>TargetPanel.dir.&lt;platform&gt;</em> variable
+     * is set for the current platform, it will be used in preference to any
+     * other.
      *
      * @throws Exception for any error
      */
@@ -131,7 +135,7 @@ public class DefaultTargetConsolePanelTest
     private void checkInstallPath(String expectedPath)
     {
         assertNull(installData.getInstallPath());
-        DefaultTargetConsolePanel panel = new DefaultTargetConsolePanel(null,installData);
+        DefaultTargetConsolePanel panel = new DefaultTargetConsolePanel(null, installData);
         assertTrue(panel.run(installData, console));
         assertEquals(expectedPath, installData.getInstallPath());
     }

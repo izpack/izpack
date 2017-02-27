@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.file;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -40,13 +39,12 @@ public class AbstractConsoleFileField extends ConsoleField
      */
     private final FileFieldView view;
 
-
     /**
      * Constructs a {@link AbstractConsoleFileField}.
      *
-     * @param view    the field view
+     * @param view the field view
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public AbstractConsoleFileField(FileFieldView view, Console console, Prompt prompt)
     {
@@ -59,7 +57,8 @@ public class AbstractConsoleFileField extends ConsoleField
      * <p/>
      * For fields that update variables, this collects input and validates it.
      *
-     * @return {@code true} if the field was displayed and validated successfully
+     * @return {@code true} if the field was displayed and validated
+     * successfully
      */
     @Override
     public boolean display()
@@ -75,13 +74,13 @@ public class AbstractConsoleFileField extends ConsoleField
         }
         if (isReadonly())
         {
-            println(label + (label.isEmpty()?" ":"") + "[" + initialValue + "]");
+            println(label + (label.isEmpty() ? " " : "") + "[" + initialValue + "]");
             field.setValue(initialValue);
             result = true;
         }
         else
         {
-            String prompt = label + (label.isEmpty()?" ":"") + "[" + ((initialValue != null) ? initialValue : "") + "] ";
+            String prompt = label + (label.isEmpty() ? " " : "") + "[" + ((initialValue != null) ? initialValue : "") + "] ";
             String path = getConsole().promptLocation(prompt, "");
             if (path != null)
             {

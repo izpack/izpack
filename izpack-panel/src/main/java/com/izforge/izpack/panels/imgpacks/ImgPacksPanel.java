@@ -20,7 +20,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.imgpacks;
 
 import java.awt.Component;
@@ -47,14 +46,14 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.LayoutHelper;
 import com.izforge.izpack.panels.packs.PacksPanelBase;
-import com.izforge.izpack.panels.treepacks.PackValidator;
 import com.izforge.izpack.util.IoHelper;
 
 /**
- * The ImgPacks panel class. Allows the packages selection with a small picture displayed for every
- * pack. This new version combines the old PacksPanel and the ImgPacksPanel so that the positive
- * characteristics of both are combined. This class handles only the layout and some related stuff.
- * Common stuff are handled by the base class.
+ * The ImgPacks panel class. Allows the packages selection with a small picture
+ * displayed for every pack. This new version combines the old PacksPanel and
+ * the ImgPacksPanel so that the positive characteristics of both are combined.
+ * This class handles only the layout and some related stuff. Common stuff are
+ * handled by the base class.
  *
  * @author Julien Ponge
  * @author Volker Friedritz
@@ -81,15 +80,15 @@ public class ImgPacksPanel extends PacksPanelBase
     /**
      * Constructs a <tt>ImgPacksPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      fhe parent window
+     * @param panel the panel meta-data
+     * @param parent fhe parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param factory     the factory for creating {@link PackValidator} instances
-     * @param rules       the rules engine
+     * @param resources the resources
+     * @param factory the factory for creating {@link PackValidator} instances
+     * @param rules the rules engine
      */
     public ImgPacksPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                         ObjectFactory factory, RulesEngine rules)
+            ObjectFactory factory, RulesEngine rules)
     {
         super(panel, parent, installData, resources, factory, rules);
     }
@@ -99,7 +98,6 @@ public class ImgPacksPanel extends PacksPanelBase
      *
      * @see com.izforge.izpack.panels.packs.PacksPanelBase#createNormalLayout()
      */
-
     protected void createNormalLayout()
     {
         preLoadImages();
@@ -126,12 +124,12 @@ public class ImgPacksPanel extends PacksPanelBase
 
         // Create the image label with a scroller.
         // Use the image of the first pack having an image as initial image
-        Iterator<Pack> pack_it = this.installData.getAvailablePacks().iterator();
+        Iterator<Pack> packIt = this.installData.getAvailablePacks().iterator();
         Pack firstImgPack = null;
         boolean imgFound = false;
-        while (!imgFound && pack_it.hasNext())
+        while (!imgFound && packIt.hasNext())
         {
-            firstImgPack = pack_it.next();
+            firstImgPack = packIt.next();
             imgFound = firstImgPack.getImageId() != null;
         }
         if (imgFound)
@@ -149,7 +147,6 @@ public class ImgPacksPanel extends PacksPanelBase
         add(imgScroller);
 
         // Create a vertical strut.
-
         Component strut = Box.createVerticalStrut(20);
         LayoutHelper.buildConstraints(gbConstraints, 1, 2, 1, 3, 0.0, 0.0);
         layout.addLayoutComponent(strut, gbConstraints);
@@ -162,7 +159,7 @@ public class ImgPacksPanel extends PacksPanelBase
             depScroller.setPreferredSize(new Dimension(250, 40));
             LayoutHelper.buildConstraints(gbConstraints, 0, 3, 1, 1, 0.50, 0.50);
             dependencyArea = createTextArea("ImgPacksPanel.dependencyList", depScroller, layout,
-                                            gbConstraints);
+                    gbConstraints);
         }
 
         // Create the description area with a scroller.
@@ -172,7 +169,7 @@ public class ImgPacksPanel extends PacksPanelBase
 
         LayoutHelper.buildConstraints(gbConstraints, 1, 3, 1, 1, 0.50, 0.50);
         descriptionArea = createTextArea("PacksPanel.description", descriptionScroller, layout,
-                                         gbConstraints);
+                gbConstraints);
         // Create the tip label.
         LayoutHelper.buildConstraints(gbConstraints, 0, 4, 2, 1, 0.0, 0.0);
         createLabel("PacksPanel.tip", "tip", layout, gbConstraints);
@@ -214,8 +211,8 @@ public class ImgPacksPanel extends PacksPanelBase
     }
 
     /**
-     * Try to find a good preferredSize for imgScroller by checking all loaded images' width and
-     * height.
+     * Try to find a good preferredSize for imgScroller by checking all loaded
+     * images' width and height.
      */
     private Dimension getPreferredSizeFromImages()
     {
@@ -241,7 +238,6 @@ public class ImgPacksPanel extends PacksPanelBase
      *
      * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
      */
-
     public void valueChanged(ListSelectionEvent e)
     {
         // this MUST be called before calling the super's valueChanged() since

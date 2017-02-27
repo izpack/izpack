@@ -35,7 +35,7 @@ public class Platform
      *  NOTE: We choose double backslash to be invalid rather than just backslash, because we are checking against paths
      *        A normal backslash would just represent another folder
      */
-    public static final String [] invalidWindowsDirectoryChars = {"<", ">", ":", "\"", "/", "\\\\", "|", "?", "*", "\\ "};
+    public static final String [] INVALID_WINDOWS_DIRECTORY_CHARS = {"<", ">", ":", "\"", "/", "\\\\", "|", "?", "*", "\\ "};
 
     /**
      * Platform family name.
@@ -375,7 +375,7 @@ public class Platform
         String[] invalidDirectoryCharacters = new String[0];
         if (name == Name.WINDOWS)
         {
-            invalidDirectoryCharacters = invalidWindowsDirectoryChars;
+            invalidDirectoryCharacters = INVALID_WINDOWS_DIRECTORY_CHARS;
         }
         for (String invalidChar : invalidDirectoryCharacters)
         {

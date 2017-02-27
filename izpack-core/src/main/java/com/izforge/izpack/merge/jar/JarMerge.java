@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge.jar;
 
 import java.io.File;
@@ -49,26 +48,27 @@ import com.izforge.izpack.util.IoHelper;
  */
 public class JarMerge extends AbstractMerge
 {
+
     private String jarPath;
 
     private String regexp;
     private String destination;
 
-
     /**
      * Create a new JarMerge with a destination
      *
-     * @param resource     the resource to merge
-     * @param jarPath      Path to the jar to merge
-     * @param mergeContent map linking outputstream to their content to avoir duplication
+     * @param resource the resource to merge
+     * @param jarPath Path to the jar to merge
+     * @param mergeContent map linking outputstream to their content to avoir
+     * duplication
      */
     public JarMerge(URL resource, String jarPath, Map<OutputStream, List<String>> mergeContent)
     {
         this.jarPath = jarPath;
         this.mergeContent = mergeContent;
         destination = FileUtil.convertUrlToFilePath(resource).replace(this.jarPath, "").replaceAll("file:",
-                                                                                                      "").replaceAll(
-                "!/?", "").replaceAll("//", "/");
+                "").replaceAll(
+                        "!/?", "").replaceAll("//", "/");
 
         // make sure any $ characters are escaped, otherwise inner classes won't be merged
         StringBuilder builder = new StringBuilder(destination.replace("$", "\\$"));
@@ -87,13 +87,15 @@ public class JarMerge extends AbstractMerge
     /**
      * Create a new JarMerge with a destination
      *
-     * @param jarPath       Path to the jar to merge
-     * @param pathInsideJar Inside path of the jar to merge. Can be a package or a file. Needed to build the regexp
-     * @param destination   Destination of the package
-     * @param mergeContent  map linking outputstream to their content to avoir duplication
+     * @param jarPath Path to the jar to merge
+     * @param pathInsideJar Inside path of the jar to merge. Can be a package or
+     * a file. Needed to build the regexp
+     * @param destination Destination of the package
+     * @param mergeContent map linking outputstream to their content to avoir
+     * duplication
      */
     public JarMerge(String jarPath, String pathInsideJar, String destination,
-                    Map<OutputStream, List<String>> mergeContent)
+            Map<OutputStream, List<String>> mergeContent)
     {
         this.jarPath = jarPath;
         this.destination = destination;
@@ -109,7 +111,6 @@ public class JarMerge extends AbstractMerge
         }
         regexp = builder.toString();
     }
-
 
     public File find(FileFilter fileFilter)
     {
@@ -171,7 +172,6 @@ public class JarMerge extends AbstractMerge
         return arrayList;
     }
 
-
     public void merge(java.util.zip.ZipOutputStream outputStream)
     {
         mergeImpl(outputStream);
@@ -197,7 +197,8 @@ public class JarMerge extends AbstractMerge
             {
                 jarEntry = jarFileEntries.nextElement();
 
-                if (isManifest(jarEntry.getName())) {
+                if (isManifest(jarEntry.getName()))
+                {
                     // Skip the JAR's manifest file to avoid
                     // overwriting it in the target JAR
                     continue;
@@ -241,7 +242,8 @@ public class JarMerge extends AbstractMerge
         {
             throw new IzPackException("Error accessing file: " + jarPath, e.getCause());
         }
-        finally {
+        finally
+        {
             if (jarFile != null)
             {
                 try
@@ -259,11 +261,11 @@ public class JarMerge extends AbstractMerge
     @Override
     public String toString()
     {
-        return "JarMerge{" +
-                "jarPath='" + jarPath + '\'' +
-                ", regexp='" + regexp + '\'' +
-                ", destination='" + destination + '\'' +
-                '}';
+        return "JarMerge{"
+                + "jarPath='" + jarPath + '\''
+                + ", regexp='" + regexp + '\''
+                + ", destination='" + destination + '\''
+                + '}';
     }
 
     @Override
@@ -290,13 +292,16 @@ public class JarMerge extends AbstractMerge
     }
 
     /**
-     * Determines if a zip entry corresponds to a signature file.
-     * See <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#Signed_JAR_File">Signed JAR File</a>
-     * in the <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html">JAR File
-     * Specification</a> for more details.
+     * Determines if a zip entry corresponds to a signature file. See
+     * <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#Signed_JAR_File">Signed
+     * JAR File</a>
+     * in the
+     * <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html">JAR
+     * File Specification</a> for more details.
      *
      * @param name the zip entry name
-     * @return {@code true} if the file is a signature file, otherwise {@code false}
+     * @return {@code true} if the file is a signature file, otherwise
+     * {@code false}
      */
     private boolean isSignature(String name)
     {

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container;
 
 import java.io.File;
@@ -30,7 +29,6 @@ import org.apache.commons.io.FileUtils;
 import org.junit.runners.model.FrameworkMethod;
 import org.picocontainer.MutablePicoContainer;
 
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.compiler.CompilerConfig;
 import com.izforge.izpack.compiler.data.CompilerData;
@@ -67,12 +65,11 @@ public class TestCompilationContainer extends CompilerContainer
      */
     private File targetDir;
 
-
     /**
      * Constructs a <tt>TestCompilationContainer</tt>.
      *
      * @param installFile the install file path
-     * @param targetDir   the directory to write the compile targets to
+     * @param targetDir the directory to write the compile targets to
      */
     public TestCompilationContainer(String installFile, File targetDir)
     {
@@ -86,7 +83,7 @@ public class TestCompilationContainer extends CompilerContainer
      * Constructs a <tt>TestCompilationContainer</tt> for a specific test.
      *
      * @param testClass the test class
-     * @param method    the test method
+     * @param method the test method
      */
     public TestCompilationContainer(Class<?> testClass, FrameworkMethod method)
     {
@@ -132,7 +129,8 @@ public class TestCompilationContainer extends CompilerContainer
      * Fills the container.
      *
      * @param container the underlying container
-     * @throws ContainerException if initialisation fails, or the container has already been initialised
+     * @throws ContainerException if initialisation fails, or the container has
+     * already been initialised
      */
     @Override
     protected void fillContainer(MutablePicoContainer container)
@@ -155,7 +153,7 @@ public class TestCompilationContainer extends CompilerContainer
         File out = new File(targetDir, "out" + Math.random() + ".jar");
         out.deleteOnExit();
         CompilerData data = new CompilerData(file.getAbsolutePath(), baseDir.getAbsolutePath(), out.getAbsolutePath(),
-                                             false, true);
+                false, true);
         container.addConfig("installFile", file.getAbsolutePath());
         container.addComponent(CompilerData.class, data);
         container.addComponent(File.class, out);

@@ -9,7 +9,8 @@ import java.util.logging.Logger;
  */
 public class FileQueueDelete implements FileQueueOperation
 {
-    private static final Logger logger = Logger.getLogger(FileQueueDelete.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(FileQueueDelete.class.getName());
 
     protected File file;
 
@@ -31,12 +32,12 @@ public class FileQueueDelete implements FileQueueOperation
             {
                 if (file.isDirectory())
                 {
-                    logger.warning("Directory " + file.getAbsolutePath()
+                    LOGGER.warning("Directory " + file.getAbsolutePath()
                             + " cannot be removed in a file queue");
                 }
                 else
                 {
-                    logger.fine("Enqueueing deletion of " + file.getAbsolutePath());
+                    LOGGER.fine("Enqueueing deletion of " + file.getAbsolutePath());
                     try
                     {
                         fileQueue.addDelete(file);
@@ -51,7 +52,7 @@ public class FileQueueDelete implements FileQueueOperation
             }
             else
             {
-                logger.warning("Could not find file " + file.getAbsolutePath() + " to delete.");
+                LOGGER.warning("Could not find file " + file.getAbsolutePath() + " to delete.");
             }
         }
     }

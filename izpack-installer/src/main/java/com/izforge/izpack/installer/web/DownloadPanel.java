@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.web;
 
 import javax.swing.*;
@@ -34,6 +33,7 @@ import java.awt.event.ActionListener;
  */
 public class DownloadPanel extends JDialog implements ActionListener
 {
+
     private static final long serialVersionUID = -4458769435196053866L;
 
     JLabel statusLabel = new JLabel("", JLabel.RIGHT);

@@ -18,12 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.binding.OsModel;
-import com.izforge.izpack.api.exception.IzPackException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +65,6 @@ public class TestFieldConfig implements FieldConfig
      */
     private List<FieldValidator> validators = new ArrayList<FieldValidator>();
 
-
     /**
      * Constructs a {@code TestFieldConfig}.
      *
@@ -81,8 +78,10 @@ public class TestFieldConfig implements FieldConfig
     /**
      * Returns the variable that the field reads and updates.
      *
-     * @return the 'variable' attribute, or {@code null} if the variable is optional but not present
-     * @throws IzPackException if the 'variable' attribute is mandatory but not present
+     * @return the 'variable' attribute, or {@code null} if the variable is
+     * optional but not present
+     * @throws IzPackException if the 'variable' attribute is mandatory but not
+     * present
      */
     @Override
     public String getVariable()
@@ -112,7 +111,7 @@ public class TestFieldConfig implements FieldConfig
     public Boolean isReadonly()
     {
         return Boolean.FALSE;
-   }
+    }
 
     @Override
     public String getReadonlyCondition()
@@ -134,7 +133,8 @@ public class TestFieldConfig implements FieldConfig
     /**
      * Returns the operating systems that this field applies to.
      *
-     * @return the operating systems, or an empty list if the field applies to all operating systems
+     * @return the operating systems, or an empty list if the field applies to
+     * all operating systems
      */
     @Override
     public List<OsModel> getOsModels()
@@ -177,7 +177,8 @@ public class TestFieldConfig implements FieldConfig
     /**
      * Returns the field size.
      *
-     * @return the field size, or {@code -1} if no size is specified, or the specified size is invalid
+     * @return the field size, or {@code -1} if no size is specified, or the
+     * specified size is invalid
      */
     @Override
     public int getSize()
@@ -251,7 +252,10 @@ public class TestFieldConfig implements FieldConfig
      * @return the field tooltip. Maybe {@code null}
      */
     @Override
-    public String getTooltip() { return tooltip; }
+    public String getTooltip()
+    {
+        return tooltip;
+    }
 
     /**
      * Sets the field label.
@@ -275,7 +279,8 @@ public class TestFieldConfig implements FieldConfig
     }
 
     @Override
-    public boolean getOmitFromAuto() {
+    public boolean getOmitFromAuto()
+    {
         return false;
     }
 }

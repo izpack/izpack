@@ -3,7 +3,6 @@ package com.izforge.izpack.installer.container.provider;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.*;
 import com.izforge.izpack.api.data.Info.TempDir;
-import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
@@ -24,29 +23,31 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractInstallDataProvider implements Provider
 {
+
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractInstallDataProvider.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(AbstractInstallDataProvider.class.getName());
 
     /**
-     * Loads the installation data. Also sets environment variables to <code>installdata</code>.
-     * All system properties are available as $SYSTEM_<variable> where <variable> is the actual
-     * name _BUT_ with all separators replaced by '_'. Properties with null values are never stored.
+     * Loads the installation data. Also sets environment variables to
+     * <code>installdata</code>. All system properties are available as
+     * $SYSTEM_<variable> where <variable> is the actual name _BUT_ with all
+     * separators replaced by '_'. Properties with null values are never stored.
      * Example: $SYSTEM_java_version or $SYSTEM_os_name
      *
      * @param installData the installation data to populate
-     * @param resources   the resources
-     * @param matcher     the platform-model matcher
+     * @param resources the resources
+     * @param matcher the platform-model matcher
      * @param housekeeper the housekeeper for cleaning up temporary files
-     * @throws IOException            for any I/O error
-     * @throws ClassNotFoundException if a serialized object's class cannot be found
-     * @throws ResourceException      for any resource error
+     * @throws IOException for any I/O error
+     * @throws ClassNotFoundException if a serialized object's class cannot be
+     * found
+     * @throws ResourceException for any resource error
      */
     @SuppressWarnings("unchecked")
     protected void loadInstallData(AutomatedInstallData installData, Resources resources,
-                                   PlatformModelMatcher matcher, Housekeeper housekeeper)
+            PlatformModelMatcher matcher, Housekeeper housekeeper)
             throws IOException, ClassNotFoundException
     {
         // We load the Info data
@@ -146,19 +147,19 @@ public abstract class AbstractInstallDataProvider implements Provider
     {
         // Determine the hostname and IP address
         String hostname;
-        String IPAddress;
+        String iPAddress;
 
         try
         {
             InetAddress localHost = InetAddress.getLocalHost();
-            IPAddress = localHost.getHostAddress();
+            iPAddress = localHost.getHostAddress();
             hostname = localHost.getHostName();
         }
         catch (Exception exception)
         {
-            logger.log(Level.WARNING, "Failed to determine hostname and IP address", exception);
+            LOGGER.log(Level.WARNING, "Failed to determine hostname and IP address", exception);
             hostname = "";
-            IPAddress = "";
+            iPAddress = "";
         }
 
         installData.setVariable("APPLICATIONS_DEFAULT_ROOT", dir);
@@ -167,13 +168,14 @@ public abstract class AbstractInstallDataProvider implements Provider
         installData.setVariable(ScriptParserConstant.CLASS_PATH, System.getProperty("java.class.path"));
         installData.setVariable(ScriptParserConstant.USER_HOME, System.getProperty("user.home"));
         installData.setVariable(ScriptParserConstant.USER_NAME, System.getProperty("user.name"));
-        installData.setVariable(ScriptParserConstant.IP_ADDRESS, IPAddress);
+        installData.setVariable(ScriptParserConstant.IP_ADDRESS, iPAddress);
         installData.setVariable(ScriptParserConstant.HOST_NAME, hostname);
         installData.setVariable(ScriptParserConstant.FILE_SEPARATOR, File.separator);
     }
 
     /**
-     * Add the contents of a custom langpack to the default langpack, if it exists.
+     * Add the contents of a custom langpack to the default langpack, if it
+     * exists.
      *
      * @param installData the install data to be used
      */
@@ -183,14 +185,13 @@ public abstract class AbstractInstallDataProvider implements Provider
         try
         {
             installData.getMessages().add(locales.getMessages(Resources.CUSTOM_TRANSLATIONS_RESOURCE_NAME));
-            logger.fine("Found custom langpack for " + installData.getLocaleISO3());
+            LOGGER.fine("Found custom langpack for " + installData.getLocaleISO3());
         }
         catch (ResourceNotFoundException exception)
         {
-            logger.fine("No custom langpack for " + installData.getLocaleISO3() + " available");
+            LOGGER.fine("No custom langpack for " + installData.getLocaleISO3() + " available");
         }
     }
-
 
     protected String getDir(Resources resources)
     {
@@ -219,9 +220,10 @@ public abstract class AbstractInstallDataProvider implements Provider
     }
 
     /**
-     * Get the default path for Windows (i.e Program Files/...).
-     * Windows has a Setting for this in the environment and in the registry.
-     * Just try to use the setting in the environment. If it fails for whatever reason, we take the former solution (buildWindowsDefaultPathFromProps).
+     * Get the default path for Windows (i.e Program Files/...). Windows has a
+     * Setting for this in the environment and in the registry. Just try to use
+     * the setting in the environment. If it fails for whatever reason, we take
+     * the former solution (buildWindowsDefaultPathFromProps).
      *
      * @param resources the resources
      * @return The Windows default installation path for applications.
@@ -243,14 +245,15 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
         catch (Exception exception)
         {
-            logger.log(Level.WARNING, exception.getMessage(), exception);
+            LOGGER.log(Level.WARNING, exception.getMessage(), exception);
             return buildWindowsDefaultPathFromProps(resources);
         }
     }
 
     /**
-     * just plain wrong in case the programfiles are not stored where the developer expects them.
-     * E.g. in custom installations of large companies or if used internationalized version of windows with a language pack.
+     * just plain wrong in case the programfiles are not stored where the
+     * developer expects them. E.g. in custom installations of large companies
+     * or if used internationalized version of windows with a language pack.
      *
      * @return the program files path
      */
@@ -283,12 +286,12 @@ public abstract class AbstractInstallDataProvider implements Provider
 
             String language = Locale.getDefault().getLanguage();
             String country = Locale.getDefault().getCountry();
-            String language_country = language + "_" + country;
+            String languageCountry = language + "_" + country;
 
             // Try the most specific combination first
-            if (null != props.getProperty(language_country))
+            if (null != props.getProperty(languageCountry))
             {
-                result.append(props.getProperty(language_country));
+                result.append(props.getProperty(languageCountry));
             }
             else if (null != props.getProperty(language))
             {
@@ -310,7 +313,7 @@ public abstract class AbstractInstallDataProvider implements Provider
     /**
      * Loads Dynamic Variables.
      *
-     * @param variables   the collection to added variables to
+     * @param variables the collection to added variables to
      * @param installData the installation data
      */
     @SuppressWarnings("unchecked")
@@ -328,7 +331,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
         catch (Exception e)
         {
-            logger.log(Level.WARNING, "Cannot find optional dynamic variables", e);
+            LOGGER.log(Level.WARNING, "Cannot find optional dynamic variables", e);
         }
     }
 
@@ -336,7 +339,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      * Loads dynamic conditions.
      *
      * @param installData the installation data
-     * @param resources   the resources
+     * @param resources the resources
      */
     @SuppressWarnings("unchecked")
     protected void loadDynamicConditions(AutomatedInstallData installData, Resources resources)
@@ -349,7 +352,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
         catch (Exception e)
         {
-            logger.log(Level.WARNING, "Cannot find optional dynamic conditions", e);
+            LOGGER.log(Level.WARNING, "Cannot find optional dynamic conditions", e);
         }
     }
 
@@ -357,16 +360,17 @@ public abstract class AbstractInstallDataProvider implements Provider
      * Load installer conditions.
      *
      * @param installData the installation data
-     * @throws IOException               for any I/O error
-     * @throws ClassNotFoundException    if a serialized object's class cannot be found
+     * @throws IOException for any I/O error
+     * @throws ClassNotFoundException if a serialized object's class cannot be
+     * found
      * @throws ResourceNotFoundException if the resource cannot be found
      */
     @SuppressWarnings("unchecked")
     protected void loadInstallerRequirements(AutomatedInstallData installData, Resources resources)
             throws IOException, ClassNotFoundException
     {
-        List<InstallerRequirement> requirements =
-                (List<InstallerRequirement>) resources.getObject("installerrequirements");
+        List<InstallerRequirement> requirements
+                = (List<InstallerRequirement>) resources.getObject("installerrequirements");
         installData.setInstallerRequirements(requirements);
     }
 
@@ -374,7 +378,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      * Load a default locale in the installData
      *
      * @param installData the installation data
-     * @param locales     the supported locales
+     * @param locales the supported locales
      * @throws IOException for any I/O error
      */
     protected void loadDefaultLocale(AutomatedInstallData installData, Locales locales)

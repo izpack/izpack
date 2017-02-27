@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.gui;
 
 import java.awt.Component;
@@ -48,30 +47,31 @@ import com.izforge.izpack.api.installer.ISummarisable;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.handler.PromptUIHandler;
 import com.izforge.izpack.gui.GUIPrompt;
-import com.izforge.izpack.gui.IzPanelLayout;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.gui.LayoutConstants;
 import com.izforge.izpack.gui.MultiLineLabel;
 import com.izforge.izpack.installer.data.GUIInstallData;
 
 /**
- * Defines the base class for the IzPack panels. Any panel should be a subclass of it and should
- * belong to the <code>com.izforge.izpack.panels</code> package. Since IzPack version 3.9 the
- * layout handling will be delegated to the class LayoutHelper which can be accessed by
- * <code>getLayoutHelper</code>. There are some layout helper methods in this class which will be
- * exist some time longer, but they are deprecated. At a redesign or new panel use the layout
- * helper. There is a special layout manager for IzPanels. This layout manager will be supported by
- * the layout helper. There are some points which should be observed at layouting. One point e.g. is
- * the anchor. All IzPanels have to be able to use different anchors, as minimum CENTER and
- * NORTHWEST. To use a consistent appearance use this special layout manger and not others.
+ * Defines the base class for the IzPack panels. Any panel should be a subclass
+ * of it and should belong to the <code>com.izforge.izpack.panels</code>
+ * package. Since IzPack version 3.9 the layout handling will be delegated to
+ * the class LayoutHelper which can be accessed by <code>getLayoutHelper</code>.
+ * There are some layout helper methods in this class which will be exist some
+ * time longer, but they are deprecated. At a redesign or new panel use the
+ * layout helper. There is a special layout manager for IzPanels. This layout
+ * manager will be supported by the layout helper. There are some points which
+ * should be observed at layouting. One point e.g. is the anchor. All IzPanels
+ * have to be able to use different anchors, as minimum CENTER and NORTHWEST. To
+ * use a consistent appearance use this special layout manger and not others.
  *
  * @author Julien Ponge
  * @author Klaus Bartz
  */
 public abstract class IzPanel extends JPanel implements AbstractUIHandler, LayoutConstants, ISummarisable
 {
-    private static final long serialVersionUID = 3256442495255786038L;
 
+    private static final long serialVersionUID = 3256442495255786038L;
 
     /**
      * The helper object which handles layout
@@ -84,7 +84,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     protected Component initialFocus = null;
 
     /**
-     * The installer internal data (actually a melting-pot class with all-public fields.
+     * The installer internal data (actually a melting-pot class with all-public
+     * fields.
      */
     protected final GUIInstallData installData;
 
@@ -125,16 +126,15 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
      */
     private Panel metadata;
 
-
     private String helpUrl = null;
 
     /**
      * Constructs an <tt>IzPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent IzPack installer frame
+     * @param panel the panel meta-data
+     * @param parent the parent IzPack installer frame
      * @param installData the installation data
-     * @param resources   the resources
+     * @param resources the resources
      */
     public IzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
     {
@@ -144,18 +144,18 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     /**
      * Constructs an <tt>IzPanel</tt> with the given layout manager.
      * <p/>
-     * Valid layout manager are the  {@link IzPanelLayout} and <tt>GridBagLayout</tt>.
-     * New panels should be use IzPanelLayout. If layoutManager is
-     * null, no layout manager will be created or initialized.
+     * Valid layout manager are the {@link IzPanelLayout} and
+     * <tt>GridBagLayout</tt>. New panels should be use IzPanelLayout. If
+     * layoutManager is null, no layout manager will be created or initialized.
      *
-     * @param panel         the panel meta-data
-     * @param parent        the parent IzPack installer frame
-     * @param installData   the installation data
+     * @param panel the panel meta-data
+     * @param parent the parent IzPack installer frame
+     * @param installData the installation data
      * @param layoutManager layout manager to be used with this IzPanel
-     * @param resources     the resources
+     * @param resources the resources
      */
     public IzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, LayoutManager2 layoutManager,
-                   Resources resources)
+            Resources resources)
     {
         super();
         this.metadata = panel;
@@ -172,28 +172,31 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     /**
      * Constructs an <tt>IzPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent IzPack installer frame
+     * @param panel the panel meta-data
+     * @param parent the parent IzPack installer frame
      * @param installData the installation data
-     * @param iconName    the Headline icon name
-     * @param resources   the resources
+     * @param iconName the Headline icon name
+     * @param resources the resources
      */
     @Deprecated
     // FIXME: This constructor is used just in ShortcutPanel, move it there
     public IzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, String iconName,
-                   Resources resources)
+            Resources resources)
     {
         this(panel, parent, installData, resources);
         buildHeadline(iconName);
     }
 
     /**
-     * Build the IzPanel internal Headline. If an external headline# is used, this method returns
-     * immediately with false. Allows also to display a leading Icon for the PanelHeadline. This
-     * Icon can also be different if the panel has more than one Instances. The UserInputPanel is
-     * one of these Candidates. <p/> by marc.eppelmann&#064;gmx.de
+     * Build the IzPanel internal Headline. If an external headline# is used,
+     * this method returns immediately with false. Allows also to display a
+     * leading Icon for the PanelHeadline. This Icon can also be different if
+     * the panel has more than one Instances. The UserInputPanel is one of these
+     * Candidates.
+     * <p/>
+     * by marc.eppelmann&#064;gmx.de
      *
-     * @param imageIconName  an Iconname
+     * @param imageIconName an Iconname
      * @return true if successful build
      */
     @Deprecated
@@ -210,7 +213,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
         {
             headline = getString(getMetadata().getPanelId() + DELIMITER + "headline");
         }
-        else {
+        else
+        {
             searchkey = getClass().getSimpleName() + DELIMITER + "headline";
             if (installData.getMessages().getMessages().containsKey(searchkey))
             {
@@ -255,7 +259,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
      * Helper to return a language resource string.
      *
      * @param key the search key
-     * @return the corresponding string, or {@code key} if the string is not found
+     * @return the corresponding string, or {@code key} if the string is not
+     * found
      */
     public String getString(String key)
     {
@@ -282,9 +287,9 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Indicates wether the panel has been validated or not. The installer won't let the user go
-     * further through the installation process until the panel is validated. Default behaviour is
-     * to return <code>true</code>.
+     * Indicates wether the panel has been validated or not. The installer won't
+     * let the user go further through the installation process until the panel
+     * is validated. Default behaviour is to return <code>true</code>.
      *
      * @return A boolean stating whether the panel has been validated or not.
      */
@@ -304,17 +309,18 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * This method is called when the panel becomes active. Default is to do nothing : feel free to
-     * implement what you need in your subclasses. A panel becomes active when the user reaches it
-     * during the installation process.
+     * This method is called when the panel becomes active. Default is to do
+     * nothing : feel free to implement what you need in your subclasses. A
+     * panel becomes active when the user reaches it during the installation
+     * process.
      */
     public void panelActivate()
     {
     }
 
     /**
-     * This method is called when the panel gets desactivated, when the user switches to the next
-     * panel. By default it doesn't do anything.
+     * This method is called when the panel gets desactivated, when the user
+     * switches to the next panel. By default it doesn't do anything.
      */
     public void panelDeactivate()
     {
@@ -323,7 +329,9 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     public void createInstallationRecord(IXMLElement rootElement)
     {
         // Default method, override to record panel contents
-    };
+    }
+
+    ;
 
     /**
      * Ask the user a question.
@@ -343,9 +351,9 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     /**
      * Ask the user a question.
      *
-     * @param title         Message title.
-     * @param question      The question.
-     * @param choices       The set of choices to present.
+     * @param title Message title.
+     * @param question The question.
+     * @param choices The set of choices to present.
      * @param defaultChoice The default choice. (-1 = no default choice)
      * @return The user's choice.
      * @see AbstractUIHandler#askQuestion(String, String, int, int)
@@ -413,9 +421,11 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Returns the component which should be get the focus at activation of this panel.
+     * Returns the component which should be get the focus at activation of this
+     * panel.
      *
-     * @return the component which should be get the focus at activation of this panel
+     * @return the component which should be get the focus at activation of this
+     * panel
      */
     public Component getInitialFocus()
     {
@@ -423,9 +433,11 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Sets the component which should be get the focus at activation of this panel.
+     * Sets the component which should be get the focus at activation of this
+     * panel.
      *
-     * @param component which should be get the focus at activation of this panel
+     * @param component which should be get the focus at activation of this
+     * panel
      */
     public void setInitialFocus(Component component)
     {
@@ -433,10 +445,12 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Calls the langpack of parent InstallerFrame for the String <tt>RuntimeClassName.subkey</tt>.
-     * Do not add a point infront of subkey, it is always added in this method. If
-     * <tt>RuntimeClassName.subkey</tt> is not found, the super class name will be used until it
-     * is <tt>IzPanel</tt>. If no key will be found, null returns.
+     * Calls the langpack of parent InstallerFrame for the String
+     * <tt>RuntimeClassName.subkey</tt>. Do not add a point infront of subkey,
+     * it is always added in this method. If
+     * <tt>RuntimeClassName.subkey</tt> is not found, the super class name will
+     * be used until it is <tt>IzPanel</tt>. If no key will be found, null
+     * returns.
      *
      * @param subkey the subkey for the string which should be returned
      * @return the founded string
@@ -447,13 +461,14 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Calls the langpack of parent InstallerFrame for the String <tt>RuntimeClassName.subkey</tt>.
-     * Do not add a point infront of subkey, it is always added in this method. If no key will be
-     * found the key or - if alternate class is null - null returns.
+     * Calls the langpack of parent InstallerFrame for the String
+     * <tt>RuntimeClassName.subkey</tt>. Do not add a point infront of subkey,
+     * it is always added in this method. If no key will be found the key or -
+     * if alternate class is null - null returns.
      *
-     * @param subkey         the subkey for the string which should be returned
-     * @param alternateClass the short name of the class which should be used if no string is
-     *                       present with the runtime class name
+     * @param subkey the subkey for the string which should be returned
+     * @param alternateClass the short name of the class which should be used if
+     * no string is present with the runtime class name
      * @return the founded string
      */
     public String getI18nStringForClass(String subkey, String alternateClass)
@@ -464,8 +479,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
         String panelId = getMetadata().getPanelId();
         Class<?> clazz = this.getClass();
 
-        String fullClassname = alternateClass==null?clazz.getName():alternateClass;
-        String simpleClassname = alternateClass==null?clazz.getSimpleName():alternateClass;
+        String fullClassname = alternateClass == null ? clazz.getName() : alternateClass;
+        String simpleClassname = alternateClass == null ? clazz.getSimpleName() : alternateClass;
 
         do
         {
@@ -477,7 +492,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
             clazz = clazz.getSuperclass();
             fullClassname = clazz.getName();
             simpleClassname = clazz.getSimpleName();
-        } while (alternateClass == null && !clazz.equals(IzPanel.class));
+        }
+        while (alternateClass == null && !clazz.equals(IzPanel.class));
         prefixes.add(2, panelId);
 
         for (String prefix : prefixes)
@@ -511,16 +527,16 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     // ------------- Helper for common used components ----- START ---
-
     /**
-     * Creates a label via LabelFactory using iconId, pos and method getI18nStringForClass for
-     * resolving the text to be used. If the icon id is null, the label will be created also.
+     * Creates a label via LabelFactory using iconId, pos and method
+     * getI18nStringForClass for resolving the text to be used. If the icon id
+     * is null, the label will be created also.
      *
-     * @param subkey         the subkey which should be used for resolving the text
-     * @param alternateClass the short name of the class which should be used if no string is
-     *                       present with the runtime class name
-     * @param iconId         id string for the icon
-     * @param pos            horizontal alignment
+     * @param subkey the subkey which should be used for resolving the text
+     * @param alternateClass the short name of the class which should be used if
+     * no string is present with the runtime class name
+     * @param iconId id string for the icon
+     * @param pos horizontal alignment
      * @return the newly created label
      */
     public JLabel createLabel(String subkey, String alternateClass, String iconId, int pos)
@@ -537,21 +553,23 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Creates a label via LabelFactory using iconId, pos and method getI18nStringForClass for
-     * resolving the text to be used. If the icon id is null, the label will be created also. If
-     * isFullLine true a LabelFactory.FullLineLabel will be created instead of a JLabel. The
+     * Creates a label via LabelFactory using iconId, pos and method
+     * getI18nStringForClass for resolving the text to be used. If the icon id
+     * is null, the label will be created also. If isFullLine true a
+     * LabelFactory.FullLineLabel will be created instead of a JLabel. The
      * difference between both classes are a different layout handling.
      *
-     * @param subkey         the subkey which should be used for resolving the text
-     * @param alternateClass the short name of the class which should be used if no string is
-     *                       present with the runtime class name
-     * @param iconId         id string for the icon
-     * @param pos            horizontal alignment
-     * @param isFullLine     determines whether a FullLineLabel or a JLabel should be created
+     * @param subkey the subkey which should be used for resolving the text
+     * @param alternateClass the short name of the class which should be used if
+     * no string is present with the runtime class name
+     * @param iconId id string for the icon
+     * @param pos horizontal alignment
+     * @param isFullLine determines whether a FullLineLabel or a JLabel should
+     * be created
      * @return the newly created label
      */
     public JLabel createLabel(String subkey, String alternateClass, String iconId, int pos,
-                              boolean isFullLine)
+            boolean isFullLine)
     {
         ImageIcon imageIcon = (iconId != null) ? parent.getIcons().get(iconId) : null;
         String msg = getI18nStringForClass(subkey, alternateClass);
@@ -565,13 +583,14 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Creates a label via LabelFactory with the given ids and the given horizontal alignment. If
-     * the icon id is null, the label will be created also. The strings are the ids for the text in
-     * langpack and the icon in icons of the installer frame.
+     * Creates a label via LabelFactory with the given ids and the given
+     * horizontal alignment. If the icon id is null, the label will be created
+     * also. The strings are the ids for the text in langpack and the icon in
+     * icons of the installer frame.
      *
      * @param textId id string for the text
      * @param iconId id string for the icon
-     * @param pos    horizontal alignment
+     * @param pos horizontal alignment
      * @return the newly created label
      */
     public JLabel createLabel(String textId, String iconId, int pos)
@@ -580,16 +599,18 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Creates a label via LabelFactory with the given ids and the given horizontal alignment. If
-     * the icon id is null, the label will be created also. The strings are the ids for the text in
-     * langpack and the icon in icons of the installer frame. If isFullLine true a
-     * LabelFactory.FullLineLabel will be created instead of a JLabel. The difference between both
-     * classes are a different layout handling.
+     * Creates a label via LabelFactory with the given ids and the given
+     * horizontal alignment. If the icon id is null, the label will be created
+     * also. The strings are the ids for the text in langpack and the icon in
+     * icons of the installer frame. If isFullLine true a
+     * LabelFactory.FullLineLabel will be created instead of a JLabel. The
+     * difference between both classes are a different layout handling.
      *
-     * @param textId     id string for the text
-     * @param iconId     id string for the icon
-     * @param pos        horizontal alignment
-     * @param isFullLine determines whether a FullLineLabel or a JLabel should be created
+     * @param textId id string for the text
+     * @param iconId id string for the icon
+     * @param pos horizontal alignment
+     * @param isFullLine determines whether a FullLineLabel or a JLabel should
+     * be created
      * @return the newly created label
      */
     public JLabel createLabel(String textId, String iconId, int pos, boolean isFullLine)
@@ -605,9 +626,9 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Creates a multi line label with the language dependent text given by the text id. The strings
-     * is the id for the text in langpack of the installer frame. The horizontal alignment will be
-     * LEFT.
+     * Creates a multi line label with the language dependent text given by the
+     * text id. The strings is the id for the text in langpack of the installer
+     * frame. The horizontal alignment will be LEFT.
      *
      * @param textId id string for the text
      * @return the newly created multi line label
@@ -618,7 +639,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Creates a multi line label with the given text. The horizontal alignment will be LEFT.
+     * Creates a multi line label with the given text. The horizontal alignment
+     * will be LEFT.
      *
      * @param text text to be used in the label
      * @return the newly created multi line label
@@ -629,13 +651,14 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Creates a label via LabelFactory with the given text, the given icon id and the given
-     * horizontal alignment. If the icon id is null, the label will be created also. The strings are
-     * the ids for the text in langpack and the icon in icons of the installer frame.
+     * Creates a label via LabelFactory with the given text, the given icon id
+     * and the given horizontal alignment. If the icon id is null, the label
+     * will be created also. The strings are the ids for the text in langpack
+     * and the icon in icons of the installer frame.
      *
-     * @param text   text to be used in the label
+     * @param text text to be used in the label
      * @param iconId id string for the icon
-     * @param pos    horizontal alignment
+     * @param pos horizontal alignment
      * @return the created multi line label
      */
     public MultiLineLabel createMultiLineLabel(String text, String iconId, int pos)
@@ -650,8 +673,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
      */
     public Font getControlTextFont()
     {
-        Font fontObj = (getLAF() != null) ?
-                MetalLookAndFeel.getControlTextFont() : getFont();
+        Font fontObj = (getLAF() != null)
+                ? MetalLookAndFeel.getControlTextFont() : getFont();
         //if guiprefs 'labelFontSize' multiplier value
         // has been setup then apply it to the font:
         final float val;
@@ -674,12 +697,12 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
 
     // ------------- Helper for common used components ----- END ---
     // ------------------- Layout stuff -------------------- START ---
-
     /**
      * Returns the default GridBagConstraints of this panel.
      *
      * @return the default GridBagConstraints of this panel
-     * @deprecated use <code>getLayoutHelper().getDefaulConstraints</code> instead
+     * @deprecated use <code>getLayoutHelper().getDefaulConstraints</code>
+     * instead
      */
     @Deprecated
     public GridBagConstraints getDefaultGridBagConstraints()
@@ -691,7 +714,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
      * Sets the default GridBagConstraints of this panel to the given object.
      *
      * @param constraints which should be set as default for this object
-     * @deprecated use <code>getLayoutHelper().setDefaultConstraints</code> instead
+     * @deprecated use <code>getLayoutHelper().setDefaultConstraints</code>
+     * instead
      */
     @Deprecated
     public void setDefaultGridBagConstraints(GridBagConstraints constraints)
@@ -712,13 +736,13 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Returns a newly created GridBagConstraints with the given values and the values from the
-     * defaultGridBagConstraints for the other parameters.
+     * Returns a newly created GridBagConstraints with the given values and the
+     * values from the defaultGridBagConstraints for the other parameters.
      *
      * @param gridx value to be used for the new constraint
      * @param gridy value to be used for the new constraint
-     * @return newly created GridBagConstraints with the given values and the values from the
-     *         defaultGridBagConstraints for the other parameters
+     * @return newly created GridBagConstraints with the given values and the
+     * values from the defaultGridBagConstraints for the other parameters
      * @deprecated use <code>getLayoutHelper().getNewConstraints</code> instead
      */
     @Deprecated
@@ -728,30 +752,33 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Returns a newly created GridBagConstraints with the given values and the values from the
-     * defaultGridBagConstraints for the other parameters.
+     * Returns a newly created GridBagConstraints with the given values and the
+     * values from the defaultGridBagConstraints for the other parameters.
      *
-     * @param gridx      value to be used for the new constraint
-     * @param gridy      value to be used for the new constraint
-     * @param gridwidth  value to be used for the new constraint
+     * @param gridx value to be used for the new constraint
+     * @param gridy value to be used for the new constraint
+     * @param gridwidth value to be used for the new constraint
      * @param gridheight value to be used for the new constraint
-     * @return newly created GridBagConstraints with the given values and the values from the
-     *         defaultGridBagConstraints for the other parameters
+     * @return newly created GridBagConstraints with the given values and the
+     * values from the defaultGridBagConstraints for the other parameters
      * @deprecated use <code>getLayoutHelper().getNewConstraints</code> instead
      */
     @Deprecated
     public GridBagConstraints getNewGridBagConstraints(int gridx, int gridy, int gridwidth,
-                                                       int gridheight)
+            int gridheight)
     {
         return (GridBagConstraints) (layoutHelper.getNewConstraints(gridx, gridy, gridwidth,
-                                                                    gridheight));
+                gridheight));
     }
 
     /**
-     * Returns a newly created GridBagConstraints for the next column of the current layout row.
+     * Returns a newly created GridBagConstraints for the next column of the
+     * current layout row.
      *
-     * @return a newly created GridBagConstraints for the next column of the current layout row
-     * @deprecated use <code>getLayoutHelper().getNextXConstraints</code> instead
+     * @return a newly created GridBagConstraints for the next column of the
+     * current layout row
+     * @deprecated use <code>getLayoutHelper().getNextXConstraints</code>
+     * instead
      */
     @Deprecated
     public GridBagConstraints getNextXGridBagConstraints()
@@ -760,10 +787,12 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Returns a newly created GridBagConstraints with column 0 for the next row.
+     * Returns a newly created GridBagConstraints with column 0 for the next
+     * row.
      *
      * @return a newly created GridBagConstraints with column 0 for the next row
-     * @deprecated use <code>getLayoutHelper().getNextYConstraints</code> instead
+     * @deprecated use <code>getLayoutHelper().getNextYConstraints</code>
+     * instead
      */
     @Deprecated
     public GridBagConstraints getNextYGridBagConstraints()
@@ -772,14 +801,15 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Returns a newly created GridBagConstraints with column 0 for the next row using the given
-     * parameters.
+     * Returns a newly created GridBagConstraints with column 0 for the next row
+     * using the given parameters.
      *
-     * @param gridwidth  width for this constraint
+     * @param gridwidth width for this constraint
      * @param gridheight height for this constraint
-     * @return a newly created GridBagConstraints with column 0 for the next row using the given
-     *         parameters
-     * @deprecated use <code>getLayoutHelper().getNextYConstraints</code> instead
+     * @return a newly created GridBagConstraints with column 0 for the next row
+     * using the given parameters
+     * @deprecated use <code>getLayoutHelper().getNextYConstraints</code>
+     * instead
      */
     @Deprecated
     public GridBagConstraints getNextYGridBagConstraints(int gridwidth, int gridheight)
@@ -788,10 +818,11 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Start layout determining. If it is needed, a dummy component will be created as first row.
-     * This will be done, if the IzPack guiprefs modifier with the key "layoutAnchor" has the value
-     * "SOUTH" or "SOUTHWEST". The earlier used value "BOTTOM" and the declaration via the IzPack
-     * variable <code>IzPanel.LayoutType</code> are also supported.
+     * Start layout determining. If it is needed, a dummy component will be
+     * created as first row. This will be done, if the IzPack guiprefs modifier
+     * with the key "layoutAnchor" has the value "SOUTH" or "SOUTHWEST". The
+     * earlier used value "BOTTOM" and the declaration via the IzPack variable
+     * <code>IzPanel.LayoutType</code> are also supported.
      *
      * @deprecated use <code>getLayoutHelper().startLayout</code> instead
      */
@@ -802,10 +833,11 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Complete layout determining. If it is needed, a dummy component will be created as last row.
-     * This will be done, if the IzPack guiprefs modifier with the key "layoutAnchor" has the value
-     * "NORTH" or "NORTHWEST". The earlier used value "TOP" and the declaration via the IzPack
-     * variable <code>IzPanel.LayoutType</code> are also supported.
+     * Complete layout determining. If it is needed, a dummy component will be
+     * created as last row. This will be done, if the IzPack guiprefs modifier
+     * with the key "layoutAnchor" has the value "NORTH" or "NORTHWEST". The
+     * earlier used value "TOP" and the declaration via the IzPack variable
+     * <code>IzPanel.LayoutType</code> are also supported.
      *
      * @deprecated use <code>getLayoutHelper().completeLayout</code> instead
      */
@@ -816,14 +848,13 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     // ------------------- Layout stuff -------------------- END ---
-
     // ------------------- Summary stuff -------------------- START ---
-
     /**
-     * This method will be called from the SummaryPanel to get the summary of this class which
-     * should be placed in the SummaryPanel. The returned text should not contain a caption of this
-     * item. The caption will be requested from the method getCaption. If <code>null</code>
-     * returns, no summary for this panel will be generated. Default behaviour is to return
+     * This method will be called from the SummaryPanel to get the summary of
+     * this class which should be placed in the SummaryPanel. The returned text
+     * should not contain a caption of this item. The caption will be requested
+     * from the method getCaption. If <code>null</code> returns, no summary for
+     * this panel will be generated. Default behaviour is to return
      * <code>null</code>.
      *
      * @return the summary for this class
@@ -835,11 +866,12 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * This method will be called from the SummaryPanel to get the caption for this class which
-     * should be placed in the SummaryPanel. If <code>null</code> returns, no summary for this
-     * panel will be generated. Default behaviour is to return the string given by langpack for the
-     * key <code>&lt;current class name>.summaryCaption&gt;</code> if exist, else the string
-     * &quot;summaryCaption.&lt;ClassName&gt;&quot;.
+     * This method will be called from the SummaryPanel to get the caption for
+     * this class which should be placed in the SummaryPanel. If
+     * <code>null</code> returns, no summary for this panel will be generated.
+     * Default behaviour is to return the string given by langpack for the key
+     * <code>&lt;current class name>.summaryCaption&gt;</code> if exist, else
+     * the string &quot;summaryCaption.&lt;ClassName&gt;&quot;.
      *
      * @return the caption for this class
      */
@@ -861,9 +893,7 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     // ------------------- Summary stuff -------------------- END ---
-
     // ------------------- Inner classes ------------------- START ---
-
     public static class Filler extends JComponent
     {
 
@@ -872,10 +902,9 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     // ------------------- Inner classes ------------------- END ---
-
     /**
-     * Returns whether this panel will be hidden general or not. A hidden panel will be not counted
-     * in the step counter and for panel icons.
+     * Returns whether this panel will be hidden general or not. A hidden panel
+     * will be not counted in the step counter and for panel icons.
      *
      * @return whether this panel will be hidden general or not
      */
@@ -885,8 +914,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Set whether this panel should be hidden or not. A hidden panel will be not counted in the
-     * step counter and for panel icons.
+     * Set whether this panel should be hidden or not. A hidden panel will be
+     * not counted in the step counter and for panel icons.
      *
      * @param hidden flag to be set
      */
@@ -896,7 +925,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * Returns the used layout helper. Can be used in a derived class to create custom layout.
+     * Returns the used layout helper. Can be used in a derived class to create
+     * custom layout.
      *
      * @return the used layout helper
      */
@@ -930,15 +960,16 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     /**
      * Parses the text for special variables.
      */
-    protected String parseText(String string_to_parse)
+    protected String parseText(String stringToParse)
     {
-        string_to_parse = installData.getVariables().replace(string_to_parse);
-        return string_to_parse;
+        stringToParse = installData.getVariables().replace(stringToParse);
+        return stringToParse;
     }
 
     /**
-     * Indicates wether the panel can display help. The installer will hide Help button if current
-     * panel does not support help functions. Default behaviour is to return <code>false</code>.
+     * Indicates wether the panel can display help. The installer will hide Help
+     * button if current panel does not support help functions. Default
+     * behaviour is to return <code>false</code>.
      *
      * @return A boolean stating wether the panel supports Help function.
      */
@@ -948,7 +979,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     }
 
     /**
-     * This method is called when Help button has been clicked. By default it doesn't do anything.
+     * This method is called when Help button has been clicked. By default it
+     * doesn't do anything.
      */
     public void showHelp()
     {
@@ -982,10 +1014,10 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     @Override
     public String toString()
     {
-        return "IzPanel{" +
-                "class=" + getClass().getSimpleName() +
-                ", hidden=" + hidden +
-                '}';
+        return "IzPanel{"
+                + "class=" + getClass().getSimpleName()
+                + ", hidden=" + hidden
+                + '}';
     }
 
     /**

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.rule;
 
 import java.util.List;
@@ -32,7 +31,6 @@ import com.izforge.izpack.panels.userinput.field.ValidationStatus;
 import com.izforge.izpack.panels.userinput.field.rule.RuleField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 
-
 /**
  * Rule field view.
  *
@@ -45,7 +43,6 @@ public class GUIRuleField extends GUIField
      * The component.
      */
     private final RuleInputField component;
-
 
     /**
      * Constructs a {@code GUIRuleField}.
@@ -69,7 +66,8 @@ public class GUIRuleField extends GUIField
     }
 
     /**
-     * Returns the text from the display, according to the field's formatting convention.
+     * Returns the text from the display, according to the field's formatting
+     * convention.
      *
      * @return the formatted text
      */
@@ -102,8 +100,10 @@ public class GUIRuleField extends GUIField
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)

@@ -13,6 +13,7 @@ import java.util.List;
 
 public class CustomFieldReader extends FieldReader implements CustomFieldConfig
 {
+
     /**
      * The installation data.
      */
@@ -25,7 +26,7 @@ public class CustomFieldReader extends FieldReader implements CustomFieldConfig
     /**
      * Constructs a {@code FieldReader}.
      *
-     * @param field  the field element to read
+     * @param field the field element to read
      * @param config the configuration
      */
     public CustomFieldReader(IXMLElement field, Config config, PlatformModelMatcher matcher, InstallData installData)
@@ -66,7 +67,7 @@ public class CustomFieldReader extends FieldReader implements CustomFieldConfig
                 result.add(field);
             }
         }
-        return  result;
+        return result;
     }
 
     @Override

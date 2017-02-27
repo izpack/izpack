@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput;
 
 import static org.junit.Assert.assertEquals;
@@ -43,7 +42,6 @@ import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
-
 
 /**
  * Tests the {@link UserInputConsolePanel}.
@@ -80,18 +78,17 @@ public class UserInputConsolePanelTest
      */
     private final TestConsolePanelContainer container;
 
-
     /**
      * Constructs an {@code UserInputConsolePanelHelperTest}.
      *
      * @param installData the installation data
-     * @param factory     the factory for creating panels
-     * @param resources   the resources
-     * @param console     the console
-     * @param container   the container
+     * @param factory the factory for creating panels
+     * @param resources the resources
+     * @param console the console
+     * @param container the container
      */
     public UserInputConsolePanelTest(InstallData installData, ObjectFactory factory, ResourceManager resources,
-                                     TestConsole console, TestConsolePanelContainer container)
+            TestConsole console, TestConsolePanelContainer container)
     {
         this.installData = installData;
         this.factory = factory;
@@ -147,7 +144,8 @@ public class UserInputConsolePanelTest
     }
 
     /**
-     * Verifies that dynamic variables are refreshed when the panel is validated.
+     * Verifies that dynamic variables are refreshed when the panel is
+     * validated.
      *
      * @throws Exception for any error
      */
@@ -197,11 +195,11 @@ public class UserInputConsolePanelTest
     }
 
     /**
-     * Creates a {@code ConsolePanels} containing an instance of the console version of the supplied panel
-     * implementation.
+     * Creates a {@code ConsolePanels} containing an instance of the console
+     * version of the supplied panel implementation.
      *
      * @param panelClass the panel class
-     * @param id         the panel identifier
+     * @param id the panel identifier
      * @return a new {@code ConsolePanels}
      */
     private ConsolePanels createPanels(Class<UserInputPanel> panelClass, String id)

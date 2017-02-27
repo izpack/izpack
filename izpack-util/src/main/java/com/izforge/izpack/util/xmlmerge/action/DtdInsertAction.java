@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.action;
 
 import java.io.IOException;
@@ -48,21 +47,22 @@ import com.wutka.dtd.DTDName;
 import com.wutka.dtd.DTDParser;
 
 /**
- * Copy the patch element in the output parent with the correct position according to the DTD
- * declared in doctype.
+ * Copy the patch element in the output parent with the correct position
+ * according to the DTD declared in doctype.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
  */
 public class DtdInsertAction implements Action
 {
-    private static final Logger logger = Logger.getLogger(DtdInsertAction.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(DtdInsertAction.class.getName());
 
     /**
-     * Map containing (ID, DTD) pairs, where ID represents the system ID of a DTD, and DTD
-     * represents the corresponding DTD.
+     * Map containing (ID, DTD) pairs, where ID represents the system ID of a
+     * DTD, and DTD represents the corresponding DTD.
      */
-    static Map<String, DTD> s_dtdMap = new Hashtable<String, DTD>();
+    static Map<String, DTD> dtdMap = new Hashtable<String, DTD>();
 
     @Override
     public void perform(Element originalElement, Element patchElement, Element outputParentElement)
@@ -126,7 +126,7 @@ public class DtdInsertAction implements Action
                     List<String> orderedDtdElements = getOrderedDtdElements((DTDContainer) item);
 
                     int indexOfNewElementInDtd = orderedDtdElements.indexOf(element.getName());
-                    logger.fine("index of element " + element.getName() + ": "
+                    LOGGER.fine("index of element " + element.getName() + ": "
                             + indexOfNewElementInDtd);
 
                     int pos = existingChildren.size();
@@ -136,7 +136,7 @@ public class DtdInsertAction implements Action
                     for (int i = 0; i < existingChildren.size(); i++)
                     {
                         String elementName = (existingChildren.get(i)).getName();
-                        logger.fine("index of child " + elementName + ": "
+                        LOGGER.fine("index of child " + elementName + ": "
                                 + orderedDtdElements.indexOf(elementName));
                         if (orderedDtdElements.indexOf(elementName) > indexOfNewElementInDtd)
                         {
@@ -145,7 +145,7 @@ public class DtdInsertAction implements Action
                         }
                     }
 
-                    logger.fine("adding element " + element.getName() + " add in pos " + pos);
+                    LOGGER.fine("adding element " + element.getName() + " add in pos " + pos);
                     outputParentElement.addContent(pos, element);
 
                 }
@@ -171,7 +171,7 @@ public class DtdInsertAction implements Action
 
             String systemId = element.getDocument().getDocType().getSystemID();
 
-            DTD dtd = s_dtdMap.get(systemId);
+            DTD dtd = dtdMap.get(systemId);
 
             // if not in cache, create the DTD and put it in cache
             if (dtd == null)
@@ -203,7 +203,7 @@ public class DtdInsertAction implements Action
                     throw new DocumentException(element.getDocument(), ioe);
                 }
 
-                s_dtdMap.put(systemId, dtd);
+                dtdMap.put(systemId, dtd);
             }
 
             return dtd;

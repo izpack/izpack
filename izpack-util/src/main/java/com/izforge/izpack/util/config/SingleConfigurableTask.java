@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.config;
 
 import java.nio.charset.Charset;
@@ -49,7 +48,8 @@ import com.izforge.izpack.api.config.Reg;
 
 public abstract class SingleConfigurableTask implements ConfigurableTask
 {
-    private static final Logger logger = Logger.getLogger(SingleConfigurableTask.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(SingleConfigurableTask.class.getName());
 
     private boolean patchPreserveEntries = true;
 
@@ -74,7 +74,6 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     /*
      * Internal variables.
      */
-
     protected Configurable configurable;
 
     protected Configurable fromConfigurable;
@@ -82,10 +81,11 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     private Vector<Entry> entries = new Vector<Entry>();
 
     /**
-     * Whether to preserve equal entries but not necessarily their values from an old configuration,
-     * if they can be found (default: true).
+     * Whether to preserve equal entries but not necessarily their values from
+     * an old configuration, if they can be found (default: true).
      *
-     * @param preserveEntries - true to preserve equal entries from an old configuration
+     * @param preserveEntries - true to preserve equal entries from an old
+     * configuration
      */
     public void setPatchPreserveEntries(boolean preserveEntries)
     {
@@ -93,14 +93,15 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     }
 
     /**
-     * Whether to preserve the values of equal entries from an old configuration, if they can be
-     * found (default: true). Set false to overwrite old configuration values by default with the
-     * new ones, regardless whether they have been already set in an old configuration. Values from
-     * an old configuration can only be preserved, if the appropriate entries exist in an old
-     * configuration.
+     * Whether to preserve the values of equal entries from an old
+     * configuration, if they can be found (default: true). Set false to
+     * overwrite old configuration values by default with the new ones,
+     * regardless whether they have been already set in an old configuration.
+     * Values from an old configuration can only be preserved, if the
+     * appropriate entries exist in an old configuration.
      *
-     * @param preserveValues - true to preserve the values of equal entries from an old
-     * configuration
+     * @param preserveValues - true to preserve the values of equal entries from
+     * an old configuration
      */
     public void setPatchPreserveValues(boolean preserveValues)
     {
@@ -130,7 +131,8 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     /**
      * Whether to interpret escape at the end of line for joining lines
      *
-     * @param escapeNewLine - true to interpret escape at the end of line for joining lines
+     * @param escapeNewLine - true to interpret escape at the end of line for
+     * joining lines
      */
     public void setEscapeNewLine(boolean escapeNewLine)
     {
@@ -158,8 +160,8 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     }
 
     /**
-     * Whether to use property auto numbering (for property names
-     * with a trailing '.')
+     * Whether to use property auto numbering (for property names with a
+     * trailing '.')
      *
      * @param autoNumbering - true to use property auto numbering
      */
@@ -189,10 +191,11 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     }
 
     /**
-     * Whether the configuration file or registry root entry should be created if it doesn't already
-     * exist (default: true).
+     * Whether the configuration file or registry root entry should be created
+     * if it doesn't already exist (default: true).
      *
-     * @param create - whether to create a new configuration file or registry root entry
+     * @param create - whether to create a new configuration file or registry
+     * root entry
      */
     public void setCreate(boolean create)
     {
@@ -219,8 +222,8 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
 
     private String getValueFromOptionMap(OptionMap map, String key, int index)
     {
-        return (patchResolveVariables ?
-                map.fetch(key, index)
+        return (patchResolveVariables
+                ? map.fetch(key, index)
                 : map.get(key, index));
     }
 
@@ -243,7 +246,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                             {
                                 // found in patch target and in patch using reqexp value lookup;
                                 // overwrite in each case at the original position
-                                logger.fine("Preserve option file entry \"" + key + "\"");
+                                LOGGER.fine("Preserve option file entry \"" + key + "\"");
                                 ((Options) configurable).put(key, fromValue, i);
                                 found++;
                             }
@@ -270,13 +273,13 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
             }
         }
 
-        logger.fine("Patched " + found + " option file entries for key \"" + key + "\" found in original: " + fromValue);
+        LOGGER.fine("Patched " + found + " option file entries for key \"" + key + "\" found in original: " + fromValue);
 
         if (found == 0)
         {
             // nothing existing to patch found in patch target
             // but force preserving of patch entry
-            logger.fine("Add option file entry for \"" + key + "\": " + fromValue);
+            LOGGER.fine("Add option file entry for \"" + key + "\": " + fromValue);
             ((Options) configurable).add(key, fromValue);
         }
     }
@@ -296,7 +299,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                         case REGEXP:
                             if (origValue.matches(lookupValue))
                             {
-                                logger.fine("Remove option key \"" + key + "\"");
+                                LOGGER.fine("Remove option key \"" + key + "\"");
                                 ((Options) configurable).remove(key, i);
                                 i--;
                             }
@@ -305,7 +308,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                         default:
                             if (origValue.equals(lookupValue))
                             {
-                                logger.fine("Remove option key \"" + key + "\"");
+                                LOGGER.fine("Remove option key \"" + key + "\"");
                                 ((Options) configurable).remove(key, i);
                                 i--;
                             }
@@ -315,7 +318,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
             }
             else
             {
-                logger.fine("Remove option key \"" + key + "\"");
+                LOGGER.fine("Remove option key \"" + key + "\"");
                 ((Options) configurable).remove(key);
                 i--;
             }
@@ -324,7 +327,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
 
     private void deleteConfigurableEntry(String section, String key,
             String lookupValue, LookupType lookupType)
-    throws Exception
+            throws Exception
     {
         if (configurable instanceof Options)
         {
@@ -347,7 +350,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
 
     private void keepConfigurableValue(String section, String key,
             String lookupValue, LookupType lookupType)
-    throws Exception
+            throws Exception
     {
         if (fromConfigurable != null)
         {
@@ -392,7 +395,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                 {
                     if (toSection == null)
                     {
-                        logger.fine("Adding new INI section [" + section + "]");
+                        LOGGER.fine("Adding new INI section [" + section + "]");
                         toSection = ((Ini) configurable).add(section);
                     }
                     if (toSection != null)
@@ -401,13 +404,13 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                                 .fetch(key) : fromSection.get(key));
                         if (!toSection.containsKey(key))
                         {
-                            logger.fine("Preserve INI file entry \"" + key
+                            LOGGER.fine("Preserve INI file entry \"" + key
                                     + "\" in section [" + section + "]: " + fromValue);
                             toSection.add(key, fromValue);
                         }
                         else
                         {
-                            logger.fine("Preserve INI file entry value for key \"" + key
+                            LOGGER.fine("Preserve INI file entry value for key \"" + key
                                     + "\" in section [" + section + "]: " + fromValue);
                             toSection.put(key, fromValue);
                         }
@@ -422,7 +425,7 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                 {
                     if (toRegKey == null)
                     {
-                        logger.fine("Adding new registry root key " + section);
+                        LOGGER.fine("Adding new registry root key " + section);
                         toRegKey = ((Reg) configurable).add(section);
                     }
                     if (toRegKey != null)
@@ -431,13 +434,13 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                                 .fetch(key) : fromRegKey.get(key));
                         if (!toRegKey.containsKey(key))
                         {
-                            logger.fine("Preserve registry value " + key + " under root key "
+                            LOGGER.fine("Preserve registry value " + key + " under root key "
                                     + section + ": " + fromValue);
                             toRegKey.add(key, fromValue);
                         }
                         else
                         {
-                            logger.fine("Preserve registry data for value " + key
+                            LOGGER.fine("Preserve registry data for value " + key
                                     + " in root key " + section + ": " + fromValue);
                             toRegKey.put(key, fromValue);
                         }
@@ -483,12 +486,12 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                                 }
                                 if (patchPreserveEntries && !keyFound)
                                 {
-                                    logger.fine("Preserve auto-numbered  option file entry \"" + key + i + "\"");
+                                    LOGGER.fine("Preserve auto-numbered  option file entry \"" + key + i + "\"");
                                     ((Options) configurable).add(key, fromValue, i);
                                 }
                                 else if (patchPreserveValues && keyFound)
                                 {
-                                    logger.fine("Preserve option value for auto-numbered key \"" + key + i + "\": \"" + fromValue
+                                    LOGGER.fine("Preserve option value for auto-numbered key \"" + key + i + "\": \"" + fromValue
                                             + "\"");
                                     if (((Options) configurable).length(key) <= i)
                                     {
@@ -524,12 +527,12 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                                 : ((Options) fromConfigurable).get(key));
                         if (patchPreserveEntries && !toKeySet.contains(key))
                         {
-                            logger.fine("Preserve option file entry \"" + key + "\"");
+                            LOGGER.fine("Preserve option file entry \"" + key + "\"");
                             ((Options) configurable).add(key, fromValue);
                         }
                         else if (patchPreserveValues && toKeySet.contains(key))
                         {
-                            logger.fine("Preserve option value for key \"" + key + "\": \"" + fromValue
+                            LOGGER.fine("Preserve option value for key \"" + key + "\": \"" + fromValue
                                     + "\"");
                             ((Options) configurable).put(key, fromValue);
                         }
@@ -550,25 +553,28 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                                 .get(fromSectionKey);
                         fromKeySet = fromSection.keySet();
                         toKeySet = null;
-                        if (toSection != null) toKeySet = toSection.keySet();
+                        if (toSection != null)
+                        {
+                            toKeySet = toSection.keySet();
+                        }
                         for (String fromKey : fromKeySet)
                         {
                             if (toSection == null)
                             {
-                                logger.fine("Adding new INI section [" + fromSectionKey + "]");
+                                LOGGER.fine("Adding new INI section [" + fromSectionKey + "]");
                                 toSection = ((Ini) configurable).add(fromSectionKey);
                             }
                             String fromValue = (patchResolveVariables ? fromSection
                                     .fetch(fromKey) : fromSection.get(fromKey));
                             if (patchPreserveEntries && !toKeySet.contains(fromKey))
                             {
-                                logger.fine("Preserve INI file entry \"" + fromKey
+                                LOGGER.fine("Preserve INI file entry \"" + fromKey
                                         + "\" in section [" + fromSectionKey + "]: " + fromValue);
                                 toSection.add(fromKey, fromValue);
                             }
                             else if (patchPreserveValues && toKeySet.contains(fromKey))
                             {
-                                logger.fine("Preserve INI file entry value for key \"" + fromKey
+                                LOGGER.fine("Preserve INI file entry value for key \"" + fromKey
                                         + "\" in section [" + fromSectionKey + "]: " + fromValue);
                                 toSection.put(fromKey, fromValue);
                             }
@@ -588,25 +594,28 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                         Reg.Key toRegKey = ((Reg) configurable).get(fromRootKey);
                         fromKeySet = fromRegKey.keySet();
                         toKeySet = null;
-                        if (toRegKey != null) toKeySet = toRegKey.keySet();
+                        if (toRegKey != null)
+                        {
+                            toKeySet = toRegKey.keySet();
+                        }
                         for (String fromKey : fromKeySet)
                         {
                             if (toRegKey == null)
                             {
-                                logger.fine("Adding new registry root key " + fromRootKey);
+                                LOGGER.fine("Adding new registry root key " + fromRootKey);
                                 toRegKey = ((Reg) configurable).add(fromRootKey);
                             }
                             String fromValue = (patchResolveVariables ? fromRegKey
                                     .fetch(fromKey) : fromRegKey.get(fromKey));
                             if (patchPreserveEntries && !toKeySet.contains(fromKey))
                             {
-                                logger.fine("Preserve registry value " + fromKey + " under root key "
+                                LOGGER.fine("Preserve registry value " + fromKey + " under root key "
                                         + fromRootKey + ": " + fromValue);
                                 toRegKey.add(fromKey, fromValue);
                             }
                             else if (patchPreserveValues && toKeySet.contains(fromKey))
                             {
-                                logger.fine("Preserve registry data for value " + fromKey
+                                LOGGER.fine("Preserve registry data for value " + fromKey
                                         + " in root key " + fromRootKey + ": " + fromValue);
                                 toRegKey.put(fromKey, fromValue);
                             }
@@ -628,14 +637,14 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         {
             switch (entry.getOperation())
             {
-            case REMOVE:
-                deleteConfigurableEntry(entry.getSection(), entry.getKey(), entry.getValue(), entry.getLookupType());
-                break;
-            case KEEP:
-                keepConfigurableValue(entry.getSection(), entry.getKey(), entry.getValue(), entry.getLookupType());
-                break;
-            default:
-                entry.executeOn(configurable);
+                case REMOVE:
+                    deleteConfigurableEntry(entry.getSection(), entry.getKey(), entry.getValue(), entry.getLookupType());
+                    break;
+                case KEEP:
+                    keepConfigurableValue(entry.getSection(), entry.getKey(), entry.getValue(), entry.getLookupType());
+                    break;
+                default:
+                    entry.executeOn(configurable);
             }
         }
     }
@@ -654,7 +663,8 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
     }
 
     /**
-     * Instance of this class represents nested elements of a task configuration file.
+     * Instance of this class represents nested elements of a task configuration
+     * file.
      */
     public static class Entry
     {
@@ -684,7 +694,6 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         private String pattern = null;
 
         private Unit unit = Unit.DAY;
-
 
         public String getSection()
         {
@@ -721,8 +730,8 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         }
 
         /**
-         * Whether variables should be resolved during manipulating with explicit modifiers nested
-         * in the Ant task.
+         * Whether variables should be resolved during manipulating with
+         * explicit modifiers nested in the Ant task.
          *
          * @param resolve - true to resolve variables in explicit modifiers
          */
@@ -741,7 +750,6 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
             return lookupType;
         }
 
-
         public Type getType()
         {
             return type;
@@ -753,8 +761,8 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         }
 
         /**
-         * operation to apply. &quot;+&quot; or &quot;=&quot; (default) for all datatypes;
-         * &quot;-&quot; for date and int only)\.
+         * operation to apply. &quot;+&quot; or &quot;=&quot; (default) for all
+         * datatypes; &quot;-&quot; for date and int only)\.
          */
         public void setOperation(Operation operation)
         {
@@ -778,17 +786,18 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         }
 
         /**
-         * Initial value to set for a key if it is not already defined in the configuration file.
-         * For type date, an additional keyword is allowed: &quot;now&quot;
+         * Initial value to set for a key if it is not already defined in the
+         * configuration file. For type date, an additional keyword is allowed:
+         * &quot;now&quot;
          */
-
         public void setDefault(String value)
         {
             this.defaultValue = value;
         }
 
         /**
-         * For int and date type only. If present, Values will be parsed and formatted accordingly.
+         * For int and date type only. If present, Values will be parsed and
+         * formatted accordingly.
          */
         public void setPattern(String value)
         {
@@ -796,7 +805,8 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         }
 
         /**
-         * The unit of the value to be applied to date +/- operations. Valid Values are:
+         * The unit of the value to be applied to date +/- operations. Valid
+         * Values are:
          * <ul>
          * <li>millisecond</li>
          * <li>second</li>
@@ -869,9 +879,9 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                             case REGEXP:
                                 if (origValue.matches(value))
                                 {
-                                    logger.fine("Set option value for key \"" + newKey + "\": \""
+                                    LOGGER.fine("Set option value for key \"" + newKey + "\": \""
                                             + newValue + "\" (found by regular expression)"
-                                            + (pos<0?"":" at position "+pos));
+                                            + (pos < 0 ? "" : " at position " + pos));
                                     if (pos < 0)
                                     {
                                         configurable.put(newKey, newValue);
@@ -888,9 +898,9 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                             default:
                                 if (origValue.equals(value))
                                 {
-                                    logger.fine("Override option value for key \"" + newKey + "\": \""
+                                    LOGGER.fine("Override option value for key \"" + newKey + "\": \""
                                             + newValue + "\" (found by value)"
-                                            + (pos<0?"":" at position "+pos));
+                                            + (pos < 0 ? "" : " at position " + pos));
                                     if (pos < 0)
                                     {
                                         configurable.put(newKey, newValue);
@@ -910,8 +920,8 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
             if (!contains)
             {
                 newValue = execute(value);
-                logger.fine("Set option value for key \"" + newKey + "\": \"" + newValue + "\""
-                        + (pos<0?"":" at position "+pos));
+                LOGGER.fine("Set option value for key \"" + newKey + "\": \"" + newValue + "\""
+                        + (pos < 0 ? "" : " at position " + pos));
                 if (pos < 0)
                 {
                     configurable.put(newKey, newValue);
@@ -919,7 +929,10 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
                 else
                 {
                     // Allocate empty elements to support indexes beginning from a number > 0
-                    while (configurable.length(newKey) <= pos) {configurable.add(newKey, null);}
+                    while (configurable.length(newKey) <= pos)
+                    {
+                        configurable.add(newKey, null);
+                    }
                     configurable.put(newKey, newValue, pos);
                 }
             }
@@ -947,17 +960,17 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
 
             switch (type)
             {
-            case INTEGER:
-                newValue = executeInteger(oldValue);
-                break;
-            case DATE:
-                newValue = executeDate(oldValue);
-                break;
-            case STRING:
-                newValue = executeString(oldValue);
-                break;
-            default:
-                throw new Exception("Unknown operation type: " + type);
+                case INTEGER:
+                    newValue = executeInteger(oldValue);
+                    break;
+                case DATE:
+                    newValue = executeDate(oldValue);
+                    break;
+                case STRING:
+                    newValue = executeString(oldValue);
+                    break;
+                default:
+                    throw new Exception("Unknown operation type: " + type);
             }
 
             if (newValue == null)
@@ -994,8 +1007,9 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         /**
          * Handle operations for type <code>date</code>.
          *
-         * @param oldValue the current value read from the configuration file or <code>null</code>
-         * if the <code>key</code> was not contained in the configuration file.
+         * @param oldValue the current value read from the configuration file or
+         * <code>null</code> if the <code>key</code> was not contained in the
+         * configuration file.
          */
         private String executeDate(String oldValue) throws Exception
         {
@@ -1053,8 +1067,9 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         /**
          * Handle operations for type <code>int</code>.
          *
-         * @param oldValue the current value read from the configuration file or <code>null</code>
-         * if the <code>key</code> was not contained in the configuration file.
+         * @param oldValue the current value read from the configuration file or
+         * <code>null</code> if the <code>key</code> was not contained in the
+         * configuration file.
          */
         private String executeInteger(String oldValue) throws Exception
         {
@@ -1123,8 +1138,9 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
         /**
          * Handle operations for type <code>string</code>.
          *
-         * @param oldValue the current value read from the configuration file or <code>null</code>
-         * if the <code>key</code> was not contained in the configuration file.
+         * @param oldValue the current value read from the configuration file or
+         * <code>null</code> if the <code>key</code> was not contained in the
+         * configuration file.
          */
         private String executeString(String oldValue) throws Exception
         {
@@ -1156,14 +1172,26 @@ public abstract class SingleConfigurableTask implements ConfigurableTask
          */
         private void checkParameters() throws Exception
         {
-            if (type == Type.STRING && operation == Operation.DECREMENT) { throw new Exception(
-                    "- is not supported for string " + "properties (key: " + key + ")"); }
-            if (value == null && defaultValue == null) { throw new Exception(
-                    "\"value\" and/or \"default\" " + "attribute must be specified (key: " + key
-                            + ")"); }
-            if (key == null) { throw new Exception("key is mandatory"); }
-            if (type == Type.STRING && pattern != null) { throw new Exception(
-                    "pattern is not supported for string " + "properties (key: " + key + ")"); }
+            if (type == Type.STRING && operation == Operation.DECREMENT)
+            {
+                throw new Exception(
+                        "- is not supported for string " + "properties (key: " + key + ")");
+            }
+            if (value == null && defaultValue == null)
+            {
+                throw new Exception(
+                        "\"value\" and/or \"default\" " + "attribute must be specified (key: " + key
+                        + ")");
+            }
+            if (key == null)
+            {
+                throw new Exception("key is mandatory");
+            }
+            if (type == Type.STRING && pattern != null)
+            {
+                throw new Exception(
+                        "pattern is not supported for string " + "properties (key: " + key + ")");
+            }
         }
 
         private String getCurrentValue(String oldValue)

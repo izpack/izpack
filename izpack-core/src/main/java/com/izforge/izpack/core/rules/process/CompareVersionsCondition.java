@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -27,9 +26,10 @@ import java.util.logging.Logger;
 
 public class CompareVersionsCondition extends CompareCondition
 {
+
     private static final long serialVersionUID = 5605592864539142416L;
 
-    private static final transient Logger logger = Logger.getLogger(CompareVersionsCondition.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(CompareVersionsCondition.class.getName());
 
     private static final Set<String> EMPTY_STRINGS = Collections.singleton("");
     private static final String VERSION_DELIMITER = "[^\\d]+";
@@ -37,14 +37,12 @@ public class CompareVersionsCondition extends CompareCondition
     /**
      * Don't assume missing minor parts of some operand as 0 during comparison.
      *
-     * Example:
-     * Version 1 = 1.8
-     * Version 2 = 1.8.0_72
+     * Example: Version 1 = 1.8 Version 2 = 1.8.0_72
      * <ul>
      * <li>Without {@code NOT_ASSUME_MISSING_MINOR_PARTS_AS_0}:<br>
-     *     1.8.0_0 vs. 1.8.0_72 - LESS</li>
+     * 1.8.0_0 vs. 1.8.0_72 - LESS</li>
      * <li>With {@code NOT_ASSUME_MISSING_MINOR_PARTS_AS_0}:<br>
-     *     1.8 vs. 1.8[.0_72] - EQUALS</li>
+     * 1.8 vs. 1.8[.0_72] - EQUALS</li>
      * </ul>
      */
     protected static final int NOT_ASSUME_MISSING_MINOR_PARTS_AS_0 = 0x01;
@@ -67,14 +65,15 @@ public class CompareVersionsCondition extends CompareCondition
     /**
      * Indicates whether a particular version comparison flag is set or not.
      */
-    protected boolean hasFlag(int f) {
+    protected boolean hasFlag(int f)
+    {
         return (flags & f) != 0;
     }
 
     @Override
     public boolean isTrue()
     {
-        logger.fine("Version comparison: " + operand1 + " " + operator + " " + operand2 + " (flags: " + flags + ")");
+        LOGGER.fine("Version comparison: " + operand1 + " " + operator + " " + operand2 + " (flags: " + flags + ")");
         boolean result = false;
         InstallData installData = getInstallData();
         if (installData != null && operand1 != null && operand2 != null)
@@ -93,10 +92,10 @@ public class CompareVersionsCondition extends CompareCondition
             }
             catch (IllegalArgumentException e)
             {
-                logger.warning("[" + getClass().getSimpleName() + "] " + e.getMessage());
+                LOGGER.warning("[" + getClass().getSimpleName() + "] " + e.getMessage());
                 return false;
             }
-            logger.finer("Raw version comparison result: " + res);
+            LOGGER.finer("Raw version comparison result: " + res);
             switch (operator)
             {
                 case EQUAL:
@@ -121,17 +120,19 @@ public class CompareVersionsCondition extends CompareCondition
                     break;
             }
         }
-        logger.fine(operand1 + " " + operator.getAttribute() + " " + operand2 + ": " + result);
+        LOGGER.fine(operand1 + " " + operator.getAttribute() + " " + operand2 + ": " + result);
         return result;
     }
 
     @Override
-    public Set<String> getVarRefs() {
+    public Set<String> getVarRefs()
+    {
         return ValueUtils.parseUnresolvedVariableNames(this.operand1,
-                                                       this.operand2);
+                this.operand2);
     }
 
-    private class Version implements Comparable<Version> {
+    private class Version implements Comparable<Version>
+    {
 
         private String version;
 
@@ -140,24 +141,33 @@ public class CompareVersionsCondition extends CompareCondition
          *
          * @return the version string
          */
-        public final String get() {
+        public final String get()
+        {
             return this.version;
         }
 
-        public Version(String version) {
-            if(version == null)
+        public Version(String version)
+        {
+            if (version == null)
+            {
                 throw new IllegalArgumentException("Version can not be null");
-            if(!version.matches("[^\\d]*[\\d]+([^\\d]+[\\d]+)*[^\\d]*"))
+            }
+            if (!version.matches("[^\\d]*[\\d]+([^\\d]+[\\d]+)*[^\\d]*"))
+            {
                 throw new IllegalArgumentException("Invalid version format: '" + version + "'");
+            }
             this.version = version;
         }
 
         @Override
-        public int compareTo(Version version) {
-            if(version == null)
+        public int compareTo(Version version)
+        {
+            if (version == null)
+            {
                 return 1;
+            }
             String[] parts1 = this.get().split(VERSION_DELIMITER);
-            List<String> leftOps =  new ArrayList<String>(Arrays.asList(parts1));
+            List<String> leftOps = new ArrayList<String>(Arrays.asList(parts1));
             leftOps.removeAll(EMPTY_STRINGS); // avoid NumberFormatException
             String[] parts2 = version.get().split(VERSION_DELIMITER);
             List<String> rightOps = new ArrayList<String>(Arrays.asList(parts2));
@@ -165,27 +175,39 @@ public class CompareVersionsCondition extends CompareCondition
             int length = hasFlag(NOT_ASSUME_MISSING_MINOR_PARTS_AS_0)
                     ? Math.min(leftOps.size(), rightOps.size())
                     : Math.max(leftOps.size(), rightOps.size());
-            logger.finer("Effective number of version parts: " + length);
-            for(int i = 0; i < length; i++) {
+            LOGGER.finer("Effective number of version parts: " + length);
+            for (int i = 0; i < length; i++)
+            {
                 int part1 = i < leftOps.size() ? Integer.parseInt(leftOps.get(i)) : 0;
                 int part2 = i < rightOps.size() ? Integer.parseInt(rightOps.get(i)) : 0;
-                logger.finer("Compare version parts: " + part1 + " <-> " + part2);
-                if(part1 < part2)
+                LOGGER.finer("Compare version parts: " + part1 + " <-> " + part2);
+                if (part1 < part2)
+                {
                     return -1;
-                if(part1 > part2)
+                }
+                if (part1 > part2)
+                {
                     return 1;
+                }
             }
             return 0;
         }
 
         @Override
-        public boolean equals(Object version) {
-            if(this == version)
+        public boolean equals(Object version)
+        {
+            if (this == version)
+            {
                 return true;
-            if(version == null)
+            }
+            if (version == null)
+            {
                 return false;
-            if(this.getClass() != version.getClass())
+            }
+            if (this.getClass() != version.getClass())
+            {
                 return false;
+            }
             return this.compareTo((Version) version) == 0;
         }
 

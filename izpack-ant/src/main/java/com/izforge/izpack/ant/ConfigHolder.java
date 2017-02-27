@@ -1,27 +1,26 @@
 /*
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2002 Marcus Wolschon
  * Copyright 2002 Jan Blok
  * Copyright 2004 Klaus Bartz
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.ant;
 
 import org.apache.tools.ant.BuildException;
@@ -41,6 +40,7 @@ import java.util.List;
  */
 public class ConfigHolder
 {
+
     /**
      * The parent element project
      */
@@ -55,18 +55,18 @@ public class ConfigHolder
      * Taken from the ant org.apache.tools.ant.PropertyHelper and '$' replaced
      * with '@' to deal with @{x} style property references.
      * <p/>
-     * Parses a string containing @{xxx} style property references
-     * into two lists. The first list is a collection of text fragments, while
-     * the other is a set of string property names. null entries in the
-     * first list indicate a property reference from the second list.
+     * Parses a string containing @{xxx} style property references into two
+     * lists. The first list is a collection of text fragments, while the other
+     * is a set of string property names. null entries in the first list
+     * indicate a property reference from the second list.
      * <p/>
      * It can be overridden with a more efficient or customized version.
      *
-     * @param value        Text to parse. Must not be null.
-     * @param fragments    List to add text fragments to. Must not be null.
+     * @param value Text to parse. Must not be null.
+     * @param fragments List to add text fragments to. Must not be null.
      * @param propertyRefs List to add property names to. Must not be null.
      * @throws BuildException if the string contains an opening @{ without a
-     *                        closing }
+     * closing }
      */
     static void parseCompileProperties(String value, List<String> fragments, List<String> propertyRefs)
             throws BuildException

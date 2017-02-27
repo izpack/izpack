@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -39,14 +38,17 @@ import java.util.logging.Logger;
  */
 public class EmptyCondition extends Condition
 {
+
     private static final long serialVersionUID = -5036558553194497000L;
 
-    private static final transient Logger logger = Logger.getLogger(EmptyCondition.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(EmptyCondition.class.getName());
 
     private ContentType contentType;
     private String content;
 
-    public EmptyCondition() {}
+    public EmptyCondition()
+    {
+    }
 
     @Override
     public boolean isTrue()
@@ -101,7 +103,7 @@ public class EmptyCondition extends Condition
                 break;
 
             default:
-                logger.warning("Illegal content type '" + contentType.getAttribute() + "' of ExistsCondition");
+                LOGGER.warning("Illegal content type '" + contentType.getAttribute() + "' of ExistsCondition");
                 break;
         }
         return result;
@@ -139,18 +141,15 @@ public class EmptyCondition extends Condition
         return contentType;
     }
 
-
     public void setContentType(ContentType contentType)
     {
         this.contentType = contentType;
     }
 
-
     public String getContent()
     {
         return content;
     }
-
 
     public void setContent(String content)
     {
@@ -203,7 +202,8 @@ public class EmptyCondition extends Condition
     }
 
     @Override
-    public Set<String> getVarRefs() {
+    public Set<String> getVarRefs()
+    {
         HashSet<String> vars = new HashSet<String>(2);
         switch (contentType)
         {
@@ -223,7 +223,8 @@ public class EmptyCondition extends Condition
                     vars.addAll(ValueUtils.parseUnresolvedVariableNames(this.content));
                 }
                 break;
-            default: throw new CompilerException("Unimplemented contentType");
+            default:
+                throw new CompilerException("Unimplemented contentType");
         }
         return vars;
     }

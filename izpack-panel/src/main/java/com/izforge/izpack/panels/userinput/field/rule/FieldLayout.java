@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.rule;
 
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
-
 
 /**
  * Rule field layout.
@@ -34,18 +32,20 @@ import com.izforge.izpack.panels.userinput.field.ValidationStatus;
  */
 public class FieldLayout
 {
+
     /**
      * The field specs.
      */
     private final List<FieldSpec> specs = new ArrayList<FieldSpec>();
 
     /**
-     * The layout items. This is a mixture of field separator strings and FieldSpec instances.
+     * The layout items. This is a mixture of field separator strings and
+     * FieldSpec instances.
      */
     private final List<Object> items = new ArrayList<Object>();
 
     /**
-     * Constructs a  {@code FieldLayout}.
+     * Constructs a {@code FieldLayout}.
      *
      * @param layout the layout specifier
      */
@@ -99,7 +99,8 @@ public class FieldLayout
     /**
      * Returns the layout items.
      *
-     * @return a mixture of field separator strings and {@link FieldSpec} instances.
+     * @return a mixture of field separator strings and {@link FieldSpec}
+     * instances.
      */
     public List<Object> getLayout()
     {
@@ -107,7 +108,8 @@ public class FieldLayout
     }
 
     /**
-     * Validates a value against the layout, splitting it into the appropriate fields.
+     * Validates a value against the layout, splitting it into the appropriate
+     * fields.
      *
      * @param value the value
      * @return the validation status
@@ -133,7 +135,7 @@ public class FieldLayout
                     String actual = value.length() >= separator.length()
                             ? value.substring(0, separator.length()) : value;
                     return ValidationStatus.failed("Expected '" + separator + "' at character " + pos + " but got "
-                                                           + "'" + actual + "'");
+                            + "'" + actual + "'");
                 }
             }
             else
@@ -165,8 +167,8 @@ public class FieldLayout
                 else if (!spec.isUnlimitedLength() && field.length() > spec.getLength())
                 {
                     return ValidationStatus.failed("Field too long at character " + pos + ". Expected length "
-                                                           + spec.getLength() + " but got length " + field.length()
-                                                           + ": " + field);
+                            + spec.getLength() + " but got length " + field.length()
+                            + ": " + field);
                 }
                 if (!spec.validate(field))
                 {

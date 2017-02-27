@@ -21,7 +21,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.packs;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -47,8 +46,9 @@ import java.util.logging.Logger;
  */
 public class PacksModel extends AbstractTableModel
 {
+
     private static final long serialVersionUID = 3258128076746733110L;
-    private static final transient Logger logger = Logger.getLogger(PacksModel.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(PacksModel.class.getName());
 
     protected List<Pack> packs;
     protected final List<Pack> hiddenPacks;
@@ -72,10 +72,13 @@ public class PacksModel extends AbstractTableModel
     {
         this.installData = idata;
         this.rules = idata.getRules();
-        try{
-          this.messages = idata.getMessages().newMessages(Resources.PACK_TRANSLATIONS_RESOURCE_NAME);
-        } catch(ResourceNotFoundException ex){
-          this.messages=idata.getMessages();
+        try
+        {
+            this.messages = idata.getMessages().newMessages(Resources.PACK_TRANSLATIONS_RESOURCE_NAME);
+        }
+        catch (ResourceNotFoundException ex)
+        {
+            this.messages = idata.getMessages();
         }
         this.variables = idata.getVariables();
         this.packsToInstall = idata.getSelectedPacks();
@@ -94,7 +97,6 @@ public class PacksModel extends AbstractTableModel
         updateConditions(true);
         updatePacksToInstall();
     }
-
 
     /**
      * @return a list of hidden packs
@@ -136,7 +138,7 @@ public class PacksModel extends AbstractTableModel
      */
     private Map<String, Pack> getNametoPackMapping(List<Pack> packs)
     {
-        Map <String, Pack> nameToPack = new HashMap<String, Pack>();
+        Map<String, Pack> nameToPack = new HashMap<String, Pack>();
         for (Pack pack : packs)
         {
             nameToPack.put(pack.getName(), pack);
@@ -162,8 +164,8 @@ public class PacksModel extends AbstractTableModel
     }
 
     /**
-     * Ensure that parent packs know which packs are their children.
-     * Ensure that packs who have dependants know which packs depend on them
+     * Ensure that parent packs know which packs are their children. Ensure that
+     * packs who have dependants know which packs depend on them
      *
      * @param packs packs visible to the user
      * @param nameToPack mapping from pack names to pack objects
@@ -210,8 +212,8 @@ public class PacksModel extends AbstractTableModel
     }
 
     /**
-     * Update the conditions for dependent packages.
-     * Update the conditions for optional packages.
+     * Update the conditions for dependent packages. Update the conditions for
+     * optional packages.
      *
      * @param initial indicates if its the first time updating conditions.
      */
@@ -228,10 +230,10 @@ public class PacksModel extends AbstractTableModel
                 int pos = getPos(packName);
                 if (!rules.canInstallPack(packName, variables))
                 {
-                    logger.fine("Conditions for pack '" + packName + "' are not complied with");
+                    LOGGER.fine("Conditions for pack '" + packName + "' are not complied with");
                     if (rules.canInstallPackOptional(packName, variables))
                     {
-                        logger.fine("Pack '" + packName + "' can be installed optionally.");
+                        LOGGER.fine("Pack '" + packName + "' can be installed optionally.");
                         if (initial)
                         {
                             if (checkValues.get(pos) != CbSelectionState.DESELECTED)
@@ -245,7 +247,7 @@ public class PacksModel extends AbstractTableModel
                     {
                         if (checkValues.get(pos) != CbSelectionState.DEPENDENT_DESELECTED)
                         {
-                            logger.fine("Pack '" + packName + "' cannot be installed");
+                            LOGGER.fine("Pack '" + packName + "' cannot be installed");
                             checkValues.set(pos, CbSelectionState.DEPENDENT_DESELECTED);
                             changes = true;
                         }
@@ -256,8 +258,7 @@ public class PacksModel extends AbstractTableModel
     }
 
     /**
-     * Ensure that the table is up to date.
-     * Order does matter
+     * Ensure that the table is up to date. Order does matter
      */
     public void updateTable()
     {
@@ -343,6 +344,7 @@ public class PacksModel extends AbstractTableModel
 
     /**
      * Configure required packs.
+     *
      * @param name
      * @param checkValues
      * @return
@@ -365,8 +367,8 @@ public class PacksModel extends AbstractTableModel
     }
 
     /**
-     * Given a map of names and Integer for position and a name it return the position of this name
-     * as an int
+     * Given a map of names and Integer for position and a name it return the
+     * position of this name as an int
      *
      * @return position of the name
      */
@@ -443,15 +445,15 @@ public class PacksModel extends AbstractTableModel
         }
     }
 
-
     /**
      * Toggle checkbox value from selected to deselected and vice-versa.
+     *
      * @param rowIndex
      */
     public void toggleValueAt(int rowIndex)
     {
         CbSelectionState state = checkValues.get(rowIndex);
-        if  (state != null && checkValues.get(rowIndex) == CbSelectionState.SELECTED)
+        if (state != null && checkValues.get(rowIndex) == CbSelectionState.SELECTED)
         {
             setValueAt(CbSelectionState.DESELECTED, rowIndex, 0);
         }
@@ -530,8 +532,9 @@ public class PacksModel extends AbstractTableModel
     }
 
     /**
-     * Set the value of the parent pack of the given pack to SELECTED, PARTIAL_SELECT, or DESELECTED.
-     * Value of the pack is dependent of its children values.
+     * Set the value of the parent pack of the given pack to SELECTED,
+     * PARTIAL_SELECT, or DESELECTED. Value of the pack is dependent of its
+     * children values.
      *
      * @param childPack
      */
@@ -587,7 +590,6 @@ public class PacksModel extends AbstractTableModel
         }
     }
 
-
     /**
      * Set the value of children packs to the same value as the parent pack.
      *
@@ -607,9 +609,9 @@ public class PacksModel extends AbstractTableModel
     }
 
     /**
-     * Select/Deselect pack(s) based on packsData mapping.
-     * This is related to the onSelect and onDeselect attributes for packs.
-     * User is not allowed to has a required pack for onSelect and onDeselect.
+     * Select/Deselect pack(s) based on packsData mapping. This is related to
+     * the onSelect and onDeselect attributes for packs. User is not allowed to
+     * has a required pack for onSelect and onDeselect.
      *
      * @param packsData
      */
@@ -623,7 +625,7 @@ public class PacksModel extends AbstractTableModel
             String packName = packData.getKey();
             String condition = packData.getValue();
 
-            if(condition != null && !rules.isConditionTrue(condition))
+            if (condition != null && !rules.isConditionTrue(condition))
             {
                 return; //Do nothing if condition is false
             }
@@ -633,13 +635,13 @@ public class PacksModel extends AbstractTableModel
             if (packName.startsWith("!"))
             {
                 packName = packName.substring(1);
-                pack  = nameToPack.get(packName);
+                pack = nameToPack.get(packName);
                 packPos = getPos(packName);
                 value = CbSelectionState.DESELECTED;
             }
             else
             {
-                pack  = nameToPack.get(packName);
+                pack = nameToPack.get(packName);
                 packPos = getPos(packName);
                 value = CbSelectionState.SELECTED;
             }
@@ -652,6 +654,7 @@ public class PacksModel extends AbstractTableModel
 
     /**
      * Update checkboxes based on the onSelect attribute
+     *
      * @param index
      */
     private void onSelectionUpdate(int index)
@@ -663,6 +666,7 @@ public class PacksModel extends AbstractTableModel
 
     /**
      * Update checkboxes based on the onDeselect attribute
+     *
      * @param index
      */
     private void onDeselectionUpdate(int index)
@@ -673,10 +677,9 @@ public class PacksModel extends AbstractTableModel
     }
 
     /**
-     * Update packs to installed.
-     * A pack to be installed is:
-     * 1. A visible pack that has its checkbox checked
-     * 2. A hidden pack that condition
+     * Update packs to installed. A pack to be installed is: 1. A visible pack
+     * that has its checkbox checked 2. A hidden pack that condition
+     *
      * @return
      */
     public List<Pack> updatePacksToInstall()
@@ -707,13 +710,12 @@ public class PacksModel extends AbstractTableModel
         return packsToInstall;
     }
 
-
     /**
-     * This function updates the checkboxes after a change by disabling packs that cannot be
-     * installed anymore and enabling those that can after the change. This is accomplished by
-     * running a search that pinpoints the packs that must be disabled by a non-fullfiled
-     * dependency.
-     * TODO: Look into "+2" and "-2", doesn't look safe
+     * This function updates the checkboxes after a change by disabling packs
+     * that cannot be installed anymore and enabling those that can after the
+     * change. This is accomplished by running a search that pinpoints the packs
+     * that must be disabled by a non-fullfiled dependency. TODO: Look into "+2"
+     * and "-2", doesn't look safe
      */
     private void updateDeps()
     {
@@ -778,11 +780,10 @@ public class PacksModel extends AbstractTableModel
         }
     }
 
-
     /**
-     * We use a modified dfs graph search algorithm as described in: Thomas H. Cormen, Charles
-     * Leiserson, Ronald Rivest and Clifford Stein. Introduction to algorithms 2nd Edition
-     * 540-549,MIT Press, 2001
+     * We use a modified dfs graph search algorithm as described in: Thomas H.
+     * Cormen, Charles Leiserson, Ronald Rivest and Clifford Stein. Introduction
+     * to algorithms 2nd Edition 540-549,MIT Press, 2001
      */
     private void dfs(int[] status)
     {
@@ -839,6 +840,7 @@ public class PacksModel extends AbstractTableModel
 
     /**
      * Get previously installed packs on modifying a pre-installed application
+     *
      * @return the installedPacks
      */
     public Map<String, Pack> getInstalledPacks()
@@ -856,8 +858,10 @@ public class PacksModel extends AbstractTableModel
 
     /**
      * Remove pack that are already installed
+     *
      * @param selectedPacks
-     * @param installedPacks the packs found in an existing .installationinformation file
+     * @param installedPacks the packs found in an existing
+     * .installationinformation file
      */
     private void removeAlreadyInstalledPacks(List<Pack> selectedPacks, Map<String, Pack> installedPacks)
     {
@@ -902,7 +906,7 @@ public class PacksModel extends AbstractTableModel
                     readPacks.put(installedpack.getName(), installedpack);
                 }
                 removeAlreadyInstalledPacks(installData.getSelectedPacks(), readPacks);
-                logger.fine("Found " + packsinstalled.size() + " installed packs");
+                LOGGER.fine("Found " + packsinstalled.size() + " installed packs");
 
                 Properties variables = (Properties) oin.readObject();
                 for (Object key : variables.keySet())
@@ -913,7 +917,7 @@ public class PacksModel extends AbstractTableModel
         }
         catch (Exception e)
         {
-            logger.warning("Could not read installation information: " + e.getMessage());
+            LOGGER.warning("Could not read installation information: " + e.getMessage());
         }
         finally
         {
@@ -923,7 +927,9 @@ public class PacksModel extends AbstractTableModel
                 {
                     oin.close();
                 }
-                catch (IOException ignored) {}
+                catch (IOException ignored)
+                {
+                }
             }
         }
         return readPacks;
@@ -931,12 +937,13 @@ public class PacksModel extends AbstractTableModel
 
     /**
      * Check if a pack's dependencies are resolved.
+     *
      * @param pack
      * @return
      */
     private boolean dependenciesResolved(Pack pack)
     {
-        if(!pack.hasDependencies())
+        if (!pack.hasDependencies())
         {
             return true;
         }
@@ -949,6 +956,7 @@ public class PacksModel extends AbstractTableModel
         }
         return true;
     }
+
     /**
      * @return mapping from pack name to pack
      */
@@ -979,7 +987,8 @@ public class PacksModel extends AbstractTableModel
     }
 
     /**
-     * @return the number of bytes that the installation requires based on selected packs
+     * @return the number of bytes that the installation requires based on
+     * selected packs
      */
     public int getTotalByteSize()
     {
@@ -989,7 +998,7 @@ public class PacksModel extends AbstractTableModel
         for (Pack pack : packs)
         {
             row = packToRow.get(pack);
-            if(isChecked(row))
+            if (isChecked(row))
             {
                 bytes += pack.getSize();
             }
@@ -1030,7 +1039,8 @@ public class PacksModel extends AbstractTableModel
     }
 
     /**
-     * @return {@code true} if any dependencies for the visible packs exists else {@code false}
+     * @return {@code true} if any dependencies for the visible packs exists
+     * else {@code false}
      */
     public boolean dependenciesExist()
     {
@@ -1069,7 +1079,9 @@ public class PacksModel extends AbstractTableModel
         }
 
         /**
-         * Check whether the checkbox state is one of {@code SELECTED}, {@code PARTIAL_SELECTED}.
+         * Check whether the checkbox state is one of {@code SELECTED},
+         * {@code PARTIAL_SELECTED}.
+         *
          * @return {@code true} if the above condition is met
          */
         public boolean isFullyOrPartiallySelected()
@@ -1078,7 +1090,9 @@ public class PacksModel extends AbstractTableModel
         }
 
         /**
-         * Check whether the checkbox state is one of {@code DESELECTED}, {@code SELECTED}, {@code PARTIAL_SELECTED}.
+         * Check whether the checkbox state is one of {@code DESELECTED},
+         * {@code SELECTED}, {@code PARTIAL_SELECTED}.
+         *
          * @return {@code true} if the above condition is met
          */
         public boolean isSelectable()
@@ -1087,7 +1101,9 @@ public class PacksModel extends AbstractTableModel
         }
 
         /**
-         * Check whether the checkbox state is one of {@code REQUIRED_SELECTED}, {@code SELECTED}.
+         * Check whether the checkbox state is one of {@code REQUIRED_SELECTED},
+         * {@code SELECTED}.
+         *
          * @return {@code true} if the above condition is met
          */
         public boolean isSelectedOrRequiredSelected()
@@ -1097,7 +1113,9 @@ public class PacksModel extends AbstractTableModel
         }
 
         /**
-         * Check if the checkbox state means selected or required to be selected (even partially).
+         * Check if the checkbox state means selected or required to be selected
+         * (even partially).
+         *
          * @return {@code true} if checkbox is selected else {@code false}
          */
         public boolean isChecked()
@@ -1108,7 +1126,9 @@ public class PacksModel extends AbstractTableModel
         }
 
         /**
-         * Check if the checkbox state means partially selected or required to be partially selected.
+         * Check if the checkbox state means partially selected or required to
+         * be partially selected.
+         *
          * @return {@code true} if checkbox is selected else {@code false}
          */
         public boolean isPartiallyChecked()

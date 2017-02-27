@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.variable;
 
 import java.io.IOException;
@@ -46,6 +45,7 @@ import com.izforge.izpack.api.config.Options;
 
 public abstract class ConfigFileValue extends ValueImpl implements Serializable
 {
+
     /**
      *
      */
@@ -151,10 +151,10 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
             throws Exception
     {
         Config config;
-        String _key_ = key;
+        String key0 = key;
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _key_ = substitutor.substitute(_key_);
+            key0 = substitutor.substitute(key0);
         }
 
         switch (type)
@@ -164,20 +164,20 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
                 config.setEscape(isEscape());
                 Options opts;
                 opts = new Options(in, config);
-                return opts.get(_key_);
+                return opts.get(key0);
             case CONFIGFILE_TYPE_INI:
                 config = Config.getGlobal().clone();
                 config.setEscape(isEscape());
                 Ini ini;
-                String _section_ = section;
+                String section0 = section;
                 for (VariableSubstitutor substitutor : substitutors)
                 {
-                    _section_ = substitutor.substitute(_section_);
+                    section0 = substitutor.substitute(section0);
                 }
                 ini = new Ini(in, config);
-                return ini.get(_section_, _key_);
+                return ini.get(section0, key0);
             case CONFIGFILE_TYPE_XML:
-                return parseXPath(in, _key_, System.getProperty("line.separator"));
+                return parseXPath(in, key0, System.getProperty("line.separator"));
             default:
                 throw new Exception("Invalid configuration file type '" + type + "'");
         }
@@ -212,11 +212,10 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
         return sb.toString();
     }
 
-
     @Override
     public Set<String> getVarRefs()
     {
-        Set<String> unresolvedNames = parseUnresolvedVariableNames(key); 
+        Set<String> unresolvedNames = parseUnresolvedVariableNames(key);
         if (type == CONFIGFILE_TYPE_INI)
         {
             unresolvedNames.addAll(parseUnresolvedVariableNames(section));

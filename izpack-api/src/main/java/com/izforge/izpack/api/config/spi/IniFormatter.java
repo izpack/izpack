@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.io.PrintWriter;
@@ -29,6 +28,7 @@ import com.izforge.izpack.api.config.Config;
 
 public class IniFormatter extends AbstractFormatter implements IniHandler
 {
+
     public static IniFormatter newInstance(Writer out, Config config)
     {
         IniFormatter instance = newInstance();
@@ -39,22 +39,26 @@ public class IniFormatter extends AbstractFormatter implements IniHandler
         return instance;
     }
 
-    @Override public void endIni()
+    @Override
+    public void endIni()
     {
         getOutput().flush();
     }
 
-    @Override public void endSection()
+    @Override
+    public void endSection()
     {
         getOutput().print(getConfig().getLineSeparator());
     }
 
-    @Override public void startIni()
+    @Override
+    public void startIni()
     {
         assert true;
     }
 
-    @Override public void startSection(String sectionName)
+    @Override
+    public void startSection(String sectionName)
     {
         if (!getConfig().isGlobalSection() || !sectionName.equals(getConfig().getGlobalSectionName()))
         {

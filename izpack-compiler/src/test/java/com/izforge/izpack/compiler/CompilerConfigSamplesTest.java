@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,6 +42,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestCompilerContainer.class)
 public class CompilerConfigSamplesTest
 {
+
     private JarFile jar;
     private CompilerConfig compilerConfig;
     private AbstractContainer testContainer;
@@ -59,7 +59,7 @@ public class CompilerConfigSamplesTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat((ZipFile)jar, ZipMatcher.isZipContainingFiles(
+        assertThat((ZipFile) jar, ZipMatcher.isZipContainingFiles(
                 "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class",
                 "resources/vars",
                 "com/izforge/izpack/img/JFrameIcon.png"));
@@ -71,12 +71,11 @@ public class CompilerConfigSamplesTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat((ZipFile)jar, ZipMatcher.isZipMatching(IsNot.not(IsCollectionContaining.hasItems(
+        assertThat((ZipFile) jar, ZipMatcher.isZipMatching(IsNot.not(IsCollectionContaining.hasItems(
                 "com/izforge/izpack/panels/process/VariableCondition.class",
                 "com/sora/panel/VimPanel.class",
                 "resource/32/help-browser.png"))));
     }
-
 
     @Test
     @InstallFile("samples/silverpeas/silverpeas.xml")
@@ -84,9 +83,8 @@ public class CompilerConfigSamplesTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat((ZipFile)jar, ZipMatcher.isZipContainingFiles(
+        assertThat((ZipFile) jar, ZipMatcher.isZipContainingFiles(
                 "resources/Splash.image"));
     }
-
 
 }

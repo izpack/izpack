@@ -17,7 +17,6 @@
  */
 package com.izforge.izpack.panels.shortcut;
 
-
 import static com.izforge.izpack.api.handler.Prompt.Option.NO;
 import static com.izforge.izpack.api.handler.Prompt.Option.YES;
 import static com.izforge.izpack.api.handler.Prompt.Options.YES_NO;
@@ -51,28 +50,29 @@ import com.izforge.izpack.util.os.Shortcut;
  */
 public class ShortcutConsolePanel extends AbstractConsolePanel
 {
+
     private final Prompt prompt;
     private final InstallData installData;
     private final ShortcutPanelLogic shortcutPanelLogic;
 
-    private static final Logger logger = Logger.getLogger(ShortcutConsolePanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ShortcutConsolePanel.class.getName());
 
     /**
      * Constructs a {@code ShortcutConsolePanel}.
      *
-     * @param installData   the installation data
-     * @param resources     the resources
+     * @param installData the installation data
+     * @param resources the resources
      * @param uninstallData the uninstallation data
-     * @param housekeeper   the housekeeper
-     * @param factory       the target factory
-     * @param listeners     the installation listeners
-     * @param matcher       the platform-model matcher
-     * @param prompt        the prompt
-     * @param panel         the parent panel/view
+     * @param housekeeper the housekeeper
+     * @param factory the target factory
+     * @param listeners the installation listeners
+     * @param matcher the platform-model matcher
+     * @param prompt the prompt
+     * @param panel the parent panel/view
      */
     public ShortcutConsolePanel(InstallData installData, Resources resources, UninstallData uninstallData,
-                                Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
-                                PlatformModelMatcher matcher, Prompt prompt, PanelView<ConsolePanel> panel)
+            Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
+            PlatformModelMatcher matcher, Prompt prompt, PanelView<ConsolePanel> panel)
     {
         super(panel);
         ShortcutPanelLogic shortcutPanelLogic = null;
@@ -83,7 +83,7 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
         }
         catch (Exception exception)
         {
-            logger.log(Level.WARNING, "Failed to initialise shortcuts: " + exception.getMessage(), exception);
+            LOGGER.log(Level.WARNING, "Failed to initialise shortcuts: " + exception.getMessage(), exception);
         }
 
         this.prompt = prompt;
@@ -95,8 +95,9 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
      * Runs the panel using the supplied properties.
      *
      * @param installData the installation data
-     * @param properties  the properties
-     * @return {@code true} if the installation is successful, otherwise {@code false}
+     * @param properties the properties
+     * @return {@code true} if the installation is successful, otherwise
+     * {@code false}
      */
     @Override
     public boolean run(InstallData installData, Properties properties)
@@ -120,8 +121,9 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return {@code true} if the panel ran successfully, otherwise {@code false}
+     * @param console the console
+     * @return {@code true} if the panel ran successfully, otherwise
+     * {@code false}
      */
     @Override
     public boolean run(InstallData installData, Console console)
@@ -138,8 +140,7 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
             return result;
         }
 
-
-        if (shortcutPanelLogic != null  && shortcutPanelLogic.canCreateShortcuts())
+        if (shortcutPanelLogic != null && shortcutPanelLogic.canCreateShortcuts())
         {
             if (shortcutPanelLogic.isSupported())
             {
@@ -155,7 +156,7 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
                     }
                     catch (Exception e)
                     {
-                        logger.log(Level.WARNING, e.getMessage(), e);
+                        LOGGER.log(Level.WARNING, e.getMessage(), e);
                     }
                 }
                 return true;
@@ -230,7 +231,7 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
         }
         catch (Exception e)
         {
-            logger.log(Level.WARNING, "Could generate automatic installer description for shortcuts.");
+            LOGGER.log(Level.WARNING, "Could generate automatic installer description for shortcuts.");
         }
     }
 }

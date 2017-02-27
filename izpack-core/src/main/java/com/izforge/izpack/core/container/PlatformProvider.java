@@ -18,16 +18,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.container;
-
 
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 import org.picocontainer.injectors.Provider;
 
 import java.util.logging.Logger;
-
 
 /**
  * Injection provider for the current {@link Platform}.
@@ -40,7 +37,7 @@ public class PlatformProvider implements Provider
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(PlatformProvider.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PlatformProvider.class.getName());
 
     /**
      * Provides the current platform.

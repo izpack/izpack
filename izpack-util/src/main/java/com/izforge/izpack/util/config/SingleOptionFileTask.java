@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.config;
 
 import java.io.File;
@@ -30,7 +29,8 @@ import com.izforge.izpack.api.config.Options;
 
 public class SingleOptionFileTask extends ConfigFileTask
 {
-    private static final Logger logger = Logger.getLogger(SingleOptionFileTask.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(SingleOptionFileTask.class.getName());
 
     @Override
     protected void readSourceConfigurable() throws Exception
@@ -41,11 +41,11 @@ public class SingleOptionFileTask extends ConfigFileTask
             {
                 if (!oldFile.exists())
                 {
-                    logger.warning("Options file " + oldFile.getAbsolutePath()
+                    LOGGER.warning("Options file " + oldFile.getAbsolutePath()
                             + " to patch from could not be found, no patches will be applied");
                     return;
                 }
-                logger.fine("Loading options file: " + oldFile.getAbsolutePath());
+                LOGGER.fine("Loading options file: " + oldFile.getAbsolutePath());
                 // Configuration file type must be the same as the target type
                 fromConfigurable = new Options(this.oldFile);
             }
@@ -63,7 +63,7 @@ public class SingleOptionFileTask extends ConfigFileTask
         {
             try
             {
-                logger.fine("Loading original configuration file: " + newFile.getAbsolutePath());
+                LOGGER.fine("Loading original configuration file: " + newFile.getAbsolutePath());
                 configurable = new Options(newFile);
             }
             catch (IOException ioe)
@@ -75,7 +75,7 @@ public class SingleOptionFileTask extends ConfigFileTask
         {
             try
             {
-                logger.fine("Loading target configuration file: " + toFile.getAbsolutePath());
+                LOGGER.fine("Loading target configuration file: " + toFile.getAbsolutePath());
                 configurable = new Options(toFile);
             }
             catch (IOException ioe)
@@ -104,12 +104,12 @@ public class SingleOptionFileTask extends ConfigFileTask
                     {
                         parent.mkdirs();
                     }
-                    logger.fine("Creating empty properties file: " + toFile.getAbsolutePath());
+                    LOGGER.fine("Creating empty properties file: " + toFile.getAbsolutePath());
                     toFile.createNewFile();
                 }
                 else
                 {
-                    logger.warning("Options file " + toFile.getAbsolutePath()
+                    LOGGER.warning("Options file " + toFile.getAbsolutePath()
                             + " did not exist and is not allowed to be created");
                     return;
                 }
@@ -130,7 +130,7 @@ public class SingleOptionFileTask extends ConfigFileTask
             {
                 if (!oldFile.delete())
                 {
-                    logger.warning("File " + oldFile + " could not be cleant up");
+                    LOGGER.warning("File " + oldFile + " could not be cleant up");
                 }
             }
         }

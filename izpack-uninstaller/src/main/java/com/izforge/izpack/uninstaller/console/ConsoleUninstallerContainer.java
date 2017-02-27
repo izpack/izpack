@@ -22,12 +22,10 @@
 package com.izforge.izpack.uninstaller.console;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.uninstaller.container.UninstallerContainer;
 import com.izforge.izpack.util.Console;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
 
 
 /**

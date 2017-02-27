@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.rule;
 
 import java.util.StringTokenizer;
@@ -24,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.exception.IzPackException;
-
 
 /**
  * Rule field specification.
@@ -40,10 +38,10 @@ public class FieldSpec
      */
     public enum Type
     {
-        NUMERIC,       // field only accepts numeric input
-        ALPHA,         // field only accepts alphabetic input
-        ALPHANUMERIC,  // field accepts alphanumeric input
-        HEX,           // field only accepts hexadecimal input
+        NUMERIC, // field only accepts numeric input
+        ALPHA, // field only accepts alphabetic input
+        ALPHANUMERIC, // field accepts alphanumeric input
+        HEX, // field only accepts hexadecimal input
         OPEN           // field accepts any character
     }
 
@@ -65,7 +63,7 @@ public class FieldSpec
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(FieldSpec.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FieldSpec.class.getName());
 
     /**
      * Minimum number of tokens.
@@ -76,7 +74,6 @@ public class FieldSpec
      * Maximum number of tokens.
      */
     private static final int MAX_TOKENS = 3;
-
 
     /**
      * Constructs a {@code FieldSpec}.
@@ -122,9 +119,9 @@ public class FieldSpec
     /**
      * Creates a {@code FieldSpec}.
      *
-     * @param type    the field type
+     * @param type the field type
      * @param columns the number of columns to display.
-     * @param length  the length of the field, or {@code -1} if its unlimited
+     * @param length the length of the field, or {@code -1} if its unlimited
      */
     public FieldSpec(Type type, int columns, int length)
     {
@@ -137,7 +134,8 @@ public class FieldSpec
      * Parses a field specification.
      *
      * @param spec the field specification
-     * @return the corresponding FieldSpec, or {@code null} if the spec is not a valid field specification
+     * @return the corresponding FieldSpec, or {@code null} if the spec is not a
+     * valid field specification
      */
     public static FieldSpec parse(String spec)
     {
@@ -148,7 +146,7 @@ public class FieldSpec
         }
         catch (IzPackException exception)
         {
-            logger.log(Level.FINE, "Failed to parse: " + spec, exception);
+            LOGGER.log(Level.FINE, "Failed to parse: " + spec, exception);
         }
         return result;
     }
@@ -186,7 +184,8 @@ public class FieldSpec
     /**
      * Determines if the field has unlimited length.
      *
-     * @return {@code true} if the field has unlimited length, {@code false} if it is limited by {@link #getLength}
+     * @return {@code true} if the field has unlimited length, {@code false} if
+     * it is limited by {@link #getLength}
      */
     public boolean isUnlimitedLength()
     {
@@ -259,7 +258,7 @@ public class FieldSpec
                 }
                 else
                 {
-                    logger.warning("Invalid field type: " + type);
+                    LOGGER.warning("Invalid field type: " + type);
                     result = false;
                 }
             }
@@ -308,7 +307,7 @@ public class FieldSpec
      * Returns the number of columns to display of the field.
      *
      * @param values the columns as a string
-     * @param spec   the rule, for error reporting purposes
+     * @param spec the rule, for error reporting purposes
      * @return the corresponding column
      */
     private int getColumns(String values, String spec)
@@ -329,7 +328,7 @@ public class FieldSpec
      * Returns the length of the field.
      *
      * @param value the length as a string
-     * @param spec  the rule, for error reporting purposes
+     * @param spec the rule, for error reporting purposes
      * @return the corresponding length
      */
     private int getLength(String value, String spec)

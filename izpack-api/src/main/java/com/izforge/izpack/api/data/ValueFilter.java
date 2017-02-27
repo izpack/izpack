@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import java.io.Serializable;
@@ -26,11 +25,12 @@ import java.io.Serializable;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 /**
- * Filter the data is sent through after evaluating the variable,
- * before the evaluation value is returned to the installer
+ * Filter the data is sent through after evaluating the variable, before the
+ * evaluation value is returned to the installer
  */
 public interface ValueFilter extends Serializable
 {
+
     String filter(String value, VariableSubstitutor... substitutors) throws Exception;
 
     void validate() throws Exception;

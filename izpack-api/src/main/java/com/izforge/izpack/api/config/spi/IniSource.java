@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import com.izforge.izpack.api.config.Config;
@@ -35,16 +34,17 @@ import java.util.List;
 
 class IniSource
 {
+
     public static final char INCLUDE_BEGIN = '<';
     public static final char INCLUDE_END = '>';
     public static final char INCLUDE_OPTIONAL = '?';
     private static final char ESCAPE_CHAR = '\\';
-    private URL _base;
-    private IniSource _chain;
-    private final String _commentChars;
-    private final Config _config;
-    private final HandlerBase _handler;
-    private final LineNumberReader _reader;
+    private URL base;
+    private IniSource chain;
+    private final String commentChars;
+    private final Config config;
+    private final HandlerBase handler;
+    private final LineNumberReader reader;
     List<String> comments = new ArrayList<String>();
 
     IniSource(InputStream input, HandlerBase handler, String comments, Config config)
@@ -54,29 +54,29 @@ class IniSource
 
     IniSource(Reader input, HandlerBase handler, String comments, Config config)
     {
-        _reader = new LineNumberReader(input);
-        _handler = handler;
-        _commentChars = comments;
-        _config = config;
+        this.reader = new LineNumberReader(input);
+        this.handler = handler;
+        this.commentChars = comments;
+        this.config = config;
     }
 
     IniSource(URL input, HandlerBase handler, String comments, Config config) throws IOException
     {
         this(new UnicodeInputStreamReader(input.openStream(), config.getFileEncoding()), handler, comments, config);
-        _base = input;
+        this.base = input;
     }
 
     int getLineNumber()
     {
         int ret;
 
-        if (_chain == null)
+        if (this.chain == null)
         {
-            ret = _reader.getLineNumber();
+            ret = this.reader.getLineNumber();
         }
         else
         {
-            ret = _chain.getLineNumber();
+            ret = this.chain.getLineNumber();
         }
 
         return ret;
@@ -86,16 +86,16 @@ class IniSource
     {
         String line;
 
-        if (_chain == null)
+        if (this.chain == null)
         {
             line = readLineLocal();
         }
         else
         {
-            line = _chain.readLine();
+            line = this.chain.readLine();
             if (line == null)
             {
-                _chain = null;
+                this.chain = null;
                 line = readLine();
             }
         }
@@ -105,7 +105,7 @@ class IniSource
 
     private void close() throws IOException
     {
-        _reader.close();
+        this.reader.close();
     }
 
     private int countEndingEscapes(String line)
@@ -138,7 +138,7 @@ class IniSource
     private String handleInclude(String input) throws IOException
     {
         String line = input;
-        if (_config.isInclude() && (line.length() > 2) && (line.charAt(0) == INCLUDE_BEGIN) && (line.charAt(line.length() - 1) == INCLUDE_END))
+        if (this.config.isInclude() && (line.length() > 2) && (line.charAt(0) == INCLUDE_BEGIN) && (line.charAt(line.length() - 1) == INCLUDE_END))
         {
             line = line.substring(1, line.length() - 1).trim();
             boolean optional = line.charAt(0) == INCLUDE_OPTIONAL;
@@ -148,19 +148,19 @@ class IniSource
                 line = line.substring(1).trim();
             }
 
-            InstallData installData = _config.getInstallData();
+            InstallData installData = this.config.getInstallData();
             if (installData != null)
             {
                 line = installData.getVariables().replace(line);
             }
 
-            URL loc = (_base == null) ? new URL(line) : new URL(_base, line);
+            URL loc = (this.base == null) ? new URL(line) : new URL(this.base, line);
 
             if (optional)
             {
                 try
                 {
-                    _chain = new IniSource(loc, _handler, _commentChars, _config);
+                    this.chain = new IniSource(loc, this.handler, this.commentChars, this.config);
                 }
                 catch (IOException x)
                 {
@@ -173,7 +173,7 @@ class IniSource
             }
             else
             {
-                _chain = new IniSource(loc, _handler, _commentChars, _config);
+                this.chain = new IniSource(loc, this.handler, this.commentChars, this.config);
                 line = readLine();
             }
         }
@@ -203,26 +203,26 @@ class IniSource
         StringBuilder comment = new StringBuilder();
         StringBuilder buff = new StringBuilder();
 
-        for (line = _reader.readLine(); line != null; line = _reader.readLine())
+        for (line = this.reader.readLine(); line != null; line = this.reader.readLine())
         {
             line = line.trim();
             if (line.length() == 0)
             {
-                if (_config.isEmptyLines())
+                if (this.config.isEmptyLines())
                 {
                     handleComment(comment);
                     handleEmptyLine();
                 }
             }
-            else if ((_commentChars.indexOf(line.charAt(0)) >= 0) && (buff.length() == 0))
+            else if ((this.commentChars.indexOf(line.charAt(0)) >= 0) && (buff.length() == 0))
             {
                 comment.append(line.substring(1));
-                comment.append(_config.getLineSeparator());
+                comment.append(this.config.getLineSeparator());
             }
             else
             {
                 handleComment(comment);
-                if (!_config.isEscapeNewline() || ((countEndingEscapes(line) & 1) == 0))
+                if (!this.config.isEscapeNewline() || ((countEndingEscapes(line) & 1) == 0))
                 {
                     buff.append(line);
                     line = buff.toString();
@@ -240,7 +240,7 @@ class IniSource
             handleComment(comment);
         }
 
-        _handler.handleComment(comments);
+        this.handler.handleComment(comments);
         comments.clear();
 
         return line;

@@ -89,7 +89,7 @@ public class Destroyer implements Runnable
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(Destroyer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Destroyer.class.getName());
 
     /**
      * The constructor.
@@ -148,7 +148,7 @@ public class Destroyer implements Runnable
         {
             if (!executables.run())
             {
-                logger.severe("An executable has failed. Destroyer will not be run");
+                LOGGER.severe("An executable has failed. Destroyer will not be run");
             }
             else
             {
@@ -161,7 +161,7 @@ public class Destroyer implements Runnable
             {
                 listener.stopAction();
             }
-            logger.log(Level.SEVERE, exception.getMessage(), exception);
+            LOGGER.log(Level.SEVERE, exception.getMessage(), exception);
 
             StringWriter trace = new StringWriter();
             exception.printStackTrace(new PrintWriter(trace));
@@ -287,7 +287,7 @@ public class Destroyer implements Runnable
     {
         if (file.exists() && !file.delete())
         {
-            logger.info("Failed to delete: " + file);
+            LOGGER.info("Failed to delete: " + file);
         }
     }
 

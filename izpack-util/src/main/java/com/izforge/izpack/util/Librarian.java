@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import org.apache.commons.io.FileUtils;
@@ -36,23 +35,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class handles loading of native libraries. There must only be one instance of
- * <code>Librarian</code> per Java runtime, therefore this class is implemented as a 'Singleton'.
+ * This class handles loading of native libraries. There must only be one
+ * instance of <code>Librarian</code> per Java runtime, therefore this class is
+ * implemented as a 'Singleton'.
  * <br>
  * <br>
- * <code>Librarian</code> is capable of loading native libraries from a variety of different
- * source locations. However, you should place your library files in the 'native' directory. The
- * primary reason for supporting different source locations is to facilitate testing in a
- * development environment, without the need to actually packing the application into a *.jar file.
+ * <code>Librarian</code> is capable of loading native libraries from a variety
+ * of different source locations. However, you should place your library files
+ * in the 'native' directory. The primary reason for supporting different source
+ * locations is to facilitate testing in a development environment, without the
+ * need to actually packing the application into a *.jar file.
  *
  * @author Elmar Grom
  */
 public class Librarian implements CleanupClient
 {
+
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(Librarian.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Librarian.class.getName());
 
     /**
      * Used to identify jar URL protocols
@@ -70,21 +72,22 @@ public class Librarian implements CleanupClient
     private static final String NATIVE = "/com/izforge/izpack/bin/native/";
 
     /**
-     * A list that is used to track all libraries that have been loaded. This list is used to ensure
-     * that each library is loaded only once.
+     * A list that is used to track all libraries that have been loaded. This
+     * list is used to ensure that each library is loaded only once.
      */
     private List<String> trackList = new ArrayList<String>();
 
     /**
-     * A list of references to clients that use libraries that were extracted from a *.jar file.
-     * This is needed because the clients need to be called for freeing their libraries.
+     * A list of references to clients that use libraries that were extracted
+     * from a *.jar file. This is needed because the clients need to be called
+     * for freeing their libraries.
      */
     private List<NativeLibraryClient> clients = new ArrayList<NativeLibraryClient>();
 
     /**
-     * A list of fully qualified library names. This is needed to delete the temporary library files
-     * after use. The index of each name corresponds to the index of the respective client in the
-     * <code>clients</code> list.
+     * A list of fully qualified library names. This is needed to delete the
+     * temporary library files after use. The index of each name corresponds to
+     * the index of the respective client in the <code>clients</code> list.
      */
     private List<String> temporaryFileNames = new ArrayList<String>();
 
@@ -93,11 +96,10 @@ public class Librarian implements CleanupClient
      */
     private String extension = "";
 
-
     /**
      * Constructs a <tt>Librarian</tt>.
      *
-     * @param factory     the factory
+     * @param factory the factory
      * @param housekeeper the house keeper
      */
     public Librarian(TargetFactory factory, Housekeeper housekeeper)
@@ -109,7 +111,7 @@ public class Librarian implements CleanupClient
     /**
      * Loads a library.
      *
-     * @param name   the library name
+     * @param name the library name
      * @param client the native library client
      * @throws UnsatisfiedLinkError if the library cannot be loaded
      */
@@ -138,23 +140,21 @@ public class Librarian implements CleanupClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * This method attempts to remove all native libraries that have been temporarily created from
-     * the system.
-     * This method calls LibraryRemover which starts a new process which
-     * waits a little bit for exit of this process and tries than to delete the given files.
-     * If the version is 1.5.x or higher this process should be exit in one second, else
-     * the native libraries will be not deleted.
-     * Tests with the different methods produces hinds that the
-     * FreeLibraryAndExitThread (handle, 0) call in the dlls are the
-     * reason for VM crashes (version 1.5.x). May be this is a bug in the VM.
-     * But never seen a docu that this behavior is compatible with a VM.
-     * Since more than a year all 1.5 versions produce this crash. Therfore we make
-     * now a work around for it.
-     * But the idea to exit the thread for removing the file locking to give the
-     * possibility to delete the dlls are really nice. Therefore we use it with
-     * VMs which are compatible with it.  (Klaus Bartz 2006.06.20)
+     * This method attempts to remove all native libraries that have been
+     * temporarily created from the system. This method calls LibraryRemover
+     * which starts a new process which waits a little bit for exit of this
+     * process and tries than to delete the given files. If the version is 1.5.x
+     * or higher this process should be exit in one second, else the native
+     * libraries will be not deleted. Tests with the different methods produces
+     * hinds that the FreeLibraryAndExitThread (handle, 0) call in the dlls are
+     * the reason for VM crashes (version 1.5.x). May be this is a bug in the
+     * VM. But never seen a docu that this behavior is compatible with a VM.
+     * Since more than a year all 1.5 versions produce this crash. Therfore we
+     * make now a work around for it. But the idea to exit the thread for
+     * removing the file locking to give the possibility to delete the dlls are
+     * really nice. Therefore we use it with VMs which are compatible with it.
+     * (Klaus Bartz 2006.06.20)
      */
     @Override
     public void cleanUp()
@@ -171,7 +171,7 @@ public class Librarian implements CleanupClient
             }
             catch (IOException exception)
             {
-                logger.log(Level.WARNING, "Cleanup failed for native libraries: " + exception.getMessage(), exception);
+                LOGGER.log(Level.WARNING, "Cleanup failed for native libraries: " + exception.getMessage(), exception);
             }
         }
         clients.clear();
@@ -187,7 +187,8 @@ public class Librarian implements CleanupClient
     {
         String resource = NATIVE + "izpack/" + name + extension;
         URL url = getClass().getResource(resource);
-        if (url == null) {
+        if (url == null)
+        {
             resource = NATIVE + "3rdparty/" + name + extension;
             url = getClass().getResource(resource);
         }
@@ -195,12 +196,13 @@ public class Librarian implements CleanupClient
     }
 
     /**
-     * Loads the requested library. If the library is already loaded, this method returns
-     * immediately, without an attempt to load the library again.
+     * Loads the requested library. If the library is already loaded, this
+     * method returns immediately, without an attempt to load the library again.
      * <br>
-     * <b>Invocation Example:</b> This assumes that the call is made from the class that links with
-     * the library. If this is not the case, <code>this</code> must be replaced by the reference
-     * of the class that links with the library. <br>
+     * <b>Invocation Example:</b> This assumes that the call is made from the
+     * class that links with the library. If this is not the case,
+     * <code>this</code> must be replaced by the reference of the class that
+     * links with the library. <br>
      * <br>
      * <code>
      * Librarian.getInstance ().loadLibrary ("MyLibrary", this);
@@ -209,24 +211,25 @@ public class Librarian implements CleanupClient
      * Loading of a native library file works as follows:<br>
      * <ul>
      * <li>If the library is already loaded there is nothing to do.
-     * <li>An attempt is made to load the library by its name. If there is no system path set to
-     * the library, this attempt will fail.
-     * <li>If the client is located on the local file system, an attempt is made to load the
-     * library from the local files system as well.
-     * <li>If the library is located inside a *.jar file, it is extracted to 'java.io.tmpdir' and
-     * an attempt is made to load it from there.
+     * <li>An attempt is made to load the library by its name. If there is no
+     * system path set to the library, this attempt will fail.
+     * <li>If the client is located on the local file system, an attempt is made
+     * to load the library from the local files system as well.
+     * <li>If the library is located inside a *.jar file, it is extracted to
+     * 'java.io.tmpdir' and an attempt is made to load it from there.
      * </ul>
      * <br>
      * <br>
-     * Loading from the local file system and from the *.jar file is attempted for the following
-     * potential locations of the library in this order:<br>
+     * Loading from the local file system and from the *.jar file is attempted
+     * for the following potential locations of the library in this order:<br>
      * <ol>
      * <li>The same directory where the client is located
      * <li>The native library directory
      * </ol>
      *
-     * @param name   the name of the library. A file extension and path are not needed, in fact if
-     *               supplied, both is stripped off. A specific extension is appended.
+     * @param name the name of the library. A file extension and path are not
+     * needed, in fact if supplied, both is stripped off. A specific extension
+     * is appended.
      * @param client the object that made the load request
      * @return <tt>true</tt> if the
      */
@@ -243,9 +246,10 @@ public class Librarian implements CleanupClient
     /**
      * Attempts to load a library from the <em>DLL_PATH</em> system property.
      *
-     * @param name   the library name
+     * @param name the library name
      * @param client the native library client
-     * @return <tt>true</tt> if the library was loaded successfully, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the library was loaded successfully, otherwise
+     * <tt>false</tt>
      */
     private boolean loadFromDLLPath(String name, NativeLibraryClient client)
     {
@@ -260,11 +264,12 @@ public class Librarian implements CleanupClient
     }
 
     /**
-     * Attempts  to load a library from the classpath.
+     * Attempts to load a library from the classpath.
      *
-     * @param name   the library name
+     * @param name the library name
      * @param client the native library client
-     * @return <tt>true</tt> if the library was loaded successfully, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the library was loaded successfully, otherwise
+     * <tt>false</tt>
      */
     private boolean loadFromClassPath(String name, NativeLibraryClient client)
     {
@@ -283,8 +288,8 @@ public class Librarian implements CleanupClient
                 }
                 catch (URISyntaxException exception)
                 {
-                    logger.log(Level.WARNING, "Failed to load library: " + name + ": " + exception.getMessage(),
-                               exception);
+                    LOGGER.log(Level.WARNING, "Failed to load library: " + name + ": " + exception.getMessage(),
+                            exception);
                 }
             }
             else if (protocol.equalsIgnoreCase(JAR_PROTOCOL))
@@ -299,10 +304,11 @@ public class Librarian implements CleanupClient
     /**
      * Attempts to load a library from a jar.
      *
-     * @param name   the library name
-     * @param url    the library URL within the jar
+     * @param name the library name
+     * @param url the library URL within the jar
      * @param client the native library client
-     * @return <tt>true</tt> if the library was loaded successfully, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the library was loaded successfully, otherwise
+     * <tt>false</tt>
      */
     private boolean loadJarLibrary(String name, URL url, NativeLibraryClient client)
     {
@@ -321,7 +327,7 @@ public class Librarian implements CleanupClient
         }
         catch (IOException exception)
         {
-            logger.log(Level.WARNING, "Failed to load library: " + name + ": " + exception.getMessage(), exception);
+            LOGGER.log(Level.WARNING, "Failed to load library: " + name + ": " + exception.getMessage(), exception);
         }
         finally
         {
@@ -347,9 +353,10 @@ public class Librarian implements CleanupClient
     /**
      * Loads a system library.
      *
-     * @param name   the library name
+     * @param name the library name
      * @param client the native library client
-     * @return <tt>true</tt> if the library was loaded successfully, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the library was loaded successfully, otherwise
+     * <tt>false</tt>
      */
     private boolean loadSystemLibrary(String name, NativeLibraryClient client)
     {
@@ -361,7 +368,7 @@ public class Librarian implements CleanupClient
         }
         catch (Throwable exception)
         {
-            logger.log(Level.FINE, "Failed to load library: " + name + ": " + exception.getMessage(), exception);
+            LOGGER.log(Level.FINE, "Failed to load library: " + name + ": " + exception.getMessage(), exception);
         }
         return false;
     }
@@ -369,9 +376,10 @@ public class Librarian implements CleanupClient
     /**
      * Loads a library given its path.
      *
-     * @param path   the library path
+     * @param path the library path
      * @param client the native library client
-     * @return <tt>true</tt> if the library was loaded successfully, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the library was loaded successfully, otherwise
+     * <tt>false</tt>
      */
     private boolean load(String path, NativeLibraryClient client)
     {
@@ -384,7 +392,7 @@ public class Librarian implements CleanupClient
         }
         catch (Throwable exception)
         {
-            logger.log(Level.FINE, "Failed to load library: " + path + ": " + exception.getMessage(), exception);
+            LOGGER.log(Level.FINE, "Failed to load library: " + path + ": " + exception.getMessage(), exception);
         }
         return result;
     }

@@ -26,7 +26,9 @@ public class SingleOptionTestTask extends SingleConfigurableTask
     }
 
     @Override
-    protected void writeConfigurable() throws Exception {}
+    protected void writeConfigurable() throws Exception
+    {
+    }
 
     public Options getResult()
     {
@@ -34,6 +36,8 @@ public class SingleOptionTestTask extends SingleConfigurableTask
     }
 
     @Override
-    protected void checkAttributes() throws Exception {} {}
+    protected void checkAttributes() throws Exception
+    {
+    }
 
 }

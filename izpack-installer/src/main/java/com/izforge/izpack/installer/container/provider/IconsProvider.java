@@ -21,7 +21,8 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
  */
 public class IconsProvider implements Provider
 {
-    private static final Logger logger = Logger.getLogger(IconsProvider.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(IconsProvider.class.getName());
 
     public IconsDatabase provide(Resources resources) throws Exception
     {
@@ -49,7 +50,7 @@ public class IconsProvider implements Provider
     /**
      * Loads custom icons into the installer.
      *
-     * @param icons     the icons database
+     * @param icons the icons database
      * @param resources used to load the icons
      * @throws Exception
      */
@@ -63,11 +64,11 @@ public class IconsProvider implements Provider
         }
         catch (Throwable exception)
         {
-            logger.fine("Resource " + Resources.CUSTOM_ICONS_RESOURCE_NAME
-                                   + " not defined. No custom icons available");
+            LOGGER.fine("Resource " + Resources.CUSTOM_ICONS_RESOURCE_NAME
+                    + " not defined. No custom icons available");
             return;
         }
-        logger.fine("Custom icons available");
+        LOGGER.fine("Custom icons available");
 
         parseXML(inXML, icons);
     }
@@ -111,8 +112,7 @@ public class IconsProvider implements Provider
     /**
      * Loads an icon declared in an XML file.
      *
-     * @param icon
-     *            the XML element that declares the icon
+     * @param icon the XML element that declares the icon
      * @return the icon or <code>null</icon> if it does not exist
      */
     private ImageIcon loadIcon(IXMLElement icon)
@@ -123,12 +123,12 @@ public class IconsProvider implements Provider
         URL url = InstallerFrame.class.getResource(path);
         if (url == null)
         {
-            logger.warning("Icon with id '" + id + "': file '" + path + "' not found");
+            LOGGER.warning("Icon with id '" + id + "': file '" + path + "' not found");
         }
         else
         {
             img = new ImageIcon(url);
-            logger.fine("Icon with id '" + id + "' found");
+            LOGGER.fine("Icon with id '" + id + "' found");
         }
         return img;
     }

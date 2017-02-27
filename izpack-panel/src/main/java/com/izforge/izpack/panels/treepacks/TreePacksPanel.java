@@ -40,8 +40,9 @@ import java.util.logging.Logger;
  */
 public class TreePacksPanel extends IzPanel
 {
+
     private static final long serialVersionUID = 5684716698930628262L;
-    private static final transient Logger logger = Logger.getLogger(TreePacksPanel.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(TreePacksPanel.class.getName());
 
     protected JLabel requiredSpaceLabel;
     protected JLabel freeSpaceLabel;
@@ -65,15 +66,15 @@ public class TreePacksPanel extends IzPanel
     /**
      * The constructor.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param locales     the supported locales
-     * @param rules       the rules
+     * @param resources the resources
+     * @param locales the supported locales
+     * @param rules the rules
      */
     public TreePacksPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                          Locales locales, RulesEngine rules)
+            Locales locales, RulesEngine rules)
     {
         super(panel, parent, installData, resources);
 
@@ -86,7 +87,8 @@ public class TreePacksPanel extends IzPanel
     }
 
     /**
-     * The Implementation of this method should create the layout for the current class.
+     * The Implementation of this method should create the layout for the
+     * current class.
      */
     private void createNormalLayout()
     {
@@ -118,18 +120,19 @@ public class TreePacksPanel extends IzPanel
 
     /**
      * Layout helper method:<br>
-     * Creates an label with a message given by msgId and an icon given by the iconId. If layout and
-     * constraints are not null, the label will be added to layout with the given constraints. The
-     * label will be added to this object.
+     * Creates an label with a message given by msgId and an icon given by the
+     * iconId. If layout and constraints are not null, the label will be added
+     * to layout with the given constraints. The label will be added to this
+     * object.
      *
-     * @param msgId       identifier for the IzPack langpack
-     * @param iconId      identifier for the IzPack icons
-     * @param layout      layout to be used
+     * @param msgId identifier for the IzPack langpack
+     * @param iconId identifier for the IzPack icons
+     * @param layout layout to be used
      * @param constraints constraints to be used
      * @return the created label
      */
     private JLabel createLabel(String msgId, String iconId, GridBagLayout layout,
-                                 GridBagConstraints constraints)
+            GridBagConstraints constraints)
     {
         JLabel label = LabelFactory.create(getString(msgId), parent.getIcons()
                 .get(iconId), TRAILING);
@@ -142,13 +145,14 @@ public class TreePacksPanel extends IzPanel
     }
 
     /**
-     * Creates a panel containing a anonymous label on the left with the message for the given msgId
-     * and a label on the right side with initial no text. The right label will be returned. If
-     * layout and constraints are not null, the label will be added to layout with the given
-     * constraints. The panel will be added to this object.
+     * Creates a panel containing a anonymous label on the left with the message
+     * for the given msgId and a label on the right side with initial no text.
+     * The right label will be returned. If layout and constraints are not null,
+     * the label will be added to layout with the given constraints. The panel
+     * will be added to this object.
      *
-     * @param msgId       identifier for the IzPack langpack
-     * @param layout      layout to be used
+     * @param msgId identifier for the IzPack langpack
+     * @param layout layout to be used
      * @param constraints constraints to be used
      * @return the created (right) label
      */
@@ -170,20 +174,21 @@ public class TreePacksPanel extends IzPanel
     }
 
     /**
-     * Creates a text area with standard settings and the title given by the msgId. If scroller is
-     * not null, the create text area will be added to the scroller and the scroller to this object,
-     * else the text area will be added directly to this object. If layout and constraints are not
-     * null, the text area or scroller will be added to layout with the given constraints. The text
-     * area will be returned.
+     * Creates a text area with standard settings and the title given by the
+     * msgId. If scroller is not null, the create text area will be added to the
+     * scroller and the scroller to this object, else the text area will be
+     * added directly to this object. If layout and constraints are not null,
+     * the text area or scroller will be added to layout with the given
+     * constraints. The text area will be returned.
      *
-     * @param msgId       identifier for the IzPack langpack
-     * @param scroller    the scroller to be used
-     * @param layout      layout to be used
+     * @param msgId identifier for the IzPack langpack
+     * @param scroller the scroller to be used
+     * @param layout layout to be used
      * @param constraints constraints to be used
      * @return the created text area
      */
     private JTextArea createTextArea(String msgId, JScrollPane scroller, GridBagLayout layout,
-                                       GridBagConstraints constraints)
+            GridBagConstraints constraints)
     {
         JTextArea area = new JTextArea();
         area.setAlignmentX(LEFT_ALIGNMENT);
@@ -228,7 +233,7 @@ public class TreePacksPanel extends IzPanel
      * @return
      */
     private JTree createPacksTree(int width, JScrollPane scroller, GridBagLayout layout,
-                                    GridBagConstraints constraints)
+            GridBagConstraints constraints)
     {
         JTree tree = new JTree(populateTreePacks(null));
         packsTree = tree;
@@ -266,8 +271,8 @@ public class TreePacksPanel extends IzPanel
     }
 
     /**
-     * Show required space necessary to install the selected packs.
-     * Update the required space label to the appropriate value.
+     * Show required space necessary to install the selected packs. Update the
+     * required space label to the appropriate value.
      */
     private void updateRequiredSpaceLabel()
     {
@@ -282,6 +287,7 @@ public class TreePacksPanel extends IzPanel
         return IoHelper.getFreeSpace(IoHelper.existingParent(
                 new File(this.installData.getInstallPath())).getAbsolutePath());
     }
+
     /**
      * Show the amount of free space available for the installation path.
      */
@@ -318,8 +324,8 @@ public class TreePacksPanel extends IzPanel
                 && freeBytes <= packsModel.getTotalByteSize())
         {
             JOptionPane.showMessageDialog(
-                this, getString("PacksPanel.notEnoughSpace"), getString("installer.error"),
-                                 JOptionPane.ERROR_MESSAGE);
+                    this, getString("PacksPanel.notEnoughSpace"), getString("installer.error"),
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
@@ -331,10 +337,10 @@ public class TreePacksPanel extends IzPanel
         new PacksPanelAutomationHelper().createInstallationRecord(this.installData, panelRoot);
     }
 
-
     /**
-     * This method tries to resolve the localized name of the given pack. If this is not possible,
-     * the name given in the installation description file in ELEMENT <pack> will be used.
+     * This method tries to resolve the localized name of the given pack. If
+     * this is not possible, the name given in the installation description file
+     * in ELEMENT <pack> will be used.
      *
      * @param pack for which the name should be resolved
      * @return localized name of the pack
@@ -386,8 +392,8 @@ public class TreePacksPanel extends IzPanel
     }
 
     /**
-     * Helper function for updateViewFromModel() - runs the recursion
-     * Update our checkboxes based on the packs model.
+     * Helper function for updateViewFromModel() - runs the recursion Update our
+     * checkboxes based on the packs model.
      *
      * @param rootNode
      */
@@ -428,8 +434,8 @@ public class TreePacksPanel extends IzPanel
     }
 
     /**
-     * Initialize tree model structures
-     * TODO: treeData does not need to be a class variable
+     * Initialize tree model structures TODO: treeData does not need to be a
+     * class variable
      */
     private Map<String, List<String>> createTreeData()
     {
@@ -538,8 +544,8 @@ public class TreePacksPanel extends IzPanel
     }
 
     /**
-     * Reads the available packs and creates the JTree structure based on
-     * the parent definitions.
+     * Reads the available packs and creates the JTree structure based on the
+     * parent definitions.
      *
      * @param parent
      * @return
@@ -591,8 +597,9 @@ public class TreePacksPanel extends IzPanel
     }
 
     /**
-     * Called when the panel becomes active. If a derived class implements this method also, it is
-     * recommended to call this method with the super operator first.
+     * Called when the panel becomes active. If a derived class implements this
+     * method also, it is recommended to call this method with the super
+     * operator first.
      */
     @Override
     public void panelActivate()
@@ -605,7 +612,7 @@ public class TreePacksPanel extends IzPanel
     * (non-Javadoc)
     *
     * @see com.izforge.izpack.installer.IzPanel#getSummaryBody()
-    */
+     */
     @Override
     public String getSummaryBody()
     {
@@ -623,14 +630,14 @@ public class TreePacksPanel extends IzPanel
         return retval.toString();
     }
 
-
     public JTree getTree()
     {
         return packsTree;
     }
 
     /**
-     * Load the regular string from loaclization flies, and optioanlly load strings from LANG_FILE_NAME
+     * Load the regular string from loaclization flies, and optioanlly load
+     * strings from LANG_FILE_NAME
      *
      * @param locales
      * @return strings available for this class
@@ -670,14 +677,14 @@ public class TreePacksPanel extends IzPanel
         }
         catch (Throwable t)
         {
-            logger.log(Level.WARNING, t.toString(), t);
+            LOGGER.log(Level.WARNING, t.toString(), t);
         }
         return messages;
     }
 
     /**
-     * Synchronize the sizes of the packs based on what is/isn't selected.
-     * This mainly effects any pack that has children.
+     * Synchronize the sizes of the packs based on what is/isn't selected. This
+     * mainly effects any pack that has children.
      */
     private void syncPackSizes()
     {
@@ -687,9 +694,9 @@ public class TreePacksPanel extends IzPanel
         for (Pack pack : packsModel.getVisiblePacks())
         {
             bytes = pack.getSize();
-            if(pack.hasChildren())
+            if (pack.hasChildren())
             {
-                for(String childPackName : pack.getChildren())
+                for (String childPackName : pack.getChildren())
                 {
                     Pack childPack = packsModel.getPack(childPackName);
                     int row = packsModel.getNameToRow().get(childPackName);
@@ -718,7 +725,6 @@ public class TreePacksPanel extends IzPanel
     }
 }
 
-
 /**
  * Controller class which handles the mouse clicks on checkbox nodes. Also
  * contains utility methods to update the sizes and the states of the nodes.
@@ -728,6 +734,7 @@ public class TreePacksPanel extends IzPanel
  */
 class CheckTreeController extends MouseAdapter
 {
+
     JTree tree;
     TreePacksPanel treePacksPanel;
     int checkWidth = new JCheckBox().getPreferredSize().width;
@@ -752,9 +759,11 @@ class CheckTreeController extends MouseAdapter
     }
 
     /**
-     * Handle a click event on the JTree.
-     * Update the descriptions and dependencies/excludes if a checkbox or checkbox's text was clicked.
-     * If a checkbox not clicked return null, otherwise return the checkbox that was clicked.
+     * Handle a click event on the JTree. Update the descriptions and
+     * dependencies/excludes if a checkbox or checkbox's text was clicked. If a
+     * checkbox not clicked return null, otherwise return the checkbox that was
+     * clicked.
+     *
      * @param mouseEvent
      * @return {@code CheckBoxNode} if clicked otherwise {@code null}
      */

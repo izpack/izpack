@@ -18,13 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.debugger;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
 import java.util.Map;
-
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
@@ -32,9 +30,13 @@ import java.util.Map;
  */
 public class VariableHistoryTableModel extends AbstractTableModel
 {
+
     private static final long serialVersionUID = 5966543100431588652L;
 
-    public static final String[] columnheader = {"Name", "Value"};
+    public static final String[] COLUMN_HEADER =
+    {
+        "Name", "Value"
+    };
     private Map<String, VariableHistory> variablevalues;
 
     public VariableHistoryTableModel(Map<String, VariableHistory> values)
@@ -44,17 +46,15 @@ public class VariableHistoryTableModel extends AbstractTableModel
 
     /* (non-Javadoc)
     * @see javax.swing.table.TableModel#getColumnCount()
-    */
-
+     */
     public int getColumnCount()
     {
-        return columnheader.length;
+        return COLUMN_HEADER.length;
     }
 
     /* (non-Javadoc)
      * @see javax.swing.table.TableModel#getRowCount()
      */
-
     public int getRowCount()
     {
         return this.variablevalues == null ? 0 : this.variablevalues.keySet().size();
@@ -63,7 +63,6 @@ public class VariableHistoryTableModel extends AbstractTableModel
     /* (non-Javadoc)
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
-
     public Object getValueAt(int rowIndex, int columnIndex)
     {
         switch (columnIndex)
@@ -84,16 +83,14 @@ public class VariableHistoryTableModel extends AbstractTableModel
     /* (non-Javadoc)
      * @see javax.swing.table.AbstractTableModel#getColumnName(int)
      */
-
     public String getColumnName(int column)
     {
-        return columnheader[column];
+        return COLUMN_HEADER[column];
     }
 
     /* (non-Javadoc)
      * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
      */
-
     public boolean isCellEditable(int rowIndex, int columnIndex)
     {
         return false;
@@ -104,13 +101,12 @@ public class VariableHistoryTableModel extends AbstractTableModel
         else {
             return true;
         }
-        */
+         */
     }
 
     /* (non-Javadoc)
      * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
      */
-
     public Class getColumnClass(int columnIndex)
     {
         if (columnIndex == 1)
@@ -123,4 +119,3 @@ public class VariableHistoryTableModel extends AbstractTableModel
         }
     }
 }
-

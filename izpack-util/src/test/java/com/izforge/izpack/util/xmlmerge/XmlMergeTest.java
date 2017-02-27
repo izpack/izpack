@@ -1,4 +1,5 @@
 package com.izforge.izpack.util.xmlmerge;
+
 import static org.junit.Assert.*;
 
 import java.io.File;
@@ -24,9 +25,9 @@ import org.xml.sax.SAXException;
 import com.izforge.izpack.util.xmlmerge.config.ConfigurableXmlMerge;
 import com.izforge.izpack.util.xmlmerge.config.PropertyXPathConfigurer;
 
-
 public class XmlMergeTest
 {
+
     @Rule
     public TemporaryFolder tmpDir = new TemporaryFolder();
 
@@ -39,19 +40,19 @@ public class XmlMergeTest
     public void testComplete2Sources()
     {
         // Original
-        final String s1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-                "<el1 el1_attr1=\"el1_attr1_value_from_original\">" +
-                "  <el2 NAME=\"el2_NAME_value_from_original\" el2_attr2=\"el2_attr2_value_from_original\"/>" +
-                "  <el3 el3_attr1=\"el3_attr1_value_from_original\" el3_attr2=\"el3_attr2_value_from_original\">" +
-                "    <el4 el4_attr1=\"el4_attr1_value_from_original\" el4_attr2=\"el4_attr2_value_from_original\"/>" +
-                "  </el3>" +
-                "</el1>";
+        final String s1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                + "<el1 el1_attr1=\"el1_attr1_value_from_original\">"
+                + "  <el2 NAME=\"el2_NAME_value_from_original\" el2_attr2=\"el2_attr2_value_from_original\"/>"
+                + "  <el3 el3_attr1=\"el3_attr1_value_from_original\" el3_attr2=\"el3_attr2_value_from_original\">"
+                + "    <el4 el4_attr1=\"el4_attr1_value_from_original\" el4_attr2=\"el4_attr2_value_from_original\"/>"
+                + "  </el3>"
+                + "</el1>";
 
         // Patch
-        final String s2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-                "<el1 el1_attr1=\"el1_attr1_value_from_patch\">" +
-                "  <el2 NAME=\"el2_NAME_value_from_patch\" el2_attr2=\"el2_attr2_value_from_patch\" el2_attr3=\"el2_attr3_value_from_patch\"/>" +
-                "</el1>";
+        final String s2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                + "<el1 el1_attr1=\"el1_attr1_value_from_patch\">"
+                + "  <el2 NAME=\"el2_NAME_value_from_patch\" el2_attr2=\"el2_attr2_value_from_patch\" el2_attr3=\"el2_attr3_value_from_patch\"/>"
+                + "</el1>";
 
         Properties confProps = new Properties();
         confProps.setProperty("action.default", "FULLMERGE");
@@ -64,36 +65,47 @@ public class XmlMergeTest
 
         String result = null;
 
-        try {
+        try
+        {
             XmlMerge xmlMerge = new ConfigurableXmlMerge(new PropertyXPathConfigurer(confProps));
-            try {
+            try
+            {
                 // s1: Original
                 // s2, ..., sn: Patches
-                result = xmlMerge.merge(new String[] {s1, s2});
-            } catch (AbstractXmlMergeException e) {
+                result = xmlMerge.merge(new String[]
+                {
+                    s1, s2
+                });
+            }
+            catch (AbstractXmlMergeException e)
+            {
                 fail(e.getMessage());
             }
-        } catch (ConfigurationException e) {
+        }
+        catch (ConfigurationException e)
+        {
             fail(e.getMessage());
         }
 
         assertNotNull(result);
 
-        String expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<el1 el1_attr1=\"el1_attr1_value_from_patch\">\n" +
-                "  <el2 NAME=\"el2_NAME_value_from_original\" el2_attr2=\"el2_attr2_value_from_original\" />\n" +
-                "  <el2 NAME=\"el2_NAME_value_from_patch\" el2_attr2=\"el2_attr2_value_from_patch\" el2_attr3=\"el2_attr3_value_from_patch\" />\n" +
-                "  <el3 el3_attr1=\"el3_attr1_value_from_original\" el3_attr2=\"el3_attr2_value_from_original\">\n" +
-                "    <el4 el4_attr1=\"el4_attr1_value_from_original\" el4_attr2=\"el4_attr2_value_from_original\" />\n" +
-                "  </el3>\n" +
-                "</el1>\n";
+        String expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<el1 el1_attr1=\"el1_attr1_value_from_patch\">\n"
+                + "  <el2 NAME=\"el2_NAME_value_from_original\" el2_attr2=\"el2_attr2_value_from_original\" />\n"
+                + "  <el2 NAME=\"el2_NAME_value_from_patch\" el2_attr2=\"el2_attr2_value_from_patch\" el2_attr3=\"el2_attr3_value_from_patch\" />\n"
+                + "  <el3 el3_attr1=\"el3_attr1_value_from_original\" el3_attr2=\"el3_attr2_value_from_original\">\n"
+                + "    <el4 el4_attr1=\"el4_attr1_value_from_original\" el4_attr2=\"el4_attr2_value_from_original\" />\n"
+                + "  </el3>\n"
+                + "</el1>\n";
         expectedResult = expectedResult.replace("\n", System.getProperty("line.separator"));
         assertEquals(result, expectedResult);
     }
 
     /**
-     * Test merging of a patch file to an original file, parallely use the original file as output file.
-     * Tests several XPath-based actions and matchers.
+     * Test merging of a patch file to an original file, parallely use the
+     * original file as output file. Tests several XPath-based actions and
+     * matchers.
+     *
      * @throws IOException
      * @throws AbstractXmlMergeException
      * @throws SAXException
@@ -116,11 +128,14 @@ public class XmlMergeTest
         // it should be patch target and output at one time in this test and therefore is written to it
         FileChannel inputChannel = null;
         FileChannel outputChannel = null;
-        try {
+        try
+        {
             inputChannel = new FileInputStream(new File(patchTargetFileUrl.toURI())).getChannel();
             outputChannel = new FileOutputStream(targetFile).getChannel();
             outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-        } finally {
+        }
+        finally
+        {
             inputChannel.close();
             outputChannel.close();
         }
@@ -134,12 +149,12 @@ public class XmlMergeTest
         confProps.setProperty("matcher.path2", "TAG");
         confProps.setProperty("action.path2", "REPLACE"); // Replace with that from patch
         xmlMerge = new ConfigurableXmlMerge(new PropertyXPathConfigurer(confProps));
-        xmlMerge.merge( new File[]{
-                targetFile,
-                new File(patchSourceFileUrl.toURI())
-                },
+        xmlMerge.merge(new File[]
+        {
+            targetFile,
+            new File(patchSourceFileUrl.toURI())
+        },
                 targetFile);
-
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
 import com.izforge.izpack.api.data.Blockable;
@@ -39,7 +38,6 @@ import java.io.*;
 
 import static org.junit.Assert.*;
 
-
 /**
  * Abstract base class for {@link FileUnpacker} tests.
  *
@@ -47,6 +45,7 @@ import static org.junit.Assert.*;
  */
 public abstract class AbstractFileUnpackerTest
 {
+
     /**
      * Temporary folder.
      */
@@ -110,8 +109,9 @@ public abstract class AbstractFileUnpackerTest
     }
 
     /**
-     * Verifies that a file that does not have a blockable type of {@link Blockable#BLOCKABLE_NONE} is queued rather
-     * than unpacked to its target.
+     * Verifies that a file that does not have a blockable type of
+     * {@link Blockable#BLOCKABLE_NONE} is queued rather than unpacked to its
+     * target.
      *
      * @throws Exception for any error
      */
@@ -165,7 +165,7 @@ public abstract class AbstractFileUnpackerTest
      * Helper to create an unpacker.
      *
      * @param sourceDir the source directory
-     * @param queue     the file queue
+     * @param queue the file queue
      * @return a new unpacker
      * @throws IOException for any I/O error
      */
@@ -174,9 +174,9 @@ public abstract class AbstractFileUnpackerTest
     /**
      * Helper to create a new pack file.
      *
-     * @param baseDir   the base directory
-     * @param source    the source file
-     * @param target    the target file
+     * @param baseDir the base directory
+     * @param source the source file
+     * @param target the target file
      * @param blockable the blockable type
      * @return a new pack file
      * @throws java.io.IOException if the source file doesn't exist
@@ -224,10 +224,11 @@ public abstract class AbstractFileUnpackerTest
     }
 
     /**
-     * Verifies that a blockable file is queued rather than copied to the target directory.
+     * Verifies that a blockable file is queued rather than copied to the target
+     * directory.
      *
      * @param blockable the blockable type
-     * @throws IOException        for any I/O error
+     * @throws IOException for any I/O error
      * @throws InstallerException for any installer error
      */
     private void checkQueue(Blockable blockable) throws IOException, InstallerException

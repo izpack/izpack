@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import java.util.logging.Level;
@@ -28,7 +27,6 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.processor.Processor;
 import com.izforge.izpack.panels.userinput.processorclient.ValuesProcessingClient;
-
 
 /**
  * FieldProcessor is a wrapper around a {@link Processor}.
@@ -56,14 +54,13 @@ public class FieldProcessor
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(FieldProcessor.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(FieldProcessor.class.getName());
 
     /**
      * Constructs a {@code FieldProcessor}.
      *
      * @param processor the processor element
-     * @param config    the configuration
+     * @param config the configuration
      */
     public FieldProcessor(IXMLElement processor, Config config)
     {
@@ -91,14 +88,14 @@ public class FieldProcessor
         }
         catch (Throwable exception)
         {
-            logger.log(Level.WARNING, "Processing using " + className + " failed: " + exception.getMessage(),
-                       exception);
+            LOGGER.log(Level.WARNING, "Processing using " + className + " failed: " + exception.getMessage(),
+                    exception);
             if (exception instanceof IzPackException)
             {
                 throw (IzPackException) exception;
             }
             throw new IzPackException("Processing using " + className + " failed: " + exception.getMessage(),
-                                      exception);
+                    exception);
         }
         return result;
     }

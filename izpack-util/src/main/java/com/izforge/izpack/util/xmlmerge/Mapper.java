@@ -19,13 +19,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge;
 
 import org.jdom2.Element;
 
 /**
- * Transforms an element to another element by changing some nested content or attributes.
+ * Transforms an element to another element by changing some nested content or
+ * attributes.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
@@ -34,8 +34,8 @@ public interface Mapper extends Operation
 {
 
     /**
-     * Transforms the given element to another element by changing some nested content or
-     * attributes.
+     * Transforms the given element to another element by changing some nested
+     * content or attributes.
      *
      * @param patchElement the element to transform
      * @return the transformed element

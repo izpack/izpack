@@ -20,7 +20,6 @@
  */
 package com.izforge.izpack.installer.util;
 
-
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.resource.Messages;
 
@@ -31,14 +30,16 @@ import com.izforge.izpack.api.resource.Messages;
  */
 public class PackHelper
 {
+
     /**
      * Returns a localised name for a pack.
      * <p/>
-     * This uses {@link Pack#getLangPackId()} to locate the localised name for the pack.
+     * This uses {@link Pack#getLangPackId()} to locate the localised name for
+     * the pack.
      * <p/>
      * If no localised name exists, {@link Pack#getName()} will be returned.
      *
-     * @param pack     the pack
+     * @param pack the pack
      * @param messages the messages. May be {@code null}
      * @return the pack name
      */
@@ -59,11 +60,13 @@ public class PackHelper
     /**
      * Returns a localised description for a pack.
      * <p/>
-     * This uses {@code "<langPackId>.description"} to locate the localised name for the pack.
+     * This uses {@code "<langPackId>.description"} to locate the localised name
+     * for the pack.
      * <p/>
-     * If no localised description exists, {@link Pack#getDescription()} wil be returned.
+     * If no localised description exists, {@link Pack#getDescription()} wil be
+     * returned.
      *
-     * @param pack     the pack
+     * @param pack the pack
      * @param messages the messages. May be {@code null}
      * @return the pack description. May be {@code null}
      */
@@ -84,9 +87,10 @@ public class PackHelper
     /**
      * Helper to return a localised message.
      *
-     * @param key      the message key
+     * @param key the message key
      * @param messages the messages
-     * @return the message corresponding to {@code key}, or {@code null} if none exists
+     * @return the message corresponding to {@code key}, or {@code null} if none
+     * exists
      */
     private static String getMessage(String key, Messages messages)
     {

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.password;
 
 import java.util.List;
@@ -31,7 +30,6 @@ import com.izforge.izpack.panels.userinput.field.password.PasswordGroupField;
 import com.izforge.izpack.panels.userinput.gui.password.PasswordGroup;
 import com.izforge.izpack.util.Console;
 
-
 /**
  * Console presentation of {@link PasswordGroupField}.
  *
@@ -43,9 +41,9 @@ public class ConsolePasswordGroupField extends ConsoleField
     /**
      * Constructs a {@link ConsolePasswordGroupField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsolePasswordGroupField(PasswordGroupField field, Console console, Prompt prompt)
     {
@@ -68,7 +66,8 @@ public class ConsolePasswordGroupField extends ConsoleField
      * <p/>
      * For fields that update variables, this collects input and validates it.
      *
-     * @return {@code true} if the field was displayed and validated successfully
+     * @return {@code true} if the field was displayed and validated
+     * successfully
      */
     @Override
     public boolean display()

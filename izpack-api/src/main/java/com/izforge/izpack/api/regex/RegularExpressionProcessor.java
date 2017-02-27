@@ -18,18 +18,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.regex;
 
 /**
- * Regular expression utility adapted from and inspired by the PropertyRegEx Ant task
- * (project Ant Contrib)
+ * Regular expression utility adapted from and inspired by the PropertyRegEx Ant
+ * task (project Ant Contrib)
  *
- * @author René Krell - changes against the original implementation ant-contrib 1.0b3
+ * @author René Krell - changes against the original implementation ant-contrib
+ * 1.0b3
  * @see <a href='http://ant-contrib.sourceforge.net'>Ant Contrib project</a>
  */
 public interface RegularExpressionProcessor
 {
+
     public void setInput(String input);
 
     public void setDefaultValue(String defaultValue);

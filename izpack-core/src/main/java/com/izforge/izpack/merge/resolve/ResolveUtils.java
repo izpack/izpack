@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge.resolve;
 
 import java.io.File;
@@ -43,13 +42,15 @@ import com.izforge.izpack.util.FileUtil;
  */
 public class ResolveUtils
 {
+
     public static final String CLASSNAME_PREFIX = "com.izforge.izpack.panels";
     public static final String BASE_CLASSNAME_PATH = CLASSNAME_PREFIX.replaceAll("\\.", "/") + "/";
 
     /**
      * Extract file name from url and test jar file
      *
-     * @param url url to test. If it is a jar content, the jar file is extracted and treated as a jar
+     * @param url url to test. If it is a jar content, the jar file is extracted
+     * and treated as a jar
      * @return true if the file is a jar
      */
     public static boolean isJar(URL url)
@@ -94,11 +95,11 @@ public class ResolveUtils
         }
         return true;
     }
-    
+
     /**
-     * Checks if a URL designates a single file in a Jar or not.
-     * This is useful to differentiate packages and single files on merges.
-     * It is assumed that <code>ResolveUtils.isJar(resource)</code> returns <code>true</code>.
+     * Checks if a URL designates a single file in a Jar or not. This is useful
+     * to differentiate packages and single files on merges. It is assumed that
+     * <code>ResolveUtils.isJar(resource)</code> returns <code>true</code>.
      *
      * @param resource the resource to test
      * @return True if the resource is a single file, false otherwise.
@@ -139,8 +140,8 @@ public class ResolveUtils
     }
 
     /**
-     * Search if the given path exist in the classpath and return it. If nothing is found,
-     * try to load it as a file and return it if exists.
+     * Search if the given path exist in the classpath and return it. If nothing
+     * is found, try to load it as a file and return it if exists.
      *
      * @param path The path of File to load.
      * @return The file or null if nothing found.
@@ -202,7 +203,7 @@ public class ResolveUtils
         }
         return res;
     }
-    
+
     public static String processUrlToInsidePath(URL resource)
     {
         String path = resource.getPath();
@@ -229,7 +230,8 @@ public class ResolveUtils
     /**
      * Simply return the left side of the last .<br />
      * com.izpack.Aclass return com.izpack <br />
-     * If the is no '.' in the charsequence, return the default package for panels.
+     * If the is no '.' in the charsequence, return the default package for
+     * panels.
      *
      * @param className className to process.
      * @return Extracted package from classname or the default package

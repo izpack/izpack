@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.factory;
 
 import java.lang.reflect.Field;
@@ -39,7 +38,7 @@ public class OperationResolver
     /**
      * Class representing an operation.
      */
-    Class m_constantClass;
+    Class constantClass;
 
     /**
      * Creates an OperationResolver given the class representing an operation.
@@ -48,7 +47,7 @@ public class OperationResolver
      */
     public OperationResolver(Class class1)
     {
-        m_constantClass = class1;
+        constantClass = class1;
     }
 
     /**
@@ -56,14 +55,15 @@ public class OperationResolver
      *
      * @param aliasOrClassName an alias or class name representing an operation
      * @return The resolved operation
-     * @throws ConfigurationException If an error occurred during the resolving process
+     * @throws ConfigurationException If an error occurred during the resolving
+     * process
      */
     public Operation resolve(String aliasOrClassName) throws ConfigurationException
     {
         Field field = null;
         try
         {
-            field = m_constantClass.getField(aliasOrClassName.toUpperCase());
+            field = constantClass.getField(aliasOrClassName.toUpperCase());
         }
         catch (NoSuchFieldException e)
         {

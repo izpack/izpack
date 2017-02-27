@@ -18,6 +18,7 @@ import java.util.zip.ZipFile;
  */
 public class ObjectInputMatcher extends TypeSafeMatcher<ZipFile>
 {
+
     private Matcher<Object> listMatcher;
     private String resourceId;
 
@@ -43,17 +44,18 @@ public class ObjectInputMatcher extends TypeSafeMatcher<ZipFile>
     }
 
     public static Object getObjectFromZip(ZipFile file, String resourceId)
-        throws IOException, ClassNotFoundException
+            throws IOException, ClassNotFoundException
     {
         Object result = null;
         Enumeration<? extends ZipEntry> zipEntries = file.entries();
-        while (zipEntries.hasMoreElements()) {
-          ZipEntry zipEntry = zipEntries.nextElement();
-          if (zipEntry.getName().equals(resourceId))
-          {
-              ObjectInputStream inputStream = new ObjectInputStream(file.getInputStream(zipEntry));
-              result = inputStream.readObject();
-          }
+        while (zipEntries.hasMoreElements())
+        {
+            ZipEntry zipEntry = zipEntries.nextElement();
+            if (zipEntry.getName().equals(resourceId))
+            {
+                ObjectInputStream inputStream = new ObjectInputStream(file.getInputStream(zipEntry));
+                result = inputStream.readObject();
+            }
         }
         return result;
     }
@@ -67,6 +69,5 @@ public class ObjectInputMatcher extends TypeSafeMatcher<ZipFile>
     {
         return new ObjectInputMatcher(resourceId, objectMatcher);
     }
-
 
 }

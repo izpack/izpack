@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.adaptator.xinclude;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -23,11 +22,11 @@ import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import java.net.URL;
 
 /**
- * Test the XInclude style functionality.
- * Use the URL as input for the parser
+ * Test the XInclude style functionality. Use the URL as input for the parser
  */
 public class XIncludeParseURLTestCase extends BaseXIncludeTestCase
 {
+
     @Override
     public void doTest(String fileBase) throws Exception
     {

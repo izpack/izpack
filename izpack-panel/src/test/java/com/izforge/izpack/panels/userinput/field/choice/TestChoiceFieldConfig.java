@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.choice;
 
 import java.util.List;
@@ -27,7 +26,6 @@ import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
 
-
 /**
  * Implementation of {@link ChoiceFieldConfig} for testing purposes.
  *
@@ -35,6 +33,7 @@ import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
  */
 public class TestChoiceFieldConfig<T extends Choice> extends TestFieldConfig implements ChoiceFieldConfig
 {
+
     /**
      * The available choices.
      */
@@ -49,8 +48,9 @@ public class TestChoiceFieldConfig<T extends Choice> extends TestFieldConfig imp
      * Constructs a {@code TestChoiceFieldConfig}.
      *
      * @param variable the variable
-     * @param choices  the available choices
-     * @param selected the initial selection, or {@code -1} if no choice is selected
+     * @param choices the available choices
+     * @param selected the initial selection, or {@code -1} if no choice is
+     * selected
      */
     public TestChoiceFieldConfig(String variable, List<Choice> choices, int selected)
     {

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.xinfo;
 
 import java.awt.Font;
@@ -39,7 +38,8 @@ import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.gui.LayoutHelper;
 
 /**
- * The XInfo panel class - shows some adaptative text (ie by parsing for some variables.
+ * The XInfo panel class - shows some adaptative text (ie by parsing for some
+ * variables.
  *
  * @author Julien Ponge
  */
@@ -64,10 +64,10 @@ public class XInfoPanel extends IzPanel
     /**
      * The constructor.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent IzPack installer frame
+     * @param panel the panel meta-data
+     * @param parent the parent IzPack installer frame
      * @param installData the installation data
-     * @param resources   the resources
+     * @param resources the resources
      */
     public XInfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
     {
@@ -79,9 +79,8 @@ public class XInfoPanel extends IzPanel
         setLayout(layout);
 
         // We add the components
-
         JLabel infoLabel = LabelFactory.create(getString("InfoPanel.info"),
-                                               parent.getIcons().get("edit"), JLabel.TRAILING);
+                parent.getIcons().get("edit"), JLabel.TRAILING);
         LayoutHelper.buildConstraints(gbConstraints, 0, 0, 1, 1, 1.0, 0.0);
         gbConstraints.insets = new Insets(5, 5, 5, 5);
         gbConstraints.fill = GridBagConstraints.BOTH;

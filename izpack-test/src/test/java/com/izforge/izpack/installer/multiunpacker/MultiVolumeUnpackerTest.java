@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.multiunpacker;
 
 import com.izforge.izpack.api.data.*;
@@ -81,9 +80,9 @@ import static org.junit.Assert.*;
  */
 public class MultiVolumeUnpackerTest
 {
+
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
 
     /**
      * Tests unpacking of multiple volume installation.
@@ -165,7 +164,7 @@ public class MultiVolumeUnpackerTest
         assertFileNotExists(installDir, file5.getName());
         assertFileNotExists(installDir, file6.getName());
     }
-    
+
     /**
      * Tests unpacking of multiple volume installation with executables in pack.
      *
@@ -236,11 +235,11 @@ public class MultiVolumeUnpackerTest
         AutomatedInstallData installData = createInstallData(packageDir, installDir, resources);
         setSelectedPacks(installData, "base", "pack2", "pack3");  // exclude pack1 from installation
         TestMultiVolumeUnpacker unpacker = createUnpacker(resources, installData);
-        
+
         TestMultiVolumeUnpacker spy = Mockito.spy(unpacker);
-        
+
         spy.unpack();
-        
+
         Mockito.verify(spy, Mockito.times(3)).readExecutableFiles(Mockito.any(ObjectInputStream.class), Mockito.anyList());
 
         // verify the expected files exists in the installation directory
@@ -261,12 +260,11 @@ public class MultiVolumeUnpackerTest
         assertFileNotExists(installDir, file9e.getName());
     }
 
-
     /**
      * Helper to set the selected packs.
      *
      * @param installData the installation data
-     * @param names       the names of the packs to select
+     * @param names the names of the packs to select
      */
     private void setSelectedPacks(AutomatedInstallData installData, String... names)
     {
@@ -300,10 +298,11 @@ public class MultiVolumeUnpackerTest
     /**
      * Verifies that there are multiple volumes of the expected size.
      *
-     * @param dir                the directory to find the volumes in
-     * @param resources          the resources used to determine the volume name and count
+     * @param dir the directory to find the volumes in
+     * @param resources the resources used to determine the volume name and
+     * count
      * @param maxFirstVolumeSize the maximum size of the first volume
-     * @param maxVolumeSize      the maximum volume size for subsequent volumes
+     * @param maxVolumeSize the maximum volume size for subsequent volumes
      * @throws IOException for any I/O error
      */
     private void checkVolumes(File dir, Resources resources, long maxFirstVolumeSize, long maxVolumeSize)
@@ -337,7 +336,7 @@ public class MultiVolumeUnpackerTest
     /**
      * Creates a new unpacker.
      *
-     * @param resources   the resources
+     * @param resources the resources
      * @param installData the installation data
      * @return a new unpacker
      */
@@ -355,43 +354,46 @@ public class MultiVolumeUnpackerTest
         InstallerListeners listeners = new InstallerListeners(installData, prompt);
         PlatformModelMatcher matcher = new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS);
         TestMultiVolumeUnpacker unpacker = new TestMultiVolumeUnpacker(installData, packResources, rules, replacer,
-                                                               uninstallData, queue, housekeeper,
-                                                               listeners, prompt, locator, matcher);
+                uninstallData, queue, housekeeper,
+                listeners, prompt, locator, matcher);
         unpacker.setProgressListener(Mockito.mock(ProgressListener.class));
         return unpacker;
     }
-    
+
     /**
      * This unpacker has a validation of the executables.
      *
      */
-    private static class TestMultiVolumeUnpacker extends MultiVolumeUnpacker {
+    private static class TestMultiVolumeUnpacker extends MultiVolumeUnpacker
+    {
 
-		public TestMultiVolumeUnpacker(com.izforge.izpack.api.data.InstallData installData, PackResources resources,
-				RulesEngine rules, VariableSubstitutor variableSubstitutor, UninstallData uninstallData,
-				FileQueueFactory queue, Housekeeper housekeeper, InstallerListeners listeners, Prompt prompt,
-				VolumeLocator locator, PlatformModelMatcher matcher) {
-			super(installData, resources, rules, variableSubstitutor, uninstallData, queue, housekeeper, listeners, prompt, locator,
-					matcher);
-		}
+        public TestMultiVolumeUnpacker(com.izforge.izpack.api.data.InstallData installData, PackResources resources,
+                RulesEngine rules, VariableSubstitutor variableSubstitutor, UninstallData uninstallData,
+                FileQueueFactory queue, Housekeeper housekeeper, InstallerListeners listeners, Prompt prompt,
+                VolumeLocator locator, PlatformModelMatcher matcher)
+        {
+            super(installData, resources, rules, variableSubstitutor, uninstallData, queue, housekeeper, listeners, prompt, locator,
+                    matcher);
+        }
 
-		@Override
-		protected void readExecutableFiles(ObjectInputStream stream, List<ExecutableFile> executables)
-				throws IOException, ClassNotFoundException {
-			super.readExecutableFiles(stream, executables);
-			
-			assertTrue(executables.size() < 2);
-		}
+        @Override
+        protected void readExecutableFiles(ObjectInputStream stream, List<ExecutableFile> executables)
+                throws IOException, ClassNotFoundException
+        {
+            super.readExecutableFiles(stream, executables);
+
+            assertTrue(executables.size() < 2);
+        }
     }
 
     /**
      * Creates the installation data.
      *
-     * @param mediaDir   the directory to locate volumes
+     * @param mediaDir the directory to locate volumes
      * @param installDir the installation directory
-     * @param resources  the resources
+     * @param resources the resources
      * @return the installation data
-     * @throws IOException            for any I/O error
+     * @throws IOException for any I/O error
      * @throws ClassNotFoundException
      */
     private AutomatedInstallData createInstallData(File mediaDir, File installDir, Resources resources)
@@ -411,7 +413,8 @@ public class MultiVolumeUnpackerTest
     }
 
     /**
-     * Creates a new {@link Resources} that reads resources from the supplied jar.
+     * Creates a new {@link Resources} that reads resources from the supplied
+     * jar.
      *
      * @param installerJar the installer jar.
      * @return a new resource manager
@@ -419,15 +422,18 @@ public class MultiVolumeUnpackerTest
      */
     private Resources createResources(File installerJar) throws IOException
     {
-        final URLClassLoader loader = new URLClassLoader(new URL[]{installerJar.toURI().toURL()},
-                                                         getClass().getClassLoader());
+        final URLClassLoader loader = new URLClassLoader(new URL[]
+        {
+            installerJar.toURI().toURL()
+        },
+                getClass().getClassLoader());
         return new ResourceManager(loader);
     }
 
     /**
      * Creates a {@link MultiVolumePackager}.
      *
-     * @param baseDir      the base directory
+     * @param baseDir the base directory
      * @param installerJar the jar to create
      * @return a new packager
      * @throws IOException for any I/O error
@@ -444,36 +450,37 @@ public class MultiVolumeUnpackerTest
         CompilerData data = new CompilerData(null, baseDir.getPath(), installerJar.getPath(), true, false);
         RulesEngine rulesEngine = Mockito.mock(RulesEngine.class);
         MultiVolumePackager packager = new MultiVolumePackager(properties, packagerListener, jar, mergeManager,
-                                                               resolver, mergeableResolver, compressor, data,
-                                                               rulesEngine);
+                resolver, mergeableResolver, compressor, data,
+                rulesEngine);
         packager.setInfo(new Info());
         return packager;
     }
-    
-    
+
     /**
      * Helper to add files to a pack.
      *
-     * @param pack    the pack to add the files to
+     * @param pack the pack to add the files to
      * @param baseDir the base directory
-     * @param files   the files to add
+     * @param files the files to add
      * @throws IOException for any I/O error
      */
     private void addFiles(PackInfo pack, File baseDir, File... files) throws IOException
     {
         for (File file : files)
         {
-        	if ("exe".equals(FilenameUtils.getExtension(file.getName()))) {
+            if ("exe".equals(FilenameUtils.getExtension(file.getName())))
+            {
                 ExecutableFile executable = new ExecutableFile();
                 executable.path = file.getPath();
                 executable.executionStage = ExecutableFile.UNINSTALL;
-                
-        		pack.addExecutable(executable);
-        	}
-        	else {
-	            pack.addFile(baseDir, file, "$INSTALL_PATH/" + file.getName(), null, OverrideType.OVERRIDE_FALSE, null,
-	                         Blockable.BLOCKABLE_NONE, null, null);
-        	}
+
+                pack.addExecutable(executable);
+            }
+            else
+            {
+                pack.addFile(baseDir, file, "$INSTALL_PATH/" + file.getName(), null, OverrideType.OVERRIDE_FALSE, null,
+                        Blockable.BLOCKABLE_NONE, null, null);
+            }
         }
     }
 
@@ -482,8 +489,9 @@ public class MultiVolumeUnpackerTest
      *
      * @param resources the resources
      * @return the pack meta-data
-     * @throws IOException            for any I/O error
-     * @throws ClassNotFoundException if the class of a serialized object cannot be found
+     * @throws IOException for any I/O error
+     * @throws ClassNotFoundException if the class of a serialized object cannot
+     * be found
      */
     private List<Pack> getPacks(Resources resources) throws IOException, ClassNotFoundException
     {
@@ -506,8 +514,8 @@ public class MultiVolumeUnpackerTest
      * Helper to create a file with the specified size containing random data.
      *
      * @param baseDir the base directory
-     * @param name    the file name
-     * @param size    the file size
+     * @param name the file name
+     * @param size the file size
      * @return a new file
      * @throws IOException for any I/O error
      */
@@ -520,7 +528,7 @@ public class MultiVolumeUnpackerTest
      * Verifies a file has been installed.
      *
      * @param installDir the installation directory
-     * @param expected   the file that should be installed
+     * @param expected the file that should be installed
      * @throws IOException for any I/O error
      */
     private void checkInstalled(File installDir, File expected) throws IOException

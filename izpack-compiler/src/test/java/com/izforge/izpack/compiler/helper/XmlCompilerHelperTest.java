@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.helper;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,9 +27,9 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.exception.CompilerException;
 
-
 public class XmlCompilerHelperTest
 {
+
     private XmlCompilerHelper helper = new XmlCompilerHelper(new AssertionHelper("fake.xml"));
 
     @Test

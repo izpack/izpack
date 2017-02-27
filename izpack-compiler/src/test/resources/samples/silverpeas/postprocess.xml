@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <izpack:processing version="5.0"
-  xmlns:izpack="http://izpack.org/schema/processing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://izpack.org/schema/processing http://izpack.org/schema/5.0/izpack-processing-5.0.xsd"
+                   xmlns:izpack="http://izpack.org/schema/processing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://izpack.org/schema/processing http://izpack.org/schema/5.0/izpack-processing-5.0.xsd"
 >
 
-  <job name="do xyz">
-    <os family="windows" />
-    <executefile name="$INSTALL_PATH/scripts/xyz.bat" workingDir="$INSTALL_PATH">
-      <arg>doit</arg><arg>$variable</arg>
-    </executefile>
-  </job>
+    <job name="do xyz">
+        <os family="windows" />
+        <executefile name="$INSTALL_PATH/scripts/xyz.bat" workingDir="$INSTALL_PATH">
+            <arg>doit</arg>
+            <arg>$variable</arg>
+        </executefile>
+    </job>
 
 </izpack:processing>

@@ -19,14 +19,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.matcher;
 
 /**
- * Compares the qualified name of elements, their attributes and their attribute values.
+ * Compares the qualified name of elements, their attributes and their attribute
+ * values.
  */
 public class AttributeMatcher extends AbstractAttributeMatcher
 {
+
     @Override
     protected boolean ignoreCaseAttributeName()
     {

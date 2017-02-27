@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.install;
 
 import java.util.Properties;
@@ -38,6 +37,7 @@ import com.izforge.izpack.util.Console;
  */
 public class InstallConsolePanel extends AbstractConsolePanel implements ProgressListener
 {
+
     /**
      * The unpacker.
      */
@@ -60,8 +60,9 @@ public class InstallConsolePanel extends AbstractConsolePanel implements Progres
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @param console the console
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     @Override
     public boolean run(InstallData installData, Console console)
@@ -72,10 +73,10 @@ public class InstallConsolePanel extends AbstractConsolePanel implements Progres
     }
 
     @Override
-    public void startAction(String name, int no_of_steps)
+    public void startAction(String name, int noOfSteps)
     {
         System.out.println("[ Starting to unpack ]");
-        this.noOfPacks = no_of_steps;
+        this.noOfPacks = noOfSteps;
     }
 
     @Override
@@ -101,7 +102,7 @@ public class InstallConsolePanel extends AbstractConsolePanel implements Progres
     }
 
     @Override
-    public void setSubStepNo(int no_of_substeps)
+    public void setSubStepNo(int noOfSubsteps)
     {
 
     }
@@ -122,10 +123,10 @@ public class InstallConsolePanel extends AbstractConsolePanel implements Progres
     /**
      * Invoked when an action restarts.
      *
-     * @param name           the name of the action
+     * @param name the name of the action
      * @param overallMessage a message describing the overall progress
-     * @param tip            a tip describing the current progress
-     * @param steps          the number of steps the action consists of
+     * @param tip a tip describing the current progress
+     * @param steps the number of steps the action consists of
      */
     @Override
     public void restartAction(String name, String overallMessage, String tip, int steps)

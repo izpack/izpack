@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.substitutor;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,7 +33,6 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
-
 
 /**
  * Unit tests of substitutor features

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge.resolve;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -54,6 +53,7 @@ import com.izforge.izpack.util.FileUtil;
 @Container(TestMergeContainer.class)
 public class PathResolverTest
 {
+
     private PathResolver pathResolver;
 
     public PathResolverTest(PathResolver pathResolver)
@@ -177,7 +177,6 @@ public class PathResolverTest
                 jarResource),
                 Is.is(true));
     }
-
 
     @Test
     public void pathResolverShouldTransformClassNameToPackagePath() throws Exception

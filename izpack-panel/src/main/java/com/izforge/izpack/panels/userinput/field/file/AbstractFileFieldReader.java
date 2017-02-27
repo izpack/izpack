@@ -18,13 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.file;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.panels.userinput.field.Config;
 import com.izforge.izpack.panels.userinput.field.FieldReader;
-
 
 /**
  * File field reader functionality.
@@ -37,7 +35,7 @@ public abstract class AbstractFileFieldReader extends FieldReader implements Fil
     /**
      * Constructs an {@code AbstractFileFieldReader}.
      *
-     * @param field  the field element
+     * @param field the field element
      * @param config the configuration
      */
     public AbstractFileFieldReader(IXMLElement field, Config config)

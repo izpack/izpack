@@ -18,15 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
-
 import java.io.InputStream;
-
-import com.izforge.izpack.api.exception.ResourceException;
-import com.izforge.izpack.api.exception.ResourceInterruptedException;
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
 
 /**
  * Provides access to installation packs.
@@ -41,9 +35,9 @@ public interface PackResources
      *
      * @param name the pack name
      * @return a stream to the pack
-     * @throws ResourceNotFoundException    if the resource cannot be found
+     * @throws ResourceNotFoundException if the resource cannot be found
      * @throws ResourceInterruptedException if resource retrieval is interrupted
-     * @throws ResourceException            for any other resource error
+     * @throws ResourceException for any other resource error
      */
     InputStream getPackStream(String name);
 
@@ -52,9 +46,9 @@ public interface PackResources
      *
      * @param name the resource name
      * @return a stream to the resource
-     * @throws ResourceNotFoundException    if the resource cannot be found
+     * @throws ResourceNotFoundException if the resource cannot be found
      * @throws ResourceInterruptedException if resource retrieval is interrupted
-     * @throws ResourceException            for any other resource error
+     * @throws ResourceException for any other resource error
      */
     InputStream getInputStream(String name);
 }

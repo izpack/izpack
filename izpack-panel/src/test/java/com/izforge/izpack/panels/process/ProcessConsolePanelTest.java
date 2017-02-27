@@ -38,10 +38,9 @@ import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
-
 /**
- * Tests the {@link ProcessConsolePanel} class.
- * TODO - this only covers a fraction of ProcessPanel functionality.
+ * Tests the {@link ProcessConsolePanel} class. TODO - this only covers a
+ * fraction of ProcessPanel functionality.
  *
  * @author Tim Anderson
  */
@@ -84,14 +83,14 @@ public class ProcessConsolePanelTest
      * Constructs a {@code ProcessConsolePanelTest}.
      *
      * @param installData the installation data
-     * @param rules       the rules
-     * @param resources   the resources
-     * @param prompt      the prompt
-     * @param matcher     the platform-model matcher
-     * @param console     the console
+     * @param rules the rules
+     * @param resources the resources
+     * @param prompt the prompt
+     * @param matcher the platform-model matcher
+     * @param console the console
      */
     public ProcessConsolePanelTest(InstallData installData, RulesEngine rules, ResourceManager resources,
-                                   Prompt prompt, PlatformModelMatcher matcher, TestConsole console)
+            Prompt prompt, PlatformModelMatcher matcher, TestConsole console)
     {
         this.installData = installData;
         this.rules = rules;
@@ -116,12 +115,19 @@ public class ProcessConsolePanelTest
 
         // verify Executable was run the expected no. of times, with the expected arguments
         assertEquals(2, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
-        assertArrayEquals(Executable.getArgs(1), new String[]{"run1", "somearg"});
+        assertArrayEquals(Executable.getArgs(0), new String[]
+        {
+            "run0"
+        });
+        assertArrayEquals(Executable.getArgs(1), new String[]
+        {
+            "run1", "somearg"
+        });
     }
 
     /**
-     * Verifies that an error is displayed if the specified <em>executeclass</em> throws an exception.
+     * Verifies that an error is displayed if the specified
+     * <em>executeclass</em> throws an exception.
      *
      * @throws Exception for any error
      */
@@ -140,7 +146,10 @@ public class ProcessConsolePanelTest
 
         // verify Executable was run the expected no. of times, with the expected arguments
         assertEquals(1, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
+        assertArrayEquals(Executable.getArgs(0), new String[]
+        {
+            "run0"
+        });
     }
 
 }

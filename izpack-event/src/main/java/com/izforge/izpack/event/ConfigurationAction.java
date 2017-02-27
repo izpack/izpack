@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import java.util.ArrayList;
@@ -26,15 +25,17 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * This class contains data and 'perform' logic for configuration action listeners.
+ * This class contains data and 'perform' logic for configuration action
+ * listeners.
  *
  * @author Rene Krell
  */
 public class ConfigurationAction extends ActionBase
 {
+
     private static final long serialVersionUID = 3258131345250005557L;
 
-    private static final transient Logger logger = Logger.getLogger(ConfigurationAction.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(ConfigurationAction.class.getName());
 
     private List<ConfigurationActionTask> actionTasks = null;
 
@@ -53,7 +54,7 @@ public class ConfigurationAction extends ActionBase
      */
     public void performInstallAction() throws Exception
     {
-        logger.fine("Found " + actionTasks.size() + " configuration tasks");
+        LOGGER.fine("Found " + actionTasks.size() + " configuration tasks");
         for (ConfigurationActionTask task : actionTasks)
         {
             task.execute();

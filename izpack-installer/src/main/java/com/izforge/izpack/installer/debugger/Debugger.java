@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.debugger;
 
 import java.awt.BorderLayout;
@@ -61,6 +60,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
  */
 public class Debugger
 {
+
     private RulesEngine rules;
     private GUIInstallData idata;
 
@@ -86,7 +86,6 @@ public class Debugger
         this.conditionhistory = new HashMap<String, ConditionHistory>();
         this.init();
     }
-
 
     private void init()
     {
@@ -122,9 +121,9 @@ public class Debugger
     {
         conditionhistoryrenderer.clearState();
         updateChangedConditions(
-                "changed after panel switch" +
-                (lastpanelmetadata == null ? "" : " from " + lastpanelmetadata.getPanelId()) +
-                " to " + nextpanelmetadata.getPanelId());
+                "changed after panel switch"
+                + (lastpanelmetadata == null ? "" : " from " + lastpanelmetadata.getPanelId())
+                + " to " + nextpanelmetadata.getPanelId());
     }
 
     private void updateChangedConditions(String comment)
@@ -168,7 +167,7 @@ public class Debugger
             {
                 VariableHistory variableHistory = new VariableHistory(key);
                 variableHistory.addValue(currentvalue,
-                        (lastpanelmetadata!=null?"new after panel " + lastpanelmetadata.getPanelId():"new on first panel "));
+                        (lastpanelmetadata != null ? "new after panel " + lastpanelmetadata.getPanelId() : "new on first panel "));
                 variableshistory.put(key, variableHistory);
                 changes = true;
                 changedvariables.put(key, currentvalue);
@@ -179,7 +178,7 @@ public class Debugger
                 {
                     VariableHistory variableHistory = variableshistory.get(key);
                     variableHistory.addValue(currentvalue,
-                            (lastpanelmetadata!=null?"changed value after panel " + lastpanelmetadata.getPanelId():"changed value on first panel "));
+                            (lastpanelmetadata != null ? "changed value after panel " + lastpanelmetadata.getPanelId() : "changed value on first panel "));
                     changes = true;
                     changedvariables.put(key, currentvalue);
                 }
@@ -231,7 +230,7 @@ public class Debugger
         final JTextField varvalue = new JTextField();
         varchangepanel.add(varvalue);
         JButton changevarbtn = ButtonFactory.createButton(idata.getMessages().get("debug.changevariable"),
-                                                          icons.get("debug.changevariable"), idata.buttonsHColor);
+                icons.get("debug.changevariable"), idata.buttonsHColor);
         changevarbtn.addActionListener(new ActionListener()
         {
 
@@ -406,4 +405,3 @@ public class Debugger
         this.updateChangedConditions(comment);
     }
 }
-

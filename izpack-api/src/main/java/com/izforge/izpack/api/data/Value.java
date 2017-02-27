@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -27,6 +26,7 @@ import java.util.Set;
 
 public interface Value
 {
+
     void validate() throws Exception;
 
     String resolve() throws Exception;

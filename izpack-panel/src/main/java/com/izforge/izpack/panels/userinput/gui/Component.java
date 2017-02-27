@@ -16,7 +16,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui;
 
 import javax.swing.JComponent;
@@ -59,11 +58,11 @@ public class Component
     {
         if (component instanceof JLabel || component instanceof JPanel || component instanceof JTextPane)
         {
-           return false;
+            return false;
         }
         if (component instanceof JTextComponent)
         {
-            JTextComponent textComponent = ((JTextComponent)component);
+            JTextComponent textComponent = ((JTextComponent) component);
             if (!textComponent.isFocusable() || !textComponent.isEditable())
             {
                 return false;

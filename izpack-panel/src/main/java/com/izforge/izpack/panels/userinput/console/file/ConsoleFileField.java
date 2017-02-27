@@ -18,14 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.file;
 
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.panels.userinput.field.file.FileField;
 import com.izforge.izpack.panels.userinput.field.file.FileFieldView;
 import com.izforge.izpack.util.Console;
-
 
 /**
  * Console presentation of {@code FileField}.
@@ -34,12 +32,13 @@ import com.izforge.izpack.util.Console;
  */
 public class ConsoleFileField extends AbstractConsoleFileField
 {
+
     /**
      * Constructs a {@link ConsoleFileField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleFileField(FileField field, Console console, Prompt prompt)
     {

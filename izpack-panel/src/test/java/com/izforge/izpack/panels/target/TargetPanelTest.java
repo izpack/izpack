@@ -70,30 +70,31 @@ public class TargetPanelTest extends AbstractPanelTest
     /**
      * Constructs a {@code TargetPanelTest}.
      *
-     * @param container           the panel container
-     * @param installData         the installation data
-     * @param resourceManager     the resource manager
-     * @param factory             the panel factory
-     * @param rules               the rules
-     * @param icons               the icons
+     * @param container the panel container
+     * @param installData the installation data
+     * @param resourceManager the resource manager
+     * @param factory the panel factory
+     * @param rules the rules
+     * @param icons the icons
      * @param uninstallDataWriter the uninstallation data writer
-     * @param locales             the locales
+     * @param locales the locales
      */
     public TargetPanelTest(TestGUIPanelContainer container, GUIInstallData installData, ResourceManager resourceManager,
-                           ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
-                           UninstallDataWriter uninstallDataWriter, Locales locales)
+            ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
+            UninstallDataWriter uninstallDataWriter, Locales locales)
     {
         super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
     }
 
     /**
-     * Situation: Empty path is entered during target panel
-     *   This is very similar to the testDirectoryExists test, since the current user directory (where JVM was started)
-     *   is most likley to exist. How would you start the JVM from a non-existential location?
+     * Situation: Empty path is entered during target panel This is very similar
+     * to the testDirectoryExists test, since the current user directory (where
+     * JVM was started) is most likley to exist. How would you start the JVM
+     * from a non-existential location?
      *
-     * 1. Emit a warning in the form of a question
-     * 2. Ensure target panel warning is shown in the warning question prompt
-     * 3. Ensure that the installation path is set to the 'user.dir' system property.
+     * 1. Emit a warning in the form of a question 2. Ensure target panel
+     * warning is shown in the warning question prompt 3. Ensure that the
+     * installation path is set to the 'user.dir' system property.
      *
      * @throws Exception for any error
      */
@@ -147,7 +148,8 @@ public class TargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verifies that a dialog is displayed if a directory is selected that already exists.
+     * Verifies that a dialog is displayed if a directory is selected that
+     * already exists.
      *
      * @throws Exception for any error
      */
@@ -176,7 +178,8 @@ public class TargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verifies that a dialog is displayed if the target directory cannot be written to.
+     * Verifies that a dialog is displayed if the target directory cannot be
+     * written to.
      *
      * @throws Exception for any error
      */
@@ -202,8 +205,9 @@ public class TargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verifies that when the "modify.izpack.install" variable is specified, the target directory must exist and
-     * contain an <em>.installationinformation</em> file.
+     * Verifies that when the "modify.izpack.install" variable is specified, the
+     * target directory must exist and contain an
+     * <em>.installationinformation</em> file.
      *
      * @throws Exception for any error
      */
@@ -249,8 +253,9 @@ public class TargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verifies that the <em>TargetPanel.incompatibleInstallation</em> message is displayed if the selected
-     * directory contains an unrecognised .installationinformation file.
+     * Verifies that the <em>TargetPanel.incompatibleInstallation</em> message
+     * is displayed if the selected directory contains an unrecognised
+     * .installationinformation file.
      *
      * @throws Exception for any error
      */
@@ -299,15 +304,18 @@ public class TargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verifies that when {@link TargetPanel#setExistFiles(String[])} is used, the specified files must exist
-     * in order for the panel to be valid.
+     * Verifies that when {@link TargetPanel#setExistFiles(String[])} is used,
+     * the specified files must exist in order for the panel to be valid.
      *
      * @throws Exception for any error
      */
     @Test
     public void testFilesExist() throws Exception
     {
-        String[] requiredFiles = {"a", "b"};
+        String[] requiredFiles =
+        {
+            "a", "b"
+        };
 
         GUIInstallData installData = getInstallData();
         Messages messages = installData.getMessages();
@@ -343,7 +351,7 @@ public class TargetPanelTest extends AbstractPanelTest
     /**
      * Verifies that a warning dialog is being displayed.
      *
-     * @param frame    the parent frame
+     * @param frame the parent frame
      * @param expected the expected warning message
      */
     private void checkWarning(FrameFixture frame, String expected)
@@ -363,7 +371,7 @@ public class TargetPanelTest extends AbstractPanelTest
     /**
      * Verify that an error dialog is being displayed.
      *
-     * @param frame    the parent frame
+     * @param frame the parent frame
      * @param expected the expected error message
      */
     private void checkErrorMessage(FrameFixture frame, String expected)
@@ -376,7 +384,7 @@ public class TargetPanelTest extends AbstractPanelTest
     /**
      * Verify that a question dialog is being displayed.
      *
-     * @param frame    the parent frame
+     * @param frame the parent frame
      * @param expected the expected error message
      */
     private void checkQuestionMessage(FrameFixture frame, String expected)
@@ -387,14 +395,16 @@ public class TargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Helper implementation of TargetPanel that simulates no permission to write to a directory.
+     * Helper implementation of TargetPanel that simulates no permission to
+     * write to a directory.
      */
     public static class NotWritableTargetPanel extends TargetPanel
     {
+
         private static final long serialVersionUID = -1516699768499683236L;
 
         public NotWritableTargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData,
-                                      Resources resources, Log log)
+                Resources resources, Log log)
         {
             super(panel, parent, installData, resources, log);
         }

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge.resolve;
 
 import java.io.OutputStream;
@@ -36,6 +35,7 @@ import com.izforge.izpack.merge.jar.JarMerge;
  */
 public class MergeableResolver
 {
+
     private Map<OutputStream, List<String>> mergeContent = new HashMap<OutputStream, List<String>>();
 
     public MergeableResolver()
@@ -54,7 +54,7 @@ public class MergeableResolver
     public Mergeable getMergeableFromURL(URL url, String resourcePath)
     {
         if (ResolveUtils.isJar(url))
-        {            
+        {
             return new JarMerge(url, ResolveUtils.processUrlToJarPath(url), mergeContent);
         }
         else

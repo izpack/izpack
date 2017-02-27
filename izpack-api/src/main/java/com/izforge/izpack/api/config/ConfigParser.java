@@ -36,8 +36,9 @@ import com.izforge.izpack.api.config.spi.Warnings;
 
 public class ConfigParser implements Serializable
 {
+
     private static final long serialVersionUID = 9118857036229164353L;
-    private PyIni _ini;
+    private PyIni ini;
 
     @SuppressWarnings(Warnings.UNCHECKED)
     public ConfigParser()
@@ -47,7 +48,7 @@ public class ConfigParser implements Serializable
 
     public ConfigParser(Map<String, String> defaults)
     {
-        _ini = new PyIni(defaults);
+        this.ini = new PyIni(defaults);
     }
 
     public boolean getBoolean(String section, String option) throws NoSectionException, NoOptionException, InterpolationException
@@ -60,7 +61,7 @@ public class ConfigParser implements Serializable
             ret = true;
         }
         else if ("0".equalsIgnoreCase(value) || "no".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)
-              || "off".equalsIgnoreCase(value))
+                || "off".equalsIgnoreCase(value))
         {
             ret = false;
         }
@@ -94,7 +95,7 @@ public class ConfigParser implements Serializable
 
     public void addSection(String section) throws DuplicateSectionException
     {
-        if (_ini.containsKey(section))
+        if (this.ini.containsKey(section))
         {
             throw new DuplicateSectionException(section);
         }
@@ -103,12 +104,12 @@ public class ConfigParser implements Serializable
             throw new IllegalArgumentException(section);
         }
 
-        _ini.add(section);
+        this.ini.add(section);
     }
 
     public Map<String, String> defaults()
     {
-        return _ini.getDefaults();
+        return this.ini.getDefaults();
     }
 
     @SuppressWarnings(Warnings.UNCHECKED)
@@ -124,13 +125,13 @@ public class ConfigParser implements Serializable
     }
 
     public String get(String sectionName, String optionName, boolean raw, Map<String, String> variables) throws NoSectionException,
-        NoOptionException, InterpolationException
+            NoOptionException, InterpolationException
     {
         String value = requireOption(sectionName, optionName);
 
         if (!raw && (value != null) && (value.indexOf(PyIni.SUBST_CHAR) >= 0))
         {
-            value = _ini.fetch(sectionName, optionName, variables);
+            value = this.ini.fetch(sectionName, optionName, variables);
         }
 
         return value;
@@ -138,14 +139,14 @@ public class ConfigParser implements Serializable
 
     public boolean hasOption(String sectionName, String optionName)
     {
-        Ini.Section section = _ini.get(sectionName);
+        Ini.Section section = this.ini.get(sectionName);
 
         return (section != null) && section.containsKey(optionName);
     }
 
     public boolean hasSection(String sectionName)
     {
-        return _ini.containsKey(sectionName);
+        return this.ini.containsKey(sectionName);
     }
 
     @SuppressWarnings(Warnings.UNCHECKED)
@@ -156,13 +157,13 @@ public class ConfigParser implements Serializable
 
     @SuppressWarnings(Warnings.UNCHECKED)
     public List<Map.Entry<String, String>> items(String sectionName, boolean raw) throws NoSectionException,
-        InterpolationMissingOptionException
+            InterpolationMissingOptionException
     {
         return items(sectionName, raw, Collections.EMPTY_MAP);
     }
 
     public List<Map.Entry<String, String>> items(String sectionName, boolean raw, Map<String, String> variables) throws NoSectionException,
-        InterpolationMissingOptionException
+            InterpolationMissingOptionException
     {
         Ini.Section section = requireSection(sectionName);
         Map<String, String> ret;
@@ -176,7 +177,7 @@ public class ConfigParser implements Serializable
             ret = new HashMap<String, String>();
             for (String key : section.keySet())
             {
-                ret.put(key, _ini.fetch(section, key, variables));
+                ret.put(key, this.ini.fetch(section, key, variables));
             }
         }
 
@@ -187,7 +188,7 @@ public class ConfigParser implements Serializable
     {
         requireSection(sectionName);
 
-        return new ArrayList<String>(_ini.get(sectionName).keySet());
+        return new ArrayList<String>(this.ini.get(sectionName).keySet());
     }
 
     public void read(String... filenames) throws IOException, ParsingException
@@ -202,7 +203,7 @@ public class ConfigParser implements Serializable
     {
         try
         {
-            _ini.load(reader);
+            this.ini.load(reader);
         }
         catch (InvalidFileFormatException x)
         {
@@ -214,7 +215,7 @@ public class ConfigParser implements Serializable
     {
         try
         {
-            _ini.load(url);
+            this.ini.load(url);
         }
         catch (InvalidFileFormatException x)
         {
@@ -226,7 +227,7 @@ public class ConfigParser implements Serializable
     {
         try
         {
-            _ini.load(new FileReader(file));
+            this.ini.load(new FileReader(file));
         }
         catch (InvalidFileFormatException x)
         {
@@ -238,7 +239,7 @@ public class ConfigParser implements Serializable
     {
         try
         {
-            _ini.load(stream);
+            this.ini.load(stream);
         }
         catch (InvalidFileFormatException x)
         {
@@ -258,16 +259,16 @@ public class ConfigParser implements Serializable
 
     public boolean removeSection(String sectionName)
     {
-        boolean ret = _ini.containsKey(sectionName);
+        boolean ret = this.ini.containsKey(sectionName);
 
-        _ini.remove(sectionName);
+        this.ini.remove(sectionName);
 
         return ret;
     }
 
     public List<String> sections()
     {
-        return new ArrayList<String>(_ini.keySet());
+        return new ArrayList<String>(this.ini.keySet());
     }
 
     public void set(String sectionName, String optionName, Object value) throws NoSectionException
@@ -286,22 +287,22 @@ public class ConfigParser implements Serializable
 
     public void write(Writer writer) throws IOException
     {
-        _ini.store(writer);
+        this.ini.store(writer);
     }
 
     public void write(OutputStream stream) throws IOException
     {
-        _ini.store(stream);
+        this.ini.store(stream);
     }
 
     public void write(File file) throws IOException
     {
-        _ini.store(new FileWriter(file));
+        this.ini.store(new FileWriter(file));
     }
 
     protected Ini getIni()
     {
-        return _ini;
+        return this.ini;
     }
 
     private String requireOption(String sectionName, String optionName) throws NoSectionException, NoOptionException
@@ -319,7 +320,7 @@ public class ConfigParser implements Serializable
 
     private Ini.Section requireSection(String sectionName) throws NoSectionException
     {
-        Ini.Section section = _ini.get(sectionName);
+        Ini.Section section = this.ini.get(sectionName);
 
         if (section == null)
         {
@@ -332,7 +333,10 @@ public class ConfigParser implements Serializable
     public static class ConfigParserException extends Exception
     {
 
-        /** Use serialVersionUID for interoperability. */ private static final long serialVersionUID = -6845546313519392093L;
+        /**
+         * Use serialVersionUID for interoperability.
+         */
+        private static final long serialVersionUID = -6845546313519392093L;
 
         public ConfigParserException(String message)
         {
@@ -343,7 +347,10 @@ public class ConfigParser implements Serializable
     public static final class DuplicateSectionException extends ConfigParserException
     {
 
-        /** Use serialVersionUID for interoperability. */ private static final long serialVersionUID = -5244008445735700699L;
+        /**
+         * Use serialVersionUID for interoperability.
+         */
+        private static final long serialVersionUID = -5244008445735700699L;
 
         private DuplicateSectionException(String message)
         {
@@ -354,7 +361,10 @@ public class ConfigParser implements Serializable
     public static class InterpolationException extends ConfigParserException
     {
 
-        /** Use serialVersionUID for interoperability. */ private static final long serialVersionUID = 8924443303158546939L;
+        /**
+         * Use serialVersionUID for interoperability.
+         */
+        private static final long serialVersionUID = 8924443303158546939L;
 
         protected InterpolationException(String message)
         {
@@ -365,7 +375,10 @@ public class ConfigParser implements Serializable
     public static final class InterpolationMissingOptionException extends InterpolationException
     {
 
-        /** Use serialVersionUID for interoperability. */ private static final long serialVersionUID = 2903136975820447879L;
+        /**
+         * Use serialVersionUID for interoperability.
+         */
+        private static final long serialVersionUID = 2903136975820447879L;
 
         private InterpolationMissingOptionException(String message)
         {
@@ -376,7 +389,10 @@ public class ConfigParser implements Serializable
     public static final class NoOptionException extends ConfigParserException
     {
 
-        /** Use serialVersionUID for interoperability. */ private static final long serialVersionUID = 8460082078809425858L;
+        /**
+         * Use serialVersionUID for interoperability.
+         */
+        private static final long serialVersionUID = 8460082078809425858L;
 
         private NoOptionException(String message)
         {
@@ -387,7 +403,10 @@ public class ConfigParser implements Serializable
     public static final class NoSectionException extends ConfigParserException
     {
 
-        /** Use serialVersionUID for interoperability. */ private static final long serialVersionUID = 8553627727493146118L;
+        /**
+         * Use serialVersionUID for interoperability.
+         */
+        private static final long serialVersionUID = 8553627727493146118L;
 
         private NoSectionException(String message)
         {
@@ -398,7 +417,10 @@ public class ConfigParser implements Serializable
     public static final class ParsingException extends IOException
     {
 
-        /** Use serialVersionUID for interoperability. */ private static final long serialVersionUID = -5395990242007205038L;
+        /**
+         * Use serialVersionUID for interoperability.
+         */
+        private static final long serialVersionUID = -5395990242007205038L;
 
         private ParsingException(Throwable cause)
         {
@@ -409,17 +431,18 @@ public class ConfigParser implements Serializable
 
     static class PyIni extends Ini
     {
+
         private static final char SUBST_CHAR = '%';
         private static final Pattern EXPRESSION = Pattern.compile("(?<!\\\\)\\%\\(([^\\)]+)\\)");
         private static final int G_OPTION = 1;
         protected static final String DEFAULT_SECTION_NAME = "DEFAULT";
         private static final long serialVersionUID = -7152857626328996122L;
-        private final Map<String, String> _defaults;
-        private Ini.Section _defaultSection;
+        private final Map<String, String> defaults;
+        private Ini.Section defaultSection;
 
         public PyIni(Map<String, String> defaults)
         {
-            _defaults = defaults;
+            this.defaults = defaults;
             Config cfg = getConfig().clone();
 
             cfg.setEscape(false);
@@ -430,28 +453,30 @@ public class ConfigParser implements Serializable
             super.setConfig(cfg);
         }
 
-        @Override public void setConfig(Config value)
+        @Override
+        public void setConfig(Config value)
         {
             assert true;
         }
 
         public Map<String, String> getDefaults()
         {
-            return _defaults;
+            return this.defaults;
         }
 
-        @Override public Section add(String name)
+        @Override
+        public Section add(String name)
         {
             Section section;
 
             if (DEFAULT_SECTION_NAME.equalsIgnoreCase(name))
             {
-                if (_defaultSection == null)
+                if (this.defaultSection == null)
                 {
-                    _defaultSection = newSection(name);
+                    this.defaultSection = newSection(name);
                 }
 
-                section = _defaultSection;
+                section = this.defaultSection;
             }
             else
             {
@@ -468,11 +493,11 @@ public class ConfigParser implements Serializable
 
         protected Ini.Section getDefaultSection()
         {
-            return _defaultSection;
+            return this.defaultSection;
         }
 
         protected String fetch(Ini.Section section, String optionName, Map<String, String> variables)
-            throws InterpolationMissingOptionException
+                throws InterpolationMissingOptionException
         {
             String value = section.get(optionName);
 
@@ -503,12 +528,12 @@ public class ConfigParser implements Serializable
 
                 if (value == null)
                 {
-                    value = _defaults.get(optionName);
+                    value = this.defaults.get(optionName);
                 }
 
-                if ((value == null) && (_defaultSection != null))
+                if ((value == null) && (this.defaultSection != null))
                 {
-                    value = _defaultSection.get(optionName);
+                    value = this.defaultSection.get(optionName);
                 }
 
                 if (value == null)
@@ -521,12 +546,13 @@ public class ConfigParser implements Serializable
             }
         }
 
-        @Override protected void store(IniHandler formatter)
+        @Override
+        protected void store(IniHandler formatter)
         {
             formatter.startIni();
-            if (_defaultSection != null)
+            if (this.defaultSection != null)
             {
-                store(formatter, _defaultSection);
+                store(formatter, this.defaultSection);
             }
 
             for (Ini.Section s : values())
@@ -537,7 +563,8 @@ public class ConfigParser implements Serializable
             formatter.endIni();
         }
 
-        @Override protected void store(IniHandler formatter, Section section)
+        @Override
+        protected void store(IniHandler formatter, Section section)
         {
             formatter.startSection(section.getName());
             for (String name : section.keySet())

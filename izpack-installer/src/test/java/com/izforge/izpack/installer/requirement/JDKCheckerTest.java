@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.requirement;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -38,6 +37,7 @@ import static org.junit.Assert.*;
  */
 public class JDKCheckerTest extends AbstractRequirementCheckerTest
 {
+
     /**
      * Tests the {@link JDKChecker} when the JDK is not required.
      */
@@ -76,13 +76,17 @@ public class JDKCheckerTest extends AbstractRequirementCheckerTest
     }
 
     /**
-     * Verifies that when the JDK is required, the {@link JDKChecker} determines the existence of the JDK correctly.
+     * Verifies that when the JDK is required, the {@link JDKChecker} determines
+     * the existence of the JDK correctly.
      */
     @Test
     public void testLocalJDKInstallation()
     {
         String[] output = new String[2];
-        int code = new FileExecutor().executeCommand(new String[]{"javac", "-help"}, output, null);
+        int code = new FileExecutor().executeCommand(new String[]
+        {
+            "javac", "-help"
+        }, output, null);
         boolean exists = (code == 0); // exists if javac is in the path
         installData.getInfo().setJdkRequired(true);
 
@@ -98,6 +102,7 @@ public class JDKCheckerTest extends AbstractRequirementCheckerTest
 
     private static class TestJDKChecker extends JDKChecker
     {
+
         /**
          * Determines if the JDK exists.
          */
@@ -111,7 +116,8 @@ public class JDKCheckerTest extends AbstractRequirementCheckerTest
         /**
          * Determines if the JDK exists.
          *
-         * @param exists <tt>true</tt> if the JDK exists, otherwise <tt>false</tt>
+         * @param exists <tt>true</tt> if the JDK exists, otherwise
+         * <tt>false</tt>
          */
         public void setExists(boolean exists)
         {

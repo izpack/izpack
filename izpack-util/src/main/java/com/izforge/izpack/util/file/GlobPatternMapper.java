@@ -14,20 +14,19 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file;
 
 /**
  * Implementation of FileNameMapper that does simple wildcard pattern
  * replacements.
  * <p/>
- * <p>This does simple translations like *.foo -> *.bar where the
- * prefix to .foo will be left unchanged. It only handles a single *
- * character, use regular expressions for more complicated
- * situations.</p>
+ * <p>
+ * This does simple translations like *.foo -> *.bar where the prefix to .foo
+ * will be left unchanged. It only handles a single * character, use regular
+ * expressions for more complicated situations.</p>
  * <p/>
- * <p>This is one of the more useful Mappers, it is used by javac for
- * example.</p>
+ * <p>
+ * This is one of the more useful Mappers, it is used by javac for example.</p>
  */
 public class GlobPatternMapper implements FileNameMapper
 {
@@ -66,8 +65,8 @@ public class GlobPatternMapper implements FileNameMapper
     private boolean caseSensitive = true;
 
     /**
-     * Attribute specifing whether to ignore the difference
-     * between / and \ (the two common directory characters).
+     * Attribute specifing whether to ignore the difference between / and \ (the
+     * two common directory characters).
      *
      * @param handleDirSep a boolean, default is false.
      */
@@ -77,8 +76,7 @@ public class GlobPatternMapper implements FileNameMapper
     }
 
     /**
-     * Attribute specifing whether to ignore the case difference
-     * in the names.
+     * Attribute specifing whether to ignore the case difference in the names.
      *
      * @param caseSensitive a boolean, default is false.
      */
@@ -130,9 +128,8 @@ public class GlobPatternMapper implements FileNameMapper
     }
 
     /**
-     * Returns null if the source file name doesn't match the
-     * &quot;from&quot; pattern, an one-element array containing the
-     * translated file otherwise.
+     * Returns null if the source file name doesn't match the &quot;from&quot;
+     * pattern, an one-element array containing the translated file otherwise.
      *
      * @param sourceFileName the filename to map
      * @return a list of converted filenames
@@ -145,9 +142,12 @@ public class GlobPatternMapper implements FileNameMapper
         {
             return null;
         }
-        return new String[]{toPrefix
+        return new String[]
+        {
+            toPrefix
                 + extractVariablePart(sourceFileName)
-                + toPostfix};
+                + toPostfix
+        };
     }
 
     /**

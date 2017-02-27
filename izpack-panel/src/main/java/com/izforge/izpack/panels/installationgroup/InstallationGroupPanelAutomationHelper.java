@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.installationgroup;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -36,7 +35,8 @@ import java.util.logging.Logger;
  */
 public class InstallationGroupPanelAutomationHelper implements PanelAutomation
 {
-    private static final Logger logger = Logger.getLogger(InstallationGroupPanelAutomationHelper.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(InstallationGroupPanelAutomationHelper.class.getName());
 
     @Override
     public void createInstallationRecord(InstallData installData, IXMLElement rootElement)
@@ -49,15 +49,15 @@ public class InstallationGroupPanelAutomationHelper implements PanelAutomation
         {
             if (groupData.name.equals(selectedInstallGroup))
             {
-              IXMLElement xgroup = new XMLElementImpl("group", rootElement);
-              xgroup.setAttribute("name", groupData.name);
-              for (String name : groupData.packNames)
-              {
-                  IXMLElement xpack = new XMLElementImpl("pack", xgroup);
-                  xpack.setContent(name);
-                  xgroup.addChild(xpack);
-              }
-              rootElement.addChild(xgroup);
+                IXMLElement xgroup = new XMLElementImpl("group", rootElement);
+                xgroup.setAttribute("name", groupData.name);
+                for (String name : groupData.packNames)
+                {
+                    IXMLElement xpack = new XMLElementImpl("pack", xgroup);
+                    xpack.setContent(name);
+                    xgroup.addChild(xpack);
+                }
+                rootElement.addChild(xgroup);
             }
         }
     }
@@ -71,25 +71,27 @@ public class InstallationGroupPanelAutomationHelper implements PanelAutomation
             String name = group.getAttribute("name");
             idata.getSelectedPacks().clear();
             List<IXMLElement> packs = group.getChildrenNamed("pack");
-            logger.fine(name + " pack count: " + packs.size());
-            logger.fine("Available pack count: " + idata.getAvailablePacks().size());
+            LOGGER.fine(name + " pack count: " + packs.size());
+            LOGGER.fine("Available pack count: " + idata.getAvailablePacks().size());
             for (IXMLElement xpack : packs)
             {
                 String packName = xpack.getContent();
-                for (Pack pack: idata.getAvailablePacks())
+                for (Pack pack : idata.getAvailablePacks())
                 {
                     if (pack.getName().equals(packName))
                     {
                         idata.getSelectedPacks().add(pack);
-                        logger.fine("Added pack: " + pack.getName());
+                        LOGGER.fine("Added pack: " + pack.getName());
                         break;
                     }
                 }
             }
-            logger.fine("Set selectedPacks to: " + idata.getSelectedPacks());
+            LOGGER.fine("Set selectedPacks to: " + idata.getSelectedPacks());
         }
     }
 
     @Override
-    public void processOptions(InstallData installData, Overrides overrides) {}
+    public void processOptions(InstallData installData, Overrides overrides)
+    {
+    }
 }

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.variable;
 
 import java.io.Serializable;
@@ -28,9 +27,9 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.api.config.Reg;
 
-
 public class RegistryValue extends ValueImpl implements Serializable
 {
+
     /**
      *
      */
@@ -82,30 +81,35 @@ public class RegistryValue extends ValueImpl implements Serializable
     @Override
     public void validate() throws Exception
     {
-        if ((this.root == null && this.key == null) ||
-                ((this.root != null && this.root.length() <= 0) &&
-                        (this.key != null && this.key.length() <= 0)))
+        if ((this.root == null && this.key == null)
+                || ((this.root != null && this.root.length() <= 0)
+                && (this.key != null && this.key.length() <= 0)))
         {
             throw new Exception("No or empty registry key path");
         }
     }
-    
+
     @Override
-    public String toString() {
-    	StringBuilder str = new StringBuilder();
-    	if( root != null ) {
-    		str.append("root: ").append(root).append(", ");
-    	}
-    	if( key != null ) {
-    		str.append("key: ").append(key).append(", ");
-    	}
-    	if( value != null ) {
-    		str.append("value: ").append(value).append(", ");
-    	}
-    	if( resolvedValue != null ) {
-    		str.append("resolved: ").append(resolvedValue);
-    	}
-    	return str.toString();
+    public String toString()
+    {
+        StringBuilder str = new StringBuilder();
+        if (root != null)
+        {
+            str.append("root: ").append(root).append(", ");
+        }
+        if (key != null)
+        {
+            str.append("key: ").append(key).append(", ");
+        }
+        if (value != null)
+        {
+            str.append("value: ").append(value).append(", ");
+        }
+        if (resolvedValue != null)
+        {
+            str.append("resolved: ").append(resolvedValue);
+        }
+        return str.toString();
     }
 
     @Override
@@ -126,14 +130,14 @@ public class RegistryValue extends ValueImpl implements Serializable
         {
             if (reg == null)
             {
-            	// If the regRoot is not provided, load the portion of the registry indicated by regKey
+                // If the regRoot is not provided, load the portion of the registry indicated by regKey
                 reg = new Reg(key);
             }
             regkey = reg.get(key);
         }
         if (regkey != null)
         {
-        	resolvedValue = regkey.get(value);
+            resolvedValue = regkey.get(value);
             return resolvedValue;
         }
 
@@ -152,36 +156,36 @@ public class RegistryValue extends ValueImpl implements Serializable
         Reg.Key regkey = null;
         if (root != null)
         {
-            String _root_ = root;
+            String root0 = root;
             for (VariableSubstitutor substitutor : substitutors)
             {
-                _root_ = substitutor.substitute(_root_);
+                root0 = substitutor.substitute(root0);
             }
-            reg = new Reg(_root_);
+            reg = new Reg(root0);
         }
         if (key != null)
         {
-        	String _key_ = key;
+            String key0 = key;
             for (VariableSubstitutor substitutor : substitutors)
             {
-                _key_ = substitutor.substitute(_key_);
+                key0 = substitutor.substitute(key0);
             }
-            
+
             if (reg == null)
             {
-            	// If the regRoot is not provided, load the portion of the registry indicated by regKey
-                reg = new Reg(_key_);
-            }        
-            regkey = reg.get(_key_);            
+                // If the regRoot is not provided, load the portion of the registry indicated by regKey
+                reg = new Reg(key0);
+            }
+            regkey = reg.get(key0);
         }
         if (regkey != null)
         {
-            String _value_ = value;
+            String value0 = value;
             for (VariableSubstitutor substitutor : substitutors)
             {
-                _value_ = substitutor.substitute(_value_);
+                value0 = substitutor.substitute(value0);
             }
-            resolvedValue = regkey.get(_value_);
+            resolvedValue = regkey.get(value0);
             return resolvedValue;
         }
 

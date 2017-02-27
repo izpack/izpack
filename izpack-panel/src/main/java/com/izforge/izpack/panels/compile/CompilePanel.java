@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.compile;
 
 import java.awt.Dimension;
@@ -138,17 +137,17 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
     /**
      * Constructs a <tt>CompilePanel</tt>.
      *
-     * @param panel               the panel meta-data
-     * @param parent              the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param variableSubstitutor the variable substituter
-     * @param installData         the installation data
-     * @param resources           the resources
-     * @param unpacker            the unpacker
+     * @param installData the installation data
+     * @param resources the resources
+     * @param unpacker the unpacker
      * @throws IOException for any I/O error
      */
     public CompilePanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                        VariableSubstitutor variableSubstitutor, IUnpacker unpacker,
-                        PlatformModelMatcher matcher) throws IOException
+            VariableSubstitutor variableSubstitutor, IUnpacker unpacker,
+            PlatformModelMatcher matcher) throws IOException
     {
         super(panel, parent, installData, resources);
         unpacker.setProgressListener(this);
@@ -167,7 +166,7 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
         this.argumentsComboBox = new JComboBox();
         this.startButton = ButtonFactory.createButton(getString("CompilePanel.start"), installData.buttonsHColor);
         this.tipLabel = LabelFactory.create(getString("CompilePanel.tip"), parent.getIcons().get("tip"),
-                                            SwingConstants.TRAILING);
+                SwingConstants.TRAILING);
         this.opLabel = new JLabel();
         packProgressBar = new JProgressBar();
         this.overallLabel = new JLabel();
@@ -339,15 +338,15 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
             this.parent.blockGUI();
             JFileChooser chooser = new JFileChooser();
             chooser.setCurrentDirectory(new File((String) this.compilerComboBox.getSelectedItem())
-                                                .getParentFile());
+                    .getParentFile());
             int result = chooser.showDialog(this.parent, getString("CompilePanel.browse.approve"));
             if (result == JFileChooser.APPROVE_OPTION)
             {
-                File file_chosen = chooser.getSelectedFile();
+                File fileChosen = chooser.getSelectedFile();
 
-                if (file_chosen.isFile())
+                if (fileChosen.isFile())
                 {
-                    this.compilerComboBox.setSelectedItem(file_chosen.getAbsolutePath());
+                    this.compilerComboBox.setSelectedItem(fileChosen.getAbsolutePath());
                 }
 
             }
@@ -422,7 +421,6 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
     /* (non-Javadoc)
      * @see com.izforge.izpack.api.handler.AbstractUIProgressHandler#startAction(java.lang.String, int)
      */
-
     public void startAction(String name, int noOfJobs1)
     {
         this.noOfJobs = noOfJobs1;
@@ -448,8 +446,8 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
             packProgressBar.setValue(packProgressBar.getMaximum());
 
             overallProgressBar.setValue(this.noOfJobs);
-            String no_of_jobs = Integer.toString(this.noOfJobs);
-            overallProgressBar.setString(no_of_jobs + " / " + no_of_jobs);
+            String noOfJobs0 = Integer.toString(this.noOfJobs);
+            overallProgressBar.setString(noOfJobs0 + " / " + noOfJobs0);
             overallProgressBar.setEnabled(false);
 
             opLabel.setText(" ");
@@ -486,8 +484,8 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
      * Job changing.
      *
      * @param jobName The job name.
-     * @param max     The new maximum progress.
-     * @param jobNo   The job number.
+     * @param max The new maximum progress.
+     * @param jobNo The job number.
      */
     public void nextStep(String jobName, int max, int jobNo)
     {
@@ -499,7 +497,7 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
 
         overallProgressBar.setValue(jobNo);
         overallProgressBar.setString(Integer.toString(jobNo) + " / "
-                                             + Integer.toString(this.noOfJobs));
+                + Integer.toString(this.noOfJobs));
     }
 
     /**
@@ -526,10 +524,10 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
     /**
      * Invoked when an action restarts.
      *
-     * @param name           the name of the action
+     * @param name the name of the action
      * @param overallMessage a message describing the overall progress
-     * @param tip            a tip describing the current progress
-     * @param steps          the number of steps the action consists of
+     * @param tip a tip describing the current progress
+     * @param steps the number of steps the action consists of
      */
     @Override
     public void restartAction(String name, String overallMessage, String tip, int steps)
@@ -579,8 +577,9 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
     /**
      * Show a special dialog for compiler errors.
      * <p/>
-     * This dialog is neccessary because we have lots of information if compilation failed. We'd
-     * also like the user to chose whether to ignore the error or not.
+     * This dialog is neccessary because we have lots of information if
+     * compilation failed. We'd also like the user to chose whether to ignore
+     * the error or not.
      */
     protected class CompilerErrorDialog extends JDialog implements ActionListener
     {
@@ -615,8 +614,8 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
         /**
          * Creates new form compilerErrorDialog
          *
-         * @param parent       parent to be used
-         * @param title        String to be used as title
+         * @param parent parent to be used
+         * @param title String to be used as title
          * @param buttonHColor highlight color to be used
          */
         public CompilerErrorDialog(java.awt.Frame parent, String title, java.awt.Color buttonHColor)
@@ -627,7 +626,8 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
         }
 
         /**
-         * This method is called from within the constructor to initialize the form.
+         * This method is called from within the constructor to initialize the
+         * form.
          * <p/>
          * Generated with help from NetBeans IDE.
          */
@@ -677,11 +677,11 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
             getContentPane().add(errorMessagePane, java.awt.BorderLayout.NORTH);
 
             // use 12pt monospace font for compiler output etc.
-            Font output_font = new Font("Monospaced", Font.PLAIN, 12);
+            Font outputFont = new Font("Monospaced", Font.PLAIN, 12);
 
             // errorDisplayPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
             // errorDisplayPane.setName("null");
-            commandText.setFont(output_font);
+            commandText.setFont(outputFont);
             commandText.setEditable(false);
             commandText.setRows(10);
             commandText.setColumns(82);
@@ -692,7 +692,7 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
 
             errorDisplayPane.addTab("Command", commandScrollPane);
 
-            stdOutText.setFont(output_font);
+            stdOutText.setFont(outputFont);
             stdOutText.setEditable(false);
             stdOutText.setWrapStyleWord(true);
             stdOutText.setLineWrap(true);
@@ -700,7 +700,7 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
 
             errorDisplayPane.addTab("Standard Output", null, stdOutScrollPane);
 
-            stdErrText.setFont(output_font);
+            stdErrText.setFont(outputFont);
             stdErrText.setEditable(false);
             stdErrText.setWrapStyleWord(true);
             stdErrText.setLineWrap(true);
@@ -808,7 +808,6 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
 
         // private JTabbedPane errorDisplayPane;
         // End of variables declaration//GEN-END:variables
-
         private int result = RESULT_NONE;
     }
 }

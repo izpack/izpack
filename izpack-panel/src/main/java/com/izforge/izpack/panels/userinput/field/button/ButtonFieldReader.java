@@ -15,6 +15,7 @@ import java.util.Map;
 
 public class ButtonFieldReader extends SimpleFieldReader implements ButtonFieldConfig
 {
+
     private final Messages messages;
     private final InstallData installData;
 
@@ -25,11 +26,10 @@ public class ButtonFieldReader extends SimpleFieldReader implements ButtonFieldC
     public static final String RUN_MSG_ELEMENT_ID_ATTR = "id";
     public static final String RUN_MSG_ELEMENT_NAME_ATTR = "name";
 
-
     /**
      * Constructs a {@code FieldReader}.
      *
-     * @param field  the field element to read
+     * @param field the field element to read
      * @param config the configuration
      */
     public ButtonFieldReader(IXMLElement field, Config config, InstallData installData)
@@ -41,7 +41,8 @@ public class ButtonFieldReader extends SimpleFieldReader implements ButtonFieldC
 
     /**
      * Allow retrival of specification
-     * @param field  the parent field element
+     *
+     * @param field the parent field element
      * @param config the configuration
      * @return
      */
@@ -64,6 +65,7 @@ public class ButtonFieldReader extends SimpleFieldReader implements ButtonFieldC
 
     /**
      * Get the button's name
+     *
      * @return
      */
     public String getButtonName()
@@ -72,13 +74,15 @@ public class ButtonFieldReader extends SimpleFieldReader implements ButtonFieldC
     }
 
     /**
-     * Get success message to be sent to the user if all the button's actions suceeed.
+     * Get success message to be sent to the user if all the button's actions
+     * suceeed.
+     *
      * @return
      */
     public String getSuccessMsg()
     {
         String successMsg = getSpec().getAttribute(SPEC_SUCCESSMSG_ATTR);
-        if(successMsg == null)
+        if (successMsg == null)
         {
             // TODO: Can be removed when XSD validation isn't optional any longer, because default comes from XSD
             successMsg = "";
@@ -93,7 +97,7 @@ public class ButtonFieldReader extends SimpleFieldReader implements ButtonFieldC
     {
         List<ButtonAction> buttonActions = new ArrayList<ButtonAction>();
 
-        for(IXMLElement runSpec : this.getSpec().getChildrenNamed(RUN_ELEMENT))
+        for (IXMLElement runSpec : this.getSpec().getChildrenNamed(RUN_ELEMENT))
         {
             Map<String, String> buttonMessages = new HashMap<String, String>();
 

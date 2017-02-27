@@ -18,17 +18,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.password;
 
 import com.izforge.izpack.panels.userinput.processorclient.ValuesProcessingClient;
 
 /*---------------------------------------------------------------------------*/
-
 /**
- * This class can be used to manage multiple related password fields. This is used in the
- * <code>UserInputPanel</code> to manage communication with the validator and processor for
- * password fields.
+ * This class can be used to manage multiple related password fields. This is
+ * used in the <code>UserInputPanel</code> to manage communication with the
+ * validator and processor for password fields.
  *
  * @author Elmar Grom
  * @version 0.0.1 / 2/22/03
@@ -37,6 +35,7 @@ import com.izforge.izpack.panels.userinput.processorclient.ValuesProcessingClien
 /*---------------------------------------------------------------------------*/
 public class PasswordGroup extends ValuesProcessingClient
 {
+
     /**
      * Creates a password group to manage one or more password fields.
      *

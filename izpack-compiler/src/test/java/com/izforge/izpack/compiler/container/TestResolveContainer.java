@@ -18,14 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container;
 
 import java.util.Properties;
 
-import org.picocontainer.PicoException;
-
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.util.DefaultClassNameMapper;
@@ -54,7 +50,7 @@ public class TestResolveContainer extends AbstractContainer
      * Invoked by {@link #initialise} to fill the container.
      *
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
+     * @throws PicoException for any PicoContainer error
      */
     @Override
     protected void fillContainer()

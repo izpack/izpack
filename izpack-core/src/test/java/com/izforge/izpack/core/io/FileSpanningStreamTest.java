@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.io;
-
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -35,19 +33,21 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-
 /**
- * Tests the {@link FileSpanningOutputStream} and {@link FileSpanningInputStream}.
+ * Tests the {@link FileSpanningOutputStream} and
+ * {@link FileSpanningInputStream}.
  *
  * @author Tim Anderson
  */
 public class FileSpanningStreamTest
 {
+
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     /**
-     * Tests the {@link FileSpanningOutputStream#write(int)} and {@link FileSpanningInputStream#read()} methods.
+     * Tests the {@link FileSpanningOutputStream#write(int)} and
+     * {@link FileSpanningInputStream#read()} methods.
      *
      * @throws IOException for any I/O error
      */
@@ -82,8 +82,8 @@ public class FileSpanningStreamTest
     }
 
     /**
-     * Tests the {@link FileSpanningOutputStream#write(byte[])} and {@link FileSpanningInputStream#read(byte[])}
-     * methods.
+     * Tests the {@link FileSpanningOutputStream#write(byte[])} and
+     * {@link FileSpanningInputStream#read(byte[])} methods.
      *
      * @throws IOException for any I/O error
      */
@@ -167,7 +167,7 @@ public class FileSpanningStreamTest
      * @throws IOException for any I/O exception
      */
     @Ignore("This is a long running test. It should be run when making changes to FileSpanningInputStream or "
-                    + "FileSpanningOutputStream")
+            + "FileSpanningOutputStream")
     @Test
     public void testLargeFiles() throws IOException
     {
@@ -211,8 +211,8 @@ public class FileSpanningStreamTest
      * Checks the existence of volumes and their expected size.
      *
      * @param basePath the volume base path
-     * @param maxSize  the maximum volume size
-     * @param volumes  the no. of volumes
+     * @param maxSize the maximum volume size
+     * @param volumes the no. of volumes
      */
     private void checkVolumes(String basePath, int maxSize, int volumes)
     {

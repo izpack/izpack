@@ -12,7 +12,6 @@ public class WinSetupAPIBase implements NativeLibraryClient
     protected static final int INVALID_HANDLE_VALUE = -1;
 
     // ----------------------------- Copy styles -------------------------------
-
     /**
      * Delete source file on successful copy
      */
@@ -122,8 +121,8 @@ public class WinSetupAPIBase implements NativeLibraryClient
     public static final int SP_COPY_OEMINF_CATALOG_ONLY = 0x0040000;
 
     /**
-     * File must be present upon reboot (i.e., it's needed by the loader); this flag implies a
-     * reboot
+     * File must be present upon reboot (i.e., it's needed by the loader); this
+     * flag implies a reboot
      */
     public static final int SP_COPY_REPLACE_BOOT_FILE = 0x0080000;
 
@@ -140,7 +139,6 @@ public class WinSetupAPIBase implements NativeLibraryClient
     public static final int SPFILEQ_REBOOT_IN_PROGRESS = 0x00000004;
 
     // ----------------------------- Constructor -------------------------------
-
     /**
      * Constructs a <tt>WinSetupAPIBase</tt>.
      *
@@ -160,7 +158,6 @@ public class WinSetupAPIBase implements NativeLibraryClient
     }
 
     // ----------------------------- Interface NativeLibraryClient -------------
-
     public void freeLibrary(String name)
     {
     }
@@ -176,85 +173,94 @@ public class WinSetupAPIBase implements NativeLibraryClient
      *                use the Setup API's SetupDefaultCallbackHandler.
      * @return Handle to the new file queue
      */
-    protected native int /* HSPFILEQ */SetupOpenFileQueue(Object handler) throws IOException;
+    protected native int /* HSPFILEQ */ SetupOpenFileQueue(Object handler) throws IOException;
 
     /**
      * Closes a file queue.
      *
      * @param queuehandle Handle to the file queue to close.
      */
-    protected native void SetupCloseFileQueue(int /* HSPFILEQ */queuehandle);
+    protected native void SetupCloseFileQueue(int /* HSPFILEQ */ queuehandle);
 
     /**
      * Places an individual file copy operation on a setup file queue.
      *
      * @param queuehandle
-     * @param SourceRootPath    (optional)
-     * @param SourcePath        (optional)
+     * @param SourceRootPath (optional)
+     * @param SourcePath (optional)
      * @param SourceFileName
      * @param SourceDescription (optional)
-     * @param SourceTagFile     (optional)
+     * @param SourceTagFile (optional)
      * @param TargetDirectory
-     * @param TargetFileName    (optional)
+     * @param TargetFileName (optional)
      * @param CopyStyle
      */
-    protected native void /* BOOL */SetupQueueCopy(int /* HSPFILEQ */queuehandle,
-                                                   String /* PCTSTR */SourceRootPath, String /* PCTSTR */SourcePath,
-                                                   String /* PCTSTR */SourceFileName, String /* PCTSTR */SourceDescription,
-                                                   String /* PCTSTR */SourceTagFile, String /* PCTSTR */TargetDirectory,
-                                                   String /* PCTSTR */TargetFileName, int /* DWORD */CopyStyle) throws IOException;
+    protected native void /* BOOL */ SetupQueueCopy(int /* HSPFILEQ */ queuehandle,
+                    String /* PCTSTR */ SourceRootPath, String /* PCTSTR */ SourcePath,
+                    String /* PCTSTR */ SourceFileName, String /* PCTSTR */ SourceDescription,
+                    String /* PCTSTR */ SourceTagFile, String /* PCTSTR */ TargetDirectory,
+                    String /* PCTSTR */ TargetFileName, int /* DWORD */ CopyStyle) throws IOException;
 
     /**
      * Places an individual file delete operation on a setup file queue.
      *
-     * @param queuehandle Handle to a setup file queue, as returned by SetupOpenFileQueue.
-     * @param PathPart1   String that specifies the first part of the path of the file to be deleted.
-     *                    If <i>PathPart2</i> is NULL, <i>PathPart1</i> is the full path of the file to be deleted.
-     * @param PathPart2   String that specifies the second part of the path of the file to be deleted.
-     *                    This parameter may be NULL. This is appended to <i>PathPart1</i> to form the full path of the
-     *                    file to be deleted. The function checks for and collapses duplicated path separators when it
-     *                    combines <i>PathPart1</i> and <i>PathPart2</i>.
+     * @param queuehandle Handle to a setup file queue, as returned by
+     * SetupOpenFileQueue.
+     * @param PathPart1 String that specifies the first part of the path of the
+     * file to be deleted. If <i>PathPart2</i> is NULL, <i>PathPart1</i> is the
+     * full path of the file to be deleted.
+     * @param PathPart2 String that specifies the second part of the path of the
+     * file to be deleted. This parameter may be NULL. This is appended to
+     * <i>PathPart1</i> to form the full path of the file to be deleted. The
+     * function checks for and collapses duplicated path separators when it
+     * combines <i>PathPart1</i> and <i>PathPart2</i>.
      */
-    protected native void /* BOOL */SetupQueueDelete(int /* HSPFILEQ */queuehandle,
-                                                     String /* PCTSTR */PathPart1, String /* PCTSTR */PathPart2) throws IOException;
+    protected native void /* BOOL */ SetupQueueDelete(int /* HSPFILEQ */ queuehandle,
+                    String /* PCTSTR */ PathPart1, String /* PCTSTR */ PathPart2) throws IOException;
 
     /**
      * Places an individual file rename operation on a setup file queue.
      *
-     * @param queuehandle    Handle to a setup file queue, as returned by SetupOpenFileQueue.
-     * @param SourcePath     String that specifies the source path of the file to be renamed. If
-     *                       SourceFileName is not specified, SourcePath is assumed to be the full path.
-     * @param SourceFileName String that specifies the file name part of the file to be renamed. If
-     *                       not specified, SourcePath is the full path.
-     * @param TargetPath     String that specifies the target directory. When this parameter is
-     *                       specified, the rename operation is actually a move operation. If TargetPath is not specified,
-     *                       the file is renamed but remains in its current location.
-     * @param TargetFileName String that specifies the new name for the source file.
+     * @param queuehandle Handle to a setup file queue, as returned by
+     * SetupOpenFileQueue.
+     * @param SourcePath String that specifies the source path of the file to be
+     * renamed. If SourceFileName is not specified, SourcePath is assumed to be
+     * the full path.
+     * @param SourceFileName String that specifies the file name part of the
+     * file to be renamed. If not specified, SourcePath is the full path.
+     * @param TargetPath String that specifies the target directory. When this
+     * parameter is specified, the rename operation is actually a move
+     * operation. If TargetPath is not specified, the file is renamed but
+     * remains in its current location.
+     * @param TargetFileName String that specifies the new name for the source
+     * file.
      */
-    protected native void /* BOOL */SetupQueueRename(int /* HSPFILEQ */queuehandle,
-                                                     String /* PCTSTR */SourcePath, String /* PCTSTR */SourceFileName,
-                                                     String /* PCTSTR */TargetPath, String /* PCTSTR */TargetFileName) throws IOException;
+    protected native void /* BOOL */ SetupQueueRename(int /* HSPFILEQ */ queuehandle,
+                    String /* PCTSTR */ SourcePath, String /* PCTSTR */ SourceFileName,
+                    String /* PCTSTR */ TargetPath, String /* PCTSTR */ TargetFileName) throws IOException;
 
     /**
      * Commits the actions stored in the file queue.
      *
      * @param queuehandle File queue handle
-     * @return If the function succeeds, the return value is a nonzero value. If the function fails,
-     *         the return value is zero.
+     * @return If the function succeeds, the return value is a nonzero value. If
+     * the function fails, the return value is zero.
      */
-    protected native boolean /* BOOL */SetupCommitFileQueue(int /* HSPFILEQ */queuehandle)
+    protected native boolean /* BOOL */ SetupCommitFileQueue(int /* HSPFILEQ */ queuehandle)
             throws IOException;
 
     /**
-     * @param queuehandle Optional handle to a setup file queue upon which to base the decision
-     *                    about whether shutdown is necessary. If FileQueue is null, SetupPromptReboot assumes shutdown
-     *                    is necessary and asks the user what to do.
-     * @param scanonly    Indicates whether or not to prompt the user when SetupPromptReboot is called.
-     *                    If TRUE, the user is never asked about rebooting, and system shutdown is not initiated. In
-     *                    this case, FileQueue must be specified. If FALSE, the user is asked about rebooting, as
-     *                    previously described. Use ScanOnly to determine if shutdown is necessary separately from
-     *                    actually initiating a shutdown.
+     * @param queuehandle Optional handle to a setup file queue upon which to
+     * base the decision about whether shutdown is necessary. If FileQueue is
+     * null, SetupPromptReboot assumes shutdown is necessary and asks the user
+     * what to do.
+     * @param scanonly Indicates whether or not to prompt the user when
+     * SetupPromptReboot is called. If TRUE, the user is never asked about
+     * rebooting, and system shutdown is not initiated. In this case, FileQueue
+     * must be specified. If FALSE, the user is asked about rebooting, as
+     * previously described. Use ScanOnly to determine if shutdown is necessary
+     * separately from actually initiating a shutdown.
      */
-    protected native int /* INT */SetupPromptReboot(int /* HSPFILEQ */queuehandle,
-                                                    boolean /* BOOL */scanonly) throws IOException;
+    protected native int /* INT */ SetupPromptReboot(int /* HSPFILEQ */ queuehandle,
+                    boolean /* BOOL */ scanonly) throws IOException;
 }

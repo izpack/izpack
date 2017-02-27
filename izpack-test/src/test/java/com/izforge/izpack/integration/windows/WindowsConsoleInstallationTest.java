@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.windows;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -28,8 +27,6 @@ import com.izforge.izpack.compiler.container.TestConsoleInstallationContainer;
 import com.izforge.izpack.compiler.container.TestConsoleInstallerContainer;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
-import com.izforge.izpack.event.RegistryInstallerListener;
-import com.izforge.izpack.event.RegistryUninstallerListener;
 import com.izforge.izpack.installer.console.ConsoleInstallerAction;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
@@ -57,15 +54,15 @@ import static com.izforge.izpack.integration.windows.WindowsHelper.*;
 import static com.izforge.izpack.util.Platform.Name.WINDOWS;
 import static org.junit.Assert.*;
 
-
 /**
  * Test installation on Windows.
  * <p/>
  * Verifies that:
  * <ul>
- * <li>An <em>Uninstall</em> entry is added to the registry by {@link RegistryInstallerListener} during
- * installation</li>
- * <li>The <em>Uninstall</em> entry is removed at uninstallation by {@link RegistryUninstallerListener}</li>
+ * <li>An <em>Uninstall</em> entry is added to the registry by
+ * {@link RegistryInstallerListener} during installation</li>
+ * <li>The <em>Uninstall</em> entry is removed at uninstallation by
+ * {@link RegistryUninstallerListener}</li>
  * </ul>
  *
  * @author Tim Anderson
@@ -75,15 +72,16 @@ import static org.junit.Assert.*;
 @Container(TestConsoleInstallationContainer.class)
 public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationTest
 {
+
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(WindowsConsoleInstallationTest.class.getName());
-	
+    private static final Logger LOGGER = Logger.getLogger(WindowsConsoleInstallationTest.class.getName());
+
     private final boolean skipTests = new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded();
 
     private final boolean isAdminUser = new PrivilegedRunner(Platforms.WINDOWS).isAdminUser();
-    
+
     /**
      * The installer container.
      */
@@ -104,7 +102,6 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      */
     private static final String APP_NAME = "IzPack Windows Installation Test 1.0";
 
-
     /**
      * Default uninstallation key.
      */
@@ -121,22 +118,25 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     private static final String UNINSTALL_KEY2 = RegistryHandler.UNINSTALL_ROOT + APP_NAME + "(1)";
 
     /**
-     * Registry uninstallation keys. Hard-coded so we don't delete too much on cleanup if something unexpected happens.
+     * Registry uninstallation keys. Hard-coded so we don't delete too much on
+     * cleanup if something unexpected happens.
      */
-    private static final String[] UNINSTALL_KEYS = {DEFAULT_UNINSTALL_KEY, UNINSTALL_KEY2};
-
+    private static final String[] UNINSTALL_KEYS =
+    {
+        DEFAULT_UNINSTALL_KEY, UNINSTALL_KEY2
+    };
 
     /**
      * Constructs a <tt>WindowsConsoleInstallationTest</tt>
      *
-     * @param container   the container
-     * @param installer   the installer
+     * @param container the container
+     * @param installer the installer
      * @param installData the installation date
-     * @param handler     the registry handler
+     * @param handler the registry handler
      * @throws Exception for any error
      */
     public WindowsConsoleInstallationTest(TestConsoleInstallerContainer container, TestConsoleInstaller installer,
-                                          AutomatedInstallData installData, RegistryDefaultHandler handler)
+            AutomatedInstallData installData, RegistryDefaultHandler handler)
             throws Exception
     {
         super(installData);
@@ -144,7 +144,6 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         this.installer = installer;
         this.handler = handler;
     }
-
 
     /**
      * Sets up the test case.
@@ -154,13 +153,14 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @Override
     public void setUp() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	    	
+        Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+
         super.setUp();
         String appName = getInstallData().getInfo().getAppName();
         assertNotNull(appName);
         File file = FileUtil.getLockFile(appName);
-        if (file.exists()) {
+        if (file.exists())
+        {
             assertTrue(file.delete());
         }
 
@@ -175,25 +175,30 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @After
     public void tearDown() throws Exception
     {
-    	// don't use Assume in @After methods!
-    	
-    	if ((!skipTests && isAdminUser)) {
-    		destroyRegistryEntries();
-    	}
+        // don't use Assume in @After methods!
 
-    	if (getUninstallerJar() != null) {
-            try {
+        if ((!skipTests && isAdminUser))
+        {
+            destroyRegistryEntries();
+        }
+
+        if (getUninstallerJar() != null)
+        {
+            try
+            {
                 // remove the uninstaller dir
                 FileUtils.deleteDirectory(getUninstallerJar().getParentFile());
             }
-            catch (Exception ex) {
-                logger.log(Level.SEVERE, "Delete uninstaller directory failed.", ex);
+            catch (Exception ex)
+            {
+                LOGGER.log(Level.SEVERE, "Delete uninstaller directory failed.", ex);
             }
         }
     }
 
     /**
-     * Runs the console installer against a script, and verifies expected files are installed.
+     * Runs the console installer against a script, and verifies expected files
+     * are installed.
      *
      * @throws Exception for any error
      */
@@ -201,9 +206,9 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/install.xml")
     public void testInstallation() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+        Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
 
-    	// run the install
+        // run the install
         checkInstall(container, APP_NAME);
         assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
 
@@ -216,7 +221,8 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     }
 
     /**
-     * Runs the console installer twice, verifying that a second uninstall key is created.
+     * Runs the console installer twice, verifying that a second uninstall key
+     * is created.
      *
      * @throws Exception for any error
      */
@@ -224,8 +230,8 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/install.xml")
     public void testMultipleInstallation() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	
+        Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+
         // run the install
         checkInstall(container, APP_NAME);
 
@@ -236,13 +242,13 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         ConsoleInstallerContainer container2 = new TestConsoleInstallerContainer();
         TestConsoleInstaller installer2 = container2.getComponent(TestConsoleInstaller.class);
         InstallData installData2 = container2.getComponent(InstallData.class);
-        
+
         // copied from super.setUp()
         // write to temporary folder so the test doesn't need to be run with elevated permissions
         File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
         installData2.setInstallPath(installPath.getAbsolutePath());
         installData2.setDefaultInstallPath(installPath.getAbsolutePath());
-        
+
         TestConsole console2 = installer2.getConsole();
         console2.addScript("CheckedHelloPanel", "y", "1");
         console2.addScript("TargetPanel", "\n", "y", "1");
@@ -259,7 +265,8 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     }
 
     /**
-     * Runs the console installer twice, verifying that a second uninstall key is created.
+     * Runs the console installer twice, verifying that a second uninstall key
+     * is created.
      *
      * @throws Exception for any error
      */
@@ -267,8 +274,8 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/install.xml")
     public void testRejectMultipleInstallation() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	
+        Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+
         checkInstall(container, APP_NAME);
 
         removeLock();
@@ -296,8 +303,9 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     }
 
     /**
-     * Runs the console installer against a script with an alternative uninstaller name and
-     * path, verifying that the correct uninstall JAR and registry value are created.
+     * Runs the console installer against a script with an alternative
+     * uninstaller name and path, verifying that the correct uninstall JAR and
+     * registry value are created.
      *
      * @throws Exception for any error
      */
@@ -305,8 +313,8 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/consoleinstall_alt_uninstall.xml")
     public void testNonDefaultUninstaller() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	
+        Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+
         assertFalse(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
 
         TestConsole console = installer.getConsole();
@@ -325,7 +333,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         //check that the registry key has the correct value
         assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
         String command = "\"" + installData.getVariable("JAVA_HOME") + "\\bin\\javaw.exe\" -jar \"" + installPath
-            + "\\uninstallme.jar\"";
+                + "\\uninstallme.jar\"";
         registryValueStringEquals(handler, DEFAULT_UNINSTALL_KEY, UNINSTALL_CMD_VALUE, command);
     }
 
@@ -350,7 +358,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         console.addScript("TargetPanel", "\n", "O", "1");
         console.addScript("PacksPanel", "1");
         console.addScript("ShortcutPanel", "N");
-        
+
         checkInstall(installer, installData);
 
         // UNINSTALL_NAME should now be defined
@@ -360,7 +368,8 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     }
 
     /**
-     * Removes the lock file (which normally gets removed on exit), to enable multiple installs.
+     * Removes the lock file (which normally gets removed on exit), to enable
+     * multiple installs.
      */
     private void removeLock()
     {
@@ -372,9 +381,9 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         }
     }
 
-
     /**
-     * Destroys registry entries that may not have been cleared out by a previous run.
+     * Destroys registry entries that may not have been cleared out by a
+     * previous run.
      *
      * @throws NativeLibException if the entries cannot be removed
      */
@@ -386,4 +395,3 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         }
     }
 }
-

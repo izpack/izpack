@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.target;
 
 import java.io.File;
@@ -47,11 +46,11 @@ public class TargetPanel extends PathInputPanel
     /**
      * Constructs a <tt>TargetPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public TargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
@@ -64,7 +63,7 @@ public class TargetPanel extends PathInputPanel
     @Override
     public void panelActivate()
     {
-       String path = TargetPanelHelper.getPath(installData);
+        String path = TargetPanelHelper.getPath(installData);
 
         if (path != null)
         {

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.debugger;
 
 import com.izforge.izpack.api.rules.Condition;
@@ -32,12 +31,12 @@ import java.util.List;
  */
 public class ConditionHistory
 {
+
     private Condition condition;
     private List<Object[]> values;
 
     private boolean newcondition;
     private boolean changedcondition;
-
 
     public ConditionHistory(Condition condition)
     {
@@ -98,7 +97,6 @@ public class ConditionHistory
         return this.newcondition;
     }
 
-
     /**
      * @return the changedcondition
      */
@@ -135,4 +133,3 @@ public class ConditionHistory
         return details.toString();
     }
 }
-

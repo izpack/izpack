@@ -19,11 +19,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 public class WinEscapeTool extends EscapeTool
 {
+
     private static final int ANSI_HEX_DIGITS = 2;
     private static final int ANSI_OCTAL_DIGITS = 3;
     private static final int OCTAL_RADIX = 8;
@@ -34,14 +34,16 @@ public class WinEscapeTool extends EscapeTool
         return INSTANCE;
     }
 
-    @Override void escapeBinary(StringBuilder buff, char c)
+    @Override
+    void escapeBinary(StringBuilder buff, char c)
     {
         buff.append("\\x");
         buff.append(HEX[(c >>> HEX_DIGIT_3_OFFSET) & HEX_DIGIT_MASK]);
         buff.append(HEX[c & HEX_DIGIT_MASK]);
     }
 
-    @Override int unescapeBinary(StringBuilder buff, char escapeType, String line, int index)
+    @Override
+    int unescapeBinary(StringBuilder buff, char escapeType, String line, int index)
     {
         int ret = index;
 

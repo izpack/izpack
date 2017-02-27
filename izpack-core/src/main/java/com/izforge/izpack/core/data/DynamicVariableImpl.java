@@ -20,7 +20,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.data;
 
 import java.util.LinkedList;
@@ -39,9 +38,10 @@ import com.izforge.izpack.core.variable.PlainValue;
 
 public class DynamicVariableImpl implements DynamicVariable
 {
+
     private static final long serialVersionUID = -7985397187206803090L;
 
-    private static final transient Logger logger = Logger.getLogger(DynamicVariableImpl.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(DynamicVariableImpl.class.getName());
 
     private String name;
 
@@ -60,9 +60,12 @@ public class DynamicVariableImpl implements DynamicVariable
     private transient String currentValue;
     private transient boolean checked = false;
 
-    public DynamicVariableImpl() {}
+    public DynamicVariableImpl()
+    {
+    }
 
-    public DynamicVariableImpl(String name, String value) {
+    public DynamicVariableImpl(String name, String value)
+    {
         setName(name);
         setValue(new PlainValue(value));
     }
@@ -113,12 +116,12 @@ public class DynamicVariableImpl implements DynamicVariable
 
         if (value != null && filters != null)
         {
-            logger.fine("Dynamic variable before filtering: " + name + "=" + newValue);
+            LOGGER.fine("Dynamic variable before filtering: " + name + "=" + newValue);
             for (ValueFilter filter : filters)
             {
                 newValue = filter.filter(newValue, substitutors);
-                logger.fine("Dynamic variable after applying filter "
-                                    + filter.getClass().getSimpleName() + ": " + name + "=" + newValue);
+                LOGGER.fine("Dynamic variable after applying filter "
+                        + filter.getClass().getSimpleName() + ": " + name + "=" + newValue);
             }
         }
 
@@ -157,9 +160,9 @@ public class DynamicVariableImpl implements DynamicVariable
             {
                 throw e;
             }
-            logger.log(Level.FINE,
-                       "Error evaluating dynamic variable '" + getName() + "': " + e,
-                       e);
+            LOGGER.log(Level.FINE,
+                    "Error evaluating dynamic variable '" + getName() + "': " + e,
+                    e);
 
             return null; // unset this variable
         }
@@ -273,13 +276,28 @@ public class DynamicVariableImpl implements DynamicVariable
             return false;
         }
         DynamicVariable compareObj = (DynamicVariable) obj;
-        if (!name.equals(compareObj.getName())) { return false; }
+        if (!name.equals(compareObj.getName()))
+        {
+            return false;
+        }
         if (!((conditionid == null && compareObj.getConditionid() == null)
-                || (conditionid != null && conditionid.equals(compareObj.getConditionid())))) { return false; }
-        if (checkonce != compareObj.isCheckonce()) { return false; }
-        if (autounset != compareObj.isAutoUnset()) { return false; }
+                || (conditionid != null && conditionid.equals(compareObj.getConditionid()))))
+        {
+            return false;
+        }
+        if (checkonce != compareObj.isCheckonce())
+        {
+            return false;
+        }
+        if (autounset != compareObj.isAutoUnset())
+        {
+            return false;
+        }
         if (!((value == null && compareObj.getValue() == null)
-                || (value != null && value.equals(compareObj.getValue())))) { return false; }
+                || (value != null && value.equals(compareObj.getValue()))))
+        {
+            return false;
+        }
         List<ValueFilter> compareFilters = compareObj.getFilters();
         if (filters != null && compareFilters != null)
         {
@@ -288,7 +306,8 @@ public class DynamicVariableImpl implements DynamicVariable
                 return false;
             }
         }
-        else if ((filters != null && compareFilters == null) || (filters == null && compareFilters != null)) {
+        else if ((filters != null && compareFilters == null) || (filters == null && compareFilters != null))
+        {
             return false;
         }
         return true;
@@ -338,9 +357,10 @@ public class DynamicVariableImpl implements DynamicVariable
     public Set<String> getVarRefs(RulesEngine rulesEngine)
     {
         Set<String> vars = value.getVarRefs();
-        if (this.conditionid!=null) {
+        if (this.conditionid != null)
+        {
             Condition condition = rulesEngine.getCondition(this.conditionid);
-            if (condition!=null)
+            if (condition != null)
             {
                 vars.addAll(condition.getVarRefs());
             }

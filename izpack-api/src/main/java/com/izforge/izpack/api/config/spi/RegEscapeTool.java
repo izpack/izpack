@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.io.UnsupportedEncodingException;
@@ -31,6 +30,7 @@ import com.izforge.izpack.api.config.Registry.Type;
 
 public class RegEscapeTool extends EscapeTool
 {
+
     private static final RegEscapeTool INSTANCE = ServiceFinder.findService(RegEscapeTool.class);
     private static final Charset HEX_CHARSET = Charset.forName("UTF-16LE");
     private static final int LOWER_DIGIT = 0x0f;
@@ -74,7 +74,10 @@ public class RegEscapeTool extends EscapeTool
         }
         else
         {
-            values = new String[] { value };
+            values = new String[]
+            {
+                value
+            };
         }
 
         return new TypeValuesPair(type, values);

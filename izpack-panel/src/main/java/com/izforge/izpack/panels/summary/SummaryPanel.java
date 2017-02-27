@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.summary;
 
 import javax.swing.JEditorPane;
@@ -34,9 +33,9 @@ import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.util.SummaryProcessor;
 
 /**
- * Summary panel to use before InstallPanel. This panel calls the {@link SummaryProcessor} which
- * calls all declared panels for a summary and shows the given captiond and messaged in a
- * <code>JEditorPane</code>.
+ * Summary panel to use before InstallPanel. This panel calls the
+ * {@link SummaryProcessor} which calls all declared panels for a summary and
+ * shows the given captiond and messaged in a <code>JEditorPane</code>.
  *
  * @author Klaus Bartz
  */
@@ -56,11 +55,11 @@ public class SummaryPanel extends IzPanel
     /**
      * Constructs a <tt>SummaryPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public SummaryPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
@@ -86,7 +85,6 @@ public class SummaryPanel extends IzPanel
      *
      * @see com.izforge.izpack.installer.IzPanel#panelActivate()
      */
-
     public void panelActivate()
     {
         super.panelActivate();

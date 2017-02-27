@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.gui.log;
 
 /**
@@ -29,6 +28,7 @@ package com.izforge.izpack.gui.log;
  */
 public interface LogError
 {
+
     /**
      * First index for error messages
      */
@@ -48,4 +48,3 @@ public interface LogError
      */
     static final int MAX_ERROR = ERROR_BASE + 1;
 }
-

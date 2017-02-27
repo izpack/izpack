@@ -13,88 +13,95 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
-
 
 /**
  * Static debug mode flags available during installation
  */
 public class Debug
 {
-    /**
-     * initial TRACE flag
-     */
-    private static boolean TRACE;
 
     /**
-     * initial STACKTRACE flag
+     * initial trace flag
      */
-    private static boolean STACKTRACE;
+    private static boolean trace;
 
     /**
-     * initial DEBUG flag
+     * initial stacktrace flag
      */
-    private static boolean DEBUG;
+    private static boolean stacktrace;
+
+    /**
+     * initial debug flag
+     */
+    private static boolean debug;
 
     static
     {
-        STACKTRACE = Boolean.getBoolean("STACKTRACE");
-        TRACE = Boolean.getBoolean("TRACE");
-        DEBUG = Boolean.getBoolean("DEBUG");
+        stacktrace = Boolean.getBoolean("STACKTRACE");
+        trace = Boolean.getBoolean("TRACE");
+        debug = Boolean.getBoolean("DEBUG");
     }
 
     /**
      * Sets whether to trace variables and conditions at runtime interactively.
-     * @param TRACE whether variables and conditions are to be traced at runtime interactively
+     *
+     * @param trace whether variables and conditions are to be traced at runtime
+     * interactively
      */
-    public static void setTRACE(boolean TRACE)
+    public static void setTrace(boolean trace)
     {
-        Debug.TRACE = TRACE;
+        Debug.trace = trace;
     }
 
     /**
      * Gets whether to trace variables and conditions at runtime interactively.
-     * @return whether to trace variables and conditions at runtime interactively
+     *
+     * @return whether to trace variables and conditions at runtime
+     * interactively
      */
-    public static boolean isTRACE()
+    public static boolean isTrace()
     {
-        return TRACE;
+        return trace;
     }
 
     /**
-     * Sets the current TRACE flag.
-     * @param STACKTRACE desired state
+     * Sets the current trace flag.
+     *
+     * @param stacktrace desired state
      */
-    public static void setSTACKTRACE(boolean STACKTRACE)
+    public static void setStacktrace(boolean stacktrace)
     {
-        Debug.STACKTRACE = STACKTRACE;
+        Debug.stacktrace = stacktrace;
     }
 
     /**
      * Set whether to show stacktraces at runtime.
+     *
      * @return whether to show stacktraces at runtime
      */
-    public static boolean isSTACKTRACE()
+    public static boolean isStacktrace()
     {
-        return STACKTRACE;
+        return stacktrace;
     }
 
     /**
      * Sets whether to run in debug mode.
-     * @param DEBUG whether the installer is run in debug mode
+     *
+     * @param debug whether the installer is run in debug mode
      */
-    public static void setDEBUG(boolean DEBUG)
+    public static void setDebug(boolean debug)
     {
-        Debug.DEBUG = DEBUG;
+        Debug.debug = debug;
     }
 
     /**
      * Gets whether the installer run in debug mode.
+     *
      * @return whether the installer run in debug mode.
      */
-    public static boolean isDEBUG()
+    public static boolean isDebug()
     {
-        return DEBUG;
+        return debug;
     }
 }

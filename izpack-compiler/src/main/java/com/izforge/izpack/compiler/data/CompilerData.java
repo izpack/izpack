@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.data;
 
 import java.io.File;
@@ -36,7 +35,7 @@ public class CompilerData
     /**
      * The IzPack home directory.
      */
-    public static String IZPACK_HOME = ".";
+    public static String izpackHome = ".";
 
     /**
      * The compiler version.
@@ -51,7 +50,6 @@ public class CompilerData
      * Web installer.
      */
     public final static String WEB = "web";
-
 
     private String comprFormat = "default";
 
@@ -86,8 +84,8 @@ public class CompilerData
     private boolean mkdirs = false;
 
     /**
-     * Specifies that the compiler will validate each descriptor using W3C XML Schema as they are parsed.
-     * By default the value of this is set to false.
+     * Specifies that the compiler will validate each descriptor using W3C XML
+     * Schema as they are parsed. By default the value of this is set to false.
      */
     private boolean validating = false;
 
@@ -116,14 +114,14 @@ public class CompilerData
         String izHome = System.getProperty("izpack.home");
         if (izHome != null)
         {
-            IZPACK_HOME = izHome;
+            izpackHome = izHome;
         }
         else
         {
             izHome = System.getenv("IZPACK_HOME");
             if (izHome != null)
             {
-                IZPACK_HOME = izHome;
+                izpackHome = izHome;
             }
         }
     }
@@ -139,7 +137,7 @@ public class CompilerData
     }
 
     public CompilerData(String comprFormat, String kind, String installFile, String installText, String basedir,
-                        String output, boolean mkdirs, boolean validating, int comprLevel)
+            String output, boolean mkdirs, boolean validating, int comprLevel)
     {
         this(installFile, basedir, output, mkdirs, validating);
         this.comprFormat = comprFormat;
@@ -149,7 +147,7 @@ public class CompilerData
     }
 
     public CompilerData(String comprFormat, String kind, String installFile, String installText, String basedir,
-                        String output, boolean mkdirs, boolean validating, int comprLevel, Info externalInfo)
+            String output, boolean mkdirs, boolean validating, int comprLevel, Info externalInfo)
     {
         this(comprFormat, kind, installFile, installText, basedir, output, mkdirs, validating, comprLevel);
         this.externalInfo = externalInfo;
@@ -162,7 +160,7 @@ public class CompilerData
      */
     public static void setIzpackHome(String izHome)
     {
-        IZPACK_HOME = izHome;
+        izpackHome = izHome;
     }
 
     /**
@@ -216,11 +214,11 @@ public class CompilerData
     }
 
     /**
-     * Indicates whether the compiler will validate each descriptor using W3C XML Schema as it is
-     * parsed.
+     * Indicates whether the compiler will validate each descriptor using W3C
+     * XML Schema as it is parsed.
      *
-     * @return {@code true} if the compiler will validate each descriptor as it is parsed;
-     * {@code false} otherwise.
+     * @return {@code true} if the compiler will validate each descriptor as it
+     * is parsed; {@code false} otherwise.
      */
     public boolean isValidating()
     {
@@ -228,11 +226,11 @@ public class CompilerData
     }
 
     /**
-     * Specifies that the compiler will validate each descriptor using W3C XML Schema as it is
-     * parsed. By default the value of this is set to false.
+     * Specifies that the compiler will validate each descriptor using W3C XML
+     * Schema as it is parsed. By default the value of this is set to false.
      *
-     * @param validating {@code true} if the compiler will validate each descriptor as it is parsed;
-     * {@code false} otherwise.
+     * @param validating {@code true} if the compiler will validate each
+     * descriptor as it is parsed; {@code false} otherwise.
      */
     public void setValidating(boolean validating)
     {
@@ -265,11 +263,11 @@ public class CompilerData
     }
 
     /**
-     * Try to resolve IzPack home from IZPACK_HOME value
+     * Try to resolve IzPack home from izpackHome value
      */
     public void resolveIzpackHome()
     {
-        IZPACK_HOME = resolveIzPackHome(IZPACK_HOME);
+        izpackHome = resolveIzPackHome(izpackHome);
     }
 
     private static String resolveIzPackHome(String home)
@@ -280,7 +278,7 @@ public class CompilerData
             return (home);
         }
         // Try to resolve the path using compiler.jar which also should be under
-        // IZPACK_HOME.
+        // izpackHome.
         String self = CompilerData.class.getName();
         self = self.replace('.', '/');
         self = "/" + self + ".class";
@@ -289,7 +287,7 @@ public class CompilerData
         int start = name.indexOf(self);
         name = name.substring(0, start);
         if (name.endsWith("!"))
-        { // Where shut IZPACK_HOME at the standalone-compiler be??
+        { // Where shut izpackHome at the standalone-compiler be??
             // No idea.
             if (name.endsWith("standalone-compiler.jar!")
                     || name.endsWith("standalone-compiler-4.0.0.jar!")

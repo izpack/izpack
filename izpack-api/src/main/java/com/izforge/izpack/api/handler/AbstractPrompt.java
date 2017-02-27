@@ -35,7 +35,7 @@ public abstract class AbstractPrompt implements Prompt
     {
         if (throwable instanceof IzPackException)
         {
-            IzPackException ize = (IzPackException)throwable;
+            IzPackException ize = (IzPackException) throwable;
             switch (ize.getPromptType())
             {
                 case ERROR:
@@ -66,14 +66,14 @@ public abstract class AbstractPrompt implements Prompt
     @Override
     public void message(Type type, String title, String message)
     {
-       message(type, title, message, null);
+        message(type, title, message, null);
     }
 
     @Override
     public void warn(Throwable throwable)
     {
         String message = getThrowableMessage(throwable);
-        warn((message!=null ? message : "An error occured"));
+        warn((message != null ? message : "An error occured"));
     }
 
     @Override
@@ -92,7 +92,7 @@ public abstract class AbstractPrompt implements Prompt
     public void error(Throwable throwable)
     {
         String message = getThrowableMessage(throwable);
-        error(null, (message!=null ? message : "An error occured"), throwable);
+        error(null, (message != null ? message : "An error occured"), throwable);
     }
 
     @Override
@@ -122,7 +122,7 @@ public abstract class AbstractPrompt implements Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type    the type of the message
+     * @param type the type of the message
      * @param message the message
      * @param options the options which may be selected
      * @return the selected option
@@ -136,9 +136,9 @@ public abstract class AbstractPrompt implements Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type          the type of the message
-     * @param message       the message
-     * @param options       the options which may be selected
+     * @param type the type of the message
+     * @param message the message
+     * @param options the options which may be selected
      * @param defaultOption the default option to select. May be {@code null}
      * @return the selected option
      */
@@ -151,8 +151,8 @@ public abstract class AbstractPrompt implements Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type    the type of the message
-     * @param title   the message title. May be {@code null}
+     * @param type the type of the message
+     * @param title the message title. May be {@code null}
      * @param message the message
      * @param options the options which may be selected
      * @return the selected option

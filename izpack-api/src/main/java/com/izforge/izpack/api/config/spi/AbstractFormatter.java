@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.io.PrintWriter;
@@ -29,15 +28,21 @@ import com.izforge.izpack.api.config.Config;
 
 abstract class AbstractFormatter implements HandlerBase
 {
+
     private static final char COMMENT = '#';
-    private Config _config = Config.getGlobal();
-    private PrintWriter _output;
+    private Config config = Config.getGlobal();
+    private PrintWriter output;
 
-    @Override public void handleEmptyLine() { getOutput().print(getConfig().getLineSeparator()); }
-
-    @Override public void handleComment(List<String> comment)
+    @Override
+    public void handleEmptyLine()
     {
-        if (comment != null &&  getConfig().isComment())
+        getOutput().print(getConfig().getLineSeparator());
+    }
+
+    @Override
+    public void handleComment(List<String> comment)
+    {
+        if (comment != null && getConfig().isComment())
         {
             for (String singleComment : comment)
             {
@@ -60,7 +65,8 @@ abstract class AbstractFormatter implements HandlerBase
         }
     }
 
-    @Override public void handleOption(String optionName, String optionValue)
+    @Override
+    public void handleOption(String optionName, String optionValue)
     {
         final String operator = getConfig().getOperator();
 
@@ -98,22 +104,22 @@ abstract class AbstractFormatter implements HandlerBase
 
     protected Config getConfig()
     {
-        return _config;
+        return this.config;
     }
 
     protected void setConfig(Config value)
     {
-        _config = value;
+        this.config = value;
     }
 
     protected PrintWriter getOutput()
     {
-        return _output;
+        return this.output;
     }
 
     protected void setOutput(PrintWriter value)
     {
-        _output = value;
+        this.output = value;
     }
 
     String escapeFilter(String input)

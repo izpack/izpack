@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.radio;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -38,14 +37,13 @@ public class ConsoleRadioField extends ConsoleChoiceField<Choice>
     /**
      * Constructs a {@link ConsoleRadioField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleRadioField(RadioField field, Console console, Prompt prompt)
     {
         super(field, console, prompt);
     }
-
 
 }

@@ -62,7 +62,7 @@ public class Executables
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(Executables.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Executables.class.getName());
 
 
     /**
@@ -114,7 +114,7 @@ public class Executables
         int status = executor.executeFiles(ExecutableFile.UNINSTALL, matcher, new PromptUIHandler(prompt));
         if (status != 0)
         {
-            logger.severe("Executable=" + file.path + " exited with status=" + status);
+            LOGGER.severe("Executable=" + file.path + " exited with status=" + status);
             return false;
         }
         return true;

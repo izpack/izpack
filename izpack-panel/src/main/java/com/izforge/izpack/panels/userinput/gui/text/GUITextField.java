@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.text;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -34,7 +33,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-
 /**
  * Text field view.
  *
@@ -49,7 +47,6 @@ public class GUITextField extends GUIField implements FocusListener, DocumentLis
     private final JTextField text;
 
     private transient boolean changed = false;
-
 
     /**
      * Constructs a {@code GUITextField}.
@@ -73,8 +70,10 @@ public class GUITextField extends GUIField implements FocusListener, DocumentLis
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)
@@ -154,14 +153,13 @@ public class GUITextField extends GUIField implements FocusListener, DocumentLis
         return changed;
     }
 
-
     // FocusListener interface
-
     @Override
     public void focusGained(FocusEvent event)
     {
         text.selectAll();
     }
+
     @Override
     public void focusLost(FocusEvent event)
     {
@@ -173,19 +171,19 @@ public class GUITextField extends GUIField implements FocusListener, DocumentLis
         text.select(0, 0);
     }
 
-
     // DocumentListener interface
-
     @Override
     public void insertUpdate(DocumentEvent e)
     {
         setChanged(true);
     }
+
     @Override
     public void removeUpdate(DocumentEvent e)
     {
         setChanged(true);
     }
+
     @Override
     public void changedUpdate(DocumentEvent e)
     {

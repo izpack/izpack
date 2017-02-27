@@ -19,18 +19,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.event;
 
 import java.io.File;
 import java.util.List;
 
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 /**
- * Implementations of this class are used to handle customizing uninstallation. The defined methods
- * are called from the destroyer at different, well defined points of uninstallation.
+ * Implementations of this class are used to handle customizing uninstallation.
+ * The defined methods are called from the destroyer at different, well defined
+ * points of uninstallation.
  *
  * @author Klaus Bartz
  * @author Tim Anderson
@@ -80,7 +79,7 @@ public interface UninstallerListener extends InstallationListener
     /**
      * Invoked after files are deleted.
      *
-     * @param files    the files which where deleted
+     * @param files the files which where deleted
      * @param listener the progress listener
      * @throws IzPackException for any error
      */
@@ -89,7 +88,7 @@ public interface UninstallerListener extends InstallationListener
     /**
      * Invoked before files are deleted.
      *
-     * @param files   all files which should be deleted
+     * @param files all files which should be deleted
      * @param handler the UI progress handler
      * @throws Exception for any error
      * @deprecated use {@link #beforeDelete(List)}
@@ -100,7 +99,7 @@ public interface UninstallerListener extends InstallationListener
     /**
      * Invoked before a file is deleted.
      *
-     * @param file    the file which will be deleted
+     * @param file the file which will be deleted
      * @param handler the UI progress handler
      * @throws Exception for any error
      * @deprecated use {@link #beforeDelete(File)}
@@ -111,7 +110,7 @@ public interface UninstallerListener extends InstallationListener
     /**
      * Invoked after a file is deleted.
      *
-     * @param file    the file which was deleted
+     * @param file the file which was deleted
      * @param handler the UI progress handler
      * @throws Exception for any error
      * @deprecated use {@link #afterDelete(File)}
@@ -122,7 +121,7 @@ public interface UninstallerListener extends InstallationListener
     /**
      * Invoked after files are deleted.
      *
-     * @param files   the files which where deleted
+     * @param files the files which where deleted
      * @param handler the UI progress handler
      * @throws Exception for any error
      * @deprecated use {@link #afterDelete(List, ProgressListener)}

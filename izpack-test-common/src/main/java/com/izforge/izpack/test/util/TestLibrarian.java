@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.test.util;
 
 import java.net.URL;
@@ -26,7 +25,6 @@ import java.net.URL;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.TargetFactory;
-
 
 /**
  * Test implementation of {@link Librarian} that can find COIOSHelper.dll.
@@ -39,7 +37,7 @@ public class TestLibrarian extends Librarian
     /**
      * Constructs a <tt>TestLibrarian</tt>.
      *
-     * @param factory     the factory
+     * @param factory the factory
      * @param housekeeper the house keeper
      */
     public TestLibrarian(TargetFactory factory, Housekeeper housekeeper)

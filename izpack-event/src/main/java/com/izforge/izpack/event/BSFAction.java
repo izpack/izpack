@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2009 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2009 Matthew Inger
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import java.util.HashMap;
@@ -36,13 +35,14 @@ import com.izforge.izpack.api.exception.IzPackException;
 
 /**
  * Action which executes a BSF-supported script, which can specify the
- * appropriate interface methods from the InstallerListener,
- * and UninstallerListener as BSF methods.
+ * appropriate interface methods from the InstallerListener, and
+ * UninstallerListener as BSF methods.
  *
  * @author minger
  */
 public class BSFAction extends ActionBase
 {
+
     private static final long serialVersionUID = 3258131345250005557L;
 
     public static final String BSFACTIONS = "bsfactions";
@@ -72,10 +72,11 @@ public class BSFAction extends ActionBase
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(BSFAction.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BSFAction.class.getName());
 
     private static class MethodDescriptor
     {
+
         private String name;
         private String argNames[];
 
@@ -89,6 +90,7 @@ public class BSFAction extends ActionBase
 
     private static interface MethodExistenceChecker
     {
+
         boolean isMethodDefined(String method, String scriptName, BSFEngine engine, BSFManager manager)
                 throws BSFException;
     }
@@ -117,18 +119,17 @@ public class BSFAction extends ActionBase
         orderMethodMap.put(AFTERPACK, new MethodDescriptor("afterPack", "pack", "i"));
 
         langToMethodCheckerMap.put("beanshell",
-                                   new MethodExistenceChecker()
-                                   {
-                                       public boolean isMethodDefined(String method, String scriptName,
-                                                                      BSFEngine engine, BSFManager manager)
-                                               throws BSFException
-                                       {
-                                           String script = "this.namespace.getMethod(\"" + method + "\", new Class[0])";
-                                           Object res = engine.eval(scriptName, 1, 1, script);
-                                           return res != null;
-                                       }
-                                   }
-        );
+            new MethodExistenceChecker()
+            {
+                public boolean isMethodDefined(String method, String scriptName,
+                        BSFEngine engine, BSFManager manager)
+                        throws BSFException
+                {
+                    String script = "this.namespace.getMethod(\"" + method + "\", new Class[0])";
+                    Object res = engine.eval(scriptName, 1, 1, script);
+                    return res != null;
+                }
+            });
 
     }
 
@@ -298,7 +299,7 @@ public class BSFAction extends ActionBase
         }
         catch (BSFException exception)
         {
-            logger.log(Level.INFO, "Failed to undeclare beans: " + exception.getMessage(), exception);
+            LOGGER.log(Level.INFO, "Failed to undeclare beans: " + exception.getMessage(), exception);
         }
     }
 }

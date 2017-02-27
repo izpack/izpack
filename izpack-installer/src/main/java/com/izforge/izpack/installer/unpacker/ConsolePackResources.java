@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -37,10 +36,11 @@ import java.util.logging.Logger;
  */
 public class ConsolePackResources extends AbstractPackResources
 {
+
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(ConsolePackResources.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ConsolePackResources.class.getName());
 
     /**
      * Constructs a {@code DefaultPackResources}.
@@ -62,7 +62,9 @@ public class ConsolePackResources extends AbstractPackResources
         File installerDir = new File(baseName).getParentFile();
 
         if (baseName.contains("/"))
+        {
             baseName = baseName.substring(baseName.lastIndexOf('/'));
+        }
 
         String packFileName = baseName + ".pack-" + name + ".jar";
 
@@ -70,7 +72,7 @@ public class ConsolePackResources extends AbstractPackResources
         File packLocalFile = new File(installerDir, packFileName);
         if (packLocalFile.exists() && packLocalFile.canRead())
         {
-            logger.info("Found local pack " + packLocalFile.getAbsolutePath());
+            LOGGER.info("Found local pack " + packLocalFile.getAbsolutePath());
         }
         else
         {
@@ -82,7 +84,7 @@ public class ConsolePackResources extends AbstractPackResources
 
             try
             {
-                logger.info("Downloading remote pack " + packURL);
+                LOGGER.info("Downloading remote pack " + packURL);
                 packLocalFile = File.createTempFile("izpacktempfile", "jar", new File(tempFolder));
                 InputStream webStream = new URL(packURL).openStream();
                 write(webStream, packLocalFile);

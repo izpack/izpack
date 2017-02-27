@@ -27,6 +27,7 @@ import java.util.Map;
 
 public interface Registry extends Profile
 {
+
     enum Hive
     {
         HKEY_CLASSES_ROOT,
@@ -67,11 +68,11 @@ public interface Registry extends Profile
         public static final String SEPARATOR = String.valueOf(SEPARATOR_CHAR);
         public static final char REMOVE_CHAR = '-';
         public static final String REMOVE = String.valueOf(REMOVE_CHAR);
-        private final String _prefix;
+        private final String prefix;
 
         private Type(String prefix)
         {
-            _prefix = prefix;
+            this.prefix = prefix;
         }
 
         public static Type fromString(String str)
@@ -79,9 +80,10 @@ public interface Registry extends Profile
             return MAPPING.get(str);
         }
 
-        @Override public String toString()
+        @Override
+        public String toString()
         {
-            return _prefix;
+            return this.prefix;
         }
     }
 
@@ -96,33 +98,44 @@ public interface Registry extends Profile
 
     void setVersion(String value);
 
-    @Override Key get(Object key);
+    @Override
+    Key get(Object key);
 
-    @Override Key get(Object key, int index);
+    @Override
+    Key get(Object key, int index);
 
-    @Override Key put(String key, Section value);
+    @Override
+    Key put(String key, Section value);
 
-    @Override Key put(String key, Section value, int index);
+    @Override
+    Key put(String key, Section value, int index);
 
-    @Override Key remove(Object key);
+    @Override
+    Key remove(Object key);
 
-    @Override Key remove(Object key, int index);
+    @Override
+    Key remove(Object key, int index);
 
     interface Key extends Section
     {
+
         String DEFAULT_NAME = "@";
 
-        @Override Key getChild(String key);
+        @Override
+        Key getChild(String key);
 
-        @Override Key getParent();
+        @Override
+        Key getParent();
 
         Type getType(Object key);
 
         Type getType(Object key, Type defaulType);
 
-        @Override Key addChild(String key);
+        @Override
+        Key addChild(String key);
 
-        @Override Key lookup(String... path);
+        @Override
+        Key lookup(String... path);
 
         Type putType(String key, Type type);
 

@@ -7,6 +7,7 @@ package com.izforge.izpack.panels.process;
  */
 class ButtonConfig
 {
+
     private final String conditionid;
     private final boolean unlockPrev;
     private final boolean unlockNext;
@@ -38,7 +39,6 @@ class ButtonConfig
     {
         return unlockNext;
     }
-
 
     /**
      * @return the conditionid

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.installationgroup;
 
 import com.izforge.izpack.api.data.Pack;
@@ -31,6 +30,7 @@ import java.util.Map;
  */
 public class GroupData
 {
+
     static final long ONEK = 1024;
     static final long ONEM = 1024 * 1024;
     static final long ONEG = 1024 * 1024 * 1024;

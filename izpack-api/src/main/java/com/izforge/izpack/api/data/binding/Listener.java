@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data.binding;
 
 import java.io.Serializable;
@@ -30,6 +29,7 @@ import java.util.List;
  */
 public class Listener implements Serializable
 {
+
     private static final long serialVersionUID = 3583072505265574733L;
 
     private String classname;
@@ -41,7 +41,8 @@ public class Listener implements Serializable
     private String jar;
 
     /**
-     * Files necessary for the listener. Filled by the compiler during installation generation.
+     * Files necessary for the listener. Filled by the compiler during
+     * installation generation.
      */
     private List<String> files;
 
@@ -77,11 +78,11 @@ public class Listener implements Serializable
     @Override
     public String toString()
     {
-        return "Listener{" +
-                "classname='" + classname + '\'' +
-                ", stage=" + stage +
-                ", os=" + os +
-                '}';
+        return "Listener{"
+                + "classname='" + classname + '\''
+                + ", stage=" + stage
+                + ", os=" + os
+                + '}';
     }
 
     public List<String> getFiles()

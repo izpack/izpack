@@ -317,7 +317,7 @@
     <str id="nextmedia.filedesc" txt="asennuspaketit (.pak*)"/>
 
     <!-- This string defines the time stamp format in the installation report.
-         The format details are documented in java.text.SimpleDateFormat -->
+    The format details are documented in java.text.SimpleDateFormat -->
     <str id="log.timeStamp" txt="d.M.yyyy [HH.mm.ss] Z"/>
 
     <!-- Strings for various purposes in the logging/reporting system  -->
@@ -346,7 +346,7 @@
          txt="&lt;html&gt;Asennus ei ole onnistunut kokonaan!&lt;br&gt;Haluatko kirjoittaa lokitiedoston?&lt;/html&gt;"/>
 
     <!-- Strings for individual messages in the logging/reporting system.
-         Numbers for each category (message/warning/error) start at 0  -->
+    Numbers for each category (message/warning/error) start at 0  -->
     <str id="log.message_" txt=""/>
     <str id="log.warning_" txt=""/>
     <str id="log.error_0" txt="ei voi kirjoittaa: ''{0}''"/>

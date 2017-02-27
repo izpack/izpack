@@ -8,10 +8,14 @@ import java.lang.annotation.*;
  * @author Anthonin Bonnefoy
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target(
+        {
+            ElementType.TYPE
+        })
 @Inherited
 public @interface BaseDir
 {
+
     /**
      * @return the base dir
      */

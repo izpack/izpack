@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container;
 
 import java.io.IOException;
@@ -38,6 +37,7 @@ import com.izforge.izpack.merge.resolve.MergeableResolver;
  */
 public class ResolverContainerFiller
 {
+
     public void fillContainer(Container container)
     {
         Properties properties = container.getComponent(Properties.class);

@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -23,13 +22,12 @@ import java.util.Enumeration;
 import com.izforge.izpack.api.data.InstallData;
 
 /**
- * This selector is here just to shake up your thinking a bit. Don't get
- * too caught up in boolean, there are other ways you can evaluate a
- * collection of selectors. This one takes a vote of the selectors it
- * contains, and majority wins. You could also have an "all-but-one"
- * selector, a "weighted-average" selector, and so on. These are left
- * as exercises for the reader (as are the usecases where this would
- * be necessary).
+ * This selector is here just to shake up your thinking a bit. Don't get too
+ * caught up in boolean, there are other ways you can evaluate a collection of
+ * selectors. This one takes a vote of the selectors it contains, and majority
+ * wins. You could also have an "all-but-one" selector, a "weighted-average"
+ * selector, and so on. These are left as exercises for the reader (as are the
+ * usecases where this would be necessary).
  */
 public class MajoritySelector extends BaseSelectorContainer
 {
@@ -59,9 +57,8 @@ public class MajoritySelector extends BaseSelectorContainer
     }
 
     /**
-     * A attribute to specify what will happen if number
-     * of yes votes is the same as the number of no votes
-     * defaults to true
+     * A attribute to specify what will happen if number of yes votes is the
+     * same as the number of no votes defaults to true
      *
      * @param tiebreaker the value to give if there is a tie
      */
@@ -71,14 +68,14 @@ public class MajoritySelector extends BaseSelectorContainer
     }
 
     /**
-     * Returns true (the file is selected) if most of the other selectors
-     * agree. In case of a tie, go by the allowtie setting. That defaults
-     * to true, meaning in case of a tie, the file is selected.
+     * Returns true (the file is selected) if most of the other selectors agree.
+     * In case of a tie, go by the allowtie setting. That defaults to true,
+     * meaning in case of a tie, the file is selected.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename is the name of the file to check
-     * @param file     is a java.io.File object for the filename that the selector
-     *                 can use
+     * @param file is a java.io.File object for the filename that the selector
+     * can use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file)

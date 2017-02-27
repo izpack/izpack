@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.variable;
 
 import java.io.Serializable;
@@ -29,9 +28,9 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.OsVersion;
 
-
 public class ExecValue extends ValueImpl implements Serializable
 {
+
     /**
      *
      */
@@ -108,24 +107,24 @@ public class ExecValue extends ValueImpl implements Serializable
     @Override
     public String resolve(VariableSubstitutor... substitutors)
     {
-        String _dir_ = null, _cmd_[] = new String[cmd.length];
+        String dir0 = null, cmd0[] = new String[cmd.length];
 
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _dir_ = substitutor.substitute(dir, null);
+            dir0 = substitutor.substitute(dir, null);
         }
 
         for (int i = 0; i < cmd.length; i++)
         {
-            String _cmdarg_ = cmd[i];
+            String cmdarg0 = cmd[i];
             for (VariableSubstitutor substitutor : substitutors)
             {
-                _cmdarg_ = substitutor.substitute(_cmdarg_, null);
+                cmdarg0 = substitutor.substitute(cmdarg0, null);
             }
-            _cmd_[i] = _cmdarg_;
+            cmd0[i] = cmdarg0;
         }
         String[] execOut = new String[2];
-        int ret = new FileExecutor().executeCommand(_cmd_, execOut, _dir_);
+        int ret = new FileExecutor().executeCommand(cmd0, execOut, dir0);
         if (ret == 0)
         {
             if (useStdErr)

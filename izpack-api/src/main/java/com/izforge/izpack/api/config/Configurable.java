@@ -23,6 +23,7 @@ package com.izforge.izpack.api.config;
 
 public interface Configurable
 {
+
     Config getConfig();
 
     void setConfig(Config value);

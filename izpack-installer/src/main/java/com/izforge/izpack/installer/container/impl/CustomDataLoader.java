@@ -19,13 +19,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.container.impl;
 
 import java.util.List;
 
 import com.izforge.izpack.api.event.InstallerListener;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.data.CustomData;
@@ -34,7 +32,8 @@ import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
- * Reads the <em>customData</em> resource in order to populate the {@link InstallerListeners} and {@link UninstallData}.
+ * Reads the <em>customData</em> resource in order to populate the
+ * {@link InstallerListeners} and {@link UninstallData}.
  *
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
@@ -67,19 +66,18 @@ public class CustomDataLoader
      */
     private final InstallerListeners listeners;
 
-
     /**
      * Constructs a {@code CustomDataLoader}.
      *
-     * @param matcher       the platform matcher
-     * @param resources     the resources
-     * @param factory       the factory for listeners
+     * @param matcher the platform matcher
+     * @param resources the resources
+     * @param factory the factory for listeners
      * @param uninstallData the uninstallation data
-     * @param listeners     the installer listeners
+     * @param listeners the installer listeners
      */
     public CustomDataLoader(PlatformModelMatcher matcher, Resources resources, ObjectFactory factory,
-                            UninstallData uninstallData,
-                            InstallerListeners listeners)
+            UninstallData uninstallData,
+            InstallerListeners listeners)
     {
         this.matcher = matcher;
         this.resources = resources;
@@ -98,9 +96,11 @@ public class CustomDataLoader
      * <li>uninstaller jars</li>
      * <li>uninstaller native libraries</li>
      * </ul>
-     * The {@link InstallerListener#afterInstallerInitialization} method will be invoked for each installer listener.
+     * The {@link InstallerListener#afterInstallerInitialization} method will be
+     * invoked for each installer listener.
      *
-     * @throws IzPackException if an {@link InstallerListener} throws an exception
+     * @throws IzPackException if an {@link InstallerListener} throws an
+     * exception
      */
     @SuppressWarnings("unchecked")
     public void loadCustomData()

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.packager.impl;
 
 import java.util.Properties;
@@ -42,7 +41,7 @@ public class PackagerTest extends AbstractPackagerTest
     /**
      * Helper to create a packager that writes to the provided jar.
      *
-     * @param jar          the jar stream
+     * @param jar the jar stream
      * @param mergeManager the merge manager
      * @return a new packager
      */
@@ -57,8 +56,8 @@ public class PackagerTest extends AbstractPackagerTest
         CompilerData data = new CompilerData("", "", "", true, false);
         RulesEngine rulesEngine = Mockito.mock(RulesEngine.class);
         Packager packager = new Packager(properties, listener, jar, compressor, jar, mergeManager,
-                                         pathResolver, resolver, data,
-                                         rulesEngine);
+                pathResolver, resolver, data,
+                rulesEngine);
         packager.setInfo(new Info());
         return packager;
     }

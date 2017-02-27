@@ -41,7 +41,6 @@ public abstract class AbstractConsoleFieldTest
      */
     protected final Prompt prompt;
 
-
     /**
      * Constructs an {@code AbstractConsoleFieldTest}.
      */
@@ -52,7 +51,7 @@ public abstract class AbstractConsoleFieldTest
         assertNotNull(langPack);
         installData.setMessages(new LocaleDatabase(langPack, Mockito.mock(Locales.class)));
         RulesEngine rules = new RulesEngineImpl(new ConditionContainer(new DefaultContainer()),
-                                                installData.getPlatform());
+                installData.getPlatform());
 
         ConsolePrefs prefs = new ConsolePrefs();
         prefs.enableConsoleReader = false;
@@ -66,7 +65,7 @@ public abstract class AbstractConsoleFieldTest
     /**
      * Runs the specified script for the field, and ensures its valid.
      *
-     * @param field  the field
+     * @param field the field
      * @param script the script to run
      */
     protected void checkValid(ConsoleField field, String... script)
@@ -78,7 +77,7 @@ public abstract class AbstractConsoleFieldTest
     /**
      * Runs the specified script for the field, and ensures its valid.
      *
-     * @param field  the field
+     * @param field the field
      * @param script the script to run
      */
     protected void checkInvalid(ConsoleField field, String... script)

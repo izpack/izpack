@@ -20,11 +20,12 @@ package com.izforge.izpack.compiler.xml;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 
 /**
- * XML parser for the installation descriptor with activated schema validation using the according
- * built-in XSD.
+ * XML parser for the installation descriptor with activated schema validation
+ * using the according built-in XSD.
  */
 public class InstallationXmlParser extends XMLParser
 {
+
     public InstallationXmlParser()
     {
         super(true, XMLSchemaDefinition.INSTALLATION.createStreamSources());

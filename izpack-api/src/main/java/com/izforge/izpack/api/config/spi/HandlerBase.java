@@ -19,13 +19,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.util.List;
 
 interface HandlerBase
 {
+
     void handleEmptyLine();
 
     void handleComment(List<String> comment);

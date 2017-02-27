@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -58,8 +57,9 @@ import java.util.logging.Handler;
  */
 public class CompilerConfigMockedTest
 {
-    private final String START_TAG = "<izpack:installation version=\"5.0\" xmlns:izpack=\"http://izpack.org/schema/installation\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd\">";
-    private final String END_TAG = "</izpack:installation>";
+
+    private static final String START_TAG = "<izpack:installation version=\"5.0\" xmlns:izpack=\"http://izpack.org/schema/installation\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd\">";
+    private static final String END_TAG = "</izpack:installation>";
 
     private Map<String, List<DynamicVariable>> mapStringListDyn;
     private XMLParser xmlParser = new XMLParser();
@@ -165,14 +165,14 @@ public class CompilerConfigMockedTest
         public TestCompilerConfig(IPackager packager)
         {
             super(Mockito.mock(CompilerData.class), Mockito.mock(VariableSubstitutor.class),
-                  Mockito.mock(Compiler.class), new XmlCompilerHelper(Mockito.mock(AssertionHelper.class)),
-                  Mockito.mock(PropertyManager.class), Mockito.mock(MergeManager.class),
-                  Mockito.mock(AssertionHelper.class), Mockito.mock(RulesEngine.class),
-                  Mockito.mock(CompilerPathResolver.class), Mockito.mock(ResourceFinder.class),
-                  Mockito.mock(ObjectFactory.class),
-                  new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS),
-                  new CompilerClassLoader(new DefaultClassNameMapper()),
-                  Mockito.mock(Handler.class));
+                    Mockito.mock(Compiler.class), new XmlCompilerHelper(Mockito.mock(AssertionHelper.class)),
+                    Mockito.mock(PropertyManager.class), Mockito.mock(MergeManager.class),
+                    Mockito.mock(AssertionHelper.class), Mockito.mock(RulesEngine.class),
+                    Mockito.mock(CompilerPathResolver.class), Mockito.mock(ResourceFinder.class),
+                    Mockito.mock(ObjectFactory.class),
+                    new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS),
+                    new CompilerClassLoader(new DefaultClassNameMapper()),
+                    Mockito.mock(Handler.class));
             setPackager(packager);
         }
     }

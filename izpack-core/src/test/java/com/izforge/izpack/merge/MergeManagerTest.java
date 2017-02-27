@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,6 +41,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestMergeContainer.class)
 public class MergeManagerTest
 {
+
     private MergeManagerImpl mergeManager;
 
     public MergeManagerTest(MergeManagerImpl mergeManager)
@@ -72,7 +72,7 @@ public class MergeManagerTest
     {
         mergeManager.addResourceToMerge("com/izforge/izpack/merge/");
         assertThat(mergeManager,
-                   MergeMatcher.isMergeableContainingFiles("com/izforge/izpack/merge/MergeManager.class"));
+                MergeMatcher.isMergeableContainingFiles("com/izforge/izpack/merge/MergeManager.class"));
     }
 
     @Test
@@ -95,6 +95,5 @@ public class MergeManagerTest
         mergeManager.addResourceToMerge("org/junit", "com/dest");
         assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/Assert.class"));
     }
-
 
 }

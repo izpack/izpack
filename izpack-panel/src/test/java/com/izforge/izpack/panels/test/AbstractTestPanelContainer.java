@@ -31,7 +31,6 @@ import java.util.Properties;
 import com.izforge.izpack.test.util.TestHousekeeper;
 import org.mockito.Mockito;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
 import org.picocontainer.injectors.ProviderAdapter;
 
 import com.izforge.izpack.api.container.Container;
@@ -79,7 +78,7 @@ public abstract class AbstractTestPanelContainer extends AbstractContainer
      *
      * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
+     * @throws PicoException for any PicoContainer error
      */
     @Override
     protected void fillContainer(MutablePicoContainer container)

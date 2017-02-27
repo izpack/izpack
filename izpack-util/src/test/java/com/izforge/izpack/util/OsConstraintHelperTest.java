@@ -77,11 +77,11 @@ public class OsConstraintHelperTest
     /**
      * Verifies a model matches that expected.
      *
-     * @param model   the model to check
-     * @param arch    the expected architecture
-     * @param family  the expected family
-     * @param jre     the expected JRE
-     * @param name    the expected name
+     * @param model the model to check
+     * @param arch the expected architecture
+     * @param family the expected family
+     * @param jre the expected JRE
+     * @param name the expected name
      * @param version the expected version
      */
     private void checkModel(OsModel model, String arch, String family, String jre, String name, String version)

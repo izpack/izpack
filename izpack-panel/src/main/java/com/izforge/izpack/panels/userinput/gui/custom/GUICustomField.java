@@ -16,25 +16,21 @@ import java.util.List;
 import javax.swing.JComponent;
 
 /**
- * JPanel that contains the possible rows of fields defined by the user,
- * along with control buttons to add and remove rows.
+ * JPanel that contains the possible rows of fields defined by the user, along
+ * with control buttons to add and remove rows.
  *
- * GUICustomField
- * ===============================|
- * |CustomInputRows               |
- * |------------------------------|
- * |          Row 1               |
- * |          Row 2               |
- * |------------------------------|
- * |ControlButtons                |
- * |------------------------------|
- * |            |  Add  | Remove  |
+ * GUICustomField ===============================| |CustomInputRows |
+ * |------------------------------| | Row 1 | | Row 2 |
+ * |------------------------------| |ControlButtons |
+ * |------------------------------| | | Add | Remove |
  * |==============================|
  */
 public class GUICustomField extends GUIField implements CustomFieldType
 {
+
     private final CustomInputField customInputField;
-    public GUICustomField(CustomField customField, FieldCommand createField, UserInputPanelSpec userInputPanelSpec, IXMLElement spec,  GUIInstallData installData, IzPanel parent)
+
+    public GUICustomField(CustomField customField, FieldCommand createField, UserInputPanelSpec userInputPanelSpec, IXMLElement spec, GUIInstallData installData, IzPanel parent)
     {
         super(customField);
         customInputField = new CustomInputField(customField, createField, userInputPanelSpec, spec, parent, installData);

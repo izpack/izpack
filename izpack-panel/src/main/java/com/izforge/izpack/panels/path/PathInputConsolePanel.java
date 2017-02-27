@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.path;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -33,8 +32,10 @@ import static com.izforge.izpack.api.handler.Prompt.Type.WARNING;
 
 public class PathInputConsolePanel extends AbstractConsolePanel
 {
+
     private final Prompt prompt;
     private InstallData installData;
+
     /**
      * Constructs an {@code PathInputConsolePanel}.
      *
@@ -60,7 +61,8 @@ public class PathInputConsolePanel extends AbstractConsolePanel
      * Determines if the specified directory can be created.
      *
      * @param dir the directory
-     * @return {@code true} if the directory may be created, otherwise {@code false}
+     * @return {@code true} if the directory may be created, otherwise
+     * {@code false}
      */
     protected boolean checkCreateDirectory(File dir, Console console)
     {
@@ -83,7 +85,8 @@ public class PathInputConsolePanel extends AbstractConsolePanel
      * Determines if an existing directory can be written to.
      *
      * @param dir the directory
-     * @return {@code true} if the directory can be written to, otherwise {@code false}
+     * @return {@code true} if the directory can be written to, otherwise
+     * {@code false}
      */
     protected boolean checkOverwrite(File dir, Console console)
     {
@@ -101,10 +104,10 @@ public class PathInputConsolePanel extends AbstractConsolePanel
     }
 
     /**
-     * Helper method to read the input of user
-     * Method returns true if user types "y", "yes" or <Enter>·
+     * Helper method to read the input of user Method returns true if user types
+     * "y", "yes" or <Enter>·
      *
-     * @return boolean  - true if condition above satisfied. Otherwise false
+     * @return boolean - true if condition above satisfied. Otherwise false
      */
     private boolean askUser(String title, String message, Prompt.Option defaultOption)
     {

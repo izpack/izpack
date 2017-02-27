@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.data;
 
 import com.izforge.izpack.api.data.VariableMapper;
 
 public class UpperCaseTestVariableMapper implements VariableMapper
 {
+
     @Override
     public String map(String value)
     {

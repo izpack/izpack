@@ -1,22 +1,21 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.gui;
 
 import javax.swing.Action;
@@ -39,7 +38,7 @@ public class HighlightJButton extends JButton
     /**
      * The constructor (use ButtonFactory to create button).
      *
-     * @param icon  The icon to display.
+     * @param icon The icon to display.
      * @param color The highlight color.
      */
     HighlightJButton(Icon icon, Color color)
@@ -51,7 +50,7 @@ public class HighlightJButton extends JButton
     /**
      * The constructor (use ButtonFactory to create button).
      *
-     * @param text  The text to display.
+     * @param text The text to display.
      * @param color The highlight color.
      */
     HighlightJButton(String text, Color color)
@@ -63,8 +62,8 @@ public class HighlightJButton extends JButton
     /**
      * The constructor (use ButtonFactory to create button).
      *
-     * @param text  The text to display.
-     * @param icon  The icon to display.
+     * @param text The text to display.
+     * @param icon The icon to display.
      * @param color The highlight color.
      */
     HighlightJButton(String text, Icon icon, Color color)
@@ -76,7 +75,7 @@ public class HighlightJButton extends JButton
     /**
      * The constructor (use ButtonFactory to create button).
      *
-     * @param a     The action.
+     * @param a The action.
      * @param color The highlight color.
      */
     HighlightJButton(Action a, Color color)
@@ -99,7 +98,8 @@ public class HighlightJButton extends JButton
     }
 
     /**
-     * Overriden to ensure that the button won't stay highlighted if it had the mouse over it.
+     * Overriden to ensure that the button won't stay highlighted if it had the
+     * mouse over it.
      *
      * @param b Button state.
      */

@@ -16,6 +16,7 @@ import java.util.logging.Handler;
  */
 public class IzpackAntRunnable implements Runnable
 {
+
     private final CompilerData compilerData;
     private final String input;
     private final Properties properties;
@@ -24,12 +25,12 @@ public class IzpackAntRunnable implements Runnable
     private Handler logHandler;
 
     public IzpackAntRunnable(String compression, String kind, String input, String configText, String basedir,
-                             String output, boolean mkdirs, boolean validating, int compressionLevel, Properties properties,
-                             Boolean inheritAll, Hashtable<String, String> antProjectProperties, String izPackDir,
-                             Handler logHandler)
+            String output, boolean mkdirs, boolean validating, int compressionLevel, Properties properties,
+            Boolean inheritAll, Hashtable<String, String> antProjectProperties, String izPackDir,
+            Handler logHandler)
     {
         this.compilerData = new CompilerData(compression, kind, input, configText, basedir, output, mkdirs, validating,
-                                             compressionLevel);
+                compressionLevel);
         this.input = input;
         this.properties = properties;
         this.inheritAll = inheritAll;
@@ -38,12 +39,11 @@ public class IzpackAntRunnable implements Runnable
         CompilerData.setIzpackHome(izPackDir);
     }
 
-
     @Override
     public void run()
     {
         CompilerContainer compilerContainer = new CompilerContainer();
-		compilerContainer.addConfig("installFile", input == null ? "<config>" : input);
+        compilerContainer.addConfig("installFile", input == null ? "<config>" : input);
         compilerContainer.addComponent(CompilerData.class, compilerData);
         compilerContainer.addComponent(Handler.class, logHandler);
 
@@ -91,7 +91,7 @@ public class IzpackAntRunnable implements Runnable
         * The following code fixes a bug in in codehaus classworlds loader,
         * which can't handle mixed path strings like "c:\test\../lib/mylib.jar".
         * The bug is in org.codehaus.classworlds.UrlUtils.normalizeUrlPath().
-        */
+         */
         StringBuffer fixpath = new StringBuffer(path);
         for (int q = 0; q < fixpath.length(); q++)
         {

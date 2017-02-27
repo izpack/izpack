@@ -18,16 +18,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.console;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.compiler.container.TestConsoleInstallationContainer;
-import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.console.ConsoleInstallerAction;
-import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
@@ -42,7 +39,6 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import static org.junit.Assert.*;
-
 
 /**
  * Tests the {@link ConsoleInstaller}.
@@ -59,11 +55,10 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
      */
     private final TestConsoleInstaller installer;
 
-
     /**
      * Constructs a <tt>ConsoleInstallationTest</tt>
      *
-     * @param installer   the installer
+     * @param installer the installer
      * @param installData the installation data
      * @throws Exception for any error
      */
@@ -74,7 +69,8 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     }
 
     /**
-     * Runs the console installer against a script, and verifies expected files are installed.
+     * Runs the console installer against a script, and verifies expected files
+     * are installed.
      *
      * @throws Exception for any error
      */
@@ -92,7 +88,8 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     }
 
     /**
-     * Runs the console installer against a script, and verifies expected files are installed.
+     * Runs the console installer against a script, and verifies expected files
+     * are installed.
      *
      * @throws Exception for any error
      */
@@ -212,7 +209,8 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     }
 
     /**
-     * Verifies that an installer with panels that have no corresponding {@link ConsolePanel} doesn't install.
+     * Verifies that an installer with panels that have no corresponding
+     * {@link ConsolePanel} doesn't install.
      */
     @Test
     @InstallFile("samples/console/dummy.xml")
@@ -235,11 +233,10 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     }
 
     /**
-     * Verifies that console installation completes successfully.
-     * \
+     * Verifies that console installation completes successfully. \
      *
-     * @param installer         the installer
-     * @param installData       the installation data
+     * @param installer the installer
+     * @param installData the installation data
      * @param expectUninstaller whether to expect an uninstaller to be created
      */
     @Override

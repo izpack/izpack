@@ -18,13 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.check;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.panels.userinput.field.Config;
 import com.izforge.izpack.panels.userinput.field.FieldReader;
-
 
 /**
  * A reader for 'check' fields.
@@ -37,7 +35,7 @@ public class CheckFieldReader extends FieldReader implements CheckFieldConfig
     /**
      * Constructs a {@code CheckFieldReader}.
      *
-     * @param field  the field element
+     * @param field the field element
      * @param config the configuration
      */
     public CheckFieldReader(IXMLElement field, Config config)
@@ -46,7 +44,8 @@ public class CheckFieldReader extends FieldReader implements CheckFieldConfig
     }
 
     /**
-     * Returns the value to assign to the associated variable when the checkbox is selected (i.e. is 'true').
+     * Returns the value to assign to the associated variable when the checkbox
+     * is selected (i.e. is 'true').
      *
      * @return the 'true' value. May be {@code null}
      */
@@ -56,7 +55,8 @@ public class CheckFieldReader extends FieldReader implements CheckFieldConfig
     }
 
     /**
-     * Returns the value to assign to the associated variable when the checkbox is not selected (i.e. is 'false').
+     * Returns the value to assign to the associated variable when the checkbox
+     * is not selected (i.e. is 'false').
      *
      * @return the 'false' value
      */

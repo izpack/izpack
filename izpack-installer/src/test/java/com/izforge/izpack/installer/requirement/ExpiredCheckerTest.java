@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.requirement;
 
 import com.izforge.izpack.api.data.Info;
@@ -31,7 +30,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-
 /**
  * Tests the {@link ExpiredChecker} class.
  *
@@ -43,21 +41,18 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
     /**
      * CONSTANTS
      */
-    private final long DAY_MILLISECONDS = 24 * 60 * 60 * 1000;
-    private final long YEAR_MILLISECONDS = 365 * DAY_MILLISECONDS;
+    private static final long DAY_MILLISECONDS = 24 * 60 * 60 * 1000;
+    private static final long YEAR_MILLISECONDS = 365 * DAY_MILLISECONDS;
 
-    
     /**
      * DATA
      */
     ExpiredChecker checker = new ExpiredChecker(installData, prompt);
     SimpleDateFormat dateFormat = new SimpleDateFormat(Info.EXPIRE_DATE_FORMAT);
 
-    
     /**
      * METHODS
      */
-    
     /**
      * Tests the {@link ExpiredChecker} when the installer has NOT expired.
      */
@@ -72,7 +67,7 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         try
         {
             installData.getInfo().setExpiresDate("01/01/2001");
-        } 
+        }
         catch (ParseException ex)
         {
             assertNotNull(ex);
@@ -83,7 +78,7 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         try
         {
             installData.getInfo().setExpiresDate(tomorrow);
-        } 
+        }
         catch (ParseException ex)
         {
             assertTrue(false);

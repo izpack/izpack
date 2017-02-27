@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.rule;
 
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type;
@@ -36,7 +35,6 @@ import org.junit.Test;
 
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
 
-
 /**
  * Tests the {@link FieldLayout} class.
  *
@@ -53,7 +51,7 @@ public class FieldLayoutTest
     {
         FieldLayout layout = new FieldLayout("( N:3:3 ) N:3:3 - N:4:4 x N:5:5");
         checkLayout(layout, "(", field(NUMERIC, 3, 3), ")", field(NUMERIC, 3, 3), "-", field(NUMERIC, 4, 4), "x",
-                    field(NUMERIC, 5, 5));
+                field(NUMERIC, 5, 5));
 
         checkValid("(03)484-7777x139", layout, "03", "484", "7777", "139");
     }
@@ -66,7 +64,7 @@ public class FieldLayoutTest
     {
         FieldLayout layout = new FieldLayout("N:3:3 . N:3:3 . N:3:3 . N:3:3");
         checkLayout(layout, field(NUMERIC, 3, 3), ".", field(NUMERIC, 3, 3), ".", field(NUMERIC, 3, 3), ".",
-                    field(NUMERIC, 3, 3));
+                field(NUMERIC, 3, 3));
 
         checkValid("192.168.0.1", layout, "192", "168", "0", "1");
     }
@@ -136,17 +134,18 @@ public class FieldLayoutTest
         checkInvalid(phoneLayout, "", "Expected '(' at character 0 but got ''");
         checkInvalid(phoneLayout, "(0A)", "Invalid field at character 1: 0A");
         checkInvalid(phoneLayout, "(03)9484", "Unterminated field at character 4: 9484");
-        checkInvalid(phoneLayout, "(03)9484-", "Field too long at character 4. Expected length 3 but got length 4: " +
-                "9484");
+        checkInvalid(phoneLayout, "(03)9484-", "Field too long at character 4. Expected length 3 but got length 4: "
+                + "9484");
         checkInvalid(phoneLayout, "(03)9484", "Unterminated field at character 4: 9484");
     }
 
     /**
      * Helper to create a new {@code FieldSpec}.
      *
-     * @param type    the type of field
+     * @param type the type of field
      * @param columns the no, of columns to display
-     * @param length  the field length, or {@code -1} to indicate unlimited length
+     * @param length the field length, or {@code -1} to indicate unlimited
+     * length
      * @return a new {@code FieldSpec}.
      */
     private FieldSpec field(Type type, int columns, int length)
@@ -157,8 +156,8 @@ public class FieldLayoutTest
     /**
      * Validates a value.
      *
-     * @param value    the value to validate
-     * @param layout   the field layout
+     * @param value the value to validate
+     * @param layout the field layout
      * @param expected the expected field values
      */
     private void checkValid(String value, FieldLayout layout, String... expected)
@@ -175,8 +174,8 @@ public class FieldLayoutTest
     /**
      * Ensures validation fails for an incorrect value.
      *
-     * @param value    the value to validate
-     * @param layout   the field layout
+     * @param value the value to validate
+     * @param layout the field layout
      * @param expected the expected error message
      */
     private void checkInvalid(String layout, String value, String expected)
@@ -191,7 +190,7 @@ public class FieldLayoutTest
      * Verifies that a field layout matches that expected.
      *
      * @param layout the layout
-     * @param items  the expected items
+     * @param items the expected items
      */
     private void checkLayout(FieldLayout layout, Object... items)
     {
@@ -227,8 +226,8 @@ public class FieldLayoutTest
     /**
      * Verifies an item in the layout is a separator.
      *
-     * @param layout    the layout
-     * @param index     the item index
+     * @param layout the layout
+     * @param index the item index
      * @param separator the expected separator
      */
     private void checkSeparator(FieldLayout layout, int index, String separator)
@@ -241,8 +240,8 @@ public class FieldLayoutTest
     /**
      * Verifies an item in the layout is a field.
      *
-     * @param layout   the layout
-     * @param index    the item index
+     * @param layout the layout
+     * @param index the item index
      * @param expected the expected field
      */
     private void checkFieldSpec(FieldLayout layout, int index, FieldSpec expected)

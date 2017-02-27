@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import java.util.List;
@@ -29,7 +28,6 @@ import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.util.Platform;
 
-
 /**
  * {@code InstallData} holds data used throughout the installation.
  *
@@ -37,6 +35,7 @@ import com.izforge.izpack.util.Platform;
  */
 public interface InstallData
 {
+
     /**
      * The path for multi-volume installation media.
      */
@@ -62,7 +61,7 @@ public interface InstallData
      * <p/>
      * This is short hand for {@code getVariables().set(name, value)}.
      *
-     * @param name  the name of the variable
+     * @param name the name of the variable
      * @param value the new value of the variable. May be {@code null}
      * @see #getVariable
      */
@@ -159,8 +158,8 @@ public interface InstallData
      * @return the current locale's ISO3 language code. May be {@code null}
      */
     String getLocaleISO3();
-    
-     /**
+
+    /**
      * Returns the current locale's ISO2 language code.
      *
      * @return the current locale's ISO2 language code. May be {@code null}
@@ -233,7 +232,8 @@ public interface InstallData
     /**
      * Determines if the installation was successful.
      * <p/>
-     * NOTE: the result of this method is undefined until the panels have completed or failed.
+     * NOTE: the result of this method is undefined until the panels have
+     * completed or failed.
      *
      * @return {@code true} if the installation was successful
      */
@@ -270,7 +270,8 @@ public interface InstallData
     /**
      * Returns the installer requirements.
      * <p/>
-     * These are evaluated prior to installation, to ensure all prerequisites are met.
+     * These are evaluated prior to installation, to ensure all prerequisites
+     * are met.
      *
      * @return the installer requirements
      */
@@ -288,12 +289,13 @@ public interface InstallData
     /**
      * Sets a named attribute.
      * <p/>
-     * The panels and other IzPack components can attach custom attributes to InstallData to communicate with each
-     * other. For example, a set of co-operating custom panels do not need to implement a common data storage but can
-     * use InstallData singleton. The name of the attribute should include the package and class name to prevent name
-     * space collisions.
+     * The panels and other IzPack components can attach custom attributes to
+     * InstallData to communicate with each other. For example, a set of
+     * co-operating custom panels do not need to implement a common data storage
+     * but can use InstallData singleton. The name of the attribute should
+     * include the package and class name to prevent name space collisions.
      *
-     * @param name  the name of the attribute to set
+     * @param name the name of the attribute to set
      * @param value the value of the attribute or null to unset the attribute
      * @see #getAttribute
      */
@@ -309,4 +311,3 @@ public interface InstallData
     Object getAttribute(String name);
 
 }
-

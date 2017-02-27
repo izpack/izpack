@@ -3,7 +3,6 @@ package com.izforge.izpack.installer.container.impl;
 import java.util.Properties;
 
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
 import org.picocontainer.injectors.ProviderAdapter;
 import org.picocontainer.parameters.ComponentParameter;
 
@@ -11,7 +10,6 @@ import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.InstallerException;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.container.AbstractContainer;
@@ -71,7 +69,7 @@ public abstract class InstallerContainer extends AbstractContainer
      *
      * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
+     * @throws PicoException for any PicoContainer error
      */
     @Override
     protected void fillContainer(MutablePicoContainer container)
@@ -85,7 +83,7 @@ public abstract class InstallerContainer extends AbstractContainer
      *
      * @param pico the container
      * @throws ContainerException if registration fails
-     * @throws PicoException      for any PicoContainer error
+     * @throws PicoException for any PicoContainer error
      */
     protected void registerComponents(MutablePicoContainer pico)
     {
@@ -126,7 +124,7 @@ public abstract class InstallerContainer extends AbstractContainer
         addComponent(PlatformModelMatcher.class);
 
         pico.addComponent(VariableSubstitutor.class, VariableSubstitutorImpl.class,
-                          new ComponentParameter(DefaultVariables.class));
+                new ComponentParameter(DefaultVariables.class));
     }
 
     /**

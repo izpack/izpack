@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.io.IOException;
@@ -32,30 +31,46 @@ import java.nio.charset.Charset;
 
 class UnicodeInputStreamReader extends Reader
 {
+
     private static final int BOM_SIZE = 4;
 
     private static enum Bom
     {
-        UTF32BE("UTF-32BE", new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF }),
-        UTF32LE("UTF-32LE", new byte[] { (byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x00 }),
-        UTF16BE("UTF-16BE", new byte[] { (byte) 0xFE, (byte) 0xFF }),
-        UTF16LE("UTF-16LE", new byte[] { (byte) 0xFF, (byte) 0xFE }),
-        UTF8("UTF-8", new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF });
-        private final byte[] _bytes;
-        private Charset _charset;
+        UTF32BE("UTF-32BE", new byte[]
+        {
+            (byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF
+        }),
+        UTF32LE("UTF-32LE", new byte[]
+        {
+            (byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x00
+        }),
+        UTF16BE("UTF-16BE", new byte[]
+        {
+            (byte) 0xFE, (byte) 0xFF
+        }),
+        UTF16LE("UTF-16LE", new byte[]
+        {
+            (byte) 0xFF, (byte) 0xFE
+        }),
+        UTF8("UTF-8", new byte[]
+        {
+            (byte) 0xEF, (byte) 0xBB, (byte) 0xBF
+        });
+        private final byte[] bytes;
+        private Charset charset;
 
         private Bom(String charsetName, byte[] bytes)
         {
             try
             {
-                _charset = Charset.forName(charsetName);
+                this.charset = Charset.forName(charsetName);
             }
             catch (Exception x)
             {
-                _charset = null;
+                this.charset = null;
             }
 
-            _bytes = bytes;
+            this.bytes = bytes;
         }
 
         private static Bom find(byte[] data)
@@ -79,9 +94,9 @@ class UnicodeInputStreamReader extends Reader
         {
             boolean ok = true;
 
-            for (int i = 0; i < _bytes.length; i++)
+            for (int i = 0; i < this.bytes.length; i++)
             {
-                if (data[i] != _bytes[i])
+                if (data[i] != this.bytes[i])
                 {
                     ok = false;
 
@@ -94,40 +109,40 @@ class UnicodeInputStreamReader extends Reader
 
         private boolean supported()
         {
-            return _charset != null;
+            return this.charset != null;
         }
     }
 
-    private final Charset _defaultEncoding;
-    private InputStreamReader _reader;
-    private final PushbackInputStream _stream;
+    private final Charset defaultEncoding;
+    private InputStreamReader reader;
+    private final PushbackInputStream stream;
 
     UnicodeInputStreamReader(InputStream in, Charset defaultEnc)
     {
-        _stream = new PushbackInputStream(in, BOM_SIZE);
-        _defaultEncoding = defaultEnc;
+        this.stream = new PushbackInputStream(in, BOM_SIZE);
+        this.defaultEncoding = defaultEnc;
     }
 
     public void close() throws IOException
     {
         init();
-        _reader.close();
+        this.reader.close();
     }
 
     public int read(char[] cbuf, int off, int len) throws IOException
     {
         init();
 
-        return _reader.read(cbuf, off, len);
+        return this.reader.read(cbuf, off, len);
     }
 
     /**
-     * Read-ahead four bytes and check for BOM marks. Extra bytes are
-     * unread back to the stream, only BOM bytes are skipped.
+     * Read-ahead four bytes and check for BOM marks. Extra bytes are unread
+     * back to the stream, only BOM bytes are skipped.
      */
     protected void init() throws IOException
     {
-        if (_reader != null)
+        if (this.reader != null)
         {
             return;
         }
@@ -137,25 +152,25 @@ class UnicodeInputStreamReader extends Reader
         int n;
         int unread;
 
-        n = _stream.read(data, 0, data.length);
+        n = this.stream.read(data, 0, data.length);
         Bom bom = Bom.find(data);
 
         if (bom == null)
         {
-            encoding = _defaultEncoding;
+            encoding = this.defaultEncoding;
             unread = n;
         }
         else
         {
-            encoding = bom._charset;
-            unread = data.length - bom._bytes.length;
+            encoding = bom.charset;
+            unread = data.length - bom.bytes.length;
         }
 
         if (unread > 0)
         {
-            _stream.unread(data, (n - unread), unread);
+            this.stream.unread(data, (n - unread), unread);
         }
 
-        _reader = new InputStreamReader(_stream, encoding);
+        this.reader = new InputStreamReader(this.stream, encoding);
     }
 }

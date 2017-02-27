@@ -11,28 +11,30 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Link common functionality for PathInputPanels here.
- * Help to keep features and bug fixes in sync between console and GUI installations for PathInputPanel (Ex. TargetPanel).
+ * Link common functionality for PathInputPanels here. Help to keep features and
+ * bug fixes in sync between console and GUI installations for PathInputPanel
+ * (Ex. TargetPanel).
  *
  * @author Miles Tjandrawidjaja
  */
 public class PathInputBase
 {
+
     private static InstallData installData;
-    private static final Logger logger = Logger.getLogger(PathInputPanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PathInputPanel.class.getName());
 
     /**
      * ShowCreateDirectoryMessage configuration option<br>
-     * If 'ShowCreateDirectoryMessage' configuration option set 'false' then don't show
-     * then don't show "directory will be created" dialog
+     * If 'ShowCreateDirectoryMessage' configuration option set 'false' then
+     * don't show then don't show "directory will be created" dialog
      */
     public static final String SHOWCREATEDIRECTORYMESSAGE = "ShowCreateDirectoryMessage";
 
     /**
      * ShowExistingDirectoryWarning configuration option<br>
-     * If 'ShowExistingDirectoryWarning' configuration option set 'false' then don't show
-     * "The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"
-     * warning dialog
+     * If 'ShowExistingDirectoryWarning' configuration option set 'false' then
+     * don't show "The directory already exists! Are you sure you want to
+     * install here and possibly overwrite existing files?" warning dialog
      */
     public static final String SHOWEXISTINGDIRECTORYWARNING = "ShowExistingDirectoryWarning";
 
@@ -42,8 +44,9 @@ public class PathInputBase
     }
 
     /**
-     * Verify that the given path to a file or directory is writable.
-     * Ex. /home/user/example/test //Check to see if we can write "test" into /home/user/example/
+     * Verify that the given path to a file or directory is writable. Ex.
+     * /home/user/example/test //Check to see if we can write "test" into
+     * /home/user/example/
      *
      * @param path path to file or directory to be written
      * @return true if location is writable else false
@@ -54,8 +57,9 @@ public class PathInputBase
     }
 
     /**
-     * Verify that the given path to a file or directory is writable.
-     * Ex. /home/user/example/test //Check to see if we can write "test" into /home/user/example/
+     * Verify that the given path to a file or directory is writable. Ex.
+     * /home/user/example/test //Check to see if we can write "test" into
+     * /home/user/example/
      *
      * @param path path to file or directory to be written
      * @return true if location is writable else false
@@ -90,7 +94,7 @@ public class PathInputBase
                 }
                 catch (IOException e)
                 {
-                    logger.log(Level.WARNING, e.toString(), e);
+                    LOGGER.log(Level.WARNING, e.toString(), e);
                 }
             }
             else
@@ -102,8 +106,9 @@ public class PathInputBase
     }
 
     /**
-     * Normalize a path. Compresses consecutive file separators and replace the "~" with the users
-     * home directory if installation is being run on a UNIX platform.
+     * Normalize a path. Compresses consecutive file separators and replace the
+     * "~" with the users home directory if installation is being run on a UNIX
+     * platform.
      *
      * @param path path to normalize
      * @return normalized path

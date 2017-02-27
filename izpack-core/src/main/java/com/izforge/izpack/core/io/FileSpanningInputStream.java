@@ -15,7 +15,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.core.io;
 
 import org.apache.commons.io.IOUtils;
@@ -29,7 +28,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
-
 /**
  * An <tt>InputStream</tt> which transparently spans over multiple volumes.
  *
@@ -39,8 +37,10 @@ import java.util.zip.GZIPInputStream;
  */
 public class FileSpanningInputStream extends InputStream
 {
+
     /**
-     * The spanning input stream. This sits between the volume file input stream and {@link #zippedInputStream}.
+     * The spanning input stream. This sits between the volume file input stream
+     * and {@link #zippedInputStream}.
      */
     private final SpanningInputStream spanningInputStream;
 
@@ -54,20 +54,18 @@ public class FileSpanningInputStream extends InputStream
      */
     private long filePointer;
 
-
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(FileSpanningInputStream.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(FileSpanningInputStream.class.getName());
 
     /**
      * Constructs a <tt>FileSpanningInputStream</tt>.
      *
-     * @param volume  the first volume to read
+     * @param volume the first volume to read
      * @param volumes the no. of volumes
      * @throws CorruptVolumeException if the volume magic no. cannot be read
-     * @throws IOException            for any other I/O exception
+     * @throws IOException for any other I/O exception
      */
     public FileSpanningInputStream(File volume, int volumes) throws IOException
     {
@@ -191,8 +189,8 @@ public class FileSpanningInputStream extends InputStream
     }
 
     /**
-     * Returns the current position in the file.
-     * This is the absolute offset into the volumes.
+     * Returns the current position in the file. This is the absolute offset
+     * into the volumes.
      *
      * @return the current position in the file
      */
@@ -225,7 +223,8 @@ public class FileSpanningInputStream extends InputStream
         private final int volumes;
 
         /**
-         * The first volume magic number. All subsequent volumes must start with this.
+         * The first volume magic number. All subsequent volumes must start with
+         * this.
          */
         private final byte[] magicNumber;
 
@@ -239,11 +238,10 @@ public class FileSpanningInputStream extends InputStream
          */
         private File current;
 
-
         /**
          * Constructs a <tt>SpanningInputStream</tt>.
          *
-         * @param volume  the first volume
+         * @param volume the first volume
          * @param volumes the number of volumes
          * @throws IOException for any I/O error
          */
@@ -261,9 +259,9 @@ public class FileSpanningInputStream extends InputStream
                 IOUtils.closeQuietly(stream);
                 throw new CorruptVolumeException();
             }
-            if (logger.isLoggable(Level.FINE))
+            if (LOGGER.isLoggable(Level.FINE))
             {
-                logger.fine("Opened volume=" + volume + ", magic=" + FileSpanningOutputStream.formatMagic(magicNumber));
+                LOGGER.fine("Opened volume=" + volume + ", magic=" + FileSpanningOutputStream.formatMagic(magicNumber));
             }
         }
 
@@ -278,15 +276,19 @@ public class FileSpanningInputStream extends InputStream
         }
 
         /**
-         * Reads up to <code>len</code> bytes of data from the input stream into an array of bytes.
+         * Reads up to <code>len</code> bytes of data from the input stream into
+         * an array of bytes.
          * <p/>
-         * An attempt is made to read as many as <code>len</code> bytes, but a smaller number may be read.
+         * An attempt is made to read as many as <code>len</code> bytes, but a
+         * smaller number may be read.
          *
-         * @param b   the buffer into which the data is read.
-         * @param off the start offset in array <code>b</code> at which the data is written.
+         * @param b the buffer into which the data is read.
+         * @param off the start offset in array <code>b</code> at which the data
+         * is written.
          * @param len the maximum number of bytes to read.
-         * @return the total number of bytes read into the buffer, or  <code>-1</code> if there is no more data because
-         *         the end of the stream has been reached.
+         * @return the total number of bytes read into the buffer, or
+         * <code>-1</code> if there is no more data because the end of the
+         * stream has been reached.
          * @throws IOException for any I/O error
          */
         @Override
@@ -316,7 +318,8 @@ public class FileSpanningInputStream extends InputStream
         /**
          * Reads the next byte of data from the input stream.
          *
-         * @return the next byte of data, or <code>-1</code> if the end of the stream is reached.
+         * @return the next byte of data, or <code>-1</code> if the end of the
+         * stream is reached.
          * @throws java.io.IOException if an I/O error occurs.
          */
         @Override
@@ -356,8 +359,10 @@ public class FileSpanningInputStream extends InputStream
         /**
          * Opens the next volume.
          *
-         * @return <tt>true</tt> if the next volume was opened, or <tt>false</tt> if there are no more volumes
-         * @throws CorruptVolumeException  if the magic no. of the next volume does not match that expected
+         * @return <tt>true</tt> if the next volume was opened, or
+         * <tt>false</tt> if there are no more volumes
+         * @throws CorruptVolumeException if the magic no. of the next volume
+         * does not match that expected
          * @throws VolumeNotFoundException if the next volume was not found
          */
         private boolean openNextVolume() throws IOException
@@ -365,7 +370,7 @@ public class FileSpanningInputStream extends InputStream
             boolean result;
             if (index + 1 >= volumes)
             {
-                logger.fine("Last volume reached");
+                LOGGER.fine("Last volume reached");
                 result = false;
             }
             else
@@ -406,7 +411,7 @@ public class FileSpanningInputStream extends InputStream
                     else
                     {
                         throw new VolumeNotFoundException("Volume not found: " + volume.getAbsolutePath(),
-                                                          volume.getAbsolutePath());
+                                volume.getAbsolutePath());
                     }
                 }
 
@@ -419,24 +424,25 @@ public class FileSpanningInputStream extends InputStream
         /**
          * Checks if the magic number if the current volume is valid.
          *
-         * @throws CorruptVolumeException if the magic number doesn't match that expected
-         * @throws IOException            for any I/O error
+         * @throws CorruptVolumeException if the magic number doesn't match that
+         * expected
+         * @throws IOException for any I/O error
          */
         private void checkMagicNumber() throws IOException
         {
-            logger.fine("Trying to read magic number");
+            LOGGER.fine("Trying to read magic number");
             byte[] volumeMagicNo = new byte[FileSpanningOutputStream.MAGIC_NUMBER_LENGTH];
             try
             {
                 if (stream.read(volumeMagicNo) != volumeMagicNo.length)
                 {
-                    logger.fine("Failed to read magic number");
+                    LOGGER.fine("Failed to read magic number");
                     throw new CorruptVolumeException();
                 }
 
-                if (logger.isLoggable(Level.FINE))
+                if (LOGGER.isLoggable(Level.FINE))
                 {
-                    logger.fine("Magic number is " + FileSpanningOutputStream.formatMagic(volumeMagicNo));
+                    LOGGER.fine("Magic number is " + FileSpanningOutputStream.formatMagic(volumeMagicNo));
                     if (!Arrays.equals(magicNumber, volumeMagicNo))
                     {
                         throw new CorruptVolumeException();

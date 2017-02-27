@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -28,10 +27,12 @@ import com.izforge.izpack.api.config.Options;
 import java.util.Properties;
 
 /**
- * Defines the Interface that must be implemented for running Panels in console mode.
+ * Defines the Interface that must be implemented for running Panels in console
+ * mode.
  * <p/>
- * Implementing classes MUST NOT link against awt/swing classes. Thus the Panels cannot implement
- * this interface directly, they should use e.g. helper classes instead.
+ * Implementing classes MUST NOT link against awt/swing classes. Thus the Panels
+ * cannot implement this interface directly, they should use e.g. helper classes
+ * instead.
  *
  * @author Mounir El Hajj
  * @deprecated use {@link ConsolePanel}
@@ -45,7 +46,8 @@ public interface PanelConsole extends ConsolePanel
      *
      * @param installData the installation data
      * @param options the options file to write to
-     * @return <tt>true</tt> if the generation is successful, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the generation is successful, otherwise
+     * <tt>false</tt>
      */
     boolean runGeneratePropertiesFile(InstallData installData, Options options);
 
@@ -53,8 +55,9 @@ public interface PanelConsole extends ConsolePanel
      * Runs the panel using the supplied properties.
      *
      * @param installData the installation data
-     * @param properties  the properties
-     * @return <tt>true</tt> if the installation is successful, otherwise <tt>false</tt>
+     * @param properties the properties
+     * @return <tt>true</tt> if the installation is successful, otherwise
+     * <tt>false</tt>
      */
     boolean runConsoleFromProperties(InstallData installData, Properties properties);
 
@@ -62,7 +65,8 @@ public interface PanelConsole extends ConsolePanel
      * Runs the panel in interactive console mode.
      *
      * @param installData the installation data
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     boolean runConsole(InstallData installData);
 
@@ -70,8 +74,9 @@ public interface PanelConsole extends ConsolePanel
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @param console the console
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     boolean runConsole(InstallData installData, Console console);
 

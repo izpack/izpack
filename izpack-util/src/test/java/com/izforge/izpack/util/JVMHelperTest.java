@@ -50,17 +50,17 @@ public class JVMHelperTest
                 // simulate the JVM input arguments. Note that some of these are mutually exclusive (agentlib,
                 // runjdwp), but just need to verify they are removed by getJVMArguments()
                 return Arrays.asList("-DDEBUG=true",
-                                     "-DTRACE=true",
-                                     "-Xmx512M",
-                                     "-Xms64M",
-                                     "-XX:MaxPermSize=64m",
-                                     "-Xdebug",
-                                     "-Dself.mod.base=/tmp",
-                                     "-Dself.mod.jar=install.jar",
-                                     "-Dizpack.mode=privileged",
-                                     "-Xrunjdwp:transport=dt_shmem",
-                                     "-agentlib:jdwp=transport=dt_socket",
-                                     "-javaagent:gragent.jar");
+                        "-DTRACE=true",
+                        "-Xmx512M",
+                        "-Xms64M",
+                        "-XX:MaxPermSize=64m",
+                        "-Xdebug",
+                        "-Dself.mod.base=/tmp",
+                        "-Dself.mod.jar=install.jar",
+                        "-Dizpack.mode=privileged",
+                        "-Xrunjdwp:transport=dt_shmem",
+                        "-agentlib:jdwp=transport=dt_socket",
+                        "-javaagent:gragent.jar");
             }
         };
         // verify that java debug, SelfModifier and PrivilegedRunner properties are excluded.
@@ -73,12 +73,15 @@ public class JVMHelperTest
         assertTrue(args.contains("-XX:MaxPermSize=64m"));
     }
 
-
     /**
-     * Tests {@link JVMHelper#getJVMArguments()} for arguments that contain spaces.
+     * Tests {@link JVMHelper#getJVMArguments()} for arguments that contain
+     * spaces.
      * <p/>
-     * Due to a bug in {@link java.lang.management.RuntimeMXBean#getInputArguments()}, arguments with spaces are
-     * split. See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6459832 for more details.
+     * Due to a bug in
+     * {@link java.lang.management.RuntimeMXBean#getInputArguments()}, arguments
+     * with spaces are split. See
+     * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6459832 for more
+     * details.
      */
     @Test
     public void testArgumentWithSpaces()
@@ -89,11 +92,11 @@ public class JVMHelperTest
             protected List<String> getInputArguments()
             {
                 return Arrays.asList("-Dsomepath=C:\\Program",
-                                     "Files\\IzPack",
-                                     "-Dsomeotherpath=C:\\Program",
-                                     "Files",
-                                     "(x86)\\MyApp",
-                                     "5.0");
+                        "Files\\IzPack",
+                        "-Dsomeotherpath=C:\\Program",
+                        "Files",
+                        "(x86)\\MyApp",
+                        "5.0");
             }
         };
         // verify that java debug, SelfModifier and PrivilegedRunner properties are excluded.

@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import java.io.Serializable;
 
 public class ConsolePrefs implements Serializable
 {
+
     private static final long serialVersionUID = 4563261006203097483L;
 
     /**
-     * Specifies wether the JLine should be used to use special terminal handling when reading console input.
+     * Specifies wether the JLine should be used to use special terminal
+     * handling when reading console input.
      */
     public boolean enableConsoleReader = true;
 

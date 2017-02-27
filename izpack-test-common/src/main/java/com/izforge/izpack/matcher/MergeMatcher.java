@@ -22,7 +22,8 @@ import com.izforge.izpack.mock.MockOutputStream;
  */
 public class MergeMatcher extends TypeSafeMatcher<Mergeable>
 {
-    private static final Logger logger = Logger.getLogger(MergeMatcher.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(MergeMatcher.class.getName());
 
     private Matcher<Iterable<String>> listMatcher;
 
@@ -41,15 +42,16 @@ public class MergeMatcher extends TypeSafeMatcher<Mergeable>
             List<String> entryName = outputStream.getListEntryName();
 
             boolean match = listMatcher.matches(entryName);
-            if (logger.isLoggable(Level.FINE) && !match)
+            if (LOGGER.isLoggable(Level.FINE) && !match)
             {
-                logger.fine("++++++++++++++++++++++++++++++++++++++");
-                logger.fine("\nContents of mergeable " + mergeable + ":\n");
-                for (String entry : entryName) {
-                  logger.fine("\t" + entry);
+                LOGGER.fine("++++++++++++++++++++++++++++++++++++++");
+                LOGGER.fine("\nContents of mergeable " + mergeable + ":\n");
+                for (String entry : entryName)
+                {
+                    LOGGER.fine("\t" + entry);
                 }
-                logger.fine("\nMATCH: " + match + "\n");
-                logger.fine("++++++++++++++++++++++++++++++++++++++");
+                LOGGER.fine("\nMATCH: " + match + "\n");
+                LOGGER.fine("++++++++++++++++++++++++++++++++++++++");
             }
             return match;
         }

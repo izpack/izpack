@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.data;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
@@ -24,6 +23,7 @@ import java.io.Serializable;
 
 public class ConsoleInstallData extends InstallData implements Serializable
 {
+
     private static final long serialVersionUID = -4272255846202671405L;
 
     /**

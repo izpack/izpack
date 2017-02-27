@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.packs;
 
 import java.awt.Dimension;
@@ -34,12 +33,11 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
-import com.izforge.izpack.panels.treepacks.PackValidator;
 import com.izforge.izpack.util.IoHelper;
 
 /**
- * The packs selection panel class. This class handles only the layout. Common stuff are handled by
- * the base class.
+ * The packs selection panel class. This class handles only the layout. Common
+ * stuff are handled by the base class.
  *
  * @author Julien Ponge
  * @author Jan Blok
@@ -56,15 +54,15 @@ public class PacksPanel extends PacksPanelBase
     /**
      * Constructs a <tt>PacksPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      fhe parent window
+     * @param panel the panel meta-data
+     * @param parent fhe parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param factory     the factory for creating {@link PackValidator} instances
-     * @param rules       the rules engine
+     * @param resources the resources
+     * @param factory the factory for creating {@link PackValidator} instances
+     * @param rules the rules engine
      */
     public PacksPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                      ObjectFactory factory, RulesEngine rules)
+            ObjectFactory factory, RulesEngine rules)
     {
         super(panel, parent, installData, resources, factory, rules);
     }

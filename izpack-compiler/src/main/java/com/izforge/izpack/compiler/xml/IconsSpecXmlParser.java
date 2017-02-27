@@ -20,11 +20,12 @@ package com.izforge.izpack.compiler.xml;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 
 /**
- * XML parser for the custom icons spec IzPack resource with activated schema validation using the
- * according built-in XSD.
+ * XML parser for the custom icons spec IzPack resource with activated schema
+ * validation using the according built-in XSD.
  */
 public class IconsSpecXmlParser extends XMLParser
 {
+
     public IconsSpecXmlParser()
     {
         super(true, XMLSchemaDefinition.ICONS.createStreamSources());

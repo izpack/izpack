@@ -18,14 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.container.provider;
 
 import org.picocontainer.injectors.Provider;
 
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
-
 
 /**
  * Provides an {@link Messages} from the current locale.

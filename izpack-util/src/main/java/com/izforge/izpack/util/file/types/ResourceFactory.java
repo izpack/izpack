@@ -14,12 +14,11 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types;
 
 /**
- * this interface should be implemented by classes (Scanners) needing
- * to deliver information about resources.
+ * this interface should be implemented by classes (Scanners) needing to deliver
+ * information about resources.
  */
 public interface ResourceFactory
 {
@@ -27,11 +26,10 @@ public interface ResourceFactory
     /**
      * Query a resource (file, zipentry, ...) by name
      *
-     * @param name relative path of the resource about which
-     *             information is sought.  Expects &quot;/&quot; to be used as the
-     *             directory separator.
-     * @return instance of Resource; the exists attribute of Resource
-     *         will tell whether the sought resource exists
+     * @param name relative path of the resource about which information is
+     * sought. Expects &quot;/&quot; to be used as the directory separator.
+     * @return instance of Resource; the exists attribute of Resource will tell
+     * whether the sought resource exists
      */
     Resource getResource(String name) throws Exception;
 }

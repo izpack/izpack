@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 public class ScriptParserConstant
 {
+
     /**
      * The Java home path.
      */
@@ -65,7 +65,7 @@ public class ScriptParserConstant
      * The language IS03 code.
      */
     public static final String ISO3_LANG = "ISO3_LANG";
-    
+
     /**
      * The language IS0 code.
      */

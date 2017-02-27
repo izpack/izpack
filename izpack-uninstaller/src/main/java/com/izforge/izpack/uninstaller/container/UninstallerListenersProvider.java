@@ -28,7 +28,6 @@ import java.util.List;
 import org.picocontainer.injectors.Provider;
 
 import com.izforge.izpack.api.event.UninstallerListener;
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Resources;

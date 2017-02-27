@@ -18,14 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.statictext;
 
 import javax.swing.JComponent;
 
 import com.izforge.izpack.panels.userinput.field.statictext.StaticText;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
-
 
 /**
  * GUI Static text.
@@ -34,6 +32,7 @@ import com.izforge.izpack.panels.userinput.gui.GUIField;
  */
 public class GUIStaticText extends GUIField
 {
+
     /**
      * Constructs a {@code GUIStaticText}.
      *

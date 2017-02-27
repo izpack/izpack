@@ -7,6 +7,7 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 public class LocationFilter implements ValueFilter
 {
+
     private static final long serialVersionUID = 5557014780732715339L;
 
     public String baseDir;
@@ -35,13 +36,13 @@ public class LocationFilter implements ValueFilter
     @Override
     public String filter(String value, VariableSubstitutor... substitutors) throws Exception
     {
-        String _baseDir_ = baseDir;
+        String baseDir0 = baseDir;
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _baseDir_ = substitutor.substitute(_baseDir_);
+            baseDir0 = substitutor.substitute(baseDir0);
         }
 
-        return FilenameUtils.concat(_baseDir_, value);
+        return FilenameUtils.concat(baseDir0, value);
     }
 
     @Override
@@ -50,7 +51,6 @@ public class LocationFilter implements ValueFilter
         return "(location: " + baseDir + ")";
     }
 
-
     @Override
     public boolean equals(Object obj)
     {
@@ -58,6 +58,6 @@ public class LocationFilter implements ValueFilter
         {
             return false;
         }
-        return baseDir.equals(((LocationFilter)obj).getBaseDir());
+        return baseDir.equals(((LocationFilter) obj).getBaseDir());
     }
 }

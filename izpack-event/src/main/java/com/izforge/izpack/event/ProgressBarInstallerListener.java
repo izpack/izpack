@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import java.util.List;
@@ -30,23 +29,25 @@ import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.ProgressNotifiers;
 
 /**
- * Installer listener for reset the progress bar and initialise {@link ProgressNotifiers} to support progress bar
- * interaction. To support progress bar interaction, add this installer listener as first listener.
+ * Installer listener for reset the progress bar and initialise
+ * {@link ProgressNotifiers} to support progress bar interaction. To support
+ * progress bar interaction, add this installer listener as first listener.
  *
  * @author Klaus Bartz
  */
 public class ProgressBarInstallerListener extends AbstractProgressInstallerListener
 {
+
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(ProgressBarInstallerListener.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ProgressBarInstallerListener.class.getName());
 
     /**
      * Constructs a <tt>ProgressBarInstallerListener</tt>.
      *
      * @param installData the installation data
-     * @param notifiers   the progress notifiers
+     * @param notifiers the progress notifiers
      */
     public ProgressBarInstallerListener(InstallData installData, ProgressNotifiers notifiers)
     {
@@ -59,11 +60,10 @@ public class ProgressBarInstallerListener extends AbstractProgressInstallerListe
      * @see com.izforge.izpack.compiler.InstallerListener#afterPacks(com.izforge.izpack.installer.AutomatedInstallData,
      * com.izforge.izpack.api.handler.AbstractUIProgressHandler)
      */
-
     /**
      * Invoked after packs are installed.
      *
-     * @param packs    the installed packs
+     * @param packs the installed packs
      * @param listener the progress listener
      */
     @Override
@@ -77,7 +77,7 @@ public class ProgressBarInstallerListener extends AbstractProgressInstallerListe
             String tip = getMessage("CustomActions.tip");
             if ("CustomActions.tip".equals(tip) || "CustomActions.progress".equals(progress))
             {
-                logger.fine("No messages found for custom action progress bar interactions; skipped");
+                LOGGER.fine("No messages found for custom action progress bar interactions; skipped");
                 return;
             }
             notifiers.setNotifyProgress(true);

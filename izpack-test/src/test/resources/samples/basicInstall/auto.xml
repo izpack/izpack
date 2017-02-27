@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <AutomatedInstallation langpack="eng">
-<com.izforge.izpack.panels.hello.HelloPanel id="panel.hello"/>
-<com.izforge.izpack.panels.licence.LicencePanel id="panel.licence"/>
-<com.izforge.izpack.panels.target.TargetPanel id="panel.target">
-  <installpath>${INSTALL_PATH}</installpath>
-</com.izforge.izpack.panels.target.TargetPanel>
-<com.izforge.izpack.panels.packs.PacksPanel id="panel.packs">
-  <pack index="0" name="Base" selected="true"/>
-  <pack index="1" name="Docs" selected="true"/>
-  <pack index="2" name="Sources" selected="true"/>
-</com.izforge.izpack.panels.packs.PacksPanel>
-<com.izforge.izpack.panels.install.InstallPanel id="panel.install"/>
-<com.izforge.izpack.panels.finish.FinishPanel id="panel.finish"/>
+    <com.izforge.izpack.panels.hello.HelloPanel id="panel.hello"/>
+    <com.izforge.izpack.panels.licence.LicencePanel id="panel.licence"/>
+    <com.izforge.izpack.panels.target.TargetPanel id="panel.target">
+        <installpath>${INSTALL_PATH}</installpath>
+    </com.izforge.izpack.panels.target.TargetPanel>
+    <com.izforge.izpack.panels.packs.PacksPanel id="panel.packs">
+        <pack index="0" name="Base" selected="true"/>
+        <pack index="1" name="Docs" selected="true"/>
+        <pack index="2" name="Sources" selected="true"/>
+    </com.izforge.izpack.panels.packs.PacksPanel>
+    <com.izforge.izpack.panels.install.InstallPanel id="panel.install"/>
+    <com.izforge.izpack.panels.finish.FinishPanel id="panel.finish"/>
 </AutomatedInstallation>

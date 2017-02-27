@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.search;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -33,7 +32,6 @@ import com.izforge.izpack.panels.userinput.field.search.SearchField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 
 import javax.swing.*;
-
 
 /**
  * Search field view.
@@ -53,9 +51,9 @@ public class GUISearchField extends GUIField
     /**
      * Constructs a {@code GUISearchField}.
      *
-     * @param field       the field
+     * @param field the field
      * @param installData the installation data
-     * @param frame       the frame
+     * @param frame the frame
      */
     public GUISearchField(SearchField field, GUIInstallData installData, InstallerFrame frame)
     {
@@ -111,12 +109,12 @@ public class GUISearchField extends GUIField
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 
         JButton autoDetect = ButtonFactory.createButton(messages.get("UserInputPanel.search.autodetect"),
-                                                        installData.buttonsHColor);
+                installData.buttonsHColor);
         autoDetect.setVisible(showAutodetect);
         autoDetect.setToolTipText(messages.get("UserInputPanel.search.autodetect.tooltip"));
 
         JButton browse = ButtonFactory.createButton(messages.get("UserInputPanel.search.browse"),
-                                                    installData.buttonsHColor);
+                installData.buttonsHColor);
 
         buttonPanel.add(autoDetect);
         buttonPanel.add(browse);
@@ -131,8 +129,10 @@ public class GUISearchField extends GUIField
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)

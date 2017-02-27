@@ -18,15 +18,13 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
-
+ */
 package com.izforge.izpack.api.adaptator;
 
 import java.io.OutputStream;
 
 /**
- * Interface to use the javax xml writer.
- * It stores the output.
+ * Interface to use the javax xml writer. It stores the output.
  *
  * @author Anthonin Bonnefoy
  * @author David Duponchel
@@ -48,7 +46,6 @@ public interface IXMLWriter
      * @param outputStream The outputStream
      */
     void setOutput(OutputStream outputStream);
-
 
     /**
      * Set the output to a URL

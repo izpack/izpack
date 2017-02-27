@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.validator;
 
 import java.util.Collections;
@@ -27,7 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
-
 
 /**
  * Abstract implementation of the {@link Validator} interface.
@@ -40,7 +38,7 @@ public abstract class AbstractValidator implements Validator
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractValidator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AbstractValidator.class.getName());
 
     /**
      * Validates the content of a field.
@@ -60,7 +58,7 @@ public abstract class AbstractValidator implements Validator
         }
         catch (Throwable exception)
         {
-            logger.log(Level.WARNING, "Validation failed: " + exception.getMessage(), exception);
+            LOGGER.log(Level.WARNING, "Validation failed: " + exception.getMessage(), exception);
         }
         return result;
     }
@@ -68,7 +66,7 @@ public abstract class AbstractValidator implements Validator
     /**
      * Validates values.
      *
-     * @param values     the values to validate
+     * @param values the values to validate
      * @param parameters the validator parameters
      * @return {@code true} if the validation passes, otherwise {@code false}
      */

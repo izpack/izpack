@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.os;
 
 import java.util.logging.Level;
@@ -27,10 +26,9 @@ import java.util.logging.Logger;
 import com.izforge.izpack.api.data.InstallData;
 
 /*---------------------------------------------------------------------------*/
-
 /**
- * This class is the system independent base class for helpers which are system dependent in its
- * subclasses.
+ * This class is the system independent base class for helpers which are system
+ * dependent in its subclasses.
  *
  * @author Klaus Bartz
  * @deprecated no replacement
@@ -39,7 +37,8 @@ import com.izforge.izpack.api.data.InstallData;
 @Deprecated
 public class OSClassHelper
 {
-    private static final Logger logger = Logger.getLogger(OSClassHelper.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(OSClassHelper.class.getName());
 
     protected InstallData installdata;
 
@@ -56,9 +55,10 @@ public class OSClassHelper
     }
 
     /**
-     * Creates an object which contains as worker an object of the given class name if possible. If
-     * not possible, only the stack trace will be printed, no exception will be raised. To determine
-     * the state, there is the method good.
+     * Creates an object which contains as worker an object of the given class
+     * name if possible. If not possible, only the stack trace will be printed,
+     * no exception will be raised. To determine the state, there is the method
+     * good.
      *
      * @param className full qualified class name of the needed worker
      */
@@ -73,23 +73,23 @@ public class OSClassHelper
         }
         catch (InstantiationException e)
         {
-            logger.log(Level.WARNING, "", e);
+            LOGGER.log(Level.WARNING, "", e);
         }
         catch (IllegalAccessException e)
         {
-            logger.log(Level.WARNING, "", e);
+            LOGGER.log(Level.WARNING, "", e);
         }
         catch (ClassNotFoundException e)
         {
-            logger.log(Level.WARNING, "", e);
+            LOGGER.log(Level.WARNING, "", e);
             // Do nothing, class not bound.
         }
         catch (Exception e)
         {   // If the native lib is not found an unqualified Exception will be raised.
-            logger.warning("Ctor OSClassHelper for " + className + ": worker not available (" + e.getMessage() + ")");
+            LOGGER.warning("Ctor OSClassHelper for " + className + ": worker not available (" + e.getMessage() + ")");
             return;
         }
-        logger.fine("Ctor OSClassHelper for " + className + " is good: " + good());
+        LOGGER.fine("Ctor OSClassHelper for " + className + " is good: " + good());
 
     }
 

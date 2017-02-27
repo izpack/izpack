@@ -18,19 +18,23 @@
     </locale>
 
     <variables>
-      <variable name="INSTALL_PATH" value="Path"/>
+        <variable name="INSTALL_PATH" value="Path"/>
     </variables>
 
     <!-- in the example of IZPACK-1260 the both variables are named "previous.wrapper.conf"
-         but because our test implementation does compare names only, we have to distinguish between this variables -->
+    but because our test implementation does compare names only, we have to distinguish between this variables -->
     <dynamicvariables>
-      <variable name="previous.wrapper.conf1" value="${INSTALL_PATH}/conf/wrapper.conf" condition="haveInstallPath" />
-      <variable name="previous.wrapper.conf2" value="${INSTALL_PATH}/wrapper.conf" condition="haveInstallPath+!previous.wrapper.conf.exists" />
+        <variable name="previous.wrapper.conf1" value="${INSTALL_PATH}/conf/wrapper.conf" condition="haveInstallPath" />
+        <variable name="previous.wrapper.conf2" value="${INSTALL_PATH}/wrapper.conf" condition="haveInstallPath+!previous.wrapper.conf.exists" />
     </dynamicvariables>
 
     <conditions>
-      <condition id="haveInstallPath" type="exists" > <variable>INSTALL_PATH</variable> </condition>
-      <condition id="previous.wrapper.conf.exists" type="exists" > <file>${previous.wrapper.conf1}</file> </condition>
+        <condition id="haveInstallPath" type="exists" > 
+            <variable>INSTALL_PATH</variable> 
+        </condition>
+        <condition id="previous.wrapper.conf.exists" type="exists" > 
+            <file>${previous.wrapper.conf1}</file> 
+        </condition>
     </conditions>
 
     <panels>

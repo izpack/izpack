@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.installer.data.ConsoleInstallData;
@@ -39,15 +38,15 @@ public class TestConsoleInstaller extends ConsoleInstaller
     /**
      * Constructs a <tt>TestConsoleInstaller</tt>
      *
-     * @param panels       the panels
-     * @param installData  the installation date
-     * @param writer       the uninstallation data writer
-     * @param console      the console
-     * @param housekeeper  the house-keeper
+     * @param panels the panels
+     * @param installData the installation date
+     * @param writer the uninstallation data writer
+     * @param console the console
+     * @param housekeeper the house-keeper
      * @throws Exception for any error
      */
     public TestConsoleInstaller(ConsolePanels panels, ConsoleInstallData installData, UninstallDataWriter writer,
-                                TestConsole console, TestHousekeeper housekeeper)
+            TestConsole console, TestHousekeeper housekeeper)
             throws Exception
     {
         super(panels, installData, writer, console, housekeeper);

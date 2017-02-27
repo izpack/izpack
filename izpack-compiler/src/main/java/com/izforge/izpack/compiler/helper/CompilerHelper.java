@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.helper;
 
 import java.io.IOException;
@@ -28,12 +27,12 @@ import java.util.zip.ZipEntry;
 
 import org.apache.commons.lang3.StringUtils;
 
-
 /**
  * Helper for compiler
  */
 public class CompilerHelper
 {
+
     /**
      * Given an event class, return the jar path
      *
@@ -68,8 +67,8 @@ public class CompilerHelper
     }
 
     /**
-     * Returns a list which contains the pathes of all files which are included in the given url.
-     * This method expects as the url param a jar.
+     * Returns a list which contains the pathes of all files which are included
+     * in the given url. This method expects as the url param a jar.
      *
      * @param url url of the jar file
      * @return full qualified paths of the contained files

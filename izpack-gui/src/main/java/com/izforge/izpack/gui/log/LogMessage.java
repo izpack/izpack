@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.gui.log;
 
 /**
@@ -29,6 +28,7 @@ package com.izforge.izpack.gui.log;
  */
 public interface LogMessage
 {
+
     /**
      * First index for warning messages
      */
@@ -39,4 +39,3 @@ public interface LogMessage
      */
     static final int MAX_MESSAGE = 0;
 }
-

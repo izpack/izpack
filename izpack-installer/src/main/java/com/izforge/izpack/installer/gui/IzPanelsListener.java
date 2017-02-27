@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.gui;
 
 /**
@@ -28,11 +27,13 @@ package com.izforge.izpack.installer.gui;
  */
 public interface IzPanelsListener
 {
+
     /**
      * Invoked to switch panels.
      *
      * @param newPanel the panel to switch to
-     * @param oldPanel the panel to switch from, or {@code null} if there was no prior panel
+     * @param oldPanel the panel to switch from, or {@code null} if there was no
+     * prior panel
      */
     void switchPanel(IzPanelView newPanel, IzPanelView oldPanel);
 

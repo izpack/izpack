@@ -32,6 +32,7 @@ import java.util.Date;
  */
 public class ExpiredChecker implements RequirementChecker
 {
+
     /**
      * The installation data.
      */
@@ -42,7 +43,6 @@ public class ExpiredChecker implements RequirementChecker
      */
     private final Prompt prompt;
 
-    
     /**
      * Constructs a <tt>ExpiredChecker</tt>.
      *
@@ -65,7 +65,9 @@ public class ExpiredChecker implements RequirementChecker
     public boolean check()
     {
         if (!expires())
+        {
             return true;
+        }
 
         try
         {
@@ -73,10 +75,12 @@ public class ExpiredChecker implements RequirementChecker
             {
                 showExpired();
                 return false;
-            } 
+            }
             else
+            {
                 return true;
-        } 
+            }
+        }
         catch (Exception ex)
         {
             prompt.error(String.format(
@@ -87,14 +91,12 @@ public class ExpiredChecker implements RequirementChecker
         }
     }
 
-    
     private boolean expired()
     {
         Date expiresDate = installData.getInfo().getExpiresDate();
         return new Date().after(expiresDate);
     }
 
-    
     /**
      * Determines whether the installer expires.
      *
@@ -105,7 +107,6 @@ public class ExpiredChecker implements RequirementChecker
         return installData.getInfo().getExpiresDate() != null;
     }
 
-    
     /**
      * Invoked when the installer has expired.
      * <p/>

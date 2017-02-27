@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.staticText;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -37,7 +36,7 @@ public class ConsoleStaticText extends ConsoleField
     /**
      * Constructs a {@code ConsoleStaticText}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
      */
     public ConsoleStaticText(Field field, Console console, Prompt prompt)

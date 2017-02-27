@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.config;
 
 import java.util.LinkedHashMap;
@@ -54,52 +53,52 @@ public abstract class AbstractXPathConfigurer implements Configurer
     /**
      * Matcher resolver.
      */
-    OperationResolver m_matcherResolver = new OperationResolver(StandardMatchers.class);
+    OperationResolver matcherResolver = new OperationResolver(StandardMatchers.class);
 
     /**
      * Action resolver.
      */
-    OperationResolver m_actionResolver = new OperationResolver(StandardActions.class);
+    OperationResolver actionResolver = new OperationResolver(StandardActions.class);
 
     /**
      * Mapper resolver.
      */
-    OperationResolver m_mapperResolver = new OperationResolver(StandardMappers.class);
+    OperationResolver mapperResolver = new OperationResolver(StandardMappers.class);
 
     /**
      * Root merge action.
      */
-    MergeAction m_rootMergeAction = new FullMergeAction();
+    MergeAction rootMergeAction = new FullMergeAction();
 
     /**
      * Default matcher.
      */
-    Matcher m_defaultMatcher = new AttributeMatcher();
+    Matcher defaultMatcher = new AttributeMatcher();
 
     /**
      * Default mapper.
      */
-    Mapper m_defaultMapper = new IdentityMapper();
+    Mapper defaultMapper = new IdentityMapper();
 
     /**
      * Default action.
      */
-    Action m_defaultAction = new FullMergeAction();
+    Action defaultAction = new FullMergeAction();
 
     /**
      * Map associating XPath expressions with matchers.
      */
-    Map<String, Operation> m_matchers = new LinkedHashMap<String, Operation>();
+    Map<String, Operation> matchers = new LinkedHashMap<String, Operation>();
 
     /**
      * Map associating XPath expressions with actions.
      */
-    Map<String, Operation> m_actions = new LinkedHashMap<String, Operation>();
+    Map<String, Operation> actions = new LinkedHashMap<String, Operation>();
 
     /**
      * Map associating XPath expressions with mappers.
      */
-    Map<String, Operation> m_mappers = new LinkedHashMap<String, Operation>();
+    Map<String, Operation> mappers = new LinkedHashMap<String, Operation>();
 
     /**
      * Sets the configurer's default matcher.
@@ -109,7 +108,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     protected final void setDefaultMatcher(String matcherName) throws ConfigurationException
     {
-        m_defaultMatcher = (Matcher) m_matcherResolver.resolve(matcherName);
+        defaultMatcher = (Matcher) matcherResolver.resolve(matcherName);
     }
 
     /**
@@ -120,7 +119,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     protected final void setDefaultMapper(String mapperName) throws ConfigurationException
     {
-        m_defaultMapper = (Mapper) m_mapperResolver.resolve(mapperName);
+        defaultMapper = (Mapper) mapperResolver.resolve(mapperName);
     }
 
     /**
@@ -131,7 +130,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     protected final void setDefaultAction(String actionName) throws ConfigurationException
     {
-        m_defaultAction = (Action) m_actionResolver.resolve(actionName);
+        defaultAction = (Action) actionResolver.resolve(actionName);
     }
 
     /**
@@ -142,7 +141,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     protected final void setRootMergeAction(String actionName) throws ConfigurationException
     {
-        m_rootMergeAction = (MergeAction) m_actionResolver.resolve(actionName);
+        rootMergeAction = (MergeAction) actionResolver.resolve(actionName);
     }
 
     /**
@@ -154,7 +153,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     protected final void addMatcher(String xPath, String matcherName) throws ConfigurationException
     {
-        m_matchers.put(xPath, m_matcherResolver.resolve(matcherName));
+        matchers.put(xPath, matcherResolver.resolve(matcherName));
     }
 
     /**
@@ -166,7 +165,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     protected final void addAction(String xPath, String actionName) throws ConfigurationException
     {
-        m_actions.put(xPath, m_actionResolver.resolve(actionName));
+        actions.put(xPath, actionResolver.resolve(actionName));
     }
 
     /**
@@ -178,7 +177,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     protected final void addMapper(String xPath, String mapperName) throws ConfigurationException
     {
-        m_mappers.put(xPath, m_mapperResolver.resolve(mapperName));
+        mappers.put(xPath, mapperResolver.resolve(mapperName));
     }
 
     @Override
@@ -187,19 +186,19 @@ public abstract class AbstractXPathConfigurer implements Configurer
         readConfiguration();
 
         XPathOperationFactory matcherFactory = new XPathOperationFactory();
-        matcherFactory.setDefaultOperation(m_defaultMatcher);
-        matcherFactory.setOperationMap(m_matchers);
-        m_rootMergeAction.setMatcherFactory(matcherFactory);
+        matcherFactory.setDefaultOperation(defaultMatcher);
+        matcherFactory.setOperationMap(matchers);
+        rootMergeAction.setMatcherFactory(matcherFactory);
 
         XPathOperationFactory mapperFactory = new XPathOperationFactory();
-        mapperFactory.setDefaultOperation(m_defaultMapper);
-        mapperFactory.setOperationMap(m_mappers);
-        m_rootMergeAction.setMapperFactory(mapperFactory);
+        mapperFactory.setDefaultOperation(defaultMapper);
+        mapperFactory.setOperationMap(mappers);
+        rootMergeAction.setMapperFactory(mapperFactory);
 
         XPathOperationFactory actionFactory = new XPathOperationFactory();
-        actionFactory.setDefaultOperation(m_defaultAction);
-        actionFactory.setOperationMap(m_actions);
-        m_rootMergeAction.setActionFactory(actionFactory);
+        actionFactory.setDefaultOperation(defaultAction);
+        actionFactory.setOperationMap(actions);
+        rootMergeAction.setActionFactory(actionFactory);
 
         xmlMerge.setRootMergeActionFactory(actionFactory);
         xmlMerge.setRootMergeMapperFactory(mapperFactory);
@@ -220,7 +219,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     public void setActionResolver(OperationResolver actionResolver)
     {
-        this.m_actionResolver = actionResolver;
+        this.actionResolver = actionResolver;
     }
 
     /**
@@ -230,7 +229,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     public void setMapperResolver(OperationResolver mapperResolver)
     {
-        this.m_mapperResolver = mapperResolver;
+        this.mapperResolver = mapperResolver;
     }
 
     /**
@@ -240,7 +239,7 @@ public abstract class AbstractXPathConfigurer implements Configurer
      */
     public void setMatcherResolver(OperationResolver matcherResolver)
     {
-        this.m_matcherResolver = matcherResolver;
+        this.matcherResolver = matcherResolver;
     }
 
 }

@@ -19,11 +19,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 public final class Warnings
 {
+
     public static final String UNCHECKED = "unchecked";
 
     private Warnings()

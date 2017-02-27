@@ -25,10 +25,10 @@ import java.util.Properties;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.Console;
 
-
 /**
- * A dummy console panel implementation. It returns {@code true} for all operations.
- * Subclass from this to provide a dummy console implementation of an IzPanel.
+ * A dummy console panel implementation. It returns {@code true} for all
+ * operations. Subclass from this to provide a dummy console implementation of
+ * an IzPanel.
  *
  * @author Tim Anderson
  */
@@ -47,7 +47,7 @@ public abstract class NoOpConsolePanel extends AbstractConsolePanel
      * Runs the panel using the supplied properties.
      *
      * @param installData the installation data
-     * @param properties  the properties
+     * @param properties the properties
      * @return {@code true}
      */
     @Override
@@ -60,7 +60,7 @@ public abstract class NoOpConsolePanel extends AbstractConsolePanel
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
+     * @param console the console
      * @return {@code true}
      */
     @Override

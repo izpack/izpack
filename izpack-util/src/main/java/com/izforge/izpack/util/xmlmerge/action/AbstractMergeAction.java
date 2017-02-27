@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.action;
 
 import com.izforge.izpack.util.xmlmerge.MergeAction;
@@ -40,35 +39,35 @@ public abstract class AbstractMergeAction implements MergeAction
     /**
      * Action factory.
      */
-    protected OperationFactory m_actionFactory = new StaticOperationFactory(this);
+    protected OperationFactory actionFactory = new StaticOperationFactory(this);
 
     /**
      * Mapper factory.
      */
-    protected OperationFactory m_mapperFactory = new StaticOperationFactory(new IdentityMapper());
+    protected OperationFactory mapperFactory = new StaticOperationFactory(new IdentityMapper());
 
     /**
      * Matcher factory.
      */
-    protected OperationFactory m_matcherFactory = new StaticOperationFactory(new AttributeMatcher());
+    protected OperationFactory matcherFactory = new StaticOperationFactory(new AttributeMatcher());
 
     @Override
     public void setMapperFactory(OperationFactory factory)
     {
-        m_mapperFactory = factory;
+        mapperFactory = factory;
     }
 
     @Override
     public void setMatcherFactory(OperationFactory factory)
     {
-        m_matcherFactory = factory;
+        matcherFactory = factory;
 
     }
 
     @Override
     public void setActionFactory(OperationFactory factory)
     {
-        m_actionFactory = factory;
+        actionFactory = factory;
     }
 
 }

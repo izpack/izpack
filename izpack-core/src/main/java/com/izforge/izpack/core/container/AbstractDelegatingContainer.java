@@ -18,13 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.container;
 
 import com.izforge.izpack.api.container.Container;
-import com.izforge.izpack.api.exception.ContainerException;
-import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
-
 
 /**
  * A {@link Container} that delegates to another.
@@ -38,7 +34,6 @@ public abstract class AbstractDelegatingContainer implements Container
      * The container to delegate to.
      */
     private final Container container;
-
 
     /**
      * Constructs an <tt>AbstractDelegatingContainer</tt>.
@@ -65,7 +60,8 @@ public abstract class AbstractDelegatingContainer implements Container
     /**
      * Register a component.
      *
-     * @param componentKey   the component identifier. This must be unique within the container
+     * @param componentKey the component identifier. This must be unique within
+     * the container
      * @param implementation the component implementation
      * @throws ContainerException if registration fails
      */
@@ -78,10 +74,12 @@ public abstract class AbstractDelegatingContainer implements Container
     /**
      * Retrieve a component by its component type.
      * <p/>
-     * If the component type is registered but an instance does not exist, then it will be created.
+     * If the component type is registered but an instance does not exist, then
+     * it will be created.
      *
      * @param componentType the type of the component
-     * @return the corresponding object instance, or <tt>null</tt> if it does not exist
+     * @return the corresponding object instance, or <tt>null</tt> if it does
+     * not exist
      * @throws ContainerException if component creation fails
      */
     @Override
@@ -93,10 +91,12 @@ public abstract class AbstractDelegatingContainer implements Container
     /**
      * Retrieve a component by its component key or type.
      * <p/>
-     * If the component type is registered but an instance does not exist, then it will be created.
+     * If the component type is registered but an instance does not exist, then
+     * it will be created.
      *
      * @param componentKeyOrType the key or type of the component
-     * @return the corresponding object instance, or <tt>null</tt> if it does not exist
+     * @return the corresponding object instance, or <tt>null</tt> if it does
+     * not exist
      * @throws ContainerException if component creation fails
      */
     @Override
@@ -110,7 +110,8 @@ public abstract class AbstractDelegatingContainer implements Container
      * <p/>
      * A child container:
      * <ul>
-     * <li>may have different objects keyed on the same identifiers as its parent.</li>
+     * <li>may have different objects keyed on the same identifiers as its
+     * parent.</li>
      * <li>will query its parent for dependencies if they aren't available</li>
      * <li>is disposed when its parent is disposed</li>
      * </ul>
@@ -150,7 +151,8 @@ public abstract class AbstractDelegatingContainer implements Container
      * @param className the class name
      * @param superType the super type
      * @return the corresponding class
-     * @throws ClassCastException           if <tt>className</tt> does not implement or extend <tt>superType</tt>
+     * @throws ClassCastException if <tt>className</tt> does not implement or
+     * extend <tt>superType</tt>
      * @throws IzPackClassNotFoundException if the class cannot be found
      */
     @Override

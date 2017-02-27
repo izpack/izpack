@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.requirement;
 
 import static org.junit.Assert.assertFalse;
@@ -38,27 +37,27 @@ import com.izforge.izpack.api.installer.RequirementChecker;
  */
 public class RequirementsCheckerTest
 {
+
     /**
-     * Tests the {@link RequirementsChecker#check()} method when all {@link RequirementChecker} implementations
-     * return <tt>true</tt>.
+     * Tests the {@link RequirementsChecker#check()} method when all
+     * {@link RequirementChecker} implementations return <tt>true</tt>.
      */
     @Test
     public void testCheckSuccess()
     {
         Variables variables = Mockito.mock(Variables.class);
         RequirementChecker checker = new RequirementsChecker(variables, mock(LangPackChecker.class, true),
-                                                             mock(JavaVersionChecker.class, true),
-                                                             mock(JDKChecker.class, true),
-                                                             mock(LockFileChecker.class, true),
-                                                             mock(ExpiredChecker.class, true),
-                                                             mock(InstallerRequirementChecker.class, true));
+                mock(JavaVersionChecker.class, true),
+                mock(JDKChecker.class, true),
+                mock(LockFileChecker.class, true),
+                mock(ExpiredChecker.class, true),
+                mock(InstallerRequirementChecker.class, true));
         assertTrue(checker.check());
     }
 
-
     /**
-     * Tests the {@link RequirementsChecker#check()} method when one of the {@link RequirementChecker} implementations
-     * returns <tt>false</tt>.
+     * Tests the {@link RequirementsChecker#check()} method when one of the
+     * {@link RequirementChecker} implementations returns <tt>false</tt>.
      */
     @Test
     public void testCheckFailure()
@@ -74,7 +73,7 @@ public class RequirementsCheckerTest
             InstallerRequirementChecker requirementChecker = mock(InstallerRequirementChecker.class, (i != 5));
 
             RequirementsChecker checker2 = new RequirementsChecker(variables, langChecker, javaChecker, jdkChecker,
-                                                                   lockChecker, expiredChecker, requirementChecker);
+                    lockChecker, expiredChecker, requirementChecker);
             assertFalse(checker2.check());
         }
     }
@@ -82,7 +81,7 @@ public class RequirementsCheckerTest
     /**
      * Mocks a RequirementChecker that returns the specified value.
      *
-     * @param clazz  the class to mock
+     * @param clazz the class to mock
      * @param result the value to return
      * @return the mocked instance
      */

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge;
 
 import java.io.OutputStream;
@@ -27,13 +26,14 @@ import java.util.Map;
 import com.izforge.izpack.api.merge.Mergeable;
 
 /**
- * Abstract classes for all mergeable element.
- * Contains helper methods to managed the mergeContent map.
+ * Abstract classes for all mergeable element. Contains helper methods to
+ * managed the mergeContent map.
  *
  * @author Anthonin Bonnefoy
  */
 public abstract class AbstractMerge implements Mergeable
 {
+
     protected Map<OutputStream, List<String>> mergeContent;
 
     protected List<String> getMergeList(OutputStream outputStream)

@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file;
 
 import java.util.Arrays;

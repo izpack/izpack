@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.file;
 
 import com.izforge.izpack.api.GuiId;
@@ -41,12 +40,12 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
 
-
 public class MultipleFileInputField extends JPanel implements ActionListener, FocusListener
 {
+
     private static final long serialVersionUID = 4673684743657328492L;
 
-    private static final transient Logger logger = Logger.getLogger(MultipleFileInputField.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(MultipleFileInputField.class.getName());
 
     private final MultipleFileField field;
     boolean isDirectory;
@@ -72,7 +71,7 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
     String labeltext;
 
     public MultipleFileInputField(MultipleFileField field, InstallerFrame parent, GUIInstallData data,
-                                  boolean directory)
+            boolean directory)
     {
         this.field = field;
         this.parentFrame = parent;
@@ -107,7 +106,6 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
     public void initialize()
     {
         JPanel main = new JPanel();
-
 
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
 
@@ -155,7 +153,7 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
     {
         if (arg0.getSource() == browseBtn)
         {
-            logger.fine("Show directory chooser");
+            LOGGER.fine("Show directory chooser");
             String initialPath = ".";
             if (fileList.getSelectedValue() != null)
             {
@@ -182,12 +180,12 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
             {
                 String selectedFile = filechooser.getSelectedFile().getAbsolutePath();
                 model.addElement(selectedFile);
-                logger.fine("Setting current file chooser directory to: " + selectedFile);
+                LOGGER.fine("Setting current file chooser directory to: " + selectedFile);
             }
         }
         if (arg0.getSource() == deleteBtn)
         {
-            logger.fine("Delete selected file from list");
+            LOGGER.fine("Delete selected file from list");
             if (fileList.getSelectedValue() != null)
             {
                 model.removeElement(fileList.getSelectedValue());
@@ -203,7 +201,7 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
             result = new ArrayList<String>();
 
             Enumeration<?> elements = model.elements();
-            for (; elements.hasMoreElements(); )
+            for (; elements.hasMoreElements();)
             {
                 String element = (String) elements.nextElement();
                 result.add(element);
@@ -215,9 +213,9 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
     private void showMessage(String messageType)
     {
         JOptionPane.showMessageDialog(parentFrame,
-                                      parentFrame.getMessages().get("UserInputPanel." + messageType + ".message"),
-                                      parentFrame.getMessages().get("UserInputPanel." + messageType + ".caption"),
-                                      JOptionPane.WARNING_MESSAGE);
+                parentFrame.getMessages().get("UserInputPanel." + messageType + ".message"),
+                parentFrame.getMessages().get("UserInputPanel." + messageType + ".caption"),
+                JOptionPane.WARNING_MESSAGE);
     }
 
     private boolean validateFile(String input)
@@ -247,8 +245,8 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
                 if (!status.isValid())
                 {
                     JOptionPane.showMessageDialog(parentFrame, status.getMessage(),
-                                                  parentFrame.getMessages().get("UserInputPanel.error.caption"),
-                                                  JOptionPane.WARNING_MESSAGE);
+                            parentFrame.getMessages().get("UserInputPanel.error.caption"),
+                            JOptionPane.WARNING_MESSAGE);
                 }
                 else
                 {

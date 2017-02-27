@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.multivolume;
 
 import java.io.File;
@@ -29,17 +28,15 @@ import org.junit.After;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestGUIInstallerContainer;
-import com.izforge.izpack.compiler.packager.impl.MultiVolumePackager;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.language.LanguageDialog;
-import com.izforge.izpack.installer.multiunpacker.MultiVolumeUnpacker;
 import com.izforge.izpack.integration.HelperTestMethod;
 
-
 /**
- * Tests installation when using the {@link MultiVolumePackager} and {@link MultiVolumeUnpacker}.
+ * Tests installation when using the {@link MultiVolumePackager} and
+ * {@link MultiVolumeUnpacker}.
  *
  * @author Tim Anderson
  */
@@ -63,7 +60,6 @@ public class MultiVolumeInstallationTest extends AbstractMultiVolumeInstallation
         }
     }
 
-
     /**
      * Creates the installer container.
      *
@@ -78,7 +74,7 @@ public class MultiVolumeInstallationTest extends AbstractMultiVolumeInstallation
     /**
      * Performs the installation.
      *
-     * @param container   the installer
+     * @param container the installer
      * @param installData the installation data
      * @param installPath the installation path
      * @throws Exception for any error
@@ -128,6 +124,5 @@ public class MultiVolumeInstallationTest extends AbstractMultiVolumeInstallation
         Thread.sleep(1200);
         fixture.button(GuiId.BUTTON_QUIT.id).click();
     }
-
 
 }

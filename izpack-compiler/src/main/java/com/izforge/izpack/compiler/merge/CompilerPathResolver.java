@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.merge;
 
 import java.io.IOException;
@@ -43,7 +42,6 @@ import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
 
-
 /**
  * A {@link PathResolver} for the compiler.
  *
@@ -55,8 +53,7 @@ public class CompilerPathResolver extends PathResolver
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(CompilerPathResolver.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(CompilerPathResolver.class.getName());
 
     /**
      * The class loader.
@@ -68,16 +65,15 @@ public class CompilerPathResolver extends PathResolver
      */
     private final Properties panelDependencies;
 
-
     /**
      * Constructs a <tt>CompilerPathResolver</tt>.
      *
      * @param mergeableResolver the mergeable resolver
-     * @param loader            the class loader
+     * @param loader the class loader
      * @param panelDependencies panel dependency properties
      */
     public CompilerPathResolver(MergeableResolver mergeableResolver, CompilerClassLoader loader,
-                                Properties panelDependencies)
+            Properties panelDependencies)
     {
         super(mergeableResolver);
         this.loader = loader;
@@ -103,7 +99,7 @@ public class CompilerPathResolver extends PathResolver
         }
         else
         {
-            logger.warning("No console mode helper found for class " + className + ", panel type will be skipped in console mode installation");
+            LOGGER.warning("No console mode helper found for class " + className + ", panel type will be skipped in console mode installation");
         }
         Class<PanelAutomation> automatedType = PanelHelper.getAutomatedPanel(className, loader);
         if (automatedType != null)
@@ -112,7 +108,7 @@ public class CompilerPathResolver extends PathResolver
         }
         else
         {
-            logger.warning("No automation helper found for class " + className + ", panel type will be skipped in automated installation");
+            LOGGER.warning("No automation helper found for class " + className + ", panel type will be skipped in automated installation");
         }
         for (List<Mergeable> pkg : mergeableByPackage.values())
         {
@@ -123,7 +119,8 @@ public class CompilerPathResolver extends PathResolver
     }
 
     /**
-     * Returns a list of {@link Mergeable} instances for all resources in the specified package.
+     * Returns a list of {@link Mergeable} instances for all resources in the
+     * specified package.
      *
      * @param merge the package to merge
      * @return all resources in the specified package
@@ -154,7 +151,7 @@ public class CompilerPathResolver extends PathResolver
     /**
      * Locates the {@link Mergeable} instances for a panel and its dependencies.
      *
-     * @param type      the panel class or interface
+     * @param type the panel class or interface
      * @param mergeable the instances, keyed on package name
      */
     private void getMergeableByPackage(Class type, Map<String, List<Mergeable>> mergeable)

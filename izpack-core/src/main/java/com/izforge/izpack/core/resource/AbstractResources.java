@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.resource;
 
 import java.awt.Image;
@@ -38,7 +37,6 @@ import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
 
-
 /**
  * Abstract implementation of {@link Resources}.
  *
@@ -51,7 +49,6 @@ public abstract class AbstractResources implements Resources
      * The class loader.
      */
     private final ClassLoader loader;
-
 
     /**
      * Constructs an {@code AbstractResources} using the default class loader.
@@ -114,7 +111,7 @@ public abstract class AbstractResources implements Resources
      * @param name the resource name
      * @return the resource as a string
      * @throws ResourceNotFoundException if the resource cannot be found
-     * @throws ResourceException         if the resource cannot be retrieved
+     * @throws ResourceException if the resource cannot be retrieved
      */
     @Override
     public String getString(String name)
@@ -132,9 +129,11 @@ public abstract class AbstractResources implements Resources
     /**
      * Returns a UTF-8 encoded resource as a string.
      *
-     * @param name         the resource name
-     * @param defaultValue the default value, if the resource cannot be found or retrieved
-     * @return the resource as a string, or {@code defaultValue} if cannot be found or retrieved
+     * @param name the resource name
+     * @param defaultValue the default value, if the resource cannot be found or
+     * retrieved
+     * @return the resource as a string, or {@code defaultValue} if cannot be
+     * found or retrieved
      */
     @Override
     public String getString(String name, String defaultValue)
@@ -145,10 +144,12 @@ public abstract class AbstractResources implements Resources
     /**
      * Returns a resource as a string.
      *
-     * @param name         the resource name
-     * @param encoding     the resource encoding. May be {@code null}
-     * @param defaultValue the default value, if the resource cannot be found or retrieved
-     * @return the resource as a string, or {@code defaultValue} if cannot be found or retrieved
+     * @param name the resource name
+     * @param encoding the resource encoding. May be {@code null}
+     * @param defaultValue the default value, if the resource cannot be found or
+     * retrieved
+     * @return the resource as a string, or {@code defaultValue} if cannot be
+     * found or retrieved
      */
     @Override
     public String getString(String name, String encoding, String defaultValue)
@@ -171,7 +172,7 @@ public abstract class AbstractResources implements Resources
      * @param name the resource name
      * @return the object resource
      * @throws ResourceNotFoundException if the resource cannot be found
-     * @throws ResourceException         if the resource cannot be retrieved
+     * @throws ResourceException if the resource cannot be retrieved
      */
     @Override
     public Object getObject(String name) throws ResourceException, ResourceNotFoundException
@@ -199,8 +200,9 @@ public abstract class AbstractResources implements Resources
     /**
      * Returns an {@code ImageIcon} resource.
      *
-     * @param name         the resource name
-     * @param alternatives alternative resource names, if {@code name} is not found
+     * @param name the resource name
+     * @param alternatives alternative resource names, if {@code name} is not
+     * found
      * @return the corresponding {@code ImageIcon}
      * @throws ResourceNotFoundException if the resource cannot be found
      */
@@ -232,11 +234,13 @@ public abstract class AbstractResources implements Resources
         }
 
         // must use ImageIO to support BMP files
-        try {
-			Image image = ImageIO.read(result);
-			return new ImageIcon(image);
+        try
+        {
+            Image image = ImageIO.read(result);
+            return new ImageIcon(image);
         }
-        catch (IOException ex) {
+        catch (IOException ex)
+        {
             StringBuilder message = new StringBuilder("Image icon resource not available from url: ");
             message.append(result);
             throw new ResourceNotFoundException(message.toString());
@@ -247,7 +251,8 @@ public abstract class AbstractResources implements Resources
      * Returns a resource URL.
      *
      * @param name the resource name
-     * @return the corresponding URL, or {@code null} if the resource cannot be found
+     * @return the corresponding URL, or {@code null} if the resource cannot be
+     * found
      */
     protected URL getResource(String name)
     {
@@ -285,11 +290,11 @@ public abstract class AbstractResources implements Resources
     /**
      * Reads a string resource.
      *
-     * @param name     the resource name
+     * @param name the resource name
      * @param encoding the resource encoding. May be {@code null}
      * @return the resource as a string
      * @throws ResourceNotFoundException if the resource cannot be found
-     * @throws java.io.IOException       for any I/O error
+     * @throws java.io.IOException for any I/O error
      */
     protected String readString(String name, String encoding) throws IOException
     {

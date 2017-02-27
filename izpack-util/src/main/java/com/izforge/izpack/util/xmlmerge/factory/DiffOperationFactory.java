@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.factory;
 
 import org.jdom2.Element;
@@ -29,8 +28,8 @@ import com.izforge.izpack.util.xmlmerge.Operation;
 import com.izforge.izpack.util.xmlmerge.OperationFactory;
 
 /**
- * An operation factory delegating to other operation factories according to the existence of the
- * original and patch element.
+ * An operation factory delegating to other operation factories according to the
+ * existence of the original and patch element.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
@@ -39,52 +38,57 @@ public class DiffOperationFactory implements OperationFactory
 {
 
     /**
-     * OperationFactory this factory delegates to if only the original element exists.
+     * OperationFactory this factory delegates to if only the original element
+     * exists.
      */
-    OperationFactory m_onlyInOriginalOperationFactory;
+    OperationFactory onlyInOriginalOperationFactory;
 
     /**
-     * OperationFactory this factory delegates to if only the patch element exists.
+     * OperationFactory this factory delegates to if only the patch element
+     * exists.
      */
-    OperationFactory m_onlyInPatchOperationFactory;
+    OperationFactory onlyInPatchOperationFactory;
 
     /**
-     * OperationFactory this factory delegates to if the original and patch elements exist.
+     * OperationFactory this factory delegates to if the original and patch
+     * elements exist.
      */
-    OperationFactory m_inBothOperationFactory;
+    OperationFactory inBothOperationFactory;
 
     /**
-     * Sets the operation factory this factory delegates to if the original and patch elements
-     * exist.
+     * Sets the operation factory this factory delegates to if the original and
+     * patch elements exist.
      *
-     * @param inBothOperationFactory the operation factory this factory delegates to if the original
-     * and patch elements exist.
+     * @param inBothOperationFactory the operation factory this factory
+     * delegates to if the original and patch elements exist.
      */
     public void setInBothOperationFactory(OperationFactory inBothOperationFactory)
     {
-        this.m_inBothOperationFactory = inBothOperationFactory;
+        this.inBothOperationFactory = inBothOperationFactory;
     }
 
     /**
-     * Sets the operation factory this factory delegates to if only the original element exists.
+     * Sets the operation factory this factory delegates to if only the original
+     * element exists.
      *
-     * @param onlyInOriginalOperationFactory factory this factory delegates to if only the original
-     * element exists
+     * @param onlyInOriginalOperationFactory factory this factory delegates to
+     * if only the original element exists
      */
     public void setOnlyInOriginalOperationFactory(OperationFactory onlyInOriginalOperationFactory)
     {
-        this.m_onlyInOriginalOperationFactory = onlyInOriginalOperationFactory;
+        this.onlyInOriginalOperationFactory = onlyInOriginalOperationFactory;
     }
 
     /**
-     * Sets the operation factory this factory delegates to if only the patch element exists.
+     * Sets the operation factory this factory delegates to if only the patch
+     * element exists.
      *
-     * @param onlyInPatchOperationFactory factory this factory delegates to if only the patch
-     * element exists
+     * @param onlyInPatchOperationFactory factory this factory delegates to if
+     * only the patch element exists
      */
     public void setOnlyInPatchOperationFactory(OperationFactory onlyInPatchOperationFactory)
     {
-        this.m_onlyInPatchOperationFactory = onlyInPatchOperationFactory;
+        this.onlyInPatchOperationFactory = onlyInPatchOperationFactory;
     }
 
     @Override
@@ -92,14 +96,23 @@ public class DiffOperationFactory implements OperationFactory
             throws AbstractXmlMergeException
     {
 
-        if (originalElement != null && patchElement == null) { return m_onlyInOriginalOperationFactory
-                .getOperation(originalElement, null); }
+        if (originalElement != null && patchElement == null)
+        {
+            return onlyInOriginalOperationFactory
+                    .getOperation(originalElement, null);
+        }
 
-        if (originalElement == null && patchElement != null) { return m_onlyInPatchOperationFactory
-                .getOperation(null, patchElement); }
+        if (originalElement == null && patchElement != null)
+        {
+            return onlyInPatchOperationFactory
+                    .getOperation(null, patchElement);
+        }
 
-        if (originalElement != null && patchElement != null) { return m_inBothOperationFactory
-                .getOperation(originalElement, patchElement); }
+        if (originalElement != null && patchElement != null)
+        {
+            return inBothOperationFactory
+                    .getOperation(originalElement, patchElement);
+        }
 
         throw new IllegalArgumentException();
     }

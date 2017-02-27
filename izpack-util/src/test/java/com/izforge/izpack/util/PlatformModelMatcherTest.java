@@ -54,7 +54,6 @@ public class PlatformModelMatcherTest
      */
     private final PlatformModelMatcher matcher;
 
-
     /**
      * Constructs a {@code PlatformModelMatcherTest}.
      */
@@ -65,7 +64,8 @@ public class PlatformModelMatcherTest
     }
 
     /**
-     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the architecture is specified.
+     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method
+     * when only the architecture is specified.
      */
     @Test
     public void testArchitectureMatch()
@@ -80,7 +80,8 @@ public class PlatformModelMatcherTest
     }
 
     /**
-     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the family is specified.
+     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method
+     * when only the family is specified.
      */
     @Test
     public void testFamilyMatch()
@@ -95,8 +96,8 @@ public class PlatformModelMatcherTest
     }
 
     /**
-     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the family and name is
-     * specified.
+     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method
+     * when only the family and name is specified.
      */
     @Test
     public void testFamilyNameMatch()
@@ -108,9 +109,9 @@ public class PlatformModelMatcherTest
         checkMatch(Platforms.MAC_OSX, osx, mac);
     }
 
-
     /**
-     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the name is specified.
+     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method
+     * when only the name is specified.
      */
     @Test
     public void testNameMatch()
@@ -125,7 +126,8 @@ public class PlatformModelMatcherTest
     }
 
     /**
-     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the version is specified.
+     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method
+     * when only the version is specified.
      */
     @Test
     public void testVersionMatch()
@@ -140,7 +142,8 @@ public class PlatformModelMatcherTest
     }
 
     /**
-     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the java version is specified.
+     * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method
+     * when only the java version is specified.
      */
     @Test
     public void testJavaVersionMatch()
@@ -158,7 +161,8 @@ public class PlatformModelMatcherTest
     }
 
     /**
-     * Tests {@link PlatformModelMatcher#matches(Platform, java.util.List)} when only the family is specified.
+     * Tests {@link PlatformModelMatcher#matches(Platform, java.util.List)} when
+     * only the family is specified.
      */
     @Test
     public void testMatchesByFamily()
@@ -175,9 +179,9 @@ public class PlatformModelMatcherTest
         assertFalse(matcher.matches(platform, Arrays.asList(unix, mac)));
     }
 
-
     /**
-     * Tests {@link PlatformModelMatcher#matches(Platform, java.util.List)} when only the name is specified.
+     * Tests {@link PlatformModelMatcher#matches(Platform, java.util.List)} when
+     * only the name is specified.
      */
     @Test
     public void testMatchesByName()
@@ -193,11 +197,12 @@ public class PlatformModelMatcherTest
         assertTrue(matcher.matches(platform, Arrays.asList(osx, os2, sunos)));
         assertFalse(matcher.matches(platform, Arrays.asList(sunos, os2)));
     }
+
     /**
      * Verifies that a platform matches the expected model.
      *
-     * @param platform  the platform
-     * @param match     the model that is expected to match
+     * @param platform the platform
+     * @param match the model that is expected to match
      * @param noMatches the models that aren't expected to match
      */
     private void checkMatch(Platform platform, OsModel match, OsModel... noMatches)

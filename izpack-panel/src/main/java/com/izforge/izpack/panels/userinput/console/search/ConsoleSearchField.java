@@ -1,7 +1,6 @@
 package com.izforge.izpack.panels.userinput.console.search;
 
 import com.izforge.izpack.api.handler.Prompt;
-import com.izforge.izpack.panels.userinput.console.ConsoleChoiceField;
 import com.izforge.izpack.panels.userinput.console.ConsoleField;
 import com.izforge.izpack.panels.userinput.field.search.SearchField;
 import com.izforge.izpack.util.Console;
@@ -12,16 +11,17 @@ import java.util.logging.Logger;
 /**
  * Based on {@link ConsoleChoiceField}
  */
-public class ConsoleSearchField extends ConsoleField { // ConsoleComboField { //AbstractConsoleFileField {
+public class ConsoleSearchField extends ConsoleField
+{ // ConsoleComboField { //AbstractConsoleFileField {
 
-    private static final Logger logger = Logger.getLogger(ConsoleSearchField.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ConsoleSearchField.class.getName());
 
     /**
      * Constructs a {@link ConsoleSearchField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleSearchField(SearchField field, Console console, Prompt prompt)
     {
@@ -32,9 +32,9 @@ public class ConsoleSearchField extends ConsoleField { // ConsoleComboField { //
     @Override
     public boolean display()
     {
-        SearchField field = (SearchField)getField();
+        SearchField field = (SearchField) getField();
         printDescription();
-        
+
         List<String> choices = field.getChoices();
         int selectedIndex = field.getSelectedIndex();
 
@@ -59,8 +59,9 @@ public class ConsoleSearchField extends ConsoleField { // ConsoleComboField { //
     /**
      * Displays the choices.
      *
-     * @param choices  the choices
-     * @param selected the selected choice, or {@code -1} if no choice is selected
+     * @param choices the choices
+     * @param selected the selected choice, or {@code -1} if no choice is
+     * selected
      */
     protected void listChoices(List<String> choices, int selected)
     {

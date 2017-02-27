@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.factory;
 
 import org.jdom2.Element;
@@ -30,7 +29,8 @@ import com.izforge.izpack.util.xmlmerge.Operation;
 import com.izforge.izpack.util.xmlmerge.OperationFactory;
 
 /**
- * Creates operations by inspecting keywords passed as attributes in patch elements.
+ * Creates operations by inspecting keywords passed as attributes in patch
+ * elements.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
@@ -41,38 +41,39 @@ public class AttributeOperationFactory implements OperationFactory
     /**
      * Default operation.
      */
-    private Operation m_defaultOperation;
+    private Operation defaultOperation;
 
     /**
      * Namespace describing the operations to apply.
      */
-    private Namespace m_namespace;
+    private Namespace namespace;
 
     /**
      * Keyword.
      */
-    private String m_keyword;
+    private String keyword;
 
     /**
      * Operation resolver.
      */
-    private OperationResolver m_resolver;
+    private OperationResolver resolver;
 
     /**
      * Creates a new AttributeOperationFactory.
      *
      * @param defaultOperation The factory's default operation
      * @param resolver The factory's operation resolver
-     * @param keyword The name of the attribute representing the factory's operation
+     * @param keyword The name of the attribute representing the factory's
+     * operation
      * @param namespace The namespace describing the operations to apply
      */
     public AttributeOperationFactory(Operation defaultOperation, OperationResolver resolver,
             String keyword, String namespace)
     {
-        this.m_defaultOperation = defaultOperation;
-        this.m_keyword = keyword;
-        this.m_resolver = resolver;
-        this.m_namespace = Namespace.getNamespace(namespace);
+        this.defaultOperation = defaultOperation;
+        this.keyword = keyword;
+        this.resolver = resolver;
+        this.namespace = Namespace.getNamespace(namespace);
     }
 
     @Override
@@ -80,17 +81,20 @@ public class AttributeOperationFactory implements OperationFactory
             throws AbstractXmlMergeException
     {
 
-        if (modifiedElement == null) { return m_defaultOperation; }
+        if (modifiedElement == null)
+        {
+            return defaultOperation;
+        }
 
-        String operationString = modifiedElement.getAttributeValue(m_keyword, m_namespace);
+        String operationString = modifiedElement.getAttributeValue(keyword, namespace);
 
         if (operationString != null)
         {
-            return m_resolver.resolve(operationString);
+            return resolver.resolve(operationString);
         }
         else
         {
-            return m_defaultOperation;
+            return defaultOperation;
         }
 
     }

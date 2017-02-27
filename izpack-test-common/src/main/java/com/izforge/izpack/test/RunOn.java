@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.test;
 
 import java.lang.annotation.ElementType;
@@ -35,9 +34,13 @@ import com.izforge.izpack.util.Platform;
  * @author Tim Anderson
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target(
+        {
+            ElementType.METHOD, ElementType.TYPE
+        })
 @Inherited
 public @interface RunOn
 {
+
     Platform.Name[] value();
 }

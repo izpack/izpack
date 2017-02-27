@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import java.util.Collections;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
-
 
 /**
  * Reads an {@link FieldValidator} from an {@link Config}.
@@ -47,12 +45,11 @@ public class FieldValidatorReader
      */
     private final Config config;
 
-
     /**
      * Constructs a {@code} FieldValidatorReader}.
      *
      * @param validator the validator element
-     * @param config    the configuration
+     * @param config the configuration
      */
     public FieldValidatorReader(IXMLElement validator, Config config)
     {

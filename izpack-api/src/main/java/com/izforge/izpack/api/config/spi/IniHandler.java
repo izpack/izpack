@@ -19,20 +19,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.util.List;
 
 public interface IniHandler extends HandlerBase
 {
+
     void endIni();
 
     void endSection();
 
-    @Override void handleComment(List<String> comment);
+    @Override
+    void handleComment(List<String> comment);
 
-    @Override void handleOption(String optionName, String optionValue);
+    @Override
+    void handleOption(String optionName, String optionValue);
 
     void startIni();
 

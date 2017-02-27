@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.htmlinfo;
 
 import java.io.ByteArrayInputStream;
@@ -68,11 +67,11 @@ public class HTMLInfoPanel extends IzPanel
     /**
      * Constructs an <tt>HTMLInfoPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public HTMLInfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
@@ -82,16 +81,17 @@ public class HTMLInfoPanel extends IzPanel
     /**
      * Constructs an <tt>HTMLInfoPanel</tt>.
      *
-     * @param panel             the panel  meta-data
-     * @param parent            the parent window
-     * @param installData       the installation data
-     * @param resPrefixStr      prefix string for content resource name.
-     * @param showInfoLabelFlag true to show "please read..." label above content
-     * @param resources         the resources
-     * @param log               the log
+     * @param panel the panel meta-data
+     * @param parent the parent window
+     * @param installData the installation data
+     * @param resPrefixStr prefix string for content resource name.
+     * @param showInfoLabelFlag true to show "please read..." label above
+     * content
+     * @param resources the resources
+     * @param log the log
      */
     public HTMLInfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData,
-                         String resPrefixStr, boolean showInfoLabelFlag, Resources resources, Log log)
+            String resPrefixStr, boolean showInfoLabelFlag, Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
         //setup given resource prefix and name:
@@ -99,7 +99,6 @@ public class HTMLInfoPanel extends IzPanel
         panelResourceNameStr = resPrefixStr + ".info";
 
         // We add the components
-
         if (showInfoLabelFlag)
         {  //flag is set; add label above content
             add(LabelFactory.create(getString("InfoPanel.info"), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
@@ -115,8 +114,8 @@ public class HTMLInfoPanel extends IzPanel
                         throws IOException
                 {                  //get original stream contents:
                     final InputStream inStm = super.getStream(urlObj);
-                    final ByteArrayOutputStream btArrOutStm =
-                            new ByteArrayOutputStream();
+                    final ByteArrayOutputStream btArrOutStm
+                            = new ByteArrayOutputStream();
                     int b;         //copy contents to output stream:
                     final byte[] buff = new byte[2048];
                     while ((b = inStm.read(buff, 0, buff.length)) > 0)
@@ -124,8 +123,8 @@ public class HTMLInfoPanel extends IzPanel
                         btArrOutStm.write(buff, 0, b);
                     }
                     //convert to string and parse variables:
-                    final String parsedStr =
-                            parseText(btArrOutStm.toString());
+                    final String parsedStr
+                            = parseText(btArrOutStm.toString());
                     //return input stream to parsed string:
                     return new ByteArrayInputStream(
                             parsedStr.getBytes());
@@ -150,8 +149,7 @@ public class HTMLInfoPanel extends IzPanel
 
     /*
     * loads the content of the info resource as text so that it can be parsed afterwards
-    */
-
+     */
     private URL loadHTMLInfoContent()
     {
         Resources resources = getResources();
@@ -210,4 +208,3 @@ public class HTMLInfoPanel extends IzPanel
         }
     }
 }
-

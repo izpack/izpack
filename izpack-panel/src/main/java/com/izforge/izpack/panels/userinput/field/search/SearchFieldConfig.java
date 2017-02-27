@@ -18,13 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.search;
 
 import java.util.List;
 
 import com.izforge.izpack.panels.userinput.field.FieldConfig;
-
 
 /**
  * Search field configuration.
@@ -59,8 +57,8 @@ public interface SearchFieldConfig extends FieldConfig
      * Returns the result type.
      *
      * @return the result type
-     * @throws com.izforge.izpack.api.exception.IzPackException
-     *          if the attribute is not present or is invalid
+     * @throws com.izforge.izpack.api.exception.IzPackException if the attribute
+     * is not present or is invalid
      */
     ResultType getResultType();
 

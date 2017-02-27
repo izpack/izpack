@@ -25,8 +25,8 @@
     </pack>
     <pack name="Core">
         <key
-                keypath="SOFTWARE\IzForge\IzPack\$UNINSTALL_NAME\ЮникодТестКлюч"
-                root="HKLM"/>
+            keypath="SOFTWARE\IzForge\IzPack\$UNINSTALL_NAME\ЮникодТестКлюч"
+            root="HKLM"/>
         <value name="Path"
                keypath="SOFTWARE\IzForge\IzPack\$UNINSTALL_NAME"
                root="HKLM"

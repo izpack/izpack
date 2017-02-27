@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.defaulttarget;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -32,8 +31,8 @@ import com.izforge.izpack.panels.path.PathInputPanel;
 import com.izforge.izpack.panels.target.TargetPanelHelper;
 
 /**
- * The target directory selection panel.
- * TODO - not clear why this class needs to extend PathInputPanel as it uses none of its methods
+ * The target directory selection panel. TODO - not clear why this class needs
+ * to extend PathInputPanel as it uses none of its methods
  *
  * @author Julien Ponge
  * @author Jeff Gordon
@@ -47,14 +46,14 @@ public class DefaultTargetPanel extends PathInputPanel
     /**
      * The constructor.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public DefaultTargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                              Log log)
+            Log log)
     {
         super(panel, parent, installData, resources, log);
         this.defaultTargetPanelAutomationHelper = new DefaultTargetPanelAutomationHelper();

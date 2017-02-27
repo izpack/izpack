@@ -14,18 +14,18 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file;
 
 /**
- * Implementation of FileNameMapper that always returns the same
- * target file name.
+ * Implementation of FileNameMapper that always returns the same target file
+ * name.
  * <p/>
- * <p>This is the default FileNameMapper for the archiving tasks and
- * uptodate.</p>
+ * <p>
+ * This is the default FileNameMapper for the archiving tasks and uptodate.</p>
  */
 public class MergingMapper implements FileNameMapper
 {
+
     protected String[] mergedFile = null;
 
     /**
@@ -40,7 +40,10 @@ public class MergingMapper implements FileNameMapper
      */
     public void setTo(String to)
     {
-        mergedFile = new String[]{to};
+        mergedFile = new String[]
+        {
+            to
+        };
     }
 
     /**

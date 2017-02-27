@@ -1,22 +1,21 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.data;
 
 import com.izforge.izpack.data.CustomData;
@@ -105,7 +104,7 @@ public class UninstallData
     /**
      * Adds a file to the data.
      *
-     * @param path      The file to add.
+     * @param path The file to add.
      * @param uninstall If true, file must be uninstalled.
      */
     public synchronized void addFile(String path, boolean uninstall)
@@ -273,7 +272,7 @@ public class UninstallData
     /**
      * Sets additional uninstall data.
      *
-     * @param name  key for the additional uninstall data
+     * @param name key for the additional uninstall data
      * @param value the additional uninstall data
      */
     public void addAdditionalData(String name, Object value)
@@ -282,7 +281,8 @@ public class UninstallData
     }
 
     /**
-     * Adds the given File to delete several Shortcuts as Root for the given Users.
+     * Adds the given File to delete several Shortcuts as Root for the given
+     * Users.
      *
      * @param aRootUninstallScript The Script to exec as Root at uninstall.
      */

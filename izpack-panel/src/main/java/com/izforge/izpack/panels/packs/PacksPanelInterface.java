@@ -18,16 +18,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.packs;
 
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.installer.debugger.Debugger;
 
 /**
- * This interface is used to be able to access the common information in the PackPanel and the
- * ImgPacksPAnel through a common type. I introduced it so that I can remove the duplicate
- * PacksModel from each class and create a common one for both.
+ * This interface is used to be able to access the common information in the
+ * PackPanel and the ImgPacksPAnel through a common type. I introduced it so
+ * that I can remove the duplicate PacksModel from each class and create a
+ * common one for both.
  * <p/>
  * This could be avoided by inheriting ImgPacksPanel from PacksPanel
  * <p/>
@@ -39,6 +39,7 @@ import com.izforge.izpack.installer.debugger.Debugger;
  */
 public interface PacksPanelInterface
 {
+
     public Messages getMessages();
 
     public long getBytes();

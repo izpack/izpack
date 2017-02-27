@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
 import com.izforge.izpack.api.data.Blockable;
@@ -30,7 +29,6 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.logging.Logger;
-
 
 /**
  * Unpacks a file from a pack.
@@ -70,14 +68,13 @@ public abstract class FileUnpacker
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(FileUnpacker.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(FileUnpacker.class.getName());
 
     /**
      * Constructs a <tt>FileUnpacker</tt>.
      *
      * @param cancellable determines if unpacking should be cancelled
-     * @param queue       the file queue. May be {@code null}
+     * @param queue the file queue. May be {@code null}
      */
     public FileUnpacker(Cancellable cancellable, FileQueue queue)
     {
@@ -88,10 +85,10 @@ public abstract class FileUnpacker
     /**
      * Unpacks a pack file.
      *
-     * @param file            the pack file meta-data
+     * @param file the pack file meta-data
      * @param packInputStream the pack input stream
-     * @param target          the target
-     * @throws IOException        for any I/O error
+     * @param target the target
+     * @throws IOException for any I/O error
      * @throws InstallerException for any installer exception
      */
     public abstract void unpack(PackFile file, ObjectInputStream packInputStream, File target)
@@ -108,15 +105,17 @@ public abstract class FileUnpacker
     }
 
     /**
-     * Copies an input stream to a target, setting its timestamp to that of the pack file.
+     * Copies an input stream to a target, setting its timestamp to that of the
+     * pack file.
      * <p/>
-     * If the target is a blockable file, then a temporary file will be created, and the file queued.
+     * If the target is a blockable file, then a temporary file will be created,
+     * and the file queued.
      *
-     * @param file   the pack file
-     * @param in     the pack file stream
+     * @param file the pack file
+     * @param in the pack file stream
      * @param target the file to write to
      * @throws InterruptedIOException if the copy operation is cancelled
-     * @throws IOException            for any I/O error
+     * @throws IOException for any I/O error
      */
     protected void copy(PackFile file, InputStream in, File target) throws IOException
     {
@@ -143,7 +142,8 @@ public abstract class FileUnpacker
     }
 
     /**
-     * Invoked after copying is complete to set the last modified timestamp, and queue blockable files.
+     * Invoked after copying is complete to set the last modified timestamp, and
+     * queue blockable files.
      *
      * @param file the pack file meta-data
      * @throws IOException for any I/O error
@@ -161,10 +161,10 @@ public abstract class FileUnpacker
     /**
      * Copies from the input stream to the output stream.
      *
-     * @param file        the pack file
-     * @param buffer      the buffer to use
-     * @param in          the stream to read from
-     * @param out         the stream to write to
+     * @param file the pack file
+     * @param buffer the buffer to use
+     * @param in the stream to read from
+     * @param out the stream to write to
      * @param bytesCopied the current no. of bytes copied
      * @return the bytes copied
      * @throws IOException for any I/O error
@@ -187,8 +187,8 @@ public abstract class FileUnpacker
     /**
      * Reads up to <tt>maxBytes</tt> bytes to the specified buffer.
      *
-     * @param buffer   the buffer
-     * @param in       the input stream
+     * @param buffer the buffer
+     * @param in the input stream
      * @param maxBytes the maximum no. of bytes to read
      * @return the no. of bytes read
      * @throws IOException for any I/O error
@@ -201,9 +201,10 @@ public abstract class FileUnpacker
     /**
      * Returns a stream to the target file.
      * <p/>
-     * If the target file is blockable, then a temporary file will be created, and a stream to this returned instead.
+     * If the target file is blockable, then a temporary file will be created,
+     * and a stream to this returned instead.
      *
-     * @param file   the pack file meta-data
+     * @param file the pack file meta-data
      * @param target the requested target
      * @return a stream to the actual target
      * @throws IOException
@@ -239,7 +240,7 @@ public abstract class FileUnpacker
             File f = (tmpTarget != null) ? tmpTarget : target;
             if (!f.setLastModified(file.lastModified()))
             {
-                logger.warning("Failed to set last modified timestamp for: " + target);
+                LOGGER.warning("Failed to set last modified timestamp for: " + target);
             }
         }
     }
@@ -268,8 +269,8 @@ public abstract class FileUnpacker
         move.setForceInUse(true);
         move.setOverwrite(true);
         queue.add(move);
-        logger.fine(tmpTarget.getAbsolutePath() + " -> " + target.getAbsolutePath()
-                            + " added to file queue for being copied after reboot");
+        LOGGER.fine(tmpTarget.getAbsolutePath() + " -> " + target.getAbsolutePath()
+                + " added to file queue for being copied after reboot");
         // The temporary file must not be deleted until the file queue will be committed
         tmpTarget.deleteOnExit();
         queued = true;

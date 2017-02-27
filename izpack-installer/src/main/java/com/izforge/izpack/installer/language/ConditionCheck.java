@@ -22,18 +22,18 @@ import com.izforge.izpack.util.FileUtil;
 /**
  * Checker for java version, JDK and running install
  *
- * @deprecated This doesn't support console installations. For a replacement, see
- *             {@link com.izforge.izpack.installer.requirement.RequirementsChecker}
+ * @deprecated This doesn't support console installations. For a replacement,
+ * see {@link com.izforge.izpack.installer.requirement.RequirementsChecker}
  */
 @Deprecated
 public class ConditionCheck
 {
-    private static final Logger logger = Logger.getLogger(ConditionCheck.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(ConditionCheck.class.getName());
 
     private InstallData installdata;
     private ResourceManager resourceManager;
     private RulesEngine rules;
-
 
     public ConditionCheck(InstallData installdata, ResourceManager resourceManager, RulesEngine rules)
     {
@@ -52,9 +52,9 @@ public class ConditionCheck
     }
 
     /**
-     * Sets a lock file. Not using java.nio.channels.FileLock to prevent
-     * the installer from accidentally keeping a lock on a file if the install
-     * fails or is killed.
+     * Sets a lock file. Not using java.nio.channels.FileLock to prevent the
+     * installer from accidentally keeping a lock on a file if the install fails
+     * or is killed.
      *
      * @throws Exception Description of the Exception
      */
@@ -69,7 +69,7 @@ public class ConditionCheck
             if (file.exists())
             {
                 // Ask user if they want to proceed.
-                logger.fine("Lock File Exists, asking user for permission to proceed.");
+                LOGGER.fine("Lock File Exists, asking user for permission to proceed.");
                 StringBuilder msg = new StringBuilder();
                 msg.append("<html>");
                 msg.append("The ").append(appName).append(
@@ -85,22 +85,25 @@ public class ConditionCheck
                 msg.append("</html>");
                 JLabel label = new JLabel(msg.toString());
                 label.setFont(new Font("Sans Serif", Font.PLAIN, 12));
-                Object[] optionValues = {"Continue", "Exit"};
+                Object[] optionValues =
+                {
+                    "Continue", "Exit"
+                };
                 int selectedOption = JOptionPane.showOptionDialog(null, label, "Warning",
-                                                                  JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                                                                  null, optionValues,
-                                                                  optionValues[1]);
-                logger.fine("Selected option: " + selectedOption);
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                        null, optionValues,
+                        optionValues[1]);
+                LOGGER.fine("Selected option: " + selectedOption);
                 if (selectedOption == 0)
                 {
                     // Take control of the file so it gets deleted after this installer instance exits.
-                    logger.fine("Setting temporary file to delete on exit");
+                    LOGGER.fine("Setting temporary file to delete on exit");
                     file.deleteOnExit();
                 }
                 else
                 {
                     // Leave the file as it is.
-                    logger.fine("Leaving temporary file alone and exiting");
+                    LOGGER.fine("Leaving temporary file alone and exiting");
                     System.exit(1);
                 }
             }
@@ -111,19 +114,19 @@ public class ConditionCheck
                     // Create the new lock file
                     if (file.createNewFile())
                     {
-                        logger.fine("Temporary file created");
+                        LOGGER.fine("Temporary file created");
                         file.deleteOnExit();
                     }
                     else
                     {
-                        logger.warning("Temporary file could not be created");
-                        logger.warning("*** Multiple instances of installer will be allowed ***");
+                        LOGGER.warning("Temporary file could not be created");
+                        LOGGER.warning("*** Multiple instances of installer will be allowed ***");
                     }
                 }
                 catch (Exception e)
                 {
-                    logger.log(Level.WARNING, "Temporary file could not be created: " + e.getMessage(), e);
-                    logger.warning("*** Multiple instances of installer will be allowed ***");
+                    LOGGER.log(Level.WARNING, "Temporary file could not be created: " + e.getMessage(), e);
+                    LOGGER.warning("*** Multiple instances of installer will be allowed ***");
                 }
             }
         }
@@ -167,17 +170,21 @@ public class ConditionCheck
 
         FileExecutor exec = new FileExecutor();
         String[] output = new String[2];
-        String[] params = {"javac", "-help"};
+        String[] params =
+        {
+            "javac", "-help"
+        };
         if (exec.executeCommand(params, output) != 0)
         {
-            String[] message = {
-                    "It looks like your system does not have a Java Development Kit (JDK) available.",
-                    "The software that you plan to install requires a JDK for both its installation and execution.",
-                    "\n",
-                    "Do you still want to proceed with the installation process?"
+            String[] message =
+            {
+                "It looks like your system does not have a Java Development Kit (JDK) available.",
+                "The software that you plan to install requires a JDK for both its installation and execution.",
+                "\n",
+                "Do you still want to proceed with the installation process?"
             };
             int status = JOptionPane.showConfirmDialog(null, message, "Warning", JOptionPane.YES_NO_OPTION,
-                                                       JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.WARNING_MESSAGE);
             if (status == JOptionPane.NO_OPTION)
             {
                 System.exit(1);
@@ -189,8 +196,10 @@ public class ConditionCheck
      * Checks installation requirements.
      *
      * @param display the display to log missing requirements to
-     * @return <tt>true</tt> if the installation requirements are met, otherwise <tt>false</tt> if not
-     * @throws IzPackException if a {@link InstallerRequirement} condition is not defined
+     * @return <tt>true</tt> if the installation requirements are met, otherwise
+     * <tt>false</tt> if not
+     * @throws IzPackException if a {@link InstallerRequirement} condition is
+     * not defined
      */
     public boolean checkInstallerRequirements(InstallerRequirementDisplay display)
     {
@@ -202,7 +211,7 @@ public class ConditionCheck
             Condition condition = rules.getCondition(conditionid);
             if (condition == null)
             {
-                logger.warning(conditionid + " is not a valid condition.");
+                LOGGER.warning(conditionid + " is not a valid condition.");
                 throw new IzPackException(conditionid + " could not be found as a defined condition");
             }
             if (!condition.isTrue())
@@ -227,4 +236,3 @@ public class ConditionCheck
     }
 
 }
-

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.test.util;
 
 import static org.junit.Assert.assertEquals;
@@ -33,7 +32,6 @@ import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 
-
 /**
  * Test helper.
  *
@@ -45,7 +43,7 @@ public class TestHelper
     /**
      * Helper to create a file of the specified size containing random data.
      *
-     * @param dir  the parent directory
+     * @param dir the parent directory
      * @param name the file name
      * @param size the file size
      * @return a new file
@@ -86,8 +84,8 @@ public class TestHelper
      * <p/>
      * The files must have different paths.
      *
-     * @param expected   the expected file
-     * @param actualDir  the actual file directory
+     * @param expected the expected file
+     * @param actualDir the actual file directory
      * @param actualName the actual file name
      */
     public static void assertFileEquals(File expected, File actualDir, String actualName)
@@ -98,7 +96,7 @@ public class TestHelper
     /**
      * Verifies that a file exists.
      *
-     * @param dir  the directory
+     * @param dir the directory
      * @param name the file name, relative to the directory
      */
     public static void assertFileExists(File dir, String name)
@@ -119,7 +117,7 @@ public class TestHelper
     /**
      * Verifies that a file doesn't exist.
      *
-     * @param dir  the directory
+     * @param dir the directory
      * @param name the file name, relative to the directory
      */
     public static void assertFileNotExists(File dir, String name)
@@ -144,7 +142,7 @@ public class TestHelper
      * The files must have different paths.
      *
      * @param expected the expected file
-     * @param actual   the actual file
+     * @param actual the actual file
      */
     public static void assertFileEquals(File expected, File actual)
     {

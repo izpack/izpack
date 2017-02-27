@@ -17,9 +17,9 @@
  */
 package com.izforge.izpack.util;
 
-
 /**
- * Factory for constructing platform specific implementation implementations of interfaces or classes.
+ * Factory for constructing platform specific implementation implementations of
+ * interfaces or classes.
  *
  * @author Tim Anderson
  * @see Platforms
@@ -29,7 +29,8 @@ public interface TargetPlatformFactory
 {
 
     /**
-     * Creates a platform specific implementation of a class, for the current platform.
+     * Creates a platform specific implementation of a class, for the current
+     * platform.
      *
      * @param clazz the class to create a platform specific instance of
      * @return the instance for the specified platform
@@ -38,9 +39,10 @@ public interface TargetPlatformFactory
     <T> T create(Class<T> clazz) throws Exception;
 
     /**
-     * Creates a platform specific implementation of a class, for the specified platform.
+     * Creates a platform specific implementation of a class, for the specified
+     * platform.
      *
-     * @param clazz    the class to create a platform specific instance of
+     * @param clazz the class to create a platform specific instance of
      * @param platform the platform
      * @return the instance for the specified platform
      * @throws Exception for any error

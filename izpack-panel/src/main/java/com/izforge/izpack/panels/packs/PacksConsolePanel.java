@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.packs;
 
 import java.util.HashMap;
@@ -82,8 +81,9 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
      * Runs the panel using the supplied properties.
      *
      * @param installData the installation data
-     * @param properties  the properties
-     * @return <tt>true</tt> if the installation is successful, otherwise <tt>false</tt>
+     * @param properties the properties
+     * @return <tt>true</tt> if the installation is successful, otherwise
+     * <tt>false</tt>
      */
     @Override
     public boolean run(InstallData installData, Properties properties)
@@ -95,8 +95,9 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @param console the console
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     @Override
     public boolean run(InstallData installData, Console console)
@@ -130,14 +131,14 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
         prompt.message(type, message);
     }
 
-
     /**
-     * It is used to "draw" the appropriate tree-like structure of the packs and ask if you want to install
-     * the pack. The pack will automatically be selected if it is required; otherwise you will be prompted if
-     * you want to install that pack. If a pack is not selected, then their child packs won't be installed as
-     * well and you won't be prompted to install them.
+     * It is used to "draw" the appropriate tree-like structure of the packs and
+     * ask if you want to install the pack. The pack will automatically be
+     * selected if it is required; otherwise you will be prompted if you want to
+     * install that pack. If a pack is not selected, then their child packs
+     * won't be installed as well and you won't be prompted to install them.
      *
-     * @param pack          - the pack to install
+     * @param pack - the pack to install
      */
     private void drawHelper(final String pack)
     {
@@ -159,7 +160,7 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
             {
                 boolean contained = installData.getSelectedPacks().contains(p);
                 String cbView = contained ? "x" : " ";
-                if (askUser("  ["+ cbView +"] Include optional pack '" + packName + "'", (contained ? Option.YES : Option.NO)))
+                if (askUser("  [" + cbView + "] Include optional pack '" + packName + "'", (contained ? Option.YES : Option.NO)))
                 {
                     selectedPacks.add(p);
                 }
@@ -168,10 +169,10 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
     }
 
     /**
-     * Helper method to read the input of user
-     * Method returns true if user types "y", "yes" or <Enter>·
+     * Helper method to read the input of user Method returns true if user types
+     * "y", "yes" or <Enter>·
      *
-     * @return boolean  - true if condition above satisfied. Otherwise false
+     * @return boolean - true if condition above satisfied. Otherwise false
      */
     private boolean askUser(String message, Option defaultOption)
     {
@@ -179,7 +180,8 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
     }
 
     /**
-     * Computes pack related installDataGUI like the names or the dependencies state.
+     * Computes pack related installDataGUI like the names or the dependencies
+     * state.
      *
      * @param packs The list of packs.
      */

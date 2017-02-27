@@ -102,7 +102,7 @@
                     </execution>
 
                     <!-- izpack can't match include="scriptcom*.jar"
-            so, split into separate bin and lib directories -->
+                    so, split into separate bin and lib directories -->
 
                     <execution>
                         <id>unpack-scriptom-dlls</id>
@@ -143,7 +143,7 @@
                                 </artifactItem>
                             </artifactItems>
                             <!--  need to use a explicit cache marker, to distinguish the execution from previous one
-                     since both executions share the same artifact -->
+                            since both executions share the same artifact -->
                             <markersDirectory>${project.build.directory}/scriptomJarsMarker</markersDirectory>
                         </configuration>
                     </execution>

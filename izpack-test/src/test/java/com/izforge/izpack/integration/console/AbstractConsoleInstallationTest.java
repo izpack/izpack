@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.console;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.console.ConsoleInstallerAction;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.integration.AbstractDestroyerTest;
@@ -32,7 +30,6 @@ import java.io.File;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 
 /**
  * Base class for {@link ConsoleInstaller} test cases.
@@ -56,7 +53,7 @@ public class AbstractConsoleInstallationTest extends AbstractDestroyerTest
     /**
      * Verifies that console installation completes successfully.
      *
-     * @param installer   the installer
+     * @param installer the installer
      * @param installData the installation data
      */
     protected void checkInstall(TestConsoleInstaller installer, InstallData installData)
@@ -67,8 +64,8 @@ public class AbstractConsoleInstallationTest extends AbstractDestroyerTest
     /**
      * Verifies that console installation completes successfully.
      *
-     * @param installer         the installer
-     * @param installData       the installation data
+     * @param installer the installer
+     * @param installData the installation data
      * @param expectUninstaller whether to expect an uninstaller to be created
      */
     protected void checkInstall(TestConsoleInstaller installer, InstallData installData, boolean expectUninstaller)

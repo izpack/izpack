@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import com.izforge.izpack.api.exception.InstallerException;
@@ -41,7 +40,8 @@ import java.util.logging.Logger;
  */
 public class AntAction extends ActionBase
 {
-    private static final Logger logger = Logger.getLogger(AntAction.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(AntAction.class.getName());
 
     private static final long serialVersionUID = 3258131345250005557L;
 
@@ -112,8 +112,9 @@ public class AntAction extends ActionBase
     /**
      * Performs all defined actions.
      *
-     * @param uninstall An install/uninstall switch. If this is <tt>true</tt> only the uninstall
-     *                  actions, otherwise only the install actions are being performed.
+     * @param uninstall An install/uninstall switch. If this is <tt>true</tt>
+     * only the uninstall actions, otherwise only the install actions are being
+     * performed.
      * @throws IzPackException for any error
      * @see #performInstallAction() for calling all install actions.
      * @see #performUninstallAction() for calling all uninstall actions.
@@ -123,7 +124,7 @@ public class AntAction extends ActionBase
         if (verbose)
         {
             System.out.print("Calling ANT with buildfile: " + buildFile);
-            System.out.print(buildDir!=null ? " in directory "+buildDir : " in default base directory");
+            System.out.print(buildDir != null ? " in directory " + buildDir : " in default base directory");
             System.out.println();
         }
         SecurityManager oldsm = null;
@@ -208,7 +209,6 @@ public class AntAction extends ActionBase
     {
         return conditionId;
     }
-
 
     public void setConditionId(String conditionId)
     {
@@ -298,7 +298,8 @@ public class AntAction extends ActionBase
     }
 
     /**
-     * Sets the property file path list to the given list. Old settings will be lost.
+     * Sets the property file path list to the given list. Old settings will be
+     * lost.
      *
      * @param propertyFiles list of property file paths to be set
      */
@@ -318,7 +319,8 @@ public class AntAction extends ActionBase
     }
 
     /**
-     * Sets the internal properties to the given properties. Old settings will be lost.
+     * Sets the internal properties to the given properties. Old settings will
+     * be lost.
      *
      * @param properties properties to be set
      */
@@ -330,7 +332,7 @@ public class AntAction extends ActionBase
     /**
      * Sets the given value to the property identified by the given name.
      *
-     * @param name  key of the property
+     * @param name key of the property
      * @param value value to be used for the property
      */
     public void setProperty(String name, String value)
@@ -422,7 +424,8 @@ public class AntAction extends ActionBase
     }
 
     /**
-     * Sets the targets which should be performed at installation time. Old settings are lost.
+     * Sets the targets which should be performed at installation time. Old
+     * settings are lost.
      *
      * @param targets list of targets
      */
@@ -432,7 +435,8 @@ public class AntAction extends ActionBase
     }
 
     /**
-     * Adds the given target to the target list which should be performed at installation time.
+     * Adds the given target to the target list which should be performed at
+     * installation time.
      *
      * @param target target to be add
      */
@@ -452,7 +456,8 @@ public class AntAction extends ActionBase
     }
 
     /**
-     * Sets the targets which should be performed at uninstallation time. Old settings are lost.
+     * Sets the targets which should be performed at uninstallation time. Old
+     * settings are lost.
      *
      * @param targets list of targets
      */
@@ -462,7 +467,8 @@ public class AntAction extends ActionBase
     }
 
     /**
-     * Adds the given target to the target list which should be performed at uninstallation time.
+     * Adds the given target to the target list which should be performed at
+     * uninstallation time.
      *
      * @param target target to be add
      */
@@ -544,11 +550,12 @@ public class AntAction extends ActionBase
     }
 
     /**
-     * Wraps a Ant {@link BuildException} to an {@link InstallerException}.
-     * This is mainly done for the purpose of cutting of the location from the build failure message.
-     * Locations should appear just in logs, not to the user.
+     * Wraps a Ant {@link BuildException} to an {@link InstallerException}. This
+     * is mainly done for the purpose of cutting of the location from the build
+     * failure message. Locations should appear just in logs, not to the user.
      *
-     * @param e the {@link IzPackException} with the nested {@link BuildException}
+     * @param e the {@link IzPackException} with the nested
+     * {@link BuildException}
      * @throws InstallerException
      */
     public void throwBuildException(IzPackException e) throws InstallerException
@@ -565,7 +572,7 @@ public class AntAction extends ActionBase
         {
             // Workaround for BuildException.toString():
             // Filter off the location, just leave the clean failure message
-            Location location = ((BuildException)nested).getLocation();
+            Location location = ((BuildException) nested).getLocation();
             message = nested.toString().substring(location.toString().length());
             ize = new IzPackException(message, e, severity);
         }

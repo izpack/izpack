@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.helper;
 
 import java.io.File;
@@ -32,7 +31,8 @@ import com.izforge.izpack.api.exception.CompilerException;
  */
 public class AssertionHelper
 {
-    private static final Logger logger = Logger.getLogger(AssertionHelper.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(AssertionHelper.class.getName());
 
     private String parsedFile;
 
@@ -42,8 +42,8 @@ public class AssertionHelper
     }
 
     /**
-     * Create parse error with consistent messages. Includes file name. For use When parent is
-     * unknown.
+     * Create parse error with consistent messages. Includes file name. For use
+     * When parent is unknown.
      *
      * @param message Brief message explaining error
      */
@@ -53,10 +53,10 @@ public class AssertionHelper
     }
 
     /**
-     * Create parse error with consistent messages. Includes file name and line # of parent. It is
-     * an error for 'parent' to be null.
+     * Create parse error with consistent messages. Includes file name and line
+     * # of parent. It is an error for 'parent' to be null.
      *
-     * @param parent  The element in which the error occured
+     * @param parent The element in which the error occured
      * @param message Brief message explaining error
      */
     public void parseError(IXMLElement parent, String message) throws CompilerException
@@ -65,10 +65,10 @@ public class AssertionHelper
     }
 
     /**
-     * Create a chained parse error with consistent messages. Includes file name and line # of
-     * parent. It is an error for 'parent' to be null.
+     * Create a chained parse error with consistent messages. Includes file name
+     * and line # of parent. It is an error for 'parent' to be null.
      *
-     * @param parent  The element in which the error occured
+     * @param parent The element in which the error occured
      * @param message Brief message explaining error
      */
     public void parseError(IXMLElement parent, String message, Throwable cause)
@@ -78,24 +78,24 @@ public class AssertionHelper
     }
 
     /**
-     * Create a parse warning with consistent messages. Includes file name and line # of parent. It
-     * is an error for 'parent' to be null.
+     * Create a parse warning with consistent messages. Includes file name and
+     * line # of parent. It is an error for 'parent' to be null.
      *
-     * @param parent  The element in which the warning occured
+     * @param parent The element in which the warning occured
      * @param message Warning message
      */
     public void parseWarn(IXMLElement parent, String message)
     {
-        logger.warning(this.parsedFile + ":" + parent.getLineNr() + ": " + message);
+        LOGGER.warning(this.parsedFile + ":" + parent.getLineNr() + ": " + message);
     }
 
     /**
-     * Checks whether a File instance is a regular file, exists and is readable. Throws appropriate
-     * CompilerException to report violations of these conditions.
+     * Checks whether a File instance is a regular file, exists and is readable.
+     * Throws appropriate CompilerException to report violations of these
+     * conditions.
      *
-     * @throws com.izforge.izpack.api.exception.CompilerException
-     *          if the file is either not existing, not a regular file or not
-     *          readable.
+     * @throws com.izforge.izpack.api.exception.CompilerException if the file is
+     * either not existing, not a regular file or not readable.
      */
     public void assertIsNormalReadableFile(File fileToCheck, String fileDescription)
             throws CompilerException

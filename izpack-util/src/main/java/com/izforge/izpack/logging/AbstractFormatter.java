@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.logging;
 
 import com.izforge.izpack.util.Debug;
@@ -27,14 +26,16 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 /**
- * Abstract log formatter similar to {@link java.util.logging.SimpleFormatter}, not being so messy
+ * Abstract log formatter similar to {@link java.util.logging.SimpleFormatter},
+ * not being so messy
  */
 public abstract class AbstractFormatter extends Formatter
 {
+
     private final String lineSeparator = System.getProperty("line.separator");
 
     private final Date dat = new Date();
-    private final static String format = "{0,date,yyyy.MM.dd} {0,time,HH:mm:ss}";
+    private final static String FORMAT = "{0,date,yyyy.MM.dd} {0,time,HH:mm:ss}";
     private MessageFormat formatter;
     private final Object[] args = new Object[1];
 
@@ -49,12 +50,14 @@ public abstract class AbstractFormatter extends Formatter
     {
         StringBuilder sb = new StringBuilder();
 
-        if(isAddTimeStamp()) {
+        if (isAddTimeStamp())
+        {
             dat.setTime(record.getMillis());
             args[0] = dat;
             StringBuffer text = new StringBuffer();
-            if (formatter == null) {
-                formatter = new MessageFormat(format);
+            if (formatter == null)
+            {
+                formatter = new MessageFormat(FORMAT);
             }
             formatter.format(args, text, null);
             sb.append(text);
@@ -74,8 +77,8 @@ public abstract class AbstractFormatter extends Formatter
         sb.append(message);
 
         // Append stacktrace
-        Throwable throwable =  record.getThrown();
-        if (Debug.isSTACKTRACE() && (throwable != null))
+        Throwable throwable = record.getThrown();
+        if (Debug.isStacktrace() && (throwable != null))
         {
             sb.append(lineSeparator);
             try
@@ -86,7 +89,9 @@ public abstract class AbstractFormatter extends Formatter
                 pw.close();
                 sb.append(sw.toString());
             }
-            catch (Exception ignored) {}
+            catch (Exception ignored)
+            {
+            }
         }
 
         sb.append(lineSeparator);
@@ -95,13 +100,17 @@ public abstract class AbstractFormatter extends Formatter
     }
 
     /**
-     * Choice for final implementations whether to prepend a time stamp at the beginning of each line
+     * Choice for final implementations whether to prepend a time stamp at the
+     * beginning of each line
+     *
      * @return whether to add time stamps
      */
     abstract boolean isAddTimeStamp();
 
     /**
-     * Choice for final implementations whether to add the message level to each line
+     * Choice for final implementations whether to add the message level to each
+     * line
+     *
      * @return whether to add the message level
      */
     abstract boolean isAddMessageLevel();

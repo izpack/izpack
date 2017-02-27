@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
-
 
 /**
  * Abstract implementation of {@link FieldView}.
@@ -29,6 +27,7 @@ package com.izforge.izpack.panels.userinput.field;
  */
 public abstract class AbstractFieldView implements FieldView
 {
+
     /**
      * The field.
      */
@@ -43,7 +42,6 @@ public abstract class AbstractFieldView implements FieldView
      * Determines if the view is readonly.
      */
     private boolean readonly = false;
-
 
     /**
      * Constructs an {@link AbstractFieldView}.
@@ -69,7 +67,8 @@ public abstract class AbstractFieldView implements FieldView
     /**
      * Returns the variable associated with the field.
      *
-     * @return the variable, or {@code null} if the field doesn't update a variable
+     * @return the variable, or {@code null} if the field doesn't update a
+     * variable
      */
     public String getVariable()
     {
@@ -82,9 +81,10 @@ public abstract class AbstractFieldView implements FieldView
     }
 
     /**
-     * Returns the summary key  associated with the field.
+     * Returns the summary key associated with the field.
      *
-     * @return the summary key, or {@code null} if the field doesn't update a summary
+     * @return the summary key, or {@code null} if the field doesn't update a
+     * summary
      */
     public String getSummaryKey()
     {

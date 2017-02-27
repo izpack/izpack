@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
-
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -69,7 +67,7 @@ import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.PrivilegedRunner;
 import com.izforge.izpack.util.TargetFactory;
-import com.izforge.izpack.util.os.Win_RegistryHandler;
+import com.izforge.izpack.util.os.WinRegistryHandler;
 
 /**
  * Tests the {@link RegistryInstallerListener} class.
@@ -80,6 +78,7 @@ import com.izforge.izpack.util.os.Win_RegistryHandler;
 @RunOn(Platform.Name.WINDOWS)
 public class RegistryInstallerListenerTest
 {
+
     private boolean skipTests = new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded();
 
     private final boolean isAdminUser = new PrivilegedRunner(Platforms.WINDOWS).isAdminUser();
@@ -135,7 +134,6 @@ public class RegistryInstallerListenerTest
      */
     private RegistryHandler registry;
 
-
     /**
      * Sets up the test case.
      *
@@ -165,7 +163,7 @@ public class RegistryInstallerListenerTest
         assertNotNull(specStream);
         Mockito.when(resources.getInputStream(RegistryInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
         Mockito.when(resources.getInputStream(RegistryInstallerListener.UNINSTALLER_ICON)).thenThrow(
-            new ResourceNotFoundException("Resource not found"));
+                new ResourceNotFoundException("Resource not found"));
 
         unpacker = Mockito.mock(IUnpacker.class);
         uninstallData = new UninstallData();
@@ -175,20 +173,21 @@ public class RegistryInstallerListenerTest
         TargetFactory factory = Mockito.mock(TargetFactory.class);
         Mockito.when(factory.getNativeLibraryExtension()).thenReturn("dll");
         Librarian librarian = new TestLibrarian(factory, housekeeper);
-        registry = new Win_RegistryHandler(librarian);
+        registry = new WinRegistryHandler(librarian);
         Mockito.when(handler.getInstance()).thenReturn(registry);
     }
 
     /**
-     * Verifies that the Windows registry is updated by {@link RegistryInstallerListener#afterPacks}.
+     * Verifies that the Windows registry is updated by
+     * {@link RegistryInstallerListener#afterPacks}.
      *
      * @throws NativeLibException for any regitry error
      */
     @Test
     public void testRegistry() throws NativeLibException
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	
+        Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+
         String appName = "IzPackRegistryTest";
         String appVersion = "1.0";
         String uninstallName = appName + "-" + appVersion;
@@ -213,7 +212,7 @@ public class RegistryInstallerListenerTest
 
         // initialise the listener
         RegistryInstallerListener listener = new RegistryInstallerListener(
-            unpacker, replacer, installData, uninstallData, resources, rules, housekeeper, handler);
+                unpacker, replacer, installData, uninstallData, resources, rules, housekeeper, handler);
         listener.initialise();
 
         // run the listener
@@ -222,11 +221,10 @@ public class RegistryInstallerListenerTest
         listener.afterPacks(Arrays.asList(pack), progressListener);
 
         // verify RegistrySpec.xml changes applied to the registry
-
         // The first changes are for the special "UninstallStuff" pack.
         assertStringEquals(uninstallKey, "DisplayName", uninstallName);
-        assertStringEquals(uninstallKey, "UninstallString", "\"$JAVA_HOME\\bin\\javaw.exe\" -jar \"" +
-            installData.getInstallPath() + "\\uninstaller\\uninstaller.jar\"");
+        assertStringEquals(uninstallKey, "UninstallString", "\"$JAVA_HOME\\bin\\javaw.exe\" -jar \""
+                + installData.getInstallPath() + "\\uninstaller\\uninstaller.jar\"");
         assertStringEquals(uninstallKey, "DisplayIcon", installData.getInstallPath() + "\\bin\\icons\\izpack.ico");
         assertStringEquals(uninstallKey, "HelpLink", appURL);
 
@@ -235,10 +233,16 @@ public class RegistryInstallerListenerTest
 
         assertStringEquals(key, "Path", installData.getInstallPath());
         assertLongEquals(key, "DWORD", 42);
-        assertBytesEquals(key, "BIN", new byte[]{0x42, 0x49, 0x4e, 0x20, 0x54, 0x45, 0x53, 0x54,
-            0x42, 0x49, 0x4e, 0x20, 0x54, 0x45, 0x53, 0x54});
-        assertStringsEquals(key, "MULTI", new String[]{"A multi string with three elements", "Element two",
-            "Element three"});
+        assertBytesEquals(key, "BIN", new byte[]
+        {
+            0x42, 0x49, 0x4e, 0x20, 0x54, 0x45, 0x53, 0x54,
+            0x42, 0x49, 0x4e, 0x20, 0x54, 0x45, 0x53, 0x54
+        });
+        assertStringsEquals(key, "MULTI", new String[]
+        {
+            "A multi string with three elements", "Element two",
+            "Element three"
+        });
 
         // now roll back the changes
         installData.setInstallSuccess(false);
@@ -274,10 +278,11 @@ public class RegistryInstallerListenerTest
     }
 
     /**
-     * Asserts that a registry REG_SZ value exists for the specified key, and matches the given value.
+     * Asserts that a registry REG_SZ value exists for the specified key, and
+     * matches the given value.
      *
-     * @param key      the key to check
-     * @param name     the name of the value to check
+     * @param key the key to check
+     * @param name the name of the value to check
      * @param expected the expected value
      * @throws NativeLibException for any registry error
      */
@@ -288,10 +293,11 @@ public class RegistryInstallerListenerTest
     }
 
     /**
-     * Asserts that a registry REG_DWORD value exists for the specified key, and matches the given value.
+     * Asserts that a registry REG_DWORD value exists for the specified key, and
+     * matches the given value.
      *
-     * @param key      the key to check
-     * @param name     the name of the value to check
+     * @param key the key to check
+     * @param name the name of the value to check
      * @param expected the expected value
      * @throws NativeLibException for any registry error
      */
@@ -302,10 +308,11 @@ public class RegistryInstallerListenerTest
     }
 
     /**
-     * Asserts that a registry REG_BINARY value exists for the specified key, and matches the given value.
+     * Asserts that a registry REG_BINARY value exists for the specified key,
+     * and matches the given value.
      *
-     * @param key      the key to check
-     * @param name     the name of the value to check
+     * @param key the key to check
+     * @param name the name of the value to check
      * @param expected the expected value
      * @throws NativeLibException for any registry error
      */
@@ -316,10 +323,11 @@ public class RegistryInstallerListenerTest
     }
 
     /**
-     * Asserts that a registry REG_MULTI_SZ value exists for the specified key, and matches the given value.
+     * Asserts that a registry REG_MULTI_SZ value exists for the specified key,
+     * and matches the given value.
      *
-     * @param key      the key to check
-     * @param name     the name of the value to check
+     * @param key the key to check
+     * @param name the name of the value to check
      * @param expected the expected value
      * @throws NativeLibException for any registry error
      */
@@ -332,9 +340,9 @@ public class RegistryInstallerListenerTest
     /**
      * Returns the registry value for the specified key, name and value type.
      *
-     * @param key      the registry key
-     * @param name     the registry value name
-     * @param type     the value type
+     * @param key the registry key
+     * @param name the registry value name
+     * @param type the value type
      * @param typeName the symbolic type name, for error reporting
      * @return the corresponding value container
      * @throws NativeLibException for any registry error

@@ -14,6 +14,7 @@ import java.util.zip.ZipOutputStream;
  */
 public class MergeUtils
 {
+
     public static File doDoubleMerge(Mergeable mergeable)
             throws IOException
     {
@@ -34,6 +35,5 @@ public class MergeUtils
         outputStream.close();
         return tempFile;
     }
-
 
 }

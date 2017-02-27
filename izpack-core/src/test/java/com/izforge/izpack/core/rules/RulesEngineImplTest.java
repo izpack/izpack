@@ -16,9 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules;
-
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -58,9 +56,9 @@ import com.izforge.izpack.core.rules.logic.XorCondition;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 
-
 public class RulesEngineImplTest
 {
+
     private RulesEngine engine = null;
 
     /**
@@ -97,12 +95,12 @@ public class RulesEngineImplTest
      * Windows 8 install condition identifier.
      */
     private static final String WINDOWS_8_INSTALL = "izpack.windowsinstall.8";
-    
+
     /**
      * Windows 10 install condition identifier.
      */
     private static final String WINDOWS_10_INSTALL = "izpack.windowsinstall.10";
-    
+
     /**
      * Linux install condition identifier.
      */
@@ -136,9 +134,12 @@ public class RulesEngineImplTest
     /**
      * All install condition identifiers.
      */
-    private static final String INSTALL_CONDITIONS[] = {AIX_INSTALL, WINDOWS_INSTALL, WINDOWS_XP_INSTALL,
-            WINDOWS_2003_INSTALL, WINDOWS_VISTA_INSTALL, WINDOWS_7_INSTALL, WINDOWS_8_INSTALL, WINDOWS_10_INSTALL, 
-            LINUX_INSTALL, SOLARIS_INSTALL, SOLARIS_X86_INSTALL, SOLARIS_SPARC_INSTALL, MAC_INSTALL, MAC_OSX_INSTALL};
+    private static final String INSTALL_CONDITIONS[] =
+    {
+        AIX_INSTALL, WINDOWS_INSTALL, WINDOWS_XP_INSTALL,
+        WINDOWS_2003_INSTALL, WINDOWS_VISTA_INSTALL, WINDOWS_7_INSTALL, WINDOWS_8_INSTALL, WINDOWS_10_INSTALL,
+        LINUX_INSTALL, SOLARIS_INSTALL, SOLARIS_X86_INSTALL, SOLARIS_SPARC_INSTALL, MAC_INSTALL, MAC_OSX_INSTALL
+    };
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -181,7 +182,10 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings(
+            {
+                "PointlessBooleanExpression", "unused"
+            })
     public void testSimpleAnd() throws Exception
     {
         Condition condition;
@@ -200,7 +204,10 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings(
+            {
+                "PointlessBooleanExpression", "unused"
+            })
     public void testSimpleOr() throws Exception
     {
         Condition condition;
@@ -237,9 +244,11 @@ public class RulesEngineImplTest
         assertEquals(true ^ true, condition.isTrue());
     }
 
-
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings(
+            {
+                "PointlessBooleanExpression", "unused"
+            })
     public void testComplexNot() throws Exception
     {
         Condition condition;
@@ -265,7 +274,10 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings(
+            {
+                "PointlessBooleanExpression", "unused"
+            })
     public void testComplexAnd() throws Exception
     {
         Condition condition;
@@ -327,7 +339,10 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings(
+            {
+                "PointlessBooleanExpression", "unused"
+            })
     public void testComplexOr() throws Exception
     {
         Condition condition;
@@ -388,7 +403,10 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings(
+            {
+                "PointlessBooleanExpression", "unused"
+            })
     public void testComplexXor() throws Exception
     {
         Condition condition;
@@ -503,7 +521,8 @@ public class RulesEngineImplTest
     }
 
     /**
-     * Verifies that conditions read from a <tt>conditions.xml</tt> have the expected type.
+     * Verifies that conditions read from a <tt>conditions.xml</tt> have the
+     * expected type.
      */
     @Test
     public void testReadConditionTypes()
@@ -531,7 +550,8 @@ public class RulesEngineImplTest
     }
 
     /**
-     * Verifies that exception is thrown when reading a poorly defined not condition from <tt>poorly_defined_not_condition.xml</tt>.
+     * Verifies that exception is thrown when reading a poorly defined not
+     * condition from <tt>poorly_defined_not_condition.xml</tt>.
      */
     @Test
     public void testPoorlyDefinedNotCondition()
@@ -546,7 +566,8 @@ public class RulesEngineImplTest
     }
 
     /**
-     * Verifies that exception is thrown when reading a poorly defined not condition from <tt>poorly_defined_and_condition.xml</tt>.
+     * Verifies that exception is thrown when reading a poorly defined not
+     * condition from <tt>poorly_defined_and_condition.xml</tt>.
      */
     @Test
     public void testPoorlyDefinedAndConditions()
@@ -638,8 +659,8 @@ public class RulesEngineImplTest
     }
 
     /**
-     * Verifies that when conditions are deserialized, any built-in conditions are replaced with those held by the
-     * rules engine.
+     * Verifies that when conditions are deserialized, any built-in conditions
+     * are replaced with those held by the rules engine.
      *
      * @throws Exception for any error
      */
@@ -679,7 +700,7 @@ public class RulesEngineImplTest
     /**
      * Checks conditions read from the test <em>conditions.xml</em> file.
      *
-     * @param rules       the rules
+     * @param rules the rules
      * @param installData the installation data
      */
     private void checkConditions(RulesEngine rules, InstallData installData)
@@ -708,18 +729,20 @@ public class RulesEngineImplTest
     }
 
     /**
-     * Verifies that the specified conditions evaluate {@code true} for the specified platform.
+     * Verifies that the specified conditions evaluate {@code true} for the
+     * specified platform.
      * <p/>
-     * Platform conditions not specified will be evaluated to ensure they evaluate {@code false}
+     * Platform conditions not specified will be evaluated to ensure they
+     * evaluate {@code false}
      *
-     * @param platform   the 'current' platform
+     * @param platform the 'current' platform
      * @param conditions the condition identifiers
      */
     private void checkPlatformCondition(Platform platform, String... conditions)
     {
         DefaultContainer parent = new DefaultContainer();
         RulesEngine rules = new RulesEngineImpl(new AutomatedInstallData(new DefaultVariables(), platform),
-                                                new ConditionContainer(parent), platform);
+                new ConditionContainer(parent), platform);
         for (String condition : conditions)
         {
             assertTrue("Expected " + condition + " to be true", rules.isConditionTrue(condition));
@@ -733,12 +756,14 @@ public class RulesEngineImplTest
     }
 
     /**
-     * Helper to serialize and deserialize conditions held by the supplied {@link RulesEngine}.
+     * Helper to serialize and deserialize conditions held by the supplied
+     * {@link RulesEngine}.
      *
      * @param rules the rules
      * @return the deserialized conditions
-     * @throws IOException            for any I/O error
-     * @throws ClassNotFoundException if the class of a serialized object cannot be found
+     * @throws IOException for any I/O error
+     * @throws ClassNotFoundException if the class of a serialized object cannot
+     * be found
      */
     @SuppressWarnings("unchecked")
     private Map<String, Condition> serializeConditions(RulesEngine rules) throws IOException, ClassNotFoundException
@@ -776,5 +801,3 @@ public class RulesEngineImplTest
     }
 
 }
-
-

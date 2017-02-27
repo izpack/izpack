@@ -24,23 +24,18 @@ import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
 import com.izforge.izpack.panels.userinput.field.custom.CustomField;
 
 /**
- * JPanel that contains the possible rows of fields defined by the user,
- * along with control buttons to add and remove rows.
+ * JPanel that contains the possible rows of fields defined by the user, along
+ * with control buttons to add and remove rows.
  *
- * GUICustomField
- * ===============================|
- * |CustomInputRows               |
- * |------------------------------|
- * |          Row 1               |
- * |          Row 2               |
- * |------------------------------|
- * |ControlButtons                |
- * |------------------------------|
- * |            |  Add  | Remove  |
+ * GUICustomField ===============================| |CustomInputRows |
+ * |------------------------------| | Row 1 | | Row 2 |
+ * |------------------------------| |ControlButtons |
+ * |------------------------------| | | Add | Remove |
  * |==============================|
  */
 public class CustomInputField extends JPanel implements ActionListener
 {
+
     /**
      *
      */
@@ -52,9 +47,9 @@ public class CustomInputField extends JPanel implements ActionListener
 
     private List<Field> fields;
 
-    private final static String addCommand = "addComponent";
+    private final static String ADD_COMMAND = "addComponent";
 
-    private final static String removeCommand = "removeCompoent";
+    private final static String REMOVE_COMMAND = "removeCompoent";
 
     private JPanel controlPanel;
 
@@ -82,8 +77,10 @@ public class CustomInputField extends JPanel implements ActionListener
     /**
      * Add components to panel
      *
-     * @param rows the groups of components that can be dynamically added and removed
-     * @param controlPanel buttons that control when components are added or removed
+     * @param rows the groups of components that can be dynamically added and
+     * removed
+     * @param controlPanel buttons that control when components are added or
+     * removed
      */
     public void addComponents(JPanel rows, JPanel controlPanel)
     {
@@ -109,14 +106,15 @@ public class CustomInputField extends JPanel implements ActionListener
         controlPanelConstraints.gridx = 0;
         controlPanelConstraints.gridy = 2;
         controlPanelConstraints.weighty = 1.0; //request any extra vertical space
-        controlPanelConstraints.insets = new Insets(5,0,0,0); //top padding
+        controlPanelConstraints.insets = new Insets(5, 0, 0, 0); //top padding
 
         add(controlPanel, controlPanelConstraints);
     }
 
     /**
-     * Initialize the control panel
-     * The control panel is the row that contains the buttons to add and remove a row.
+     * Initialize the control panel The control panel is the row that contains
+     * the buttons to add and remove a row.
+     *
      * @return
      */
     private JPanel initializeControlPanel()
@@ -126,13 +124,13 @@ public class CustomInputField extends JPanel implements ActionListener
 
         JButton addButton = ButtonFactory.createButton(messages.get("UserInputPanel.custom.swing.buttonlabel.add"),
                 installData.buttonsHColor);
-        addButton.setActionCommand(addCommand);
+        addButton.setActionCommand(ADD_COMMAND);
         addButton.addActionListener(this);
 
         JButton removeButton = ButtonFactory.createButton(messages.get("UserInputPanel.custom.swing.buttonlabel.remove"),
                 installData.buttonsHColor);
         removeButton.setEnabled(false);
-        removeButton.setActionCommand(removeCommand);
+        removeButton.setActionCommand(REMOVE_COMMAND);
         removeButton.addActionListener(this);
 
         controlPanel.add(addButton);
@@ -150,11 +148,11 @@ public class CustomInputField extends JPanel implements ActionListener
     {
         String actionCommand = actionEvent.getActionCommand();
 
-        if (actionCommand.equals(addCommand))
+        if (actionCommand.equals(ADD_COMMAND))
         {
             rows.addRow();
         }
-        else if (actionCommand.equals(removeCommand))
+        else if (actionCommand.equals(REMOVE_COMMAND))
         {
             rows.removeRow();
         }
@@ -199,13 +197,13 @@ public class CustomInputField extends JPanel implements ActionListener
     @Override
     public void setEnabled(boolean enabled)
     {
-        for( Component component : header.getComponents())
+        for (Component component : header.getComponents())
         {
             component.setEnabled(enabled);
         }
-        for( Component component : controlPanel.getComponents())
+        for (Component component : controlPanel.getComponents())
         {
-            if(enabled)
+            if (enabled)
             {
                 updateControlPanel();
             }
@@ -223,4 +221,3 @@ public class CustomInputField extends JPanel implements ActionListener
     }
 
 }
-

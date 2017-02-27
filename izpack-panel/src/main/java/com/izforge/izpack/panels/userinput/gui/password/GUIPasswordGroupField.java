@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.password;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -33,7 +32,6 @@ import javax.swing.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * The password group field view.
@@ -77,8 +75,10 @@ public class GUIPasswordGroupField extends GUIField
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)

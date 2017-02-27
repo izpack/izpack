@@ -18,8 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.izforge.izpack.util;
 
 import com.izforge.izpack.api.data.Info.TempDir;
@@ -36,7 +34,8 @@ import java.util.logging.Logger;
  */
 public class TemporaryDirectory implements CleanupClient
 {
-    private static final Logger logger = Logger.getLogger(TemporaryDirectory.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(TemporaryDirectory.class.getName());
 
     private File tempdir;
     private final InstallData installData;
@@ -51,8 +50,10 @@ public class TemporaryDirectory implements CleanupClient
     /**
      * Define a temporary directory
      *
-     * @param tempDirDescription describes the parameters of the directory to be created
-     * @param installData        The install data in to which the temporary directories variable will be written
+     * @param tempDirDescription describes the parameters of the directory to be
+     * created
+     * @param installData The install data in to which the temporary directories
+     * variable will be written
      * @param housekeeper the house-keeper
      */
     public TemporaryDirectory(TempDir tempDirDescription, InstallData installData, Housekeeper housekeeper)
@@ -72,7 +73,8 @@ public class TemporaryDirectory implements CleanupClient
     }
 
     /**
-     * Creates the temporary directory and sets the install data variable to point to it
+     * Creates the temporary directory and sets the install data variable to
+     * point to it
      *
      * @throws IOException if creation of the directory fails
      */
@@ -86,7 +88,7 @@ public class TemporaryDirectory implements CleanupClient
         }
         catch (IOException e)
         {
-            logger.log(Level.SEVERE,
+            LOGGER.log(Level.SEVERE,
                     "Unable to create temporary directory for installation: " + e.getMessage(),
                     e);
             throw e;
@@ -120,23 +122,21 @@ public class TemporaryDirectory implements CleanupClient
                 }
                 catch (IOException e)
                 {
-                    logger.warning("Failed to properly clean up files in "
+                    LOGGER.warning("Failed to properly clean up files in "
                             + tempdir.getAbsolutePath() + ": " + e.getMessage()
                             + ", manual clean up may be required.");
                 }
             }
             else
             {
-                logger.warning("Temporary directory has not been cleaned up. Files have been left in: " + tempdir.getAbsolutePath());
+                LOGGER.warning("Temporary directory has not been cleaned up. Files have been left in: " + tempdir.getAbsolutePath());
 
             }
         }
         else
         {
-            logger.warning("Temporary directory registered for cleanup but there is no such directory");
+            LOGGER.warning("Temporary directory registered for cleanup but there is no such directory");
         }
     }
-
-
 
 }

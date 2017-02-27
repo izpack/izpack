@@ -18,14 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration;
 
 import java.io.File;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.uninstaller.Destroyer;
-
 
 /**
  * Base class for integration tests invoking the {@link Destroyer}.
@@ -48,7 +45,8 @@ public class AbstractDestroyerTest extends AbstractInstallationTest
     /**
      * Runs the {@link Destroyer} in the supplied uninstall jar.
      * <p/>
-     * The Destroyer is launched in an isolated class loader as it locates resources using its class loader
+     * The Destroyer is launched in an isolated class loader as it locates
+     * resources using its class loader
      *
      * @param uninstallJar the uninstaller jar
      * @throws Exception for any error

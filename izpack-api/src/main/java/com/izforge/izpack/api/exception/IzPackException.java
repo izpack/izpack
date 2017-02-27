@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.exception;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -29,6 +28,7 @@ import com.izforge.izpack.api.handler.Prompt.Type;
  */
 public class IzPackException extends RuntimeException
 {
+
     private static final long serialVersionUID = -3367787603808904020L;
 
     Prompt.Type promptType = Type.ERROR;

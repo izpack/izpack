@@ -9,15 +9,17 @@ import com.izforge.izpack.util.Console;
 /**
  * Console implementation of a button
  */
-public class ConsoleButtonField  extends ConsoleField
+public class ConsoleButtonField extends ConsoleField
 {
+
     private final ButtonField field;
+
     /**
      * Constructs a {@code ConsoleField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleButtonField(ButtonField field, Console console, Prompt prompt)
     {
@@ -26,9 +28,10 @@ public class ConsoleButtonField  extends ConsoleField
     }
 
     /**
-     * Show button information.
-     * If the user selects to press the button execute all its actions, unless one of the actions 'fail'.
-     * Otherwise continue program as usual.
+     * Show button information. If the user selects to press the button execute
+     * all its actions, unless one of the actions 'fail'. Otherwise continue
+     * program as usual.
+     *
      * @return
      */
     @Override
@@ -48,9 +51,9 @@ public class ConsoleButtonField  extends ConsoleField
             value = getConsole().prompt(field.getButtonName() + " [y/n]: [n]", "n");
         }
 
-        if(value.equalsIgnoreCase("y"))
+        if (value.equalsIgnoreCase("y"))
         {
-            for(ButtonAction buttonAction : field.getButtonActions())
+            for (ButtonAction buttonAction : field.getButtonActions())
             {
                 proceed = buttonAction.execute(getConsole());
                 if (!proceed)
@@ -58,7 +61,7 @@ public class ConsoleButtonField  extends ConsoleField
                     break;
                 }
             }
-            if(proceed)
+            if (proceed)
             {
                 println(field.getSucessMsg());
             }

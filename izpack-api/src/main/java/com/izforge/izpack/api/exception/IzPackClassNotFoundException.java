@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.exception;
-
 
 /**
  * Unchecked wrapper around <tt>ClassNotFoundException</tt>.
@@ -29,6 +27,7 @@ package com.izforge.izpack.api.exception;
  */
 public class IzPackClassNotFoundException extends IzPackException
 {
+
     private static final long serialVersionUID = 1405751986229171073L;
 
     /**

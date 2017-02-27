@@ -18,17 +18,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.automation;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.installer.panel.AbstractPanels;
-import com.izforge.izpack.installer.panel.Panels;
 
 import java.util.List;
 import java.util.logging.Logger;
-
 
 /**
  * Implementation of {@link Panels} for {@link AutomatedPanelView}.
@@ -46,13 +43,12 @@ public class AutomatedPanels extends AbstractPanels<AutomatedPanelView, PanelAut
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AutomatedPanels.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(AutomatedPanels.class.getName());
 
     /**
      * Constructs an {@code AutomatedPanels}.
      *
-     * @param panels      the panels
+     * @param panels the panels
      * @param installData the installation data
      */
     public AutomatedPanels(List<AutomatedPanelView> panels, AutomatedInstallData installData)
@@ -65,7 +61,8 @@ public class AutomatedPanels extends AbstractPanels<AutomatedPanelView, PanelAut
      * Switches panels.
      *
      * @param newPanel the panel to switch to
-     * @param oldPanel the panel to switch from, or {@code null} if there was no prior panel
+     * @param oldPanel the panel to switch from, or {@code null} if there was no
+     * prior panel
      * @return {@code true} if the switch was successful
      */
     @Override
@@ -75,12 +72,12 @@ public class AutomatedPanels extends AbstractPanels<AutomatedPanelView, PanelAut
         if (newPanel.getViewClass() == null)
         {
             // panel has no view. This is apparently OK - not all panels have/need automation support.
-            logger.warning("AutomationHelper class not found for panel class: " + newPanel.getPanel().getClassName());
+            LOGGER.warning("AutomationHelper class not found for panel class: " + newPanel.getPanel().getClassName());
             result = executeValidationActions(newPanel, true);
         }
         else
         {
-        	PanelAutomation view = newPanel.getView();
+            PanelAutomation view = newPanel.getView();
             newPanel.executePreActivationActions();
 
             IXMLElement xml = installData.getInstallationRecordPanelRoot(newPanel.getPanelId());

@@ -18,25 +18,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.regex;
 
-import org.apache.tools.ant.BuildException;
-
 /**
- * Simple Factory Class that produces an implementation of
- * RegexpMatcher based on the system property
- * <code>izpack.regexp.matcherimpl</code> and the classes
+ * Simple Factory Class that produces an implementation of RegexpMatcher based
+ * on the system property <code>izpack.regexp.matcherimpl</code> and the classes
  * available.
  * <p/>
- * <p>In a more general framework this class would be abstract and
- * have a static newInstance method.</p>
+ * <p>
+ * In a more general framework this class would be abstract and have a static
+ * newInstance method.</p>
  *
- * @author René Krell - changes against the original implementation in Apache Ant 1.6.5
+ * @author René Krell - changes against the original implementation in Apache
+ * Ant 1.6.5
  * @see <a href='http://ant.apache.org'>Apache Ant</a>
  */
 public class RegexpMatcherFactory
 {
+
     /**
      * Create a new regular expression instance.
      *
@@ -61,7 +60,7 @@ public class RegexpMatcherFactory
             // ignore
         }
 
-/*        try {
+        /*        try {
             testAvailability("org.apache.oro.text.regex.Pattern");
             return createInstance("com.izforge.izpack.util.regex.JakartaOroMatcher");
         } catch (Exception be) {
@@ -74,7 +73,7 @@ public class RegexpMatcherFactory
         } catch (Exception be) {
             // ignore
         }
-*/
+         */
         throw new Exception("No supported regular expression matcher found");
     }
 

@@ -20,7 +20,6 @@
  */
 package com.izforge.izpack.compiler.util;
 
-
 /**
  * Maps unqualified class names to their fully qualified names.
  *
@@ -33,7 +32,8 @@ public interface ClassNameMapper
      * Maps an unqualified class name to its fully qualified name.
      *
      * @param className the class name to map
-     * @return the fully qualified class name, or {@code null} if no mapping exists
+     * @return the fully qualified class name, or {@code null} if no mapping
+     * exists
      */
     String map(String className);
 

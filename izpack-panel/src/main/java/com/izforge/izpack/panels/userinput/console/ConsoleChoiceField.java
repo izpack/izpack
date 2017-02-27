@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console;
 
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.ChoiceField;
 import com.izforge.izpack.util.Console;
 
-
 /**
  * Console presentation of {@link ChoiceField}.
  *
@@ -38,12 +36,13 @@ import com.izforge.izpack.util.Console;
  */
 public abstract class ConsoleChoiceField<T extends Choice> extends ConsoleField
 {
+
     /**
      * Constructs a {@link ConsoleChoiceField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleChoiceField(ChoiceField field, Console console, Prompt prompt)
     {
@@ -66,7 +65,8 @@ public abstract class ConsoleChoiceField<T extends Choice> extends ConsoleField
      * <p/>
      * For fields that update variables, this collects input and validates it.
      *
-     * @return {@code true} if the field was displayed and validated successfully
+     * @return {@code true} if the field was displayed and validated
+     * successfully
      */
     @Override
     public boolean display()
@@ -97,8 +97,9 @@ public abstract class ConsoleChoiceField<T extends Choice> extends ConsoleField
     /**
      * Displays the choices.
      *
-     * @param choices  the choices
-     * @param selectedRealIndex the selected choice, or {@code -1} if no choice is selected
+     * @param choices the choices
+     * @param selectedRealIndex the selected choice, or {@code -1} if no choice
+     * is selected
      */
     private MappedSelection listChoices(List<Choice> choices, int selectedRealIndex)
     {
@@ -126,6 +127,7 @@ public abstract class ConsoleChoiceField<T extends Choice> extends ConsoleField
 
     private static class MappedSelection
     {
+
         private Map<Integer, Integer> visibleToRealIndexes = new HashMap<Integer, Integer>();
         private int defaultVisibleIndex = -1;
 

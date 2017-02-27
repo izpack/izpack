@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.container.provider;
 
 import java.util.ArrayList;
@@ -26,14 +25,12 @@ import java.util.List;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.installer.console.ConsolePanelView;
 import com.izforge.izpack.installer.console.ConsolePanels;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
 
 /**
  * Provider of {@link ConsolePanels}.
@@ -48,14 +45,14 @@ public class ConsolePanelsProvider extends PanelsProvider
      * <p/>
      * This invokes any pre-construction actions associated with them.
      *
-     * @param factory     the factory
+     * @param factory the factory
      * @param installData the installation data
-     * @param console     the console
-     * @param matcher     the platform-model matcher
+     * @param console the console
+     * @param matcher the platform-model matcher
      * @throws IzPackException if a panel doesn't have unique identifier
      */
     public ConsolePanels provide(ObjectFactory factory, InstallerContainer container, AutomatedInstallData installData, Console console,
-                                 PlatformModelMatcher matcher)
+            PlatformModelMatcher matcher)
     {
         List<ConsolePanelView> panels = new ArrayList<ConsolePanelView>();
 

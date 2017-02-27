@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.test.util;
-
 
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.resource.Messages;
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  * An {@link Console} that takes its input from a list of command strings.
  *
@@ -39,6 +36,7 @@ import java.util.List;
  */
 public class TestConsole extends Console
 {
+
     /**
      * The input scripts.
      */
@@ -80,8 +78,9 @@ public class TestConsole extends Console
     /**
      * Adds an input script. This is used to simulate keyboard input.
      *
-     * @param name   a name for the script, for error reporting purposes
-     * @param script the script. Each element corresponds to a line returned by {@link #readLine()}
+     * @param name a name for the script, for error reporting purposes
+     * @param script the script. Each element corresponds to a line returned by
+     * {@link #readLine()}
      */
     public void addScript(String name, String... script)
     {
@@ -104,7 +103,8 @@ public class TestConsole extends Console
     /**
      * Determines if the input script has completed.
      *
-     * @return <tt>true</tt> if the script has completed, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the script has completed, otherwise
+     * <tt>false</tt>
      */
     public boolean scriptCompleted()
     {
@@ -115,15 +115,17 @@ public class TestConsole extends Console
     public int read() throws IOException
     {
         String line = this.readLine();
-        return (line!=null && !line.isEmpty()) ? line.charAt(0) : -1;
+        return (line != null && !line.isEmpty()) ? line.charAt(0) : -1;
     }
 
     /**
-     * Reads a line of text.  A line is considered to be terminated by any one of a line feed ('\\n'),
-     * a carriage return ('\\r'), or a carriage return followed immediately by a linefeed.
+     * Reads a line of text. A line is considered to be terminated by any one of
+     * a line feed ('\\n'), a carriage return ('\\r'), or a carriage return
+     * followed immediately by a linefeed.
      *
-     * @return a String containing the contents of the line, not including any line-termination characters, or
-     *         null if the end of the stream has been reached
+     * @return a String containing the contents of the line, not including any
+     * line-termination characters, or null if the end of the stream has been
+     * reached
      * @throws IOException if an I/O error occurs
      */
     @Override
@@ -164,7 +166,7 @@ public class TestConsole extends Console
     }
 
     /**
-     * Returns the no. of times {@link #readLine()}  has been invoked.
+     * Returns the no. of times {@link #readLine()} has been invoked.
      *
      * @return the no. of reads
      */

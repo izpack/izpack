@@ -17,20 +17,20 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.util;
 
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 /**
- * This class can be used to listen at hyperlinks click
- * and open open the link in a browser
+ * This class can be used to listen at hyperlinks click and open open the link
+ * in a browser
  *
  * @author Mathieu ANCELIN
  */
 public class HyperlinkHandler implements HyperlinkListener
 {
+
     /**
      * Handle an event on the link
      *
@@ -49,10 +49,13 @@ public class HyperlinkHandler implements HyperlinkListener
                 }
                 else if (com.izforge.izpack.util.OsVersion.IS_UNIX)
                 {
-                    String[] launchers = {"htmlview QqzURL", "xdg-open QqzURL",
-                            "gnome-open QqzURL", "kfmclient openURL QqzURL", "call-browser QqzURL",
-                            "firefox QqzURL", "opera QqzURL", "konqueror QqzURL",
-                            "epiphany QqzURL", "mozilla QqzURL", "netscape QqzURL"};
+                    String[] launchers =
+                    {
+                        "htmlview QqzURL", "xdg-open QqzURL",
+                        "gnome-open QqzURL", "kfmclient openURL QqzURL", "call-browser QqzURL",
+                        "firefox QqzURL", "opera QqzURL", "konqueror QqzURL",
+                        "epiphany QqzURL", "mozilla QqzURL", "netscape QqzURL"
+                    };
                     for (String launcher : launchers)
                     {
                         try
@@ -80,4 +83,3 @@ public class HyperlinkHandler implements HyperlinkListener
         }
     }
 }
-

@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 public enum ConsoleInstallerAction
 {
     CONSOLE_INSTALL,
     /**
-     * Generate an option file with panel defaults defaults (in console mode), which can be replayed
-     * just in console mode again for now.
+     * Generate an option file with panel defaults defaults (in console mode),
+     * which can be replayed just in console mode again for now.
      */
     CONSOLE_GEN_TEMPLATE,
     /**
-     * Replay a prefilled option file with panel options in console mode for now.
+     * Replay a prefilled option file with panel options in console mode for
+     * now.
      */
     CONSOLE_FROM_TEMPLATE,
     CONSOLE_FROM_SYSTEMPROPERTIES,

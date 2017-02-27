@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.packs;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -41,7 +40,8 @@ import java.util.logging.Logger;
  */
 public class PacksPanelAutomationHelper implements PanelAutomation
 {
-    private static final Logger logger = Logger.getLogger(PacksPanelAutomationHelper.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(PacksPanelAutomationHelper.class.getName());
 
     @Override
     public void createInstallationRecord(InstallData installData, IXMLElement panelRoot)
@@ -63,7 +63,7 @@ public class PacksPanelAutomationHelper implements PanelAutomation
     /**
      * Asks to run in the automated mode.
      *
-     * @param idata     The installation installDataGUI.
+     * @param idata The installation installDataGUI.
      * @param panelRoot The root of the panel installDataGUI.
      */
     @Override
@@ -72,53 +72,53 @@ public class PacksPanelAutomationHelper implements PanelAutomation
         final class PInfo
         {
 
-            private boolean _selected;
+            private boolean selected;
 
-            private int _index;
+            private int index;
 
-            private String _name = "";
+            private String name = "";
 
             PInfo(boolean selected, String index, String name)
             {
-                _selected = selected;
+                this.selected = selected;
                 try
                 {
-                    _index = Integer.valueOf(index);
+                    this.index = Integer.valueOf(index);
                 }
                 catch (NumberFormatException e)
                 {
-                    _index = -100;
+                    this.index = -100;
                 }
                 if (name != null)
                 {
-                    _name = name;
+                    this.name = name;
                 }
             }
 
             public boolean isSelected()
             {
-                return _selected;
+                return this.selected;
             }
 
             public boolean equals(int index)
             {
-                return _index == index && _name.equals("");
+                return this.index == index && this.name.equals("");
             }
 
             public boolean equals(String name)
             {
-                return _name.equals(name);
+                return this.name.equals(name);
             }
 
             @Override
             public String toString()
             {
                 String retVal = "";
-                if (!_name.equals(""))
+                if (!this.name.equals(""))
                 {
-                    retVal = "Name: " + _name + " and ";
+                    retVal = "Name: " + this.name + " and ";
                 }
-                retVal += "Index: " + String.valueOf(_index);
+                retVal += "Index: " + String.valueOf(this.index);
                 return retVal;
             }
         }
@@ -130,7 +130,7 @@ public class PacksPanelAutomationHelper implements PanelAutomation
 
         // Read all packs from the xml and remember them to merge it with the selected packs from
         // install installDataGUI
-        logger.fine("Read pack list from xml definition.");
+        LOGGER.fine("Read pack list from xml definition.");
         for (IXMLElement pack : packList)
         {
             String index = pack.getAttribute("index");
@@ -140,12 +140,12 @@ public class PacksPanelAutomationHelper implements PanelAutomation
                     || selectedString.equalsIgnoreCase("on");
             final PInfo packInfo = new PInfo(selected, index, name);
             autoinstallPackInfoList.add(packInfo);
-            logger.fine("Try to " + (selected ? "add to" : "remove from") + " selection [" + packInfo.toString() + "]");
+            LOGGER.fine("Try to " + (selected ? "add to" : "remove from") + " selection [" + packInfo.toString() + "]");
         }
 
         // Now merge the selected pack from automated install installDataGUI with the selected packs form
         // autoinstall.xml
-        logger.fine("Modify pack selection");
+        LOGGER.fine("Modify pack selection");
         RulesEngine rules = idata.getRules();
         for (Pack pack : idata.getAvailablePacks())
         {
@@ -161,14 +161,14 @@ public class PacksPanelAutomationHelper implements PanelAutomation
                         // Do not modify required packs
                         if (!packInfo.isSelected() && rules.canInstallPack(pack.getName(), idata.getVariables()))
                         {
-                            logger.warning("Pack [" + packInfo.toString()
-                                                   + "] must be installed because it is required");
+                            LOGGER.warning("Pack [" + packInfo.toString()
+                                    + "] must be installed because it is required");
                         }
                         else if (!rules.canInstallPack(pack.getName(), idata.getVariables()))
                         {
                             // Pack can be removed from selection because it is required but conditions are not met
                             idata.getSelectedPacks().remove(pack);
-                            logger.fine("Pack [" + packInfo.toString() + "] removed from selection.");
+                            LOGGER.fine("Pack [" + packInfo.toString() + "] removed from selection.");
                         }
                     }
                     else
@@ -180,14 +180,14 @@ public class PacksPanelAutomationHelper implements PanelAutomation
                                     && rules.canInstallPack(pack.getName(), idata.getVariables()))
                             {
                                 idata.getSelectedPacks().add(pack);
-                                logger.fine("Pack [" + packInfo.toString() + "] added to selection.");
+                                LOGGER.fine("Pack [" + packInfo.toString() + "] added to selection.");
                             }
                         }
                         else
                         {
                             // Pack can be removed from selection because it is not required
                             idata.getSelectedPacks().remove(pack);
-                            logger.fine("Pack [" + packInfo.toString() + "] removed from selection.");
+                            LOGGER.fine("Pack [" + packInfo.toString() + "] removed from selection.");
 
                         }
                     }
@@ -204,5 +204,7 @@ public class PacksPanelAutomationHelper implements PanelAutomation
     }
 
     @Override
-    public void processOptions(InstallData installData, Overrides overrides) {}
+    public void processOptions(InstallData installData, Overrides overrides)
+    {
+    }
 }

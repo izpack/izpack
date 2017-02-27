@@ -18,14 +18,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 /**
-* Field alignment.
-*
-* @author Tim Anderson
-*/
+ * Field alignment.
+ *
+ * @author Tim Anderson
+ */
 public enum Alignment
 {
     LEFT, CENTER, RIGHT, TOP, BOTTOM

@@ -7,14 +7,18 @@ import java.util.List;
 
 public interface ButtonFieldConfig extends FieldConfig
 {
+
     /**
      * Get the button's name
+     *
      * @return
      */
     public String getButtonName();
 
     /**
-     * Get success message to be sent to the user if all the button's actions suceeed.
+     * Get success message to be sent to the user if all the button's actions
+     * suceeed.
+     *
      * @return
      */
     public String getSuccessMsg();

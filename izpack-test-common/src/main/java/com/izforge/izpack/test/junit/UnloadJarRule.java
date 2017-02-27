@@ -13,13 +13,16 @@ import com.izforge.izpack.test.util.ClassUtils;
  */
 public class UnloadJarRule implements TestRule
 {
+
     /**
-     * Modifies the method-running {@link Statement} to implement this test-running rule.
+     * Modifies the method-running {@link Statement} to implement this
+     * test-running rule.
      *
-     * @param base        The {@link org.junit.runners.model.Statement} to be modified
-     * @param description A {@link org.junit.runner.Description} of the test implemented in {@code base}
-     * @return a new statement, which may be the same as {@code base}, a wrapper around {@code base}, or a completely
-     *         new Statement.
+     * @param base The {@link org.junit.runners.model.Statement} to be modified
+     * @param description A {@link org.junit.runner.Description} of the test
+     * implemented in {@code base}
+     * @return a new statement, which may be the same as {@code base}, a wrapper
+     * around {@code base}, or a completely new Statement.
      */
     @Override
     public Statement apply(Statement base, Description description)

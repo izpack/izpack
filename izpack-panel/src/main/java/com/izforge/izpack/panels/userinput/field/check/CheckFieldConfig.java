@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.check;
 
 import com.izforge.izpack.panels.userinput.field.FieldConfig;
-
 
 /**
  * Configuration for 'check' fields.
@@ -33,14 +31,16 @@ public interface CheckFieldConfig extends FieldConfig
 {
 
     /**
-     * Returns the value to assign to the associated variable when the checkbox is selected (i.e. is 'true').
+     * Returns the value to assign to the associated variable when the checkbox
+     * is selected (i.e. is 'true').
      *
      * @return the 'true' value. May be {@code null}
      */
     String getTrueValue();
 
     /**
-     * Returns the value to assign to the associated variable when the checkbox is not selected (i.e. is 'false').
+     * Returns the value to assign to the associated variable when the checkbox
+     * is not selected (i.e. is 'false').
      *
      * @return the 'false' value
      */

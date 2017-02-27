@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.process;
 
 import java.awt.BorderLayout;
@@ -98,15 +97,15 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
     /**
      * The constructor.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param rules       the rules
-     * @param matcher     the platform-model matcher
+     * @param resources the resources
+     * @param rules the rules
+     * @param matcher the platform-model matcher
      */
     public ProcessPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                        RulesEngine rules, PlatformModelMatcher matcher)
+            RulesEngine rules, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, resources);
 
@@ -163,14 +162,14 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
     /**
      * The compiler starts.
      */
-    public void startProcessing(final int no_of_jobs)
+    public void startProcessing(final int noOfJobs)
     {
-        this.noOfJobs = no_of_jobs;
+        this.noOfJobs = noOfJobs;
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
             {
-                overallProgressBar.setMaximum(no_of_jobs);
+                overallProgressBar.setMaximum(noOfJobs);
                 overallProgressBar.setIndeterminate(true);
                 parent.lockPrevButton();
             }
@@ -188,8 +187,8 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
             {
                 overallProgressBar.setIndeterminate(false);
 
-                String no_of_jobs = Integer.toString(ProcessPanel.this.noOfJobs);
-                overallProgressBar.setString(no_of_jobs + " / " + no_of_jobs);
+                String noOfJobs0 = Integer.toString(ProcessPanel.this.noOfJobs);
+                overallProgressBar.setString(noOfJobs0 + " / " + noOfJobs0);
 
                 processLabel.setText(" ");
                 processLabel.setEnabled(false);
@@ -219,7 +218,7 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
      * Log a message.
      *
      * @param message The message.
-     * @param stderr  Whether the message came from stderr or stdout.
+     * @param stderr Whether the message came from stderr or stdout.
      */
     public void logOutput(String message, boolean stderr)
     {
@@ -252,7 +251,7 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
                 ProcessPanel.this.currentJob++;
                 overallProgressBar.setValue(ProcessPanel.this.currentJob);
                 overallProgressBar.setString(String.valueOf(ProcessPanel.this.currentJob) + " / "
-                                                     + String.valueOf(ProcessPanel.this.noOfJobs));
+                        + String.valueOf(ProcessPanel.this.noOfJobs));
             }
         });
     }

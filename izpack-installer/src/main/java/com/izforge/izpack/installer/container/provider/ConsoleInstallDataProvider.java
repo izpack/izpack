@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.container.provider;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
@@ -28,7 +27,7 @@ public class ConsoleInstallDataProvider extends AbstractInstallDataProvider
 {
 
     public ConsoleInstallData provide(Resources resources, Locales locales, DefaultVariables variables,
-                                      Housekeeper housekeeper, PlatformModelMatcher matcher)
+            Housekeeper housekeeper, PlatformModelMatcher matcher)
             throws Exception
     {
         final ConsoleInstallData consoleInstallData = new ConsoleInstallData(variables, matcher.getCurrentPlatform());

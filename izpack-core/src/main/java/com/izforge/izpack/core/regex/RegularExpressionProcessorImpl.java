@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.regex;
 
 import java.util.Vector;
@@ -29,14 +28,16 @@ import com.izforge.izpack.util.regex.Regexp;
 import com.izforge.izpack.util.regex.RegularExpression;
 
 /**
- * Regular expression utility adapted from and inspired by the PropertyRegEx Ant task
- * (project Ant Contrib)
+ * Regular expression utility adapted from and inspired by the PropertyRegEx Ant
+ * task (project Ant Contrib)
  *
- * @author René Krell - changes against the original implementation ant-contrib 1.0b3
+ * @author René Krell - changes against the original implementation ant-contrib
+ * 1.0b3
  * @see <a href='http://ant-contrib.sourceforge.net'>Ant Contrib project</a>
  */
 public class RegularExpressionProcessorImpl implements RegularExpressionProcessor
 {
+
     private String input;
 
     private RegularExpression regexp;
@@ -62,7 +63,6 @@ public class RegularExpressionProcessorImpl implements RegularExpressionProcesso
         this.regexp = new RegularExpression();
         this.regexp.setPattern(regex);
     }
-
 
     public void setReplace(String replace)
     {
@@ -116,8 +116,8 @@ public class RegularExpressionProcessorImpl implements RegularExpressionProcesso
         if (sregex.matches(input, options))
         {
             output = sregex.substitute(input,
-                                       replace,
-                                       options);
+                    replace,
+                    options);
         }
 
         if (output == null)
@@ -169,7 +169,6 @@ public class RegularExpressionProcessorImpl implements RegularExpressionProcesso
 
         return output;
     }
-
 
     protected void validate()
     {

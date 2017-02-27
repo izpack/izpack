@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file;
 
 import java.io.File;
@@ -30,25 +29,24 @@ import com.izforge.izpack.util.file.types.selectors.SelectorUtils;
  */
 public class ResourceUtils
 {
-    private static final Logger logger = Logger.getLogger(ResourceUtils.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(ResourceUtils.class.getName());
 
     /**
-     * tells which source files should be reprocessed based on the
-     * last modification date of target files
+     * tells which source files should be reprocessed based on the last
+     * modification date of target files
      *
-     * @param source  array of resources bearing relative path and last
-     *                modification date
-     * @param mapper  filename mapper indicating how to find the target
-     *                files
-     * @param targets object able to map as a resource a relative path
-     *                at <b>destination</b>
-     * @return array containing the source files which need to be
-     *         copied or processed, because the targets are out of date or do
-     *         not exist
+     * @param source array of resources bearing relative path and last
+     * modification date
+     * @param mapper filename mapper indicating how to find the target files
+     * @param targets object able to map as a resource a relative path at
+     * <b>destination</b>
+     * @return array containing the source files which need to be copied or
+     * processed, because the targets are out of date or do not exist
      */
     public static Resource[] selectOutOfDateSources(Resource[] source,
-                                                    FileNameMapper mapper,
-                                                    ResourceFactory targets)
+            FileNameMapper mapper,
+            ResourceFactory targets)
             throws Exception
     {
         return selectOutOfDateSources(source, mapper, targets,
@@ -56,25 +54,23 @@ public class ResourceUtils
     }
 
     /**
-     * tells which source files should be reprocessed based on the
-     * last modification date of target files
+     * tells which source files should be reprocessed based on the last
+     * modification date of target files
      *
-     * @param resources   array of resources bearing relative path and last
-     *                    modification date
-     * @param mapper      filename mapper indicating how to find the target
-     *                    files
-     * @param targets     object able to map as a resource a relative path
-     *                    at <b>destination</b>
-     * @param granularity The number of milliseconds leeway to give
-     *                    before deciding a target is out of date.
-     * @return array containing the source files which need to be
-     *         copied or processed, because the targets are out of date or do
-     *         not exist
+     * @param resources array of resources bearing relative path and last
+     * modification date
+     * @param mapper filename mapper indicating how to find the target files
+     * @param targets object able to map as a resource a relative path at
+     * <b>destination</b>
+     * @param granularity The number of milliseconds leeway to give before
+     * deciding a target is out of date.
+     * @return array containing the source files which need to be copied or
+     * processed, because the targets are out of date or do not exist
      */
     public static Resource[] selectOutOfDateSources(Resource[] resources,
-                                                    FileNameMapper mapper,
-                                                    ResourceFactory targets,
-                                                    long granularity)
+            FileNameMapper mapper,
+            ResourceFactory targets,
+            long granularity)
             throws Exception
     {
         long now = (new java.util.Date()).getTime() + granularity;
@@ -84,28 +80,28 @@ public class ResourceUtils
         {
             if (resource.getLastModified() > now)
             {
-                logger.warning(resource.getName() + " modified in the future.");
+                LOGGER.warning(resource.getName() + " modified in the future.");
             }
 
-            String[] targetnames =
-                    mapper.mapFileName(resource.getName()
+            String[] targetnames
+                    = mapper.mapFileName(resource.getName()
                             .replace('/', File.separatorChar));
             if (targetnames != null)
             {
                 boolean added = false;
                 StringBuffer targetList = new StringBuffer();
                 for (int ctarget = 0; !added && ctarget < targetnames.length;
-                     ctarget++)
+                        ctarget++)
                 {
-                    Resource atarget =
-                            targets.getResource(targetnames[ctarget]
+                    Resource atarget
+                            = targets.getResource(targetnames[ctarget]
                                     .replace(File.separatorChar, '/'));
                     // if the target does not exist, or exists and
                     // is older than the source, then we want to
                     // add the resource to what needs to be copied
                     if (!atarget.isExists())
                     {
-                        logger.warning(resource.getName() + " added as "
+                        LOGGER.warning(resource.getName() + " added as "
                                 + atarget.getName()
                                 + " doesn\'t exist.");
                         vresult.addElement(resource);
@@ -113,10 +109,10 @@ public class ResourceUtils
                     }
                     else if (!atarget.isDirectory()
                             && SelectorUtils.isOutOfDate(resource,
-                            atarget,
-                            (int) granularity))
+                                    atarget,
+                                    (int) granularity))
                     {
-                        logger.warning(resource.getName() + " added as "
+                        LOGGER.warning(resource.getName() + " added as "
                                 + atarget.getName()
                                 + " is outdated.");
                         vresult.addElement(resource);
@@ -134,7 +130,7 @@ public class ResourceUtils
 
                 if (!added)
                 {
-                    logger.fine(resource.getName()
+                    LOGGER.fine(resource.getName()
                             + " omitted as " + targetList.toString()
                             + (targetnames.length == 1 ? " is" : " are ")
                             + " up to date.");
@@ -142,7 +138,7 @@ public class ResourceUtils
             }
             else
             {
-                logger.warning(resource.getName()
+                LOGGER.warning(resource.getName()
                         + " skipped - don\'t know how to handle it");
             }
         }

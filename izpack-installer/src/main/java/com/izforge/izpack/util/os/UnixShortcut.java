@@ -20,7 +20,7 @@
  * limitations under the License.
  */
 
-/*
+ /*
  * This represents a Implementation of the KDE/GNOME DesktopEntry.
  * which is standard from
  * "Desktop Entry Standard"
@@ -49,7 +49,6 @@
  //  X-KDE-Username=$
  *
  */
-
 package com.izforge.izpack.util.os;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -73,28 +72,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This is the Implementation of the RFC-Based Desktop-Link. Used in KDE and GNOME.
+ * This is the Implementation of the RFC-Based Desktop-Link. Used in KDE and
+ * GNOME.
  *
  * @author marc.eppelmann&#064;reddot.de
  * @author Bill Root
  */
-public class Unix_Shortcut extends Shortcut
+public class UnixShortcut extends Shortcut
 {
     // ***********************************************************************
     // ~ Static fields/initializers
     // ***********************************************************************
 
-    private static final Logger logger = Logger.getLogger(Unix_Shortcut.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UnixShortcut.class.getName());
 
     /**
      * version = "$Id$"
      */
-    private static final String version = "$Id$";
+    private static final String VERSION = "$Id$";
 
     /**
      * rev = "$Revision$"
      */
-    private static final String rev = "$Revision$";
+    private static final String REV = "$Revision$";
 
     /**
      * DESKTOP_EXT = ".desktop"
@@ -127,11 +127,9 @@ public class Unix_Shortcut extends Shortcut
 
     private List<UnixUser> users;
 
-
     // ***********************************************************************
     // ~ Instance fields
     // ***********************************************************************
-
     /**
      * The data fields defining the shortcut.
      */
@@ -143,7 +141,7 @@ public class Unix_Shortcut extends Shortcut
     private String kdeSubstituteUID;
     private String kdeUserName;
     private String linkName;
-    private int    linkType;
+    private int linkType;
     private String mimeType;
     private String programGroup;
     private String targetPath;
@@ -151,7 +149,7 @@ public class Unix_Shortcut extends Shortcut
     private String terminalOptions;
     private String type;
     private String url;
-    private int    userType;
+    private int userType;
     private String workingDirectory;
 
     /**
@@ -167,7 +165,7 @@ public class Unix_Shortcut extends Shortcut
     /**
      * Internal Constant: FS = File.separator // *
      */
-    private final String FS = File.separator;
+    private static final String FS = File.separator;
 
     /**
      * Internal Constant: myHome = System.getProperty("user.home") *
@@ -180,7 +178,8 @@ public class Unix_Shortcut extends Shortcut
     private String su;
 
     /**
-     * Cached value from <tt>UnixHelper.getCustomCommand("xdg-desktop-icon")</tt>.
+     * Cached value from
+     * <tt>UnixHelper.getCustomCommand("xdg-desktop-icon")</tt>.
      */
     private String xdgDesktopIconCmd;
 
@@ -196,19 +195,17 @@ public class Unix_Shortcut extends Shortcut
      */
     private final InstallData installData;
 
-
     // ***********************************************************************
     // ~ Constructors
     // ***********************************************************************
-
     /**
      * Constructs a <tt>Unix_Shortcut</tt>.
      *
-     * @param resources   the resources
+     * @param resources the resources
      * @param installData the installation data
      */
     @SuppressWarnings("WeakerAccess")
-    public Unix_Shortcut(Resources resources, InstallData installData)
+    public UnixShortcut(Resources resources, InstallData installData)
     {
         this.resources = resources;
         this.installData = installData;
@@ -228,11 +225,9 @@ public class Unix_Shortcut extends Shortcut
 
     }
 
-
     // ***********************************************************************
     // ~ Methods
     // ***********************************************************************
-
     /**
      * Builds contents of desktop file.
      */
@@ -245,7 +240,6 @@ public class Unix_Shortcut extends Shortcut
         result.append("[Desktop Entry]" + N);
 
         // TODO implement Attribute: X-KDE-StartupNotify=true
-
         result.append("Categories=").append(categories).append(N);
 
         result.append("Comment=").append(description).append(N);
@@ -254,16 +248,21 @@ public class Unix_Shortcut extends Shortcut
 
         // this causes too many problems
         // result.append("TryExec=" + $E_QUOT + $Exec + $E_QUOT + S + $Arguments + N);
-
         if (!targetPath.isEmpty() || !arguments.isEmpty())
         {
             result.append("Exec=");
             if (targetPath.contains(S))
+            {
                 result.append("'").append(targetPath).append("'");
+            }
             else
+            {
                 result.append(targetPath);
+            }
             if (!arguments.isEmpty())
+            {
                 result.append(S).append(arguments);
+            }
             result.append(N);
         }
 
@@ -282,27 +281,33 @@ public class Unix_Shortcut extends Shortcut
 
         result.append("Terminal=").append(terminal).append(N);
         if (!terminal.isEmpty() && !terminal.equals("true") && !terminal.equals("false"))
-            logger.warning(String.format("Shortcut '%s' has terminal '%s' but should be 'true' or 'false'", linkName, terminal));
+        {
+            LOGGER.warning(String.format("Shortcut '%s' has terminal '%s' but should be 'true' or 'false'", linkName, terminal));
+        }
 
         result.append("TerminalOptions=").append(terminalOptions).append(N);
 
         result.append("Type=").append(type).append(N);
         if (type.equalsIgnoreCase("Link") && url.isEmpty())
-                logger.warning(String.format("Shortcut '%s' has type '%s' but URL is empty", linkName, type));
+        {
+            LOGGER.warning(String.format("Shortcut '%s' has type '%s' but URL is empty", linkName, type));
+        }
 
         if (!url.isEmpty())
         {
             result.append("URL=").append(url).append(N);
             if (!type.equalsIgnoreCase("Link"))
-                logger.warning(String.format("Shortcut '%s' has URL but type ('%s') is not 'Link'", linkName, type));
+            {
+                LOGGER.warning(String.format("Shortcut '%s' has URL but type ('%s') is not 'Link'", linkName, type));
+            }
         }
 
         result.append("X-KDE-SubstituteUID=").append(kdeSubstituteUID).append(N);
         result.append("X-KDE-Username=").append(kdeUserName).append(N);
         result.append(N);
-        result.append(C + "created by" + S).append(getClass().getName()).append(S).append(rev).append(
+        result.append(C + "created by" + S).append(getClass().getName()).append(S).append(REV).append(
                 N);
-        result.append(C).append(version);
+        result.append(C).append(VERSION);
 
         return result.toString();
     }
@@ -357,16 +362,15 @@ public class Unix_Shortcut extends Shortcut
     }
 
     @Override
-    public String getProgramsFolder(int current_user)
+    public String getProgramsFolder(int currentUser)
     {
         String result;
 
         //
-        result = getKdeShareApplnkFolder(current_user).toString();
+        result = getKdeShareApplnkFolder(currentUser).toString();
 
         return result;
     }
-
 
     /**
      * Gets the XDG path to place the menu shortcuts
@@ -380,21 +384,20 @@ public class Unix_Shortcut extends Shortcut
         if (userType == Shortcut.ALL_USERS)
         {
             return new File(File.separator + "usr" + File.separator + "share" + File.separator
-                                    + "applications");
+                    + "applications");
         }
         else
         {
             return new File(System.getProperty("user.home") + File.separator + ".local"
-                                    + File.separator + "share" + File.separator + "applications");
+                    + File.separator + "share" + File.separator + "applications");
         }
 
     }
 
-
     /**
-     * Makes a filename usable in a script by escaping spaces.
-     * This should <b>not</b> be used for filenames passed to Java filesystem
-     * methods.
+     * Makes a filename usable in a script by escaping spaces. This should
+     * <b>not</b> be used for filenames passed to Java filesystem methods.
+     *
      * @param filename filename to process
      * @return escaped filename
      */
@@ -402,7 +405,6 @@ public class Unix_Shortcut extends Shortcut
     {
         return filename.replace(" ", "\\ ");
     }
-
 
     /**
      * overridden method
@@ -416,7 +418,6 @@ public class Unix_Shortcut extends Shortcut
         // EVER true for UNIXes ;-)
         return (true);
     }
-
 
     /**
      * Creates and stores the shortcut-files.
@@ -441,34 +442,34 @@ public class Unix_Shortcut extends Shortcut
             // read the userdefined / overridden / wished Shortcut Location
             // This can be an absolute Path name or a relative Path to the InstallPath
             File shortCutLocation = null;
-            File ApplicationShortcutPath;
-            String ApplicationShortcutPathName = installData.getVariable("ApplicationShortcutPath"/*
+            File applicationShortcutPath;
+            String applicationShortcutPathName = installData.getVariable("ApplicationShortcutPath"/*
               TODO
               <-- Put in Docu and in Un/InstallerConstantsClass
              */
             );
-            if (null != ApplicationShortcutPathName && !ApplicationShortcutPathName.equals(""))
+            if (null != applicationShortcutPathName && !applicationShortcutPathName.equals(""))
             {
-                ApplicationShortcutPath = new File(ApplicationShortcutPathName);
+                applicationShortcutPath = new File(applicationShortcutPathName);
 
-                if (ApplicationShortcutPath.isAbsolute())
+                if (applicationShortcutPath.isAbsolute())
                 {
                     // I know :-) Can be m"ORed" elegant :)
-                    if (!ApplicationShortcutPath.exists() && ApplicationShortcutPath.mkdirs()
-                            && ApplicationShortcutPath.canWrite())
+                    if (!applicationShortcutPath.exists() && applicationShortcutPath.mkdirs()
+                            && applicationShortcutPath.canWrite())
                     {
-                        shortCutLocation = ApplicationShortcutPath;
+                        shortCutLocation = applicationShortcutPath;
                     }
-                    if (ApplicationShortcutPath.exists() && ApplicationShortcutPath.isDirectory()
-                            && ApplicationShortcutPath.canWrite())
+                    if (applicationShortcutPath.exists() && applicationShortcutPath.isDirectory()
+                            && applicationShortcutPath.canWrite())
                     {
-                        shortCutLocation = ApplicationShortcutPath;
+                        shortCutLocation = applicationShortcutPath;
                     }
                 }
                 else
                 {
                     File relativePath = new File(installData.getInstallPath() + FS
-                                                         + ApplicationShortcutPath);
+                            + applicationShortcutPath);
                     //noinspection ResultOfMethodCallIgnored
                     relativePath.mkdirs();
                     shortCutLocation = new File(relativePath.toString());
@@ -476,32 +477,37 @@ public class Unix_Shortcut extends Shortcut
             }
 
             if (shortCutLocation == null)
+            {
                 shortCutLocation = new File(installData.getInstallPath());
+            }
 
             // write the App ShortCut
             File writtenDesktopFile = writeAppShortcutWithOutSpace(shortCutLocation.toString(),
-                                                                   this.linkName, shortCutDef);
+                    this.linkName, shortCutDef);
             uninstaller.addFile(writtenDesktopFile.toString(), true);
 
             // Now install my Own with xdg-if available // Note the The reverse Uninstall-Task is on
             // TODO: "WHICH another place"
-
             String cmd = getXdgDesktopIconCmd();
             if (cmd != null)
             {
                 createExtXdgDesktopIconCmd(shortCutLocation);
                 // / TODO: DELETE the ScriptFiles
-                myInstallScript.appendln(new String[]{
+                myInstallScript.appendln(new String[]
+                {
                     makeFilenameScriptable(myXdgDesktopIconCmd),
                     "install",
                     "--novendor",
-                    StringTool.escapeSpaces(writtenDesktopFile.toString())});
+                    StringTool.escapeSpaces(writtenDesktopFile.toString())
+                });
                 ShellScript myUninstallScript = new ShellScript();
-                myUninstallScript.appendln(new String[]{
+                myUninstallScript.appendln(new String[]
+                {
                     makeFilenameScriptable(myXdgDesktopIconCmd),
                     "uninstall",
                     "--novendor",
-                    StringTool.escapeSpaces(writtenDesktopFile.toString())});
+                    StringTool.escapeSpaces(writtenDesktopFile.toString())
+                });
                 uninstaller.addUninstallScript(myUninstallScript.getContentAsString());
             }
             else
@@ -511,7 +517,7 @@ public class Unix_Shortcut extends Shortcut
                 do
                 {
                     myDesktopFile = new File(myHome + FS + "Desktop" + writtenDesktopFile.getName()
-                                                     + "-" + System.currentTimeMillis() + DESKTOP_EXT);
+                            + "-" + System.currentTimeMillis() + DESKTOP_EXT);
                 }
                 while (myDesktopFile.exists());
 
@@ -551,7 +557,6 @@ public class Unix_Shortcut extends Shortcut
              *
              * uninstaller.addFile(kdemenufile.toString(), true); }
              */
-
             if (rootUser4All && create4All)
             {
                 {
@@ -567,17 +572,16 @@ public class Unix_Shortcut extends Shortcut
                     }
                     catch (Exception e)
                     {
-                        logger.log(Level.WARNING,
-                                   "Could not copy " + theIcon + " to " + commonIcon + " ("
-                                           + e.getMessage() + ")",
-                                   e);
+                        LOGGER.log(Level.WARNING,
+                                "Could not copy " + theIcon + " to " + commonIcon + " ("
+                                + e.getMessage() + ")",
+                                e);
                     }
 
                     // write *.desktop
-
                     this.itsFileName = null;
                     File writtenFile = writeAppShortcut("/usr/share/applications/", this.linkName,
-                                                        shortCutDef);
+                            shortCutDef);
                     setWrittenFileName(writtenFile.getName());
                     uninstaller.addFile(writtenFile.toString(), true);
 
@@ -603,11 +607,10 @@ public class Unix_Shortcut extends Shortcut
                 catch (Exception ignore)
                 {
                     // System.out.println("Failed creating "+localApps + " or " + localPixmaps);
-                    logger.warning("Failed creating " + localApps + " or " + localPixmaps);
+                    LOGGER.warning("Failed creating " + localApps + " or " + localPixmaps);
                 }
 
                 // write the icon pixmaps into ~/share/pixmaps
-
                 File theIcon = new File(this.getIconLocation());
                 File commonIcon = new File(localPixmaps + theIcon.getName());
 
@@ -618,12 +621,11 @@ public class Unix_Shortcut extends Shortcut
                 }
                 catch (Exception e)
                 {
-                    logger.log(Level.WARNING, "Could not copy " + theIcon + " to " + commonIcon
+                    LOGGER.log(Level.WARNING, "Could not copy " + theIcon + " to " + commonIcon
                             + " (" + e.getMessage() + ")", e);
                 }
 
                 // write *.desktop in the local folder
-
                 this.itsFileName = null;
                 File writtenFile = writeAppShortcut(localApps, this.linkName, shortCutDef);
                 setWrittenFileName(writtenFile.getName());
@@ -633,12 +635,11 @@ public class Unix_Shortcut extends Shortcut
         }
     }
 
-
     /**
-     * Creates Extended Locale Enabled XdgDesktopIcon Command script.
-     * Fills the File myXdgDesktopIconScript with the content of
-     * com/izforge/izpack/util/os/unix/xdgscript.sh and uses this to
-     * creates User Desktop icons
+     * Creates Extended Locale Enabled XdgDesktopIcon Command script. Fills the
+     * File myXdgDesktopIconScript with the content of
+     * com/izforge/izpack/util/os/unix/xdgscript.sh and uses this to creates
+     * User Desktop icons
      *
      * @param shortCutLocation in which folder should this stored.
      * @throws ResourceNotFoundException resource not found error
@@ -653,15 +654,18 @@ public class Unix_Shortcut extends Shortcut
 
         myXdgDesktopIconCmd = shortCutLocation + FS + "IzPackLocaleEnabledXdgDesktopIconScript.sh";
         myXdgDesktopIconScript.write(myXdgDesktopIconCmd);
-        FileExecutor.getExecOutput(new String[]{UnixHelper.getCustomCommand("chmod"), "+x", myXdgDesktopIconCmd}, true);
+        FileExecutor.getExecOutput(new String[]
+        {
+            UnixHelper.getCustomCommand("chmod"), "+x", myXdgDesktopIconCmd
+        }, true);
     }
 
-
     /**
-     * Calls and creates the Install/Uninstall Script which installs Desktop Icons using
-     * xdgDesktopIconCmd un-/install
+     * Calls and creates the Install/Uninstall Script which installs Desktop
+     * Icons using xdgDesktopIconCmd un-/install
      *
-     * @param writtenDesktopFile An applications desktop file, which should be installed.
+     * @param writtenDesktopFile An applications desktop file, which should be
+     * installed.
      */
     private void installDesktopFileToAllUsersDesktop(File writtenDesktopFile)
     {
@@ -669,31 +673,40 @@ public class Unix_Shortcut extends Shortcut
         {
             if (user.getHome().equals(myHome))
             {
-                logger.info("Skipping self-copy: " + user.getHome() + " == " + myHome);
+                LOGGER.info("Skipping self-copy: " + user.getHome() + " == " + myHome);
                 continue;
             }
             try
             {
                 // / THE Following does such as #> su username -c "xdg-desktopicon install
                 // --novendor /Path/to/Filename\ with\ or\ without\ Space.desktop"
-                rootScript.append(new String[]{getSuCommand(), user.getName(), "-c"});
-                rootScript.appendln(new String[]{"\"" + myXdgDesktopIconCmd, "install", "--novendor",
-                        StringTool.escapeSpaces(writtenDesktopFile.toString()) + "\""});
+                rootScript.append(new String[]
+                {
+                    getSuCommand(), user.getName(), "-c"
+                });
+                rootScript.appendln(new String[]
+                {
+                    "\"" + myXdgDesktopIconCmd, "install", "--novendor",
+                    StringTool.escapeSpaces(writtenDesktopFile.toString()) + "\""
+                });
 
-                uninstallScript.append(new String[]{getSuCommand(), user.getName(), "-c"});
-                uninstallScript
-                        .appendln(new String[]{"\"" + myXdgDesktopIconCmd, "uninstall", "--novendor",
-                                StringTool.escapeSpaces(writtenDesktopFile.toString()) + "\""});
+                uninstallScript.append(new String[]
+                {
+                    getSuCommand(), user.getName(), "-c"
+                });
+                uninstallScript.appendln(new String[] {
+                    "\"" + myXdgDesktopIconCmd, "uninstall", "--novendor",
+                    StringTool.escapeSpaces(writtenDesktopFile.toString()) + "\""
+                });
             }
             catch (Exception e)
             {
-                logger.log(Level.WARNING, e.getMessage(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
-        logger.fine("==============================");
-        logger.fine(rootScript.getContentAsString());
+        LOGGER.fine("==============================");
+        LOGGER.fine(rootScript.getContentAsString());
     }
-
 
     private String getSuCommand()
     {
@@ -704,7 +717,6 @@ public class Unix_Shortcut extends Shortcut
         return su;
     }
 
-
     private String getXdgDesktopIconCmd()
     {
         if (xdgDesktopIconCmd == null)
@@ -714,7 +726,6 @@ public class Unix_Shortcut extends Shortcut
         return xdgDesktopIconCmd;
     }
 
-
     private List<UnixUser> getUsers()
     {
         if (users == null)
@@ -723,7 +734,6 @@ public class Unix_Shortcut extends Shortcut
         }
         return users;
     }
-
 
     /**
      * @param writtenDesktopFile User desktop file
@@ -740,23 +750,24 @@ public class Unix_Shortcut extends Shortcut
 
         // Create a tempFileName of this ShortCut
         File tempFile = File.createTempFile(this.getClass().getName(), Long.toString(System
-                                                                                             .currentTimeMillis())
+                .currentTimeMillis())
                 + ".tmp");
 
         FileUtils.copyFile(writtenDesktopFile, tempFile, false);
 
         // Debug.log("Wrote Tempfile: " + tempFile.toString());
-
-        FileExecutor.getExecOutput(new String[]{chmod, "uga+rwx", tempFile.toString()});
+        FileExecutor.getExecOutput(new String[]
+        {
+            chmod, "uga+rwx", tempFile.toString()
+        });
 
         // su marc.eppelmann -c "/bin/cp /home/marc.eppelmann/backup.job.out.txt
         // /home/marc.eppelmann/backup.job.out2.txt"
-
         for (UnixUser user : getUsers())
         {
             if (user.getHome().equals(myHome))
             {
-                logger.info("Skipping self-copy: " + user.getHome() + " == " + myHome);
+                LOGGER.info("Skipping self-copy: " + user.getHome() + " == " + myHome);
                 continue;
             }
             try
@@ -774,7 +785,6 @@ public class Unix_Shortcut extends Shortcut
                 // chown $username $HOME/Desktop/link.desktop
 
                 // Debug.log("Will Copy: " + tempFile.toString() + " to " + dest.toString());
-
                 rootScript.append(getSuCommand());
                 rootScript.append(S);
                 rootScript.append(user.getName());
@@ -792,7 +802,6 @@ public class Unix_Shortcut extends Shortcut
                 rootScript.append('\n');
 
                 // Debug.log("Will exec: " + script.toString());
-
                 rootScript.append(chown);
                 rootScript.append(S);
                 rootScript.append(user.getName());
@@ -802,7 +811,6 @@ public class Unix_Shortcut extends Shortcut
                 rootScript.append('\n');
 
                 // Debug.log("Will exec: " + script.toString());
-
                 uninstallScript.append(getSuCommand());
                 uninstallScript.append(S);
                 uninstallScript.append(user.getName());
@@ -819,9 +827,9 @@ public class Unix_Shortcut extends Shortcut
             }
             catch (Exception e)
             {
-                logger.log(Level.INFO,
-                           "Could not copy as root: " + e.getMessage(),
-                           e);
+                LOGGER.log(Level.INFO,
+                        "Could not copy as root: " + e.getMessage(),
+                        e);
 
                 /* ignore */
                 // most distros does not allow root to access any user
@@ -837,13 +845,13 @@ public class Unix_Shortcut extends Shortcut
     }
 
     /**
-     * Post Exec Action especially for the Unix Root User. which executes the Root ShortCut
-     * Shellscript. to copy all ShellScripts to the users Desktop.
+     * Post Exec Action especially for the Unix Root User. which executes the
+     * Root ShortCut Shellscript. to copy all ShellScripts to the users Desktop.
      */
     @Override
     public void execPostAction()
     {
-        logger.fine("Launching post execution action");
+        LOGGER.fine("Launching post execution action");
 
         String pseudoUnique = this.getClass().getName() + Long.toString(System.currentTimeMillis());
 
@@ -863,7 +871,7 @@ public class Unix_Shortcut extends Shortcut
         rootScript.write(scriptFilename);
         rootScript.exec();
         rootScript.delete();
-        logger.fine(rootScript.toString());
+        LOGGER.fine(rootScript.toString());
 
         // Quick an dirty copy & paste code - will be cleanup in one of 4.1.1++
         pseudoUnique = this.getClass().getName() + Long.toString(System.currentTimeMillis());
@@ -882,14 +890,12 @@ public class Unix_Shortcut extends Shortcut
         myInstallScript.exec();
         myInstallScript.delete();
 
-
-        logger.fine(myInstallScript.toString());
+        LOGGER.fine(myInstallScript.toString());
         // End OF Quick AND Dirty
-        logger.fine(uninstallScript.toString());
+        LOGGER.fine(uninstallScript.toString());
 
         uninstaller.addUninstallScript(uninstallScript.getContentAsString());
     }
-
 
     private String writtenFileName;
 
@@ -903,14 +909,13 @@ public class Unix_Shortcut extends Shortcut
         writtenFileName = s;
     }
 
-
     /**
-     * Write the given ShortDefinition in a File $ShortcutName-$timestamp.desktop in the given
-     * TargetPath.
+     * Write the given ShortDefinition in a File
+     * $ShortcutName-$timestamp.desktop in the given TargetPath.
      *
-     * @param targetPath   The Path in which the files should be written.
+     * @param targetPath The Path in which the files should be written.
      * @param shortcutName The Name for the File
-     * @param shortcutDef  The Shortcut FileContent
+     * @param shortcutDef The Shortcut FileContent
      * @return The written File
      */
     private File writeAppShortcut(String targetPath, String shortcutName, String shortcutDef)
@@ -918,35 +923,35 @@ public class Unix_Shortcut extends Shortcut
         return writeAppShortcutWithSimpleSpacehandling(targetPath, shortcutName, shortcutDef, false);
     }
 
-
     /**
-     * Write the given ShortDefinition in a File $ShortcutName-$timestamp.desktop in the given
-     * TargetPath. ALSO all WhiteSpaces in the ShortCutName will be replaced with "-"
+     * Write the given ShortDefinition in a File
+     * $ShortcutName-$timestamp.desktop in the given TargetPath. ALSO all
+     * WhiteSpaces in the ShortCutName will be replaced with "-"
      *
-     * @param targetPath   The Path in which the files should be written.
+     * @param targetPath The Path in which the files should be written.
      * @param shortcutName The Name for the File
-     * @param shortcutDef  The Shortcut FileContent
+     * @param shortcutDef The Shortcut FileContent
      * @return The written File
      */
     private File writeAppShortcutWithOutSpace(String targetPath, String shortcutName,
-                                              String shortcutDef)
+            String shortcutDef)
     {
         return writeAppShortcutWithSimpleSpacehandling(targetPath, shortcutName, shortcutDef, true);
     }
 
-
     /**
-     * Write the given ShortDefinition in a File $ShortcutName-$timestamp.desktop in the given
-     * TargetPath. If the given replaceSpaces was true ALSO all WhiteSpaces in the ShortCutName will
-     * be replaced with "-"
+     * Write the given ShortDefinition in a File
+     * $ShortcutName-$timestamp.desktop in the given TargetPath. If the given
+     * replaceSpaces was true ALSO all WhiteSpaces in the ShortCutName will be
+     * replaced with "-"
      *
-     * @param targetPath   The Path in which the files should be written.
+     * @param targetPath The Path in which the files should be written.
      * @param shortcutName The Name for the File
-     * @param shortcutDef  The Shortcut FileContent
+     * @param shortcutDef The Shortcut FileContent
      * @return The written File
      */
     private File writeAppShortcutWithSimpleSpacehandling(String targetPath, String shortcutName,
-                                                         String shortcutDef, boolean replaceSpacesWithMinus)
+            String shortcutDef, boolean replaceSpacesWithMinus)
     {
         File shortcutFile = new File(
                 FilenameUtils.getFullPathNoEndSeparator(targetPath)
@@ -960,7 +965,7 @@ public class Unix_Shortcut extends Shortcut
         }
         catch (IOException e)
         {
-            logger.warning("Application shortcut could not be created (" + e.getMessage() + ")");
+            LOGGER.warning("Application shortcut could not be created (" + e.getMessage() + ")");
         }
 
         return shortcutFile;

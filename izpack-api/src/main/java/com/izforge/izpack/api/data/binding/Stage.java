@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data.binding;
 
 /**
@@ -27,7 +26,6 @@ package com.izforge.izpack.api.data.binding;
 public enum Stage
 {
     install, uninstall, compiler;
-
 
     public static boolean isInInstaller(Stage stage)
     {

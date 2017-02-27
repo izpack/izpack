@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.rule;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -27,7 +26,6 @@ import com.izforge.izpack.panels.userinput.field.ValidationStatus;
 import com.izforge.izpack.panels.userinput.field.rule.RuleField;
 import com.izforge.izpack.util.Console;
 
-
 /**
  * Console presentation of {@link RuleField}.
  *
@@ -35,12 +33,13 @@ import com.izforge.izpack.util.Console;
  */
 public class ConsoleRuleField extends ConsoleInputField
 {
+
     /**
      * Constructs a {@code ConsoleRuleField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleRuleField(RuleField field, Console console, Prompt prompt)
     {

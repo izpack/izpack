@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.path;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -44,9 +43,10 @@ import java.util.logging.Logger;
  */
 public class PathInputPanel extends IzPanel implements ActionListener
 {
+
     private static final long serialVersionUID = 3257566217698292531L;
 
-    private static final transient Logger logger = Logger.getLogger(PathInputPanel.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(PathInputPanel.class.getName());
 
     /**
      * Flag whether the choosen path must exist or not
@@ -70,11 +70,11 @@ public class PathInputPanel extends IzPanel implements ActionListener
     /**
      * Constructs a <tt>PathInputPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public PathInputPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
@@ -102,7 +102,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         // Label for input
         // row 1 column 0.
         add(createLabel("info", "TargetPanel", "open",
-                        LEFT, true), NEXT_LINE);
+                LEFT, true), NEXT_LINE);
         // Create path selection components and add they to this panel.
         pathSelectionPanel = new PathSelectionPanel(this, installData, log);
         add(pathSelectionPanel, NEXT_LINE);
@@ -122,8 +122,9 @@ public class PathInputPanel extends IzPanel implements ActionListener
     }
 
     /**
-     * This method does nothing. It is called from ctor of PathInputPanel, to give in a derived
-     * class the possibility to add more components under the path input components.
+     * This method does nothing. It is called from ctor of PathInputPanel, to
+     * give in a derived class the possibility to add more components under the
+     * path input components.
      */
     public void createLayoutBottom()
     {
@@ -196,7 +197,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
             }
         }
 
-        if(!installData.getPlatform().isValidDirectoryPath(file))
+        if (!installData.getPlatform().isValidDirectoryPath(file))
         {
             emitError(getString("installer.error"), getI18nStringForClass("syntax.error", "TargetPanel"));
             return false;
@@ -205,9 +206,10 @@ public class PathInputPanel extends IzPanel implements ActionListener
     }
 
     /**
-     * This method is called when the panel becomes active. Default is to do nothing : feel free to
-     * implement what you need in your subclasses. A panel becomes active when the user reaches it
-     * during the installation process.
+     * This method is called when the panel becomes active. Default is to do
+     * nothing : feel free to implement what you need in your subclasses. A
+     * panel becomes active when the user reaches it during the installation
+     * process.
      */
     @Override
     public void panelActivate()
@@ -242,7 +244,8 @@ public class PathInputPanel extends IzPanel implements ActionListener
     }
 
     /**
-     * Returns the array of strings which are described the files which must exist.
+     * Returns the array of strings which are described the files which must
+     * exist.
      *
      * @return paths of files which must exist
      */
@@ -296,7 +299,8 @@ public class PathInputPanel extends IzPanel implements ActionListener
      * Verifies that installation information exists in the specified path.
      *
      * @param path the path
-     * @return {@code true} if installation information exists, otherwise {@code false}
+     * @return {@code true} if installation information exists, otherwise
+     * {@code false}
      */
     protected boolean checkInstallationInformation(File path)
     {
@@ -304,7 +308,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         if (!info.exists())
         {
             emitError(getString("installer.error"),
-                      getString("PathInputPanel.required.forModificationInstallation"));
+                    getString("PathInputPanel.required.forModificationInstallation"));
 
             return false;
         }
@@ -337,7 +341,8 @@ public class PathInputPanel extends IzPanel implements ActionListener
      * Determines if the specified directory can be created.
      *
      * @param dir the directory
-     * @return {@code true} if the directory may be created, otherwise {@code false}
+     * @return {@code true} if the directory may be created, otherwise
+     * {@code false}
      */
     protected boolean checkCreateDirectory(File dir)
     {
@@ -356,7 +361,8 @@ public class PathInputPanel extends IzPanel implements ActionListener
      * Determines if an existing directory can be written to.
      *
      * @param dir the directory
-     * @return {@code true} if the directory can be written to, otherwise {@code false}
+     * @return {@code true} if the directory can be written to, otherwise
+     * {@code false}
      */
     protected boolean checkOverwrite(File dir)
     {
@@ -365,7 +371,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         // "The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"
         // warning dialog:
         String show = getMetadata().getConfigurationOptionValue(PathInputBase.SHOWEXISTINGDIRECTORYWARNING, installData.getRules());
-        if ((show == null || Boolean.getBoolean(show))  && dir.isDirectory() && dir.list().length > 0)
+        if ((show == null || Boolean.getBoolean(show)) && dir.isDirectory() && dir.list().length > 0)
         {
             result = askWarningQuestion(getString("installer.warning"), warnMsg,
                     AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES) == AbstractUIHandler.ANSWER_YES;
@@ -376,7 +382,8 @@ public class PathInputPanel extends IzPanel implements ActionListener
     /**
      * Determines if an existing installation is being modified.
      *
-     * @return {@code true} if an installation is being modified, otherwise {@code false}
+     * @return {@code true} if an installation is being modified, otherwise
+     * {@code false}
      */
     protected boolean modifyInstallation()
     {
@@ -392,9 +399,10 @@ public class PathInputPanel extends IzPanel implements ActionListener
     }
 
     /**
-     * Returns whether the chosen path is valid or not. If existFiles are not null, the existence of
-     * it under the chosen path are detected. This method can be also implemented in derived
-     * classes to handle special verification of the path.
+     * Returns whether the chosen path is valid or not. If existFiles are not
+     * null, the existence of it under the chosen path are detected. This method
+     * can be also implemented in derived classes to handle special verification
+     * of the path.
      *
      * @return true if existFiles are exist or not defined, else false
      */
@@ -405,7 +413,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         if (!isValid && notifyUserIfInvalid)
         {
             String errMsg = getString(getI18nStringForClass("notValid", "PathInputPanel"));
-            logger.log(Level.WARNING, String.format("%s: '%s'", errMsg, pathToBeChecked));
+            LOGGER.log(Level.WARNING, String.format("%s: '%s'", errMsg, pathToBeChecked));
             emitError(getString("installer.error"), errMsg);
         }
         return isValid;

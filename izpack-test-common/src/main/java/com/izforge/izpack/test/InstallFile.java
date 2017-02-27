@@ -8,10 +8,14 @@ import java.lang.annotation.*;
  * @author Anthonin Bonnefoy
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target(
+        {
+            ElementType.METHOD, ElementType.TYPE
+        })
 @Inherited
 public @interface InstallFile
 {
+
     /**
      * @return the install file
      */

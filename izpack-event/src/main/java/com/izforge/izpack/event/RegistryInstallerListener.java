@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -52,17 +51,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Installer custom action for handling registry entries on Windows. On Unix nothing will be done.
- * The actions which should be performed are defined in a resource file named "RegistrySpec.xml".
- * This resource should be declared in the installation definition file (install.xml), else an
- * exception will be raised during execution of this custom action. The related DTD is
+ * Installer custom action for handling registry entries on Windows. On Unix
+ * nothing will be done. The actions which should be performed are defined in a
+ * resource file named "RegistrySpec.xml". This resource should be declared in
+ * the installation definition file (install.xml), else an exception will be
+ * raised during execution of this custom action. The related DTD is
  * appl/install/IzPack/resources/registry.dtd.
  *
  * @author Klaus Bartz
  */
 public class RegistryInstallerListener extends AbstractProgressInstallerListener implements CleanupClient
 {
-    private static final Logger logger = Logger.getLogger(RegistryInstallerListener.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(RegistryInstallerListener.class.getName());
 
     /**
      * The name of the XML file that specifies the registry entries.
@@ -92,7 +93,6 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
     private static final String REG_OVERRIDE = "override";
 
     private static final String SAVE_PREVIOUS = "saveprevious";
-
 
     private List registryModificationLog;
 
@@ -141,23 +141,22 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
      */
     static final String UNINSTALLER_ICON = "UninstallerIcon";
 
-
     /**
      * Constructs a <tt>RegistryInstallerListener</tt>.
      *
-     * @param unpacker      the unpacker
-     * @param substitutor   the variable substituter
-     * @param installData   the installation data
+     * @param unpacker the unpacker
+     * @param substitutor the variable substituter
+     * @param installData the installation data
      * @param uninstallData the uninstallation data
-     * @param rules         the rules
-     * @param resources     the resources
-     * @param housekeeper   the housekeeper
-     * @param handler       the registry handler reference
+     * @param rules the rules
+     * @param resources the resources
+     * @param housekeeper the housekeeper
+     * @param handler the registry handler reference
      */
     public RegistryInstallerListener(IUnpacker unpacker, VariableSubstitutor substitutor,
-                                     InstallData installData, UninstallData uninstallData,
-                                     Resources resources, RulesEngine rules, Housekeeper housekeeper,
-                                     RegistryDefaultHandler handler)
+            InstallData installData, UninstallData uninstallData,
+            Resources resources, RulesEngine rules, Housekeeper housekeeper,
+            RegistryDefaultHandler handler)
     {
         super(installData);
         this.substitutor = substitutor;
@@ -188,7 +187,7 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
     /**
      * Invoked after packs are installed.
      *
-     * @param packs    the installed packs
+     * @param packs the installed packs
      * @param listener the progress listener
      * @throws IzPackException for any error
      */
@@ -221,7 +220,6 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
     /**
      * Remove all registry entries on failed installation.
      */
-
     public void cleanUp()
     {
         if (registry != null)
@@ -239,17 +237,18 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
                 }
                 catch (Exception e)
                 {
-                    logger.log(Level.SEVERE, e.getMessage(), e);
+                    LOGGER.log(Level.SEVERE, e.getMessage(), e);
                 }
             }
         }
     }
 
     /**
-     * Returns the uninstall name, used to initialise the {@link RegistryHandler#setUninstallName(String)}.
+     * Returns the uninstall name, used to initialise the
+     * {@link RegistryHandler#setUninstallName(String)}.
      * <p/>
-     * This implementation returns a concatenation of the <em>APP_NAME</em> and <em>APP_VER</em> variables,
-     * separated by a space.
+     * This implementation returns a concatenation of the <em>APP_NAME</em> and
+     * <em>APP_VER</em> variables, separated by a space.
      *
      * @return the uninstall name
      */
@@ -259,7 +258,7 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
         return variables.get("APP_NAME") + " " + variables.get("APP_VER");
     }
 
-   private void afterPacks(List<Pack> packs) throws NativeLibException, InstallerException
+    private void afterPacks(List<Pack> packs) throws NativeLibException, InstallerException
     {
         // Register for cleanup
         housekeeper.registerForCleanup(this);
@@ -327,11 +326,11 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
         String packCondition = pack.getAttribute("condition");
         if (packCondition != null)
         {
-            logger.fine("Condition \"" + packCondition + "\" found for pack of registry entries");
+            LOGGER.fine("Condition \"" + packCondition + "\" found for pack of registry entries");
             if (!rules.isConditionTrue(packCondition))
             {
                 // condition not fulfilled, continue with next element.
-                logger.fine("Condition \"" + packCondition + "\" not true");
+                LOGGER.fine("Condition \"" + packCondition + "\" not true");
                 return;
             }
         }
@@ -347,11 +346,11 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
             String condition = regEntry.getAttribute("condition");
             if (condition != null)
             {
-                logger.fine("Condition " + condition + " found for registry entry");
+                LOGGER.fine("Condition " + condition + " found for registry entry");
                 if (!rules.isConditionTrue(condition))
                 {
                     // condition not fulfilled, continue with next element.
-                    logger.fine("Condition \"" + condition + "\" not true");
+                    LOGGER.fine("Condition \"" + condition + "\" not true");
                     continue;
                 }
             }
@@ -379,7 +378,8 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
     /**
      * Perform the setting of one value.
      *
-     * @param regEntry element which contains the description of the value to be set
+     * @param regEntry element which contains the description of the value to be
+     * set
      * @throws InstallerException if a required attribute is missing
      * @throws NativeLibException for any native library error
      */
@@ -498,7 +498,8 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
     /**
      * Perform the setting of one key.
      *
-     * @param regEntry element which contains the description of the key to be created
+     * @param regEntry element which contains the description of the key to be
+     * created
      * @throws InstallerException if a required attribute is missing
      * @throws NativeLibException for any native library error
      */
@@ -543,7 +544,7 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
         InstallData installData = getInstallData();
         String keyName = RegistryHandler.UNINSTALL_ROOT + uninstallName;
         String uninstallerPath = IoHelper.translatePath(installData.getInfo().getUninstallerPath(),
-                                                        installData.getVariables());
+                installData.getVariables());
         String cmd = "\"" + installData.getVariable("JAVA_HOME") + "\\bin\\javaw.exe\" -jar \""
                 + uninstallerPath + "\\" + installData.getInfo().getUninstallerName() + "\"";
         String appVersion = installData.getVariable("APP_VER");
@@ -556,7 +557,7 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
         }
         catch (NativeLibException exception)
         { // Users without administrative rights should be able to install the app for themselves
-            logger.warning(
+            LOGGER.warning(
                     "Failed to register uninstaller in HKEY_LOCAL_MACHINE hive, trying HKEY_CURRENT_USER: " + exception.getMessage());
             registry.setRoot(RegistryHandler.HKEY_CURRENT_USER);
             registry.setValue(keyName, "DisplayName", uninstallName);
@@ -575,7 +576,7 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
             in = resources.getInputStream(UNINSTALLER_ICON);
             String iconPath = installData.getVariable("INSTALL_PATH") + File.separator
                     + "Uninstaller" + File.separator + "UninstallerIcon.ico";
-            
+
             // make sure the 'Uninstaller' directory exists
             File uninstallerIcon = new File(iconPath);
             FileUtils.touch(uninstallerIcon);
@@ -589,7 +590,7 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
         catch (ResourceNotFoundException exception)
         {
             // No icon resource defined; ignore it
-            logger.warning("The configured uninstaller icon was not found: " + exception.getMessage());
+            LOGGER.warning("The configured uninstaller icon was not found: " + exception.getMessage());
         }
         catch (IOException exception)
         {
@@ -601,6 +602,5 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
             IOUtils.closeQuietly(out);
         }
     }
-
 
 }

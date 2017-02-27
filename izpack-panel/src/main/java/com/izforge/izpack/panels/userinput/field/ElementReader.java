@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ import com.izforge.izpack.core.rules.logic.OrCondition;
 import com.izforge.izpack.core.rules.process.PackSelectionCondition;
 import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
 
 /**
  * Configuration element reader.
@@ -98,12 +96,14 @@ public class ElementReader
     }
 
     /**
-     * Gets a global condition for viewing an UserInputPanel depending on the following optional nested tags to the panel tag:
+     * Gets a global condition for viewing an UserInputPanel depending on the
+     * following optional nested tags to the panel tag:
      * <ul>
      * <li>createForPack
      * <li>createForUnselectedPack
      * <li>os
      * </ul>
+     *
      * @param spec UserInputPanel descriptor
      * @param matcher the platform-model matcher
      * @param installData the installation data
@@ -121,14 +121,19 @@ public class ElementReader
 
         if (!forOs.isEmpty())
         {
-            Condition osMatcherCondition = new Condition() {
+            Condition osMatcherCondition = new Condition()
+            {
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void readFromXML(IXMLElement xmlcondition) throws Exception {}
+                public void readFromXML(IXMLElement xmlcondition) throws Exception
+                {
+                }
 
                 @Override
-                public void makeXMLData(IXMLElement conditionRoot) {}
+                public void makeXMLData(IXMLElement conditionRoot)
+                {
+                }
 
                 @Override
                 public boolean isTrue()
@@ -137,7 +142,8 @@ public class ElementReader
                 }
 
                 @Override
-                public Set<String> getVarRefs() {
+                public Set<String> getVarRefs()
+                {
                     return new HashSet<String>(0);
                 }
             };
@@ -198,7 +204,8 @@ public class ElementReader
                 }
                 newCondition = andCondition;
             }
-            else {
+            else
+            {
                 newCondition = globalConditions.iterator().next();
             }
             return newCondition;

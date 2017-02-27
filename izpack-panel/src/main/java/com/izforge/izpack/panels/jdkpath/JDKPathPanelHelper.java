@@ -17,7 +17,11 @@ import java.util.StringTokenizer;
 
 public class JDKPathPanelHelper
 {
-    public static final String[] testFiles = new String[]{"lib" + File.separator + "tools.jar"};
+
+    public static final String[] TEST_FILES = new String[]
+    {
+        "lib" + File.separator + "tools.jar"
+    };
     public static final String JDK_VALUE_NAME = "JavaHome";
     public static final String JDK_ROOT_KEY = "Software\\JavaSoft\\Java Development Kit";
     public static final String OSX_JDK_HOME = "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home/";
@@ -29,7 +33,9 @@ public class JDKPathPanelHelper
     private static String maxVersion = null;
 
     /**
-     * MUST always be called in constructor of JDKPathConsolePanel and JDKPathPanel
+     * MUST always be called in constructor of JDKPathConsolePanel and
+     * JDKPathPanel
+     *
      * @param installData
      */
     public static void initialize(InstallData installData)
@@ -41,6 +47,7 @@ public class JDKPathPanelHelper
 
     /**
      * Obtain the default java path
+     *
      * @param installData
      * @param handler
      * @return
@@ -51,7 +58,7 @@ public class JDKPathPanelHelper
 
         String defaultValue = installData.getVariable(JDK_PATH);
 
-        if(defaultValue != null)
+        if (defaultValue != null)
         {
             return defaultValue;
         }
@@ -83,9 +90,9 @@ public class JDKPathPanelHelper
     }
 
     /**
-     * Returns the path to the needed JDK if found in the registry. If there are more than one JDKs
-     * registered, that one with the highest allowed version will be returned. Works only on windows.
-     * On Unix an empty string returns.
+     * Returns the path to the needed JDK if found in the registry. If there are
+     * more than one JDKs registered, that one with the highest allowed version
+     * will be returned. Works only on windows. On Unix an empty string returns.
      *
      * @return the path to the needed JDK if found in the windows registry
      */
@@ -164,15 +171,16 @@ public class JDKPathPanelHelper
     }
 
     /**
-     * Returns whether the chosen path is true or not. If existFiles are not null, the existence of
-     * it under the chosen path are detected. This method can be also implemented in derived
-     * classes to handle special verification of the path.
+     * Returns whether the chosen path is true or not. If existFiles are not
+     * null, the existence of it under the chosen path are detected. This method
+     * can be also implemented in derived classes to handle special verification
+     * of the path.
      *
      * @return true if existFiles are exist or not defined, else false
      */
     private static boolean pathIsValid(String strPath)
     {
-        for (String existFile : testFiles)
+        for (String existFile : TEST_FILES)
         {
             File path = new File(strPath, existFile).getAbsoluteFile();
             if (!path.exists())
@@ -184,7 +192,8 @@ public class JDKPathPanelHelper
     }
 
     /**
-     * Validate that the given javaVersion meets meets the minimum and maximum java version requirements.
+     * Validate that the given javaVersion meets meets the minimum and maximum
+     * java version requirements.
      *
      * @param javaVersion
      * @return
@@ -229,18 +238,20 @@ public class JDKPathPanelHelper
         String[] params;
         if (platform.isA(Platform.Name.WINDOWS))
         {
-            params = new String[]{
-                    "cmd",
-                    "/c",
-                    path + File.separator + "bin" + File.separator + "java",
-                    "-version"
+            params = new String[]
+            {
+                "cmd",
+                "/c",
+                path + File.separator + "bin" + File.separator + "java",
+                "-version"
             };
         }
         else
         {
-            params = new String[]{
-                    path + File.separator + "bin" + File.separator + "java",
-                    "-version"
+            params = new String[]
+            {
+                path + File.separator + "bin" + File.separator + "java",
+                "-version"
             };
         }
 
@@ -254,69 +265,70 @@ public class JDKPathPanelHelper
     }
 
     /**
-     * Given a 'dirty' string representing the javaVersion.
-     * Extract the actual java version and strip away any extra information.
+     * Given a 'dirty' string representing the javaVersion. Extract the actual
+     * java version and strip away any extra information.
      *
      * @param javaVersion
      * @return
      */
-     public static String extractJavaVersion(String javaVersion)
-     {
-         //Were originally parameters
-         int assumedPlace = 4;
-         int halfRange = 4;
-         String useNotIdentifier = "__NO_NOT_IDENTIFIER_";
+    public static String extractJavaVersion(String javaVersion)
+    {
+        //Were originally parameters
+        int assumedPlace = 4;
+        int halfRange = 4;
+        String useNotIdentifier = "__NO_NOT_IDENTIFIER_";
 
-         StringTokenizer tokenizer = new StringTokenizer(javaVersion, " \t\n\r\f\"");
-         int i;
-         int currentRange = 0;
-         String[] interestedEntries = new String[halfRange + halfRange];
-         for (i = 0; i < assumedPlace - halfRange; ++i)
-         {
-             if (tokenizer.hasMoreTokens())
-             {
-                 tokenizer.nextToken(); // Forget this entries.
-             }
-         }
+        StringTokenizer tokenizer = new StringTokenizer(javaVersion, " \t\n\r\f\"");
+        int i;
+        int currentRange = 0;
+        String[] interestedEntries = new String[halfRange + halfRange];
+        for (i = 0; i < assumedPlace - halfRange; ++i)
+        {
+            if (tokenizer.hasMoreTokens())
+            {
+                tokenizer.nextToken(); // Forget this entries.
+            }
+        }
 
-         for (i = 0; i < halfRange + halfRange; ++i)
-         { // Put the interesting Strings into an intermediaer array.
-             if (tokenizer.hasMoreTokens())
-             {
-                 interestedEntries[i] = tokenizer.nextToken();
-                 currentRange++;
-             }
-         }
+        for (i = 0; i < halfRange + halfRange; ++i)
+        { // Put the interesting Strings into an intermediaer array.
+            if (tokenizer.hasMoreTokens())
+            {
+                interestedEntries[i] = tokenizer.nextToken();
+                currentRange++;
+            }
+        }
 
-         for (i = 0; i < currentRange; ++i)
-         {
-             if (useNotIdentifier != null && interestedEntries[i].contains(useNotIdentifier))
-             {
-                 continue;
-             }
-             if (Character.getType(interestedEntries[i].charAt(0)) != Character.DECIMAL_DIGIT_NUMBER)
-             {
-                 continue;
-             }
-             break;
-         }
-         if (i == currentRange)
-         {
-             return "<not found>";
-         }
-         return interestedEntries[i];
-     }
+        for (i = 0; i < currentRange; ++i)
+        {
+            if (useNotIdentifier != null && interestedEntries[i].contains(useNotIdentifier))
+            {
+                continue;
+            }
+            if (Character.getType(interestedEntries[i].charAt(0)) != Character.DECIMAL_DIGIT_NUMBER)
+            {
+                continue;
+            }
+            break;
+        }
+        if (i == currentRange)
+        {
+            return "<not found>";
+        }
+        return interestedEntries[i];
+    }
 
     /**
-     * Validate that the given javaVersion meets meets the minimum and maximum java version requirements.
+     * Validate that the given javaVersion meets meets the minimum and maximum
+     * java version requirements.
      *
      * @param currentVersion
      * @param template
      * @param isMin
      * @return
      */
-     private static boolean compareVersions(String currentVersion, String template, boolean isMin)
-     {
+    private static boolean compareVersions(String currentVersion, String template, boolean isMin)
+    {
         StringTokenizer currentTokenizer = new StringTokenizer(currentVersion, "._-");
         StringTokenizer neededTokenizer = new StringTokenizer(template, "._-");
         while (neededTokenizer.hasMoreTokens())
@@ -371,8 +383,7 @@ public class JDKPathPanelHelper
     }
 
     /**
-     * Central validation of java path.
-     * Also gives allowance to central strings.
+     * Central validation of java path. Also gives allowance to central strings.
      *
      * @param javaHome JAVA_HOME path to test
      * @param javaVersion the java version being queried
@@ -383,7 +394,7 @@ public class JDKPathPanelHelper
     {
         StringBuilder message = new StringBuilder();
 
-        if(!pathIsValid(javaHome))
+        if (!pathIsValid(javaHome))
         {
             message.append(messages.get("PathInputPanel.notValid"));
         }
@@ -409,9 +420,10 @@ public class JDKPathPanelHelper
 
         return message.toString();
     }
+
     /**
-     * Check if JDK panel should be skipped.
-     * Return true if panel should be skipped otherwise false.
+     * Check if JDK panel should be skipped. Return true if panel should be
+     * skipped otherwise false.
      *
      * @param installData
      * @param path
@@ -421,8 +433,8 @@ public class JDKPathPanelHelper
     {
         String skipIfValid = installData.getVariable("JDKPathPanel.skipIfValid");
 
-        if (pathIsValid(path) && skipIfValid != null &&
-                ("yes".equalsIgnoreCase(skipIfValid) || "true".equalsIgnoreCase(skipIfValid)))
+        if (pathIsValid(path) && skipIfValid != null
+                && ("yes".equalsIgnoreCase(skipIfValid) || "true".equalsIgnoreCase(skipIfValid)))
         {
             installData.setVariable(JDK_PATH, path);
             return true;

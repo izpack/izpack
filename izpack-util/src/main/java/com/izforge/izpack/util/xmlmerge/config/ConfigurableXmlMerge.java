@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.config;
 
 import java.io.File;
@@ -46,10 +45,11 @@ public class ConfigurableXmlMerge implements XmlMerge
     /**
      * Wrapped XmlMerge instance.
      */
-    XmlMerge m_wrappedXmlMerge;
+    XmlMerge wrappedXmlMerge;
 
     /**
-     * Creates a default XmlMerge instance and configures it with the given configurer.
+     * Creates a default XmlMerge instance and configures it with the given
+     * configurer.
      *
      * @param configurer The configurer used to configure the XmlMerge instance
      * @throws ConfigurationException If an error occurred during configuration
@@ -70,49 +70,49 @@ public class ConfigurableXmlMerge implements XmlMerge
             throws ConfigurationException
     {
         configurer.configure(wrappedXmlMerge);
-        this.m_wrappedXmlMerge = wrappedXmlMerge;
+        this.wrappedXmlMerge = wrappedXmlMerge;
     }
 
     @Override
     public InputStream merge(InputStream[] sources) throws AbstractXmlMergeException
     {
-        return m_wrappedXmlMerge.merge(sources);
+        return wrappedXmlMerge.merge(sources);
     }
 
     @Override
     public void merge(File[] sources, File target) throws AbstractXmlMergeException
     {
-        m_wrappedXmlMerge.merge(sources, target);
+        wrappedXmlMerge.merge(sources, target);
     }
 
     @Override
     public Document merge(Document[] sources) throws AbstractXmlMergeException
     {
-        return m_wrappedXmlMerge.merge(sources);
+        return wrappedXmlMerge.merge(sources);
     }
 
     @Override
     public String merge(String[] sources) throws AbstractXmlMergeException
     {
-        return m_wrappedXmlMerge.merge(sources);
+        return wrappedXmlMerge.merge(sources);
     }
 
     @Override
     public void setRootMergeMapperFactory(OperationFactory factory)
     {
-        m_wrappedXmlMerge.setRootMergeMapperFactory(factory);
+        wrappedXmlMerge.setRootMergeMapperFactory(factory);
     }
 
     @Override
     public void setRootMergeActionFactory(OperationFactory factory)
     {
-        m_wrappedXmlMerge.setRootMergeActionFactory(factory);
+        wrappedXmlMerge.setRootMergeActionFactory(factory);
     }
 
     @Override
     public void setRootMergeMatcherFactory(OperationFactory factory)
     {
-        m_wrappedXmlMerge.setRootMergeMatcherFactory(factory);
+        wrappedXmlMerge.setRootMergeMatcherFactory(factory);
     }
 
 }

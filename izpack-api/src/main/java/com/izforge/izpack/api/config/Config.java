@@ -28,6 +28,7 @@ import java.nio.charset.Charset;
 
 public class Config implements Cloneable, Serializable
 {
+
     public static final String KEY_PREFIX = "org.ini4j.config.";
     public static final String PROP_EMPTY_OPTION = "emptyOption";
     public static final String PROP_EMPTY_SECTION = "emptySection";
@@ -76,33 +77,36 @@ public class Config implements Cloneable, Serializable
     public static final Charset DEFAULT_FILE_ENCODING = Charset.forName("UTF-8");
     private static final Config GLOBAL = new Config();
     private static final long serialVersionUID = 2865793267410367814L;
-    private boolean _comment;
-    private boolean _emptyOption;
-    private boolean _emptySection;
-    private boolean _escape;
-    private boolean _escapeNewline;
-    private Charset _fileEncoding;
-    private boolean _globalSection;
-    private String _globalSectionName;
-    private boolean _headerComment;
-    private boolean _include;
-    private String _lineSeparator;
-    private boolean _lowerCaseOption;
-    private boolean _lowerCaseSection;
-    private boolean _multiOption;
-    private boolean _multiSection;
-    private char _pathSeparator;
-    private boolean _propertyFirstUpper;
-    private boolean _strictOperator;
-    private String _operator;
-    private boolean _tree;
-    private boolean _unnamedSection;
-    private boolean _emptyLines;
-    private boolean _autoNumbering;
+    private boolean comment;
+    private boolean emptyOption;
+    private boolean emptySection;
+    private boolean escape;
+    private boolean escapeNewline;
+    private Charset fileEncoding;
+    private boolean globalSection;
+    private String globalSectionName;
+    private boolean headerComment;
+    private boolean include;
+    private String lineSeparator;
+    private boolean lowerCaseOption;
+    private boolean lowerCaseSection;
+    private boolean multiOption;
+    private boolean multiSection;
+    private char pathSeparator;
+    private boolean propertyFirstUpper;
+    private boolean strictOperator;
+    private String operator;
+    private boolean tree;
+    private boolean unnamedSection;
+    private boolean emptyLines;
+    private boolean autoNumbering;
 
     private InstallData installData;
 
-    public Config() { reset(); }
+    public Config()
+    {
+        reset();
+    }
 
     public static String getEnvironment(String name)
     {
@@ -153,226 +157,232 @@ public class Config implements Cloneable, Serializable
 
     public void setComment(boolean value)
     {
-        _comment = value;
+        this.comment = value;
     }
 
     public boolean isEscape()
     {
-        return _escape;
+        return this.escape;
     }
 
     public boolean isEscapeNewline()
     {
-        return _escapeNewline;
+        return this.escapeNewline;
     }
 
-    public boolean isInclude() { return _include; }
+    public boolean isInclude()
+    {
+        return this.include;
+    }
 
     public boolean isTree()
     {
-        return _tree;
+        return this.tree;
     }
 
     public void setEmptyOption(boolean value)
     {
-        _emptyOption = value;
+        this.emptyOption = value;
     }
 
     public void setEmptySection(boolean value)
     {
-        _emptySection = value;
+        this.emptySection = value;
     }
 
     public void setEscape(boolean value)
     {
-        _escape = value;
+        this.escape = value;
     }
 
     public void setEscapeNewline(boolean value)
     {
-        _escapeNewline = value;
+        this.escapeNewline = value;
     }
 
     public Charset getFileEncoding()
     {
-        return _fileEncoding;
+        return this.fileEncoding;
     }
 
-    public void setFileEncoding(Charset value) { _fileEncoding = value; }
+    public void setFileEncoding(Charset value)
+    {
+        this.fileEncoding = value;
+    }
 
     public void setGlobalSection(boolean value)
     {
-        _globalSection = value;
+        this.globalSection = value;
     }
 
     public String getGlobalSectionName()
     {
-        return _globalSectionName;
+        return this.globalSectionName;
     }
 
     public void setGlobalSectionName(String value)
     {
-        _globalSectionName = value;
+        this.globalSectionName = value;
     }
 
     public void setHeaderComment(boolean value)
     {
-        _headerComment = value;
+        this.headerComment = value;
     }
 
     public void setEmptyLines(boolean value)
     {
-        _emptyLines = value;
+        this.emptyLines = value;
     }
 
     public void setAutoNumbering(boolean value)
     {
-        _autoNumbering = value;
+        this.autoNumbering = value;
     }
 
     public void setInclude(boolean value)
     {
-        _include = value;
+        this.include = value;
     }
 
     public String getLineSeparator()
     {
-        return _lineSeparator;
+        return this.lineSeparator;
     }
 
     public void setLineSeparator(String value)
     {
-        _lineSeparator = value;
+        this.lineSeparator = value;
     }
 
     public void setLowerCaseOption(boolean value)
     {
-        _lowerCaseOption = value;
+        this.lowerCaseOption = value;
     }
 
     public void setLowerCaseSection(boolean value)
     {
-        _lowerCaseSection = value;
+        this.lowerCaseSection = value;
     }
 
     public void setMultiOption(boolean value)
     {
-        _multiOption = value;
+        this.multiOption = value;
     }
 
     public void setMultiSection(boolean value)
     {
-        _multiSection = value;
+        this.multiSection = value;
     }
 
     public boolean isEmptyOption()
     {
-        return _emptyOption;
+        return this.emptyOption;
     }
 
     public boolean isEmptySection()
     {
-        return _emptySection;
+        return this.emptySection;
     }
 
     public boolean isGlobalSection()
     {
-        return _globalSection;
+        return this.globalSection;
     }
 
     public boolean isLowerCaseOption()
     {
-        return _lowerCaseOption;
+        return this.lowerCaseOption;
     }
 
     public boolean isLowerCaseSection()
     {
-        return _lowerCaseSection;
+        return this.lowerCaseSection;
     }
 
     public boolean isMultiOption()
     {
-        return _multiOption;
+        return this.multiOption;
     }
 
     public boolean isMultiSection()
     {
-        return _multiSection;
+        return this.multiSection;
     }
 
     public boolean isUnnamedSection()
     {
-        return _unnamedSection;
+        return this.unnamedSection;
     }
 
     public char getPathSeparator()
     {
-        return _pathSeparator;
+        return this.pathSeparator;
     }
 
     public void setPathSeparator(char value)
     {
-        _pathSeparator = value;
+        this.pathSeparator = value;
     }
 
     public void setPropertyFirstUpper(boolean value)
     {
-        _propertyFirstUpper = value;
+        this.propertyFirstUpper = value;
     }
 
     public boolean isPropertyFirstUpper()
     {
-        return _propertyFirstUpper;
+        return this.propertyFirstUpper;
     }
 
     public boolean isStrictOperator()
     {
-        return _strictOperator;
+        return this.strictOperator;
     }
 
     public void setStrictOperator(boolean value)
     {
-        _strictOperator = value;
+        this.strictOperator = value;
     }
 
     public String getOperator()
     {
-        return _operator;
+        return this.operator;
     }
 
-    public void setOperator(String _operator)
+    public void setOperator(String operator)
     {
-        this._operator = _operator;
+        this.operator = operator;
     }
 
     public boolean isComment()
     {
-        return _comment;
+        return this.comment;
     }
 
     public boolean isHeaderComment()
     {
-        return _headerComment;
+        return this.headerComment;
     }
 
     public boolean isEmptyLines()
     {
-        return _emptyLines;
+        return this.emptyLines;
     }
 
     public boolean isAutoNumbering()
     {
-        return _autoNumbering;
+        return this.autoNumbering;
     }
 
     public void setTree(boolean value)
     {
-        _tree = value;
+        this.tree = value;
     }
 
     public void setUnnamedSection(boolean value)
     {
-        _unnamedSection = value;
+        this.unnamedSection = value;
     }
 
     public InstallData getInstallData()
@@ -385,8 +395,8 @@ public class Config implements Cloneable, Serializable
         this.installData = installData;
     }
 
-
-    @Override public Config clone()
+    @Override
+    public Config clone()
     {
         try
         {
@@ -400,28 +410,28 @@ public class Config implements Cloneable, Serializable
 
     public final void reset()
     {
-        _emptyOption = getBoolean(PROP_EMPTY_OPTION, DEFAULT_EMPTY_OPTION);
-        _emptySection = getBoolean(PROP_EMPTY_SECTION, DEFAULT_EMPTY_SECTION);
-        _globalSection = getBoolean(PROP_GLOBAL_SECTION, DEFAULT_GLOBAL_SECTION);
-        _globalSectionName = getString(PROP_GLOBAL_SECTION_NAME, DEFAULT_GLOBAL_SECTION_NAME);
-        _include = getBoolean(PROP_INCLUDE, DEFAULT_INCLUDE);
-        _lowerCaseOption = getBoolean(PROP_LOWER_CASE_OPTION, DEFAULT_LOWER_CASE_OPTION);
-        _lowerCaseSection = getBoolean(PROP_LOWER_CASE_SECTION, DEFAULT_LOWER_CASE_SECTION);
-        _multiOption = getBoolean(PROP_MULTI_OPTION, DEFAULT_MULTI_OPTION);
-        _multiSection = getBoolean(PROP_MULTI_SECTION, DEFAULT_MULTI_SECTION);
-        _strictOperator = getBoolean(PROP_STRICT_OPERATOR, DEFAULT_STRICT_OPERATOR);
-        _operator = getString(PROP_OPERATOR, DEFAULT_OPERATOR);
-        _unnamedSection = getBoolean(PROP_UNNAMED_SECTION, DEFAULT_UNNAMED_SECTION);
-        _escape = getBoolean(PROP_ESCAPE, DEFAULT_ESCAPE);
-        _escapeNewline = getBoolean(PROP_ESCAPE_NEWLINE, DEFAULT_ESCAPE_NEWLINE);
-        _pathSeparator = getChar(PROP_PATH_SEPARATOR, DEFAULT_PATH_SEPARATOR);
-        _tree = getBoolean(PROP_TREE, DEFAULT_TREE);
-        _propertyFirstUpper = getBoolean(PROP_PROPERTY_FIRST_UPPER, DEFAULT_PROPERTY_FIRST_UPPER);
-        _lineSeparator = getString(PROP_LINE_SEPARATOR, DEFAULT_LINE_SEPARATOR);
-        _fileEncoding = getCharset(PROP_FILE_ENCODING, DEFAULT_FILE_ENCODING);
-        _comment = getBoolean(PROP_COMMENT, DEFAULT_COMMENT);
-        _emptyLines = getBoolean(PROP_EMPTY_LINES, DEFAULT_EMPTY_LINES);
-        _autoNumbering = getBoolean(PROP_AUTO_NUMBERING, DEFAULT_AUTO_NUMBERING);
+        this.emptyOption = getBoolean(PROP_EMPTY_OPTION, DEFAULT_EMPTY_OPTION);
+        this.emptySection = getBoolean(PROP_EMPTY_SECTION, DEFAULT_EMPTY_SECTION);
+        this.globalSection = getBoolean(PROP_GLOBAL_SECTION, DEFAULT_GLOBAL_SECTION);
+        this.globalSectionName = getString(PROP_GLOBAL_SECTION_NAME, DEFAULT_GLOBAL_SECTION_NAME);
+        this.include = getBoolean(PROP_INCLUDE, DEFAULT_INCLUDE);
+        this.lowerCaseOption = getBoolean(PROP_LOWER_CASE_OPTION, DEFAULT_LOWER_CASE_OPTION);
+        this.lowerCaseSection = getBoolean(PROP_LOWER_CASE_SECTION, DEFAULT_LOWER_CASE_SECTION);
+        this.multiOption = getBoolean(PROP_MULTI_OPTION, DEFAULT_MULTI_OPTION);
+        this.multiSection = getBoolean(PROP_MULTI_SECTION, DEFAULT_MULTI_SECTION);
+        this.strictOperator = getBoolean(PROP_STRICT_OPERATOR, DEFAULT_STRICT_OPERATOR);
+        this.operator = getString(PROP_OPERATOR, DEFAULT_OPERATOR);
+        this.unnamedSection = getBoolean(PROP_UNNAMED_SECTION, DEFAULT_UNNAMED_SECTION);
+        this.escape = getBoolean(PROP_ESCAPE, DEFAULT_ESCAPE);
+        this.escapeNewline = getBoolean(PROP_ESCAPE_NEWLINE, DEFAULT_ESCAPE_NEWLINE);
+        this.pathSeparator = getChar(PROP_PATH_SEPARATOR, DEFAULT_PATH_SEPARATOR);
+        this.tree = getBoolean(PROP_TREE, DEFAULT_TREE);
+        this.propertyFirstUpper = getBoolean(PROP_PROPERTY_FIRST_UPPER, DEFAULT_PROPERTY_FIRST_UPPER);
+        this.lineSeparator = getString(PROP_LINE_SEPARATOR, DEFAULT_LINE_SEPARATOR);
+        this.fileEncoding = getCharset(PROP_FILE_ENCODING, DEFAULT_FILE_ENCODING);
+        this.comment = getBoolean(PROP_COMMENT, DEFAULT_COMMENT);
+        this.emptyLines = getBoolean(PROP_EMPTY_LINES, DEFAULT_EMPTY_LINES);
+        this.autoNumbering = getBoolean(PROP_AUTO_NUMBERING, DEFAULT_AUTO_NUMBERING);
     }
 
     private boolean getBoolean(String name, boolean defaultValue)

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
 import java.io.BufferedInputStream;
@@ -27,10 +26,7 @@ import java.lang.reflect.Constructor;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ResourceException;
-import com.izforge.izpack.api.exception.ResourceInterruptedException;
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
-
 
 /**
  * Abstract implementation of the {@link PackResources} interface.
@@ -39,6 +35,7 @@ import com.izforge.izpack.api.resource.Resources;
  */
 public abstract class AbstractPackResources implements PackResources
 {
+
     /**
      * Temporary directory for web installers.
      */
@@ -57,7 +54,7 @@ public abstract class AbstractPackResources implements PackResources
     /**
      * Constructs an {@code AbstractPackResources}.
      *
-     * @param resources   the resources
+     * @param resources the resources
      * @param installData the installation data
      */
     public AbstractPackResources(Resources resources, InstallData installData)
@@ -71,9 +68,9 @@ public abstract class AbstractPackResources implements PackResources
      *
      * @param name the resource name
      * @return a stream to the resource
-     * @throws ResourceNotFoundException    if the resource cannot be found
+     * @throws ResourceNotFoundException if the resource cannot be found
      * @throws ResourceInterruptedException if resource retrieval is interrupted
-     * @throws ResourceException            for any other resource error
+     * @throws ResourceException for any other resource error
      */
     @Override
     public InputStream getPackStream(String name)
@@ -104,7 +101,7 @@ public abstract class AbstractPackResources implements PackResources
      * @param name the resource name
      * @return a stream to the resource
      * @throws ResourceNotFoundException if the resource cannot be found
-     * @throws ResourceException         for any other resource error
+     * @throws ResourceException for any other resource error
      */
     @Override
     public InputStream getInputStream(String name)
@@ -116,7 +113,7 @@ public abstract class AbstractPackResources implements PackResources
     /**
      * Returns a stream that decodes the supplied stream.
      *
-     * @param in        the stream to decode
+     * @param in the stream to decode
      * @param className the decoding input stream class name.
      * @return the decoding stream
      * @throws ResourceException for any error
@@ -127,12 +124,18 @@ public abstract class AbstractPackResources implements PackResources
         try
         {
             Class decoder = Class.forName(className);
-            Class[] paramsClasses = {java.io.InputStream.class};
+            Class[] paramsClasses =
+            {
+                java.io.InputStream.class
+            };
             Constructor constructor = decoder.getDeclaredConstructor(paramsClasses);
             // Our first used decoder input stream (bzip2) reads byte for byte from
             // the source. Therefore we put a buffering stream between it and the source.
             InputStream buffer = new BufferedInputStream(in);
-            Object[] params = {buffer};
+            Object[] params =
+            {
+                buffer
+            };
             result = constructor.newInstance(params);
         }
         catch (Exception exception)
@@ -143,7 +146,7 @@ public abstract class AbstractPackResources implements PackResources
         if (!InputStream.class.isInstance(result))
         {
             throw new ResourceException("Cannot decode resource: '" + className + "' must be derived from "
-                                                + InputStream.class.getName());
+                    + InputStream.class.getName());
         }
         return (InputStream) result;
     }
@@ -162,10 +165,10 @@ public abstract class AbstractPackResources implements PackResources
     /**
      * Returns the stream to a web-based pack resource.
      *
-     * @param name      the resource name
+     * @param name the resource name
      * @param webDirURL the web URL to load the resource from
      * @return a stream to the resource
-     * @throws ResourceNotFoundException    if the resource cannot be found
+     * @throws ResourceNotFoundException if the resource cannot be found
      * @throws ResourceInterruptedException if resource retrieval is interrupted
      */
     protected abstract InputStream getWebPackStream(String name, String webDirURL);

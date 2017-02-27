@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.requirement;
 
 import java.util.logging.Logger;
@@ -32,8 +31,9 @@ import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 
 /**
- * Evaluates each {@link InstallerRequirement} returned by {@link InstallData#getInstallerRequirements()}
- * to determine if installation should proceed.
+ * Evaluates each {@link InstallerRequirement} returned by
+ * {@link InstallData#getInstallerRequirements()} to determine if installation
+ * should proceed.
  *
  * @author Tim Anderson
  */
@@ -58,15 +58,14 @@ public class InstallerRequirementChecker implements RequirementChecker
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(InstallerRequirementChecker.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(InstallerRequirementChecker.class.getName());
 
     /**
      * Constructs a <tt>InstallerRequirementChecker</tt>.
      *
      * @param installData the installation data.
-     * @param rules       the rules engine
-     * @param prompt      the prompt
+     * @param rules the rules engine
+     * @param prompt the prompt
      */
     public InstallerRequirementChecker(InstallData installData, RulesEngine rules, Prompt prompt)
     {
@@ -93,7 +92,7 @@ public class InstallerRequirementChecker implements RequirementChecker
             if (condition == null)
             {
                 fail = true;
-                logger.warning(id + " is not a valid condition.");
+                LOGGER.warning(id + " is not a valid condition.");
                 break;
             }
             if (!condition.isTrue())

@@ -9,7 +9,8 @@ import java.util.logging.Logger;
  */
 public class FileQueueMove extends FileQueueCopy
 {
-    private static final Logger logger = Logger.getLogger(FileQueueMove.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(FileQueueMove.class.getName());
 
     public FileQueueMove(File fromFile, File toFile)
     {
@@ -26,7 +27,7 @@ public class FileQueueMove extends FileQueueCopy
     {
         try
         {
-            logger.fine("Enqueueing moving " + fromFile + " to " + toFile
+            LOGGER.fine("Enqueueing moving " + fromFile + " to " + toFile
                     + " (0x" + Integer.toHexString(copyStyle) + ")");
             filequeue.addMove(fromFile, toFile);
         }
@@ -34,7 +35,7 @@ public class FileQueueMove extends FileQueueCopy
         {
             throw new IOException(
                     "Failed to enqueue moving " + fromFile + " to " + toFile
-                            + " due to " + e.getMessage());
+                    + " due to " + e.getMessage());
         }
     }
 

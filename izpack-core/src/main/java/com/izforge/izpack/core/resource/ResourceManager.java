@@ -19,10 +19,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.resource;
 
-import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Locales;
 
@@ -36,8 +34,9 @@ import java.util.Locale;
 /**
  * With this ResourceManager you are able to get resources from the jar file.
  * <p/>
- * All resources are loaded language dependent as it's done in java.util.ResourceBundle. To set a
- * language dependent resource just append '_' and the locale to the end of the Resourcename<br>
+ * All resources are loaded language dependent as it's done in
+ * java.util.ResourceBundle. To set a language dependent resource just append
+ * '_' and the locale to the end of the Resourcename<br>
  * <br>
  * Example:
  * <li>InfoPanel.info - for default value</li>
@@ -50,13 +49,15 @@ import java.util.Locale;
  */
 public class ResourceManager extends AbstractResources
 {
+
     /**
      * The locales.
      */
     private Locales locales;
 
     /**
-     * The base path where to find the resources: resourceBasePathDefaultConstant = "/res/"
+     * The base path where to find the resources:
+     * resourceBasePathDefaultConstant = "/res/"
      */
     public final static String RESOURCE_BASEPATH_DEFAULT = "/resources/";
 
@@ -64,7 +65,6 @@ public class ResourceManager extends AbstractResources
      * Internally used resourceBasePath = "/resources/"
      */
     private String resourceBasePath = "/resources/";
-
 
     /**
      * Constructs a <tt>ResourceManager</tt>.
@@ -100,10 +100,12 @@ public class ResourceManager extends AbstractResources
     }
 
     /**
-     * If null was given the Default BasePath "/res/" is set If otherwise the Basepath is set to the
-     * given String. This is useful if someone needs direct access to Reosurces in the jar.
+     * If null was given the Default BasePath "/res/" is set If otherwise the
+     * Basepath is set to the given String. This is useful if someone needs
+     * direct access to Reosurces in the jar.
      *
-     * @param aDefaultBasePath If null was given the DefaultBasepath is re/set "/res/"
+     * @param aDefaultBasePath If null was given the DefaultBasepath is re/set
+     * "/res/"
      * @deprecated no replacement
      */
     @Deprecated
@@ -127,9 +129,10 @@ public class ResourceManager extends AbstractResources
     }
 
     /**
-     * Returns an InputStream contains the given Resource The Resource is loaded language dependen
-     * by the informations from <code>this.locale</code> If there is no Resource for the current
-     * language found, the default Resource is given.
+     * Returns an InputStream contains the given Resource The Resource is loaded
+     * language dependen by the informations from <code>this.locale</code> If
+     * there is no Resource for the current language found, the default Resource
+     * is given.
      *
      * @param resource The resource to load
      * @return an InputStream contains the requested resource
@@ -158,7 +161,7 @@ public class ResourceManager extends AbstractResources
     /**
      * Get Input stream with a default value
      *
-     * @param resource     Path of resource
+     * @param resource Path of resource
      * @param defaultValue Default value if stream is not found
      * @return Stream found or default value
      * @deprecated no replacement
@@ -195,10 +198,10 @@ public class ResourceManager extends AbstractResources
      * @param resource - a text resource to load
      * @param encoding - the encoding, which should be used to read the resource
      * @return a String contains the text of the resource
-     * @throws ResourceNotFoundException if the resource can not be
-     *                                   found
-     * @throws IOException               if the resource can not be loaded
-     * @deprecated use {@link com.izforge.izpack.api.resource.Resources#getString(String, String, String)}
+     * @throws ResourceNotFoundException if the resource can not be found
+     * @throws IOException if the resource can not be loaded
+     * @deprecated use
+     * {@link com.izforge.izpack.api.resource.Resources#getString(String, String, String)}
      */
     @Deprecated
     public String getTextResource(String resource, String encoding) throws IOException
@@ -213,8 +216,9 @@ public class ResourceManager extends AbstractResources
      * @param resource - a text resource to load
      * @return a String contains the text of the resource
      * @throws ResourceNotFoundException if the resource can not be found
-     * @throws IOException               if the resource can not be loaded
-     * @deprecated use {@link com.izforge.izpack.api.resource.Resources#getString(String)}
+     * @throws IOException if the resource can not be loaded
+     * @deprecated use
+     * {@link com.izforge.izpack.api.resource.Resources#getString(String)}
      */
     @Deprecated
     public String getTextResource(String resource) throws IOException
@@ -228,7 +232,8 @@ public class ResourceManager extends AbstractResources
      * @param resource resrouce of the Icon
      * @param fallback fallback resources
      * @return a ImageIcon loaded from the given Resource
-     * @throws ResourceNotFoundException thrown when the resource can not be found
+     * @throws ResourceNotFoundException thrown when the resource can not be
+     * found
      * @deprecated use {@link #getImageIcon(String, String...)}
      */
     @Deprecated
@@ -239,8 +244,8 @@ public class ResourceManager extends AbstractResources
 
     /**
      * Sets the locale for the resourcefiles. The locale is taken from
-     * InstallData#installData#getAttribute("langpack") If there is no language set, the default
-     * language is english.
+     * InstallData#installData#getAttribute("langpack") If there is no language
+     * set, the default language is english.
      *
      * @param locale of the resourcefile
      * @deprecated use {@link Locales#setLocale(String)}
@@ -293,7 +298,8 @@ public class ResourceManager extends AbstractResources
      * Get langpack of the locale present in installData
      *
      * @return InputStream on the xml
-     * @deprecated use {@link com.izforge.izpack.api.resource.Locales#getMessages()}
+     * @deprecated use
+     * {@link com.izforge.izpack.api.resource.Locales#getMessages()}
      */
     @Deprecated
     public InputStream getLangPack()
@@ -305,9 +311,11 @@ public class ResourceManager extends AbstractResources
      * Returns an ArrayList of the available langpacks ISO3 codes.
      *
      * @return The available langpacks list.
-     * @throws ResourceNotFoundException if the langpacks resource cannot be found
-     * @throws ResourceException         if the langpacks resource cannot be retrieved
-     * @deprecated use {@link com.izforge.izpack.api.resource.Locales#getLocales()}
+     * @throws ResourceNotFoundException if the langpacks resource cannot be
+     * found
+     * @throws ResourceException if the langpacks resource cannot be retrieved
+     * @deprecated use
+     * {@link com.izforge.izpack.api.resource.Locales#getLocales()}
      */
     @SuppressWarnings("unchecked")
     @Deprecated
@@ -319,7 +327,8 @@ public class ResourceManager extends AbstractResources
     /**
      * Resolves relative resource names.
      * <p/>
-     * This implementation prefixes relative resource names with {@link #getResourceBasePath()}.
+     * This implementation prefixes relative resource names with
+     * {@link #getResourceBasePath()}.
      *
      * @param name the resource name
      * @return the absolute resource name
@@ -332,9 +341,10 @@ public class ResourceManager extends AbstractResources
     }
 
     /**
-     * This method is used to get the language dependent path of the given resource. If there is a
-     * resource for the current language the path of the language dependent resource is returned. If
-     * there's no resource for the current lanugage the default path is returned.
+     * This method is used to get the language dependent path of the given
+     * resource. If there is a resource for the current language the path of the
+     * language dependent resource is returned. If there's no resource for the
+     * current lanugage the default path is returned.
      *
      * @param resource the resource to load
      * @return the language dependent path of the given resource
@@ -369,7 +379,7 @@ public class ResourceManager extends AbstractResources
         if (resourcePath != null)
         {
             throw new ResourceNotFoundException("Cannot find named resource: '" + resource
-                                                        + "' AND '" + resourcePath + "'");
+                    + "' AND '" + resourcePath + "'");
         }
         throw new ResourceNotFoundException("Cannot find named resource: '" + resource + "'");
     }

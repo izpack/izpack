@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.htmllicence;
 
 import com.izforge.izpack.api.GuiId;
@@ -44,6 +43,7 @@ import java.awt.event.KeyEvent;
  */
 public class HTMLLicencePanel extends AbstractLicencePanel implements HyperlinkListener, ActionListener
 {
+
     private static final long serialVersionUID = 3256728385458746416L;
 
     /**
@@ -60,14 +60,14 @@ public class HTMLLicencePanel extends AbstractLicencePanel implements HyperlinkL
     /**
      * Constructs an <tt>HTMLLicencePanel</tt>.
      *
-     * @param panel       the panel
-     * @param parent      the parent window
+     * @param panel the panel
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public HTMLLicencePanel(Panel panel, final InstallerFrame parent, GUIInstallData installData, Resources resources,
-                            Log log)
+            Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
 
@@ -96,7 +96,7 @@ public class HTMLLicencePanel extends AbstractLicencePanel implements HyperlinkL
                 }
             };
             textArea.registerKeyboardAction(fireDefault, null, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
-                                            JComponent.WHEN_FOCUSED);
+                    JComponent.WHEN_FOCUSED);
             add(scroller, NEXT_LINE);
         }
         catch (Exception err)

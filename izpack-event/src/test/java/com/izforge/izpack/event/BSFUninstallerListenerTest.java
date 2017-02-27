@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
@@ -75,7 +74,6 @@ public class BSFUninstallerListenerTest
      */
     private File installDir;
 
-
     /**
      * Sets up the test case.
      */
@@ -113,7 +111,7 @@ public class BSFUninstallerListenerTest
      * Tests the {@link BSFUninstallerListener}.
      *
      * @param actions the uninstallation actions
-     * @param suffix  the file name suffix
+     * @param suffix the file name suffix
      * @throws IOException for any I/O error
      */
     public void checkListener(List<BSFAction> actions, String suffix) throws IOException
@@ -171,11 +169,12 @@ public class BSFUninstallerListenerTest
         return new BSFUninstallerListener(resources);
     }
 
-
     /**
-     * Loads the specified BSFActionsSpec resource, returning the uninstallation actions for the specified pack.
+     * Loads the specified BSFActionsSpec resource, returning the uninstallation
+     * actions for the specified pack.
      * <p/>
-     * This uses {@link BSFInstallerListener} to read and produce the uninstallation actions.
+     * This uses {@link BSFInstallerListener} to read and produce the
+     * uninstallation actions.
      *
      * @param resource the BSFActionsSpec resource
      * @param packName the pack name
@@ -198,7 +197,7 @@ public class BSFUninstallerListenerTest
 
         UninstallData uninstallData = new UninstallData();
         BSFInstallerListener listener = new BSFInstallerListener(installData, replacer, variables, resources,
-                                                                 uninstallData, new ProgressNotifiersImpl());
+                uninstallData, new ProgressNotifiersImpl());
         listener.initialise();
         Pack pack = new Pack(packName, null, null, null, null, true, true, false, null, true, 0);
         List<Pack> packs = Arrays.asList(pack);

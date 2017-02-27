@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
-
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
@@ -87,7 +85,6 @@ public class BSFInstallerListenerTest
      */
     private File installDir;
 
-
     /**
      * Sets up the test case.
      *
@@ -143,7 +140,7 @@ public class BSFInstallerListenerTest
      * Tests the {@link BSFInstallerListener}.
      *
      * @param resources the resources
-     * @param suffix    the file name suffix
+     * @param suffix the file name suffix
      * @throws IOException for any I/O error
      */
     private void checkListener(Resources resources, String suffix) throws IOException
@@ -173,7 +170,7 @@ public class BSFInstallerListenerTest
         assertTrue(dir.mkdir());
         assertFileNotExists(installDir, "beforedir" + suffix);
         PackFile dirPackFile = new PackFile(installDir, dir, dir.getName(), null, OverrideType.OVERRIDE_TRUE, null,
-                                            Blockable.BLOCKABLE_NONE);
+                Blockable.BLOCKABLE_NONE);
         listener.beforeDir(dir, dirPackFile, pack);
         assertFileExists(installDir, "beforedir" + suffix);
 
@@ -187,7 +184,7 @@ public class BSFInstallerListenerTest
         FileUtils.touch(file);
         assertFileNotExists(installDir, "beforefile" + suffix);
         PackFile packFile = new PackFile(installDir, file, file.getName(), null, OverrideType.OVERRIDE_TRUE, null,
-                                         Blockable.BLOCKABLE_NONE);
+                Blockable.BLOCKABLE_NONE);
         listener.beforeFile(file, packFile, pack);
         assertFileExists(installDir, "beforefile" + suffix);
 

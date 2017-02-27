@@ -18,15 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.event.AbstractInstallerListener;
-import com.izforge.izpack.api.event.InstallerListener;
-import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.ProgressNotifiers;
-
 
 /**
  * An {@link InstallerListener} that may notify {@link ProgressListener}s.
@@ -46,7 +42,6 @@ public abstract class AbstractProgressInstallerListener extends AbstractInstalle
      */
     private final ProgressNotifiers notifiers;
 
-
     /**
      * Constructs an {@code AbstractProgressInstallerListener}.
      *
@@ -61,7 +56,7 @@ public abstract class AbstractProgressInstallerListener extends AbstractInstalle
      * Constructs an {@code AbstractProgressInstallerListener}.
      *
      * @param installData the installation data
-     * @param notifiers   the progress notifiers. May be {@code null}
+     * @param notifiers the progress notifiers. May be {@code null}
      */
     public AbstractProgressInstallerListener(InstallData installData, ProgressNotifiers notifiers)
     {
@@ -82,7 +77,8 @@ public abstract class AbstractProgressInstallerListener extends AbstractInstalle
     /**
      * Returns the progress notifier id of this listener.
      *
-     * @return the progress notifier id of this listener, or {@code 0} if this is not registered
+     * @return the progress notifier id of this listener, or {@code 0} if this
+     * is not registered
      */
     protected int getProgressNotifierId()
     {
@@ -103,7 +99,8 @@ public abstract class AbstractProgressInstallerListener extends AbstractInstalle
     /**
      * Returns the progress notifiers.
      *
-     * @return the progress notifiers, or {@code null} if none was supplied at construction
+     * @return the progress notifiers, or {@code null} if none was supplied at
+     * construction
      */
     protected ProgressNotifiers getProgressNotifiers()
     {

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.adaptator.xinclude;
 
 import static junit.framework.Assert.assertEquals;
@@ -40,8 +39,8 @@ public abstract class BaseXIncludeTestCase
 {
 
     /**
-     * This method takes the fileBase name and attempts to find two files
-     * called &lt;fileBase&gt;-input.xml and &lt;fileBase&gt;-expected.xml
+     * This method takes the fileBase name and attempts to find two files called
+     * &lt;fileBase&gt;-input.xml and &lt;fileBase&gt;-expected.xml
      *
      * @param fileBase the base of the test file names
      * @throws Exception
@@ -162,7 +161,7 @@ public abstract class BaseXIncludeTestCase
      * @throws Exception
      */
     @Test
-    public void _testIncludeTextInElement() throws Exception
+    public void testIncludeTextInElement() throws Exception
     {
         doTest("include-fragment-in-element");
     }
@@ -179,9 +178,9 @@ public abstract class BaseXIncludeTestCase
     }
 
     /**
-     * Ensure that the parse attribute accepts "xml" and treats like xml
-     * (most other tests do not explicitly set the parse parameter and let it
-     * default to "xml"
+     * Ensure that the parse attribute accepts "xml" and treats like xml (most
+     * other tests do not explicitly set the parse parameter and let it default
+     * to "xml"
      *
      * @throws Exception
      */
@@ -192,8 +191,8 @@ public abstract class BaseXIncludeTestCase
     }
 
     /**
-     * Make sure that a failure occurs for a parse valid that is not "xml"
-     * or "text"
+     * Make sure that a failure occurs for a parse valid that is not "xml" or
+     * "text"
      *
      * @throws Exception
      */

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.substitutor;
 
 import com.izforge.izpack.api.data.Variables;
@@ -27,6 +26,7 @@ import java.io.*;
  */
 public class VariableSubstitutorInputStream extends InputStream
 {
+
     private String encoding;
     private Reader substitutorReader;
 

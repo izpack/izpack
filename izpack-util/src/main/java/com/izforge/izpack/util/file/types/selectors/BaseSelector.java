@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -23,16 +22,15 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.file.types.DataType;
 
 /**
- * A convenience base class that you can subclass Selectors from. It
- * provides some helpful common behaviour. Note that there is no need
- * for Selectors to inherit from this class, it is only necessary that
- * they implement FileSelector.
+ * A convenience base class that you can subclass Selectors from. It provides
+ * some helpful common behaviour. Note that there is no need for Selectors to
+ * inherit from this class, it is only necessary that they implement
+ * FileSelector.
  */
 public abstract class BaseSelector extends DataType implements FileSelector
 {
 
     private String errmsg = null;
-
 
     /**
      * Do nothing constructor.
@@ -42,8 +40,8 @@ public abstract class BaseSelector extends DataType implements FileSelector
     }
 
     /**
-     * Allows all selectors to indicate a setup error. Note that only
-     * the first error message is recorded.
+     * Allows all selectors to indicate a setup error. Note that only the first
+     * error message is recorded.
      *
      * @param msg The error message any BuildException should throw.
      */
@@ -65,13 +63,14 @@ public abstract class BaseSelector extends DataType implements FileSelector
         return errmsg;
     }
 
-
     /**
-     * <p>Subclasses can override this method to provide checking of their
-     * state. So long as they call validate() from isSelected(), this will
-     * be called automatically (unless they override validate()).</p>
-     * <p>Implementations should check for incorrect settings and call
-     * setError() as necessary.</p>
+     * <p>
+     * Subclasses can override this method to provide checking of their state.
+     * So long as they call validate() from isSelected(), this will be called
+     * automatically (unless they override validate()).</p>
+     * <p>
+     * Implementations should check for incorrect settings and call setError()
+     * as necessary.</p>
      *
      * @throws Exception
      */
@@ -79,10 +78,9 @@ public abstract class BaseSelector extends DataType implements FileSelector
     {
     }
 
-
     /**
-     * Subclasses can use this to throw the requisite exception
-     * in isSelected() in the case of an error condition.
+     * Subclasses can use this to throw the requisite exception in isSelected()
+     * in the case of an error condition.
      */
     public void validate() throws Exception
     {
@@ -97,20 +95,17 @@ public abstract class BaseSelector extends DataType implements FileSelector
     }
 
     /**
-     * Method that each selector will implement to create their
-     * selection behaviour. If there is a problem with the setup
-     * of a selector, it can throw a BuildException to indicate
-     * the problem.
+     * Method that each selector will implement to create their selection
+     * behaviour. If there is a problem with the setup of a selector, it can
+     * throw a BuildException to indicate the problem.
      *
-     * @param basedir  A java.io.File object for the base directory
+     * @param basedir A java.io.File object for the base directory
      * @param filename The name of the file to check
-     * @param file     A File object for this filename
+     * @param file A File object for this filename
      * @return whether the file should be selected or not
      * @throws Exception
      */
     public abstract boolean isSelected(InstallData idata,
-                                       File basedir, String filename, File file) throws Exception;
+            File basedir, String filename, File file) throws Exception;
 
 }
-
-

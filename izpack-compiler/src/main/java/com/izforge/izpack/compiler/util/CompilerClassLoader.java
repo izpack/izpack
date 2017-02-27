@@ -67,7 +67,8 @@ public class CompilerClassLoader extends URLClassLoader
     }
 
     /**
-     * Appends the specified URL to the list of URLs to search for classes and resources.
+     * Appends the specified URL to the list of URLs to search for classes and
+     * resources.
      *
      * @param url the URL to be added to the search path of URLs
      */
@@ -77,16 +78,16 @@ public class CompilerClassLoader extends URLClassLoader
         super.addURL(url);
     }
 
-
     /**
-     * Loads the class with the specified name, ensuring it is of the specified type.
+     * Loads the class with the specified name, ensuring it is of the specified
+     * type.
      * <p/>
      * This uses the {@link ClassNameMapper} to try and map it to a known class.
      *
      * @param name the class name
      * @param type the expected type
      * @return the corresponding class
-     * @throws ClassCastException           if the class isn't of the specified type
+     * @throws ClassCastException if the class isn't of the specified type
      * @throws IzPackClassNotFoundException if the class cannot be found
      */
     @SuppressWarnings("unchecked")
@@ -111,7 +112,6 @@ public class CompilerClassLoader extends URLClassLoader
         }
         return result;
     }
-
 
     /**
      * Finds the class with the specified name.

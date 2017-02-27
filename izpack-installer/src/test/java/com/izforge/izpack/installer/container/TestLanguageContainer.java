@@ -10,12 +10,10 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
 import org.picocontainer.injectors.ProviderAdapter;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.Variables;
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.resource.DefaultLocales;
@@ -48,7 +46,7 @@ public class TestLanguageContainer extends AbstractContainer
      *
      * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
+     * @throws PicoException for any PicoContainer error
      */
     @Override
     protected void fillContainer(MutablePicoContainer container)

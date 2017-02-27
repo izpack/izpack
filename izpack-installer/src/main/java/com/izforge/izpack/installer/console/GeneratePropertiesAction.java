@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.config.Config;
@@ -40,7 +39,8 @@ import java.util.logging.Logger;
  */
 class GeneratePropertiesAction extends ConsoleAction
 {
-    private static final Logger logger = Logger.getLogger(GeneratePropertiesAction.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(GeneratePropertiesAction.class.getName());
 
     /**
      * The options files to write properties to.
@@ -48,14 +48,14 @@ class GeneratePropertiesAction extends ConsoleAction
     private final Options options;
     private final String path;
 
-
     /**
      * Constructs a <tt>GeneratePropertiesAction</tt>.
      *
      * @param installData the installation data
-     * @param path        the path to write properties to
-     * @throws FileNotFoundException if the file exists but is a directory rather than a regular file, does not exist
-     *                               but cannot be created, or cannot be opened for any other reason
+     * @param path the path to write properties to
+     * @throws FileNotFoundException if the file exists but is a directory
+     * rather than a regular file, does not exist but cannot be created, or
+     * cannot be opened for any other reason
      */
     public GeneratePropertiesAction(InstallData installData, String path) throws FileNotFoundException
     {
@@ -86,7 +86,8 @@ class GeneratePropertiesAction extends ConsoleAction
      * Runs the action for the panel.
      *
      * @param panel the panel
-     * @return {@code true} if the action was successful, otherwise {@code false}
+     * @return {@code true} if the action was successful, otherwise
+     * {@code false}
      */
     @Override
     public boolean run(ConsolePanelView panel)
@@ -108,7 +109,7 @@ class GeneratePropertiesAction extends ConsoleAction
         }
         catch (IOException e)
         {
-            logger.severe("Error saving the option file.");
+            LOGGER.severe("Error saving the option file.");
             return false;
         }
 

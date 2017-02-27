@@ -31,15 +31,16 @@ import com.izforge.izpack.installer.data.GUIInstallData;
  */
 public class TestIzPanel extends IzPanel
 {
+
     private static final long serialVersionUID = 8307346674027306500L;
 
     /**
      * Constructs a {@link TestIzPanel}.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent IzPack installer frame
+     * @param panel the panel meta-data
+     * @param parent the parent IzPack installer frame
      * @param installData the installation data
-     * @param resources   the resources
+     * @param resources the resources
      */
     public TestIzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
     {

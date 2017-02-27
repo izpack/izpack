@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.finish;
 
 import java.awt.GridBagConstraints;
@@ -71,15 +70,15 @@ public class FinishPanel extends IzPanel implements ActionListener
     /**
      * Constructs a <tt>FinishPanel</tt>.
      *
-     * @param panel               the panel meta-data
-     * @param parent              the parent window
-     * @param installData         the installation data
-     * @param resources           the resources
+     * @param panel the panel meta-data
+     * @param parent the parent window
+     * @param installData the installation data
+     * @param resources the resources
      * @param uninstallDataWriter the uninstallation data writer
-     * @param log                 the log
+     * @param log the log
      */
     public FinishPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                       UninstallDataWriter uninstallDataWriter, UninstallData uninstallData, Log log)
+            UninstallDataWriter uninstallDataWriter, UninstallData uninstallData, Log log)
     {
         super(panel, parent, installData, new GridBagLayout(), resources);
         this.uninstallData = uninstallData;
@@ -107,12 +106,12 @@ public class FinishPanel extends IzPanel implements ActionListener
         parent.setQuitButtonIcon("done");
         Insets inset = new Insets(10, 20, 2, 2);
         GridBagConstraints constraints = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.LINE_START,
-                                                                GridBagConstraints.CENTER, inset, 0, 0);
+                GridBagConstraints.CENTER, inset, 0, 0);
         if (this.installData.isInstallSuccess())
         {
             // We set the information
             JLabel jLabel = LabelFactory.create(getI18nStringForClass("success"), parent.getIcons().get("preferences"),
-                                                LEADING);
+                    LEADING);
             jLabel.setName(GuiId.FINISH_PANEL_LABEL.id);
             add(jLabel, constraints);
             constraints.gridy++;
@@ -125,12 +124,12 @@ public class FinishPanel extends IzPanel implements ActionListener
                         .get("preferences"), LEADING), constraints);
                 constraints.gridy++;
                 add(LabelFactory.create(path, parent.getIcons().get("empty"),
-                                        LEADING), constraints);
+                        LEADING), constraints);
                 constraints.gridy++;
             }
             // We add the autoButton
             autoButton = ButtonFactory.createButton(getI18nStringForClass("auto"),
-                                                    parent.getIcons().get("edit"), this.installData.buttonsHColor);
+                    parent.getIcons().get("edit"), this.installData.buttonsHColor);
             autoButton.setName(GuiId.FINISH_PANEL_AUTO_BUTTON.id);
             autoButton.setToolTipText(getI18nStringForClass("auto.tip"));
             autoButton.addActionListener(this);
@@ -140,7 +139,7 @@ public class FinishPanel extends IzPanel implements ActionListener
         else
         {
             add(LabelFactory.create(getI18nStringForClass("fail"), parent.getIcons().get("stop"), LEADING),
-                constraints);
+                    constraints);
         }
         getLayoutHelper().completeLayout(); // Call, or call not?
         log.informUser();

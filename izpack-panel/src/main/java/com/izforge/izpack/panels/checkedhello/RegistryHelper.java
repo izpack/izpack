@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.checkedhello;
 
 import java.util.logging.Level;
@@ -28,7 +27,6 @@ import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
 import com.izforge.izpack.util.IoHelper;
 
-
 /**
  * Registry helper.
  *
@@ -39,7 +37,8 @@ public class RegistryHelper
 {
 
     /**
-     * The registry handler, or {@code null} if the registry isn't supported on the current platform.
+     * The registry handler, or {@code null} if the registry isn't supported on
+     * the current platform.
      */
     private final RegistryHandler handler;
 
@@ -51,7 +50,7 @@ public class RegistryHelper
     /**
      * The logger.
      */
-    private static final Logger log = Logger.getLogger(RegistryHelper.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(RegistryHelper.class.getName());
 
     /**
      * The registry uninstall string key.
@@ -63,11 +62,10 @@ public class RegistryHelper
      */
     private static final String INSTALL_PATH = "$INSTALL_PATH";
 
-
     /**
      * Constructs a {@code RegistryHelper}.
      *
-     * @param handler     the registry handler
+     * @param handler the registry handler
      * @param installData the installation data
      */
     public RegistryHelper(RegistryDefaultHandler handler, InstallData installData)
@@ -77,8 +75,9 @@ public class RegistryHelper
     }
 
     /**
-     * Returns whether the handled application is already registered or not. The validation will be
-     * made only on systems which contains a registry (Windows).
+     * Returns whether the handled application is already registered or not. The
+     * validation will be made only on systems which contains a registry
+     * (Windows).
      *
      * @return {@code true} if the application is registered
      * @throws NativeLibException for any native library error
@@ -117,10 +116,11 @@ public class RegistryHelper
      * <p/>
      * NOTE: this uses the UninstallString registry entry
      *
-     * @return the installation path, or {@code null} if the application hasn't been installed or the path cannot
-     *         be determined
-     * @throws NativeLibException    for any native library error
-     * @throws IllegalStateException if the uninstallation name of the application is {@code null}
+     * @return the installation path, or {@code null} if the application hasn't
+     * been installed or the path cannot be determined
+     * @throws NativeLibException for any native library error
+     * @throws IllegalStateException if the uninstallation name of the
+     * application is {@code null}
      */
     public String getInstallationPath() throws NativeLibException
     {
@@ -157,7 +157,7 @@ public class RegistryHelper
             }
             if (result == null)
             {
-                log.log(Level.WARNING, "Cannot determine installation path from: " + command);
+                LOGGER.log(Level.WARNING, "Cannot determine installation path from: " + command);
             }
         }
         return result;
@@ -167,8 +167,9 @@ public class RegistryHelper
      * Returns the command to uninstall the application, if it is registered.
      *
      * @return the command, or {@code null} if the application isn't registered
-     * @throws NativeLibException    for any native library error
-     * @throws IllegalStateException if the uninstallation name of the application is {@code null}
+     * @throws NativeLibException for any native library error
+     * @throws IllegalStateException if the uninstallation name of the
+     * application is {@code null}
      */
     public String getUninstallCommand() throws NativeLibException
     {
@@ -185,7 +186,7 @@ public class RegistryHelper
             if (!exists(RegistryHandler.HKEY_LOCAL_MACHINE, keyName, UNINSTALL_STRING)
                     && !exists(RegistryHandler.HKEY_CURRENT_USER, keyName, UNINSTALL_STRING))
             {
-                log.log(Level.INFO, "Cannot determine previous installation path of " + uninstallName);
+                LOGGER.log(Level.INFO, "Cannot determine previous installation path of " + uninstallName);
             }
             else
             {
@@ -198,7 +199,8 @@ public class RegistryHelper
     /**
      * Generates an unique uninstall name.
      *
-     * @return the unique uninstall name, or {@code null} if the registry isn't supported on the platform
+     * @return the unique uninstall name, or {@code null} if the registry isn't
+     * supported on the platform
      * @throws NativeLibException for any native library error
      */
     public String updateUninstallName() throws NativeLibException
@@ -238,8 +240,8 @@ public class RegistryHelper
      * <p/>
      * NOTE: this operation has the side effect that the registry root changes.
      *
-     * @param root  the root of the registry access.
-     * @param key   the key name
+     * @param root the root of the registry access.
+     * @param key the key name
      * @param value the value name
      * @return {@code true} it exists, otherwise {@code false}
      * @throws NativeLibException

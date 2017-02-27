@@ -1,30 +1,30 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2003 Tino Schwarze
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.automation;
 
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 
 /**
- * Abstract class implementing basic functions needed by all panel automation helpers.
+ * Abstract class implementing basic functions needed by all panel automation
+ * helpers.
  *
  * @author tisc
  */
@@ -64,7 +64,7 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
     /*
     * @see com.izforge.izpack.api.handler.AbstractUIHandler#emitErrorAndBlockNext(java.lang.String,
     * java.lang.String)
-    */
+     */
     @Override
     public void emitErrorAndBlockNext(String title, String message)
     {
@@ -87,14 +87,14 @@ abstract public class PanelAutomationHelper implements AbstractUIHandler
      * java.lang.String, int, int)
      */
     @Override
-    public int askQuestion(String title, String question, int choices, int default_choice)
+    public int askQuestion(String title, String question, int choices, int defaultChoice)
     {
-        return default_choice;
+        return defaultChoice;
     }
 
     @Override
-    public int askWarningQuestion(String title, String question, int choices, int default_choice)
+    public int askWarningQuestion(String title, String question, int choices, int defaultChoice)
     {
-        return askQuestion(title, question,  choices, default_choice);
+        return askQuestion(title, question, choices, defaultChoice);
     }
 }

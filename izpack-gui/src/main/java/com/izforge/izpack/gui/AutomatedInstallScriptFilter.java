@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.gui;
 
 import java.io.File;
@@ -76,13 +75,13 @@ public class AutomatedInstallScriptFilter extends FileFilter
     * (non-Javadoc)
     *
     * @see java.io.FileFilter#accept(java.io.File)
-    */
+     */
     @Override
     public boolean accept(File pathname)
     {
         /*
            * Return true only if the file is a directory or ends with ".xml"
-           */
+         */
         return pathname != null
                 && (pathname.isDirectory() || pathname.getName().endsWith(
                 ".xml"));

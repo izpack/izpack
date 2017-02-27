@@ -45,144 +45,144 @@
 
 
     <!-- Disabled since there is no Frontend
-  shortcut
-     name="IzPack"
-     programGroup="yes"
-     desktop="yes"
-     applications="no"
-     startMenu="yes"
-     startup="no"
-     target="/usr/local/IzPack/bin/izpack-fe.sh"
-     commandLine=""
-     workingDirectory="/usr/local/IzPack/bin"
-     description="Front-End for IzPack installation tool"
-     iconFile="/usr/local/IzPack/bin/icons/izpack.png"
-     iconIndex="0"
-     type="Application"
-     encoding="UTF-8"
-     terminal="true"
-     KdeSubstUID="false"
-     initialState="normal">   
-     <createForPack name="Core"/>     
-   </shortcut -->
+   shortcut
+      name="IzPack"
+      programGroup="yes"
+      desktop="yes"
+      applications="no"
+      startMenu="yes"
+      startup="no"
+      target="/usr/local/IzPack/bin/izpack-fe.sh"
+      commandLine=""
+      workingDirectory="/usr/local/IzPack/bin"
+      description="Front-End for IzPack installation tool"
+      iconFile="/usr/local/IzPack/bin/icons/izpack.png"
+      iconIndex="0"
+      type="Application"
+      encoding="UTF-8"
+      terminal="true"
+      KdeSubstUID="false"
+      initialState="normal">   
+      <createForPack name="Core"/>     
+    </shortcut -->
 
     <shortcut
-            name="IzPack4.2 Html Documentation"
-            programGroup="yes"
-            desktop="yes"
-            applications="no"
-            startMenu="yes"
-            startup="no"
-            target="/usr/local/IzPack/bin/start.sh"
-            workingDirectory=""
-            commandLine="/usr/local/IzPack/doc/izpack/html/index.html"
-            initialState="noShow"
-            iconFile="help"
-            iconIndex="0"
-            url="/usr/local/IzPack/doc/izpack/html/index.html"
-            type="Application"
-            encoding="UTF-8"
-            createForAll="true"
-            Categories="Application;Development;"
-            description="This opens a WebBrowser to look into the IzPack 4.2.0 (HTML) user documentation">
+        name="IzPack4.2 Html Documentation"
+        programGroup="yes"
+        desktop="yes"
+        applications="no"
+        startMenu="yes"
+        startup="no"
+        target="/usr/local/IzPack/bin/start.sh"
+        workingDirectory=""
+        commandLine="/usr/local/IzPack/doc/izpack/html/index.html"
+        initialState="noShow"
+        iconFile="help"
+        iconIndex="0"
+        url="/usr/local/IzPack/doc/izpack/html/index.html"
+        type="Application"
+        encoding="UTF-8"
+        createForAll="true"
+        Categories="Application;Development;"
+        description="This opens a WebBrowser to look into the IzPack 4.2.0 (HTML) user documentation">
 
         <createForPack name="HTML Documentation"/>
     </shortcut>
 
     <shortcut
-            name="IzPack4.2 Java Documentation"
-            programGroup="yes"
-            desktop="yes"
-            applications="no"
-            startMenu="yes"
-            startup="no"
-            target="/usr/local/IzPack/bin/start.sh"
-            workingDirectory=""
-            commandLine="/usr/local/IzPack/doc/izpack/javadoc/index.html"
-            initialState="noShow"
-            iconFile="help"
-            iconIndex="0"
-            url="/usr/local/IzPack/doc/izpack/javadoc/index.html"
-            type="Application"
-            encoding="UTF-8"
-            createForAll="true"
-            Categories="Application;Development;"
-            description="This opens a WebBrowser to look into the IzPack 4.2.0 (HTML) Java documentation">
+        name="IzPack4.2 Java Documentation"
+        programGroup="yes"
+        desktop="yes"
+        applications="no"
+        startMenu="yes"
+        startup="no"
+        target="/usr/local/IzPack/bin/start.sh"
+        workingDirectory=""
+        commandLine="/usr/local/IzPack/doc/izpack/javadoc/index.html"
+        initialState="noShow"
+        iconFile="help"
+        iconIndex="0"
+        url="/usr/local/IzPack/doc/izpack/javadoc/index.html"
+        type="Application"
+        encoding="UTF-8"
+        createForAll="true"
+        Categories="Application;Development;"
+        description="This opens a WebBrowser to look into the IzPack 4.2.0 (HTML) Java documentation">
 
         <createForPack name="Javadocs Documentation"/>
     </shortcut>
 
     <shortcut
-            name="NanoXML Documentation"
-            programGroup="yes"
-            desktop="yes"
-            applications="no"
-            startMenu="yes"
-            startup="no"
-            target="acroread"
-            workingDirectory=""
-            commandLine="/usr/local/IzPack/doc/nanoxml/NanoXML-Java.pdf"
-            initialState="noShow"
-            iconFile="acroread"
-            iconIndex="0"
-            type="Application"
-            encoding="UTF-8"
-            createForAll="true"
-            Categories="Application;Development;"
-            description="This opens Adobe (Acrobat) Reader (if available) to look into or print the NanoXML (PDF) user documentation">
+        name="NanoXML Documentation"
+        programGroup="yes"
+        desktop="yes"
+        applications="no"
+        startMenu="yes"
+        startup="no"
+        target="acroread"
+        workingDirectory=""
+        commandLine="/usr/local/IzPack/doc/nanoxml/NanoXML-Java.pdf"
+        initialState="noShow"
+        iconFile="acroread"
+        iconIndex="0"
+        type="Application"
+        encoding="UTF-8"
+        createForAll="true"
+        Categories="Application;Development;"
+        description="This opens Adobe (Acrobat) Reader (if available) to look into or print the NanoXML (PDF) user documentation">
 
         <createForPack name="NanoXML Documentation"/>
     </shortcut>
 
     <shortcut
-            name="IzPack4.2 PDF Documentation"
-            programGroup="yes"
-            desktop="yes"
-            applications="no"
-            startMenu="yes"
-            startup="no"
-            target="acroread"
-            workingDirectory=""
-            commandLine="/usr/local/IzPack/doc/izpack/pdf/manual.pdf"
-            initialState="noShow"
-            iconFile="acroread"
-            iconIndex="0"
-            type="Application"
-            encoding="UTF-8"
-            createForAll="true"
-            Categories="Application;Development;"
-            description="This opens Adobe (Acrobat) Reader (if available) to look into or print the IzPack 4.2.0 (PDF) user documentation">
+        name="IzPack4.2 PDF Documentation"
+        programGroup="yes"
+        desktop="yes"
+        applications="no"
+        startMenu="yes"
+        startup="no"
+        target="acroread"
+        workingDirectory=""
+        commandLine="/usr/local/IzPack/doc/izpack/pdf/manual.pdf"
+        initialState="noShow"
+        iconFile="acroread"
+        iconIndex="0"
+        type="Application"
+        encoding="UTF-8"
+        createForAll="true"
+        Categories="Application;Development;"
+        description="This opens Adobe (Acrobat) Reader (if available) to look into or print the IzPack 4.2.0 (PDF) user documentation">
 
         <createForPack name="PDF Documentation"/>
     </shortcut>
 
 
     <shortcut
-            name="Izpack4.2 Uninstaller"
-            programGroup="yes"
-            desktop="yes"
-            applications="no"
-            startMenu="no"
-            startup="no"
-            target="java"
-            commandLine="-jar &quot;/usr/local/IzPack/Uninstaller/uninstaller.jar&quot;"
+        name="Izpack4.2 Uninstaller"
+        programGroup="yes"
+        desktop="yes"
+        applications="no"
+        startMenu="no"
+        startup="no"
+        target="java"
+        commandLine="-jar &quot;/usr/local/IzPack/Uninstaller/uninstaller.jar&quot;"
 
-            initialState="noShow"
-            iconFile="trashcan_full"
-            iconIndex="0"
-            workingDirectory=""
-            type="Application"
-            encoding="UTF-8"
-            KdeSubstUID="true"
-            KdeUsername="root"
-            createForAll="false"
+        initialState="noShow"
+        iconFile="trashcan_full"
+        iconIndex="0"
+        workingDirectory=""
+        type="Application"
+        encoding="UTF-8"
+        KdeSubstUID="true"
+        KdeUsername="root"
+        createForAll="false"
 
 
-            Categories="Application;Development;"
+        Categories="Application;Development;"
 
-            TryExec="java -jar &quot;/usr/local/IzPack/Uninstaller/uninstaller.jar&quot;"
+        TryExec="java -jar &quot;/usr/local/IzPack/Uninstaller/uninstaller.jar&quot;"
 
-            description="This uninstalls IzPack 4.2.0">
+        description="This uninstalls IzPack 4.2.0">
 
         <createForPack name="Core"/>
     </shortcut>

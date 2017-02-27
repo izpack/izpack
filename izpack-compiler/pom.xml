@@ -146,19 +146,19 @@
                         <id>copy-test-resources</id>
                         <phase>process-test-resources</phase>
                         <goals>
-                          <goal>copy-resources</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                          <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
-                          <resources>
-                            <resource>
-                              <directory>src/main/resources</directory>
-                              <filtering>true</filtering>
-                              <includes>
-                                  <include>com/izforge/izpack/compiler/container/panelDependencies.properties</include>
-                              </includes>
-                            </resource>
-                          </resources>
+                            <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>com/izforge/izpack/compiler/container/panelDependencies.properties</include>
+                                    </includes>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>

@@ -12,10 +12,12 @@ import java.awt.*;
  */
 class PartialIcon implements Icon
 {
+
     Color color;
+
     public PartialIcon(boolean enabled)
     {
-        if(enabled)
+        if (enabled)
         {
             color = Color.green;
         }
@@ -24,6 +26,7 @@ class PartialIcon implements Icon
             color = Color.gray;
         }
     }
+
     protected int getControlSize()
     {
         return 13;

@@ -49,11 +49,16 @@
              each cond gets its own arguments, because otherwise the ordering introduced
              by one condition could hide a missing ordering of another 
         -->
-        <variable name="arg1a" value="arg1a" /> <variable name="arg1b" value="arg1b" />
-        <variable name="arg2a" value="arg2a" /> <variable name="arg2b" value="arg2b" />
-        <variable name="arg3a" value="arg3a" /> <variable name="arg3b" value="arg3b" />
-        <variable name="arg4a" value="arg4a" /> <variable name="arg4b" value="arg4b" />
-        <variable name="arg5a" value="arg5a" /> <variable name="arg5b" value="arg5b" />
+        <variable name="arg1a" value="arg1a" /> 
+        <variable name="arg1b" value="arg1b" />
+        <variable name="arg2a" value="arg2a" /> 
+        <variable name="arg2b" value="arg2b" />
+        <variable name="arg3a" value="arg3a" /> 
+        <variable name="arg3b" value="arg3b" />
+        <variable name="arg4a" value="arg4a" /> 
+        <variable name="arg4b" value="arg4b" />
+        <variable name="arg5a" value="arg5a" /> 
+        <variable name="arg5b" value="arg5b" />
 
         <variable name="arg20" value="arg20" />
         <variable name="arg21" value="arg21" />
@@ -64,61 +69,108 @@
         <variable name="arg51" value="arg51" />
         <variable name="arg52" value="arg52" />
 
-        <variable name="arg60a" value="arg60a" /> <variable name="arg60b" value="arg60b" />
-        <variable name="arg90a" value="arg90a" /> <variable name="arg90b" value="arg90b" />
-        <variable name="arg91a" value="arg91a" /> <variable name="arg91b" value="arg91b" />
-        <variable name="arg92a" value="arg92a" /> <variable name="arg92b" value="arg92b" />
+        <variable name="arg60a" value="arg60a" /> 
+        <variable name="arg60b" value="arg60b" />
+        <variable name="arg90a" value="arg90a" /> 
+        <variable name="arg90b" value="arg90b" />
+        <variable name="arg91a" value="arg91a" /> 
+        <variable name="arg91b" value="arg91b" />
+        <variable name="arg92a" value="arg92a" /> 
+        <variable name="arg92b" value="arg92b" />
         <variable name="arg93"  value="arg93" />
         <variable name="arg94"  value="arg94" />
 
     </dynamicvariables>
 
     <conditions>
-      <condition id="cond1" type="comparenumerics" >
-        <arg1>${arg1a}</arg1> <operator>eq</operator> <arg2>${arg1b}</arg2>
-      </condition>
-      <condition id="cond2" type="compareversions" >
-        <arg1>${arg2a}</arg1> <operator>eq</operator> <arg2>${arg2b}</arg2>
-      </condition>
-      <condition id="cond3" type="compareversionsmajor" >
-        <arg1>${arg3a}</arg1> <operator>eq</operator> <arg2>${arg3b}</arg2>
-      </condition>
-      <condition id="cond4" type="contains" >
-        <string>${arg4a}</string> <value>${arg4b}</value>
-      </condition>
-      <condition id="cond5" type="contains" >
-        <file>${arg5a}</file> <value>${arg5b}</value>
-      </condition>
+        <condition id="cond1" type="comparenumerics" >
+            <arg1>${arg1a}</arg1> 
+            <operator>eq</operator> 
+            <arg2>${arg1b}</arg2>
+        </condition>
+        <condition id="cond2" type="compareversions" >
+            <arg1>${arg2a}</arg1> 
+            <operator>eq</operator> 
+            <arg2>${arg2b}</arg2>
+        </condition>
+        <condition id="cond3" type="compareversionsmajor" >
+            <arg1>${arg3a}</arg1> 
+            <operator>eq</operator> 
+            <arg2>${arg3b}</arg2>
+        </condition>
+        <condition id="cond4" type="contains" >
+            <string>${arg4a}</string> 
+            <value>${arg4b}</value>
+        </condition>
+        <condition id="cond5" type="contains" >
+            <file>${arg5a}</file> 
+            <value>${arg5b}</value>
+        </condition>
 
-      <condition id="cond20" type="empty" >      <dir>${arg20}</dir>      </condition>
-      <condition id="cond21" type="empty" >     <file>${arg21}</file>     </condition>
-      <condition id="cond22" type="empty" >   <string>${arg22}</string>   </condition>
-      <condition id="cond23" type="exists" >    <file>${arg23}</file>     </condition>
+        <condition id="cond20" type="empty" >      
+            <dir>${arg20}</dir>      
+        </condition>
+        <condition id="cond21" type="empty" >     
+            <file>${arg21}</file>     
+        </condition>
+        <condition id="cond22" type="empty" >   
+            <string>${arg22}</string>   
+        </condition>
+        <condition id="cond23" type="exists" >    
+            <file>${arg23}</file>     
+        </condition>
 
 
-      <!-- next conditions do not resolve variables, but the argument is the name of a variable  -->
-      <condition id="cond50" type="variable" >    <name>arg50</name> <value>value</value> </condition>
-      <condition id="cond51" type="empty" >    <variable>arg51</variable> </condition>
-      <condition id="cond52" type="exists" >   <variable>arg52</variable> </condition>
-      <condition id="cond60" type="contains" > <variable>arg60a</variable> <value>${arg60b}</value>
-      </condition>
+        <!-- next conditions do not resolve variables, but the argument is the name of a variable  -->
+        <condition id="cond50" type="variable" >    
+            <name>arg50</name> 
+            <value>value</value> 
+        </condition>
+        <condition id="cond51" type="empty" >    
+            <variable>arg51</variable> 
+        </condition>
+        <condition id="cond52" type="exists" >   
+            <variable>arg52</variable> 
+        </condition>
+        <condition id="cond60" type="contains" > 
+            <variable>arg60a</variable> 
+            <value>${arg60b}</value>
+        </condition>
 
-      <condition id="cond90" type="and">
-        <condition type="exists"> <variable>arg90a</variable> </condition>
-        <condition type="exists"> <variable>arg90b</variable> </condition>
-      </condition>
-      <condition id="cond91" type="or">
-        <condition type="exists"> <variable>arg91a</variable> </condition>
-        <condition type="exists"> <variable>arg91b</variable> </condition>
-      </condition>
-      <condition id="cond92" type="xor">
-        <condition type="exists"> <variable>arg92a</variable> </condition>
-        <condition type="exists"> <variable>arg92b</variable> </condition>
-      </condition>
-      <condition id="cond93" type="ref" refid="cond93a"> </condition>
-      <condition id="cond93a" type="exists"> <variable>arg93</variable> </condition>
-      <condition id="cond94" type="not" > <condition type="ref" refid="cond94a"/> </condition>
-      <condition id="cond94a" type="exists"> <variable>arg94</variable> </condition>
+        <condition id="cond90" type="and">
+            <condition type="exists"> 
+                <variable>arg90a</variable> 
+            </condition>
+            <condition type="exists"> 
+                <variable>arg90b</variable> 
+            </condition>
+        </condition>
+        <condition id="cond91" type="or">
+            <condition type="exists"> 
+                <variable>arg91a</variable> 
+            </condition>
+            <condition type="exists"> 
+                <variable>arg91b</variable> 
+            </condition>
+        </condition>
+        <condition id="cond92" type="xor">
+            <condition type="exists"> 
+                <variable>arg92a</variable> 
+            </condition>
+            <condition type="exists"> 
+                <variable>arg92b</variable> 
+            </condition>
+        </condition>
+        <condition id="cond93" type="ref" refid="cond93a"> </condition>
+        <condition id="cond93a" type="exists"> 
+            <variable>arg93</variable> 
+        </condition>
+        <condition id="cond94" type="not" > 
+            <condition type="ref" refid="cond94a"/> 
+        </condition>
+        <condition id="cond94a" type="exists"> 
+            <variable>arg94</variable> 
+        </condition>
     </conditions>
 
     <panels>

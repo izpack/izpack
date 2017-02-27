@@ -20,7 +20,6 @@
  */
 package com.izforge.izpack.panels.userinput.console.password;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -74,7 +73,8 @@ public class ConsolePasswordGroupFieldTest extends AbstractConsoleFieldTest
     }
 
     /**
-     * Verifies that when an {@link PasswordEqualityValidator} is registered, the passwords must be the same.
+     * Verifies that when an {@link PasswordEqualityValidator} is registered,
+     * the passwords must be the same.
      */
     @Test
     public void testSetMismatchValue()
@@ -93,7 +93,8 @@ public class ConsolePasswordGroupFieldTest extends AbstractConsoleFieldTest
     }
 
     /**
-     * Creates a {@link ConsolePasswordGroupField} that updates the 'password' variable.
+     * Creates a {@link ConsolePasswordGroupField} that updates the 'password'
+     * variable.
      *
      * @return a new field
      */
@@ -103,7 +104,8 @@ public class ConsolePasswordGroupFieldTest extends AbstractConsoleFieldTest
     }
 
     /**
-     * Creates a {@link ConsolePasswordGroupField} that updates the 'password' variable.
+     * Creates a {@link ConsolePasswordGroupField} that updates the 'password'
+     * variable.
      *
      * @param validator the field validator. May be {@code null}
      * @return a new field

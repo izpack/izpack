@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.merge;
 
 import java.io.File;
@@ -36,6 +35,7 @@ import com.izforge.izpack.installer.gui.IzPanel;
  */
 public class PanelMerge implements Mergeable
 {
+
     private List<Mergeable> packageMerge;
     private Class<IzPanel> panelClass;
     private FileFilter fileFilter;
@@ -48,8 +48,8 @@ public class PanelMerge implements Mergeable
         {
             public boolean accept(File pathname)
             {
-                return pathname.isDirectory() ||
-                        pathname.getAbsolutePath().contains("/" + panelClass + ".class");
+                return pathname.isDirectory()
+                        || pathname.getAbsolutePath().contains("/" + panelClass + ".class");
             }
         };
     }
@@ -101,10 +101,10 @@ public class PanelMerge implements Mergeable
     @Override
     public String toString()
     {
-        return "PanelMerge{" +
-                "packageMerge=" + packageMerge +
-                ", panelClass=" + panelClass +
-                ", fileFilter=" + fileFilter +
-                '}';
+        return "PanelMerge{"
+                + "packageMerge=" + packageMerge
+                + ", panelClass=" + panelClass
+                + ", fileFilter=" + fileFilter
+                + '}';
     }
 }

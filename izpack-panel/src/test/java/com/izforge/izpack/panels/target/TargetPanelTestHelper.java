@@ -54,7 +54,8 @@ class TargetPanelTestHelper
     }
 
     /**
-     * Creates a bad ".installationinformation" file, in the specified directory.
+     * Creates a bad ".installationinformation" file, in the specified
+     * directory.
      *
      * @param dir the directory to write to
      * @throws java.io.IOException for any I/O error
@@ -68,7 +69,8 @@ class TargetPanelTestHelper
     }
 
     /**
-     * Helper to return the locale specific message for <em>TargetPanel.incompatibleInstallation</em>.
+     * Helper to return the locale specific message for
+     * <em>TargetPanel.incompatibleInstallation</em>.
      *
      * @param installData the installation data
      * @return the message

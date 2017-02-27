@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2002 Elmar Grom
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.os;
 
 import com.izforge.izpack.util.Librarian;
@@ -28,15 +27,16 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 /*---------------------------------------------------------------------------*/
-
 /**
- * This class represents a MS-Windows shell link, aka shortcut. It supports creation, modification
- * and deletion as well as reporting on details of shell links. This class uses a number of native
- * methods to access the MS-Windows registry and load save and manipulate link data. The native code
- * is contained in the file <code>ShellLink.cpp</code>. <br>
+ * This class represents a MS-Windows shell link, aka shortcut. It supports
+ * creation, modification and deletion as well as reporting on details of shell
+ * links. This class uses a number of native methods to access the MS-Windows
+ * registry and load save and manipulate link data. The native code is contained
+ * in the file <code>ShellLink.cpp</code>. <br>
  * <br>
- * For more detailed information on Windows shortcuts read the win32 documentation from Microsoft on
- * the IShellLink interface. There are also useful articles on this topic on the MIcrosoft website.
+ * For more detailed information on Windows shortcuts read the win32
+ * documentation from Microsoft on the IShellLink interface. There are also
+ * useful articles on this topic on the MIcrosoft website.
  * <br>
  * <br>
  * <A
@@ -59,33 +59,37 @@ public class ShellLink implements NativeLibraryClient
     // Constant Definitions
     // ------------------------------------------------------------------------
     /**
-     * Note: each of the subclasses will convert these values as appropriate before calling the OS's
-     * routines. For example Win 98 & up will use SW_SNOWMINNOACTIVE (7) when passed HIDE (0) or
-     * MINIMIZED (2) <br>
+     * Note: each of the subclasses will convert these values as appropriate
+     * before calling the OS's routines. For example Win 98 & up will use
+     * SW_SNOWMINNOACTIVE (7) when passed HIDE (0) or MINIMIZED (2) <br>
      * <br>
      * and this conversion is done in Win_Shortcut.java
      * <p/>
-     * Hide the window when starting. This is particularly useful when launching from a *.bat file,
-     * because no DOS window and no button for the DOS window on the task bar will show! <br>
+     * Hide the window when starting. This is particularly useful when launching
+     * from a *.bat file, because no DOS window and no button for the DOS window
+     * on the task bar will show! <br>
      * <br>
      * <b>Note:</b> this option is not available through the Windows 98+ UI!
      */
     /**
-     * Hide the window when starting. This is particularly useful when launching from a *.bat file,
-     * because no DOS window and no button for the DOS window on the task bar will show! <br>
+     * Hide the window when starting. This is particularly useful when launching
+     * from a *.bat file, because no DOS window and no button for the DOS window
+     * on the task bar will show! <br>
      * <br>
      * <b>Note:</b> this option is not available through the Windows 98+ UI!
      */
     public static final int HIDE = 0;
 
     /**
-     * Show the window 'normal' when starting. Restores the window properties at the last shut-down.
+     * Show the window 'normal' when starting. Restores the window properties at
+     * the last shut-down.
      */
     public static final int NORMAL = 1;
 
     /**
-     * Show the window minimized when starting. The window will not show but a corresponding button
-     * in the task bar will. <p>
+     * Show the window minimized when starting. The window will not show but a
+     * corresponding button in the task bar will.
+     * <p>
      * <p/>
      * Newer IShellLink only allows Normal, MinNoActive, Maximized.
      */
@@ -97,8 +101,8 @@ public class ShellLink implements NativeLibraryClient
     public static final int MAXIMIZED = 3;
 
     /**
-     * Show the window minimized when starting. Note: for win98 and newer, use MINNOACTIVE instead
-     * of MINIMIZED.
+     * Show the window minimized when starting. Note: for win98 and newer, use
+     * MINNOACTIVE instead of MINIMIZED.
      */
     public static final int MINNOACTIVE = 7;
 
@@ -158,26 +162,27 @@ public class ShellLink implements NativeLibraryClient
     private static final int SL_NOT_INITIALIZED = -3;
 
     /**
-     * Return value from native uninitialization functions if there are no more interface handles
-     * available
+     * Return value from native uninitialization functions if there are no more
+     * interface handles available
      */
     private static final int SL_OUT_OF_HANDLES = -4;
 
     /**
-     * Return value from native uninitialization functions if nohandle for the IPersist interface
-     * could be obtained
+     * Return value from native uninitialization functions if nohandle for the
+     * IPersist interface could be obtained
      */
     private static final int SL_NO_IPERSIST = -5;
 
     /**
-     * Return value from native uninitialization functions if the save operation fort the link
-     * failed
+     * Return value from native uninitialization functions if the save operation
+     * fort the link failed
      */
     private static final int SL_NO_SAVE = -6;
 
     /**
-     * Return value if the function called had to deal with unexpected data types. This might be
-     * returned by registry functions if they receive an unexpected data type from the registry.
+     * Return value if the function called had to deal with unexpected data
+     * types. This might be returned by registry functions if they receive an
+     * unexpected data type from the registry.
      */
     private static final int SL_WRONG_DATA_TYPE = -7;
 
@@ -205,22 +210,24 @@ public class ShellLink implements NativeLibraryClient
     // Variable Declarations
     // ------------------------------------------------------------------------
     /**
-     * This handle links us to a specific native instance. Do not use or modify, the variable is for
-     * exclusive use by the native side.
+     * This handle links us to a specific native instance. Do not use or modify,
+     * the variable is for exclusive use by the native side.
      */
     private int nativeHandle = UNINITIALIZED;
 
     /**
-     * Path to the location where links for the current user are stored. The exact content depends
-     * on the circumstances. It can be set during object construction or from native code. It will
-     * point to the location where links of the most recently requested type are stored.
+     * Path to the location where links for the current user are stored. The
+     * exact content depends on the circumstances. It can be set during object
+     * construction or from native code. It will point to the location where
+     * links of the most recently requested type are stored.
      */
     private String currentUserLinkPath;
 
     /**
-     * Path to the location where links for all users are stored. The exact content depends on the
-     * circumstances. It can be set during object construction or from native code. It will point to
-     * the location where links of the most recently requested type are stored.
+     * Path to the location where links for all users are stored. The exact
+     * content depends on the circumstances. It can be set during object
+     * construction or from native code. It will point to the location where
+     * links of the most recently requested type are stored.
      */
     private String allUsersLinkPath;
 
@@ -229,15 +236,17 @@ public class ShellLink implements NativeLibraryClient
     private String linkName = "";
 
     /**
-     * this is the fully qualified name of the link on disk. Note that this variable contains only
-     * valid data if the link was created from a disk file or after a successful save operation. At
-     * other times the content is upredicatable.
+     * this is the fully qualified name of the link on disk. Note that this
+     * variable contains only valid data if the link was created from a disk
+     * file or after a successful save operation. At other times the content is
+     * upredicatable.
      */
     private String linkFileName = "";
 
     /**
-     * Contains the directory where the link file is stored after any save operation that needs to
-     * create that directory. Otherwise it contains <code>null</code>.
+     * Contains the directory where the link file is stored after any save
+     * operation that needs to create that directory. Otherwise it contains
+     * <code>null</code>.
      */
     private String linkDirectory = "";
 
@@ -252,17 +261,19 @@ public class ShellLink implements NativeLibraryClient
     private String workingDirectory = "";
 
     /**
-     * there seems to be an error in JNI that causes an access violation if a String that is
-     * accessed from native code borders on another type of variable. This caused problems in
-     * <code>set()</code> For this reason, the dummy string is placed here. Observed with version:
+     * there seems to be an error in JNI that causes an access violation if a
+     * String that is accessed from native code borders on another type of
+     * variable. This caused problems in <code>set()</code> For this reason, the
+     * dummy string is placed here. Observed with version:
      * <p/>
-     * <pre>
+     * <
+     * pre>
      *
      *
      *
-     *        java version &quot;1.3.0&quot;
-     *        Java(TM) 2 Runtime Environment, Standard Edition (build 1.3.0-C)
-     *        Java HotSpot(TM) Client VM (build 1.3.0-C, mixed mode)
+     * java version &quot;1.3.0&quot; Java(TM) 2 Runtime Environment, Standard
+     * Edition (build 1.3.0-C) Java HotSpot(TM) Client VM (build 1.3.0-C, mixed
+     * mode)
      *
      *
      * </pre>
@@ -296,7 +307,6 @@ public class ShellLink implements NativeLibraryClient
     // ------------------------------------------------------------------------
     // For documentation on these methods see ShellLink.cpp
     // ------------------------------------------------------------------------
-
     private native int initializeCOM();
 
     private native int releaseCOM();
@@ -346,37 +356,41 @@ public class ShellLink implements NativeLibraryClient
     private native int GetRunAsAdministrator();
 
     /**
-     * This method is used to free the library at the end of progam execution. After this call, any
-     * instance of this calss will not be usable any more!
+     * This method is used to free the library at the end of progam execution.
+     * After this call, any instance of this calss will not be usable any more!
      */
     private native void FreeLibrary(String name);
 
     /**
-     * Creates an instance of <code>ShellLink</code> of a specific type. Initializes
-     * currentUserLinkPath and allUsersLinkPath.
+     * Creates an instance of <code>ShellLink</code> of a specific type.
+     * Initializes currentUserLinkPath and allUsersLinkPath.
      * <p/>
      * <p/>
-     * A LinkPath is empty if the combination of linkType and userType, are not valid.
+     * A LinkPath is empty if the combination of linkType and userType, are not
+     * valid.
      * <p/>
      * <p/>
-     * Note: If a linkPath is empty, the userType is reset to the other userType.
+     * Note: If a linkPath is empty, the userType is reset to the other
+     * userType.
      * <p/>
      * <p/>
      * If both linkPaths are empty, an IllegalArgumentException is thrown.
      *
-     * @param type      The type of link desired. The following values can be set:<br>
-     *                  <ul>
-     *                  <li><code>ShellLink.DESKTOP</code>
-     *                  <li><code>ShellLink.PROGRAM_MENU</code>
-     *                  <li><code>ShellLink.START_MENU</code>
-     *                  <li><code>ShellLink.STARTUP</code>
-     *                  </ul>
-     * @param name      The name that the link should display on a menu or on the desktop. Do not include
-     *                  a file extension.
+     * @param type The type of link desired. The following values can be
+     * set:<br>
+     * <ul>
+     * <li><code>ShellLink.DESKTOP</code>
+     * <li><code>ShellLink.PROGRAM_MENU</code>
+     * <li><code>ShellLink.START_MENU</code>
+     * <li><code>ShellLink.STARTUP</code>
+     * </ul>
+     * @param name The name that the link should display on a menu or on the
+     * desktop. Do not include a file extension.
      * @param librarian the librarian
-     * @throws IllegalArgumentException if any of the call parameters are incorrect, or if no
-     *                                  linkPaths are returned.
-     * @throws Exception                if problems are encountered in initializing the native interface
+     * @throws IllegalArgumentException if any of the call parameters are
+     * incorrect, or if no linkPaths are returned.
+     * @throws Exception if problems are encountered in initializing the native
+     * interface
      */
     public ShellLink(int type, String name, Librarian librarian) throws Exception
     {
@@ -401,15 +415,15 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Creates an instance of <code>ShellLink</code> from an existing shell link on disk.
+     * Creates an instance of <code>ShellLink</code> from an existing shell link
+     * on disk.
      *
-     * @param name      the file name of the link. May be fully qualified or relative
-     * @param userType  the type of user for the link path.
+     * @param name the file name of the link. May be fully qualified or relative
+     * @param userType the type of user for the link path.
      * @param librarian the librarian
      * @throws IllegalArgumentException if the name was null
-     * @throws Exception                if problems are encountered in reading the file
+     * @throws Exception if problems are encountered in reading the file
      * @see #CURRENT_USER
      * @see #ALL_USERS
      */
@@ -456,24 +470,27 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Creates an instance of <code>ShellLink</code> from an existing shell link on disk.
+     * Creates an instance of <code>ShellLink</code> from an existing shell link
+     * on disk.
      *
-     * @param linkType  the type of link, one of the following values: <br>
-     *                  <ul>
-     *                  <li><code>ShellLink.DESKTOP</code>
-     *                  <li><code>ShellLink.PROGRAM_MENU</code>
-     *                  <li><code>ShellLink.START_MENU</code>
-     *                  <li><code>ShellLink.STARTUP</code>
-     *                  </ul>
-     * @param userType  the type of user for the link path.
-     * @param group     The program group (directory) of this link. If the link is not part of a program
-     *                  group, pass an empty string or null for this parameter. (...\\Desktop\\group).
-     * @param name      The file name of this link. Do not include a file extension.
+     * @param linkType the type of link, one of the following values: <br>
+     * <ul>
+     * <li><code>ShellLink.DESKTOP</code>
+     * <li><code>ShellLink.PROGRAM_MENU</code>
+     * <li><code>ShellLink.START_MENU</code>
+     * <li><code>ShellLink.STARTUP</code>
+     * </ul>
+     * @param userType the type of user for the link path.
+     * @param group The program group (directory) of this link. If the link is
+     * not part of a program group, pass an empty string or null for this
+     * parameter. (...\\Desktop\\group).
+     * @param name The file name of this link. Do not include a file extension.
      * @param librarian the librarian
-     * @throws IllegalArgumentException if any of the call parameters are incorrect
-     * @throws Exception                if problems are encountered in initializing the native interface
+     * @throws IllegalArgumentException if any of the call parameters are
+     * incorrect
+     * @throws Exception if problems are encountered in initializing the native
+     * interface
      * @see #CURRENT_USER
      * @see #ALL_USERS
      */
@@ -516,7 +533,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Initializes COM and gets an instance of the IShellLink interface.
      *
@@ -569,7 +585,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Destructor, releases COM and frees native resources.
      */
@@ -586,18 +601,18 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * This method is used to free the library at the end of progam execution. After this call, any
-     * instance of this calss will not be usable any more! <b><i><u>Note that this method does NOT
-     * return!</u></i></b> <br>
+     * This method is used to free the library at the end of progam execution.
+     * After this call, any instance of this calss will not be usable any more!
+     * <b><i><u>Note that this method does NOT return!</u></i></b> <br>
      * <br>
      * <b>DO NOT CALL THIS METHOD DIRECTLY!</b><br>
-     * It is used by the librarian to free the native library before physically deleting it from its
-     * temporary loaction. A call to this method will freeze the application irrecoverably!
+     * It is used by the librarian to free the native library before physically
+     * deleting it from its temporary loaction. A call to this method will
+     * freeze the application irrecoverably!
      *
-     * @param name the name of the library to free. Use only the name and extension but not the
-     *             path.
+     * @param name the name of the library to free. Use only the name and
+     * extension but not the path.
      * @see com.izforge.izpack.util.NativeLibraryClient#freeLibrary
      */
     public void freeLibrary(String name)
@@ -614,7 +629,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Constructs and returns the full path for the link file.
      *
@@ -649,7 +663,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Constructs and returns the fully qualified name for the link file.
      *
@@ -672,7 +685,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Sets all members on the native side.
      *
@@ -717,7 +729,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Gets all members from the native side.
      *
@@ -762,7 +773,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Sets the name of the program group this ShellLinbk should be placed in.
      *
@@ -774,9 +784,9 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Sets the command line arguments that will be passed to the target when the link is activated.
+     * Sets the command line arguments that will be passed to the target when
+     * the link is activated.
      *
      * @param arguments the command line arguments
      * @see #getArguments
@@ -787,9 +797,9 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Sets the description string that is used to identify the link in a menu or on the desktop.
+     * Sets the description string that is used to identify the link in a menu
+     * or on the desktop.
      *
      * @param description the descriptiojn string
      * @see #getDescription
@@ -800,12 +810,12 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Sets the hotkey that can be used to activate the link.
      *
-     * @param hotkey a valid Windows virtual key code. Modifiers (e.g. for alt or shift key) are
-     *               added in the upper byte. Note that only the lower 16 bits for tis parameter are used.
+     * @param hotkey a valid Windows virtual key code. Modifiers (e.g. for alt
+     * or shift key) are added in the upper byte. Note that only the lower 16
+     * bits for tis parameter are used.
      * @see #getHotkey
      */
     public void setHotkey(int hotkey)
@@ -814,13 +824,13 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Sets the location of the icon that is shown for the shortcut on the desktop.
+     * Sets the location of the icon that is shown for the shortcut on the
+     * desktop.
      *
-     * @param path  a fully qualified file name of a file that contains the icon.
-     * @param index the index of the specific icon to use in the file. If there is only one icon in
-     *              the file, use an index of 0.
+     * @param path a fully qualified file name of a file that contains the icon.
+     * @param index the index of the specific icon to use in the file. If there
+     * is only one icon in the file, use an index of 0.
      * @see #getIconLocation
      */
     public void setIconLocation(String path, int index)
@@ -830,7 +840,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Sets the absolute path to the shortcut target.
      *
@@ -843,27 +852,28 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Sets the show command that is passed to the target application when the link is activated.
-     * The show command determines if the the window will be restored to the previous size,
-     * minimized, maximized or visible at all. <br>
+     * Sets the show command that is passed to the target application when the
+     * link is activated. The show command determines if the the window will be
+     * restored to the previous size, minimized, maximized or visible at all.
+     * <br>
      * <br>
      * <b>Note:</b><br>
-     * Using <code>HIDE</code> will cause the target window not to show at all. There is not even
-     * a button on the taskbar. This is a very useful setting when batch files are used to launch a
-     * Java application as it will then appear to run just like any native Windows application.<br>
+     * Using <code>HIDE</code> will cause the target window not to show at all.
+     * There is not even a button on the taskbar. This is a very useful setting
+     * when batch files are used to launch a Java application as it will then
+     * appear to run just like any native Windows application.<br>
      * <b>Note1:</b><br>
      * <code>HIDE</code> doesn't work in Win98 and newer systems.<br>
      * use MINIMIZED (MINNOACTIVE), instead.<br>
      *
      * @param show the show command. Valid settings are: <br>
-     *             <ul>
-     *             <li><code>ShellLink.HIDE</code> (deprecated)
-     *             <li><code>ShellLink.NORMAL</code>
-     *             <li><code>ShellLink.MINNOACTIVE</code>
-     *             <li><code>ShellLink.MAXIMIZED</code>
-     *             </ul>
+     * <ul>
+     * <li><code>ShellLink.HIDE</code> (deprecated)
+     * <li><code>ShellLink.NORMAL</code>
+     * <li><code>ShellLink.MINNOACTIVE</code>
+     * <li><code>ShellLink.MAXIMIZED</code>
+     * </ul>
      * @see #getShowCommand
      */
     public void setShowCommand(int show)
@@ -878,7 +888,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Sets the working directory for the link target.
      *
@@ -891,12 +900,11 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Sets the name shown in a menu or on the desktop for the link.
      *
-     * @param name The name that the link should display on a menu or on the desktop. Do not include
-     *             a file extension.
+     * @param name The name that the link should display on a menu or on the
+     * desktop. Do not include a file extension.
      */
     public void setLinkName(String name)
     {
@@ -904,18 +912,18 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Sets the type of link
      *
-     * @param type The type of link desired. The following values can be set:<br>
-     *             <ul>
-     *             <li>{@link #DESKTOP}
-     *             <li>{@link #PROGRAM_MENU}
-     *             <li>{@link #START_MENU}
-     *             <li>{@link #STARTUP}
-     *             </ul>
-     * @throws IllegalArgumentException     if an an invalid type is passed
+     * @param type The type of link desired. The following values can be
+     * set:<br>
+     * <ul>
+     * <li>{@link #DESKTOP}
+     * <li>{@link #PROGRAM_MENU}
+     * <li>{@link #START_MENU}
+     * <li>{@link #STARTUP}
+     * </ul>
+     * @throws IllegalArgumentException if an an invalid type is passed
      * @throws UnsupportedEncodingException
      */
     public void setLinkType(int type) throws IllegalArgumentException, UnsupportedEncodingException
@@ -950,7 +958,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Sets the (ShellLink) user type for link
      *
@@ -972,10 +979,9 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Returns the (ShellLink) user type for the link. Either {@link #CURRENT_USER} or
-     * {@link #ALL_USERS}
+     * Returns the (ShellLink) user type for the link. Either
+     * {@link #CURRENT_USER} or {@link #ALL_USERS}
      *
      * @see #setUserType
      */
@@ -985,13 +991,12 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Returns the path where the links of the selected type are stroed. This method is useful for
-     * discovering which program groups already exist.
+     * Returns the path where the links of the selected type are stroed. This
+     * method is useful for discovering which program groups already exist.
      *
-     * @param userType the type of user for the link path. One of {@link #CURRENT_USER} or
-     *                 {@link #ALL_USERS}
+     * @param userType the type of user for the link path. One of
+     * {@link #CURRENT_USER} or {@link #ALL_USERS}
      * @return the path to the type of link set for this instance.
      */
     public String getLinkPath(int userType)
@@ -1009,7 +1014,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Returns the command line that the link passes to the target.
      *
@@ -1022,7 +1026,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Returns the description for the link.
      *
@@ -1035,7 +1038,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Retruns the hotkey that can be used to activate the link.
      *
@@ -1048,10 +1050,9 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Returns the path and file name of the file that contains the icon that is associated with the
-     * link.
+     * Returns the path and file name of the file that contains the icon that is
+     * associated with the link.
      *
      * @return the path to the icon
      * @see #setIconLocation
@@ -1062,7 +1063,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Returns the index of the icon with the icon or resource file
      *
@@ -1075,7 +1075,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Retruns the absolute path of the link target
      *
@@ -1088,9 +1087,9 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Returns the initial condition of the target window (HIDE, NORMAL, MINIMIZED, MAXIMIZED).
+     * Returns the initial condition of the target window (HIDE, NORMAL,
+     * MINIMIZED, MAXIMIZED).
      *
      * @return the target show command
      * @see #setShowCommand
@@ -1101,7 +1100,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Retruns the working deirectory for the link target.
      *
@@ -1114,11 +1112,11 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Returns the fully qualified file name under which the link is saved on disk. <b>Note:</b>
-     * this method returns valid results only if the instance was created from a file on disk or
-     * after a successful save operation.
+     * Returns the fully qualified file name under which the link is saved on
+     * disk. <b>Note:</b>
+     * this method returns valid results only if the instance was created from a
+     * file on disk or after a successful save operation.
      *
      * @return the fully qualified file name for the shell link
      */
@@ -1128,16 +1126,16 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Returns the path of the directory where the link file is stored, if it was necessary during
-     * the previous save operation to create the directory. This method returns <code>null</code>
-     * if no save operation was carried out or there was no need to create a directory during the
-     * previous save operation.
+     * Returns the path of the directory where the link file is stored, if it
+     * was necessary during the previous save operation to create the directory.
+     * This method returns <code>null</code> if no save operation was carried
+     * out or there was no need to create a directory during the previous save
+     * operation.
      *
-     * @return the path of the directory where the link file is stored or <code>null</code> if no
-     *         save operation was carried out or there was no need to create a directory during the previous
-     *         save operation.
+     * @return the path of the directory where the link file is stored or
+     * <code>null</code> if no save operation was carried out or there was no
+     * need to create a directory during the previous save operation.
      */
     public String getDirectoryCreated()
     {
@@ -1145,7 +1143,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Returns the name shown in a menu or on the desktop for the link.
      *
@@ -1157,7 +1154,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Returns the path for currentusersLink
      *
@@ -1169,7 +1165,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Returns the path for allusersLink
      *
@@ -1181,7 +1176,6 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Saves this link.
      *
@@ -1244,8 +1238,8 @@ public class ShellLink implements NativeLibraryClient
         {  //all-users file object was setup above
             try
             {
-                if (allUsersFileObj.exists() &&
-                        allUsersFileObj.lastModified() > aufLastModVal)
+                if (allUsersFileObj.exists()
+                        && allUsersFileObj.lastModified() > aufLastModVal)
                 {  //link exists in all-users location and has been updated
                     //setup file object for current-user location:
                     final File curUserFileObj = new File(saveTo);
@@ -1266,9 +1260,11 @@ public class ShellLink implements NativeLibraryClient
 
     /**
      *
-     * Determines if the shortcut target should be run with administrator privileges.
+     * Determines if the shortcut target should be run with administrator
+     * privileges.
      *
-     * @param runAsAdministrator if {@code true}, run the target with administrator privileges.
+     * @param runAsAdministrator if {@code true}, run the target with
+     * administrator privileges.
      */
     public void setRunAsAdministrator(boolean runAsAdministrator)
     {
@@ -1276,11 +1272,14 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /**
-     * Determines if the shortcut target should be run with administrator privileges.
+     * Determines if the shortcut target should be run with administrator
+     * privileges.
      *
-     * @return {@code true}, if the target will run with administrator privileges
+     * @return {@code true}, if the target will run with administrator
+     * privileges
      */
-    public boolean getRunAsAdministrator() {
+    public boolean getRunAsAdministrator()
+    {
         return runAsAdministrator;
     }
 
@@ -1289,7 +1288,7 @@ public class ShellLink implements NativeLibraryClient
      *
      * @param name the fully qualified file name for the link
      * @throws IllegalArgumentException if the parameter was null
-     * @throws Exception                if the save operation could not be carried out
+     * @throws Exception if the save operation could not be carried out
      */
     public void save(String name) throws Exception
     {
@@ -1329,17 +1328,18 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /**
-     * Moves a file to a given destination.  Works even if destination
-     * file exists and needs to be overwritten.
+     * Moves a file to a given destination. Works even if destination file
+     * exists and needs to be overwritten.
      *
-     * @param srcFileObj  source file to be moved.
+     * @param srcFileObj source file to be moved.
      * @param destFileObj destination file object.
      */
     protected void moveFileTo(File srcFileObj, File destFileObj)
     {
         if (destFileObj.exists())
         {  //destination file currently exists
-            final File tempFileObj =       //create new, unique target filename
+            final File tempFileObj
+                    = //create new, unique target filename
                     new File(destFileObj.getPath() + System.currentTimeMillis());
             destFileObj.renameTo(tempFileObj);  //rename dest to temp name
             srcFileObj.renameTo(destFileObj);   //move source file to dest
@@ -1352,11 +1352,10 @@ public class ShellLink implements NativeLibraryClient
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * sets currentUsersLinkPath and allUsersLinkPath. If the path is empty, resets userType to a
-     * valid userType for this type of link. If no linkPaths are valid, an IllegalArgumentException
-     * is thrown.
+     * sets currentUsersLinkPath and allUsersLinkPath. If the path is empty,
+     * resets userType to a valid userType for this type of link. If no
+     * linkPaths are valid, an IllegalArgumentException is thrown.
      *
      * @throws IllegalArgumentException
      * @throws UnsupportedEncodingException
@@ -1386,4 +1385,3 @@ public class ShellLink implements NativeLibraryClient
     }
 
 }
-

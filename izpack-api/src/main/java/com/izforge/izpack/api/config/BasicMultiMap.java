@@ -28,8 +28,9 @@ import java.util.*;
 
 public class BasicMultiMap<K, V> implements MultiMap<K, V>, Serializable
 {
+
     private static final long serialVersionUID = 4716749660560043989L;
-    private final Map<K, List<V>> _impl;
+    private final Map<K, List<V>> impl;
 
     public BasicMultiMap()
     {
@@ -38,44 +39,51 @@ public class BasicMultiMap<K, V> implements MultiMap<K, V>, Serializable
 
     public BasicMultiMap(Map<K, List<V>> impl)
     {
-        _impl = impl;
+        this.impl = impl;
     }
 
-    @Override public List<V> getAll(Object key)
+    @Override
+    public List<V> getAll(Object key)
     {
-        return _impl.get(key);
+        return this.impl.get(key);
     }
 
-    @Override public boolean isEmpty()
+    @Override
+    public boolean isEmpty()
     {
-        return _impl.isEmpty();
+        return this.impl.isEmpty();
     }
 
-    @Override public void add(K key, V value)
+    @Override
+    public void add(K key, V value)
     {
         getList(key, true).add(value);
     }
 
-    @Override public void add(K key, V value, int index)
+    @Override
+    public void add(K key, V value, int index)
     {
         getList(key, true).add(index, value);
     }
 
-    @Override public void clear()
+    @Override
+    public void clear()
     {
-        _impl.clear();
+        this.impl.clear();
     }
 
-    @Override public boolean containsKey(Object key)
+    @Override
+    public boolean containsKey(Object key)
     {
-        return _impl.containsKey(key);
+        return this.impl.containsKey(key);
     }
 
-    @Override public boolean containsValue(Object value)
+    @Override
+    public boolean containsValue(Object value)
     {
         boolean ret = false;
 
-        for (List<V> all : _impl.values())
+        for (List<V> all : this.impl.values())
         {
             if (all.contains(value))
             {
@@ -88,7 +96,8 @@ public class BasicMultiMap<K, V> implements MultiMap<K, V>, Serializable
         return ret;
     }
 
-    @Override public Set<Entry<K, V>> entrySet()
+    @Override
+    public Set<Entry<K, V>> entrySet()
     {
         Set<Entry<K, V>> ret = new HashSet<Entry<K, V>>();
 
@@ -100,33 +109,38 @@ public class BasicMultiMap<K, V> implements MultiMap<K, V>, Serializable
         return ret;
     }
 
-    @Override public V get(Object key)
+    @Override
+    public V get(Object key)
     {
         List<V> values = getList(key, false);
 
         return (values == null) ? null : values.get(values.size() - 1);
     }
 
-    @Override public V get(Object key, int index)
+    @Override
+    public V get(Object key, int index)
     {
         List<V> values = getList(key, false);
 
         return (values == null) ? null : values.get(index);
     }
 
-    @Override public Set<K> keySet()
+    @Override
+    public Set<K> keySet()
     {
-        return _impl.keySet();
+        return this.impl.keySet();
     }
 
-    @Override public int length(Object key)
+    @Override
+    public int length(Object key)
     {
         List<V> values = getList(key, false);
 
         return (values == null) ? 0 : values.size();
     }
 
-    @Override public V put(K key, V value)
+    @Override
+    public V put(K key, V value)
     {
         V ret = null;
         List<V> values = getList(key, true);
@@ -143,13 +157,15 @@ public class BasicMultiMap<K, V> implements MultiMap<K, V>, Serializable
         return ret;
     }
 
-    @Override public V put(K key, V value, int index)
+    @Override
+    public V put(K key, V value, int index)
     {
         return getList(key, false).set(index, value);
     }
 
     @SuppressWarnings(Warnings.UNCHECKED)
-    @Override public void putAll(Map<? extends K, ? extends V> map)
+    @Override
+    public void putAll(Map<? extends K, ? extends V> map)
     {
         if (map instanceof MultiMap)
         {
@@ -169,23 +185,26 @@ public class BasicMultiMap<K, V> implements MultiMap<K, V>, Serializable
         }
     }
 
-    @Override public List<V> putAll(K key, List<V> values)
+    @Override
+    public List<V> putAll(K key, List<V> values)
     {
-        List<V> ret = _impl.get(key);
+        List<V> ret = this.impl.get(key);
 
-        _impl.put(key, new ArrayList<V>(values));
+        this.impl.put(key, new ArrayList<V>(values));
 
         return ret;
     }
 
-    @Override public V remove(Object key)
+    @Override
+    public V remove(Object key)
     {
-        List<V> prev = _impl.remove(key);
+        List<V> prev = this.impl.remove(key);
 
         return (prev == null) ? null : prev.get(0);
     }
 
-    @Override public V remove(Object key, int index)
+    @Override
+    public V remove(Object key, int index)
     {
         V ret = null;
         List<V> values = getList(key, false);
@@ -195,28 +214,31 @@ public class BasicMultiMap<K, V> implements MultiMap<K, V>, Serializable
             ret = values.remove(index);
             if (values.isEmpty())
             {
-                _impl.remove(key);
+                this.impl.remove(key);
             }
         }
 
         return ret;
     }
 
-    @Override public int size()
+    @Override
+    public int size()
     {
-        return _impl.size();
+        return this.impl.size();
     }
 
-    @Override public String toString()
+    @Override
+    public String toString()
     {
-        return _impl.toString();
+        return this.impl.toString();
     }
 
-    @Override public Collection<V> values()
+    @Override
+    public Collection<V> values()
     {
-        List<V> all = new ArrayList<V>(_impl.size());
+        List<V> all = new ArrayList<V>(this.impl.size());
 
-        for (List<V> values : _impl.values())
+        for (List<V> values : this.impl.values())
         {
             all.addAll(values);
         }
@@ -227,12 +249,12 @@ public class BasicMultiMap<K, V> implements MultiMap<K, V>, Serializable
     @SuppressWarnings(Warnings.UNCHECKED)
     private List<V> getList(Object key, boolean create)
     {
-        List<V> values = _impl.get(key);
+        List<V> values = this.impl.get(key);
 
         if ((values == null) && create)
         {
             values = new ArrayList<V>();
-            _impl.put((K) key, values);
+            this.impl.put((K) key, values);
         }
 
         return values;
@@ -240,26 +262,30 @@ public class BasicMultiMap<K, V> implements MultiMap<K, V>, Serializable
 
     class ShadowEntry implements Map.Entry<K, V>
     {
-        private final K _key;
+
+        private final K key;
 
         ShadowEntry(K key)
         {
-            _key = key;
+            this.key = key;
         }
 
-        @Override public K getKey()
+        @Override
+        public K getKey()
         {
-            return _key;
+            return this.key;
         }
 
-        @Override public V getValue()
+        @Override
+        public V getValue()
         {
-            return get(_key);
+            return get(this.key);
         }
 
-        @Override public V setValue(V value)
+        @Override
+        public V setValue(V value)
         {
-            return put(_key, value);
+            return put(this.key, value);
         }
     }
 }

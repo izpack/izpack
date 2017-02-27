@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -91,14 +90,13 @@ public class GUIFieldFactory
      */
     private final Prompt prompt;
 
-
     /**
      * Constructs a {@code GUIFieldFactory}.
      *
      * @param installData the installation data
-     * @param parent      the parent panel
-     * @param frame       the installer frame
-     * @param prompt      the prompt
+     * @param parent the parent panel
+     * @param frame the installer frame
+     * @param prompt the prompt
      */
     public GUIFieldFactory(GUIInstallData installData, IzPanel parent, InstallerFrame frame, Prompt prompt)
     {
@@ -190,8 +188,8 @@ public class GUIFieldFactory
     }
 
     /**
-     * Creates a view to display the supplied field.
-     * This field is a container for fields to be placed in columns.
+     * Creates a view to display the supplied field. This field is a container
+     * for fields to be placed in columns.
      *
      * @param customField field of type CustomField
      * @return the view to display the field
@@ -199,27 +197,29 @@ public class GUIFieldFactory
      */
     public GUIField createCustom(CustomField customField, UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
     {
-        FieldCommand fieldCommand = new createFieldCommand(userInputPanelSpec, spec);
+        FieldCommand fieldCommand = new CreateFieldCommand(userInputPanelSpec, spec);
         return new GUICustomField(customField, fieldCommand, userInputPanelSpec, spec, installData, parent);
     }
 
     /**
-     * Private class to wrap the create command.
-     * This allows us to pass the create command for user later on.
+     * Private class to wrap the create command. This allows us to pass the
+     * create command for user later on.
      */
-    private class createFieldCommand extends FieldCommand
+    private class CreateFieldCommand extends FieldCommand
     {
+
         private final UserInputPanelSpec userInputPanelSpec;
         private final IXMLElement spec;
-        public createFieldCommand(UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
+
+        public CreateFieldCommand(UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
         {
             this.userInputPanelSpec = userInputPanelSpec;
             this.spec = spec;
         }
+
         public GUIField createGuiField(Field field)
         {
             return create(field, userInputPanelSpec, spec);
         }
     }
 }
-

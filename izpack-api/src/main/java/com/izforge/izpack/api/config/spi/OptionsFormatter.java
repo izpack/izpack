@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.io.PrintWriter;
@@ -29,6 +28,7 @@ import com.izforge.izpack.api.config.Config;
 
 public class OptionsFormatter extends AbstractFormatter implements OptionsHandler
 {
+
     public static OptionsFormatter newInstance(Writer out, Config config)
     {
         OptionsFormatter instance = newInstance();

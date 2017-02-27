@@ -63,7 +63,7 @@ public class IzPackNewMojo extends AbstractMojo
      * @readonly
      */
     private MavenSession session;
-	
+
     /**
      * The Maven Project Object
      *
@@ -113,7 +113,8 @@ public class IzPackNewMojo extends AbstractMojo
      * Output where compilation result will be situate
      *
      * @parameter
-     * @deprecated Use outputDirectory, finalName and optional classifier instead
+     * @deprecated Use outputDirectory, finalName and optional classifier
+     * instead
      */
     private String output;
 
@@ -125,8 +126,8 @@ public class IzPackNewMojo extends AbstractMojo
     private boolean mkdirs;
 
     /**
-     * Specifies that the XML parser will validate each descriptor using W3C XML Schema as they are parsed.
-     * By default the value of this is set to false.
+     * Specifies that the XML parser will validate each descriptor using W3C XML
+     * Schema as they are parsed. By default the value of this is set to false.
      *
      * @parameter default-value="true"
      */
@@ -140,16 +141,16 @@ public class IzPackNewMojo extends AbstractMojo
     private int comprLevel;
 
     /**
-     * Whether to automatically include project.url from Maven into
-     * IzPack info header
+     * Whether to automatically include project.url from Maven into IzPack info
+     * header
      *
      * @parameter default-value="false"
      */
     private boolean autoIncludeUrl;
 
     /**
-     * Whether to automatically include developer list from Maven into
-     * IzPack info header
+     * Whether to automatically include developer list from Maven into IzPack
+     * info header
      *
      * @parameter default-value="false"
      */
@@ -166,36 +167,37 @@ public class IzPackNewMojo extends AbstractMojo
     /**
      * Name of the generated JAR.
      *
-     * @parameter alias="jarName" property="jar.finalName" default-value="${project.build.finalName}"
+     * @parameter alias="jarName" property="jar.finalName"
+     * default-value="${project.build.finalName}"
      * @required
      */
     private String finalName;
 
     /**
-     * Classifier to add to the artifact generated. If given, the artifact is attachable.
-     * Furthermore, the output file name gets -<i>classifier</i> as suffix.
-     * If this is not given,it will merely be written to the output directory
-     * according to the finalName.
+     * Classifier to add to the artifact generated. If given, the artifact is
+     * attachable. Furthermore, the output file name gets -<i>classifier</i> as
+     * suffix. If this is not given,it will merely be written to the output
+     * directory according to the finalName.
      *
      * @parameter
      */
     private String classifier;
 
     /**
-     * Whether to attach the generated installer jar to the project
-     * as artifact if a classifier is specified.
-     * This has no effect if no classifier was specified.
+     * Whether to attach the generated installer jar to the project as artifact
+     * if a classifier is specified. This has no effect if no classifier was
+     * specified.
      *
      * @parameter default-value="true"
      */
     private boolean enableAttachArtifact;
 
     /**
-     * Whether to override the artifact file by the generated installer jar,
-     * if no classifier is specified.
-     * This will set the artifact file to the given name based on
-     * <i>outputDirectory</i> + <i>finalName</i> or on <i>output</i>.
-     * This has no effect if a classifier was specified.
+     * Whether to override the artifact file by the generated installer jar, if
+     * no classifier is specified. This will set the artifact file to the given
+     * name based on
+     * <i>outputDirectory</i> + <i>finalName</i> or on <i>output</i>. This has
+     * no effect if a classifier was specified.
      *
      * @parameter default-value="false"
      */
@@ -223,15 +225,15 @@ public class IzPackNewMojo extends AbstractMojo
         {
             compilerConfig.executeCompiler();
         }
-        catch ( CompilerException e )
+        catch (CompilerException e)
         {
             //TODO: This might be enhanced with other exceptions which
             // should be handled like CompilerExecptions
-            throw new MojoFailureException( "Failure during compilation process", e );
+            throw new MojoFailureException("Failure during compilation process", e);
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
-            throw new MojoExecutionException( "Failure", e );
+            throw new MojoExecutionException("Failure", e);
         }
 
         if (classifier != null && !classifier.isEmpty())
@@ -277,11 +279,11 @@ public class IzPackNewMojo extends AbstractMojo
 
     private void initMavenProperties(PropertyManager propertyManager)
     {
-    	//TODO - project is annotated as @required, so the check project!=null should be useless!?!
+        //TODO - project is annotated as @required, so the check project!=null should be useless!?!
         if (project != null)
         {
             Properties properties = project.getProperties();
-            Properties userProps  = session.getUserProperties();
+            Properties userProps = session.getUserProperties();
             for (String propertyName : properties.stringPropertyNames())
             {
                 String value;
@@ -291,7 +293,9 @@ public class IzPackNewMojo extends AbstractMojo
                 if (userProps.containsKey(propertyName))
                 {
                     value = userProps.getProperty(propertyName);
-                } else {
+                }
+                else
+                {
                     value = properties.getProperty(propertyName);
                 }
                 if (propertyManager.addProperty(propertyName, value))
@@ -328,7 +332,7 @@ public class IzPackNewMojo extends AbstractMojo
             }
         }
         return new CompilerData(comprFormat, kind, installFile, null, baseDir, jarFile.getPath(),
-                                mkdirs, validating, comprLevel, info);
+                mkdirs, validating, comprLevel, info);
     }
 
     private Handler createLogHandler()

@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <izpack:installation version="5.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:izpack="http://izpack.org/schema/installation"
-  xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd"
 >
 
-  <info>
-    <appname>Test Installation</appname>
-    <appversion>1.0a</appversion>
-    <uninstaller write="no" />
-  </info>
+    <info>
+        <appname>Test Installation</appname>
+        <appversion>1.0a</appversion>
+        <uninstaller write="no" />
+    </info>
 
-  <guiprefs width="640" height="480" resizable="yes" />
+    <guiprefs width="640" height="480" resizable="yes" />
 
-  <locale>
-    <langpack iso3="eng" />
-    <langpack iso3="deu" />
-  </locale>
+    <locale>
+        <langpack iso3="eng" />
+        <langpack iso3="deu" />
+    </locale>
 
-  <resources>
-    <res id="userInputSpec.xml" src="userInput.xml" />
-  </resources>
+    <resources>
+        <res id="userInputSpec.xml" src="userInput.xml" />
+    </resources>
 
-  <panels>
-    <panel classname="HelloPanel" />
-    <panel classname="TargetPanel" />
-    <panel classname="PacksPanel" />
-    <panel classname="UserInputPanel" id="panel.all" />
-    <panel classname="UserInputPanel" id="panel.pack2_3" />
-    <panel classname="InstallPanel" />
-    <panel classname="FinishPanel" />
-  </panels>
+    <panels>
+        <panel classname="HelloPanel" />
+        <panel classname="TargetPanel" />
+        <panel classname="PacksPanel" />
+        <panel classname="UserInputPanel" id="panel.all" />
+        <panel classname="UserInputPanel" id="panel.pack2_3" />
+        <panel classname="InstallPanel" />
+        <panel classname="FinishPanel" />
+    </panels>
 
-  <packs>
-    <pack name="Pack 1" required="yes">
-      <description>Pack 1</description>
-      <file src="file_1.txt" targetdir="$INSTALL_PATH" />
-    </pack>
-    <pack name="Pack 2" required="no">
-      <description>Pack 2</description>
-      <file src="file_2.txt" targetdir="$INSTALL_PATH" />
-    </pack>
-    <pack name="Pack 3" required="no">
-      <description>Pack 3</description>
-      <file src="file_3.txt" targetdir="$INSTALL_PATH" />
-    </pack>
-  </packs>
+    <packs>
+        <pack name="Pack 1" required="yes">
+            <description>Pack 1</description>
+            <file src="file_1.txt" targetdir="$INSTALL_PATH" />
+        </pack>
+        <pack name="Pack 2" required="no">
+            <description>Pack 2</description>
+            <file src="file_2.txt" targetdir="$INSTALL_PATH" />
+        </pack>
+        <pack name="Pack 3" required="no">
+            <description>Pack 3</description>
+            <file src="file_3.txt" targetdir="$INSTALL_PATH" />
+        </pack>
+    </packs>
 
 </izpack:installation>

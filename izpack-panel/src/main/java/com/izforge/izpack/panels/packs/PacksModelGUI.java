@@ -21,7 +21,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.packs;
 
 import com.izforge.izpack.api.data.Pack;
@@ -30,15 +29,16 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 
 public class PacksModelGUI extends PacksModel
 {
+
     private static final long serialVersionUID = -6441885493834359189L;
 
-    GUIInstallData GuiInstallData;
+    GUIInstallData guiInstallData;
     private PacksPanelInterface panel;
 
-    public PacksModelGUI(PacksPanelInterface panel, GUIInstallData GuiInstallData, RulesEngine rules)
+    public PacksModelGUI(PacksPanelInterface panel, GUIInstallData guiInstallData, RulesEngine rules)
     {
-        super(GuiInstallData);
-        this.GuiInstallData = GuiInstallData;
+        super(guiInstallData);
+        this.guiInstallData = guiInstallData;
         this.panel = panel;
 
     }
@@ -87,7 +87,7 @@ public class PacksModelGUI extends PacksModel
     @Override
     public int getColumnCount()
     {
-        boolean doNotShowPackSize = Boolean.parseBoolean(GuiInstallData.guiPrefs.modifier.get("doNotShowPackSizeColumn"));
+        boolean doNotShowPackSize = Boolean.parseBoolean(guiInstallData.guiPrefs.modifier.get("doNotShowPackSizeColumn"));
 
         int result;
         if (!doNotShowPackSize)

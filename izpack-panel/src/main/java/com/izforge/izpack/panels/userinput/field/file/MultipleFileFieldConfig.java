@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.file;
 
 /**
@@ -52,9 +51,11 @@ public interface MultipleFileFieldConfig extends FileFieldConfig
     int getPreferredHeight();
 
     /**
-     * Determines if multiple variables should be created to hold the selected files.
+     * Determines if multiple variables should be created to hold the selected
+     * files.
      *
-     * @return {@code true} if multiple variables should be created; {@code false} if a single variable should be used
+     * @return {@code true} if multiple variables should be created;
+     * {@code false} if a single variable should be used
      */
     boolean getCreateMultipleVariables();
 }

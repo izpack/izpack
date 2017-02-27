@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.variable;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -27,9 +26,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipException;
 
-
 public class JarEntryConfigValue extends ZipEntryConfigFileValue
 {
+
     private static final long serialVersionUID = 5832282905043038661L;
 
     public JarEntryConfigValue(String filename, String entryname, int type, String section, String key, boolean escape)
@@ -47,16 +46,16 @@ public class JarEntryConfigValue extends ZipEntryConfigFileValue
     public String resolve(VariableSubstitutor... substitutors)
             throws Exception
     {
-        String _filename_ = getFilename(), _entryname_ = getEntryname();
+        String filename0 = getFilename(), entryname0 = getEntryname();
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _filename_ = substitutor.substitute(_filename_);
+            filename0 = substitutor.substitute(filename0);
         }
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _entryname_ = substitutor.substitute(_entryname_);
+            entryname0 = substitutor.substitute(entryname0);
         }
-        return super.resolve(getJarEntryInputStream(_filename_, _entryname_), substitutors);
+        return super.resolve(getJarEntryInputStream(filename0, entryname0), substitutors);
     }
 
     private InputStream getJarEntryInputStream(String filename, String entryname) throws Exception

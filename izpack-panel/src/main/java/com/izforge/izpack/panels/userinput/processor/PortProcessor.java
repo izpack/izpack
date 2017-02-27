@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2004 Thorsten Kamman
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.processor;
 
 import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
@@ -27,8 +26,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 
 /**
- * Checks whether the value of the field comtemt is a port and is free. If false the next free port
- * will be searched.
+ * Checks whether the value of the field comtemt is a port and is free. If false
+ * the next free port will be searched.
  *
  * @author Thorsten Kamann <thorsten.kamann@planetes.de>
  */
@@ -109,19 +108,19 @@ public class PortProcessor implements Processor
     private String getReturnValue(ProcessingClient client, String host, String port)
     {
         String retValue = "";
-        String _host = "";
-        String _port = "";
+        String host0 = "";
+        String port0 = "";
 
         if (client.getNumFields() > 1)
         {
-            _host = (host == null) ? client.getFieldContents(0) : host;
-            _port = (port == null) ? client.getFieldContents(1) : port;
-            retValue = _host + "*" + _port;
+            host0 = (host == null) ? client.getFieldContents(0) : host;
+            port0 = (port == null) ? client.getFieldContents(1) : port;
+            retValue = host0 + "*" + port0;
         }
         else
         {
-            _port = (port == null) ? client.getFieldContents(0) : port;
-            retValue = _port;
+            port0 = (port == null) ? client.getFieldContents(0) : port;
+            retValue = port0;
         }
 
         return retValue;

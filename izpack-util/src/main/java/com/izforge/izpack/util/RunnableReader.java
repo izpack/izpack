@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import java.io.BufferedReader;
@@ -24,7 +23,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  * A {@code Runnable} that reads from a {@code Reader} a line at a time.
@@ -49,8 +47,7 @@ public abstract class RunnableReader implements Runnable
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(RunnableReader.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(RunnableReader.class.getName());
 
     /**
      * Constructs a {@link RunnableReader}.
@@ -86,7 +83,7 @@ public abstract class RunnableReader implements Runnable
         }
         catch (IOException exception)
         {
-            logger.log(Level.FINE, exception.getMessage(), exception);
+            LOGGER.log(Level.FINE, exception.getMessage(), exception);
         }
 
     }

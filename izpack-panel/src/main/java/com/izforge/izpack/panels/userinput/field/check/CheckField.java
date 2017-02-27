@@ -18,13 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.check;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.Field;
-
 
 /**
  * Check box field.
@@ -33,21 +30,23 @@ import com.izforge.izpack.panels.userinput.field.Field;
  */
 public class CheckField extends Field
 {
+
     /**
-     * Assigned to the associated variable if the check box is selected. May be {@code null}
+     * Assigned to the associated variable if the check box is selected. May be
+     * {@code null}
      */
     private final String trueValue;
 
     /**
-     * Assigned to the associated variable if the check box is unselected. May be {@code null}
+     * Assigned to the associated variable if the check box is unselected. May
+     * be {@code null}
      */
     private final String falseValue;
-
 
     /**
      * Constructs a {@code CheckField}.
      *
-     * @param config      the configuration to get field information from
+     * @param config the configuration to get field information from
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */
@@ -59,7 +58,8 @@ public class CheckField extends Field
     }
 
     /**
-     * Returns the value to assign to the associated variable when the checkbox is selected (i.e. is 'true').
+     * Returns the value to assign to the associated variable when the checkbox
+     * is selected (i.e. is 'true').
      *
      * @return the 'true' value
      */
@@ -69,7 +69,8 @@ public class CheckField extends Field
     }
 
     /**
-     * Returns the value to assign to the associated variable when the checkbox is selected (i.e. is 'false').
+     * Returns the value to assign to the associated variable when the checkbox
+     * is selected (i.e. is 'false').
      *
      * @return the 'false' value
      */
@@ -81,10 +82,13 @@ public class CheckField extends Field
     /**
      * Returns the initial selection of the check box.
      * <p/>
-     * The initial selection is determined by the {@link #getInitialValue initial value}. If this is the same as the
-     * {@link #getTrueValue() 'true value'} or {@code "true"} then the check box should be selected.
+     * The initial selection is determined by the
+     * {@link #getInitialValue initial value}. If this is the same as the
+     * {@link #getTrueValue() 'true value'} or {@code "true"} then the check box
+     * should be selected.
      *
-     * @return {@code true} if the check box should be selected, {@code false} if it should be deselected.
+     * @return {@code true} if the check box should be selected, {@code false}
+     * if it should be deselected.
      */
     public boolean getInitialSelection()
     {

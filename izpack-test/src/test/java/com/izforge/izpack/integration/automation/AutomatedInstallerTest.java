@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.automation;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -52,7 +51,6 @@ import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-
 /**
  * Tests the {@link AutomatedInstaller}.
  *
@@ -71,7 +69,7 @@ public class AutomatedInstallerTest extends AbstractInstallationTest
     /**
      * Constructs an {@code AutomatedInstaller}.
      *
-     * @param installer   the installer
+     * @param installer the installer
      * @param installData the installation data
      */
     public AutomatedInstallerTest(AutomatedInstaller installer, AutomatedInstallData installData)
@@ -94,7 +92,7 @@ public class AutomatedInstallerTest extends AbstractInstallationTest
         URL url = getClass().getResource("/samples/basicInstall/auto.xml");
         assertNotNull(url);
         String recordfile = FileUtil.convertUrlToFilePath(url);
-        String installPath =  new File(temporaryFolder.getRoot(), "basicapp").getAbsolutePath();
+        String installPath = new File(temporaryFolder.getRoot(), "basicapp").getAbsolutePath();
         replaceInstallPathInAutoInstall(recordfile, installPath);
 
         installer.init(recordfile, null, new String[0]);
@@ -113,16 +111,17 @@ public class AutomatedInstallerTest extends AbstractInstallationTest
         assertFalse(new File(installPath).exists());
     }
 
-    private static void replaceInstallPathInAutoInstall(String recordfile, String installpath) throws Exception {
+    private static void replaceInstallPathInAutoInstall(String recordfile, String installpath) throws Exception
+    {
         // Read xml and build a DOM document
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(recordfile));
 
         XPath xpath = XPathFactory.newInstance().newXPath();
-        Node node = (Node)xpath.evaluate("//installpath", doc, XPathConstants.NODE);
+        Node node = (Node) xpath.evaluate("//installpath", doc, XPathConstants.NODE);
         node.setTextContent(installpath);
 
         // Write the DOM document to the file
         Transformer xformer = TransformerFactory.newInstance().newTransformer();
         xformer.transform(new DOMSource(doc), new StreamResult(new File(recordfile)));
-   }
+    }
 }

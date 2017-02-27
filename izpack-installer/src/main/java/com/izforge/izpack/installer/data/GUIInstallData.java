@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.data;
 
 import java.awt.Color;
@@ -57,7 +56,6 @@ public class GUIInstallData extends InstallData implements Serializable
      * The panels list.
      */
     private List<IzPanel> panels = new ArrayList<IzPanel>();
-
 
     public GUIInstallData(Variables variables, Platform platform)
     {

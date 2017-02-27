@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import java.util.List;
-
 
 /**
  * Configuration for fields that have a set of pre-defined choices.
@@ -31,6 +29,7 @@ import java.util.List;
  */
 public interface ChoiceFieldConfig extends FieldConfig
 {
+
     /**
      * Returns the choices.
      *

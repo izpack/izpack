@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.multiunpacker;
-
 
 import com.izforge.izpack.api.data.Blockable;
 import com.izforge.izpack.api.data.OverrideType;
@@ -43,7 +41,6 @@ import java.io.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-
 /**
  * Tests the {@link MultiVolumeFileUnpacker} class.
  *
@@ -63,10 +60,10 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
     private int volumeCount;
 
     /**
-     * Verifies that the {@link VolumeLocator#getVolume(String, boolean)} method is invoked to prompt
-     * for missing media.
+     * Verifies that the {@link VolumeLocator#getVolume(String, boolean)} method
+     * is invoked to prompt for missing media.
      *
-     * @throws IOException        for any I/O error
+     * @throws IOException for any I/O error
      * @throws InstallerException for any installer error
      */
     @Test
@@ -146,7 +143,7 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
      * Helper to create an unpacker.
      *
      * @param sourceDir the source directory. May be {@code null}
-     * @param queue     the file queue
+     * @param queue the file queue
      * @return a new unpacker
      */
     protected FileUnpacker createUnpacker(File sourceDir, FileQueue queue) throws IOException
@@ -158,9 +155,9 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
     /**
      * Helper to create a new pack file.
      *
-     * @param baseDir   the base directory
-     * @param source    the source file
-     * @param target    the target file
+     * @param baseDir the base directory
+     * @param source the source file
+     * @param target the target file
      * @param blockable the blockable type
      * @return a new pack file
      * @throws IOException if the source file doesn't exist
@@ -170,7 +167,7 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
     {
         // XPackFile required for the Archivefileposition attribute.
         XPackFile result = new XPackFile(baseDir, source, target.getName(), null, OverrideType.OVERRIDE_TRUE, null,
-                                         blockable);
+                blockable);
         result.setArchiveFilePosition(0);
         return result;
     }

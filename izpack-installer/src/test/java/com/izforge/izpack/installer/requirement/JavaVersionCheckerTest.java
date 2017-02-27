@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.requirement;
 
 import static org.junit.Assert.assertFalse;
@@ -33,6 +32,7 @@ import org.junit.Test;
  */
 public class JavaVersionCheckerTest extends AbstractRequirementCheckerTest
 {
+
     /**
      * Tests the {@link JavaVersionChecker}.
      */
@@ -50,10 +50,10 @@ public class JavaVersionCheckerTest extends AbstractRequirementCheckerTest
 
         installData.getInfo().setJavaVersion(currentVersion);
         assertTrue(checker.check());
-        
+
         installData.getInfo().setJavaVersion(currentVersion + "9");
         assertFalse(checker.check());
-        
+
         String[] splitCurrentVersion = currentVersion.split("_");
         installData.getInfo().setJavaVersion(splitCurrentVersion[0]);
         assertTrue(checker.check());

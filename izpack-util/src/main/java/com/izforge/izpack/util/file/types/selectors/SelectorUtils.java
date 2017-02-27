@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -24,12 +23,14 @@ import java.util.Vector;
 import com.izforge.izpack.util.file.types.Resource;
 
 /**
- * <p>This is a utility class used by selectors and DirectoryScanner. The
+ * <p>
+ * This is a utility class used by selectors and DirectoryScanner. The
  * functionality more properly belongs just to selectors, but unfortunately
- * DirectoryScanner exposed these as protected methods. Thus we have to
- * support any subclasses of DirectoryScanner that may access these methods.
+ * DirectoryScanner exposed these as protected methods. Thus we have to support
+ * any subclasses of DirectoryScanner that may access these methods.
  * </p>
- * <p>This is a Singleton.</p>
+ * <p>
+ * This is a Singleton.</p>
  */
 public final class SelectorUtils
 {
@@ -54,19 +55,18 @@ public final class SelectorUtils
     }
 
     /**
-     * Tests whether or not a given path matches the start of a given
-     * pattern up to the first "**".
+     * Tests whether or not a given path matches the start of a given pattern up
+     * to the first "**".
      * <p/>
-     * This is not a general purpose test and should only be used if you
-     * can live with false positives. For example, <code>pattern=**\a</code>
-     * and <code>str=b</code> will yield <code>true</code>.
+     * This is not a general purpose test and should only be used if you can
+     * live with false positives. For example, <code>pattern=**\a</code> and
+     * <code>str=b</code> will yield <code>true</code>.
      *
      * @param pattern The pattern to match against. Must not be
-     *                <code>null</code>.
-     * @param str     The path to match, as a String. Must not be
-     *                <code>null</code>.
-     * @return whether or not a given path matches the start of a given
-     *         pattern up to the first "**".
+     * <code>null</code>.
+     * @param str The path to match, as a String. Must not be <code>null</code>.
+     * @return whether or not a given path matches the start of a given pattern
+     * up to the first "**".
      */
     public static boolean matchPatternStart(String pattern, String str)
     {
@@ -74,24 +74,23 @@ public final class SelectorUtils
     }
 
     /**
-     * Tests whether or not a given path matches the start of a given
-     * pattern up to the first "**".
+     * Tests whether or not a given path matches the start of a given pattern up
+     * to the first "**".
      * <p/>
-     * This is not a general purpose test and should only be used if you
-     * can live with false positives. For example, <code>pattern=**\a</code>
-     * and <code>str=b</code> will yield <code>true</code>.
+     * This is not a general purpose test and should only be used if you can
+     * live with false positives. For example, <code>pattern=**\a</code> and
+     * <code>str=b</code> will yield <code>true</code>.
      *
-     * @param pattern         The pattern to match against. Must not be
-     *                        <code>null</code>.
-     * @param str             The path to match, as a String. Must not be
-     *                        <code>null</code>.
-     * @param isCaseSensitive Whether or not matching should be performed
-     *                        case sensitively.
-     * @return whether or not a given path matches the start of a given
-     *         pattern up to the first "**".
+     * @param pattern The pattern to match against. Must not be
+     * <code>null</code>.
+     * @param str The path to match, as a String. Must not be <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed case
+     * sensitively.
+     * @return whether or not a given path matches the start of a given pattern
+     * up to the first "**".
      */
     public static boolean matchPatternStart(String pattern, String str,
-                                            boolean isCaseSensitive)
+            boolean isCaseSensitive)
     {
         // When str starts with a File.separator, pattern has to start with a
         // File.separator.
@@ -149,11 +148,10 @@ public final class SelectorUtils
      * Tests whether or not a given path matches a given pattern.
      *
      * @param pattern The pattern to match against. Must not be
-     *                <code>null</code>.
-     * @param str     The path to match, as a String. Must not be
-     *                <code>null</code>.
-     * @return <code>true</code> if the pattern matches against the string,
-     *         or <code>false</code> otherwise.
+     * <code>null</code>.
+     * @param str The path to match, as a String. Must not be <code>null</code>.
+     * @return <code>true</code> if the pattern matches against the string, or
+     * <code>false</code> otherwise.
      */
     public static boolean matchPath(String pattern, String str)
     {
@@ -163,17 +161,16 @@ public final class SelectorUtils
     /**
      * Tests whether or not a given path matches a given pattern.
      *
-     * @param pattern         The pattern to match against. Must not be
-     *                        <code>null</code>.
-     * @param str             The path to match, as a String. Must not be
-     *                        <code>null</code>.
-     * @param isCaseSensitive Whether or not matching should be performed
-     *                        case sensitively.
-     * @return <code>true</code> if the pattern matches against the string,
-     *         or <code>false</code> otherwise.
+     * @param pattern The pattern to match against. Must not be
+     * <code>null</code>.
+     * @param str The path to match, as a String. Must not be <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed case
+     * sensitively.
+     * @return <code>true</code> if the pattern matches against the string, or
+     * <code>false</code> otherwise.
      */
     public static boolean matchPath(String pattern, String str,
-                                    boolean isCaseSensitive)
+            boolean isCaseSensitive)
     {
         // When str starts with a File.separator, pattern has to start with a
         // File.separator.
@@ -224,15 +221,12 @@ public final class SelectorUtils
             }
             return true;
         }
-        else
+        else if (patIdxStart > patIdxEnd)
         {
-            if (patIdxStart > patIdxEnd)
-            {
-                // String not exhausted, but pattern is. Failure.
-                patDirs = null;
-                strDirs = null;
-                return false;
-            }
+            // String not exhausted, but pattern is. Failure.
+            patDirs = null;
+            strDirs = null;
+            return false;
         }
 
         // up to last '**'
@@ -331,17 +325,17 @@ public final class SelectorUtils
     }
 
     /**
-     * Tests whether or not a string matches against a pattern.
-     * The pattern may contain two special characters:<br>
+     * Tests whether or not a string matches against a pattern. The pattern may
+     * contain two special characters:<br>
      * '*' means zero or more characters<br>
      * '?' means one and only one character
      *
-     * @param pattern The pattern to match against.
-     *                Must not be <code>null</code>.
-     * @param str     The string which must be matched against the pattern.
-     *                Must not be <code>null</code>.
-     * @return <code>true</code> if the string matches against the pattern,
-     *         or <code>false</code> otherwise.
+     * @param pattern The pattern to match against. Must not be
+     * <code>null</code>.
+     * @param str The string which must be matched against the pattern. Must not
+     * be <code>null</code>.
+     * @return <code>true</code> if the string matches against the pattern, or
+     * <code>false</code> otherwise.
      */
     public static boolean match(String pattern, String str)
     {
@@ -349,22 +343,22 @@ public final class SelectorUtils
     }
 
     /**
-     * Tests whether or not a string matches against a pattern.
-     * The pattern may contain two special characters:<br>
+     * Tests whether or not a string matches against a pattern. The pattern may
+     * contain two special characters:<br>
      * '*' means zero or more characters<br>
      * '?' means one and only one character
      *
-     * @param pattern         The pattern to match against.
-     *                        Must not be <code>null</code>.
-     * @param str             The string which must be matched against the pattern.
-     *                        Must not be <code>null</code>.
-     * @param isCaseSensitive Whether or not matching should be performed
-     *                        case sensitively.
-     * @return <code>true</code> if the string matches against the pattern,
-     *         or <code>false</code> otherwise.
+     * @param pattern The pattern to match against. Must not be
+     * <code>null</code>.
+     * @param str The string which must be matched against the pattern. Must not
+     * be <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed case
+     * sensitively.
+     * @return <code>true</code> if the string matches against the pattern, or
+     * <code>false</code> otherwise.
      */
     public static boolean match(String pattern, String str,
-                                boolean isCaseSensitive)
+            boolean isCaseSensitive)
     {
         char[] patArr = pattern.toCharArray();
         char[] strArr = str.toCharArray();
@@ -565,7 +559,7 @@ public final class SelectorUtils
     /**
      * Breaks a path up into a Vector of path elements, tokenizing on
      *
-     * @param path      Path to tokenize. Must not be <code>null</code>.
+     * @param path Path to tokenize. Must not be <code>null</code>.
      * @param separator the separator against which to tokenize.
      * @return a Vector of path elements from the tokenized path
      */
@@ -627,19 +621,17 @@ public final class SelectorUtils
         return l;
     }
 
-
     /**
      * Returns dependency information on these two files. If src has been
-     * modified later than target, it returns true. If target doesn't exist,
-     * it likewise returns true. Otherwise, target is newer than src and
-     * is not out of date, thus the method returns false. It also returns
-     * false if the src file doesn't even exist, since how could the
-     * target then be out of date.
+     * modified later than target, it returns true. If target doesn't exist, it
+     * likewise returns true. Otherwise, target is newer than src and is not out
+     * of date, thus the method returns false. It also returns false if the src
+     * file doesn't even exist, since how could the target then be out of date.
      *
-     * @param src         the original file
-     * @param target      the file being compared against
+     * @param src the original file
+     * @param target the file being compared against
      * @param granularity the amount in seconds of slack we will give in
-     *                    determining out of dateness
+     * determining out of dateness
      * @return whether the target is out of date
      */
     public static boolean isOutOfDate(File src, File target, int granularity)
@@ -661,20 +653,19 @@ public final class SelectorUtils
 
     /**
      * Returns dependency information on these two resources. If src has been
-     * modified later than target, it returns true. If target doesn't exist,
-     * it likewise returns true. Otherwise, target is newer than src and
-     * is not out of date, thus the method returns false. It also returns
-     * false if the src file doesn't even exist, since how could the
-     * target then be out of date.
+     * modified later than target, it returns true. If target doesn't exist, it
+     * likewise returns true. Otherwise, target is newer than src and is not out
+     * of date, thus the method returns false. It also returns false if the src
+     * file doesn't even exist, since how could the target then be out of date.
      *
-     * @param src         the original resource
-     * @param target      the resource being compared against
+     * @param src the original resource
+     * @param target the resource being compared against
      * @param granularity the amount in seconds of slack we will give in
-     *                    determining out of dateness
+     * determining out of dateness
      * @return whether the target is out of date
      */
     public static boolean isOutOfDate(Resource src, Resource target,
-                                      int granularity)
+            int granularity)
     {
         if (!src.isExists())
         {
@@ -693,8 +684,8 @@ public final class SelectorUtils
 
     /**
      * "Flattens" a string by removing all whitespace (space, tab, linefeed,
-     * carriage return, and formfeed). This uses StringTokenizer and the
-     * default set of tokens as documented in the single arguement constructor.
+     * carriage return, and formfeed). This uses StringTokenizer and the default
+     * set of tokens as documented in the single arguement constructor.
      *
      * @param input a String to remove all whitespace.
      * @return a String that has had all whitespace removed.

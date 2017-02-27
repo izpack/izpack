@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.resource;
 
 import java.io.File;
@@ -38,13 +37,14 @@ import com.izforge.izpack.compiler.helper.XmlCompilerHelper;
  */
 public class ResourceFinder
 {
+
     private AssertionHelper assertionHelper;
     private CompilerData compilerData;
     private PropertyManager propertyManager;
     private XmlCompilerHelper xmlCompilerHelper;
 
     public ResourceFinder(AssertionHelper assertionHelper, CompilerData compilerData, PropertyManager propertyManager,
-                          XmlCompilerHelper xmlCompilerHelper)
+            XmlCompilerHelper xmlCompilerHelper)
     {
         this.assertionHelper = assertionHelper;
         this.compilerData = compilerData;
@@ -53,13 +53,15 @@ public class ResourceFinder
     }
 
     /**
-     * Look for a project specified resources, which, if not absolute, are sought relative to the
-     * projects basedir. The path should use '/' as the fileSeparator. If the resource is not found,
-     * a CompilerException is thrown indicating fault in the parent element.
+     * Look for a project specified resources, which, if not absolute, are
+     * sought relative to the projects basedir. The path should use '/' as the
+     * fileSeparator. If the resource is not found, a CompilerException is
+     * thrown indicating fault in the parent element.
      *
-     * @param path   the relative path (using '/' as separator) to the resource.
-     * @param desc   the description of the resource used to report errors
-     * @param parent the IXMLElement the resource is specified in, used to report errors
+     * @param path the relative path (using '/' as separator) to the resource.
+     * @param desc the description of the resource used to report errors
+     * @param parent the IXMLElement the resource is specified in, used to
+     * report errors
      * @return a URL to the resource.
      */
     public URL findProjectResource(String path, String desc, IXMLElement parent)
@@ -90,15 +92,17 @@ public class ResourceFinder
     }
 
     /**
-     * Look for an IzPack resource either in the compiler jar, or within IZPACK_HOME. The path must
-     * not be absolute. The path must use '/' as the fileSeparator (it's used to access the jar
-     * file). If the resource is not found, take appropriate action base on ignoreWhenNotFound flag.
+     * Look for an IzPack resource either in the compiler jar, or within
+ izpackHome. The path must not be absolute. The path must use '/' as the
+     * fileSeparator (it's used to access the jar file). If the resource is not
+     * found, take appropriate action base on ignoreWhenNotFound flag.
      *
-     * @param path               the relative path (using '/' as separator) to the resource.
-     * @param desc               the description of the resource used to report errors
-     * @param parent             the IXMLElement the resource is specified in, used to report errors
-     * @param ignoreWhenNotFound when false, throws a CompilerException indicating
-     *                           fault in the parent element when resource not found.
+     * @param path the relative path (using '/' as separator) to the resource.
+     * @param desc the description of the resource used to report errors
+     * @param parent the IXMLElement the resource is specified in, used to
+     * report errors
+     * @param ignoreWhenNotFound when false, throws a CompilerException
+     * indicating fault in the parent element when resource not found.
      */
     public URL findIzPackResource(String path, String desc, IXMLElement parent, boolean ignoreWhenNotFound)
             throws CompilerException
@@ -110,7 +114,7 @@ public class ResourceFinder
 
             if (!resource.isAbsolute())
             {
-                resource = new File(CompilerData.IZPACK_HOME, path);
+                resource = new File(CompilerData.izpackHome, path);
             }
 
             if (resource.exists())
@@ -151,8 +155,8 @@ public class ResourceFinder
      * Returns the IXMLElement representing the installation XML file.
      *
      * @return The XML tree.
-     * @throws com.izforge.izpack.api.exception.CompilerException
-     *                             For problems with the installation file
+     * @throws com.izforge.izpack.api.exception.CompilerException For problems
+     * with the installation file
      * @throws java.io.IOException for errors reading the installation file
      */
     public IXMLElement getXMLTree(IXMLParser parser) throws IOException

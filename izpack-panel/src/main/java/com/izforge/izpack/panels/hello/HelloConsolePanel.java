@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.hello;
 
 import java.util.ArrayList;
@@ -59,8 +58,9 @@ public class HelloConsolePanel extends AbstractConsolePanel
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @param console the console
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     @Override
     public boolean run(InstallData installData, Console console)
@@ -75,7 +75,7 @@ public class HelloConsolePanel extends AbstractConsolePanel
      * Displays the panel.
      *
      * @param installData the installation data
-     * @param console     the console
+     * @param console the console
      */
     protected void display(InstallData installData, Console console)
     {

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.space;
 
 import com.izforge.izpack.gui.TwoColumnConstraints;
@@ -26,7 +25,6 @@ import com.izforge.izpack.panels.userinput.field.space.Spacer;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 
 import javax.swing.*;
-
 
 /**
  * Spacer view.

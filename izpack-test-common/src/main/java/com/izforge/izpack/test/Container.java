@@ -12,10 +12,14 @@ import java.lang.annotation.Target;
  * @author Anthonin Bonnefoy
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target(
+        {
+            ElementType.TYPE
+        })
 @Inherited
 public @interface Container
 {
+
     /**
      * @return the container class
      */

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.installer;
 
 import java.util.EnumSet;
@@ -84,34 +83,39 @@ public interface DataValidator
     public static final String DATA_VALIDATOR_CONDITION_ATTR = "condition";
 
     /**
-     * Method to validate complex variable settings read from {@link InstallData} after a panel change.
+     * Method to validate complex variable settings read from
+     * {@link InstallData} after a panel change.
      *
      * @param installData@return {@link Status} the result of the validation
      */
     public Status validateData(final InstallData installData);
 
     /**
-     * Returns the string with either a message if from translations or the message itself in case {@code validateData}
-     * returns {@code Status.ERROR}.
+     * Returns the string with either a message if from translations or the
+     * message itself in case {@code validateData} returns {@code Status.ERROR}.
      *
-     * @return String Should be the message id or the untranslated error message.
+     * @return String Should be the message id or the untranslated error
+     * message.
      */
     public String getErrorMessageId();
 
     /**
-     * Returns the string with either a message if from translations or the message itself in case {@code validateData}
-     * returns {@code Status.WARNING}.
+     * Returns the string with either a message if from translations or the
+     * message itself in case {@code validateData} returns
+     * {@code Status.WARNING}.
      *
-     * @return String Should be the message id or the untranslated warning message.
+     * @return String Should be the message id or the untranslated warning
+     * message.
      */
     public String getWarningMessageId();
 
     /**
      * If the installer is run in automated mode, and {@code validateData}
-     * returns {@code Status.WARNING}, this method is asked how to go on instead of an user answer.
+     * returns {@code Status.WARNING}, this method is asked how to go on instead
+     * of an user answer.
      *
-     * @return boolean true - ignore warning and continue to the next panel, false - don't change to the next panel, fail
+     * @return boolean true - ignore warning and continue to the next panel,
+     * false - don't change to the next panel, fail
      */
-
     public boolean getDefaultAnswer();
 }

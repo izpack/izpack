@@ -18,12 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.divider;
 
 import com.izforge.izpack.panels.userinput.field.Alignment;
 import com.izforge.izpack.panels.userinput.field.FieldConfig;
-
 
 /**
  * Divider configuration.

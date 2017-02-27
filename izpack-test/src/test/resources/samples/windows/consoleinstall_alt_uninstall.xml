@@ -5,7 +5,7 @@
     <info>
         <appname>IzPack Windows Installation Test</appname>
         <!-- TODO - this can be replaced with windows/install.xml when a PacksPanel, ShortcutPanel and SimpleFinishPanel
-                    console implementation is developed -->
+        console implementation is developed -->
         <appversion>1.0</appversion>
         <uninstaller write="true" path="${INSTALL_PATH}" name="uninstallme.jar"/>
     </info>

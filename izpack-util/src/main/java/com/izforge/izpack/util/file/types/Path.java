@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types;
 
 import java.io.File;
@@ -25,18 +24,21 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.file.FileUtils;
 import com.izforge.izpack.util.file.PathTokenizer;
 
-
 /**
- * This object represents a path as used by CLASSPATH or PATH
- * environment variable.
+ * This object represents a path as used by CLASSPATH or PATH environment
+ * variable.
  * <p/>
  * <code>
  * &lt;sometask&gt;<br>
  * &nbsp;&nbsp;&lt;somepath&gt;<br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&lt;pathelement location="/path/to/file.jar" /&gt;<br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&lt;pathelement path="/path/to/file2.jar:/path/to/class2;/path/to/class3" /&gt;<br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&lt;pathelement location="/path/to/file3.jar" /&gt;<br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&lt;pathelement location="/path/to/file4.jar" /&gt;<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;pathelement location="/path/to/file.jar"
+ * /&gt;<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;pathelement
+ * path="/path/to/file2.jar:/path/to/class2;/path/to/class3" /&gt;<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;pathelement location="/path/to/file3.jar"
+ * /&gt;<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;pathelement location="/path/to/file4.jar"
+ * /&gt;<br>
  * &nbsp;&nbsp;&lt;/somepath&gt;<br>
  * &lt;/sometask&gt;<br>
  * </code>
@@ -46,14 +48,14 @@ import com.izforge.izpack.util.file.PathTokenizer;
  * Nested path definitions are handled by the Path object and must be labeled
  * <code>pathelement</code>.<p>
  * <p/>
- * The path element takes a parameter <code>path</code> which will be parsed
- * and split into single elements. It will usually be used
- * to define a path from an environment variable.
+ * The path element takes a parameter <code>path</code> which will be parsed and
+ * split into single elements. It will usually be used to define a path from an
+ * environment variable.
  */
-
 public class Path extends DataType implements Cloneable
 {
-    private static final Logger logger = Logger.getLogger(Path.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(Path.class.getName());
 
     private Vector<Object> elements;
 
@@ -62,11 +64,15 @@ public class Path extends DataType implements Cloneable
      */
     public class PathElement
     {
+
         private String[] parts;
 
         public void setLocation(File loc)
         {
-            parts = new String[]{translateFile(loc.getAbsolutePath())};
+            parts = new String[]
+            {
+                translateFile(loc.getAbsolutePath())
+            };
         }
 
         public void setPath(InstallData idata, String path)
@@ -81,11 +87,11 @@ public class Path extends DataType implements Cloneable
     }
 
     /**
-     * Invoked by IntrospectionHelper for <code>setXXX(Path p)</code>
-     * attribute setters.
+     * Invoked by IntrospectionHelper for <code>setXXX(Path p)</code> attribute
+     * setters.
      *
      * @param idata the install data
-     * @param path  the path definition.
+     * @param path the path definition.
      */
     public Path(InstallData idata, String path) throws Exception
     {
@@ -104,13 +110,12 @@ public class Path extends DataType implements Cloneable
      * Adds a element definition to the path.
      *
      * @param location the location of the element to add (must not be
-     *                 <code>null</code> nor empty.
+     * <code>null</code> nor empty.
      */
     public void setLocation(File location) throws Exception
     {
         createPathElement().setLocation(location);
     }
-
 
     /**
      * Parses a path definition and creates single PathElements.
@@ -202,8 +207,8 @@ public class Path extends DataType implements Cloneable
     }
 
     /**
-     * Adds the components on the given path which exist to this
-     * Path. Components that don't exist, aren't added.
+     * Adds the components on the given path which exist to this Path.
+     * Components that don't exist, aren't added.
      *
      * @param source - source path whose components are examined for existence
      */
@@ -213,9 +218,9 @@ public class Path extends DataType implements Cloneable
     }
 
     /**
-     * Same as addExisting, but support classpath behavior if tryUserDir
-     * is true. Classpaths are relative to user dir, not the project base.
-     * That used to break jspc test
+     * Same as addExisting, but support classpath behavior if tryUserDir is
+     * true. Classpaths are relative to user dir, not the project base. That
+     * used to break jspc test
      *
      * @param source
      * @param tryUserDir
@@ -242,7 +247,7 @@ public class Path extends DataType implements Cloneable
             }
             else
             {
-                logger.warning("Dropping " + f + " from path as it doesn't exist");
+                LOGGER.warning("Dropping " + f + " from path as it doesn't exist");
             }
         }
     }
@@ -310,7 +315,6 @@ public class Path extends DataType implements Cloneable
         return res;
     }
 
-
     /**
      * Returns a textual representation of the path, which can be used as
      * CLASSPATH or PATH environment variable definition.
@@ -368,7 +372,7 @@ public class Path extends DataType implements Cloneable
             }
             catch (Exception e)
             {
-                logger.warning("Dropping path element " + pathElement
+                LOGGER.warning("Dropping path element " + pathElement
                         + " as it is not a valid relative to the project"/*,
                     Project.MSG_VERBOSE*/);
             }
@@ -385,8 +389,8 @@ public class Path extends DataType implements Cloneable
     }
 
     /**
-     * Returns its argument with all file separator characters
-     * replaced so that they match the local OS conventions.
+     * Returns its argument with all file separator characters replaced so that
+     * they match the local OS conventions.
      */
     public static String translateFile(String source)
     {
@@ -405,9 +409,8 @@ public class Path extends DataType implements Cloneable
     }
 
     /**
-     * Translates all occurrences of / or \ to correct separator of the
-     * current platform and returns whether it had to do any
-     * replacements.
+     * Translates all occurrences of / or \ to correct separator of the current
+     * platform and returns whether it had to do any replacements.
      */
     protected static boolean translateFileSep(StringBuffer buffer, int pos)
     {
@@ -448,7 +451,8 @@ public class Path extends DataType implements Cloneable
     /**
      * Resolve a filename with Project's help - if we know one that is.
      * <p/>
-     * <p>Assume the filename is absolute if project is null.</p>
+     * <p>
+     * Assume the filename is absolute if project is null.</p>
      */
     private static String resolveFile(InstallData idata, String relativeName)
             throws Exception
@@ -469,8 +473,8 @@ public class Path extends DataType implements Cloneable
     }
 
     /**
-     * Adds absolute path names of listed files in the given directory
-     * to the Vector if they are not already included.
+     * Adds absolute path names of listed files in the given directory to the
+     * Vector if they are not already included.
      */
     private static void addUnlessPresent(Vector<String> v, File dir, String[] s)
     {

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.adaptator.xinclude;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -23,8 +22,7 @@ import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import java.net.URL;
 
 /**
- * Test the XInclude style functionality.
- * Use the inputStream method.
+ * Test the XInclude style functionality. Use the inputStream method.
  */
 public class XIncludeParseStreamTestCase extends BaseXIncludeTestCase
 {
@@ -39,6 +37,5 @@ public class XIncludeParseStreamTestCase extends BaseXIncludeTestCase
         IXMLElement expectedElement = parser.parse(expectURL.openStream());
         deepEqual(expectedElement, inputElement);
     }
-
 
 }

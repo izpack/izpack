@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge.jar;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -59,6 +58,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestMergeContainer.class)
 public class JarMergeTest
 {
+
     private PathResolver pathResolver;
     private MergeableResolver mergeableResolver;
 
@@ -92,7 +92,7 @@ public class JarMergeTest
     public void testMergeClassFromJarFileWithDestination() throws Exception
     {
         List<Mergeable> jarMergeList = pathResolver.getMergeableFromPath("org/fest/assertions/Assert.class",
-                                                                         "foo/SomeRandomClass.class");
+                "foo/SomeRandomClass.class");
 
         assertThat(jarMergeList.size(), Is.is(1));
 
@@ -104,14 +104,16 @@ public class JarMergeTest
     public void testMergeJarFoundDynamicallyLoaded() throws Exception
     {
         URL urlJar = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
-        URLClassLoader loader = URLClassLoader.newInstance(new URL[]{urlJar}, ClassLoader.getSystemClassLoader());
+        URLClassLoader loader = URLClassLoader.newInstance(new URL[]
+        {
+            urlJar
+        }, ClassLoader.getSystemClassLoader());
 
         Mergeable jarMerge = mergeableResolver.getMergeableFromURLWithDestination(loader.getResource("jar/izforge/"),
-                                                                                  "com/dest");
+                "com/dest");
 
         assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("com/dest/izpack/panels/hello/HelloPanel.class"));
     }
-
 
     @Test
     public void testFindPanelInJar() throws Exception
@@ -122,20 +124,22 @@ public class JarMergeTest
         {
             public boolean accept(File pathname)
             {
-                return pathname.isDirectory() ||
-                        pathname.getName().replaceAll(".class", "").equalsIgnoreCase("CheckedHelloPanel");
+                return pathname.isDirectory()
+                        || pathname.getName().replaceAll(".class", "").equalsIgnoreCase("CheckedHelloPanel");
             }
         });
         assertThat(ResolveUtils.convertPathToPosixPath(file.getAbsolutePath()),
-                   StringContains.containsString("com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class"));
+                StringContains.containsString("com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class"));
     }
-
 
     @Test
     public void testFindFileInJarFoundWithURL() throws Exception
     {
         URL urlJar = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
-        URLClassLoader loader = URLClassLoader.newInstance(new URL[]{urlJar}, ClassLoader.getSystemClassLoader());
+        URLClassLoader loader = URLClassLoader.newInstance(new URL[]
+        {
+            urlJar
+        }, ClassLoader.getSystemClassLoader());
 
         Mergeable jarMerge = mergeableResolver.getMergeableFromURL(loader.getResource("jar/izforge"));
         File file = jarMerge.find(new FileFilter()

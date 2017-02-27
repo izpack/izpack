@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.rule;
 
 import static org.junit.Assert.assertEquals;
@@ -38,9 +37,7 @@ import com.izforge.izpack.panels.userinput.LoggingPrompt;
 import com.izforge.izpack.panels.userinput.field.rule.RuleField;
 import com.izforge.izpack.panels.userinput.field.rule.RuleFormat;
 import com.izforge.izpack.panels.userinput.field.rule.TestRuleFieldConfig;
-import com.izforge.izpack.panels.userinput.processor.Processor;
 import com.izforge.izpack.util.Platforms;
-
 
 /**
  * Tests the {@link GUIRuleField}.
@@ -55,7 +52,6 @@ public class GUIRuleFieldTest
      */
     private GUIInstallData installData;
 
-
     /**
      * Default constructor.
      */
@@ -63,7 +59,7 @@ public class GUIRuleFieldTest
     {
         installData = new GUIInstallData(new DefaultVariables(), Platforms.HP_UX);
         RulesEngine rules = new RulesEngineImpl(new ConditionContainer(new DefaultContainer()),
-                                                installData.getPlatform());
+                installData.getPlatform());
         installData.setRules(rules);
     }
 
@@ -112,7 +108,8 @@ public class GUIRuleFieldTest
     }
 
     /**
-     * Tests the specification of a {@link Processor} as part of the 'set' attribute.
+     * Tests the specification of a {@link Processor} as part of the 'set'
+     * attribute.
      */
     @Test
     public void testDefaultValueProcessorOnePart()
@@ -134,4 +131,3 @@ public class GUIRuleFieldTest
         assertEquals("localhost", installData.getVariable(variable));
     }
 }
-

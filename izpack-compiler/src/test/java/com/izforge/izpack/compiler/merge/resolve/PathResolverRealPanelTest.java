@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.merge.resolve;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,18 +34,17 @@ import com.izforge.izpack.test.junit.PicoRunner;
 /**
  * @author Anthonin Bonnefoy
  */
-
 @RunWith(PicoRunner.class)
 @Container(TestResolveContainer.class)
 public class PathResolverRealPanelTest
 {
+
     private CompilerPathResolver pathResolver;
 
     public PathResolverRealPanelTest(CompilerPathResolver pathResolver)
     {
         this.pathResolver = pathResolver;
     }
-
 
     @Test
     public void testAddProcessPanel() throws Exception
@@ -55,6 +53,6 @@ public class PathResolverRealPanelTest
         assertThat(panelMerge, IsNot.not(
                 MergeMatcher.isMergeableContainingFiles("com/izforge/izpack/panels/process/VariableCondition.class")));
         assertThat(panelMerge,
-                   MergeMatcher.isMergeableContainingFiles("com/izforge/izpack/panels/process/ProcessPanel.class"));
+                MergeMatcher.isMergeableContainingFiles("com/izforge/izpack/panels/process/ProcessPanel.class"));
     }
 }

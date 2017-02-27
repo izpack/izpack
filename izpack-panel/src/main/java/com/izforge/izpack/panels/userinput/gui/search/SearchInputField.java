@@ -1,22 +1,21 @@
 /*
  * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
- *  
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *      
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.search;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -44,12 +43,14 @@ import java.util.logging.Logger;
 /**
  * This class encapsulates a lot of search field functionality.
  * <p/>
- * A search field supports searching directories and files on the target system. This is a
- * helper class to manage all installDataGUI belonging to a search field.
+ * A search field supports searching directories and files on the target system.
+ * This is a helper class to manage all installDataGUI belonging to a search
+ * field.
  */
 public class SearchInputField implements ActionListener
 {
-    private static final Logger logger = Logger.getLogger(SearchInputField.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(SearchInputField.class.getName());
 
     private final SearchField field;
 
@@ -72,19 +73,18 @@ public class SearchInputField implements ActionListener
     private final InstallData installData;
 
     /*---------------------------------------------------------------------------*/
-
     /**
-     * Constructor - initializes the object, adds it as action listener to the "autodetect"
-     * button.
+     * Constructor - initializes the object, adds it as action listener to the
+     * "autodetect" button.
      *
-     * @param field        the search field
-     * @param combobox     the <code>JComboBox</code> holding the list of choices; it should be
-     *                     editable and contain only Strings
-     * @param autobutton   the autodetection button for triggering autodetection
+     * @param field the search field
+     * @param combobox the <code>JComboBox</code> holding the list of choices;
+     * it should be editable and contain only Strings
+     * @param autobutton the autodetection button for triggering autodetection
      * @param browsebutton the browse button to look for the file
      */
     public SearchInputField(final SearchField field, final InstallerFrame parent, JComboBox combobox, JButton autobutton,
-                            JButton browsebutton, InstallData installData)
+            JButton browsebutton, InstallData installData)
     {
         this.field = field;
         this.filename = field.getFilename();
@@ -140,7 +140,8 @@ public class SearchInputField implements ActionListener
                     }
                 }
                 catch (BadLocationException e)
-                {/* ignore, it not happens */}
+                {/* ignore, it not happens */
+                }
             }
         });
     }
@@ -153,10 +154,11 @@ public class SearchInputField implements ActionListener
         // Try all of <choice> options - see if any are valid
         for (int x = 0; x < pathComboBox.getItemCount(); x++)
         {
-        	if( field.pathMatches( (String)pathComboBox.getItemAt(x) ) ) {
-        		pathComboBox.setSelectedIndex(x);
-        		break;
-        	}
+            if (field.pathMatches((String) pathComboBox.getItemAt(x)))
+            {
+                pathComboBox.setSelectedIndex(x);
+                break;
+            }
         }
 
         /*
@@ -227,7 +229,6 @@ public class SearchInputField implements ActionListener
 
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * This is called if one of the buttons has been pressed.
      * <p/>
@@ -255,17 +256,20 @@ public class SearchInputField implements ActionListener
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             }
 
-            String startingPath = (String)pathComboBox.getSelectedItem();
-            if( startingPath == null && pathComboBox.getItemCount() != 0 ) {
-            	startingPath = (String)pathComboBox.getItemAt(0);
+            String startingPath = (String) pathComboBox.getSelectedItem();
+            if (startingPath == null && pathComboBox.getItemCount() != 0)
+            {
+                startingPath = (String) pathComboBox.getItemAt(0);
             }
-            if( startingPath != null ) {
-            	File dir = new File(startingPath);
-            	if( dir.exists() ) {
-            		chooser.setCurrentDirectory(dir);
-            	}
+            if (startingPath != null)
+            {
+                File dir = new File(startingPath);
+                if (dir.exists())
+                {
+                    chooser.setCurrentDirectory(dir);
+                }
             }
-            
+
             int result = chooser.showOpenDialog(parent);
 
             if (result == JFileChooser.APPROVE_OPTION)
@@ -288,12 +292,11 @@ public class SearchInputField implements ActionListener
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Return the result of the search according to result type.
      * <p/>
-     * Sometimes, the whole path of the file is wanted, sometimes only the directory where the
-     * file is in, sometimes the parent directory.
+     * Sometimes, the whole path of the file is wanted, sometimes only the
+     * directory where the file is in, sometimes the parent directory.
      *
      * @return null on error
      */

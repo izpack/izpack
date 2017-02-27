@@ -6,7 +6,6 @@ import org.picocontainer.Characteristics;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.injectors.ProviderAdapter;
 
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.gui.log.Log;
@@ -86,7 +85,7 @@ public class GUIInstallerContainer extends InstallerContainer
     protected void resolveComponents(final MutablePicoContainer pico)
     {
         super.resolveComponents(pico);
-        
+
         try
         {
             SwingUtilities.invokeAndWait(new Runnable()

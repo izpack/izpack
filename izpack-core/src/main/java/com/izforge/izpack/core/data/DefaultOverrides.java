@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.data;
 
 import com.izforge.izpack.api.config.Config;
@@ -30,6 +29,7 @@ import java.util.List;
 
 public class DefaultOverrides extends Options implements Overrides
 {
+
     public DefaultOverrides(File file) throws IOException
     {
         Config config = Config.getGlobal().clone();
@@ -94,7 +94,8 @@ public class DefaultOverrides extends Options implements Overrides
                                 {
                                     isMappingMode = true;
                                     continue;
-                                } else if (entry.equals("END MAP"))
+                                }
+                                else if (entry.equals("END MAP"))
                                 {
                                     isMappingMode = false;
                                     continue;

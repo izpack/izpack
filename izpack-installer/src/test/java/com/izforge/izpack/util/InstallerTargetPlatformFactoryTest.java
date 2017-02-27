@@ -30,9 +30,9 @@ import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.test.util.TestLibrarian;
 import com.izforge.izpack.util.os.Shortcut;
-import com.izforge.izpack.util.os.Unix_Shortcut;
-import com.izforge.izpack.util.os.Win_RegistryHandler;
-import com.izforge.izpack.util.os.Win_Shortcut;
+import com.izforge.izpack.util.os.UnixShortcut;
+import com.izforge.izpack.util.os.WinRegistryHandler;
+import com.izforge.izpack.util.os.WinShortcut;
 import org.junit.Before;
 import org.junit.Test;
 import org.picocontainer.MutablePicoContainer;
@@ -42,19 +42,19 @@ import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 
-
 /**
- * Verifies that the {@link TargetPlatformFactory} creates the correct {@link Shortcut} and {@link RegistryHandler}.
+ * Verifies that the {@link TargetPlatformFactory} creates the correct
+ * {@link Shortcut} and {@link RegistryHandler}.
  *
  * @author Tim Anderson
  */
 public class InstallerTargetPlatformFactoryTest
 {
+
     /**
      * The factory.
      */
     private TargetPlatformFactory factory;
-
 
     /**
      * Sets up the test case.
@@ -95,8 +95,8 @@ public class InstallerTargetPlatformFactoryTest
      * <p/>
      * Currently:
      * <ul>
-     * <li>{@link Unix_Shortcut} is created for all Unix platforms.</li>
-     * <li>{@link Win_Shortcut} is created for all Windows platforms</li>
+     * <li>{@link UnixShortcut} is created for all Unix platforms.</li>
+     * <li>{@link WinShortcut} is created for all Windows platforms</li>
      * <li>{@link Shortcut} is created for all other platforms</li>
      * </ul>
      *
@@ -109,21 +109,22 @@ public class InstallerTargetPlatformFactoryTest
         {
             if (platform.isA(Platform.Name.UNIX))
             {
-                checkCreate(Shortcut.class, platform, Unix_Shortcut.class);
+                checkCreate(Shortcut.class, platform, UnixShortcut.class);
             }
             else if (platform.isA(Platform.Name.WINDOWS))
             {
-                checkCreate(Shortcut.class, platform, Win_Shortcut.class);
+                checkCreate(Shortcut.class, platform, WinShortcut.class);
             }
         }
     }
 
     /**
-     * Verifies that the correct {@link RegistryHandler} is created for a platform.
+     * Verifies that the correct {@link RegistryHandler} is created for a
+     * platform.
      * <p/>
      * Currently:
      * <ul>
-     * <li>{@link Win_RegistryHandler} is created for all Windows platforms</li>
+     * <li>{@link WinRegistryHandler} is created for all Windows platforms</li>
      * <li>{@link RegistryHandler} is created for all other platforms</li>
      * </ul>
      *
@@ -136,7 +137,7 @@ public class InstallerTargetPlatformFactoryTest
         {
             if (platform.isA(Platform.Name.WINDOWS))
             {
-                checkCreate(RegistryHandler.class, platform, Win_RegistryHandler.class);
+                checkCreate(RegistryHandler.class, platform, WinRegistryHandler.class);
             }
             else
             {
@@ -148,9 +149,9 @@ public class InstallerTargetPlatformFactoryTest
     /**
      * Verifies that the correct object is created for a given platform.
      *
-     * @param clazz    the interface
+     * @param clazz the interface
      * @param platform the platform
-     * @param impl     the expected implementation class
+     * @param impl the expected implementation class
      * @throws Exception for any error
      */
     private <T> void checkCreate(Class<T> clazz, Platform platform, Class<? extends T> impl) throws Exception
@@ -160,4 +161,3 @@ public class InstallerTargetPlatformFactoryTest
     }
 
 }
-

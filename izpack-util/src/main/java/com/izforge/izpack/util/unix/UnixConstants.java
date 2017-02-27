@@ -18,20 +18,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.unix;
-
 
 /**
  * @author marc.eppelmann
  */
 public class UnixConstants
 {
+
     /**
      * etcPasswd = "/etc/passwd"
      */
     public static String etcPasswd = "/etc/passwd";
-
 
     /**
      *

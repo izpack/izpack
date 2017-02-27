@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.file;
 
 import java.io.File;
@@ -27,7 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
@@ -53,13 +51,12 @@ public class DirField extends AbstractFileField
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(DirField.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(DirField.class.getName());
 
     /**
      * Constructs a {@code DirField}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */
@@ -73,7 +70,8 @@ public class DirField extends AbstractFileField
     /**
      * Determines if directories must exist.
      *
-     * @return {@code true} if the directories must exist; otherwise {@code false}
+     * @return {@code true} if the directories must exist; otherwise
+     * {@code false}
      */
     public boolean getMustExist()
     {
@@ -118,7 +116,7 @@ public class DirField extends AbstractFileField
                 }
                 catch (IOException exception)
                 {
-                    logger.log(Level.WARNING, exception.getMessage(), exception);
+                    LOGGER.log(Level.WARNING, exception.getMessage(), exception);
                 }
             }
             else

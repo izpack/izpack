@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.BufferedReader;
@@ -72,8 +71,8 @@ public class ContainsRegexpSelector extends BaseExtendSelector
     }
 
     /**
-     * When using this as a custom selector, this method will be called.
-     * It translates each parameter into the appropriate setXXX() call.
+     * When using this as a custom selector, this method will be called. It
+     * translates each parameter into the appropriate setXXX() call.
      *
      * @param parameters the complete set of parameters for this selector
      */
@@ -111,9 +110,9 @@ public class ContainsRegexpSelector extends BaseExtendSelector
     /**
      * Tests a regular expression against each line of text in the file.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename is the name of the file to check
-     * @param file     is a java.io.File object the selector can use
+     * @param file is a java.io.File object the selector can use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file)
@@ -123,7 +122,6 @@ public class ContainsRegexpSelector extends BaseExtendSelector
         BufferedReader in = null;
 
         // throw BuildException on error
-
         validate();
 
         if (file.isDirectory())
@@ -178,4 +176,3 @@ public class ContainsRegexpSelector extends BaseExtendSelector
         }
     }
 }
-

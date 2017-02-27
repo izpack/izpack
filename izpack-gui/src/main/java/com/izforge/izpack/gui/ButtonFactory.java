@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2002 Jan Blok
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.gui;
 
 import javax.swing.*;
@@ -40,12 +39,13 @@ public class ButtonFactory
     /**
      * Used to reserve unique button mnemonics for all buttons in a panel.
      */
-    private static HashMap<String,String> panelButtonMnemonics = new HashMap<String, String>();
+    private static HashMap<String, String> panelButtonMnemonics = new HashMap<String, String>();
 
     /**
-     * Used to reserve unique button mnemonics for buttons external to a given panel. Ie. navigation buttons.
+     * Used to reserve unique button mnemonics for buttons external to a given
+     * panel. Ie. navigation buttons.
      */
-    private static HashMap<String,String> reservedButtonMnemonics = new HashMap<String, String>();
+    private static HashMap<String, String> reservedButtonMnemonics = new HashMap<String, String>();
 
     /**
      * Enable icons for buttons This setting has no effect on OSX
@@ -178,7 +178,8 @@ public class ButtonFactory
     }
 
     /**
-     * Registers the action lister used for VK_SPACE to be the same as that for VK_ENTER if:
+     * Registers the action lister used for VK_SPACE to be the same as that for
+     * VK_ENTER if:
      * <ul>
      * <li>there is a VK_SPACE action listener; and</li>
      * <li>there is no action listener for VK_ENTER</li>
@@ -197,16 +198,16 @@ public class ButtonFactory
         if (spacePress != null && spaceRelease != null && enterPress == null && enterRelease == null)
         {
             button.registerKeyboardAction(spacePress, null, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
-                                          JComponent.WHEN_FOCUSED);
+                    JComponent.WHEN_FOCUSED);
             button.registerKeyboardAction(spaceRelease, null, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true),
-                                          JComponent.WHEN_FOCUSED);
+                    JComponent.WHEN_FOCUSED);
         }
         return button;
     }
 
     /**
-     * Sets a mnemonic on the specified button that is derived from
-     * the given button caption text.
+     * Sets a mnemonic on the specified button that is derived from the given
+     * button caption text.
      *
      * @param button the JButton.
      * @param map the HashMap to add the mnemonic to.
@@ -239,9 +240,8 @@ public class ButtonFactory
         String key = null;
 
         /**
-         * Iterate through the characters in this button's
-         * text until we either find a suitable mnemonic,
-         * or else run out of characters.
+         * Iterate through the characters in this button's text until we either
+         * find a suitable mnemonic, or else run out of characters.
          */
         while (caption != null && caption.length() > 0)
         {
@@ -253,7 +253,8 @@ public class ButtonFactory
             {
                 caption = caption.substring(1);
                 continue;
-            } else
+            }
+            else
             {
                 // If key doesn't exist, this mnemonic
                 // is available, so set it and finish.
@@ -266,11 +267,13 @@ public class ButtonFactory
     /**
      * Adds the given mnemonics to the reservedButtonMnemonics map, thereby
      * reserving the use of these mnemonics to only the navigator buttons.
+     *
      * @param buttons an array of buttons used by the navigator.
      */
     public static void reserveButtonMnemonics(JButton[] buttons)
     {
-        for (JButton button : buttons) {
+        for (JButton button : buttons)
+        {
             setButtonMnemonic(button, reservedButtonMnemonics);
         }
     }

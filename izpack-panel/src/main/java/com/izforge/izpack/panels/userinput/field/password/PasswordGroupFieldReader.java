@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.password;
 
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import java.util.List;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.panels.userinput.field.Config;
 import com.izforge.izpack.panels.userinput.field.FieldReader;
-
 
 /**
  * Password group field reader.
@@ -68,7 +66,8 @@ public class PasswordGroupFieldReader extends FieldReader implements PasswordGro
     }
 
     @Override
-    public boolean getOmitFromAuto() {
+    public boolean getOmitFromAuto()
+    {
         return getConfig().getBoolean(getSpec(), OMIT_FROM_AUTO, true);
     }
 }

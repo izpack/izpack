@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.search;
 
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ import com.izforge.izpack.panels.userinput.field.Config;
 import com.izforge.izpack.panels.userinput.field.FieldReader;
 import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
 
 /**
  * Search field reader.
@@ -56,7 +54,7 @@ public class SearchFieldReader extends FieldReader implements SearchFieldConfig
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(SearchFieldReader.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SearchFieldReader.class.getName());
 
     /**
      * Search type attribute name.
@@ -71,7 +69,7 @@ public class SearchFieldReader extends FieldReader implements SearchFieldConfig
     /**
      * Constructs a {@code SearchFieldReader}.
      *
-     * @param field  the field element
+     * @param field the field element
      * @param config the configuration
      */
     public SearchFieldReader(IXMLElement field, Config config, PlatformModelMatcher matcher)
@@ -117,7 +115,7 @@ public class SearchFieldReader extends FieldReader implements SearchFieldConfig
         }
         catch (IllegalArgumentException exception)
         {
-            logger.log(Level.INFO, "Invalid value for '" + SEARCH_TYPE + "': " + value + " in "
+            LOGGER.log(Level.INFO, "Invalid value for '" + SEARCH_TYPE + "': " + value + " in "
                     + config.getContext(spec));
         }
         return result;
@@ -142,7 +140,7 @@ public class SearchFieldReader extends FieldReader implements SearchFieldConfig
         catch (IllegalArgumentException exception)
         {
             throw new IzPackException("Invalid value for '" + RESULT_TYPE + "': " + value + " in "
-                                              + config.getContext(spec));
+                    + config.getContext(spec));
         }
         return result;
     }
@@ -166,7 +164,7 @@ public class SearchFieldReader extends FieldReader implements SearchFieldConfig
             if (matcher.matchesCurrentPlatform(models))
             {
                 String value = config.getString(element, "value", null);
-                if( value.equals(set) )
+                if (value.equals(set))
                 {
                     selected = result.size();
                 }

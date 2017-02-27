@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.config;
 
 import java.io.File;
@@ -27,6 +26,7 @@ import java.util.List;
 
 public abstract class ConfigFileTask extends SingleConfigurableTask
 {
+
     protected File oldFile;
 
     protected File newFile;
@@ -35,15 +35,14 @@ public abstract class ConfigFileTask extends SingleConfigurableTask
 
     protected boolean cleanup;
 
-
     /**
      * Use this to prepend a comment to the configuration file's header
      */
     private List<String> comment;
 
     /**
-     * Location of the configuration file to be patched to; optional. If not set, any empty
-     * reference file is assumed, instead.
+     * Location of the configuration file to be patched to; optional. If not
+     * set, any empty reference file is assumed, instead.
      */
     public void setNewFile(File file)
     {
@@ -51,8 +50,8 @@ public abstract class ConfigFileTask extends SingleConfigurableTask
     }
 
     /**
-     * Location of the configuration file to be patched from; optional. If not set, attributes
-     * defining preservations of entries and values are ignored.
+     * Location of the configuration file to be patched from; optional. If not
+     * set, attributes defining preservations of entries and values are ignored.
      */
     public void setOldFile(File file)
     {
@@ -67,10 +66,11 @@ public abstract class ConfigFileTask extends SingleConfigurableTask
         this.toFile = file;
     }
 
-
     /**
      * Whether to delete the patchfile after the operation
-     * @param cleanup True, if the patchfile should be deleted after the operation
+     *
+     * @param cleanup True, if the patchfile should be deleted after the
+     * operation
      */
     public void setCleanup(boolean cleanup)
     {
@@ -93,7 +93,10 @@ public abstract class ConfigFileTask extends SingleConfigurableTask
     @Override
     protected void checkAttributes() throws Exception
     {
-        if (this.toFile == null) { throw new Exception("The \"file\" attribute must be set"); }
+        if (this.toFile == null)
+        {
+            throw new Exception("The \"file\" attribute must be set");
+        }
     }
 
 }

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.gui;
 
 import java.awt.Component;
@@ -32,17 +31,20 @@ import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.installer.panel.AbstractPanelView;
 
 /**
- * Implementation of {@link com.izforge.izpack.installer.panel.AbstractPanelView} for {@link IzPanel}s.
+ * Implementation of
+ * {@link com.izforge.izpack.installer.panel.AbstractPanelView} for
+ * {@link IzPanel}s.
  *
  * @author Tim Anderson
  */
 public class IzPanelView extends AbstractPanelView<IzPanel>
 {
+
     /**
      * Constructs a {@code IzPanelView}.
      *
-     * @param panel       the panel
-     * @param factory     the factory for creating the view
+     * @param panel the panel
+     * @param factory the factory for creating the view
      * @param installData the installation data
      */
     public IzPanelView(Panel panel, ObjectFactory factory, InstallData installData)
@@ -84,8 +86,8 @@ public class IzPanelView extends AbstractPanelView<IzPanel>
     /**
      * Initialises the view.
      *
-     * @param view        the view to initialise
-     * @param panel       the panel the view represents
+     * @param view the view to initialise
+     * @param panel the panel the view represents
      * @param installData the installation data
      */
     @Override
@@ -100,8 +102,8 @@ public class IzPanelView extends AbstractPanelView<IzPanel>
      * <br/>
      * This implementation sets a busy cursor while evaluating conditions.
      *
-     * @return {@code true} if the validator evaluated successfully, or with a warning that the user chose to skip;
-     *         otherwise {@code false}
+     * @return {@code true} if the validator evaluated successfully, or with a
+     * warning that the user chose to skip; otherwise {@code false}
      */
     @Override
     protected boolean validateData()

@@ -1,7 +1,6 @@
 package com.izforge.izpack.test;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.container.AbstractContainer;
@@ -14,7 +13,6 @@ import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
 
 import java.util.Properties;
 
@@ -41,7 +39,7 @@ public class TestConditionContainer extends AbstractContainer
      *
      * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
+     * @throws PicoException for any PicoContainer error
      */
     @Override
     protected void fillContainer(MutablePicoContainer container)

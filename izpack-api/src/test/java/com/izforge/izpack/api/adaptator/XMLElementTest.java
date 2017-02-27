@@ -18,8 +18,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
-
+ */
 package com.izforge.izpack.api.adaptator;
 
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
@@ -40,7 +39,8 @@ import java.util.List;
  */
 public class XMLElementTest
 {
-    private static final String filename = "partial.xml";
+
+    private static final String FILENAME = "partial.xml";
 
     private IXMLElement root;
 
@@ -49,7 +49,7 @@ public class XMLElementTest
     {
         /* méthode DOM */
         IXMLParser parser = new XMLParser();
-        root = parser.parse(XMLElementTest.class.getResourceAsStream(filename));
+        root = parser.parse(XMLElementTest.class.getResourceAsStream(FILENAME));
     }
 
     @Test

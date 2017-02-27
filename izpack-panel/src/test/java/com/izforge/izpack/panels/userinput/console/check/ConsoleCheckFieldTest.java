@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.check;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
@@ -41,7 +40,6 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 
 /**
  * Tests the {@link ConsoleCheckField}.
@@ -73,7 +71,7 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
     {
         installData = new ConsoleInstallData(new DefaultVariables(), Platforms.HP_UX);
         RulesEngine rules = new RulesEngineImpl(new ConditionContainer(new DefaultContainer()),
-                                                installData.getPlatform());
+                installData.getPlatform());
 
         ConsolePrefs prefs = new ConsolePrefs();
         prefs.enableConsoleReader = false;
@@ -114,7 +112,6 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
         CheckField model = new CheckField(new TestCheckFieldConfig(variable, "selected", "unselected"), installData);
         ConsoleCheckField field = new ConsoleCheckField(model, console, prompt);
 
-
         console.addScript("Select", "1\n");
         assertTrue(field.display());
 
@@ -139,7 +136,7 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
         assertEquals("unselected", installData.getVariable(variable));
     }
 
-        /**
+    /**
      * Tests setting the state from selected to deselected.
      */
     @Test

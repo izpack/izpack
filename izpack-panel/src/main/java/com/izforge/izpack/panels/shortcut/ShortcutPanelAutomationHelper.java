@@ -36,45 +36,47 @@ import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.TargetFactory;
 
 /**
- * The ShortcutPanelAutomationHelper is responsible to create Shortcuts during the automated
- * installation.
+ * The ShortcutPanelAutomationHelper is responsible to create Shortcuts during
+ * the automated installation.
  *
  * @author Marc Eppelmann (marc.eppelmann&#064;gmx.de)
  * @version $Revision: 1540 $
  */
 public class ShortcutPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation
 {
+
     private ShortcutPanelLogic shortcutPanelLogic;
 
     /**
      * Constructs a <tt>ShortcutPanel</tt>.
      *
-     * @param installData   the installation data
-     * @param resources     the resources
+     * @param installData the installation data
+     * @param resources the resources
      * @param uninstallData the uninstallation data
-     * @param housekeeper   the house keeper
-     * @param factory       the factory for platform-specific implementations
-     * @param matcher       the platform-model matcher
+     * @param housekeeper the house keeper
+     * @param factory the factory for platform-specific implementations
+     * @param matcher the platform-model matcher
      * @throws Exception for any error
      */
     public ShortcutPanelAutomationHelper(AutomatedInstallData installData, Resources resources,
-                                         UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory,
-                                         InstallerListeners listeners, PlatformModelMatcher matcher) throws Exception
+            UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory,
+            InstallerListeners listeners, PlatformModelMatcher matcher) throws Exception
     {
         shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData,
-                                                    housekeeper, factory, listeners, matcher);
+                housekeeper, factory, listeners, matcher);
     }
+
     public ShortcutPanelAutomationHelper(ShortcutPanelLogic shortcutPanelLogic) throws Exception
     {
         this.shortcutPanelLogic = shortcutPanelLogic;
     }
 
     /**
-     * Create the xml configuration content for automatic installation. Normally this method is not
-     * used because we are in an automatic installation step.
+     * Create the xml configuration content for automatic installation. Normally
+     * this method is not used because we are in an automatic installation step.
      *
      * @param installData Installation data
-     * @param panelRoot   panel specific data for autoinstall.xml
+     * @param panelRoot panel specific data for autoinstall.xml
      */
     @Override
     public void createInstallationRecord(InstallData installData, IXMLElement panelRoot)
@@ -104,5 +106,7 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
     }
 
     @Override
-    public void processOptions(InstallData installData, Overrides overrides) {}
+    public void processOptions(InstallData installData, Overrides overrides)
+    {
+    }
 }

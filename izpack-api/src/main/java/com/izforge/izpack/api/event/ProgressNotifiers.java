@@ -18,12 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.event;
 
-
 /**
- * Container for {@link InstallerListener listeners} that may notify a {@link ProgressListener}.
+ * Container for {@link InstallerListener listeners} that may notify a
+ * {@link ProgressListener}.
  *
  * @author Tim Anderson
  */

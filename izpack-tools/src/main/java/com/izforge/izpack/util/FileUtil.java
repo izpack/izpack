@@ -54,7 +54,8 @@ public class FileUtil
         }
     }
 
-    public static File getLockFile(String applicationName){
+    public static File getLockFile(String applicationName)
+    {
         String tempDir = System.getProperty("java.io.tmpdir");
         String fileName = "iz-" + applicationName + ".tmp";
         return new File(tempDir, fileName);

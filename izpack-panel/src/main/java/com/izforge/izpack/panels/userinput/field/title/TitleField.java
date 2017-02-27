@@ -18,15 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.title;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.panels.userinput.field.Alignment;
 import com.izforge.izpack.panels.userinput.field.Field;
-
 
 /**
  * Title field.
@@ -61,11 +58,10 @@ public class TitleField extends Field
      */
     private final Alignment alignment;
 
-
     /**
      * Constructs a {@code TitleField}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */
@@ -92,8 +88,9 @@ public class TitleField extends Field
     /**
      * Returns the icon name.
      * <p/>
-     * This tries to locate a localised name for the icon from the supplied {@code messages}, using the
-     * {@link #getIconId() icon identifier} as the key.
+     * This tries to locate a localised name for the icon from the supplied
+     * {@code messages}, using the {@link #getIconId() icon identifier} as the
+     * key.
      *
      * @param messages the messages
      * @return the icon name. May be {@code null}

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.panelaction;
 
 import static org.junit.Assert.assertEquals;
@@ -47,7 +46,6 @@ import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.PanelActionConfiguration;
 import com.izforge.izpack.api.data.binding.ActionStage;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
-import com.izforge.izpack.data.PanelAction;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
@@ -60,7 +58,6 @@ import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestHousekeeper;
 
-
 /**
  * Tests that {@link PanelAction}s are invoked during installation.
  *
@@ -70,6 +67,7 @@ import com.izforge.izpack.test.util.TestHousekeeper;
 @Container(TestGUIInstallationContainer.class)
 public class PanelActionTest
 {
+
     /**
      * Temporary folder to perform installations to.
      */
@@ -110,13 +108,13 @@ public class PanelActionTest
      * Constructs an <tt>PanelActionValidatorTest</tt>.
      *
      * @param installData the install data
-     * @param frame       the installer frame
-     * @param controller  the installer controller
+     * @param frame the installer frame
+     * @param controller the installer controller
      * @param housekeeper the house-keeper
-     * @param panels      the panels
+     * @param panels the panels
      */
     public PanelActionTest(InstallData installData, InstallerFrame frame, InstallerController controller,
-                           TestHousekeeper housekeeper, IzPanels panels)
+            TestHousekeeper housekeeper, IzPanels panels)
     {
         this.installData = installData;
         this.frame = frame;
@@ -164,11 +162,11 @@ public class PanelActionTest
         Panel finish = panels.getPanels().get(2);
 
         checkActions(hello1, PreConstructPanelAction.class, PreActivatePanelAction.class,
-                     PreValidatePanelAction.class, PostValidatePanelAction.class);
+                PreValidatePanelAction.class, PostValidatePanelAction.class);
         checkActions(hello2, TestPanelAction.class, TestPanelAction.class, TestPanelAction.class,
-                     TestPanelAction.class);
+                TestPanelAction.class);
         checkActions(finish, PreConstructPanelAction.class, PreActivatePanelAction.class,
-                     PreValidatePanelAction.class, PostValidatePanelAction.class);
+                PreValidatePanelAction.class, PostValidatePanelAction.class);
 
         checkActionInvocations("HelloPanel1", 0, 0, 0, 0, 0);
 
@@ -230,17 +228,18 @@ public class PanelActionTest
     }
 
     /**
-     * Verifies that actions have been invoked the expected no. of times for a given panel.
+     * Verifies that actions have been invoked the expected no. of times for a
+     * given panel.
      *
-     * @param panelId      the panel identifier
+     * @param panelId the panel identifier
      * @param preConstruct the expected pre-construction action invocations
-     * @param preActivate  the expected pre-activate action invocations
-     * @param preValidate  the expected pre-validate action invocations
-     * @param validate     the expected validate action invocations
+     * @param preActivate the expected pre-activate action invocations
+     * @param preValidate the expected pre-validate action invocations
+     * @param validate the expected validate action invocations
      * @param postValidate the expected post-validate action invocations
      */
     private void checkActionInvocations(String panelId, int preConstruct, int preActivate, int preValidate,
-                                        int validate, int postValidate)
+            int validate, int postValidate)
     {
         try
         {
@@ -264,7 +263,7 @@ public class PanelActionTest
      * @param panel the panel to check
      */
     private void checkActions(Panel panel, Class preConstruction, Class preActivation, Class preValidation,
-                              Class postValidation)
+            Class postValidation)
     {
         checkAction(panel.getPreConstructionActions(), preConstruction);
         checkAction(panel.getPreActivationActions(), preActivation);
@@ -276,7 +275,7 @@ public class PanelActionTest
      * Verifies there is a single action of the specified type.
      *
      * @param actions the actions
-     * @param type    the expected type
+     * @param type the expected type
      */
     private void checkAction(List<PanelActionConfiguration> actions, Class type)
     {
@@ -286,7 +285,8 @@ public class PanelActionTest
     }
 
     /**
-     * Verifies that the correct action params are registered for each action stage.
+     * Verifies that the correct action params are registered for each action
+     * stage.
      *
      * @param panel the panel to check
      */
@@ -299,13 +299,15 @@ public class PanelActionTest
     }
 
     /**
-     * Verifies that the specified params are registered for the action on the panel. Can also
-     * verify that no params are registered, by specifying an empty array for {@code properties}.
+     * Verifies that the specified params are registered for the action on the
+     * panel. Can also verify that no params are registered, by specifying an
+     * empty array for {@code properties}.
      *
-     * @param panelId    the panel to check
-     * @param stage      the action stage to check
-     * @param properties a list of key/value pairs to verify; if not left empty, must contain
-     *                   an even number of strings (i.e. {@code key, value, key, value ...})
+     * @param panelId the panel to check
+     * @param stage the action stage to check
+     * @param properties a list of key/value pairs to verify; if not left empty,
+     * must contain an even number of strings (i.e.
+     * {@code key, value, key, value ...})
      */
     private void checkActionConfiguration(String panelId, ActionStage stage, String... properties)
     {
@@ -343,4 +345,3 @@ public class PanelActionTest
         dialog.button(JButtonMatcher.withText("OK")).click();
     }
 }
-

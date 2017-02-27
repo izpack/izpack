@@ -18,8 +18,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
-
+ */
 package com.izforge.izpack.api.adaptator;
 
 import static org.junit.Assert.assertEquals;
@@ -48,20 +47,19 @@ import com.izforge.izpack.api.adaptator.impl.XMLParser;
 public class XMLParserTest
 {
 
-    private static final String filename = "shortcutSpec.xml";
-    private static final String shortFilename = "short.xml";
-    private static final String lnFilename = "linenumber/linenumber.xml";
-    private static final String xlnFilename = "linenumber/xinclude-linenumber.xml";
-    private static final String parseErrorFilename = "notvalid.xml";
-    private static final String parseErrorXincludeFilename = "xinclude-notvalid.xml";
-
+    private static final String FILENAME = "shortcutSpec.xml";
+    private static final String SHORT_FILENAME = "short.xml";
+    private static final String LN_FILENAME = "linenumber/linenumber.xml";
+    private static final String XLN_FILENAME = "linenumber/xinclude-linenumber.xml";
+    private static final String PARSE_ERROR_FILENAME = "notvalid.xml";
+    private static final String PARSE_ERROR_XINCLUDE_FILENAME = "xinclude-notvalid.xml";
 
     @Test
     public void testParseFile() throws Exception
     {
         InputStream input;
         IXMLElement spec;
-        input = XMLParserTest.class.getResourceAsStream(shortFilename);
+        input = XMLParserTest.class.getResourceAsStream(SHORT_FILENAME);
 
         IXMLParser parser = new XMLParser();
         spec = parser.parse(input);
@@ -73,7 +71,7 @@ public class XMLParserTest
     {
         IXMLElement spec;
         String substitutedSpec = FileUtils.readFileToString(
-                new File(XMLParserTest.class.getResource(filename).toURI()));
+                new File(XMLParserTest.class.getResource(FILENAME).toURI()));
         IXMLParser parser = new XMLParser(false);
         spec = parser.parse(substitutedSpec);
         Assert.assertEquals("izpack:shortcuts", spec.getName());
@@ -91,7 +89,7 @@ public class XMLParserTest
     @Test
     public void testLineNumber() throws SAXException, ParserConfigurationException, IOException, TransformerException
     {
-        InputStream input = XMLParserTest.class.getResourceAsStream(lnFilename);
+        InputStream input = XMLParserTest.class.getResourceAsStream(LN_FILENAME);
         IXMLElement elt;
 
         IXMLParser parser = new XMLParser(false);
@@ -104,7 +102,7 @@ public class XMLParserTest
     public void testXincludeLineNumber()
             throws SAXException, ParserConfigurationException, IOException, TransformerException
     {
-        URL url = XMLParserTest.class.getResource(xlnFilename);
+        URL url = XMLParserTest.class.getResource(XLN_FILENAME);
 
         IXMLParser parser = new XMLParser(false);
         IXMLElement elt = parser.parse(url);
@@ -115,17 +113,17 @@ public class XMLParserTest
     @Test(expected = XMLException.class)
     public void testXMLExceptionThrown()
     {
-        InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorFilename);
+        InputStream input = XMLParserTest.class.getResourceAsStream(PARSE_ERROR_FILENAME);
         IXMLParser parser = new XMLParser();
-        parser.parse(input, parseErrorFilename);
+        parser.parse(input, PARSE_ERROR_FILENAME);
     }
 
     @Test(expected = XMLException.class)
     public void testXMLExceptionThrownXInclude()
     {
-        InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorXincludeFilename);
+        InputStream input = XMLParserTest.class.getResourceAsStream(PARSE_ERROR_XINCLUDE_FILENAME);
         IXMLParser parser = new XMLParser();
-        parser.parse(input, parseErrorXincludeFilename);
+        parser.parse(input, PARSE_ERROR_XINCLUDE_FILENAME);
     }
 
     @Test(expected = NullPointerException.class)

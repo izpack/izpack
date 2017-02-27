@@ -73,7 +73,6 @@ public class DefaultClassNameMapper implements ClassNameMapper
      */
     private final Map<String, String> mappings = new HashMap<String, String>();
 
-
     /**
      * Default constructor.
      */
@@ -81,37 +80,38 @@ public class DefaultClassNameMapper implements ClassNameMapper
     {
         // add mappings for InstallerListeners
         addMapping(AntActionInstallerListener.class, BSFInstallerListener.class,
-                   ConfigurationInstallerListener.class, ProgressBarInstallerListener.class,
-                   RegistryInstallerListener.class, SummaryLoggerInstallerListener.class);
+                ConfigurationInstallerListener.class, ProgressBarInstallerListener.class,
+                RegistryInstallerListener.class, SummaryLoggerInstallerListener.class);
 
         // add mappings for UninstallerListeners
         addMapping(AntActionUninstallerListener.class, BSFUninstallerListener.class,
-                   RegistryUninstallerListener.class);
+                RegistryUninstallerListener.class);
 
         // add mappings for IzPanels
         addMapping(CheckedHelloPanel.class, CompilePanel.class, DataCheckPanel.class,
-                   DefaultTargetPanel.class, DownloadPanel.class, FinishPanel.class,
-                   HTMLHelloPanel.class, HTMLInfoPanel.class, HTMLLicencePanel.class, HelloPanel.class,
-                   ImgPacksPanel.class, InfoPanel.class, InstallationGroupPanel.class, InstallationTypePanel.class,
-                   InstallPanel.class, JDKPathPanel.class, LicencePanel.class, PacksPanel.class,PDFLicencePanel.class, ProcessPanel.class,
-                   SelectPrinterPanel.class, ShortcutPanel.class, SimpleFinishPanel.class, SudoPanel.class,
-                   SummaryPanel.class, TargetPanel.class, TreePacksPanel.class, UserInputPanel.class,
-                   UserPathPanel.class, XInfoPanel.class);
+                DefaultTargetPanel.class, DownloadPanel.class, FinishPanel.class,
+                HTMLHelloPanel.class, HTMLInfoPanel.class, HTMLLicencePanel.class, HelloPanel.class,
+                ImgPacksPanel.class, InfoPanel.class, InstallationGroupPanel.class, InstallationTypePanel.class,
+                InstallPanel.class, JDKPathPanel.class, LicencePanel.class, PacksPanel.class, PDFLicencePanel.class, ProcessPanel.class,
+                SelectPrinterPanel.class, ShortcutPanel.class, SimpleFinishPanel.class, SudoPanel.class,
+                SummaryPanel.class, TargetPanel.class, TreePacksPanel.class, UserInputPanel.class,
+                UserPathPanel.class, XInfoPanel.class);
 
         // add mappings for Validators
         addMapping(HostAddressValidator.class, IsPortValidator.class, NotEmptyValidator.class,
-                   PasswordEqualityValidator.class, PortValidator.class, RegularExpressionValidator.class);
+                PasswordEqualityValidator.class, PortValidator.class, RegularExpressionValidator.class);
 
         // add mappings for Processors
         addMapping(PasswordEncryptionProcessor.class, PortProcessor.class, UnixGroupProcessor.class,
-                   UnixUserProcessor.class);
+                UnixUserProcessor.class);
     }
 
     /**
      * Maps an unqualified class name to its fully qualified name.
      *
      * @param className the class name to map
-     * @return the fully qualified class name, or {@code null} if no mapping exists
+     * @return the fully qualified class name, or {@code null} if no mapping
+     * exists
      */
     @Override
     public String map(String className)

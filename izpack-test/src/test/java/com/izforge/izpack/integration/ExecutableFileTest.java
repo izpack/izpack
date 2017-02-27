@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration;
 
 import static org.junit.Assert.assertEquals;
@@ -45,10 +44,9 @@ import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.Platform.Name;
 
-
 /**
- * Verifies that executable files are correctly invoked during installation and uninstallation, based on their stage
- * configuration.
+ * Verifies that executable files are correctly invoked during installation and
+ * uninstallation, based on their stage configuration.
  * <br/>
  * Note that this test is limited to Windows and Unix based platforms.
  *
@@ -58,6 +56,7 @@ import com.izforge.izpack.util.Platform.Name;
 @Container(TestGUIInstallationContainer.class)
 public class ExecutableFileTest extends AbstractDestroyerTest
 {
+
     /**
      * The unpacker.
      */
@@ -68,16 +67,15 @@ public class ExecutableFileTest extends AbstractDestroyerTest
      */
     private final UninstallDataWriter uninstallDataWriter;
 
-
     /**
      * Constructs an <tt>UninstallerListenerTest</tt>.
      *
-     * @param unpacker            the unpacker
+     * @param unpacker the unpacker
      * @param uninstallDataWriter the uninstall jar writer
-     * @param installData         the install data
+     * @param installData the install data
      */
     public ExecutableFileTest(Unpacker unpacker, UninstallDataWriter uninstallDataWriter,
-                              AutomatedInstallData installData)
+            AutomatedInstallData installData)
     {
         super(installData);
         this.unpacker = unpacker;
@@ -96,7 +94,10 @@ public class ExecutableFileTest extends AbstractDestroyerTest
      */
     @Test
     @InstallFile("samples/executables/executables.xml")
-    @RunOn({Name.WINDOWS, Name.UNIX})
+    @RunOn(
+            {
+                Name.WINDOWS, Name.UNIX
+            })
     public void testExecutables() throws Exception
     {
         // make sure variables are resolved.
@@ -129,7 +130,7 @@ public class ExecutableFileTest extends AbstractDestroyerTest
     /**
      * Verifies that a file exists with the specified content.
      *
-     * @param name    the file name
+     * @param name the file name
      * @param content the expected file content
      * @return the file
      * @throws IOException for any I/O error
@@ -167,12 +168,15 @@ public class ExecutableFileTest extends AbstractDestroyerTest
     }
 
     /**
-     * No-op implementation of {@link AbstractUIProgressHandler}. Can't use Mockito to mock this for some reason -
-     * attempts to do so result in a ClassCastException - possibly because the same class has been mocked already,
-     * but in an isolated class loader by the {@link ExecutableFileTest#runDestroyer(java.io.File)} method.
+     * No-op implementation of {@link AbstractUIProgressHandler}. Can't use
+     * Mockito to mock this for some reason - attempts to do so result in a
+     * ClassCastException - possibly because the same class has been mocked
+     * already, but in an isolated class loader by the
+     * {@link ExecutableFileTest#runDestroyer(java.io.File)} method.
      */
     private static class NoOpProgressHandler implements AbstractUIProgressHandler
     {
+
         @Override
         public void startAction(String name, int no_of_steps)
         {

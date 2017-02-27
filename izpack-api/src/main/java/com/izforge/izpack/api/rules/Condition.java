@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.rules;
 
 import java.io.Serializable;
@@ -36,6 +35,7 @@ import com.izforge.izpack.api.data.InstallData;
  */
 public abstract class Condition implements Serializable
 {
+
     private static final long serialVersionUID = -1294594086621662171L;
 
     private String id;
@@ -55,7 +55,6 @@ public abstract class Condition implements Serializable
         return this.id;
     }
 
-
     /**
      * @param id the id to set
      */
@@ -66,8 +65,8 @@ public abstract class Condition implements Serializable
 
     /**
      * Parse and initialize this condition from parsed values. An exception
-     * should be thrown if the condition description has not the expected
-     * XML format, something missing or obviously bad values.
+     * should be thrown if the condition description has not the expected XML
+     * format, something missing or obviously bad values.
      *
      * @param xmlcondition the root element to parse from
      * @throws Exception on a parse error
@@ -81,7 +80,6 @@ public abstract class Condition implements Serializable
         return installData;
     }
 
-
     public void setInstallData(InstallData installData)
     {
         this.installData = installData;
@@ -93,18 +91,18 @@ public abstract class Condition implements Serializable
     }
 
     /**
-     * This element will be called by the RulesEngine to serialize the configuration
-     * of a condition into XML.
+     * This element will be called by the RulesEngine to serialize the
+     * configuration of a condition into XML.
      *
      * @param conditionRoot the root element for this condition
      */
     public abstract void makeXMLData(IXMLElement conditionRoot);
 
     /**
-     * This element will be called when the order of variable resolutions is 
+     * This element will be called when the order of variable resolutions is
      * determined.
-     * 
-     * @return  the names of all variables referenced by this condition 
+     *
+     * @return the names of all variables referenced by this condition
      */
     public abstract Set<String> getVarRefs();
 }

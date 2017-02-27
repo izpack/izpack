@@ -40,7 +40,7 @@ public class ConsoleInstallDataMockProvider extends AbstractInstallDataMockProvi
      * Provides an {@link ConsoleInstallData}.
      *
      * @param variables the variables
-     * @param locales   the locales
+     * @param locales the locales
      * @return an {@link ConsoleInstallData}
      * @throws IOException if the default messages cannot be found
      */

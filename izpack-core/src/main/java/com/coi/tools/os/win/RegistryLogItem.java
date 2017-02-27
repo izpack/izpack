@@ -1,31 +1,30 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2005 Klaus Bartz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.coi.tools.os.win;
 
 import java.io.Serializable;
 
 /**
- * Data container for Windows registry logging. This container is used to hold old and new created
- * registry data used at rewinding the registry changes.
+ * Data container for Windows registry logging. This container is used to hold
+ * old and new created registry data used at rewinding the registry changes.
  *
  * @author Klaus Bartz
  */
@@ -37,8 +36,9 @@ public class RegistryLogItem implements Cloneable, Serializable
      */
     private static final long serialVersionUID = 3618134559108444211L;
 
-    /** Types of log items */
-
+    /**
+     * Types of log items
+     */
     /**
      * Identifier for removed key
      */
@@ -87,17 +87,19 @@ public class RegistryLogItem implements Cloneable, Serializable
     /**
      * Constructor with settings.
      *
-     * @param type      type of loging item. Possible are REMOVED_KEY, CREATED_KEY, REMOVED_VALUE,
-     *                  CREATED_VALUE and CHANGED_VALUE
-     * @param root      id for the registry root
-     * @param key       key name of the item which should be logged
-     * @param valueName name of the value of the item which should be logged if it is a value type,
-     *                  else null
-     * @param newValue  new value of the registry entry if it is a value type, else null
-     * @param oldValue  old value of the registry entry if it is a value type, else null
+     * @param type type of loging item. Possible are REMOVED_KEY, CREATED_KEY,
+     * REMOVED_VALUE, CREATED_VALUE and CHANGED_VALUE
+     * @param root id for the registry root
+     * @param key key name of the item which should be logged
+     * @param valueName name of the value of the item which should be logged if
+     * it is a value type, else null
+     * @param newValue new value of the registry entry if it is a value type,
+     * else null
+     * @param oldValue old value of the registry entry if it is a value type,
+     * else null
      */
     public RegistryLogItem(int type, int root, String key, String valueName,
-                           RegDataContainer newValue, RegDataContainer oldValue)
+            RegDataContainer newValue, RegDataContainer oldValue)
     {
         this.type = type;
         this.root = root;

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.info;
 
 import javax.swing.JScrollPane;
@@ -50,11 +49,11 @@ public class InfoPanel extends IzPanel
     /**
      * Constructs an <tt>InfoPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public InfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {

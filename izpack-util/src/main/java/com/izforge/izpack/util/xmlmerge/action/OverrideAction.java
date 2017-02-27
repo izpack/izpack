@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.action;
 
 import org.jdom2.Element;
@@ -27,8 +26,8 @@ import org.jdom2.Element;
 import com.izforge.izpack.util.xmlmerge.Action;
 
 /**
- * Copies the patch element if it exist in the original, keep the original if no corresponding patch
- * element exists.
+ * Copies the patch element if it exist in the original, keep the original if no
+ * corresponding patch element exists.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)

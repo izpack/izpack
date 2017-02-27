@@ -18,16 +18,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.event;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.izforge.izpack.api.event.InstallerListener;
-import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.ProgressNotifiers;
-
 
 /**
  * Implementation of the {@link ProgressNotifiers} interface.

@@ -41,12 +41,12 @@ import com.izforge.izpack.core.rules.ConditionContainer;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
 import com.izforge.izpack.util.Platforms;
 
-
 public class ContainsConditionTest
 {
 
     /**
-     * Checks conditions for strings read from the test <em>contains_in_string.xml</em> file.
+     * Checks conditions for strings read from the test
+     * <em>contains_in_string.xml</em> file.
      */
     @Test
     public void testInString()
@@ -55,19 +55,21 @@ public class ContainsConditionTest
     }
 
     /**
-     * Checks conditions for file read from the test <em>contains_in_file.xml</em> file.
+     * Checks conditions for file read from the test
+     * <em>contains_in_file.xml</em> file.
      */
     @Test
     public void testInFile()
     {
-        Map<String,Boolean> additional = new HashMap<String, Boolean>();
+        Map<String, Boolean> additional = new HashMap<String, Boolean>();
         additional.put("regex_multiple_lines_dotall", true);
         additional.put("regex_multiple_lines", false);
         doTests("contains_in_file.xml", additional);
     }
-    
+
     /**
-     * Checks conditions for variables read from the test <em>contains_in_variable.xml</em> file.
+     * Checks conditions for variables read from the test
+     * <em>contains_in_variable.xml</em> file.
      */
     @Test
     public void testInVariable()
@@ -79,8 +81,8 @@ public class ContainsConditionTest
 
     /**
      * Run defined set of tests
-     * 
-     * @param resource      the name of the <conditions> xml
+     *
+     * @param resource the name of the <conditions> xml
      */
     private void doTests(String resource)
     {
@@ -89,9 +91,9 @@ public class ContainsConditionTest
 
     /**
      * Run defined set of tests and additional tests
-     * 
-     * @param resource      the name of the <conditions> xml
-     * @param additional    additional tests to be run
+     *
+     * @param resource the name of the <conditions> xml
+     * @param additional additional tests to be run
      */
     private void doTests(String resource, Map<String, Boolean> additional)
     {
@@ -100,9 +102,9 @@ public class ContainsConditionTest
 
     /**
      * Run defined set of tests with variables set
-     * 
-     * @param variables     defined variables for test
-     * @param resource      the name of the <conditions> xml
+     *
+     * @param variables defined variables for test
+     * @param resource the name of the <conditions> xml
      */
     private void doTests(Variables variables, String resource)
     {
@@ -111,10 +113,10 @@ public class ContainsConditionTest
 
     /**
      * Run defined set of tests and additional tests with variables set
-     * 
-     * @param variables     defined variables for test
-     * @param resource      the name of the <conditions> xml
-     * @param additional    additional tests to be run
+     *
+     * @param variables defined variables for test
+     * @param resource the name of the <conditions> xml
+     * @param additional additional tests to be run
      */
     private void doTests(Variables variables, String resource, Map<String, Boolean> additional)
     {
@@ -126,7 +128,7 @@ public class ContainsConditionTest
         assertTrue(rules.isConditionTrue("value_found"));               // a simple substring
         assertFalse(rules.isConditionTrue("value_not_found1"));         // not found because string is uppercase
         assertFalse(rules.isConditionTrue("value_not_found2"));         // not found because value is uppercase
-        assertTrue(rules.isConditionTrue("value_found_ignore_case"));   // different case 
+        assertTrue(rules.isConditionTrue("value_found_ignore_case"));   // different case
 
         assertTrue(rules.isConditionTrue("trivial_regex"));             // a simple substring
         assertTrue(rules.isConditionTrue("regex_with_wildcard"));       // a regex with wildcards substring
@@ -135,7 +137,8 @@ public class ContainsConditionTest
         assertFalse(rules.isConditionTrue("regex_not_found1"));         // not found because string is uppercase
         assertFalse(rules.isConditionTrue("regex_not_found2"));         // not found because value is uppercase
 
-        if (additional!=null) {
+        if (additional != null)
+        {
             for (Entry<String, Boolean> test : additional.entrySet())
             {
                 String cond = test.getKey();

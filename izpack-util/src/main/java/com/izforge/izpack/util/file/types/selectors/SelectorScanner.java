@@ -14,15 +14,15 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 /**
- * An interface used to describe the actions required by any type of
- * directory scanner that supports Selecters.
+ * An interface used to describe the actions required by any type of directory
+ * scanner that supports Selecters.
  */
 public interface SelectorScanner
 {
+
     /**
      * Sets the selectors the scanner should use.
      *
@@ -45,6 +45,5 @@ public interface SelectorScanner
      * @throws Exception
      */
     String[] getDeselectedFiles() throws Exception;
-
 
 }

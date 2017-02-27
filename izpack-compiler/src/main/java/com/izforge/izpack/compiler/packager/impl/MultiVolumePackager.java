@@ -51,17 +51,19 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 
-
 /**
- * An {@link com.izforge.izpack.compiler.packager.IPackager} that packs everything into multiple volumes.
+ * An {@link com.izforge.izpack.compiler.packager.IPackager} that packs
+ * everything into multiple volumes.
  * <p/>
  * <p/>
- * Here's an example how to specify an installer which will create multiple volumes. In this example the volumes shall
- * be CDs with 650 megabytes. There will be an additional free space of 150 megabytes on the first volume.
+ * Here's an example how to specify an installer which will create multiple
+ * volumes. In this example the volumes shall be CDs with 650 megabytes. There
+ * will be an additional free space of 150 megabytes on the first volume.
  * <br/>
- * This will result in the creation of an installer.jar and multiple installer.pak* files.
- * The installer.jar plus installer.pak plus the additional resources have to be copied on the first volume,
- * each installer.pak.&lt;number&gt; on several volumes.
+ * This will result in the creation of an installer.jar and multiple
+ * installer.pak* files. The installer.jar plus installer.pak plus the
+ * additional resources have to be copied on the first volume, each
+ * installer.pak.&lt;number&gt; on several volumes.
  * <pre>
  * {@code
  * <packaging>
@@ -103,27 +105,26 @@ public class MultiVolumePackager extends PackagerBase
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(MultiVolumePackager.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(MultiVolumePackager.class.getName());
 
     /**
      * Constructs a <tt>MultiVolumePackager</tt>.
      *
-     * @param properties        the properties
-     * @param listener          the packager listener
-     * @param mergeManager      the merge manager
-     * @param pathResolver      the path resolver
+     * @param properties the properties
+     * @param listener the packager listener
+     * @param mergeManager the merge manager
+     * @param pathResolver the path resolver
      * @param mergeableResolver the mergeable resolver
-     * @param compressor        the pack compressor
-     * @param compilerData      the compiler data
+     * @param compressor the pack compressor
+     * @param compilerData the compiler data
      */
     public MultiVolumePackager(Properties properties, PackagerListener listener, JarOutputStream installerJar,
-                               MergeManager mergeManager, CompilerPathResolver pathResolver,
-                               MergeableResolver mergeableResolver, PackCompressor compressor,
-                               CompilerData compilerData, RulesEngine rulesEngine)
+            MergeManager mergeManager, CompilerPathResolver pathResolver,
+            MergeableResolver mergeableResolver, PackCompressor compressor,
+            CompilerData compilerData, RulesEngine rulesEngine)
     {
         super(properties, listener, installerJar, mergeManager, pathResolver, mergeableResolver, compressor,
-              compilerData, rulesEngine);
+                compilerData, rulesEngine);
     }
 
     /**
@@ -153,8 +154,10 @@ public class MultiVolumePackager extends PackagerBase
     /**
      * Parses configuration information.
      * <p/>
-     * This determines the {@link #setMaxFirstVolumeSize(long) maximum size of the first volume}, and
-     * {@link #setMaxVolumeSize(long) maximum size of subsequent volumes} from the <em>firstvolumefreespace</em>
+     * This determines the
+     * {@link #setMaxFirstVolumeSize(long) maximum size of the first volume},
+     * and {@link #setMaxVolumeSize(long) maximum size of subsequent volumes}
+     * from the <em>firstvolumefreespace</em>
      * and <em>volumesize</em> attributes.
      *
      * @param data the xml-element packaging from the install.xml
@@ -190,15 +193,15 @@ public class MultiVolumePackager extends PackagerBase
         List<PackInfo> packs = getPacksList();
         final int count = packs.size();
         sendMsg("Writing " + count + " Pack" + (count > 1 ? "s" : "") + " into installer");
-        logger.fine("Writing " + count + " Pack" + (count > 1 ? "s" : "") + " into installer");
-        logger.fine("First volume size: " + maxFirstVolumeSize);
-        logger.fine("Subsequent volume size: " + maxVolumeSize);
+        LOGGER.fine("Writing " + count + " Pack" + (count > 1 ? "s" : "") + " into installer");
+        LOGGER.fine("First volume size: " + maxFirstVolumeSize);
+        LOGGER.fine("Subsequent volume size: " + maxVolumeSize);
 
         File volume = new File(getInfo().getInstallerBase() + ".pak").getAbsoluteFile();
         int volumes = writePacks(packs, volume);
 
         // write metadata for reading in volumes
-        logger.fine("Written " + volumes + " volumes");
+        LOGGER.fine("Written " + volumes + " volumes");
 
         JarOutputStream installerJar = getInstallerJar();
         installerJar.putNextEntry(new ZipEntry(RESOURCES_PATH + "volumes.info"));
@@ -224,7 +227,7 @@ public class MultiVolumePackager extends PackagerBase
     /**
      * Writes packs to one or more <em>.pak</em> volumes.
      *
-     * @param packs  the packs to write
+     * @param packs the packs to write
      * @param volume the first volume
      * @return the no. of volumes written
      */
@@ -249,10 +252,11 @@ public class MultiVolumePackager extends PackagerBase
     /**
      * Writes a pack.
      * <p/>
-     * Pack information is written to the installer jar, while the actual files are written to the volumes.
+     * Pack information is written to the installer jar, while the actual files
+     * are written to the volumes.
      *
-     * @param packInfo  the pack information
-     * @param volumes   the volumes
+     * @param packInfo the pack information
+     * @param volumes the volumes
      * @param targetDir the target directory for loosefiles
      * @throws IOException for any I/O error
      */
@@ -263,7 +267,7 @@ public class MultiVolumePackager extends PackagerBase
 
         String name = pack.getName();
         sendMsg("Writing Pack: " + name, PackagerListener.MSG_VERBOSE);
-        logger.fine("Writing Pack: " + name);
+        LOGGER.fine("Writing Pack: " + name);
         ZipEntry entry = new ZipEntry(RESOURCES_PATH + "packs/pack-" + name);
 
         JarOutputStream installerJar = getInstallerJar();
@@ -300,17 +304,18 @@ public class MultiVolumePackager extends PackagerBase
     /**
      * Writes the pack files.
      * <p/>
-     * The file data is written to <tt>volumes</tt>, whilst the meta-data is written to <tt>packStream</tt>.
+     * The file data is written to <tt>volumes</tt>, whilst the meta-data is
+     * written to <tt>packStream</tt>.
      *
-     * @param packInfo   the pack information
-     * @param volumes    the volumes to write to
-     * @param pack       the pack
+     * @param packInfo the pack information
+     * @param volumes the volumes to write to
+     * @param pack the pack
      * @param packStream the stream to write the pack meta-data to
-     * @param targetDir  the target directory for loose files
+     * @param targetDir the target directory for loose files
      * @throws IOException for any I/O error
      */
     private void writePackFiles(PackInfo packInfo, FileSpanningOutputStream volumes, Pack pack,
-                                ObjectOutputStream packStream, File targetDir) throws IOException
+            ObjectOutputStream packStream, File targetDir) throws IOException
     {
         // write the file meta-data
         Set<PackFile> files = packInfo.getPackFiles();
@@ -320,7 +325,7 @@ public class MultiVolumePackager extends PackagerBase
         {
             XPackFile pf = new XPackFile(packfile);
             File file = packInfo.getFile(packfile);
-            logger.fine("Next file: " + file.getAbsolutePath());
+            LOGGER.fine("Next file: " + file.getAbsolutePath());
 
             if (!pf.isDirectory())
             {
@@ -351,8 +356,8 @@ public class MultiVolumePackager extends PackagerBase
     /**
      * Writes a pack file to the volumes.
      *
-     * @param file     the file to write
-     * @param volumes  the volumes
+     * @param file the file to write
+     * @param volumes the volumes
      * @param packFile the pack file
      * @throws IOException for any I/O error
      */
@@ -367,15 +372,15 @@ public class MultiVolumePackager extends PackagerBase
         FileInputStream in = new FileInputStream(file);
         long bytesWritten = IOUtils.copy(in, volumes);
         long afterPosition = volumes.getFilePointer();
-        logger.fine("File (" + packFile.sourcePath + ") " + beforePosition + " <-> " + afterPosition);
+        LOGGER.fine("File (" + packFile.sourcePath + ") " + beforePosition + " <-> " + afterPosition);
 
         if (volumes.getFilePointer() != (beforePosition + bytesWritten))
         {
-            logger.fine("file: " + file.getName());
-            logger.fine("(Filepos/BytesWritten/ExpectedNewFilePos/NewFilePointer) ("
-                                + beforePosition + "/" + bytesWritten + "/" + (beforePosition + bytesWritten)
-                                + "/" + volumes.getFilePointer() + ")");
-            logger.fine("Volumes (before/after) (" + volumeCount + "/" + volumes.getVolumes() + ")");
+            LOGGER.fine("file: " + file.getName());
+            LOGGER.fine("(Filepos/BytesWritten/ExpectedNewFilePos/NewFilePointer) ("
+                    + beforePosition + "/" + bytesWritten + "/" + (beforePosition + bytesWritten)
+                    + "/" + volumes.getFilePointer() + ")");
+            LOGGER.fine("Volumes (before/after) (" + volumeCount + "/" + volumes.getVolumes() + ")");
             throw new IOException("Error new file pointer is illegal");
         }
 

@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.action;
 
 import java.util.ArrayList;
@@ -32,8 +31,9 @@ import org.jdom2.Element;
 import com.izforge.izpack.util.xmlmerge.Action;
 
 /**
- * Copies the patch element into the output by inserting it after already existing elements of the
- * same name. Usually applied with the {@link com.izforge.izpack.util.xmlmerge.matcher.SkipMatcher}.
+ * Copies the patch element into the output by inserting it after already
+ * existing elements of the same name. Usually applied with the
+ * {@link com.izforge.izpack.util.xmlmerge.matcher.SkipMatcher}.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)

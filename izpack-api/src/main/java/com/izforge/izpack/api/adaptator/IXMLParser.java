@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.adaptator;
 
 import java.io.InputStream;
@@ -35,11 +34,11 @@ public interface IXMLParser
 {
 
     /**
-     * Path to the xsl style sheet, used to handle xinclude leftovers.
-     * The path is relative to the IXMLParser class
+     * Path to the xsl style sheet, used to handle xinclude leftovers. The path
+     * is relative to the IXMLParser class
      */
     public static final String XSL_FILE_NAME = "styleSheet.xsl";
-    
+
     /**
      * Parse the given stream to a XML
      *
@@ -51,10 +50,11 @@ public interface IXMLParser
 
     /**
      * Parse the given stream to a XML and set the systemId to the inputSource.
-     * It is useful for the xinclude feature, as the path of the resolution depends on the systemId.
+     * It is useful for the xinclude feature, as the path of the resolution
+     * depends on the systemId.
      *
      * @param inputStream Stream to parse. Must be not null.
-     * @param systemId    System id of the file parsed
+     * @param systemId System id of the file parsed
      * @return Root element of the parsed XML
      * @throws XMLException if something went wrong.
      */

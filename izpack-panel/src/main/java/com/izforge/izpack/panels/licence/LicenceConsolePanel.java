@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.licence;
 
 import com.izforge.izpack.api.resource.Resources;
@@ -28,11 +27,12 @@ import com.izforge.izpack.installer.panel.PanelView;
  */
 public class LicenceConsolePanel extends AbstractLicenceConsolePanel
 {
+
     /**
      * Constructs a {@code LicenceConsolePanel}.
      *
      * @param resources the resources
-     * @param panel     the parent panel/view. May be {@code null}
+     * @param panel the parent panel/view. May be {@code null}
      */
     public LicenceConsolePanel(Resources resources, PanelView<ConsolePanel> panel)
     {

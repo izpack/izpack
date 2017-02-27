@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.variable;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -29,6 +28,7 @@ import java.util.Set;
 
 public class EnvironmentValue extends ValueImpl implements Serializable
 {
+
     /**
      *
      */
@@ -70,13 +70,13 @@ public class EnvironmentValue extends ValueImpl implements Serializable
     @Override
     public String resolve(VariableSubstitutor... substitutors) throws Exception
     {
-        String _variable_ = variable;
+        String variable0 = variable;
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _variable_ = substitutor.substitute(_variable_);
+            variable0 = substitutor.substitute(variable0);
         }
 
-        return IoHelper.getenv(_variable_);
+        return IoHelper.getenv(variable0);
     }
 
     @Override

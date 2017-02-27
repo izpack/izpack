@@ -27,6 +27,7 @@ import com.izforge.izpack.api.exception.IzPackException;
  */
 public class PicoRunner extends PlatformRunner
 {
+
     private Class<?> klass;
     private FrameworkMethod method;
     private Object currentTestInstance;
@@ -36,7 +37,7 @@ public class PicoRunner extends PlatformRunner
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(PicoRunner.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PicoRunner.class.getName());
 
     public PicoRunner(Class<?> klass) throws InitializationError
     {
@@ -76,12 +77,11 @@ public class PicoRunner extends PlatformRunner
         return statement;
     }
 
-
     @Override
     protected Object createTest() throws Exception
     {
         containerClass = getTestClass().getJavaClass().getAnnotation(com.izforge.izpack.test.Container.class).value();
-        logger.info("Creating test=" + getTestClass().getName());
+        LOGGER.info("Creating test=" + getTestClass().getName());
         SwingUtilities.invokeAndWait(new Runnable()
         {
             public void run()
@@ -94,7 +94,7 @@ public class PicoRunner extends PlatformRunner
                 }
                 catch (Exception e)
                 {
-                    logger.log(Level.SEVERE, e.getMessage(), e);
+                    LOGGER.log(Level.SEVERE, e.getMessage(), e);
                     throw new IzPackException(e);
                 }
             }

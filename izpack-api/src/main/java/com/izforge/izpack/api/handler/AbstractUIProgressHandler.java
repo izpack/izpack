@@ -18,20 +18,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.handler;
 
 import com.izforge.izpack.api.event.ProgressListener;
 
 /**
- * This interface is used by functions which need to notify the user of some progress.
+ * This interface is used by functions which need to notify the user of some
+ * progress.
  * <p/>
- * For example, the installation progress and compilation progress are communicated to the user
- * using this interface. The interface supports a two-stage progress indication: The whole action is
- * divided into steps (for example, packs when installing) and sub-steps (for example, files of a
- * pack).
+ * For example, the installation progress and compilation progress are
+ * communicated to the user using this interface. The interface supports a
+ * two-stage progress indication: The whole action is divided into steps (for
+ * example, packs when installing) and sub-steps (for example, files of a pack).
  *
- * @deprecated use {@link ProgressListener}. This interface will be removed in IzPack 6.0
+ * @deprecated use {@link ProgressListener}. This interface will be removed in
+ * IzPack 6.0
  */
 @Deprecated
 public interface AbstractUIProgressHandler extends AbstractUIHandler, ProgressListener

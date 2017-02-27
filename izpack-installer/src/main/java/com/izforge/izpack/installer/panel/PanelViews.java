@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.panel;
 
 import com.izforge.izpack.installer.data.UninstallData;
@@ -26,9 +25,9 @@ import com.izforge.izpack.installer.data.UninstallData;
 import java.io.File;
 import java.util.List;
 
-
 /**
- * Manages navigation between panels, providing access to the view of each panel.
+ * Manages navigation between panels, providing access to the view of each
+ * panel.
  *
  * @author Tim Anderson
  */
@@ -60,16 +59,17 @@ public interface PanelViews<T extends AbstractPanelView<V>, V> extends Panels
      * Returns the index of a visible panel, relative to other visible panels.
      *
      * @param panel the panel
-     * @return the panel's visible index, or {@code -1} if the panel is not visible
+     * @return the panel's visible index, or {@code -1} if the panel is not
+     * visible
      */
     int getVisibleIndex(T panel);
-
 
     /**
      * Writes an XML tree to a file.
      *
      * @param file file of where the auto-install will be placed
-     * @param uninstallData used to ensure that the file will be removed by the uninstaller
+     * @param uninstallData used to ensure that the file will be removed by the
+     * uninstaller
      * @throws Exception
      */
     void writeInstallationRecord(File file, UninstallData uninstallData) throws Exception;

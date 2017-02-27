@@ -27,13 +27,13 @@ public class MultiVolumeUnpackerHelper implements VolumeLocator
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(MultiVolumeUnpackerHelper.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MultiVolumeUnpackerHelper.class.getName());
 
     /**
      * Constructs a <tt>MultiVolumeUnpackerHelper</tt>.
      *
      * @param installData the installation data
-     * @param frame       the installer frame
+     * @param frame the installer frame
      */
     public MultiVolumeUnpackerHelper(InstallData installData, InstallerFrame frame)
     {
@@ -44,8 +44,9 @@ public class MultiVolumeUnpackerHelper implements VolumeLocator
     /**
      * Returns the next volume.
      *
-     * @param path    the expected volume path
-     * @param corrupt if <tt>true</tt> the previous attempt detected a corrupt or invalid volume
+     * @param path the expected volume path
+     * @param corrupt if <tt>true</tt> the previous attempt detected a corrupt
+     * or invalid volume
      * @return the next volume
      * @throws java.io.IOException if the volume cannot be found
      */
@@ -56,9 +57,9 @@ public class MultiVolumeUnpackerHelper implements VolumeLocator
         {
             Messages messages = installData.getMessages();
             JOptionPane.showMessageDialog(frame, messages.get("nextmedia.corruptmedia"),
-                                          messages.get("nextmedia.corruptmedia.title"), JOptionPane.ERROR_MESSAGE);
+                    messages.get("nextmedia.corruptmedia.title"), JOptionPane.ERROR_MESSAGE);
         }
-        logger.fine("Enter next media: " + path);
+        LOGGER.fine("Enter next media: " + path);
 
         File volume = new File(path);
         NextMediaDialog nextMediaDialog;
@@ -74,7 +75,7 @@ public class MultiVolumeUnpackerHelper implements VolumeLocator
             }
             else
             {
-                logger.fine("Input from NextMediaDialog was null");
+                LOGGER.fine("Input from NextMediaDialog was null");
                 volume = new File(path);
             }
             // selection equal to last selected which was corrupt?

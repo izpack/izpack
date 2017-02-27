@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.automation;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -82,16 +81,16 @@ public class AutomatedInstaller implements InstallerBase
     /**
      * Constructs an <tt>AutomatedInstaller</tt>.
      *
-     * @param panels              the panels
-     * @param installData         the installation data
-     * @param locales             the supported locales
-     * @param requirements        the installation requirements checker
+     * @param panels the panels
+     * @param installData the installation data
+     * @param locales the supported locales
+     * @param requirements the installation requirements checker
      * @param uninstallDataWriter the uninstallation data writer
-     * @param housekeeper         the house-keeper
+     * @param housekeeper the house-keeper
      */
     public AutomatedInstaller(AutomatedPanels panels, AutomatedInstallData installData, Locales locales,
-                              RequirementsChecker requirements, UninstallDataWriter uninstallDataWriter,
-                              Housekeeper housekeeper)
+            RequirementsChecker requirements, UninstallDataWriter uninstallDataWriter,
+            Housekeeper housekeeper)
     {
         this.panels = panels;
         this.installData = installData;
@@ -104,8 +103,9 @@ public class AutomatedInstaller implements InstallerBase
     /**
      * Initialize the automated installer.
      *
-     * @param inputFilename the name of the file containing the installation data
-     * @param mediaPath     the multi-volume media directory. May be <tt>null</tt>
+     * @param inputFilename the name of the file containing the installation
+     * data
+     * @param mediaPath the multi-volume media directory. May be <tt>null</tt>
      * @throws Exception
      */
     public void init(String inputFilename, String mediaPath, String[] args) throws Exception

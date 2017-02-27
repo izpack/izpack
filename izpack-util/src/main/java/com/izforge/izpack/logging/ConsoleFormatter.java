@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.logging;
 
 /**
@@ -21,6 +20,7 @@ package com.izforge.izpack.logging;
  */
 public class ConsoleFormatter extends AbstractFormatter
 {
+
     @Override
     boolean isAddTimeStamp()
     {

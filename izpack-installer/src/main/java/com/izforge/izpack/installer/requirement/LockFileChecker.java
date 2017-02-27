@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.requirement;
 
 import java.io.File;
@@ -34,7 +33,8 @@ import com.izforge.izpack.api.installer.RequirementChecker;
 import com.izforge.izpack.util.FileUtil;
 
 /**
- * Determines if another installation is in progress, by checking for the existence of a lock file.
+ * Determines if another installation is in progress, by checking for the
+ * existence of a lock file.
  *
  * @author Tim Anderson
  */
@@ -54,14 +54,13 @@ public class LockFileChecker implements RequirementChecker
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(LockFileChecker.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(LockFileChecker.class.getName());
 
     /**
      * Constructs a <tt>LockFileChecker</tt>.
      *
      * @param installData the installation data
-     * @param prompt      the prompt
+     * @param prompt the prompt
      */
     public LockFileChecker(AutomatedInstallData installData, Prompt prompt)
     {
@@ -95,19 +94,19 @@ public class LockFileChecker implements RequirementChecker
                     // Create the new lock file
                     if (file.createNewFile())
                     {
-                        logger.fine("Created lock file:" + file.getPath());
+                        LOGGER.fine("Created lock file:" + file.getPath());
                         file.deleteOnExit();
                     }
                     else
                     {
-                        logger.warning("Failed to create lock file: " + file.getPath());
-                        logger.warning("*** Multiple instances of installer will be allowed ***");
+                        LOGGER.warning("Failed to create lock file: " + file.getPath());
+                        LOGGER.warning("*** Multiple instances of installer will be allowed ***");
                     }
                 }
                 catch (Exception e)
                 {
-                    logger.log(Level.WARNING, "Lock file could not be created: " + e.getMessage(), e);
-                    logger.warning("*** Multiple instances of installer will be allowed ***");
+                    LOGGER.log(Level.WARNING, "Lock file could not be created: " + e.getMessage(), e);
+                    LOGGER.warning("*** Multiple instances of installer will be allowed ***");
                 }
                 result = true;
             }
@@ -119,12 +118,13 @@ public class LockFileChecker implements RequirementChecker
      * Invoked when the lock file already exists.
      *
      * @param file the lock file
-     * @return <tt>true</tt> if the user wants to proceed with installation, <tt>false</tt> if they want to cancel
+     * @return <tt>true</tt> if the user wants to proceed with installation,
+     * <tt>false</tt> if they want to cancel
      */
     protected boolean handleLockFile(File file)
     {
         boolean result = true;
-        logger.fine("Lock File Exists, asking user for permission to proceed.");
+        LOGGER.fine("Lock File Exists, asking user for permission to proceed.");
         StringBuilder msg = new StringBuilder();
         String appName = installData.getInfo().getAppName();
         msg.append("The " + appName + " installer you are attempting to run seems to have a copy already running.\n\n");
@@ -137,7 +137,7 @@ public class LockFileChecker implements RequirementChecker
         if (selected == Option.YES)
         {
             // Take control of the file so it gets deleted after this installer instance exits.
-            logger.fine("Setting temp file to delete on continue");
+            LOGGER.fine("Setting temp file to delete on continue");
             // FIXME Avoid deleting lock for other running instances by using some pool of locks
             // (this is just a workaround to clean up)
             file.deleteOnExit();
@@ -145,7 +145,7 @@ public class LockFileChecker implements RequirementChecker
         else
         {
             // Leave the file as it is.
-            logger.fine("Leaving temp file alone and exiting");
+            LOGGER.fine("Leaving temp file alone and exiting");
             result = false;
         }
         return result;

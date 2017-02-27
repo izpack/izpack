@@ -9,13 +9,13 @@ import java.util.logging.Logger;
  */
 public class FileQueueCopy implements FileQueueOperation
 {
-    private static final Logger logger = Logger.getLogger(FileQueueCopy.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(FileQueueCopy.class.getName());
 
     protected File fromFile = null; // source file
     protected File toFile = null; // destination file
 
     protected int copyStyle = WinSetupAPIBase.SP_COPY_NOOVERWRITE;
-
 
     public FileQueueCopy(File fromFile, File toFile)
     {
@@ -31,7 +31,6 @@ public class FileQueueCopy implements FileQueueOperation
     }
 
     // --- Copy Styles ---------------------------------------------------------
-
     public void setDeleteSource(boolean flag)
     {
         if (flag)
@@ -115,8 +114,9 @@ public class FileQueueCopy implements FileQueueOperation
     /**
      * Overwrite any existing destination file(s).
      *
-     * @param overwrite if true force overwriting of destination file(s) even if the destination
-     *                  file(s) are younger than the corresponding source file. Default is false.
+     * @param overwrite if true force overwriting of destination file(s) even if
+     * the destination file(s) are younger than the corresponding source file.
+     * Default is false.
      */
     public void setOverwrite(boolean flag)
     {
@@ -134,13 +134,13 @@ public class FileQueueCopy implements FileQueueOperation
     {
         if (fromFile.equals(toFile))
         {
-            logger.warning("Skipping self-copy of " + fromFile);
+            LOGGER.warning("Skipping self-copy of " + fromFile);
         }
         else
         {
             try
             {
-                logger.fine("Enqueueing copying " + fromFile + " to " + toFile
+                LOGGER.fine("Enqueueing copying " + fromFile + " to " + toFile
                         + " (0x" + Integer.toHexString(copyStyle) + ")");
                 filequeue.addCopy(fromFile, toFile, copyStyle);
             }

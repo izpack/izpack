@@ -82,7 +82,7 @@ public class PlatformTest extends AbstractPlatformTest
         assertFalse(p2.isA(Name.DEBIAN_LINUX));
 
         Name[] linuxes = {Name.DEBIAN_LINUX, Name.FEDORA_LINUX, Name.MANDRAKE_LINUX, Name.MANDRIVA_LINUX,
-                Name.RED_HAT_LINUX, Name.SUSE_LINUX, Name.UBUNTU_LINUX};
+            Name.RED_HAT_LINUX, Name.SUSE_LINUX, Name.UBUNTU_LINUX};
         for (Name name : linuxes)
         {
             Platform linux = new Platform(name);
@@ -241,10 +241,10 @@ public class PlatformTest extends AbstractPlatformTest
     public void testIsValidDirectoryPath()
     {
         Platform platform1 = new Platform(Name.WINDOWS);
-	//ensure case insensitivity
+        //ensure case insensitivity
         assertTrue(platform1.isValidDirectoryPath("C:\\test"));
         assertTrue(platform1.isValidDirectoryPath("c:\\test"));
-	//screen invalid characters
+        //screen invalid characters
         assertFalse(platform1.isValidDirectoryPath("C:\\*<>"));
     }
 }

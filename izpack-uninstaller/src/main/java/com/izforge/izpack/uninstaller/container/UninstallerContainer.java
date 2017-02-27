@@ -24,11 +24,9 @@ package com.izforge.izpack.uninstaller.container;
 import java.util.Properties;
 
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
 import org.picocontainer.injectors.ProviderAdapter;
 
 import com.izforge.izpack.api.container.Container;
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.container.AbstractContainer;

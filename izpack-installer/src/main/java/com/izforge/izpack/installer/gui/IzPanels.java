@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.gui;
 
 import com.izforge.izpack.api.container.Container;
@@ -27,7 +26,6 @@ import com.izforge.izpack.installer.panel.AbstractPanels;
 
 import java.util.List;
 
-
 /**
  * Implementation of {@link AbstractPanels} for {@link IzPanel}.
  *
@@ -35,6 +33,7 @@ import java.util.List;
  */
 public class IzPanels extends AbstractPanels<IzPanelView, IzPanel>
 {
+
     /**
      * The installation data.
      */
@@ -51,15 +50,16 @@ public class IzPanels extends AbstractPanels<IzPanelView, IzPanel>
     private IzPanelsListener listener;
 
     /**
-     * Determines if the current panel switch is navigating backwards or forwards.
+     * Determines if the current panel switch is navigating backwards or
+     * forwards.
      */
     private boolean isBack = false;
 
     /**
      * Constructs a {@code IzPanels}.
      *
-     * @param panels      the panels
-     * @param container   the container to register {@link IzPanel}s with
+     * @param panels the panels
+     * @param container the container to register {@link IzPanel}s with
      * @param installData the installation data
      */
     public IzPanels(List<IzPanelView> panels, Container container, GUIInstallData installData)
@@ -99,10 +99,11 @@ public class IzPanels extends AbstractPanels<IzPanelView, IzPanel>
     }
 
     /**
-     * Determines if the current panel switch is navigating backwards or forwards.
+     * Determines if the current panel switch is navigating backwards or
+     * forwards.
      *
-     * @return {@code true} if the current panel switch is navigating backwards, {@code false} if navigating forwards
-     *         or no panel switch is in progress
+     * @return {@code true} if the current panel switch is navigating backwards,
+     * {@code false} if navigating forwards or no panel switch is in progress
      */
     public boolean isBack()
     {
@@ -113,7 +114,8 @@ public class IzPanels extends AbstractPanels<IzPanelView, IzPanel>
      * Switches panels.
      *
      * @param newPanel the panel to switch to
-     * @param oldPanel the panel to switch from, or {@code null} if there was no prior panel
+     * @param oldPanel the panel to switch from, or {@code null} if there was no
+     * prior panel
      * @return {@code true} if the switch was successful
      */
     @Override

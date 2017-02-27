@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.search;
 
 /**
@@ -32,7 +31,6 @@ public enum SearchType
      * Indicates to search for files.
      */
     FILE,
-
     /**
      * Indicates to search for directories.
      */

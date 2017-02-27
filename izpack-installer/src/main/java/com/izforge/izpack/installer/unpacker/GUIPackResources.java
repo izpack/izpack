@@ -21,15 +21,16 @@ import java.util.logging.Logger;
  */
 public class GUIPackResources extends AbstractPackResources
 {
+
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(GUIPackResources.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GUIPackResources.class.getName());
 
     /**
      * Constructs a {@code GUIPackResources}.
      *
-     * @param resources   the resources
+     * @param resources the resources
      * @param installData the installation data
      */
     public GUIPackResources(Resources resources, InstallData installData)
@@ -47,7 +48,9 @@ public class GUIPackResources extends AbstractPackResources
         File installerDir = new File(baseName).getParentFile();
 
         if (baseName.contains("/"))
+        {
             baseName = baseName.substring(baseName.lastIndexOf('/'));
+        }
 
         String packFileName = baseName + ".pack-" + name + ".jar";
 
@@ -55,12 +58,12 @@ public class GUIPackResources extends AbstractPackResources
         File packLocalFile = new File(installerDir, packFileName);
         if (packLocalFile.exists() && packLocalFile.canRead())
         {
-            logger.info("Found local pack " + packLocalFile.getAbsolutePath());
+            LOGGER.info("Found local pack " + packLocalFile.getAbsolutePath());
         }
         else
         {
             String packURL = webDirURL + "/" + baseName + ".pack-" + name.replace(" ", "%20") + ".jar";
-            logger.info("Downloading remote pack " + packURL);
+            LOGGER.info("Downloading remote pack " + packURL);
             String tempFolder = IoHelper.translatePath(installData.getInfo().getUninstallerPath()
                     + WEB_TEMP_SUB_PATH, installData.getVariables());
             String tempFile;

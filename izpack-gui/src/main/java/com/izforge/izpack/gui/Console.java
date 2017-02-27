@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.gui;
 
 import java.awt.Dimension;
@@ -49,14 +48,11 @@ import javax.swing.text.Document;
 import javax.swing.text.Segment;
 
 /**
- * Created by IntelliJ IDEA.
- * User: sora
- * Date: Nov 23, 2009
- * Time: 11:37:06 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: sora Date: Nov 23, 2009 Time: 11:37:06 PM To
+ * change this template use File | Settings | File Templates.
  * <p/>
- * TODO - this class is unused, but was commented out in FileExecutor. FileExecutor shouldn't have any GUI
- * use.
+ * TODO - this class is unused, but was commented out in FileExecutor.
+ * FileExecutor shouldn't have any GUI use.
  */
 public final class Console
 {
@@ -214,7 +210,6 @@ public final class Console
         frame.setVisible(false);
     }
 }
-
 
 class ConsoleTextArea extends JTextArea implements KeyListener, DocumentListener
 {

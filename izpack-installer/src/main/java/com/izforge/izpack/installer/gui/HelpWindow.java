@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.gui;
 
 import static java.awt.Desktop.getDesktop;
@@ -45,9 +44,10 @@ import javax.swing.event.HyperlinkListener;
  */
 public class HelpWindow extends JDialog implements HyperlinkListener, ActionListener
 {
+
     private static final long serialVersionUID = -357544689286217809L;
 
-    private static final Logger logger = Logger.getLogger(HelpWindow.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(HelpWindow.class.getName());
 
     private JPanel contentPane = null;
 
@@ -62,7 +62,7 @@ public class HelpWindow extends JDialog implements HyperlinkListener, ActionList
     /**
      * This is the default constructor
      *
-     * @param owner           - owner Frame
+     * @param owner - owner Frame
      * @param closeButtonText - Button Text for Close button
      */
     public HelpWindow(Frame owner, String closeButtonText)
@@ -117,7 +117,7 @@ public class HelpWindow extends JDialog implements HyperlinkListener, ActionList
             }
             catch (java.lang.Throwable e)
             {
-                logger.log(Level.WARNING, e.getMessage(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
         return htmlHelp;
@@ -133,7 +133,7 @@ public class HelpWindow extends JDialog implements HyperlinkListener, ActionList
             }
             catch (java.lang.Throwable e)
             {
-                logger.log(Level.WARNING, e.getMessage(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
         return scrollPane;
@@ -156,7 +156,7 @@ public class HelpWindow extends JDialog implements HyperlinkListener, ActionList
             }
             catch (java.lang.Throwable e)
             {
-                logger.log(Level.WARNING, e.getMessage(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
         return closeButton;
@@ -185,7 +185,7 @@ public class HelpWindow extends JDialog implements HyperlinkListener, ActionList
         }
         catch (Exception ex)
         {
-            logger.log(Level.WARNING, ex.getMessage(), ex);
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }
     }
 
@@ -204,7 +204,7 @@ public class HelpWindow extends JDialog implements HyperlinkListener, ActionList
         }
         catch (IOException e)
         {
-            logger.log(Level.WARNING, e.getMessage(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
         setVisible(true);
     }

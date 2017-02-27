@@ -32,6 +32,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestGUIInstallationContainer.class)
 public class EventTest
 {
+
     private final InstallerListeners listeners;
 
     private final UninstallData uninstallData;

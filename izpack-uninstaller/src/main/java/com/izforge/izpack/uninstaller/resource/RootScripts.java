@@ -58,7 +58,7 @@ public class RootScripts
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(RootScripts.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(RootScripts.class.getName());
 
 
     /**
@@ -143,10 +143,10 @@ public class RootScripts
     {
         try
         {
-            boolean enabled = logger.isLoggable(Level.FINE);
+            boolean enabled = LOGGER.isLoggable(Level.FINE);
             if (enabled)
             {
-                logger.fine("Executing script: " + script);
+                LOGGER.fine("Executing script: " + script);
             }
 
             File file = File.createTempFile("izpackrootscript", ".sh");
@@ -154,12 +154,12 @@ public class RootScripts
             String result = ShellScript.execAndDelete(new StringBuffer(script), file.getPath());
             if (enabled)
             {
-                logger.fine("Result: " + result);
+                LOGGER.fine("Result: " + result);
             }
         }
         catch (Exception exception)
         {
-            logger.log(Level.WARNING, "Failed to execute script: " + exception.getMessage(), exception);
+            LOGGER.log(Level.WARNING, "Failed to execute script: " + exception.getMessage(), exception);
         }
     }
 

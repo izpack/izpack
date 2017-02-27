@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  * Target panel helper methods.
  *
@@ -40,6 +39,7 @@ import java.util.logging.Logger;
  */
 public class TargetPanelHelper
 {
+
     /**
      * Target panel directory variable name.
      */
@@ -53,7 +53,7 @@ public class TargetPanelHelper
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(TargetPanelHelper.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TargetPanelHelper.class.getName());
 
     /**
      * Returns the installation path for the current platform.
@@ -61,7 +61,8 @@ public class TargetPanelHelper
      * This looks for a variable in the following order:
      * <ol>
      * <li>{@code TargetPanel.dir.<platform symbolic name>}</li>
-     * <li>{@code TargetPanel.dir.<platform name>}. This searches any parent platforms if none is found</li>
+     * <li>{@code TargetPanel.dir.<platform name>}. This searches any parent
+     * platforms if none is found</li>
      * <li>{@code TargetPanel.dir}</li>
      * <li>{@code DEFAULT_INSTALL_PATH}</li>
      * <li>{@code SYSTEM_user_dir}</li>
@@ -98,16 +99,18 @@ public class TargetPanelHelper
     }
 
     /**
-     * Determines if there is IzPack installation information at the specified path that is incompatible with the
-     * current version of IzPack.
+     * Determines if there is IzPack installation information at the specified
+     * path that is incompatible with the current version of IzPack.
      * <p/>
-     * To be incompatible, the file {@link InstallData#INSTALLATION_INFORMATION} must exist in the supplied directory,
-     * and not contain recognised {@link Pack} instances.
+     * To be incompatible, the file {@link InstallData#INSTALLATION_INFORMATION}
+     * must exist in the supplied directory, and not contain recognised
+     * {@link Pack} instances.
      *
      * @param dir the path to check
-     * @param readInstallationInformation check .installationinformation file or skip it
+     * @param readInstallationInformation check .installationinformation file or
+     * skip it
      * @return {@code true} if there is incompatible installation information,
-     *         {@code false} if there is no installation info, or it is compatible
+     * {@code false} if there is no installation info, or it is compatible
      */
     @SuppressWarnings("unchecked")
     public static boolean isIncompatibleInstallation(String dir, Boolean readInstallationInformation)
@@ -133,7 +136,7 @@ public class TargetPanelHelper
             }
             catch (Throwable exception)
             {
-                logger.log(Level.FINE, "Installation information at path=" + file.getPath()
+                LOGGER.log(Level.FINE, "Installation information at path=" + file.getPath()
                         + " failed to deserialize", exception);
                 result = true;
             }
@@ -150,10 +153,12 @@ public class TargetPanelHelper
     /**
      * Returns the installation path for the current platform.
      * <p/>
-     * This looks for a variable prefixed with {@code TargetPanel.dir} in the following order:
+     * This looks for a variable prefixed with {@code TargetPanel.dir} in the
+     * following order:
      * <ol>
      * <li>{@code TargetPanel.dir.<platform symbolic name>}</li>
-     * <li>{@code TargetPanel.dir.<platform name>}. This searches any parent platforms if none is found</li>
+     * <li>{@code TargetPanel.dir.<platform name>}. This searches any parent
+     * platforms if none is found</li>
      * <li>{@code TargetPanel.dir}</li>
      * </ol>
      *
@@ -182,11 +187,12 @@ public class TargetPanelHelper
     /**
      * Returns the installation path for the specified platform name.
      * <p/>
-     * This looks for a variable named {@code TargetPanel.dir.<platform name>}. If none is found, it searches the
-     * parent platforms, in a breadth-first manner.
+     * This looks for a variable named {@code TargetPanel.dir.<platform name>}.
+     * If none is found, it searches the parent platforms, in a breadth-first
+     * manner.
      *
      * @param installData the installation data
-     * @param name        the platform name
+     * @param name the platform name
      * @return the default path, or {@code null} if none is found
      */
     private static String getTargetPanelDir(InstallData installData, Platform.Name name)

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.unix;
 
 import com.izforge.izpack.util.StringTool;
@@ -35,14 +34,12 @@ public class UnixUsers extends ArrayList<UnixUser>
 {
 
     // ~ Static fields/initializers *********************************************************
-
     /**
      * serialVersionUID = -4804842346742194981L;
      */
     private static final long serialVersionUID = -4804842346742194981L;
 
     // ~ Constructors ***********************************************************************
-
     /**
      * Creates a new UnixUsers object.
      */
@@ -53,7 +50,6 @@ public class UnixUsers extends ArrayList<UnixUser>
     }
 
     // ~ Methods ****************************************************************************
-
     /**
      * Gets all known users with valid shells
      *
@@ -77,7 +73,8 @@ public class UnixUsers extends ArrayList<UnixUser>
     }
 
     /**
-     * Gets all known users with valid shells and really existing (not dummy) Homefolders.
+     * Gets all known users with valid shells and really existing (not dummy)
+     * Homefolders.
      *
      * @return an UnixUsers Arraylist of these users
      */
@@ -99,12 +96,12 @@ public class UnixUsers extends ArrayList<UnixUser>
     }
 
     /**
-     * Gets all known users with valid shells and really existing (not dummy) Home And!
-     * freedesktop.org/RFC-based "Desktop" folders.
+     * Gets all known users with valid shells and really existing (not dummy)
+     * Home And! freedesktop.org/RFC-based "Desktop" folders.
      *
      * @return an UnixUsers Arraylist of these users
      */
-    public ArrayList<UnixUser> _getUsersWithValidShellsExistingHomesAndDesktops()
+    public ArrayList<UnixUser> getUsersWithValidShellsExistingHomesAndDesktops0()
     {
         ArrayList<UnixUser> result = new ArrayList<UnixUser>();
 
@@ -137,11 +134,11 @@ public class UnixUsers extends ArrayList<UnixUser>
         {
             if (user.getHome() != null)
             {
-                File DesktopFolder = new File(user.getXdgDesktopfolder());
+                File desktopFolder = new File(user.getXdgDesktopfolder());
 
-                if (DesktopFolder.exists() && DesktopFolder.isDirectory())
+                if (desktopFolder.exists() && desktopFolder.isDirectory())
                 {
-                    result.add(DesktopFolder.toString());
+                    result.add(desktopFolder.toString());
                 }
             }
         }
@@ -150,8 +147,8 @@ public class UnixUsers extends ArrayList<UnixUser>
     }
 
     /**
-     * Gets all known users with valid shells and really existing (not dummy) Home And!
-     * freedesktop.org/RFC-based "Desktop" folders.
+     * Gets all known users with valid shells and really existing (not dummy)
+     * Home And! freedesktop.org/RFC-based "Desktop" folders.
      *
      * @return an UnixUsers Arraylist of these users
      */
@@ -159,7 +156,7 @@ public class UnixUsers extends ArrayList<UnixUser>
     {
         UnixUsers users = new UnixUsers();
 
-        return users._getUsersWithValidShellsExistingHomesAndDesktops();
+        return users.getUsersWithValidShellsExistingHomesAndDesktops0();
     }
 
     /**
@@ -206,7 +203,8 @@ public class UnixUsers extends ArrayList<UnixUser>
     /**
      * Returns all Users as ColonSeparated String
      *
-     * @return "asterisk:at:avahi:beagleindex:bin:daemon:dhcpd:ftp:games:gdm:haldaemon:icecream:irc:ldap:lp:mail:mailman:man:...."
+     * @return
+     * "asterisk:at:avahi:beagleindex:bin:daemon:dhcpd:ftp:games:gdm:haldaemon:icecream:irc:ldap:lp:mail:mailman:man:...."
      */
     public static String getUsersColonString()
     {

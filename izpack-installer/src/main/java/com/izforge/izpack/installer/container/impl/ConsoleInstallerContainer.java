@@ -18,11 +18,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.container.impl;
 
-
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.console.ConsolePanelAutomationHelper;

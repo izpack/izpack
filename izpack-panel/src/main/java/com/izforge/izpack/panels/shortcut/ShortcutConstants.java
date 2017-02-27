@@ -2,6 +2,7 @@ package com.izforge.izpack.panels.shortcut;
 
 public class ShortcutConstants
 {
+
     private ShortcutConstants()
     {
         //Prevent instantiation
@@ -92,7 +93,6 @@ public class ShortcutConstants
     // ------------------------------------------------------
     // spec file attribute values
     // ------------------------------------------------------
-
     static final String SPEC_VALUE_APPLICATIONS = "applications";
 
     static final String SPEC_VALUE_START_MENU = "startMenu";
@@ -118,7 +118,10 @@ public class ShortcutConstants
 
     static final String AUTO_KEY_CREATE_STARTUP_SHORTCUTS = "createStartupShortcuts";
 
-    static final String[] SHORTCUT_TYPES = {AUTO_KEY_CREATE_MENU_SHORTCUTS, AUTO_KEY_CREATE_DESKTOP_SHORTCUTS, AUTO_KEY_CREATE_STARTUP_SHORTCUTS};
+    static final String[] SHORTCUT_TYPES =
+    {
+        AUTO_KEY_CREATE_MENU_SHORTCUTS, AUTO_KEY_CREATE_DESKTOP_SHORTCUTS, AUTO_KEY_CREATE_STARTUP_SHORTCUTS
+    };
     //For backwards comparability reasons
     static final String AUTO_KEY_CREATE_SHORTCUTS_LEGACY = "createShortcuts";
 
@@ -127,7 +130,6 @@ public class ShortcutConstants
     static final String AUTO_KEY_SHORTCUT_TYPE_VALUE_USER = "user";
 
     // permission flags
-
     static final String CREATE_FOR_ALL = "createForAll";
 
     static final String DEFAULT_FOLDER = "(Default)";

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.jdkpath;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -43,6 +42,7 @@ import java.util.Properties;
  */
 public class JDKPathConsolePanel extends AbstractConsolePanel
 {
+
     private InstallData installData;
     private final VariableSubstitutor variableSubstitutor;
     private final RegistryDefaultHandler handler;
@@ -51,11 +51,11 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
      * Constructs a <tt>JDKPathConsolePanelHelper</tt>.
      *
      * @param variableSubstitutor the variable substituter
-     * @param handler             the registry handler
-     * @param panel               the parent panel/view. May be {@code null}
+     * @param handler the registry handler
+     * @param panel the parent panel/view. May be {@code null}
      */
     public JDKPathConsolePanel(VariableSubstitutor variableSubstitutor, RegistryDefaultHandler handler,
-                               PanelView<ConsolePanel> panel, InstallData installData)
+            PanelView<ConsolePanel> panel, InstallData installData)
     {
         super(panel);
         this.handler = handler;
@@ -91,8 +91,9 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @param console the console
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     @Override
     public boolean run(InstallData installData, Console console)
@@ -102,7 +103,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
         String detectedJavaVersion = "";
         String defaultValue = JDKPathPanelHelper.getDefaultJavaPath(installData, handler);
 
-        if(JDKPathPanelHelper.skipPanel(installData, defaultValue))
+        if (JDKPathPanelHelper.skipPanel(installData, defaultValue))
         {
             return true;
         }
@@ -127,7 +128,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
                 if (errorMessage.endsWith("?"))
                 {
                     errorMessage += "\n" + messages.get("JDKPathPanel.badVersion4");
-                    String strIn = console.prompt(errorMessage, (String)null);
+                    String strIn = console.prompt(errorMessage, (String) null);
                     if (strIn == null)
                     {
                         return false;
@@ -155,7 +156,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
     @Override
     public boolean generateOptions(InstallData installData, Options options)
     {
-        final String name =JDKPathPanelHelper.JDK_PATH;
+        final String name = JDKPathPanelHelper.JDK_PATH;
         options.add(name, installData.getVariable(name));
         options.addEmptyLine(name);
         options.putComment(name, Arrays.asList(getPanel().getPanelId()));

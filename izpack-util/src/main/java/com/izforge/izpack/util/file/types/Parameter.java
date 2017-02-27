@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types;
 
 /**
@@ -22,6 +21,7 @@ package com.izforge.izpack.util.file.types;
  */
 public final class Parameter
 {
+
     private String name;
     private String type;
     private String value;

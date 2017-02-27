@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import java.util.Map;
@@ -28,7 +27,6 @@ import java.util.logging.Logger;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.panels.userinput.processorclient.ValuesProcessingClient;
 import com.izforge.izpack.panels.userinput.validator.Validator;
-
 
 /**
  * FieldValidator is a wrapper around a {@link Validator}.
@@ -66,12 +64,12 @@ public class FieldValidator
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(FieldValidator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FieldValidator.class.getName());
 
     /**
      * Constructs a {@code FieldValidator}.
      *
-     * @param type    the validator class
+     * @param type the validator class
      * @param message the validation error message. May be {@code null}
      * @param factory the factory for creating the validator
      */
@@ -83,10 +81,10 @@ public class FieldValidator
     /**
      * Constructs a {@code FieldValidator}.
      *
-     * @param className  the validator class name
+     * @param className the validator class name
      * @param parameters the validation parameters. May be {@code null}
-     * @param message    the validation error message. May be {@code null}
-     * @param factory    the factory for creating the validator
+     * @param message the validation error message. May be {@code null}
+     * @param factory the factory for creating the validator
      */
     public FieldValidator(String className, Map<String, String> parameters, String message, ObjectFactory factory)
     {
@@ -134,16 +132,16 @@ public class FieldValidator
             }
             values.setParameters(parameters);
             result = validator.validate(values);
-            if (logger.isLoggable(Level.FINE))
+            if (LOGGER.isLoggable(Level.FINE))
             {
-                logger.log(Level.FINE, "Validation " + (result ? "OK" : "FAILED") + " using "
+                LOGGER.log(Level.FINE, "Validation " + (result ? "OK" : "FAILED") + " using "
                         + validator.getClass().getSimpleName());
             }
         }
         catch (Throwable exception)
         {
-            logger.log(Level.WARNING, "Validation using " + className + " failed: " + exception.getMessage(),
-                       exception);
+            LOGGER.log(Level.WARNING, "Validation using " + className + " failed: " + exception.getMessage(),
+                    exception);
         }
         return result;
     }

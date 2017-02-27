@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.util.ArrayList;
@@ -31,8 +30,9 @@ import com.izforge.izpack.api.config.Options;
 
 public class OptionsBuilder implements OptionsHandler
 {
+
     private List<String> lastComments = new ArrayList<String>();
-    private Options _options;
+    private Options options;
 
     public static OptionsBuilder newInstance(Options opts)
     {
@@ -45,22 +45,28 @@ public class OptionsBuilder implements OptionsHandler
 
     public void setOptions(Options value)
     {
-        _options = value;
+        this.options = value;
     }
 
-    @Override public void endOptions()
+    @Override
+    public void endOptions()
     {
         setFooterComment();
     }
 
-    @Override public void handleComment(List<String> comment)
+    @Override
+    public void handleComment(List<String> comment)
     {
         lastComments.addAll(comment);
     }
 
-    @Override public void handleEmptyLine()  {}
+    @Override
+    public void handleEmptyLine()
+    {
+    }
 
-    @Override public void handleOption(String name, String value)
+    @Override
+    public void handleOption(String name, String value)
     {
         String newName = name;
         if (getConfig().isAutoNumbering() && name.matches("(.+\\.)+[\\d]+(\\.+.*)*"))
@@ -94,35 +100,33 @@ public class OptionsBuilder implements OptionsHandler
             newName = sb.toString();
 
             // check whether key has been added before
-            if (!_options.containsKey(newName))
+            if (!this.options.containsKey(newName))
             {
-                _options.add(newName, null);
+                this.options.add(newName, null);
             }
 
             // resize list for key if it is too small
-            for (int i = _options.getAll(newName).size(); i <= pos; i++)
+            for (int i = this.options.getAll(newName).size(); i <= pos; i++)
             {
-                _options.add(newName, null);
+                this.options.add(newName, null);
             }
 
-            _options.put(newName, value, pos);
+            this.options.put(newName, value, pos);
+        }
+        else if (getConfig().isMultiOption())
+        {
+            this.options.add(newName, value);
         }
         else
         {
-            if (getConfig().isMultiOption())
-            {
-                _options.add(newName, value);
-            }
-            else
-            {
-                _options.put(newName, value);
-            }
+            this.options.put(newName, value);
         }
 
         putComment(newName);
     }
 
-    @Override public void startOptions()
+    @Override
+    public void startOptions()
     {
         lastComments.clear();
     }
@@ -134,24 +138,24 @@ public class OptionsBuilder implements OptionsHandler
 
     private Config getConfig()
     {
-        return _options.getConfig();
+        return this.options.getConfig();
     }
 
     private void setFooterComment()
     {
-        if (getConfig().isComment() &&  !lastComments.isEmpty())
+        if (getConfig().isComment() && !lastComments.isEmpty())
         {
-            _options.setFooterComment((List<String>)lastComments);
+            this.options.setFooterComment((List<String>) lastComments);
         }
     }
 
     private void putComment(String key)
     {
-        if (getConfig().isComment() &&  !lastComments.isEmpty())
+        if (getConfig().isComment() && !lastComments.isEmpty())
         {
             // TODO Handle comments between multi-options
             // (currently, the last one appeared replaces the others)
-            _options.putComment(key, (List<String>)lastComments);
+            this.options.putComment(key, (List<String>) lastComments);
             lastComments = new LinkedList<String>();
         }
     }

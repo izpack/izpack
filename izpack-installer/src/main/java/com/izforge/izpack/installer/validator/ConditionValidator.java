@@ -8,10 +8,10 @@ import com.izforge.izpack.api.installer.DataValidator;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.gui.IzPanel;
 
-
 public class ConditionValidator implements DataValidator
 {
-    private static final Logger logger = Logger.getLogger(IzPanel.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(IzPanel.class.getName());
 
     private String lastFailedConditionId;
 
@@ -26,7 +26,7 @@ public class ConditionValidator implements DataValidator
             {
                 if (!rules.getCondition(conditionId).isTrue())
                 {
-                    logger.fine("Validation failed on condition: " + conditionId);
+                    LOGGER.fine("Validation failed on condition: " + conditionId);
                     lastFailedConditionId = conditionId;
                     return Status.ERROR;
                 }

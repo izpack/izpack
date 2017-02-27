@@ -31,6 +31,7 @@ import java.net.URL;
 
 public interface Persistable
 {
+
     File getFile();
 
     void setFile(File value);

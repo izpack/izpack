@@ -53,7 +53,6 @@ import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Platforms;
 
-
 /**
  * Base class for panel tests.
  *
@@ -114,23 +113,22 @@ public class AbstractPanelTest
      */
     private IzPanels panels;
 
-
     /**
      * Constructs a {@code AbstractPanelTest}.
      *
-     * @param container           the test container
-     * @param installData         the installation data
-     * @param resourceManager     the resource manager
-     * @param factory             the panel factory
-     * @param rules               the rules
-     * @param icons               the icons
+     * @param container the test container
+     * @param installData the installation data
+     * @param resourceManager the resource manager
+     * @param factory the panel factory
+     * @param rules the rules
+     * @param icons the icons
      * @param uninstallDataWriter the uninstallation data writer
-     * @param locales             the locales
+     * @param locales the locales
      */
     public AbstractPanelTest(TestGUIPanelContainer container, GUIInstallData installData,
-                             ResourceManager resourceManager,
-                             ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
-                             UninstallDataWriter uninstallDataWriter, Locales locales)
+            ResourceManager resourceManager,
+            ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
+            UninstallDataWriter uninstallDataWriter, Locales locales)
     {
         this.container = container;
         this.installData = installData;
@@ -254,10 +252,10 @@ public class AbstractPanelTest
                     panels = new IzPanels(panelViews, container, installData);
                     DefaultNavigator navigator = new DefaultNavigator(panels, icons, installData);
                     InstallerFrame frame = new InstallerFrame(installData, rules,
-                                                              icons, panels, uninstallDataWriter, resourceManager,
-                                                              Mockito.mock(UninstallData.class),
-                                                              Mockito.mock(Housekeeper.class), navigator,
-                                                              Mockito.mock(Log.class), locales);
+                            icons, panels, uninstallDataWriter, resourceManager,
+                            Mockito.mock(UninstallData.class),
+                            Mockito.mock(Housekeeper.class), navigator,
+                            Mockito.mock(Log.class), locales);
                     handle[0] = frame;
                 }
             });
@@ -302,4 +300,3 @@ public class AbstractPanelTest
     }
 
 }
-

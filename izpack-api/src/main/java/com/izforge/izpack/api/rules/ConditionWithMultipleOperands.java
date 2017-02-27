@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.rules;
 
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import java.util.Set;
 
 public abstract class ConditionWithMultipleOperands extends Condition
 {
+
     private static final long serialVersionUID = -947580950752190486L;
 
     protected List<Condition> nestedConditions = new ArrayList<Condition>();
@@ -42,9 +42,11 @@ public abstract class ConditionWithMultipleOperands extends Condition
     }
 
     @Override
-    public Set<String> getVarRefs() {
+    public Set<String> getVarRefs()
+    {
         HashSet<String> vars = new HashSet<String>();
-        for (Condition condition : nestedConditions) {
+        for (Condition condition : nestedConditions)
+        {
             vars.addAll(condition.getVarRefs());
         }
         return vars;

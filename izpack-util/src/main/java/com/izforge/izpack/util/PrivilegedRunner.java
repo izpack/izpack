@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import com.izforge.izpack.api.data.Info;
@@ -36,9 +35,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class is responsible for allowing the installer to re-launch itself with administrator permissions.
- * The way of achieving this greatly varies among the platforms. The JDK classes are of not help here as there
- * is no way to tell a JVM to run as a different user but to launch a new one.
+ * This class is responsible for allowing the installer to re-launch itself with
+ * administrator permissions. The way of achieving this greatly varies among the
+ * platforms. The JDK classes are of not help here as there is no way to tell a
+ * JVM to run as a different user but to launch a new one.
  *
  * @author Julien Ponge
  */
@@ -53,8 +53,7 @@ public class PrivilegedRunner
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(PrivilegedRunner.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(PrivilegedRunner.class.getName());
 
     /**
      * Builds a default privileged runner.
@@ -66,11 +65,11 @@ public class PrivilegedRunner
         this.platform = platform;
     }
 
-
     /**
      * Checks if the current platform is supported.
      *
-     * @return <code>true</code> if the platform is supported, <code>false</code> otherwise.
+     * @return <code>true</code> if the platform is supported,
+     * <code>false</code> otherwise.
      */
     public boolean isPlatformSupported()
     {
@@ -78,9 +77,11 @@ public class PrivilegedRunner
     }
 
     /**
-     * Determines if elevated rights are required to install/uninstall the application.
+     * Determines if elevated rights are required to install/uninstall the
+     * application.
      *
-     * @return <code>true</code> if elevation is needed to have administrator permissions, <code>false</code> otherwise.
+     * @return <code>true</code> if elevation is needed to have administrator
+     * permissions, <code>false</code> otherwise.
      */
     public boolean isElevationNeeded()
     {
@@ -88,10 +89,13 @@ public class PrivilegedRunner
     }
 
     /**
-     * Determines if elevated rights are required to install/uninstall the application.
+     * Determines if elevated rights are required to install/uninstall the
+     * application.
      *
-     * @param path the installation path, or <tt>null</tt> if the installation path is unknown
-     * @return <tt>true</tt> if elevation is needed to have administrator permissions, <tt>false</tt> otherwise.
+     * @param path the installation path, or <tt>null</tt> if the installation
+     * path is unknown
+     * @return <tt>true</tt> if elevation is needed to have administrator
+     * permissions, <tt>false</tt> otherwise.
      */
     public boolean isElevationNeeded(String path)
     {
@@ -109,16 +113,13 @@ public class PrivilegedRunner
             }
             result = !isPrivilegedMode() && !canWrite(path);
         }
+        else if (path != null)
+        {
+            result = !canWrite(path);
+        }
         else
         {
-            if (path != null)
-            {
-                result = !canWrite(path);
-            }
-            else
-            {
-                result = !System.getProperty("user.name").equals("root");
-            }
+            result = !System.getProperty("user.name").equals("root");
         }
         return result;
     }
@@ -134,8 +135,8 @@ public class PrivilegedRunner
         {
             try
             {
-                String NTAuthority = "HKU\\S-1-5-19";
-                String command = "reg query \""+ NTAuthority + "\"";
+                String nTAuthority = "HKU\\S-1-5-19";
+                String command = "reg query \"" + nTAuthority + "\"";
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
                 return (p.exitValue() == 0);
@@ -181,7 +182,7 @@ public class PrivilegedRunner
             }
             if (shouldElevate)
             {
-               return isAdminUser();
+                return isAdminUser();
             }
         }
         return true;
@@ -190,17 +191,19 @@ public class PrivilegedRunner
     /**
      * Relaunches the installer with elevated rights.
      *
-     * @return the status code returned by the launched process (by convention, 0 means a success).
-     * @throws IOException          if an I/O error occurs
+     * @return the status code returned by the launched process (by convention,
+     * 0 means a success).
+     * @throws IOException if an I/O error occurs
      * @throws InterruptedException if the launch was interrupted
      */
     public int relaunchWithElevatedRights() throws Exception
     {
         return relaunchWithElevatedRights(new String[0]);
     }
-    public int relaunchWithElevatedRights(String ... args) throws Exception
+
+    public int relaunchWithElevatedRights(String... args) throws Exception
     {
-        if(!platform.isA(WINDOWS))
+        if (!platform.isA(WINDOWS))
         {
             throw new Exception("Installer should be run as admin");
         }
@@ -208,9 +211,9 @@ public class PrivilegedRunner
         String installer = getInstallerJar();
         ProcessBuilder builder = new ProcessBuilder(getElevator(javaCommand, installer, args));
 
-        if (logger.isLoggable(Level.INFO))
+        if (LOGGER.isLoggable(Level.INFO))
         {
-            logger.info("Relaunching: " + StringTool.listToString(builder.command(), " "));
+            LOGGER.info("Relaunching: " + StringTool.listToString(builder.command(), " "));
         }
 
         builder.environment().put("izpack.mode", "privileged");
@@ -259,7 +262,7 @@ public class PrivilegedRunner
             elevator.add("-jar");
             elevator.add(installer);
         }
-        for(String arg : args)
+        for (String arg : args)
         {
             elevator.add(arg);
         }
@@ -325,7 +328,7 @@ public class PrivilegedRunner
         }
         catch (Exception e)
         {
-            logger.log(Level.INFO, e.getMessage(), e);
+            LOGGER.log(Level.INFO, e.getMessage(), e);
         }
         return null;
     }
@@ -334,7 +337,7 @@ public class PrivilegedRunner
     {
         String java;
         boolean console = false;
-        if(args.length > 0)
+        if (args.length > 0)
         {
             console = true;
         }
@@ -360,7 +363,8 @@ public class PrivilegedRunner
      * Determines if the specified path can be written to.
      *
      * @param path the path to check
-     * @return <tt>true</tt> if the path can be written to, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the path can be written to, otherwise
+     * <tt>false</tt>
      */
     private boolean canWrite(String path)
     {

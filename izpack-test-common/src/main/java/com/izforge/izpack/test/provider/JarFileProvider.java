@@ -9,8 +9,10 @@ import org.picocontainer.injectors.ProviderAdapter;
 
 public class JarFileProvider extends ProviderAdapter
 {
-    public JarFile provide(File file) throws IOException {
-      return new JarFile(file, true);
+
+    public JarFile provide(File file) throws IOException
+    {
+        return new JarFile(file, true);
     }
 
     @Override

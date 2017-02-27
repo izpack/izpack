@@ -29,7 +29,7 @@ public class ConditionCheckTest
     private ConditionCheck conditionCheck;
 
     public ConditionCheckTest(InstallData installData, ResourceManager resourceManager,
-                              RulesEngine rules)
+            RulesEngine rules)
     {
         this.conditionCheck = new ConditionCheck(installData, resourceManager, rules);
     }

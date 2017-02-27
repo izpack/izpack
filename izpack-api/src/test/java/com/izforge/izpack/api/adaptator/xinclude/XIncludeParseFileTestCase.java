@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.adaptator.xinclude;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -25,8 +24,7 @@ import java.io.FileInputStream;
 import java.net.URL;
 
 /**
- * Test the XInclude style functionality.
- * Use a file as an inputStream
+ * Test the XInclude style functionality. Use a file as an inputStream
  */
 public class XIncludeParseFileTestCase extends BaseXIncludeTestCase
 {
@@ -43,6 +41,5 @@ public class XIncludeParseFileTestCase extends BaseXIncludeTestCase
         IXMLElement expectedElement = parser.parse(new FileInputStream(fileExcept), fileInput.getAbsolutePath());
         deepEqual(expectedElement, inputElement);
     }
-
 
 }

@@ -23,6 +23,7 @@ import org.junit.rules.TemporaryFolder;
 
 public class ConfigFileValueTest
 {
+
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
@@ -41,35 +42,43 @@ public class ConfigFileValueTest
 
         byte[] buf = new byte[1024];
 
-        try {
+        try
+        {
             zipFile = folder.newFile("test.zip");
             ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(zipFile));
             FileInputStream in = new FileInputStream(properties);
             zout.putNextEntry(new ZipEntry("test.properties"));
             int len;
-            while ((len = in.read(buf)) > 0) {
+            while ((len = in.read(buf)) > 0)
+            {
                 zout.write(buf, 0, len);
             }
             zout.closeEntry();
             in.close();
             zout.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             fail(e.getMessage());
         }
 
-        try {
+        try
+        {
             jarFile = folder.newFile("test.jar");
             JarOutputStream jout = new JarOutputStream(new FileOutputStream(jarFile));
             FileInputStream in = new FileInputStream(properties);
             jout.putNextEntry(new JarEntry("test.properties"));
             int len;
-            while ((len = in.read(buf)) > 0) {
+            while ((len = in.read(buf)) > 0)
+            {
                 jout.write(buf, 0, len);
             }
             jout.closeEntry();
             in.close();
             jout.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             fail(e.getMessage());
         }
     }
@@ -123,9 +132,10 @@ public class ConfigFileValueTest
     }
 
     @After
-    public void cleanUp() {
-       Assert.assertTrue(properties.exists());
-       Assert.assertTrue(zipFile.exists());
-       Assert.assertTrue(jarFile.exists());
+    public void cleanUp()
+    {
+        Assert.assertTrue(properties.exists());
+        Assert.assertTrue(zipFile.exists());
+        Assert.assertTrue(jarFile.exists());
     }
 }

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container;
 
 import org.picocontainer.MutablePicoContainer;
@@ -26,7 +25,6 @@ import org.picocontainer.MutablePicoContainer;
 import com.izforge.izpack.installer.container.impl.GUIInstallerContainer;
 import com.izforge.izpack.test.util.TestHousekeeper;
 import com.izforge.izpack.util.Housekeeper;
-
 
 /**
  * Test installer container for GUI based installers.

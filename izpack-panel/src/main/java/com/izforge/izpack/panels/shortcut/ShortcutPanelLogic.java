@@ -16,7 +16,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.panels.shortcut;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -55,18 +54,20 @@ import static com.izforge.izpack.panels.shortcut.ShortcutConstants.*;
 import static com.izforge.izpack.util.Platform.Name.UNIX;
 
 /**
- * This class implements a the logic for the creation of shortcuts. The logic is used in the
- * ShortcutPanel, ShortcutPanelAutomationHelper.
+ * This class implements a the logic for the creation of shortcuts. The logic is
+ * used in the ShortcutPanel, ShortcutPanelAutomationHelper.
  * <p/>
  *
  * @version $Revision: 1.2 $
  */
 public class ShortcutPanelLogic implements CleanupClient
 {
-    private static transient final Logger logger = Logger.getLogger(ShortcutPanelLogic.class.getName());
+
+    private static transient final Logger LOGGER = Logger.getLogger(ShortcutPanelLogic.class.getName());
 
     /**
-     * The default name to use for the program group. This comes from the XML specification.
+     * The default name to use for the program group. This comes from the XML
+     * specification.
      */
     private String suggestedProgramGroup;
 
@@ -96,46 +97,51 @@ public class ShortcutPanelLogic implements CleanupClient
     private Shortcut shortcut;
 
     /**
-     * A list of all <ShortcutData> objects, excluding those that should be placed on the desktop.
-     * Each object is the complete specification for one shortcut that must be created.
+     * A list of all <ShortcutData> objects, excluding those that should be
+     * placed on the desktop. Each object is the complete specification for one
+     * shortcut that must be created.
      */
     private List<ShortcutData> shortcuts;
 
     /**
      * A list of <ShortcutData> objects that should be placed on the desktop.
-     * Each object is the complete specification for one shortcut that must be created.
+     * Each object is the complete specification for one shortcut that must be
+     * created.
      */
     private List<ShortcutData> desktopShortcuts;
 
     /**
-     * A list of <ShortcutData> objects that should be placed in the startup location.
-     * Each object is the complete specification for one shortcut that must be created.
+     * A list of <ShortcutData> objects that should be placed in the startup
+     * location. Each object is the complete specification for one shortcut that
+     * must be created.
      */
     private List<ShortcutData> startupShortcuts;
 
     /**
-     * Holds a list of all the shortcut files that have been created. Note: this variable contains
-     * valid data only after createMenuShortcuts() has been called. This list is created so that the
-     * files can be added to the uninstaller.
+     * Holds a list of all the shortcut files that have been created. Note: this
+     * variable contains valid data only after createMenuShortcuts() has been
+     * called. This list is created so that the files can be added to the
+     * uninstaller.
      */
     private List<String> files;
 
     /**
-     * Holds a list of all executables to set the executable flag alter shortcut createn.
+     * Holds a list of all executables to set the executable flag alter shortcut
+     * createn.
      */
     private List<ExecutableFile> execFiles;
 
     /**
-     * If true it indicates that there are shortcuts to create. The value is set by
-     * createShortcutData()
+     * If true it indicates that there are shortcuts to create. The value is set
+     * by createShortcutData()
      */
     private boolean createMenuShortcuts = false;
 
     private boolean createShortcuts = false;
 
     /**
-     * This is set to true if the shortcut spec instructs to simulate running on an operating system
-     * that is not supported.
+     * This is set to true if the shortcut spec instructs to simulate running on
+     * an operating system that is not supported.
      */
     private boolean simulateNotSupported = false;
 
@@ -166,17 +172,17 @@ public class ShortcutPanelLogic implements CleanupClient
     /**
      * Constructs a <tt>ShortcutPanelLogic</tt>.
      *
-     * @param installData   the installation data
-     * @param resources     the resources
+     * @param installData the installation data
+     * @param resources the resources
      * @param uninstallData the uninstallation data
-     * @param housekeeper   the house keeper
-     * @param factory       the factory for platform-specific implementations
-     * @param matcher       the platform-model matcher
+     * @param housekeeper the house keeper
+     * @param factory the factory for platform-specific implementations
+     * @param matcher the platform-model matcher
      * @throws Exception for any error
      */
     public ShortcutPanelLogic(InstallData installData, Resources resources, UninstallData uninstallData,
-                              Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
-                              PlatformModelMatcher matcher) throws Exception
+            Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
+            PlatformModelMatcher matcher) throws Exception
     {
         this.matcher = matcher;
         this.resources = resources;
@@ -196,18 +202,19 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * Refresh the shortcut data.
-     * Should be done every time the shortcut panel is visited as variables can change,
-     * and we need to make the appropriate substitutions.
+     * Refresh the shortcut data. Should be done every time the shortcut panel
+     * is visited as variables can change, and we need to make the appropriate
+     * substitutions.
      *
      * @throws Exception
      */
-    public void refreshShortcutData() throws  Exception
+    public void refreshShortcutData() throws Exception
     {
         IXMLElement spec = readShortcutSpec();
         loadClassData(spec);
         createShortcutData(spec);
     }
+
     /**
      * Creates the shortcuts
      *
@@ -215,7 +222,7 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     public void createAndRegisterShortcuts()
     {
-        if(createMenuShortcuts)
+        if (createMenuShortcuts)
         {
             createShortcuts(shortcuts);
         }
@@ -231,7 +238,8 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * @param user type of the user {@link Shortcut#ALL_USERS} or {@link Shortcut#CURRENT_USER}
+     * @param user type of the user {@link Shortcut#ALL_USERS} or
+     * {@link Shortcut#CURRENT_USER}
      * @return a list of progrma group names.
      */
     public List<String> getProgramGroups(int user)
@@ -247,7 +255,8 @@ public class ShortcutPanelLogic implements CleanupClient
     /**
      * Returns the ProgramsFolder for the current User
      *
-     * @param user type of the user {@link Shortcut#ALL_USERS} or {@link Shortcut#CURRENT_USER}
+     * @param user type of the user {@link Shortcut#ALL_USERS} or
+     * {@link Shortcut#CURRENT_USER}
      * @return The basedir
      */
     public File getProgramsFolder(int user)
@@ -293,13 +302,16 @@ public class ShortcutPanelLogic implements CleanupClient
 
     /**
      * @param panelRoot
-     * @return a list of xml child elements to write a autoinstall.xml file for later execution
+     * @return a list of xml child elements to write a autoinstall.xml file for
+     * later execution
      */
     public List<IXMLElement> getAutoinstallXMLData(IXMLElement panelRoot)
     {
         List<IXMLElement> xmlData = new ArrayList<IXMLElement>();
 
-        /** For backwards compatibility reasons */
+        /**
+         * For backwards compatibility reasons
+         */
         IXMLElement dataElement;
         dataElement = new XMLElementImpl(AUTO_KEY_CREATE_MENU_SHORTCUTS, panelRoot);
 
@@ -392,12 +404,11 @@ public class ShortcutPanelLogic implements CleanupClient
             }
         }
 
-
     }
 
     /**
-     * @return <code>true</code> if current user is the default for the panel otherwise
-     *         <code>false</code>
+     * @return <code>true</code> if current user is the default for the panel
+     * otherwise <code>false</code>
      */
     public final boolean isDefaultCurrentUserFlag()
     {
@@ -405,8 +416,8 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * @return <code>true</code> if we have desktop shortcuts in the spec otherwise
-     *         <code>false</code>
+     * @return <code>true</code> if we have desktop shortcuts in the spec
+     * otherwise <code>false</code>
      */
     public boolean hasDesktopShortcuts()
     {
@@ -432,7 +443,8 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * @return <code>true</code> if we create shortcuts at all otherwise <code>false</code>
+     * @return <code>true</code> if we create shortcuts at all otherwise
+     * <code>false</code>
      */
     public boolean isCreateMenuShortcuts()
     {
@@ -448,8 +460,8 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * @return <code>true</code> if we skip shortcut panel and shortcut creation if this is not
-     *         supported on the current OS otherwise <code>false</code>
+     * @return <code>true</code> if we skip shortcut panel and shortcut creation
+     * if this is not supported on the current OS otherwise <code>false</code>
      */
     public boolean skipIfNotSupported()
     {
@@ -457,7 +469,8 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * @return <code>true</code> if shortcut creation is supported otherwise <code>false</code>
+     * @return <code>true</code> if shortcut creation is supported otherwise
+     * <code>false</code>
      */
     public boolean isSupported()
     {
@@ -465,7 +478,8 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * @return <code>true</code> if we support multiple users otherwise <code>false</code>
+     * @return <code>true</code> if we support multiple users otherwise
+     * <code>false</code>
      */
     public boolean isSupportingMultipleUsers()
     {
@@ -493,8 +507,9 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * This method saves all shortcut information to a text file.
-     * TODO: Show an error dialog if fail to write
+     * This method saves all shortcut information to a text file. TODO: Show an
+     * error dialog if fail to write
+     *
      * @param file to save the information to
      */
     public void saveToFile(File file)
@@ -516,7 +531,7 @@ public class ShortcutPanelLogic implements CleanupClient
         }
 
         /**
-         *  Break the header down into multiple lines based on '\n' line breaks.
+         * Break the header down into multiple lines based on '\n' line breaks.
          */
         int nextIndex;
         int currentIndex = 0;
@@ -660,15 +675,16 @@ public class ShortcutPanelLogic implements CleanupClient
     /**
      * Initialises the user type.
      *
-     * @return {@code true} if the current user has permissions to write to the All Users programs folder.
+     * @return {@code true} if the current user has permissions to write to the
+     * All Users programs folder.
      */
     public boolean initUserType()
     {
         File dir = getProgramsFolder(Shortcut.ALL_USERS);
 
-        logger.fine("All Users Program Folder: '" + dir + "'");
+        LOGGER.fine("All Users Program Folder: '" + dir + "'");
         boolean writable = isWritable(dir);
-        logger.fine((writable ? "Can" : "Cannot") + " write into '" + dir + "'");
+        LOGGER.fine((writable ? "Can" : "Cannot") + " write into '" + dir + "'");
 
         boolean allUsers = !isDefaultCurrentUserFlag() && writable;
 
@@ -779,20 +795,18 @@ public class ShortcutPanelLogic implements CleanupClient
         }
 
         /**
-         * 1.
-         * 2. Set flag if 'defaultCurrentUser' element found
-         * 3. Find out if we should simulate a not supported scenario
-         * 4. Set flag if 'lateShortcutInstall' element found
+         * 1. 2. Set flag if 'defaultCurrentUser' element found 3. Find out if
+         * we should simulate a not supported scenario 4. Set flag if
+         * 'lateShortcutInstall' element found
          */
         simulateNotSupported = (spec.getFirstChildNamed(SPEC_KEY_NOT_SUPPORTED) != null);
         defaultCurrentUserFlag = (spec.getFirstChildNamed(SPEC_KEY_DEF_CUR_USER) != null);
         skipIfNotSupported = (spec.getFirstChildNamed(SPEC_KEY_SKIP_IFNOT_SUPPORTED) != null);
         setCreateShortcutsImmediately(spec.getFirstChildNamed(SPEC_KEY_LATE_INSTALL) == null);
 
-
         /**
-         * Find out in which program group the shortcuts should
-         * be placed and where this program group should be located
+         * Find out in which program group the shortcuts should be placed and
+         * where this program group should be located
          */
         IXMLElement group = null;
         List<IXMLElement> groupSpecs = spec.getChildrenNamed(SPEC_KEY_PROGRAM_GROUP);
@@ -847,9 +861,10 @@ public class ShortcutPanelLogic implements CleanupClient
             // ignore
         }
     }
+
     /**
-     * This method analyzes the specifications for creating shortcuts and builds a list of all the
-     * Shortcuts that need to be created.
+     * This method analyzes the specifications for creating shortcuts and builds
+     * a list of all the Shortcuts that need to be created.
      */
     private void createShortcutData(IXMLElement spec)
     {
@@ -859,12 +874,11 @@ public class ShortcutPanelLogic implements CleanupClient
         }
 
         /**
-         * Create a list of all shortcuts that need to be
-         * created, containing all details about each shortcut
+         * Create a list of all shortcuts that need to be created, containing
+         * all details about each shortcut
          */
         ShortcutData data;
         List<IXMLElement> shortcutSpecs = spec.getChildrenNamed(SPEC_KEY_SHORTCUT);
-
 
         files = new ArrayList<String>();
         execFiles = new ArrayList<ExecutableFile>();
@@ -880,12 +894,12 @@ public class ShortcutPanelLogic implements CleanupClient
                 continue;
             }
 
-            logger.fine("Checking Condition for " + shortcutSpec.getAttribute(SPEC_ATTRIBUTE_NAME));
+            LOGGER.fine("Checking Condition for " + shortcutSpec.getAttribute(SPEC_ATTRIBUTE_NAME));
             if (!checkConditions(shortcutSpec))
             {
                 continue;
             }
-            logger.fine("Checked Condition for " + shortcutSpec.getAttribute(SPEC_ATTRIBUTE_NAME));
+            LOGGER.fine("Checked Condition for " + shortcutSpec.getAttribute(SPEC_ATTRIBUTE_NAME));
 
             data = new ShortcutData();
 
@@ -894,20 +908,19 @@ public class ShortcutPanelLogic implements CleanupClient
             data.description = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_DESCRIPTION, "");
 
             // ** Linux **//
-            data.deskTopEntryLinux_URL = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_URL, "");
-            data.deskTopEntryLinux_Type = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TYPE, "");
-            data.deskTopEntryLinux_Encoding = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_ENCODING, "");
-            data.deskTopEntryLinux_MimeType = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_MIMETYPE, "");
+            data.deskTopEntryLinuxURL = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_URL, "");
+            data.deskTopEntryLinuxType = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TYPE, "");
+            data.deskTopEntryLinuxEncoding = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_ENCODING, "");
+            data.deskTopEntryLinuxMimeType = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_MIMETYPE, "");
 
-            data.deskTopEntryLinux_Terminal = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TERMINAL, "");
-            data.deskTopEntryLinux_TerminalOptions = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TERMINAL_OPTIONS, "");
+            data.deskTopEntryLinuxTerminal = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TERMINAL, "");
+            data.deskTopEntryLinuxTerminalOptions = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_TERMINAL_OPTIONS, "");
 
-            data.deskTopEntryLinux_X_KDE_UserName = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_KDE_USERNAME, "root");
-            data.deskTopEntryLinux_X_KDE_SubstituteUID = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_KDE_SUBST_UID, "false");
+            data.deskTopEntryLinuxXKDEUserName = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_KDE_USERNAME, "root");
+            data.deskTopEntryLinuxXKDESubstituteUID = shortcutSpec.getAttribute(SPEC_ATTRIBUTE_KDE_SUBST_UID, "false");
 
-
-            data.TryExec = shortcutSpec.getAttribute(SPEC_TRYEXEC, "");
-            data.Categories = shortcutSpec.getAttribute(SPEC_CATEGORIES, "");
+            data.tryExec = shortcutSpec.getAttribute(SPEC_TRYEXEC, "");
+            data.categories = shortcutSpec.getAttribute(SPEC_CATEGORIES, "");
             data.createForAll = Boolean.valueOf(shortcutSpec.getAttribute(CREATE_FOR_ALL, "false"));
             // ** End of Linux **//
 
@@ -944,15 +957,15 @@ public class ShortcutPanelLogic implements CleanupClient
                     shortcutSpec.getAttribute(SPEC_ATTRIBUTE_RUN_AS_ADMINISTRATOR, "false"));
 
             /**
-             * If the minimal installDataGUI requirements are met to create the shortcut,
-             * create one entry each for each of the requested types.
-             * Eventually this will cause the creation of one shortcut in each of the associated locations.
+             * If the minimal installDataGUI requirements are met to create the
+             * shortcut, create one entry each for each of the requested types.
+             * Eventually this will cause the creation of one shortcut in each
+             * of the associated locations.
              */
-
             // without a name we can not create a shortcut
             if (data.name == null)
             {
-                logger.warning("Shorcut specification is missing the name attribute");
+                LOGGER.warning("Shorcut specification is missing the name attribute");
                 continue;
             }
 
@@ -960,7 +973,7 @@ public class ShortcutPanelLogic implements CleanupClient
             // 2. Marc: "No, Even on Linux a Link can be an URL and has no target."
             if (data.target == null)
             {
-                logger.warning("Shortcut " + data.name + "has not target");
+                LOGGER.warning("Shortcut " + data.name + "has not target");
                 data.target = "";
             }
 
@@ -986,9 +999,11 @@ public class ShortcutPanelLogic implements CleanupClient
                 /**
                  * Attribute: desktop
                  *
-                 *     If the value is true, then a copy of the shortcut is placed on the desktop.
-                 *     On Unix the shortcuts will only be placed on the KDE desktop of the user currently running the installer.
-                 *     For Gnome the user can simply copy the .desktop files from *\/Desktop to /gnome-desktop.
+                 * If the value is true, then a copy of the shortcut is placed
+                 * on the desktop. On Unix the shortcuts will only be placed on
+                 * the KDE desktop of the user currently running the installer.
+                 * For Gnome the user can simply copy the .desktop files from
+                 * *\/Desktop to /gnome-desktop.
                  */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_DESKTOP))
                 {
@@ -1000,9 +1015,11 @@ public class ShortcutPanelLogic implements CleanupClient
                 /**
                  * Attribute: applications
                  *
-                 * If the value is true, then a copy of the shortcut is placed in the applications menu
-                 * (if the target operating system supports this). This is the same location as the applications
-                 * choice for the programGroup element. Setting applications="true" is equivalent to setting
+                 * If the value is true, then a copy of the shortcut is placed
+                 * in the applications menu (if the target operating system
+                 * supports this). This is the same location as the applications
+                 * choice for the programGroup element. Setting
+                 * applications="true" is equivalent to setting
                  * programGroup="true" on Unix.
                  */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_APPLICATIONS))
@@ -1015,8 +1032,9 @@ public class ShortcutPanelLogic implements CleanupClient
                 /**
                  * Attribute: startMenu
                  *
-                 * If the value is true, then a copy of the shortcut is placed directly in the top most menu
-                 * that is available for placing application shortcuts. This is not supported on Unix.
+                 * If the value is true, then a copy of the shortcut is placed
+                 * directly in the top most menu that is available for placing
+                 * application shortcuts. This is not supported on Unix.
                  */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_START_MENU))
                 {
@@ -1028,9 +1046,10 @@ public class ShortcutPanelLogic implements CleanupClient
                 /**
                  * Attribute: startup
                  *
-                 * If the value is true, then a copy of the shortcut is placed in a location where all
-                 * applications get automatically started at OS launch time, if this is available on the target OS.
-                 * This is not supported on Unix.
+                 * If the value is true, then a copy of the shortcut is placed
+                 * in a location where all applications get automatically
+                 * started at OS launch time, if this is available on the target
+                 * OS. This is not supported on Unix.
                  */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_STARTUP))
                 {
@@ -1040,10 +1059,11 @@ public class ShortcutPanelLogic implements CleanupClient
                 }
 
                 /**
-                 *  Attribute: programGroup
+                 * Attribute: programGroup
                  *
-                 *     If the value is true, then a copy of this shortcut will be placed in the group menu.
-                 *     On Unix (KDE) this will always be placed on the top level.
+                 * If the value is true, then a copy of this shortcut will be
+                 * placed in the group menu. On Unix (KDE) this will always be
+                 * placed on the top level.
                  */
                 if (XMLHelper.attributeIsTrue(shortcutSpec, SPEC_ATTRIBUTE_PROGRAM_GROUP))
                 {
@@ -1065,8 +1085,8 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * This returns true if a Shortcut should or can be created.
-     * Returns false to suppress Creation
+     * This returns true if a Shortcut should or can be created. Returns false
+     * to suppress Creation
      *
      * @param shortcutSpec
      * @return true if condition is resolved positive
@@ -1087,7 +1107,7 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     private void createShortcuts(List<ShortcutData> shortcuts)
     {
-        if(!createShortcuts)
+        if (!createShortcuts)
         {
             return;
         }
@@ -1109,18 +1129,18 @@ public class ShortcutPanelLogic implements CleanupClient
                 shortcut.setShowCommand(data.initialState);
                 shortcut.setTargetPath(data.target);
                 shortcut.setWorkingDirectory(data.workingDirectory);
-                shortcut.setEncoding(data.deskTopEntryLinux_Encoding);
-                shortcut.setMimetype(data.deskTopEntryLinux_MimeType);
+                shortcut.setEncoding(data.deskTopEntryLinuxEncoding);
+                shortcut.setMimetype(data.deskTopEntryLinuxMimeType);
                 shortcut.setRunAsAdministrator(data.runAsAdministrator);
 
-                shortcut.setTerminal(data.deskTopEntryLinux_Terminal);
-                shortcut.setTerminalOptions(data.deskTopEntryLinux_TerminalOptions);
-                shortcut.setType(data.deskTopEntryLinux_Type);
-                shortcut.setKdeSubstUID(data.deskTopEntryLinux_X_KDE_SubstituteUID);
-                shortcut.setKdeUserName(data.deskTopEntryLinux_X_KDE_UserName);
-                shortcut.setURL(data.deskTopEntryLinux_URL);
-                shortcut.setTryExec(data.TryExec);
-                shortcut.setCategories(data.Categories);
+                shortcut.setTerminal(data.deskTopEntryLinuxTerminal);
+                shortcut.setTerminalOptions(data.deskTopEntryLinuxTerminalOptions);
+                shortcut.setType(data.deskTopEntryLinuxType);
+                shortcut.setKdeSubstUID(data.deskTopEntryLinuxXKDESubstituteUID);
+                shortcut.setKdeUserName(data.deskTopEntryLinuxXKDEUserName);
+                shortcut.setURL(data.deskTopEntryLinuxURL);
+                shortcut.setTryExec(data.tryExec);
+                shortcut.setCategories(data.categories);
                 shortcut.setCreateForAll(data.createForAll);
                 shortcut.setUninstaller(uninstallData);
 
@@ -1137,9 +1157,9 @@ public class ShortcutPanelLogic implements CleanupClient
 
                 if (data.type == Shortcut.APPLICATIONS || data.addToGroup)
                 {
-                    if (shortcut instanceof com.izforge.izpack.util.os.Unix_Shortcut)
+                    if (shortcut instanceof com.izforge.izpack.util.os.UnixShortcut)
                     {
-                        com.izforge.izpack.util.os.Unix_Shortcut unixcut = (com.izforge.izpack.util.os.Unix_Shortcut) shortcut;
+                        com.izforge.izpack.util.os.UnixShortcut unixcut = (com.izforge.izpack.util.os.UnixShortcut) shortcut;
                         String f = unixcut.getWrittenFileName();
                         if (f != null)
                         {
@@ -1157,7 +1177,7 @@ public class ShortcutPanelLogic implements CleanupClient
                 Vector<File> intermediates = new Vector<File>();
 
                 execFiles.add(new ExecutableFile(fileName, ExecutableFile.UNINSTALL,
-                                                 ExecutableFile.IGNORE, new ArrayList<OsModel>(), false));
+                        ExecutableFile.IGNORE, new ArrayList<OsModel>(), false));
                 files.add(fileName);
 
                 while ((file = file.getParentFile()) != null)
@@ -1228,8 +1248,7 @@ public class ShortcutPanelLogic implements CleanupClient
     private String createXDGMenu(List<String> shortcutFiles, String menuName)
     {
         String menuConfigText = "<Menu>\n" + "<Name>Applications</Name>\n" + "<Menu>\n"
-                +
-                // Ubuntu can't handle spaces, replace with "-"
+                + // Ubuntu can't handle spaces, replace with "-"
                 "<Directory>" + menuName.replaceAll(" ", "-") + "-izpack.directory</Directory>\n"
                 + "<Name>" + menuName + "</Name>\n" + "<Include>\n";
 
@@ -1251,11 +1270,13 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * Attempt to read load specifications from OS specific shortcut specification file.
-     * If fail to read from OS specific shortcut specification file, attempt to load general shortcut specification file.
+     * Attempt to read load specifications from OS specific shortcut
+     * specification file. If fail to read from OS specific shortcut
+     * specification file, attempt to load general shortcut specification file.
      *
-     * @throws Exception for any problems in reading the specification
-     * TODO: If internal flag mapped installData.isDebug() print out information on substitutedSpec
+     * @throws Exception for any problems in reading the specification TODO: If
+     * internal flag mapped installData.isDebug() print out information on
+     * substitutedSpec
      */
     private IXMLElement readShortcutSpec() throws Exception
     {
@@ -1295,15 +1316,15 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * Verifies if the shortcut is required for any of the packs listed. The shortcut is required
-     * for a pack in the list if that pack is actually selected for installation. Note: If the list
-     * of selected packs is empty then true is always returnd. The same is true if the packs list is
-     * empty.
+     * Verifies if the shortcut is required for any of the packs listed. The
+     * shortcut is required for a pack in the list if that pack is actually
+     * selected for installation. Note: If the list of selected packs is empty
+     * then true is always returnd. The same is true if the packs list is empty.
      *
-     * @param packs a Vector of Strings. Each of the strings denotes a pack for which the schortcut
-     *              should be created if the pack is actually installed.
-     * @return true if the shortcut is required for at least on pack in the list, otherwise returns
-     *         false.
+     * @param packs a Vector of Strings. Each of the strings denotes a pack for
+     * which the schortcut should be created if the pack is actually installed.
+     * @return true if the shortcut is required for at least on pack in the
+     * list, otherwise returns false.
      */
     private boolean shortcutRequiredFor(List<IXMLElement> packs)
     {
@@ -1344,7 +1365,7 @@ public class ShortcutPanelLogic implements CleanupClient
         catch (Exception ignore)
         {
             failed = true;
-            logger.warning("Failed to create Gnome menu");
+            LOGGER.warning("Failed to create Gnome menu");
         }
         if (!failed)
         {
@@ -1353,7 +1374,7 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     private void writeXDGMenuFile(List<String> desktopFileNames, String groupName, String icon,
-                                  String comment)
+            String comment)
     {
         if ("".equals(suggestedProgramGroup) || suggestedProgramGroup == null)
         {
@@ -1405,16 +1426,16 @@ public class ShortcutPanelLogic implements CleanupClient
 
     /**
      * Creates the Shortcuts after files have been installed. Used to support
-     * {@code &lt;lateShortcutInstall/&gt;} to allow placement of ShortcutPanel before the
-     * installation of the files.
+     * {@code &lt;lateShortcutInstall/&gt;} to allow placement of ShortcutPanel
+     * before the installation of the files.
      *
      * @author Marcus Schlegel, Pulinco, Daniel Abson
      */
     protected class LateShortcutInstallListener extends AbstractInstallerListener
     {
+
         /**
-         * Triggers the creation of shortcuts.
-         * {@inheritDoc}
+         * Triggers the creation of shortcuts. {@inheritDoc}
          */
         @Override
         public void afterPacks(List<Pack> packs, ProgressListener listener)
@@ -1438,16 +1459,16 @@ public class ShortcutPanelLogic implements CleanupClient
      */
     public String verifyProgramGroup(String groupName)
     {
-        if(!platform.isValidDirectorySyntax(groupName))
+        if (!platform.isValidDirectorySyntax(groupName))
         {
-                return installData.getMessages().get("ShortcutPanel.group.error");
+            return installData.getMessages().get("ShortcutPanel.group.error");
         }
-       return "";
+        return "";
     }
 
     /**
-     * @return <code>true</code> it the shortcuts will be created after clicking next,
-     *         otherwise <code>false</code>
+     * @return <code>true</code> it the shortcuts will be created after clicking
+     * next, otherwise <code>false</code>
      */
     public final boolean isCreateShortcutsImmediately()
     {
@@ -1455,7 +1476,8 @@ public class ShortcutPanelLogic implements CleanupClient
     }
 
     /**
-     * Tell the ShortcutPanel to not create the shortcuts immediately after clicking next.
+     * Tell the ShortcutPanel to not create the shortcuts immediately after
+     * clicking next.
      *
      * @param createShortcutsImmediately
      */
@@ -1464,9 +1486,9 @@ public class ShortcutPanelLogic implements CleanupClient
         this.createShortcutsImmediately = createShortcutsImmediately;
     }
 
-
     /**
      * Shortcut Panel should know what platform it is dealing with.
+     *
      * @param platform
      */
     public void setPlatform(Platform platform)
@@ -1476,6 +1498,7 @@ public class ShortcutPanelLogic implements CleanupClient
 
     /**
      * If specifications were valid than we can create shortcuts.
+     *
      * @return
      */
     public boolean canCreateShortcuts()

@@ -18,14 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.check;
 
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.panels.userinput.console.ConsoleField;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.util.Console;
-
 
 /**
  * Console check field.
@@ -34,12 +32,13 @@ import com.izforge.izpack.util.Console;
  */
 public class ConsoleCheckField extends ConsoleField
 {
+
     /**
      * Constructs a {@link ConsoleCheckField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleCheckField(CheckField field, Console console, Prompt prompt)
     {
@@ -62,7 +61,8 @@ public class ConsoleCheckField extends ConsoleField
      * <p/>
      * For fields that update variables, this collects input and validates it.
      *
-     * @return {@code true} if the field was displayed and validated successfully
+     * @return {@code true} if the field was displayed and validated
+     * successfully
      */
     @Override
     public boolean display()

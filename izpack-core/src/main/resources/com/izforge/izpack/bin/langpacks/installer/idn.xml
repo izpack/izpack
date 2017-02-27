@@ -306,7 +306,7 @@
     <!-- Strings for the logging/reporting system (Messenger) -->
 
     <!-- This string defines the time stamp format in the installation report.
-         The format details are documented in java.text.SimpleDateFormat -->
+    The format details are documented in java.text.SimpleDateFormat -->
     <str id="log.timeStamp" txt="dd-MM-yyyy [HH:mm:ss]  zzzz"/>
 
     <!-- Strings for various purposes in the logging/reporting system  -->
@@ -335,7 +335,7 @@
          txt="&lt;html&gt;Pemasangan bisa jadi telah tidak selesai dengan sukses!&lt;br&gt;Apakah Anda ingin menulis suatu berkas catatan?&lt;/html&gt;"/>
 
     <!-- Strings for individual messages in the logging/reporting system.
-         Numbers for each category (message/warning/error) start at 0  -->
+    Numbers for each category (message/warning/error) start at 0  -->
     <str id="log.message_" txt=""/>
 
     <str id="log.warning_" txt=""/>

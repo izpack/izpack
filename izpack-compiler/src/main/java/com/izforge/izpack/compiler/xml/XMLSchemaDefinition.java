@@ -42,12 +42,16 @@ public enum XMLSchemaDefinition
 
     XMLSchemaDefinition(final String shortName)
     {
-        this.resources = new String[]{
-                "/schema/" + VERSION + "/izpack-types-" + VERSION + ".xsd",
-                "/schema/" + VERSION + "/izpack-" + shortName + "-" + VERSION + ".xsd"};
-        this.systemIds = new String[]{
-                "http://izpack.org/schema/types",
-                "http://izpack.org/schema/" + shortName};
+        this.resources = new String[]
+        {
+            "/schema/" + VERSION + "/izpack-types-" + VERSION + ".xsd",
+            "/schema/" + VERSION + "/izpack-" + shortName + "-" + VERSION + ".xsd"
+        };
+        this.systemIds = new String[]
+        {
+            "http://izpack.org/schema/types",
+            "http://izpack.org/schema/" + shortName
+        };
     }
 
     private String[] resources()
@@ -72,5 +76,5 @@ public enum XMLSchemaDefinition
         return sources;
     }
 
-    ;
+;
 }

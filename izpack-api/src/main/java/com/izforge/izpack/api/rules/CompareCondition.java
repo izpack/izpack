@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.rules;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -27,6 +26,7 @@ import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 
 public abstract class CompareCondition extends Condition
 {
+
     private static final long serialVersionUID = 5449799513620657114L;
 
     protected String operand1;
@@ -70,7 +70,6 @@ public abstract class CompareCondition extends Condition
         return operator;
     }
 
-
     public void setOperator(ComparisonOperator operator)
     {
         this.operator = operator;
@@ -110,7 +109,6 @@ public abstract class CompareCondition extends Condition
         details.append("</b><br/>");
         return details.toString();
     }
-
 
     @Override
     public void makeXMLData(IXMLElement conditionRoot)

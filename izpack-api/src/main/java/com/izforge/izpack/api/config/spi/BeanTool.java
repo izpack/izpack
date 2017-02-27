@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.beans.IntrospectionException;
@@ -35,6 +34,7 @@ import java.util.TimeZone;
 
 public class BeanTool
 {
+
     private static final String PARSE_METHOD = "valueOf";
     private static final BeanTool INSTANCE = ServiceFinder.findService(BeanTool.class);
 
@@ -140,20 +140,17 @@ public class BeanTool
         {
             o = parsePrimitiveValue(value, clazz);
         }
+        else if (clazz == String.class)
+        {
+            o = value;
+        }
+        else if (clazz == Character.class)
+        {
+            o = new Character(value.charAt(0));
+        }
         else
         {
-            if (clazz == String.class)
-            {
-                o = value;
-            }
-            else if (clazz == Character.class)
-            {
-                o = new Character(value.charAt(0));
-            }
-            else
-            {
-                o = parseSpecialValue(value, clazz);
-            }
+            o = parseSpecialValue(value, clazz);
         }
 
         return (T) o;
@@ -161,8 +158,11 @@ public class BeanTool
 
     public <T> T proxy(Class<T> clazz, BeanAccess props)
     {
-        return clazz.cast(Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { clazz },
-                    new BeanInvocationHandler(props)));
+        return clazz.cast(Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]
+        {
+            clazz
+        },
+                new BeanInvocationHandler(props)));
     }
 
     @SuppressWarnings("unchecked")
@@ -240,9 +240,15 @@ public class BeanTool
 
                 // TODO handle constructor with String arg as converter from String
                 // look for "valueOf" converter method
-                Method parser = clazz.getMethod(PARSE_METHOD, new Class[] { String.class });
+                Method parser = clazz.getMethod(PARSE_METHOD, new Class[]
+                {
+                    String.class
+                });
 
-                o = parser.invoke(null, new Object[] { value });
+                o = parser.invoke(null, new Object[]
+                {
+                    value
+                });
             }
         }
         catch (Exception x)
@@ -314,20 +320,22 @@ public class BeanTool
 
     static class BeanInvocationHandler extends AbstractBeanInvocationHandler
     {
-        private final BeanAccess _backend;
+
+        private final BeanAccess backend;
 
         BeanInvocationHandler(BeanAccess backend)
         {
-            _backend = backend;
+            this.backend = backend;
         }
 
-        @Override protected Object getPropertySpi(String property, Class<?> clazz)
+        @Override
+        protected Object getPropertySpi(String property, Class<?> clazz)
         {
             Object ret = null;
 
             if (clazz.isArray())
             {
-                int length = _backend.propLength(property);
+                int length = this.backend.propLength(property);
 
                 if (length != 0)
                 {
@@ -335,7 +343,7 @@ public class BeanTool
 
                     for (int i = 0; i < all.length; i++)
                     {
-                        all[i] = _backend.propGet(property, i);
+                        all[i] = this.backend.propGet(property, i);
                     }
 
                     ret = all;
@@ -343,31 +351,33 @@ public class BeanTool
             }
             else
             {
-                ret = _backend.propGet(property);
+                ret = this.backend.propGet(property);
             }
 
             return ret;
         }
 
-        @Override protected void setPropertySpi(String property, Object value, Class<?> clazz)
+        @Override
+        protected void setPropertySpi(String property, Object value, Class<?> clazz)
         {
             if (clazz.isArray())
             {
-                _backend.propDel(property);
+                this.backend.propDel(property);
                 for (int i = 0; i < Array.getLength(value); i++)
                 {
-                    _backend.propAdd(property, Array.get(value, i).toString());
+                    this.backend.propAdd(property, Array.get(value, i).toString());
                 }
             }
             else
             {
-                _backend.propSet(property, value.toString());
+                this.backend.propSet(property, value.toString());
             }
         }
 
-        @Override protected boolean hasPropertySpi(String property)
+        @Override
+        protected boolean hasPropertySpi(String property)
         {
-            return _backend.propLength(property) != 0;
+            return this.backend.propLength(property) != 0;
         }
     }
 }

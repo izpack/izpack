@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import com.izforge.izpack.api.config.Config;
@@ -28,7 +27,8 @@ import com.izforge.izpack.api.config.Profile;
 
 public class IniBuilder extends AbstractProfileBuilder implements IniHandler
 {
-    private Ini _ini;
+
+    private Ini ini;
 
     public static IniBuilder newInstance(Ini ini)
     {
@@ -41,17 +41,19 @@ public class IniBuilder extends AbstractProfileBuilder implements IniHandler
 
     public void setIni(Ini value)
     {
-        _ini = value;
+        this.ini = value;
     }
 
-    @Override Config getConfig()
+    @Override
+    Config getConfig()
     {
-        return _ini.getConfig();
+        return this.ini.getConfig();
     }
 
-    @Override Profile getProfile()
+    @Override
+    Profile getProfile()
     {
-        return _ini;
+        return this.ini;
     }
 
     private static IniBuilder newInstance()

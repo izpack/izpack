@@ -49,10 +49,9 @@ import com.izforge.izpack.panels.test.AbstractPanelTest;
 import com.izforge.izpack.panels.test.TestGUIPanelContainer;
 import com.izforge.izpack.test.Container;
 
-
 /**
- * Tests the {@link ProcessPanel}.
- * TODO - this only covers a fraction of ProcessPanel functionality.
+ * Tests the {@link ProcessPanel}. TODO - this only covers a fraction of
+ * ProcessPanel functionality.
  *
  * @author Tim Anderson
  */
@@ -65,22 +64,21 @@ public class ProcessPanelTest extends AbstractPanelTest
      */
     private LookAndFeel lookAndFeel;
 
-
     /**
      * Constructs a {@code ProcessPanelTest}.
      *
-     * @param container           the test container
-     * @param installData         the installation data
-     * @param resourceManager     the resource manager
-     * @param factory             the panel factory
-     * @param rules               the rules
-     * @param icons               the icons
+     * @param container the test container
+     * @param installData the installation data
+     * @param resourceManager the resource manager
+     * @param factory the panel factory
+     * @param rules the rules
+     * @param icons the icons
      * @param uninstallDataWriter the uninstallation data writer
-     * @param locales             the locales
+     * @param locales the locales
      */
     public ProcessPanelTest(TestGUIPanelContainer container, GUIInstallData installData,
-                            ResourceManager resourceManager, ObjectFactory factory, RulesEngine rules,
-                            IconsDatabase icons, UninstallDataWriter uninstallDataWriter, Locales locales)
+            ResourceManager resourceManager, ObjectFactory factory, RulesEngine rules,
+            IconsDatabase icons, UninstallDataWriter uninstallDataWriter, Locales locales)
     {
         super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
     }
@@ -130,12 +128,19 @@ public class ProcessPanelTest extends AbstractPanelTest
 
         // verify Executable was run the expected no. of times, with the expected arguments
         assertEquals(2, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
-        assertArrayEquals(Executable.getArgs(1), new String[]{"run1", "somearg"});
+        assertArrayEquals(Executable.getArgs(0), new String[]
+        {
+            "run0"
+        });
+        assertArrayEquals(Executable.getArgs(1), new String[]
+        {
+            "run1", "somearg"
+        });
     }
 
     /**
-     * Verifies that a dialog is displayed if the specified <em>executeclass</em> throws an exception.
+     * Verifies that a dialog is displayed if the specified
+     * <em>executeclass</em> throws an exception.
      *
      * @throws Exception for any error
      */
@@ -162,7 +167,7 @@ public class ProcessPanelTest extends AbstractPanelTest
         DialogFixture dialogFixture = fixture.dialog();
         dialogFixture.requireVisible();
         assertThat(dialogFixture.label("OptionPane.label").text(),
-                   StringContains.containsString("Executable exception"));
+                StringContains.containsString("Executable exception"));
         dialogFixture.button().click();
 
         Thread.sleep(2000);
@@ -172,7 +177,10 @@ public class ProcessPanelTest extends AbstractPanelTest
 
         // verify Executable was run the expected no. of times, with the expected arguments
         assertEquals(1, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
+        assertArrayEquals(Executable.getArgs(0), new String[]
+        {
+            "run0"
+        });
     }
 
 }

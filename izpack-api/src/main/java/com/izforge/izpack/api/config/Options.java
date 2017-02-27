@@ -32,11 +32,12 @@ import com.izforge.izpack.api.config.spi.OptionsParser;
 
 public class Options extends BasicOptionMap implements Persistable, Configurable
 {
+
     private static final long serialVersionUID = -1119753444859181822L;
-    private List<String> _headerComment;
-    private List<String> _footerComment;
-    private Config _config;
-    private File _file;
+    private List<String> headerComment;
+    private List<String> footerComment;
+    private Config config;
+    private File file;
 
     public Options()
     {
@@ -88,108 +89,121 @@ public class Options extends BasicOptionMap implements Persistable, Configurable
     public Options(File input) throws IOException, InvalidFileFormatException
     {
         this();
-        _file = input;
+        this.file = input;
         load();
     }
 
     public Options(File input, Config config) throws IOException, InvalidFileFormatException
     {
         this(config);
-        _file = input;
+        this.file = input;
         load();
     }
 
     public List<String> getHeaderComment()
     {
-        return _headerComment;
+        return this.headerComment;
     }
 
     public void setHeaderComment(List<String> value)
     {
-        _headerComment = value;
+        this.headerComment = value;
     }
 
     public List<String> getFooterComment()
     {
-        return _footerComment;
+        return this.footerComment;
     }
 
     public void setFooterComment(List<String> value)
     {
-        _footerComment = value;
+        this.footerComment = value;
     }
 
-    @Override public Config getConfig()
+    @Override
+    public Config getConfig()
     {
-        return _config;
+        return this.config;
     }
 
-    @Override public void setConfig(Config value)
+    @Override
+    public void setConfig(Config value)
     {
-        _config = value;
+        this.config = value;
     }
 
-    @Override public File getFile()
+    @Override
+    public File getFile()
     {
-        return _file;
+        return this.file;
     }
 
-    @Override public void setFile(File value)
+    @Override
+    public void setFile(File value)
     {
-        _file = value;
+        this.file = value;
     }
 
-    @Override public void load() throws IOException, InvalidFileFormatException
+    @Override
+    public void load() throws IOException, InvalidFileFormatException
     {
-        if (_file == null)
+        if (this.file == null)
         {
             throw new FileNotFoundException();
         }
 
-        load(_file);
+        load(this.file);
     }
 
-    @Override public void load(InputStream input) throws IOException, InvalidFileFormatException
+    @Override
+    public void load(InputStream input) throws IOException, InvalidFileFormatException
     {
         load(new InputStreamReader(input, getConfig().getFileEncoding()));
     }
 
-    @Override public void load(Reader input) throws IOException, InvalidFileFormatException
+    @Override
+    public void load(Reader input) throws IOException, InvalidFileFormatException
     {
         OptionsParser.newInstance(getConfig()).parse(input, newBuilder());
     }
 
-    @Override public void load(URL input) throws IOException, InvalidFileFormatException
+    @Override
+    public void load(URL input) throws IOException, InvalidFileFormatException
     {
         OptionsParser.newInstance(getConfig()).parse(input, newBuilder());
     }
 
-    @Override public void load(File input) throws IOException, InvalidFileFormatException
+    @Override
+    public void load(File input) throws IOException, InvalidFileFormatException
     {
         load(input.toURI().toURL());
     }
 
-    @Override public void store() throws IOException
+    @Override
+    public void store() throws IOException
     {
-        if (_file == null)
+        if (this.file == null)
         {
             throw new FileNotFoundException();
         }
 
-        store(_file);
+        store(this.file);
     }
 
-    @Override public void store(OutputStream output) throws IOException
+    @Override
+    public void store(OutputStream output) throws IOException
     {
         store(new OutputStreamWriter(output, getConfig().getFileEncoding()));
     }
 
-    @Override public void store(Writer output) throws IOException
+    @Override
+    public void store(Writer output) throws IOException
     {
         store(OptionsFormatter.newInstance(output, getConfig()));
     }
 
-    @Override public void store(File output) throws IOException
+    @Override
+    public void store(File output) throws IOException
     {
         OutputStream stream = new FileOutputStream(output);
 
@@ -205,7 +219,7 @@ public class Options extends BasicOptionMap implements Persistable, Configurable
     protected void store(OptionsHandler formatter) throws IOException
     {
         formatter.startOptions();
-        storeComment(formatter, _headerComment);
+        storeComment(formatter, this.headerComment);
 
         for (String name : keySet())
         {
@@ -245,16 +259,17 @@ public class Options extends BasicOptionMap implements Persistable, Configurable
                 }
             }
         }
-        if (_footerComment != null)
+        if (this.footerComment != null)
         {
             formatter.handleEmptyLine();
-            storeComment(formatter, _footerComment);
+            storeComment(formatter, this.footerComment);
         }
 
         formatter.endOptions();
     }
 
-    @Override boolean isPropertyFirstUpper()
+    @Override
+    boolean isPropertyFirstUpper()
     {
         return getConfig().isPropertyFirstUpper();
     }

@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.io.IOException;
@@ -32,6 +31,7 @@ import com.izforge.izpack.api.config.InvalidFileFormatException;
 
 public class OptionsParser extends AbstractParser
 {
+
     private static final String COMMENTS = "!#";
     private static final String OPERATORS = ":=";
 

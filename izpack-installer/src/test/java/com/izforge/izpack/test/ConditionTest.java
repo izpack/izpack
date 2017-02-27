@@ -15,7 +15,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -32,14 +31,7 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.core.rules.logic.AndCondition;
-import com.izforge.izpack.core.rules.logic.NotCondition;
-import com.izforge.izpack.core.rules.logic.OrCondition;
-import com.izforge.izpack.core.rules.process.ExistsCondition;
-import com.izforge.izpack.core.rules.process.RefCondition;
-import com.izforge.izpack.core.rules.process.VariableCondition;
 import com.izforge.izpack.test.junit.PicoRunner;
-
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
@@ -76,7 +68,7 @@ public class ConditionTest
         conditions.addChild(createVariableExistsCondition("haveInstallPath", "INSTALL_PATH", ownerDocument));
         conditions.addChild(createVariableCondition("isNewVersion", "previous.version", "UNKNOWN", ownerDocument));
         conditions.addChild(createNotCondition("isUpgradeVersion", createRefCondition("isNewVersion", ownerDocument),
-                                               ownerDocument));
+                ownerDocument));
         conditions.addChild(createAndCondition("isNew", "isNewVersion", "haveInstallPath", ownerDocument));
         conditions.addChild(createAndCondition("isUpgrade", "isUpgradeVersion", "haveInstallPath", ownerDocument));
 
@@ -151,8 +143,8 @@ public class ConditionTest
     /**
      * Creates xml for a {@link NotCondition}.
      *
-     * @param id            the condition identifier
-     * @param condition     the condition to negate
+     * @param id the condition identifier
+     * @param condition the condition to negate
      * @param ownerDocument the parent document
      * @return a new condition element
      */
@@ -168,9 +160,9 @@ public class ConditionTest
     /**
      * Creates xml for a {@link VariableCondition}.
      *
-     * @param id            the condition identifier
-     * @param variable      variable
-     * @param expression    the variable expression
+     * @param id the condition identifier
+     * @param variable variable
+     * @param expression the variable expression
      * @param ownerDocument the parent document
      * @return a new condition element
      */
@@ -193,7 +185,7 @@ public class ConditionTest
     /**
      * Creates xml for a {@link RefCondition}.
      *
-     * @param refid         the reference identifier
+     * @param refid the reference identifier
      * @param ownerDocument the parent document
      * @return a new condition element
      */
@@ -205,8 +197,8 @@ public class ConditionTest
     /**
      * Creates xml for a {@link RefCondition}.
      *
-     * @param id            the condition  identifier. May be <tt>null</tt>
-     * @param refid         the reference identifier
+     * @param id the condition identifier. May be <tt>null</tt>
+     * @param refid the reference identifier
      * @param ownerDocument the parent document
      * @return a new condition element
      */
@@ -227,9 +219,9 @@ public class ConditionTest
     /**
      * Creates xml for an {@link AndCondition}.
      *
-     * @param id            the condition identifier
-     * @param refid1        the left hand condition reference
-     * @param refid2        the right hand condition reference
+     * @param id the condition identifier
+     * @param refid1 the left hand condition reference
+     * @param refid2 the right hand condition reference
      * @param ownerDocument the parent document
      * @return a new condition element
      */
@@ -250,9 +242,9 @@ public class ConditionTest
     /**
      * Creates xml for an {@link OrCondition}.
      *
-     * @param id            the condition identifier
-     * @param refid1        the left hand condition reference
-     * @param refid2        the right hand condition reference
+     * @param id the condition identifier
+     * @param refid1 the left hand condition reference
+     * @param refid2 the right hand condition reference
      * @param ownerDocument the parent document
      * @return a new condition element
      */
@@ -271,8 +263,8 @@ public class ConditionTest
     /**
      * Creates xml for an {@link ExistsCondition}.
      *
-     * @param id            the condition identifier
-     * @param variable      the variable
+     * @param id the condition identifier
+     * @param variable the variable
      * @param ownerDocument the parent document
      * @return a new condition element
      */

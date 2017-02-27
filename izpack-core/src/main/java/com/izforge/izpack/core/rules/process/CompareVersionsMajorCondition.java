@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import java.util.logging.Logger;
 
 public class CompareVersionsMajorCondition extends CompareVersionsCondition
 {
+
     private static final long serialVersionUID = -8392922321054039545L;
 
-    private static final transient Logger logger = Logger.getLogger(CompareVersionsMajorCondition.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(CompareVersionsMajorCondition.class.getName());
 
     public CompareVersionsMajorCondition()
     {

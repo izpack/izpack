@@ -18,14 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.file;
 
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.panels.userinput.field.file.DirField;
 import com.izforge.izpack.panels.userinput.field.file.DirFieldView;
 import com.izforge.izpack.util.Console;
-
 
 /**
  * Console presentation of a {@link DirField}.
@@ -34,12 +32,13 @@ import com.izforge.izpack.util.Console;
  */
 public class ConsoleDirField extends AbstractConsoleFileField
 {
+
     /**
      * Constructs a {@link ConsoleDirField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleDirField(DirField field, Console console, Prompt prompt)
     {

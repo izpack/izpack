@@ -18,22 +18,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.event;
-
 
 import java.io.File;
 import java.util.List;
 
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
-
 
 /**
  * Abstract implementation of {@link UninstallerListener}.
  * <p/>
- * This provides no-op versions of each of the methods, to simplify implementation of listeners that only need
- * some methods.
+ * This provides no-op versions of each of the methods, to simplify
+ * implementation of listeners that only need some methods.
  *
  * @author Tim Anderson
  */
@@ -86,7 +82,7 @@ public abstract class AbstractUninstallerListener implements UninstallerListener
     /**
      * Invoked after files are deleted.
      *
-     * @param files    the files which where deleted
+     * @param files the files which where deleted
      * @param listener the progress listener
      * @throws IzPackException for any error
      */
@@ -98,7 +94,7 @@ public abstract class AbstractUninstallerListener implements UninstallerListener
     /**
      * Invoked before files are deleted.
      *
-     * @param files   all files which should be deleted
+     * @param files all files which should be deleted
      * @param handler the UI progress handler
      * @throws Exception for any error
      */
@@ -110,9 +106,11 @@ public abstract class AbstractUninstallerListener implements UninstallerListener
     /**
      * Determines if the listener should be notified of every file deletion.
      * <p/>
-     * If <tt>true</tt>, the {@link #beforeDelete} and {@link #afterDelete} methods will be invoked for each file.
+     * If <tt>true</tt>, the {@link #beforeDelete} and {@link #afterDelete}
+     * methods will be invoked for each file.
      *
-     * @return <tt>true</tt> if this listener would be informed at every delete operation, else <tt>false</tt>
+     * @return <tt>true</tt> if this listener would be informed at every delete
+     * operation, else <tt>false</tt>
      */
     @Override
     public boolean isFileListener()
@@ -123,7 +121,7 @@ public abstract class AbstractUninstallerListener implements UninstallerListener
     /**
      * Invoked before a file is deleted.
      *
-     * @param file    the file which will be deleted
+     * @param file the file which will be deleted
      * @param handler the UI progress handler
      * @throws Exception for any error
      */
@@ -135,7 +133,7 @@ public abstract class AbstractUninstallerListener implements UninstallerListener
     /**
      * Invoked after a file is deleted.
      *
-     * @param file    the file which was deleted
+     * @param file the file which was deleted
      * @param handler the UI progress handler
      * @throws Exception for any error
      */
@@ -147,7 +145,7 @@ public abstract class AbstractUninstallerListener implements UninstallerListener
     /**
      * Invoked after files are deleted.
      *
-     * @param files   the files which where deleted
+     * @param files the files which where deleted
      * @param handler the UI progress handler
      * @throws Exception for any error
      */

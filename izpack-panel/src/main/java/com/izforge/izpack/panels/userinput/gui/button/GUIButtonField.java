@@ -14,6 +14,7 @@ import java.util.List;
 
 public class GUIButtonField extends GUIField implements ActionListener
 {
+
     private final Prompt prompt;
     private final JButton button;
     private final String successMsg;
@@ -39,10 +40,10 @@ public class GUIButtonField extends GUIField implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
         boolean proceed = true;
-        for(ButtonAction buttonAction : buttonActions)
+        for (ButtonAction buttonAction : buttonActions)
         {
             proceed = buttonAction.execute(prompt);
-            if(!proceed)
+            if (!proceed)
             {
                 break;
             }

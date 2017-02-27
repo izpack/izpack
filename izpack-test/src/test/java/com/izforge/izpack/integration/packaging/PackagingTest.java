@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.packaging;
-
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -43,17 +41,14 @@ import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.compiler.data.CompilerData;
-import com.izforge.izpack.compiler.packager.impl.Packager;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
-import com.izforge.izpack.installer.unpacker.Unpacker;
 import com.izforge.izpack.integration.AbstractInstallationTest;
 import com.izforge.izpack.integration.HelperTestMethod;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
-
 
 /**
  * Tests the {@link Packager} in conjunction with the {@link Unpacker}.
@@ -64,6 +59,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestGUIInstallationContainer.class)
 public class PackagingTest extends AbstractInstallationTest
 {
+
     /**
      * The installation jar.
      */
@@ -92,14 +88,14 @@ public class PackagingTest extends AbstractInstallationTest
     /**
      * Constructs a <tt>PackagingTest</tt>.
      *
-     * @param installer    the installation jar
+     * @param installer the installation jar
      * @param compilerData the compilation data
-     * @param installData  the installation data
-     * @param frame        the installer frame
-     * @param controller   the installer controller
+     * @param installData the installation data
+     * @param frame the installer frame
+     * @param controller the installer controller
      */
     public PackagingTest(JarFile installer, CompilerData compilerData, AutomatedInstallData installData,
-                         InstallerFrame frame, InstallerController controller)
+            InstallerFrame frame, InstallerController controller)
     {
         super(installData);
         this.installer = installer;
@@ -156,7 +152,8 @@ public class PackagingTest extends AbstractInstallationTest
     }
 
     /**
-     * Returns the file names from a jar file, excluding directory entries which aren't returned in a pack200 jar.
+     * Returns the file names from a jar file, excluding directory entries which
+     * aren't returned in a pack200 jar.
      *
      * @param file the jar file
      * @return the file names

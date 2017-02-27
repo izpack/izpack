@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.licence;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -46,6 +45,7 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractLicenceConsolePanel extends AbstractTextConsolePanel
 {
+
     private static final String DEFAULT_SUFFIX = ".licence";
 
     /**
@@ -56,12 +56,12 @@ public abstract class AbstractLicenceConsolePanel extends AbstractTextConsolePan
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractLicenceConsolePanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AbstractLicenceConsolePanel.class.getName());
 
     /**
      * Constructs a {@code AbstractLicenseConsolePanel}.
      *
-     * @param panel     the parent panel/view. May be {@code null}
+     * @param panel the parent panel/view. May be {@code null}
      * @param resources the resources
      */
     public AbstractLicenceConsolePanel(PanelView<ConsolePanel> panel, Resources resources)
@@ -110,15 +110,15 @@ public abstract class AbstractLicenceConsolePanel extends AbstractTextConsolePan
             if (url == null)
             {
                 String panelId = panel != null ? panel.getPanelId() : null;
-                logger.warning("Cannot open any of the possible license document resources ("
+                LOGGER.warning("Cannot open any of the possible license document resources ("
                         + (panelId != null ? resNamePrefix + '.' + panelId + ", " : "")
                         + resNamePrefix + DEFAULT_SUFFIX
-                        + ") for panel type '" + resNamePrefix + "" );
+                        + ") for panel type '" + resNamePrefix + "");
             }
         }
         else
         {
-            logger.warning("No IzPanel implementation found for " + thisClazz.getSimpleName());
+            LOGGER.warning("No IzPanel implementation found for " + thisClazz.getSimpleName());
         }
 
         return url;
@@ -149,7 +149,7 @@ public abstract class AbstractLicenceConsolePanel extends AbstractTextConsolePan
         }
         catch (IOException e)
         {
-            logger.warning("Cannot convert license document from resource " + url.getFile() + " to text: " + e.getMessage());
+            LOGGER.warning("Cannot convert license document from resource " + url.getFile() + " to text: " + e.getMessage());
         }
         return result;
     }
@@ -157,13 +157,14 @@ public abstract class AbstractLicenceConsolePanel extends AbstractTextConsolePan
     /**
      * Prompts to end the license panel.
      * <p/>
-     * This displays a prompt to accept, reject, or redisplay. On redisplay, it invokes
-     * {@link #run(InstallData, Console)}.
+     * This displays a prompt to accept, reject, or redisplay. On redisplay, it
+     * invokes {@link #run(InstallData, Console)}.
      *
      * @param installData the installation date
-     * @param console     the console to use
-     * @return {@code true} to accept, {@code false} to reject. If the panel is displayed again, the result of
-     *         {@link #run(InstallData, Console)} is returned
+     * @param console the console to use
+     * @return {@code true} to accept, {@code false} to reject. If the panel is
+     * displayed again, the result of {@link #run(InstallData, Console)} is
+     * returned
      */
     @Override
     protected boolean promptEndPanel(InstallData installData, Console console)
@@ -183,7 +184,7 @@ public abstract class AbstractLicenceConsolePanel extends AbstractTextConsolePan
                 throw new UserInterruptException(messages.get("ConsoleInstaller.aborted.LicenseRejected"));
 
             default:
-                result =  run(installData, console);
+                result = run(installData, console);
                 break;
         }
         return result;

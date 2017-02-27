@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.factory;
-
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -34,7 +32,6 @@ import org.junit.Test;
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.core.container.DefaultContainer;
-
 
 /**
  * Tests the {@link DefaultObjectFactory} class.
@@ -54,7 +51,6 @@ public class DefaultObjectFactoryTest
      */
     private final ObjectFactory factory;
 
-
     /**
      * Constructs a <tt>DefaultObjectFactoryTest</tt>.
      */
@@ -65,7 +61,8 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method with no <tt>parameters</tt> arguments.
+     * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method
+     * with no <tt>parameters</tt> arguments.
      */
     @Test
     public void testCreateNoParameters()
@@ -87,7 +84,8 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method with dependency injection.
+     * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method
+     * with dependency injection.
      */
     @Test
     public void testCreateWithInjection()
@@ -105,7 +103,8 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method with parameters.
+     * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method
+     * with parameters.
      */
     @Test
     public void testCreateWithParameters()
@@ -127,7 +126,8 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)} method with no
+     * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)}
+     * method with no
      * <tt>parameters</tt> arguments.
      */
     @Test
@@ -157,7 +157,8 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)} method with parameters.
+     * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)}
+     * method with parameters.
      */
     @Test
     public void testCreateByClassNameWithParameters()
@@ -179,7 +180,8 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)} method with dependency injection.
+     * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)}
+     * method with dependency injection.
      */
     @Test
     public void testCreateByClassNameWithInjection()
@@ -216,6 +218,7 @@ public class DefaultObjectFactoryTest
 
     public static class D
     {
+
         public final A a;
         public final B b;
 

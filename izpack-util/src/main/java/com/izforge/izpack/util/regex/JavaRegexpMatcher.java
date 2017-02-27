@@ -18,10 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.regex;
-
-import org.apache.tools.ant.BuildException;
 
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -29,10 +26,11 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 /**
- * Implementation of RegexpMatcher for the built-in regexp matcher of
- * JDK 1.4. UNIX_LINES option is enabled as a default.
+ * Implementation of RegexpMatcher for the built-in regexp matcher of JDK 1.4.
+ * UNIX_LINES option is enabled as a default.
  *
- * @author René Krell - changes against the original implementation in Apache Ant 1.6.5
+ * @author René Krell - changes against the original implementation in Apache
+ * Ant 1.6.5
  * @see <a href='http://ant.apache.org'>Apache Ant</a>
  */
 public class JavaRegexpMatcher implements RegexpMatcher
@@ -105,7 +103,7 @@ public class JavaRegexpMatcher implements RegexpMatcher
     /**
      * Does the given argument match the pattern?
      *
-     * @param input   the string to match against
+     * @param input the string to match against
      * @param options the regex options to use
      * @return true if the pattern matches
      * @throws BuildException on error
@@ -125,11 +123,12 @@ public class JavaRegexpMatcher implements RegexpMatcher
     }
 
     /**
-     * Returns a Vector of matched groups found in the argument
-     * using default options.
+     * Returns a Vector of matched groups found in the argument using default
+     * options.
      * <p/>
-     * <p>Group 0 will be the full match, the rest are the
-     * parenthesized subexpressions</p>.
+     * <p>
+     * Group 0 will be the full match, the rest are the parenthesized
+     * subexpressions</p>.
      *
      * @param argument the string to match against
      * @return the vector of groups
@@ -143,10 +142,11 @@ public class JavaRegexpMatcher implements RegexpMatcher
     /**
      * Returns a Vector of matched groups found in the argument.
      * <p/>
-     * <p>Group 0 will be the full match, the rest are the
-     * parenthesized subexpressions</p>.
+     * <p>
+     * Group 0 will be the full match, the rest are the parenthesized
+     * subexpressions</p>.
      *
-     * @param input   the string to match against
+     * @param input the string to match against
      * @param options the regex options to use
      * @return the vector of groups
      * @throws BuildException on error

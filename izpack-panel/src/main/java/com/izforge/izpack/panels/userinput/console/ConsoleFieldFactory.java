@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -59,7 +58,6 @@ import com.izforge.izpack.panels.userinput.field.text.TextField;
 import com.izforge.izpack.panels.userinput.field.title.TitleField;
 import com.izforge.izpack.util.Console;
 
-
 /**
  * Factory for {@link ConsoleField} instances.
  *
@@ -78,12 +76,11 @@ public class ConsoleFieldFactory
      */
     private final Prompt prompt;
 
-
     /**
      * Constructs a {@code ConsoleFieldFactory}.
      *
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleFieldFactory(Console console, Prompt prompt)
     {
@@ -150,17 +147,17 @@ public class ConsoleFieldFactory
         }
         else if (field instanceof SearchField)
         {
-            result = new ConsoleSearchField((SearchField)field, console, prompt);
+            result = new ConsoleSearchField((SearchField) field, console, prompt);
         }
         else if (field instanceof ButtonField)
         {
-            result = new ConsoleButtonField((ButtonField)field, console, prompt);
+            result = new ConsoleButtonField((ButtonField) field, console, prompt);
         }
         else if (field instanceof CustomField)
         {
             result = new ConsoleCustomField(
                     (CustomField) field, console, prompt,
-                    new createFieldCommand(userInputPanelSpec, spec),
+                    new CreateFieldCommand(userInputPanelSpec, spec),
                     userInputPanelSpec, spec);
         }
         else
@@ -171,18 +168,21 @@ public class ConsoleFieldFactory
     }
 
     /**
-     * Private class to wrap the create command.
-     * This allows us to pass the create command for user later on.
+     * Private class to wrap the create command. This allows us to pass the
+     * create command for user later on.
      */
-    private class createFieldCommand extends FieldCommand
+    private class CreateFieldCommand extends FieldCommand
     {
+
         private final UserInputPanelSpec userInputPanelSpec;
         private final IXMLElement spec;
-        public createFieldCommand(UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
+
+        public CreateFieldCommand(UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
         {
             this.userInputPanelSpec = userInputPanelSpec;
             this.spec = spec;
         }
+
         public ConsoleField createConsoleField(Field field)
         {
             return create(field, userInputPanelSpec, spec);

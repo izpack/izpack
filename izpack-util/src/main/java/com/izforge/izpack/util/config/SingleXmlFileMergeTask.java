@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.config;
 
 import java.io.File;
@@ -43,7 +42,8 @@ import com.izforge.izpack.util.xmlmerge.config.PropertyXPathConfigurer;
 
 public class SingleXmlFileMergeTask implements ConfigurableTask
 {
-    private static final Logger logger = Logger.getLogger(SingleXmlFileMergeTask.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(SingleXmlFileMergeTask.class.getName());
 
     protected File origfile;
     protected File patchfile;
@@ -53,18 +53,15 @@ public class SingleXmlFileMergeTask implements ConfigurableTask
 
     protected Properties confProps = new Properties();
 
-
     public void setOriginalFile(File origfile)
     {
         this.origfile = origfile;
     }
 
-
     public void setPatchFile(File patchfile)
     {
         this.patchfile = patchfile;
     }
-
 
     public void setToFile(File tofile)
     {
@@ -78,7 +75,9 @@ public class SingleXmlFileMergeTask implements ConfigurableTask
 
     /**
      * Whether to delete the patchfiles after the operation
-     * @param cleanup True, if the patchfiles should be deleted after the operation
+     *
+     * @param cleanup True, if the patchfiles should be deleted after the
+     * operation
      */
     public void setCleanup(boolean cleanup)
     {
@@ -86,47 +85,57 @@ public class SingleXmlFileMergeTask implements ConfigurableTask
     }
 
     /**
-    * List of file sets.
-    */
+     * List of file sets.
+     */
     List<FileSet> filesets = new ArrayList<FileSet>();
 
     /**
-    * Adds a file set.
-    * @param fileset The file set to add
-    */
-    public void addFileSet(FileSet fileset) {
+     * Adds a file set.
+     *
+     * @param fileset The file set to add
+     */
+    public void addFileSet(FileSet fileset)
+    {
         filesets.add(fileset);
     }
 
     /**
      * Adds a XML merge configuration property (XPath)
+     *
      * @param key The property key
      * @param value The property value
      */
-    public void addProperty(String key, String value) {
+    public void addProperty(String key, String value)
+    {
         confProps.setProperty(key, value);
     }
 
     /**
-    * Validates the configuration and destination files and the file sets.
-    */
-    public void validate() throws Exception {
-        if (tofile == null) {
+     * Validates the configuration and destination files and the file sets.
+     */
+    public void validate() throws Exception
+    {
+        if (tofile == null)
+        {
             throw new Exception("XML merge output file not set");
         }
-        if (filesets.isEmpty() && patchfile == null) {
+        if (filesets.isEmpty() && patchfile == null)
+        {
             throw new Exception("No XML merge patch files given at all");
         }
-        if (origfile == null) {
+        if (origfile == null)
+        {
             throw new Exception("No XML merge patch files given at all");
         }
-        if (!confProps.isEmpty() && conffile != null) {
+        if (!confProps.isEmpty() && conffile != null)
+        {
             throw new Exception("Using both XML merge configuration file and explicit merge properties not allowed");
         }
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() throws Exception
+    {
         validate();
 
         // Get the files to merge
@@ -140,20 +149,23 @@ public class SingleXmlFileMergeTask implements ConfigurableTask
             }
             else
             {
-                logger.warning("XML merge skipped, target file "+origfile+" not found");
+                LOGGER.warning("XML merge skipped, target file " + origfile + " not found");
                 return;
             }
         }
         else
         {
-            logger.warning("XML merge skipped, target file not defined");
+            LOGGER.warning("XML merge skipped, target file not defined");
             return;
         }
 
         if (patchfile != null && patchfile.exists())
+        {
             filesToMerge.add(patchfile);
+        }
 
-        for (FileSet fs : filesets) {
+        for (FileSet fs : filesets)
+        {
             DirectoryScanner ds = fs.getDirectoryScanner();
             String[] includedFiles = ds.getIncludedFiles();
             for (String includedFile : includedFiles)
@@ -164,23 +176,33 @@ public class SingleXmlFileMergeTask implements ConfigurableTask
 
         if (filesToMerge.size() < 2)
         {
-            logger.warning("XML merge skipped, not enough XML input files to merge");
+            LOGGER.warning("XML merge skipped, not enough XML input files to merge");
             return;
         }
 
-        if (conffile != null) {
+        if (conffile != null)
+        {
             InputStream configIn = null;
-            try {
+            try
+            {
                 configIn = new FileInputStream(conffile);
                 confProps.load(configIn);
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 throw new Exception(e);
-            } finally {
-                if (configIn != null) {
-                    try {
+            }
+            finally
+            {
+                if (configIn != null)
+                {
+                    try
+                    {
                         configIn.close();
-                    } catch (IOException e) {
-                        logger.log(Level.WARNING,
+                    }
+                    catch (IOException e)
+                    {
+                        LOGGER.log(Level.WARNING,
                                 "Error closing file '" + conffile + "': " + e.getMessage(),
                                 e);
                     }
@@ -190,15 +212,21 @@ public class SingleXmlFileMergeTask implements ConfigurableTask
 
         // Create the XmlMerge instance and execute the merge
         XmlMerge xmlMerge;
-        try {
+        try
+        {
             xmlMerge = new ConfigurableXmlMerge(new PropertyXPathConfigurer(confProps));
-        } catch (ConfigurationException e) {
+        }
+        catch (ConfigurationException e)
+        {
             throw new Exception(e);
         }
 
-        try {
+        try
+        {
             xmlMerge.merge(filesToMerge.toArray(new File[filesToMerge.size()]), tofile);
-        } catch (AbstractXmlMergeException e) {
+        }
+        catch (AbstractXmlMergeException e)
+        {
             throw new Exception(e);
         }
 
@@ -210,7 +238,7 @@ public class SingleXmlFileMergeTask implements ConfigurableTask
                 {
                     if (!file.delete())
                     {
-                        logger.warning("File " + file + " could not be cleant up");
+                        LOGGER.warning("File " + file + " could not be cleant up");
                     }
                 }
             }

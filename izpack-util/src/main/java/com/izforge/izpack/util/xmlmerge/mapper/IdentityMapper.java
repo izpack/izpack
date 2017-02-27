@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.mapper;
 
 import org.jdom2.Element;
@@ -38,7 +37,10 @@ public class IdentityMapper implements Mapper
     @Override
     public Element map(Element patchElement)
     {
-        if (patchElement == null) { return null; }
+        if (patchElement == null)
+        {
+            return null;
+        }
 
         return (Element) patchElement.clone();
     }

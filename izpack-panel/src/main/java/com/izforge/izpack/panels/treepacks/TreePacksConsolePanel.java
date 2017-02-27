@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.treepacks;
 
 import java.util.List;
@@ -51,6 +50,7 @@ import com.izforge.izpack.util.Console;
  */
 public class TreePacksConsolePanel extends AbstractConsolePanel implements ConsolePanel
 {
+
     private Messages messages;
     private final Prompt prompt;
     private final InstallData installData;
@@ -72,7 +72,7 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
     /**
      * Constructs a {@code TreePacksConsolePanel}.
      *
-     * @param panel  the parent panel/view. May be {@code null}
+     * @param panel the parent panel/view. May be {@code null}
      * @param prompt the prompt
      */
     public TreePacksConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
@@ -86,8 +86,9 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
      * Runs the panel using the supplied properties.
      *
      * @param installData the installation data
-     * @param properties  the properties
-     * @return <tt>true</tt> if the installation is successful, otherwise <tt>false</tt>
+     * @param properties the properties
+     * @return <tt>true</tt> if the installation is successful, otherwise
+     * <tt>false</tt>
      */
     public boolean run(InstallData installData, Properties properties)
     {
@@ -98,8 +99,9 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @param console the console
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     public boolean run(InstallData installData, Console console)
     {
@@ -137,19 +139,16 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
     }
 
     /**
-     * Helper method to ask/check if the pack can/needs to be installed
-     * If top-level pack, square brackets will be placed in between
-     * the pack id.
+     * Helper method to ask/check if the pack can/needs to be installed If
+     * top-level pack, square brackets will be placed in between the pack id.
      *
-     * It asks the user if it wants to install the pack if:
-     * 1. the pack is not required
-     * 2. the pack has no condition string
+     * It asks the user if it wants to install the pack if: 1. the pack is not
+     * required 2. the pack has no condition string
      *
-     * @param installData       - Database of izpack
+     * @param installData - Database of izpack
      */
-    private void displayPackMenu(final InstallData installData,Console console)
+    private void displayPackMenu(final InstallData installData, Console console)
     {
-
 
         printPackMenu();
         List<Pack> visiblePacks = packsModel.getVisiblePacks();
@@ -161,7 +160,7 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
             {
                 choice = console.prompt(messages.get(PROMPT), 0, maxRow, -1) - 1;
             }
-            catch(NumberFormatException e)
+            catch (NumberFormatException e)
             {
                 out(Type.WARNING, installData.getMessages().get(NUMBER));
                 continue;
@@ -213,7 +212,7 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
      */
     private String generateRowEntry(int row, Pack pack)
     {
-        Map <String, Pack> nameToPack = packsModel.getNameToPack();
+        Map<String, Pack> nameToPack = packsModel.getNameToPack();
         String extraRow = "";
         String dependencies = "";
         String children = "";
@@ -228,8 +227,8 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
             marker = "o";
         }
 
-        String mainRow =
-                String.format("%-4d [%s] [%s] (%-4s)",
+        String mainRow
+                = String.format("%-4d [%s] [%s] (%-4s)",
                         row + 1,
                         marker,
                         PackHelper.getPackName(pack, messages),
@@ -243,7 +242,7 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
                 Pack dependentPack = nameToPack.get(dependentPackName);
                 dependencies += PackHelper.getPackName(dependentPack, messages) + ", ";
             }
-            dependencies = dependencies.substring(0, dependencies.length()-2);
+            dependencies = dependencies.substring(0, dependencies.length() - 2);
             dependencies = messages.get(DEPENDENT) + ": " + dependencies;
         }
 
@@ -255,7 +254,7 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
                 Pack childPack = nameToPack.get(childPackName);
                 children += PackHelper.getPackName(childPack, messages) + ", ";
             }
-            children = children.substring(0, children.length()-2);
+            children = children.substring(0, children.length() - 2);
             children = messages.get(CHILDREN) + ": " + children;
         }
 
@@ -264,7 +263,7 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
         {
             extraRow = extraRow + String.format("\n      >> %s", messages.get(REQUIRED));
         }
-        else if(!packsModel.isCheckBoxSelectable(row))
+        else if (!packsModel.isCheckBoxSelectable(row))
         {
             extraRow = extraRow + String.format("\n      >> %s", messages.get(UNSELECTABLE));
         }

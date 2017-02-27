@@ -15,7 +15,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.util.unix;
 
 import com.izforge.izpack.util.FileExecutor;
@@ -33,17 +32,18 @@ public class UnixHelper
 {
 
     // ~ Static fields/initializers *********************************************************
-
     /**
      * whichCommand = "/usr/bin/which" or /bin/which
      */
     public static String whichCommand = FileExecutor.getExecOutput(
-            new String[]{"/usr/bin/env", "which", "which"}, false).trim();
+        new String[]
+        {
+            "/usr/bin/env", "which", "which"
+        }, false).trim();
 
     public final static String VERSION = "$Revision$";
 
     // ~ Methods ****************************************************************************
-
     /**
      * Get the lines from /etc/passwd as Array
      *
@@ -88,10 +88,10 @@ public class UnixHelper
     }
 
     /**
-     * Get the YelloyPages (NIS) Users lines from <code>ypcat passwd</code> as Array. Ypcat
-     * passwd's output has the same format as the the local /etc/passwd. Because there can be
-     * thousands of yp-users and this query is net-based, this is a candidate for a token-based
-     * optimization.
+     * Get the YelloyPages (NIS) Users lines from <code>ypcat passwd</code> as
+     * Array. Ypcat passwd's output has the same format as the the local
+     * /etc/passwd. Because there can be thousands of yp-users and this query is
+     * net-based, this is a candidate for a token-based optimization.
      *
      * @return the /etc/passwd as String ArrayList
      */
@@ -109,7 +109,10 @@ public class UnixHelper
             try
             {
                 reader = new BufferedReader(new StringReader(FileExecutor
-                        .getExecOutput(new String[]{ypcommand, "passwd"})));
+                        .getExecOutput(new String[]
+                        {
+                            ypcommand, "passwd"
+                        })));
                 while ((line = reader.readLine()) != null)
                 {
                     result.add(line);
@@ -139,9 +142,10 @@ public class UnixHelper
     }
 
     /**
-     * Test if KDE is installed. This is done by <code> $>/usr/bin/env kwin --version</code> This
-     * assumes that kwin, the window Manager, as part of the kde-base package is already installed.
-     * If this returns with 0 kwin resp. kde means to be installed,
+     * Test if KDE is installed. This is done by
+     * <code> $>/usr/bin/env kwin --version</code> This assumes that kwin, the
+     * window Manager, as part of the kde-base package is already installed. If
+     * this returns with 0 kwin resp. kde means to be installed,
      *
      * @return true if kde is installed otherwise false.
      */
@@ -151,15 +155,18 @@ public class UnixHelper
 
         String[] execOut = new String[2];
 
-        int execResult = fileExecutor.executeCommand(new String[]{"/usr/bin/env", "kwin", "--version"},
+        int execResult = fileExecutor.executeCommand(new String[]
+        {
+            "/usr/bin/env", "kwin", "--version"
+        },
                 execOut);
 
         return execResult == 0;
     }
 
     /**
-     * Gets the absolute path of the which command. This is necessary, because the command is
-     * located at /bin on linux but in /usr/bin on Sun Solaris.
+     * Gets the absolute path of the which command. This is necessary, because
+     * the command is located at /bin on linux but in /usr/bin on Sun Solaris.
      *
      * @return /bin/which on linux /usr/bin/which on solaris
      */
@@ -169,60 +176,79 @@ public class UnixHelper
     }
 
     /**
-     * Gets the absolute path of the cp (Copy) command. This is necessary, because the command is
-     * located at /bin on linux but in /usr/bin on Sun Solaris.
+     * Gets the absolute path of the cp (Copy) command. This is necessary,
+     * because the command is located at /bin on linux but in /usr/bin on Sun
+     * Solaris.
      *
      * @return /bin/cp on linux /usr/bin/cp on solaris
      */
     public static String getCpCommand()
     {
-        return FileExecutor.getExecOutput(new String[]{getWhichCommand(), "cp"}).trim();
+        return FileExecutor.getExecOutput(new String[]
+        {
+            getWhichCommand(), "cp"
+        }).trim();
     }
 
     /**
-     * Gets the absolute path to the su (SuperUser) command. This is necessary, because the command
-     * is located at /bin on linux but in /usr/bin on Sun Solaris.
+     * Gets the absolute path to the su (SuperUser) command. This is necessary,
+     * because the command is located at /bin on linux but in /usr/bin on Sun
+     * Solaris.
      *
      * @return /bin/su on linux /usr/bin/su on solaris
      */
     public static String getSuCommand()
     {
-        return FileExecutor.getExecOutput(new String[]{getWhichCommand(), "su"}).trim();
+        return FileExecutor.getExecOutput(new String[]
+        {
+            getWhichCommand(), "su"
+        }).trim();
     }
 
     /**
-     * Gets the absolute Pathe to the rm (Remove) Command. This is necessary, because the command is
-     * located at /bin on linux but in /usr/bin on Sun Solaris.
+     * Gets the absolute Pathe to the rm (Remove) Command. This is necessary,
+     * because the command is located at /bin on linux but in /usr/bin on Sun
+     * Solaris.
      *
      * @return /bin/rm on linux /usr/bin/rm on solaris
      */
     public static String getRmCommand()
     {
-        return FileExecutor.getExecOutput(new String[]{whichCommand, "rm"}).trim();
+        return FileExecutor.getExecOutput(new String[]
+        {
+            whichCommand, "rm"
+        }).trim();
     }
 
     /**
-     * Gets the absolute Pathe to the ypcat (YellowPage/NIS Cat) Command. This is necessary, because
-     * the command is located at /bin on linux but in /usr/bin on Sun Solaris.
+     * Gets the absolute Pathe to the ypcat (YellowPage/NIS Cat) Command. This
+     * is necessary, because the command is located at /bin on linux but in
+     * /usr/bin on Sun Solaris.
      *
      * @return /bin/ypcat on linux /usr/bin/ypcat on solaris
      */
     public static String getYpCatCommand()
     {
-        return FileExecutor.getExecOutput(new String[]{whichCommand, "ypcat"}).trim();
+        return FileExecutor.getExecOutput(new String[]
+        {
+            whichCommand, "ypcat"
+        }).trim();
     }
 
     /**
-     * Gets the absolute Pathe to the given custom command. This is necessary, because the command
-     * may be located at /bin on linux but in /usr/bin on Sun Solaris. Which can locate it in your
-     * $PATH for you.
+     * Gets the absolute Pathe to the given custom command. This is necessary,
+     * because the command may be located at /bin on linux but in /usr/bin on
+     * Sun Solaris. Which can locate it in your $PATH for you.
      *
      * @param aCommand a Custom Command
      * @return /bin/aCommand on linux /usr/bin/aCommand on solaris
      */
     public static String getCustomCommand(String aCommand)
     {
-        return FileExecutor.getExecOutput(new String[]{whichCommand, aCommand}).trim();
+        return FileExecutor.getExecOutput(new String[]
+        {
+            whichCommand, aCommand
+        }).trim();
     }
 
     /**
@@ -237,9 +263,7 @@ public class UnixHelper
 
         // System.out.println( StringTool.listToString(UnixUsers.getUsersAsArrayList())
         // );
-
         // System.out.println("Kde is" + (kdeIsInstalled() ? " " : " not ") + "installed");
-
         System.out.println("WhichCommand: '" + getWhichCommand() + "'");
         System.out.println("SuCommand: " + getSuCommand());
         System.out.println("RmCommand: " + getRmCommand());
@@ -319,7 +343,6 @@ public class UnixHelper
             script.exec();
 
             // File deleteMe = new File( shLocation ); deleteMe.delete();
-
         }
         else
         {

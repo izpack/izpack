@@ -20,7 +20,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.data;
 
 import java.io.Serializable;
@@ -29,12 +28,12 @@ import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.rules.RulesEngine;
 
-
 /**
  * Implicit data validator for checking a set of conditions on each panel change
  */
 public class DynamicInstallerRequirementValidatorImpl implements DynamicInstallerRequirementValidator, Serializable
 {
+
     /**
      *
      */
@@ -43,7 +42,6 @@ public class DynamicInstallerRequirementValidatorImpl implements DynamicInstalle
     private String conditionId;
     private Status severity;
     private String messageId;
-
 
     public DynamicInstallerRequirementValidatorImpl(String conditionId, Status severity, String messageId)
     {

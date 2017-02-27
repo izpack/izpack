@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import com.izforge.izpack.api.data.Variables;
@@ -47,13 +46,12 @@ public class IoHelper
 
     private static Properties envVars = null;
 
-
     /**
-     * Creates a temp file with delete on exit rule. The extension is extracted from the template if
-     * possible, else the default extension is used. The contents of template will be copied into
-     * the temporary file.
+     * Creates a temp file with delete on exit rule. The extension is extracted
+     * from the template if possible, else the default extension is used. The
+     * contents of template will be copied into the temporary file.
      *
-     * @param template         file path to copy from and define file extension
+     * @param template file path to copy from and define file extension
      * @param defaultExtension file extension if no is contained in template
      * @return newly created and filled temporary file
      * @throws IOException if an I/O error occurred
@@ -64,11 +62,11 @@ public class IoHelper
     }
 
     /**
-     * Creates a temp file with delete on exit rule. The extension is extracted from the template if
-     * possible, else the default extension is used. The contents of template will be copied into
-     * the temporary file.
+     * Creates a temp file with delete on exit rule. The extension is extracted
+     * from the template if possible, else the default extension is used. The
+     * contents of template will be copied into the temporary file.
      *
-     * @param templateFile         file to copy from and define file extension
+     * @param templateFile file to copy from and define file extension
      * @param defaultExtension file extension if no is contained in template
      * @return newly created and filled temporary file
      * @throws IOException if an I/O error occurred
@@ -89,7 +87,8 @@ public class IoHelper
     }
 
     /**
-     * Returns the free (disk) space for the given path. If it is not ascertainable -1 returns.
+     * Returns the free (disk) space for the given path. If it is not
+     * ascertainable -1 returns.
      *
      * @param path path for which the free space should be detected
      * @return the free space for the given path
@@ -104,7 +103,10 @@ public class IoHelper
             {
                 return (-1);
             }
-            String[] params = {command, "/C", "\"dir /D /-C \"" + path + "\"\""};
+            String[] params =
+            {
+                command, "/C", "\"dir /D /-C \"" + path + "\"\""
+            };
             String[] output = new String[2];
             FileExecutor fe = new FileExecutor();
             fe.executeCommand(params, output);
@@ -112,7 +114,10 @@ public class IoHelper
         }
         else if (OsVersion.IS_SUNOS)
         {
-            String[] params = {"df", "-k", path};
+            String[] params =
+            {
+                "df", "-k", path
+            };
             String[] output = new String[2];
             FileExecutor fe = new FileExecutor();
             fe.executeCommand(params, output);
@@ -120,7 +125,10 @@ public class IoHelper
         }
         else if (OsVersion.IS_HPUX)
         {
-            String[] params = {"bdf", path};
+            String[] params =
+            {
+                "bdf", path
+            };
             String[] output = new String[2];
             FileExecutor fe = new FileExecutor();
             fe.executeCommand(params, output);
@@ -128,7 +136,10 @@ public class IoHelper
         }
         else if (OsVersion.IS_UNIX)
         {
-            String[] params = {"df", "-Pk", path};
+            String[] params =
+            {
+                "df", "-Pk", path
+            };
             String[] output = new String[2];
             FileExecutor fe = new FileExecutor();
             fe.executeCommand(params, output);
@@ -138,11 +149,13 @@ public class IoHelper
     }
 
     /**
-     * Returns whether the given method will be supported with the given environment. Some methods
-     * of this class are not supported on all operation systems.
+     * Returns whether the given method will be supported with the given
+     * environment. Some methods of this class are not supported on all
+     * operation systems.
      *
      * @param method name of the method
-     * @return true if the method will be supported with the current environment else false
+     * @return true if the method will be supported with the current environment
+     * else false
      * @throws RuntimeException if the given method name does not exist
      */
     public static boolean supported(String method)
@@ -209,13 +222,15 @@ public class IoHelper
     }
 
     /**
-     * Extracts a long value from a string in a special manner. The string will be broken into
-     * tokens with a standard StringTokenizer. Around the assumed place (with the given half range)
-     * the tokens are scanned reverse for a token which represents a long. if useNotIdentifier is not
-     * null, tokens which are contains this string will be ignored. The first founded long returns.
+     * Extracts a long value from a string in a special manner. The string will
+     * be broken into tokens with a standard StringTokenizer. Around the assumed
+     * place (with the given half range) the tokens are scanned reverse for a
+     * token which represents a long. if useNotIdentifier is not null, tokens
+     * which are contains this string will be ignored. The first founded long
+     * returns.
      *
-     * @param in               the string which should be parsed
-     * @param assumedPlace     token number which should contain the value
+     * @param in the string which should be parsed
+     * @param assumedPlace token number which should contain the value
      * @return founded long
      */
     private static long extractLong(String in, int assumedPlace)
@@ -260,15 +275,17 @@ public class IoHelper
     }
 
     /**
-     * Returns a string resulting from replacing all occurrences of what in this string with with.
-     * In opposite to the String.replaceAll method this method do not use regular expression or
-     * other methods which are only available in JRE 1.4 and later. This method was special made to
-     * mask masked slashes to avert a conversion during path translation.
+     * Returns a string resulting from replacing all occurrences of what in this
+     * string with with. In opposite to the String.replaceAll method this method
+     * do not use regular expression or other methods which are only available
+     * in JRE 1.4 and later. This method was special made to mask masked slashes
+     * to avert a conversion during path translation.
      *
      * @param destination string for which the replacing should be performed
-     * @param what        what string should be replaced
-     * @param with        with what string what should be replaced
-     * @return a new String object if what was found in the given string, else the given string self
+     * @param what what string should be replaced
+     * @param with with what string what should be replaced
+     * @return a new String object if what was found in the given string, else
+     * the given string self
      */
     private static String replaceString(String destination, String what, String with)
     {
@@ -302,7 +319,7 @@ public class IoHelper
      * Translates a relative path to a local system path.
      *
      * @param destination the path to translate
-     * @param variables   used to replaces variables in the path
+     * @param variables used to replaces variables in the path
      * @return the translated path
      */
     public static String translatePath(String destination, Variables variables)
@@ -324,7 +341,6 @@ public class IoHelper
         // destination = destination.replace('/', File.separatorChar);
         // Undo the conversion if the slashes was masked with
         // a backslash
-
         // Not all occurrences of slashes are path separators. To differ
         // between it we allow to mask a slash with a leading backslash.
         // Unfortunately we cannot use String.replaceAll because it
@@ -351,9 +367,10 @@ public class IoHelper
     }
 
     /**
-     * Returns the value of the environment variable given by key. This method is a work around for
-     * VM versions which do not support getenv in an other way. At the first call all environment
-     * variables will be loaded via an exec. On Windows keys are not case sensitive.
+     * Returns the value of the environment variable given by key. This method
+     * is a work around for VM versions which do not support getenv in an other
+     * way. At the first call all environment variables will be loaded via an
+     * exec. On Windows keys are not case sensitive.
      *
      * @param key variable name for which the value should be resolved
      * @return the value of the environment variable given by key
@@ -389,11 +406,17 @@ public class IoHelper
             {
                 command = "command.com";
             }
-            params = new String[]{command, "/C", "set"};
+            params = new String[]
+            {
+                command, "/C", "set"
+            };
         }
         else
         {
-            params = new String[]{"env"};
+            params = new String[]
+            {
+                "env"
+            };
         }
         FileExecutor fe = new FileExecutor();
         fe.executeCommand(params, output);
@@ -429,8 +452,9 @@ public class IoHelper
     }
 
     /**
-     * Extracts key and value from the given string var. The key should be separated from the value
-     * by a sign. On Windows all chars of the key are translated to upper case.
+     * Extracts key and value from the given string var. The key should be
+     * separated from the value by a sign. On Windows all chars of the key are
+     * translated to upper case.
      *
      * @param var expression for setting the environment variable
      */
@@ -459,10 +483,12 @@ public class IoHelper
      * Copies specified contents of one jar to another.
      * <p/>
      * <p/>
-     * TODO it would be useful to be able to keep signature information from signed jar files, can we combine manifests and still have their content signed?
+     * TODO it would be useful to be able to keep signature information from
+     * signed jar files, can we combine manifests and still have their content
+     * signed?
      */
     public static void copyZip(ZipInputStream zin, org.apache.tools.zip.ZipOutputStream out,
-                               List<String> files, Map<FilterOutputStream, Set<String>> alreadyWrittenFiles)
+            List<String> files, Map<FilterOutputStream, Set<String>> alreadyWrittenFiles)
             throws IOException
     {
         ZipEntry zEntry;
@@ -531,7 +557,7 @@ public class IoHelper
     }
 
     public static void copyStreamToJar(InputStream zin, java.util.zip.ZipOutputStream out, String currentName,
-                                       long fileTime) throws IOException
+            long fileTime) throws IOException
     {
         // Create new entry for zip file.
         org.apache.tools.zip.ZipEntry newEntry = new org.apache.tools.zip.ZipEntry(currentName);

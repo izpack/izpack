@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
  */
 class WindowHandler extends WindowAdapter
 {
+
     private final Navigator navigator;
 
     public WindowHandler(Navigator navigator)

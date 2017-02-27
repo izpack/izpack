@@ -29,7 +29,6 @@ import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
 import com.izforge.izpack.panels.userinput.field.text.TextField;
 
-
 /**
  * Tests the {@link ConsoleTextField}.
  *

@@ -33,30 +33,33 @@ import java.util.prefs.PreferencesFactory;
 
 public class IniPreferencesFactory implements PreferencesFactory
 {
+
     public static final String PROPERTIES = "ini4j.properties";
     public static final String KEY_USER = "org.ini4j.prefs.user";
     public static final String KEY_SYSTEM = "org.ini4j.prefs.system";
-    private Preferences _system;
-    private Preferences _user;
+    private Preferences system;
+    private Preferences user;
 
-    @Override public synchronized Preferences systemRoot()
+    @Override
+    public synchronized Preferences systemRoot()
     {
-        if (_system == null)
+        if (this.system == null)
         {
-            _system = newIniPreferences(KEY_SYSTEM);
+            this.system = newIniPreferences(KEY_SYSTEM);
         }
 
-        return _system;
+        return this.system;
     }
 
-    @Override public synchronized Preferences userRoot()
+    @Override
+    public synchronized Preferences userRoot()
     {
-        if (_user == null)
+        if (this.user == null)
         {
-            _user = newIniPreferences(KEY_USER);
+            this.user = newIniPreferences(KEY_USER);
         }
 
-        return _user;
+        return this.user;
     }
 
     String getIniLocation(String key)

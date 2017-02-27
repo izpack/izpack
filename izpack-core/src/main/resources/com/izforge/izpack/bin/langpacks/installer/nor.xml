@@ -258,7 +258,7 @@
          txt="Filen du valgte fins enten ikke, eller er ikke gyldig."/>
     <str id="UserInputPanel.file.notfile.caption" txt="Ugyldig fil"/>
     <!-- more descriptive error message would be cool, like specifying what
-file we looked for -->
+    file we looked for -->
 
     <str id="UserInputPanel.search.autodetect" txt="Oppdag automatisk"/>
     <str id="UserInputPanel.search.autodetect.failed.message" txt="Automatisk gjenkjennelse mislyktes."/>
@@ -346,7 +346,7 @@ file we looked for -->
     <str id="nextmedia.filedesc" txt="installasjonspakker (.pak*)"/>
 
     <!-- This string defines the time stamp format in the installation report.
-The format details are documented in java.text.SimpleDateFormat -->
+    The format details are documented in java.text.SimpleDateFormat -->
     <str id="log.timeStamp" txt="dd.MM.yyyy [HH:mm:ss]  zzzz"/>
 
 </izpack:langpack>

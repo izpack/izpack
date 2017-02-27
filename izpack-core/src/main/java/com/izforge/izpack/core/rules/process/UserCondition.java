@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import java.util.HashSet;
@@ -30,17 +29,18 @@ import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.rules.Condition;
 
 /**
- * Checks to see whether the user who is running the installer is the same as the user who should be
- * running the installer.
+ * Checks to see whether the user who is running the installer is the same as
+ * the user who should be running the installer.
  *
  * @author J. Chris Folsom <jchrisfolsom@gmail.com>
  * @author Dennis Reil <izpack@reil-online.de>
  */
 public class UserCondition extends Condition
 {
+
     private static final long serialVersionUID = -8494645616275891103L;
 
-    private static final transient Logger logger = Logger.getLogger(UserCondition.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(UserCondition.class.getName());
 
     private String requiredUsername;
 
@@ -63,18 +63,18 @@ public class UserCondition extends Condition
         boolean result = false;
         if (this.requiredUsername == null)
         {
-            logger.warning("Condition \"" + getId() + "\": Expected user name not set, condition will return false");
+            LOGGER.warning("Condition \"" + getId() + "\": Expected user name not set, condition will return false");
         }
         else
         {
             String actualUsername = System.getProperty("user.name");
-            if (actualUsername != null &&  !actualUsername.isEmpty())
+            if (actualUsername != null && !actualUsername.isEmpty())
             {
                 result = this.requiredUsername.equals(actualUsername);
             }
             else
             {
-                logger.warning("Condition \"" + getId() + "\": Non-existing or empty system property user.name, condition will return false.");
+                LOGGER.warning("Condition \"" + getId() + "\": Non-existing or empty system property user.name, condition will return false.");
             }
         }
         return result;
@@ -90,7 +90,7 @@ public class UserCondition extends Condition
 
         if (userElement == null)
         {
-            throw new Exception("Missing \"requiredusername\" element in condition \"" +  getId() + "\"");
+            throw new Exception("Missing \"requiredusername\" element in condition \"" + getId() + "\"");
         }
         else
         {
@@ -111,7 +111,8 @@ public class UserCondition extends Condition
     }
 
     @Override
-    public Set<String> getVarRefs() {
+    public Set<String> getVarRefs()
+    {
         return new HashSet<String>(1);
     }
 

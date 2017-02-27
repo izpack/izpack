@@ -18,7 +18,6 @@ package com.izforge.izpack.event;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,33 +34,41 @@ public enum AntLogLevel
     private final String name;
     private final int level;
 
-    AntLogLevel(String name, int level) {
+    AntLogLevel(String name, int level)
+    {
         this.name = name;
         this.level = level;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public int getLevel() {
+    public int getLevel()
+    {
         return level;
     }
 
-    private final static Map<String, AntLogLevel> reversed;
-    static {
-        reversed = new HashMap<String, AntLogLevel>();
-        for (AntLogLevel l: values()) {
-            reversed.put(l.getName(), l);
+    private final static Map<String, AntLogLevel> REVERSED;
+
+    static
+    {
+        REVERSED = new HashMap<String, AntLogLevel>();
+        for (AntLogLevel l : values())
+        {
+            REVERSED.put(l.getName(), l);
         }
     }
 
-    public static AntLogLevel fromName(String name) {
+    public static AntLogLevel fromName(String name)
+    {
         return fromName(name, null);
     }
 
-    public static AntLogLevel fromName(String name, AntLogLevel defaultLevel) {
-        AntLogLevel level = reversed.get(name);
+    public static AntLogLevel fromName(String name, AntLogLevel defaultLevel)
+    {
+        AntLogLevel level = REVERSED.get(name);
         if (level == null)
         {
             return defaultLevel;

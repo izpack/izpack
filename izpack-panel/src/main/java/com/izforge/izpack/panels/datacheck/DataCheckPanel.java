@@ -25,7 +25,6 @@
  * And updated by Fabrice Mirabile
  * miraodb@hotmail.com
  */
-
 package com.izforge.izpack.panels.datacheck;
 
 import java.util.Enumeration;
@@ -45,11 +44,11 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 
 /**
- * DataCheckPanel: Provide a lot of debugging information.  Print a simple header of our
- * instance number and a line to separate output from other instances, then print all
- * the GUIInstallData variables and list all the packs and selected packs.  I hope this will
- * be expanded by others to provide needed debugging information by those developing panels
- * for IzPack.
+ * DataCheckPanel: Provide a lot of debugging information. Print a simple header
+ * of our instance number and a line to separate output from other instances,
+ * then print all the GUIInstallData variables and list all the packs and
+ * selected packs. I hope this will be expanded by others to provide needed
+ * debugging information by those developing panels for IzPack.
  *
  * @author Hal Vaughan
  * @author Fabrice Mirabile
@@ -70,8 +69,8 @@ public class DataCheckPanel extends IzPanel
     /**
      * The constructor.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent frame
+     * @param panel the panel meta-data
+     * @param parent the parent frame
      * @param installData the installation data
      */
     public DataCheckPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
@@ -133,15 +132,15 @@ public class DataCheckPanel extends IzPanel
     }
 
     /**
-     * Print list of variables names and value, as well as the list
-     * of packages and their status (selected or not).
+     * Print list of variables names and value, as well as the list of packages
+     * and their status (selected or not).
      */
     private void printDebugInfo()
     {
         int i = 0;
         String sInfo = "GUIInstallData Variables:\n";
-        System.out.println("------------------------Data Check Panel Instance " +
-                                   instanceNumber + "------------------------");
+        System.out.println("------------------------Data Check Panel Instance "
+                + instanceNumber + "------------------------");
         System.out.println("GUIInstallData Variables:");
         Properties varList = installDataGUI.getVariables().getProperties();
         String[] alphaName = new String[varList.size()];

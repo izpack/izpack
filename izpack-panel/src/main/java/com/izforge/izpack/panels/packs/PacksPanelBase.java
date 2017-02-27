@@ -21,7 +21,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.packs;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -61,10 +60,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The base class for Packs panels. It brings the common member and methods of the different packs
- * panels together. This class handles the common logic of pack selection. The derived class should
- * be create the layout and other specific actions. There are some helper methods to simplify layout
- * creation in the derived class.
+ * The base class for Packs panels. It brings the common member and methods of
+ * the different packs panels together. This class handles the common logic of
+ * pack selection. The derived class should be create the layout and other
+ * specific actions. There are some helper methods to simplify layout creation
+ * in the derived class.
  *
  * @author Julien Ponge
  * @author Klaus Bartz
@@ -73,13 +73,14 @@ import java.util.logging.Logger;
 public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterface,
         ListSelectionListener
 {
+
     private static final long serialVersionUID = -727171695900867059L;
 
     private static final String ACTIONKEY_TOGGLE = "togglePack";
     private static final String ACTIONKEY_NEXTCOLUMNCELL = "selectNextColumnCell";
     private static final String ACTIONKEY_PREVIOUSCOLUMNCELL = "selectPreviousColumnCell";
 
-    private static final transient Logger logger = Logger.getLogger(PacksPanelBase.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(PacksPanelBase.class.getName());
 
     // Common used Swing fields
     /**
@@ -155,21 +156,22 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     /**
      * Constructs a <tt>PacksPanelBase</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      fhe parent window
+     * @param panel the panel meta-data
+     * @param parent fhe parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param factory     the factory for creating {@link PackValidator} instances
-     * @param rules       the rules engine
+     * @param resources the resources
+     * @param factory the factory for creating {@link PackValidator} instances
+     * @param rules the rules engine
      */
     public PacksPanelBase(Panel panel, InstallerFrame parent, GUIInstallData installData,
-                          Resources resources, ObjectFactory factory, RulesEngine rules)
+            Resources resources, ObjectFactory factory, RulesEngine rules)
     {
         super(panel, parent, installData, resources);
         this.rules = rules;
         this.factory = factory;
 
-        if (Debug.isTRACE()) {
+        if (Debug.isTrace())
+        {
             this.debugger = parent.getDebugger();
         }
 
@@ -180,7 +182,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         catch (ResourceNotFoundException exception)
         {
             // no packs messages resource, so fall back to the default
-            logger.info(exception.getMessage());
+            LOGGER.info(exception.getMessage());
             messages = installData.getMessages();
         }
         // init the map
@@ -204,7 +206,8 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     }
 
     /**
-     * The Implementation of this method should create the layout for the current class.
+     * The Implementation of this method should create the layout for the
+     * current class.
      */
     abstract protected void createNormalLayout();
 
@@ -266,7 +269,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         if (IoHelper.supported("getFreeSpace") && freeBytes >= 0 && freeBytes <= bytes)
         {
             JOptionPane.showMessageDialog(this, getString("PacksPanel.notEnoughSpace"),
-                                          getString("installer.error"), JOptionPane.ERROR_MESSAGE);
+                    getString("installer.error"), JOptionPane.ERROR_MESSAGE);
             return (false);
         }
 
@@ -285,7 +288,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
                 }
                 catch (Exception e)
                 {
-                    logger.log(Level.WARNING, "Validator threw exception for pack " + pack.getName()
+                    LOGGER.log(Level.WARNING, "Validator threw exception for pack " + pack.getName()
                             + ": " + e.getMessage(), e);
                     return false;
                 }
@@ -378,8 +381,9 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     }
 
     /**
-     * This method tries to resolve the localized name of the given pack. If this is not possible,
-     * the name given in the installation description file in ELEMENT <pack> will be used.
+     * This method tries to resolve the localized name of the given pack. If
+     * this is not possible, the name given in the installation description file
+     * in ELEMENT <pack> will be used.
      *
      * @param pack for which the name should be resolved
      * @return localized name of the pack
@@ -391,18 +395,19 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 
     /**
      * Layout helper method:<br>
-     * Creates an label with a message given by msgId and an icon given by the iconId. If layout and
-     * constraints are not null, the label will be added to layout with the given constraints. The
-     * label will be added to this object.
+     * Creates an label with a message given by msgId and an icon given by the
+     * iconId. If layout and constraints are not null, the label will be added
+     * to layout with the given constraints. The label will be added to this
+     * object.
      *
-     * @param msgId       identifier for the IzPack langpack
-     * @param iconId      identifier for the IzPack icons
-     * @param layout      layout to be used
+     * @param msgId identifier for the IzPack langpack
+     * @param iconId identifier for the IzPack icons
+     * @param layout layout to be used
      * @param constraints constraints to be used
      * @return the created label
      */
     protected JLabel createLabel(String msgId, String iconId, GridBagLayout layout,
-                                 GridBagConstraints constraints)
+            GridBagConstraints constraints)
     {
         JLabel label = LabelFactory.create(getString(msgId), parent.getIcons()
                 .get(iconId), TRAILING);
@@ -415,18 +420,19 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     }
 
     /**
-     * Creates a panel containing a anonymous label on the left with the message for the given msgId
-     * and a label on the right side with initial no text. The right label will be returned. If
-     * layout and constraints are not null, the label will be added to layout with the given
-     * constraints. The panel will be added to this object.
+     * Creates a panel containing a anonymous label on the left with the message
+     * for the given msgId and a label on the right side with initial no text.
+     * The right label will be returned. If layout and constraints are not null,
+     * the label will be added to layout with the given constraints. The panel
+     * will be added to this object.
      *
-     * @param msgId       identifier for the IzPack langpack
-     * @param layout      layout to be used
+     * @param msgId identifier for the IzPack langpack
+     * @param layout layout to be used
      * @param constraints constraints to be used
      * @return the created (right) label
      */
     protected JLabel createPanelWithLabel(String msgId, GridBagLayout layout,
-                                          GridBagConstraints constraints)
+            GridBagConstraints constraints)
     {
         JPanel panel = new JPanel();
         JLabel label = new JLabel();
@@ -447,20 +453,21 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     }
 
     /**
-     * Creates a text area with standard settings and the title given by the msgId. If scroller is
-     * not null, the create text area will be added to the scroller and the scroller to this object,
-     * else the text area will be added directly to this object. If layout and constraints are not
-     * null, the text area or scroller will be added to layout with the given constraints. The text
-     * area will be returned.
+     * Creates a text area with standard settings and the title given by the
+     * msgId. If scroller is not null, the create text area will be added to the
+     * scroller and the scroller to this object, else the text area will be
+     * added directly to this object. If layout and constraints are not null,
+     * the text area or scroller will be added to layout with the given
+     * constraints. The text area will be returned.
      *
-     * @param msgId       identifier for the IzPack langpack
-     * @param scroller    the scroller to be used
-     * @param layout      layout to be used
+     * @param msgId identifier for the IzPack langpack
+     * @param scroller the scroller to be used
+     * @param layout layout to be used
      * @param constraints constraints to be used
      * @return the created text area
      */
     protected JTextArea createTextArea(String msgId, JScrollPane scroller, GridBagLayout layout,
-                                       GridBagConstraints constraints)
+            GridBagConstraints constraints)
     {
         JTextArea area = new JTextArea();
         // area.setMargin(new Insets(2, 2, 2, 2));
@@ -499,16 +506,17 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     }
 
     /**
-     * Creates the table for the packs. All parameters are required. The table will be returned.
+     * Creates the table for the packs. All parameters are required. The table
+     * will be returned.
      *
-     * @param width       of the table
-     * @param scroller    the scroller to be used
-     * @param layout      layout to be used
+     * @param width of the table
+     * @param scroller the scroller to be used
+     * @param layout layout to be used
      * @param constraints constraints to be used
      * @return the created table
      */
     protected JTable createPacksTable(int width, JScrollPane scroller, GridBagLayout layout,
-                                      GridBagConstraints constraints)
+            GridBagConstraints constraints)
     {
         final JTable table = new JTable();
         table.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
@@ -594,7 +602,8 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     }
 
     /**
-     * Computes pack related installDataGUI like the names or the dependencies state.
+     * Computes pack related installDataGUI like the names or the dependencies
+     * state.
      *
      * @param packs The list of packs.
      */
@@ -613,8 +622,9 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     }
 
     /**
-     * Called when the panel becomes active. If a derived class implements this method also, it is
-     * recomanded to call this method with the super operator first.
+     * Called when the panel becomes active. If a derived class implements this
+     * method also, it is recomanded to call this method with the super operator
+     * first.
      */
     @Override
     public void panelActivate()
@@ -716,6 +726,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 
     static class CheckBoxRenderer implements TableCellRenderer
     {
+
         JCheckBox checkbox = new JCheckBox();
 
         CheckBoxRenderer()
@@ -732,7 +743,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus, int row, int column)
+                boolean isSelected, boolean hasFocus, int row, int column)
         {
             if (isSelected)
             {
@@ -768,6 +779,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 
     public static class LFIndependentIcon implements Icon
     {
+
         ButtonModel buttonModel = null;
 
         protected int getControlSize()
@@ -895,6 +907,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 
     static class PacksPanelTableCellRenderer extends DefaultTableCellRenderer
     {
+
         /**
          * Required (serializable)
          */
@@ -902,7 +915,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus, int row, int column)
+                boolean isSelected, boolean hasFocus, int row, int column)
         {
             Component renderer = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 

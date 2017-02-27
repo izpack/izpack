@@ -33,6 +33,7 @@ import com.izforge.izpack.api.config.spi.IniHandler;
 
 public class BasicProfile extends CommonMultiMap<String, Profile.Section> implements Profile
 {
+
     private static final String SECTION_SYSTEM_PROPERTIES = "@prop";
     private static final String SECTION_ENVIRONMENT = "@env";
     private static final Pattern EXPRESSION = Pattern.compile(
@@ -42,10 +43,10 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
     private static final int G_OPTION = 5;
     private static final int G_OPTION_IDX = 7;
     private static final long serialVersionUID = -1817521505004015256L;
-    private List<String> _comment;
-    private List<String> _footerComment;
-    private final boolean _propertyFirstUpper;
-    private final boolean _treeMode;
+    private List<String> comment;
+    private List<String> footerComment;
+    private final boolean propertyFirstUpper;
+    private final boolean treeMode;
 
     public BasicProfile()
     {
@@ -54,31 +55,36 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
 
     public BasicProfile(boolean treeMode, boolean propertyFirstUpper)
     {
-        _treeMode = treeMode;
-        _propertyFirstUpper = propertyFirstUpper;
+        this.treeMode = treeMode;
+        this.propertyFirstUpper = propertyFirstUpper;
     }
 
-    @Override public List<String> getHeaderComment()
+    @Override
+    public List<String> getHeaderComment()
     {
-        return _comment;
+        return this.comment;
     }
 
-    @Override public void setHeaderComment(List<String> value)
+    @Override
+    public void setHeaderComment(List<String> value)
     {
-        _comment = value;
+        this.comment = value;
     }
 
-    @Override public List<String> getFooterComment()
+    @Override
+    public List<String> getFooterComment()
     {
-        return _footerComment;
+        return this.footerComment;
     }
 
-    @Override public void setFooterComment(List<String> value)
+    @Override
+    public void setFooterComment(List<String> value)
     {
-        _footerComment = value;
+        this.footerComment = value;
     }
 
-    @Override public Section add(String name)
+    @Override
+    public Section add(String name)
     {
         if (isTreeMode())
         {
@@ -102,61 +108,74 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
         return section;
     }
 
-    @Override public void add(String section, String option, Object value)
+    @Override
+    public void add(String section, String option, Object value)
     {
         getOrAdd(section).add(option, value);
     }
 
-    @Override public <T> T as(Class<T> clazz)
+    @Override
+    public <T> T as(Class<T> clazz)
     {
         return as(clazz, null);
     }
 
-    @Override public <T> T as(Class<T> clazz, String prefix)
+    @Override
+    public <T> T as(Class<T> clazz, String prefix)
     {
-        return clazz.cast(Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { clazz },
-                    new BeanInvocationHandler(prefix)));
+        return clazz.cast(Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]
+        {
+            clazz
+        },
+                new BeanInvocationHandler(prefix)));
     }
 
-    @Override public String fetch(Object sectionName, Object optionName)
+    @Override
+    public String fetch(Object sectionName, Object optionName)
     {
         Section sec = get(sectionName);
 
         return (sec == null) ? null : sec.fetch(optionName);
     }
 
-    @Override public <T> T fetch(Object sectionName, Object optionName, Class<T> clazz)
+    @Override
+    public <T> T fetch(Object sectionName, Object optionName, Class<T> clazz)
     {
         Section sec = get(sectionName);
 
         return (sec == null) ? BeanTool.getInstance().zero(clazz) : sec.fetch(optionName, clazz);
     }
 
-    @Override public String get(Object sectionName, Object optionName)
+    @Override
+    public String get(Object sectionName, Object optionName)
     {
         Section sec = get(sectionName);
 
         return (sec == null) ? null : sec.get(optionName);
     }
 
-    @Override public <T> T get(Object sectionName, Object optionName, Class<T> clazz)
+    @Override
+    public <T> T get(Object sectionName, Object optionName, Class<T> clazz)
     {
         Section sec = get(sectionName);
 
         return (sec == null) ? BeanTool.getInstance().zero(clazz) : sec.get(optionName, clazz);
     }
 
-    @Override public String put(String sectionName, String optionName, Object value)
+    @Override
+    public String put(String sectionName, String optionName, Object value)
     {
         return getOrAdd(sectionName).put(optionName, value);
     }
 
-    @Override public Section remove(Section section)
+    @Override
+    public Section remove(Section section)
     {
         return remove((Object) section.getName());
     }
 
-    @Override public String removeOptionFromSection(Object sectionName, Object optionName)
+    @Override
+    public String removeOptionFromSection(Object sectionName, Object optionName)
     {
         Section sec = get(sectionName);
 
@@ -165,7 +184,7 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
 
     boolean isTreeMode()
     {
-        return _treeMode;
+        return this.treeMode;
     }
 
     char getPathSeparator()
@@ -175,7 +194,7 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
 
     boolean isPropertyFirstUpper()
     {
-        return _propertyFirstUpper;
+        return this.propertyFirstUpper;
     }
 
     Section newSection(String name)
@@ -224,9 +243,9 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
         {
             store(formatter, s);
         }
-        if (_footerComment != null)
+        if (this.footerComment != null)
         {
-            store(formatter, _footerComment);
+            store(formatter, this.footerComment);
         }
 
         formatter.endIni();
@@ -292,14 +311,16 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
 
     private final class BeanInvocationHandler extends AbstractBeanInvocationHandler
     {
-        private final String _prefix;
+
+        private final String prefix;
 
         private BeanInvocationHandler(String prefix)
         {
-            _prefix = prefix;
+            this.prefix = prefix;
         }
 
-        @Override protected Object getPropertySpi(String property, Class<?> clazz)
+        @Override
+        protected Object getPropertySpi(String property, Class<?> clazz)
         {
             String key = transform(property);
             Object o = null;
@@ -323,7 +344,8 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
             return o;
         }
 
-        @Override protected void setPropertySpi(String property, Object value, Class<?> clazz)
+        @Override
+        protected void setPropertySpi(String property, Object value, Class<?> clazz)
         {
             String key = transform(property);
 
@@ -348,14 +370,15 @@ public class BasicProfile extends CommonMultiMap<String, Profile.Section> implem
             }
         }
 
-        @Override protected boolean hasPropertySpi(String property)
+        @Override
+        protected boolean hasPropertySpi(String property)
         {
             return containsKey(transform(property));
         }
 
         String transform(String property)
         {
-            String ret = (_prefix == null) ? property : (_prefix + property);
+            String ret = (this.prefix == null) ? property : (this.prefix + property);
 
             if (isPropertyFirstUpper())
             {

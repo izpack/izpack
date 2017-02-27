@@ -18,13 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import java.util.List;
 
 import com.izforge.izpack.api.data.InstallData;
-
 
 /**
  * A field with a number of pre-defined choices.
@@ -33,6 +31,7 @@ import com.izforge.izpack.api.data.InstallData;
  */
 public abstract class ChoiceField extends Field
 {
+
     /**
      * The available choices.
      */
@@ -43,7 +42,7 @@ public abstract class ChoiceField extends Field
     /**
      * Constructs a {@code ChoiceField}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      */
     public ChoiceField(ChoiceFieldConfig config, InstallData installData)
@@ -56,7 +55,8 @@ public abstract class ChoiceField extends Field
     /**
      * Returns the choices.
      *
-     * @return the choices. The key is the choice identifier, the value, the display text
+     * @return the choices. The key is the choice identifier, the value, the
+     * display text
      */
     public List<Choice> getChoices()
     {

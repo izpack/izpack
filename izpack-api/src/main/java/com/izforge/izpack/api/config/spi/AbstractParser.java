@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.io.IOException;
@@ -33,24 +32,25 @@ import com.izforge.izpack.api.config.InvalidFileFormatException;
 
 abstract class AbstractParser
 {
-    private final String _comments;
-    private Config _config = Config.getGlobal();
-    private final String _operators;
+
+    private final String comments;
+    private Config config = Config.getGlobal();
+    private final String operators;
 
     protected AbstractParser(String operators, String comments)
     {
-        _operators = operators;
-        _comments = comments;
+        this.operators = operators;
+        this.comments = comments;
     }
 
     protected Config getConfig()
     {
-        return _config;
+        return this.config;
     }
 
     protected void setConfig(Config value)
     {
-        _config = value;
+        this.config = value;
     }
 
     protected void parseError(String line, int lineNumber) throws InvalidFileFormatException
@@ -60,17 +60,17 @@ abstract class AbstractParser
 
     IniSource newIniSource(InputStream input, HandlerBase handler)
     {
-        return new IniSource(input, handler, _comments, getConfig());
+        return new IniSource(input, handler, this.comments, getConfig());
     }
 
     IniSource newIniSource(Reader input, HandlerBase handler)
     {
-        return new IniSource(input, handler, _comments, getConfig());
+        return new IniSource(input, handler, this.comments, getConfig());
     }
 
     IniSource newIniSource(URL input, HandlerBase handler) throws IOException
     {
-        return new IniSource(input, handler, _comments, getConfig());
+        return new IniSource(input, handler, this.comments, getConfig());
     }
 
     void parseOptionLine(String line, HandlerBase handler, int lineNumber) throws InvalidFileFormatException
@@ -123,32 +123,36 @@ abstract class AbstractParser
         // eg: "http://+:80/Temporary_Listen_Addresses/"=hex:
         int start = 0;
         boolean inQuotes = line.charAt(0) == '"';
-        while( inQuotes ) {
-        	start = line.indexOf('"', start + 1);
-    		if (start > 1) {
-	        	if( line.charAt(start - 1) != '\\' || line.charAt(start - 2) == '\\' ) {
-	        		inQuotes = false;
-	        		start++;
-	        	}
-    		}
-    		else if (start < 0) {
-        		inQuotes = false;
-    		}
+        while (inQuotes)
+        {
+            start = line.indexOf('"', start + 1);
+            if (start > 1)
+            {
+                if (line.charAt(start - 1) != '\\' || line.charAt(start - 2) == '\\')
+                {
+                    inQuotes = false;
+                    start++;
+                }
+            }
+            else if (start < 0)
+            {
+                inQuotes = false;
+            }
         }
 
-        if (start > -1) 
+        if (start > -1)
         {
-	        for (char c : _operators.toCharArray())
-	        {
-	            int index = line.indexOf(c, start);
-	
-	            if ((index >= 0) && ((idx == -1) || (index < idx)))
-	            {
-	                idx = index;
-	            }
-	        }
+            for (char c : this.operators.toCharArray())
+            {
+                int index = line.indexOf(c, start);
+
+                if ((index >= 0) && ((idx == -1) || (index < idx)))
+                {
+                    idx = index;
+                }
+            }
         }
-        
+
         return idx;
     }
 }

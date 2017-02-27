@@ -19,15 +19,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.multiunpacker;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
-import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.exception.InstallerException;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -50,7 +47,6 @@ import java.net.URISyntaxException;
 import java.security.CodeSource;
 import java.util.List;
 import java.util.logging.Logger;
-
 
 /**
  * Unpacker class for a multi volume installation.
@@ -79,37 +75,38 @@ public class MultiVolumeUnpacker extends UnpackerBase
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(MultiVolumeUnpacker.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MultiVolumeUnpacker.class.getName());
 
     /**
      * Constructs a <tt>MultiVolumeUnpacker</tt>.
      *
-     * @param installData         the installation data
-     * @param resources           the pack resources
-     * @param rules               the rules engine
+     * @param installData the installation data
+     * @param resources the pack resources
+     * @param rules the rules engine
      * @param variableSubstitutor the variable substituter
-     * @param uninstallData       the uninstallation data
-     * @param queue               the queue
-     * @param housekeeper         the housekeeper
-     * @param listeners           the listeners
-     * @param prompt              the prompt
-     * @param locator             the multi-volume locator
-     * @param matcher             the platform-model matcher
+     * @param uninstallData the uninstallation data
+     * @param queue the queue
+     * @param housekeeper the housekeeper
+     * @param listeners the listeners
+     * @param prompt the prompt
+     * @param locator the multi-volume locator
+     * @param matcher the platform-model matcher
      */
     public MultiVolumeUnpacker(InstallData installData, PackResources resources, RulesEngine rules,
-                               VariableSubstitutor variableSubstitutor, UninstallData uninstallData,
-                               FileQueueFactory queue, Housekeeper housekeeper, InstallerListeners listeners,
-                               Prompt prompt, VolumeLocator locator, PlatformModelMatcher matcher)
+            VariableSubstitutor variableSubstitutor, UninstallData uninstallData,
+            FileQueueFactory queue, Housekeeper housekeeper, InstallerListeners listeners,
+            Prompt prompt, VolumeLocator locator, PlatformModelMatcher matcher)
     {
         super(installData, resources, rules, variableSubstitutor, uninstallData, queue, housekeeper, listeners,
-              prompt, matcher);
+                prompt, matcher);
         this.locator = locator;
     }
 
     /**
      * Invoked prior to unpacking.
      * <p/>
-     * This notifies the {@link #getProgressListener listener}, and any registered {@link InstallerListener listeners}.
+     * This notifies the {@link #getProgressListener listener}, and any
+     * registered {@link InstallerListener listeners}.
      *
      * @param packs the packs to unpack
      * @throws IzPackException for any error
@@ -128,14 +125,14 @@ public class MultiVolumeUnpacker extends UnpackerBase
             objectIn = new ObjectInputStream(in);
             int volumeCount = objectIn.readInt();
             String volumeName = objectIn.readUTF();
-            logger.fine("Reading from " + volumeCount + " volumes with basename " + volumeName + " ");
+            LOGGER.fine("Reading from " + volumeCount + " volumes with basename " + volumeName + " ");
 
             String mediaPath = getInstallData().getMediaPath();
             if ((mediaPath == null) || (mediaPath.length() == 0))
             {
                 mediaPath = getDefaultMediaPath();
             }
-            logger.fine("Using mediaDirectory = " + mediaPath);
+            LOGGER.fine("Using mediaDirectory = " + mediaPath);
             File volume = new File(mediaPath, volumeName);
             if (!volume.exists())
             {
@@ -158,12 +155,12 @@ public class MultiVolumeUnpacker extends UnpackerBase
     /**
      * Creates an unpacker to unpack a pack file.
      *
-     * @param file        the pack file to unpack
-     * @param pack        the parent pack
-     * @param queue       the file queue. May be {@code null}
+     * @param file the pack file to unpack
+     * @param pack the parent pack
+     * @param queue the file queue. May be {@code null}
      * @param cancellable determines if the unpacker should be cancelled
      * @return the unpacker
-     * @throws IOException        for any I/O error
+     * @throws IOException for any I/O error
      * @throws InstallerException for any installer error
      */
     @Override
@@ -185,8 +182,8 @@ public class MultiVolumeUnpacker extends UnpackerBase
     /**
      * Skips a pack file.
      *
-     * @param file            the pack file
-     * @param pack            the pack
+     * @param file the pack file
+     * @param pack the pack
      * @param packInputStream the pack stream
      * @throws IOException if the file cannot be skipped
      */
@@ -211,7 +208,7 @@ public class MultiVolumeUnpacker extends UnpackerBase
      *
      * @param file the pack file
      * @return the source directory
-     * @throws IOException        for any I/O error
+     * @throws IOException for any I/O error
      * @throws InstallerException for any installer error
      */
     private File getLoosePackFileDir(PackFile file) throws IOException, InstallerException
@@ -235,12 +232,14 @@ public class MultiVolumeUnpacker extends UnpackerBase
     }
 
     /**
-     * Tries to return a sensible default media path for multi-volume installations.
+     * Tries to return a sensible default media path for multi-volume
+     * installations.
      * <p/>
      * This returns:
      * <ul>
      * <li>the directory the installer is located in; or </li>
-     * <li>the user directory, if the installer location can't be determined</li>
+     * <li>the user directory, if the installer location can't be
+     * determined</li>
      * </ul>
      *
      * @return the default media path. May be <tt>null</tt>

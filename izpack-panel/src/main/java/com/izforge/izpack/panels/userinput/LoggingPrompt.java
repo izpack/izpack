@@ -37,7 +37,7 @@ public class LoggingPrompt extends AbstractPrompt
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(LoggingPrompt.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LoggingPrompt.class.getName());
 
     /**
      * Singleton instance.
@@ -59,7 +59,7 @@ public class LoggingPrompt extends AbstractPrompt
             default:
                 level = Level.INFO;
         }
-        logger.log(level, message, throwable);
+        LOGGER.log(level, message, throwable);
     }
 
     @Override
@@ -71,10 +71,10 @@ public class LoggingPrompt extends AbstractPrompt
     /**
      * Displays a confirmation message.
      *
-     * @param type          the type of the message
-     * @param title         the message title. May be {@code null}
-     * @param message       the message
-     * @param options       the options which may be selected
+     * @param type the type of the message
+     * @param title the message title. May be {@code null}
+     * @param message the message
+     * @param options the options which may be selected
      * @param defaultOption the default option to select
      * @return the selected option
      */

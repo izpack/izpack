@@ -92,12 +92,12 @@
 
     <!-- ConsoleInstaller strings -->
     <str id="ConsoleInstaller.continueQuitRedisplay"
-    txt="Pressione: (1) continuar, (2) sair, (3) mostrar novamente"/>
+         txt="Pressione: (1) continuar, (2) sair, (3) mostrar novamente"/>
     <str id="ConsoleInstaller.acceptRejectRedisplay"
-    txt="Pressione: (1) aceitar, (2) rejeitar, (3) mostrar novamente"/>
+         txt="Pressione: (1) aceitar, (2) rejeitar, (3) mostrar novamente"/>
     <str id="ConsoleInstaller.redisplayQuit" txt="Pressione: (1) mostrar novamente, (2) sair"/>
     <str id="ConsoleInstaller.permissionError"
-    txt="Previlégios administrativos necessário. Por favor reexecute o instalador com previlégios administrativos."/>
+         txt="Previlégios administrativos necessário. Por favor reexecute o instalador com previlégios administrativos."/>
     <str id="ConsoleInstaller.inputSelection" txt="Selecione: "/>
     <str id="ConsoleInstaller.pagingMore" txt="Mais"/>
     <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pessionado"/>

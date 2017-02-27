@@ -22,7 +22,6 @@ package com.izforge.izpack.panels.userinput.field.file;
 
 import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
 
-
 /**
  * Implementation of {@code FileFieldConfig} for testing.
  *
@@ -35,7 +34,6 @@ public class TestFileFieldConfig extends TestFieldConfig implements FileFieldCon
      * Determines if empty input is allowed.
      */
     private boolean allowEmptyInput;
-
 
     /**
      * Constructs a {@code TestFileFieldConfig}.
@@ -97,7 +95,8 @@ public class TestFileFieldConfig extends TestFieldConfig implements FileFieldCon
     }
 
     @Override
-    public boolean getOmitFromAuto() {
+    public boolean getOmitFromAuto()
+    {
         return false;
     }
 }

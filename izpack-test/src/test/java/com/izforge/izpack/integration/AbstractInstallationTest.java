@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration;
 
 import java.io.File;
@@ -34,7 +33,6 @@ import org.junit.rules.TemporaryFolder;
 
 import com.izforge.izpack.api.data.InstallData;
 
-
 /**
  * Base class for installation integration test cases.
  *
@@ -42,6 +40,7 @@ import com.izforge.izpack.api.data.InstallData;
  */
 public class AbstractInstallationTest
 {
+
     /**
      * Temporary folder to perform installations to.
      */
@@ -52,12 +51,10 @@ public class AbstractInstallationTest
 
     private static Logger logger;
 
-
     /**
      * The installation data.
      */
     private InstallData installData;
-
 
     /**
      * Constructs an <tt>AbstractInstallationTest</tt>.
@@ -116,7 +113,9 @@ public class AbstractInstallationTest
                 manager.readConfiguration(stream);
             }
         }
-        catch (IOException e) {}
+        catch (IOException e)
+        {
+        }
 
         Logger rootLogger = Logger.getLogger("com.izforge.izpack");
         rootLogger.setUseParentHandlers(false);

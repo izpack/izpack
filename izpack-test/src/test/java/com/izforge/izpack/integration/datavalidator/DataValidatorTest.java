@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.datavalidator;
 
 import static org.junit.Assert.assertEquals;
@@ -41,7 +40,6 @@ import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.installer.DataValidator;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerController;
@@ -57,7 +55,6 @@ import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestHousekeeper;
 
-
 /**
  * Tests that {@link DataValidator}s are invoked during installation.
  *
@@ -67,6 +64,7 @@ import com.izforge.izpack.test.util.TestHousekeeper;
 @Container(TestGUIInstallationContainer.class)
 public class DataValidatorTest
 {
+
     /**
      * Temporary folder to perform installations to.
      */
@@ -107,13 +105,13 @@ public class DataValidatorTest
      * Constructs an <tt>PanelActionValidatorTest</tt>.
      *
      * @param installData the install data
-     * @param frame       the installer frame
-     * @param controller  the installer controller
-     * @param panels      the panels
+     * @param frame the installer frame
+     * @param controller the installer controller
+     * @param panels the panels
      * @param housekeeper the house-keeper
      */
     public DataValidatorTest(GUIInstallData installData, InstallerFrame frame, InstallerController controller,
-                             IzPanels panels, TestHousekeeper housekeeper)
+            IzPanels panels, TestHousekeeper housekeeper)
     {
         this.installData = installData;
         this.frame = frame;

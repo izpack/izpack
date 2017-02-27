@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types;
 
 import java.io.File;
@@ -28,14 +27,16 @@ import com.izforge.izpack.util.file.FileScanner;
 import com.izforge.izpack.util.file.types.selectors.*;
 
 /**
- * Class that holds an implicit patternset and supports nested
- * patternsets and creates a DirectoryScanner using these patterns.
- * <p>Common base class for DirSet and FileSet.</p>
+ * Class that holds an implicit patternset and supports nested patternsets and
+ * creates a DirectoryScanner using these patterns.
+ * <p>
+ * Common base class for DirSet and FileSet.</p>
  */
 public class FileSet extends DataType
         implements Cloneable, SelectorContainer
 {
-    private static final Logger logger = Logger.getLogger(FileSet.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(FileSet.class.getName());
 
     private PatternSet defaultPatterns = new PatternSet();
     private Vector<PatternSet> additionalPatterns = new Vector<PatternSet>();
@@ -98,7 +99,7 @@ public class FileSet extends DataType
      * Creates a single file fileset.
      *
      * @param file the single <code>File</code> included in this
-     *             <code>AbstractFileSet</code>.
+     * <code>AbstractFileSet</code>.
      */
     public void setFile(File file) throws Exception
     {
@@ -111,9 +112,9 @@ public class FileSet extends DataType
     }
 
     /**
-     * Appends <code>includes</code> to the current list of include
-     * patterns.
-     * <p>Patterns may be separated by a comma or a space.</p>
+     * Appends <code>includes</code> to the current list of include patterns.
+     * <p>
+     * Patterns may be separated by a comma or a space.</p>
      *
      * @param includes the <code>String</code> containing the include patterns.
      */
@@ -123,10 +124,10 @@ public class FileSet extends DataType
     }
 
     /**
-     * Appends <code>excludes</code> to the current list of exclude
-     * patterns.
+     * Appends <code>excludes</code> to the current list of exclude patterns.
      * <p/>
-     * <p>Patterns may be separated by a comma or a space.</p>
+     * <p>
+     * Patterns may be separated by a comma or a space.</p>
      *
      * @param excludes the <code>String</code> containing the exclude patterns.
      */
@@ -176,8 +177,8 @@ public class FileSet extends DataType
     /**
      * Find out if the fileset wants to follow symbolic links.
      *
-     * @return <code>boolean</code> indicating whether symbolic links
-     *         should be followed.
+     * @return <code>boolean</code> indicating whether symbolic links should be
+     * followed.
      * @since Ant 1.6
      */
     public boolean isFollowSymlinks()
@@ -231,7 +232,7 @@ public class FileSet extends DataType
             Object o = additionalPatterns.elementAt(i);
             defaultPatterns.append((PatternSet) o);
         }
-        logger.fine("Fileset setup scanner in dir " + dir
+        LOGGER.fine("Fileset setup scanner in dir " + dir
                 + " with " + defaultPatterns);
 
         ds.setIncludes(defaultPatterns.getIncludePatterns());
@@ -249,7 +250,6 @@ public class FileSet extends DataType
     }
 
     // SelectorContainer methods
-
     /**
      * Indicates whether there are any selectors here.
      *
@@ -329,7 +329,6 @@ public class FileSet extends DataType
     }
 
     /* Methods below all add specific selectors */
-
     /**
      * Add an "And" selector entry on the selector list.
      *

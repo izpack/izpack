@@ -18,15 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.substitutor;
-
 
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.data.DefaultVariables;
 import junit.framework.TestCase;
-
 
 /**
  * This will test some characters as UTF-8.
@@ -37,6 +34,7 @@ import junit.framework.TestCase;
  */
 public class SubstitutorTest extends TestCase
 {
+
     private final String umlautString = "ÄöäÖüÜ";
     private final String cyrillicString = "Закончить";
     private final String japanesString = "ƒCƒ“ƒXƒg[ƒ‹‚Ì’†Ž~";
@@ -72,7 +70,6 @@ public class SubstitutorTest extends TestCase
     {
         super.tearDown();
     }
-
 
     /**
      * Tests return value of substitute for string containing umlaut characters.

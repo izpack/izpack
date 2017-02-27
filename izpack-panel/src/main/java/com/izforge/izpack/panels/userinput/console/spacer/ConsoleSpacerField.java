@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.spacer;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -37,7 +36,7 @@ public class ConsoleSpacerField extends ConsoleField
     /**
      * Constructs a {@code ConsoleSpacerField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
      */
     public ConsoleSpacerField(Field field, Console console, Prompt prompt)

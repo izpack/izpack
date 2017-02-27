@@ -1,26 +1,24 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2006 Klaus Bartz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.coi.tools.os.win;
-
 
 /**
  * Constants related to MS Windows DACLs.
@@ -29,6 +27,7 @@ package com.coi.tools.os.win;
  */
 public interface MSWinConstants
 {
+
     /*
      * Registry root values, extracted from winreg.h
      */
@@ -108,7 +107,6 @@ public interface MSWinConstants
     //
     // Define access rights to files and directories
     // Copied from winnt.h BUILD Version: 0095
-
     /**
      * Flag for permission read file or pipe date.
      */
@@ -250,7 +248,6 @@ public interface MSWinConstants
     // FILE_WRITE_EA |\
     // FILE_APPEND_DATA |\
     // SYNCHRONIZE)
-
     /**
      * Flag for permission generic write.
      */
@@ -268,7 +265,6 @@ public interface MSWinConstants
     //
     // AccessSystemAcl access type
     //
-
     /**
      * Flag for permission all specific rights.
      */
@@ -277,112 +273,109 @@ public interface MSWinConstants
     //
     // MaximumAllowed access type
     //
-
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int MAXIMUM_ALLOWED = 0x02000000;
 
     //
     // These are the generic rights.
     //
-
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int GENERIC_READ = 0x80000000; // may be a problem with int ...
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int GENERIC_WRITE = 0x40000000;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int GENERIC_EXECUTE = 0x20000000;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int GENERIC_ALL = 0x10000000;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_CASE_SENSITIVE_SEARCH = 0x00000001;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_CASE_PRESERVED_NAMES = 0x00000002;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_UNICODE_ON_DISK = 0x00000004;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_PERSISTENT_ACLS = 0x00000008;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_FILE_COMPRESSION = 0x00000010;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_VOLUME_QUOTAS = 0x00000020;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_SUPPORTS_SPARSE_FILES = 0x00000040;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_SUPPORTS_REPARSE_POINTS = 0x00000080;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_SUPPORTS_REMOTE_STORAGE = 0x00000100;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_VOLUME_IS_COMPRESSED = 0x00008000;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_SUPPORTS_OBJECT_IDS = 0x00010000;
 
     /**
-     * Flag for NT permissions: For more information see the Windows NT description for permisson
-     * flags.
+     * Flag for NT permissions: For more information see the Windows NT
+     * description for permisson flags.
      */
     static final int FILE_SUPPORTS_ENCRYPTION = 0x00020000;
-
 
 }

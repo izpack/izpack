@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.handler;
-
 
 import static com.izforge.izpack.api.handler.Prompt.Option;
 import static com.izforge.izpack.api.handler.Prompt.Option.CANCEL;
@@ -38,7 +36,6 @@ import static com.izforge.izpack.api.handler.Prompt.Type.WARNING;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.handler.Prompt;
 
-
 /**
  * An {@link AbstractUIHandler} implemented using {@link Prompt}.
  *
@@ -46,11 +43,11 @@ import com.izforge.izpack.api.handler.Prompt;
  */
 public class PromptUIHandler implements AbstractUIHandler
 {
+
     /**
      * The prompt.
      */
     private final Prompt prompt;
-
 
     /**
      * Constructs a {@code PromptUIHandler}.
@@ -65,8 +62,8 @@ public class PromptUIHandler implements AbstractUIHandler
     /**
      * Notify the user about something.
      * <p/>
-     * The difference between notification and warning is that a notification should not need user
-     * interaction and can safely be ignored.
+     * The difference between notification and warning is that a notification
+     * should not need user interaction and can safely be ignored.
      *
      * @param message The notification.
      */
@@ -79,7 +76,8 @@ public class PromptUIHandler implements AbstractUIHandler
     /**
      * Warn the user about something.
      *
-     * @param title   the message title (used for dialog name, might not be displayed)
+     * @param title the message title (used for dialog name, might not be
+     * displayed)
      * @param message the warning message.
      * @return true if the user decided to continue
      */
@@ -92,7 +90,8 @@ public class PromptUIHandler implements AbstractUIHandler
     /**
      * Notify the user of some error.
      *
-     * @param title   the message title (used for dialog name, might not be displayed)
+     * @param title the message title (used for dialog name, might not be
+     * displayed)
      * @param message the error message
      */
     @Override
@@ -104,7 +103,8 @@ public class PromptUIHandler implements AbstractUIHandler
     /**
      * Notify the user of some error and block the next button.
      *
-     * @param title   The message title (used for dialog name, might not be displayed)
+     * @param title The message title (used for dialog name, might not be
+     * displayed)
      * @param message The error message.
      * @deprecated Inject the InstallerFrame to disable the next button
      */
@@ -117,11 +117,12 @@ public class PromptUIHandler implements AbstractUIHandler
     /**
      * Ask the user a question.
      *
-     * @param title    Message title.
+     * @param title Message title.
      * @param question The question.
-     * @param choices  The set of choices to present.
+     * @param choices The set of choices to present.
      * @return The user's choice.
-     * @see com.izforge.izpack.api.handler.AbstractUIHandler#askQuestion(String, String, int)
+     * @see com.izforge.izpack.api.handler.AbstractUIHandler#askQuestion(String,
+     * String, int)
      */
     @Override
     public int askQuestion(String title, String question, int choices)
@@ -132,19 +133,20 @@ public class PromptUIHandler implements AbstractUIHandler
     /**
      * Ask the user a question.
      *
-     * @param title          Message title.
-     * @param question       The question.
-     * @param choices        The set of choices to present.
-     * @param default_choice The default choice. (-1 = no default choice)
+     * @param title Message title.
+     * @param question The question.
+     * @param choices The set of choices to present.
+     * @param defaultChoice The default choice. (-1 = no default choice)
      * @return The user's choice.
-     * @see com.izforge.izpack.api.handler.AbstractUIHandler#askQuestion(String, String, int, int)
+     * @see com.izforge.izpack.api.handler.AbstractUIHandler#askQuestion(String,
+     * String, int, int)
      */
-    public int askQuestion(String title, String question, int choices, int default_choice, boolean warning)
+    public int askQuestion(String title, String question, int choices, int defaultChoice, boolean warning)
     {
         int choice;
 
         Prompt.Type type;
-        if(warning)
+        if (warning)
         {
             type = WARNING;
         }
@@ -156,7 +158,7 @@ public class PromptUIHandler implements AbstractUIHandler
         if (choices == AbstractUIHandler.CHOICES_YES_NO)
         {
             Option defaultValue;
-            switch (default_choice)
+            switch (defaultChoice)
             {
                 case ANSWER_YES:
                     defaultValue = YES;
@@ -173,7 +175,7 @@ public class PromptUIHandler implements AbstractUIHandler
         else
         {
             Prompt.Option defaultValue;
-            switch (default_choice)
+            switch (defaultChoice)
             {
                 case ANSWER_YES:
                     defaultValue = YES;
@@ -206,15 +208,15 @@ public class PromptUIHandler implements AbstractUIHandler
     }
 
     @Override
-    public int askWarningQuestion(String title, String question, int choices, int default_choice)
+    public int askWarningQuestion(String title, String question, int choices, int defaultChoice)
     {
-        return askQuestion(title, question,  choices, default_choice, true);
+        return askQuestion(title, question, choices, defaultChoice, true);
     }
 
     @Override
-    public int askQuestion(String title, String question, int choices, int default_choice)
+    public int askQuestion(String title, String question, int choices, int defaultChoice)
     {
-        return askQuestion(title, question,  choices, default_choice, false);
+        return askQuestion(title, question, choices, defaultChoice, false);
     }
 
 }

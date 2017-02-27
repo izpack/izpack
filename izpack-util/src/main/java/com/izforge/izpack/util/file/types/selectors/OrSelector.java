@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -52,13 +51,13 @@ public class OrSelector extends BaseSelectorContainer
     }
 
     /**
-     * Returns true (the file is selected) if any of the other selectors
-     * agree that the file should be selected.
+     * Returns true (the file is selected) if any of the other selectors agree
+     * that the file should be selected.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename the name of the file to check
-     * @param file     a java.io.File object for the filename that the selector
-     *                 can use
+     * @param file a java.io.File object for the filename that the selector can
+     * use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file)

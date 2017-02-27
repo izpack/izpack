@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.panelaction;
 
 import static org.junit.Assert.assertEquals;
@@ -33,10 +32,8 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.PanelActionConfiguration;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
-import com.izforge.izpack.api.installer.DataValidator;
 import com.izforge.izpack.data.PanelAction;
 import com.izforge.izpack.integration.datavalidator.TestDataValidator;
-
 
 /**
  * Test {@link PanelAction} implementation.
@@ -53,12 +50,11 @@ public class TestPanelAction extends TestDataValidator implements PanelAction
      */
     private final ActionStage stage;
 
-
     /**
      * Constructs a {@code TestPanelAction}.
      *
-     * @param panel       the panel
-     * @param stage       the action stage
+     * @param panel the panel
+     * @param stage the action stage
      * @param installData the installation data
      */
     public TestPanelAction(Panel panel, ActionStage stage, InstallData installData)
@@ -68,9 +64,10 @@ public class TestPanelAction extends TestDataValidator implements PanelAction
     }
 
     /**
-     * Returns the no. of times the pre-construction action has been invoked for the specified panel.
+     * Returns the no. of times the pre-construction action has been invoked for
+     * the specified panel.
      *
-     * @param panelId     the panel identifier
+     * @param panelId the panel identifier
      * @param installData the installation data
      * @return the no. of times the pre-construction action has been invoked
      */
@@ -80,9 +77,10 @@ public class TestPanelAction extends TestDataValidator implements PanelAction
     }
 
     /**
-     * Returns the no. of times the pre-activation action has been invoked for the specified panel.
+     * Returns the no. of times the pre-activation action has been invoked for
+     * the specified panel.
      *
-     * @param panelId     the panel identifier
+     * @param panelId the panel identifier
      * @param installData the installation data
      * @return the no. of times the pre-activation action has been invoked
      */
@@ -92,9 +90,10 @@ public class TestPanelAction extends TestDataValidator implements PanelAction
     }
 
     /**
-     * Returns the no. of times the pre-validation action has been invoked for the specified panel.
+     * Returns the no. of times the pre-validation action has been invoked for
+     * the specified panel.
      *
-     * @param panelId     the panel identifier
+     * @param panelId the panel identifier
      * @param installData the installation data
      * @return the no. of times the pre-validation action has been invoked
      */
@@ -104,9 +103,10 @@ public class TestPanelAction extends TestDataValidator implements PanelAction
     }
 
     /**
-     * Returns the no. of times the post-validation action has been invoked for the specified panel.
+     * Returns the no. of times the post-validation action has been invoked for
+     * the specified panel.
      *
-     * @param panelId     the panel identifier
+     * @param panelId the panel identifier
      * @param installData the installation data
      * @return the no. of times the post-validation action has been invoked
      */
@@ -121,9 +121,10 @@ public class TestPanelAction extends TestDataValidator implements PanelAction
      * This verifies that actions are invoked, and in the correct order.
      *
      * @param installData the installation data
-     * @param handler     the UI handler. On a {@link ActionStage#preconstruct} action the handler is null because it
-     *                    is not available until it is constructed. During an automated installation the handler is
-     *                    null on each action because we have no GUI to handle.
+     * @param handler the UI handler. On a {@link ActionStage#preconstruct}
+     * action the handler is null because it is not available until it is
+     * constructed. During an automated installation the handler is null on each
+     * action because we have no GUI to handle.
      */
     @Override
     public void executeAction(InstallData installData, AbstractUIHandler handler)

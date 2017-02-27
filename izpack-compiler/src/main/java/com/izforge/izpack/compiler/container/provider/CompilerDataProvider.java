@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container.provider;
 
 import org.apache.commons.cli.ParseException;
@@ -33,6 +32,7 @@ import com.izforge.izpack.compiler.data.CompilerData;
  */
 public class CompilerDataProvider implements Provider
 {
+
     private String[] args;
 
     public CompilerDataProvider(String[] args)

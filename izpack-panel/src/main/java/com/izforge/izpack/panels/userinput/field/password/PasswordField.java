@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.password;
-
 
 /**
  * Password field.
@@ -29,6 +27,7 @@ package com.izforge.izpack.panels.userinput.field.password;
  */
 public class PasswordField
 {
+
     /**
      * The password field label.
      */

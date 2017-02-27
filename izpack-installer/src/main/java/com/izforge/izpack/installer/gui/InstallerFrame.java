@@ -19,15 +19,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.gui;
 
 import com.izforge.izpack.api.data.Info;
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.event.ProgressListener;
-import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
@@ -63,20 +60,24 @@ import static com.izforge.izpack.api.GuiId.BUTTON_HELP;
  * The IzPack installer frame.
  *
  * @author Julien Ponge created October 27, 2002
- * @author Fabrice Mirabile added fix for alert window on cross button, July 06 2005
- * @author Dennis Reil, added RulesEngine November 10 2006, several changes in January 2007
+ * @author Fabrice Mirabile added fix for alert window on cross button, July 06
+ * 2005
+ * @author Dennis Reil, added RulesEngine November 10 2006, several changes in
+ * January 2007
  * @author Bill Root added per-panel quit confirmation control, Feb 2015
  */
 public class InstallerFrame extends JFrame implements InstallerBase, InstallerView
 {
+
     private static final long serialVersionUID = 3257852069162727473L;
 
-    private static final transient Logger logger = Logger.getLogger(InstallerFrame.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(InstallerFrame.class.getName());
 
     private static final String ICON_RESOURCE = "Installer.image";
 
     /**
-     * Name of the variable where to find an extension to the resource name of the icon resource
+     * Name of the variable where to find an extension to the resource name of
+     * the icon resource
      */
     private static final String ICON_RESOURCE_EXT_VARIABLE_NAME = "installerimage.ext";
 
@@ -205,21 +206,21 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     /**
      * Constructs an <tt>InstallerFrame</tt>.
      *
-     * @param installData         the installation data
-     * @param rules               the rules engine
-     * @param icons               the icons database
-     * @param panels              the panels
+     * @param installData the installation data
+     * @param rules the rules engine
+     * @param icons the icons database
+     * @param panels the panels
      * @param uninstallDataWriter the uninstallation data writer
-     * @param resourceManager     the resources
-     * @param uninstallData       the uninstallation data
-     * @param housekeeper         the house-keeper
-     * @param navigator           the panel navigator
-     * @param log                 the log
+     * @param resourceManager the resources
+     * @param uninstallData the uninstallation data
+     * @param housekeeper the house-keeper
+     * @param navigator the panel navigator
+     * @param log the log
      */
     public InstallerFrame(GUIInstallData installData, RulesEngine rules, IconsDatabase icons,
-                          IzPanels panels, UninstallDataWriter uninstallDataWriter,
-                          ResourceManager resourceManager, UninstallData uninstallData, Housekeeper housekeeper,
-                          DefaultNavigator navigator, Log log, Locales locales)
+            IzPanels panels, UninstallDataWriter uninstallDataWriter,
+            ResourceManager resourceManager, UninstallData uninstallData, Housekeeper housekeeper,
+            DefaultNavigator navigator, Log log, Locales locales)
     {
         super();
         guiListener = new ArrayList<GUIListener>();
@@ -300,11 +301,11 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         panelsContainer.setLayout(new GridLayout(1, 1));
         contentPane.add(panelsContainer, BorderLayout.CENTER);
 
-        logger.fine("Building GUI. The panel list to display is " + installdata.getPanels());
+        LOGGER.fine("Building GUI. The panel list to display is " + installdata.getPanels());
 
         Messages messages = locales.getMessages();
         navigator.updateButtonText(messages);
-        
+
         JPanel navPanel = new JPanel();
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
         TitledBorder border = BorderFactory.createTitledBorder(
@@ -321,7 +322,10 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
 
         // update navigation panel and help button mnemonic shortcuts for selected language.
         ButtonFactory.clearAllMnemonics();
-        ButtonFactory.reserveButtonMnemonics(new JButton[] {helpButton});
+        ButtonFactory.reserveButtonMnemonics(new JButton[]
+        {
+            helpButton
+        });
         navigator.reserveNavigatorButtonMnemonics();
 
         navPanel.add(Box.createHorizontalGlue());
@@ -334,7 +338,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         contentPane.add(navPanel, BorderLayout.SOUTH);
 
         // create a debug panel if TRACE is enabled
-        if (Debug.isTRACE())
+        if (Debug.isTrace())
         {
             debugger = new Debugger(installdata, getIcons(), rules);
             // this needed to fully initialize the debugger
@@ -411,7 +415,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
      * Loads icon for given panel id.
      *
      * @param resPrefix resource prefix
-     * @param panelid   panel id
+     * @param panelid panel id
      * @return image icon, or {@code null} if no icon exists
      * @throws ResourceException if the resource exists but cannot be retrieved
      */
@@ -425,16 +429,17 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         }
         catch (ResourceNotFoundException exception)
         {
-            logger.fine("No icon for panel=" + panelid + ": " + exception.getMessage());
+            LOGGER.fine("No icon for panel=" + panelid + ": " + exception.getMessage());
         }
         return icon;
     }
 
     /**
-     * Returns the current set extension to icon resource names. Can be used to change the static
-     * installer image based on user input
+     * Returns the current set extension to icon resource names. Can be used to
+     * change the static installer image based on user input
      *
-     * @return a resource extension or an empty string if the variable was not set.
+     * @return a resource extension or an empty string if the variable was not
+     * set.
      */
     private String getIconResourceNameExtension()
     {
@@ -509,14 +514,14 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     protected void switchPanel(IzPanelView newPanel, IzPanelView oldPanel)
     {
         int oldIndex = (oldPanel != null) ? oldPanel.getIndex() : -1;
-        logger.fine("Switching panel, old index is " + oldIndex);
+        LOGGER.fine("Switching panel, old index is " + oldIndex);
 
         try
         {
             panelsContainer.setVisible(false);
             IzPanel newView = newPanel.getView();
             showHelpButton(newView.canShowHelp());
-            if (Debug.isTRACE())
+            if (Debug.isTrace())
             {
                 Panel panel = (oldPanel != null) ? oldPanel.getPanel() : null;
                 debugger.switchPanel(newPanel.getPanel(), panel);
@@ -524,8 +529,11 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
             String oldPanelClass = (oldPanel != null) ? oldPanel.getClass().getName() : null;
             log.addDebugMessage(
                     "InstallerFrame.switchPanel: try switching newPanel from {0} to {1} ({2} to {3})",
-                    new String[]{oldPanelClass, newPanel.getClass().getName(),
-                            Integer.toString(oldIndex), Integer.toString(newPanel.getIndex())},
+                    new String[]
+                    {
+                        oldPanelClass, newPanel.getClass().getName(),
+                        Integer.toString(oldIndex), Integer.toString(newPanel.getIndex())
+                    },
                     Log.PANEL_TRACE, null);
 
             // instead of writing data here which leads to duplicated entries in
@@ -533,7 +541,6 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
             // writing out that script.
             // oldPanel.makeXMLData(installdata.xmlData.getChildAtIndex(oldIndex));
             // No previous button in the first visible newPanel
-
             // Change panels container to the current one.
             if (oldPanel != null)
             {
@@ -602,7 +609,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         catch (Exception e)
         {
             e.printStackTrace();
-            logger.log(Level.SEVERE, "Error when switching panel", e);
+            LOGGER.log(Level.SEVERE, "Error when switching panel", e);
         }
     }
 
@@ -631,8 +638,9 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     /**
      * Exits the installer, if quit is enabled.
      * <p/>
-     * If installation is complete, this writes any uninstallation data, and shuts down.
-     * If installation is incomplete, a confirmation dialog will be displayed.
+     * If installation is complete, this writes any uninstallation data, and
+     * shuts down. If installation is incomplete, a confirmation dialog will be
+     * displayed.
      */
     public void exit()
     {
@@ -642,8 +650,9 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     /**
      * Quits the installer.
      * <p/>
-     * If installation is complete, this writes any uninstallation data, and shuts down.
-     * If installation is incomplete, a confirmation dialog will be displayed.
+     * If installation is complete, this writes any uninstallation data, and
+     * shuts down. If installation is incomplete, a confirmation dialog will be
+     * displayed.
      */
     void quit()
     {
@@ -652,9 +661,13 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         boolean confirmQuit;
         Panel panel = panels.getPanel();
         if (panel.getConfirmQuitType() == Panel.ConfirmQuitType.DYNAMIC)
+        {
             confirmQuit = !(installdata.isCanClose() || (!navigator.isNextEnabled() && !navigator.isPreviousEnabled()));
+        }
         else
+        {
             confirmQuit = (panel.getConfirmQuitType() == Panel.ConfirmQuitType.CONFIRM);
+        }
         if (!confirmQuit)
         {
             if (!writeUninstallData())
@@ -708,8 +721,8 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     /**
      * Writes the installation record to a file.
      *
-     * @param file  The file to write to.
-     * @param uninstallData  The uninstall data.
+     * @param file The file to write to.
+     * @param uninstallData The uninstall data.
      * @throws Exception Description of the Exception
      */
     @Override
@@ -718,9 +731,9 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         panels.writeInstallationRecord(file, uninstallData);
     }
 
-
     /**
-     * Changes the quit button text. If <tt>text</tt> is null, the default quit text is used.
+     * Changes the quit button text. If <tt>text</tt> is null, the default quit
+     * text is used.
      *
      * @param text text to be used for changes
      */
@@ -735,7 +748,8 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     }
 
     /**
-     * Sets a new icon into the quit button if icons should be used, else nothing will be done.
+     * Sets a new icon into the quit button if icons should be used, else
+     * nothing will be done.
      *
      * @param iconName name of the icon to be used
      */
@@ -750,8 +764,8 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     }
 
     /**
-     * FocusTraversalPolicy objects to handle keybord blocking; the declaration os Object allows to
-     * use a pre version 1.4 VM.
+     * FocusTraversalPolicy objects to handle keybord blocking; the declaration
+     * os Object allows to use a pre version 1.4 VM.
      */
     private Object usualFTP = null;
 
@@ -847,11 +861,11 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         navigator.setQuitEnabled(true);
     }
 
-
     /**
      * Unlocks the 'next' button.
      *
-     * @param requestFocus if <code>true</code> focus goes to <code>nextButton</code>
+     * @param requestFocus if <code>true</code> focus goes to
+     * <code>nextButton</code>
      */
     @Override
     public void unlockNextButton(boolean requestFocus)
@@ -863,7 +877,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
             navigator.getNext().requestFocusInWindow();
             if (this.getFocusOwner() != null)
             {
-                logger.fine("Current focus owner: " + this.getFocusOwner().getName());
+                LOGGER.fine("Current focus owner: " + this.getFocusOwner().getName());
             }
         }
     }
@@ -935,8 +949,8 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     class HelpHandler implements ActionListener
     {
 
-        /**Button
-         * Actions handler.
+        /**
+         * Button Actions handler.
          *
          * @param e The event.
          */
@@ -992,7 +1006,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
      * Creates heading labels.
      *
      * @param headingLines the number of lines of heading labels
-     * @param back         background color (currently not used)
+     * @param back background color (currently not used)
      */
     private void createHeadingLabels(int headingLines, Color back)
     {
@@ -1046,7 +1060,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     /**
      * Creates heading panel counter.
      *
-     * @param navPanel         navi JPanel
+     * @param navPanel navi JPanel
      * @param leftHeadingPanel left heading JPanel
      */
     private void createHeadingCounter(JPanel navPanel, JPanel leftHeadingPanel)
@@ -1066,7 +1080,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         {
             headingCounterComponent = null;
             if ("progressbar".equalsIgnoreCase(installdata.guiPrefs.modifier
-                                                       .get("headingPanelCounter")))
+                    .get("headingPanelCounter")))
             {
                 JProgressBar headingProgressBar = new JProgressBar();
                 headingProgressBar.setStringPainted(true);
@@ -1081,7 +1095,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
             else
             {
                 if ("text".equalsIgnoreCase(installdata.guiPrefs.modifier
-                                                    .get("headingPanelCounter")))
+                        .get("headingPanelCounter")))
                 {
                     JLabel headingCountPanels = new JLabel(" ");
                     headingCounterComponent = headingCountPanels;
@@ -1100,7 +1114,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
                     if (installdata.guiPrefs.modifier.containsKey("headingForegroundColor"))
                     {
                         foreground = Color.decode(installdata.guiPrefs.modifier
-                                                          .get("headingForegroundColor"));
+                                .get("headingForegroundColor"));
                         headingCountPanels.setForeground(foreground);
                     }
                     // end
@@ -1147,10 +1161,10 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         if (installdata.guiPrefs.modifier.containsKey("headingImageBorderSize"))
         {
             borderSize = Integer.parseInt(installdata.guiPrefs.modifier
-                                                  .get("headingImageBorderSize"));
+                    .get("headingImageBorderSize"));
         }
         imgPanel.setBorder(BorderFactory.createEmptyBorder(borderSize, borderSize, borderSize,
-                                                           borderSize));
+                borderSize));
         // end
 
         if (back != null)
@@ -1205,8 +1219,8 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         // See if we should switch the header image to the left side
         if (installdata.guiPrefs.modifier.containsKey("headingImageOnLeft")
                 && (installdata.guiPrefs.modifier.get("headingImageOnLeft").equalsIgnoreCase(
-                "yes") || installdata.guiPrefs.modifier
-                .get("headingImageOnLeft").equalsIgnoreCase("true")))
+                        "yes") || installdata.guiPrefs.modifier
+                        .get("headingImageOnLeft").equalsIgnoreCase("true")))
         {
             imageLeft = true;
         }
@@ -1267,11 +1281,12 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     }
 
     /**
-     * Returns whether this installer frame uses with the given panel a separated heading panel or
-     * not. Be aware, this is an other heading as given by the IzPanel which will be placed in the
-     * IzPanel. This heading will be placed if the gui preferences contains an modifier with the key
-     * "useHeadingPanel" and the value "yes" and there is a message with the key "&lt;class
-     * name&gt;.headline".
+     * Returns whether this installer frame uses with the given panel a
+     * separated heading panel or not. Be aware, this is an other heading as
+     * given by the IzPanel which will be placed in the IzPanel. This heading
+     * will be placed if the gui preferences contains an modifier with the key
+     * "useHeadingPanel" and the value "yes" and there is a message with the key
+     * "&lt;class name&gt;.headline".
      *
      * @param caller the IzPanel for which heading should be resolved
      * @return whether an heading panel will be used or not
@@ -1401,7 +1416,8 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
      * <p/>
      * An error message will be displayed if the write fails.
      *
-     * @return <tt>true</tt> if uninstall data was written successfully or is not required, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if uninstall data was written successfully or is
+     * not required, otherwise <tt>false</tt>
      */
     private boolean writeUninstallData()
     {
@@ -1463,7 +1479,6 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
 
         housekeeper.shutDown(0, reboot);
     }
-
 
     /**
      * Confirms exit when installation is not complete.

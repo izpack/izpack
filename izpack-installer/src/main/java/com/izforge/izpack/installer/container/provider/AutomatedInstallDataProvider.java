@@ -18,7 +18,7 @@ public class AutomatedInstallDataProvider extends AbstractInstallDataProvider
 {
 
     public AutomatedInstallData provide(Resources resources, Locales locales, DefaultVariables variables,
-                                        Housekeeper housekeeper, PlatformModelMatcher matcher)
+            Housekeeper housekeeper, PlatformModelMatcher matcher)
             throws IOException, ClassNotFoundException, InstallerException
     {
         AutomatedInstallData automatedInstallData = new InstallData(variables, matcher.getCurrentPlatform());

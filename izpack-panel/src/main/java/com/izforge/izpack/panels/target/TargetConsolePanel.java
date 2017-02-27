@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.target;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -42,7 +41,9 @@ import java.util.Properties;
  */
 public class TargetConsolePanel extends PathInputConsolePanel implements ConsolePanel
 {
+
     private final InstallData installData;
+
     /**
      * Constructs a {@code TargetConsolePanel}.
      *
@@ -90,8 +91,9 @@ public class TargetConsolePanel extends PathInputConsolePanel implements Console
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return <tt>true</tt> if the panel ran successfully, otherwise <tt>false</tt>
+     * @param console the console
+     * @return <tt>true</tt> if the panel ran successfully, otherwise
+     * <tt>false</tt>
      */
     @Override
     public boolean run(InstallData installData, Console console)
@@ -121,23 +123,27 @@ public class TargetConsolePanel extends PathInputConsolePanel implements Console
                 {
                     console.println(getIncompatibleInstallationMsg(installData));
                     continue;
-                } else if (!PathInputBase.isWritable(normalizedPath))
+                }
+                else if (!PathInputBase.isWritable(normalizedPath))
                 {
                     console.println(installData.getMessages().get("UserPathPanel.notwritable"));
                     continue;
-                } else if (!normalizedPath.isEmpty())
+                }
+                else if (!normalizedPath.isEmpty())
                 {
                     if (pathFile.isFile())
                     {
                         console.println(installData.getMessages().get("PathInputPanel.isfile"));
                         continue;
-                    } else if (pathFile.exists())
+                    }
+                    else if (pathFile.exists())
                     {
                         if (!checkOverwrite(pathFile, console))
                         {
                             continue;
                         }
-                    } else if (!checkCreateDirectory(pathFile, console))
+                    }
+                    else if (!checkCreateDirectory(pathFile, console))
                     {
                         continue;
                     }
@@ -150,7 +156,8 @@ public class TargetConsolePanel extends PathInputConsolePanel implements Console
                     return promptEndPanel(installData, console);
                 }
                 return run(installData, console);
-            } else
+            }
+            else
             {
                 return false;
             }

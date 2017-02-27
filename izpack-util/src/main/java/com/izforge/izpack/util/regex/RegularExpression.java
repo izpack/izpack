@@ -18,37 +18,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.regex;
 
 /**
- * A regular expression datatype.  Keeps an instance of the
- * compiled expression for speed purposes.  This compiled
- * expression is lazily evaluated (it is compiled the first
- * time it is needed).  The syntax is the dependent on which
- * regular expression type you are using.  The system property
- * "izpack.regexp.regexpimpl" will be the classname of the implementation
- * that will be used.
+ * A regular expression datatype. Keeps an instance of the compiled expression
+ * for speed purposes. This compiled expression is lazily evaluated (it is
+ * compiled the first time it is needed). The syntax is the dependent on which
+ * regular expression type you are using. The system property
+ * "izpack.regexp.regexpimpl" will be the classname of the implementation that
+ * will be used.
  * <p/>
- * <pre>
- * For jdk  &lt;= 1.3, there are two available implementations:
- *   org.apache.tools.ant.util.regexp.JakartaOroRegexp (the default)
- *        Based on the jakarta-oro package
+ * <
+ * pre>
+ * For jdk &lt;= 1.3, there are two available implementations:
+ * org.apache.tools.ant.util.regexp.JakartaOroRegexp (the default) Based on the
+ * jakarta-oro package
  * <p/>
- *   org.apache.tools.ant.util.regexp.JakartaRegexpRegexp
- *        Based on the jakarta-regexp package
+ * org.apache.tools.ant.util.regexp.JakartaRegexpRegexp Based on the
+ * jakarta-regexp package
  * <p/>
  * For jdk &gt;= 1.4 an additional implementation is available:
- *   org.apache.tools.ant.util.regexp.Jdk14RegexpRegexp
- *        Based on the jdk 1.4 built in regular expression package.
+ * org.apache.tools.ant.util.regexp.Jdk14RegexpRegexp Based on the jdk 1.4 built
+ * in regular expression package.
  * </pre>
  * <p/>
- * <pre>
- *   &lt;regexp [ [id="id"] pattern="expression" | refid="id" ]
- *   /&gt;
+ * <
+ * pre>
+ * &lt;regexp [ [id="id"] pattern="expression" | refid="id" ] /&gt;
  * </pre>
  *
- * @author René Krell - changes against the original implementation in Apache Ant 1.6.5
+ * @author René Krell - changes against the original implementation in Apache
+ * Ant 1.6.5
  * @see org.apache.oro.text.regex.Perl5Compiler
  * @see org.apache.regexp.RE
  * @see java.util.regex.Pattern
@@ -57,6 +57,7 @@ package com.izforge.izpack.util.regex;
  */
 public class RegularExpression
 {
+
     private boolean alreadyInit = false;
 
     // The regular expression factory
@@ -104,8 +105,7 @@ public class RegularExpression
     }
 
     /**
-     * Gets the pattern string for this RegularExpression in the
-     * given project.
+     * Gets the pattern string for this RegularExpression in the given project.
      *
      * @return pattern
      */

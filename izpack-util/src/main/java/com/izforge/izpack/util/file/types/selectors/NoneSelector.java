@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -24,8 +23,8 @@ import com.izforge.izpack.api.data.InstallData;
 
 /**
  * This selector has a collection of other selectors. All of those selectors
- * must refuse to select a file before the file is considered selected by
- * this selector.
+ * must refuse to select a file before the file is considered selected by this
+ * selector.
  */
 public class NoneSelector extends BaseSelectorContainer
 {
@@ -53,13 +52,13 @@ public class NoneSelector extends BaseSelectorContainer
     }
 
     /**
-     * Returns true (the file is selected) only if all other selectors
-     * agree that the file should not be selected.
+     * Returns true (the file is selected) only if all other selectors agree
+     * that the file should not be selected.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename is the name of the file to check
-     * @param file     is a java.io.File object for the filename that the selector
-     *                 can use
+     * @param file is a java.io.File object for the filename that the selector
+     * can use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file)

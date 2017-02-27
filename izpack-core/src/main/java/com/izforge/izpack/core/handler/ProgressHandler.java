@@ -18,16 +18,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.handler;
 
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 import com.izforge.izpack.api.handler.Prompt;
 
-
 /**
- * Implements {@link AbstractUIProgressHandler} using an {@link ProgressListener} and {@link Prompt}.
+ * Implements {@link AbstractUIProgressHandler} using an
+ * {@link ProgressListener} and {@link Prompt}.
  *
  * @author Tim Anderson
  */
@@ -43,7 +42,7 @@ public class ProgressHandler extends PromptUIHandler implements AbstractUIProgre
      * Constructs a {@code ProgressHandler}.
      *
      * @param listener the listener to delegate to
-     * @param prompt   the prompt prompt to delegate to
+     * @param prompt the prompt prompt to delegate to
      */
     public ProgressHandler(ProgressListener listener, Prompt prompt)
     {
@@ -54,7 +53,7 @@ public class ProgressHandler extends PromptUIHandler implements AbstractUIProgre
     /**
      * Invoked when an action starts.
      *
-     * @param name      the name of the action
+     * @param name the name of the action
      * @param stepCount the number of steps the action consists of
      */
     @Override
@@ -75,8 +74,8 @@ public class ProgressHandler extends PromptUIHandler implements AbstractUIProgre
     /**
      * Invoked when an action step starts.
      *
-     * @param stepName     the name of the step
-     * @param stepNo       the step number
+     * @param stepName the name of the step
+     * @param stepNo the step number
      * @param subStepCount the number of sub-steps the step consists of
      */
     @Override
@@ -102,7 +101,7 @@ public class ProgressHandler extends PromptUIHandler implements AbstractUIProgre
      * Notify of progress.
      *
      * @param subStepNo the sub-step which will be performed next
-     * @param message   an additional message describing the sub-step
+     * @param message an additional message describing the sub-step
      */
     @Override
     public void progress(int subStepNo, String message)
@@ -126,10 +125,10 @@ public class ProgressHandler extends PromptUIHandler implements AbstractUIProgre
     /**
      * Invoked when an action restarts.
      *
-     * @param name           the name of the action
+     * @param name the name of the action
      * @param overallMessage a message describing the overall progress
-     * @param tip            a tip describing the current progress
-     * @param steps          the number of steps the action consists of
+     * @param tip a tip describing the current progress
+     * @param steps the number of steps the action consists of
      */
     @Override
     public void restartAction(String name, String overallMessage, String tip, int steps)

@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file;
 
 import java.io.File;
@@ -29,18 +28,19 @@ import com.izforge.izpack.util.file.types.FileSet;
 import com.izforge.izpack.util.file.types.Mapper;
 
 /**
- * Copies a file or directory to a new file
- * or directory.  Files are only copied if the source file is newer
- * than the destination file, or when the destination file does not
- * exist.  It is possible to explicitly overwrite existing files.</p>
+ * Copies a file or directory to a new file or directory. Files are only copied
+ * if the source file is newer than the destination file, or when the
+ * destination file does not exist. It is possible to explicitly overwrite
+ * existing files.</p>
  * <p/>
- * <p>This implementation is based on Arnout Kuiper's initial design
- * document, the following mailing list discussions, and the
- * copyfile/copydir tasks.</p>
+ * <p>
+ * This implementation is based on Arnout Kuiper's initial design document, the
+ * following mailing list discussions, and the copyfile/copydir tasks.</p>
  */
 public class FileCopyTask
 {
-    private static final Logger logger = Logger.getLogger(FileCopyTask.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(FileCopyTask.class.getName());
 
     protected File file = null;     // the source file
     protected File destFile = null; // the destination file
@@ -110,8 +110,8 @@ public class FileCopyTask
     }
 
     /**
-     * Whether to give the copied files the same last modified time as
-     * the original files.
+     * Whether to give the copied files the same last modified time as the
+     * original files.
      *
      * @return the preserveLastModified attribute
      */
@@ -123,9 +123,9 @@ public class FileCopyTask
     /**
      * Overwrite any existing destination file(s).
      *
-     * @param overwrite if true force overwriting of destination file(s)
-     *                  even if the destination file(s) are younger than
-     *                  the corresponding source file. Default is false.
+     * @param overwrite if true force overwriting of destination file(s) even if
+     * the destination file(s) are younger than the corresponding source file.
+     * Default is false.
      */
     public void setOverwrite(boolean overwrite)
     {
@@ -133,14 +133,13 @@ public class FileCopyTask
     }
 
     /**
-     * When copying directory trees, the files can be "flattened"
-     * into a single directory.  If there are multiple files with
-     * the same name in the source directory tree, only the first
-     * file will be copied into the "flattened" directory, unless
-     * the forceoverwrite attribute is true.
+     * When copying directory trees, the files can be "flattened" into a single
+     * directory. If there are multiple files with the same name in the source
+     * directory tree, only the first file will be copied into the "flattened"
+     * directory, unless the forceoverwrite attribute is true.
      *
-     * @param flatten if true flatten the destination directory. Default
-     *                is false.
+     * @param flatten if true flatten the destination directory. Default is
+     * false.
      */
     public void setFlatten(boolean flatten)
     {
@@ -158,15 +157,13 @@ public class FileCopyTask
     }
 
     /**
-     * Attribute to handle mappers that return multiple
-     * mappings for a given source path.
+     * Attribute to handle mappers that return multiple mappings for a given
+     * source path.
      *
-     * @param enableMultipleMappings If true the task will
-     *                               copy to all the mappings for a given source path, if
-     *                               false, only the first file or directory is
-     *                               processed.
-     *                               By default, this setting is false to provide backward
-     *                               compatibility with earlier releases.
+     * @param enableMultipleMappings If true the task will copy to all the
+     * mappings for a given source path, if false, only the first file or
+     * directory is processed. By default, this setting is false to provide
+     * backward compatibility with earlier releases.
      */
     public void setEnableMultipleMappings(boolean enableMultipleMappings)
     {
@@ -228,9 +225,10 @@ public class FileCopyTask
     }
 
     /**
-     * The number of milliseconds leeway to give before deciding a
-     * target is out of date.
-     * <p>Default is 0 milliseconds, or 2 seconds on DOS systems.</p>
+     * The number of milliseconds leeway to give before deciding a target is out
+     * of date.
+     * <p>
+     * Default is 0 milliseconds, or 2 seconds on DOS systems.</p>
      */
     public void setGranularity(long granularity)
     {
@@ -275,11 +273,14 @@ public class FileCopyTask
                             > destFile.lastModified()))
                     {
                         fileCopyMap.put(file.getAbsolutePath(),
-                                new String[]{destFile.getAbsolutePath()});
+                                new String[]
+                                {
+                                    destFile.getAbsolutePath()
+                                });
                     }
                     else
                     {
-                        logger.fine(file + " omitted as " + destFile + " is up to date.");
+                        LOGGER.fine(file + " omitted as " + destFile + " is up to date.");
                     }
                 }
                 else
@@ -288,7 +289,7 @@ public class FileCopyTask
                             + file.getAbsolutePath() + " to copy.";
                     if (!failonerror)
                     {
-                        logger.fine(message);
+                        LOGGER.fine(message);
                     }
                     else
                     {
@@ -315,7 +316,7 @@ public class FileCopyTask
                     }
                     else
                     {
-                        logger.log(Level.WARNING,
+                        LOGGER.log(Level.WARNING,
                                 "Warning: " + e.getMessage(),
                                 e);
                         continue;
@@ -371,14 +372,14 @@ public class FileCopyTask
         }
     }
 
-    /************************************************************************
-     **  protected and private methods
-     ************************************************************************/
-
     /**
-     * Ensure we have a consistent and legal set of attributes, and set
-     * any internal flags necessary based on different combinations
-     * of attributes.
+     * **********************************************************************
+     ** protected and private methods
+     * **********************************************************************
+     */
+    /**
+     * Ensure we have a consistent and legal set of attributes, and set any
+     * internal flags necessary based on different combinations of attributes.
      *
      * @throws Exception if an error occurs
      */
@@ -457,12 +458,12 @@ public class FileCopyTask
      * copied.
      *
      * @param fromDir The source directory
-     * @param toDir   The destination directory
-     * @param files   A list of files to copy
-     * @param dirs    A list of directories to copy
+     * @param toDir The destination directory
+     * @param files A list of files to copy
+     * @param dirs A list of directories to copy
      */
     protected void scan(File fromDir, File toDir, String[] files,
-                        String[] dirs) throws Exception
+            String[] dirs) throws Exception
     {
         FileNameMapper mapper = null;
         if (mapperElement != null)
@@ -490,13 +491,13 @@ public class FileCopyTask
      * Add to a map of files/directories to copy
      *
      * @param fromDir the source directory
-     * @param toDir   the destination directory
-     * @param names   a list of filenames
-     * @param mapper  a <code>FileNameMapper</code> value
-     * @param map     a map of source file to array of destination files
+     * @param toDir the destination directory
+     * @param names a list of filenames
+     * @param mapper a <code>FileNameMapper</code> value
+     * @param map a map of source file to array of destination files
      */
     protected void buildMap(File fromDir, File toDir, String[] names,
-                            FileNameMapper mapper, Hashtable<String, String[]> map)
+            FileNameMapper mapper, Hashtable<String, String[]> map)
             throws Exception
     {
         String[] toCopy = null;
@@ -528,7 +529,10 @@ public class FileCopyTask
             if (!enableMultipleMappings)
             {
                 map.put(src.getAbsolutePath(),
-                        new String[]{new File(toDir, mappedFiles[0]).getAbsolutePath()});
+                        new String[]
+                        {
+                            new File(toDir, mappedFiles[0]).getAbsolutePath()
+                        });
             }
             else
             {
@@ -544,14 +548,14 @@ public class FileCopyTask
     }
 
     /**
-     * Actually does the file (and possibly empty directory) copies.
-     * This is a good method for subclasses to override.
+     * Actually does the file (and possibly empty directory) copies. This is a
+     * good method for subclasses to override.
      */
     protected void doFileOperations() throws Exception
     {
         if (fileCopyMap.size() > 0)
         {
-            logger.fine("Copying " + fileCopyMap.size()
+            LOGGER.fine("Copying " + fileCopyMap.size()
                     + " file" + (fileCopyMap.size() == 1 ? "" : "s")
                     + " to " + destDir.getAbsolutePath());
 
@@ -565,13 +569,13 @@ public class FileCopyTask
                 {
                     if (fromFile.equals(toFile))
                     {
-                        logger.warning("Skipping self-copy of " + fromFile);
+                        LOGGER.warning("Skipping self-copy of " + fromFile);
                         continue;
                     }
 
                     try
                     {
-                        logger.fine("Copying " + fromFile + " to " + toFile);
+                        LOGGER.fine("Copying " + fromFile + " to " + toFile);
                         FileUtils.copyFile(fromFile, toFile, forceOverwrite,
                                 preserveLastModified);
                     }
@@ -616,7 +620,7 @@ public class FileCopyTask
             }
             if (createCount > 0)
             {
-                logger.fine("Copied " + dirCopyMap.size()
+                LOGGER.fine("Copied " + dirCopyMap.size()
                         + " empty director"
                         + (dirCopyMap.size() == 1 ? "y" : "ies")
                         + " to " + createCount

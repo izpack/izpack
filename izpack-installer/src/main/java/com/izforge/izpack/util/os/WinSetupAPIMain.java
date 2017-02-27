@@ -14,8 +14,7 @@ public class WinSetupAPIMain
 {
 
     /**
-     * Small test of functionality of the WIndows Setup API.
-     * Usage:<br>
+     * Small test of functionality of the WIndows Setup API. Usage:<br>
      * <code>
      * c(opy) sourcefile destfile<br>
      * m(ove)/rename sourcefile destfile<br>

@@ -6,14 +6,18 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 
 public class CaseStyleFilter implements ValueFilter
 {
+
     private static final long serialVersionUID = 1L;
 
-    public enum Style {LOWER,UPPER};
+    public enum Style
+    {
+        LOWER, UPPER
+    };
     private Style style;
 
     public CaseStyleFilter(Style style)
     {
-       this.style = style;
+        this.style = style;
     }
 
     public CaseStyleFilter(String style)
@@ -36,7 +40,7 @@ public class CaseStyleFilter implements ValueFilter
     @Override
     public void validate() throws Exception
     {
-        if (style==null)
+        if (style == null)
         {
             throw new CompilerException("case Filter has been initialized with unknown style");
         }
@@ -47,16 +51,19 @@ public class CaseStyleFilter implements ValueFilter
     {
         switch (style)
         {
-        case LOWER: return value.toLowerCase();
-        case UPPER: return value.toUpperCase();
-        default:        throw new CompilerException("case Filter has been initialized with unimplemented style");
+            case LOWER:
+                return value.toLowerCase();
+            case UPPER:
+                return value.toUpperCase();
+            default:
+                throw new CompilerException("case Filter has been initialized with unimplemented style");
         }
     }
 
     @Override
     public String toString()
     {
-        return "(style: " + style.toString()+ ")";
+        return "(style: " + style.toString() + ")";
     }
 
     @Override
@@ -66,6 +73,6 @@ public class CaseStyleFilter implements ValueFilter
         {
             return false;
         }
-        return style.equals(((CaseStyleFilter)obj).getStyle());
+        return style.equals(((CaseStyleFilter) obj).getStyle());
     }
 }

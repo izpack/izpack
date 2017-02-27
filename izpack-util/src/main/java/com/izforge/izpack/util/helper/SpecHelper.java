@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2004 Klaus Bartz
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.helper;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -33,12 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class contains some helper methods to simplify handling of xml specification files.
+ * This class contains some helper methods to simplify handling of xml
+ * specification files.
  *
  * @author Klaus Bartz
  */
 public class SpecHelper
 {
+
     public static final String YES = "yes";
 
     public static final String NO = "no";
@@ -70,9 +71,9 @@ public class SpecHelper
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Reads the XML specification given by the file name. The result is stored in spec.
+     * Reads the XML specification given by the file name. The result is stored
+     * in spec.
      *
      * @throws Exception for any problems in reading the specification
      */
@@ -102,9 +103,9 @@ public class SpecHelper
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Reads the XML specification given by the input stream. The result is stored in spec.
+     * Reads the XML specification given by the input stream. The result is
+     * stored in spec.
      *
      * @throws Exception for any problems in reading the specification
      */
@@ -164,10 +165,10 @@ public class SpecHelper
     }
 
     /**
-     * Create parse error with consistent messages. Includes file name and line # of parent. It is
-     * an error for 'parent' to be null.
+     * Create parse error with consistent messages. Includes file name and line
+     * # of parent. It is an error for 'parent' to be null.
      *
-     * @param parent  The element in which the error occured
+     * @param parent The element in which the error occured
      * @param message Brief message explaining error
      */
     public void parseError(IXMLElement parent, String message) throws InstallerException
@@ -206,11 +207,12 @@ public class SpecHelper
     }
 
     /**
-     * Returns a Vector with all leafs of the tree which is described with childdef.
+     * Returns a Vector with all leafs of the tree which is described with
+     * childdef.
      *
-     * @param root     the IXMLElement which is the current root for the search
-     * @param childdef a String array which describes the tree; the last element contains the leaf
-     *                 name
+     * @param root the IXMLElement which is the current root for the search
+     * @param childdef a String array which describes the tree; the last element
+     * contains the leaf name
      * @return a Vector of XMLElements of all leafs founded under root
      */
     public List<IXMLElement> getAllSubChildren(IXMLElement root, String[] childdef)
@@ -219,13 +221,13 @@ public class SpecHelper
     }
 
     /**
-     * Returns a Vector with all leafs of the tree which is described with childdef beginning at the
-     * given depth.
+     * Returns a Vector with all leafs of the tree which is described with
+     * childdef beginning at the given depth.
      *
-     * @param root     the IXMLElement which is the current root for the search
-     * @param childdef a String array which describes the tree; the last element contains the leaf
-     *                 name
-     * @param depth    depth to start in childdef
+     * @param root the IXMLElement which is the current root for the search
+     * @param childdef a String array which describes the tree; the last element
+     * contains the leaf name
+     * @param depth depth to start in childdef
      * @return a Vector of XMLElements of all leafs founded under root
      */
     private List<IXMLElement> getSubChildren(IXMLElement root, String[] childdef, int depth)
@@ -260,11 +262,12 @@ public class SpecHelper
     }
 
     /**
-     * Returns whether the value to the given attribute is "yes" or not. If the attribute does not
-     * exist, or the value is not "yes" and not "no", the default value is returned.
+     * Returns whether the value to the given attribute is "yes" or not. If the
+     * attribute does not exist, or the value is not "yes" and not "no", the
+     * default value is returned.
      *
-     * @param element      the XML element which contains the attribute
-     * @param attribute    the name of the attribute
+     * @param element the XML element which contains the attribute
+     * @param attribute the name of the attribute
      * @param defaultValue the default value
      * @return whether the value to the given attribute is "yes" or not
      */
@@ -284,10 +287,10 @@ public class SpecHelper
     }
 
     /**
-     * Returns the attribute for the given attribute name. If no attribute exist, an
-     * InstallerException with a detail message is thrown.
+     * Returns the attribute for the given attribute name. If no attribute
+     * exist, an InstallerException with a detail message is thrown.
      *
-     * @param element  XML element which should contain the attribute
+     * @param element XML element which should contain the attribute
      * @param attrName key of the attribute
      * @return the attribute as string
      * @throws InstallerException

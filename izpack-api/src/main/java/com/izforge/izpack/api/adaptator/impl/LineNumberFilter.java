@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.adaptator.impl;
 
 import java.util.LinkedList;
@@ -33,13 +32,11 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-
 /**
- * A custom SAX XML filter, used to add line numbers to a DOM document.
- * This filter stores line numbers while parsing, and the applyLN method set
- * line numbers on the result.
- * Line numbers are stored in the user data of the Element,
- * so require Java 5 (DOM 3) or higher.
+ * A custom SAX XML filter, used to add line numbers to a DOM document. This
+ * filter stores line numbers while parsing, and the applyLN method set line
+ * numbers on the result. Line numbers are stored in the user data of the
+ * Element, so require Java 5 (DOM 3) or higher.
  *
  * @author Anthonin Bonnefoy
  * @author David Duponchel
@@ -135,7 +132,7 @@ public class LineNumberFilter extends XMLFilterImpl
      *
      * @param elt The node to check.
      * @return Returns <code>true</code> if this node has any children,
-     *         <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      */
     private boolean hasChildElements(Node elt)
     {
@@ -143,9 +140,9 @@ public class LineNumberFilter extends XMLFilterImpl
     }
 
     /**
-     * Apply a line number on the given element.
-     * We assume that the line number queue has been correctly filled, and that
-     * the current DOM tree correspond to the parsed XML.
+     * Apply a line number on the given element. We assume that the line number
+     * queue has been correctly filled, and that the current DOM tree correspond
+     * to the parsed XML.
      *
      * @param elt the element to apply the line number.
      */
@@ -155,7 +152,8 @@ public class LineNumberFilter extends XMLFilterImpl
     }
 
     /**
-     * Apply line numbers stored by a parse using this object on the xml elements.
+     * Apply line numbers stored by a parse using this object on the xml
+     * elements.
      *
      * @param result The result of the parse.
      */

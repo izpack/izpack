@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import java.util.Set;
@@ -33,9 +32,10 @@ import com.izforge.izpack.core.variable.utils.ValueUtils;
 
 public class CompareNumericsCondition extends CompareCondition
 {
+
     private static final long serialVersionUID = 3463371028276391505L;
 
-    private static final transient Logger logger = Logger.getLogger(CompareNumericsCondition.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(CompareNumericsCondition.class.getName());
 
     @Override
     public boolean isTrue()
@@ -81,16 +81,17 @@ public class CompareNumericsCondition extends CompareCondition
             }
             catch (NumberFormatException nfe)
             {
-                logger.warning("One of the values to compare is not in numeric format");
+                LOGGER.warning("One of the values to compare is not in numeric format");
             }
         }
         return result;
     }
 
     @Override
-    public Set<String> getVarRefs() {
+    public Set<String> getVarRefs()
+    {
         return ValueUtils.parseUnresolvedVariableNames(this.operand1,
-                                                       this.operand2);
+                this.operand2);
     }
 
 }

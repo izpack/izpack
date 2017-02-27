@@ -19,11 +19,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 public class EscapeTool
 {
+
     private static final String ESCAPE_LETTERS = "\\tnfbr";
     private static final String ESCAPEABLE_CHARS = "\\\t\n\f\b\r";
     private static final char ESCAPE_CHAR = '\\';
@@ -59,16 +59,13 @@ public class EscapeTool
                 buffer.append(ESCAPE_CHAR);
                 buffer.append(ESCAPE_LETTERS.charAt(idx));
             }
+            else if ((c < ASCII_MIN) || (c > ASCII_MAX))
+            {
+                escapeBinary(buffer, c);
+            }
             else
             {
-                if ((c < ASCII_MIN) || (c > ASCII_MAX))
-                {
-                    escapeBinary(buffer, c);
-                }
-                else
-                {
-                    buffer.append(c);
-                }
+                buffer.append(c);
             }
         }
 

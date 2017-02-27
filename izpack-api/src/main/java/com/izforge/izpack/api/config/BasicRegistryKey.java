@@ -25,6 +25,7 @@ import com.izforge.izpack.api.config.Registry.Key;
 
 class BasicRegistryKey extends BasicProfileSection implements Registry.Key
 {
+
     private static final long serialVersionUID = -1390060044244350928L;
     private static final String META_TYPE = "type";
 
@@ -32,57 +33,67 @@ class BasicRegistryKey extends BasicProfileSection implements Registry.Key
     {
         super(registry, name);
     }
-    
+
     @Override
-    public String toString() {
-    	String name = getName();
-    	String[] children = childrenNames();
-    	StringBuilder str = new StringBuilder(name + ":[");
-    	for(String childName : children) {
-			str.append(childName).append(":").append(getChild(childName)).append(",");
-		}
-    	str.setCharAt(str.length() - 1, ']');
-    	return str.toString();
+    public String toString()
+    {
+        String name = getName();
+        String[] children = childrenNames();
+        StringBuilder str = new StringBuilder(name + ":[");
+        for (String childName : children)
+        {
+            str.append(childName).append(":").append(getChild(childName)).append(",");
+        }
+        str.setCharAt(str.length() - 1, ']');
+        return str.toString();
     }
 
-    @Override public Key getChild(String key)
+    @Override
+    public Key getChild(String key)
     {
         return (Key) super.getChild(key);
     }
 
-    @Override public Key getParent()
+    @Override
+    public Key getParent()
     {
         return (Key) super.getParent();
     }
 
-    @Override public Registry.Type getType(Object key)
+    @Override
+    public Registry.Type getType(Object key)
     {
         return (Registry.Type) getMeta(META_TYPE, key);
     }
 
-    @Override public Registry.Type getType(Object key, Registry.Type defaultType)
+    @Override
+    public Registry.Type getType(Object key, Registry.Type defaultType)
     {
         Registry.Type type = getType(key);
 
         return (type == null) ? defaultType : type;
     }
 
-    @Override public Key addChild(String key)
+    @Override
+    public Key addChild(String key)
     {
         return (Key) super.addChild(key);
     }
 
-    @Override public Key lookup(String... path)
+    @Override
+    public Key lookup(String... path)
     {
         return (Key) super.lookup(path);
     }
 
-    @Override public Registry.Type putType(String key, Registry.Type type)
+    @Override
+    public Registry.Type putType(String key, Registry.Type type)
     {
         return (Registry.Type) putMeta(META_TYPE, key, type);
     }
 
-    @Override public Registry.Type removeType(Object key)
+    @Override
+    public Registry.Type removeType(Object key)
     {
         return (Registry.Type) removeMeta(META_TYPE, key);
     }

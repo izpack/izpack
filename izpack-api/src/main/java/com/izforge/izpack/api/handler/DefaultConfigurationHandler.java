@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.handler;
 
 import com.izforge.izpack.api.data.ConfigurationOption;
@@ -26,6 +25,7 @@ import java.util.Set;
 
 public abstract class DefaultConfigurationHandler implements Configurable
 {
+
     private static final long serialVersionUID = -671908088764713053L;
 
     /**

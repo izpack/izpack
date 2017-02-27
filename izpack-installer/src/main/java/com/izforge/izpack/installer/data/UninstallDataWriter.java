@@ -24,6 +24,7 @@ import java.util.logging.Logger;
  */
 public class UninstallDataWriter
 {
+
     /**
      * Uninstall data.
      */
@@ -57,7 +58,7 @@ public class UninstallDataWriter
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(UninstallDataWriter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UninstallDataWriter.class.getName());
 
     /**
      * Log file path variable name.
@@ -68,12 +69,12 @@ public class UninstallDataWriter
      * Constructs an <tt>UninstallDataWriter</tt>.
      *
      * @param uninstallData the uninstall data
-     * @param installData   the install data
-     * @param pathResolver  the path resolver
-     * @param rules         the rules engine
+     * @param installData the install data
+     * @param pathResolver the path resolver
+     * @param rules the rules engine
      */
     public UninstallDataWriter(UninstallData uninstallData, AutomatedInstallData installData, PathResolver pathResolver,
-                               RulesEngine rules)
+            RulesEngine rules)
     {
         this.uninstallData = uninstallData;
         this.installData = installData;
@@ -84,24 +85,26 @@ public class UninstallDataWriter
     /**
      * Determines if uninstall data should be written.
      * <p/>
-     * Uninstall data should be written if {@link com.izforge.izpack.api.data.Info#getUninstallerCondition()} is
+     * Uninstall data should be written if
+     * {@link com.izforge.izpack.api.data.Info#getUninstallerCondition()} is
      * empty, or evaluates <tt>true</tt>.
      *
-     * @return <tt>true</tt> if uninstall data should be written, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if uninstall data should be written, otherwise
+     * <tt>false</tt>
      */
     public boolean isUninstallRequired()
     {
         String condition = installData.getInfo().getUninstallerCondition();
 
         return (installData.getInfo().getUninstallerPath() != null)
-                && (condition == null || condition.length() == 0 || rules.isConditionTrue(condition)
-        );
+                && (condition == null || condition.length() == 0 || rules.isConditionTrue(condition));
     }
 
     /**
      * Writes the uninstall data.
      *
-     * @return <tt>true</tt> if uninstall data was successfully written, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if uninstall data was successfully written,
+     * otherwise <tt>false</tt>
      */
     public boolean write()
     {
@@ -128,7 +131,7 @@ public class UninstallDataWriter
         }
         catch (Throwable t)
         {
-            logger.log(Level.SEVERE, t.getMessage(), t);
+            LOGGER.log(Level.SEVERE, t.getMessage(), t);
             destroyJar(); // don't keep the jar - it may be incomplete or corrupted
         }
         return result;
@@ -137,7 +140,8 @@ public class UninstallDataWriter
     /**
      * Determines if an external log file should be written.
      *
-     * @return the external log file writer, or <tt>null</tt> if none should be written or the file couldn't be created
+     * @return the external log file writer, or <tt>null</tt> if none should be
+     * written or the file couldn't be created
      */
     private BufferedWriter getExternalLogFile()
     {
@@ -155,7 +159,7 @@ public class UninstallDataWriter
             {
                 if (!outFile.getParentFile().mkdirs())
                 {
-                    logger.warning("Failed to create directory: " + outFile.getParentFile().getPath());
+                    LOGGER.warning("Failed to create directory: " + outFile.getParentFile().getPath());
                 }
             }
             FileOutputStream out = null;
@@ -165,7 +169,7 @@ public class UninstallDataWriter
             }
             catch (FileNotFoundException e)
             {
-                logger.log(Level.WARNING, "Cannot create logfile", e);
+                LOGGER.log(Level.WARNING, "Cannot create logfile", e);
             }
             if (out != null)
             {
@@ -180,8 +184,8 @@ public class UninstallDataWriter
      * Writes the uninstaller skeleton.
      *
      * @throws IOException for any I/O error
-     * @throws com.izforge.izpack.api.exception.IzPackException
-     *                     for any IzPack error
+     * @throws com.izforge.izpack.api.exception.IzPackException for any IzPack
+     * error
      */
     private void writeJarSkeleton() throws IOException
     {
@@ -247,8 +251,8 @@ public class UninstallDataWriter
 
         // We put the langpack
         List<Mergeable> langPack = pathResolver.getMergeableFromPath("resources/langpacks/"
-                                                                             + installData.getLocaleISO3() + ".xml",
-                                                                     "langpack.xml");
+                + installData.getLocaleISO3() + ".xml",
+                "langpack.xml");
         for (Mergeable mergeable : langPack)
         {
             mergeable.merge(jar);
@@ -388,9 +392,11 @@ public class UninstallDataWriter
     }
 
     /**
-     * Writes data from {@link com.izforge.izpack.installer.data.UninstallData#getAdditionalData()}.
+     * Writes data from
+     * {@link com.izforge.izpack.installer.data.UninstallData#getAdditionalData()}.
      * <p/>
-     * This silently ignores failures to locate custom resources, logging it instead.
+     * This silently ignores failures to locate custom resources, logging it
+     * instead.
      *
      * @throws IOException for any I/O error
      */
@@ -465,8 +471,9 @@ public class UninstallDataWriter
     /**
      * Writes content to the jar.
      *
-     * @param path    the path to write to
-     * @param content the content to write. May be an object or a <tt>ByteArrayOutputStream</tt>. No idea why for the latter. TODO
+     * @param path the path to write to
+     * @param content the content to write. May be an object or a
+     * <tt>ByteArrayOutputStream</tt>. No idea why for the latter. TODO
      * @throws IOException for any I/O error
      */
     private void writeContent(String path, Object content) throws IOException
@@ -525,7 +532,7 @@ public class UninstallDataWriter
             File file = new File(path);
             if (file.exists() && !file.delete())
             {
-                logger.warning("Failed to delete incomplete uninstall information: " + path);
+                LOGGER.warning("Failed to delete incomplete uninstall information: " + path);
             }
         }
     }

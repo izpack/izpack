@@ -18,8 +18,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
-
+ */
 package com.izforge.izpack.api.adaptator;
 
 import org.w3c.dom.Node;
@@ -49,7 +48,6 @@ public interface IXMLElement extends Serializable
      * @return the name, or null if the element only contains #PCDATA.
      */
     String getName();
-
 
     /**
      * Adds a child element.
@@ -91,8 +89,8 @@ public interface IXMLElement extends Serializable
      *
      * @param index Index of the child
      * @return the non-null child
-     * @throws java.lang.ArrayIndexOutOfBoundsException
-     *          if the index is out of bounds.
+     * @throws java.lang.ArrayIndexOutOfBoundsException if the index is out of
+     * bounds.
      */
     IXMLElement getChildAtIndex(int index) throws ArrayIndexOutOfBoundsException;
 
@@ -123,7 +121,7 @@ public interface IXMLElement extends Serializable
     /**
      * Returns the value of an attribute.
      *
-     * @param name         the non-null name of the attribute.
+     * @param name the non-null name of the attribute.
      * @param defaultValue the default value of the attribute.
      * @return the value, or defaultValue if the attribute does not exist.
      */
@@ -132,7 +130,7 @@ public interface IXMLElement extends Serializable
     /**
      * Sets an attribute.
      *
-     * @param name  the non-null name of the attribute.
+     * @param name the non-null name of the attribute.
      * @param value the non-null value of the attribute.
      */
     void setAttribute(String name, String value);
@@ -175,17 +173,18 @@ public interface IXMLElement extends Serializable
     int getLineNr();
 
     /**
-     * Return the #PCDATA content of the element. If the element has a combination of #PCDATA
-     * content and child elements, the #PCDATA sections can be retrieved as unnamed child objects.
-     * In this case, this method returns null.
+     * Return the #PCDATA content of the element. If the element has a
+     * combination of #PCDATA content and child elements, the #PCDATA sections
+     * can be retrieved as unnamed child objects. In this case, this method
+     * returns null.
      *
      * @return the content.
      */
     String getContent();
 
     /**
-     * Sets the #PCDATA content. It is an error to call this method with a non-null value if there
-     * are child objects.
+     * Sets the #PCDATA content. It is an error to call this method with a
+     * non-null value if there are child objects.
      *
      * @param content the (possibly null) content.
      */
@@ -198,5 +197,3 @@ public interface IXMLElement extends Serializable
      */
     Node getElement();
 }
-
-

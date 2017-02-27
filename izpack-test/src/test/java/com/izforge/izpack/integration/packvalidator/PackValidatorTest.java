@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.packvalidator;
 
 import static org.junit.Assert.assertEquals;
@@ -48,12 +47,10 @@ import com.izforge.izpack.panels.hello.HelloPanel;
 import com.izforge.izpack.panels.install.InstallPanel;
 import com.izforge.izpack.panels.packs.PacksPanel;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
-import com.izforge.izpack.panels.treepacks.PackValidator;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestHousekeeper;
-
 
 /**
  * Tests that {@link PackValidator}s are invoked during installation.
@@ -64,6 +61,7 @@ import com.izforge.izpack.test.util.TestHousekeeper;
 @Container(TestGUIInstallationContainer.class)
 public class PackValidatorTest
 {
+
     /**
      * Temporary folder to perform installations to.
      */
@@ -104,13 +102,13 @@ public class PackValidatorTest
      * Constructs an <tt>PanelActionValidatorTest</tt>.
      *
      * @param installData the install data
-     * @param frame       the installer frame
-     * @param controller  the installer controller
+     * @param frame the installer frame
+     * @param controller the installer controller
      * @param housekeeper the house-keeper
-     * @param panels      the panels
+     * @param panels the panels
      */
     public PackValidatorTest(GUIInstallData installData, InstallerFrame frame, InstallerController controller,
-                             TestHousekeeper housekeeper, Panels panels)
+            TestHousekeeper housekeeper, Panels panels)
     {
         this.installData = installData;
         this.frame = frame;
@@ -144,7 +142,8 @@ public class PackValidatorTest
     }
 
     /**
-     * Verifies that registered {@link PackValidator}s are invoked by {@link PacksPanel}.
+     * Verifies that registered {@link PackValidator}s are invoked by
+     * {@link PacksPanel}.
      *
      * @throws Exception for any error
      */
@@ -204,4 +203,3 @@ public class PackValidatorTest
     }
 
 }
-

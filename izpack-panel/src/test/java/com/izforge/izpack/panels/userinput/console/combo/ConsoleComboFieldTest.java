@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.combo;
 
 import static org.junit.Assert.assertEquals;
@@ -40,7 +39,6 @@ import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.choice.TestChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
 
-
 /**
  * Tests the {@link ConsoleComboField}.
  *
@@ -48,6 +46,7 @@ import com.izforge.izpack.panels.userinput.field.combo.ComboField;
  */
 public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
 {
+
     private final RulesEngine rules = installData.getRules();
 
     /**
@@ -99,7 +98,8 @@ public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
     }
 
     /**
-     * Creates a new {@link ConsoleComboField} that updates the "radio" variable.
+     * Creates a new {@link ConsoleComboField} that updates the "radio"
+     * variable.
      *
      * @param selected the initial selection
      * @return a new field
@@ -121,6 +121,7 @@ public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
 
     private static class BooleanCondition extends Condition
     {
+
         private static final long serialVersionUID = 2558942007157683355L;
         private final boolean value;
 
@@ -130,12 +131,22 @@ public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
             super.setId(id);
             super.setInstallData(installData);
         }
+
         @Override
-        public void readFromXML(IXMLElement xmlcondition) throws Exception {}
+        public void readFromXML(IXMLElement xmlcondition) throws Exception
+        {
+        }
+
         @Override
-        public void makeXMLData(IXMLElement conditionRoot) {}
+        public void makeXMLData(IXMLElement conditionRoot)
+        {
+        }
+
         @Override
-        public boolean isTrue() { return this.value; }
+        public boolean isTrue()
+        {
+            return this.value;
+        }
 
         @Override
         public Set<String> getVarRefs()

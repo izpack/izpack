@@ -25,9 +25,9 @@ public class AccessControlEntry implements Cloneable
     /**
      * Creates an ACE with the given parameter.
      *
-     * @param owner2  owner of the ACE
+     * @param owner2 owner of the ACE
      * @param allowed access allowed mask
-     * @param denied  access denied mask
+     * @param denied access denied mask
      */
     public AccessControlEntry(String owner2, int allowed, int denied)
     {
@@ -98,10 +98,9 @@ public class AccessControlEntry implements Cloneable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
-
     public Object clone()
     {
         try

@@ -47,13 +47,13 @@ public class PlatformModelMatcher
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(PlatformModelMatcher.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PlatformModelMatcher.class.getName());
 
     /**
      * The platform factory.
      *
      * @param platforms the platforms
-     * @param platform  the current platform
+     * @param platform the current platform
      */
     public PlatformModelMatcher(Platforms platforms, Platform platform)
     {
@@ -86,7 +86,7 @@ public class PlatformModelMatcher
      * Determines if the OS model matches the specified platform.
      *
      * @param platform the platform
-     * @param model    the OS model
+     * @param model the OS model
      * @return {@code true} if they match
      */
     public boolean match(Platform platform, OsModel model)
@@ -129,8 +129,8 @@ public class PlatformModelMatcher
      * Determines if the current platform is in the specified list of models.
      *
      * @param models the models
-     * @return {@code true} if the current platform is in the list of models, or if the models are {@code null} or
-     *         empty
+     * @return {@code true} if the current platform is in the list of models, or
+     * if the models are {@code null} or empty
      */
     public boolean matchesCurrentPlatform(List<OsModel> models)
     {
@@ -141,8 +141,9 @@ public class PlatformModelMatcher
      * Determines if a platform is in the specified list of models.
      *
      * @param platform the platform
-     * @param models   the models
-     * @return {@code true} if the platform is in the list of models, or if the models are {@code null} or empty
+     * @param models the models
+     * @return {@code true} if the platform is in the list of models, or if the
+     * models are {@code null} or empty
      */
     public boolean matches(Platform platform, List<OsModel> models)
     {
@@ -150,28 +151,27 @@ public class PlatformModelMatcher
         {
             return true;
         }
-        boolean log = logger.isLoggable(Level.FINE);
+        boolean log = LOGGER.isLoggable(Level.FINE);
         for (OsModel model : models)
         {
             if (log)
             {
-                logger.fine("Checking if OS constraints " + model + " match platform=" + platform);
+                LOGGER.fine("Checking if OS constraints " + model + " match platform=" + platform);
             }
             if (match(platform, model))
             {
                 if (log)
                 {
-                    logger.fine("OS constraints matched platform");
+                    LOGGER.fine("OS constraints matched platform");
                 }
                 return true;
             }
         }
         if (log)
         {
-            logger.fine("OS constraints do not match platform=" + platform);
+            LOGGER.fine("OS constraints do not match platform=" + platform);
         }
         return false;
     }
-
 
 }

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.windows;
 
 import static com.izforge.izpack.integration.windows.WindowsHelper.checkShortcut;
@@ -44,8 +43,6 @@ import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
-import com.izforge.izpack.event.RegistryInstallerListener;
-import com.izforge.izpack.event.RegistryUninstallerListener;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.integration.AbstractDestroyerTest;
@@ -62,16 +59,16 @@ import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.PrivilegedRunner;
 import com.izforge.izpack.util.os.ShellLink;
 
-
 /**
  * Test installation on Windows.
  * <p/>
  * Verifies that:
  * <ul>
- * <li>An <em>Uninstall</em> entry is added to the registry by {@link RegistryInstallerListener} during
- * installation</li>
+ * <li>An <em>Uninstall</em> entry is added to the registry by
+ * {@link RegistryInstallerListener} during installation</li>
  * <li>A shortcut is created for the uninstaller during installation</li>
- * <li>The <em>Uninstall</em> entry is removed at uninstallation by {@link RegistryUninstallerListener}</li>
+ * <li>The <em>Uninstall</em> entry is removed at uninstallation by
+ * {@link RegistryUninstallerListener}</li>
  * <li>The shortcut is removed during uninstallation</li>
  * </ul>
  *
@@ -114,24 +111,24 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
     private FrameFixture installerFrameFixture;
 
     /**
-     * Registry uninstallation key. Hard-coded so we don't delete too much on cleanup if something unexpected happens.
+     * Registry uninstallation key. Hard-coded so we don't delete too much on
+     * cleanup if something unexpected happens.
      */
     private static final String UNINSTALL_KEY = RegistryHandler.UNINSTALL_ROOT + "IzPack Windows Installation Test 1.0";
-
 
     /**
      * Constructs a <tt>WindowsRegistryTest</tt>.
      *
-     * @param frame       the installer frame
-     * @param controller  the installer controller
+     * @param frame the installer frame
+     * @param controller the installer controller
      * @param installData the installation data
-     * @param librarian   the librarian
-     * @param handler     the registry handler
+     * @param librarian the librarian
+     * @param handler the registry handler
      * @param housekeeper the house-keeper
      */
     public WindowsInstallationTest(InstallerFrame frame, InstallerController controller,
-                                   AutomatedInstallData installData, Librarian librarian,
-                                   RegistryDefaultHandler handler, TestHousekeeper housekeeper)
+            AutomatedInstallData installData, Librarian librarian,
+            RegistryDefaultHandler handler, TestHousekeeper housekeeper)
     {
         super(installData);
         this.frame = frame;
@@ -179,7 +176,7 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
     public void testInstallation() throws Exception
     {
         assertFalse("This test must be run as administrator, or with Windows UAC turned off",
-                    new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded());
+                new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded());
 
         // UNINSTALL_NAME should be null prior to display of CheckedHelloPanel
         assertNull(getInstallData().getVariable("UNINSTALL_NAME"));
@@ -228,7 +225,7 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
 
         // make sure a shortcut to the uninstaller exists
         File shortcut = checkShortcut(ShellLink.PROGRAM_MENU, ShellLink.ALL_USERS, "IzPack Windows Installation Test",
-                                      "Uninstaller", uninstaller, "This uninstalls the test", librarian);
+                "Uninstaller", uninstaller, "This uninstalls the test", librarian);
 
         // run the uninstaller
         UninstallHelper.guiUninstall(uninstaller);
@@ -242,7 +239,8 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
     }
 
     /**
-     * Destroys registry entries that may not have been cleared out by a previous run.
+     * Destroys registry entries that may not have been cleared out by a
+     * previous run.
      *
      * @throws NativeLibException if the entries cannot be removed
      */

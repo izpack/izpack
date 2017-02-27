@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -44,7 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
 
 public class BSFInstallerListener extends AbstractProgressInstallerListener
 {
@@ -86,19 +84,19 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(BSFInstallerListener.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BSFInstallerListener.class.getName());
 
     /**
      * Constructs a <tt>BSFFInstallerListener</tt>.
      *
-     * @param installData   the installation data
-     * @param replacer      the variable replacer
-     * @param resources     the resources
+     * @param installData the installation data
+     * @param replacer the variable replacer
+     * @param resources the resources
      * @param uninstallData the uninstallation data
-     * @param notifiers     the progress notifiers
+     * @param notifiers the progress notifiers
      */
     public BSFInstallerListener(InstallData installData, VariableSubstitutor replacer, Variables variables, Resources resources,
-                                UninstallData uninstallData, ProgressNotifiers notifiers)
+            UninstallData uninstallData, ProgressNotifiers notifiers)
     {
         super(installData, notifiers);
         this.variables = variables;
@@ -160,10 +158,10 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
                     {
                         packActions.add(action);
                         String script = action.getScript().toLowerCase();
-                        if (script.contains(BSFAction.BEFOREDELETE) ||
-                                script.contains(BSFAction.AFTERDELETE) ||
-                                script.contains(BSFAction.BEFOREDELETION) ||
-                                script.contains(BSFAction.AFTERDELETION))
+                        if (script.contains(BSFAction.BEFOREDELETE)
+                                || script.contains(BSFAction.AFTERDELETE)
+                                || script.contains(BSFAction.BEFOREDELETION)
+                                || script.contains(BSFAction.AFTERDELETION))
                         {
                             uninstActions.add(action);
                         }
@@ -190,7 +188,7 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
      * Invoked before a pack is installed.
      *
      * @param pack the pack
-     * @param i    the pack number
+     * @param i the pack number
      * @throws IzPackException for any error
      */
     @Override
@@ -203,7 +201,7 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
      * Invoked after a pack is installed.
      *
      * @param pack the pack
-     * @param i    the pack number
+     * @param i the pack number
      * @throws IzPackException for any error
      */
     @Override
@@ -215,7 +213,7 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
     /**
      * Invoked after packs are installed.
      *
-     * @param packs    the installed packs
+     * @param packs the installed packs
      * @param listener the progress listener
      * @throws IzPackException for any error
      */
@@ -237,7 +235,8 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
     }
 
     /**
-     * Determines if the listener should be notified of every file and directory installation.
+     * Determines if the listener should be notified of every file and directory
+     * installation.
      *
      * @return {@code true}
      */
@@ -250,9 +249,9 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
     /**
      * Invoked before a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -264,9 +263,9 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
     /**
      * Invoked after a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -278,9 +277,9 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
     /**
      * Invoked before a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -292,9 +291,9 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
     /**
      * Invoked after a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -326,7 +325,7 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
             return;
         }
 
-        logger.fine("Executing all " + order + " BSF actions of pack " + packName + " ...");
+        LOGGER.fine("Executing all " + order + " BSF actions of pack " + packName + " ...");
         for (BSFAction act : actList)
         {
             // Inform progress bar if needed. Works only on AFTER_PACKS

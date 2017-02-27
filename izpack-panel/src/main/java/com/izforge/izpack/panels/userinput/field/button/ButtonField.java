@@ -3,19 +3,20 @@ package com.izforge.izpack.panels.userinput.field.button;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.panels.userinput.action.ButtonAction;
 import com.izforge.izpack.panels.userinput.field.Field;
-import com.izforge.izpack.api.exception.IzPackException;
 
 import java.util.List;
 
 public class ButtonField extends Field
 {
+
     private final String sucessMsg;
     private final String buttonName;
     private final List<ButtonAction> buttonActions;
+
     /**
      * Constructs a {@code Field}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      * @throws IzPackException if the configuration is invalid
      */

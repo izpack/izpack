@@ -18,25 +18,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.regex;
-
-import org.apache.tools.ant.BuildException;
 
 import java.util.Vector;
 
 /**
  * Interface describing a regular expression matcher.
  *
- * @author René Krell - changes against the original implementation in Apache Ant 1.6.5
+ * @author René Krell - changes against the original implementation in Apache
+ * Ant 1.6.5
  * @see <a href='http://ant.apache.org'>Apache Ant</a>
  */
 public interface RegexpMatcher
 {
 
     /**
-     * Default Mask (case insensitive, neither multiline nor
-     * singleline specified).
+     * Default Mask (case insensitive, neither multiline nor singleline
+     * specified).
      */
     int MATCH_DEFAULT = 0x00000000;
 
@@ -54,7 +52,6 @@ public interface RegexpMatcher
      * Treat the input as singleline input ('.' matches newline)
      */
     int MATCH_SINGLELINE = 0x00010000;
-
 
     /**
      * Set the regexp pattern from the String description.
@@ -82,11 +79,12 @@ public interface RegexpMatcher
     boolean matches(String argument) throws RuntimeException;
 
     /**
-     * Returns a Vector of matched groups found in the argument
-     * using default options.
+     * Returns a Vector of matched groups found in the argument using default
+     * options.
      * <p/>
-     * <p>Group 0 will be the full match, the rest are the
-     * parenthesized subexpressions</p>.
+     * <p>
+     * Group 0 will be the full match, the rest are the parenthesized
+     * subexpressions</p>.
      *
      * @param argument the string to match against
      * @return the vector of groups
@@ -95,24 +93,23 @@ public interface RegexpMatcher
     Vector<String> getGroups(String argument) throws RuntimeException;
 
     /**
-     * Does this regular expression match the input, given
-     * certain options
+     * Does this regular expression match the input, given certain options
      *
-     * @param input   The string to check for a match
-     * @param options The list of options for the match. See the
-     *                MATCH_ constants above.
+     * @param input The string to check for a match
+     * @param options The list of options for the match. See the MATCH_
+     * constants above.
      * @return true if the pattern matches
      * @throws BuildException on error
      */
     boolean matches(String input, int options) throws RuntimeException;
 
     /**
-     * Get the match groups from this regular expression.  The return
-     * type of the elements is always String.
+     * Get the match groups from this regular expression. The return type of the
+     * elements is always String.
      *
-     * @param input   The string to check for a match
-     * @param options The list of options for the match. See the
-     *                MATCH_ constants above.
+     * @param input The string to check for a match
+     * @param options The list of options for the match. See the MATCH_
+     * constants above.
      * @return the vector of groups
      * @throws BuildException on error
      */

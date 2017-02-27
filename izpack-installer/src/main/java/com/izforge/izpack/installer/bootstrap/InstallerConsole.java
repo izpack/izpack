@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.bootstrap;
 
 import com.izforge.izpack.api.container.Container;
@@ -39,55 +38,56 @@ import java.util.logging.Logger;
  */
 public class InstallerConsole
 {
-  private static final Logger logger = Logger.getLogger(InstallerConsole.class.getName());
-  
-  public static void run(final ConsoleInstallerAction consoleAction, final String path, final String langCode,
-                         final String mediaPath, Overrides defaults, final String[] args)
-  {
-    final InstallerContainer applicationComponent = new ConsoleInstallerContainer();
-    final Container installerContainer = applicationComponent.getComponent(Container.class);
-    try
+
+    private static final Logger LOGGER = Logger.getLogger(InstallerConsole.class.getName());
+
+    public static void run(final ConsoleInstallerAction consoleAction, final String path, final String langCode,
+            final String mediaPath, Overrides defaults, final String[] args)
     {
-      InstallData installData = applicationComponent.getComponent(InstallData.class);
-
-      if (mediaPath != null)
-      {
-        installData.setMediaPath(mediaPath);
-      }
-
-      if (defaults != null)
-      {
-        defaults.setInstallData(installData);
-        defaults.load();
-        logger.info("Loaded " + defaults.size() + " override(s) from " + defaults.getFile());
-
-        DefaultVariables variables = applicationComponent.getComponent(DefaultVariables.class);
-        variables.setOverrides(defaults);
-      }
-
-      if (consoleAction != ConsoleInstallerAction.CONSOLE_GEN_TEMPLATE)
-      {
-        if (langCode == null)
+        final InstallerContainer applicationComponent = new ConsoleInstallerContainer();
+        final Container installerContainer = applicationComponent.getComponent(Container.class);
+        try
         {
-          installerContainer.getComponent(LanguageConsoleDialog.class).initLangPack();
-        }
-        else
-        {
-          installerContainer.getComponent(LanguageConsoleDialog.class).propagateLocale(langCode);
-        }
-        if (!installerContainer.getComponent(RequirementsChecker.class).check())
-        {
-          logger.info("Not all installer requirements are fulfilled.");
-          installerContainer.getComponent(Housekeeper.class).shutDown(-1);
-        }
-      }
+            InstallData installData = applicationComponent.getComponent(InstallData.class);
 
-      ConsoleInstaller consoleInstaller = installerContainer.getComponent(ConsoleInstaller.class);
-      consoleInstaller.run(consoleAction, path, args);
+            if (mediaPath != null)
+            {
+                installData.setMediaPath(mediaPath);
+            }
+
+            if (defaults != null)
+            {
+                defaults.setInstallData(installData);
+                defaults.load();
+                LOGGER.info("Loaded " + defaults.size() + " override(s) from " + defaults.getFile());
+
+                DefaultVariables variables = applicationComponent.getComponent(DefaultVariables.class);
+                variables.setOverrides(defaults);
+            }
+
+            if (consoleAction != ConsoleInstallerAction.CONSOLE_GEN_TEMPLATE)
+            {
+                if (langCode == null)
+                {
+                    installerContainer.getComponent(LanguageConsoleDialog.class).initLangPack();
+                }
+                else
+                {
+                    installerContainer.getComponent(LanguageConsoleDialog.class).propagateLocale(langCode);
+                }
+                if (!installerContainer.getComponent(RequirementsChecker.class).check())
+                {
+                    LOGGER.info("Not all installer requirements are fulfilled.");
+                    installerContainer.getComponent(Housekeeper.class).shutDown(-1);
+                }
+            }
+
+            ConsoleInstaller consoleInstaller = installerContainer.getComponent(ConsoleInstaller.class);
+            consoleInstaller.run(consoleAction, path, args);
+        }
+        catch (Exception e)
+        {
+            throw new IzPackException(e);
+        }
     }
-    catch (Exception e)
-    {
-      throw new IzPackException(e);
-    }
-  }
 }

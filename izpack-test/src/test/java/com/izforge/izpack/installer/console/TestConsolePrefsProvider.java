@@ -18,14 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
-import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
 import org.picocontainer.injectors.Provider;
-
 
 /**
  * Provides an {@link Messages} from the current locale.

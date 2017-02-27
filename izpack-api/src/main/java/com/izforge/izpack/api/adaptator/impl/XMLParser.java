@@ -46,8 +46,10 @@ import java.nio.charset.Charset;
 
 public class XMLParser implements IXMLParser
 {
+
     public class ByteBufferInputStream extends InputStream
     {
+
         private final ByteBuffer buf;
 
         public ByteBufferInputStream(ByteBuffer buf)
@@ -87,7 +89,6 @@ public class XMLParser implements IXMLParser
 
     private LineNumberFilter filter;
     private String parsedItem = null;
-
 
     public XMLParser()
     {

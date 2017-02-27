@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge;
 
 import org.jdom2.Document;
@@ -32,12 +31,13 @@ import org.jdom2.Document;
  */
 public class DocumentException extends AbstractXmlMergeException
 {
+
     private static final long serialVersionUID = 8024477623372449100L;
 
     /**
      * A document instance.
      */
-    Document m_document;
+    Document document;
 
     /**
      * Constructor with message.
@@ -48,7 +48,7 @@ public class DocumentException extends AbstractXmlMergeException
     public DocumentException(Document document, String message)
     {
         super(message);
-        m_document = document;
+        this.document = document;
     }
 
     /**
@@ -60,7 +60,7 @@ public class DocumentException extends AbstractXmlMergeException
     public DocumentException(Document document, Throwable cause)
     {
         super(makeMessage(document), cause);
-        m_document = document;
+        this.document = document;
     }
 
     /**
@@ -79,7 +79,7 @@ public class DocumentException extends AbstractXmlMergeException
      */
     public Document getDocument()
     {
-        return m_document;
+        return document;
     }
 
     /**
@@ -87,7 +87,7 @@ public class DocumentException extends AbstractXmlMergeException
      */
     public void setDocument(Document document)
     {
-        m_document = document;
+        this.document = document;
     }
 
 }

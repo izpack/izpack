@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.panel;
-
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLWriter;
@@ -87,12 +85,12 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractPanels.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AbstractPanels.class.getName());
 
     /**
      * Constructs an {@code AbstractPanels}.
      *
-     * @param panels    the panels
+     * @param panels the panels
      * @param installData
      */
     public AbstractPanels(List<T> panels, InstallData installData)
@@ -181,7 +179,8 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     /**
      * Returns the current panel index.
      *
-     * @return the current panel index, or {@code -1} if there is no current panel
+     * @return the current panel index, or {@code -1} if there is no current
+     * panel
      */
     @Override
     public int getIndex()
@@ -216,7 +215,8 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     /**
      * Navigates to the next panel.
      *
-     * @param validate if {@code true}, only move to the next panel if validation succeeds
+     * @param validate if {@code true}, only move to the next panel if
+     * validation succeeds
      * @return {@code true} if the next panel was navigated to
      */
     @Override
@@ -284,7 +284,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     /**
      * Determines if there is another panel after the specified index.
      *
-     * @param index       the panel index
+     * @param index the panel index
      * @param visibleOnly if {@code true}, only examine visible panels
      * @return {@code true} if there is another panel
      */
@@ -320,9 +320,10 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     /**
      * Determines if there is another panel prior to the specified index.
      *
-     * @param index       the panel index
+     * @param index the panel index
      * @param visibleOnly if {@code true}, only examine visible panels
-     * @return the previous panel index, or {@code -1} if there are no more panels
+     * @return the previous panel index, or {@code -1} if there are no more
+     * panels
      */
     @Override
     public int getPrevious(int index, boolean visibleOnly)
@@ -343,7 +344,8 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
      * Determines if there is another panel prior to the specified index.
      *
      * @param visibleOnly if {@code true}, only examine visible panels
-     * @return the previous panel index, or {@code -1} if there are no more panels
+     * @return the previous panel index, or {@code -1} if there are no more
+     * panels
      */
     @Override
     public int getPrevious(boolean visibleOnly)
@@ -355,7 +357,8 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
      * Returns the index of a visible panel, relative to other visible panels.
      *
      * @param panel the panel
-     * @return the panel's visible index, or {@code -1} if the panel is not visible
+     * @return the panel's visible index, or {@code -1} if the panel is not
+     * visible
      */
     @Override
     public int getVisibleIndex(T panel)
@@ -421,7 +424,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
 
             //Only remove the automatic installation for if its placed in installation path
             //We would like to contain any removal of data within the install path
-            if(file.getAbsolutePath().startsWith(installData.getInstallPath()))
+            if (file.getAbsolutePath().startsWith(installData.getInstallPath()))
             {
                 uninstallData.addFile(file.getAbsolutePath(), true);
             }
@@ -429,8 +432,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     }
 
     /**
-     * TODO: validate parameter not used - refactor this
-     * Switches panels.
+     * TODO: validate parameter not used - refactor this Switches panels.
      *
      * @param newIndex the index of the new panel
      * @return {@code true} if the switch was successful
@@ -442,7 +444,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
         T panel = getPanelView();
 
         //Save data on every panel switch
-        if(panel != null)
+        if (panel != null)
         {
             panel.saveData();
         }
@@ -471,33 +473,33 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
 
                 if (oldIndex > newIndex)
                 {
-                      // Switches back in a sorted list of panels
-                      // -> set unvisited all panels in order after this one to always keep history information up to date
-                      // -> important for summary panel and generation of auto-install.xml
-                      for (int i = panelViews.size() - 1; i > index; i--)
-                      {
-                          T futurePanelView = panelViews.get(i);
-                          Panel futurePanel = futurePanelView.getPanel();
-                          futurePanel.setVisited(false);
-                          Set<String> blockedNames = futurePanel.getAffectedVariableNames();
-                          variables.unregisterBlockedVariableNames(futurePanel.getAffectedVariableNames(), futurePanel);
-                          if( logger.isLoggable(Level.FINE))
-                          {
-                              logger.fine("Unblocked variables on panel '" + futurePanel.getPanelId() +"': " + createListAsString(blockedNames));
-                          }
-                     }
+                    // Switches back in a sorted list of panels
+                    // -> set unvisited all panels in order after this one to always keep history information up to date
+                    // -> important for summary panel and generation of auto-install.xml
+                    for (int i = panelViews.size() - 1; i > index; i--)
+                    {
+                        T futurePanelView = panelViews.get(i);
+                        Panel futurePanel = futurePanelView.getPanel();
+                        futurePanel.setVisited(false);
+                        Set<String> blockedNames = futurePanel.getAffectedVariableNames();
+                        variables.unregisterBlockedVariableNames(futurePanel.getAffectedVariableNames(), futurePanel);
+                        if (LOGGER.isLoggable(Level.FINE))
+                        {
+                            LOGGER.fine("Unblocked variables on panel '" + futurePanel.getPanelId() + "': " + createListAsString(blockedNames));
+                        }
+                    }
                 }
                 else
                 {
                     Set<String> blockedNames = newPanel.getAffectedVariableNames();
                     variables.registerBlockedVariableNames(blockedNames, newPanel);
-                    if( logger.isLoggable(Level.FINE))
+                    if (LOGGER.isLoggable(Level.FINE))
                     {
-                        logger.fine("Blocked variables on panel '" + newPanel.getPanelId() +"': " + createListAsString(blockedNames));
+                        LOGGER.fine("Blocked variables on panel '" + newPanel.getPanelId() + "': " + createListAsString(blockedNames));
                     }
                 }
 
-                logger.fine("Switched panel index: " + oldIndex + " -> " + index);
+                LOGGER.fine("Switched panel index: " + oldIndex + " -> " + index);
                 result = true;
             }
             else
@@ -526,7 +528,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
             Iterator<String> it = list.iterator();
             while (it.hasNext())
             {
-                if( logger.isLoggable(Level.FINE))
+                if (LOGGER.isLoggable(Level.FINE))
                 {
                     msg.append(it.next());
                     if (it.hasNext())
@@ -544,7 +546,8 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
      * Switches panels.
      *
      * @param newPanel the panel to switch to
-     * @param oldPanel the panel to switch from, or {@code null} if there was no prior panel
+     * @param oldPanel the panel to switch from, or {@code null} if there was no
+     * prior panel
      * @return {@code true} if the switch was successful
      */
     protected abstract boolean switchPanel(T newPanel, T oldPanel);
@@ -552,8 +555,9 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     /**
      * Executes any pre and post-validation actions for a panel.
      *
-     * @param panel    the panel
-     * @param validate if {@code true}, validate the panel after executing the pre-validation actions
+     * @param panel the panel
+     * @param validate if {@code true}, validate the panel after executing the
+     * pre-validation actions
      * @return {@code true} if the panel is valid
      */
     protected boolean executeValidationActions(T panel, boolean validate)
@@ -587,7 +591,8 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
      * Returns the panel view at the specified index.
      *
      * @param index the panel index
-     * @return the corresponding panel, or {@code null} if there is no panel at the index
+     * @return the corresponding panel, or {@code null} if there is no panel at
+     * the index
      */
     private T getPanelView(int index)
     {
@@ -598,7 +603,7 @@ public abstract class AbstractPanels<T extends AbstractPanelView<V>, V> implemen
     /**
      * Determines if a panel can be shown.
      *
-     * @param panel       the panel
+     * @param panel the panel
      * @param visibleOnly if {@code true}, only examine visible panels
      * @return {@code true} if the nominated panel can be shown
      */

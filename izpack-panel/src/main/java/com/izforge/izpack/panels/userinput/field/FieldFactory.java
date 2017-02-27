@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -54,7 +53,6 @@ import com.izforge.izpack.panels.userinput.field.title.TitleField;
 import com.izforge.izpack.panels.userinput.field.title.TitleFieldReader;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
-
 /**
  * Factory for {@link Field}s.
  *
@@ -86,13 +84,12 @@ public class FieldFactory
      */
     private final PlatformModelMatcher matcher;
 
-
     /**
      * Constructs a {@code FieldFactory}.
      *
-     * @param config      the configuration
+     * @param config the configuration
      * @param installData the installation data
-     * @param matcher     the platform-model matcher
+     * @param matcher the platform-model matcher
      */
     public FieldFactory(Config config, InstallData installData, PlatformModelMatcher matcher)
     {

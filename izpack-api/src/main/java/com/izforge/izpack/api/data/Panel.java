@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
-
 
 import com.izforge.izpack.api.data.binding.Help;
 import com.izforge.izpack.api.data.binding.OsModel;
@@ -30,6 +28,7 @@ import java.util.*;
  */
 public class Panel extends DefaultConfigurationHandler implements Serializable
 {
+
     static final long serialVersionUID = 8886445274940938809L;
 
     /**
@@ -58,7 +57,8 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     private boolean displayHidden = false;
 
     /**
-     * Condition whether the panel should be shown read-only in otherwise hidden.
+     * Condition whether the panel should be shown read-only in otherwise
+     * hidden.
      */
     private String displayHiddenCondition;
 
@@ -89,8 +89,8 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     private final Map<Integer, String> validatorConditionIds = new HashMap<Integer, String>();
 
     /**
-     * The map of validator configuration options for this panel depending on the validator
-     * configuration section.
+     * The map of validator configuration options for this panel depending on
+     * the validator configuration section.
      */
     private final Map<Integer, Configurable> validatorConfiguration = new HashMap<Integer, Configurable>();
 
@@ -126,22 +126,22 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
 
     /**
      * Whether we confirm quit from this panel.
-     * 
-     * This is set from the "allowClose" attribute in the panel specification:
-     * - not specified      = DYNAMIC
-     * - allowClose="true"  = SILENT
-     * - allowClose="false" = CONFIRM
-     * 
-     * See CompilerConfig.addPanels for special handling to simplify usage while  
+     *
+     * This is set from the "allowClose" attribute in the panel specification: -
+     * not specified = DYNAMIC - allowClose="true" = SILENT - allowClose="false"
+     * = CONFIRM
+     *
+     * See CompilerConfig.addPanels for special handling to simplify usage while
      * maintaining backward compatibility.
      */
-    public enum ConfirmQuitType {
-        DYNAMIC,  //confirm quit until files are copied; "classic" behavior
-        CONFIRM,  //always confirm quit
-        SILENT}   //never confirm quit
+    public enum ConfirmQuitType
+    {
+        DYNAMIC, //confirm quit until files are copied; "classic" behavior
+        CONFIRM, //always confirm quit
+        SILENT
+    }   //never confirm quit
     private ConfirmQuitType confirmQuitType = ConfirmQuitType.DYNAMIC;
-    
-    
+
     public String getClassName()
     {
         return this.className;
@@ -188,11 +188,11 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
         return this.condition != null;
     }
 
-
     /**
      * Get the 'displayHiddenCondition' of this panel.
      *
-     * @return the condition to set when the panel should be shown read-only in otherwise hidden state
+     * @return the condition to set when the panel should be shown read-only in
+     * otherwise hidden state
      */
     public String getDisplayHiddenCondition()
     {
@@ -202,7 +202,8 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     /**
      * Set the 'displayHiddenCondition' of this panel.
      *
-     * @param condition the condition to set when the panel should be shown read-only in otherwise hidden state
+     * @param condition the condition to set when the panel should be shown
+     * read-only in otherwise hidden state
      */
     public void setDisplayHiddenCondition(String condition)
     {
@@ -212,13 +213,13 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     /**
      * Whether the 'displayHiddenCondition' is set for this panel.
      *
-     * @return the condition to set when the panel should be shown read-only in otherwise hidden state
+     * @return the condition to set when the panel should be shown read-only in
+     * otherwise hidden state
      */
     public boolean hasDisplayHiddenCondition()
     {
         return this.displayHiddenCondition != null;
     }
-
 
     public boolean isDisplayHidden()
     {
@@ -230,7 +231,6 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
         this.displayHidden = flag;
     }
 
-
     public boolean isReadonly()
     {
         return readonly;
@@ -240,7 +240,6 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     {
         this.readonly = flag;
     }
-
 
     /**
      * Get the 'readonlyCondition' of this panel.
@@ -255,7 +254,8 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     /**
      * Set the 'readonlyCondition' of this panel.
      *
-     * @param condition the condition to set when the panel should be shown read-only
+     * @param condition the condition to set when the panel should be shown
+     * read-only
      */
     public void setReadonlyCondition(String condition)
     {
@@ -272,11 +272,11 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
         return this.readonlyCondition != null;
     }
 
-
     /**
      * Get validator and validator condition entries for this panel
-     * @return Returns a list of validator class names and optional conditions defining
-     *  whether the panel validator should be asked at all.
+     *
+     * @return Returns a list of validator class names and optional conditions
+     * defining whether the panel validator should be asked at all.
      */
     public List<String> getValidators()
     {
@@ -285,8 +285,11 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
 
     /**
      * Gets a validator condition
-     * @param index the order number of the validator within the panel definition
-     * @return the validator condition of a validator at the given index for this panel
+     *
+     * @param index the order number of the validator within the panel
+     * definition
+     * @return the validator condition of a validator at the given index for
+     * this panel
      */
     public String getValidatorCondition(int index)
     {
@@ -295,8 +298,11 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
 
     /**
      * Gets a validator condition
-     * @param index the order number of the validator within the panel definition
-     * @return the configuration options of a validator at the given index for this panel
+     *
+     * @param index the order number of the validator within the panel
+     * definition
+     * @return the configuration options of a validator at the given index for
+     * this panel
      */
     public Configurable getValidatorConfiguration(int index)
     {
@@ -304,10 +310,14 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     }
 
     /**
-     * Adds a panel validator and a condition defining whether the panel validator should be asked at all.
+     * Adds a panel validator and a condition defining whether the panel
+     * validator should be asked at all.
+     *
      * @param validatorClassName the class name the validator
-     * @param validatorConditionId the validator condition for this panel (set null for no condition)
-     * @param configurable configuration options assigned to the validator (nested 'configuration' tag)
+     * @param validatorConditionId the validator condition for this panel (set
+     * null for no condition)
+     * @param configurable configuration options assigned to the validator
+     * (nested 'configuration' tag)
      */
     public void addValidator(String validatorClassName, String validatorConditionId, Configurable configurable)
     {
@@ -414,7 +424,8 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     }
 
     /**
-     * @return Whether the panel has been visited for summarizing the installation story
+     * @return Whether the panel has been visited for summarizing the
+     * installation story
      */
     public boolean isVisited()
     {
@@ -432,7 +443,8 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     }
 
     /**
-     * Gets a unique collection of names of variables that might me affected when this panel is active.
+     * Gets a unique collection of names of variables that might me affected
+     * when this panel is active.
      *
      * @return Set of variable names
      */
@@ -442,9 +454,11 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
     }
 
     /**
-     * Adds or completes a collection of names of variables that might me affected when this panel is active.<br><br>
-     * Affected variables are blocked for further dynamic changes if there are definitions as dynamic
-     * variables as soon as the user passes forward over this panel
+     * Adds or completes a collection of names of variables that might me
+     * affected when this panel is active.<br><br>
+     * Affected variables are blocked for further dynamic changes if there are
+     * definitions as dynamic variables as soon as the user passes forward over
+     * this panel
      *
      * @param names Affected variables
      */
@@ -455,33 +469,35 @@ public class Panel extends DefaultConfigurationHandler implements Serializable
 
     /**
      * Gets the behavior when quit is pressed on this panel.
+     *
      * @return the confirmation options of this panel
      */
     public ConfirmQuitType getConfirmQuitType()
     {
-      return confirmQuitType;
+        return confirmQuitType;
     }
 
     /**
      * Sets the behavior when quit is pressed on this panel.
+     *
      * @param value the confirmation options of this panel
      */
     public void setConfirmQuitType(ConfirmQuitType value)
     {
-      confirmQuitType = value;
+        confirmQuitType = value;
     }
-    
+
     @Override
     public String toString()
     {
-        return "Panel{" +
-                "className='" + className + '\'' +
-                ", osConstraints=" + osConstraints +
-                ", panelid='" + getPanelId() + '\'' +
-                ", condition='" + condition + '\'' +
-                ", validator count='" + validators.size() + '\'' +
-                ", helps=" + helps + '\'' +
-                ", affected variables count='" + affectedVariableNames.size() + '\'' +
-                '}';
+        return "Panel{"
+                + "className='" + className + '\''
+                + ", osConstraints=" + osConstraints
+                + ", panelid='" + getPanelId() + '\''
+                + ", condition='" + condition + '\''
+                + ", validator count='" + validators.size() + '\''
+                + ", helps=" + helps + '\''
+                + ", affected variables count='" + affectedVariableNames.size() + '\''
+                + '}';
     }
 }

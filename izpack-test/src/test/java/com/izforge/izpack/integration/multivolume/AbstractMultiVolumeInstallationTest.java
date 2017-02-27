@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.multivolume;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileEquals;
@@ -38,7 +37,6 @@ import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.integration.UninstallHelper;
 import com.izforge.izpack.test.util.TestHelper;
 
-
 /**
  * Base class for multi-volume installation tests.
  *
@@ -46,12 +44,12 @@ import com.izforge.izpack.test.util.TestHelper;
  */
 public abstract class AbstractMultiVolumeInstallationTest
 {
+
     /**
      * Temporary directory for installing to.
      */
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
 
     /**
      * Packages an multi-volume installer and installs it.
@@ -65,7 +63,7 @@ public abstract class AbstractMultiVolumeInstallationTest
         File targetDir = new File(temporaryFolder.getRoot(), "target");
         assertTrue(targetDir.mkdir());
         TestCompilationContainer compiler = new TestCompilationContainer("samples/multivolume/multivolume.xml",
-                                                                         targetDir);
+                targetDir);
 
         // create the pack files. These correspond to those in multivolume.xml - created here so they don't need to be
         // committed.
@@ -135,7 +133,7 @@ public abstract class AbstractMultiVolumeInstallationTest
     /**
      * Performs the installation.
      *
-     * @param container   the installer container
+     * @param container the installer container
      * @param installData the installation data
      * @param installPath the installation directory
      * @throws Exception for any error

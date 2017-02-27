@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.BufferedReader;
@@ -27,8 +26,8 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.file.types.Parameter;
 
 /**
- * Selector that filters files based on whether they contain a
- * particular string.
+ * Selector that filters files based on whether they contain a particular
+ * string.
  */
 public class ContainsSelector extends BaseExtendSelector
 {
@@ -52,7 +51,6 @@ public class ContainsSelector extends BaseExtendSelector
      * Used for parameterized custom selector
      */
     public static final String WHITESPACE_KEY = "ignorewhitespace";
-
 
     /**
      * Creates a new <code>ContainsSelector</code> instance.
@@ -113,8 +111,8 @@ public class ContainsSelector extends BaseExtendSelector
     /**
      * Whether to ignore whitespace in the string being searched.
      *
-     * @param ignorewhitespace whether to ignore any whitespace
-     *                         (spaces, tabs, etc.) in the searchstring
+     * @param ignorewhitespace whether to ignore any whitespace (spaces, tabs,
+     * etc.) in the searchstring
      */
     public void setIgnorewhitespace(boolean ignorewhitespace)
     {
@@ -122,8 +120,8 @@ public class ContainsSelector extends BaseExtendSelector
     }
 
     /**
-     * When using this as a custom selector, this method will be called.
-     * It translates each parameter into the appropriate setXXX() call.
+     * When using this as a custom selector, this method will be called. It
+     * translates each parameter into the appropriate setXXX() call.
      *
      * @param parameters the complete set of parameters for this selector
      */
@@ -156,8 +154,8 @@ public class ContainsSelector extends BaseExtendSelector
     }
 
     /**
-     * Checks to make sure all settings are kosher. In this case, it
-     * means that the pattern attribute has been set.
+     * Checks to make sure all settings are kosher. In this case, it means that
+     * the pattern attribute has been set.
      */
     public void verifySettings()
     {
@@ -168,12 +166,12 @@ public class ContainsSelector extends BaseExtendSelector
     }
 
     /**
-     * The heart of the matter. This is where the selector gets to decide
-     * on the inclusion of a file in a particular fileset.
+     * The heart of the matter. This is where the selector gets to decide on the
+     * inclusion of a file in a particular fileset.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename is the name of the file to check
-     * @param file     is a java.io.File object the selector can use
+     * @param file is a java.io.File object the selector can use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file)
@@ -242,4 +240,3 @@ public class ContainsSelector extends BaseExtendSelector
     }
 
 }
-

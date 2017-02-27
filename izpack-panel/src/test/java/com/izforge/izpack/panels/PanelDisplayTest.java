@@ -57,8 +57,8 @@ public class PanelDisplayTest extends AbstractPanelTest
 {
 
     public PanelDisplayTest(GUIInstallData guiInstallData, ResourceManager resourceManager,
-                            UninstallDataWriter uninstallDataWriter, TestGUIPanelContainer container,
-                            IconsDatabase icons, RulesEngine rules, ObjectFactory factory, Locales locales)
+            UninstallDataWriter uninstallDataWriter, TestGUIPanelContainer container,
+            IconsDatabase icons, RulesEngine rules, ObjectFactory factory, Locales locales)
     {
         super(container, guiInstallData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
     }
@@ -68,7 +68,6 @@ public class PanelDisplayTest extends AbstractPanelTest
     {
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/panel/");
     }
-
 
     @Test
     public void htmlInfoPanelShouldDisplayText() throws Exception
@@ -81,7 +80,7 @@ public class PanelDisplayTest extends AbstractPanelTest
     @Test
     public void licencePanelShouldDisplayText() throws Exception
     {
-        FrameFixture frameFixture = show(LicencePanel.class, HTMLInfoPanel.class,PDFLicencePanel.class);
+        FrameFixture frameFixture = show(LicencePanel.class, HTMLInfoPanel.class, PDFLicencePanel.class);
         String textArea = frameFixture.textBox(GuiId.LICENCE_TEXT_AREA.id).text();
         assertThat(textArea, StringContains.containsString("This is a licenSe panel"));
     }

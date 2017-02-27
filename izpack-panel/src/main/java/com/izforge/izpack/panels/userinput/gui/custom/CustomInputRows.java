@@ -26,21 +26,15 @@ import com.izforge.izpack.panels.userinput.gui.GUIField;
 /**
  * JPanel that contains the possible rows of fields defined by the user.
  *
- * GUICustomField
- * ===============================|
- * |CustomInputRows               |
- * |------------------------------|
- * |          Row 1               |
- * |          Row 2               |
- * |------------------------------|
- * |ControlButtons                |
- * |------------------------------|
- * |            |  Add  | Remove  |
+ * GUICustomField ===============================| |CustomInputRows |
+ * |------------------------------| | Row 1 | | Row 2 |
+ * |------------------------------| |ControlButtons |
+ * |------------------------------| | | Add | Remove |
  * |==============================|
  */
-
 public class CustomInputRows extends JPanel
 {
+
     private static final long serialVersionUID = -4416741488530082492L;
 
     private final UserInputPanelSpec userInputPanelSpec;
@@ -84,12 +78,12 @@ public class CustomInputRows extends JPanel
     }
 
     /**
-     * Add the minimum amount of rows specified.
-     * The default minimum amount of rows is one.
+     * Add the minimum amount of rows specified. The default minimum amount of
+     * rows is one.
      */
     private void addInitialRows()
     {
-        for(int count = minRow; count > 0; count--)
+        for (int count = minRow; count > 0; count--)
         {
             addRow();
         }
@@ -177,15 +171,16 @@ public class CustomInputRows extends JPanel
 
     /**
      * Validate and update installData
+     *
      * @param prompt
      * @return
      */
     public boolean updateField(Prompt prompt, boolean skipValidation)
     {
-        installData.setVariable(customInfoField.getVariable(), numberOfRows+"");
+        installData.setVariable(customInfoField.getVariable(), numberOfRows + "");
         for (int i = 1; i <= numberOfRows; i++)
         {
-            for(GUIField guiField : guiFields.get(i))
+            for (GUIField guiField : guiFields.get(i))
             {
                 if (guiField.isDisplayed())
                 {
@@ -197,7 +192,7 @@ public class CustomInputRows extends JPanel
             }
         }
         List<Column> columns = customInfoField.getColumns();
-        String [] columnVariables = getVariablesByColumn();
+        String[] columnVariables = getVariablesByColumn();
         for (int i = 0; i < columnVariables.length; i++)
         {
             if (!skipValidation)
@@ -216,6 +211,7 @@ public class CustomInputRows extends JPanel
 
     /**
      * Retrive a list of labels
+     *
      * @param customInfoField
      * @return
      */
@@ -227,8 +223,9 @@ public class CustomInputRows extends JPanel
             GUIField guiField = createField.createGuiField(field);
             labels.add(guiField.getSummaryKey());
         }
-        return  labels;
+        return labels;
     }
+
     public List<String> getLabels()
     {
         return this.labels;
@@ -236,6 +233,7 @@ public class CustomInputRows extends JPanel
 
     /**
      * Retrive a list of variables
+     *
      * @return
      */
     public List<String> getVariables()
@@ -244,11 +242,11 @@ public class CustomInputRows extends JPanel
 
         for (int i = 1; i <= numberOfRows; i++)
         {
-            for(GUIField guiField : guiFields.get(i))
+            for (GUIField guiField : guiFields.get(i))
             {
                 if (guiField.isDisplayed())
                 {
-                   countedVariables.add(guiField.getVariable());
+                    countedVariables.add(guiField.getVariable());
                 }
             }
         }
@@ -259,10 +257,10 @@ public class CustomInputRows extends JPanel
     {
         String[] columnVariables = new String[numberOfColumns];
 
-        for(int col=0; col < numberOfColumns; col++)
+        for (int col = 0; col < numberOfColumns; col++)
         {
             columnVariables[col] = "";
-            for (int row=1; row <= numberOfRows; row++)
+            for (int row = 1; row <= numberOfRows; row++)
             {
                 GUIField guiField = guiFields.get(row).get(col);
                 if (guiField.isDisplayed())
@@ -271,10 +269,10 @@ public class CustomInputRows extends JPanel
                 }
             }
         }
-        for (int i=0; i < columnVariables.length; i++)
+        for (int i = 0; i < columnVariables.length; i++)
         {
             String v = columnVariables[i];
-            columnVariables[i] = v.substring(0, v.length()-1);
+            columnVariables[i] = v.substring(0, v.length() - 1);
         }
         return columnVariables;
     }
@@ -287,11 +285,12 @@ public class CustomInputRows extends JPanel
      */
     public int getNumberOfColumns(CustomField customInfoField)
     {
-       return customInfoField.getFields().size();
+        return customInfoField.getFields().size();
     }
 
     /**
      * Generate a new custom field.
+     *
      * @return
      */
     private CustomField createCustomField(UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
@@ -301,20 +300,20 @@ public class CustomInputRows extends JPanel
         {
             if (field instanceof CustomField)
             {
-                if(field.getVariable().equals(customInfoField.getVariable()))
+                if (field.getVariable().equals(customInfoField.getVariable()))
                 {
                     return (CustomField) field;
                 }
             }
         }
-        return  null;
+        return null;
     }
 
     public JPanel getHeader()
     {
         JPanel header = new JPanel(new GridLayout(1, numberOfColumns));
 
-        for (Field field: customInfoField.getFields())
+        for (Field field : customInfoField.getFields())
         {
             String heading = field.getDescription();
             if (heading == null)

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.container.provider;
 
 import java.util.ArrayList;
@@ -26,13 +25,11 @@ import java.util.List;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.installer.automation.AutomatedPanelView;
 import com.izforge.izpack.installer.automation.AutomatedPanels;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
 
 /**
  * Provider of {@link AutomatedPanels}.
@@ -47,14 +44,14 @@ public class AutomatedPanelsProvider extends PanelsProvider
      * <p/>
      * This invokes any pre-construction actions associated with them.
      *
-     * @param factory     the factory
+     * @param factory the factory
      * @param installData the installation data
-     * @param helper      the helper
-     * @param matcher     the platform-model matcher
+     * @param helper the helper
+     * @param matcher the platform-model matcher
      * @throws IzPackException if a panel doesn't have unique identifier
      */
     public AutomatedPanels provide(ObjectFactory factory, AutomatedInstallData installData,
-                                   PanelAutomationHelper helper, PlatformModelMatcher matcher)
+            PanelAutomationHelper helper, PlatformModelMatcher matcher)
     {
         List<AutomatedPanelView> panels = new ArrayList<AutomatedPanelView>();
 

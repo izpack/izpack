@@ -18,24 +18,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.console;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestConsoleInstallerContainer;
-import com.izforge.izpack.compiler.packager.impl.MultiVolumePackager;
 import com.izforge.izpack.installer.console.ConsoleInstallerAction;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
-import com.izforge.izpack.installer.multiunpacker.MultiVolumeUnpacker;
 import com.izforge.izpack.integration.multivolume.AbstractMultiVolumeInstallationTest;
 import com.izforge.izpack.test.util.TestConsole;
 
 import java.io.File;
 
-
 /**
- * Tests console installation when using the {@link MultiVolumePackager} and {@link MultiVolumeUnpacker}.
+ * Tests console installation when using the {@link MultiVolumePackager} and
+ * {@link MultiVolumeUnpacker}.
  *
  * @author Tim Anderson
  */
@@ -56,7 +53,7 @@ public class MultiVolumeConsoleInstallationTest extends AbstractMultiVolumeInsta
     /**
      * Performs the installation.
      *
-     * @param container   the installer container
+     * @param container the installer container
      * @param installData the installation data
      * @param installPath the installation directory
      * @throws Exception for any error

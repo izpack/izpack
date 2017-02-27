@@ -31,7 +31,6 @@ import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
-import com.izforge.izpack.util.Console;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -73,7 +72,7 @@ public class TargetConsolePanelTest
      * The console.
      */
     private final TestConsole console;
-    
+
     /**
      * The prompt.
      */
@@ -83,7 +82,7 @@ public class TargetConsolePanelTest
      * Constructs a {@code TargetConsolePanelTest}.
      *
      * @param installData the installation data
-     * @param console     the console
+     * @param console the console
      */
     public TargetConsolePanelTest(InstallData installData, ObjectFactory factory, TestConsole console, Prompt prompt)
     {
@@ -95,8 +94,9 @@ public class TargetConsolePanelTest
     }
 
     /**
-     * Verifies that a directory containing an unrecognised .installationinformation file may not be selected to
-     * install to, from {@link TargetConsolePanel#run(InstallData, Console)}.
+     * Verifies that a directory containing an unrecognised
+     * .installationinformation file may not be selected to install to, from
+     * {@link TargetConsolePanel#run(InstallData, Console)}.
      *
      * @throws Exception for any error
      */
@@ -137,8 +137,9 @@ public class TargetConsolePanelTest
     }
 
     /**
-     * Verifies that a directory containing an unrecognised .installationinformation file may not be selected to
-     * install to, from {@link TargetConsolePanel#run(InstallData, Properties)}.
+     * Verifies that a directory containing an unrecognised
+     * .installationinformation file may not be selected to install to, from
+     * {@link TargetConsolePanel#run(InstallData, Properties)}.
      *
      * @throws IOException for any I/O error
      */
@@ -164,11 +165,11 @@ public class TargetConsolePanelTest
     }
 
     /**
-     * Creates a {@code ConsolePanels} containing an instance of the console version of the supplied panel
-     * implementation.
+     * Creates a {@code ConsolePanels} containing an instance of the console
+     * version of the supplied panel implementation.
      *
      * @param panelClass the panel class
-     * @param id         the panel identifier
+     * @param id the panel identifier
      * @return a new {@code ConsolePanels}
      */
     private PanelView<ConsolePanel> createPanelView(Class<TargetPanel> panelClass, String id)

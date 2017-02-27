@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -30,6 +29,7 @@ import com.izforge.izpack.api.data.InstallData;
  */
 public abstract class ConsoleAction
 {
+
     /**
      * The installation data.
      */
@@ -49,7 +49,8 @@ public abstract class ConsoleAction
      * Runs the action for the panel.
      *
      * @param panel the panel
-     * @return {@code true} if the action was successful, otherwise {@code false}
+     * @return {@code true} if the action was successful, otherwise
+     * {@code false}
      */
     public abstract boolean run(ConsolePanelView panel);
 
@@ -65,8 +66,9 @@ public abstract class ConsoleAction
     /**
      * Determines if this is an installation action.
      * <p/>
-     * An installation action is any action that performs installation. Installation actions need to be distinguished
-     * from other actions as they may subsequently require a reboot.
+     * An installation action is any action that performs installation.
+     * Installation actions need to be distinguished from other actions as they
+     * may subsequently require a reboot.
      * <p/>
      * This default implementation always returns  <tt>true</tt>.
      *
@@ -98,6 +100,5 @@ public abstract class ConsoleAction
     {
         return installData;
     }
-
 
 }

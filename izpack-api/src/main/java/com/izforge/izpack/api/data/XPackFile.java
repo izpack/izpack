@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
-
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,6 +34,7 @@ import com.izforge.izpack.api.data.binding.OsModel;
  */
 public class XPackFile extends PackFile implements Comparable<XPackFile>
 {
+
     private static final long serialVersionUID = 5875050264763504283L;
 
     /**
@@ -46,15 +45,15 @@ public class XPackFile extends PackFile implements Comparable<XPackFile>
     /**
      * Constructs an <tt>XPackFile</tt>.
      *
-     * @param baseDir  the base directory of the file
-     * @param src      file which this PackFile describes
-     * @param target   the path to install the file to
-     * @param osList   OS constraints
+     * @param baseDir the base directory of the file
+     * @param src file which this PackFile describes
+     * @param target the path to install the file to
+     * @param osList OS constraints
      * @param override what to do when the file already exists
      * @throws FileNotFoundException if the specified file does not exist.
      */
     public XPackFile(File baseDir, File src, String target, List<OsModel> osList, OverrideType override,
-                     String overrideRenameTo, Blockable blockable)
+            String overrideRenameTo, Blockable blockable)
             throws IOException
     {
         super(baseDir, src, target, osList, override, overrideRenameTo, blockable);
@@ -70,7 +69,7 @@ public class XPackFile extends PackFile implements Comparable<XPackFile>
     public XPackFile(PackFile file) throws FileNotFoundException
     {
         super(new File(file.sourcePath), file.relativePath, file.getTargetPath(), file.osConstraints(),
-              file.override(), file.overrideRenameTo(), file.blockable(), file.getAdditionals());
+                file.override(), file.overrideRenameTo(), file.blockable(), file.getAdditionals());
         this.position = 0;
         this.setCondition(file.getCondition());
     }

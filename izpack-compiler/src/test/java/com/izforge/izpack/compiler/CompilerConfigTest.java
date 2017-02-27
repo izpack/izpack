@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -53,6 +52,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @InstallFile("samples/helloAndFinish.xml")
 public class CompilerConfigTest
 {
+
     private JarFile jar;
     private CompilerConfig compilerConfig;
     private CompilerPathResolver pathResolver;
@@ -60,7 +60,7 @@ public class CompilerConfigTest
     private AbstractContainer testContainer;
 
     public CompilerConfigTest(TestCompilerContainer container, CompilerConfig compilerConfig,
-                              CompilerPathResolver pathResolver, MergeManagerImpl mergeManager)
+            CompilerPathResolver pathResolver, MergeManagerImpl mergeManager)
     {
         this.testContainer = container;
         this.compilerConfig = compilerConfig;
@@ -104,7 +104,7 @@ public class CompilerConfigTest
         List<String> listFromZip = ZipMatcher.getFileNameListFromZip(jar);
         ArrayList<String> result = new ArrayList<String>();
         List<String> ignorePackage = Arrays.asList("java/", "org/w3c/", "org/xml/", "javax/", "text/html", "packs/pack",
-                                                   "com/thoughtworks");
+                "com/thoughtworks");
         for (String anImport : imports)
         {
             if (anImport.matches("([a-z]+\\.)+[a-zA-Z]+"))
@@ -132,7 +132,8 @@ public class CompilerConfigTest
     }
 
     /**
-     * Verifies that the panelDependencies.properties file is used to resolve panel dependencies.
+     * Verifies that the panelDependencies.properties file is used to resolve
+     * panel dependencies.
      */
     @Test
     public void testResolvePanelDependencies()

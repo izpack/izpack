@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge.file;
 
 import java.io.File;
@@ -77,7 +76,8 @@ public class FileMerge extends AbstractMerge
     /**
      * Recursively search a file matching the fileFilter
      *
-     * @param fileFilter  Filter accepting directory and file matching a classname pattern
+     * @param fileFilter Filter accepting directory and file matching a
+     * classname pattern
      * @param currentFile Current directory
      * @return the first found file or null
      */
@@ -104,7 +104,8 @@ public class FileMerge extends AbstractMerge
     /**
      * Recursively search a all files matching the fileFilter
      *
-     * @param fileFilter  Filter accepting directory and file matching a classname pattern
+     * @param fileFilter Filter accepting directory and file matching a
+     * classname pattern
      * @param currentFile Current directory
      * @return the first found file or null
      */
@@ -187,7 +188,8 @@ public class FileMerge extends AbstractMerge
             {
                 copyFileToJar(file, outputStream);
             }
-        } else
+        }
+        else
         {
             inputStream = new FileInputStream(fileToCopy);
         }
@@ -198,8 +200,8 @@ public class FileMerge extends AbstractMerge
         {
             return;
         }
-        mergeList.add(entryName);        
-        if(inputStream != null)
+        mergeList.add(entryName);
+        if (inputStream != null)
         {
             IoHelper.copyStreamToJar(inputStream, outputStream, entryName, fileToCopy.lastModified());
             inputStream.close();
@@ -241,9 +243,9 @@ public class FileMerge extends AbstractMerge
     @Override
     public String toString()
     {
-        return "FileMerge{" +
-                "sourceToCopy=" + sourceToCopy +
-                ", destination='" + destination + '\'' +
-                '}';
+        return "FileMerge{"
+                + "sourceToCopy=" + sourceToCopy
+                + ", destination='" + destination + '\''
+                + '}';
     }
 }

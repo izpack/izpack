@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.file;
 
 import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
@@ -40,7 +39,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
-
 /**
  * Tests the {@link ConsoleDirField}.
  *
@@ -54,7 +52,6 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
      */
     @Rule
     public TemporaryFolder dir = new TemporaryFolder();
-
 
     /**
      * Verifies that pressing return enters the default value.
@@ -120,7 +117,7 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
         checkInvalid(field, "baddir");
         assertNull(installData.getVariable("dir"));
         verify(prompt).error("Invalid Directory",
-                             "The directory you have chosen either does not exist or is not valid.");
+                "The directory you have chosen either does not exist or is not valid.");
     }
 
     /**
@@ -139,14 +136,14 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
 
         assertTrue(file.delete());
         verify(prompt).error("Invalid Directory",
-                             "The directory you have chosen either does not exist or is not valid.");
+                "The directory you have chosen either does not exist or is not valid.");
     }
 
     /**
      * Helper to create a field that updates the 'dir' variable.
      *
      * @param initialValue the initial value. May be {@code null}
-     * @param mustExist    if {@code true}, the directory must exist
+     * @param mustExist if {@code true}, the directory must exist
      * @return a new field
      */
     private ConsoleDirField createField(String initialValue, boolean mustExist, boolean create)
@@ -159,6 +156,5 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
         DirField model = new DirField(config, installData);
         return new ConsoleDirField(model, console, prompt);
     }
-
 
 }

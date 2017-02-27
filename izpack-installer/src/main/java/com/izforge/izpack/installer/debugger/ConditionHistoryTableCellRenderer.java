@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.debugger;
 
 import javax.swing.*;
@@ -26,13 +25,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.Map;
 
-
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  * @version $Id: $
  */
 public class ConditionHistoryTableCellRenderer extends DefaultTableCellRenderer
 {
+
     private static final long serialVersionUID = 6779914244548965230L;
     private Map<String, ConditionHistory> conditionhistory;
 
@@ -44,10 +43,9 @@ public class ConditionHistoryTableCellRenderer extends DefaultTableCellRenderer
 
     /* (non-Javadoc)
     * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
-    */
-
+     */
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                   boolean hasFocus, int row, int column)
+            boolean hasFocus, int row, int column)
     {
         JComponent comp = null;
 
@@ -80,5 +78,3 @@ public class ConditionHistoryTableCellRenderer extends DefaultTableCellRenderer
         }
     }
 }
-
-

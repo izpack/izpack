@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.test.util;
-
 
 import com.izforge.izpack.util.Housekeeper;
 
@@ -48,7 +46,8 @@ public class TestHousekeeper extends Housekeeper
     private boolean reboot;
 
     /**
-     * Waits at most <tt>timeout</tt> milliseconds for the installer to shut down.
+     * Waits at most <tt>timeout</tt> milliseconds for the installer to shut
+     * down.
      *
      * @param timeout the time to wait, in milliseconds
      */
@@ -83,7 +82,8 @@ public class TestHousekeeper extends Housekeeper
     /**
      * The installer exit code.
      *
-     * @return the exit code. The value is undefined until the installer has shut down
+     * @return the exit code. The value is undefined until the installer has
+     * shut down
      */
     public int getExitCode()
     {
@@ -93,7 +93,8 @@ public class TestHousekeeper extends Housekeeper
     /**
      * Determines if the installer tried to reboot.
      *
-     * @return <tt>true</tt> if the installer tried to reboot. The value is undefined until the installer has shut down
+     * @return <tt>true</tt> if the installer tried to reboot. The value is
+     * undefined until the installer has shut down
      */
     public boolean getReboot()
     {

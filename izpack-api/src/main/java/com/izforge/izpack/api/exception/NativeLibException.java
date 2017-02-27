@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2005 Klaus Bartz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.exception;
 
 import java.util.ArrayList;
@@ -27,9 +26,9 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * A exception class which will be used from the native part of system dependent classes to signal
- * exceptions. The native methods writes only symbolic error messages, the language dependant
- * mapping will be done in this class.
+ * A exception class which will be used from the native part of system dependent
+ * classes to signal exceptions. The native methods writes only symbolic error
+ * messages, the language dependant mapping will be done in this class.
  *
  * @author Klaus Bartz
  */
@@ -39,9 +38,10 @@ public class NativeLibException extends Exception
     private static final long serialVersionUID = 3257002172494721080L;
 
     /**
-     * Map of founded resource bundles which contains the localized error messages.
+     * Map of founded resource bundles which contains the localized error
+     * messages.
      */
-    private final static HashMap<String, ResourceBundle> messageResourceBundles = new HashMap<String, ResourceBundle>();
+    private final static HashMap<String, ResourceBundle> MESSAGE_RESOURCE_BUNDLES = new HashMap<String, ResourceBundle>();
 
     /**
      * Internal error as number.
@@ -75,19 +75,20 @@ public class NativeLibException extends Exception
     }
 
     /**
-     * Adds a resource bundle which contains localized error messages. The bundlePath should contain
-     * a string with which the bundle is loadable with ResourceBundle.getBundle, may be the full
-     * class path to a ListResourceBundle. The localize is done by getBundle, therefore the path
-     * should not contain the locale substring. At a call to getMessage the bundle is searched with
-     * the libErrString as key. If it exist, the value of it is used by getMessage, else the
-     * libErrString self.
+     * Adds a resource bundle which contains localized error messages. The
+     * bundlePath should contain a string with which the bundle is loadable with
+     * ResourceBundle.getBundle, may be the full class path to a
+     * ListResourceBundle. The localize is done by getBundle, therefore the path
+     * should not contain the locale substring. At a call to getMessage the
+     * bundle is searched with the libErrString as key. If it exist, the value
+     * of it is used by getMessage, else the libErrString self.
      *
      * @param bundlePath path of bundle without locale
      */
     public static void addResourceBundle(String bundlePath)
     {
         ResourceBundle resourceBundle = null;
-        if (messageResourceBundles.containsKey(bundlePath))
+        if (MESSAGE_RESOURCE_BUNDLES.containsKey(bundlePath))
         {
             return;
         }
@@ -99,7 +100,7 @@ public class NativeLibException extends Exception
         {
             mre.printStackTrace();
         }
-        messageResourceBundles.put(bundlePath, resourceBundle);
+        MESSAGE_RESOURCE_BUNDLES.put(bundlePath, resourceBundle);
 
     }
 
@@ -135,7 +136,7 @@ public class NativeLibException extends Exception
      * Creates a NativeLibException with the given message and cause.
      *
      * @param message message to be used
-     * @param cause   cause to be used
+     * @param cause cause to be used
      */
     public NativeLibException(String message, Throwable cause)
     {
@@ -145,10 +146,10 @@ public class NativeLibException extends Exception
     /**
      * Creates a NativeLibException with the given values.
      *
-     * @param libErr    identifier of the internal handled error
-     * @param osErr     system error number
+     * @param libErr identifier of the internal handled error
+     * @param osErr system error number
      * @param libString message for the internal handled error
-     * @param osString  system error message
+     * @param osString system error message
      */
     public NativeLibException(int libErr, int osErr, String libString, String osString)
     {
@@ -161,10 +162,9 @@ public class NativeLibException extends Exception
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Throwable#getMessage()
      */
-
     public String getMessage()
     {
         StringBuffer retval = new StringBuffer();
@@ -296,15 +296,15 @@ public class NativeLibException extends Exception
     }
 
     /**
-     * Searches the resource bundles for a string which coresponds to the given string as key.
+     * Searches the resource bundles for a string which coresponds to the given
+     * string as key.
      *
      * @param s string which should be used as keys for the resource bundle
      * @return the founded message as int value
      */
-
     private String getMsg(String s)
     {
-        for (ResourceBundle resourceBundle : messageResourceBundles.values())
+        for (ResourceBundle resourceBundle : MESSAGE_RESOURCE_BUNDLES.values())
         {
             try
             {
@@ -318,14 +318,16 @@ public class NativeLibException extends Exception
     }
 
     /**
-     * Returns a string resulting from replacing all occurrences of what in this string with with.
-     * In opposite to the String.replaceAll method this method do not use regular expression or
-     * other methods which are only available in JRE 1.4 and later.
+     * Returns a string resulting from replacing all occurrences of what in this
+     * string with with. In opposite to the String.replaceAll method this method
+     * do not use regular expression or other methods which are only available
+     * in JRE 1.4 and later.
      *
      * @param destination string for which the replacing should be performed
-     * @param what        what string should be replaced
-     * @param with        with what string what should be replaced
-     * @return a new String object if what was found in the given string, else the given string self
+     * @param what what string should be replaced
+     * @param with with what string what should be replaced
+     * @return a new String object if what was found in the given string, else
+     * the given string self
      */
     private static String replaceString(String destination, String what, String with)
     {

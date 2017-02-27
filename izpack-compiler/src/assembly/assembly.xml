@@ -19,8 +19,8 @@
 
         <dependencySet>
             <!--
-            <unpack>false</unpack>
-             -->
+           <unpack>false</unpack>
+            -->
             <unpack>true</unpack>
             <scope>runtime</scope>
             <excludes>
@@ -29,8 +29,8 @@
                 <exclude>${project.groupId}:izpack-native</exclude>
             </excludes>
             <!--
-            <outputDirectory>lib</outputDirectory>
-             -->
+           <outputDirectory>lib</outputDirectory>
+            -->
             <outputDirectory>/</outputDirectory>
         </dependencySet>
     </dependencySets>

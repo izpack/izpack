@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import java.io.IOException;
@@ -28,14 +27,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /*---------------------------------------------------------------------------*/
-
 /**
  * This class performs housekeeping and cleanup tasks.
  * <br/>
- * It is VERY important to perform pre-shutdown cleanup operations through this class. Do NOT rely
- * on operations like <code>deleteOnExit()</code> shutdown hooks or <code>finalize()</code>for
- * cleanup. Because <code>shutDown()</code> uses <code>System.exit()</code> to terminate, these
- * methods will not work at all or will not work reliably.
+ * It is VERY important to perform pre-shutdown cleanup operations through this
+ * class. Do NOT rely on operations like <code>deleteOnExit()</code> shutdown
+ * hooks or <code>finalize()</code>for cleanup. Because <code>shutDown()</code>
+ * uses <code>System.exit()</code> to terminate, these methods will not work at
+ * all or will not work reliably.
  *
  * @author Elmar Grom
  * @version 0.0.1 / 2/9/02
@@ -49,10 +48,9 @@ public class Housekeeper
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(Housekeeper.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Housekeeper.class.getName());
 
     /*--------------------------------------------------------------------------*/
-
     /**
      * Default constructor.
      */
@@ -61,12 +59,12 @@ public class Housekeeper
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * Use to register objects that need to perform cleanup operations before the application shuts
-     * down.
+     * Use to register objects that need to perform cleanup operations before
+     * the application shuts down.
      *
-     * @param client reference of to an object that needs to perform cleanup operations.
+     * @param client reference of to an object that needs to perform cleanup
+     * operations.
      */
     /*--------------------------------------------------------------------------*/
     public void registerForCleanup(CleanupClient client)
@@ -85,15 +83,15 @@ public class Housekeeper
     }
 
     /*--------------------------------------------------------------------------*/
-
     /**
-     * This methods shuts the application down. First, it will call all clients that have registered
-     * for cleanup operations. Once this has been accomplished, the application will be forceably
-     * terminated. <br>
+     * This methods shuts the application down. First, it will call all clients
+     * that have registered for cleanup operations. Once this has been
+     * accomplished, the application will be forceably terminated. <br>
      * <br>
      * <b>THIS METHOD DOES NOT RETURN!</b>
      *
-     * @param exitCode the exit code that should be returned to the calling process.
+     * @param exitCode the exit code that should be returned to the calling
+     * process.
      */
     /*--------------------------------------------------------------------------*/
     public void shutDown(int exitCode)
@@ -115,7 +113,7 @@ public class Housekeeper
             {
                 // At this point we can not afford to treat exceptions. Cleanup that can not be completed might
                 // unfortunately leave some garbage behind.
-                logger.log(Level.WARNING, exception.getMessage(), exception);
+                LOGGER.log(Level.WARNING, exception.getMessage(), exception);
             }
         }
 
@@ -133,7 +131,7 @@ public class Housekeeper
             catch (IOException exception)
             {
                 // Do nothing at the moment
-                logger.log(Level.WARNING, exception.getMessage(), exception);
+                LOGGER.log(Level.WARNING, exception.getMessage(), exception);
             }
         }
 

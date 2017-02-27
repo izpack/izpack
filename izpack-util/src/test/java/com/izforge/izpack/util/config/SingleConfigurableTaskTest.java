@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 
 public class SingleConfigurableTaskTest
 {
+
     @Rule
     public TemporaryFolder tmpDir = new TemporaryFolder();
 
@@ -106,7 +107,6 @@ public class SingleConfigurableTaskTest
 //        printFileContent(expectedFile);
 //        assertEquals(FileUtils.contentEqualsIgnoreEOL(expectedFile, toFile, "UTF-8"), true);
 //    }
-
     @Test
     public void testAutoNumberingPatchPreserveEntries() throws Exception
     {
@@ -126,7 +126,7 @@ public class SingleConfigurableTaskTest
         task.execute();
         Options result = task.getResult();
         Assert.assertTrue(result.keySet().contains("abc.xyz0."));
-        assertEquals( 3, result.length("abc.xyz0.") );
+        assertEquals(3, result.length("abc.xyz0."));
         assertEquals("value0", result.get("abc.xyz0.", 0));
         assertEquals("value1", result.get("abc.xyz0.", 1));
         assertEquals("value2", result.get("abc.xyz0.", 2));
@@ -168,7 +168,7 @@ public class SingleConfigurableTaskTest
         Properties props = new Properties();
         StringReader sr = new StringReader(sw.toString());
         props.load(sr);
-        assertEquals(3, props.size() );
+        assertEquals(3, props.size());
         assertEquals("Windows", props.getProperty("http.param.os.1"));
         assertEquals("bin/x86-32/native_1.jar", props.getProperty("http.param.os.1.nativelib.1"));
         assertEquals("bin/x86-32/native_2.jar", props.getProperty("http.param.os.1.nativelib.2"));
@@ -201,7 +201,7 @@ public class SingleConfigurableTaskTest
         task.execute();
         Options result = task.getResult();
         Assert.assertTrue(result.keySet().contains("abc.xyz0."));
-        assertEquals(4, result.length("abc.xyz0.") );
+        assertEquals(4, result.length("abc.xyz0."));
         assertEquals("value3", result.get("abc.xyz0.", 0));
         assertEquals("value4", result.get("abc.xyz0.", 1));
         assertEquals("value5", result.get("abc.xyz0.", 2));
@@ -233,7 +233,7 @@ public class SingleConfigurableTaskTest
         task.execute();
         Options result = task.getResult();
         Assert.assertTrue(result.keySet().contains("abc.xyz0."));
-        assertEquals( 4, result.length("abc.xyz0.") );
+        assertEquals(4, result.length("abc.xyz0."));
         assertEquals("value3", result.get("abc.xyz0.", 0));
         assertEquals("value4", result.get("abc.xyz0.", 1));
         assertEquals("value5", result.get("abc.xyz0.", 2));
@@ -264,7 +264,7 @@ public class SingleConfigurableTaskTest
         task.execute();
         Options result = task.getResult();
         Assert.assertTrue(result.keySet().contains("abc.xyz0..key"));
-        assertEquals( 4, result.length("abc.xyz0..key") );
+        assertEquals(4, result.length("abc.xyz0..key"));
         assertEquals("value3", result.get("abc.xyz0..key", 0));
         assertEquals("value4", result.get("abc.xyz0..key", 1));
         assertEquals("value5", result.get("abc.xyz0..key", 2));
@@ -305,7 +305,7 @@ public class SingleConfigurableTaskTest
         task.execute();
         Options result = task.getResult();
         Assert.assertTrue(result.keySet().contains("abc.xyz0."));
-        assertEquals( 2, result.length("abc.xyz0.") );
+        assertEquals(2, result.length("abc.xyz0."));
         Assert.assertNull(result.get("abc.xyz0.0"));
         Assert.assertNull(result.get("abc.xyz0.1"));
         Assert.assertNotNull(result.get("abc.xyz0.", 0));
@@ -350,7 +350,7 @@ public class SingleConfigurableTaskTest
         task.execute();
         Options result = task.getResult();
         Assert.assertTrue(result.keySet().contains("abc..xyz0"));
-        assertEquals( 2, result.length("abc..xyz0") );
+        assertEquals(2, result.length("abc..xyz0"));
         Assert.assertNull(result.get("abc.0.xyz0"));
         Assert.assertNull(result.get("abc.1.xyz0"));
         Assert.assertNotNull(result.get("abc..xyz0", 0));
@@ -384,7 +384,7 @@ public class SingleConfigurableTaskTest
         task.execute();
         Options result = task.getResult();
         Assert.assertTrue(result.keySet().contains("abc.xyz0."));
-        assertEquals( 3, result.length("abc.xyz0.") );
+        assertEquals(3, result.length("abc.xyz0."));
         Assert.assertNull(result.get("abc.xyz0.1"));
         Assert.assertNull(result.get("abc.xyz0.2"));
         Assert.assertNull(result.get("abc.xyz0.", 0));
@@ -417,7 +417,7 @@ public class SingleConfigurableTaskTest
         task.execute();
         Options result = task.getResult();
         Assert.assertTrue(result.keySet().contains("abc..xyz0"));
-        assertEquals( 3, result.length("abc..xyz0") );
+        assertEquals(3, result.length("abc..xyz0"));
         Assert.assertNull(result.get("abc.1.xyz0"));
         Assert.assertNull(result.get("abc.2.xyz0"));
         Assert.assertNull(result.get("abc..xyz0", 0));
@@ -479,7 +479,7 @@ public class SingleConfigurableTaskTest
         assertNotNull("New file missing", newFileUrl);
         assertNotNull("Expected result file missing", expectedFileUrl);
 
-        System.out.println("The oldFileUrl: "+ oldFileUrl.toURI().toString());
+        System.out.println("The oldFileUrl: " + oldFileUrl.toURI().toString());
 
         File oldFile = new File(oldFileUrl.toURI());
         File newFile = new File(newFileUrl.toURI());

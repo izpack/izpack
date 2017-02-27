@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
-
 
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.util.FileUtil;
@@ -33,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Encloses information about a packed file. This class abstracts the way file data is stored to
- * package.
+ * Encloses information about a packed file. This class abstracts the way file
+ * data is stored to package.
  *
  * @author Johannes Lehtinen <johannes.lehtinen@iki.fi>
  */
@@ -44,12 +42,14 @@ public class PackFile implements Serializable
     static final long serialVersionUID = -834377078706854909L;
 
     /**
-     * Only available when compiling. Makes no sense when installing, use relativePath instead.
+     * Only available when compiling. Makes no sense when installing, use
+     * relativePath instead.
      */
     public transient String sourcePath = null;//should not be used anymore - may deprecate it.
     /**
      * The Path of the file relative to the given (compiletime's) basedirectory.
-     * Can be resolved while installing with either current working directory or directory of "installer.jar".
+     * Can be resolved while installing with either current working directory or
+     * directory of "installer.jar".
      */
     protected String relativePath = null;
 
@@ -94,9 +94,9 @@ public class PackFile implements Serializable
     private OverrideType override;
 
     /**
-     * Glob mapper expression for mapping the resulting file name if overriding is allowed and the
-     * file does already exist. This is similar like the Ant globmapper target expression when
-     * mapping from "*".
+     * Glob mapper expression for mapping the resulting file name if overriding
+     * is allowed and the file does already exist. This is similar like the Ant
+     * globmapper target expression when mapping from "*".
      */
     private String overrideRenameTo;
 
@@ -127,15 +127,15 @@ public class PackFile implements Serializable
     /**
      * Constructs and initializes from a source file.
      *
-     * @param baseDir  the baseDirectory of the Fileselection/compilation or null
-     * @param src      file which this PackFile describes
-     * @param target   the path to install the file to
-     * @param osList   OS constraints
+     * @param baseDir the baseDirectory of the Fileselection/compilation or null
+     * @param src file which this PackFile describes
+     * @param target the path to install the file to
+     * @param osList OS constraints
      * @param override what to do when the file already exists
      * @throws FileNotFoundException if the specified file does not exist.
      */
     public PackFile(File baseDir, File src, String target, List<OsModel> osList, OverrideType override, String overrideRenameTo, Blockable blockable)
-    throws IOException
+            throws IOException
     {
         this(src, FileUtil.getRelativeFileName(src, baseDir), target, osList, override, overrideRenameTo, blockable, null);
     }
@@ -143,12 +143,13 @@ public class PackFile implements Serializable
     /**
      * Constructs and initializes from a source file.
      *
-     * @param src                file which this PackFile describes
-     * @param relativeSourcePath the path relative to the compiletime's basedirectory, use computeRelativePathFrom(File, File) to compute this.
-     * @param target             the path to install the file to
-     * @param osList             OS constraints
-     * @param override           what to do when the file already exists
-     * @param additionals        additional attributes
+     * @param src file which this PackFile describes
+     * @param relativeSourcePath the path relative to the compiletime's
+     * basedirectory, use computeRelativePathFrom(File, File) to compute this.
+     * @param target the path to install the file to
+     * @param osList OS constraints
+     * @param override what to do when the file already exists
+     * @param additionals additional attributes
      * @throws FileNotFoundException if the specified file does not exist.
      */
     public PackFile(File src, String relativeSourcePath, String target, List<OsModel> osList, OverrideType override, String overrideRenameTo, Blockable blockable, Map additionals)
@@ -195,16 +196,17 @@ public class PackFile implements Serializable
     /**
      * Constructs and initializes from a source file.
      *
-     * @param baseDir     The Base directory that is used to search for the files. This is used to build the relative path's
-     * @param src         file which this PackFile describes
-     * @param target      the path to install the file to
-     * @param osList      OS constraints
-     * @param override    what to do when the file already exists
+     * @param baseDir The Base directory that is used to search for the files.
+     * This is used to build the relative path's
+     * @param src file which this PackFile describes
+     * @param target the path to install the file to
+     * @param osList OS constraints
+     * @param override what to do when the file already exists
      * @param additionals additional attributes
      * @throws FileNotFoundException if the specified file does not exist.
      */
     public PackFile(File baseDir, File src, String target, List<OsModel> osList, OverrideType override, String overrideRenameTo, Blockable blockable, Map additionals)
-    throws IOException
+            throws IOException
     {
         this(src, FileUtil.getRelativeFileName(src, baseDir), target, osList, override, overrideRenameTo, blockable, additionals);
     }
@@ -240,7 +242,8 @@ public class PackFile implements Serializable
     }
 
     /**
-     * The size of the file in bytes (is the same as the length if it is not a loose pack)
+     * The size of the file in bytes (is the same as the length if it is not a
+     * loose pack)
      */
     public final long size()
     {
@@ -264,9 +267,9 @@ public class PackFile implements Serializable
     }
 
     /**
-     * Returns globmapper expression for mapping the resulting file name if overriding is allowed
-     * and the file does already exist. This is similar like the Ant globmapper target expression
-     * when mapping from "*".
+     * Returns globmapper expression for mapping the resulting file name if
+     * overriding is allowed and the file does already exist. This is similar
+     * like the Ant globmapper target expression when mapping from "*".
      *
      * @return
      */
@@ -276,7 +279,8 @@ public class PackFile implements Serializable
     }
 
     /**
-     * Whether or not this file might be blocked during installation/uninstallation
+     * Whether or not this file might be blocked during
+     * installation/uninstallation
      */
     public final Blockable blockable()
     {
@@ -303,7 +307,8 @@ public class PackFile implements Serializable
 
     /**
      * The Path of the file relative to the given (compiletime's) basedirectory.
-     * Can be resolved while installing with either current working directory or directory of "installer.jar"
+     * Can be resolved while installing with either current working directory or
+     * directory of "installer.jar"
      */
     public String getRelativeSourcePath()
     {
@@ -320,7 +325,6 @@ public class PackFile implements Serializable
         return additionals;
     }
 
-
     /**
      * @return the condition
      */
@@ -328,7 +332,6 @@ public class PackFile implements Serializable
     {
         return this.condition;
     }
-
 
     /**
      * @param condition the condition to set

@@ -35,10 +35,22 @@
     </dynamicvariables>
 
     <conditions>
-      <condition id="cond1a" type="variable" > <name>arg1a</name> <value>value</value> </condition>
-      <condition id="cond1b" type="variable" > <name>arg1b</name> <value>value</value> </condition>
-      <condition id="cond2a" type="variable" > <name>arg2a</name> <value>value</value> </condition>
-      <condition id="cond2b" type="variable" > <name>arg2b</name> <value>value</value> </condition>
+        <condition id="cond1a" type="variable" > 
+            <name>arg1a</name> 
+            <value>value</value> 
+        </condition>
+        <condition id="cond1b" type="variable" > 
+            <name>arg1b</name> 
+            <value>value</value> 
+        </condition>
+        <condition id="cond2a" type="variable" > 
+            <name>arg2a</name> 
+            <value>value</value> 
+        </condition>
+        <condition id="cond2b" type="variable" > 
+            <name>arg2b</name> 
+            <value>value</value> 
+        </condition>
     </conditions>
 
     <panels>

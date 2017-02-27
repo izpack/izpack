@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.htmlinfo;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -35,6 +34,7 @@ import com.izforge.izpack.util.Console;
  */
 public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
 {
+
     private final Resources resources;
     private final String panelId;
     private final String resourcePrefix;
@@ -58,8 +58,9 @@ public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
      * If there is no text to display, the panel will return {@code false}.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return {@code true} if the panel ran successfully, otherwise {@code false}
+     * @param console the console
+     * @return {@code true} if the panel ran successfully, otherwise
+     * {@code false}
      */
     @Override
     public boolean run(InstallData installData, Console console)

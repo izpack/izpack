@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import com.izforge.izpack.api.handler.DefaultConfigurationHandler;
 import com.izforge.izpack.api.installer.DataValidator;
 
 /**
- * Enhancement of {@code DataValidator}, allows to implement a custom panel validator which can be configured by a
- * <code>&lt;configuration&gt;</code> section.<br>
+ * Enhancement of {@code DataValidator}, allows to implement a custom panel
+ * validator which can be configured by a <code>&lt;configuration&gt;</code>
+ * section.<br>
  * Implement your panel validators by inheriting from this class.
  */
 public abstract class PanelValidator extends DefaultConfigurationHandler implements DataValidator
 {
+
     private static final long serialVersionUID = -6662478927015059872L;
 
     @Override

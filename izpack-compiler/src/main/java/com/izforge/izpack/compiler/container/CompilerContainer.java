@@ -16,10 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container;
 
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -83,7 +81,8 @@ public class CompilerContainer extends AbstractContainer
      * Fills the container.
      *
      * @param container the underlying container
-     * @throws ContainerException if initialisation fails, or the container has already been initialised
+     * @throws ContainerException if initialisation fails, or the container has
+     * already been initialised
      */
     @Override
     protected void fillContainer(MutablePicoContainer container)
@@ -102,11 +101,11 @@ public class CompilerContainer extends AbstractContainer
         addComponent(VariableSubstitutor.class, VariableSubstitutorImpl.class);
         addComponent(CompilerHelper.class);
         container.addComponent(RulesEngine.class, RulesEngineImpl.class,
-                               new ComponentParameter(ConditionContainer.class),
-                               new ComponentParameter(Platform.class));
+                new ComponentParameter(ConditionContainer.class),
+                new ComponentParameter(Platform.class));
         addComponent(MergeManager.class, MergeManagerImpl.class);
         container.addComponent(ObjectFactory.class, DefaultObjectFactory.class,
-                               new ComponentParameter(CompilerContainer.class));
+                new ComponentParameter(CompilerContainer.class));
         container.addComponent(PlatformModelMatcher.class);
         addComponent(Platforms.class);
 

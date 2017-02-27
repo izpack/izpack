@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.space;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.panels.userinput.field.FieldConfig;
 
@@ -37,7 +35,7 @@ public class Spacer extends Field
     /**
      * Constructs a {@code Spacer}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */

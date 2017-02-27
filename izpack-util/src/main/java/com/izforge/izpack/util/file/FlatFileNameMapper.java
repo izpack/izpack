@@ -14,15 +14,15 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file;
 
 /**
- * Implementation of FileNameMapper that always returns the source
- * file name without any leading directory information.
+ * Implementation of FileNameMapper that always returns the source file name
+ * without any leading directory information.
  * <p/>
- * <p>This is the default FileNameMapper for the copy and move
- * tasks if the flatten attribute has been set.</p>
+ * <p>
+ * This is the default FileNameMapper for the copy and move tasks if the flatten
+ * attribute has been set.</p>
  */
 public class FlatFileNameMapper implements FileNameMapper
 {
@@ -42,11 +42,14 @@ public class FlatFileNameMapper implements FileNameMapper
     }
 
     /**
-     * Returns an one-element array containing the source file name
-     * without any leading directory information.
+     * Returns an one-element array containing the source file name without any
+     * leading directory information.
      */
     public String[] mapFileName(String sourceFileName)
     {
-        return new String[]{new java.io.File(sourceFileName).getName()};
+        return new String[]
+        {
+            new java.io.File(sourceFileName).getName()
+        };
     }
 }

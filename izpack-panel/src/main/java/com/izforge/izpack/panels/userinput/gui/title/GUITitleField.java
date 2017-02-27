@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.title;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -46,16 +45,16 @@ public class GUITitleField extends GUIField
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(GUITitleField.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GUITitleField.class.getName());
 
     private JLabel label = null;
 
     /**
      * Constructs a {@code GUITitleField}.
      *
-     * @param field       the field
+     * @param field the field
      * @param installData the installation data
-     * @param icons       the icons
+     * @param icons the icons
      */
     public GUITitleField(TitleField field, InstallData installData, IconsDatabase icons)
     {
@@ -75,7 +74,7 @@ public class GUITitleField extends GUIField
                 }
                 catch (Exception e)
                 {
-                    logger.log(Level.WARNING, "Icon " + iconName + " not found in icon list: " + e.getMessage(), e);
+                    LOGGER.log(Level.WARNING, "Icon " + iconName + " not found in icon list: " + e.getMessage(), e);
                 }
             }
             if (label == null)

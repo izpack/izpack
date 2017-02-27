@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.data;
 
 import java.io.Serializable;
@@ -28,8 +27,8 @@ import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 
 /**
- * Encloses information about a parsable file. This class abstracts the way the information is
- * stored to package.
+ * Encloses information about a parsable file. This class abstracts the way the
+ * information is stored to package.
  *
  * @author Johannes Lehtinen <johannes.lehtinen@iki.fi>
  */
@@ -66,9 +65,9 @@ public class ParsableFile implements Serializable
     /**
      * Constructs and initializes a new instance.
      *
-     * @param path          the file path
-     * @param type          the file type (or null for default)
-     * @param encoding      the file encoding (or null for default)
+     * @param path the file path
+     * @param type the file type (or null for default)
+     * @param encoding the file encoding (or null for default)
      * @param osConstraints the OS constraint (or null for any OS)
      */
     public ParsableFile(String path, SubstitutionType type, String encoding, List<OsModel> osConstraints)
@@ -136,7 +135,6 @@ public class ParsableFile implements Serializable
     {
         return this.condition;
     }
-
 
     /**
      * @param condition the condition to set

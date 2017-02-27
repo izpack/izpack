@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -27,7 +26,6 @@ import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.panels.userinput.field.AbstractFieldView;
 import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.util.Console;
-
 
 /**
  * Console presentation of an {@link Field}.
@@ -50,9 +48,9 @@ public abstract class ConsoleField extends AbstractFieldView
     /**
      * Constructs a {@code ConsoleField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleField(Field field, Console console, Prompt prompt)
     {
@@ -66,7 +64,8 @@ public abstract class ConsoleField extends AbstractFieldView
      * <p/>
      * For fields that update variables, this collects input and validates it.
      *
-     * @return {@code true} if the field was displayed and validated successfully
+     * @return {@code true} if the field was displayed and validated
+     * successfully
      */
     public abstract boolean display();
 
@@ -126,7 +125,8 @@ public abstract class ConsoleField extends AbstractFieldView
      * Returns a localised message for the supplied message identifier.
      *
      * @param id the message identifier
-     * @return the corresponding message, or {@code id} if the message does not exist
+     * @return the corresponding message, or {@code id} if the message does not
+     * exist
      */
     protected String getMessage(String id)
     {

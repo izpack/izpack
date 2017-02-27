@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container;
 
 import java.io.File;
@@ -67,12 +66,15 @@ public class TestCompilerContainer extends CompilerContainer
     /**
      * @return the installFileName
      */
-    public String getXmlFileName() { return installFileName; }
+    public String getXmlFileName()
+    {
+        return installFileName;
+    }
 
     /**
      * Constructs a <tt>TestCompilerContainer</tt>.
      *
-     * @param testClass  the test class
+     * @param testClass the test class
      * @param testMethod the test method
      */
     public TestCompilerContainer(Class<?> testClass, FrameworkMethod testMethod)
@@ -102,7 +104,8 @@ public class TestCompilerContainer extends CompilerContainer
      * Fills the container.
      *
      * @param container the underlying container
-     * @throws ContainerException if initialisation fails, or the container has already been initialised
+     * @throws ContainerException if initialisation fails, or the container has
+     * already been initialised
      */
     @Override
     protected void fillContainer(MutablePicoContainer container)
@@ -129,7 +132,7 @@ public class TestCompilerContainer extends CompilerContainer
         File out = new File(baseDir, "out" + Math.random() + ".jar");
         out.deleteOnExit();
         CompilerData data = new CompilerData(installerFile.getAbsolutePath(), baseDir.getAbsolutePath(),
-                                             out.getAbsolutePath(), false, true);
+                out.getAbsolutePath(), false, true);
         addComponent(CompilerData.class, data);
         addComponent(File.class, out);
 

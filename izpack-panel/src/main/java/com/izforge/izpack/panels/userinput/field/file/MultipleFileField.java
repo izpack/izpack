@@ -18,15 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.file;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
-
 
 /**
  * Multiple file field.
@@ -52,7 +49,8 @@ public class MultipleFileField extends AbstractFileField
     private final int height;
 
     /**
-     * Determines if multiple variables should be created to hold the selected files.
+     * Determines if multiple variables should be created to hold the selected
+     * files.
      */
     private final boolean multipleVariables;
 
@@ -61,11 +59,10 @@ public class MultipleFileField extends AbstractFileField
      */
     private final List<String> variables = new ArrayList<String>();
 
-
     /**
      * Constructs a {@code MultipleFileField}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */
@@ -80,10 +77,11 @@ public class MultipleFileField extends AbstractFileField
     }
 
     /**
-     * Sets the values. If multiple variables are being used, this creates a variable for each value,
-     * using the naming convention: name, name_1, name_2....
-     * If a single variable is being used, the values are concatenated together separated by ';'.
-     * If values is empty or doesn't exist, don't so anything.
+     * Sets the values. If multiple variables are being used, this creates a
+     * variable for each value, using the naming convention: name, name_1,
+     * name_2.... If a single variable is being used, the values are
+     * concatenated together separated by ';'. If values is empty or doesn't
+     * exist, don't so anything.
      *
      * @param values the file names
      */
@@ -167,9 +165,11 @@ public class MultipleFileField extends AbstractFileField
     }
 
     /**
-     * Determines if multiple variables should be created to hold the selected files.
+     * Determines if multiple variables should be created to hold the selected
+     * files.
      *
-     * @return {@code true} if multiple variables should be created; {@code false} if a single variable should be used
+     * @return {@code true} if multiple variables should be created;
+     * {@code false} if a single variable should be used
      */
     public boolean getCreateMultipleVariables()
     {

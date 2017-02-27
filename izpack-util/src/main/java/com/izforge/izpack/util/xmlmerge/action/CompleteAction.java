@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.action;
 
 import org.jdom2.Element;
@@ -42,12 +41,9 @@ public class CompleteAction implements Action
         {
             outputParentElement.addContent((Element) originalElement.clone());
         }
-        else
+        else if (patchElement != null)
         {
-            if (patchElement != null)
-            {
-                outputParentElement.addContent((Element) patchElement.clone());
-            }
+            outputParentElement.addContent((Element) patchElement.clone());
         }
     }
 }

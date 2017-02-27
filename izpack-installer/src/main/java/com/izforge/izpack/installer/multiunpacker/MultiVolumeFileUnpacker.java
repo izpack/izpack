@@ -18,12 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.multiunpacker;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Logger;
 
@@ -35,7 +33,6 @@ import com.izforge.izpack.installer.unpacker.Cancellable;
 import com.izforge.izpack.installer.unpacker.FileUnpacker;
 import com.izforge.izpack.util.os.FileQueue;
 
-
 /**
  * A multi-volume file unpacker.
  *
@@ -43,6 +40,7 @@ import com.izforge.izpack.util.os.FileQueue;
  */
 public class MultiVolumeFileUnpacker extends FileUnpacker
 {
+
     /**
      * The volumes.
      */
@@ -51,14 +49,14 @@ public class MultiVolumeFileUnpacker extends FileUnpacker
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(MultiVolumeFileUnpacker.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MultiVolumeFileUnpacker.class.getName());
 
     /**
      * Constructs a <tt>MultiVolumeFileUnpacker</tt>.
      *
-     * @param volumes     the input stream
+     * @param volumes the input stream
      * @param cancellable determines if unpacking should be cancelled
-     * @param queue       the file queue. May be {@code null}
+     * @param queue the file queue. May be {@code null}
      */
     public MultiVolumeFileUnpacker(FileSpanningInputStream volumes, Cancellable cancellable, FileQueue queue)
     {
@@ -69,12 +67,12 @@ public class MultiVolumeFileUnpacker extends FileUnpacker
     /**
      * Unpacks a pack file.
      *
-     * @param file            the pack file meta-data
+     * @param file the pack file meta-data
      * @param packInputStream the pack input stream
-     * @param target          the target
+     * @param target the target
      * @throws InterruptedIOException if the unpack is cancelled
-     * @throws IOException            for any I/O error
-     * @throws InstallerException     for any installer exception
+     * @throws IOException for any I/O error
+     * @throws InstallerException for any installer exception
      */
     @Override
     public void unpack(PackFile file, ObjectInputStream packInputStream, File target)
@@ -86,9 +84,9 @@ public class MultiVolumeFileUnpacker extends FileUnpacker
         if (volumes.getFilePointer() < position)
         {
             // need to skip to the correct position
-            logger.fine("Skipping bytes to get to file " + target.getName()
-                                + " (" + volumes.getFilePointer() + "<" + position
-                                + ") target is: " + (position - volumes.getFilePointer()));
+            LOGGER.fine("Skipping bytes to get to file " + target.getName()
+                    + " (" + volumes.getFilePointer() + "<" + position
+                    + ") target is: " + (position - volumes.getFilePointer()));
             skip(position - volumes.getFilePointer());
         }
 
@@ -104,7 +102,8 @@ public class MultiVolumeFileUnpacker extends FileUnpacker
      * Skips bytes in a stream.
      *
      * @param bytes the no. of bytes to skip
-     * @throws IOException for any I/O error, or if the no. of bytes skipped doesn't match that expected
+     * @throws IOException for any I/O error, or if the no. of bytes skipped
+     * doesn't match that expected
      */
     protected void skip(long bytes) throws IOException
     {

@@ -18,8 +18,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
-
+ */
 package com.izforge.izpack.api.adaptator.impl;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -54,14 +53,13 @@ public class XMLElementImpl implements IXMLElement
     private Element element;
 
     /**
-     * A flag to notice any changement made to the element.
-     * It is used to generate the childrenList.
+     * A flag to notice any changement made to the element. It is used to
+     * generate the childrenList.
      */
     private boolean hasChanged = true;
 
     /**
-     * List of the children elements.
-     * It is generated as it is called.
+     * List of the children elements. It is generated as it is called.
      */
     private List<IXMLElement> childrenList;
 
@@ -93,7 +91,7 @@ public class XMLElementImpl implements IXMLElement
     /**
      * Constructor which create a root element in the given document
      *
-     * @param name       Name of the root element
+     * @param name Name of the root element
      * @param inDocument The document in which to create the xml
      */
     public XMLElementImpl(String name, Document inDocument)
@@ -104,8 +102,9 @@ public class XMLElementImpl implements IXMLElement
     /**
      * Create a element in the same document of the given element
      *
-     * @param name             Name of the element
-     * @param elementReference Reference of an existing xml. It is used to generate an xmlElement on the same document.
+     * @param name Name of the element
+     * @param elementReference Reference of an existing xml. It is used to
+     * generate an xmlElement on the same document.
      */
     public XMLElementImpl(String name, IXMLElement elementReference)
     {
@@ -138,11 +137,14 @@ public class XMLElementImpl implements IXMLElement
         hasChanged = true;
         Document targetDoc = element.getOwnerDocument();
         Document sourceDoc = child.getElement().getOwnerDocument();
-        if (targetDoc.equals(sourceDoc)) {
+        if (targetDoc.equals(sourceDoc))
+        {
             element.appendChild(child.getElement());
-        } else {
+        }
+        else
+        {
             Node firstDocImportedNode = element.getOwnerDocument().importNode(child.getElement(), true);
-            element.appendChild(firstDocImportedNode );
+            element.appendChild(firstDocImportedNode);
         }
     }
 
@@ -265,7 +267,7 @@ public class XMLElementImpl implements IXMLElement
     public Enumeration<String> enumerateAttributeNames()
     {
         NamedNodeMap namedNodeMap = element.getAttributes();
-        Hashtable<String,String> properties = new Hashtable<String, String>();
+        Hashtable<String, String> properties = new Hashtable<String, String>();
         for (int i = 0; i < namedNodeMap.getLength(); i++)
         {
             Node node = namedNodeMap.item(i);
@@ -337,8 +339,7 @@ public class XMLElementImpl implements IXMLElement
             else if (child.getNodeType() == Node.CDATA_SECTION_NODE)
             {
                 builder.append(content);
-            }
-            // neither CDATA nor text : real nested element !
+            } // neither CDATA nor text : real nested element !
             else
             {
                 err = true;

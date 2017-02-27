@@ -39,7 +39,8 @@ public class DefaultTargetPlatformFactoryTest
 {
 
     /**
-     * Verifies that the <tt>TargetPlatformFactory.properties</tt> file has been loaded successfully.
+     * Verifies that the <tt>TargetPlatformFactory.properties</tt> file has been
+     * loaded successfully.
      */
     @Test
     public void testParser()
@@ -47,7 +48,7 @@ public class DefaultTargetPlatformFactoryTest
         Platforms platforms = new Platforms();
         Platform platform = platforms.getCurrentPlatform();
         DefaultTargetPlatformFactory factory = new DefaultTargetPlatformFactory(
-                NoDependencyInjectionFactory.INSTANCE, platform, platforms)
+                NoDependencyInjectionFactory.instance, platform, platforms)
         {
             @Override
             protected Parser createParser(Platforms platforms, URL url)
@@ -85,7 +86,8 @@ public class DefaultTargetPlatformFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultTargetPlatformFactory#create(Class, Platform)} method.
+     * Tests the {@link DefaultTargetPlatformFactory#create(Class, Platform)}
+     * method.
      *
      * @throws Exception for any error
      */
@@ -95,7 +97,7 @@ public class DefaultTargetPlatformFactoryTest
         Platforms platforms = new Platforms();
         Platform platform = platforms.getCurrentPlatform();
         TargetPlatformFactory factory = new DefaultTargetPlatformFactory(
-                NoDependencyInjectionFactory.INSTANCE, platform, platforms);
+                NoDependencyInjectionFactory.instance, platform, platforms);
 
         assertEquals(WinA.class, factory.create(A.class, Platforms.WINDOWS).getClass());
 
@@ -136,7 +138,6 @@ public class DefaultTargetPlatformFactoryTest
         Platform win7x32 = new Platform(Platforms.WINDOWS_7, Arch.X86);
         assertEquals(Win7.class, factory.create(A.class, win7x32).getClass());
     }
-
 
     /**
      * Test classes.
@@ -183,15 +184,16 @@ public class DefaultTargetPlatformFactoryTest
 
     private static class NoDependencyInjectionFactory implements ObjectFactory
     {
+
         /**
          * The singleton instance.
          */
-        public static ObjectFactory INSTANCE = new NoDependencyInjectionFactory();
+        public static ObjectFactory instance = new NoDependencyInjectionFactory();
 
         /**
          * Creates a new instance of the specified type.
          *
-         * @param type       the object type
+         * @param type the object type
          * @param parameters
          * @return a new instance
          */
@@ -211,11 +213,12 @@ public class DefaultTargetPlatformFactoryTest
         /**
          * Creates a new instance of the specified class name.
          *
-         * @param className  the class name
-         * @param superType  the super type
+         * @param className the class name
+         * @param superType the super type
          * @param parameters
          * @return a new instance
-         * @throws ClassCastException           if <tt>className</tt> does not implement or extend <tt>superType</tt>
+         * @throws ClassCastException if <tt>className</tt> does not implement
+         * or extend <tt>superType</tt>
          * @throws IzPackClassNotFoundException if the class cannot be found
          */
         @Override
@@ -229,7 +232,7 @@ public class DefaultTargetPlatformFactoryTest
                 if (!superType.isAssignableFrom(type))
                 {
                     throw new ClassCastException("Class '" + type.getName() + "' does not implement "
-                                                         + superType.getName());
+                            + superType.getName());
                 }
             }
             catch (ClassNotFoundException exception)

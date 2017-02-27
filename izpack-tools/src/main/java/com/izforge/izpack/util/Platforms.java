@@ -38,138 +38,139 @@ public class Platforms
     /**
      * AIX platform.
      */
-    public static Platform AIX = new Platform(Name.AIX);
+    public static final Platform AIX = new Platform(Name.AIX);
 
     /**
      * Debian Linux platform.
      */
-    public static Platform DEBIAN_LINUX = new Platform(Name.DEBIAN_LINUX);
+    public static final Platform DEBIAN_LINUX = new Platform(Name.DEBIAN_LINUX);
 
     /**
      * Fedora Linux platform.
      */
-    public static Platform FEDORA_LINUX = new Platform(Name.FEDORA_LINUX);
+    public static final Platform FEDORA_LINUX = new Platform(Name.FEDORA_LINUX);
 
     /**
      * FreeBSD platform.
      */
-    public static Platform FREEBSD = new Platform(Name.FREEBSD);
+    public static final Platform FREEBSD = new Platform(Name.FREEBSD);
 
     /**
      * HP/UX platform.
      */
-    public static Platform HP_UX = new Platform(Name.HP_UX);
+    public static final Platform HP_UX = new Platform(Name.HP_UX);
 
     /**
      * Generic Linux platform.
      */
-    public static Platform LINUX = new Platform(Name.LINUX);
+    public static final Platform LINUX = new Platform(Name.LINUX);
 
     /**
      * Mac platform.
      */
-    public static Platform MAC = new Platform(Name.MAC);
+    public static final Platform MAC = new Platform(Name.MAC);
 
     /**
      * Mac OSX platform.
      */
-    public static Platform MAC_OSX = new Platform(Name.MAC_OSX);
+    public static final Platform MAC_OSX = new Platform(Name.MAC_OSX);
 
     /**
      * Mandrake Linux platform.
      */
-    public static Platform MANDRAKE_LINUX = new Platform(Name.MANDRAKE_LINUX);
+    public static final Platform MANDRAKE_LINUX = new Platform(Name.MANDRAKE_LINUX);
 
     /**
      * Mandriva Linux platform.
      */
-    public static Platform MANDRIVA_LINUX = new Platform(Name.MANDRIVA_LINUX);
+    public static final Platform MANDRIVA_LINUX = new Platform(Name.MANDRIVA_LINUX);
 
     /**
      * OS/2 platform.
      */
-    public static Platform OS_2 = new Platform(Name.OS_2);
+    public static final Platform OS_2 = new Platform(Name.OS_2);
 
     /**
      * Red Hat Linux platform.
      */
-    public static Platform RED_HAT_LINUX = new Platform(Name.RED_HAT_LINUX);
+    public static final Platform RED_HAT_LINUX = new Platform(Name.RED_HAT_LINUX);
 
     /**
      * SunOS platform.
      */
-    public static Platform SUNOS = new Platform(Name.SUNOS);
+    public static final Platform SUNOS = new Platform(Name.SUNOS);
 
     /**
      * SunOS/x86 platform.
      */
-    public static Platform SUNOS_X86 = new Platform(Name.SUNOS, "SUNOS_X86", Arch.X86);
+    public static final Platform SUNOS_X86 = new Platform(Name.SUNOS, "SUNOS_X86", Arch.X86);
 
     /**
      * SunOS/SPARC platform.
      */
-    public static Platform SUNOS_SPARC = new Platform(Name.SUNOS, "SUNOS_SPARC", Arch.SPARC);
+    public static final Platform SUNOS_SPARC = new Platform(Name.SUNOS, "SUNOS_SPARC", Arch.SPARC);
 
     /**
      * SuSE Linux platform.
      */
-    public static Platform SUSE_LINUX = new Platform(Name.SUSE_LINUX);
+    public static final Platform SUSE_LINUX = new Platform(Name.SUSE_LINUX);
 
     /**
      * Generic UNIX platform.
      */
-    public static Platform UNIX = new Platform(Name.UNIX);
+    public static final Platform UNIX = new Platform(Name.UNIX);
 
     /**
      * Ubuntu Linux platform.
      */
-    public static Platform UBUNTU_LINUX = new Platform(Name.UBUNTU_LINUX);
+    public static final Platform UBUNTU_LINUX = new Platform(Name.UBUNTU_LINUX);
 
     /**
      * Windows platform.
      */
-    public static Platform WINDOWS = new Platform(Name.WINDOWS);
+    public static final Platform WINDOWS = new Platform(Name.WINDOWS);
 
     /**
      * Windows XP platform.
      */
-    public static Platform WINDOWS_XP = new Platform(Name.WINDOWS, "WINDOWS_XP",
+    public static final Platform WINDOWS_XP = new Platform(Name.WINDOWS, "WINDOWS_XP",
                                                      OsVersionConstants.WINDOWS_XP_VERSION);
 
     /**
      * Windows 2003 platform.
      */
-    public static Platform WINDOWS_2003 = new Platform(Name.WINDOWS, "WINDOWS_2003",
+    public static final Platform WINDOWS_2003 = new Platform(Name.WINDOWS, "WINDOWS_2003",
                                                        OsVersionConstants.WINDOWS_2003_VERSION);
 
     /**
      * Windows Vista platform.
      */
-    public static Platform WINDOWS_VISTA = new Platform(Name.WINDOWS, "WINDOWS_VISTA",
+    public static final Platform WINDOWS_VISTA = new Platform(Name.WINDOWS, "WINDOWS_VISTA",
                                                         OsVersionConstants.WINDOWS_VISTA_VERSION);
 
     /**
      * Windows 7 platform.
      */
-    public static Platform WINDOWS_7 = new Platform(Name.WINDOWS, "WINDOWS_7", OsVersionConstants.WINDOWS_7_VERSION);
+    public static final Platform WINDOWS_7 = new Platform(Name.WINDOWS, "WINDOWS_7", OsVersionConstants.WINDOWS_7_VERSION);
 
     /**
      * Windows 8 platform.
      */
-    public static Platform WINDOWS_8 = new Platform(Name.WINDOWS, "WINDOWS_8", OsVersionConstants.WINDOWS_8_VERSION);
+    public static final Platform WINDOWS_8 = new Platform(Name.WINDOWS, "WINDOWS_8", OsVersionConstants.WINDOWS_8_VERSION);
 
     /**
      * Windows 10 platform.
      */
-    public static Platform WINDOWS_10 = new Platform(Name.WINDOWS, "WINDOWS_10", OsVersionConstants.WINDOWS_10_VERSION);
+    public static final Platform WINDOWS_10 = new Platform(Name.WINDOWS, "WINDOWS_10", OsVersionConstants.WINDOWS_10_VERSION);
 
     /**
      * Known platforms.
      */
-    public static Platform[] PLATFORMS = {AIX, DEBIAN_LINUX, FEDORA_LINUX, FREEBSD, HP_UX, LINUX, MAC, MAC_OSX,
-            MANDRAKE_LINUX, MANDRIVA_LINUX, OS_2, RED_HAT_LINUX, SUNOS, SUNOS_X86,
-            SUNOS_SPARC, SUSE_LINUX, UBUNTU_LINUX, UNIX, WINDOWS, WINDOWS_XP,
-            WINDOWS_2003, WINDOWS_VISTA, WINDOWS_7, WINDOWS_8, WINDOWS_10};
+    public static final Platform[] PLATFORMS = {AIX, DEBIAN_LINUX, FEDORA_LINUX, FREEBSD, HP_UX, LINUX, MAC, MAC_OSX,
+        MANDRAKE_LINUX, MANDRIVA_LINUX, OS_2, RED_HAT_LINUX, SUNOS, SUNOS_X86,
+        SUNOS_SPARC, SUSE_LINUX, UBUNTU_LINUX, UNIX, WINDOWS, WINDOWS_XP,
+        WINDOWS_2003, WINDOWS_VISTA, WINDOWS_7, WINDOWS_8, WINDOWS_10
+    };
 
     /**
      * Cached linux name.
@@ -180,7 +181,7 @@ public class Platforms
     /**
      * The logger.
      */
-    private static final Logger log = Logger.getLogger(Platforms.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Platforms.class.getName());
 
 
     /**
@@ -604,9 +605,9 @@ public class Platforms
         }
         catch (IOException ignore)
         {
-            if (log.isLoggable(Level.FINE))
+            if (LOGGER.isLoggable(Level.FINE))
             {
-                log.log(Level.FINE, "Failed to read " + path, ignore);
+                LOGGER.log(Level.FINE, "Failed to read " + path, ignore);
             }
         }
         return text;

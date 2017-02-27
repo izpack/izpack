@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2005 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2004 Klaus Bartz
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.myCompany.tools.install.listener;
 
 import java.io.File;
@@ -32,8 +31,8 @@ import com.izforge.izpack.util.FileExecutor;
 import com.izforge.izpack.util.OsVersion;
 
 /**
- * <p>InstallerListener for file and directory permissions
- * on Unix.</p>
+ * <p>
+ * InstallerListener for file and directory permissions on Unix.</p>
  *
  * @author Klaus Bartz
  */
@@ -51,7 +50,8 @@ public class ChmodInstallerListener extends AbstractProgressInstallerListener
     }
 
     /**
-     * Determines if the listener should be notified of every file and directory installation.
+     * Determines if the listener should be notified of every file and directory
+     * installation.
      *
      * @return {@code true}
      */
@@ -108,7 +108,7 @@ public class ChmodInstallerListener extends AbstractProgressInstallerListener
             if ((dirVal & 0x000001C0) < 0x000001C0)
             {
                 throw new InstallerException("Bad owner permission for directory "
-                                                     + dirPath.getAbsolutePath() + "; at installation time the owner needs full rights");
+                        + dirPath.getAbsolutePath() + "; at installation time the owner needs full rights");
             }
             chmod(dirPath, dirVal);
         }
@@ -127,7 +127,10 @@ public class ChmodInstallerListener extends AbstractProgressInstallerListener
             return;
         }
         String permStr = Integer.toOctalString(permissions);
-        String[] params = {"chmod", permStr, path.getAbsolutePath()};
+        String[] params =
+        {
+            "chmod", permStr, path.getAbsolutePath()
+        };
         String[] output = new String[2];
         FileExecutor fe = new FileExecutor();
         fe.executeCommand(params, output);

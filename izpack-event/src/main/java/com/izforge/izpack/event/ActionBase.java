@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import java.io.Serializable;
@@ -48,8 +47,8 @@ public class ActionBase implements Serializable
     public static final String ORDER = "order";
     public static final String UNINSTALL_ORDER = "uninstall_order";
 
-    private static final HashSet<String> installOrders = new HashSet<String>();
-    private static final HashSet<String> uninstallOrders = new HashSet<String>();
+    private static final HashSet<String> INSTALL_ORDERS = new HashSet<String>();
+    private static final HashSet<String> UNINSTALL_ORDERS = new HashSet<String>();
 
     protected String uninstallOrder = BEFOREDELETION;
     protected String order = null;
@@ -57,12 +56,12 @@ public class ActionBase implements Serializable
 
     static
     {
-        installOrders.add(BEFOREPACK);
-        installOrders.add(AFTERPACK);
-        installOrders.add(BEFOREPACKS);
-        installOrders.add(AFTERPACKS);
-        uninstallOrders.add(BEFOREDELETION);
-        uninstallOrders.add(AFTERDELETION);
+        INSTALL_ORDERS.add(BEFOREPACK);
+        INSTALL_ORDERS.add(AFTERPACK);
+        INSTALL_ORDERS.add(BEFOREPACKS);
+        INSTALL_ORDERS.add(AFTERPACKS);
+        UNINSTALL_ORDERS.add(BEFOREDELETION);
+        UNINSTALL_ORDERS.add(AFTERDELETION);
     }
 
     /**
@@ -84,14 +83,14 @@ public class ActionBase implements Serializable
     }
 
     /**
-     * Sets the order to the given string. Valid values are "beforepacks", "beforepack", "afterpack"
-     * and "afterpacks".
+     * Sets the order to the given string. Valid values are "beforepacks",
+     * "beforepack", "afterpack" and "afterpacks".
      *
      * @param order order to be set
      */
     public void setOrder(String order) throws Exception
     {
-        if (!installOrders.contains(order))
+        if (!INSTALL_ORDERS.contains(order))
         {
             throw new Exception("Bad value for order.");
         }
@@ -109,14 +108,14 @@ public class ActionBase implements Serializable
     }
 
     /**
-     * Sets the order to the given string for uninstallation. Valid values are "beforedeletion" and
-     * "afterdeletion".
+     * Sets the order to the given string for uninstallation. Valid values are
+     * "beforedeletion" and "afterdeletion".
      *
      * @param order order to be set
      */
     public void setUninstallOrder(String order) throws Exception
     {
-        if (!uninstallOrders.contains(order))
+        if (!UNINSTALL_ORDERS.contains(order))
         {
             throw new Exception("Bad value for order.");
         }

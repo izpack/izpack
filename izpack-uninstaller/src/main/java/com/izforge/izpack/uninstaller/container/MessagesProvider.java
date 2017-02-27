@@ -25,7 +25,6 @@ import java.io.IOException;
 
 import org.picocontainer.injectors.Provider;
 
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 

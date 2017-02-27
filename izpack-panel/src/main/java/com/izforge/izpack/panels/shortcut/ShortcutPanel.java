@@ -70,11 +70,12 @@ import com.izforge.izpack.util.TargetFactory;
 import com.izforge.izpack.util.os.Shortcut;
 
 /**
- * This class implements a panel for the creation of shortcuts. The panel prompts the user to select
- * a program group for shortcuts, accept the creation of desktop shortcuts and actually creates the
- * shortcuts.
+ * This class implements a panel for the creation of shortcuts. The panel
+ * prompts the user to select a program group for shortcuts, accept the creation
+ * of desktop shortcuts and actually creates the shortcuts.
  * <p/>
- * Use LateShortcutInstallListener to create the Shortcuts after the Files have been installed.
+ * Use LateShortcutInstallListener to create the Shortcuts after the Files have
+ * been installed.
  *
  * @version $Revision$
  */
@@ -87,9 +88,9 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     private static final long serialVersionUID = 3256722870838112311L;
 
     /**
-     * The default file name for the text file in which the shortcut information should be stored,
-     * in case shortcuts can not be created on a particular target system. TEXT_FILE_NAME =
-     * "Shortcuts.txt"
+     * The default file name for the text file in which the shortcut information
+     * should be stored, in case shortcuts can not be created on a particular
+     * target system. TEXT_FILE_NAME = "Shortcuts.txt"
      */
     private static final String TEXT_FILE_NAME = "Shortcuts.txt";
 
@@ -103,23 +104,26 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     private JList groupList;
 
     /**
-     * UI element to present the default name for the program group and to support editing of this
-     * name.
+     * UI element to present the default name for the program group and to
+     * support editing of this name.
      */
     private JTextField programGroup;
 
     /**
-     * UI element to allow the user to revert to the default name of the program group
+     * UI element to allow the user to revert to the default name of the program
+     * group
      */
     private JButton defaultButton;
 
     /**
-     * UI element to allow the user to save a text file with the shortcut information
+     * UI element to allow the user to save a text file with the shortcut
+     * information
      */
     private JButton saveButton;
 
     /**
-     * UI element to allow the user to decide if shortcuts should be placed on the desktop or not.
+     * UI element to allow the user to decide if shortcuts should be placed on
+     * the desktop or not.
      */
     private JCheckBox allowDesktopShortcut;
 
@@ -134,7 +138,8 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     private JLabel listLabel;
 
     /**
-     * UI element instruct this panel to create shortcuts for the current user only
+     * UI element instruct this panel to create shortcuts for the current user
+     * only
      */
     private JRadioButton currentUser;
 
@@ -158,24 +163,23 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(ShortcutPanel.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(ShortcutPanel.class.getName());
 
     /**
      * Constructs a <tt>ShortcutPanel</tt>.
      *
-     * @param panel         the panel
-     * @param parent        reference to the application frame
-     * @param installData   the installation data
-     * @param resources     the resources
+     * @param panel the panel
+     * @param parent reference to the application frame
+     * @param installData the installation data
+     * @param resources the resources
      * @param uninstallData the uninstallation data
-     * @param housekeeper   the house keeper
-     * @param factory       the factory for platform-specific implementations
-     * @param matcher       the platform-model matcher
+     * @param housekeeper the house keeper
+     * @param factory the factory for platform-specific implementations
+     * @param matcher the platform-model matcher
      */
     public ShortcutPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                         UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory,
-                         InstallerListeners listeners, PlatformModelMatcher matcher)
+            UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory,
+            InstallerListeners listeners, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, "link16x16", resources);
         layout = (GridBagLayout) super.getLayout();
@@ -206,7 +210,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         }
         catch (Exception exception)
         {
-            logger.log(Level.WARNING, "Failed to initialise shortcuts: " + exception.getMessage(), exception);
+            LOGGER.log(Level.WARNING, "Failed to initialise shortcuts: " + exception.getMessage(), exception);
         }
     }
 
@@ -230,12 +234,12 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
                 defaultButton.setVisible(false);
                 listLabel.setVisible(false);
             }
-            else if(programGroup.getText().isEmpty())
+            else if (programGroup.getText().isEmpty())
             {
                 programGroup.setText(suggestedProgramGroup);
             }
 
-            if(groupList != null && groupList.getSelectedIndex() < 0)
+            if (groupList != null && groupList.getSelectedIndex() < 0)
             {
                 groupList.setSelectedIndex(0);
             }
@@ -248,20 +252,21 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     }
 
     /**
-     * Returns true when all selections have valid settings. This indicates that it is legal to
-     * proceed to the next panel.
+     * Returns true when all selections have valid settings. This indicates that
+     * it is legal to proceed to the next panel.
      *
-     * @return true if it is legal to proceed to the next panel, otherwise false.
+     * @return true if it is legal to proceed to the next panel, otherwise
+     * false.
      */
     @Override
     public boolean isValidated()
     {
-        if(skipPanel)
+        if (skipPanel)
         {
             return true;
         }
         String errorMessage = shortcutPanelLogic.verifyProgramGroup(programGroup.getText());
-        if(!errorMessage.isEmpty())
+        if (!errorMessage.isEmpty())
         {
             emitError("Error", errorMessage);
             return false;
@@ -284,20 +289,19 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         return true;
     }
 
-
     @Override
     public void actionPerformed(ActionEvent event)
     {
         Object eventSource = event.getSource();
 
         /**
-         *  Choose between installing shortcut between current user or all users
-         *  Refresh the list of program groups accordingly
-         *  Reset the program group to the default setting.
+         * Choose between installing shortcut between current user or all users
+         * Refresh the list of program groups accordingly Reset the program
+         * group to the default setting.
          */
         if (eventSource.equals(currentUser) || eventSource.equals(allUsers))
         {
-            int userType =  userType = Shortcut.CURRENT_USER;
+            int userType = userType = Shortcut.CURRENT_USER;
             if (eventSource.equals(allUsers))
             {
                 userType = Shortcut.ALL_USERS;
@@ -316,8 +320,8 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         }
 
         /**
-         *  Clear the selection in the list box
-         *  Refill the program group edit control with the suggested program group name
+         * Clear the selection in the list box Refill the program group edit
+         * control with the suggested program group name
          */
         else if (eventSource.equals(defaultButton))
         {
@@ -347,13 +351,12 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             {
                 groupList.setEnabled(create);
                 groupList.getSelectionModel().clearSelection();
-                if(create)
+                if (create)
                 {
                     groupList.setSelectedIndex(0);
                 }
 
             }
-
 
             programGroup.setEnabled(create);
             currentUser.setEnabled(create);
@@ -367,8 +370,9 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     }
 
     /**
-     * This method is called by the groupList when the user makes a selection. It updates the
-     * content of the programGroup with the result of the selection.
+     * This method is called by the groupList when the user makes a selection.
+     * It updates the content of the programGroup with the result of the
+     * selection.
      *
      * @param event the list selection event
      */
@@ -446,8 +450,9 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         constraints.insets = new Insets(0, 10, 0, 0);
 
         /**
-         * Check box to allow the user to decide if a desktop shortcut should be created.
-         * This should only be created if needed and requested in the definition file.
+         * Check box to allow the user to decide if a desktop shortcut should be
+         * created. This should only be created if needed and requested in the
+         * definition file.
          */
         boolean initialAllowedFlag = shortcutPanelLogic.isDesktopShortcutCheckboxSelected();
         allowDesktopShortcut = new JCheckBox(shortcutPanelLogic.getCreateDesktopShortcutsPrompt(), initialAllowedFlag);
@@ -459,7 +464,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
 
         layout.addLayoutComponent(allowDesktopShortcut, constraints);
         add(allowDesktopShortcut);
-        
+
         boolean defaultStartupValue = shortcutPanelLogic.isStartupShortcutCheckboxSelected();
         allowStartupShortcut = new JCheckBox(shortcutPanelLogic.getCreateStartupShortcutsPrompt(), defaultStartupValue);
         allowStartupShortcut.setVisible(false);
@@ -470,7 +475,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
 
         layout.addLayoutComponent(allowStartupShortcut, constraints);
         add(allowStartupShortcut);
-
 
         // Label the list of existing program groups
         listLabel = LabelFactory.create(getString("ShortcutPanel.regular.list"), SwingConstants.LEADING);
@@ -533,12 +537,11 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             }
 
             groupList = addList(dirEntries, ListSelectionModel.SINGLE_SELECTION, groupList, col,
-                                line + 5, 1, 1, GridBagConstraints.BOTH);
+                    line + 5, 1, 1, GridBagConstraints.BOTH);
             groupList.setSelectedIndex(0);
         }
 
         // radio buttons to select current user or all users.
-
         // if 'defaultCurrentUser' specified, default to current user:
         final boolean rUserFlag = !shortcutPanelLogic.isDefaultCurrentUserFlag() && isRootUser;
 
@@ -550,7 +553,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         usersPanel.add(currentUser);
         allUsers = new JRadioButton(shortcutPanelLogic.getCreateForAllUsersPrompt(), rUserFlag);
 
-        logger.fine("allUsers.setEnabled(), am I root?: " + isRootUser);
+        LOGGER.fine("allUsers.setEnabled(), am I root?: " + isRootUser);
 
         allUsers.setEnabled(isRootUser);
 
@@ -559,7 +562,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         usersPanel.add(allUsers);
 
         TitledBorder border = new TitledBorder(new EmptyBorder(2, 2, 2, 2),
-                                               shortcutPanelLogic.getCreateForUserPrompt());
+                shortcutPanelLogic.getCreateForUserPrompt());
         usersPanel.setBorder(border);
         if (platform.isA(WINDOWS))
         {
@@ -583,7 +586,6 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         usersPanel.setVisible(false);
         add(usersPanel);
 
-
         // ----------------------------------------------------
         // edit box that contains the suggested program group
         // name, which can be modfied or substituted from the
@@ -606,7 +608,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // original suggestion for the program group
         // ----------------------------------------------------
         defaultButton = ButtonFactory.createButton(getString("ShortcutPanel.regular.default"),
-                                                   installData.buttonsHColor);
+                installData.buttonsHColor);
         defaultButton.addActionListener(this);
 
         constraints.gridx = col + 1;
@@ -621,29 +623,29 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     /**
      * Adds the grouplist to the panel
      *
-     * @param Entries     the entries to display
-     * @param ListModel   the model to use
-     * @param aJList      the JList to use
-     * @param aGridx      The X position in the gridbag layout.
-     * @param aGridy      The Y position in the gridbag layout.
-     * @param aGridwidth  the gridwith to use in the gridbag layout.
+     * @param entries the entries to display
+     * @param listModel the model to use
+     * @param aJList the JList to use
+     * @param aGridx The X position in the gridbag layout.
+     * @param aGridy The Y position in the gridbag layout.
+     * @param aGridwidth the gridwith to use in the gridbag layout.
      * @param aGridheight the gridheight to use in the gridbag layout.
-     * @param aFill       the FILL to use in the gridbag layout.
+     * @param aFill the FILL to use in the gridbag layout.
      * @return the filled JList
      */
-    private JList addList(Vector<String> Entries, int ListModel, JList aJList, int aGridx,
-                          int aGridy, int aGridwidth, int aGridheight, int aFill)
+    private JList addList(Vector<String> entries, int listModel, JList aJList, int aGridx,
+            int aGridy, int aGridwidth, int aGridheight, int aFill)
     {
         if (aJList == null)
         {
-            aJList = new JList(Entries);
+            aJList = new JList(entries);
         }
         else
         {
-            aJList.setListData(Entries);
+            aJList.setListData(entries);
         }
 
-        aJList.setSelectionMode(ListModel);
+        aJList.setSelectionMode(listModel);
         aJList.getSelectionModel().addListSelectionListener(this);
 
         JScrollPane scrollPane = new JScrollPane(aJList);
@@ -663,12 +665,14 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
     }
 
     /**
-     * This method creates an alternative UI for this panel. This UI can be used when the creation
-     * of shortcuts is not supported on the target system. It displays an apology for the inability
-     * to create shortcuts on this system, along with information about the intended targets. In
-     * addition, there is a button that allows the user to save more complete information in a text
-     * file. Based on this information the user might be able to create the necessary shortcut him
-     * or herself. At least there will be information about how to launch the application.
+     * This method creates an alternative UI for this panel. This UI can be used
+     * when the creation of shortcuts is not supported on the target system. It
+     * displays an apology for the inability to create shortcuts on this system,
+     * along with information about the intended targets. In addition, there is
+     * a button that allows the user to save more complete information in a text
+     * file. Based on this information the user might be able to create the
+     * necessary shortcut him or herself. At least there will be information
+     * about how to launch the application.
      */
     private void buildAlternateUI()
     {
@@ -733,7 +737,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // static text that explains about the text file
         // ----------------------------------------------------
         MultiLineLabel fileExplanation = new MultiLineLabel(getString("ShortcutPanel.alternate.textFileExplanation"),
-                                                            0, 0);
+                0, 0);
 
         constraints.gridx = 0;
         constraints.gridy = 3;
@@ -747,7 +751,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // button to save the text file
         // ----------------------------------------------------
         saveButton = ButtonFactory.createButton(getString("ShortcutPanel.alternate.saveButton"),
-                                                installData.buttonsHColor);
+                installData.buttonsHColor);
         saveButton.addActionListener(this);
 
         constraints.gridx = 0;
@@ -790,7 +794,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         }
         catch (Exception e)
         {
-            logger.log(Level.WARNING, "Could generate automatic installer description for shortcuts.");
+            LOGGER.log(Level.WARNING, "Could generate automatic installer description for shortcuts.");
         }
     }
 }

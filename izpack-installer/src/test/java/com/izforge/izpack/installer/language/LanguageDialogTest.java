@@ -24,7 +24,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Locale;
 
-import javax.swing.JFrame;
 
 import com.izforge.izpack.gui.IconsDatabase;
 import org.fest.swing.fixture.DialogFixture;
@@ -80,9 +79,9 @@ public class LanguageDialogTest
     /**
      * Constructs {@code LanguageDialogTest}.
      *
-     * @param resources   the resources
+     * @param resources the resources
      * @param installData the installation data
-     * @param locales     the locales. Must contain locales "eng" and "fra"
+     * @param locales the locales. Must contain locales "eng" and "fra"
      */
     public LanguageDialogTest(Resources resources, GUIInstallData installData, Locales locales, IconsDatabase icons)
     {
@@ -147,17 +146,19 @@ public class LanguageDialogTest
     }
 
     /**
-     * Verifies that the combo box has the correct elements for English and French and that the locale is set correctly
-     * when French is selected.
+     * Verifies that the combo box has the correct elements for English and
+     * French and that the locale is set correctly when French is selected.
      *
      * @param englishDisplayName the expected display name for English
-     * @param frenchDisplayName  the expected display name for French
+     * @param frenchDisplayName the expected display name for French
      */
     private void checkSelectLanguage(String englishDisplayName, String frenchDisplayName)
     {
         fixture.show();
         assertThat(fixture.comboBox(GuiId.COMBO_BOX_LANG_FLAG.id).contents(),
-                   Is.is(new String[]{englishDisplayName, frenchDisplayName}));
+                Is.is(new String[]{
+                    englishDisplayName, frenchDisplayName
+                }));
         fixture.comboBox(GuiId.COMBO_BOX_LANG_FLAG.id).selectItem(1);
         fixture.button(GuiId.BUTTON_LANG_OK.id).click();
         assertNotNull(locales.getLocale());
@@ -165,7 +166,8 @@ public class LanguageDialogTest
     }
 
     /**
-     * Creates a new {@link LanguageDialog} that displays language names according to the supplied {@code
+     * Creates a new {@link LanguageDialog} that displays language names
+     * according to the supplied {@code
      * langDisplayType}.
      *
      * @param langDisplayType one of "native", "default", "iso3"

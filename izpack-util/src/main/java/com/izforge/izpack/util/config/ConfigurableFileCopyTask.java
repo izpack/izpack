@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.config;
 
 import com.izforge.izpack.util.file.FileCopyTask;
@@ -32,7 +31,8 @@ import java.util.logging.Logger;
 
 public abstract class ConfigurableFileCopyTask extends FileCopyTask implements ConfigurableTask
 {
-    private static final Logger logger = Logger.getLogger(ConfigurableFileCopyTask.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(ConfigurableFileCopyTask.class.getName());
 
     private boolean patchPreserveEntries = true;
 
@@ -42,12 +42,12 @@ public abstract class ConfigurableFileCopyTask extends FileCopyTask implements C
 
     protected boolean cleanup;
 
-
     /**
-     * Whether to preserve equal entries but not necessarily their values from an old configuration,
-     * if they can be found (default: true).
+     * Whether to preserve equal entries but not necessarily their values from
+     * an old configuration, if they can be found (default: true).
      *
-     * @param preserveEntries - true to preserve equal entries from an old configuration
+     * @param preserveEntries - true to preserve equal entries from an old
+     * configuration
      */
     public void setPatchPreserveEntries(boolean preserveEntries)
     {
@@ -55,14 +55,15 @@ public abstract class ConfigurableFileCopyTask extends FileCopyTask implements C
     }
 
     /**
-     * Whether to preserve the values of equal entries from an old configuration, if they can be
-     * found (default: true). Set false to overwrite old configuration values by default with the
-     * new ones, regardless whether they have been already set in an old configuration. Values from
-     * an old configuration can only be preserved, if the appropriate entries exist in an old
-     * configuration.
+     * Whether to preserve the values of equal entries from an old
+     * configuration, if they can be found (default: true). Set false to
+     * overwrite old configuration values by default with the new ones,
+     * regardless whether they have been already set in an old configuration.
+     * Values from an old configuration can only be preserved, if the
+     * appropriate entries exist in an old configuration.
      *
-     * @param preserveValues - true to preserve the values of equal entries from an old
-     * configuration
+     * @param preserveValues - true to preserve the values of equal entries from
+     * an old configuration
      */
     public void setPatchPreserveValues(boolean preserveValues)
     {
@@ -81,7 +82,9 @@ public abstract class ConfigurableFileCopyTask extends FileCopyTask implements C
 
     /**
      * Whether to delete the patchfiles after the operation
-     * @param cleanup True, if the patchfiles should be deleted after the operation
+     *
+     * @param cleanup True, if the patchfiles should be deleted after the
+     * operation
      */
     public void setCleanup(boolean cleanup)
     {
@@ -96,7 +99,8 @@ public abstract class ConfigurableFileCopyTask extends FileCopyTask implements C
      * @param toFile output file of the patched result
      * @param patchPreserveEntries set true to reserve old entries
      * @param patchPreserveValues set true to reserver old values
-     * @param patchResolveVariables set true to resolve in-text variables during patching
+     * @param patchResolveVariables set true to resolve in-text variables during
+     * patching
      */
     protected abstract void doFileOperation(File oldFile, File newFile, File toFile,
             boolean patchPreserveEntries, boolean patchPreserveValues, boolean patchResolveVariables)
@@ -107,7 +111,7 @@ public abstract class ConfigurableFileCopyTask extends FileCopyTask implements C
     {
         if (fileCopyMap.size() > 0)
         {
-            logger.fine("Merge/copy " + fileCopyMap.size() + " file"
+            LOGGER.fine("Merge/copy " + fileCopyMap.size() + " file"
                     + (fileCopyMap.size() == 1 ? "" : "s") + " in " + destDir.getAbsolutePath());
 
             Enumeration<String> e = fileCopyMap.keys();
@@ -120,11 +124,11 @@ public abstract class ConfigurableFileCopyTask extends FileCopyTask implements C
                 {
                     if (fromFile.equals(toFile))
                     {
-                        logger.warning("Skipping self-merge/copy of " + fromFile);
+                        LOGGER.warning("Skipping self-merge/copy of " + fromFile);
                         continue;
                     }
 
-                    logger.fine("Merge/copy " + fromFile + " into " + toFile);
+                    LOGGER.fine("Merge/copy " + fromFile + " into " + toFile);
 
                     File to = new File(toFile);
                     File parent = to.getParentFile();
@@ -155,7 +159,7 @@ public abstract class ConfigurableFileCopyTask extends FileCopyTask implements C
                         {
                             if (!from.delete())
                             {
-                                logger.warning("File " + from + " could not be cleant up");
+                                LOGGER.warning("File " + from + " could not be cleant up");
                             }
                         }
                     }

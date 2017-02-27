@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container.provider;
 
 import org.picocontainer.injectors.Provider;
@@ -35,6 +34,7 @@ import com.izforge.izpack.merge.MergeManager;
  */
 public class PackCompressorProvider implements Provider
 {
+
     public PackCompressor provide(CompilerData compilerData, MergeManager mergeManager)
     {
         String format = compilerData.getComprFormat();

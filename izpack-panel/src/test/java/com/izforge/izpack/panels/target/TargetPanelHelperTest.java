@@ -39,7 +39,6 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-
 /**
  * Tests the {@link TargetPanelHelper} class.
  *
@@ -47,18 +46,21 @@ import static org.junit.Assert.*;
  */
 public class TargetPanelHelperTest
 {
-	private String orgUserDir;
-	
-	@Before
-	public void initialize() {
-		orgUserDir = System.getProperty("user.dir");
-	}
-	
-	@After
-	public void cleanup() {
-		System.setProperty("user.dir", orgUserDir);
-	}
-	
+
+    private String orgUserDir;
+
+    @Before
+    public void initialize()
+    {
+        orgUserDir = System.getProperty("user.dir");
+    }
+
+    @After
+    public void cleanup()
+    {
+        System.setProperty("user.dir", orgUserDir);
+    }
+
     /**
      * Tests the {@link TargetPanelHelper#getPath(InstallData)} method.
      */
@@ -82,7 +84,8 @@ public class TargetPanelHelperTest
     }
 
     /**
-     * Tests the {@link TargetPanelHelper#getPath(InstallData)} method for Windows.
+     * Tests the {@link TargetPanelHelper#getPath(InstallData)} method for
+     * Windows.
      */
     @Test
     public void testGetPathForWindows()
@@ -106,7 +109,8 @@ public class TargetPanelHelperTest
     /**
      * Tests the {@link TargetPanelHelper#getPath(InstallData)} method for Mac.
      * <p/>
-     * Mac OSX has two parent platforms, Mac and UNIX. This verifies that Mac overrides Unix.
+     * Mac OSX has two parent platforms, Mac and UNIX. This verifies that Mac
+     * overrides Unix.
      */
     @Test
     public void testGetPathForMac()
@@ -132,7 +136,8 @@ public class TargetPanelHelperTest
     }
 
     /**
-     * Tests the {@link TargetPanelHelper#getPath(InstallData)} method for Fedora.
+     * Tests the {@link TargetPanelHelper#getPath(InstallData)} method for
+     * Fedora.
      */
     @Test
     public void testGetPathForFedora()
@@ -158,7 +163,9 @@ public class TargetPanelHelperTest
     }
 
     /**
-     * Tests the {@link TargetPanelHelper#isIncompatibleInstallation(String, Boolean)} method.
+     * Tests the
+     * {@link TargetPanelHelper#isIncompatibleInstallation(String, Boolean)}
+     * method.
      *
      * @throws IOException for any I/O error
      */

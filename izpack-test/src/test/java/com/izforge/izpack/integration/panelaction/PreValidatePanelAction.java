@@ -18,12 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.panelaction;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
-
 
 /**
  * Pre-validation panel action.
@@ -32,10 +30,11 @@ import com.izforge.izpack.api.data.Panel;
  */
 public class PreValidatePanelAction extends TestPanelAction
 {
+
     /**
      * Constructs a <tt>PreValidatePanelAction</tt>.
      *
-     * @param panel       the panel
+     * @param panel the panel
      * @param installData the installation data
      */
     public PreValidatePanelAction(Panel panel, InstallData installData)

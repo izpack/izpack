@@ -18,20 +18,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.requirement;
 
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.installer.RequirementChecker;
 
-
 /**
- * Verifies all installation requirements are met. This should be used prior to installation commencing.
+ * Verifies all installation requirements are met. This should be used prior to
+ * installation commencing.
  *
  * @author Tim Anderson
  */
 public class RequirementsChecker implements RequirementChecker
 {
+
     /**
      * The variables.
      */
@@ -61,7 +61,7 @@ public class RequirementsChecker implements RequirementChecker
      * The expired installer checker.
      */
     private final ExpiredChecker expiredChecker;
-    
+
     /**
      * The installer requirement checker.
      */
@@ -70,18 +70,19 @@ public class RequirementsChecker implements RequirementChecker
     /**
      * Constructs a <tt>RequirementsChecker</tt>.
      *
-     * @param variables                   the variables. These are refreshed prior to checking requirements
-     * @param langChecker                 the language pack checker
-     * @param versionChecker              the java version checker
-     * @param jdkChecker                  the JDK checker
-     * @param lockChecker                 the lock file checker
-     * @param expiredChecker              the expiration checker
+     * @param variables the variables. These are refreshed prior to checking
+     * requirements
+     * @param langChecker the language pack checker
+     * @param versionChecker the java version checker
+     * @param jdkChecker the JDK checker
+     * @param lockChecker the lock file checker
+     * @param expiredChecker the expiration checker
      * @param installerRequirementChecker the installer requirement checker
      */
     public RequirementsChecker(Variables variables, LangPackChecker langChecker, JavaVersionChecker versionChecker,
-                               JDKChecker jdkChecker, LockFileChecker lockChecker,
-                               ExpiredChecker expiredChecker,
-                               InstallerRequirementChecker installerRequirementChecker)
+            JDKChecker jdkChecker, LockFileChecker lockChecker,
+            ExpiredChecker expiredChecker,
+            InstallerRequirementChecker installerRequirementChecker)
     {
         this.variables = variables;
         this.versionChecker = versionChecker;
@@ -101,8 +102,8 @@ public class RequirementsChecker implements RequirementChecker
     public boolean check()
     {
         variables.refresh();
-        return langChecker.check() && versionChecker.check() && jdkChecker.check() && lockChecker.check() &&
-                expiredChecker.check() && 
-                installerRequirementChecker.check();
+        return langChecker.check() && versionChecker.check() && jdkChecker.check() && lockChecker.check()
+                && expiredChecker.check()
+                && installerRequirementChecker.check();
     }
 }

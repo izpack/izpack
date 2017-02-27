@@ -18,12 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.file;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.panels.userinput.field.Config;
-
 
 /**
  * Multiple file field reader.
@@ -36,7 +34,7 @@ public class MultipleFileFieldReader extends AbstractFileFieldReader implements 
     /**
      * Constructs a {@code MultipleFileFieldReader}.
      *
-     * @param field  the field element
+     * @param field the field element
      * @param config the configuration
      */
     public MultipleFileFieldReader(IXMLElement field, Config config)
@@ -75,9 +73,11 @@ public class MultipleFileFieldReader extends AbstractFileFieldReader implements 
     }
 
     /**
-     * Determines if multiple variables should be created to hold the selected files.
+     * Determines if multiple variables should be created to hold the selected
+     * files.
      *
-     * @return {@code true} if multiple variables should be created; {@code false} if a single variable should be used
+     * @return {@code true} if multiple variables should be created;
+     * {@code false} if a single variable should be used
      */
     public boolean getCreateMultipleVariables()
     {

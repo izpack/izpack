@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.resource;
 
 import java.util.Locale;
@@ -36,7 +35,8 @@ class LocaleHelper
      * Returns the ISO3 country code for a locale.
      *
      * @param locale the locale
-     * @return the locale's 3 character country code, or {@code null} if it doesn't exist
+     * @return the locale's 3 character country code, or {@code null} if it
+     * doesn't exist
      */
     public static String getISO3Country(Locale locale)
     {
@@ -56,7 +56,8 @@ class LocaleHelper
      * Returns the ISO3 language code for a locale.
      *
      * @param locale the locale
-     * @return the locale's 3 character language code, or {@code null} if it doesn't exist
+     * @return the locale's 3 character language code, or {@code null} if it
+     * doesn't exist
      */
     public static String getISO3Language(Locale locale)
     {

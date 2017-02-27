@@ -35,14 +35,15 @@ import java.io.PrintWriter;
 import java.util.Properties;
 
 /**
- * The UserPath panel console helper class.
- * Based on the Target panel console helper
+ * The UserPath panel console helper class. Based on the Target panel console
+ * helper
  *
  * @author Mounir El Hajj
  * @author Dustin Kut Moy Cheung
  */
 public class UserPathConsolePanel extends AbstractConsolePanel
 {
+
     public static final String PATH_VARIABLE;
     public static final String PATH_PACK_DEPENDS;
     public static final String PATH_ELEMENT;

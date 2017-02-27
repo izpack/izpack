@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.compile;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -46,11 +45,11 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
 
     private CompileWorker worker = null;
 
-    private int job_max = 0;
+    private int jobMax = 0;
 
-    private String job_name = null;
+    private String jobName = null;
 
-    private int last_line_len = 0;
+    private int lastLineLen = 0;
 
     // when using the eclipse compiler, we're capturing System.out and System.err...
     private PrintStream stdout;
@@ -71,11 +70,11 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
      * Constructs a <tt>CompilePanelAutomationHelper</tt>.
      *
      * @param variableSubstitutor the variable substituter
-     * @param resources           the resources
-     * @param matcher             the platform-model matcher
+     * @param resources the resources
+     * @param matcher the platform-model matcher
      */
     public CompilePanelAutomationHelper(VariableSubstitutor variableSubstitutor, Resources resources,
-                                        PlatformModelMatcher matcher)
+            PlatformModelMatcher matcher)
     {
         this.variableSubstitutor = variableSubstitutor;
         this.resources = resources;
@@ -86,7 +85,7 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
      * Save installDataGUI for running automated.
      *
      * @param installData installation parameters
-     * @param panelRoot   unused.
+     * @param panelRoot unused.
      */
     public void makeXMLData(InstallData installData, IXMLElement panelRoot)
     {
@@ -96,13 +95,13 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
 
     public void runAutomated(InstallData idata, IXMLElement panelRoot) throws InstallerException
     {
-        IXMLElement compiler_xml = panelRoot.getFirstChildNamed("compiler");
+        IXMLElement compilerXml = panelRoot.getFirstChildNamed("compiler");
 
         String compiler = null;
 
-        if (compiler_xml != null)
+        if (compilerXml != null)
         {
-            compiler = compiler_xml.getContent();
+            compiler = compilerXml.getContent();
         }
 
         if (compiler == null)
@@ -110,16 +109,16 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
             throw new InstallerException("invalid automation installDataGUI: could not find compiler");
         }
 
-        IXMLElement args_xml = panelRoot.getFirstChildNamed("arguments");
+        IXMLElement argsXml = panelRoot.getFirstChildNamed("arguments");
 
         String args = null;
 
-        if (args_xml != null)
+        if (argsXml != null)
         {
-            args = args_xml.getContent();
+            args = argsXml.getContent();
         }
 
-        if (args_xml == null)
+        if (argsXml == null)
         {
             throw new InstallerException("invalid automation installDataGUI: could not find compiler arguments");
         }
@@ -148,7 +147,9 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
     }
 
     @Override
-    public void processOptions(InstallData installData, Overrides overrides) {}
+    public void processOptions(InstallData installData, Overrides overrides)
+    {
+    }
 
     /**
      * Reports progress on System.out
@@ -156,7 +157,7 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
     public void startAction(String name, int noOfJobs)
     {
         this.stdout.println("[ Starting compilation ]");
-        this.job_name = "";
+        this.jobName = "";
     }
 
     /**
@@ -184,11 +185,11 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
      */
     public void stopAction()
     {
-        if ((this.job_name != null) && (this.last_line_len > 0))
+        if ((this.jobName != null) && (this.lastLineLen > 0))
         {
-            String line = this.job_name + ": done.";
+            String line = this.jobName + ": done.";
             this.stdout.print("\r" + line);
-            for (int i = line.length(); i < this.last_line_len; i++)
+            for (int i = line.length(); i < this.lastLineLen; i++)
             {
                 this.stdout.print(' ');
             }
@@ -209,53 +210,53 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
      */
     public void progress(int val, String msg)
     {
-        double percentage = ((double) val) * 100.0d / (double) this.job_max;
+        double percentage = ((double) val) * 100.0d / (double) this.jobMax;
 
         String percent = (new Integer((int) percentage)).toString() + '%';
-        String line = this.job_name + ": " + percent;
+        String line = this.jobName + ": " + percent;
 
-        int line_len = line.length();
+        int lineLen = line.length();
 
         this.stdout.print("\r" + line);
-        for (int i = line_len; i < this.last_line_len; i++)
+        for (int i = lineLen; i < this.lastLineLen; i++)
         {
             this.stdout.print(' ');
         }
 
-        this.last_line_len = line_len;
+        this.lastLineLen = lineLen;
     }
 
     /**
      * Reports progress to System.out
      *
      * @param jobName The next job's name.
-     * @param max     unused
-     * @param jobNo   The next job's number.
+     * @param max unused
+     * @param jobNo The next job's number.
      */
     public void nextStep(String jobName, int max, int jobNo)
     {
-        if ((this.job_name != null) && (this.last_line_len > 0))
+        if ((this.jobName != null) && (this.lastLineLen > 0))
         {
-            String line = this.job_name + ": done.";
+            String line = this.jobName + ": done.";
             this.stdout.print("\r" + line);
-            for (int i = line.length(); i < this.last_line_len; i++)
+            for (int i = line.length(); i < this.lastLineLen; i++)
             {
                 this.stdout.print(' ');
             }
             this.stdout.println();
         }
 
-        this.job_max = max;
-        this.job_name = jobName;
-        this.last_line_len = 0;
+        this.jobMax = max;
+        this.jobName = jobName;
+        this.lastLineLen = 0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setSubStepNo(int no_of_substeps)
+    public void setSubStepNo(int noOfSubsteps)
     {
-        this.job_max = no_of_substeps;
+        this.jobMax = noOfSubsteps;
     }
 
     /**
@@ -274,10 +275,10 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
     /**
      * Invoked when an action restarts.
      *
-     * @param name           the name of the action
+     * @param name the name of the action
      * @param overallMessage a message describing the overall progress
-     * @param tip            a tip describing the current progress
-     * @param steps          the number of steps the action consists of
+     * @param tip a tip describing the current progress
+     * @param steps the number of steps the action consists of
      */
     @Override
     public void restartAction(String name, String overallMessage, String tip, int steps)
@@ -286,5 +287,7 @@ public class CompilePanelAutomationHelper extends PanelAutomationHelper implemen
     }
 
     @Override
-    public void createInstallationRecord(InstallData installData, IXMLElement rootElement) {}
+    public void createInstallationRecord(InstallData installData, IXMLElement rootElement)
+    {
+    }
 }

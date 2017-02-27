@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.exception;
-
 
 /**
  * An exception thrown when resource retrieval is interrupted.
@@ -29,6 +27,7 @@ package com.izforge.izpack.api.exception;
  */
 public class ResourceInterruptedException extends ResourceException
 {
+
     private static final long serialVersionUID = -6593512174557928205L;
 
     /**
@@ -45,7 +44,7 @@ public class ResourceInterruptedException extends ResourceException
      * Constructs a {@code ResourceInterruptedException}.
      *
      * @param message the the error message
-     * @param cause   the cause
+     * @param cause the cause
      */
     public ResourceInterruptedException(String message, Throwable cause)
     {

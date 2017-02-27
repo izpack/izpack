@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <izpack:userinput version="5.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:izpack="http://izpack.org/schema/userinput"
-  xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:izpack="http://izpack.org/schema/userinput"
+                  xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd"
 >
 
-  <panel id="panel.all" summaryKey="key.precheck.title">
-    <field id="panel.all.title" txt="Common Panel" type="title" />
-  </panel>
+    <panel id="panel.all" summaryKey="key.precheck.title">
+        <field id="panel.all.title" txt="Common Panel" type="title" />
+    </panel>
 
-  <panel id="panel.pack2_3">
-    <createForPack name="Pack 2" />
-    <createForPack name="Pack 3" />
-    <field id="panel.pack2_3.title" txt="Panel for packs 2/3" type="title" />
-    <field type="dir" variable="subdir">
-      <spec create="false" id="subdir.label" mustExist="false"
-        size="25" txt="Subdirectory:" />
-      <validator
-        class="com.izforge.izpack.panels.userinput.validator.NotEmptyValidator"
-        id="subdir.error.empty" txt="This path is mandatory!" />
-    </field>
-  </panel>
+    <panel id="panel.pack2_3">
+        <createForPack name="Pack 2" />
+        <createForPack name="Pack 3" />
+        <field id="panel.pack2_3.title" txt="Panel for packs 2/3" type="title" />
+        <field type="dir" variable="subdir">
+            <spec create="false" id="subdir.label" mustExist="false"
+                  size="25" txt="Subdirectory:" />
+            <validator
+                class="com.izforge.izpack.panels.userinput.validator.NotEmptyValidator"
+                id="subdir.error.empty" txt="This path is mandatory!" />
+        </field>
+    </panel>
 
 </izpack:userinput>

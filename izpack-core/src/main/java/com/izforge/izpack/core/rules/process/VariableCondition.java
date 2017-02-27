@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import java.util.HashSet;
@@ -35,6 +34,7 @@ import com.izforge.izpack.api.rules.Condition;
  */
 public class VariableCondition extends Condition
 {
+
     private static final long serialVersionUID = 2153074626635361048L;
 
     protected String variablename;
@@ -139,10 +139,11 @@ public class VariableCondition extends Condition
     }
 
     @Override
-    public Set<String> getVarRefs() {
+    public Set<String> getVarRefs()
+    {
         HashSet<String> vars = new HashSet<String>(2);
         vars.add(variablename);     // add the referenced variable
-        // in this.value no variable substition is made, therefore not added here 
+        // in this.value no variable substition is made, therefore not added here
         return vars;
     }
 }

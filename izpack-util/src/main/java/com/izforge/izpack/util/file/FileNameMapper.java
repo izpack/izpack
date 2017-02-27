@@ -14,18 +14,19 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file;
 
 /**
  * Interface to be used by SourceFileScanner.
  * <p/>
- * <p>Used to find the name of the target file(s) corresponding to a
- * source file.</p>
+ * <p>
+ * Used to find the name of the target file(s) corresponding to a source
+ * file.</p>
  * <p/>
- * <p>The rule by which the file names are transformed is specified
- * via the setFrom and setTo methods. The exact meaning of these is
- * implementation dependent.</p>
+ * <p>
+ * The rule by which the file names are transformed is specified via the setFrom
+ * and setTo methods. The exact meaning of these is implementation
+ * dependent.</p>
  */
 public interface FileNameMapper
 {
@@ -41,15 +42,16 @@ public interface FileNameMapper
     void setTo(String to);
 
     /**
-     * Returns an array containing the target filename(s) for the
-     * given source file.
+     * Returns an array containing the target filename(s) for the given source
+     * file.
      * <p/>
-     * <p>if the given rule doesn't apply to the source file,
-     * implementation must return null. SourceFileScanner will then
-     * omit the source file in question.</p>
+     * <p>
+     * if the given rule doesn't apply to the source file, implementation must
+     * return null. SourceFileScanner will then omit the source file in
+     * question.</p>
      *
-     * @param sourceFileName the name of the source file relative to
-     *                       some given basedirectory.
+     * @param sourceFileName the name of the source file relative to some given
+     * basedirectory.
      */
     String[] mapFileName(String sourceFileName);
 }

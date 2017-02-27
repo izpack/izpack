@@ -8,31 +8,32 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.binding.OsModel;
 
 /**
- * Encapsulates OS constraints specified on creation time and allows to check them against the
- * current OS.
+ * Encapsulates OS constraints specified on creation time and allows to check
+ * them against the current OS.
  * <p/>
- * For example, this is used for &lt;executable&gt;s to check whether the executable is suitable for
- * the current OS.
+ * For example, this is used for &lt;executable&gt;s to check whether the
+ * executable is suitable for the current OS.
  *
  * @author Olexij Tkatchenko <ot@parcs.de>
  */
 public class OsConstraintHelper
 {
-    private static final Logger logger = Logger.getLogger(OsConstraintHelper.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(OsConstraintHelper.class.getName());
 
     /**
      * Matches OS specification in this class against current system properties.
      *
      * @param osModel
      * @return Description of the Return Value
-     * @deprecated use {@link PlatformModelMatcher#matchesCurrentPlatform(OsModel)}
+     * @deprecated use
+     * {@link PlatformModelMatcher#matchesCurrentPlatform(OsModel)}
      */
     @Deprecated
     public static boolean matchCurrentSystem(OsModel osModel)
     {
         boolean match = true;
         String osName = System.getProperty("os.name").toLowerCase();
-
 
         if ((osModel.getArch() != null) && (osModel.getArch().length() != 0))
         {
@@ -89,15 +90,15 @@ public class OsConstraintHelper
             osList.add(
                     new OsModel(
                             osElement.getAttribute("arch",
-                                                   null),
+                                    null),
                             osElement.getAttribute("family",
-                                                   null),
+                                    null),
                             osElement.getAttribute("jre",
-                                                   null),
+                                    null),
                             osElement.getAttribute("name",
-                                                   null),
+                                    null),
                             osElement.getAttribute("version",
-                                                   null))
+                                    null))
             );
         }
         // backward compatibility: still support os attribute
@@ -116,40 +117,44 @@ public class OsConstraintHelper
     /**
      * Helper function: Scan a list of OsConstraints for a match.
      *
-     * @param constraint_list List of OsModel to check
-     * @return true if one of the OsConstraints matched the current system or constraint_list is
-     *         null (no constraints), false if none of the OsConstraints matched
-     * @deprecated use {@link PlatformModelMatcher#matchesCurrentPlatform(java.util.List)}
+     * @param constraintList List of OsModel to check
+     * @return true if one of the OsConstraints matched the current system or
+     * constraint_list is null (no constraints), false if none of the
+     * OsConstraints matched
+     * @deprecated use
+     * {@link PlatformModelMatcher#matchesCurrentPlatform(java.util.List)}
      */
     @Deprecated
-    public static boolean oneMatchesCurrentSystem(List<OsModel> constraint_list)
+    public static boolean oneMatchesCurrentSystem(List<OsModel> constraintList)
     {
-        if (constraint_list == null || constraint_list.isEmpty())
+        if (constraintList == null || constraintList.isEmpty())
         {
             return true;
         }
-        for (OsModel osModel : constraint_list)
+        for (OsModel osModel : constraintList)
         {
-            logger.fine("Checking if os constraints " + osModel + " match current OS");
+            LOGGER.fine("Checking if os constraints " + osModel + " match current OS");
             // check for match
             if (matchCurrentSystem(osModel))
             {
-                logger.fine("OS constraints matched current OS");
+                LOGGER.fine("OS constraints matched current OS");
                 return true;    // bail out on first match
             }    // end if
         }    // end while
 
-        logger.fine("OS constraints do not match current OS");
+        LOGGER.fine("OS constraints do not match current OS");
 
         // no match found
         return false;
     }
 
     /**
-     * Helper function: Check whether the given IXMLElement is "suitable" for the current OS.
+     * Helper function: Check whether the given IXMLElement is "suitable" for
+     * the current OS.
      *
      * @param el The IXMLElement to check for OS constraints.
-     * @return true if there were no OS constraints or the constraints matched the current OS.
+     * @return true if there were no OS constraints or the constraints matched
+     * the current OS.
      * @deprecated no replacement
      */
     @Deprecated

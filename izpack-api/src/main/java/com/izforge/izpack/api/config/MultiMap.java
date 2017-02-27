@@ -26,6 +26,7 @@ import java.util.Map;
 
 public interface MultiMap<K, V> extends Map<K, V>
 {
+
     List<V> getAll(Object key);
 
     void add(K key, V value);

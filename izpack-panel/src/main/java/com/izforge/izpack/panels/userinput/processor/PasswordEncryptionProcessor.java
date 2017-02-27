@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.processor;
 
 import java.security.SecureRandom;
@@ -40,9 +39,10 @@ import com.izforge.izpack.util.Base64;
  */
 public class PasswordEncryptionProcessor implements Processor
 {
+
     private Cipher encryptCipher;
 
-    private static final Logger logger = Logger.getLogger(PasswordEncryptionProcessor.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PasswordEncryptionProcessor.class.getName());
 
     /**
      * Processes the contend of an input field.
@@ -82,7 +82,7 @@ public class PasswordEncryptionProcessor implements Processor
         }
         catch (Exception e)
         {
-            logger.log(Level.WARNING, "Getting validator parameters failed: " + e, e);
+            LOGGER.log(Level.WARNING, "Getting validator parameters failed: " + e, e);
         }
         return params;
     }
@@ -102,7 +102,7 @@ public class PasswordEncryptionProcessor implements Processor
         }
         catch (Throwable exception)
         {
-            logger.log(Level.WARNING, "Error initializing password encryption: " + exception, exception);
+            LOGGER.log(Level.WARNING, "Error initializing password encryption: " + exception, exception);
             throw new IzPackException("Failed to initialise password encryption: " + exception.getMessage(), exception);
         }
     }
@@ -117,7 +117,7 @@ public class PasswordEncryptionProcessor implements Processor
         }
         catch (Throwable exception)
         {
-            logger.log(Level.WARNING, "Failed to encrypt password: " + exception, exception);
+            LOGGER.log(Level.WARNING, "Failed to encrypt password: " + exception, exception);
             throw new IzPackException("Failed to encrypt password: " + exception.getMessage(), exception);
         }
 

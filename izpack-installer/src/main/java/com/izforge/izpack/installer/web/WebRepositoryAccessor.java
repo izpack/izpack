@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.web;
 
 import java.io.File;
@@ -45,15 +44,16 @@ import com.izforge.izpack.data.UpdateCheck;
 import com.izforge.izpack.util.OsConstraintHelper;
 
 /**
- * This class enumerates the availabe packs at the web repository. Parses the config files
- * - install.xml, packsinfo.xml, langpacks and is used to override the static configuration
- * in the installer jar.
+ * This class enumerates the availabe packs at the web repository. Parses the
+ * config files - install.xml, packsinfo.xml, langpacks and is used to override
+ * the static configuration in the installer jar.
  *
  * @author <a href="vralev@redhat.com">Vladimir Ralev</a>
  * @version $Revision: 1.1 $
  */
 public class WebRepositoryAccessor
 {
+
     /**
      * URL to remote install.xml
      */
@@ -82,25 +82,24 @@ public class WebRepositoryAccessor
     /**
      * Constant for checking attributes.
      */
-    private static boolean YES = true;
+    private static final boolean YES = true;
 
     /**
      * Constant for checking attributes.
      */
-    private static boolean NO = false;
+    private static final boolean NO = false;
 
     /**
      * Files to be looked for at the repository base url
      */
-    private static final String installFilename = "install.xml";
+    private static final String INSTALL_FILENAME = "install.xml";
 
-    private static final String packsinfoFilename = "packsinfo.xml";
+    private static final String PACKSINFO_FILENAME = "packsinfo.xml";
 
     /**
      * Files being downloaded in the buffer, 1MB max
      */
     private static final int BUFFER_SIZE = 1000000;
-
 
     /**
      * Create a new WebRepositoryAccessor.
@@ -109,7 +108,7 @@ public class WebRepositoryAccessor
      */
     public WebRepositoryAccessor(String urlbase)
     {
-        this.installXmlUrl = urlbase + "/" + installFilename;
+        this.installXmlUrl = urlbase + "/" + INSTALL_FILENAME;
         this.baseUrl = urlbase;
     }
 
@@ -183,13 +182,12 @@ public class WebRepositoryAccessor
         installXmlString = stringFromURL(installXmlUrl);
     }
 
-
     /**
      * Reads packsinfo.xml
      */
     private void readPacksInfo()
     {
-        String url = this.baseUrl + "/" + packsinfoFilename;
+        String url = this.baseUrl + "/" + PACKSINFO_FILENAME;
         packsInfo = stringFromURL(url);
     }
 
@@ -215,8 +213,8 @@ public class WebRepositoryAccessor
     }
 
     /**
-     * Parse packsinfo.xml, fill the size and fileSize field, which is not available at runtime
-     * otherwise.
+     * Parse packsinfo.xml, fill the size and fileSize field, which is not
+     * available at runtime otherwise.
      */
     private void parsePacksInfo()
     {
@@ -244,8 +242,8 @@ public class WebRepositoryAccessor
     /**
      * First download the jar file. The create the input stream from the
      * downloaded file. This is because the Jar connection's openInputStream
-     * will blocks until the whole jar in order to unzip it (there is no way
-     * to see the download progress there).
+     * will blocks until the whole jar in order to unzip it (there is no way to
+     * see the download progress there).
      *
      * @param url
      * @return the url
@@ -274,7 +272,6 @@ public class WebRepositoryAccessor
 
         return path;
     }
-
 
     protected ArrayList<PackInfo> loadPacksList(IXMLElement data) throws CompilerException
     {
@@ -424,14 +421,14 @@ public class WebRepositoryAccessor
                 ArrayList<String> excludesList = new ArrayList<String>();
 
                 // get includes and excludes
-                for (IXMLElement inc_el : fileElement.getChildrenNamed("include"))
+                for (IXMLElement incEl : fileElement.getChildrenNamed("include"))
                 {
-                    includesList.add(requireAttribute(inc_el, "name"));
+                    includesList.add(requireAttribute(incEl, "name"));
                 }
 
-                for (IXMLElement excl_el : fileElement.getChildrenNamed("exclude"))
+                for (IXMLElement exclEl : fileElement.getChildrenNamed("exclude"))
                 {
-                    excludesList.add(requireAttribute(excl_el, "name"));
+                    excludesList.add(requireAttribute(exclEl, "name"));
                 }
 
                 pack.addUpdateCheck(new UpdateCheck(includesList, excludesList, casesensitive));
@@ -449,58 +446,58 @@ public class WebRepositoryAccessor
     }
 
     /**
-     * Create parse error with consistent messages. Includes file name. For use When parent is
-     * unknown.
+     * Create parse error with consistent messages. Includes file name. For use
+     * When parent is unknown.
      *
      * @param message Brief message explaining error
      */
     protected void parseError(String message) throws CompilerException
     {
-        throw new CompilerException(installFilename + ":" + message);
+        throw new CompilerException(INSTALL_FILENAME + ":" + message);
     }
 
     /**
-     * Create parse error with consistent messages. Includes file name and line # of parent. It is
-     * an error for 'parent' to be null.
+     * Create parse error with consistent messages. Includes file name and line
+     * # of parent. It is an error for 'parent' to be null.
      *
-     * @param parent  The element in which the error occured
+     * @param parent The element in which the error occured
      * @param message Brief message explaining error
      */
     protected void parseError(IXMLElement parent, String message) throws CompilerException
     {
-        throw new CompilerException(installFilename + ":" + parent.getLineNr() + ": " + message);
+        throw new CompilerException(INSTALL_FILENAME + ":" + parent.getLineNr() + ": " + message);
     }
 
     /**
-     * Create a chained parse error with consistent messages. Includes file name and line # of
-     * parent. It is an error for 'parent' to be null.
+     * Create a chained parse error with consistent messages. Includes file name
+     * and line # of parent. It is an error for 'parent' to be null.
      *
-     * @param parent  The element in which the error occured
+     * @param parent The element in which the error occured
      * @param message Brief message explaining error
      */
     protected void parseError(IXMLElement parent, String message, Throwable cause) throws CompilerException
     {
-        throw new CompilerException(installFilename + ":" + parent.getLineNr() + ": " + message, cause);
+        throw new CompilerException(INSTALL_FILENAME + ":" + parent.getLineNr() + ": " + message, cause);
     }
 
     /**
-     * Create a parse warning with consistent messages. Includes file name and line # of parent. It
-     * is an error for 'parent' to be null.
+     * Create a parse warning with consistent messages. Includes file name and
+     * line # of parent. It is an error for 'parent' to be null.
      *
-     * @param parent  The element in which the warning occured
+     * @param parent The element in which the warning occured
      * @param message Warning message
      */
     protected void parseWarn(IXMLElement parent, String message)
     {
-        System.out.println(installFilename + ":" + parent.getLineNr() + ": " + message);
+        System.out.println(INSTALL_FILENAME + ":" + parent.getLineNr() + ": " + message);
     }
 
     /**
-     * Call getFirstChildNamed on the parent, producing a meaningful error message on failure. It is
-     * an error for 'parent' to be null.
+     * Call getFirstChildNamed on the parent, producing a meaningful error
+     * message on failure. It is an error for 'parent' to be null.
      *
      * @param parent The element to search for a child
-     * @param name   Name of the child element to get
+     * @param name Name of the child element to get
      */
     protected IXMLElement requireChildNamed(IXMLElement parent, String name) throws CompilerException
     {
@@ -513,8 +510,9 @@ public class WebRepositoryAccessor
     }
 
     /**
-     * Call getContent on an element, producing a meaningful error message if not present, or empty,
-     * or a valid URL. It is an error for 'element' to be null.
+     * Call getContent on an element, producing a meaningful error message if
+     * not present, or empty, or a valid URL. It is an error for 'element' to be
+     * null.
      *
      * @param element The element to get content of
      */
@@ -533,8 +531,8 @@ public class WebRepositoryAccessor
     }
 
     /**
-     * Call getContent on an element, producing a meaningful error message if not present, or empty.
-     * It is an error for 'element' to be null.
+     * Call getContent on an element, producing a meaningful error message if
+     * not present, or empty. It is an error for 'element' to be null.
      *
      * @param element The element to get content of
      */
@@ -549,10 +547,11 @@ public class WebRepositoryAccessor
     }
 
     /**
-     * Call getAttribute on an element, producing a meaningful error message if not present, or
-     * empty. It is an error for 'element' or 'attribute' to be null.
+     * Call getAttribute on an element, producing a meaningful error message if
+     * not present, or empty. It is an error for 'element' or 'attribute' to be
+     * null.
      *
-     * @param element   The element to get the attribute value of
+     * @param element The element to get the attribute value of
      * @param attribute The name of the attribute to get
      */
     protected String requireAttribute(IXMLElement element, String attribute) throws CompilerException
@@ -566,11 +565,12 @@ public class WebRepositoryAccessor
     }
 
     /**
-     * Get a required attribute of an element, ensuring it is an integer. A meaningful error message
-     * is generated as a CompilerException if not present or parseable as an int. It is an error for
-     * 'element' or 'attribute' to be null.
+     * Get a required attribute of an element, ensuring it is an integer. A
+     * meaningful error message is generated as a CompilerException if not
+     * present or parseable as an int. It is an error for 'element' or
+     * 'attribute' to be null.
      *
-     * @param element   The element to get the attribute value of
+     * @param element The element to get the attribute value of
      * @param attribute The name of the attribute to get
      */
     protected int requireIntAttribute(IXMLElement element, String attribute) throws CompilerException
@@ -592,10 +592,11 @@ public class WebRepositoryAccessor
     }
 
     /**
-     * Call getAttribute on an element, producing a meaningful error message if not present, or one
-     * of "yes" or "no". It is an error for 'element' or 'attribute' to be null.
+     * Call getAttribute on an element, producing a meaningful error message if
+     * not present, or one of "yes" or "no". It is an error for 'element' or
+     * 'attribute' to be null.
      *
-     * @param element   The element to get the attribute value of
+     * @param element The element to get the attribute value of
      * @param attribute The name of the attribute to get
      */
     protected boolean requireYesNoAttribute(IXMLElement element, String attribute) throws CompilerException
@@ -616,11 +617,12 @@ public class WebRepositoryAccessor
     }
 
     /**
-     * Call getAttribute on an element, producing a meaningful warning if not "yes" or "no". If the
-     * 'element' or 'attribute' are null, the default value is returned.
+     * Call getAttribute on an element, producing a meaningful warning if not
+     * "yes" or "no". If the 'element' or 'attribute' are null, the default
+     * value is returned.
      *
-     * @param element      The element to get the attribute value of
-     * @param attribute    The name of the attribute to get
+     * @param element The element to get the attribute value of
+     * @param attribute The name of the attribute to get
      * @param defaultValue Value returned if attribute not present or invalid
      */
     protected boolean validateYesNoAttribute(IXMLElement element, String attribute, boolean defaultValue)

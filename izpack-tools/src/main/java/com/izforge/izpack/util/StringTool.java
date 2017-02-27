@@ -181,7 +181,7 @@ public class StringTool
      */
     public static String normalizePath(String destination, String fileSeparator)
     {
-        String FILESEP = (fileSeparator == null) ? File.separator : fileSeparator;
+        String filesep = (fileSeparator == null) ? File.separator : fileSeparator;
 
         destination = StringTool.replace(destination, "\\", "/");
 
@@ -191,9 +191,9 @@ public class StringTool
         destination = StringTool.replace(destination, ":", ";");
         destination = StringTool.replace(destination, ";", ":");
 
-        destination = StringTool.replace(destination, "/", FILESEP);
+        destination = StringTool.replace(destination, "/", filesep);
 
-        if ("\\".equals(FILESEP))
+        if ("\\".equals(filesep))
         {
             destination = StringTool.replace(destination, ":", ";");
 
@@ -240,7 +240,7 @@ public class StringTool
         return System.getProperty("file.encoding");
     }
 
-    public static String UTF16()
+    public static String utf16()
     {
         return "UTF-16";
     }
@@ -264,17 +264,17 @@ public class StringTool
      */
     public static String listToString(List<?> aStringList, String aLineSeparator)
     {
-        String LineSeparator = aLineSeparator;
-        if (LineSeparator == null)
+        String lineSeparator = aLineSeparator;
+        if (lineSeparator == null)
         {
-            LineSeparator = System.getProperty("line.separator", "\n");
+            lineSeparator = System.getProperty("line.separator", "\n");
         }
 
         StringBuffer temp = new StringBuffer();
 
         for (Object anAStringList : aStringList)
         {
-            temp.append(anAStringList).append(LineSeparator);
+            temp.append(anAStringList).append(lineSeparator);
         }
 
         return temp.toString();

@@ -18,14 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.packvalidator;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.panels.treepacks.PackValidator;
-
 
 /**
  * Test {@link PackValidator} implementation.
@@ -38,8 +36,8 @@ public class TestPackValidator implements PackValidator
     /**
      * Marks a pack valid/invalid.
      *
-     * @param pack        the pack name
-     * @param valid       determines if the pack is valid or not
+     * @param pack the pack name
+     * @param valid determines if the pack is valid or not
      * @param installData the installation data
      */
     public static void setValid(String pack, boolean valid, InstallData installData)
@@ -52,10 +50,10 @@ public class TestPackValidator implements PackValidator
      * <p/>
      * This returns the value of a <em>&lt;pack&gt;</em>.valid variable.
      *
-     * @param handler     the handler
+     * @param handler the handler
      * @param installData the installation data
-     * @param packName    the pack name
-     * @param isSelected  determines if the pack is selected
+     * @param packName the pack name
+     * @param isSelected determines if the pack is selected
      * @return <tt>true</tt> if the pack is valid, otherwise <tt>false</tt>
      */
     @Override

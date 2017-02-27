@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.hello;
 
 import com.izforge.izpack.api.data.Panel;
@@ -32,18 +31,19 @@ import com.izforge.izpack.installer.gui.IzPanel;
  */
 public class HelloPanelTestWithDependenciesClass extends IzPanel
 {
+
     private static final long serialVersionUID = -5625263819112135979L;
 
     /**
      * Constructs an <tt>HelloPanelTestWithDependenciesClass</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent IzPack installer frame
+     * @param panel the panel meta-data
+     * @param parent the parent IzPack installer frame
      * @param installData the installation data
-     * @param resources   the resources
+     * @param resources the resources
      */
     public HelloPanelTestWithDependenciesClass(Panel panel, InstallerFrame parent, GUIInstallData installData,
-                                               Resources resources)
+            Resources resources)
     {
         super(panel, parent, installData, resources);
     }

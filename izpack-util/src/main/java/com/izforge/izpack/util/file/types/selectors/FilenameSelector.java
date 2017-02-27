@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -82,11 +81,11 @@ public class FilenameSelector extends BaseExtendSelector
     }
 
     /**
-     * The name of the file, or the pattern for the name, that
-     * should be used for selection.
+     * The name of the file, or the pattern for the name, that should be used
+     * for selection.
      *
-     * @param pattern the file pattern that any filename must match
-     *                against in order to be selected.
+     * @param pattern the file pattern that any filename must match against in
+     * order to be selected.
      */
     public void setName(String pattern)
     {
@@ -110,10 +109,10 @@ public class FilenameSelector extends BaseExtendSelector
     }
 
     /**
-     * You can optionally reverse the selection of this selector,
-     * thereby emulating an &lt;exclude&gt; tag, by setting the attribute
-     * negate to true. This is identical to surrounding the selector
-     * with &lt;not&gt;&lt;/not&gt;.
+     * You can optionally reverse the selection of this selector, thereby
+     * emulating an &lt;exclude&gt; tag, by setting the attribute negate to
+     * true. This is identical to surrounding the selector with
+     * &lt;not&gt;&lt;/not&gt;.
      *
      * @param negated whether to negate this selection
      */
@@ -123,8 +122,8 @@ public class FilenameSelector extends BaseExtendSelector
     }
 
     /**
-     * When using this as a custom selector, this method will be called.
-     * It translates each parameter into the appropriate setXXX() call.
+     * When using this as a custom selector, this method will be called. It
+     * translates each parameter into the appropriate setXXX() call.
      *
      * @param parameters the complete set of parameters for this selector
      */
@@ -158,8 +157,8 @@ public class FilenameSelector extends BaseExtendSelector
     }
 
     /**
-     * Checks to make sure all settings are kosher. In this case, it
-     * means that the name attribute has been set.
+     * Checks to make sure all settings are kosher. In this case, it means that
+     * the name attribute has been set.
      */
     public void verifySettings()
     {
@@ -170,15 +169,14 @@ public class FilenameSelector extends BaseExtendSelector
     }
 
     /**
-     * The heart of the matter. This is where the selector gets to decide
-     * on the inclusion of a file in a particular fileset. Most of the work
-     * for this selector is offloaded into SelectorUtils, a static class
-     * that provides the same services for both FilenameSelector and
-     * DirectoryScanner.
+     * The heart of the matter. This is where the selector gets to decide on the
+     * inclusion of a file in a particular fileset. Most of the work for this
+     * selector is offloaded into SelectorUtils, a static class that provides
+     * the same services for both FilenameSelector and DirectoryScanner.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename is the name of the file to check
-     * @param file     is a java.io.File object the selector can use
+     * @param file is a java.io.File object the selector can use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file) throws Exception

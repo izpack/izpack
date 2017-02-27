@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.requirement;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -28,7 +27,8 @@ import com.izforge.izpack.api.rules.ComparisonOperator;
 import com.izforge.izpack.core.rules.process.CompareVersionsMajorCondition;
 
 /**
- * Verifies that the correct java version is available for installation to proceed.
+ * Verifies that the correct java version is available for installation to
+ * proceed.
  *
  * @author Tim Anderson
  */
@@ -45,12 +45,11 @@ public class JavaVersionChecker implements RequirementChecker
      */
     private final Prompt prompt;
 
-
     /**
      * Constructs a <tt>JavaVersionChecker</tt>.
      *
      * @param installData the installation data
-     * @param prompt      the prompt
+     * @param prompt the prompt
      */
     public JavaVersionChecker(InstallData installData, Prompt prompt)
     {
@@ -88,7 +87,7 @@ public class JavaVersionChecker implements RequirementChecker
     /**
      * Invoked when the required java version is not available.
      *
-     * @param version         the current version
+     * @param version the current version
      * @param requiredVersion the required version
      */
     protected void versionNotAvailable(String version, String requiredVersion)
@@ -99,7 +98,7 @@ public class JavaVersionChecker implements RequirementChecker
     /**
      * Formats a message indicating the required java version isn't available.
      *
-     * @param version         the current version
+     * @param version the current version
      * @param requiredVersion the required version
      * @return the formatted message
      */
@@ -119,7 +118,8 @@ public class JavaVersionChecker implements RequirementChecker
     /**
      * Returns the java version.
      *
-     * @return the java version, as determined by the <em>java.version</em> system property
+     * @return the java version, as determined by the <em>java.version</em>
+     * system property
      */
     protected String getJavaVersion()
     {

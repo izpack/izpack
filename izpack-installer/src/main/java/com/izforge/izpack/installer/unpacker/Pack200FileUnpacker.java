@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
 import com.izforge.izpack.api.data.PackFile;
@@ -30,7 +29,6 @@ import java.io.*;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Pack200;
 
-
 /**
  * A file unpacker for pack200 files.
  *
@@ -38,6 +36,7 @@ import java.util.jar.Pack200;
  */
 class Pack200FileUnpacker extends FileUnpacker
 {
+
     /**
      * The resources.
      */
@@ -52,12 +51,12 @@ class Pack200FileUnpacker extends FileUnpacker
      * Constructs a <tt>Pack200FileUnpacker</tt>.
      *
      * @param cancellable determines if unpacking should be cancelled
-     * @param resources   the pack resources
-     * @param unpacker    the unpacker
-     * @param queue       the file queue. May be {@code null}
+     * @param resources the pack resources
+     * @param unpacker the unpacker
+     * @param queue the file queue. May be {@code null}
      */
     public Pack200FileUnpacker(Cancellable cancellable, PackResources resources, Pack200.Unpacker unpacker,
-                               FileQueue queue)
+            FileQueue queue)
     {
         super(cancellable, queue);
         this.resources = resources;
@@ -67,10 +66,10 @@ class Pack200FileUnpacker extends FileUnpacker
     /**
      * Unpacks a pack file.
      *
-     * @param file            the pack file meta-data
+     * @param file the pack file meta-data
      * @param packInputStream the pack input stream
-     * @param target          the target
-     * @throws IOException        for any I/O error
+     * @param target the target
+     * @throws IOException for any I/O error
      * @throws InstallerException for any installer exception
      */
     @Override

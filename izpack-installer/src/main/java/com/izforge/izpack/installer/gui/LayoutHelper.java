@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.gui;
 
 import java.awt.GridBagConstraints;
@@ -35,12 +34,13 @@ import com.izforge.izpack.gui.LayoutConstants;
 import com.izforge.izpack.installer.data.GUIInstallData;
 
 /**
- * This class manages the layout for IzPanels. The layout related methods in IzPanel delegates the
- * work to this class. Use the layout helper directly because the delegating methods in IzPanel will
- * be removed in the future.<br>
- * This layout helper works with a GridBagLayout or a IzPanelLayout as layout manager. The layout
- * manager has to be set at calling the method <code>startLayout</code>. This method has to be
- * called before the first add of a component to the IzPanel.<br>
+ * This class manages the layout for IzPanels. The layout related methods in
+ * IzPanel delegates the work to this class. Use the layout helper directly
+ * because the delegating methods in IzPanel will be removed in the future.<br>
+ * This layout helper works with a GridBagLayout or a IzPanelLayout as layout
+ * manager. The layout manager has to be set at calling the method
+ * <code>startLayout</code>. This method has to be called before the first add
+ * of a component to the IzPanel.<br>
  *
  * @author Klaus Bartz
  */
@@ -75,21 +75,22 @@ public class LayoutHelper implements LayoutConstants
     protected LayoutManager2 izPanelLayout;
 
     /**
-     * Layout anchor declared in the xml file with the guiprefs modifier "layoutAnchor"
+     * Layout anchor declared in the xml file with the guiprefs modifier
+     * "layoutAnchor"
      */
-    protected static int ANCHOR = -1;
+    protected static int anchor = -1;
 
-    protected static int X_STRETCH_TYPE = -1;
+    protected static int xStretchType = -1;
 
-    protected static int Y_STRETCH_TYPE = -1;
+    protected static int yStretchType = -1;
 
-    protected static double FULL_LINE_STRETCH_DEFAULT = -1.0;
+    protected static double fullLineStretchDefault = -1.0;
 
-    protected static double FULL_COLUMN_STRETCH_DEFAULT = -1.0;
+    protected static double fullColumnStretchDefault = -1.0;
 
-    protected static Double INITIAL_STRETCH_DEFAULT = 1.0;
+    protected static Double initialStretchDefault = 1.0;
 
-    protected static Double DOUBLE_ZERO = 0.0;
+    protected static Double doubleZero = 0.0;
 
     /**
      * The installation data.
@@ -97,24 +98,32 @@ public class LayoutHelper implements LayoutConstants
     private final InstallData installData;
 
     /**
-     * Look-up table for gap identifier to gap names for the x direction. The gap names can be used
-     * in the XML installation configuration file. Be aware that case sensitivity should be used.
+     * Look-up table for gap identifier to gap names for the x direction. The
+     * gap names can be used in the XML installation configuration file. Be
+     * aware that case sensitivity should be used.
      */
-    public final static String[] X_GAP_NAME_LOOK_UP = {"INTERNAL_USED", "labelXGap", "textXGab",
-            "controlXGap", "paragraphXGap", "labelToTextXGap", "labelToControlXGap",
-            "textToLabelXGap", "controlToLabelXGap", "controlToTextXGap", "textToControlXGap",
-            "firstXGap", "INTERNAL_USED", "INTERNAL_USED", "filler1XGap", "filler2XGap",
-            "filler3XGap", "filler4XGap", "filler5XGap"};
+    public final static String[] X_GAP_NAME_LOOK_UP =
+    {
+        "INTERNAL_USED", "labelXGap", "textXGab",
+        "controlXGap", "paragraphXGap", "labelToTextXGap", "labelToControlXGap",
+        "textToLabelXGap", "controlToLabelXGap", "controlToTextXGap", "textToControlXGap",
+        "firstXGap", "INTERNAL_USED", "INTERNAL_USED", "filler1XGap", "filler2XGap",
+        "filler3XGap", "filler4XGap", "filler5XGap"
+    };
 
     /**
-     * Look-up table for gap identifier to gap names for the y direction. The gap names can be used
-     * in the XML installation configuration file. Be aware that case sensitivity should be used.
+     * Look-up table for gap identifier to gap names for the y direction. The
+     * gap names can be used in the XML installation configuration file. Be
+     * aware that case sensitivity should be used.
      */
-    public final static String[] Y_GAP_NAME_LOOK_UP = {"INTERNAL_USED", "labelYGap", "textYGab",
-            "controlYGap", "paragraphYGap", "labelToTextYGap", "labelToControlYGap",
-            "textToLabelYGap", "controlToLabelYGap", "controlToTextYGap", "textToControlYGap",
-            "firstYGap", "INTERNAL_USED", "INTERNAL_USED", "filler1YGap", "filler2YGap",
-            "filler3YGap", "filler4YGap", "filler5YGap"};
+    public final static String[] Y_GAP_NAME_LOOK_UP =
+    {
+        "INTERNAL_USED", "labelYGap", "textYGab",
+        "controlYGap", "paragraphYGap", "labelToTextYGap", "labelToControlYGap",
+        "textToLabelYGap", "controlToLabelYGap", "controlToTextYGap", "textToControlYGap",
+        "firstYGap", "INTERNAL_USED", "INTERNAL_USED", "filler1YGap", "filler2YGap",
+        "filler3YGap", "filler4YGap", "filler5YGap"
+    };
 
     /**
      * Identifier of x gap for all default x gaps.
@@ -129,7 +138,7 @@ public class LayoutHelper implements LayoutConstants
     /**
      * Creates a layout manager for special purpose.
      *
-     * @param parent      for which this layout manager will be used
+     * @param parent for which this layout manager will be used
      * @param installData the installation data
      */
     public LayoutHelper(JComponent parent, InstallData installData)
@@ -172,12 +181,12 @@ public class LayoutHelper implements LayoutConstants
     }
 
     // ------------------- Common Layout stuff -------------------- START ---
-
     /**
-     * Start layout determining. If it is needed, a dummy component will be created as first row.
-     * This will be done, if the IzPack guiprefs modifier with the key "layoutAnchor" has the value
-     * "SOUTH" or "SOUTHWEST". The earlier used value "BOTTOM" and the declaration via the IzPack
-     * variable <code>IzPanel.LayoutType</code> are also supported.
+     * Start layout determining. If it is needed, a dummy component will be
+     * created as first row. This will be done, if the IzPack guiprefs modifier
+     * with the key "layoutAnchor" has the value "SOUTH" or "SOUTHWEST". The
+     * earlier used value "BOTTOM" and the declaration via the IzPack variable
+     * <code>IzPanel.LayoutType</code> are also supported.
      *
      * @param layout layout to be used by this layout helper
      */
@@ -201,7 +210,8 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Special start method for IzPanelLayout. Called from <code>startLayout</code>.
+     * Special start method for IzPanelLayout. Called from
+     * <code>startLayout</code>.
      */
     private void startIzPanelLayout()
     {
@@ -217,10 +227,11 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Complete layout determining. If it is needed, a dummy component will be created as last row.
-     * This will be done, if the IzPack guiprefs modifier with the key "layoutAnchor" has the value
-     * "NORTH" or "NORTHWEST". The earlier used value "TOP" and the declaration via the IzPack
-     * variable <code>IzPanel.LayoutType</code> are also supported.
+     * Complete layout determining. If it is needed, a dummy component will be
+     * created as last row. This will be done, if the IzPack guiprefs modifier
+     * with the key "layoutAnchor" has the value "NORTH" or "NORTHWEST". The
+     * earlier used value "TOP" and the declaration via the IzPack variable
+     * <code>IzPanel.LayoutType</code> are also supported.
      */
     public void completeLayout()
     {
@@ -261,7 +272,8 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Resets the grid counters which are used at getNextXConstraints and getNextYConstraints.
+     * Resets the grid counters which are used at getNextXConstraints and
+     * getNextYConstraints.
      */
     public void resetGridCounter()
     {
@@ -270,13 +282,13 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Returns a newly created constraints with the given values and the values from the default
-     * constraints for the other parameters.
+     * Returns a newly created constraints with the given values and the values
+     * from the default constraints for the other parameters.
      *
      * @param gridx value to be used for the new constraint
      * @param gridy value to be used for the new constraint
-     * @return newly created constraints with the given values and the values from the default
-     *         constraints for the other parameters
+     * @return newly created constraints with the given values and the values
+     * from the default constraints for the other parameters
      */
     public Object getNewConstraints(int gridx, int gridy)
     {
@@ -300,15 +312,15 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Returns a newly created constraints with the given values and the values from the
-     * defaultGridBagConstraints for the other parameters.
+     * Returns a newly created constraints with the given values and the values
+     * from the defaultGridBagConstraints for the other parameters.
      *
-     * @param gridx      value to be used for the new constraint
-     * @param gridy      value to be used for the new constraint
-     * @param gridwidth  value to be used for the new constraint
+     * @param gridx value to be used for the new constraint
+     * @param gridy value to be used for the new constraint
+     * @param gridwidth value to be used for the new constraint
      * @param gridheight value to be used for the new constraint
-     * @return newly created constraints with the given values and the values from the default
-     *         constraints for the other parameters
+     * @return newly created constraints with the given values and the values
+     * from the default constraints for the other parameters
      */
     public Object getNewConstraints(int gridx, int gridy, int gridwidth, int gridheight)
     {
@@ -329,9 +341,11 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Returns a newly created constraints for the next column of the current layout row.
+     * Returns a newly created constraints for the next column of the current
+     * layout row.
      *
-     * @return a newly created constraints for the next column of the current layout row
+     * @return a newly created constraints for the next column of the current
+     * layout row
      */
     public Object getNextXConstraints()
     {
@@ -352,12 +366,13 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Returns a newly created constraints with column 0 for the next row using the given
-     * parameters.
+     * Returns a newly created constraints with column 0 for the next row using
+     * the given parameters.
      *
-     * @param gridwidth  width for this constraint
+     * @param gridwidth width for this constraint
      * @param gridheight height for this constraint
-     * @return a newly created constraints with column 0 for the next row using the given parameters
+     * @return a newly created constraints with column 0 for the next row using
+     * the given parameters
      */
     public Object getNextYConstraints(int gridwidth, int gridheight)
     {
@@ -367,14 +382,13 @@ public class LayoutHelper implements LayoutConstants
     }
 
     // ------------------- Common Layout stuff -------------------- END ---
-
     // ------------------- GridBag Layout stuff -------------------- START ---
-
     /**
-     * Start layout determining. If it is needed, a dummy component will be created as first row.
-     * This will be done, if the IzPack guiprefs modifier with the key "layoutAnchor" has the value
-     * "SOUTH" or "SOUTHWEST". The earlier used value "BOTTOM" and the declaration via the IzPack
-     * variable <code>IzPanel.LayoutType</code> are also supported.
+     * Start layout determining. If it is needed, a dummy component will be
+     * created as first row. This will be done, if the IzPack guiprefs modifier
+     * with the key "layoutAnchor" has the value "SOUTH" or "SOUTHWEST". The
+     * earlier used value "BOTTOM" and the declaration via the IzPack variable
+     * <code>IzPanel.LayoutType</code> are also supported.
      */
     private void startGridBagLayout()
     {
@@ -411,10 +425,11 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Complete layout determining. If it is needed, a dummy component will be created as last row.
-     * This will be done, if the IzPack guiprefs modifier with the key "layoutAnchor" has the value
-     * "NORTH" or "NORTHWEST". The earlier used value "TOP" and the declaration via the IzPack
-     * variable <code>IzPanel.LayoutType</code> are also supported.
+     * Complete layout determining. If it is needed, a dummy component will be
+     * created as last row. This will be done, if the IzPack guiprefs modifier
+     * with the key "layoutAnchor" has the value "NORTH" or "NORTHWEST". The
+     * earlier used value "TOP" and the declaration via the IzPack variable
+     * <code>IzPanel.LayoutType</code> are also supported.
      */
     private void completeGridBagLayout()
     {
@@ -436,18 +451,19 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Returns the anchor as value declared in GridBagConstraints. Possible are NORTH, NORTHWEST,
-     * SOUTH, SOUTHWEST and CENTER. The values can be configured in the xml description file with
-     * the variable "IzPanel.LayoutType". The old values "TOP" and "BOTTOM" from the xml file are
-     * mapped to NORTH and SOUTH.
+     * Returns the anchor as value declared in GridBagConstraints. Possible are
+     * NORTH, NORTHWEST, SOUTH, SOUTHWEST and CENTER. The values can be
+     * configured in the xml description file with the variable
+     * "IzPanel.LayoutType". The old values "TOP" and "BOTTOM" from the xml file
+     * are mapped to NORTH and SOUTH.
      *
      * @return the anchor defined in the IzPanel.LayoutType variable.
      */
     public int getAnchor()
     {
-        if (ANCHOR >= 0)
+        if (anchor >= 0)
         {
-            return (ANCHOR);
+            return (anchor);
         }
         String todo;
         if (installData instanceof GUIInstallData
@@ -461,52 +477,53 @@ public class LayoutHelper implements LayoutConstants
         }
         if (todo == null) // No command, no work.
         {
-            ANCHOR = CENTER;
+            anchor = CENTER;
         }
         else if ("EAST".equalsIgnoreCase(todo))
         {
-            ANCHOR = EAST;
+            anchor = EAST;
         }
         else if ("WEST".equalsIgnoreCase(todo))
         {
-            ANCHOR = WEST;
+            anchor = WEST;
         }
         else if ("TOP".equalsIgnoreCase(todo) || "NORTH".equalsIgnoreCase(todo))
         {
-            ANCHOR = NORTH;
+            anchor = NORTH;
         }
         else if ("BOTTOM".equalsIgnoreCase(todo) || "SOUTH".equalsIgnoreCase(todo))
         {
-            ANCHOR = SOUTH;
+            anchor = SOUTH;
         }
         else if ("SOUTHWEST".equalsIgnoreCase(todo) || "SOUTH_WEST".equalsIgnoreCase(todo))
         {
-            ANCHOR = SOUTH_WEST;
+            anchor = SOUTH_WEST;
         }
         else if ("SOUTHEAST".equalsIgnoreCase(todo) || "SOUTH_EAST".equalsIgnoreCase(todo))
         {
-            ANCHOR = SOUTH_EAST;
+            anchor = SOUTH_EAST;
         }
         else if ("NORTHWEST".equalsIgnoreCase(todo) || "NORTH_WEST".equalsIgnoreCase(todo))
         {
-            ANCHOR = NORTH_WEST;
+            anchor = NORTH_WEST;
         }
         else if ("NORTHEAST".equalsIgnoreCase(todo) || "NORTH_EAST".equalsIgnoreCase(todo))
         {
-            ANCHOR = NORTH_EAST;
+            anchor = NORTH_EAST;
         }
         else if ("CENTER".equalsIgnoreCase(todo))
         {
-            ANCHOR = CENTER;
+            anchor = CENTER;
         }
-        return (ANCHOR);
+        return (anchor);
     }
 
     /**
-     * Returns the gap which should be used between the given gui objects for the x direction. The
-     * value will be configurable by guiprefs modifiers. Valid values are all entries in the static
-     * String array X_GAP_NAME_LOOK_UP of this class. There are constant ints for the indexes of
-     * this array.
+     * Returns the gap which should be used between the given gui objects for
+     * the x direction. The value will be configurable by guiprefs modifiers.
+     * Valid values are all entries in the static String array
+     * X_GAP_NAME_LOOK_UP of this class. There are constant ints for the indexes
+     * of this array.
      *
      * @param gapId index in array GAP_NAME_LOOK_UP for the needed gap
      * @return the gap depend on the xml-configurable guiprefs modifier
@@ -569,10 +586,11 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Returns the gap which should be used between the given gui objects for the y direction. The
-     * value will be configurable by guiprefs modifiers. Valid values are all entries in the static
-     * String array Y_GAP_NAME_LOOK_UP of this class. There are constant ints for the indexes of
-     * this array.
+     * Returns the gap which should be used between the given gui objects for
+     * the y direction. The value will be configurable by guiprefs modifiers.
+     * Valid values are all entries in the static String array
+     * Y_GAP_NAME_LOOK_UP of this class. There are constant ints for the indexes
+     * of this array.
      *
      * @param gapId index in array GAP_NAME_LOOK_UP for the needed gap
      * @return the gap depend on the xml-configurable guiprefs modifier
@@ -635,117 +653,122 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Returns the used stretch type for the x direction. Possible are NO_STRETCH, RELATIVE_STRETCH
-     * and ABSOLUTE_STRETCH. The stretch type will be used at rows where one or more components has
-     * a stretch value greater than 0.0 in the constraints. If NO_STRETCH is used, no stretch will
-     * be performed. If ABSOLUTE_STRETCH is used, parts of the unused area are given to the
-     * components depending on the unmodified stretch value. At RELATIVE_STRETCH first the hole
-     * stretch for a row will be computed. Relative to this value the unused area will be splited.<br>
-     * The default type is ABSOLUTE_STRETCH. With the modifier "layoutXStretchType" of the "info"
-     * section of the installation configuration file this can be changed.
+     * Returns the used stretch type for the x direction. Possible are
+     * NO_STRETCH, RELATIVE_STRETCH and ABSOLUTE_STRETCH. The stretch type will
+     * be used at rows where one or more components has a stretch value greater
+     * than 0.0 in the constraints. If NO_STRETCH is used, no stretch will be
+     * performed. If ABSOLUTE_STRETCH is used, parts of the unused area are
+     * given to the components depending on the unmodified stretch value. At
+     * RELATIVE_STRETCH first the hole stretch for a row will be computed.
+     * Relative to this value the unused area will be splited.<br>
+     * The default type is ABSOLUTE_STRETCH. With the modifier
+     * "layoutXStretchType" of the "info" section of the installation
+     * configuration file this can be changed.
      *
      * @return used stretch type
      */
     public int getXStretchType()
     {
-        if (X_STRETCH_TYPE > -1)
+        if (xStretchType > -1)
         {
-            return (X_STRETCH_TYPE);
+            return (xStretchType);
         }
-        X_STRETCH_TYPE = ABSOLUTE_STRETCH;
+        xStretchType = ABSOLUTE_STRETCH;
         String var = ((String) getModifierValue(null, "RELATIVE_STRETCH", null,
-                                                "layoutXStretchType", installData));
+                "layoutXStretchType", installData));
         if (var != null)
         {
             if ("RELATIVE_STRETCH".equalsIgnoreCase(var) || "RELATIVE".equalsIgnoreCase(var))
             {
-                X_STRETCH_TYPE = RELATIVE_STRETCH;
+                xStretchType = RELATIVE_STRETCH;
             }
             else if ("ABSOLUTE_STRETCH".equalsIgnoreCase(var) || "ABSOLUTE".equalsIgnoreCase(var))
             {
-                X_STRETCH_TYPE = ABSOLUTE_STRETCH;
+                xStretchType = ABSOLUTE_STRETCH;
             }
             else if ("NO_STRETCH".equalsIgnoreCase(var) || "NO".equalsIgnoreCase(var))
             {
-                X_STRETCH_TYPE = NO_STRETCH;
+                xStretchType = NO_STRETCH;
             }
         }
-        return (X_STRETCH_TYPE);
+        return (xStretchType);
     }
 
     /**
-     * Returns the used stretch type for the y direction. Possible are NO_STRETCH, RELATIVE_STRETCH
-     * and ABSOLUTE_STRETCH. The stretch type will be used at rows where one or more components has
-     * a stretch value greater than 0.0 in the constraints. If NO_STRETCH is used, no stretch will
-     * be performed. If ABSOLUTE_STRETCH is used, parts of the unused area are given to the
-     * components depending on the unmodified stretch value. At RELATIVE_STRETCH first the hole
-     * stretch for a row will be computed. Relative to this value the unused area will be splited.<br>
-     * The default type is ABSOLUTE_STRETCH. With the modifier "layoutYStretchType" of the "info"
-     * section of the installation configuration file this can be changed.
+     * Returns the used stretch type for the y direction. Possible are
+     * NO_STRETCH, RELATIVE_STRETCH and ABSOLUTE_STRETCH. The stretch type will
+     * be used at rows where one or more components has a stretch value greater
+     * than 0.0 in the constraints. If NO_STRETCH is used, no stretch will be
+     * performed. If ABSOLUTE_STRETCH is used, parts of the unused area are
+     * given to the components depending on the unmodified stretch value. At
+     * RELATIVE_STRETCH first the hole stretch for a row will be computed.
+     * Relative to this value the unused area will be splited.<br>
+     * The default type is ABSOLUTE_STRETCH. With the modifier
+     * "layoutYStretchType" of the "info" section of the installation
+     * configuration file this can be changed.
      *
      * @return used stretch type
      */
     public int getYStretchType()
     {
-        if (Y_STRETCH_TYPE > -1)
+        if (yStretchType > -1)
         {
-            return (Y_STRETCH_TYPE);
+            return (yStretchType);
         }
-        Y_STRETCH_TYPE = ABSOLUTE_STRETCH;
+        yStretchType = ABSOLUTE_STRETCH;
         String var = ((String) getModifierValue(null, "RELATIVE_STRETCH", null, "layoutYStretchType", installData));
         if (var != null)
         {
             if ("RELATIVE_STRETCH".equalsIgnoreCase(var) || "RELATIVE".equalsIgnoreCase(var))
             {
-                Y_STRETCH_TYPE = RELATIVE_STRETCH;
+                yStretchType = RELATIVE_STRETCH;
             }
             else if ("ABSOLUTE_STRETCH".equalsIgnoreCase(var) || "ABSOLUTE".equalsIgnoreCase(var))
             {
-                Y_STRETCH_TYPE = ABSOLUTE_STRETCH;
+                yStretchType = ABSOLUTE_STRETCH;
             }
             else if ("NO_STRETCH".equalsIgnoreCase(var) || "NO".equalsIgnoreCase(var))
             {
-                Y_STRETCH_TYPE = NO_STRETCH;
+                yStretchType = NO_STRETCH;
             }
         }
-        return (Y_STRETCH_TYPE);
+        return (yStretchType);
     }
 
     /**
-     * Returns the default value for stretching to a full line. With the modifier
-     * "layoutFullLineStretch" of the "info" section of the installation configuration file this can
-     * be changed. Valid are doubles for the value. This setting is possible to give panels a chance
-     * to center the controls in x direction also a control uses stretching.
+     * Returns the default value for stretching to a full line. With the
+     * modifier "layoutFullLineStretch" of the "info" section of the
+     * installation configuration file this can be changed. Valid are doubles
+     * for the value. This setting is possible to give panels a chance to center
+     * the controls in x direction also a control uses stretching.
      *
      * @return the default value for stretching to a full line
      */
-
     public double getFullLineStretch()
     {
-        FULL_LINE_STRETCH_DEFAULT = (Double) getModifierValue(
-                FULL_LINE_STRETCH_DEFAULT, INITIAL_STRETCH_DEFAULT, DOUBLE_ZERO, "layoutFullLineStretch", installData);
-        return (FULL_LINE_STRETCH_DEFAULT);
+        fullLineStretchDefault = (Double) getModifierValue(fullLineStretchDefault, initialStretchDefault, doubleZero, "layoutFullLineStretch", installData);
+        return (fullLineStretchDefault);
     }
 
     /**
-     * Returns the default value for stretching to a full column. With the modifier
-     * "layoutFullColumnStretch" of the "info" section of the installation configuration file this
-     * can be changed. Valid are doubles for the value. This setting is possible to give panels a
-     * chance to center the controls in y direction also a control uses stretching.
+     * Returns the default value for stretching to a full column. With the
+     * modifier "layoutFullColumnStretch" of the "info" section of the
+     * installation configuration file this can be changed. Valid are doubles
+     * for the value. This setting is possible to give panels a chance to center
+     * the controls in y direction also a control uses stretching.
      *
      * @return the default value for stretching to a full column
      */
-
     public double getFullColumnStretch()
     {
-        FULL_COLUMN_STRETCH_DEFAULT = (Double) getModifierValue(FULL_COLUMN_STRETCH_DEFAULT, INITIAL_STRETCH_DEFAULT,
-                                                                DOUBLE_ZERO,
-                                                                "layoutFullColumnStretch", installData);
-        return (FULL_COLUMN_STRETCH_DEFAULT);
+        fullColumnStretchDefault = (Double) getModifierValue(fullColumnStretchDefault, initialStretchDefault,
+                doubleZero,
+                "layoutFullColumnStretch", installData);
+        return (fullColumnStretchDefault);
     }
 
     private static Object getModifierValue(Object currentVal, Object defaultVal, Object readLimit,
-                                           String key, InstallData idata)
+            String key, InstallData idata)
     {
         if (defaultVal instanceof Integer)
         {
@@ -795,8 +818,9 @@ public class LayoutHelper implements LayoutConstants
     }
 
     /**
-     * Returns the layout manager which current used by this layout helper. The layout manager
-     * implements LayoutManager2. It can be a GridBagLayout or a IzPanelLayout.
+     * Returns the layout manager which current used by this layout helper. The
+     * layout manager implements LayoutManager2. It can be a GridBagLayout or a
+     * IzPanelLayout.
      *
      * @return current used layout manager
      */
@@ -819,15 +843,15 @@ public class LayoutHelper implements LayoutConstants
      * Sets the parameters of a GridBagConstraints object.
      *
      * @param gbc The constraints object.
-     * @param gx  The x coordinates.
-     * @param gy  The y coordinates.
-     * @param gw  The width.
-     * @param wx  The x wheight.
-     * @param wy  The y wheight.
-     * @param gh  Description of the Parameter
+     * @param gx The x coordinates.
+     * @param gy The y coordinates.
+     * @param gw The width.
+     * @param wx The x wheight.
+     * @param wy The y wheight.
+     * @param gh Description of the Parameter
      */
     public static void buildConstraints(GridBagConstraints gbc, int gx, int gy, int gw, int gh, double wx,
-                                        double wy)
+            double wy)
     {
         gbc.gridx = gx;
         gbc.gridy = gy;

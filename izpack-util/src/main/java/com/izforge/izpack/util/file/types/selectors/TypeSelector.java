@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -67,8 +66,8 @@ public class TypeSelector extends BaseExtendSelector
     }
 
     /**
-     * When using this as a custom selector, this method will be called.
-     * It translates each parameter into the appropriate setXXX() call.
+     * When using this as a custom selector, this method will be called. It
+     * translates each parameter into the appropriate setXXX() call.
      *
      * @param parameters the complete set of parameters for this selector
      */
@@ -101,8 +100,8 @@ public class TypeSelector extends BaseExtendSelector
     }
 
     /**
-     * Checks to make sure all settings are kosher. In this case, it
-     * means that the pattern attribute has been set.
+     * Checks to make sure all settings are kosher. In this case, it means that
+     * the pattern attribute has been set.
      */
     public void verifySettings()
     {
@@ -113,12 +112,12 @@ public class TypeSelector extends BaseExtendSelector
     }
 
     /**
-     * The heart of the matter. This is where the selector gets to decide
-     * on the inclusion of a file in a particular fileset.
+     * The heart of the matter. This is where the selector gets to decide on the
+     * inclusion of a file in a particular fileset.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename is the name of the file to check
-     * @param file     is a java.io.File object the selector can use
+     * @param file is a java.io.File object the selector can use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file)

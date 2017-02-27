@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.exception;
 
 /**
@@ -55,7 +54,7 @@ public class ContainerException extends IzPackException
      * Constructs a <tt>ContainerException</tt>.
      *
      * @param message the error message
-     * @param cause   the cause
+     * @param cause the cause
      */
     public ContainerException(String message, Throwable cause)
     {

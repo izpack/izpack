@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import com.izforge.izpack.util.file.types.DataType;
@@ -23,8 +22,8 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * This is the a base class a container of selectors - it does
- * not need do be a selector itself.
+ * This is the a base class a container of selectors - it does not need do be a
+ * selector itself.
  */
 public abstract class AbstractSelectorContainer extends DataType
         implements SelectorContainer
@@ -75,9 +74,9 @@ public abstract class AbstractSelectorContainer extends DataType
     }
 
     /**
-     * Convert the Selectors within this container to a string. This will
-     * just be a helper class for the subclasses that put their own name
-     * around the contents listed here.
+     * Convert the Selectors within this container to a string. This will just
+     * be a helper class for the subclasses that put their own name around the
+     * contents listed here.
      *
      * @return comma separated list of Selectors contained in this one
      */
@@ -112,18 +111,18 @@ public abstract class AbstractSelectorContainer extends DataType
 
     /**
      * <p>
-     * This validates each contained selector
-     * provided that the selector implements the validate interface.
+     * This validates each contained selector provided that the selector
+     * implements the validate interface.
      * </p>
-     * <p>Ordinarily, this will validate all the elements of a selector
-     * container even if the isSelected() method of some elements is
-     * never called. This has two effects:</p>
+     * <p>
+     * Ordinarily, this will validate all the elements of a selector container
+     * even if the isSelected() method of some elements is never called. This
+     * has two effects:</p>
      * <ul>
      * <li>Validation will often occur twice.
-     * <li>Since it is not required that selectors derive from
-     * BaseSelector, there could be selectors in the container whose
-     * error conditions are not detected if their isSelected() call
-     * is never made.
+     * <li>Since it is not required that selectors derive from BaseSelector,
+     * there could be selectors in the container whose error conditions are not
+     * detected if their isSelected() call is never made.
      * </ul>
      */
     public void validate() throws Exception
@@ -141,7 +140,6 @@ public abstract class AbstractSelectorContainer extends DataType
 
 
     /* Methods below all add specific selectors */
-
     /**
      * add an "And" selector entry on the selector list
      *

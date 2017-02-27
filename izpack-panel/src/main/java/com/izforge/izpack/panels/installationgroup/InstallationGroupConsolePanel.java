@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.installationgroup;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -40,7 +39,8 @@ import java.util.logging.Logger;
  */
 public class InstallationGroupConsolePanel extends AbstractConsolePanel implements ConsolePanel
 {
-    private static final transient Logger logger = Logger.getLogger(InstallationGroupPanel.class.getName());
+
+    private static final transient Logger LOGGER = Logger.getLogger(InstallationGroupPanel.class.getName());
 
     private static final String NOT_SELECTED = "Not Selected";
     private static final String DONE = "Done!";
@@ -49,12 +49,12 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
     private final Prompt prompt;
     private final AutomatedInstallData automatedInstallData;
     private final PlatformModelMatcher matcher;
-    
+
     private GroupData[] rows;
 
     @SuppressWarnings("UnusedDeclaration")
     public InstallationGroupConsolePanel(PanelView<ConsolePanel> panel, Prompt prompt,
-                                         AutomatedInstallData automatedInstallData, PlatformModelMatcher matcher)
+            AutomatedInstallData automatedInstallData, PlatformModelMatcher matcher)
     {
         super(panel);
         this.prompt = prompt;
@@ -88,7 +88,10 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
         Map<String, GroupData> installGroups = InstallationGroups.getInstallGroups(automatedInstallData);
         if (installGroups.size() == 0)
         {
-            console.prompt("Skip InstallGroup selection", new String[]{"Yes", "No"}, "Yes");
+            console.prompt("Skip InstallGroup selection", new String[]
+            {
+                "Yes", "No"
+            }, "Yes");
             return false;
         }
 
@@ -96,27 +99,29 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
         Collections.sort(sortedGroups, InstallationGroups.BY_SORT_KEY);
 
         GroupData selected = selectGroup(sortedGroups);
-        while (selected==null) {
+        while (selected == null)
+        {
             out(Prompt.Type.ERROR, "Must select an option");
             selected = selectGroup(sortedGroups);
         }
 
         this.automatedInstallData.setVariable("INSTALL_GROUP", selected.name);
-        logger.fine("Added variable INSTALL_GROUP=" + selected.name);
+        LOGGER.fine("Added variable INSTALL_GROUP=" + selected.name);
 
         setSelectedPacksBySelectedGroup(selected);
 
         rows = new GroupData[installGroups.size()];
         int count = 0;
-        for (GroupData gd : sortedGroups) {
-          rows[count] = gd;
-          count++;
+        for (GroupData gd : sortedGroups)
+        {
+            rows[count] = gd;
+            count++;
         }
 
         out(Prompt.Type.INFORMATION, DONE);
         return promptEndPanel(installData, console);
     }
-    
+
     @Override
     public void createInstallationRecord(IXMLElement panelRoot)
     {
@@ -127,7 +132,7 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
 
     protected void setSelectedPacksBySelectedGroup(GroupData selected)
     {
-        logger.fine("data=" + selected.name);
+        LOGGER.fine("data=" + selected.name);
 
         // Now remove the packs not in groupPackNames
         Iterator<Pack> iter = automatedInstallData.getAvailablePacks().iterator();
@@ -142,7 +147,7 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
             if (!selected.packNames.contains(pack.getName()))
             {
                 iter.remove();
-                logger.fine("Removed available pack: " + pack.getName());
+                LOGGER.fine("Removed available pack: " + pack.getName());
             }
         }
 
@@ -154,12 +159,15 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
     private GroupData selectGroup(List<GroupData> options)
     {
         GroupData selected = null;
-        for (GroupData groupData : options) {
-            if (selected!=null) {
+        for (GroupData groupData : options)
+        {
+            if (selected != null)
+            {
                 out(Prompt.Type.INFORMATION, groupData.name + SPACE + NOT_SELECTED);
                 continue;
             }
-            if (askUser(groupData.name)) {
+            if (askUser(groupData.name))
+            {
                 selected = groupData;
                 continue;
             }

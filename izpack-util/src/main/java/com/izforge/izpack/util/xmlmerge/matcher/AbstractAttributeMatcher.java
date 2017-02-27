@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.matcher;
 
 import java.util.List;
@@ -32,8 +31,11 @@ import org.jdom2.Element;
  */
 public abstract class AbstractAttributeMatcher extends AbstractTagMatcher
 {
+
     protected abstract boolean ignoreCaseAttributeName();
+
     protected abstract boolean ignoreCaseAttributeValue();
+
     protected abstract String getAttributeName();
 
     @Override
@@ -56,9 +58,9 @@ public abstract class AbstractAttributeMatcher extends AbstractTagMatcher
 
             for (Attribute origAttribute : origAttList)
             {
-                if (getAttributeName() == null ||
-                        (getAttributeName() != null &&
-                         equalsString(origAttribute.getQualifiedName(), getAttributeName(),
+                if (getAttributeName() == null
+                        || (getAttributeName() != null
+                        && equalsString(origAttribute.getQualifiedName(), getAttributeName(),
                                 ignoreCaseAttributeName())))
                 {
                     for (Attribute patchAttribute : patchAttList)
@@ -70,12 +72,9 @@ public abstract class AbstractAttributeMatcher extends AbstractTagMatcher
                                 return equalsString(origAttribute.getValue(), patchAttribute.getValue(), ignoreCaseAttributeValue());
                             }
                         }
-                        else
+                        else if (origAttribute.getQualifiedName().equals(patchAttribute.getQualifiedName()))
                         {
-                            if (origAttribute.getQualifiedName().equals(patchAttribute.getQualifiedName()))
-                            {
-                                return equalsString(origAttribute.getValue(), patchAttribute.getValue(), ignoreCaseAttributeValue());
-                            }
+                            return equalsString(origAttribute.getValue(), patchAttribute.getValue(), ignoreCaseAttributeValue());
                         }
                     }
                 }

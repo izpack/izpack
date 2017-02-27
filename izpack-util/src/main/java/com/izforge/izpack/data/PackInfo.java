@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.data;
 
 import java.io.File;
@@ -39,8 +38,9 @@ import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.data.binding.OsModel;
 
 /**
- * Temporary holding place for Pack information as the Packager is built. The packager is used by
- * the compiler to collect info about an installer, and finally create the actual installer files.
+ * Temporary holding place for Pack information as the Packager is built. The
+ * packager is used by the compiler to collect info about an installer, and
+ * finally create the actual installer files.
  *
  * @author Chadwick McHenry
  */
@@ -85,21 +85,21 @@ public class PackInfo implements Serializable
     /**
      * Constructor with required info.
      *
-     * @param name         name of the pack
-     * @param id           id of the pack e.g. to resolve I18N
-     * @param description  descripton in English
-     * @param required     pack is required or not
-     * @param loose        files of pack should be stored separatly or not
+     * @param name name of the pack
+     * @param id id of the pack e.g. to resolve I18N
+     * @param description descripton in English
+     * @param required pack is required or not
+     * @param loose files of pack should be stored separatly or not
      * @param excludegroup name of the exclude group
-     * @param uninstall    pack must be uninstalled
-     * @param size         the size of the pack, in bytes
+     * @param uninstall pack must be uninstalled
+     * @param size the size of the pack, in bytes
      */
     public PackInfo(String name, String id, String description, boolean required, boolean loose, String excludegroup,
-                    boolean uninstall, long size)
+            boolean uninstall, long size)
     {
         boolean ispreselected = (excludegroup == null);
         pack = new Pack(name, id, description, null, null, required, ispreselected, loose, excludegroup, uninstall,
-                        size);
+                size);
         colour = PackColor.WHITE;
     }
 
@@ -108,7 +108,6 @@ public class PackInfo implements Serializable
      * Attributes of the Pack
      * ********************************************************************************************
      */
-
     public void setDependencies(List<String> dependencies)
     {
         pack.setDependencies(dependencies);
@@ -134,7 +133,7 @@ public class PackInfo implements Serializable
     {
         return pack.getOsConstraints();
     }
-    
+
     public List<OsModel> getOsConstraints()
     {
         return pack.getOsConstraints();
@@ -211,28 +210,28 @@ public class PackInfo implements Serializable
         return pack.isHidden();
     }
 
-
     public void setHidden(boolean hidden)
     {
         pack.setHidden(hidden);
     }
 
-    /***********************************************************************************************
+    /**
+     * *********************************************************************************************
      * Public methods to add data to the Installer being packed
-     **********************************************************************************************/
-
+     * ********************************************************************************************
+     */
     /**
      * Add a file or directory to be installed.
      *
-     * @param file       the file or basedir to be installed.
+     * @param file the file or basedir to be installed.
      * @param targetfile path file will be installed to.
-     * @param osList     the target operation system(s) of this pack.
-     * @param override   what to do if the file already exists when installing
+     * @param osList the target operation system(s) of this pack.
+     * @param override what to do if the file already exists when installing
      * @param condition
      * @throws FileNotFoundException if the file specified does not exist.
      */
     public void addFile(File baseDir, File file, String targetfile, List<OsModel> osList, OverrideType override,
-                        String overrideRenameTo, Blockable blockable, Map additionals, String condition)
+            String overrideRenameTo, Blockable blockable, Map additionals, String condition)
             throws IOException
     {
         if (!file.exists())
@@ -241,7 +240,7 @@ public class PackInfo implements Serializable
         }
 
         PackFile packFile = new PackFile(baseDir, file, targetfile, osList, override, overrideRenameTo, blockable,
-                                         additionals);
+                additionals);
         packFile.setLoosePackInfo(pack.isLoose());
         packFile.setCondition(condition);
         files.put(packFile, file);
@@ -256,8 +255,9 @@ public class PackInfo implements Serializable
     }
 
     /**
-     * The file described by the specified PackFile. Returns <tt>null</tt> if the PackFile did not
-     * come from the set returned by {@link #getPackFiles()}.
+     * The file described by the specified PackFile. Returns <tt>null</tt> if
+     * the PackFile did not come from the set returned by
+     * {@link #getPackFiles()}.
      */
     public File getFile(PackFile packFile)
     {
@@ -281,8 +281,8 @@ public class PackInfo implements Serializable
     }
 
     /**
-     * Executables files have their executable flag set, may be executed, and optionally, deleted
-     * when finished executing.
+     * Executables files have their executable flag set, may be executed, and
+     * optionally, deleted when finished executing.
      */
     public void addExecutable(ExecutableFile executable)
     {
@@ -298,8 +298,8 @@ public class PackInfo implements Serializable
     }
 
     /**
-     * Executables files have their executable flag set, may be executed, and optionally, deleted
-     * when finished executing.
+     * Executables files have their executable flag set, may be executed, and
+     * optionally, deleted when finished executing.
      */
     public void addUpdateCheck(UpdateCheck updateCheck)
     {
@@ -347,7 +347,6 @@ public class PackInfo implements Serializable
         pack.setImageId(packImgId);
     }
 
-
     /**
      * @return the condition
      */
@@ -355,7 +354,6 @@ public class PackInfo implements Serializable
     {
         return this.pack.getCondition();
     }
-
 
     /**
      * @param condition the condition to set
@@ -371,14 +369,16 @@ public class PackInfo implements Serializable
     }
 
     /**
-     * Determines what packs to be selected or deselected when this pack is selected.
-     * Packs to be deselected should have their named pre-appended with a "!".
-     * Packs to be selected should be specified by name.
-     * Additionally a pack will only be selected or deselected if the condition is true.
-     * The condition is based on weather some pack is selected or deselected.
+     * Determines what packs to be selected or deselected when this pack is
+     * selected. Packs to be deselected should have their named pre-appended
+     * with a "!". Packs to be selected should be specified by name.
+     * Additionally a pack will only be selected or deselected if the condition
+     * is true. The condition is based on weather some pack is selected or
+     * deselected.
      *
      * @param name name of a pack to be selected/deselected
-     * @param condition select/deselect a pack when this pack is selected and condition is satisfied or null
+     * @param condition select/deselect a pack when this pack is selected and
+     * condition is satisfied or null
      */
     public void addOnSelect(String name, String condition)
     {
@@ -386,14 +386,16 @@ public class PackInfo implements Serializable
     }
 
     /**
-     * Determines what packs to be selected or deselected when this pack is deselected.
-     * Packs to be deselected should have their named pre-appended with a "!".
-     * Packs to be selected should be specified by name.
-     * Additionally a pack will only be selected or deselected if the condition is true.
-     * The condition is based on weather some pack is selected or deselected.
+     * Determines what packs to be selected or deselected when this pack is
+     * deselected. Packs to be deselected should have their named pre-appended
+     * with a "!". Packs to be selected should be specified by name.
+     * Additionally a pack will only be selected or deselected if the condition
+     * is true. The condition is based on weather some pack is selected or
+     * deselected.
      *
      * @param name name of a pack to be selected/deselected
-     * @param condition select/deselect a pack when this pack is deselected and condition is satisfied or null
+     * @param condition select/deselect a pack when this pack is deselected and
+     * condition is satisfied or null
      */
     public void addOnDeselect(String name, String condition)
     {

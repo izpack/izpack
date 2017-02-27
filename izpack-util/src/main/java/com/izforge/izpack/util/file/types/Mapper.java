@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types;
 
 import java.util.EnumSet;
@@ -123,7 +122,7 @@ public class Mapper extends DataType implements Cloneable
         {
             throw new Exception(
                     "nested mapper or "
-                            + "one of the attributes type or classname is required");
+                    + "one of the attributes type or classname is required");
         }
 
         if (container != null)
@@ -221,7 +220,8 @@ public class Mapper extends DataType implements Cloneable
             return null;
         }
 
-        public String getImplementation() {
+        public String getImplementation()
+        {
             return implementations.get(this);
         }
     }

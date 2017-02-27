@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.licence;
 
 import com.izforge.izpack.api.data.Panel;
@@ -36,10 +35,11 @@ import java.util.logging.Logger;
 
 public abstract class AbstractLicencePanel extends IzPanel
 {
+
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractLicencePanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AbstractLicencePanel.class.getName());
 
     private static final String DEFAULT_SUFFIX = ".licence";
     private static final long serialVersionUID = 1483930095144726447L;
@@ -88,10 +88,10 @@ public abstract class AbstractLicencePanel extends IzPanel
         if (url == null)
         {
             String panelId = panel != null ? panel.getPanelId() : null;
-            logger.warning("Cannot open any of the possible license document resources ("
+            LOGGER.warning("Cannot open any of the possible license document resources ("
                     + (panelId != null ? resNamePrefix + '.' + panelId + ", " : "")
                     + resNamePrefix + DEFAULT_SUFFIX
-                    + ") for panel type '" + resNamePrefix + "" );
+                    + ") for panel type '" + resNamePrefix + "");
         }
         return url;
     }
@@ -121,7 +121,7 @@ public abstract class AbstractLicencePanel extends IzPanel
         }
         catch (IOException e)
         {
-            logger.warning("Cannot convert license document from resource " + url.getFile() + " to text: " + e.getMessage());
+            LOGGER.warning("Cannot convert license document from resource " + url.getFile() + " to text: " + e.getMessage());
         }
         return result;
     }

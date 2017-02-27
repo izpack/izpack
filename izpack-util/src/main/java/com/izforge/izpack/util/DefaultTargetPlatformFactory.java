@@ -31,10 +31,12 @@ import java.util.logging.Logger;
 import com.izforge.izpack.api.factory.ObjectFactory;
 
 /**
- * Factory for constructing platform specific implementation implementations of interfaces or classes.
+ * Factory for constructing platform specific implementation implementations of
+ * interfaces or classes.
  * <p/>
- * It is configured using one or more <em>TargetPlatformFactory.properties</em> files, located in the class path
- * under <em>com/izforge/izpack/util/</em>. A template is shown below.
+ * It is configured using one or more <em>TargetPlatformFactory.properties</em>
+ * files, located in the class path under <em>com/izforge/izpack/util/</em>. A
+ * template is shown below.
  * <pre>
  * #
  * # TargetPlatformFactory template.
@@ -93,20 +95,20 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(DefaultTargetPlatformFactory.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DefaultTargetPlatformFactory.class.getName());
 
     /**
      * The TargetPlatformFactory properties.
      */
     private static final String RESOURCE_PATH = "com/izforge/izpack/util/TargetPlatformFactory.properties";
 
-
     /**
-     * Constructs a <tt>DefaultTargetPlatformFactory</tt>, configured from <em>TargetPlatformFactory.properties</em>
+     * Constructs a <tt>DefaultTargetPlatformFactory</tt>, configured from
+     * <em>TargetPlatformFactory.properties</em>
      * resources.
      *
-     * @param factory   the factory to delegate to
-     * @param platform  the current platform
+     * @param factory the factory to delegate to
+     * @param platform the current platform
      * @param platforms the platform factory
      */
     public DefaultTargetPlatformFactory(ObjectFactory factory, Platform platform, Platforms platforms)
@@ -126,18 +128,19 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
                 }
                 catch (IOException exception)
                 {
-                    logger.log(Level.WARNING, exception.getMessage(), exception);
+                    LOGGER.log(Level.WARNING, exception.getMessage(), exception);
                 }
             }
         }
         catch (IOException exception)
         {
-            logger.log(Level.WARNING, exception.getMessage(), exception);
+            LOGGER.log(Level.WARNING, exception.getMessage(), exception);
         }
     }
 
     /**
-     * Creates a platform specific implementation of a class, for the current platform.
+     * Creates a platform specific implementation of a class, for the current
+     * platform.
      *
      * @param clazz the class to create a platform specific instance of
      * @return the instance for the specified platform
@@ -150,9 +153,10 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
     }
 
     /**
-     * Creates a platform specific instance of a class, for the specified platform.
+     * Creates a platform specific instance of a class, for the specified
+     * platform.
      *
-     * @param type     the type to create a platform specific instance of
+     * @param type the type to create a platform specific instance of
      * @param platform the platform
      * @return the instance for the specified platform
      * @throws Exception for any error
@@ -168,12 +172,13 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
     /**
      * Returns the implementation of a type for the specified platform.
      *
-     * @param type     the type
+     * @param type the type
      * @param platform the platform
      * @return the implementation class of <tt>type</tt> for <tt>platform</tt>
-     * @throws ClassNotFoundException if a class is registered but cannot be found
-     * @throws IllegalStateException  if no class is registered, or the registered class does not implement nor
-     *                                extend <tt>type</tt>
+     * @throws ClassNotFoundException if a class is registered but cannot be
+     * found
+     * @throws IllegalStateException if no class is registered, or the
+     * registered class does not implement nor extend <tt>type</tt>
      */
     @SuppressWarnings("unchecked")
     protected <T> Class<T> getImplementation(Class<T> type, Platform platform) throws ClassNotFoundException
@@ -211,7 +216,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
         if (implName == null)
         {
             throw new IllegalStateException("No implementation registered for class=" + type.getName()
-                                                    + " and platform=" + platform);
+                    + " and platform=" + platform);
         }
         Class impl = Class.forName(implName);
         if (!type.isAssignableFrom(impl))
@@ -225,7 +230,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
      * Adds the configuration from the specified URL.
      *
      * @param properties the configuration
-     * @param url        the URL, for error reporting. May be <tt>null</tt>
+     * @param url the URL, for error reporting. May be <tt>null</tt>
      */
     protected void add(Properties properties, URL url)
     {
@@ -237,7 +242,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
      * Creates a new parser.
      *
      * @param platforms the platforms
-     * @param url       the source URL
+     * @param url the source URL
      * @return a new parser
      */
     protected Parser createParser(Platforms platforms, URL url)
@@ -249,7 +254,8 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
      * Returns the implementations registered for the specified class.
      *
      * @param clazz the class
-     * @return the corresponding implementations, or <tt>null</tt> if none are found
+     * @return the corresponding implementations, or <tt>null</tt> if none are
+     * found
      */
     protected Implementations getImplementations(Class clazz)
     {
@@ -278,13 +284,15 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
     }
 
     /**
-     * Determines if a platform is more specific than the current fallback platform.
+     * Determines if a platform is more specific than the current fallback
+     * platform.
      *
      * @param requested the requested platform
-     * @param fallback  the current fallback platform
-     * @param platform  the platform to check.
-     * @return <tt>true</tt> if <tt>platform</tt> is a <tt>fallback</tt> or has the same version as that requested
-     *         and the fallback doesn't specify a version
+     * @param fallback the current fallback platform
+     * @param platform the platform to check.
+     * @return <tt>true</tt> if <tt>platform</tt> is a <tt>fallback</tt> or has
+     * the same version as that requested and the fallback doesn't specify a
+     * version
      */
     private boolean moreSpecific(Platform requested, Platform fallback, Platform platform)
     {
@@ -320,7 +328,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
          * Constructs a <tt>Parser</tt>.
          *
          * @param platforms the platforms
-         * @param url       the source URL
+         * @param url the source URL
          */
         public Parser(Platforms platforms, URL url)
         {
@@ -331,7 +339,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
         /**
          * Parse properties, adding them to the specified implementations.
          *
-         * @param properties      the properties to parse
+         * @param properties the properties to parse
          * @param implementations the implementations to populate
          */
         public void parse(Properties properties, Map<String, Implementations> implementations)
@@ -378,7 +386,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
                             if (platform.getName() == Platform.Name.UNKNOWN)
                             {
                                 warning("Ignoring unsupported platform=" + platform + " for key=" + key + " from "
-                                                + url);
+                                        + url);
                             }
                             else if (impls.getImplementation(platform) == null)
                             {
@@ -387,7 +395,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
                             else
                             {
                                 warning("Ignoring duplicate implementation=" + impl + " for platform=" + platform
-                                                + " from " + url);
+                                        + " from " + url);
                             }
                         }
                     }
@@ -408,7 +416,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
          */
         protected void warning(String message)
         {
-            logger.warning(message);
+            LOGGER.warning(message);
         }
 
         /**
@@ -447,7 +455,8 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
         /**
          * Sets the default implementation class.
          *
-         * @param defaultImplementation the default implementation class name. May be <tt>null</tt>
+         * @param defaultImplementation the default implementation class name.
+         * May be <tt>null</tt>
          */
         public void setDefault(String defaultImplementation)
         {
@@ -488,7 +497,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
         /**
          * Adds an implementation for the specified platform.
          *
-         * @param platform       the platform
+         * @param platform the platform
          * @param implementation the implementation class name
          */
         public void addImplementation(Platform platform, String implementation)

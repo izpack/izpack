@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.variable;
 
 import java.io.InputStream;
@@ -26,7 +25,6 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
-
 
 public class ZipEntryConfigFileValue extends ConfigFileValue
 {
@@ -86,16 +84,16 @@ public class ZipEntryConfigFileValue extends ConfigFileValue
     public String resolve(VariableSubstitutor... substitutors)
             throws Exception
     {
-        String _filename_ = this.filename, _entryname_ = this.entryname;
+        String filename0 = this.filename, entryname0 = this.entryname;
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _filename_ = substitutor.substitute(_filename_);
+            filename0 = substitutor.substitute(filename0);
         }
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _entryname_ = substitutor.substitute(_entryname_);
+            entryname0 = substitutor.substitute(entryname0);
         }
-        return super.resolve(getZipEntryInputStream(_filename_, _entryname_), substitutors);
+        return super.resolve(getZipEntryInputStream(filename0, entryname0), substitutors);
     }
 
     private InputStream getZipEntryInputStream(String filename, String entryname) throws Exception

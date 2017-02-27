@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.rules;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -33,6 +32,7 @@ import java.util.Set;
  */
 public interface RulesEngine
 {
+
     Set<String> getKnownConditionIds();
 
     boolean isConditionTrue(String id, InstallData installData);
@@ -76,7 +76,7 @@ public interface RulesEngine
      * Creates a condition given its XML specification.
      *
      * @param condition the condition XML specification
-     * @return a new  condition
+     * @return a new condition
      */
     Condition createCondition(IXMLElement condition);
 
@@ -84,14 +84,16 @@ public interface RulesEngine
      * Creates a condition given its XML specification.
      *
      * @param condition the condition XML specification
-     * @param conditionClass the dedicated class implementing a {@code Condition}
-     * @return a new  condition
+     * @param conditionClass the dedicated class implementing a
+     * {@code Condition}
+     * @return a new condition
      */
     public Condition createCondition(IXMLElement condition, Class<Condition> conditionClass);
 
     /**
-     * Check whether references condition exist This must be done after all conditions have been
-     * read, to not depend on order of their definition in the XML
+     * Check whether references condition exist This must be done after all
+     * conditions have been read, to not depend on order of their definition in
+     * the XML
      */
     void resolveConditions() throws Exception;
 

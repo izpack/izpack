@@ -24,19 +24,19 @@ import java.util.List;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 /**
  * Abstract implementation of {@link InstallerListener}.
  * <p/>
- * This provides no-op versions of each of the methods, to simplify implementation of listeners that only need
- * some methods.
+ * This provides no-op versions of each of the methods, to simplify
+ * implementation of listeners that only need some methods.
  *
  * @author Tim Anderson
  */
 public abstract class AbstractInstallerListener implements InstallerListener
 {
+
     /**
      * Initialises the listener.
      *
@@ -61,7 +61,7 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked before a pack is installed.
      *
-     * @param pack  the pack
+     * @param pack the pack
      * @param index the pack number
      * @throws IzPackException for any error
      */
@@ -73,7 +73,7 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked after a pack is installed.
      *
-     * @param pack  the pack
+     * @param pack the pack
      * @param index the pack number
      * @throws IzPackException for any error
      */
@@ -85,7 +85,7 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked after packs are installed.
      *
-     * @param packs    the installed packs
+     * @param packs the installed packs
      * @param listener the progress listener
      * @throws IzPackException for any error
      */
@@ -97,9 +97,9 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked before a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -110,9 +110,9 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked after a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -123,9 +123,9 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked before a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -136,9 +136,9 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked after a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -147,7 +147,8 @@ public abstract class AbstractInstallerListener implements InstallerListener
     }
 
     /**
-     * Invoked when the installer creates the listener instance, immediately after the install data is parsed.
+     * Invoked when the installer creates the listener instance, immediately
+     * after the install data is parsed.
      *
      * @param data the installation data
      * @throws Exception for any error
@@ -160,8 +161,8 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked before packs are installed.
      *
-     * @param data    the installation data
-     * @param packs   the number of packs which are defined for this installation
+     * @param data the installation data
+     * @param packs the number of packs which are defined for this installation
      * @param handler the UI progress handler
      * @throws Exception for any error
      */
@@ -174,8 +175,8 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked before a pack is installed.
      *
-     * @param pack    the pack
-     * @param i       the pack number
+     * @param pack the pack
+     * @param i the pack number
      * @param handler the UI progress handler
      * @throws Exception for any error
      */
@@ -185,7 +186,8 @@ public abstract class AbstractInstallerListener implements InstallerListener
     }
 
     /**
-     * Determines if the listener should be notified of every file and directory installation.
+     * Determines if the listener should be notified of every file and directory
+     * installation.
      *
      * @return <tt>false</tt>
      */
@@ -198,7 +200,7 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked before a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
      * @throws Exception for any error
      */
@@ -210,7 +212,7 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked after a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
      * @throws Exception for any error
      */
@@ -222,7 +224,7 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked before a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
      * @throws Exception if the listener throws an exception
      */
@@ -234,7 +236,7 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked after a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
      * @throws Exception for any error
      */
@@ -246,8 +248,8 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked after a pack is installed.
      *
-     * @param pack    the pack
-     * @param i       the pack number
+     * @param pack the pack
+     * @param i the pack number
      * @param handler the UI progress handler
      * @throws Exception for any error
      */
@@ -259,7 +261,7 @@ public abstract class AbstractInstallerListener implements InstallerListener
     /**
      * Invoked after packs are installed.
      *
-     * @param data    the installation data
+     * @param data the installation data
      * @param handler the UI progress handler
      * @throws Exception for any error
      */

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.title;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -37,7 +36,7 @@ public class ConsoleTitleField extends ConsoleField
     /**
      * Constructs a {@code ConsoleTitleField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
      */
     public ConsoleTitleField(Field field, Console console, Prompt prompt)
@@ -54,7 +53,8 @@ public class ConsoleTitleField extends ConsoleField
     public boolean display()
     {
         String title = getField().getLabel(true);
-        if (title != null) {
+        if (title != null)
+        {
             println(title);
             println("");
         }

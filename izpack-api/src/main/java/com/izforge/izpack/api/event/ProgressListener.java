@@ -3,9 +3,10 @@ package com.izforge.izpack.api.event;
 /**
  * This interface is used to notify the user of some progress.
  * <p/>
- * For example, the installation progress and compilation progress are communicated to the user
- * using this interface. The interface supports a two-stage progress indication: The whole action is
- * divided into steps (for example, packs when installing) and sub-steps (for example, files of a pack).
+ * For example, the installation progress and compilation progress are
+ * communicated to the user using this interface. The interface supports a
+ * two-stage progress indication: The whole action is divided into steps (for
+ * example, packs when installing) and sub-steps (for example, files of a pack).
  */
 public interface ProgressListener
 {
@@ -13,7 +14,7 @@ public interface ProgressListener
     /**
      * Invoked when an action starts.
      *
-     * @param name  the name of the action
+     * @param name the name of the action
      * @param steps the number of steps the action consists of
      */
     void startAction(String name, int steps);
@@ -27,7 +28,7 @@ public interface ProgressListener
      * Invoked when an action step starts.
      *
      * @param stepName the name of the step
-     * @param step     the step number
+     * @param step the step number
      * @param subSteps the number of sub-steps the step consists of
      */
     void nextStep(String stepName, int step, int subSteps);
@@ -61,10 +62,10 @@ public interface ProgressListener
     /**
      * Invoked when an action restarts.
      *
-     * @param name           the name of the action
+     * @param name the name of the action
      * @param overallMessage a message describing the overall progress
-     * @param tip            a tip describing the current progress
-     * @param steps          the number of steps the action consists of
+     * @param tip a tip describing the current progress
+     * @param steps the number of steps the action consists of
      */
     void restartAction(String name, String overallMessage, String tip, int steps);
 

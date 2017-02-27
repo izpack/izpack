@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import java.util.logging.Logger;
@@ -26,15 +25,14 @@ import java.util.logging.Logger;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.util.config.ConfigurableTask;
 
-
 public class ConfigurationActionTask
 {
-    private static final Logger logger = Logger.getLogger(ConfigurationActionTask.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(ConfigurationActionTask.class.getName());
 
     private String condition;
     private ConfigurableTask task;
     private RulesEngine rules;
-
 
     public ConfigurationActionTask(ConfigurableTask task, String condition, RulesEngine rules)
     {
@@ -67,12 +65,12 @@ public class ConfigurationActionTask
     {
         if (condition == null || condition.trim().length() == 0 || rules.isConditionTrue(condition))
         {
-            logger.fine("Executing configuration task class " + task.getClass().getName());
+            LOGGER.fine("Executing configuration task class " + task.getClass().getName());
             this.task.execute();
         }
         else
         {
-            logger.fine("Condition " + condition + " not met - skipping configuration task class " + task.getClass().getName());
+            LOGGER.fine("Condition " + condition + " not met - skipping configuration task class " + task.getClass().getName());
         }
     }
 }

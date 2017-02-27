@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.resource;
 
 import static org.junit.Assert.assertEquals;
@@ -35,7 +34,6 @@ import org.mockito.Mockito;
 
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
-
 
 /**
  * Tests the {@link DefaultLocales} class.
@@ -56,14 +54,13 @@ public class DefaultLocalesTest
     public static final String GALACIAN = "glg";
 
     /**
-     * The supported ISO country and language codes. ISO country codes are uppercase, but IzPack expects them as
-     * lowercase.
+     * The supported ISO country and language codes. ISO country codes are
+     * uppercase, but IzPack expects them as lowercase.
      */
     public static final List<String> ISO_CODES
             = Arrays.asList("bra", "cat", "ces", "chn", "dan", "deu", "ell", "eng", BASQUE, "fin", "fra", GALACIAN,
-                            "hun", "idn", "ita", "jpn", "kor", "msa", "nld", "nor", "pol", "prt", "ron", "rus", "slk",
-                            "spa", "srp", "swe", "tur", "twn", "ukr");
-
+                    "hun", "idn", "ita", "jpn", "kor", "msa", "nld", "nor", "pol", "prt", "ron", "rus", "slk",
+                    "spa", "srp", "swe", "tur", "twn", "ukr");
 
     /**
      * Verifies that the expected locales are returned.
@@ -82,9 +79,9 @@ public class DefaultLocalesTest
     }
 
     /**
-     * Verifies that each of the lang packs can be retrieved.
-     * Note that lang packs for Galacian (<em>glg</em>) and Basque (<em>eus</em>) aren't supported out of the box
-     * by the JVM, so may not be able to be retrieved.
+     * Verifies that each of the lang packs can be retrieved. Note that lang
+     * packs for Galacian (<em>glg</em>) and Basque (<em>eus</em>) aren't
+     * supported out of the box by the JVM, so may not be able to be retrieved.
      */
     @Test
     public void testLangPacks()
@@ -109,7 +106,8 @@ public class DefaultLocalesTest
     }
 
     /**
-     * Verifies that the appropriate locale is selected if the language code is "en" (English).
+     * Verifies that the appropriate locale is selected if the language code is
+     * "en" (English).
      */
     @Test
     public void testEnglish()
@@ -122,7 +120,8 @@ public class DefaultLocalesTest
     }
 
     /**
-     * Verifies that the appropriate locale is selected if the language code is "zh" (Chinese).
+     * Verifies that the appropriate locale is selected if the language code is
+     * "zh" (Chinese).
      */
     @Test
     public void testChinese()
@@ -156,7 +155,8 @@ public class DefaultLocalesTest
     }
 
     /**
-     * Verifies that Brazilian Portuguese (pt_BR) and Portuguese (pt_PT) can be supported.
+     * Verifies that Brazilian Portuguese (pt_BR) and Portuguese (pt_PT) can be
+     * supported.
      */
     @Test
     public void testPortuguese()
@@ -185,7 +185,7 @@ public class DefaultLocalesTest
         checkLocale("pt", "PRT", "pt", "PT", defaultLocale);
     }
 
-/*
+    /*
     @Test
     public void dumpLocales()
     {
@@ -197,14 +197,14 @@ public class DefaultLocalesTest
                                        "display name=" + locale.getDisplayName());
         }
     }
-*/
-
+     */
     /**
-     * Verifies that the expected locale is selected by default when the locales are constructed.
+     * Verifies that the expected locale is selected by default when the locales
+     * are constructed.
      *
      * @param expectedCode the expected ISO code
-     * @param language     the 2 character language code
-     * @param country      the 2 character country code, or empty
+     * @param language the 2 character language code
+     * @param country the 2 character country code, or empty
      */
     private void checkDefaultLocale(String expectedCode, String language, String country)
     {
@@ -219,14 +219,15 @@ public class DefaultLocalesTest
     /**
      * Checks looking up a locale.
      *
-     * @param lookupCode       the ISO code to look up the locale with. May be a 2 or 3 letter ISO code, in any case
-     * @param expectedISO      the expected ISO code
+     * @param lookupCode the ISO code to look up the locale with. May be a 2 or
+     * 3 letter ISO code, in any case
+     * @param expectedISO the expected ISO code
      * @param expectedLanguage the expected 2 character language code
-     * @param expectedCountry  the expected 2 character country code
-     * @param defaultLocale    the default locale
+     * @param expectedCountry the expected 2 character country code
+     * @param defaultLocale the default locale
      */
     private void checkLocale(String lookupCode, String expectedISO, String expectedLanguage, String expectedCountry,
-                             Locale defaultLocale)
+            Locale defaultLocale)
     {
         ResourceManager resources = createResourcesForMessages();
         Locales locales = new DefaultLocales(resources, defaultLocale);
@@ -240,7 +241,8 @@ public class DefaultLocalesTest
     }
 
     /**
-     * Helper to create a resource manager that provides access to all supported language packs.
+     * Helper to create a resource manager that provides access to all supported
+     * language packs.
      *
      * @return a new resource manager
      */
@@ -268,6 +270,5 @@ public class DefaultLocalesTest
         resources.setResourceBasePath("/com/izforge/izpack/bin/langpacks/");
         return resources;
     }
-
 
 }

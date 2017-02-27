@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.logic;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -34,6 +33,7 @@ import com.izforge.izpack.core.rules.process.RefCondition;
  */
 public class AndCondition extends ConditionWithMultipleOperands
 {
+
     private static final long serialVersionUID = -449457141608045073L;
 
     protected transient RulesEngine rules;
@@ -67,7 +67,8 @@ public class AndCondition extends ConditionWithMultipleOperands
         boolean result = true;
         for (Condition condition : nestedConditions)
         {
-            if (condition.getInstallData() == null) {
+            if (condition.getInstallData() == null)
+            {
                 condition.setInstallData(this.getInstallData());
             }
             result = result && condition.isTrue();

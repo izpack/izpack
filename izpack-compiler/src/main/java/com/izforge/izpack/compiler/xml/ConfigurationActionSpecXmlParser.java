@@ -20,11 +20,12 @@ package com.izforge.izpack.compiler.xml;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 
 /**
- * XML parser for the ConfigurationActions listener spec IzPack resource with activated schema
- * validation using the according built-in XSD.
+ * XML parser for the ConfigurationActions listener spec IzPack resource with
+ * activated schema validation using the according built-in XSD.
  */
 public class ConfigurationActionSpecXmlParser extends XMLParser
 {
+
     public ConfigurationActionSpecXmlParser()
     {
         super(true, XMLSchemaDefinition.CONFIGURATIONACTIONS.createStreamSources());

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import org.apache.commons.io.FileUtils;
@@ -36,18 +35,20 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 /**
- * Allows an application to modify the jar file from which it came, including outright deletion. The
- * jar file of an app is usually locked when java is run so this is normally not possible.
+ * Allows an application to modify the jar file from which it came, including
+ * outright deletion. The jar file of an app is usually locked when java is run
+ * so this is normally not possible.
  * <p/>
  * <p/>
- * Create a SelfModifier with a target method, then invoke the SelfModifier with arguments to be
- * passed to the target method. The jar file containing the target method's class (obtained by
- * reflection) will be extracted to a temporary directory, and a new java process will be spawned to
- * invoke the target method. The original jar file may now be modified.
+ * Create a SelfModifier with a target method, then invoke the SelfModifier with
+ * arguments to be passed to the target method. The jar file containing the
+ * target method's class (obtained by reflection) will be extracted to a
+ * temporary directory, and a new java process will be spawned to invoke the
+ * target method. The original jar file may now be modified.
  * <p/>
  * <p/>
- * If the constructor or invoke() methods fail, it is generally because secondary java processes
- * could not be started.
+ * If the constructor or invoke() methods fail, it is generally because
+ * secondary java processes could not be started.
  * <p/>
  * <b>Requirements</b>
  * <ul>
@@ -55,17 +56,18 @@ import java.util.zip.ZipEntry;
  * <li>The Self Modifier, and its inner classes must also be in the jar file.
  * </ul>
  * <p/>
- * There are three system processes (or "phases") involved, the first invoked by the user, the
- * second and third by the SelfModifier.
+ * There are three system processes (or "phases") involved, the first invoked by
+ * the user, the second and third by the SelfModifier.
  * <p/>
  * <p/>
  * <b>Phase 1:</b>
  * <ol>
  * <li>Program is launched, SelfModifier is created, invoke(String[]) is called
- * <li>A temporary directory (or "sandbox") is created in the default temp directory, and the jar
- * file contents ar extracted into it
- * <li>Phase 2 is spawned using the sandbox as it's classpath, SelfModifier as the main class, the
- * arguments to "invoke(String[])" as the main arguments, and the <a
+ * <li>A temporary directory (or "sandbox") is created in the default temp
+ * directory, and the jar file contents ar extracted into it
+ * <li>Phase 2 is spawned using the sandbox as it's classpath, SelfModifier as
+ * the main class, the arguments to "invoke(String[])" as the main arguments,
+ * and the <a
  * href="#selfmodsysprops">SelfModifier system properties</a> set.
  * <li>Immediately exit so the system unlocks the jar file
  * </ol>
@@ -73,7 +75,8 @@ import java.util.zip.ZipEntry;
  * <b>Phase 2:</b>
  * <ol>
  * <li>Initializes from system properties.
- * <li>Spawn phase 3 exactly as phase 2 except the self.modifier.phase system properties set to 3.
+ * <li>Spawn phase 3 exactly as phase 2 except the self.modifier.phase system
+ * properties set to 3.
  * <li>Wait for phase 3 to die
  * <li>Delete the temporary sandbox
  * </ol>
@@ -83,12 +86,13 @@ import java.util.zip.ZipEntry;
  * <li>Initializes from system properties.
  * <li>Redirect std err stream to the log
  * <li>Invoke the target method with arguments we were given
- * <li>The target method is expected to call exit(), or to not start any looping threads (e.g. AWT
- * thread). In other words, the target is the new "main" method.
+ * <li>The target method is expected to call exit(), or to not start any looping
+ * threads (e.g. AWT thread). In other words, the target is the new "main"
+ * method.
  * </ol>
  * <p/>
- * <a name="selfmodsysprops"><b>SelfModifier system properties</b></a> used to pass information
- * between processes. <table border="1">
+ * <a name="selfmodsysprops"><b>SelfModifier system properties</b></a> used to
+ * pass information between processes. <table border="1">
  * <tr>
  * <th>Constant
  * <th>System property
@@ -201,8 +205,7 @@ public class SelfModifier
     /**
      * Base prefix name for sandbox and log, used only in phase 1.
      */
-    private static final String prefix = "izpack";
-
+    private static final String PREFIX = "izpack";
 
     public static void test(String[] args)
     {
@@ -251,7 +254,8 @@ public class SelfModifier
     }
 
     /**
-     * Internal constructor where target class and method are obtained from system properties.
+     * Internal constructor where target class and method are obtained from
+     * system properties.
      *
      * @throws SecurityException if access to the target method is denied
      */
@@ -285,22 +289,25 @@ public class SelfModifier
     }
 
     /**
-     * Creates a SelfModifier which will invoke the target method in a separate process from which
-     * it may modify it's own jar file.
+     * Creates a SelfModifier which will invoke the target method in a separate
+     * process from which it may modify it's own jar file.
      * <p/>
-     * The target method must be public, static, and take a single array of strings as its only
-     * parameter. The class which declares the method must also be public. Reflection is used to
-     * ensure this.
+     * The target method must be public, static, and take a single array of
+     * strings as its only parameter. The class which declares the method must
+     * also be public. Reflection is used to ensure this.
      *
-     * @param method a public, static method that accepts a String array as it's only parameter. Any
-     *               return value is ignored.
-     * @throws NullPointerException     if <code>method</code> is null
-     * @throws IllegalArgumentException if <code>method</code> is not public, static, and take a
-     *                                  String array as it's only argument, or of it's declaring class is not public.
-     * @throws IllegalStateException    if process was not invoked from a jar file,
-     *                                  or an IOException occurred while accessing it
-     * @throws IOException              if java is unable to be executed as a separate process
-     * @throws SecurityException        if access to the method, or creation of a child process is denied
+     * @param method a public, static method that accepts a String array as it's
+     * only parameter. Any return value is ignored.
+     * @throws NullPointerException if <code>method</code> is null
+     * @throws IllegalArgumentException if <code>method</code> is not public,
+     * static, and take a String array as it's only argument, or of it's
+     * declaring class is not public.
+     * @throws IllegalStateException if process was not invoked from a jar file,
+     * or an IOException occurred while accessing it
+     * @throws IOException if java is unable to be executed as a separate
+     * process
+     * @throws SecurityException if access to the method, or creation of a child
+     * process is denied
      */
     public SelfModifier(Method method) throws IOException
     {
@@ -316,13 +323,15 @@ public class SelfModifier
     }
 
     /**
-     * Check the method for the required properties (public, static, params:(String[])).
+     * Check the method for the required properties (public, static,
+     * params:(String[])).
      *
      * @param method the method
-     * @throws NullPointerException     if <code>method</code> is null
-     * @throws IllegalArgumentException if <code>method</code> is not public, static, and take a
-     *                                  String array as it's only argument, or of it's declaring class is not public.
-     * @throws SecurityException        if access to the method is denied
+     * @throws NullPointerException if <code>method</code> is null
+     * @throws IllegalArgumentException if <code>method</code> is not public,
+     * static, and take a String array as it's only argument, or of it's
+     * declaring class is not public.
+     * @throws SecurityException if access to the method is denied
      */
     private void initMethod(Method method)
     {
@@ -350,20 +359,21 @@ public class SelfModifier
     }
 
     /**
-     * Invoke the target method in a separate process from which it may modify it's own jar file.
-     * This method does not normally return. After spawning the secondary process, the current
-     * process must die before the jar file is unlocked, therefore calling this method is akin to
-     * calling {@link System#exit(int)}.
+     * Invoke the target method in a separate process from which it may modify
+     * it's own jar file. This method does not normally return. After spawning
+     * the secondary process, the current process must die before the jar file
+     * is unlocked, therefore calling this method is akin to calling
+     * {@link System#exit(int)}.
      * <p/>
      * <p/>
-     * The contents of the current jar file are extracted copied to a 'sandbox' directory from which
-     * the method is invoked. The path to the original jar file is placed in the system property
-     * {@link #JAR_KEY}.
+     * The contents of the current jar file are extracted copied to a 'sandbox'
+     * directory from which the method is invoked. The path to the original jar
+     * file is placed in the system property {@link #JAR_KEY}.
      * <p/>
      *
-     * @param args arguments to pass to the target method. May be empty or null to indicate no
-     *             arguments.
-     * @throws IOException           for lots of things
+     * @param args arguments to pass to the target method. May be empty or null
+     * to indicate no arguments.
+     * @throws IOException for lots of things
      * @throws IllegalStateException if method's class was not loaded from a jar
      */
     public void invoke(String[] args) throws IOException
@@ -371,7 +381,7 @@ public class SelfModifier
         // Initialize sandbox and log file to be unique, but similarly named
         while (true)
         {
-            logFile = File.createTempFile(prefix, ".log");
+            logFile = File.createTempFile(PREFIX, ".log");
             System.out.println("The uninstaller has put a log file: " + logFile.getAbsolutePath());
             String fileName = logFile.toString();
             sandbox = new File(fileName.substring(0, fileName.length() - 4) + ".d");
@@ -419,10 +429,11 @@ public class SelfModifier
     /**
      * Run a new jvm with all the system parameters needed for phases 2 and 3.
      *
-     * @param args      the command line arguments
+     * @param args the command line arguments
      * @param nextPhase the next phase
      * @return the spawned process
-     * @throws IOException if there is an error getting the canonical name of a path
+     * @throws IOException if there is an error getting the canonical name of a
+     * path
      */
     private Process spawn(String[] args, int nextPhase) throws IOException
     {
@@ -514,7 +525,7 @@ public class SelfModifier
     {
         int extracted = 0;
         InputStream in = null;
-        String MANIFEST = "META-INF/MANIFEST.MF";
+        String manifest = "META-INF/MANIFEST.MF";
         JarFile jar = new JarFile(jarFile, true);
 
         try
@@ -529,7 +540,7 @@ public class SelfModifier
                 }
 
                 String pathname = entry.getName();
-                if (MANIFEST.equals(pathname.toUpperCase()))
+                if (manifest.equals(pathname.toUpperCase()))
                 {
                     continue;
                 }
@@ -547,17 +558,21 @@ public class SelfModifier
             {
                 jar.close();
             }
-            catch (IOException ignore) {}
+            catch (IOException ignore)
+            {
+            }
             IOUtils.closeQuietly(in);
         }
     }
 
     /**
-     * Invoke phase 2, which starts phase 3, then cleans up the sandbox. This is needed because
-     * GUI's often call the exit() method to kill the AWT thread, and early versions of java did not
-     * have exit hooks. In order to delete the sandbox on exit we invoke method in separate process
-     * and wait for that process to complete. Even worse, resources in the jar may be locked by the
-     * target process, which would prevent the sandbox from being deleted as well.
+     * Invoke phase 2, which starts phase 3, then cleans up the sandbox. This is
+     * needed because GUI's often call the exit() method to kill the AWT thread,
+     * and early versions of java did not have exit hooks. In order to delete
+     * the sandbox on exit we invoke method in separate process and wait for
+     * that process to complete. Even worse, resources in the jar may be locked
+     * by the target process, which would prevent the sandbox from being deleted
+     * as well.
      */
     private void invoke2(String[] args)
     {
@@ -575,8 +590,9 @@ public class SelfModifier
             {
                 Thread.sleep(1000);
             }
-            catch (InterruptedException ignored) {}
-
+            catch (InterruptedException ignored)
+            {
+            }
 
             // spawn phase 3, capture its stdio and wait for it to exit
             Process process = spawn(args, 3);
@@ -610,9 +626,12 @@ public class SelfModifier
         try
         {
             errlog("Invoking method: " + method.getDeclaringClass().getName() + "."
-                           + method.getName() + "(String[] args)");
+                    + method.getName() + "(String[] args)");
 
-            method.invoke(null, new Object[]{args});
+            method.invoke(null, new Object[]
+            {
+                args
+            });
         }
         catch (Throwable t)
         {
@@ -630,10 +649,10 @@ public class SelfModifier
 
     /**
      * ********************************************************************************************
-     * --------------------------------------------------------------------- Logging
+     * ---------------------------------------------------------------------
+     * Logging
      * ---------------------------------------------------------------------
      */
-
     private PrintStream log = null;
 
     private void errlog(String msg)

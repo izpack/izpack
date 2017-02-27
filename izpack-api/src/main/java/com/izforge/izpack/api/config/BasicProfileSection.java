@@ -27,75 +27,85 @@ import java.util.regex.Pattern;
 
 class BasicProfileSection extends BasicOptionMap implements Profile.Section
 {
+
     private static final long serialVersionUID = 985800697957194374L;
-    private static final String[] EMPTY_STRING_ARRAY = {};
+    private static final String[] EMPTY_STRING_ARRAY =
+    {
+    };
     private static final char REGEXP_ESCAPE_CHAR = '\\';
-    private final Pattern _childPattern;
-    private final String _name;
-    private final BasicProfile _profile;
+    private final Pattern childPattern;
+    private final String name;
+    private final BasicProfile profile;
 
     protected BasicProfileSection(BasicProfile profile, String name)
     {
-        _profile = profile;
-        _name = name;
-        _childPattern = newChildPattern(name);
+        this.profile = profile;
+        this.name = name;
+        this.childPattern = newChildPattern(name);
     }
 
-    @Override public Profile.Section getChild(String key)
+    @Override
+    public Profile.Section getChild(String key)
     {
-        return _profile.get(childName(key));
+        return this.profile.get(childName(key));
     }
 
-    @Override public String getName()
+    @Override
+    public String getName()
     {
-        return _name;
+        return this.name;
     }
 
-    @Override public Profile.Section getParent()
+    @Override
+    public Profile.Section getParent()
     {
         Profile.Section ret = null;
-        int idx = _name.lastIndexOf(_profile.getPathSeparator());
+        int idx = this.name.lastIndexOf(this.profile.getPathSeparator());
 
         if (idx >= 0)
         {
-            String name = _name.substring(0, idx);
+            String name = this.name.substring(0, idx);
 
-            ret = _profile.get(name);
+            ret = this.profile.get(name);
         }
 
         return ret;
     }
 
-    @Override public String getSimpleName()
+    @Override
+    public String getSimpleName()
     {
-        int idx = _name.lastIndexOf(_profile.getPathSeparator());
+        int idx = this.name.lastIndexOf(this.profile.getPathSeparator());
 
-        return (idx < 0) ? _name : _name.substring(idx + 1);
+        return (idx < 0) ? this.name : this.name.substring(idx + 1);
     }
 
-    @Override public Profile.Section addChild(String key)
+    @Override
+    public Profile.Section addChild(String key)
     {
         String name = childName(key);
 
-        return _profile.add(name);
+        return this.profile.add(name);
     }
 
-    @Override public String[] childrenNames()
+    @Override
+    public String[] childrenNames()
     {
         List<String> names = new ArrayList<String>();
 
-        for (String key : _profile.keySet())
+        for (String key : this.profile.keySet())
         {
-            if (_childPattern.matcher(key).matches())
+            if (this.childPattern.matcher(key).matches())
             {
-                names.add(key.substring(_name.length() + 1));
+                names.add(key.substring(this.name.length() + 1));
             }
         }
 
         return names.toArray(EMPTY_STRING_ARRAY);
     }
 
-    @Override public Profile.Section lookup(String... parts)
+    @Override
+    public Profile.Section lookup(String... parts)
     {
         StringBuilder buff = new StringBuilder();
 
@@ -103,37 +113,40 @@ class BasicProfileSection extends BasicOptionMap implements Profile.Section
         {
             if (buff.length() != 0)
             {
-                buff.append(_profile.getPathSeparator());
+                buff.append(this.profile.getPathSeparator());
             }
 
             buff.append(part);
         }
 
-        return _profile.get(childName(buff.toString()));
+        return this.profile.get(childName(buff.toString()));
     }
 
-    @Override public void removeChild(String key)
+    @Override
+    public void removeChild(String key)
     {
         String name = childName(key);
 
-        _profile.remove(name);
+        this.profile.remove(name);
     }
 
-    @Override boolean isPropertyFirstUpper()
+    @Override
+    boolean isPropertyFirstUpper()
     {
-        return _profile.isPropertyFirstUpper();
+        return this.profile.isPropertyFirstUpper();
     }
 
-    @Override void resolve(StringBuilder buffer)
+    @Override
+    void resolve(StringBuilder buffer)
     {
-        _profile.resolve(buffer, this);
+        this.profile.resolve(buffer, this);
     }
 
     private String childName(String key)
     {
-        StringBuilder buff = new StringBuilder(_name);
+        StringBuilder buff = new StringBuilder(this.name);
 
-        buff.append(_profile.getPathSeparator());
+        buff.append(this.profile.getPathSeparator());
         buff.append(key);
 
         return buff.toString();
@@ -146,10 +159,10 @@ class BasicProfileSection extends BasicOptionMap implements Profile.Section
         buff.append('^');
         buff.append(Pattern.quote(name));
         buff.append(REGEXP_ESCAPE_CHAR);
-        buff.append(_profile.getPathSeparator());
+        buff.append(this.profile.getPathSeparator());
         buff.append("[^");
         buff.append(REGEXP_ESCAPE_CHAR);
-        buff.append(_profile.getPathSeparator());
+        buff.append(this.profile.getPathSeparator());
         buff.append("]+$");
 
         return Pattern.compile(buff.toString());

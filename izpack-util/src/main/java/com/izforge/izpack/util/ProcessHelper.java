@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Name.OS_2;
@@ -29,7 +28,6 @@ import java.io.Reader;
 import java.util.List;
 import java.util.logging.Logger;
 
-
 /**
  * Process helper methods.
  *
@@ -41,13 +39,12 @@ public class ProcessHelper
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(ProcessHelper.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ProcessHelper.class.getName());
 
     /**
      * Default java home directory.
      */
     private static final String JAVA_HOME = System.getProperty("java.home");
-
 
     /**
      * Returns the command to launch java on the current platform.
@@ -108,8 +105,9 @@ public class ProcessHelper
     /**
      * Verifies that java can be executed in a separate process.
      *
-     * @throws IOException       if java cannot be executed
-     * @throws SecurityException if a security manager exists and doesn't allow creation of a process
+     * @throws IOException if java cannot be executed
+     * @throws SecurityException if a security manager exists and doesn't allow
+     * creation of a process
      */
     public static void tryExecJava() throws IOException
     {
@@ -147,7 +145,7 @@ public class ProcessHelper
         @Override
         protected void read(String line)
         {
-            logger.fine(line);
+            LOGGER.fine(line);
         }
     }
 

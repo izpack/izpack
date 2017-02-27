@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import java.io.InputStream;
@@ -43,6 +42,7 @@ import com.izforge.izpack.api.resource.Messages;
  */
 public class LocaleDatabase extends TreeMap<String, String> implements Messages
 {
+
     private static final long serialVersionUID = -5263020795271672830L;
 
     /**
@@ -63,12 +63,12 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(LocaleDatabase.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LocaleDatabase.class.getName());
 
     /**
      * Constructs a {@code LocaleDatabase}.
      *
-     * @param in      the stream to read the translation from
+     * @param in the stream to read the translation from
      * @param locales the supported locales
      * @throws ResourceException if the stream is not an IzPack langpack file
      */
@@ -80,7 +80,7 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
     /**
      * Constructs a {@code LocaleDatabase}.
      *
-     * @param parent  the parent messages. May be {@code null}
+     * @param parent the parent messages. May be {@code null}
      * @param locales the supported locales
      */
     public LocaleDatabase(Messages parent, Locales locales)
@@ -91,8 +91,8 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
     /**
      * Constructs a {@code LocaleDatabase}.
      *
-     * @param in      the stream to read the translation from. May be {@code null}
-     * @param parent  the parent messages. May be {@code null}
+     * @param in the stream to read the translation from. May be {@code null}
+     * @param parent the parent messages. May be {@code null}
      * @param locales the supported locales
      * @throws ResourceException if the stream is not an IzPack langpack file
      */
@@ -107,11 +107,12 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
     }
 
     /**
-     * Adds the contents of the given stream to the data base. The stream have to contain key value
-     * pairs as declared by the DTD langpack.dtd.
+     * Adds the contents of the given stream to the data base. The stream have
+     * to contain key value pairs as declared by the DTD langpack.dtd.
      *
      * @param in an InputStream to read the translation from.
-     * @throws ResourceException if the stream is not an IzPack langpack file or cannot be read
+     * @throws ResourceException if the stream is not an IzPack langpack file or
+     * cannot be read
      */
     public void add(InputStream in)
     {
@@ -153,7 +154,8 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
      * Returns the message with the specified identifier.
      *
      * @param id the message identifier
-     * @return the corresponding message, or {@code id} if the message does not exist
+     * @return the corresponding message, or {@code id} if the message does not
+     * exist
      */
     @Override
     public String get(Object id)
@@ -163,13 +165,15 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
     }
 
     /**
-     * Formats the message with the specified identifier, replacing placeholders with the supplied arguments.
+     * Formats the message with the specified identifier, replacing placeholders
+     * with the supplied arguments.
      * <p/>
      * This uses {@link java.text.MessageFormat} to format the message.
      *
-     * @param id   the message identifier
+     * @param id the message identifier
      * @param args message arguments to replace placeholders in the message with
-     * @return the corresponding message, or {@code id} if the message does not exist
+     * @return the corresponding message, or {@code id} if the message does not
+     * exist
      */
     @Override
     public String get(String id, Object... args)
@@ -196,7 +200,7 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
                 catch (IllegalArgumentException exception)
                 {
                     result = id;
-                    logger.log(Level.WARNING, "Failed to format pattern=" + pattern + ", for key=" + id, exception);
+                    LOGGER.log(Level.WARNING, "Failed to format pattern=" + pattern + ", for key=" + id, exception);
                 }
             }
             else
@@ -218,8 +222,9 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
     /**
      * Adds messages.
      * <p/>
-     * This merges the supplied messages with the current messages. If an existing message exists with the same
-     * identifier as that supplied, it will be replaced.
+     * This merges the supplied messages with the current messages. If an
+     * existing message exists with the same identifier as that supplied, it
+     * will be replaced.
      *
      * @param messages the messages to add
      */
@@ -241,7 +246,8 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
     }
 
     /**
-     * Creates a new messages instance from the named resource that inherits the current messages.
+     * Creates a new messages instance from the named resource that inherits the
+     * current messages.
      *
      * @param name the messages resource name
      * @return the messages
@@ -256,15 +262,18 @@ public class LocaleDatabase extends TreeMap<String, String> implements Messages
     }
 
     /**
-     * Convenience method to retrieve an element and simultaneously insert variables into the
-     * string. A place holder has to be build with the substring {n} where n is the parameter
-     * argument beginning with 0. The first argument is therefore {0}. If a parameter starts with a
-     * dollar sign the value will be used as key into the LocalDatabase. The key can be written as
-     * $MYKEY or ${MYKEY}. For all place holders an argument should be exist and vis a versa.
+     * Convenience method to retrieve an element and simultaneously insert
+     * variables into the string. A place holder has to be build with the
+     * substring {n} where n is the parameter argument beginning with 0. The
+     * first argument is therefore {0}. If a parameter starts with a dollar sign
+     * the value will be used as key into the LocalDatabase. The key can be
+     * written as $MYKEY or ${MYKEY}. For all place holders an argument should
+     * be exist and vis a versa.
      *
-     * @param key       The key of the element to retrieve.
+     * @param key The key of the element to retrieve.
      * @param variables the variables to insert
-     * @return The element value with the variables inserted or the key if not found.
+     * @return The element value with the variables inserted or the key if not
+     * found.
      */
     public String getString(String key, String[] variables)
     {

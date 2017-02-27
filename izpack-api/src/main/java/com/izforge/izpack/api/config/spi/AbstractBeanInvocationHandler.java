@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.beans.Introspector;
@@ -35,6 +34,7 @@ import java.lang.reflect.Method;
 
 public abstract class AbstractBeanInvocationHandler implements InvocationHandler
 {
+
     private static final String PROPERTY_CHANGE_LISTENER = "PropertyChangeListener";
     private static final String VETOABLE_CHANGE_LISTENER = "VetoableChangeListener";
     private static final String ADD_PREFIX = "add";
@@ -54,13 +54,13 @@ public abstract class AbstractBeanInvocationHandler implements InvocationHandler
         REMOVE_CHANGE(REMOVE_PREFIX + PROPERTY_CHANGE_LISTENER),
         REMOVE_VETO(REMOVE_PREFIX + VETOABLE_CHANGE_LISTENER),
         HAS(HAS_PREFIX);
-        private int _len;
-        private String _value;
+        private int len;
+        private String value;
 
         private Prefix(String value)
         {
-            _value = value;
-            _len = value.length();
+            this.value = value;
+            this.len = value.length();
         }
 
         public static Prefix parse(String str)
@@ -82,20 +82,21 @@ public abstract class AbstractBeanInvocationHandler implements InvocationHandler
 
         public String getTail(String input)
         {
-            return Introspector.decapitalize(input.substring(_len));
+            return Introspector.decapitalize(input.substring(this.len));
         }
 
         public String getValue()
         {
-            return _value;
+            return this.value;
         }
     }
 
-    private PropertyChangeSupport _pcSupport;
-    private Object _proxy;
-    private VetoableChangeSupport _vcSupport;
+    private PropertyChangeSupport pcSupport;
+    private Object proxy;
+    private VetoableChangeSupport vcSupport;
 
-    @Override public Object invoke(Object proxy, Method method, Object[] args) throws PropertyVetoException
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws PropertyVetoException
     {
         Object ret = null;
         Prefix prefix = Prefix.parse(method.getName());
@@ -190,8 +191,8 @@ public abstract class AbstractBeanInvocationHandler implements InvocationHandler
 
     protected synchronized void setProperty(String property, Object value, Class<?> clazz) throws PropertyVetoException
     {
-        boolean pc = (_pcSupport != null) && _pcSupport.hasListeners(property);
-        boolean vc = (_vcSupport != null) && _vcSupport.hasListeners(property);
+        boolean pc = (this.pcSupport != null) && this.pcSupport.hasListeners(property);
+        boolean vc = (this.vcSupport != null) && this.vcSupport.hasListeners(property);
         Object oldVal = null;
         Object newVal = ((value != null) && clazz.equals(String.class) && !(value instanceof String)) ? value.toString() : value;
 
@@ -214,42 +215,42 @@ public abstract class AbstractBeanInvocationHandler implements InvocationHandler
 
     protected synchronized Object getProxy()
     {
-        return _proxy;
+        return this.proxy;
     }
 
     protected synchronized void addPropertyChangeListener(String property, PropertyChangeListener listener)
     {
-        if (_pcSupport == null)
+        if (this.pcSupport == null)
         {
-            _pcSupport = new PropertyChangeSupport(_proxy);
+            this.pcSupport = new PropertyChangeSupport(this.proxy);
         }
 
-        _pcSupport.addPropertyChangeListener(property, listener);
+        this.pcSupport.addPropertyChangeListener(property, listener);
     }
 
     protected synchronized void addVetoableChangeListener(String property, VetoableChangeListener listener)
     {
-        if (_vcSupport == null)
+        if (this.vcSupport == null)
         {
-            _vcSupport = new VetoableChangeSupport(_proxy);
+            this.vcSupport = new VetoableChangeSupport(this.proxy);
         }
 
-        _vcSupport.addVetoableChangeListener(property, listener);
+        this.vcSupport.addVetoableChangeListener(property, listener);
     }
 
     protected synchronized void firePropertyChange(String property, Object oldValue, Object newValue)
     {
-        if (_pcSupport != null)
+        if (this.pcSupport != null)
         {
-            _pcSupport.firePropertyChange(property, oldValue, newValue);
+            this.pcSupport.firePropertyChange(property, oldValue, newValue);
         }
     }
 
     protected synchronized void fireVetoableChange(String property, Object oldValue, Object newValue) throws PropertyVetoException
     {
-        if (_vcSupport != null)
+        if (this.vcSupport != null)
         {
-            _vcSupport.fireVetoableChange(property, oldValue, newValue);
+            this.vcSupport.fireVetoableChange(property, oldValue, newValue);
         }
     }
 
@@ -276,17 +277,17 @@ public abstract class AbstractBeanInvocationHandler implements InvocationHandler
 
     protected synchronized void removePropertyChangeListener(String property, PropertyChangeListener listener)
     {
-        if (_pcSupport != null)
+        if (this.pcSupport != null)
         {
-            _pcSupport.removePropertyChangeListener(property, listener);
+            this.pcSupport.removePropertyChangeListener(property, listener);
         }
     }
 
     protected synchronized void removeVetoableChangeListener(String property, VetoableChangeListener listener)
     {
-        if (_vcSupport != null)
+        if (this.vcSupport != null)
         {
-            _vcSupport.removeVetoableChangeListener(property, listener);
+            this.vcSupport.removeVetoableChangeListener(property, listener);
         }
     }
 
@@ -297,9 +298,9 @@ public abstract class AbstractBeanInvocationHandler implements InvocationHandler
 
     private synchronized void updateProxy(Object value)
     {
-        if (_proxy == null)
+        if (this.proxy == null)
         {
-            _proxy = value;
+            this.proxy = value;
         }
     }
 }

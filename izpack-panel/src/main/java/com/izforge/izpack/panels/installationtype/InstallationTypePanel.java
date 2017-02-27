@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.installationtype;
 
 import java.awt.event.ActionEvent;
@@ -38,32 +37,31 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 
-
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  * @version $Id: $
  */
 public class InstallationTypePanel extends IzPanel implements ActionListener
 {
+
     private static final long serialVersionUID = -8178770882900584122L;
 
-    private static final transient Logger logger = Logger.getLogger(InstallationTypePanel.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(InstallationTypePanel.class.getName());
 
     private JRadioButton normalinstall;
     private JRadioButton modifyinstall;
 
-
     /**
      * Constructs an <tt>InstallationTypePanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public InstallationTypePanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                                 Log log)
+            Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
         buildGUI();
@@ -74,8 +72,7 @@ public class InstallationTypePanel extends IzPanel implements ActionListener
         // We put our components
 
         add(LabelFactory.create(getString("InstallationTypePanel.info"), parent.getIcons().get("history"), LEADING),
-            NEXT_LINE);
-
+                NEXT_LINE);
 
         ButtonGroup group = new ButtonGroup();
 
@@ -97,7 +94,7 @@ public class InstallationTypePanel extends IzPanel implements ActionListener
 
     /* (non-Javadoc)
     * @see com.izforge.izpack.installer.IzPanel#panelActivate()
-    */
+     */
     @Override
     public void panelActivate()
     {
@@ -118,14 +115,13 @@ public class InstallationTypePanel extends IzPanel implements ActionListener
     {
         if (e.getSource() == normalinstall)
         {
-            logger.fine("Installation type: Normal installation");
+            LOGGER.fine("Installation type: Normal installation");
             this.installData.setVariable(InstallData.MODIFY_INSTALLATION, "false");
         }
         else
         {
-            logger.fine("Installation type: Modification installation");
+            LOGGER.fine("Installation type: Modification installation");
             this.installData.setVariable(InstallData.MODIFY_INSTALLATION, "true");
         }
     }
 }
-

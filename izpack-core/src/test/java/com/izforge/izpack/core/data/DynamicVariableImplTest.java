@@ -26,6 +26,7 @@ import com.izforge.izpack.core.variable.filters.RegularExpressionFilter;
 
 public class DynamicVariableImplTest
 {
+
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
@@ -44,7 +45,7 @@ public class DynamicVariableImplTest
         try
         {
             assertEquals("C:\\Program Files\\MyApp\\app.exe".replace('\\', File.separatorChar),
-                         dynvar.evaluate(subst));
+                    dynvar.evaluate(subst));
         }
         catch (Exception e)
         {
@@ -64,7 +65,7 @@ public class DynamicVariableImplTest
         try
         {
             assertEquals("C:/Program Files/Java/jdk1.7.0_51/bin/java",
-                         dynvar.evaluate(subst));
+                    dynvar.evaluate(subst));
         }
         catch (Exception e)
         {
@@ -84,7 +85,8 @@ public class DynamicVariableImplTest
             configFile = folder.newFile("_wrapper_.conf");
             OutputStream out = new FileOutputStream(configFile);
             int len;
-            while ((len = in.read(buf)) > 0) {
+            while ((len = in.read(buf)) > 0)
+            {
                 out.write(buf, 0, len);
             }
             out.close();
@@ -104,7 +106,7 @@ public class DynamicVariableImplTest
         try
         {
             assertEquals("C:/Program Files/Java/jdk1.7.0_51/bin/java",
-                         dynvar.evaluate(subst));
+                    dynvar.evaluate(subst));
         }
         catch (Exception e)
         {

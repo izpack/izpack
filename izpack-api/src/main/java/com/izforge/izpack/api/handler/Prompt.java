@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.handler;
 
 /**
@@ -28,6 +27,7 @@ package com.izforge.izpack.api.handler;
  */
 public interface Prompt
 {
+
     /**
      * The prompt type.
      */
@@ -62,7 +62,7 @@ public interface Prompt
     /**
      * Displays a message.
      *
-     * @param type    the type of the message
+     * @param type the type of the message
      * @param message the message to display
      */
     void message(Type type, String message);
@@ -70,8 +70,9 @@ public interface Prompt
     /**
      * Displays a message.
      *
-     * @param type    the type of the message
-     * @param title   the message title. If {@code null}, the title will be determined from the type
+     * @param type the type of the message
+     * @param title the message title. If {@code null}, the title will be
+     * determined from the type
      * @param message the message to display
      */
     void message(Type type, String title, String message);
@@ -79,8 +80,9 @@ public interface Prompt
     /**
      * Displays a message.
      *
-     * @param type    the type of the message
-     * @param title   the message title. If {@code null}, the title will be determined from the type
+     * @param type the type of the message
+     * @param title the message title. If {@code null}, the title will be
+     * determined from the type
      * @param message the message to display
      * @param throwable the throwable for displaying details
      */
@@ -103,7 +105,7 @@ public interface Prompt
     /**
      * Displays a warning message.
      *
-     * @param title   the message title. May be {@code null}
+     * @param title the message title. May be {@code null}
      * @param message the message to display
      */
     void warn(String title, String message);
@@ -133,7 +135,7 @@ public interface Prompt
     /**
      * Displays an error message.
      *
-     * @param title   the message title. May be {@code null}
+     * @param title the message title. May be {@code null}
      * @param message the message display
      */
     void error(String title, String message);
@@ -141,7 +143,7 @@ public interface Prompt
     /**
      * Displays an error message.
      *
-     * @param title   the message title. May be {@code null}
+     * @param title the message title. May be {@code null}
      * @param message the message display
      * @param throwable the throwable for displaying details
      */
@@ -150,7 +152,7 @@ public interface Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type    the type of the message
+     * @param type the type of the message
      * @param message the message
      * @param options the options which may be selected
      * @return the selected option
@@ -160,9 +162,9 @@ public interface Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type          the type of the message
-     * @param message       the message
-     * @param options       the options which may be selected
+     * @param type the type of the message
+     * @param message the message
+     * @param options the options which may be selected
      * @param defaultOption the default option to select
      * @return the selected option
      */
@@ -171,8 +173,8 @@ public interface Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type    the type of the message
-     * @param title   the message title. May be {@code null}
+     * @param type the type of the message
+     * @param title the message title. May be {@code null}
      * @param message the message
      * @param options the options which may be selected
      * @return the selected option
@@ -182,10 +184,10 @@ public interface Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type          the type of the message
-     * @param title         the message title. May be {@code null}
-     * @param message       the message
-     * @param options       the options which may be selected
+     * @param type the type of the message
+     * @param title the message title. May be {@code null}
+     * @param message the message
+     * @param options the options which may be selected
      * @param defaultOption the default option to select
      * @return the selected option
      */

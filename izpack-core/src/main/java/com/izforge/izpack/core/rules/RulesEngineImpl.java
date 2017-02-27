@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -48,7 +47,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.logging.Logger;
 
-
 /**
  * The rules engine class is the central point for checking conditions
  *
@@ -71,7 +69,7 @@ public class RulesEngineImpl implements RulesEngine
 
     private final ConditionContainer container;
 
-    private static final Logger logger = Logger.getLogger(RulesEngineImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(RulesEngineImpl.class.getName());
 
     /**
      * The built-in condition types, with their corresponding class names.
@@ -166,7 +164,7 @@ public class RulesEngineImpl implements RulesEngine
                 if (id == null || id.isEmpty() || "UNKNOWN".equals(id))
                 {
                     id = className + "-" + UUID.randomUUID().toString();
-                    logger.fine("Random condition id " + id + " generated");
+                    LOGGER.fine("Random condition id " + id + " generated");
                 }
                 container.addComponent(id, conditionClass);
                 result = (Condition) container.getComponent(id);
@@ -212,7 +210,7 @@ public class RulesEngineImpl implements RulesEngine
     {
         if (conditionsSpec == null)
         {
-            logger.fine("No conditions specification found");
+            LOGGER.fine("No conditions specification found");
             return;
         }
         if (conditionsSpec.hasChildren())
@@ -268,11 +266,10 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * Gets the condition for the requested id.
-     * The id may be one of the following:
-     * A condition ID as defined in the install.xml
-     * A simple expression with !,+,|,\
-     * A complex expression with !,&&,||,\\ - must begin with char @
+     * Gets the condition for the requested id. The id may be one of the
+     * following: A condition ID as defined in the install.xml A simple
+     * expression with !,+,|,\ A complex expression with !,&&,||,\\ - must begin
+     * with char @
      *
      * @param id ID to find in the conditionMap
      * @return the condition. May be <tt>null</tt>
@@ -328,7 +325,7 @@ public class RulesEngineImpl implements RulesEngine
         {
             return isConditionTrue(cond);
         }
-        logger.warning("Condition " + id + " not found");
+        LOGGER.warning("Condition " + id + " not found");
         return false;
     }
 
@@ -340,30 +337,31 @@ public class RulesEngineImpl implements RulesEngine
             cond.setInstallData(this.installData);
         }
         boolean value = cond.isTrue();
-        logger.fine("Condition " + cond.getId() + ": " + Boolean.toString(value));
+        LOGGER.fine("Condition " + cond.getId() + ": " + Boolean.toString(value));
         return value;
     }
 
     /**
      * Can a panel be shown?
      *
-     * @param panelId   - id of the panel, which should be shown
+     * @param panelId - id of the panel, which should be shown
      * @param variables - the variables
-     * @return true - there is no condition or condition is met false - there is a condition and the
-     *         condition was not met, or if the given condition doesn't exist
+     * @return true - there is no condition or condition is met false - there is
+     * a condition and the condition was not met, or if the given condition
+     * doesn't exist
      */
     @Override
     public boolean canShowPanel(String panelId, Variables variables)
     {
         if (!this.panelConditions.containsKey(panelId))
         {
-            logger.fine("Panel " + panelId + " unconditionally activated");
+            LOGGER.fine("Panel " + panelId + " unconditionally activated");
             return true;
         }
         Condition condition = getCondition(this.panelConditions.get(panelId));
         boolean b = condition.isTrue();
-        logger.fine("Panel " + panelId + ": activation depends on condition "
-                            + condition.getId() + " -> " + b);
+        LOGGER.fine("Panel " + panelId + ": activation depends on condition "
+                + condition.getId() + " -> " + b);
         return b;
     }
 
@@ -396,8 +394,8 @@ public class RulesEngineImpl implements RulesEngine
      *
      * @param packid the id of the pack as defined in install.xml
      * @param variables
-     * @return true - there is no condition or condition is met false - there is a condition and the
-     *         condition was not met
+     * @return true - there is no condition or condition is met false - there is
+     * a condition and the condition was not met
      */
     @Override
     public boolean canInstallPack(String packid, Variables variables)
@@ -408,18 +406,19 @@ public class RulesEngineImpl implements RulesEngine
         }
         if (!this.packConditions.containsKey(packid))
         {
-            logger.fine("Package " + packid + " unconditionally installable");
+            LOGGER.fine("Package " + packid + " unconditionally installable");
             return true;
         }
         Condition condition = getCondition(this.packConditions.get(packid));
         boolean b = condition.isTrue();
-        logger.fine("Package " + packid + ": installation depends on condition "
+        LOGGER.fine("Package " + packid + ": installation depends on condition "
                 + condition.getId() + " -> " + b);
         return b;
     }
 
     /**
-     * Is an optional installation of a pack possible if the condition is not met?
+     * Is an optional installation of a pack possible if the condition is not
+     * met?
      *
      * @param packid id of the pack as defined in install.xml
      * @param variables
@@ -430,18 +429,19 @@ public class RulesEngineImpl implements RulesEngine
     {
         if (!this.optionalPackConditions.containsKey(packid))
         {
-            logger.fine("Package " + packid + " unconditionally installable");
+            LOGGER.fine("Package " + packid + " unconditionally installable");
             return false;
         }
         else
         {
-            logger.fine("Package " + packid + " optional installation possible");
+            LOGGER.fine("Package " + packid + " optional installation possible");
             return true;
         }
     }
 
     /**
      * Adds a condition to the conditionsMap.
+     *
      * @param condition the condition to add
      */
     @Override
@@ -452,7 +452,7 @@ public class RulesEngineImpl implements RulesEngine
             String id = condition.getId();
             if (conditionsMap.containsKey(id))
             {
-                logger.warning("Condition " + id + " already registered");
+                LOGGER.warning("Condition " + id + " already registered");
             }
             else
             {
@@ -461,7 +461,7 @@ public class RulesEngineImpl implements RulesEngine
         }
         else
         {
-            logger.warning("Could not add condition, was null");
+            LOGGER.warning("Could not add condition, was null");
         }
     }
 
@@ -477,7 +477,7 @@ public class RulesEngineImpl implements RulesEngine
             condition.makeXMLData(conditionEl);
             conditionsel.addChild(conditionEl);
         }
-        logger.fine("Writing generated conditions specification");
+        LOGGER.fine("Writing generated conditions specification");
         try
         {
             xmlOut.write(conditionsel);
@@ -498,17 +498,18 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * initializes built-in conditions like os conditions and package conditions.
+     * initializes built-in conditions like os conditions and package
+     * conditions.
      *
      * @param platform the current platform
      */
     private void initStandardConditions(Platform platform)
     {
-        logger.fine("Initializing built-in conditions");
+        LOGGER.fine("Initializing built-in conditions");
         initOsConditions(platform);
         if ((installData != null) && (installData.getAllPacks() != null))
         {
-            logger.fine("Initializing built-in conditions for packs");
+            LOGGER.fine("Initializing built-in conditions for packs");
             for (Pack pack : installData.getAllPacks())
             {
                 // automatically add packselection condition
@@ -521,7 +522,7 @@ public class RulesEngineImpl implements RulesEngine
                 String condition = pack.getCondition();
                 if (condition != null && !condition.isEmpty())
                 {
-                    logger.fine("Adding pack condition \"" + condition + "\" for pack \"" + pack.getName() + "\"");
+                    LOGGER.fine("Adding pack condition \"" + condition + "\" for pack \"" + pack.getName() + "\"");
                     packConditions.put(pack.getName(), condition);
                 }
             }
@@ -552,11 +553,12 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * Creates a condition to determine if the current platform is that specified.
+     * Creates a condition to determine if the current platform is that
+     * specified.
      *
      * @param conditionId the condition identifier
-     * @param current     the current platform
-     * @param platform    the platform to compare against
+     * @param current the current platform
+     * @param platform the platform to compare against
      */
     private void createPlatformCondition(String conditionId, Platform current, Platform platform)
     {
@@ -569,14 +571,11 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * Parses the given complex expression into a condition.
-     * Understands the boolean operations && (AND), || (OR)
-     * and ! (NOT).
+     * Parses the given complex expression into a condition. Understands the
+     * boolean operations && (AND), || (OR) and ! (NOT).
      * <p/>
-     * Precedence is:
-     * NOT is evaluated first.
-     * AND is evaluated after NOT, but before OR.
-     * OR is evaluated last.
+     * Precedence is: NOT is evaluated first. AND is evaluated after NOT, but
+     * before OR. OR is evaluated last.
      * <p/>
      * Parentheses may be added at a later time.
      *
@@ -608,7 +607,8 @@ public class RulesEngineImpl implements RulesEngine
             result = conditionsMap.get(expression);
         }
 
-        if (result != null){
+        if (result != null)
+        {
             result.setInstallData(installData);
         }
 
@@ -616,14 +616,15 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * Creates an OR condition from the given complex expression.
-     * Uses the substring up to the first || delimiter as first operand and
-     * the rest as second operand.
+     * Creates an OR condition from the given complex expression. Uses the
+     * substring up to the first || delimiter as first operand and the rest as
+     * second operand.
      *
      * @param expression given complex expression
      * @return OrCondition
      */
-    private Condition parseComplexOrCondition(String expression) {
+    private Condition parseComplexOrCondition(String expression)
+    {
         String[] parts = expression.split("\\|\\|", 2);
         Condition result = evaluateComplexExpression("or", expression, parts);
         return result;
@@ -638,14 +639,14 @@ public class RulesEngineImpl implements RulesEngine
     private Condition parseComplexXorCondition(String expression)
     {
         String[] parts = expression.split("\\^", 2);
-        Condition result = evaluateComplexExpression("xor",expression, parts);
+        Condition result = evaluateComplexExpression("xor", expression, parts);
         return result;
     }
 
     /**
-     * Creates an AND condition from the given complex expression.
-     * Uses the expression up to the first && delimiter as first operand and
-     * the rest as second operand.
+     * Creates an AND condition from the given complex expression. Uses the
+     * expression up to the first && delimiter as first operand and the rest as
+     * second operand.
      *
      * @param expression given complex expression
      * @return AndCondition
@@ -658,8 +659,8 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * Creates a NOT condition from the given complex expression.
-     * Negates the result of the whole expression!
+     * Creates a NOT condition from the given complex expression. Negates the
+     * result of the whole expression!
      *
      * @param expression given complex expression
      * @return NotCondtion
@@ -698,7 +699,7 @@ public class RulesEngineImpl implements RulesEngine
                     // not-condition
                     if (index > 0)
                     {
-                        logger.warning("! operator only allowed at position 0");
+                        LOGGER.warning("! operator only allowed at position 0");
                     }
                     else
                     {
@@ -710,7 +711,7 @@ public class RulesEngineImpl implements RulesEngine
                     }
                     break;
                 default:
-                    // do nothing
+                // do nothing
             }
             index++;
         }
@@ -727,50 +728,67 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * This method replaces some of the functionality in the getConditionByExpr() method. It checks both operands in either side of the relation,
-     * and returns a warning / null value if any of the operands is actually undefined. Fixes the NPE in IZPACK-1109.
+     * This method replaces some of the functionality in the
+     * getConditionByExpr() method. It checks both operands in either side of
+     * the relation, and returns a warning / null value if any of the operands
+     * is actually undefined. Fixes the NPE in IZPACK-1109.
      *
-     * @param condType the type of simple expression. Should correspond to either a fully qualified classname of a condition, or a key in the TYPE_CLASS_NAMES map
+     * @param condType the type of simple expression. Should correspond to
+     * either a fully qualified classname of a condition, or a key in the
+     * TYPE_CLASS_NAMES map
      * @param expression the remaining characters in the expression
-     * @param index the index where the split in operands is. Example: aaa&bbb would have index = 3.
-     * @return the resultant condition, or null if evaluation failed for any reason
+     * @param index the index where the split in operands is. Example: aaa&bbb
+     * would have index = 3.
+     * @return the resultant condition, or null if evaluation failed for any
+     * reason
      */
-    private Condition evaluateSimpleExpression(String condType, StringBuffer expression, int index)  {
+    private Condition evaluateSimpleExpression(String condType, StringBuffer expression, int index)
+    {
         Condition result = instantiateConditionClass(condType);
         String warningMsg = "Condition: %s contains reference to undefined condition: %s";
         String conditionId = expression.toString();
-        String operand1Id = expression.substring(0,index);
+        String operand1Id = expression.substring(0, index);
         Condition operand1 = conditionsMap.get(operand1Id);
-        if (operand1 != null) {
+        if (operand1 != null)
+        {
             expression.delete(0, index + 1); // delete everything up to the '+' char
 
             String operand2Id = expression.toString();
             Condition operand2 = getConditionByExpr(expression);
-            if (operand2 != null){
+            if (operand2 != null)
+            {
                 ((ConditionWithMultipleOperands) result).addOperands(operand1, operand2);
-            } else {
+            }
+            else
+            {
                 // the second operand doesn't exist
-                logger.warning(String.format(warningMsg, conditionId, operand2Id));
+                LOGGER.warning(String.format(warningMsg, conditionId, operand2Id));
                 result = null;
             }
-        } else {
+        }
+        else
+        {
             // the first operand doesn't exist
-            logger.warning(String.format(warningMsg, conditionId, operand1Id));
+            LOGGER.warning(String.format(warningMsg, conditionId, operand1Id));
             result = null;
         }
         return result;
     }
 
     /**
-     * This method replaces some of the functionality in the parseComplexExpression() method. It checks operands for existence instead of immediately adding them
-     * into a new condition, which fixes IZPACK-1109.
+     * This method replaces some of the functionality in the
+     * parseComplexExpression() method. It checks operands for existence instead
+     * of immediately adding them into a new condition, which fixes IZPACK-1109.
      *
-     * @param condType the type of complex expression (one of 'and', 'or', 'xor', 'not')
+     * @param condType the type of complex expression (one of 'and', 'or',
+     * 'xor', 'not')
      * @param expression the expression
-     * @return a Condition representing the expression, or null if evaluation failed for any reason
+     * @return a Condition representing the expression, or null if evaluation
+     * failed for any reason
      */
-    private Condition evaluateComplexExpression(String condType, String expression, String[]parts){
-        final String warning = "Complex condition: "+expression+" contains reference to undefined condition: %s";
+    private Condition evaluateComplexExpression(String condType, String expression, String[] parts)
+    {
+        final String warning = "Complex condition: " + expression + " contains reference to undefined condition: %s";
         Condition result = instantiateConditionClass(condType);
 
         String operand1Id = parts[0].trim();
@@ -778,11 +796,14 @@ public class RulesEngineImpl implements RulesEngine
         Condition operand1 = parseComplexCondition(operand1Id);
         Condition operand2 = parseComplexCondition(operand2Id);
 
-        if (operand1 == null){
-            logger.warning(String.format(warning, operand1Id));
+        if (operand1 == null)
+        {
+            LOGGER.warning(String.format(warning, operand1Id));
             return null;
-        } else if (operand2 == null){
-            logger.warning(String.format(warning, operand2Id));
+        }
+        else if (operand2 == null)
+        {
+            LOGGER.warning(String.format(warning, operand2Id));
             return null;
         }
 
@@ -792,33 +813,48 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * A helper method that attempts to instantiate the correct class according to TYPE_CLASS_NAMES
-     * @param condType The type of condition (should match either a fully qualified class, or one of the keys in TYPE_CLASS_NAMES
+     * A helper method that attempts to instantiate the correct class according
+     * to TYPE_CLASS_NAMES
+     *
+     * @param condType The type of condition (should match either a fully
+     * qualified class, or one of the keys in TYPE_CLASS_NAMES
      * @return
      */
-    private Condition instantiateConditionClass(String condType){
+    private Condition instantiateConditionClass(String condType)
+    {
         Condition result = null;
         String condClassName = getClassName(condType);
-        try {
-            Class<Condition> conditionClass = (Class<Condition>)Class.forName(condClassName);
+        try
+        {
+            Class<Condition> conditionClass = (Class<Condition>) Class.forName(condClassName);
             Constructor<Condition> constructor = conditionClass.getConstructor(RulesEngine.class);
             result = constructor.newInstance(this);
-        } catch (ClassNotFoundException e) {
-            logger.warning("Condition class not found: " + condClassName);
+        }
+        catch (ClassNotFoundException e)
+        {
+            LOGGER.warning("Condition class not found: " + condClassName);
             return null;
-        } catch (NoSuchMethodException e) {
-            logger.warning("Condition: " + condClassName+ " is missing a constructor with a RulesEngine parameter");
+        }
+        catch (NoSuchMethodException e)
+        {
+            LOGGER.warning("Condition: " + condClassName + " is missing a constructor with a RulesEngine parameter");
             return null;
-        } catch (InvocationTargetException e) {
-            logger.warning("Condition: " + condClassName + " constructor threw an exception.");
+        }
+        catch (InvocationTargetException e)
+        {
+            LOGGER.warning("Condition: " + condClassName + " constructor threw an exception.");
             e.printStackTrace();
             return null;
-        } catch (InstantiationException e) {
-            logger.warning("Attempting to instantiate condition: " + condClassName + " failed. It could be an abstract class");
+        }
+        catch (InstantiationException e)
+        {
+            LOGGER.warning("Attempting to instantiate condition: " + condClassName + " failed. It could be an abstract class");
             e.printStackTrace();
             return null;
-        } catch (IllegalAccessException e) {
-            logger.warning("Access to condition: " + condClassName + " constructor was denied");
+        }
+        catch (IllegalAccessException e)
+        {
+            LOGGER.warning("Access to condition: " + condClassName + " constructor was denied");
             e.printStackTrace();
             return null;
         }
@@ -847,7 +883,8 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * Recursively replaces any built-in conditions referenced by the supplied condition with those held by this.
+     * Recursively replaces any built-in conditions referenced by the supplied
+     * condition with those held by this.
      *
      * @param condition the condition
      */
@@ -885,11 +922,13 @@ public class RulesEngineImpl implements RulesEngine
     }
 
     /**
-     * A built-in condition, created by the RulesEngine. These are not intended to be serialized - the RulesEngine
-     * will replace any instance of a built in condition with its own version.
+     * A built-in condition, created by the RulesEngine. These are not intended
+     * to be serialized - the RulesEngine will replace any instance of a built
+     * in condition with its own version.
      */
     private static abstract class BuiltinCondition extends Condition
     {
+
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -908,6 +947,7 @@ public class RulesEngineImpl implements RulesEngine
      */
     private static class StaticCondition extends BuiltinCondition
     {
+
         private static final long serialVersionUID = 1L;
         private final boolean result;
 
@@ -923,7 +963,8 @@ public class RulesEngineImpl implements RulesEngine
         }
 
         @Override
-        public Set<String> getVarRefs() {
+        public Set<String> getVarRefs()
+        {
             return new HashSet<String>(0);
         }
 

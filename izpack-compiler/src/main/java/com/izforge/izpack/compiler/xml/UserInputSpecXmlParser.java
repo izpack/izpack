@@ -20,11 +20,12 @@ package com.izforge.izpack.compiler.xml;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 
 /**
- * XML parser for the user input spec IzPack resource with activated schema validation using the
- * according built-in XSD.
+ * XML parser for the user input spec IzPack resource with activated schema
+ * validation using the according built-in XSD.
  */
 public class UserInputSpecXmlParser extends XMLParser
 {
+
     public UserInputSpecXmlParser()
     {
         super(true, XMLSchemaDefinition.USERINPUT.createStreamSources());

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.defaulttarget;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -41,6 +40,7 @@ public class DefaultTargetConsolePanel extends AbstractConsolePanel
 {
 
     private final InstallData installData;
+
     /**
      * Constructs an {@code DefaultTargetConsolePanel}.
      *
@@ -63,8 +63,9 @@ public class DefaultTargetConsolePanel extends AbstractConsolePanel
      * Runs the panel using the supplied properties.
      *
      * @param installData the installation data
-     * @param properties  the properties
-     * @return {@code true} if the installation is successful, otherwise {@code false}
+     * @param properties the properties
+     * @return {@code true} if the installation is successful, otherwise
+     * {@code false}
      */
     @Override
     public boolean run(InstallData installData, Properties properties)
@@ -79,8 +80,9 @@ public class DefaultTargetConsolePanel extends AbstractConsolePanel
      * Runs the panel in an interactive console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return {@code true} if the panel ran successfully, otherwise {@code false}
+     * @param console the console
+     * @return {@code true} if the panel ran successfully, otherwise
+     * {@code false}
      */
     @Override
     public boolean run(InstallData installData, Console console)

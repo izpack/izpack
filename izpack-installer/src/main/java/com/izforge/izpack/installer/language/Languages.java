@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.language;
 
 import java.awt.Font;
@@ -31,10 +30,9 @@ import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
 import com.izforge.izpack.installer.data.GUIInstallData;
 
-
 /**
- * Helper to map ISO3 codes to their corresponding display names according to the configured "langDisplayType"
- * modifier.
+ * Helper to map ISO3 codes to their corresponding display names according to
+ * the configured "langDisplayType" modifier.
  *
  * @author Tim Anderson
  */
@@ -43,8 +41,8 @@ class Languages
 
     enum DisplayType
     {
-        ISO3,     //  indicates to display ISO3 language codes
-        NATIVE,   // indicates to display the native name for a language.
+        ISO3, //  indicates to display ISO3 language codes
+        NATIVE, // indicates to display the native name for a language.
         DEFAULT   // Indicates to display the default name for a language.
     }
 
@@ -61,22 +59,22 @@ class Languages
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(Languages.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(Languages.class.getName());
 
     /**
      * Constructs a {@code Languages}.
      *
-     * @param locales     the locales
+     * @param locales the locales
      * @param installData the installation data
-     * @param font        the font to verify that language display names can be displayed. May be {@code null}
+     * @param font the font to verify that language display names can be
+     * displayed. May be {@code null}
      */
     public Languages(Locales locales, GUIInstallData installData, Font font)
     {
         displayType = getDisplayType(installData);
         if (displayType == DisplayType.NATIVE && font == null)
         {
-            logger.info("Cannot render native language display names - no font supplied for verification");
+            LOGGER.info("Cannot render native language display names - no font supplied for verification");
             displayType = DisplayType.DEFAULT;
         }
 
@@ -98,13 +96,14 @@ class Languages
             collector.addDisplayName(code, locales.getLocale(code), displayNames);
         }
     }
-    
+
     /**
      * Constructs a {@code Languages}.
      *
-     * @param locales     the locales
+     * @param locales the locales
      * @param installData the installation data
-     * @param font        the font to verify that language display names can be displayed. May be {@code null}
+     * @param font the font to verify that language display names can be
+     * displayed. May be {@code null}
      */
     public Languages(Locales locales, ConsoleInstallData installData)
     {
@@ -153,7 +152,7 @@ class Languages
             }
             catch (IllegalArgumentException exception)
             {
-                logger.warning("Invalid langDisplayType: " + langDisplayType);
+                LOGGER.warning("Invalid langDisplayType: " + langDisplayType);
             }
         }
         return result;
@@ -164,6 +163,7 @@ class Languages
      */
     private interface DisplayNameCollector
     {
+
         void addDisplayName(String code, Locale locale, Map<String, String> displayNames);
     }
 
@@ -185,6 +185,7 @@ class Languages
      */
     private class DefaultDisplayNameCollector implements DisplayNameCollector
     {
+
         @Override
         public void addDisplayName(String code, Locale locale, Map<String, String> displayNames)
         {
@@ -193,8 +194,9 @@ class Languages
     }
 
     /**
-     * Collects display names in the language of the supplied locale. If the language is not displayable by the
-     * supplied font, the language name will be returned as written in the default locale.
+     * Collects display names in the language of the supplied locale. If the
+     * language is not displayable by the supplied font, the language name will
+     * be returned as written in the default locale.
      */
     private class NativeDisplayNameCollector implements DisplayNameCollector
     {

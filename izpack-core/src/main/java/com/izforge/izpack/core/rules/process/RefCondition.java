@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -32,6 +31,7 @@ import com.izforge.izpack.api.rules.RulesEngine;
  */
 public class RefCondition extends ConditionReference
 {
+
     private static final long serialVersionUID = -2298283511093626640L;
 
     protected transient RulesEngine rules;
@@ -68,7 +68,7 @@ public class RefCondition extends ConditionReference
         }
         if (condition == null)
         {
-            throw new IzPackException("Referenced condition \"" +  referencedConditionId + "\" not found");
+            throw new IzPackException("Referenced condition \"" + referencedConditionId + "\" not found");
         }
         setReferencedCondition(condition);
     }
@@ -101,9 +101,11 @@ public class RefCondition extends ConditionReference
         conditionRoot.setAttribute("refid", this.referencedConditionId);
     }
 
-    public static boolean isValidRefCondition(IXMLElement conditionElement){
+    public static boolean isValidRefCondition(IXMLElement conditionElement)
+    {
         if (conditionElement.hasAttribute("refid") && conditionElement.hasAttribute("type")
-                && conditionElement.getAttribute("type").equals("ref") && conditionElement.getName().toLowerCase().equals("condition")){
+                && conditionElement.getAttribute("type").equals("ref") && conditionElement.getName().toLowerCase().equals("condition"))
+        {
             return true;
         }
         return false;

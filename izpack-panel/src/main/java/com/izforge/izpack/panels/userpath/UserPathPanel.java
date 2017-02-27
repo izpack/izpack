@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userpath;
 
 import java.util.logging.Logger;
@@ -40,9 +39,10 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
  */
 public class UserPathPanel extends UserPathInputPanel
 {
+
     private static final long serialVersionUID = 3256443616359429170L;
 
-    private static final Logger logger = Logger.getLogger(UserPathPanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UserPathPanel.class.getName());
 
     private boolean skip = false;
 
@@ -53,11 +53,11 @@ public class UserPathPanel extends UserPathInputPanel
     /**
      * Constructs an <tt>UserPathPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public UserPathPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
@@ -73,19 +73,19 @@ public class UserPathPanel extends UserPathInputPanel
     public void panelActivate()
     {
         boolean found = false;
-        logger.fine("Looking for activation condition");
+        LOGGER.fine("Looking for activation condition");
         // Need to have a way to supress panel if not in selected packs.
         String dependsName = installData.getVariable(pathPackDependsName);
         if (dependsName != null && !(dependsName.equalsIgnoreCase("")))
         {
-            logger.fine("Checking for pack dependency of " + dependsName);
+            LOGGER.fine("Checking for pack dependency of " + dependsName);
             for (Pack pack : installData.getSelectedPacks())
             {
-                logger.fine("- Checking if " + pack.getName() + " equals " + dependsName);
+                LOGGER.fine("- Checking if " + pack.getName() + " equals " + dependsName);
                 if (pack.getName().equalsIgnoreCase(dependsName))
                 {
                     found = true;
-                    logger.fine("-- Found " + dependsName + ", panel will be shown");
+                    LOGGER.fine("-- Found " + dependsName + ", panel will be shown");
                     break;
                 }
             }
@@ -93,12 +93,12 @@ public class UserPathPanel extends UserPathInputPanel
         }
         else
         {
-            logger.fine("Not Checking for a pack dependency, panel will be shown");
+            LOGGER.fine("Not Checking for a pack dependency, panel will be shown");
             skip = false;
         }
         if (skip)
         {
-            logger.fine(UserPathPanel.class.getSimpleName() + " will not be shown");
+            LOGGER.fine(UserPathPanel.class.getSimpleName() + " will not be shown");
             parent.skipPanel();
             return;
         }
@@ -107,7 +107,7 @@ public class UserPathPanel extends UserPathInputPanel
         // Set the default or old value to the path selection panel.
         String expandedPath = variables.get(pathVariableName);
         expandedPath = variables.replace(expandedPath);
-        _pathSelectionPanel.setPath(expandedPath);
+        this.pathSelectionPanel.setPath(expandedPath);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class UserPathPanel extends UserPathInputPanel
         {
             return (false);
         }
-        installData.setVariable(pathVariableName, _pathSelectionPanel.getPath());
+        installData.setVariable(pathVariableName, this.pathSelectionPanel.getPath());
         return (true);
     }
 

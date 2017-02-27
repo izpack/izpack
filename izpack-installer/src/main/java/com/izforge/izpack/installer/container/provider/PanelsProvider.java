@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.container.provider;
 
 import java.util.ArrayList;
@@ -31,9 +30,7 @@ import org.picocontainer.injectors.Provider;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.installer.panel.Panels;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
 
 /**
  * Base class for {@link Panels} providers.
@@ -48,7 +45,7 @@ public abstract class PanelsProvider implements Provider
      * <br/>
      *
      * @param installData the installation data
-     * @param matcher     The platform-model matcher
+     * @param matcher The platform-model matcher
      * @return the panels for the current platform
      * @throws IzPackException if a panel doesn't have unique identifier
      */
@@ -66,7 +63,6 @@ public abstract class PanelsProvider implements Provider
                 {
                     throw new IzPackException("Duplicate panel: " + key);
                 }
-
 
                 result.add(panel);
             }

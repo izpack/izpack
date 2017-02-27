@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types;
 
 import java.io.File;
@@ -22,11 +21,10 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 /**
- * FileList represents an explicitly named list of files.  FileLists
- * are useful when you want to capture a list of files regardless of
- * whether they currently exist.  By contrast, FileSet operates as a
- * filter, only returning the name of a matched file if it currently
- * exists in the file system.
+ * FileList represents an explicitly named list of files. FileLists are useful
+ * when you want to capture a list of files regardless of whether they currently
+ * exist. By contrast, FileSet operates as a filter, only returning the name of
+ * a matched file if it currently exists in the file system.
  */
 public class FileList extends DataType
 {
@@ -75,8 +73,8 @@ public class FileList extends DataType
     /**
      * Set the filenames attribute.
      *
-     * @param filenames a string contains filenames, separated by , or
-     *                  by whitespace.
+     * @param filenames a string contains filenames, separated by , or by
+     * whitespace.
      */
     public void setFiles(String filenames)
     {
@@ -119,6 +117,7 @@ public class FileList extends DataType
      */
     public static class FileName
     {
+
         private String name;
 
         /**

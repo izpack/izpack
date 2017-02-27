@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container;
 
 import java.util.jar.JarFile;
@@ -38,6 +37,7 @@ import com.izforge.izpack.test.junit.UnloadJarRule;
  */
 public abstract class AbstractTestInstallationContainer extends AbstractContainer
 {
+
     protected Class klass;
     protected FrameworkMethod frameworkMethod;
     @Rule

@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.merge;
 
 import java.io.ByteArrayInputStream;
@@ -53,8 +52,8 @@ import com.izforge.izpack.util.xmlmerge.mapper.IdentityMapper;
 import com.izforge.izpack.util.xmlmerge.matcher.AttributeMatcher;
 
 /**
- * Default implementation of XmlMerge. Create all JDOM documents, then perform the merge into a new
- * JDOM document.
+ * Default implementation of XmlMerge. Create all JDOM documents, then perform
+ * the merge into a new JDOM document.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
@@ -65,7 +64,7 @@ public class DefaultXmlMerge implements XmlMerge
     /**
      * Root merge action.
      */
-    private MergeAction m_rootMergeAction = new FullMergeAction();
+    private MergeAction rootMergeAction = new FullMergeAction();
 
     /**
      * Creates a new DefaultXmlMerge instance.
@@ -80,21 +79,20 @@ public class DefaultXmlMerge implements XmlMerge
     @Override
     public void setRootMergeActionFactory(OperationFactory factory)
     {
-        this.m_rootMergeAction.setActionFactory(factory);
+        this.rootMergeAction.setActionFactory(factory);
     }
 
     @Override
     public void setRootMergeMatcherFactory(OperationFactory factory)
     {
-        m_rootMergeAction.setMatcherFactory(factory);
+        rootMergeAction.setMatcherFactory(factory);
     }
 
     @Override
     public void setRootMergeMapperFactory(OperationFactory factory)
     {
-        m_rootMergeAction.setMapperFactory(factory);
+        rootMergeAction.setMapperFactory(factory);
     }
-
 
     @Override
     public String merge(String[] sources) throws AbstractXmlMergeException
@@ -245,7 +243,8 @@ public class DefaultXmlMerge implements XmlMerge
     /**
      * Performs the actual merge.
      *
-     * @param docs The documents to merge. The first doc is assumed to be the original one to apply patches against.
+     * @param docs The documents to merge. The first doc is assumed to be the
+     * original one to apply patches against.
      * @return The merged result document
      * @throws AbstractXmlMergeException If an error occurred during the merge
      */
@@ -266,7 +265,7 @@ public class DefaultXmlMerge implements XmlMerge
             output.setRootElement(new Element("root"));
             Element outputRootElement = output.getRootElement();
 
-            m_rootMergeAction.perform(origRootElement, comparedRootElement,
+            rootMergeAction.perform(origRootElement, comparedRootElement,
                     outputRootElement);
 
             Element root = (Element) outputRootElement.getChildren().get(0);
@@ -282,9 +281,11 @@ public class DefaultXmlMerge implements XmlMerge
 
     private static void sortRootChildrenRecursive(Element root)
     {
-        sortRootChildrenRecursive(root, new Comparator<Element>() {
+        sortRootChildrenRecursive(root, new Comparator<Element>()
+        {
             @Override
-            public int compare(Element o1, Element o2) {
+            public int compare(Element o1, Element o2)
+            {
                 return o1.getName().compareTo(o2.getName());
             }
         });

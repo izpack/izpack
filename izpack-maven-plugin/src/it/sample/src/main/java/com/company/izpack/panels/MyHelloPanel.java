@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.company.izpack.panels;
 
 import com.izforge.izpack.api.data.GUIInstallData;
@@ -36,8 +35,7 @@ import java.util.ArrayList;
  *
  * @author Dan T. Tran
  */
-public class MyHelloPanel extends IzPanel
-{
+public class MyHelloPanel extends IzPanel {
 
     /**
      *
@@ -48,25 +46,23 @@ public class MyHelloPanel extends IzPanel
      * The constructor.
      *
      * @param parent The parent.
-     * @param idata  The installation data.
+     * @param idata The installation data.
      */
-    public MyHelloPanel(InstallerFrame parent, GUIInstallData idata)
-    {
+    public MyHelloPanel(InstallerFrame parent, GUIInstallData idata) {
         this(parent, idata, new IzPanelLayout());
     }
 
     /**
-     * Creates a new HelloPanel object with the given layout manager. Valid layout manager are the
-     * IzPanelLayout and the GridBagLayout. New panels should be use the IzPanelLaout. If lm is
-     * null, no layout manager will be created or initialized.
+     * Creates a new HelloPanel object with the given layout manager. Valid
+     * layout manager are the IzPanelLayout and the GridBagLayout. New panels
+     * should be use the IzPanelLaout. If lm is null, no layout manager will be
+     * created or initialized.
      *
      * @param parent The parent IzPack installer frame.
-     * @param idata  The installer internal data.
+     * @param idata The installer internal data.
      * @param layout layout manager to be used with this IzPanel
      */
-
-    public MyHelloPanel(InstallerFrame parent, GUIInstallData idata, LayoutManager2 layout)
-    {
+    public MyHelloPanel(InstallerFrame parent, GUIInstallData idata, LayoutManager2 layout) {
         // Layout handling. This panel was changed from a mixed layout handling
         // with GridBagLayout and BoxLayout to IzPanelLayout. It can be used as an
         // example how to use the IzPanelLayout. For this there are some comments
@@ -94,8 +90,7 @@ public class MyHelloPanel extends IzPanel
 
         ArrayList<Info.Author> authors = idata.getInfo().getAuthors();
         int size = authors.size();
-        if (size > 0)
-        {
+        if (size > 0) {
             str = messages.get("HelloPanel.authors");
             JLabel appAuthorsLabel = LabelFactory.create(str, parent.getIcons().get("information"), LEADING);
             // If nothing will be sad to the IzPanelLayout the position of an add will be
@@ -110,8 +105,7 @@ public class MyHelloPanel extends IzPanel
             add(appAuthorsLabel, LayoutConstants.NEXT_LINE);
 
             JLabel label;
-            for (int i = 0; i < size; i++)
-            {
+            for (int i = 0; i < size; i++) {
                 Info.Author a = authors.get(i);
                 String email = (a.getEmail() != null && a.getEmail().length() > 0) ? (" <"
                         + a.getEmail() + ">") : "";
@@ -122,8 +116,7 @@ public class MyHelloPanel extends IzPanel
             add(IzPanelLayout.createParagraphGap());
         }
 
-        if (idata.getInfo().getAppURL() != null)
-        {
+        if (idata.getInfo().getAppURL() != null) {
             str = messages.get("HelloPanel.url") + idata.getInfo().getAppURL();
             JLabel appURLLabel = LabelFactory.create(str, parent.getIcons().get("bookmark"), LEADING);
             add(appURLLabel, LayoutConstants.NEXT_LINE);
@@ -137,8 +130,7 @@ public class MyHelloPanel extends IzPanel
      *
      * @return Always true.
      */
-    public boolean isValidated()
-    {
+    public boolean isValidated() {
         return true;
     }
 }

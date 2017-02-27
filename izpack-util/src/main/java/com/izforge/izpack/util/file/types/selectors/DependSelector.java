@@ -14,16 +14,15 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
 
 /**
- * Selector that filters files based on whether they are newer than
- * a matching file in another directory tree. It can contain a mapper
- * element, so isn't available as an ExtendSelector (since those
- * parameters can't hold other elements).
+ * Selector that filters files based on whether they are newer than a matching
+ * file in another directory tree. It can contain a mapper element, so isn't
+ * available as an ExtendSelector (since those parameters can't hold other
+ * elements).
  */
 public class DependSelector extends MappingSelector
 {
@@ -66,11 +65,10 @@ public class DependSelector extends MappingSelector
         return buf.toString();
     }
 
-
     /**
      * this test is our selection test that compared the file with the destfile
      *
-     * @param srcfile  the source file
+     * @param srcfile the source file
      * @param destfile the destination file
      * @return true if destination is out of date
      */
@@ -82,4 +80,3 @@ public class DependSelector extends MappingSelector
     }
 
 }
-

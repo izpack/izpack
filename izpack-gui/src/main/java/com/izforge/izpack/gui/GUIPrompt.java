@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.gui;
 
 import static com.izforge.izpack.api.handler.Prompt.Option.CANCEL;
@@ -56,7 +55,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.izforge.izpack.api.handler.AbstractPrompt;
-
 
 /**
  * Displays a dialog prompting users for a value or informs them of something.
@@ -127,8 +125,9 @@ public class GUIPrompt extends AbstractPrompt
     /**
      * Constructs a {@code GUIPrompt} with a parent component.
      *
-     * @param parent the parent component. This determines the {@code Frame} in which the dialog is displayed;
-     *               if {@code null} or if the {@code parent} has no {@code Frame}, a default {@code Frame} is used
+     * @param parent the parent component. This determines the {@code Frame} in
+     * which the dialog is displayed; if {@code null} or if the {@code parent}
+     * has no {@code Frame}, a default {@code Frame} is used
      */
     public GUIPrompt(JComponent parent)
     {
@@ -148,8 +147,8 @@ public class GUIPrompt extends AbstractPrompt
     /**
      * Displays a confirmation message.
      *
-     * @param type    the type of the message
-     * @param title   the message title. May be {@code null}
+     * @param type the type of the message
+     * @param title the message title. May be {@code null}
      * @param message the message
      * @param options the options which may be selected
      * @return the selected option
@@ -255,10 +254,13 @@ public class GUIPrompt extends AbstractPrompt
 
     /**
      * Display details about throwable in a simple modal dialog.
+     *
      * @param throwable
      * @param title the title of the dialog box.
-     * @param submissionURL if not null, allow the user to report the exception to that URL
-     * @param component the "owner" of the dialog, and may be null for non-graphical applications.
+     * @param submissionURL if not null, allow the user to report the exception
+     * to that URL
+     * @param component the "owner" of the dialog, and may be null for
+     * non-graphical applications.
      */
     public void showMessageDialog(final int type, final String title, final String message,
             final String submissionURL,
@@ -277,9 +279,9 @@ public class GUIPrompt extends AbstractPrompt
         final String basicMessage = ((message != null) ? message : ((throwMessage != null) ? throwMessage : UIManager.getString("installer.errorMessage")));
 
         Font font = UIManager.getFont("OptionPane.font");
-        AffineTransform at = new AffineTransform();     
+        AffineTransform at = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(at, true, true);
-        final int basicMessageWidth = (int)font.getStringBounds(basicMessage, frc).getWidth();
+        final int basicMessageWidth = (int) font.getStringBounds(basicMessage, frc).getWidth();
         final JPanel topPanel = new JPanel();
         final JLabel messageLabel = new JLabel();
         messageLabel.setText(basicMessage);
@@ -287,7 +289,7 @@ public class GUIPrompt extends AbstractPrompt
         {
             messageLabel.setText(wrapHtml(basicMessage));
             messageLabel.setSize(new Dimension(700, 10)); // add small height so that preferred size is filled correctly
-            messageLabel.setPreferredSize(new Dimension (700, messageLabel.getPreferredSize().height));
+            messageLabel.setPreferredSize(new Dimension(700, messageLabel.getPreferredSize().height));
         }
         else
         {
@@ -325,7 +327,8 @@ public class GUIPrompt extends AbstractPrompt
         if (throwable != null)
         {
             // event handler for the Details button
-            detailsButton.addActionListener(new ActionListener() {
+            detailsButton.addActionListener(new ActionListener()
+            {
                 @Override
                 public void actionPerformed(ActionEvent event)
                 {
@@ -362,7 +365,8 @@ public class GUIPrompt extends AbstractPrompt
                 }
             });
             // event handler for the Details button
-            copyButton.addActionListener(new ActionListener() {
+            copyButton.addActionListener(new ActionListener()
+            {
                 @Override
                 public void actionPerformed(ActionEvent event)
                 {
@@ -375,7 +379,8 @@ public class GUIPrompt extends AbstractPrompt
         if (reportButton != null)
         {
             // Event handler for the "Report" button.
-            reportButton.addActionListener(new ActionListener() {
+            reportButton.addActionListener(new ActionListener()
+            {
                 @Override
                 public void actionPerformed(ActionEvent event)
                 {
@@ -406,10 +411,11 @@ public class GUIPrompt extends AbstractPrompt
     }
 
     /**
-     * Return an HTML-formatted stack trace for the specified Throwable, including any exceptions
-     * chained to the exception. Note the use of the Java 1.4 StackTraceElement to get stack
-     * details. The returned string begins with "<html>" and is therefore suitable for display in
-     * Swing components such as JLabel.
+     * Return an HTML-formatted stack trace for the specified Throwable,
+     * including any exceptions chained to the exception. Note the use of the
+     * Java 1.4 StackTraceElement to get stack details. The returned string
+     * begins with "<html>" and is therefore suitable for display in Swing
+     * components such as JLabel.
      */
     private static String getHTMLDetails(Throwable throwable)
     {
@@ -449,8 +455,8 @@ public class GUIPrompt extends AbstractPrompt
     }
 
     /**
-     * Serialize the specified Throwable, and use an HttpURLConnection to POST it to the specified
-     * URL. Return the response of the web server.
+     * Serialize the specified Throwable, and use an HttpURLConnection to POST
+     * it to the specified URL. Return the response of the web server.
      */
     private static String reportThrowable(Throwable throwable, String submissionURL)
             throws IOException
@@ -464,7 +470,10 @@ public class GUIPrompt extends AbstractPrompt
 
         // This code might work for other URL protocols, but it is intended
         // for HTTP. We use a POST request to send data with the request.
-        if (c instanceof HttpURLConnection) ((HttpURLConnection) c).setRequestMethod("POST");
+        if (c instanceof HttpURLConnection)
+        {
+            ((HttpURLConnection) c).setRequestMethod("POST");
+        }
 
         c.connect(); // Now connect to the server
 
@@ -483,30 +492,33 @@ public class GUIPrompt extends AbstractPrompt
             BufferedReader in = new BufferedReader(new InputStreamReader((InputStream) response));
             String line;
             while ((line = in.readLine()) != null)
+            {
                 message.append(line);
+            }
         }
         return message.toString();
     }
 
     /**
-     * Displays an option dialog, ensuring that it is displayed from the event dispatch thread.
+     * Displays an option dialog, ensuring that it is displayed from the event
+     * dispatch thread.
      *
-     * @param type         the dialog type
-     * @param title        the title
-     * @param message      the message
-     * @param optionType   the option type
-     * @param opts         the options
+     * @param type the dialog type
+     * @param title the title
+     * @param message the message
+     * @param optionType the option type
+     * @param opts the options
      * @param initialValue the initial value
      * @return the selected option
      */
     private int showOptionDialog(final int type, final String title, final String message, final int optionType,
-                                 final List<Object> opts, final Object initialValue)
+            final List<Object> opts, final Object initialValue)
     {
         int selected;
         if (SwingUtilities.isEventDispatchThread())
         {
             selected = JOptionPane.showOptionDialog(parent, message, title, optionType, type, null,
-                                                    opts.toArray(), initialValue);
+                    opts.toArray(), initialValue);
         }
         else
         {
@@ -519,7 +531,7 @@ public class GUIPrompt extends AbstractPrompt
                     public void run()
                     {
                         handle[0] = JOptionPane.showOptionDialog(parent, message, title, optionType, type,
-                                                                 null, opts.toArray(), initialValue);
+                                null, opts.toArray(), initialValue);
                     }
                 });
             }
@@ -533,11 +545,12 @@ public class GUIPrompt extends AbstractPrompt
     }
 
     /**
-     * Displays an option dialog, ensuring that it is displayed from the event dispatch thread.
+     * Displays an option dialog, ensuring that it is displayed from the event
+     * dispatch thread.
      *
-     * @param type       the dialog type
-     * @param title      the title
-     * @param message    the message
+     * @param type the dialog type
+     * @param title the title
+     * @param message the message
      * @param optionType the option type
      * @return the selected option
      */
@@ -574,7 +587,7 @@ public class GUIPrompt extends AbstractPrompt
     /**
      * Maps a {@code JOptionPane} selection to an {@link Option}.
      *
-     * @param options  the options
+     * @param options the options
      * @param selected the selected value
      * @return the corresponding {@link Option}
      */
@@ -598,13 +611,15 @@ public class GUIPrompt extends AbstractPrompt
         return result;
     }
 
-    private String wrapHtml(String string) {
-      return "<html><body><div style='float:left; width:540px;'>" + string + "</div></body></html>";
+    private String wrapHtml(String string)
+    {
+        return "<html><body><div style='float:left; width:540px;'>" + string + "</div></body></html>";
     }
 
     // A test program to demonstrate the class
     public static class Test
     {
+
         public static void main(String[] args)
         {
             UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);

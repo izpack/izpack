@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import java.io.Serializable;
@@ -22,6 +21,7 @@ import com.izforge.izpack.api.rules.RulesEngine;
 
 public class ConfigurationOption implements Serializable
 {
+
     private static final long serialVersionUID = 2616397619106736648L;
 
     private final String value;
@@ -29,7 +29,6 @@ public class ConfigurationOption implements Serializable
     private final String conditionId;
 
     private final String defaultValue;
-
 
     public ConfigurationOption(String value, String conditionId, String defaultValue)
     {
@@ -71,8 +70,8 @@ public class ConfigurationOption implements Serializable
     @Override
     public String toString()
     {
-        return "value='"+value+"'"
-                +(conditionId==null?"":"conditionId+"+conditionId+"'")
-                +(defaultValue==null?"":"defaultValue+"+defaultValue+"'");
+        return "value='" + value + "'"
+                + (conditionId == null ? "" : "conditionId+" + conditionId + "'")
+                + (defaultValue == null ? "" : "defaultValue+" + defaultValue + "'");
     }
 }

@@ -32,79 +32,83 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LanguageConsoleDialog {
-  private final ConsoleInstallData installData;
-  private final Console console;
-  private final Housekeeper housekeeper;
-  private final Locales locales;
-  private Map<String, String> displayNames = new LinkedHashMap<String, String>();
-  private static final Logger logger = Logger.getLogger(LanguageConsoleDialog.class.getName());
-  
-  public LanguageConsoleDialog(Locales locales, ConsoleInstallData installData, Console console, Housekeeper housekeeper)
-  {
-    this.installData = installData;
-    this.console = console;
-    this.housekeeper = housekeeper;
-    this.locales = locales;
-  }
-  
-  /**
-   * Displays the dialog.
-   */
-  public void initLangPack()
-  {
-    Languages languages = new Languages(locales, installData);
-    displayNames = languages.getDisplayNames();
-    switch (locales.getLocales().size()) {
-      case 0:
-        break;
-      case 1:
-        String codeOfUniqueLanguage = displayNames.keySet().iterator().next();
-        propagateLocale(codeOfUniqueLanguage);
-        break;
-      default:
-        Iterator<String> iterator = displayNames.keySet().iterator();
-        console.println("Select your language");
-        int i = 0;
-        while (iterator.hasNext())
-        {
-          console.println(i + "  [" + (i == 0 ? "x" : " ") + "] " + iterator.next());
-          i++;
-        }
-        try {
-            int numberOfUniqueLanguage = console.prompt(installData.getMessages().get("ConsoleInstaller.inputSelection"), 0, displayNames.keySet().size() - 1, 0, 0);
-            String[] keys = displayNames.keySet().toArray(new String[0]);
-            propagateLocale(keys[numberOfUniqueLanguage]);
-        }
-        catch (UserInterruptException uie)
-        {
-            console.println(uie.getMessage());
-            // At this time the locale may not be set so translated message is not used
-            console.println("[ Console installation ABORTED by the user! ]");
-            housekeeper.shutDown(1);
-        } 
-    }
-  }
-  
-  /**
-   * Sets the selected locale on the installation data.
-   *
-   * @param code the locale ISO code
-   */
-  public void propagateLocale(String code)
-  {
-    try
+public class LanguageConsoleDialog
+{
+
+    private final ConsoleInstallData installData;
+    private final Console console;
+    private final Housekeeper housekeeper;
+    private final Locales locales;
+    private Map<String, String> displayNames = new LinkedHashMap<String, String>();
+    private static final Logger LOGGER = Logger.getLogger(LanguageConsoleDialog.class.getName());
+
+    public LanguageConsoleDialog(Locales locales, ConsoleInstallData installData, Console console, Housekeeper housekeeper)
     {
-      locales.setLocale(code);
-      Locale newLocale = locales.getLocale();
-      Locale.setDefault(newLocale);
-      installData.setLocale(locales.getLocale(), locales.getISOCode());
-      installData.setMessages(locales.getMessages());
-      AbstractInstallDataProvider.addCustomLangpack(installData, locales);
+        this.installData = installData;
+        this.console = console;
+        this.housekeeper = housekeeper;
+        this.locales = locales;
     }
-    catch (Exception exception)
+
+    /**
+     * Displays the dialog.
+     */
+    public void initLangPack()
     {
-      logger.log(Level.SEVERE, exception.getMessage(), exception);
+        Languages languages = new Languages(locales, installData);
+        displayNames = languages.getDisplayNames();
+        switch (locales.getLocales().size())
+        {
+            case 0:
+                break;
+            case 1:
+                String codeOfUniqueLanguage = displayNames.keySet().iterator().next();
+                propagateLocale(codeOfUniqueLanguage);
+                break;
+            default:
+                Iterator<String> iterator = displayNames.keySet().iterator();
+                console.println("Select your language");
+                int i = 0;
+                while (iterator.hasNext())
+                {
+                    console.println(i + "  [" + (i == 0 ? "x" : " ") + "] " + iterator.next());
+                    i++;
+                }
+                try
+                {
+                    int numberOfUniqueLanguage = console.prompt(installData.getMessages().get("ConsoleInstaller.inputSelection"), 0, displayNames.keySet().size() - 1, 0, 0);
+                    String[] keys = displayNames.keySet().toArray(new String[0]);
+                    propagateLocale(keys[numberOfUniqueLanguage]);
+                }
+                catch (UserInterruptException uie)
+                {
+                    console.println(uie.getMessage());
+                    // At this time the locale may not be set so translated message is not used
+                    console.println("[ Console installation ABORTED by the user! ]");
+                    housekeeper.shutDown(1);
+                }
+        }
     }
-  }
+
+    /**
+     * Sets the selected locale on the installation data.
+     *
+     * @param code the locale ISO code
+     */
+    public void propagateLocale(String code)
+    {
+        try
+        {
+            locales.setLocale(code);
+            Locale newLocale = locales.getLocale();
+            Locale.setDefault(newLocale);
+            installData.setLocale(locales.getLocale(), locales.getISOCode());
+            installData.setMessages(locales.getMessages());
+            AbstractInstallDataProvider.addCustomLangpack(installData, locales);
+        }
+        catch (Exception exception)
+        {
+            LOGGER.log(Level.SEVERE, exception.getMessage(), exception);
+        }
+    }
 }

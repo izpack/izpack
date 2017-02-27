@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.title;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -37,7 +36,7 @@ public class TitleFieldReader extends SimpleFieldReader implements TitleFieldCon
     /**
      * Constructs a {@code TitleFieldReader}.
      *
-     * @param field  the field element
+     * @param field the field element
      * @param config the configuration
      */
     public TitleFieldReader(IXMLElement field, Config config)

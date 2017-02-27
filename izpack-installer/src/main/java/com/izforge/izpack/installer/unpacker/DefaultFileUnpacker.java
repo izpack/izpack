@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
 import java.io.File;
@@ -28,7 +27,6 @@ import java.io.ObjectInputStream;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.util.os.FileQueue;
-
 
 /**
  * Default file unpacker.
@@ -42,7 +40,7 @@ public class DefaultFileUnpacker extends FileUnpacker
      * Constructs a <tt>DefaultFileUnpacker</tt>.
      *
      * @param cancellable determines if unpacking should be cancelled
-     * @param queue       the file queue. May be <tt>null</tt>
+     * @param queue the file queue. May be <tt>null</tt>
      */
     public DefaultFileUnpacker(Cancellable cancellable, FileQueue queue)
     {
@@ -52,10 +50,10 @@ public class DefaultFileUnpacker extends FileUnpacker
     /**
      * Unpacks a pack file.
      *
-     * @param file            the pack file meta-data
+     * @param file the pack file meta-data
      * @param packInputStream the pack input stream
-     * @param target          the target
-     * @throws IOException        for any I/O error
+     * @param target the target
+     * @throws IOException for any I/O error
      * @throws InstallerException for any installer exception
      */
     @Override

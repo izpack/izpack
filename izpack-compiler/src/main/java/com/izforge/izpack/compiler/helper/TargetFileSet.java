@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.helper;
 
 import java.util.List;
@@ -27,9 +26,9 @@ import com.izforge.izpack.api.data.OverrideType;
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.util.file.types.FileSet;
 
-
 public class TargetFileSet extends FileSet
 {
+
     private String targetDir;
     List<OsModel> osList;
     OverrideType override;

@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -23,8 +22,8 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.file.types.Parameter;
 
 /**
- * Convenience base class for all selectors accessed through ExtendSelector.
- * It provides support for gathering the parameters together as well as for
+ * Convenience base class for all selectors accessed through ExtendSelector. It
+ * provides support for gathering the parameters together as well as for
  * assigning an error message and throwing a build exception if an error is
  * detected.
  */
@@ -46,8 +45,8 @@ public abstract class BaseExtendSelector
     }
 
     /**
-     * Set all the Parameters for this custom selector, collected by
-     * the ExtendSelector class.
+     * Set all the Parameters for this custom selector, collected by the
+     * ExtendSelector class.
      *
      * @param parameters the complete set of parameters for this selector
      */
@@ -68,14 +67,13 @@ public abstract class BaseExtendSelector
     }
 
     /**
-     * Method that each selector will implement to create their
-     * selection behaviour. If there is a problem with the setup
-     * of a selector, it can throw a BuildException to indicate
-     * the problem.
+     * Method that each selector will implement to create their selection
+     * behaviour. If there is a problem with the setup of a selector, it can
+     * throw a BuildException to indicate the problem.
      *
-     * @param basedir  A java.io.File object for the base directory
+     * @param basedir A java.io.File object for the base directory
      * @param filename The name of the file to check
-     * @param file     A File object for this filename
+     * @param file A File object for this filename
      * @return whether the file should be selected or not
      * @throws Exception if an error occurs
      * @throws Exception
@@ -84,4 +82,3 @@ public abstract class BaseExtendSelector
             throws Exception;
 
 }
-

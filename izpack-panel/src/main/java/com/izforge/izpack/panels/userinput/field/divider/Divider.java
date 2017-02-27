@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.divider;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.Alignment;
 import com.izforge.izpack.panels.userinput.field.Field;
 
@@ -42,7 +40,7 @@ public class Divider extends Field
     /**
      * Constructs a {@code DividerField}.
      *
-     * @param config      the configuration to get field information from
+     * @param config the configuration to get field information from
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */

@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.rule;
 
 import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
-
 
 /**
  * Implementation of {@link RuleFieldConfig} for testing purposes.
@@ -50,10 +48,10 @@ public class TestRuleFieldConfig extends TestFieldConfig implements RuleFieldCon
     /**
      * Constructs a {@code TestRuleFieldConfig}.
      *
-     * @param variable  the variable
-     * @param layout    the field layout
+     * @param variable the variable
+     * @param layout the field layout
      * @param separator the field separator
-     * @param format    the rule format
+     * @param format the rule format
      */
     public TestRuleFieldConfig(String variable, String layout, String separator, RuleFormat format)
     {

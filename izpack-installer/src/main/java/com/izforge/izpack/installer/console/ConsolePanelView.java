@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -33,9 +32,10 @@ import com.izforge.izpack.installer.panel.AbstractPanelView;
 import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.util.Console;
 
-
 /**
- * Implementation of {@link com.izforge.izpack.installer.panel.AbstractPanelView} for {@link ConsolePanel}s.
+ * Implementation of
+ * {@link com.izforge.izpack.installer.panel.AbstractPanelView} for
+ * {@link ConsolePanel}s.
  *
  * @author Tim Anderson
  */
@@ -52,12 +52,11 @@ public class ConsolePanelView extends AbstractPanelView<ConsolePanel>
      */
     private final ConsolePrompt prompt;
 
-
     /**
      * Constructs a {@code ConsolePanelView}.
      *
-     * @param panel       the panel
-     * @param factory     the factory for creating the view
+     * @param panel the panel
+     * @param factory the factory for creating the view
      * @param installData the installation data
      */
     public ConsolePanelView(Panel panel, ObjectFactory factory, InstallData installData, Console console)
@@ -70,7 +69,8 @@ public class ConsolePanelView extends AbstractPanelView<ConsolePanel>
     /**
      * Returns the ConsolePanel class corresponding to the panel's class name
      *
-     * @return the corresponding {@link ConsolePanel} implementation class, or {@code null} if none is found
+     * @return the corresponding {@link ConsolePanel} implementation class, or
+     * {@code null} if none is found
      */
     public Class<ConsolePanel> getViewClass()
     {
@@ -81,7 +81,7 @@ public class ConsolePanelView extends AbstractPanelView<ConsolePanel>
     /**
      * Creates a new view.
      *
-     * @param panel     the panel to create the view for
+     * @param panel the panel to create the view for
      * @param viewClass the view base class
      * @return the new view
      */

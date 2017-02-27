@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.event;
 
 import java.io.File;
@@ -28,13 +27,13 @@ import java.util.List;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 /**
  * <p>
- * Implementations of this class are used to handle customizing installation. The defined methods
- * are called from the unpacker at different, well defined points of installation.
+ * Implementations of this class are used to handle customizing installation.
+ * The defined methods are called from the unpacker at different, well defined
+ * points of installation.
  * </p>
  *
  * @author Klaus Bartz
@@ -46,7 +45,6 @@ public interface InstallerListener extends InstallationListener
     // ------------------------------------------------------------------------
     // Constant Definitions
     // ------------------------------------------------------------------------
-
     @Deprecated
     public static final int BEFORE_FILE = 1;
 
@@ -82,7 +80,7 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked before a pack is installed.
      *
-     * @param pack  the pack
+     * @param pack the pack
      * @param index the pack index within the list of packs to be installed
      * @throws IzPackException for any error
      */
@@ -100,7 +98,7 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked after packs are installed.
      *
-     * @param packs    the installed packs
+     * @param packs the installed packs
      * @param listener the progress listener
      * @throws IzPackException for any error
      */
@@ -109,9 +107,9 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked before a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     void beforeDir(File dir, PackFile packFile, Pack pack);
@@ -119,9 +117,9 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked after a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     void afterDir(File dir, PackFile packFile, Pack pack);
@@ -129,9 +127,9 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked before a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     void beforeFile(File file, PackFile packFile, Pack pack);
@@ -139,15 +137,16 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked after a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     void afterFile(File file, PackFile packFile, Pack pack);
 
     /**
-     * Invoked when the installer creates the listener instance, immediately after the install data is parsed.
+     * Invoked when the installer creates the listener instance, immediately
+     * after the install data is parsed.
      *
      * @param data the installation data
      * @throws Exception for any error
@@ -159,8 +158,8 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked before packs are installed.
      *
-     * @param data    the installation data
-     * @param packs   the number of packs which are defined for this installation
+     * @param data the installation data
+     * @param packs the number of packs which are defined for this installation
      * @param handler the UI progress handler
      * @throws Exception for any error
      * @deprecated use {@link #beforePacks(List)}
@@ -172,8 +171,8 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked before a pack is installed.
      *
-     * @param pack    the pack
-     * @param i       the pack number
+     * @param pack the pack
+     * @param i the pack number
      * @param handler the UI progress handler
      * @throws Exception for any error
      * @deprecated use {@link #beforePack(Pack, int)}
@@ -184,7 +183,7 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked before a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
      * @throws Exception for any error
      * @deprecated use {@link #beforeDir(File, PackFile, Pack)}
@@ -195,7 +194,7 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked after a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
      * @throws Exception for any error
      * @deprecated use {@link #afterDir(File, PackFile, Pack)}
@@ -206,7 +205,7 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked before a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
      * @throws Exception if the listener throws an exception
      * @deprecated use {@link #beforeFile(File, PackFile, Pack)}
@@ -217,7 +216,7 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked after a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
      * @throws Exception for any error
      * @deprecated use {@link #afterFile(File, PackFile, Pack)}
@@ -228,8 +227,8 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked after a pack is installed.
      *
-     * @param pack    the pack
-     * @param i       the pack number
+     * @param pack the pack
+     * @param i the pack number
      * @param handler the UI progress handler
      * @throws Exception for any error
      * @deprecated use {@link #afterPack(Pack, int)}
@@ -240,7 +239,7 @@ public interface InstallerListener extends InstallationListener
     /**
      * Invoked after packs are installed.
      *
-     * @param data    the installation data
+     * @param data the installation data
      * @param handler the UI progress handler
      * @throws Exception for any error
      * @deprecated use {@link #afterPacks(List, ProgressListener)}

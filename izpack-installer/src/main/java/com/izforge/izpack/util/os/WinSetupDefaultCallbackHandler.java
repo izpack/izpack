@@ -10,7 +10,7 @@ public class WinSetupDefaultCallbackHandler implements WinSetupQueueCallbackInte
     private List<SystemErrorException> exceptions;
 
     public int handleNeedMedia(String tagfile, String description, String sourcePath,
-                               String sourceFile)
+            String sourceFile)
     {
         File file = new File(sourcePath, sourceFile);
         if (file.exists() && file.canRead())

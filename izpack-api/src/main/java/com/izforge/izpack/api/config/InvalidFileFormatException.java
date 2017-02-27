@@ -25,6 +25,7 @@ import java.io.IOException;
 
 public class InvalidFileFormatException extends IOException
 {
+
     private static final long serialVersionUID = -4354616830804732309L;
 
     public InvalidFileFormatException(String message)

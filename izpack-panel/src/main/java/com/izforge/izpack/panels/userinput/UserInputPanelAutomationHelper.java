@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -44,7 +43,8 @@ import java.util.logging.Logger;
  */
 public class UserInputPanelAutomationHelper implements PanelAutomation
 {
-    private static final Logger logger = Logger.getLogger(UserInputPanelAutomationHelper.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(UserInputPanelAutomationHelper.class.getName());
 
     // ------------------------------------------------------
     // automatic script section keys
@@ -102,8 +102,8 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
     }
 
     private Map<String, String> generateEntries(InstallData installData,
-                                                List<? extends AbstractFieldView> views,
-                                                HashSet<String> omitFromAutoSet)
+            List<? extends AbstractFieldView> views,
+            HashSet<String> omitFromAutoSet)
     {
         Map<String, String> entries = new HashMap<String, String>();
 
@@ -141,9 +141,10 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
     }
 
     /**
-     * Deserialize state from panelRoot and set installData variables accordingly.
+     * Deserialize state from panelRoot and set installData variables
+     * accordingly.
      *
-     * @param idata     The installation installDataGUI.
+     * @param idata The installation installDataGUI.
      * @param panelRoot The XML root element of the panels blackbox tree.
      * @throws InstallerException if some elements are missing.
      */
@@ -169,7 +170,7 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
             value = dataElement.getAttribute(AUTO_ATTRIBUTE_VALUE);
             value = variables.replace(value);
 
-            logger.fine("Setting variable " + variable + " to " + value);
+            LOGGER.fine("Setting variable " + variable + " to " + value);
             idata.setVariable(variable, value);
             blockedVariablesList.add(variable);
         }
@@ -177,5 +178,7 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
     }
 
     @Override
-    public void processOptions(InstallData installData, Overrides overrides) {}
+    public void processOptions(InstallData installData, Overrides overrides)
+    {
+    }
 }

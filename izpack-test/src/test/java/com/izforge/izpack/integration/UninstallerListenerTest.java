@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -26,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.jar.JarFile;
 
 import org.junit.After;
@@ -43,11 +41,10 @@ import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.listener.TestUninstallerListener;
-import com.izforge.izpack.uninstaller.Destroyer;
-
 
 /**
- * Tests that {@link com.izforge.izpack.api.event.UninstallerListener}s are invoked by the {@link Destroyer}.
+ * Tests that {@link com.izforge.izpack.api.event.UninstallerListener}s are
+ * invoked by the {@link Destroyer}.
  *
  * @author Tim Anderson
  */
@@ -55,6 +52,7 @@ import com.izforge.izpack.uninstaller.Destroyer;
 @Container(TestGUIInstallationContainer.class)
 public class UninstallerListenerTest extends AbstractDestroyerTest
 {
+
     /**
      * The uninstall jar writer.
      */
@@ -65,16 +63,15 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
      */
     private final UninstallData uninstallData;
 
-
     /**
      * Constructs an <tt>UninstallerListenerTest</tt>.
      *
      * @param uninstallDataWriter the uninstall jar writer
-     * @param installData         the install data
-     * @param uninstallData       the uninstall data
+     * @param installData the install data
+     * @param uninstallData the uninstall data
      */
     public UninstallerListenerTest(UninstallDataWriter uninstallDataWriter, AutomatedInstallData installData,
-                                   UninstallData uninstallData)
+            UninstallData uninstallData)
     {
         super(installData);
         this.uninstallDataWriter = uninstallDataWriter;
@@ -85,7 +82,7 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
      * Sets up the test case.
      *
      * @throws IOException if the install directory cannot be created
-     * @throws Exception   for any other error
+     * @throws Exception for any other error
      */
     @Before
     public void setUp() throws Exception
@@ -106,7 +103,8 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
     }
 
     /**
-     * Verifies that the uninstaller jar is written, and contains key classes and files.
+     * Verifies that the uninstaller jar is written, and contains key classes
+     * and files.
      *
      * @throws java.io.IOException if the jar cannot be read
      */

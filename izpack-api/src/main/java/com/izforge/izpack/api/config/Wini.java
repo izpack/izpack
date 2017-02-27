@@ -31,6 +31,7 @@ import com.izforge.izpack.api.config.spi.WinEscapeTool;
 
 public class Wini extends Ini
 {
+
     private static final long serialVersionUID = -2781377824232440728L;
     public static final char PATH_SEPARATOR = '\\';
 

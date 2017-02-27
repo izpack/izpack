@@ -12,6 +12,7 @@ import org.hamcrest.core.Is;
  */
 public class DuplicateMatcher extends TypeSafeMatcher<Iterable<String>>
 {
+
     public Matcher<String> itemMatcher;
 
     public DuplicateMatcher(Matcher<String> itemMatcher)

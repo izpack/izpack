@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.packager.impl;
 
 import com.izforge.izpack.api.data.*;
@@ -50,9 +49,11 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipInputStream;
 
 /**
- * The packager base class. The packager interface <code>IPackager</code> is used by the compiler to put files into an installer, and
- * create the actual installer files. The packager implementation depends on different requirements (e.g. normal packager versus multi volume packager).
- * This class implements the common used method which can also be overload as needed.
+ * The packager base class. The packager interface <code>IPackager</code> is
+ * used by the compiler to put files into an installer, and create the actual
+ * installer files. The packager implementation depends on different
+ * requirements (e.g. normal packager versus multi volume packager). This class
+ * implements the common used method which can also be overload as needed.
  *
  * @author Klaus Bartz
  */
@@ -75,8 +76,8 @@ public abstract class PackagerBase implements IPackager
     private final PackagerListener listener;
 
     /**
-     * Executable zipped output stream. First to open, last to close.
-     * Attention! This is our own JarOutputStream, not the java standard!
+     * Executable zipped output stream. First to open, last to close. Attention!
+     * This is our own JarOutputStream, not the java standard!
      */
     private final JarOutputStream installerJar;
 
@@ -104,7 +105,6 @@ public abstract class PackagerBase implements IPackager
      * The compiler data.
      */
     private final CompilerData compilerData;
-
 
     /**
      * The rules engine.
@@ -169,8 +169,8 @@ public abstract class PackagerBase implements IPackager
     /**
      * Dynamic conditions.
      */
-    private List<DynamicInstallerRequirementValidator> dynamicInstallerRequirements =
-            new ArrayList<DynamicInstallerRequirementValidator>();
+    private List<DynamicInstallerRequirementValidator> dynamicInstallerRequirements
+            = new ArrayList<DynamicInstallerRequirementValidator>();
 
     /**
      * Jar file URLs who's contents will be copied into the installer.
@@ -182,23 +182,22 @@ public abstract class PackagerBase implements IPackager
      */
     private Map<FilterOutputStream, Set<String>> alreadyWrittenFiles = new HashMap<FilterOutputStream, Set<String>>();
 
-
     /**
      * Constructs a <tt>PackagerBase</tt>.
      *
-     * @param properties        the properties
-     * @param listener          the packager listener
-     * @param installerJar      the installer jar output stream
-     * @param mergeManager      the merge manager
-     * @param pathResolver      the path resolver
+     * @param properties the properties
+     * @param listener the packager listener
+     * @param installerJar the installer jar output stream
+     * @param mergeManager the merge manager
+     * @param pathResolver the path resolver
      * @param mergeableResolver the mergeable resolver
-     * @param compressor        the pack compressor
-     * @param compilerData      the compiler data
+     * @param compressor the pack compressor
+     * @param compilerData the compiler data
      */
     public PackagerBase(Properties properties, PackagerListener listener, JarOutputStream installerJar,
-                        MergeManager mergeManager, CompilerPathResolver pathResolver,
-                        MergeableResolver mergeableResolver, PackCompressor compressor, CompilerData compilerData,
-                        RulesEngine rulesEngine)
+            MergeManager mergeManager, CompilerPathResolver pathResolver,
+            MergeableResolver mergeableResolver, PackCompressor compressor, CompilerData compilerData,
+            RulesEngine rulesEngine)
     {
         this.properties = properties;
         this.listener = listener;
@@ -250,7 +249,6 @@ public abstract class PackagerBase implements IPackager
         installerResourceURLMap.put("native/" + name, url);
     }
 
-
     @Override
     public void addNativeUninstallerLibrary(CustomData data)
     {
@@ -282,7 +280,7 @@ public abstract class PackagerBase implements IPackager
         if (oldUrl != null)
         {
             throw new CompilerException("Resource '" + resId + "' has been already defined at URL '" + oldUrl + "'"
-            + " and going to be overridden by URL '" + url +  "'");
+                    + " and going to be overridden by URL '" + url + "'");
         }
     }
 
@@ -297,7 +295,7 @@ public abstract class PackagerBase implements IPackager
     {
         return panelList;
     }
-    
+
     @Override
     public Properties getVariables()
     {
@@ -511,7 +509,7 @@ public abstract class PackagerBase implements IPackager
         catch (IOException e)
         {
             throw new IOException("Error serializing instance of " + object.getClass().getName()
-                                          + " as entry \"" + entryName + "\"", e);
+                    + " as entry \"" + entryName + "\"", e);
         }
         finally
         {
@@ -618,7 +616,7 @@ public abstract class PackagerBase implements IPackager
     /**
      * Dispatches a message to the listeners at specified priority.
      *
-     * @param job      the job description.
+     * @param job the job description.
      * @param priority the message priority.
      */
     protected void sendMsg(String job, int priority)

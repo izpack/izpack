@@ -79,7 +79,6 @@ public class DefaultNavigatorTest
      */
     private int id;
 
-
     /**
      * Constructs a {@code DefaultNavigatorTest}.
      */
@@ -102,7 +101,6 @@ public class DefaultNavigatorTest
         };
         factory = new DefaultObjectFactory(container);
     }
-
 
     /**
      * Tests panel navigation.
@@ -291,7 +289,7 @@ public class DefaultNavigatorTest
      * Creates a new {@code Navigator} for the specified panels
      *
      * @param panels the panels to navigate
-     * @param frame  the installer frame
+     * @param frame the installer frame
      * @return a new {@code Navigator}
      */
     private DefaultNavigator createNavigator(Panels panels, InstallerFrame frame)

@@ -38,7 +38,6 @@ public class TestDirFieldConfig extends TestFileFieldConfig implements DirFieldC
      */
     private boolean create;
 
-
     /**
      * Constructs a {@code TestDirFieldConfig}.
      *
@@ -69,7 +68,6 @@ public class TestDirFieldConfig extends TestFileFieldConfig implements DirFieldC
     {
         this.mustExist = mustExist;
     }
-
 
     /**
      * Determines if directories can be created if they don't exist.

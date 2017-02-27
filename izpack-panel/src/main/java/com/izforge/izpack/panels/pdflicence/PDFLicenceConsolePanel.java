@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.pdflicence;
 
 import com.izforge.izpack.api.resource.Resources;
@@ -34,40 +33,42 @@ import java.util.logging.Logger;
 /**
  * PDF Licence Panel console helper
  */
-public class PDFLicenceConsolePanel extends AbstractLicenceConsolePanel {
+public class PDFLicenceConsolePanel extends AbstractLicenceConsolePanel
+{
 
-	private static final Logger logger = Logger.getLogger(AbstractLicenceConsolePanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AbstractLicenceConsolePanel.class.getName());
 
-	/**
-	 * Constructs an <tt>PDFLicenceConsolePanel</tt>.
-	 *
-	 * @param panel
-	 *            the parent panel/view. May be {@code null}
-	 * @param resources
-	 *            the resources
-	 */
-	public PDFLicenceConsolePanel(PanelView<ConsolePanel> panel, Resources resources) {
-		super(panel, resources);
-	}
+    /**
+     * Constructs an <tt>PDFLicenceConsolePanel</tt>.
+     *
+     * @param panel the parent panel/view. May be {@code null}
+     * @param resources the resources
+     */
+    public PDFLicenceConsolePanel(PanelView<ConsolePanel> panel, Resources resources)
+    {
+        super(panel, resources);
+    }
 
-	/**
-	 * Returns the text to display.
-	 *
-	 * @return the text. A <tt>null</tt> indicates failure
-	 */
-	@Override
-	protected String getText()
-	{
-		URL url = null;
-		try {
-			PDFTextStripper stripper = new PDFTextStripper();
-			url = loadLicence();
-			return stripper.getText(PDDocument.load(url));
-		}
-		catch (IOException e) {
-			logger.log(Level.WARNING, "Error opening PDF license document from resource" +
-					(url != null ? " " + url.getFile() : ""), e);
-			return null;
-		}
-	}
+    /**
+     * Returns the text to display.
+     *
+     * @return the text. A <tt>null</tt> indicates failure
+     */
+    @Override
+    protected String getText()
+    {
+        URL url = null;
+        try
+        {
+            PDFTextStripper stripper = new PDFTextStripper();
+            url = loadLicence();
+            return stripper.getText(PDDocument.load(url));
+        }
+        catch (IOException e)
+        {
+            LOGGER.log(Level.WARNING, "Error opening PDF license document from resource"
+                    + (url != null ? " " + url.getFile() : ""), e);
+            return null;
+        }
+    }
 }

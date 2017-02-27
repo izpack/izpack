@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge;
 
 import org.jdom2.Element;
@@ -34,8 +33,8 @@ public interface Action extends Operation
 {
 
     /**
-     * Out of an original element and a second element provided by the patch DOM, applies an
-     * operation and modifies the parent node of the result DOM.
+     * Out of an original element and a second element provided by the patch
+     * DOM, applies an operation and modifies the parent node of the result DOM.
      *
      * @param originalElement Original element
      * @param patchElement Patch element

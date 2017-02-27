@@ -18,12 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.debugger;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
@@ -31,18 +29,17 @@ import java.util.List;
  */
 public class VariableHistory
 {
+
     private String name;
     private List<String[]> values;
     private boolean newvariable;
     private boolean changed;
-
 
     public VariableHistory(String variable)
     {
         name = variable;
         values = new ArrayList<String[]>();
     }
-
 
     /**
      * @return the name
@@ -51,7 +48,6 @@ public class VariableHistory
     {
         return this.name;
     }
-
 
     /**
      * @param name the name to set
@@ -109,7 +105,6 @@ public class VariableHistory
         return this.newvariable;
     }
 
-
     /**
      * @return the changed
      */
@@ -117,7 +112,6 @@ public class VariableHistory
     {
         return this.changed;
     }
-
 
     /**
      * @param changed the changed to set

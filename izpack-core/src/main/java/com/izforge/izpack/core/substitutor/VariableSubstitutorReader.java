@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.substitutor;
 
 import com.izforge.izpack.api.data.Variables;
@@ -30,6 +29,7 @@ import java.nio.CharBuffer;
  */
 public class VariableSubstitutorReader extends Reader
 {
+
     private PushbackReader pushbackReader = null;
     /**
      * The replacement variables
@@ -42,14 +42,13 @@ public class VariableSubstitutorReader extends Reader
      */
     private boolean bracesRequired = false;
 
-    private char variable_start = '$';
-    private char variable_end = '\0';
+    private char variableStart = '$';
+    private char variableEnd = '\0';
     private boolean inBraces = false;
 
     private final StringBuilder varNameBuffer = new StringBuilder();
     private String varValue = null;
     private int varValueIndex = 0;
-
 
     public VariableSubstitutorReader(Reader source, Variables variables, SubstitutionType type, boolean bracesRequired)
     {
@@ -71,16 +70,16 @@ public class VariableSubstitutorReader extends Reader
         switch (type)
         {
             case TYPE_SHELL:
-                variable_start = '%';
+                variableStart = '%';
                 break;
 
             case TYPE_AT:
-                variable_start = '@';
+                variableStart = '@';
                 break;
 
             case TYPE_ANT:
-                variable_start = '@';
-                variable_end = '@';
+                variableStart = '@';
+                variableEnd = '@';
                 break;
 
             default:
@@ -104,27 +103,33 @@ public class VariableSubstitutorReader extends Reader
         bracesRequired = braces;
     }
 
-
     @Override
-    public int read(CharBuffer target) throws IOException {
+    public int read(CharBuffer target) throws IOException
+    {
         throw new RuntimeException("Operation Not Supported");
     }
 
     @Override
     public int read() throws IOException
     {
-        if(varValue != null){
-            if(varValueIndex < varValue.length()){
+        if (varValue != null)
+        {
+            if (varValueIndex < varValue.length())
+            {
                 return varValue.charAt(varValueIndex++);
             }
-            if(varValueIndex == varValue.length()){
+            if (varValueIndex == varValue.length())
+            {
                 varValue = null;
                 varValueIndex = 0;
             }
         }
 
         int data = pushbackReader.read();
-        if(data != variable_start) return data;
+        if (data != variableStart)
+        {
+            return data;
+        }
 
         data = pushbackReader.read();
         if (data == '{')
@@ -134,7 +139,7 @@ public class VariableSubstitutorReader extends Reader
         else if (bracesRequired)
         {
             pushbackReader.unread(data);
-            return variable_start;
+            return variableStart;
         }
 
         varNameBuffer.delete(0, varNameBuffer.length());
@@ -145,21 +150,17 @@ public class VariableSubstitutorReader extends Reader
         }
 
         data = pushbackReader.read();
-        while (
-                data >= ' ' && (inBraces && data != '}')
+        while (data >= ' ' && (inBraces && data != '}')
                 || (inBraces && ((data == '[') || (data == ']')))
-                || isAllowedCharInVariableName(data)
-        )
+                || isAllowedCharInVariableName(data))
         {
             varNameBuffer.append((char) data);
             data = pushbackReader.read();
         }
 
         String name = varNameBuffer.toString();
-        if (
-                ( (!inBraces || data == '}') && (!inBraces || variable_end == '\0' || variable_end == data) )
-                && name.length() > 0
-                )
+        if (((!inBraces || data == '}') && (!inBraces || variableEnd == '\0' || variableEnd == data))
+                && name.length() > 0)
         {
             // check for environment variables
             if (inBraces && name.startsWith("ENV[")
@@ -195,21 +196,20 @@ public class VariableSubstitutorReader extends Reader
                 pushbackReader.unread(data);
             }
             unclosedBraces = true;
-        } else if (
-                (data == variable_start && variable_start != variable_end)
-                || (!isAllowedCharInVariableName(data) && data != '}' && data != variable_end)
-                )
+        }
+        else if ((data == variableStart && variableStart != variableEnd)
+                || (!isAllowedCharInVariableName(data) && data != '}' && data != variableEnd))
         {
             pushbackReader.unread(data);
         }
 
-        if(varValue == null)
+        if (varValue == null)
         {
-            varValue = variable_start
+            varValue = variableStart
                     + (inBraces ? "{" : "")
                     + varNameBuffer.toString()
                     + (inBraces && !unclosedBraces ? "}" : "")
-                    + (variable_end == '\0' ? "" : variable_end);
+                    + (variableEnd == '\0' ? "" : variableEnd);
         }
         else
         {
@@ -218,7 +218,8 @@ public class VariableSubstitutorReader extends Reader
 
         inBraces = false;
 
-        if(varValue.length() == 0){
+        if (varValue.length() == 0)
+        {
             return read();
         }
 
@@ -226,17 +227,22 @@ public class VariableSubstitutorReader extends Reader
     }
 
     @Override
-    public int read(char cbuf[]) throws IOException {
+    public int read(char cbuf[]) throws IOException
+    {
         return read(cbuf, 0, cbuf.length);
     }
 
     @Override
-    public int read(char cbuf[], int off, int len) throws IOException {
+    public int read(char cbuf[], int off, int len) throws IOException
+    {
         int charsRead = 0;
-        for(int i=0; i<len; i++){
+        for (int i = 0; i < len; i++)
+        {
             int nextChar = read();
-            if(nextChar == -1) {
-                if(charsRead == 0){
+            if (nextChar == -1)
+            {
+                if (charsRead == 0)
+                {
                     charsRead = -1;
                 }
                 break;
@@ -248,50 +254,54 @@ public class VariableSubstitutorReader extends Reader
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() throws IOException
+    {
         this.pushbackReader.close();
     }
 
     @Override
-    public long skip(long n) throws IOException {
+    public long skip(long n) throws IOException
+    {
         throw new RuntimeException("Operation Not Supported");
     }
 
     @Override
-    public boolean ready() throws IOException {
+    public boolean ready() throws IOException
+    {
         return this.pushbackReader.ready();
     }
 
     @Override
-    public boolean markSupported() {
+    public boolean markSupported()
+    {
         return false;
     }
 
     @Override
-    public void mark(int readAheadLimit) throws IOException {
+    public void mark(int readAheadLimit) throws IOException
+    {
         throw new RuntimeException("Operation Not Supported");
     }
 
     @Override
-    public void reset() throws IOException {
+    public void reset() throws IOException
+    {
         throw new RuntimeException("Operation Not Supported");
     }
 
-
     private static boolean isAllowedCharInVariableName(int c)
     {
-        return (
-                (c >= 'a' && c <= 'z')
+        return ((c >= 'a' && c <= 'z')
                 || (c >= 'A' && c <= 'Z')
                 || (((c >= '0' && c <= '9')
-                || c == '_' || c == '.' || c == '-'))
-        );
+                || c == '_' || c == '.' || c == '-')));
     }
 
     /**
-     * Escapes the special characters in the specified string using file type specific rules.
+     * Escapes the special characters in the specified string using file type
+     * specific rules.
      *
-     * @param str  the string to check for special characters
+     * @param str the string to check for special characters
      * @return the string with the special characters properly escaped
      */
     private String escapeSpecialChars(String str)
@@ -371,14 +381,11 @@ public class VariableSubstitutorReader extends Reader
                             leading = false;
                         }
                     }
-                    else
+                    else if (c == '\\')
                     {
-                        if (c == '\\')
-                        {
-                            buffer.replace(i, i + 1, "\\\\");
-                            len++;
-                            i++;
-                        }
+                        buffer.replace(i, i + 1, "\\\\");
+                        len++;
+                        i++;
                     }
                 }
                 return buffer.toString();

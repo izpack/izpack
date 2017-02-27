@@ -53,8 +53,8 @@ public class AutomatedInstallDataProviderTest
 {
 
     /**
-     * Verifies that a custom lang pack may be specified in a resource file, and that the custom messages override
-     * those in the default lang pack.
+     * Verifies that a custom lang pack may be specified in a resource file, and
+     * that the custom messages override those in the default lang pack.
      *
      * @throws Exception for any error
      */
@@ -87,9 +87,9 @@ public class AutomatedInstallDataProviderTest
 
         // now set up the default lang pack, and the custom lang pack
         InputStream defaultPack = createLangPack("str id='standard.message' txt='This is a standard message'",
-                                                 "str id='overridden.message' txt='This should be replaced'");
+                "str id='overridden.message' txt='This should be replaced'");
         InputStream customPack = createLangPack("str id='custom.message' txt='This is a custom message'",
-                                                "str id='overridden.message' txt='Message overridden'");
+                "str id='overridden.message' txt='Message overridden'");
 
         mock(loader, "resources/langpacks/eng.xml", defaultPack);
         mock(loader, "resources/" + Resources.CUSTOM_TRANSLATIONS_RESOURCE_NAME + "_eng", customPack);
@@ -120,7 +120,8 @@ public class AutomatedInstallDataProviderTest
     /**
      * Helper to create a lang pack and return a stream to it.
      *
-     * @param messages the lang pack messages, of the form {@code "str id='key' txt='value'"}
+     * @param messages the lang pack messages, of the form
+     * {@code "str id='key' txt='value'"}
      * @return a stream of the messages
      * @throws IOException for any I/O error
      */
@@ -143,11 +144,11 @@ public class AutomatedInstallDataProviderTest
     }
 
     /**
-     * Helper to return a stream for the given resource path when {@link ClassLoader#getResourceAsStream(String)} is
-     * invoked.
+     * Helper to return a stream for the given resource path when
+     * {@link ClassLoader#getResourceAsStream(String)} is invoked.
      *
      * @param loader the mocked class loader
-     * @param path   the resource path
+     * @param path the resource path
      * @param stream the stream to return for the specified resource path
      * @throws IOException for any I/O error
      */
@@ -160,11 +161,11 @@ public class AutomatedInstallDataProviderTest
     }
 
     /**
-     * Helper to return a stream for the given resource when {@link ClassLoader#getResourceAsStream(String)} is
-     * invoked.
+     * Helper to return a stream for the given resource when
+     * {@link ClassLoader#getResourceAsStream(String)} is invoked.
      *
-     * @param loader   the mocked class loader
-     * @param path     the resource path
+     * @param loader the mocked class loader
+     * @param path the resource path
      * @param resource the resource to serialize and return
      * @throws IOException for any I/O error
      */

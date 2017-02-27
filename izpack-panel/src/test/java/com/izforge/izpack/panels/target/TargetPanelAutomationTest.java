@@ -40,7 +40,6 @@ import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 
-
 /**
  * Tests the {@link TargetPanelAutomation} class.
  *
@@ -73,8 +72,9 @@ public class TargetPanelAutomationTest
     }
 
     /**
-     * Verifies that a directory containing an unrecognised .installationinformation file may not be selected to
-     * install to, from {@link TargetPanelAutomation#runAutomated}
+     * Verifies that a directory containing an unrecognised
+     * .installationinformation file may not be selected to install to, from
+     * {@link TargetPanelAutomation#runAutomated}
      *
      * @throws IOException for any I/O error
      */

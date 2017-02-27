@@ -24,6 +24,7 @@ import com.izforge.izpack.installer.language.LanguageDialog;
  */
 public class HelperTestMethod
 {
+
     public static final int TIMEOUT = 60000;
 
     public static File prepareInstallation(InstallData installData) throws IOException
@@ -49,7 +50,7 @@ public class HelperTestMethod
      * @param installerController
      */
     public static FrameFixture prepareFrameFixture(InstallerFrame installerFrame,
-                                                   final InstallerController installerController)
+            final InstallerController installerController)
     {
         FrameFixture installerFrameFixture = new FrameFixture(installerFrame);
 

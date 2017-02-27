@@ -18,17 +18,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
-
 
 import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.os.FileQueue;
 
-
 /**
- * Factory for {@link FileQueue} instances, if queuing is supported by the current platform.
+ * Factory for {@link FileQueue} instances, if queuing is supported by the
+ * current platform.
  *
  * @author Tim Anderson
  */
@@ -45,11 +43,10 @@ public class FileQueueFactory
      */
     private final Librarian librarian;
 
-
     /**
      * Constructs a {@code FileQueueFactory}.
      *
-     * @param platform  the current platform
+     * @param platform the current platform
      * @param librarian the librarian
      */
     public FileQueueFactory(Platform platform, Librarian librarian)

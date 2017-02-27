@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.data;
 
 import com.izforge.izpack.api.data.*;
@@ -47,7 +46,6 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-
 /**
  * Tests the {@link DefaultVariables} class.
  *
@@ -55,18 +53,18 @@ import static org.junit.Assert.*;
  */
 public class DefaultVariablesTest
 {
+
     @Rule
     public TemporaryFolder rootFolder = new TemporaryFolder();
-
 
     /**
      * The variables.
      */
     private final DefaultVariables variables = new DefaultVariables();
 
-
     /**
-     * Tests the {@link Variables#set(String, String)}, {@link Variables#get(String)} and
+     * Tests the
+     * {@link Variables#set(String, String)}, {@link Variables#get(String)} and
      * {@link Variables#get(String, String)} methods.
      */
     @Test
@@ -87,7 +85,8 @@ public class DefaultVariablesTest
     }
 
     /**
-     * Tests the {@link Variables#getBoolean(String)} and {@link Variables#getBoolean(String, boolean)} methods.
+     * Tests the {@link Variables#getBoolean(String)} and
+     * {@link Variables#getBoolean(String, boolean)} methods.
      */
     @Test
     public void testBooleanVariables()
@@ -114,7 +113,8 @@ public class DefaultVariablesTest
     }
 
     /**
-     * Tests the {@link Variables#getInt(String)} and {@link Variables#getInt(String, int)} methods.
+     * Tests the {@link Variables#getInt(String)} and
+     * {@link Variables#getInt(String, int)} methods.
      */
     @Test
     public void testIntVariables()
@@ -152,7 +152,8 @@ public class DefaultVariablesTest
     }
 
     /**
-     * Tests the {@link Variables#getLong(String)} and {@link Variables#getLong(String, long)} methods.
+     * Tests the {@link Variables#getLong(String)} and
+     * {@link Variables#getLong(String, long)} methods.
      */
     @Test
     public void testLongVariables()
@@ -289,9 +290,9 @@ public class DefaultVariablesTest
         assertEquals(confFile.getAbsolutePath(), variables.get("previous.wrapper.conf"));
     }
 
-        /**
-         * Tests simple dynamic variables.
-         */
+    /**
+     * Tests simple dynamic variables.
+     */
     @Test
     public void testDynamicVariablesWithUserInput()
     {
@@ -342,10 +343,12 @@ public class DefaultVariablesTest
     }
 
     /**
-     * Tests dynamic variables with a deeper dependency
-     * Before IZPACK-1406 the recursion was done by iterations of variables.refresh().
-     * Since IZPACK-1406 the variables are preordered by PackagerBase.buildVariableList().
-     * Therefore we have to provide the variables here in the correct order.
+     * Tests dynamic variables with a deeper dependency Before IZPACK-1406 the
+     * recursion was done by iterations of variables.refresh(). Since
+     * IZPACK-1406 the variables are preordered by
+     * PackagerBase.buildVariableList(). Therefore we have to provide the
+     * variables here in the correct order.
+     *
      * @see com.izforge.izpack.compiler.DynVariableOrderTest for ordering tests
      */
     @SuppressWarnings("JavadocReference")
@@ -484,8 +487,9 @@ public class DefaultVariablesTest
      * <variable name="b" value="${a}" />
      * </dynamicvariables>
      * <p>
-     * This example is not useful, but should not create a loop.
-     * Resolving is done in the best way it can be done. No error is thrown, but variable "a" is simply not resolved.
+     * This example is not useful, but should not create a loop. Resolving is
+     * done in the best way it can be done. No error is thrown, but variable "a"
+     * is simply not resolved.
      */
     @Test
     public void testCyclicReference()
@@ -499,8 +503,8 @@ public class DefaultVariablesTest
     }
 
     /**
-     * Test loop detection with no dynamic variables at all
-     * Ensure, that no exception is thrown
+     * Test loop detection with no dynamic variables at all Ensure, that no
+     * exception is thrown
      */
     @Test
     public void testNoDynamicVariables()
@@ -518,7 +522,8 @@ public class DefaultVariablesTest
     }
 
     /**
-     * Tests a variable defined both static (<variables>) and dynamic (<dynamicvariables>)
+     * Tests a variable defined both static (<variables>) and dynamic
+     * (<dynamicvariables>)
      */
     @Test
     public void testMixedVariables()
@@ -540,7 +545,8 @@ public class DefaultVariablesTest
     }
 
     /**
-     * Tests a variable defined both static (<variables>) and dynamic (<dynamicvariables>) with reference to ini file
+     * Tests a variable defined both static (<variables>) and dynamic
+     * (<dynamicvariables>) with reference to ini file
      */
     @Test
     public void testMixedVariablesFromIniFileUnsetTrue()
@@ -552,7 +558,8 @@ public class DefaultVariablesTest
     }
 
     /**
-     * Tests a variable defined both static (<variables>) and dynamic (<dynamicvariables>) with reference to ini file
+     * Tests a variable defined both static (<variables>) and dynamic
+     * (<dynamicvariables>) with reference to ini file
      */
     @Test
     public void testMixedVariablesFromIniFileUnsetFalse()
@@ -640,7 +647,7 @@ public class DefaultVariablesTest
     /**
      * Creates a dynamic variable with Checkonce set.
      *
-     * @param name  the variable name
+     * @param name the variable name
      * @param value the variable value
      * @return a new variable
      */
@@ -652,8 +659,8 @@ public class DefaultVariablesTest
     /**
      * Creates a dynamic variable with a condition and Checkonce set.
      *
-     * @param name        the variable name
-     * @param value       the variable value
+     * @param name the variable name
+     * @param value the variable value
      * @param conditionId the condition identifier. May be {@code null}
      * @return a new variable
      */
@@ -667,7 +674,7 @@ public class DefaultVariablesTest
     /**
      * Creates a dynamic variable.
      *
-     * @param name  the variable name
+     * @param name the variable name
      * @param value the variable value
      * @return a new variable
      */
@@ -679,8 +686,8 @@ public class DefaultVariablesTest
     /**
      * Creates a dynamic variable with a condition.
      *
-     * @param name        the variable name
-     * @param value       the variable value
+     * @param name the variable name
+     * @param value the variable value
      * @param conditionId the condition identifier. May be {@code null}
      * @return a new variable
      */
@@ -694,9 +701,10 @@ public class DefaultVariablesTest
     }
 
     /**
-     * Creates a dynamic variable from the ini file "src/test/resources/com/izforge/izpack/core/variable/test.ini".
+     * Creates a dynamic variable from the ini file
+     * "src/test/resources/com/izforge/izpack/core/variable/test.ini".
      *
-     * @param name      the variable name
+     * @param name the variable name
      * @param autounset whether to unset, when undefined
      * @return a new variable
      */
@@ -708,11 +716,11 @@ public class DefaultVariablesTest
     /**
      * Creates a dynamic variable from a ini file.
      *
-     * @param name        the variable name
-     * @param file        the test ini file
+     * @param name the variable name
+     * @param file the test ini file
      * @param filesection the section in the ini file
-     * @param filekey     the key in the ini file
-     * @param autounset   whether to unset, when undefined
+     * @param filekey the key in the ini file
+     * @param autounset whether to unset, when undefined
      * @return a new variable
      */
     private DynamicVariable createDynamicFromIni(String name, String file, String filesection, String filekey, boolean autounset)
@@ -750,7 +758,7 @@ public class DefaultVariablesTest
                 "OVERRIDE1", variables.get("var1"));
         variables.set("var1", "explicit_value");
         assertEquals("Explicitly set variable value not present not present after refresh"
-                        + "- user input will not override the defaults contents",
+                + "- user input will not override the defaults contents",
                 "explicit_value", variables.get("var1"));
     }
 

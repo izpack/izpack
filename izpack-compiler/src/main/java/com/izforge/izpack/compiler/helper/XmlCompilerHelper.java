@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.helper;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -32,6 +31,7 @@ import java.net.URL;
  */
 public class XmlCompilerHelper
 {
+
     private AssertionHelper assertionHelper;
 
     public XmlCompilerHelper(AssertionHelper assertionHelper)
@@ -40,8 +40,8 @@ public class XmlCompilerHelper
     }
 
     /**
-     * Call getContent on an element, producing a meaningful error message if not present, or empty.
-     * It is an error for 'element' to be null.
+     * Call getContent on an element, producing a meaningful error message if
+     * not present, or empty. It is an error for 'element' to be null.
      *
      * @param element The element to get content of
      */
@@ -56,8 +56,9 @@ public class XmlCompilerHelper
     }
 
     /**
-     * Call getContent on an element, producing a meaningful error message if not present, or empty,
-     * or a valid URL. It is an error for 'element' to be null.
+     * Call getContent on an element, producing a meaningful error message if
+     * not present, or empty, or a valid URL. It is an error for 'element' to be
+     * null.
      *
      * @param element The element to get content of
      */
@@ -76,11 +77,11 @@ public class XmlCompilerHelper
     }
 
     /**
-     * Call getFirstChildNamed on the parent, producing a meaningful error message on failure. It is
-     * an error for 'parent' to be null.
+     * Call getFirstChildNamed on the parent, producing a meaningful error
+     * message on failure. It is an error for 'parent' to be null.
      *
      * @param parent The element to search for a child
-     * @param name   Name of the child element to get
+     * @param name Name of the child element to get
      */
     public IXMLElement requireChildNamed(IXMLElement parent, String name) throws CompilerException
     {
@@ -93,11 +94,14 @@ public class XmlCompilerHelper
     }
 
     /**
-     * Get a required attribute of an element, ensuring it is an integer. A meaningful error message
-     * is generated as a CompilerException if not present or parseable as an int.
+     * Get a required attribute of an element, ensuring it is an integer. A
+     * meaningful error message is generated as a CompilerException if not
+     * present or parseable as an int.
      *
-     * @param element   The element to get the attribute value of, must not be {@code null}.
-     * @param attribute The name of the attribute to get, must not be {@code null}.
+     * @param element The element to get the attribute value of, must not be
+     * {@code null}.
+     * @param attribute The name of the attribute to get, must not be
+     * {@code null}.
      */
     public int requireIntAttribute(IXMLElement element, String attribute)
             throws CompilerException
@@ -120,11 +124,11 @@ public class XmlCompilerHelper
     }
 
     /**
-     * Call getAttribute on an element, producing a meaningful error message if not present, or one
-     * of "yes", "no", "true" or "false".
-     * If the 'element' or 'attribute' are null, the default value is returned.
+     * Call getAttribute on an element, producing a meaningful error message if
+     * not present, or one of "yes", "no", "true" or "false". If the 'element'
+     * or 'attribute' are null, the default value is returned.
      *
-     * @param element   The element to get the attribute value of
+     * @param element The element to get the attribute value of
      * @param attribute The name of the attribute to get
      */
     public boolean requireYesNoAttribute(IXMLElement element, String attribute)
@@ -134,15 +138,16 @@ public class XmlCompilerHelper
     }
 
     /**
-     * Call getAttribute on an element, producing a meaningful warning if not "yes", "no", "true" or "false".
-     * If the 'element' or 'attribute' are null, the default value is returned.
+     * Call getAttribute on an element, producing a meaningful warning if not
+     * "yes", "no", "true" or "false". If the 'element' or 'attribute' are null,
+     * the default value is returned.
      *
-     * @param element      The element to get the attribute value of
-     * @param attribute    The name of the attribute to get
+     * @param element The element to get the attribute value of
+     * @param attribute The name of the attribute to get
      * @param defaultValue Value returned if attribute not present or invalid
      */
     public boolean validateYesNoAttribute(IXMLElement element, String attribute,
-                                          Boolean defaultValue) throws CompilerException
+            Boolean defaultValue) throws CompilerException
     {
         if (element != null)
         {
@@ -188,10 +193,11 @@ public class XmlCompilerHelper
     }
 
     /**
-     * Call getAttribute on an element, producing a meaningful error message if not present, or
-     * empty. It is an error for 'element' or 'attribute' to be null.
+     * Call getAttribute on an element, producing a meaningful error message if
+     * not present, or empty. It is an error for 'element' or 'attribute' to be
+     * null.
      *
-     * @param element   The element to get the attribute value of
+     * @param element The element to get the attribute value of
      * @param attribute The name of the attribute to get
      */
     public String requireAttribute(IXMLElement element, String attribute)
@@ -209,8 +215,8 @@ public class XmlCompilerHelper
     /**
      * Parses an optional long attribute.
      *
-     * @param element      the element containing the attribute
-     * @param attribute    the attribute name
+     * @param element the element containing the attribute
+     * @param attribute the attribute name
      * @param defaultValue the default value, if the attribute is not present
      * @return the attribute value if specified, or {@code defaultValue} if not
      * @throws CompilerException if the value exists but cannot be parsed

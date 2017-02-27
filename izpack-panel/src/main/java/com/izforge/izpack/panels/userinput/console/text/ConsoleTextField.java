@@ -18,14 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.text;
 
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.panels.userinput.console.ConsoleInputField;
 import com.izforge.izpack.panels.userinput.field.text.TextField;
 import com.izforge.izpack.util.Console;
-
 
 /**
  * Console presentation of {@link TextField}.
@@ -34,12 +32,13 @@ import com.izforge.izpack.util.Console;
  */
 public class ConsoleTextField extends ConsoleInputField
 {
+
     /**
      * Constructs a {@code ConsoleTextField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleTextField(TextField field, Console console, Prompt prompt)
     {

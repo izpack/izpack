@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge.resolve;
 
 import java.io.IOException;
@@ -32,17 +31,18 @@ import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.merge.Mergeable;
 
 /**
- * Try to resolve paths by searching inside the classpath or files with the corresponding name
+ * Try to resolve paths by searching inside the classpath or files with the
+ * corresponding name
  *
  * @author Anthonin Bonnefoy
  */
 public class PathResolver
 {
+
     /**
      * The mergeable resolver.
      */
     private final MergeableResolver mergeableResolver;
-
 
     /**
      * Constrcuts a <tt>PathResolver</tt>.
@@ -55,8 +55,9 @@ public class PathResolver
     }
 
     /**
-     * Search for the sourcePath in classpath (inside jar or directory) or as a normal path and then return the type or File.
-     * Ignore all path containing test-classes.
+     * Search for the sourcePath in classpath (inside jar or directory) or as a
+     * normal path and then return the type or File. Ignore all path containing
+     * test-classes.
      *
      * @param sourcePath Source path to search
      * @return url list
@@ -68,7 +69,7 @@ public class PathResolver
         {
             throw new IzPackException(
                     "The path '" + sourcePath + "' is not present inside the classpath.\n"
-                            + "The current classpath is :" + ResolveUtils.getCurrentClasspath());
+                    + "The current classpath is :" + ResolveUtils.getCurrentClasspath());
         }
         return result;
     }
@@ -110,7 +111,7 @@ public class PathResolver
      * Return the mergeable from the given path.
      *
      * @param resourcePath Resource path to search
-     * @param destination  The destination of resources when merging will ocure.
+     * @param destination The destination of resources when merging will ocure.
      * @return Mergeable list of mergeable. Empty if nothing found.
      */
     public List<Mergeable> getMergeableFromPath(String resourcePath, String destination)
@@ -167,6 +168,5 @@ public class PathResolver
     {
         return mergeableResolver;
     }
-
 
 }

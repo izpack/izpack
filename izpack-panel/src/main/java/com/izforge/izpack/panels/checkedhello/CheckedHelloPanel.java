@@ -16,7 +16,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.panels.checkedhello;
 
 import java.util.logging.Level;
@@ -33,9 +32,10 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.panels.hello.HelloPanel;
 
 /**
- * An extended hello panel class which detects whether the product was already installed or not.
- * This class should be only used if the RegistryInstallerListener will be also used. Current the
- * check will be only performed on Windows operating system. This class can be used also as example
+ * An extended hello panel class which detects whether the product was already
+ * installed or not. This class should be only used if the
+ * RegistryInstallerListener will be also used. Current the check will be only
+ * performed on Windows operating system. This class can be used also as example
  * how to use the registry stuff to get informations from the current system.
  *
  * @author Klaus Bartz
@@ -65,16 +65,17 @@ public class CheckedHelloPanel extends HelloPanel
     /**
      * The constructor.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent frame
+     * @param panel the panel meta-data
+     * @param parent the parent frame
      * @param installData the installation data
-     * @param resources   the resources
-     * @param handler     the registry handler instance
-     * @param log         the log
-     * @throws Exception if it cannot be determined if the application is registered
+     * @param resources the resources
+     * @param handler the registry handler instance
+     * @param log the log
+     * @throws Exception if it cannot be determined if the application is
+     * registered
      */
     public CheckedHelloPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                             RegistryDefaultHandler handler, Log log) throws Exception
+            RegistryDefaultHandler handler, Log log) throws Exception
     {
         super(panel, parent, installData, resources, log);
         registryHelper = new RegistryHelper(handler, installData);
@@ -82,9 +83,9 @@ public class CheckedHelloPanel extends HelloPanel
     }
 
     /**
-     * This method should only be called if this product was already installed. It resolves the
-     * install path of the first already installed product and asks the user whether to install
-     * twice or not.
+     * This method should only be called if this product was already installed.
+     * It resolves the install path of the first already installed product and
+     * asks the user whether to install twice or not.
      *
      * @return whether a multiple Install should be performed or not.
      * @throws NativeLibException for any native library error
@@ -99,15 +100,17 @@ public class CheckedHelloPanel extends HelloPanel
         String noLuck = getString("CheckedHelloPanel.productAlreadyExist0") + path + " . "
                 + getString("CheckedHelloPanel.productAlreadyExist1");
         return (askQuestion(getString("installer.error"), noLuck,
-                            AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES);
+                AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES);
     }
 
     /**
-     * Returns whether the handled application is already registered or not. The validation will be
-     * made only on systems which contains a registry (Windows).
+     * Returns whether the handled application is already registered or not. The
+     * validation will be made only on systems which contains a registry
+     * (Windows).
      *
      * @return <tt>true</tt> if the application is registered
-     * @throws Exception if it cannot be determined if the application is registered
+     * @throws Exception if it cannot be determined if the application is
+     * registered
      */
     protected boolean isRegistered() throws Exception
     {
@@ -129,7 +132,6 @@ public class CheckedHelloPanel extends HelloPanel
      *
      * @see com.izforge.izpack.installer.IzPanel#panelActivate()
      */
-
     public void panelActivate()
     {
         if (abortInstallation)
@@ -167,6 +169,6 @@ public class CheckedHelloPanel extends HelloPanel
     {
         String newUninstallName = registryHelper.updateUninstallName();
         emitNotification(getString("CheckedHelloPanel.infoOverUninstallKey")
-                                 + newUninstallName);
+                + newUninstallName);
     }
 }

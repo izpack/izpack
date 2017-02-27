@@ -18,14 +18,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput;
 
 import com.izforge.izpack.api.handler.Prompt;
 
 /**
- * Implementation of {@link Prompt} that delegates all requests to another prompt.
- * The underlying prompt may be switched.
+ * Implementation of {@link Prompt} that delegates all requests to another
+ * prompt. The underlying prompt may be switched.
  *
  * @author Tim Anderson
  */
@@ -132,7 +131,7 @@ public class DelegatingPrompt implements Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type    the type of the message
+     * @param type the type of the message
      * @param message the message
      * @param options the options which may be selected
      * @return the selected option
@@ -146,9 +145,9 @@ public class DelegatingPrompt implements Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type          the type of the message
-     * @param message       the message
-     * @param options       the options which may be selected
+     * @param type the type of the message
+     * @param message the message
+     * @param options the options which may be selected
      * @param defaultOption the default option to select
      * @return the selected option
      */
@@ -161,8 +160,8 @@ public class DelegatingPrompt implements Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type    the type of the message
-     * @param title   the message title. May be {@code null}
+     * @param type the type of the message
+     * @param title the message title. May be {@code null}
      * @param message the message
      * @param options the options which may be selected
      * @return the selected option
@@ -176,10 +175,10 @@ public class DelegatingPrompt implements Prompt
     /**
      * Displays a confirmation message.
      *
-     * @param type          the type of the message
-     * @param title         the message title. May be {@code null}
-     * @param message       the message
-     * @param options       the options which may be selected
+     * @param type the type of the message
+     * @param title the message title. May be {@code null}
+     * @param message the message
+     * @param options the options which may be selected
      * @param defaultOption the default option to select
      * @return the selected option
      */

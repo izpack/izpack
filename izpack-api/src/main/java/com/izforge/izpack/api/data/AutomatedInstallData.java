@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -27,13 +26,15 @@ import com.izforge.izpack.util.Platform;
 import java.util.*;
 
 /**
- * Encloses information about the install process. This implementation is not thread safe.
+ * Encloses information about the install process. This implementation is not
+ * thread safe.
  *
  * @author Julien Ponge <julien@izforge.com>
  * @author Johannes Lehtinen <johannes.lehtinen@iki.fi>
  */
 public class AutomatedInstallData implements InstallData
 {
+
     /**
      * The attribute for a panel ID in the auto-install.xml record
      */
@@ -122,7 +123,8 @@ public class AutomatedInstallData implements InstallData
     private Map<String, Object> attributes;
 
     /**
-     * Index that maps panel IDs to their XML root from the auto-install.xml record
+     * Index that maps panel IDs to their XML root from the auto-install.xml
+     * record
      */
     private HashMap<String, IXMLElement> panelRootXml;
 
@@ -139,12 +141,11 @@ public class AutomatedInstallData implements InstallData
      */
     public final static String DEFAULT_INSTALL_DRIVE = "DEFAULT_INSTALL_DRIVE";
 
-
     /**
      * Constructs an <tt>AutomatedInstallData</tt>.
      *
      * @param variables the variables
-     * @param platform  the platform
+     * @param platform the platform
      */
     public AutomatedInstallData(Variables variables, Platform platform)
     {
@@ -171,7 +172,7 @@ public class AutomatedInstallData implements InstallData
      * Sets a variable to the specified value. This is short hand for
      * {@code getVariables().set(name, value)}.
      *
-     * @param name  the name of the variable
+     * @param name the name of the variable
      * @param value the new value of the variable
      * @see #getVariable
      */
@@ -182,8 +183,8 @@ public class AutomatedInstallData implements InstallData
     }
 
     /**
-     * Returns the current value of the specified variable. This is short hand for
-     * {@code getVariables().get(name)}.
+     * Returns the current value of the specified variable. This is short hand
+     * for {@code getVariables().get(name)}.
      *
      * @param name the name of the variable
      * @return the value of the variable or null if not set
@@ -196,7 +197,8 @@ public class AutomatedInstallData implements InstallData
     }
 
     /**
-     * Refreshes dynamic variables. This is short hand for {@code getVariables().refresh()}.
+     * Refreshes dynamic variables. This is short hand for
+     * {@code getVariables().refresh()}.
      */
     @Override
     public void refreshVariables()
@@ -288,13 +290,14 @@ public class AutomatedInstallData implements InstallData
     }
 
     /**
-     * Sets a named attribute. The panels and other IzPack components can attach custom attributes
-     * to InstallData to communicate with each other. For example, a set of co-operating custom
-     * panels do not need to implement a common data storage but can use InstallData singleton. The
-     * name of the attribute should include the package and class name to prevent name space
+     * Sets a named attribute. The panels and other IzPack components can attach
+     * custom attributes to InstallData to communicate with each other. For
+     * example, a set of co-operating custom panels do not need to implement a
+     * common data storage but can use InstallData singleton. The name of the
+     * attribute should include the package and class name to prevent name space
      * collisions.
      *
-     * @param name  the name of the attribute to set
+     * @param name the name of the attribute to set
      * @param value the value of the attribute or null to unset the attribute
      * @see #getAttribute
      */
@@ -316,7 +319,6 @@ public class AutomatedInstallData implements InstallData
     {
         return rules;
     }
-
 
     public void setRules(RulesEngine rules)
     {
@@ -349,19 +351,20 @@ public class AutomatedInstallData implements InstallData
     /**
      * Sets the locale.
      * <p/>
-     * NOTE: for backwards compatibility, this sets the {@link ScriptParserConstant#ISO3_LANG ISO3} variable to be the
-     * the <em>lowercase</em> version of the supplied ISO code.
+     * NOTE: for backwards compatibility, this sets the
+     * {@link ScriptParserConstant#ISO3_LANG ISO3} variable to be the the
+     * <em>lowercase</em> version of the supplied ISO code.
      *
      * @param locale the locale
-     * @param code   the 3 character ISO code used to select the locale. May be an ISO country code or an ISO language
-     *               code
+     * @param code the 3 character ISO code used to select the locale. May be an
+     * ISO country code or an ISO language code
      */
     public void setLocale(Locale locale, String code)
     {
         this.locale = locale;
         getInstallationRecord().setAttribute("langpack", code.toLowerCase());
         setVariable(ScriptParserConstant.ISO3_LANG, code.toLowerCase());
-        if(locale != null)
+        if (locale != null)
         {
             setVariable(ScriptParserConstant.ISO2_LANG, locale.getLanguage());
         }

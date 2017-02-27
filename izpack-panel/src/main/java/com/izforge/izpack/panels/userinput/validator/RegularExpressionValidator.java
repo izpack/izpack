@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.validator;
 
 import java.util.Map;
@@ -28,8 +27,8 @@ import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
 /**
  * A validator to enforce non-empty fields.
  * <p/>
- * This validator can be used for rule input fields in the UserInputPanel to make sure that the
- * user's entry matches a specified regular expression.
+ * This validator can be used for rule input fields in the UserInputPanel to
+ * make sure that the user's entry matches a specified regular expression.
  *
  * @author Mike Cunneen <mike dot cunneen at screwfix dot com>
  */

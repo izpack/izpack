@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.install;
 
 import java.awt.Dimension;
@@ -93,11 +92,11 @@ public class InstallPanel extends IzPanel implements ProgressListener
     /**
      * Constructs an <tt>InstallPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public InstallPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
@@ -117,7 +116,7 @@ public class InstallPanel extends IzPanel implements ProgressListener
         //add(IzPanelLayout.createParagraphGap());
 
         overallOpLabel = LabelFactory.create(getI18nStringForClass("progress"), parent.getIcons().get(iconName),
-                                             LEADING);
+                LEADING);
         add(this.overallOpLabel, IzPanelLayout.getDefaultConstraint(FULL_LINE_CONTROL_CONSTRAINT));
 
         overallProgressBar = new JProgressBar();
@@ -200,19 +199,19 @@ public class InstallPanel extends IzPanel implements ProgressListener
                     packProgressBar.setString(getString("installer.error"));
                 }
                 packProgressBar.setEnabled(false);
-                String no_of_packs = Integer.toString(noOfPacks);
+                String noOfPacks0 = Integer.toString(noOfPacks);
                 if (noOfPacks == 1)
                 {
                     overallProgressBar.setIndeterminate(false);
                 }
-                overallProgressBar.setString(no_of_packs + " / " + no_of_packs);
+                overallProgressBar.setString(noOfPacks0 + " / " + noOfPacks0);
                 overallProgressBar.setEnabled(false);
                 packOpLabel.setText(" ");
                 packOpLabel.setEnabled(false);
                 installData.setCanClose(true);
                 validated = true;
-                if (installData.isInstallSuccess() &&
-                        installData.getPanels().indexOf(InstallPanel.this) != (installData.getPanels().size() - 1))
+                if (installData.isInstallSuccess()
+                        && installData.getPanels().indexOf(InstallPanel.this) != (installData.getPanels().size() - 1))
                 {
                     parent.unlockNextButton();
                     parent.unlockQuitButton();
@@ -246,8 +245,8 @@ public class InstallPanel extends IzPanel implements ProgressListener
      * Pack changing.
      *
      * @param packName The pack name.
-     * @param stepno   The number of the pack.
-     * @param max      The new maximum progress.
+     * @param stepno The number of the pack.
+     * @param max The new maximum progress.
      */
     @Override
     public void nextStep(final String packName, final int stepno, final int max)
@@ -264,7 +263,7 @@ public class InstallPanel extends IzPanel implements ProgressListener
                 packProgressBar.setString(packName);
                 overallProgressBar.setValue(stepno - 1);
                 overallProgressBar.setString(Integer.toString(stepno) + " / "
-                                                     + Integer.toString(noOfPacks));
+                        + Integer.toString(noOfPacks));
             }
         });
     }
@@ -273,14 +272,14 @@ public class InstallPanel extends IzPanel implements ProgressListener
      * {@inheritDoc}
      */
     @Override
-    public void setSubStepNo(final int no_of_substeps)
+    public void setSubStepNo(final int noOfSubsteps)
     {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
             {
-                packProgressBar.setMaximum(no_of_substeps);
+                packProgressBar.setMaximum(noOfSubsteps);
             }
         });
     }
@@ -288,10 +287,10 @@ public class InstallPanel extends IzPanel implements ProgressListener
     /**
      * Invoked when an action restarts.
      *
-     * @param name           the name of the action
+     * @param name the name of the action
      * @param overallMessage a message describing the overall progress
-     * @param tip            a tip describing the current progress
-     * @param steps          the number of steps the action consists of
+     * @param tip a tip describing the current progress
+     * @param steps the number of steps the action consists of
      */
     @Override
     public void restartAction(String name, String overallMessage, String tip, int steps)

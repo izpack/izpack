@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -36,7 +35,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  * User input configuration.
@@ -84,20 +82,19 @@ public class Config
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(Config.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(Config.class.getName());
 
     /**
      * Constructs a {@code Config}.
      *
-     * @param path        the resource path
-     * @param resources   the resources
+     * @param path the resource path
+     * @param resources the resources
      * @param installData the installation data
-     * @param factory     the factory
-     * @param messages    the messages
+     * @param factory the factory
+     * @param messages the messages
      */
     public Config(String path, Resources resources, InstallData installData, ObjectFactory factory,
-                  Messages messages)
+            Messages messages)
     {
         IXMLParser parser = new XMLParser(false);
 
@@ -147,7 +144,7 @@ public class Config
      * Returns the named element.
      *
      * @param parent the parent element
-     * @param name   the element name
+     * @param name the element name
      * @return the corresponding element
      * @throws IzPackException if the element is not found
      */
@@ -166,7 +163,7 @@ public class Config
      * Returns the named attribute value.
      *
      * @param element the element
-     * @param name    the attribute name
+     * @param name the attribute name
      * @return the attribute value
      * @throws IzPackException if the attribute is not found
      */
@@ -178,11 +175,14 @@ public class Config
     /**
      * Returns the named attribute value.
      *
-     * @param element   the element
-     * @param name      the attribute name
-     * @param optional  flag to allow null to be returned if attribute is optional
-     * @return the attribute value, or null if attribute does not exist and attribute is optional
-     * @throws IzPackException if the attribute is not found and attribute is required
+     * @param element the element
+     * @param name the attribute name
+     * @param optional flag to allow null to be returned if attribute is
+     * optional
+     * @return the attribute value, or null if attribute does not exist and
+     * attribute is optional
+     * @throws IzPackException if the attribute is not found and attribute is
+     * required
      */
     public String getAttribute(IXMLElement element, String name, boolean optional)
     {
@@ -198,8 +198,8 @@ public class Config
     /**
      * Returns the named attribute value, replacing any variables present.
      *
-     * @param element      the element
-     * @param name         the attribute name
+     * @param element the element
+     * @param name the attribute name
      * @param defaultValue the default value if the attribute isn't set
      * @return the corresponding value
      */
@@ -218,10 +218,11 @@ public class Config
     }
 
     /**
-     * Returns the named attribute value without replacing any variables present.
+     * Returns the named attribute value without replacing any variables
+     * present.
      *
-     * @param element      the element
-     * @param name         the attribute name
+     * @param element the element
+     * @param name the attribute name
      * @param defaultValue the default value if the attribute isn't set
      * @return the corresponding value
      */
@@ -239,7 +240,8 @@ public class Config
      * Returns a localised version of a string.
      *
      * @param value the string value
-     * @return the localised version of {@code value}, or {@code value} if there is no localised version
+     * @return the localised version of {@code value}, or {@code value} if there
+     * is no localised version
      */
     public String getLocalString(String value)
     {
@@ -251,10 +253,12 @@ public class Config
      * <p/>
      * Any variables are replaced.
      *
-     * @param element      the element name
-     * @param name         the attribute name
-     * @param defaultValue the value to return if the attribute isn't set or is invalid
-     * @return the attribute value or {@code defaultValue} if it isn't set or is invalid
+     * @param element the element name
+     * @param name the attribute name
+     * @param defaultValue the value to return if the attribute isn't set or is
+     * invalid
+     * @return the attribute value or {@code defaultValue} if it isn't set or is
+     * invalid
      */
     public int getInt(IXMLElement element, String name, int defaultValue)
     {
@@ -268,7 +272,7 @@ public class Config
             }
             catch (NumberFormatException exception)
             {
-                logger.warning("Invalid value for attribute '" + name + "':" + value + " in " + getContext(element));
+                LOGGER.warning("Invalid value for attribute '" + name + "':" + value + " in " + getContext(element));
             }
         }
         return result;
@@ -277,10 +281,12 @@ public class Config
     /**
      * Returns the named attribute as an integer.
      *
-     * @param element      the element name
-     * @param name         the attribute name
-     * @param defaultValue the value to return if the attribute isn't set or is invalid
-     * @return the attribute value or {@code defaultValue} if it isn't set or is invalid
+     * @param element the element name
+     * @param name the attribute name
+     * @param defaultValue the value to return if the attribute isn't set or is
+     * invalid
+     * @return the attribute value or {@code defaultValue} if it isn't set or is
+     * invalid
      */
     public boolean getBoolean(IXMLElement element, String name, boolean defaultValue)
     {
@@ -297,9 +303,10 @@ public class Config
     /**
      * Returns the named attribute as an integer in a three-state logic.
      *
-     * @param element      the element name
-     * @param name         the attribute name
-     * @return the attribute value as Boolean or {@code null} if it isn't set or is invalid
+     * @param element the element name
+     * @param name the attribute name
+     * @return the attribute value as Boolean or {@code null} if it isn't set or
+     * is invalid
      */
     public Boolean getBooleanOrNull(IXMLElement element, String name)
     {
@@ -317,7 +324,8 @@ public class Config
     /**
      * Extracts the text from an element. The text can be defined:
      * <ol>
-     * <li>in the locale's messages, under the key defined by the {@code id} attribute; or
+     * <li>in the locale's messages, under the key defined by the {@code id}
+     * attribute; or
      * <li>as value of the attribute {@code txt}.
      * </ol>
      *
@@ -352,10 +360,12 @@ public class Config
     /**
      * Returns the named alignment value, replacing any variables present.
      *
-     * @param element      the element
-     * @param name         the attribute name
-     * @param defaultValue the default value if the attribute isn't set or is invalid
-     * @return the attribute value or {@code defaultValue} if it isn't set or is invalid
+     * @param element the element
+     * @param name the attribute name
+     * @param defaultValue the default value if the attribute isn't set or is
+     * invalid
+     * @return the attribute value or {@code defaultValue} if it isn't set or is
+     * invalid
      */
     public Alignment getAlignment(IXMLElement element, String name, Alignment defaultValue)
     {
@@ -369,7 +379,7 @@ public class Config
             }
             catch (IllegalArgumentException exception)
             {
-                logger.log(Level.INFO, "Invalid value for 'align': " + value + " in " + getContext(element));
+                LOGGER.log(Level.INFO, "Invalid value for 'align': " + value + " in " + getContext(element));
             }
         }
         return result;

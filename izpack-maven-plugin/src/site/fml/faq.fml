@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faqs id="FAQ" title="Frequently Asked Questions">
-  <part id="General">
-    <faq id="question">
-      <question>Adding custom panels without rebuilding standalone-compiler.jar?</question>
-      <answer>
-        <p>
-          <a href="http://www.nabble.com/Adding-custom-panels-without-rebuilding-standalone-compiler.jar-td18297470.html">
-            http://www.nabble.com/Adding-custom-panels-without-rebuilding-standalone-compiler.jar-td18297470.html
-          </a>
-        </p>
-      </answer>
-    </faq>
-  </part>
+    <part id="General">
+        <faq id="question">
+            <question>Adding custom panels without rebuilding standalone-compiler.jar?</question>
+            <answer>
+                <p>
+                    <a href="http://www.nabble.com/Adding-custom-panels-without-rebuilding-standalone-compiler.jar-td18297470.html">
+                        http://www.nabble.com/Adding-custom-panels-without-rebuilding-standalone-compiler.jar-td18297470.html
+                    </a>
+                </p>
+            </answer>
+        </faq>
+    </part>
 </faqs>
 
 

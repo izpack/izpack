@@ -49,7 +49,7 @@ public interface OsVersionConstants
      * X86 = "x86"
      */
     public static final String X86 = "x86";
-    
+
     /**
      * X64 = "x64"
      */
@@ -59,11 +59,11 @@ public interface OsVersionConstants
      * I386 = "i386"
      */
     public static final String I386 = "i386";
-    
+
     /**
      * AMD64 = "amd64"
      */
-    public static final String AMD64 = "amd64"; 
+    public static final String AMD64 = "amd64";
 
     /**
      * PPC = "ppc"
@@ -154,7 +154,7 @@ public interface OsVersionConstants
      * Windows 10
      */
     public final static String WINDOWS_10_VERSION = "10.0";
-    
+
     /**
      * REDHAT  = "RedHat"
      */
@@ -189,7 +189,7 @@ public interface OsVersionConstants
      * DEBIAN = "Debian"
      */
     public final static String DEBIAN = "Debian";
-    
+
     /**
      * UBUNTU = "Ubuntu"
      */

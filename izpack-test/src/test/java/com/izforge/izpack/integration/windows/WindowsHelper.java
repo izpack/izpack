@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.windows;
 
 import static org.junit.Assert.assertEquals;
@@ -44,27 +43,29 @@ import com.izforge.izpack.util.os.ShellLink;
  */
 public class WindowsHelper
 {
+
     /**
      * Verifies a shortcut matches that expected.
      *
-     * @param linkType    the type of link, one of the following values: <br>
-     *                    <ul>
-     *                    <li><code>ShellLink.DESKTOP</code>
-     *                    <li><code>ShellLink.PROGRAM_MENU</code>
-     *                    <li><code>ShellLink.START_MENU</code>
-     *                    <li><code>ShellLink.STARTUP</code>
-     *                    </ul>
-     * @param userType    the type of user for the link path
-     * @param group       the program group (directory) of this link. If the link is not part of a program
-     *                    group, pass an empty string or null for this parameter. (...\\Desktop\\group).
-     * @param name        the file name of this link. Do not include a file extension.
-     * @param target      the expected target of the link
+     * @param linkType the type of link, one of the following values: <br>
+     * <ul>
+     * <li><code>ShellLink.DESKTOP</code>
+     * <li><code>ShellLink.PROGRAM_MENU</code>
+     * <li><code>ShellLink.START_MENU</code>
+     * <li><code>ShellLink.STARTUP</code>
+     * </ul>
+     * @param userType the type of user for the link path
+     * @param group the program group (directory) of this link. If the link is
+     * not part of a program group, pass an empty string or null for this
+     * parameter. (...\\Desktop\\group).
+     * @param name the file name of this link. Do not include a file extension.
+     * @param target the expected target of the link
      * @param description the expected shortcut description
-     * @param librarian   the librarian
+     * @param librarian the librarian
      * @return the shortcut
      */
     public static File checkShortcut(final int linkType, final int userType, final String group, final String name,
-                                     final File target, final String description, final Librarian librarian)
+            final File target, final String description, final Librarian librarian)
             throws Exception
     {
         final File[] shortcut = new File[1];
@@ -101,7 +102,7 @@ public class WindowsHelper
      * Determines if a key exists in the registry.
      *
      * @param handler the registry handler
-     * @param key      the key to check
+     * @param key the key to check
      * @return <tt>true</tt> if the key exists, otherwise <tt>false</tt>
      * @throws NativeLibException for any registry error
      */
@@ -114,19 +115,20 @@ public class WindowsHelper
     }
 
     /**
-     * Asserts that a registry key REG_SZ value exists, and exactly matches the given value.
+     * Asserts that a registry key REG_SZ value exists, and exactly matches the
+     * given value.
      *
      * @param handler the registry handler
-     * @param key      the key to check
-     * @param name     the name of the value to check
+     * @param key the key to check
+     * @param name the name of the value to check
      * @param expected the value to match
      * @throws NativeLibException for any registry error
      */
     public static void registryValueStringEquals(RegistryDefaultHandler handler, String key, String name,
-                                                 String expected) throws NativeLibException
+            String expected) throws NativeLibException
     {
         //Registry key exists
-    	RegistryHandler registry = handler.getInstance();
+        RegistryHandler registry = handler.getInstance();
         assertNotNull(registry);
         registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
         assertTrue(registry.keyExist(key));
@@ -142,7 +144,7 @@ public class WindowsHelper
      * Deletes an uninstallation registry key.
      *
      * @param handler the registry handler
-     * @param key      the key to delete
+     * @param key the key to delete
      * @throws NativeLibException for any registry error
      */
     public static void registryDeleteUninstallKey(RegistryDefaultHandler handler, String key) throws NativeLibException

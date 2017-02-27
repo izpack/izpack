@@ -18,17 +18,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
-
 /**
- * A pair of values. The key identifies the pair, and the value is used for display purposes.
+ * A pair of values. The key identifies the pair, and the value is used for
+ * display purposes.
  *
  * @author Tim Anderson
  */
 public class Choice
 {
+
     /**
      * The key.
      */
@@ -47,7 +47,7 @@ public class Choice
     /**
      * Constructs a {@code Choice}.
      *
-     * @param key   the key
+     * @param key the key
      * @param value the display value
      */
     public Choice(String key, String value, String conditionId)
@@ -55,7 +55,7 @@ public class Choice
         this.key = key;
         this.value = value;
         this.conditionId = conditionId;
-     }
+    }
 
     public Choice(String key, String value)
     {
@@ -77,7 +77,10 @@ public class Choice
      *
      * @return the 'true' value
      */
-    public String getTrueValue() { return getKey(); }
+    public String getTrueValue()
+    {
+        return getKey();
+    }
 
     /**
      * Returns the display value.

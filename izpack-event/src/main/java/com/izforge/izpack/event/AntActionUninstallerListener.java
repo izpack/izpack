@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import com.izforge.izpack.api.event.AbstractUninstallerListener;
@@ -33,17 +32,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Uninstaller listener for performing ANT actions at uninstall time. The definition of what should
- * be done here will be made in a specification file that is referenced by the resource id
- * "AntActionsSpec.xml". There should be an entry in the install.xml file in the sub ELEMENT "res"
- * of ELEMENT "resources" that references it. The specification of the xml file is done in the DTD
- * antaction.dtd. The xml file may contain an ELEMENT "uninstall_target" that should be performed
- * for uninstalling purposes.
+ * Uninstaller listener for performing ANT actions at uninstall time. The
+ * definition of what should be done here will be made in a specification file
+ * that is referenced by the resource id "AntActionsSpec.xml". There should be
+ * an entry in the install.xml file in the sub ELEMENT "res" of ELEMENT
+ * "resources" that references it. The specification of the xml file is done in
+ * the DTD antaction.dtd. The xml file may contain an ELEMENT "uninstall_target"
+ * that should be performed for uninstalling purposes.
  *
  * @author Klaus Bartz
  */
 public class AntActionUninstallerListener extends AbstractUninstallerListener
 {
+
     private List<AntAction> befDel = new ArrayList<AntAction>();
 
     /**
@@ -179,7 +180,7 @@ public class AntActionUninstallerListener extends AbstractUninstallerListener
     /**
      * Invoked after files are deleted.
      *
-     * @param files    the files which were deleted
+     * @param files the files which were deleted
      * @param listener the progress listener
      * @throws IzPackException for any error
      */

@@ -18,13 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration.console;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestConsoleInstallationContainer;
-import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
@@ -36,7 +34,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 
 import static org.junit.Assert.assertTrue;
-
 
 /**
  * Tests pack-specific settings with the {@link ConsoleInstaller}.
@@ -57,7 +54,7 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
     /**
      * Constructs a <tt>PacksConsoleInstallationTest</tt>
      *
-     * @param installer   the installer
+     * @param installer the installer
      * @param installData the installation data
      * @throws Exception for any error
      */
@@ -65,11 +62,12 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
     {
         super(installData);
         this.installer = installer;
-        this.installData=installData;
+        this.installData = installData;
     }
 
     /**
-     * Runs the console installer against a script, and verifies expected files are installed.
+     * Runs the console installer against a script, and verifies expected files
+     * are installed.
      *
      * @throws Exception for any error
      */
@@ -80,14 +78,15 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
         TestConsole console = installer.getConsole();
         console.addScript("HelloPanel", "1");
         console.addScript("TargetPanel", "\n", "O", "1");
-        console.addScript("PacksPanel",installData.getMessages().get("ConsolePrompt.no") , installData.getMessages().get("ConsolePrompt.no"), "1");
+        console.addScript("PacksPanel", installData.getMessages().get("ConsolePrompt.no"), installData.getMessages().get("ConsolePrompt.no"), "1");
         console.addScript("UserInputPanel", "\n", "1");
 
         checkInstall(installer, getInstallData(), false, false);
     }
 
     /**
-     * Runs the console installer against a script, and verifies expected files are installed.
+     * Runs the console installer against a script, and verifies expected files
+     * are installed.
      *
      * @throws Exception for any error
      */
@@ -106,13 +105,13 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
     }
 
     /**
-     * Verifies that console installation completes successfully.
-     * \
+     * Verifies that console installation completes successfully. \
      *
-     * @param installer         the installer
-     * @param installData       the installation data
+     * @param installer the installer
+     * @param installData the installation data
      * @param expectUninstaller whether to expect an uninstaller to be created
-     * @param expectPack2       whether to expect file_2.txt to be installed along with "Pack 2"
+     * @param expectPack2 whether to expect file_2.txt to be installed along
+     * with "Pack 2"
      */
     protected void checkInstall(TestConsoleInstaller installer, InstallData installData, boolean expectUninstaller, boolean expectPack2)
     {

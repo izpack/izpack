@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data.binding;
 
 import java.io.Serializable;
@@ -33,6 +32,7 @@ import com.izforge.izpack.api.data.Panel;
  */
 public class IzpackProjectInstaller implements Serializable
 {
+
     private static final long serialVersionUID = -5574097336255930393L;
 
     private List<Listener> listeners = new ArrayList<Listener>();
@@ -43,7 +43,6 @@ public class IzpackProjectInstaller implements Serializable
     {
         this.listeners.add(listener);
     }
-
 
     public List<Listener> getListeners()
     {

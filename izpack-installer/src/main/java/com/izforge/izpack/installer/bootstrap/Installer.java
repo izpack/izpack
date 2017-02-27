@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.bootstrap;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -54,6 +53,7 @@ import java.util.logging.Logger;
  */
 public class Installer
 {
+
     private static Logger logger = Logger.getLogger(Installer.class.getName());
 
     @SuppressWarnings("WeakerAccess")
@@ -141,7 +141,7 @@ public class Installer
 
         try
         {
-            Iterator<String> args_it = Arrays.asList(args).iterator();
+            Iterator<String> argsIt = Arrays.asList(args).iterator();
 
             int type = INSTALLER_GUI;
             ConsoleInstallerAction consoleAction = ConsoleInstallerAction.CONSOLE_INSTALL;
@@ -151,68 +151,81 @@ public class Installer
             String defaultsFile = null;
             String logFileName = null;
 
-            while (args_it.hasNext())
+            while (argsIt.hasNext())
             {
-                String arg = args_it.next().trim();
+                String arg = argsIt.next().trim();
                 try
                 {
                     if ("-logfile".equalsIgnoreCase(arg))
                     {
-                        logFileName = fetchArgument(args_it, logFileName);
+                        logFileName = fetchArgument(argsIt, logFileName);
                         checkPath(logFileName);
-                    } else if ("-debug".equalsIgnoreCase(arg))
+                    }
+                    else if ("-debug".equalsIgnoreCase(arg))
                     {
-                        Debug.setDEBUG(true);
-                    } else if ("-trace".equalsIgnoreCase(arg))
+                        Debug.setDebug(true);
+                    }
+                    else if ("-trace".equalsIgnoreCase(arg))
                     {
-                        Debug.setTRACE(true);
-                    } else if ("-stacktrace".equalsIgnoreCase(arg))
+                        Debug.setTrace(true);
+                    }
+                    else if ("-stacktrace".equalsIgnoreCase(arg))
                     {
-                        Debug.setSTACKTRACE(true);
-                    } else if ("-console".equalsIgnoreCase(arg))
+                        Debug.setStacktrace(true);
+                    }
+                    else if ("-console".equalsIgnoreCase(arg))
                     {
                         type = INSTALLER_CONSOLE;
-                    } else if ("-auto".equalsIgnoreCase(arg))
+                    }
+                    else if ("-auto".equalsIgnoreCase(arg))
                     {
                         type = INSTALLER_AUTO;
-                    } else if ("-defaults-file".equalsIgnoreCase(arg))
+                    }
+                    else if ("-defaults-file".equalsIgnoreCase(arg))
                     {
-                        defaultsFile = fetchArgument(args_it, defaultsFile);
+                        defaultsFile = fetchArgument(argsIt, defaultsFile);
                         checkPath(defaultsFile);
-                    } else if ("-options-template".equalsIgnoreCase(arg))
+                    }
+                    else if ("-options-template".equalsIgnoreCase(arg))
                     {
-                        path = fetchArgument(args_it, path);
+                        path = fetchArgument(argsIt, path);
                         checkPath(path);
                         type = INSTALLER_CONSOLE;
                         consoleAction = ConsoleInstallerAction.CONSOLE_GEN_TEMPLATE;
-                    } else if ("-options".equalsIgnoreCase(arg))
+                    }
+                    else if ("-options".equalsIgnoreCase(arg))
                     {
-                        path = fetchArgument(args_it, path);
+                        path = fetchArgument(argsIt, path);
                         checkPath(path);
                         type = INSTALLER_CONSOLE;
                         consoleAction = ConsoleInstallerAction.CONSOLE_FROM_TEMPLATE;
-                    } else if ("-options-system".equalsIgnoreCase(arg))
+                    }
+                    else if ("-options-system".equalsIgnoreCase(arg))
                     {
                         type = INSTALLER_CONSOLE;
                         consoleAction = ConsoleInstallerAction.CONSOLE_FROM_SYSTEMPROPERTIES;
-                    } else if ("-options-auto".equalsIgnoreCase(arg))
+                    }
+                    else if ("-options-auto".equalsIgnoreCase(arg))
                     {
-                        path = fetchArgument(args_it, path);
+                        path = fetchArgument(argsIt, path);
                         checkPath(path);
                         type = INSTALLER_CONSOLE;
                         consoleAction = ConsoleInstallerAction.CONSOLE_FROM_SYSTEMPROPERTIESMERGE;
-                    } else if ("-language".equalsIgnoreCase(arg))
+                    }
+                    else if ("-language".equalsIgnoreCase(arg))
                     {
-                        langcode = fetchArgument(args_it, langcode);
+                        langcode = fetchArgument(argsIt, langcode);
                         if (langcode == null || langcode.startsWith("-"))
                         {
                             throw new IllegalArgumentException("Option must be followed by a language code");
                         }
-                    } else if ("-media".equalsIgnoreCase(arg))
+                    }
+                    else if ("-media".equalsIgnoreCase(arg))
                     {
-                        media = fetchArgument(args_it, media);
+                        media = fetchArgument(argsIt, media);
                         checkPath(media);
-                    } else
+                    }
+                    else
                     {
                         type = INSTALLER_AUTO;
                         path = arg;
@@ -236,8 +249,8 @@ public class Installer
             if (type == INSTALLER_AUTO && path == null && defaults == null)
             {
                 logger.log(Level.SEVERE,
-                        "Unattended installation mode needs either a defaults file specified by '-defaults-file'" +
-                        " or an installation record XML file as argument");
+                        "Unattended installation mode needs either a defaults file specified by '-defaults-file'"
+                        + " or an installation record XML file as argument");
                 System.exit(1);
             }
 
@@ -272,7 +285,10 @@ public class Installer
                     overridePropFile = null;
                 }
             }
-            catch (URISyntaxException e) { /* Should not happen */ }
+            catch (URISyntaxException e)
+            {
+                /* Should not happen */
+            }
         }
 
         if (overridePropFile != null)
@@ -284,7 +300,7 @@ public class Installer
     }
 
     private void launchInstall(int type, ConsoleInstallerAction consoleAction, String path, String langCode,
-                               String mediaDir, Overrides defaults, String[] args) throws Exception
+            String mediaDir, Overrides defaults, String[] args) throws Exception
     {
         // if headless, just use the console mode
         if (type == INSTALLER_GUI && GraphicsEnvironment.isHeadless())
@@ -313,9 +329,10 @@ public class Installer
     /**
      * Launches an {@link AutomatedInstaller}.
      *
-     * @param path     the input file path
+     * @param path the input file path
      * @param mediaDir the multi-volume media directory. May be <tt>null</tt>
-     * @param defaults the overrides, pre-initialized with a file name but not loaded
+     * @param defaults the overrides, pre-initialized with a file name but not
+     * loaded
      * @param args more command line arguments
      * @throws Exception for any error
      */
@@ -338,7 +355,8 @@ public class Installer
         automatedInstaller.doInstall();
     }
 
-    public static int getInstallerMode() {
+    public static int getInstallerMode()
+    {
         return installerMode;
     }
 

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput;
 
 import com.izforge.izpack.panels.userinput.processor.Processor;
@@ -29,6 +28,7 @@ import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
  */
 public class ComboProcessor implements Processor
 {
+
     /**
      * Processes the contend of an input field.
      *

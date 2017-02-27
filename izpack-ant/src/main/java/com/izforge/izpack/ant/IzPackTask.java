@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.ant;
 
 import com.izforge.izpack.ant.logging.AntHandler;
@@ -49,6 +48,7 @@ import java.util.logging.Logger;
  */
 public class IzPackTask extends Task implements PackagerListener
 {
+
     /**
      * The embedded installation configuration
      */
@@ -90,7 +90,8 @@ public class IzPackTask extends Task implements PackagerListener
     private InstallerType installerType;
 
     /**
-     * Holds value of property izPackDir. This should point at the IzPack directory
+     * Holds value of property izPackDir. This should point at the IzPack
+     * directory
      */
     private String izPackDir;
 
@@ -124,7 +125,6 @@ public class IzPackTask extends Task implements PackagerListener
         compressionLevel = -1;
     }
 
-
     /**
      * Called by ant to create the object for the config nested element.
      *
@@ -149,7 +149,7 @@ public class IzPackTask extends Task implements PackagerListener
     /**
      * Logs a message to the Ant log at the specified priority.
      *
-     * @param str      The message to log.
+     * @param str The message to log.
      * @param priority The priority of the message.
      */
     public void packagerMsg(String str, int priority)
@@ -224,8 +224,8 @@ public class IzPackTask extends Task implements PackagerListener
         {
             ClassLoader loader = new URLClassLoader(getUrlsForClassloader());
             @SuppressWarnings("unchecked")
-			Class<IzpackAntRunnable> runableClass 
-			        = (Class<IzpackAntRunnable>) loader.loadClass("com.izforge.izpack.ant.IzpackAntRunnable");
+            Class<IzpackAntRunnable> runableClass
+                    = (Class<IzpackAntRunnable>) loader.loadClass("com.izforge.izpack.ant.IzpackAntRunnable");
             Constructor constructor = runableClass.getConstructors()[0];
             Object instance = constructor.newInstance(compression, kind, input, configText, basedir, output, mkdirs,
                     validating, compressionLevel, properties, inheritAll, getProject().getProperties(), izPackDir,
@@ -266,23 +266,22 @@ public class IzPackTask extends Task implements PackagerListener
         {
             throw new BuildException(ResourceBundle.getBundle(
                     "com/izforge/izpack/ant/langpacks/messages").getString(
-                    "input_must_be_specified"));
+                            "input_must_be_specified"));
         }
 
         if (output == null)
         {
             throw new BuildException(ResourceBundle.getBundle(
                     "com/izforge/izpack/ant/langpacks/messages").getString(
-                    "output_must_be_specified"));
+                            "output_must_be_specified"));
         }
 
         // if (installerType == null) now optional
-
         if (basedir == null)
         {
             throw new BuildException(ResourceBundle.getBundle(
                     "com/izforge/izpack/ant/langpacks/messages").getString(
-                    "basedir_must_be_specified"));
+                            "basedir_must_be_specified"));
         }
     }
 
@@ -379,15 +378,16 @@ public class IzPackTask extends Task implements PackagerListener
     }
 
     /**
-     * If true, all XML descriptors are validated against the according XSD during compiling. Defaults to true;
+     * If true, all XML descriptors are validated against the according XSD
+     * during compiling. Defaults to true;
      *
-     * @param validating true if all XML descriptors should be validated against the according XSD during compiling.
+     * @param validating true if all XML descriptors should be validated against
+     * the according XSD during compiling.
      */
     public void setValidating(boolean validating)
     {
         this.validating = validating;
     }
-
 
     /**
      * Ant will call this for each &lt;property&gt; tag to the IzPack task.
@@ -415,7 +415,8 @@ public class IzPackTask extends Task implements PackagerListener
     }
 
     /**
-     * A set of properties to pass from the build environment to the install compile
+     * A set of properties to pass from the build environment to the install
+     * compile
      *
      * @param ps The propertyset collection of properties
      */
@@ -439,7 +440,10 @@ public class IzPackTask extends Task implements PackagerListener
 
         public String[] getValues()
         {
-            return new String[]{CompilerData.STANDARD, CompilerData.WEB};
+            return new String[]
+            {
+                CompilerData.STANDARD, CompilerData.WEB
+            };
         }
     }
 }

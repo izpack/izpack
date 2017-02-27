@@ -17,7 +17,7 @@ public class RegularExpressionFilter implements ValueFilter
     public Boolean global;
 
     public RegularExpressionFilter(String regexp, String select, String replace, String defaultValue,
-                                   Boolean casesensitive, Boolean global)
+            Boolean casesensitive, Boolean global)
     {
         this.regexp = regexp;
         this.select = select;
@@ -28,13 +28,13 @@ public class RegularExpressionFilter implements ValueFilter
     }
 
     public RegularExpressionFilter(String regexp, String select, String defaultValue,
-                                   Boolean casesensitive)
+            Boolean casesensitive)
     {
         this(regexp, select, null, defaultValue, casesensitive, null);
     }
 
     public RegularExpressionFilter(String regexp, String replace, String defaultValue,
-                                   Boolean casesensitive, Boolean global)
+            Boolean casesensitive, Boolean global)
     {
         this(regexp, null, replace, defaultValue, casesensitive, global);
     }
@@ -119,42 +119,42 @@ public class RegularExpressionFilter implements ValueFilter
     @Override
     public String filter(String value, VariableSubstitutor... substitutors) throws Exception
     {
-        String _replace = replace, _select = select,
-                _regexp = regexp, _defaultValue = defaultValue;
+        String replace0 = replace, select0 = select,
+                regexp0 = regexp, defaultValue0 = defaultValue;
         for (VariableSubstitutor substitutor : substitutors)
         {
-            if (_replace != null)
+            if (replace0 != null)
             {
-                _replace = substitutor.substitute(_replace);
+                replace0 = substitutor.substitute(replace0);
             }
-            if (_select != null)
+            if (select0 != null)
             {
-                _select = substitutor.substitute(_select);
+                select0 = substitutor.substitute(select0);
             }
-            if (_regexp != null)
+            if (regexp0 != null)
             {
-                _regexp = substitutor.substitute(_regexp);
+                regexp0 = substitutor.substitute(regexp0);
             }
-            if (_defaultValue != null)
+            if (defaultValue0 != null)
             {
-                _defaultValue = substitutor.substitute(_defaultValue);
+                defaultValue0 = substitutor.substitute(defaultValue0);
             }
         }
         RegularExpressionProcessor processor = new RegularExpressionProcessorImpl();
         processor.setInput(value);
-        processor.setRegexp(_regexp);
+        processor.setRegexp(regexp0);
         processor.setCaseSensitive(casesensitive);
-        if (_select != null)
+        if (select0 != null)
         {
-            processor.setSelect(_select);
+            processor.setSelect(select0);
         }
-        else if (_replace != null)
+        else if (replace0 != null)
         {
-            processor.setReplace(_replace);
+            processor.setReplace(replace0);
             processor.setGlobal(global);
         }
 
-        processor.setDefaultValue(_defaultValue);
+        processor.setDefaultValue(defaultValue0);
         return processor.execute();
     }
 
@@ -166,8 +166,7 @@ public class RegularExpressionFilter implements ValueFilter
                 + ", select: " + select
                 + ", default: " + defaultValue
                 + ", casesensitive: " + casesensitive
-                + ", global: " + global + ")"
-                ;
+                + ", global: " + global + ")";
     }
 
     @Override
@@ -177,16 +176,15 @@ public class RegularExpressionFilter implements ValueFilter
         {
             return false;
         }
-        String compareRegexp = ((RegularExpressionFilter)obj).getRegexp();
-        String compareReplace = ((RegularExpressionFilter)obj).getReplace();
-        String compareSelect = ((RegularExpressionFilter)obj).getSelect();
-        String compareDefaultValue = ((RegularExpressionFilter)obj).getDefaultValue();
-        return regexp!=null?regexp.equals(compareRegexp):compareRegexp==null
-                && replace!=null?replace.equals(compareReplace):compareReplace==null
-                && select!=null?select.equals(compareSelect):compareSelect==null
-                && defaultValue!=null?defaultValue.equals(compareDefaultValue):compareDefaultValue==null
-                && Boolean.valueOf(casesensitive).equals(((RegularExpressionFilter)obj).getCasesensitive())
-                && Boolean.valueOf(global).equals(((RegularExpressionFilter)obj).getGlobal())
-                ;
+        String compareRegexp = ((RegularExpressionFilter) obj).getRegexp();
+        String compareReplace = ((RegularExpressionFilter) obj).getReplace();
+        String compareSelect = ((RegularExpressionFilter) obj).getSelect();
+        String compareDefaultValue = ((RegularExpressionFilter) obj).getDefaultValue();
+        return regexp != null ? regexp.equals(compareRegexp) : compareRegexp == null
+                && replace != null ? replace.equals(compareReplace) : compareReplace == null
+                        && select != null ? select.equals(compareSelect) : compareSelect == null
+                                && defaultValue != null ? defaultValue.equals(compareDefaultValue) : compareDefaultValue == null
+                                        && Boolean.valueOf(casesensitive).equals(((RegularExpressionFilter) obj).getCasesensitive())
+                                        && Boolean.valueOf(global).equals(((RegularExpressionFilter) obj).getGlobal());
     }
 }

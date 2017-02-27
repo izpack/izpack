@@ -18,12 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.file;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
-
 
 /**
  * File field.
@@ -36,7 +33,7 @@ public class FileField extends AbstractFileField
     /**
      * Constructs a {@code FileField}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */

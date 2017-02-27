@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -96,7 +95,6 @@ public class ExtendSelector extends BaseSelector
         paramVec.addElement(p);
     }
 
-
     /**
      * Set the classpath to load the classname specified using an attribute.
      *
@@ -139,9 +137,9 @@ public class ExtendSelector extends BaseSelector
     }
 
     /**
-     * These are errors specific to ExtendSelector only. If there are
-     * errors in the custom selector, it should throw a BuildException
-     * when isSelected() is called.
+     * These are errors specific to ExtendSelector only. If there are errors in
+     * the custom selector, it should throw a BuildException when isSelected()
+     * is called.
      */
     public void verifySettings()
     {
@@ -168,13 +166,11 @@ public class ExtendSelector extends BaseSelector
         }
     }
 
-
     /**
-     * Allows the custom selector to choose whether to select a file. This
-     * is also where the Parameters are passed to the custom selector,
-     * since we know we must have them all by now. And since we must know
-     * both classpath and classname, creating the class is deferred to here
-     * as well.
+     * Allows the custom selector to choose whether to select a file. This is
+     * also where the Parameters are passed to the custom selector, since we
+     * know we must have them all by now. And since we must know both classpath
+     * and classname, creating the class is deferred to here as well.
      *
      * @throws Exception if an error occurs
      */

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.defaulttarget;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -35,6 +34,7 @@ import com.izforge.izpack.installer.automation.PanelAutomation;
  */
 public class DefaultTargetPanelAutomationHelper implements PanelAutomation
 {
+
     @Override
     public void createInstallationRecord(InstallData idata, IXMLElement panelRoot)
     {
@@ -57,7 +57,7 @@ public class DefaultTargetPanelAutomationHelper implements PanelAutomation
     /**
      * Asks to run in the automated mode.
      *
-     * @param installData     The installation installDataGUI.
+     * @param installData The installation installDataGUI.
      * @param panelRoot The XML tree to read the installDataGUI from.
      */
     public void runAutomated(InstallData installData, IXMLElement panelRoot)

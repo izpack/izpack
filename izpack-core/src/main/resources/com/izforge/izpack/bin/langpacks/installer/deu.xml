@@ -233,7 +233,7 @@
     <str id="UserInputPanel.file.notfile.caption" txt="Ungültige Datei"/>
 
     <!-- more descriptive error message would be cool, like specifying what
-file we looked for -->
+    file we looked for -->
     <str id="UserInputPanel.search.autodetect" txt="Automatisch erkennen"/>
     <str id="UserInputPanel.search.autodetect.failed.message" txt="Automatische Erkennung fehlgeschlagen."/>
     <str id="UserInputPanel.search.autodetect.failed.caption" txt="Automatische Erkennung fehlgeschlagen."/>
@@ -333,7 +333,7 @@ file we looked for -->
     <str id="ConsoleInstaller.shutdown.failed" txt="Textkonsolen-Installation fehlgeschlagen!"/>
 
     <!-- Add your own panels specific strings here if you need or use a custom
-langpack with the same syntax referred as resoure CustomLangpack.xml_[ISO3]" -->
+    langpack with the same syntax referred as resoure CustomLangpack.xml_[ISO3]" -->
 
     <!-- Next Media Strings -->
     <str id="nextmedia.title" txt="Nächstes Installationsmedium"/>
@@ -348,7 +348,7 @@ langpack with the same syntax referred as resoure CustomLangpack.xml_[ISO3]" -->
 
 
     <!-- This string defines the time stamp format in the installation report.
-The format details are documented in java.text.SimpleDateFormat -->
+    The format details are documented in java.text.SimpleDateFormat -->
     <str id="log.timeStamp" txt="dd-MM-yyyy [HH:mm:ss]  zzzz"/>
 
     <!-- Strings for various purposes in the logging/reporting system -->
@@ -379,7 +379,7 @@ The format details are documented in java.text.SimpleDateFormat -->
          txt="&lt;html&gt;Die Installation konnte nicht vollständig ausgeführt werden!&lt;br&gt;Möchten Sie ein Protokoll abspeichern?&lt;/html&gt;"/>
 
     <!-- Strings for individual messages in the logging/reporting system. Numbers
-for each category (message/warning/error) start at 0 -->
+    for each category (message/warning/error) start at 0 -->
     <str id="log.message_" txt=""/>
     <str id="log.warning_" txt=""/>
     <str id="log.error_0" txt="konnte die Datei ''{0}'' nicht schreiben"/>

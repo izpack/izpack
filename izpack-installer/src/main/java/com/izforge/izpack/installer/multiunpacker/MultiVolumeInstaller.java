@@ -15,7 +15,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.installer.multiunpacker;
 
 import java.awt.HeadlessException;
@@ -28,7 +27,8 @@ import com.izforge.izpack.installer.bootstrap.Installer;
 import com.izforge.izpack.util.SelfModifier;
 
 /**
- * Main class, for starting the installer if it was build to support more than one volume.
+ * Main class, for starting the installer if it was build to support more than
+ * one volume.
  *
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  * @deprecated see {@link Installer}
@@ -36,7 +36,8 @@ import com.izforge.izpack.util.SelfModifier;
 @Deprecated
 public class MultiVolumeInstaller
 {
-    private static final Logger logger = Logger.getLogger(MultiVolumeInstaller.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(MultiVolumeInstaller.class.getName());
 
     // where is the installer looking for media files
     protected static String mediadirectory;
@@ -57,7 +58,7 @@ public class MultiVolumeInstaller
         {
             // this exception is expected if we're running in console or
             // auto installation mode
-            logger.warning("Progress will not be shown. No display found.");
+            LOGGER.warning("Progress will not be shown. No display found.");
         }
         // default is to look in the current directory
         MultiVolumeInstaller.setMediadirectory(new File(".").getParent());
@@ -82,12 +83,15 @@ public class MultiVolumeInstaller
             try
             {
                 long maxmem = Runtime.getRuntime().maxMemory() / (1024 * 1024);
-                logger.fine("Currently using maximum memory of " + maxmem + "m");
+                LOGGER.fine("Currently using maximum memory of " + maxmem + "m");
                 // just use a static fraction of memory for perm gen size.
                 long maxpermgensize = maxmem / 4;
 
                 Class<MultiVolumeInstaller> clazz = MultiVolumeInstaller.class;
-                Method target = clazz.getMethod("install", new Class[]{String[].class});
+                Method target = clazz.getMethod("install", new Class[]
+                {
+                    String[].class
+                });
                 String[] newargs = new String[args.length + 2];
                 System.arraycopy(args, 0, newargs, 2, args.length);
 
@@ -104,7 +108,7 @@ public class MultiVolumeInstaller
             }
             catch (Exception e)
             {
-                logger.log(Level.WARNING, e.getMessage(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
         if (progressDialog != null)

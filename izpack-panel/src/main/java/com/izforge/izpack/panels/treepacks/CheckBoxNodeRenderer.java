@@ -15,19 +15,20 @@ import java.awt.*;
  */
 class CheckBoxNodeRenderer implements TreeCellRenderer
 {
-    private static final JPanel rendererPanel = new JPanel();
-    private static final JLabel packSizeLabel = new JLabel();
-    private static final JCheckBox checkbox = new JCheckBox();
-    private static final JCheckBox normalCheckBox = new JCheckBox();
-    private static final java.awt.Font normalFont = new JCheckBox().getFont();
-    private static final java.awt.Font boldFont = new java.awt.Font(normalFont.getFontName(),
+
+    private static final JPanel RENDERER_PANEL = new JPanel();
+    private static final JLabel PACK_SIZE_LABEL = new JLabel();
+    private static final JCheckBox CHECK_BOX = new JCheckBox();
+    private static final JCheckBox NORMAL_CHECK_BOX = new JCheckBox();
+    private static final java.awt.Font NORMAL_FONT = new JCheckBox().getFont();
+    private static final java.awt.Font BOLD_FONT = new java.awt.Font(NORMAL_FONT.getFontName(),
             java.awt.Font.BOLD,
-            normalFont.getSize());
-    private static final java.awt.Font plainFont = new java.awt.Font(normalFont.getFontName(),
+            NORMAL_FONT.getSize());
+    private static final java.awt.Font PLAIN_FONT = new java.awt.Font(NORMAL_FONT.getFontName(),
             java.awt.Font.PLAIN,
-            normalFont.getSize());
-    private static final Color annotationColor = new Color(0, 0, 120); // red
-    private static final Color changedColor = new Color(200, 0, 0);
+            NORMAL_FONT.getSize());
+    private static final Color ANNOTATION_COLOR = new Color(0, 0, 120); // red
+    private static final Color CHANGED_COLOR = new Color(200, 0, 0);
 
     private static Color selectionForeground, selectionBackground,
             textForeground, textBackground;
@@ -43,44 +44,44 @@ class CheckBoxNodeRenderer implements TreeCellRenderer
         treePacksPanel = t;
 
         int treeWidth = t.getTree().getPreferredSize().width;
-        int height = checkbox.getPreferredSize().height;
+        int height = CHECK_BOX.getPreferredSize().height;
         int cellWidth = treeWidth - treeWidth / 4;
 
         //Don't touch, it fixes various layout bugs in swing/awt
-        rendererPanel.setLayout(new BorderLayout(0, 0));
-        rendererPanel.setBackground(textBackground);
-        rendererPanel.add(BorderLayout.WEST, checkbox);
+        RENDERER_PANEL.setLayout(new BorderLayout(0, 0));
+        RENDERER_PANEL.setBackground(textBackground);
+        RENDERER_PANEL.add(BorderLayout.WEST, CHECK_BOX);
 
-        rendererPanel.setAlignmentX((float) 0);
-        rendererPanel.setAlignmentY((float) 0);
-        rendererPanel.add(BorderLayout.EAST, packSizeLabel);
+        RENDERER_PANEL.setAlignmentX((float) 0);
+        RENDERER_PANEL.setAlignmentY((float) 0);
+        RENDERER_PANEL.add(BorderLayout.EAST, PACK_SIZE_LABEL);
 
-        rendererPanel.setMinimumSize(new Dimension(cellWidth, height));
-        rendererPanel.setPreferredSize(new Dimension(cellWidth, height));
-        rendererPanel.setSize(new Dimension(cellWidth, height));
+        RENDERER_PANEL.setMinimumSize(new Dimension(cellWidth, height));
+        RENDERER_PANEL.setPreferredSize(new Dimension(cellWidth, height));
+        RENDERER_PANEL.setSize(new Dimension(cellWidth, height));
 
-        rendererPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        RENDERER_PANEL.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
     }
 
     public Component getTreeCellRendererComponent(JTree tree, Object value,
-                                                  boolean selected, boolean expanded, boolean leaf, int row,
-                                                  boolean hasFocus)
+            boolean selected, boolean expanded, boolean leaf, int row,
+            boolean hasFocus)
     {
         if (selected)
         {
-            checkbox.setForeground(selectionForeground);
-            checkbox.setBackground(selectionBackground);
-            rendererPanel.setForeground(selectionForeground);
-            rendererPanel.setBackground(selectionBackground);
-            packSizeLabel.setBackground(selectionBackground);
+            CHECK_BOX.setForeground(selectionForeground);
+            CHECK_BOX.setBackground(selectionBackground);
+            RENDERER_PANEL.setForeground(selectionForeground);
+            RENDERER_PANEL.setBackground(selectionBackground);
+            PACK_SIZE_LABEL.setBackground(selectionBackground);
         }
         else
         {
-            checkbox.setForeground(textForeground);
-            checkbox.setBackground(textBackground);
-            rendererPanel.setForeground(textForeground);
-            rendererPanel.setBackground(textBackground);
-            packSizeLabel.setBackground(textBackground);
+            CHECK_BOX.setForeground(textForeground);
+            CHECK_BOX.setBackground(textBackground);
+            RENDERER_PANEL.setForeground(textForeground);
+            RENDERER_PANEL.setBackground(textBackground);
+            PACK_SIZE_LABEL.setBackground(textBackground);
         }
 
         if ((value != null) && (value instanceof CheckBoxNode))
@@ -89,62 +90,62 @@ class CheckBoxNodeRenderer implements TreeCellRenderer
 
             if (node.isTotalSizeChanged())
             {
-                packSizeLabel.setForeground(changedColor);
+                PACK_SIZE_LABEL.setForeground(CHANGED_COLOR);
             }
             else
             {
                 if (selected)
                 {
-                    packSizeLabel.setForeground(selectionForeground);
+                    PACK_SIZE_LABEL.setForeground(selectionForeground);
                 }
                 else
                 {
-                    packSizeLabel.setForeground(annotationColor);
+                    PACK_SIZE_LABEL.setForeground(ANNOTATION_COLOR);
                 }
             }
 
-            checkbox.setText(node.getTranslatedText());
+            CHECK_BOX.setText(node.getTranslatedText());
 
-            packSizeLabel.setText(Pack.toByteUnitsString(node.getTotalSize()));
+            PACK_SIZE_LABEL.setText(Pack.toByteUnitsString(node.getTotalSize()));
 
             if (node.isPartial())
             {
-                checkbox.setSelected(false);
+                CHECK_BOX.setSelected(false);
             }
             else
             {
-                checkbox.setSelected(node.isSelected());
+                CHECK_BOX.setSelected(node.isSelected());
             }
 
-            checkbox.setEnabled(node.isEnabled());
-            packSizeLabel.setEnabled(node.isEnabled());
+            CHECK_BOX.setEnabled(node.isEnabled());
+            PACK_SIZE_LABEL.setEnabled(node.isEnabled());
 
             if (node.getChildCount() > 0)
             {
-                checkbox.setFont(boldFont);
-                packSizeLabel.setFont(boldFont);
+                CHECK_BOX.setFont(BOLD_FONT);
+                PACK_SIZE_LABEL.setFont(BOLD_FONT);
             }
             else
             {
-                checkbox.setFont(normalFont);
-                packSizeLabel.setFont(plainFont);
+                CHECK_BOX.setFont(NORMAL_FONT);
+                PACK_SIZE_LABEL.setFont(PLAIN_FONT);
             }
 
             if (node.isPartial())
             {
-                checkbox.setIcon(new PartialIcon(node.isEnabled()));
+                CHECK_BOX.setIcon(new PartialIcon(node.isEnabled()));
             }
             else
             {
-                checkbox.setIcon(normalCheckBox.getIcon());
+                CHECK_BOX.setIcon(NORMAL_CHECK_BOX.getIcon());
             }
         }
-        return rendererPanel;
+        return RENDERER_PANEL;
     }
 
     public Component getCheckRenderer()
     {
-        return rendererPanel;
+        return RENDERER_PANEL;
     }
 
 }

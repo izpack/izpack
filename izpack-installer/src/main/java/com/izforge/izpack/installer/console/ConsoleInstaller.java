@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.data.Info;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.exception.UserInterruptException;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.installer.base.InstallerBase;
@@ -50,10 +48,11 @@ import java.util.logging.Logger;
  */
 public class ConsoleInstaller implements InstallerBase
 {
+
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(ConsoleInstaller.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ConsoleInstaller.class.getName());
 
     /**
      * The panels.
@@ -85,15 +84,14 @@ public class ConsoleInstaller implements InstallerBase
      */
     private boolean interrupted = false;
 
-
     /**
      * Constructs a <tt>ConsoleInstaller</tt>
      *
-     * @param panels              the panels
-     * @param installData         the installation data
+     * @param panels the panels
+     * @param installData the installation data
      * @param uninstallDataWriter the uninstallation data writer
-     * @param console             the console
-     * @param housekeeper         the house-keeper
+     * @param console the console
+     * @param housekeeper the house-keeper
      * @throws IzPackException for any IzPack error
      */
     public ConsoleInstaller(ConsolePanels panels, ConsoleInstallData installData,
@@ -119,8 +117,8 @@ public class ConsoleInstaller implements InstallerBase
     /**
      * Runs the installation.
      * <p/>
-     * This method does not return - it invokes {@code System.exit(0)} on successful installation, or
-     * {@code System.exit(1)} on failure.
+     * This method does not return - it invokes {@code System.exit(0)} on
+     * successful installation, or {@code System.exit(1)} on failure.
      *
      * @param type the type of the console action to perform
      * @param path the path to use for the action. May be <tt>null</tt>
@@ -184,7 +182,7 @@ public class ConsoleInstaller implements InstallerBase
         catch (Throwable t)
         {
             success = false;
-            logger.log(Level.SEVERE, t.getMessage(), t);
+            LOGGER.log(Level.SEVERE, t.getMessage(), t);
         }
         finally
         {
@@ -202,8 +200,9 @@ public class ConsoleInstaller implements InstallerBase
     /**
      * Shuts down the installer, rebooting if necessary.
      *
-     * @param exitSuccess if <tt>true</tt>, exits with a <tt>0</tt> exit code, else exits with a <tt>1</tt> exit code
-     * @param console     the console
+     * @param exitSuccess if <tt>true</tt>, exits with a <tt>0</tt> exit code,
+     * else exits with a <tt>1</tt> exit code
+     * @param console the console
      */
     protected void shutdown(boolean exitSuccess, Console console)
     {
@@ -229,15 +228,16 @@ public class ConsoleInstaller implements InstallerBase
     /**
      * Shuts down the installer.
      *
-     * @param exitSuccess if <tt>true</tt>, exits with a <tt>0</tt> exit code, else exits with a <tt>1</tt> exit code
-     * @param reboot      if <tt>true</tt> perform a reboot
+     * @param exitSuccess if <tt>true</tt>, exits with a <tt>0</tt> exit code,
+     * else exits with a <tt>1</tt> exit code
+     * @param reboot if <tt>true</tt> perform a reboot
      */
     protected void shutdown(boolean exitSuccess, boolean reboot)
     {
         final Messages messages = installData.getMessages();
         if (exitSuccess && !installData.isInstallSuccess())
         {
-            logger.severe("Expected successful exit status, but installation data is reporting failure");
+            LOGGER.severe("Expected successful exit status, but installation data is reporting failure");
             exitSuccess = false;
         }
         installData.setInstallSuccess(exitSuccess);
@@ -263,8 +263,9 @@ public class ConsoleInstaller implements InstallerBase
     /**
      * Terminates the installation process.
      *
-     * @param exitSuccess if <tt>true</tt>, exits with a <tt>0</tt> exit code, else exits with a <tt>1</tt> exit code
-     * @param reboot      if <tt>true</tt> perform a reboot
+     * @param exitSuccess if <tt>true</tt>, exits with a <tt>0</tt> exit code,
+     * else exits with a <tt>1</tt> exit code
+     * @param reboot if <tt>true</tt> perform a reboot
      */
     protected void terminate(boolean exitSuccess, boolean reboot)
     {
@@ -284,8 +285,8 @@ public class ConsoleInstaller implements InstallerBase
     /**
      * Creates a new console action.
      *
-     * @param type    the type of the action to perform
-     * @param path    the path to use for the action. May be <tt>null</tt>
+     * @param type the type of the action to perform
+     * @param path the path to use for the action. May be <tt>null</tt>
      * @param console the console
      * @return a new {@link ConsoleAction}
      * @throws IOException for any I/O error
@@ -364,7 +365,7 @@ public class ConsoleInstaller implements InstallerBase
     /**
      * Creates a new action to perform installation from a properties file.
      *
-     * @param path    the property file path
+     * @param path the property file path
      * @param console the console
      * @return a new {@link PropertyInstallAction}
      * @throws IOException for any I/O error
@@ -386,7 +387,7 @@ public class ConsoleInstaller implements InstallerBase
                 if (oldValue != null)
                 {
                     console.println("Warning: Property " + key + " overwritten: '"
-                                            + oldValue + "' --> '" + newValue + "'");
+                            + oldValue + "' --> '" + newValue + "'");
                 }
             }
             return new PropertyInstallAction(installData, uninstallDataWriter, properties);

@@ -18,17 +18,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.rule;
 
 import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.panels.userinput.field.FieldProcessor;
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
-
 
 /**
  * Rule field.
@@ -37,6 +34,7 @@ import com.izforge.izpack.panels.userinput.field.ValidationStatus;
  */
 public class RuleField extends Field
 {
+
     /**
      * The rule field layout.
      */
@@ -62,17 +60,15 @@ public class RuleField extends Field
      */
     private String[] defaultValues;
 
-
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(RuleField.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(RuleField.class.getName());
 
     /**
      * Constructs a {@code RuleField}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */
@@ -108,7 +104,7 @@ public class RuleField extends Field
         if (value != null)
         {
             ValidationStatus status = validateFormatted(value);
-            this.initialValues = status.isValid()?status.getValues():null;
+            this.initialValues = status.isValid() ? status.getValues() : null;
         }
         else
         {
@@ -144,7 +140,7 @@ public class RuleField extends Field
         if (value != null)
         {
             ValidationStatus status = validateFormatted(value);
-            this.defaultValues = status.isValid()?status.getValues():null;
+            this.defaultValues = status.isValid() ? status.getValues() : null;
         }
         else
         {
@@ -194,7 +190,8 @@ public class RuleField extends Field
     }
 
     /**
-     * Validates the field values against the field layout and any associated validators.
+     * Validates the field values against the field layout and any associated
+     * validators.
      *
      * @param values the values to validate
      * @return the status of the validation
@@ -224,9 +221,10 @@ public class RuleField extends Field
     }
 
     /**
-     * Specifies to return the contents of all fields together with all separators as specified in the field format
-     * concatenated into one long string.
-     * In this case the resulting string looks just like the user saw it during data entry.
+     * Specifies to return the contents of all fields together with all
+     * separators as specified in the field format concatenated into one long
+     * string. In this case the resulting string looks just like the user saw it
+     * during data entry.
      *
      * @param values the values to format
      * @return the formatted string
@@ -306,11 +304,10 @@ public class RuleField extends Field
         }
         else
         {
-            logger.warning("Rule field has " + format + " type, but no processor is registered");
+            LOGGER.warning("Rule field has " + format + " type, but no processor is registered");
             // fallback to display format
             result = formatDisplay(values);
         }
         return result;
     }
 }
-

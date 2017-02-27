@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.data;
 
 import com.izforge.izpack.api.handler.DefaultConfigurationHandler;
 
 /**
- * Implements an adapter for the abstract {@code DefaultConfigurationHandler} class to be able to make it a
- * utility for handling configuration options temporarily while using the functionality of the parent class.<br>
- * This is especially necessary because the abstract parent class cannot be used as a inner class, because Java
- * can't serialize them to the installer jar.
+ * Implements an adapter for the abstract {@code DefaultConfigurationHandler}
+ * class to be able to make it a utility for handling configuration options
+ * temporarily while using the functionality of the parent class.<br>
+ * This is especially necessary because the abstract parent class cannot be used
+ * as a inner class, because Java can't serialize them to the installer jar.
  */
 public class DefaultConfigurationHandlerAdapter extends DefaultConfigurationHandler
 {
+
     private static final long serialVersionUID = -4178638617090133890L;
 }

@@ -14,18 +14,18 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types;
 
 /**
  * Describes a File or a ZipEntry.
  * <p/>
- * This class is meant to be used by classes needing to record path
- * and date/time information about a file, a zip entry or some similar
- * resource (URL, archive in a version control repository, ...).
+ * This class is meant to be used by classes needing to record path and
+ * date/time information about a file, a zip entry or some similar resource
+ * (URL, archive in a version control repository, ...).
  */
 public class Resource implements Cloneable, Comparable<Object>
 {
+
     /**
      * Constant unknown size
      */
@@ -47,10 +47,11 @@ public class Resource implements Cloneable, Comparable<Object>
     /**
      * Only sets the name.
      * <p/>
-     * <p>This is a dummy, used for not existing resources.</p>
+     * <p>
+     * This is a dummy, used for not existing resources.</p>
      *
-     * @param name relative path of the resource.  Expects
-     *             &quot;/&quot; to be used as the directory separator.
+     * @param name relative path of the resource. Expects &quot;/&quot; to be
+     * used as the directory separator.
      */
     public Resource(String name)
     {
@@ -60,9 +61,9 @@ public class Resource implements Cloneable, Comparable<Object>
     /**
      * Sets the name, lastmodified flag, and exists flag.
      *
-     * @param name         relative path of the resource.  Expects
-     *                     &quot;/&quot; to be used as the directory separator.
-     * @param exists       if true, this resource exists.
+     * @param name relative path of the resource. Expects &quot;/&quot; to be
+     * used as the directory separator.
+     * @param exists if true, this resource exists.
      * @param lastmodified the last modification time of this resource.
      */
     public Resource(String name, boolean exists, long lastmodified)
@@ -73,14 +74,14 @@ public class Resource implements Cloneable, Comparable<Object>
     /**
      * Sets the name, lastmodified flag, exists flag, and directory flag.
      *
-     * @param name         relative path of the resource.  Expects
-     *                     &quot;/&quot; to be used as the directory separator.
-     * @param exists       if true the resource exists
+     * @param name relative path of the resource. Expects &quot;/&quot; to be
+     * used as the directory separator.
+     * @param exists if true the resource exists
      * @param lastmodified the last modification time of the resource
-     * @param directory    if true, this resource is a directory
+     * @param directory if true, this resource is a directory
      */
     public Resource(String name, boolean exists, long lastmodified,
-                    boolean directory)
+            boolean directory)
     {
         this(name, exists, lastmodified, directory, UNKNOWN_SIZE);
     }
@@ -88,15 +89,15 @@ public class Resource implements Cloneable, Comparable<Object>
     /**
      * Sets the name, lastmodified flag, exists flag, directory flag, and size.
      *
-     * @param name         relative path of the resource.  Expects
-     *                     &quot;/&quot; to be used as the directory separator.
-     * @param exists       if true the resource exists
+     * @param name relative path of the resource. Expects &quot;/&quot; to be
+     * used as the directory separator.
+     * @param exists if true the resource exists
      * @param lastmodified the last modification time of the resource
-     * @param directory    if true, this resource is a directory
-     * @param size         the size of this resource.
+     * @param directory if true, this resource is a directory
+     * @param size the size of this resource.
      */
     public Resource(String name, boolean exists, long lastmodified,
-                    boolean directory, long size)
+            boolean directory, long size)
     {
         this.name = name;
         setName(name);
@@ -107,15 +108,15 @@ public class Resource implements Cloneable, Comparable<Object>
     }
 
     /**
-     * Name attribute will contain the path of a file relative to the
-     * root directory of its fileset or the recorded path of a zip
-     * entry.
+     * Name attribute will contain the path of a file relative to the root
+     * directory of its fileset or the recorded path of a zip entry.
      * <p/>
-     * <p>example for a file with fullpath /var/opt/adm/resource.txt
-     * in a file set with root dir /var/opt it will be
-     * adm/resource.txt.</p>
+     * <p>
+     * example for a file with fullpath /var/opt/adm/resource.txt in a file set
+     * with root dir /var/opt it will be adm/resource.txt.</p>
      * <p/>
-     * <p>&quot;/&quot; will be used as the directory separator.</p>
+     * <p>
+     * &quot;/&quot; will be used as the directory separator.</p>
      *
      * @return the name of this resource.
      */
@@ -127,8 +128,8 @@ public class Resource implements Cloneable, Comparable<Object>
     /**
      * Set the name of this Resource.
      *
-     * @param name relative path of the resource.  Expects
-     *             &quot;/&quot; to be used as the directory separator.
+     * @param name relative path of the resource. Expects &quot;/&quot; to be
+     * used as the directory separator.
      */
     public void setName(String name)
     {
@@ -158,8 +159,8 @@ public class Resource implements Cloneable, Comparable<Object>
     /**
      * Tells the modification time in milliseconds since 01.01.1970 .
      *
-     * @return 0 if the resource does not exist to mirror the behavior
-     *         of {@link java.io.File File}.
+     * @return 0 if the resource does not exist to mirror the behavior of
+     * {@link java.io.File File}.
      */
     public long getLastModified()
     {
@@ -169,7 +170,8 @@ public class Resource implements Cloneable, Comparable<Object>
     /**
      * Set the last modification attribute.
      *
-     * @param lastmodified the modification time in milliseconds since 01.01.1970.
+     * @param lastmodified the modification time in milliseconds since
+     * 01.01.1970.
      */
     public void setLastModified(long lastmodified)
     {
@@ -210,7 +212,7 @@ public class Resource implements Cloneable, Comparable<Object>
      * Get the size of this Resource.
      *
      * @return the size, as a long, 0 if the Resource does not exist (for
-     *         compatibility with java.io.File), or UNKNOWN_SIZE if not known.
+     * compatibility with java.io.File), or UNKNOWN_SIZE if not known.
      */
     public long getSize()
     {
@@ -240,7 +242,7 @@ public class Resource implements Cloneable, Comparable<Object>
      *
      * @param other the object to compare to.
      * @return a negative integer, zero, or a positive integer as this Resource
-     *         is less than, equal to, or greater than the specified Resource.
+     * is less than, equal to, or greater than the specified Resource.
      */
     public int compareTo(Object other)
     {

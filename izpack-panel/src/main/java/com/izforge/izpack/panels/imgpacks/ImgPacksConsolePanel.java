@@ -38,7 +38,7 @@ public final class ImgPacksConsolePanel extends PacksConsolePanel
     /**
      * Constructor for {@link ImgPacksConsolePanel}
      *
-     * @param panel  the parent panel/view. May be {@code null}
+     * @param panel the parent panel/view. May be {@code null}
      * @param prompt prompt
      */
     public ImgPacksConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)

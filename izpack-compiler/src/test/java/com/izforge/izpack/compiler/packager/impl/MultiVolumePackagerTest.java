@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.packager.impl;
 
 import java.util.Properties;
@@ -46,7 +45,7 @@ public class MultiVolumePackagerTest extends AbstractPackagerTest
     /**
      * Helper to create a packager that writes to the provided jar.
      *
-     * @param jar          the jar stream
+     * @param jar the jar stream
      * @param mergeManager the merge manager
      * @return a new packager
      */
@@ -66,8 +65,8 @@ public class MultiVolumePackagerTest extends AbstractPackagerTest
                 true, false);
         RulesEngine rulesEngine = Mockito.mock(RulesEngine.class);
         MultiVolumePackager packager = new MultiVolumePackager(properties, listener, jar, mergeManager,
-                                                               pathResolver, resolver, compressor, data, 
-                                                               rulesEngine);
+                pathResolver, resolver, compressor, data,
+                rulesEngine);
         packager.setInfo(new Info());
         return packager;
     }

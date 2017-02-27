@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules.process;
 
 import java.lang.reflect.Field;
@@ -39,9 +38,10 @@ import com.izforge.izpack.api.rules.Condition;
  */
 public class JavaCondition extends Condition
 {
+
     private static final long serialVersionUID = 2019261646805005092L;
 
-    private static final transient Logger logger = Logger.getLogger(JavaCondition.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(JavaCondition.class.getName());
 
     protected String classname;
     protected String methodname;
@@ -54,7 +54,9 @@ public class JavaCondition extends Condition
     private transient Field usedfield;
     private transient Method usedmethod;
 
-    public JavaCondition() {}
+    public JavaCondition()
+    {
+    }
 
     public JavaCondition(String classname, String fieldname, boolean complete, String returnvalue, String returnvaluetype)
     {
@@ -82,7 +84,7 @@ public class JavaCondition extends Condition
                 }
                 catch (ClassNotFoundException e)
                 {
-                    logger.warning("Can't find class " + this.classname);
+                    LOGGER.warning("Can't find class " + this.classname);
                     return false;
                 }
             }
@@ -94,18 +96,18 @@ public class JavaCondition extends Condition
                 }
                 catch (SecurityException e)
                 {
-                    logger.warning("No permission to access specified field: " + this.fieldname);
+                    LOGGER.warning("No permission to access specified field: " + this.fieldname);
                     return false;
                 }
                 catch (NoSuchFieldException e)
                 {
-                    logger.warning("No such field: " + this.fieldname);
+                    LOGGER.warning("No such field: " + this.fieldname);
                     return false;
                 }
             }
             if ((this.usedmethod == null) && (this.methodname != null))
             {
-                logger.warning("Method not implemented yet");
+                LOGGER.warning("Method not implemented yet");
                 return false;
             }
 
@@ -122,16 +124,16 @@ public class JavaCondition extends Condition
                     }
                     catch (IllegalArgumentException e)
                     {
-                        logger.log(Level.WARNING, this.fieldname + ": " + e.getMessage(), e);
+                        LOGGER.log(Level.WARNING, this.fieldname + ": " + e.getMessage(), e);
                     }
                     catch (IllegalAccessException e)
                     {
-                        logger.log(Level.WARNING, this.fieldname + ": " + e.getMessage(), e);
+                        LOGGER.log(Level.WARNING, this.fieldname + ": " + e.getMessage(), e);
                     }
                 }
                 else
                 {
-                    logger.warning("Field not implemented yet");
+                    LOGGER.warning("Field not implemented yet");
                     return false;
                 }
             }
@@ -236,7 +238,8 @@ public class JavaCondition extends Condition
     }
 
     @Override
-    public Set<String> getVarRefs() {
+    public Set<String> getVarRefs()
+    {
         return new HashSet<String>(1);
     }
 

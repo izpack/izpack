@@ -22,7 +22,6 @@ package com.izforge.izpack.panels.userinput.field.file;
 
 import com.izforge.izpack.panels.userinput.field.FieldConfig;
 
-
 /**
  * File field configuration.
  *
@@ -55,7 +54,7 @@ public interface FileFieldConfig extends FieldConfig
     /**
      * Determine if the file must exist.
      *
-     * @return  @return {@code true} if file must exist
+     * @return @return {@code true} if file must exist
      */
     boolean mustExist();
 }

@@ -16,13 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data.binding;
 
 import java.io.Serializable;
 
 public class OsModel implements Serializable
 {
+
     private static final long serialVersionUID = -736021339243205276L;
 
     /**
@@ -87,12 +87,12 @@ public class OsModel implements Serializable
     @Override
     public String toString()
     {
-        return "OsModel{" +
-                "arch='" + arch + '\'' +
-                ", family='" + family + '\'' +
-                ", jre='" + jre + '\'' +
-                ", name='" + name + '\'' +
-                ", version='" + version + '\'' +
-                '}';
+        return "OsModel{"
+                + "arch='" + arch + '\''
+                + ", family='" + family + '\''
+                + ", jre='" + jre + '\''
+                + ", name='" + name + '\''
+                + ", version='" + version + '\''
+                + '}';
     }
 }

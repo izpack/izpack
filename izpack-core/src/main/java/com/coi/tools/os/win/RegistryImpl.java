@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2005 Klaus Bartz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.coi.tools.os.win;
 
 import java.util.ArrayList;
@@ -27,11 +26,12 @@ import java.util.List;
 import com.izforge.izpack.api.exception.NativeLibException;
 
 /**
- * System dependent helper for MS Windows registry handling. This class is only vaild on Windows. It
- * declares naitve methods which are implemented in COIOSHelper.dll. The native methods uses the
- * classes RegDataContainer and AccessControlList as in and output. Do not change the getter and
- * setter methods of them. Do not try to implement a get or setValueACL because it will be nonsense.
- * In the registry only keys have a ACL. not values.
+ * System dependent helper for MS Windows registry handling. This class is only
+ * vaild on Windows. It declares naitve methods which are implemented in
+ * COIOSHelper.dll. The native methods uses the classes RegDataContainer and
+ * AccessControlList as in and output. Do not change the getter and setter
+ * methods of them. Do not try to implement a get or setValueACL because it will
+ * be nonsense. In the registry only keys have a ACL. not values.
  *
  * @author Klaus Bartz
  */
@@ -77,11 +77,11 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Determines whether or not previous contents of registry values
-     * will be logged by the 'setValue()' method.
+     * Determines whether or not previous contents of registry values will be
+     * logged by the 'setValue()' method.
      *
-     * @return true if the previous contents of registry values will be
-     *         logged by the 'setValue()' method.
+     * @return true if the previous contents of registry values will be logged
+     * by the 'setValue()' method.
      */
     public boolean getLogPrevSetValueFlag()
     {
@@ -89,15 +89,15 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Sets up whether or not previous contents of registry values will
-     * be logged by the 'setValue()' method.  When registry values are
-     * overwritten by repeated installations, the desired behavior can
-     * be to have the registry value removed rather than rewound to the
-     * last-set contents (acheived via 'false').  If this method is not
-     * called then the flag wll default to 'true'.
+     * Sets up whether or not previous contents of registry values will be
+     * logged by the 'setValue()' method. When registry values are overwritten
+     * by repeated installations, the desired behavior can be to have the
+     * registry value removed rather than rewound to the last-set contents
+     * (acheived via 'false'). If this method is not called then the flag wll
+     * default to 'true'.
      *
-     * @param flagVal true to have the previous contents of registry
-     *                values logged by the 'setValue()' method.
+     * @param flagVal true to have the previous contents of registry values
+     * logged by the 'setValue()' method.
      */
     public void setLogPrevSetValueFlag(boolean flagVal)
     {
@@ -107,7 +107,7 @@ public class RegistryImpl implements MSWinConstants
     /**
      * Returns the value of the given value name as RegDataContainer.
      *
-     * @param key   key of the registry entry
+     * @param key key of the registry entry
      * @param value value name of the registry entry
      * @return the value of the given value name as RegDataContainer
      * @throws NativeLibException
@@ -122,10 +122,10 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Returns the value of the given value name as Object. The real type depends to the type of the
-     * value.
+     * Returns the value of the given value name as Object. The real type
+     * depends to the type of the value.
      *
-     * @param key   key of the registry entry
+     * @param key key of the registry entry
      * @param value value name of the registry entry
      * @return the value of the given value name as RegDataContainer
      * @throws NativeLibException
@@ -156,10 +156,12 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Returns all value names under the given key which is under the current root.
+     * Returns all value names under the given key which is under the current
+     * root.
      *
      * @param key key for which the values should be detected
-     * @return all value names under the given key which is under the current root
+     * @return all value names under the given key which is under the current
+     * root
      * @throws NativeLibException
      */
     public String[] getValueNames(String key) throws NativeLibException
@@ -183,16 +185,14 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Creates the given key under the given root.
-     * It is possible to declare keys without a sub path.
-     * This is only possible on roots which are no real roots
-     * (e.g. HKEY_CURRENT_USER which is a link to
-     * HKEY_USERS\GUID of current user). Therefore this method
-     * will be raise an exception if root is a real root and
-     * key contains no sub path.
+     * Creates the given key under the given root. It is possible to declare
+     * keys without a sub path. This is only possible on roots which are no real
+     * roots (e.g. HKEY_CURRENT_USER which is a link to HKEY_USERS\GUID of
+     * current user). Therefore this method will be raise an exception if root
+     * is a real root and key contains no sub path.
      *
      * @param root to be used
-     * @param key  key to be created
+     * @param key key to be created
      * @throws NativeLibException
      */
     public void createKey(int root, String key) throws NativeLibException
@@ -209,7 +209,7 @@ public class RegistryImpl implements MSWinConstants
         // Create key
         createKeyN(root, key);
         RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.CREATED_KEY, root, key, null,
-                                                  null, null);
+                null, null);
         log(rli);
 
     }
@@ -230,7 +230,7 @@ public class RegistryImpl implements MSWinConstants
      * Returns whether the given key under the given root exist or not.
      *
      * @param root to be used
-     * @param key  key to be tested
+     * @param key key to be tested
      * @return true if thekey exist, else false
      * @throws NativeLibException
      */
@@ -254,7 +254,7 @@ public class RegistryImpl implements MSWinConstants
     /**
      * Returns whether the given value exist under the current root or not.
      *
-     * @param key   key of the value for which should be tested
+     * @param key key of the value for which should be tested
      * @param value value to be tested
      * @return true if the value exist, else false
      * @throws NativeLibException
@@ -283,11 +283,12 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Sets the given contents to the given registry value. If a sub key or the registry value does
-     * not exist, it will be created. REG_SZ is used as registry value type.
+     * Sets the given contents to the given registry value. If a sub key or the
+     * registry value does not exist, it will be created. REG_SZ is used as
+     * registry value type.
      *
-     * @param key      the registry key which should be used or created
-     * @param value    the registry value into which the contents should be set
+     * @param key the registry key which should be used or created
+     * @param value the registry value into which the contents should be set
      * @param contents the contents for the value
      * @throws NativeLibException
      */
@@ -298,11 +299,12 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Sets the given contents to the given registry value. If a sub key or the registry value does
-     * not exist, it will be created. REG_MULTI_SZ is used as registry value type.
+     * Sets the given contents to the given registry value. If a sub key or the
+     * registry value does not exist, it will be created. REG_MULTI_SZ is used
+     * as registry value type.
      *
-     * @param key      the registry key which should be used or created
-     * @param value    the registry value into which the contents should be set
+     * @param key the registry key which should be used or created
+     * @param value the registry value into which the contents should be set
      * @param contents the contents for the value
      * @throws NativeLibException
      */
@@ -313,11 +315,12 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Sets the given contents to the given registry value. If a sub key or the registry value does
-     * not exist, it will be created. REG_BINARY is used as registry value type.
+     * Sets the given contents to the given registry value. If a sub key or the
+     * registry value does not exist, it will be created. REG_BINARY is used as
+     * registry value type.
      *
-     * @param key      the registry key which should be used or created
-     * @param value    the registry value into which the contents should be set
+     * @param key the registry key which should be used or created
+     * @param value the registry value into which the contents should be set
      * @param contents the contents for the value
      * @throws NativeLibException
      */
@@ -328,11 +331,12 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Sets the given contents to the given registry value. If a sub key or the registry value does
-     * not exist, it will be created. REG_DWORD is used as registry value type.
+     * Sets the given contents to the given registry value. If a sub key or the
+     * registry value does not exist, it will be created. REG_DWORD is used as
+     * registry value type.
      *
-     * @param key      the registry key which should be used or created
-     * @param value    the registry value into which the contents should be set
+     * @param key the registry key which should be used or created
+     * @param value the registry value into which the contents should be set
      * @param contents the contents for the value
      * @throws NativeLibException
      */
@@ -342,12 +346,13 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Sets the given contents to the given registry value under current root. If a sub key or the
-     * registry value does not exist, it will be created. The used registry value type will be
-     * determined by the type of the RegDataContainer.
+     * Sets the given contents to the given registry value under current root.
+     * If a sub key or the registry value does not exist, it will be created.
+     * The used registry value type will be determined by the type of the
+     * RegDataContainer.
      *
-     * @param key      the registry key which should be used or created
-     * @param value    the registry value into which the contents should be set
+     * @param key the registry key which should be used or created
+     * @param value the registry value into which the contents should be set
      * @param contents the contents for the value
      * @throws NativeLibException
      */
@@ -358,13 +363,13 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Sets the given contents to the given registry value. If a sub key or the registry value does
-     * not exist, it will be created. The used registry value type will be determined by the type of
-     * the RegDataContainer.
+     * Sets the given contents to the given registry value. If a sub key or the
+     * registry value does not exist, it will be created. The used registry
+     * value type will be determined by the type of the RegDataContainer.
      *
-     * @param root     id for the root of the key
-     * @param key      the registry key which should be used or created
-     * @param value    the registry value into which the contents should be set
+     * @param root id for the root of the key
+     * @param key the registry key which should be used or created
+     * @param value the registry value into which the contents should be set
      * @param contents the contents for the value
      * @throws NativeLibException
      */
@@ -416,13 +421,14 @@ public class RegistryImpl implements MSWinConstants
             // empty.
 
             RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.CHANGED_VALUE, root, key,
-                                                      localValue, contents, oldContents);
+                    localValue, contents, oldContents);
             log(rli);
         }
     }
 
     /**
-     * Deletes a key under the current root if exist and it is empty, else throw an exception.
+     * Deletes a key under the current root if exist and it is empty, else throw
+     * an exception.
      *
      * @param key key to be deleted
      * @throws NativeLibException
@@ -447,7 +453,7 @@ public class RegistryImpl implements MSWinConstants
      * Deletes a key if it is empty, else do nothing.
      *
      * @param root id for the root of the key
-     * @param key  key to be deleted
+     * @param key key to be deleted
      * @throws NativeLibException
      */
     public void deleteKeyIfEmpty(int root, String key) throws NativeLibException
@@ -462,7 +468,7 @@ public class RegistryImpl implements MSWinConstants
     /**
      * Deletes a value.
      *
-     * @param key   key of the value which should be deleted
+     * @param key key of the value which should be deleted
      * @param value value name to be deleted
      * @throws NativeLibException
      */
@@ -475,13 +481,13 @@ public class RegistryImpl implements MSWinConstants
      * Deletes a key with logging.
      *
      * @param root id for the root of the key
-     * @param key  key to be deleted
+     * @param key key to be deleted
      * @throws NativeLibException
      */
     private void deleteKeyL(int root, String key) throws NativeLibException
     {
         RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.REMOVED_KEY, root, key, null,
-                                                  null, null);
+                null, null);
         log(rli);
         deleteKeyN(root, key);
     }
@@ -489,8 +495,8 @@ public class RegistryImpl implements MSWinConstants
     /**
      * Deletes a value with logging.
      *
-     * @param root  id for the root of the key
-     * @param key   key of the value which should be deleted
+     * @param root id for the root of the key
+     * @param key key of the value which should be deleted
      * @param value value name to be deleted
      * @throws NativeLibException
      */
@@ -502,7 +508,7 @@ public class RegistryImpl implements MSWinConstants
         }
         RegDataContainer oldContents = getValue(currentRoot, key, value);
         RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.REMOVED_VALUE, root, key, value,
-                                                  null, oldContents);
+                null, oldContents);
         log(rli);
         deleteValueN(currentRoot, key, value);
     }
@@ -586,13 +592,13 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Sets the given contents to the given registry value. If a sub key or the registry value does
-     * not exist, it will be created. The used registry value type will be determined by the type of
-     * the RegDataContainer.
+     * Sets the given contents to the given registry value. If a sub key or the
+     * registry value does not exist, it will be created. The used registry
+     * value type will be determined by the type of the RegDataContainer.
      *
-     * @param root     id for the root of the key
-     * @param key      the registry key which should be used or created
-     * @param value    the registry value into which the contents should be set
+     * @param root id for the root of the key
+     * @param key the registry key which should be used or created
+     * @param value the registry value into which the contents should be set
      * @param contents the contents for the value
      * @throws NativeLibException
      */
@@ -612,7 +618,7 @@ public class RegistryImpl implements MSWinConstants
             localValue = DEFAULT_PLACEHOLDER; // Rewind will fail if last token is empty.
         }
         RegistryLogItem rli = new RegistryLogItem(RegistryLogItem.CREATED_VALUE, root, key,
-                                                  localValue, contents, null);
+                localValue, contents, null);
         log(rli);
     }
 
@@ -655,7 +661,6 @@ public class RegistryImpl implements MSWinConstants
     // throws NativeLibException;
     //
     // private native AccessControlList getKeyACL(int root, String key) throws NativeLibException;
-
     /**
      * Creates a new (empty) logging list and activates logging.
      */
@@ -704,8 +709,8 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Copies the contents of the given list of RegistryLogItems to a newly created internal logging
-     * list.
+     * Copies the contents of the given list of RegistryLogItems to a newly
+     * created internal logging list.
      *
      * @param info list containing RegistryLogItems to be used for logging
      */
@@ -716,9 +721,11 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Adds copies of the contents of the given list of RegistryLogItems to the existent internal
+     * Adds copies of the contents of the given list of RegistryLogItems to the
+     * existent internal
      *
-     * @param info list containing RegistryLogItems to be used for logging logging list.
+     * @param info list containing RegistryLogItems to be used for logging
+     * logging list.
      */
     public synchronized void addLoggingInfo(List info)
     {
@@ -737,7 +744,8 @@ public class RegistryImpl implements MSWinConstants
     }
 
     /**
-     * Adds the given item to the beginning of the logging list if logging is enabled, else do nothing.
+     * Adds the given item to the beginning of the logging list if logging is
+     * enabled, else do nothing.
      *
      * @param item the item to log
      */

@@ -48,13 +48,14 @@ import com.izforge.izpack.util.Platforms;
 /**
  * Test for an installation.
  * <p/>
- * NOTE: this test uses the IzPack install.xml, and will remove any registry entry associated with an existing IzPack
- * installation.
+ * NOTE: this test uses the IzPack install.xml, and will remove any registry
+ * entry associated with an existing IzPack installation.
  */
 @RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class IzpackInstallationTest
 {
+
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
     @Rule
@@ -70,8 +71,8 @@ public class IzpackInstallationTest
     private Panels panels;
 
     public IzpackInstallationTest(LanguageDialog languageDialog, InstallerFrame installerFrame,
-                                  GUIInstallData installData, InstallerController installerController,
-                                  RegistryDefaultHandler handler, Panels panels)
+            GUIInstallData installData, InstallerController installerController,
+            RegistryDefaultHandler handler, Panels panels)
     {
         this.installerController = installerController;
         this.languageDialog = languageDialog;
@@ -136,7 +137,6 @@ public class IzpackInstallationTest
         // depending on the classpath, and thus cause the test to fail. TODO - fix this $%^#!
         installData.setVariable("izpack.setuptype", "warfile");
 
-
         File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
 
         installData.setInstallPath(installPath.getAbsolutePath());
@@ -148,7 +148,6 @@ public class IzpackInstallationTest
         Thread.sleep(600);
         assertEquals(CheckedHelloPanel.class.getName(), panels.getPanel().getClassName());
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
-
 
         // Info Panel
         Thread.sleep(600);

@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2003 Tino Schwarze
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.compile;
 
 import java.io.PrintWriter;
@@ -28,11 +27,13 @@ import java.util.List;
 /**
  * This class describes the result of the compilation.
  * <p/>
- * This class is here because error handling is not straight-forward with regard to compilation.
+ * This class is here because error handling is not straight-forward with regard
+ * to compilation.
  * <p/>
- * The error condition consists of an error message, the full command line which failed to execute
- * plus it's stdout and stderr. The reason for this class to exist is that there are three possible
- * reactions to the error (chosen by the user).
+ * The error condition consists of an error message, the full command line which
+ * failed to execute plus it's stdout and stderr. The reason for this class to
+ * exist is that there are three possible reactions to the error (chosen by the
+ * user).
  * <ol>
  * <li>abort</li>
  * <li>ignore (continue anyway)</li>
@@ -111,8 +112,8 @@ public class CompileResult
      *
      * @param message description of the exception
      * @param cmdline full command line of failed command
-     * @param stdout  standard output of failed command
-     * @param stderr  standard error of failed command
+     * @param stdout standard output of failed command
+     * @param stderr standard error of failed command
      */
     public CompileResult(String message, List<String> cmdline, String stdout, String stderr)
     {
@@ -188,7 +189,8 @@ public class CompileResult
     /**
      * return error message
      *
-     * @return the error message describing the action that failed (might be null)
+     * @return the error message describing the action that failed (might be
+     * null)
      */
     public String getMessage()
     {

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.base;
 
 import javax.swing.JOptionPane;
@@ -52,13 +51,12 @@ public class InstallDataConfiguratorWithRules
      */
     private Platform platform;
 
-
     /**
      * Constructs an <tt>InstallDataConfiguratorWithRules</tt>.
      *
      * @param installData the installation data
-     * @param rules       the rules
-     * @param platform    the current platform
+     * @param rules the rules
+     * @param platform the current platform
      */
     public InstallDataConfiguratorWithRules(InstallData installData, RulesEngine rules, Platform platform)
     {
@@ -67,13 +65,11 @@ public class InstallDataConfiguratorWithRules
         this.platform = platform;
     }
 
-
     public void configureInstallData()
     {
         checkForPrivilegedExecution(installData.getInfo());
         checkForRebootAction(installData.getInfo());
     }
-
 
     private void checkForPrivilegedExecution(Info info)
     {
@@ -116,18 +112,17 @@ public class InstallDataConfiguratorWithRules
             catch (Exception e)
             {
                 JOptionPane.showMessageDialog(null,
-                                              "Administrative privileges required.\n" +
-                                                      "Please re-run the installer with administrative privileges.");
+                        "Administrative privileges required.\n"
+                        + "Please re-run the installer with administrative privileges.");
             }
             System.exit(0);
         }
         else if (!runner.isPlatformSupported())
         {
-            JOptionPane.showMessageDialog(null, "This installer should be run by an administrator.\n" +
-                    "The installation will still continue but you may encounter problems due to insufficient permissions.");
+            JOptionPane.showMessageDialog(null, "This installer should be run by an administrator.\n"
+                    + "The installation will still continue but you may encounter problems due to insufficient permissions.");
         }
     }
-
 
     private void checkForRebootAction(Info info)
     {

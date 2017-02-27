@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.combo;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -38,9 +37,9 @@ public class ConsoleComboField extends ConsoleChoiceField<Choice>
     /**
      * Constructs a {@link ConsoleComboField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleComboField(ComboField field, Console console, Prompt prompt)
     {

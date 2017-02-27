@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import org.apache.commons.io.FileUtils;
@@ -27,7 +26,8 @@ import java.util.logging.Logger;
 
 class AntActionLogBuildListener extends DefaultLogger
 {
-    private static final Logger logger = Logger.getLogger(AntActionLogBuildListener.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(AntActionLogBuildListener.class.getName());
 
     public AntActionLogBuildListener(File logFile, boolean append, int level)
     {
@@ -46,7 +46,7 @@ class AntActionLogBuildListener extends DefaultLogger
             }
             catch (IOException e)
             {
-                logger.warning("Cannot log to file '" + logFile + "': " + e.getMessage());
+                LOGGER.warning("Cannot log to file '" + logFile + "': " + e.getMessage());
                 this.setOutputPrintStream(System.out);
                 this.setErrorPrintStream(System.err);
             }

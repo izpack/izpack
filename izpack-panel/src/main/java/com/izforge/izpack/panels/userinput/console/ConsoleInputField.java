@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console;
 
 import com.izforge.izpack.api.handler.Prompt;
@@ -37,9 +36,9 @@ public abstract class ConsoleInputField extends ConsoleField
     /**
      * Constructs a {@code ConsoleInputField}.
      *
-     * @param field   the field
+     * @param field the field
      * @param console the console
-     * @param prompt  the prompt
+     * @param prompt the prompt
      */
     public ConsoleInputField(Field field, Console console, Prompt prompt)
     {
@@ -51,7 +50,8 @@ public abstract class ConsoleInputField extends ConsoleField
      * <p/>
      * For fields that update variables, this collects input and validates it.
      *
-     * @return {@code true} if the field was displayed and validated successfully
+     * @return {@code true} if the field was displayed and validated
+     * successfully
      */
     @Override
     public boolean display()
@@ -61,7 +61,7 @@ public abstract class ConsoleInputField extends ConsoleField
         Field field = getField();
         String label = field.getLabel(true);
         String initialValue = field.getInitialValue();
-        
+
         if (isReadonly())
         {
             println(label + " [" + initialValue + "] ");

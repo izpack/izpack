@@ -18,14 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.radio;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.ChoiceField;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
-
 
 /**
  * Radio field.
@@ -38,7 +35,7 @@ public class RadioField extends ChoiceField
     /**
      * Constructs a {@code RadioField}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.file;
 
 import javax.swing.JComponent;
@@ -30,7 +29,6 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.panels.userinput.field.file.MultipleFileField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
-
 
 /**
  * Multiple file field view.
@@ -45,13 +43,12 @@ public class GUIMultipleFileField extends GUIField
      */
     private final MultipleFileInputField fileInput;
 
-
     /**
      * Constructs a {@code GUIMultipleFileField}.
      *
-     * @param field       the field
+     * @param field the field
      * @param installData the installation data
-     * @param parent      the parent frame
+     * @param parent the parent frame
      */
     public GUIMultipleFileField(MultipleFileField field, GUIInstallData installData, InstallerFrame parent)
     {
@@ -78,8 +75,10 @@ public class GUIMultipleFileField extends GUIField
      * This implementation simply returns {@code true}.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)

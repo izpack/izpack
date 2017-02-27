@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -82,9 +81,9 @@ public abstract class BaseSelectorContainer extends BaseSelector
     }
 
     /**
-     * Convert the Selectors within this container to a string. This will
-     * just be a helper class for the subclasses that put their own name
-     * around the contents listed here.
+     * Convert the Selectors within this container to a string. This will just
+     * be a helper class for the subclasses that put their own name around the
+     * contents listed here.
      *
      * @return comma separated list of Selectors contained in this one
      */
@@ -118,19 +117,20 @@ public abstract class BaseSelectorContainer extends BaseSelector
     }
 
     /**
-     * <p>This implementation validates the container by calling
-     * verifySettings() and then validates each contained selector
-     * provided that the selector implements the validate interface.
+     * <p>
+     * This implementation validates the container by calling verifySettings()
+     * and then validates each contained selector provided that the selector
+     * implements the validate interface.
      * </p>
-     * <p>Ordinarily, this will validate all the elements of a selector
-     * container even if the isSelected() method of some elements is
-     * never called. This has two effects:</p>
+     * <p>
+     * Ordinarily, this will validate all the elements of a selector container
+     * even if the isSelected() method of some elements is never called. This
+     * has two effects:</p>
      * <ul>
      * <li>Validation will often occur twice.
-     * <li>Since it is not required that selectors derive from
-     * BaseSelector, there could be selectors in the container whose
-     * error conditions are not detected if their isSelected() call
-     * is never made.
+     * <li>Since it is not required that selectors derive from BaseSelector,
+     * there could be selectors in the container whose error conditions are not
+     * detected if their isSelected() call is never made.
      * </ul>
      */
     public void validate() throws Exception
@@ -152,23 +152,21 @@ public abstract class BaseSelectorContainer extends BaseSelector
         }
     }
 
-
     /**
      * Method that each selector will implement to create their selection
      * behaviour. This is what makes SelectorContainer abstract.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename the name of the file to check
-     * @param file     a java.io.File object for the filename that the selector
-     *                 can use
+     * @param file a java.io.File object for the filename that the selector can
+     * use
      * @return whether the file should be selected or not
      */
     public abstract boolean isSelected(InstallData idata, File basedir, String filename,
-                                       File file) throws Exception;
+            File file) throws Exception;
 
 
     /* Methods below all add specific selectors */
-
     /**
      * add an "And" selector entry on the selector list
      *

@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -28,10 +27,9 @@ import com.izforge.izpack.util.file.IdentityMapper;
 import com.izforge.izpack.util.file.types.Mapper;
 
 /**
- * Selector that filters files based on whether they appear in another
- * directory tree. It can contain a mapper element, so isn't available
- * as an ExtendSelector (since those parameters can't hold other
- * elements).
+ * Selector that filters files based on whether they appear in another directory
+ * tree. It can contain a mapper element, so isn't available as an
+ * ExtendSelector (since those parameters can't hold other elements).
  */
 public class PresentSelector extends BaseSelector
 {
@@ -84,8 +82,7 @@ public class PresentSelector extends BaseSelector
     }
 
     /**
-     * The name of the file or directory which is checked for matching
-     * files.
+     * The name of the file or directory which is checked for matching files.
      *
      * @param targetdir the directory to scan looking for matching files.
      */
@@ -110,15 +107,13 @@ public class PresentSelector extends BaseSelector
         return mapperElement;
     }
 
-
     /**
-     * This sets whether to select a file if its dest file is present.
-     * It could be a <code>negate</code> boolean, but by doing things
-     * this way, we get some documentation on how the system works.
-     * A user looking at the documentation should clearly understand
-     * that the ONLY files whose presence is being tested are those
-     * that already exist in the source directory, hence the lack of
-     * a <code>destonly</code> option.
+     * This sets whether to select a file if its dest file is present. It could
+     * be a <code>negate</code> boolean, but by doing things this way, we get
+     * some documentation on how the system works. A user looking at the
+     * documentation should clearly understand that the ONLY files whose
+     * presence is being tested are those that already exist in the source
+     * directory, hence the lack of a <code>destonly</code> option.
      *
      * @param fp An attribute set to either <code>srconly</code or
      *           <code>both</code>.
@@ -132,8 +127,8 @@ public class PresentSelector extends BaseSelector
     }
 
     /**
-     * Checks to make sure all settings are kosher. In this case, it
-     * means that the targetdir attribute has been set and we have a mapper.
+     * Checks to make sure all settings are kosher. In this case, it means that
+     * the targetdir attribute has been set and we have a mapper.
      */
     public void verifySettings() throws Exception
     {
@@ -156,12 +151,12 @@ public class PresentSelector extends BaseSelector
     }
 
     /**
-     * The heart of the matter. This is where the selector gets to decide
-     * on the inclusion of a file in a particular fileset.
+     * The heart of the matter. This is where the selector gets to decide on the
+     * inclusion of a file in a particular fileset.
      *
-     * @param basedir  the base directory the scan is being done from
+     * @param basedir the base directory the scan is being done from
      * @param filename is the name of the file to check
-     * @param file     is a java.io.File object the selector can use
+     * @param file is a java.io.File object the selector can use
      * @return whether the file should be selected or not
      */
     public boolean isSelected(InstallData idata, File basedir, String filename, File file) throws Exception

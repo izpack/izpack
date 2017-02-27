@@ -1,10 +1,7 @@
 package com.izforge.izpack.installer.panel;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.installer.DataValidator;
 
 /**
  * Encapsulates a {@link Panel} and its user-interface representation.
@@ -13,6 +10,7 @@ import com.izforge.izpack.api.installer.DataValidator;
  */
 public interface PanelView<T>
 {
+
     /**
      * Returns the panel identifier.
      *
@@ -30,7 +28,8 @@ public interface PanelView<T>
     /**
      * Returns the panel index.
      * <br/>
-     * This is the offset of the panel relative to the other panels, visible or not.
+     * This is the offset of the panel relative to the other panels, visible or
+     * not.
      *
      * @return the panel index
      */
@@ -48,8 +47,9 @@ public interface PanelView<T>
      * <br/>
      * The view will be created if it doesn't exist.
      * <br/>
-     * If the panel has a {@link DataValidator} specified, this will be constructed, with both the panel and view
-     * supplied for injection into it's constructor.
+     * If the panel has a {@link DataValidator} specified, this will be
+     * constructed, with both the panel and view supplied for injection into
+     * it's constructor.
      *
      * @return the panel user interface
      */
@@ -58,14 +58,16 @@ public interface PanelView<T>
     /**
      * Sets the visibility of the panel.
      *
-     * @param visible if {@code true} the panel is visible, otherwise it is hidden
+     * @param visible if {@code true} the panel is visible, otherwise it is
+     * hidden
      */
     void setVisible(boolean visible);
 
     /**
      * Determines the visibility of the panel.
      *
-     * @return {@code true} if the panel is visible, {@code false} if it is hidden
+     * @return {@code true} if the panel is visible, {@code false} if it is
+     * hidden
      */
     boolean isVisible();
 
@@ -76,8 +78,8 @@ public interface PanelView<T>
      * <ol>
      * <li>Refreshes variables</li>
      * <li>Executes any pre-validation panel actions</li>
-     * <li>Validates any {@link DynamicInstallerRequirementValidator}s returned by
-     * {@link InstallData#getDynamicInstallerRequirements()}</li>
+     * <li>Validates any {@link DynamicInstallerRequirementValidator}s returned
+     * by {@link InstallData#getDynamicInstallerRequirements()}</li>
      * <li>Validates any {@link DataValidator} associated with the panel</li>
      * <li>Executes any post-validation panel actions</li>
      * </ol>
@@ -92,13 +94,14 @@ public interface PanelView<T>
      * This:
      * <ol>
      * <li>Executes any pre-validation panel actions</li>
-     * <li>Validates any {@link DynamicInstallerRequirementValidator}s returned by
-     * {@link InstallData#getDynamicInstallerRequirements()}</li>
+     * <li>Validates any {@link DynamicInstallerRequirementValidator}s returned
+     * by {@link InstallData#getDynamicInstallerRequirements()}</li>
      * <li>Validates any {@link DataValidator} associated with the panel</li>
      * <li>Executes any post-validation panel actions</li>
      * </ol>
      *
-     * @param refreshVariables whether to refresh dynamic variables before validating
+     * @param refreshVariables whether to refresh dynamic variables before
+     * validating
      * @return {@code true} if the panel is valid, otherwise {@code false}
      */
     boolean isValid(boolean refreshVariables);
@@ -116,7 +119,8 @@ public interface PanelView<T>
     boolean canShow();
 
     /**
-     * Creates an installation record for unattended installations and adds it to a XML root element.
+     * Creates an installation record for unattended installations and adds it
+     * to a XML root element.
      *
      * @param rootElement the root to add child elements to
      */

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.variable;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -29,6 +28,7 @@ import java.util.Set;
 
 public class PlainConfigFileValue extends ConfigFileValue implements Serializable
 {
+
     /**
      *
      */
@@ -72,18 +72,18 @@ public class PlainConfigFileValue extends ConfigFileValue implements Serializabl
     public String resolve(VariableSubstitutor... substitutors)
             throws Exception
     {
-        String _location_ = location;
+        String location0 = location;
         for (VariableSubstitutor substitutor : substitutors)
         {
-            _location_ = substitutor.substitute(_location_);
+            location0 = substitutor.substitute(location0);
         }
-        return resolve(new FileInputStream(_location_), substitutors);
+        return resolve(new FileInputStream(location0), substitutors);
     }
 
     @Override
     public Set<String> getVarRefs()
     {
-        Set<String> unresolvedNames = parseUnresolvedVariableNames(location); 
+        Set<String> unresolvedNames = parseUnresolvedVariableNames(location);
         unresolvedNames.addAll(super.getVarRefs());
         return unresolvedNames;
     }

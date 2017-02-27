@@ -19,29 +19,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import com.izforge.izpack.api.config.Registry.Type;
 
 public class TypeValuesPair
 {
-    private final Type _type;
-    private final String[] _values;
+
+    private final Type type;
+    private final String[] values;
 
     public TypeValuesPair(Type type, String[] values)
     {
-        _type = type;
-        _values = values;
+        this.type = type;
+        this.values = values;
     }
 
     public Type getType()
     {
-        return _type;
+        return this.type;
     }
 
     public String[] getValues()
     {
-        return _values;
+        return this.values;
     }
 }

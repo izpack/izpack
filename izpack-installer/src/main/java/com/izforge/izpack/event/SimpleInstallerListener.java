@@ -1,24 +1,23 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2004 Klaus Bartz
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import java.io.File;
@@ -38,15 +37,19 @@ import com.izforge.izpack.util.helper.SpecHelper;
 
 /**
  * <p>
- * This class implements all methods of interface InstallerListener, but do not do anything. It can
- * be used as base class to save implementation of unneeded methods.
+ * This class implements all methods of interface InstallerListener, but do not
+ * do anything. It can be used as base class to save implementation of unneeded
+ * methods.
  * </p>
  * <p>
- * Additional there are some common helper methods which are used from the base class SpecHelper.
+ * Additional there are some common helper methods which are used from the base
+ * class SpecHelper.
  * </p>
  *
  * @author Klaus Bartz
- * @deprecated use {@code com.izforge.izpack.api.event.AbstractInstallerListener}. This class will be removed in IzPack 6.0
+ * @deprecated use
+ * {@code com.izforge.izpack.api.event.AbstractInstallerListener}. This class
+ * will be removed in IzPack 6.0
  */
 @Deprecated
 public class SimpleInstallerListener implements InstallerListener
@@ -78,7 +81,6 @@ public class SimpleInstallerListener implements InstallerListener
 
     private AbstractUIProgressHandler handler;
 
-
     /**
      * Constructs a <tt>SimpleInstallerListener</tt>.
      *
@@ -103,8 +105,9 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Constructs a <tt>SimpleInstallerListener</tt>.
      *
-     * @param resources     the resources
-     * @param useSpecHelper if <tt>true</tt> a specification helper will be created
+     * @param resources the resources
+     * @param useSpecHelper if <tt>true</tt> a specification helper will be
+     * created
      */
     public SimpleInstallerListener(Resources resources, boolean useSpecHelper)
     {
@@ -114,9 +117,10 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Constructs a <tt>SimpleInstallerListener</tt>.
      *
-     * @param resources     the resources
-     * @param notifiers     the progress notifiers. May be {@code null}
-     * @param useSpecHelper if <tt>true</tt> a specification helper will be created
+     * @param resources the resources
+     * @param notifiers the progress notifiers. May be {@code null}
+     * @param useSpecHelper if <tt>true</tt> a specification helper will be
+     * created
      */
     public SimpleInstallerListener(Resources resources, ProgressNotifiers notifiers, boolean useSpecHelper)
     {
@@ -187,7 +191,7 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Invoked before a pack is installed.
      *
-     * @param pack  the pack
+     * @param pack the pack
      * @param index the pack index within the list of packs to be installed
      * @throws IzPackException for any error
      */
@@ -211,7 +215,7 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Invoked after a pack is installed.
      *
-     * @param pack  the pack
+     * @param pack the pack
      * @param index the pack index within the list of packs to be installed
      * @throws IzPackException for any error
      */
@@ -235,7 +239,7 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Invoked after packs are installed.
      *
-     * @param packs    the installed packs
+     * @param packs the installed packs
      * @param listener the progress listener
      * @throws IzPackException for any error
      */
@@ -259,9 +263,9 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Invoked before a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -284,9 +288,9 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Invoked after a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -309,9 +313,9 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Invoked before a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -334,9 +338,9 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Invoked after a file is installed.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile the corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws IzPackException for any error
      */
     @Override
@@ -358,22 +362,20 @@ public class SimpleInstallerListener implements InstallerListener
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.izforge.izpack.compiler.InstallerListener#handleFile(java.io.File,
      * com.izforge.izpack.PackFile)
      */
-
     public void afterFile(File file, PackFile pf) throws Exception
     {
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.izforge.izpack.compiler.InstallerListener#handleDir(java.io.File,
      * com.izforge.izpack.PackFile)
      */
-
     public void afterDir(File dir, PackFile pf) throws Exception
     {
         // Do nothing
@@ -381,11 +383,10 @@ public class SimpleInstallerListener implements InstallerListener
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.izforge.izpack.compiler.InstallerListener#afterPacks(com.izforge.izpack.installer.AutomatedInstallData,
      * com.izforge.izpack.api.handler.AbstractUIProgressHandler)
      */
-
     public void afterPacks(AutomatedInstallData idata, AbstractUIProgressHandler handler)
             throws Exception
     {
@@ -393,11 +394,10 @@ public class SimpleInstallerListener implements InstallerListener
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.izforge.izpack.compiler.InstallerListener#afterPack(com.izforge.izpack.Pack, int,
      * com.izforge.izpack.api.handler.AbstractUIProgressHandler)
      */
-
     public void afterPack(Pack pack, Integer i, AbstractUIProgressHandler handler) throws Exception
     {
         // Do nothing
@@ -406,24 +406,22 @@ public class SimpleInstallerListener implements InstallerListener
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.izforge.izpack.compiler.InstallerListener#beforePacks(com.izforge.izpack.installer.AutomatedInstallData,
      * int, com.izforge.izpack.api.handler.AbstractUIProgressHandler)
      */
-
     public void beforePacks(AutomatedInstallData idata, Integer npacks,
-                            AbstractUIProgressHandler handler) throws Exception
+            AbstractUIProgressHandler handler) throws Exception
     {
         // Do nothing
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.izforge.izpack.compiler.InstallerListener#beforePack(com.izforge.izpack.Pack, int,
      * com.izforge.izpack.api.handler.AbstractUIProgressHandler)
      */
-
     public void beforePack(Pack pack, Integer i, AbstractUIProgressHandler handler)
             throws Exception
     {
@@ -432,10 +430,9 @@ public class SimpleInstallerListener implements InstallerListener
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.izforge.izpack.installer.InstallerListener#isFileListener()
      */
-
     public boolean isFileListener()
     {
         // For default no.
@@ -444,11 +441,10 @@ public class SimpleInstallerListener implements InstallerListener
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.izforge.izpack.installer.InstallerListener#beforeFile(java.io.File,
      * com.izforge.izpack.PackFile)
      */
-
     public void beforeFile(File file, PackFile pf) throws Exception
     {
         // Do nothing
@@ -456,11 +452,10 @@ public class SimpleInstallerListener implements InstallerListener
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.izforge.izpack.installer.InstallerListener#beforeDir(java.io.File,
      * com.izforge.izpack.PackFile)
      */
-
     public void beforeDir(File dir, PackFile pf) throws Exception
     {
         // Do nothing
@@ -525,7 +520,8 @@ public class SimpleInstallerListener implements InstallerListener
     /**
      * Returns the progress bar caller id of this object.
      *
-     * @return the progress bar caller id of this object, or {@code 0} if this is not registered
+     * @return the progress bar caller id of this object, or {@code 0} if this
+     * is not registered
      */
     protected int getProgressBarCallerId()
     {
@@ -554,8 +550,9 @@ public class SimpleInstallerListener implements InstallerListener
     }
 
     /**
-     * Returns the language dependant message from the resource CustomActionsLang.xml or the common
-     * language pack for the given id. If no string will be found, the id returns.
+     * Returns the language dependant message from the resource
+     * CustomActionsLang.xml or the common language pack for the given id. If no
+     * string will be found, the id returns.
      *
      * @param id string id for which the message should be resolved
      * @return the related language dependant message

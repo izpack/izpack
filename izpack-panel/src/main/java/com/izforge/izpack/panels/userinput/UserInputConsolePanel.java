@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -51,6 +50,7 @@ import java.util.*;
  */
 public class UserInputConsolePanel extends AbstractConsolePanel
 {
+
     private static final String DISPLAY_HIDDEN = "displayHidden";
     private static final String DISPLAY_HIDDEN_CONDITION = "displayHiddenCondition";
     private static final String READONLY = "readonly";
@@ -99,17 +99,17 @@ public class UserInputConsolePanel extends AbstractConsolePanel
      * Constructs an {@code UserInputConsolePanel}.
      *
      * @param resources the resources
-     * @param factory   the object factory
-     * @param rules     the rules
-     * @param matcher   the platform-model matcher
-     * @param console   the console
-     * @param prompt    the prompt
-     * @param panelView     the parent panel/view
-     * @param installData   the install data
+     * @param factory the object factory
+     * @param rules the rules
+     * @param matcher the platform-model matcher
+     * @param console the console
+     * @param prompt the prompt
+     * @param panelView the parent panel/view
+     * @param installData the install data
      */
     public UserInputConsolePanel(Resources resources, ObjectFactory factory,
-                                 RulesEngine rules, PlatformModelMatcher matcher, Console console, Prompt prompt,
-                                 PanelView<ConsolePanel> panelView, InstallData installData)
+            RulesEngine rules, PlatformModelMatcher matcher, Console console, Prompt prompt,
+            PanelView<ConsolePanel> panelView, InstallData installData)
     {
         super(panelView);
         this.installData = installData;
@@ -212,8 +212,9 @@ public class UserInputConsolePanel extends AbstractConsolePanel
      * Runs the panel using the specified console.
      *
      * @param installData the installation data
-     * @param console     the console
-     * @return {@code true} if the panel ran successfully, otherwise {@code false}
+     * @param console the console
+     * @return {@code true} if the panel ran successfully, otherwise
+     * {@code false}
      */
     @Override
     public boolean run(InstallData installData, Console console)
@@ -242,13 +243,10 @@ public class UserInputConsolePanel extends AbstractConsolePanel
                     field.setDisplayed(true);
                 }
                 else if (required
-                        && (
-                                fieldDefinition.isEffectiveDisplayHidden(
-                                        panel.isDisplayHidden()
-                                        || (panel.getDisplayHiddenCondition() != null && rules.isConditionTrue(panel.getDisplayHiddenCondition())),
-                                        rules)
-                           )
-                        )
+                        && (fieldDefinition.isEffectiveDisplayHidden(
+                                panel.isDisplayHidden()
+                                || (panel.getDisplayHiddenCondition() != null && rules.isConditionTrue(panel.getDisplayHiddenCondition())),
+                                rules)))
                 {
                     readonly = true;
                     addToPanel = true;
@@ -308,8 +306,8 @@ public class UserInputConsolePanel extends AbstractConsolePanel
     }
 
     /**
-     * Creates an installation record for unattended installations on {@link UserInputPanel},
-     * created during GUI installations.
+     * Creates an installation record for unattended installations on
+     * {@link UserInputPanel}, created during GUI installations.
      */
     @Override
     public void createInstallationRecord(IXMLElement rootElement)

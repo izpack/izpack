@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.adaptator;
 
 import com.izforge.izpack.api.exception.IzPackException;
@@ -29,6 +28,7 @@ import com.izforge.izpack.api.exception.IzPackException;
  */
 public class XMLException extends IzPackException
 {
+
     private static final long serialVersionUID = 5028962140189818891L;
 
     public XMLException(String message)

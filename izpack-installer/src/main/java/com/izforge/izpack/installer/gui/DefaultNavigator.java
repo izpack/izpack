@@ -20,7 +20,6 @@
  */
 package com.izforge.izpack.installer.gui;
 
-
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.IconsDatabase;
@@ -40,6 +39,7 @@ import static com.izforge.izpack.api.GuiId.*;
  */
 public class DefaultNavigator implements Navigator
 {
+
     /**
      * The parent frame.
      */
@@ -71,22 +71,24 @@ public class DefaultNavigator implements Navigator
     private boolean switchPanel;
 
     /**
-     * Determines if the next button should be configured after panel switching; {@code true} prior to switching,
-     * {@code false} if the button is configured externally during the switch.
+     * Determines if the next button should be configured after panel switching;
+     * {@code true} prior to switching, {@code false} if the button is
+     * configured externally during the switch.
      */
     private boolean configureNext = true;
 
     /**
-     * Determines if the previous button should be configured after panel switching; {@code true} prior to switching,
-     * {@code false} if the button is configured externally during the switch.
+     * Determines if the previous button should be configured after panel
+     * switching; {@code true} prior to switching, {@code false} if the button
+     * is configured externally during the switch.
      */
     private boolean configurePrevious = true;
 
     /**
      * Constructs a {@code DefaultNavigator}.
      *
-     * @param panels      the panels
-     * @param icons       the icons
+     * @param panels the panels
+     * @param icons the icons
      * @param installData the installation data
      */
     public DefaultNavigator(Panels panels, IconsDatabase icons, GUIInstallData installData)
@@ -94,19 +96,19 @@ public class DefaultNavigator implements Navigator
         this.panels = panels;
         Messages messages = installData.getMessages();
         previous = ButtonFactory.createButton(messages.get("installer.prev"), icons.get("stepback"),
-                                              installData.buttonsHColor);
+                installData.buttonsHColor);
         ActionListener navHandler = new NavigationHandler();
         previous.addActionListener(navHandler);
         previous.setName(BUTTON_PREV.id);
         previous.setVisible(false);
 
         next = ButtonFactory.createButton(messages.get("installer.next"), icons.get("stepforward"),
-                                          installData.buttonsHColor);
+                installData.buttonsHColor);
         next.setName(BUTTON_NEXT.id);
         next.addActionListener(navHandler);
 
         quit = ButtonFactory.createButton(messages.get("installer.quit"), icons.get("stop"),
-                                          installData.buttonsHColor);
+                installData.buttonsHColor);
         quit.setName(BUTTON_QUIT.id);
         quit.addActionListener(navHandler);
 
@@ -127,10 +129,11 @@ public class DefaultNavigator implements Navigator
      */
     public void reserveNavigatorButtonMnemonics()
     {
-        JButton [] buttons = {
-                quit,
-                next,
-                previous
+        JButton[] buttons =
+        {
+            quit,
+            next,
+            previous
         };
 
         ButtonFactory.reserveButtonMnemonics(buttons);
@@ -174,7 +177,8 @@ public class DefaultNavigator implements Navigator
     /**
      * Makes the next button visible or invisible.
      *
-     * @param visible if {@code true} makes the button visible, otherwise makes it invisible.
+     * @param visible if {@code true} makes the button visible, otherwise makes
+     * it invisible.
      */
     @Override
     public void setNextVisible(boolean visible)
@@ -230,7 +234,8 @@ public class DefaultNavigator implements Navigator
     /**
      * Makes the previous button visible/invisible.
      *
-     * @param visible if {@code true} makes the button visible, otherwise makes it invisible.
+     * @param visible if {@code true} makes the button visible, otherwise makes
+     * it invisible.
      */
     @Override
     public void setPreviousVisible(boolean visible)
@@ -285,7 +290,8 @@ public class DefaultNavigator implements Navigator
     /**
      * Makes the 'quit' button visible/invisible.
      *
-     * @param visible if {@code true} makes the button visible, otherwise makes it invisible.
+     * @param visible if {@code true} makes the button visible, otherwise makes
+     * it invisible.
      */
     @Override
     public void setQuitVisible(boolean visible)
@@ -318,7 +324,8 @@ public class DefaultNavigator implements Navigator
     /**
      * Navigates to the next panel.
      *
-     * @return {@code true} if the next panel was displayed, or {@code false} if the last panel is displayed
+     * @return {@code true} if the next panel was displayed, or {@code false} if
+     * the last panel is displayed
      */
     @Override
     public boolean next()
@@ -329,7 +336,8 @@ public class DefaultNavigator implements Navigator
     /**
      * Navigates to the next panel.
      *
-     * @param validate if {@code true}, only move to the next panel if validation succeeds
+     * @param validate if {@code true}, only move to the next panel if
+     * validation succeeds
      * @return {@code true} if the next panel was navigated to
      */
     public boolean next(boolean validate)
@@ -352,7 +360,8 @@ public class DefaultNavigator implements Navigator
     /**
      * Navigates to the previous panel.
      *
-     * @return {@code true} if the previous panel was displayed, or {@code false} if the first panel is displayed
+     * @return {@code true} if the previous panel was displayed, or
+     * {@code false} if the first panel is displayed
      */
     @Override
     public boolean previous()
@@ -421,8 +430,8 @@ public class DefaultNavigator implements Navigator
     /**
      * Sets the default button.
      * <p/>
-     * This sets the default to the "next" button if it is enabled. If not it sets it to the "quit" button, if it is
-     * enabled.
+     * This sets the default to the "next" button if it is enabled. If not it
+     * sets it to the "quit" button, if it is enabled.
      *
      * @return the default button, or {@code null} if the buttons aren't enabled
      */

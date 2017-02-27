@@ -20,7 +20,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import java.io.Serializable;
@@ -36,6 +35,7 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
  */
 public interface DynamicVariable extends Serializable
 {
+
     /**
      * @return the name
      */
@@ -71,18 +71,25 @@ public interface DynamicVariable extends Serializable
     String evaluate(VariableSubstitutor... substitutors) throws Exception;
 
     boolean isCheckonce();
+
     void setCheckonce(boolean checkonce);
 
     boolean isChecked();
+
     void setChecked();
 
     /**
-     * Check whether this dynamic variable should be automatically unset if its condition is not met.
+     * Check whether this dynamic variable should be automatically unset if its
+     * condition is not met.
+     *
      * @return true if the variable is to be automatically unset
      */
     boolean isAutoUnset();
+
     /**
-     * Configure whether this dynamic variable should be automatically unset if its condition is not met.
+     * Configure whether this dynamic variable should be automatically unset if
+     * its condition is not met.
+     *
      * @param autounset true if the variable is to be automatically unset
      */
     void setAutoUnset(boolean autounset);
@@ -94,11 +101,10 @@ public interface DynamicVariable extends Serializable
     List<ValueFilter> getFilters();
 
     /**
-     * This element will be called when the order of variable resolutions is 
+     * This element will be called when the order of variable resolutions is
      * determined.
-     * 
-     * @return  the names of all variables referenced by this variable 
+     *
+     * @return the names of all variables referenced by this variable
      */
     Set<String> getVarRefs(RulesEngine rulesEngine);
 }
-

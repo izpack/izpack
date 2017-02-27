@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+ <!DOCTYPE module PUBLIC
+   "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+   "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<!--keep the file in project root although NetBeans 8.0.2 doesn't find it there and allow to add additional project files (don't skip a proper project structure in favour of IDE deficies)-->
+<module name="Checker">
+    <!-- Due to the fact that checkstyle only seems to be able to (re)use text from a license file if no text stands before the header in the source code and the fact that variable text is used in the header (package name), use the `RegexpHeader` module to validate the headers -->
+    <!--<module name="RegexpHeader">
+        <property
+            name="header"
+            value="^/\*\*\n * This program is free software: you can redistribute it and/or modify\n \* it under the terms of the GNU General Public License as published by\n \* the Free Software Foundation, either version 3 of the License, or\n \* \(at your option\) any later version.\n\n \* This program is distributed in the hope that it will be useful,\n \* but WITHOUT ANY WARRANTY; without even the implied warranty of\n \* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n \* GNU General Public License for more details.\n\n \* You should have received a copy of the GNU General Public License\n \* along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.\n \*/\n"/>--><!--add package ([0-9a-zA-Z]+.)*[0-9a-zA-Z]+;\n after clarifying how to add optional group containing \n (asked http://stackoverflow.com/questions/33266679/how-to-specify-an-optional-regex-group-with-a-newline-character-in-checkstyles for inputs)-->
+        <!--<property name="fileExtensions" value="java"/>
+    </module>-->
+        <!-- need to clarify file header -->
+    <!-- Checks that there are no tab characters ('\t') in the source code. -->
+    <module name="FileTabCharacter">
+        <!-- Report on each line in each file -->
+        <property name="eachLine" value="true"/>
+    </module>
+    <module name="TreeWalker">
+        <!-- No EOL should be placed before block start ('{') -->
+        <module name="LeftCurly">
+            <property name="option" value="nl"/>
+            <property name="severity" value="error"/>
+        </module>
+        <!-- '}' rules -->
+        <module name="RightCurly">
+            <!-- '}' should be on the same line as a next statement -->
+            <property name="option" value="alone"/>
+            <property name="severity" value="error"/>
+        </module>
+        <!-- Braces are mandatory around code blocks -->
+        <module name="NeedBraces">
+            <property name="severity" value="error"/>
+        </module>
+        <!-- Checks the Javadoc of a method or constructor. -->
+        <module name="JavadocMethod">
+            <property name="scope" value="public"/>
+            <property name="severity" value="warning"/>
+        </module>
+        <!-- Checks Javadoc comments for class and interface definitions. -->
+        <module name="JavadocType">
+            <property name="scope" value="public"/>
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="ConstantName"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="PackageName"/>
+        <!--<module name="MethodName"/>-->
+            <!-- deactive until http://stackoverflow.com/questions/42469047/how-to-exclude-native-methods-from-checkstyles-methodname-module is clarified -->
+        <!--<module name="ParameterName"/>-->
+            <!-- deactive until http://stackoverflow.com/questions/42469047/how-to-exclude-native-methods-from-checkstyles-methodname-module is clarified -->
+        <module name="StaticVariableName"/>
+        <module name="TypeName"/>
+        <!-- Checks correct indentation of Java Code. -->
+        <module name="Indentation">
+            <!-- how many spaces to use for new indentation level -->
+            <property name="basicOffset" value="4" />
+            <!-- how far brace should be indented when on next line -->
+            <property name="braceAdjustment" value="0"/>
+            <!-- how much to indent a case label -->
+            <property name="caseIndent" value="4"/>
+        </module>
+        <module name="Regexp">
+            <property name="format" value="[ \t]+$"/>
+            <property name="illegalPattern" value="true"/>
+            <property name="message" value="Trailing whitespace"/>
+        </module>
+        <module name="UnusedImports"/>
+    </module>
+</module>

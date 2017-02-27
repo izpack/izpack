@@ -22,7 +22,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler;
 
 import java.io.IOException;
@@ -42,7 +41,6 @@ import com.izforge.izpack.api.event.InstallationListener;
 import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.event.UninstallerListener;
 import com.izforge.izpack.api.exception.CompilerException;
-import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
 import com.izforge.izpack.compiler.helper.CompilerHelper;
 import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.compiler.packager.IPackager;
@@ -58,9 +56,8 @@ import java.util.zip.ZipInputStream;
 
 /**
  * The IzPack compiler class. This is now a java bean style class that can be
- * configured using the object representations of the install.xml
- * configuration. The install.xml configuration is now handled by the
- * CompilerConfig class.
+ * configured using the object representations of the install.xml configuration.
+ * The install.xml configuration is now handled by the CompilerConfig class.
  *
  * @author Julien Ponge
  * @author Tino Schwarze
@@ -103,13 +100,12 @@ public class Compiler extends Thread
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(Compiler.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(Compiler.class.getName());
 
     /**
      * Constructs a <tt>Compiler</tt>.
      *
-     * @param loader         the class loader to use to load classes
+     * @param loader the class loader to use to load classes
      * @param compilerHelper the compiler helper
      */
     public Compiler(CompilerClassLoader loader, CompilerHelper compilerHelper)
@@ -142,11 +138,11 @@ public class Compiler extends Thread
         }
         catch (CompilerException ce)
         {
-            logger.severe(ce.getMessage());
+            LOGGER.severe(ce.getMessage());
         }
         catch (Exception e)
         {
-            logger.log(Level.SEVERE, e.getMessage(), e);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -175,7 +171,8 @@ public class Compiler extends Thread
     /**
      * Verifies dependencies between packs.
      *
-     * @throws CompilerException if there are circular dependencies between packs, or a dependency doesn't exist
+     * @throws CompilerException if there are circular dependencies between
+     * packs, or a dependency doesn't exist
      */
     public void checkDependencies() throws CompilerException
     {
@@ -185,7 +182,8 @@ public class Compiler extends Thread
     /**
      * Verifies that no two preselected packs have the same excludeGroup.
      *
-     * @throws CompilerException if two preselected packs have the same excludeGroup
+     * @throws CompilerException if two preselected packs have the same
+     * excludeGroup
      */
     public void checkExcludes() throws CompilerException
     {
@@ -196,7 +194,8 @@ public class Compiler extends Thread
      * Verifies that no two preselected packs have the same excludeGroup.
      *
      * @param packs list of packs which should be checked
-     * @throws CompilerException if two preselected packs have the same excludeGroup
+     * @throws CompilerException if two preselected packs have the same
+     * excludeGroup
      */
     public void checkExcludes(List<PackInfo> packs) throws CompilerException
     {
@@ -215,9 +214,9 @@ public class Compiler extends Thread
                     {
                         if (pack1.isPreselected() && pack2.isPreselected())
                         {
-                            error("Packs " + pack1.getName() + " and " + pack2.getName() +
-                                          " belong to the same excludeGroup " + pack1.getExcludeGroup() +
-                                          " and are both preselected. This is not allowed.");
+                            error("Packs " + pack1.getName() + " and " + pack2.getName()
+                                    + " belong to the same excludeGroup " + pack1.getExcludeGroup()
+                                    + " and are both preselected. This is not allowed.");
                         }
                     }
                 }
@@ -229,7 +228,8 @@ public class Compiler extends Thread
      * Verifies dependencies between packs.
      *
      * @param packs the packs to check
-     * @throws CompilerException if there are circular dependencies between packs, or a dependency doesn't exist
+     * @throws CompilerException if there are circular dependencies between
+     * packs, or a dependency doesn't exist
      */
     public void checkDependencies(List<PackInfo> packs) throws CompilerException
     {
@@ -253,9 +253,10 @@ public class Compiler extends Thread
     }
 
     /**
-     * We use the dfs graph search algorithm to check whether the graph is acyclic as described in:
-     * Thomas H. Cormen, Charles Leiserson, Ronald Rivest and Clifford Stein. Introduction to
-     * algorithms 2nd Edition 540-549,MIT Press, 2001
+     * We use the dfs graph search algorithm to check whether the graph is
+     * acyclic as described in: Thomas H. Cormen, Charles Leiserson, Ronald
+     * Rivest and Clifford Stein. Introduction to algorithms 2nd Edition
+     * 540-549,MIT Press, 2001
      *
      * @param packs The graph
      * @param names The name map
@@ -366,7 +367,7 @@ public class Compiler extends Thread
     /**
      * Adds a jar.
      *
-     * @param url         the JAR url
+     * @param url the JAR url
      * @param uninstaller if <tt>true</tt>, include jar in the uninstaller
      * @throws IOException if the jar cannot be read
      */
@@ -384,12 +385,13 @@ public class Compiler extends Thread
             packager.addJarContent(url);
         }
     }
-    
+
     /**
      * Checks JAR classes versions - wrapper method
      *
      * @param file JAR file to check
-     * @param minimalJavaVersion minimal Java version from install.xml header  or default from constants
+     * @param minimalJavaVersion minimal Java version from install.xml header or
+     * default from constants
      * @throws IOException when file cannot be read
      * @throws FileNotFoundException when file cannot be found
      */
@@ -398,13 +400,14 @@ public class Compiler extends Thread
         FileInputStream fis = new FileInputStream(file);
         extractJarInternals(file.toString(), fis, minimalJavaVersion);
     }
-    
+
     /**
      * Extracts contents of JAR
      *
      * @param fileStr JAR file to check as string
      * @param is JAR file as input stream
-     * @param minimalJavaVersion minimal Java version from install.xml header or default from constants
+     * @param minimalJavaVersion minimal Java version from install.xml header or
+     * default from constants
      * @throws IOException when file cannot be read
      * @throws FileNotFoundException when file cannot be found
      */
@@ -413,7 +416,8 @@ public class Compiler extends Thread
         ZipInputStream zis = new ZipInputStream(is);
         ZipEntry ze;
         setJavaVersionCorrect(true);
-        while ((ze = zis.getNextEntry()) != null) {
+        while ((ze = zis.getNextEntry()) != null)
+        {
             if (ze.getName().endsWith(".class"))
             {
                 checkClassTargetVersion(fileStr + ":" + ze.getName(), zis, minimalJavaVersion);
@@ -424,13 +428,14 @@ public class Compiler extends Thread
             }
         }
     }
-    
+
     /**
      * Checks target version in class file
      *
      * @param fileStr JAR file as string
      * @param zis class file as input stream
-     * @param minimalJavaVersion minimal Java version from install.xml header or default from constants
+     * @param minimalJavaVersion minimal Java version from install.xml header or
+     * default from constants
      * @throws IOException when file cannot be read
      * @throws FileNotFoundException when file cannot be found
      */
@@ -454,8 +459,8 @@ public class Compiler extends Thread
     /**
      * Adds a listener to be invoked during installation or uninstallation.
      *
-     * @param className   the listener class name
-     * @param stage       the stage when the listener is invoked
+     * @param className the listener class name
+     * @param stage the stage when the listener is invoked
      * @param constraints the list of constraints. May be <tt>null</tt>
      * @throws IzPackClassNotFoundException if the class cannot be found
      */
@@ -474,7 +479,7 @@ public class Compiler extends Thread
         CustomData data = new CustomData(clazz.getName(), null, constraints, type);
         packager.addCustomJar(data, null);
     }
-    
+
     public void setJavaVersionCorrect(boolean javaVersionCorrect)
     {
         this.javaVersionCorrect = javaVersionCorrect;

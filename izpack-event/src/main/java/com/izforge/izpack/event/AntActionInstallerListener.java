@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -45,17 +44,20 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Installer listener for performing ANT actions. The definition what should be done will be made in
- * a specification file which is referenced by the resource id "AntActionsSpec.xml". There should be
- * an entry in the install.xml file in the sub ELEMENT "res" of ELEMENT "resources" which references
- * it. The specification of the xml file is done in the DTD antaction.dtd. The xml file specifies,
- * for what pack what ant call should be performed at what time of installation.
+ * Installer listener for performing ANT actions. The definition what should be
+ * done will be made in a specification file which is referenced by the resource
+ * id "AntActionsSpec.xml". There should be an entry in the install.xml file in
+ * the sub ELEMENT "res" of ELEMENT "resources" which references it. The
+ * specification of the xml file is done in the DTD antaction.dtd. The xml file
+ * specifies, for what pack what ant call should be performed at what time of
+ * installation.
  *
  * @author Thomas Guenter
  * @author Klaus Bartz
  */
 public class AntActionInstallerListener extends AbstractProgressInstallerListener
 {
+
     /**
      * Name of the specification file.
      */
@@ -90,20 +92,19 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AntActionInstallerListener.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(AntActionInstallerListener.class.getName());
 
     /**
      * Constructs an <tt>AntActionInstallerListener</tt>.
      *
-     * @param replacer      the variable substituter
-     * @param resources     the resources
-     * @param installData   the installation data
+     * @param replacer the variable substituter
+     * @param resources the resources
+     * @param installData the installation data
      * @param uninstallData the uninstallation data
-     * @param notifiers     the progress notifiers
+     * @param notifiers the progress notifiers
      */
     public AntActionInstallerListener(VariableSubstitutor replacer, Resources resources, InstallData installData,
-                                      UninstallData uninstallData, ProgressNotifiers notifiers)
+            UninstallData uninstallData, ProgressNotifiers notifiers)
     {
         super(installData, notifiers);
         this.replacer = replacer;
@@ -185,7 +186,7 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
      * Invoked before a pack is installed.
      *
      * @param pack the pack
-     * @param i    the pack number
+     * @param i the pack number
      * @throws IzPackException for any error
      */
     @Override
@@ -198,7 +199,7 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
      * Invoked after a pack is installed.
      *
      * @param pack the pack
-     * @param i    the pack number
+     * @param i the pack number
      * @throws IzPackException for any error
      */
     @Override
@@ -210,7 +211,7 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
     /**
      * Invoked after packs are installed.
      *
-     * @param packs    the installed packs
+     * @param packs the installed packs
      * @param listener the progress listener
      * @throws IzPackException for any error
      */
@@ -252,8 +253,10 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
      * Returns the defined actions for the given pack in the requested order.
      *
      * @param packName name of the pack for which the actions should be returned
-     * @param order    order to be used; valid are <i>beforepack</i> and <i>afterpack</i>
-     * @return a list which contains all defined actions for the given pack and order
+     * @param order order to be used; valid are <i>beforepack</i> and
+     * <i>afterpack</i>
+     * @return a list which contains all defined actions for the given pack and
+     * order
      */
     // -------------------------------------------------------
     private List<AntAction> getActions(String packName, String order)
@@ -270,8 +273,10 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
     /**
      * Performs all actions which are defined for the given pack and order.
      *
-     * @param packName name of the pack for which the actions should be performed
-     * @param order    order to be used; valid are <i>beforepack</i> and <i>afterpack</i>
+     * @param packName name of the pack for which the actions should be
+     * performed
+     * @param order order to be used; valid are <i>beforepack</i> and
+     * <i>afterpack</i>
      * @param listener the progress listener. May be {@code null}
      * @throws InstallerException
      */
@@ -287,7 +292,7 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
         // Inform progress bar if needed. Works only on AFTER_PACKS
         boolean notifyProgress = notifyProgress() && order.equals(ActionBase.AFTERPACKS);
 
-        logger.fine("Executing all " + order + " Ant actions of pack " + packName + " ...");
+        LOGGER.fine("Executing all " + order + " Ant actions of pack " + packName + " ...");
         RulesEngine rules = getInstallData().getRules();
         for (AntAction act : actList)
         {
@@ -392,7 +397,7 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
         }
         InstallData installData = getInstallData();
         File effectiveBuildFile;
-        String effectiveBaseDir = buildDir!=null ? buildDir : installData.getInstallPath();
+        String effectiveBaseDir = buildDir != null ? buildDir : installData.getInstallPath();
         if (null != buildFile)
         {
             try
@@ -484,7 +489,7 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
             try
             {
                 // Write the resource to a temporary file
-                File tempFile = File.createTempFile("resource_"+attr, ".xml");
+                File tempFile = File.createTempFile("resource_" + attr, ".xml");
                 tempFile.deleteOnExit();
                 bos = new BufferedOutputStream(new FileOutputStream(tempFile));
                 int aByte;

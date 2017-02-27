@@ -13,11 +13,11 @@
         <langpack iso3="eng"/>
     </locale>
 
-	<conditions>
-    	<condition type="variable" id="isCorrectVersion">
-      		<name>APP_VER</name>
-      		<value>1.4 beta 666</value>
-    	</condition>
+    <conditions>
+        <condition type="variable" id="isCorrectVersion">
+            <name>APP_VER</name>
+            <value>1.4 beta 666</value>
+        </condition>
     </conditions>
 
     <panels>

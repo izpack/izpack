@@ -33,11 +33,11 @@ import com.izforge.izpack.test.junit.PicoRunner;
 /**
  * Test for an installation
  */
-
 @RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class InstallationTest
 {
+
     @Rule
     public TestRule globalTimeout = new Timeout(HelperTestMethod.TIMEOUT, TimeUnit.MILLISECONDS);
 
@@ -50,8 +50,8 @@ public class InstallationTest
     private InstallerContainer installerContainer;
 
     public InstallationTest(IconsDatabase icons, LanguageDialog languageDialog,
-                            InstallerFrame installerFrame, GUIInstallData installData,
-                            InstallerController installerController, InstallerContainer installerContainer)
+            InstallerFrame installerFrame, GUIInstallData installData,
+            InstallerController installerController, InstallerContainer installerContainer)
     {
         this.installerController = installerController;
         this.icons = icons;
@@ -206,6 +206,5 @@ public class InstallationTest
         assertThat(new File(installPath, "auto.xml").exists(), Is.is(true));
 //        installerFrameFixture.button(GuiId.BUTTON_QUIT.id).click();
     }
-
 
 }

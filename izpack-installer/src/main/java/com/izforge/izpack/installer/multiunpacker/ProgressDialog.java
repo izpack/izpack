@@ -10,10 +10,10 @@ import java.awt.*;
  */
 public class ProgressDialog extends JWindow
 {
+
     private static final long serialVersionUID = -6558347134501630050L;
     private JProgressBar progressBar;
     private ProgressDialogThread thread;
-
 
     public ProgressDialog()
     {
@@ -68,6 +68,7 @@ public class ProgressDialog extends JWindow
 
 class ProgressDialogThread extends Thread
 {
+
     private boolean stopRequested;
     private JProgressBar progressBar;
 

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.rule;
 
 import static org.junit.Assert.assertTrue;
@@ -44,7 +43,6 @@ import com.izforge.izpack.util.Platforms;
 
 import static org.junit.Assert.assertEquals;
 
-
 /**
  * Tests the field validation of {@link RuleField} class instances.
  *
@@ -52,6 +50,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class RuleFieldValidatorTest
 {
+
     /**
      * The install data.
      */
@@ -62,7 +61,6 @@ public class RuleFieldValidatorTest
      */
     private ObjectFactory factory;
 
-
     /**
      * Default constructor.
      */
@@ -70,7 +68,7 @@ public class RuleFieldValidatorTest
     {
         installData = new AutomatedInstallData(new DefaultVariables(), Platforms.LINUX);
         RulesEngine rules = new RulesEngineImpl(new ConditionContainer(new DefaultContainer()),
-                                                installData.getPlatform());
+                installData.getPlatform());
         installData.setRules(rules);
         factory = new DefaultObjectFactory(new DefaultContainer());
     }
@@ -87,10 +85,13 @@ public class RuleFieldValidatorTest
         config.setInitialValue(initialValue);
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(RegularExpressionValidator.PATTERN_PARAM, "\\b.*\\:(6553[0-5]|655[0-2]\\d|65[0-4]\\d{2}|6[0-4]\\d{3}|[1-5]\\d{4}|[1-9]\\d{0,3})\\b");
-        FieldValidator fieldValidator = new FieldValidator( RegularExpressionValidator.class.getName(), parameters, "Regex validation failed", factory);
+        FieldValidator fieldValidator = new FieldValidator(RegularExpressionValidator.class.getName(), parameters, "Regex validation failed", factory);
         config.addValidator(fieldValidator);
         RuleField model = new RuleField(config, installData);
-        ValidationStatus status = model.validate(new String[] {"127.0.0.1", "1234"});
+        ValidationStatus status = model.validate(new String[]
+        {
+            "127.0.0.1", "1234"
+        });
         assertTrue(status.isValid());
     }
 
@@ -104,10 +105,13 @@ public class RuleFieldValidatorTest
 
         TestRuleFieldConfig config = new TestRuleFieldConfig(variable, layout, separator, RuleFormat.DISPLAY_FORMAT);
         config.setInitialValue(initialValue);
-        FieldValidator fieldValidator = new FieldValidator( HostAddressValidator.class, "Host address validation failed", factory);
+        FieldValidator fieldValidator = new FieldValidator(HostAddressValidator.class, "Host address validation failed", factory);
         config.addValidator(fieldValidator);
         RuleField model = new RuleField(config, installData);
-        ValidationStatus status = model.validate(new String[] {"127.0.0.1", "1234"});
+        ValidationStatus status = model.validate(new String[]
+        {
+            "127.0.0.1", "1234"
+        });
         assertTrue(status.isValid());
     }
 
@@ -126,7 +130,7 @@ public class RuleFieldValidatorTest
         regexp.put(RegularExpressionValidator.PATTERN_PARAM, "\\b.*\\:(6553[0-5]|655[0-2]\\d|65[0-4]\\d{2}|6[0-4]\\d{3}|[1-5]\\d{4}|[1-9]\\d{0,3})\b");
 
         // Tests, whether the following validator is ignored for just receiving unvalidated default values
-        FieldValidator fieldValidator = new FieldValidator( RegularExpressionValidator.class.getName(), regexp, "Host address validation failed", factory);
+        FieldValidator fieldValidator = new FieldValidator(RegularExpressionValidator.class.getName(), regexp, "Host address validation failed", factory);
         config.addValidator(fieldValidator);
 
         RuleField model = new RuleField(config, installData);
@@ -150,7 +154,7 @@ public class RuleFieldValidatorTest
         regexp.put(RegularExpressionValidator.PATTERN_PARAM, "\\b.*\\:(6553[0-5]|655[0-2]\\d|65[0-4]\\d{2}|6[0-4]\\d{3}|[1-5]\\d{4}|[1-9]\\d{0,3})\b");
 
         // Tests, whether the following validator is ignored for just receiving unvalidated default values
-        FieldValidator fieldValidator = new FieldValidator( RegularExpressionValidator.class.getName(), regexp, "Host address validation failed", factory);
+        FieldValidator fieldValidator = new FieldValidator(RegularExpressionValidator.class.getName(), regexp, "Host address validation failed", factory);
         config.addValidator(fieldValidator);
 
         RuleField model = new RuleField(config, installData);
@@ -179,7 +183,7 @@ public class RuleFieldValidatorTest
         regexp.put(RegularExpressionValidator.PATTERN_PARAM, "\\b.*\\:(6553[0-5]|655[0-2]\\d|65[0-4]\\d{2}|6[0-4]\\d{3}|[1-5]\\d{4}|[1-9]\\d{0,3})\b");
 
         // Tests, whether the following validator is ignored for just receiving unvalidated default values
-        FieldValidator fieldValidator = new FieldValidator( RegularExpressionValidator.class.getName(), regexp, "Host address validation failed", factory);
+        FieldValidator fieldValidator = new FieldValidator(RegularExpressionValidator.class.getName(), regexp, "Host address validation failed", factory);
         config.addValidator(fieldValidator);
 
         RuleField model = new RuleField(config, installData);

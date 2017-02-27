@@ -19,6 +19,7 @@ import com.izforge.izpack.util.Console;
 
 public class ConsoleCustomField extends ConsoleField implements CustomFieldType
 {
+
     private final UserInputPanelSpec userInputPanelSpec;
 
     private final IXMLElement spec;
@@ -43,11 +44,11 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
      * Constructs a {@code ConsoleField}.
      *
      * @param customField the field
-     * @param console     the console
-     * @param prompt      the prompt
+     * @param console the console
+     * @param prompt the prompt
      */
     public ConsoleCustomField(CustomField customField, Console console, Prompt prompt,
-                              FieldCommand createField, UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
+            FieldCommand createField, UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
     {
         super(customField, console, prompt);
         this.spec = spec;
@@ -199,21 +200,21 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
             else
             {
                 userValue = getConsole().prompt("Enter the row number (" + 1 + ".." + numberOfRows + ") to edit, "
-                        + Integer.toString(numberOfRows+1) + " to accept all, "
-                        + Integer.toString(numberOfRows+2) + " to redisplay"
-                        + (canAddRow()?", " + Integer.toString(numberOfRows+3) + " to add a row":"")
-                        + (canRemoveRow()?", " + Integer.toString(numberOfRows+4) + " to remove the last row":""),
-                        1, numberOfRows+4, numberOfRows+4, -1);
+                        + Integer.toString(numberOfRows + 1) + " to accept all, "
+                        + Integer.toString(numberOfRows + 2) + " to redisplay"
+                        + (canAddRow() ? ", " + Integer.toString(numberOfRows + 3) + " to add a row" : "")
+                        + (canRemoveRow() ? ", " + Integer.toString(numberOfRows + 4) + " to remove the last row" : ""),
+                        1, numberOfRows + 4, numberOfRows + 4, -1);
                 if (userValue <= numberOfRows)
                 {
                     editRow(userValue, false);
                     value = REDISPLAY;
                 }
-                else if (userValue == numberOfRows+1)
+                else if (userValue == numberOfRows + 1)
                 {
                     value = CONTINUE;
                 }
-                else if (userValue == numberOfRows+3)
+                else if (userValue == numberOfRows + 3)
                 {
                     if (addRow())
                     {
@@ -221,7 +222,7 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
                     }
                     value = REDISPLAY;
                 }
-                else if (userValue == numberOfRows+4)
+                else if (userValue == numberOfRows + 4)
                 {
                     removeRow();
                     value = REDISPLAY;
@@ -232,7 +233,8 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
                 }
             }
 
-        } while (value != CONTINUE);
+        }
+        while (value != CONTINUE);
 
         customInfoField.setValue(Integer.toString(numberOfRows));
 
@@ -287,6 +289,7 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
 
     /**
      * Get the variables associated with this custom field.
+     *
      * @return
      */
     @Override
@@ -296,7 +299,7 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
 
         for (int i = 1; i <= numberOfRows; i++)
         {
-            for(ConsoleField consoleField : consoleFields.get(Integer.valueOf(i)))
+            for (ConsoleField consoleField : consoleFields.get(Integer.valueOf(i)))
             {
                 if (consoleField.isDisplayed())
                 {
@@ -309,6 +312,7 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
 
     /**
      * Generate a new custom field.
+     *
      * @return
      */
     private CustomField createCustomField(UserInputPanelSpec userInputPanelSpec, IXMLElement spec)
@@ -321,6 +325,6 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
                 return (CustomField) field;
             }
         }
-        return  null;
+        return null;
     }
 }

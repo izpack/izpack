@@ -8,17 +8,17 @@
     <programGroup defaultName="IzPack Windows Installation Test" location="applications"/>
 
     <shortcut
-            name="Uninstaller"
-            programGroup="yes"
-            desktop="no"
-            applications="no"
-            startMenu="no"
-            startup="no"
-            target="$INSTALL_PATH\Uninstaller\uninstaller.jar"
-            commandLine=""
-            iconFile="%SystemRoot%\system32\SHELL32.dll"
-            iconIndex="31"
-            description="This uninstalls the test">
+        name="Uninstaller"
+        programGroup="yes"
+        desktop="no"
+        applications="no"
+        startMenu="no"
+        startup="no"
+        target="$INSTALL_PATH\Uninstaller\uninstaller.jar"
+        commandLine=""
+        iconFile="%SystemRoot%\system32\SHELL32.dll"
+        iconIndex="31"
+        description="This uninstalls the test">
 
         <createForPack name="Base"/>
     </shortcut>

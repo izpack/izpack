@@ -21,9 +21,9 @@
  */
 package com.izforge.izpack.api.config;
 
-
 public interface OptionMap extends MultiMap<String, String>, CommentedMap<String, String>
 {
+
     <T> T getAll(Object key, Class<T> clazz);
 
     void add(String key, Object value);

@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import java.io.Serializable;
@@ -29,7 +28,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Contains some informations for an installer, as defined in the <info> section of the XML files.
+ * Contains some informations for an installer, as defined in the <info> section
+ * of the XML files.
  *
  * @author Julien Ponge
  */
@@ -43,13 +43,12 @@ public class Info implements Serializable
      */
     public static final int REBOOT_ACTION_IGNORE = 0;
     /**
-     * Notice the user interactively but don't actually reboot,
-     * on pending file operations only
+     * Notice the user interactively but don't actually reboot, on pending file
+     * operations only
      */
     public static final int REBOOT_ACTION_NOTICE = 1;
     /**
-     * Ask before reboot automatically,
-     * on pending file operations only
+     * Ask before reboot automatically, on pending file operations only
      */
     public static final int REBOOT_ACTION_ASK = 2;
     /**
@@ -122,15 +121,15 @@ public class Info implements Serializable
     private String summaryLogFilePath = "$INSTALL_PATH/Uninstaller/InstallSummary.htm";
 
     /**
-     * The full qualified name of the class which should be
-     * used for decoding the packs.
+     * The full qualified name of the class which should be used for decoding
+     * the packs.
      */
     private String packDecoderClassName = null;
 
     private String unpackerClassName = null;
 
     private boolean writeInstallationInformation = true;
-    
+
     private boolean readInstallationInformation = true;
 
     private boolean isSingleInstance = true;
@@ -160,7 +159,7 @@ public class Info implements Serializable
      * The format of the expiration date
      */
     public static final String EXPIRE_DATE_FORMAT = "yyyy-MM-dd";
-    
+
     public boolean isPrivilegedExecutionRequired()
     {
         return requirePrivilegedExecution;
@@ -371,8 +370,8 @@ public class Info implements Serializable
     /**
      * Gets the webDir URL if it has been specified
      *
-     * @return The webDir URL from which the installer is retrieved, or <tt>null</tt> if non has
-     *         been set.
+     * @return The webDir URL from which the installer is retrieved, or
+     * <tt>null</tt> if non has been set.
      */
     public String getWebDirURL()
     {
@@ -482,7 +481,7 @@ public class Info implements Serializable
         /**
          * The constructor.
          *
-         * @param name  The author name.
+         * @param name The author name.
          * @param email The author email.
          */
         public Author(String name, String email)
@@ -494,7 +493,8 @@ public class Info implements Serializable
         /**
          * Gets a String representation of the author.
          *
-         * @return The String representation of the author, in the form : name <email> .
+         * @return The String representation of the author, in the form : name
+         * <email> .
          */
         public String toString()
         {
@@ -504,14 +504,16 @@ public class Info implements Serializable
     }
 
     /**
-     * Represents a temporary directory with a randomly generated file name starting with
-     * the specified prefix and ending with the specified suffix. The full path to this
-     * directory will be defined in a variable with the specified name.
+     * Represents a temporary directory with a randomly generated file name
+     * starting with the specified prefix and ending with the specified suffix.
+     * The full path to this directory will be defined in a variable with the
+     * specified name.
      *
      * @author Thrupoint
      */
     public static class TempDir implements Serializable
     {
+
         private static final long serialVersionUID = 7578346199971960904L;
 
         private final String prefix;
@@ -550,7 +552,7 @@ public class Info implements Serializable
 
         /**
          * @return the name of the variable which will contain the temporary
-         *         directory path
+         * directory path
          */
         public String getVariableName()
         {
@@ -599,8 +601,8 @@ public class Info implements Serializable
     }
 
     /**
-     * Returns the full qualified class name of the class which
-     * should be used for decoding the packs.
+     * Returns the full qualified class name of the class which should be used
+     * for decoding the packs.
      *
      * @return Returns the packDecoderClassName.
      */
@@ -610,8 +612,8 @@ public class Info implements Serializable
     }
 
     /**
-     * Sets the full qualified class name of the class which
-     * should be used for decoding the packs.
+     * Sets the full qualified class name of the class which should be used for
+     * decoding the packs.
      *
      * @param packDecoderClassName The packDecoderClassName to set.
      */
@@ -619,7 +621,6 @@ public class Info implements Serializable
     {
         this.packDecoderClassName = packDecoderClassName;
     }
-
 
     public String getUnpackerClassName()
     {
@@ -631,7 +632,6 @@ public class Info implements Serializable
         this.unpackerClassName = unpackerClassName;
     }
 
-
     public boolean isWriteInstallationInformation()
     {
         return writeInstallationInformation;
@@ -641,7 +641,7 @@ public class Info implements Serializable
     {
         this.writeInstallationInformation = writeInstallationInformation;
     }
-    
+
     public boolean isReadInstallationInformation()
     {
         return readInstallationInformation;
@@ -651,7 +651,6 @@ public class Info implements Serializable
     {
         this.readInstallationInformation = readInstallationInformation;
     }
-
 
     public boolean isSingleInstance()
     {
@@ -664,7 +663,6 @@ public class Info implements Serializable
 
     }
 
-
     public String getUninstallerCondition()
     {
         return uninstallerCondition;
@@ -674,7 +672,6 @@ public class Info implements Serializable
     {
         this.uninstallerCondition = uninstallerCondition;
     }
-
 
     public void addTempDir(TempDir tempDir)
     {
@@ -690,12 +687,12 @@ public class Info implements Serializable
     {
         return tempdirs;
     }
-    
+
     public Date getExpiresDate()
     {
         return expiresDate;
     }
-    
+
     public void setExpiresDate(Date value)
     {
         expiresDate = value;

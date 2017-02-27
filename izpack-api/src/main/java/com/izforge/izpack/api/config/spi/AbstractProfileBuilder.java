@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.util.ArrayList;
@@ -33,63 +32,71 @@ import com.izforge.izpack.api.config.Profile;
 
 abstract class AbstractProfileBuilder implements IniHandler
 {
-    private Profile.Section _currentSection;
+
+    private Profile.Section currentSection;
     private List<String> lastComments = new ArrayList<String>();
 
-    @Override public void endIni()
+    @Override
+    public void endIni()
     {
         setFooterComment();
     }
 
-    @Override public void endSection()
+    @Override
+    public void endSection()
     {
-        _currentSection = null;
+        this.currentSection = null;
     }
 
-    @Override public void handleComment(List<String> comment)
+    @Override
+    public void handleComment(List<String> comment)
     {
         lastComments.addAll(comment);
     }
 
-    @Override public void handleEmptyLine()
+    @Override
+    public void handleEmptyLine()
     {
         // Trick to add intermediate comments separated by new line before a property and not to loose them
         lastComments.add("\0");
     }
 
-    @Override public void handleOption(String name, String value)
+    @Override
+    public void handleOption(String name, String value)
     {
         if (getConfig().isMultiOption())
         {
-            _currentSection.add(name, value);
+            this.currentSection.add(name, value);
         }
         else
         {
-            _currentSection.put(name, value);
+            this.currentSection.put(name, value);
         }
 
-        putComment(_currentSection, name);
+        putComment(this.currentSection, name);
     }
 
-    @Override public void startIni()
+    @Override
+    public void startIni()
     {
         lastComments.clear();
     }
 
-    @Override public void startSection(String sectionName)
+    @Override
+    public void startSection(String sectionName)
     {
         if (getConfig().isMultiSection())
         {
-            _currentSection = getProfile().add(sectionName);
+            this.currentSection = getProfile().add(sectionName);
         }
         else
         {
             Ini.Section s = getProfile().get(sectionName);
 
-            _currentSection = (s == null) ? getProfile().add(sectionName) : s;
+            this.currentSection = (s == null) ? getProfile().add(sectionName) : s;
         }
 
-       putComment(getProfile(), sectionName);
+        putComment(getProfile(), sectionName);
     }
 
     abstract Config getConfig();
@@ -98,25 +105,24 @@ abstract class AbstractProfileBuilder implements IniHandler
 
     Profile.Section getCurrentSection()
     {
-        return _currentSection;
+        return this.currentSection;
     }
 
     private void setFooterComment()
     {
-        if (getConfig().isComment() &&  !lastComments.isEmpty())
+        if (getConfig().isComment() && !lastComments.isEmpty())
         {
-            getProfile().setFooterComment((List<String>)lastComments);
+            getProfile().setFooterComment((List<String>) lastComments);
         }
     }
 
-
     private void putComment(CommentedMap<String, ?> map, String key)
     {
-        if (getConfig().isComment() &&  !lastComments.isEmpty())
+        if (getConfig().isComment() && !lastComments.isEmpty())
         {
             // TODO Handle comments between multi-options
             // (currently, the last one appeared replaces the others)
-            map.putComment(key, (List<String>)lastComments);
+            map.putComment(key, (List<String>) lastComments);
             lastComments = new LinkedList<String>();
         }
     }

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge.file;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -41,6 +40,7 @@ import com.izforge.izpack.matcher.MergeMatcher;
  */
 public class FileMergeTest
 {
+
     private Map<OutputStream, List<String>> mergeContent = new HashMap<OutputStream, List<String>>();
 
     @Test
@@ -82,7 +82,6 @@ public class FileMergeTest
         FileMerge fileMerge = new FileMerge(url, "NewFile.ga", mergeContent);
         assertThat(fileMerge, MergeMatcher.isMergeableContainingFile("NewFile.ga"));
     }
-
 
     @Test
     public void findFileInDirectory() throws Exception

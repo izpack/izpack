@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.config.spi;
 
 import java.io.BufferedReader;
@@ -28,6 +27,7 @@ import java.io.InputStreamReader;
 
 final class ServiceFinder
 {
+
     private static final String SERVICES_PATH = "META-INF/services/";
 
     private ServiceFinder()
@@ -45,7 +45,7 @@ final class ServiceFinder
         catch (Exception x)
         {
             throw (IllegalArgumentException) new IllegalArgumentException("Provider " + clazz.getName() + " could not be instantiated: " + x)
-              .initCause(x);
+                    .initCause(x);
         }
     }
 

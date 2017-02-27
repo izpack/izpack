@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.integration;
 
 import static org.junit.Assert.assertEquals;
@@ -30,7 +29,6 @@ import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.installer.gui.InstallerController;
@@ -39,7 +37,6 @@ import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.listener.TestInstallerListener;
-
 
 /**
  * Tests that {@link InstallerListener}s are invoked during installation.
@@ -71,17 +68,16 @@ public class InstallerListenerTest extends AbstractInstallationTest
      */
     private FrameFixture frameFixture;
 
-
     /**
      * Constructs an <tt>InstallerListenerTest</tt>.
      *
-     * @param listeners   the installer listeners
+     * @param listeners the installer listeners
      * @param installData the install data
-     * @param frame       the installer frame
-     * @param controller  the installer controller
+     * @param frame the installer frame
+     * @param controller the installer controller
      */
     public InstallerListenerTest(InstallerListeners listeners, AutomatedInstallData installData, InstallerFrame frame,
-                                 InstallerController controller)
+            InstallerController controller)
     {
         super(installData);
         this.listeners = listeners;
@@ -102,7 +98,8 @@ public class InstallerListenerTest extends AbstractInstallationTest
     }
 
     /**
-     * Verifies that {@link InstallerListener} methods are invoked the correct no. of times when registered.
+     * Verifies that {@link InstallerListener} methods are invoked the correct
+     * no. of times when registered.
      *
      * @throws Exception for any error
      */

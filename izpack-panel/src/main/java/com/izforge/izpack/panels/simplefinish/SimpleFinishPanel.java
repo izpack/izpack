@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.simplefinish;
 
 import java.io.File;
@@ -56,15 +55,15 @@ public class SimpleFinishPanel extends IzPanel
     /**
      * Constructs a <tt>SimpleFinishPanel</tt>.
      *
-     * @param panel               the panel meta-data
-     * @param parent              the parent window
-     * @param installData         the installation data
-     * @param resources           the resources
+     * @param panel the panel meta-data
+     * @param parent the parent window
+     * @param installData the installation data
+     * @param resources the resources
      * @param uninstallDataWriter the uninstallation data writer
-     * @param log                 the log
+     * @param log the log
      */
     public SimpleFinishPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                             UninstallDataWriter uninstallDataWriter, Log log)
+            UninstallDataWriter uninstallDataWriter, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
         this.uninstallDataWriter = uninstallDataWriter;
@@ -97,7 +96,7 @@ public class SimpleFinishPanel extends IzPanel
             add(LabelFactory.create(parent.getIcons().get("check")));
             add(IzPanelLayout.createVerticalStrut(5));
             JLabel jLabel = LabelFactory.create(getString("FinishPanel.success"),
-                                                parent.getIcons().get("preferences"), LEADING);
+                    parent.getIcons().get("preferences"), LEADING);
             jLabel.setName(GuiId.SIMPLE_FINISH_LABEL.id);
             add(jLabel, NEXT_LINE);
             add(IzPanelLayout.createVerticalStrut(5));
@@ -107,17 +106,17 @@ public class SimpleFinishPanel extends IzPanel
                 String path = translatePath(installData.getInfo().getUninstallerPath());
 
                 JLabel uninstallJLabel = LabelFactory.create(getString("FinishPanel.uninst.info"),
-                                                             parent.getIcons().get("preferences"), LEADING);
+                        parent.getIcons().get("preferences"), LEADING);
                 uninstallJLabel.setName(GuiId.SIMPLE_FINISH_UNINSTALL_LABEL.id);
                 add(uninstallJLabel, NEXT_LINE);
                 add(LabelFactory.create(path, parent.getIcons().get("empty"),
-                                        LEADING), NEXT_LINE);
+                        LEADING), NEXT_LINE);
             }
         }
         else
         {
             add(LabelFactory.create(getString("FinishPanel.fail"),
-                                    parent.getIcons().get("stop"), LEADING));
+                    parent.getIcons().get("stop"), LEADING));
         }
         getLayoutHelper().completeLayout(); // Call, or call not?
         log.informUser();

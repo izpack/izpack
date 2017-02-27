@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge;
 
 import java.io.File;
@@ -49,7 +48,8 @@ public interface XmlMerge
      * Merges the given InputStream sources.
      *
      * @param sources Array of File sources to merge
-     * @return File corresponding to the merged sources, which is automatically the first source file
+     * @return File corresponding to the merged sources, which is automatically
+     * the first source file
      * @throws AbstractXmlMergeException If an error occurred during the merge
      */
     public void merge(File[] sources, File target) throws AbstractXmlMergeException;
@@ -75,7 +75,8 @@ public interface XmlMerge
     /**
      * Sets the merge actions which will be applied to the root element.
      *
-     * @param rootMergeAction The merge actions which will be applied to the root element
+     * @param rootMergeAction The merge actions which will be applied to the
+     * root element
      */
     public void setRootMergeActionFactory(OperationFactory factory);
 

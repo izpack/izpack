@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.data;
-
 
 import com.izforge.izpack.api.data.binding.OsModel;
 
@@ -29,12 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Encloses information about a executable file. This class abstracts the way to do a system
- * dependent postprocessing of installation.
+ * Encloses information about a executable file. This class abstracts the way to
+ * do a system dependent postprocessing of installation.
  *
  * @author Olexij Tkatchenko <ot@parcs.de>
  */
-
 public class ExecutableFile implements Serializable
 {
 
@@ -103,8 +100,8 @@ public class ExecutableFile implements Serializable
     public List<OsModel> osList = null;
 
     /**
-     * Indicates the file should be kept after executing. Default is false for backward
-     * compatibility.
+     * Indicates the file should be kept after executing. Default is false for
+     * backward compatibility.
      */
     public boolean keepFile;
 
@@ -131,13 +128,13 @@ public class ExecutableFile implements Serializable
     /**
      * Constructs and initializes a new instance.
      *
-     * @param path           the file path
+     * @param path the file path
      * @param executionStage when to execute
-     * @param onFailure      what to do if execution fails
-     * @param osList         list of operating systems to run on
+     * @param onFailure what to do if execution fails
+     * @param osList list of operating systems to run on
      */
     public ExecutableFile(String path, int executionStage, int onFailure, List<OsModel> osList,
-                          boolean keepFile)
+            boolean keepFile)
     {
         this.path = path;
         this.executionStage = executionStage;
@@ -147,7 +144,7 @@ public class ExecutableFile implements Serializable
     }
 
     public ExecutableFile(String path, int type, String mainClass, int executionStage,
-                          int onFailure, List<String> argList, List<OsModel> osList, boolean keepFile)
+            int onFailure, List<String> argList, List<OsModel> osList, boolean keepFile)
     {
         this.path = path;
         this.mainClass = mainClass;
@@ -199,7 +196,6 @@ public class ExecutableFile implements Serializable
         return retval.toString();
     }
 
-
     /**
      * @return the condition
      */
@@ -207,7 +203,6 @@ public class ExecutableFile implements Serializable
     {
         return this.condition;
     }
-
 
     /**
      * @param condition the condition to set

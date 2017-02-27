@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.processor;
 
 import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
@@ -30,7 +29,6 @@ import com.izforge.izpack.util.unix.UnixUsers;
 public class UnixUserProcessor implements Processor
 {
 
-
     /**
      * Overridden Method returns a list of users in the /etc/passwd
      */
@@ -38,6 +36,5 @@ public class UnixUserProcessor implements Processor
     {
         return UnixUsers.getUsersColonString();
     }
-
 
 }

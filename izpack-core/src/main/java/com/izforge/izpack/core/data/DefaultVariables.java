@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.data;
 
 import com.izforge.izpack.api.data.DynamicVariable;
@@ -34,7 +33,6 @@ import com.izforge.izpack.core.variable.utils.ValueUtils;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  * Default implementation of the {@link Variables} interface.
@@ -74,11 +72,10 @@ public class DefaultVariables implements Variables
      */
     private transient Map<String, Deque<Object>> blockedVariableNameStacks = new HashMap<String, Deque<Object>>();
 
-
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(DefaultVariables.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DefaultVariables.class.getName());
 
     /**
      * Constructs a <tt>DefaultVariables</tt>, with an empty set of variables.
@@ -110,10 +107,10 @@ public class DefaultVariables implements Variables
     }
 
     /**
-     * Sets a variable explicitly.
-     * This is considered a permanent user change and overrides on the according name are removed.
+     * Sets a variable explicitly. This is considered a permanent user change
+     * and overrides on the according name are removed.
      *
-     * @param name  the variable name
+     * @param name the variable name
      * @param value the variable value. May be {@code null}
      */
     @Override
@@ -129,12 +126,12 @@ public class DefaultVariables implements Variables
         if (value != null)
         {
             properties.setProperty(name, value);
-            logger.fine("Dynamic variable '" + name + "' set to '" + value + "'");
+            LOGGER.fine("Dynamic variable '" + name + "' set to '" + value + "'");
         }
         else
         {
             properties.remove(name);
-            logger.fine("Dynamic variable '" + name + "' unset");
+            LOGGER.fine("Dynamic variable '" + name + "' unset");
         }
     }
 
@@ -153,8 +150,9 @@ public class DefaultVariables implements Variables
     /**
      * Returns the value of the specified variable.
      *
-     * @param name         the variable name
-     * @param defaultValue the default value if the variable doesn't exist, or is {@code null}
+     * @param name the variable name
+     * @param defaultValue the default value if the variable doesn't exist, or
+     * is {@code null}
      */
     @Override
     public String get(String name, String defaultValue)
@@ -167,7 +165,8 @@ public class DefaultVariables implements Variables
      * Returns the boolean value of the specified variable.
      *
      * @param name the variable name
-     * @return the boolean value, or {@code false} if the variable doesn't exist or is not a boolean
+     * @return the boolean value, or {@code false} if the variable doesn't exist
+     * or is not a boolean
      */
     @Override
     public boolean getBoolean(String name)
@@ -178,9 +177,11 @@ public class DefaultVariables implements Variables
     /**
      * Returns the boolean value of the specified variable.
      *
-     * @param name         the variable name
-     * @param defaultValue the default value if the variable doesn't exist, or is {@code null}
-     * @return the boolean value, or {@code defaultValue} if the variable doesn't exist or is not a boolean
+     * @param name the variable name
+     * @param defaultValue the default value if the variable doesn't exist, or
+     * is {@code null}
+     * @return the boolean value, or {@code defaultValue} if the variable
+     * doesn't exist or is not a boolean
      */
     @Override
     public boolean getBoolean(String name, boolean defaultValue)
@@ -205,7 +206,8 @@ public class DefaultVariables implements Variables
      * Returns the integer value of the specified variable.
      *
      * @param name the variable name
-     * @return the integer value, or {@code -1} if the variable doesn't exist or is not an integer
+     * @return the integer value, or {@code -1} if the variable doesn't exist or
+     * is not an integer
      */
     @Override
     public int getInt(String name)
@@ -217,7 +219,8 @@ public class DefaultVariables implements Variables
      * Returns the integer value of the specified variable.
      *
      * @param name the variable name
-     * @return the integer value, or {@code defaultValue} if the variable doesn't exist or is not an integer
+     * @return the integer value, or {@code defaultValue} if the variable
+     * doesn't exist or is not an integer
      */
     @Override
     public int getInt(String name, int defaultValue)
@@ -242,7 +245,8 @@ public class DefaultVariables implements Variables
      * Returns the long value of the specified variable.
      *
      * @param name the variable name
-     * @return the long value, or {@code -1} if the variable doesn't exist or is not a long
+     * @return the long value, or {@code -1} if the variable doesn't exist or is
+     * not a long
      */
     @Override
     public long getLong(String name)
@@ -254,7 +258,8 @@ public class DefaultVariables implements Variables
      * Returns the long value of the specified variable.
      *
      * @param name the variable name
-     * @return the long value, or {@code defaultValue} if the variable doesn't exist or is not a long
+     * @return the long value, or {@code defaultValue} if the variable doesn't
+     * exist or is not a long
      */
     @Override
     public long getLong(String name, long defaultValue)
@@ -286,7 +291,7 @@ public class DefaultVariables implements Variables
             }
             catch (Exception exception)
             {
-                logger.log(Level.WARNING, exception.getMessage(), exception);
+                LOGGER.log(Level.WARNING, exception.getMessage(), exception);
             }
         }
         return value;
@@ -311,7 +316,7 @@ public class DefaultVariables implements Variables
     @Override
     public synchronized void refresh() throws InstallerException
     {
-        logger.fine("Refreshing dynamic variables");
+        LOGGER.fine("Refreshing dynamic variables");
         Set<DynamicVariable> checkedVariables = new HashSet<DynamicVariable>();
         Set<String> unsetVariables = new HashSet<String>();
         Set<String> setVariables = new HashSet<String>();
@@ -356,7 +361,9 @@ public class DefaultVariables implements Variables
                         if (!(newValue == null || ValueUtils.isUnresolved(newValue)))
                         {
                             variable.setChecked();
-                        } else {
+                        }
+                        else
+                        {
                             checkedVariables.add(variable);
                         }
                     }
@@ -370,17 +377,15 @@ public class DefaultVariables implements Variables
                         }
                     }
                 }
-                else
+                else if (variable.isAutoUnset())
                 {
-                    if (variable.isAutoUnset())
-                    {
-                        // Mark unset if condition is not true
-                        unsetVariables.add(name);
-                    }
+                    // Mark unset if condition is not true
+                    unsetVariables.add(name);
                 }
             }
-            else {
-                logger.fine("Dynamic variable '" + name + "' blocked from changing due to user input");
+            else
+            {
+                LOGGER.fine("Dynamic variable '" + name + "' blocked from changing due to user input");
             }
         }
 
@@ -390,7 +395,7 @@ public class DefaultVariables implements Variables
             // are set to a value from another one during this refresh
             if (!setVariables.contains(key))
             {
-                if (get(key)!=null)
+                if (get(key) != null)
                 {
                     set(key, null);
                 }

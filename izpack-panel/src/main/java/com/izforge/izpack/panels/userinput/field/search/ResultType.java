@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.search;
 
 /**
@@ -32,12 +31,10 @@ public enum ResultType
      * Indicates the result of search is the whole file name.
      */
     FILE,
-
     /**
      * Indicates the result of the search is a directory
      */
     DIRECTORY,
-
     /**
      * Indicates the result of the search is the parent directory
      */

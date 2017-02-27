@@ -33,7 +33,6 @@ import javax.swing.border.Border;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Resources;
@@ -62,6 +61,7 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  */
 public class UserInputPanel extends IzPanel
 {
+
     private static final long serialVersionUID = 8667949467748997226L;
 
     private static final String SUMMARY_KEY = "summaryKey";
@@ -103,8 +103,8 @@ public class UserInputPanel extends IzPanel
     private final Prompt prompt;
 
     /**
-     * The delegating prompt. This is used to switch between the above prompt and a no-op prompt when performing
-     * updates.
+     * The delegating prompt. This is used to switch between the above prompt
+     * and a no-op prompt when performing updates.
      */
     private final DelegatingPrompt delegatingPrompt;
 
@@ -122,21 +122,20 @@ public class UserInputPanel extends IzPanel
     // layout.showRules ((Graphics2D)graphics, Color.red);
     // }
     /*--------------------------------------------------------------------------*/
-
     /**
      * Constructs an {@code UserInputPanel}.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent IzPack installer frame
+     * @param panel the panel meta-data
+     * @param parent the parent IzPack installer frame
      * @param installData the installation data
-     * @param resources   the resources
-     * @param rules       the rules engine
-     * @param factory     factory
-     * @param matcher     the platform-model matcher
-     * @param prompt      the prompt
+     * @param resources the resources
+     * @param rules the rules engine
+     * @param factory factory
+     * @param matcher the platform-model matcher
+     * @param prompt the prompt
      */
     public UserInputPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                          RulesEngine rules, ObjectFactory factory, final PlatformModelMatcher matcher, Prompt prompt)
+            RulesEngine rules, ObjectFactory factory, final PlatformModelMatcher matcher, Prompt prompt)
     {
         super(panel, parent, installData, resources);
 
@@ -199,8 +198,9 @@ public class UserInputPanel extends IzPanel
     }
 
     /**
-     * Indicates whether the panel has been validated or not. The installer won't let the user go
-     * further through the installation process until the panel is validated.
+     * Indicates whether the panel has been validated or not. The installer
+     * won't let the user go further through the installation process until the
+     * panel is validated.
      *
      * @return a boolean stating whether the panel has been validated or not.
      */
@@ -214,7 +214,10 @@ public class UserInputPanel extends IzPanel
      * Save visible contents of the this panel into install data.
      */
     @Override
-    public void saveData() { readInput(prompt, true); }
+    public void saveData()
+    {
+        readInput(prompt, true);
+    }
 
     /**
      * This method is called when the panel becomes active.
@@ -226,7 +229,7 @@ public class UserInputPanel extends IzPanel
         {
             // TODO: translate
             emitError("User input specification could not be found.",
-                      "The specification for the user input panel could not be found. Please contact the packager.");
+                    "The specification for the user input panel could not be found. Please contact the packager.");
             parent.skipPanel();
         }
         else
@@ -247,8 +250,8 @@ public class UserInputPanel extends IzPanel
     }
 
     /**
-     * Creates an installation record for unattended installations on {@link UserInputPanel},
-     * created during GUI installations.
+     * Creates an installation record for unattended installations on
+     * {@link UserInputPanel}, created during GUI installations.
      */
     @Override
     public void createInstallationRecord(IXMLElement rootElement)
@@ -306,7 +309,8 @@ public class UserInputPanel extends IzPanel
     }
 
     /**
-     * Set elements to be visible or not depending on field conditions - dynamic update of field visibility.
+     * Set elements to be visible or not depending on field conditions - dynamic
+     * update of field visibility.
      */
     protected void updateUIElements()
     {
@@ -369,13 +373,10 @@ public class UserInputPanel extends IzPanel
                 view.setDisplayed(true);
             }
             else if (required
-                    && (
-                            fieldDefinition.isEffectiveDisplayHidden(
-                                    metadata.isDisplayHidden()
-                                    || (metadata.getDisplayHiddenCondition() != null && rules.isConditionTrue(metadata.getDisplayHiddenCondition())),
-                                    rules)
-                       )
-                    )
+                    && (fieldDefinition.isEffectiveDisplayHidden(
+                            metadata.isDisplayHidden()
+                            || (metadata.getDisplayHiddenCondition() != null && rules.isConditionTrue(metadata.getDisplayHiddenCondition())),
+                            rules)))
             {
                 enabled = false;
                 addToPanel = true;
@@ -406,11 +407,14 @@ public class UserInputPanel extends IzPanel
     }
 
     /**
-     * Reads the input installDataGUI from all UI elements and sets the associated variables.
+     * Reads the input installDataGUI from all UI elements and sets the
+     * associated variables.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the operation is successful, otherwise {@code false}.
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the operation is successful, otherwise
+     * {@code false}.
      */
     private boolean readInput(Prompt prompt, boolean skipValidation)
     {
@@ -434,10 +438,12 @@ public class UserInputPanel extends IzPanel
     }
 
     /**
-     * Reads the input installDataGUI from all UI elements and sets the associated variables.
+     * Reads the input installDataGUI from all UI elements and sets the
+     * associated variables.
      *
      * @param prompt the prompt to display messages
-     * @return {@code true} if the operation is successful, otherwise {@code false}.
+     * @return {@code true} if the operation is successful, otherwise
+     * {@code false}.
      */
     private boolean readInput(Prompt prompt)
     {
@@ -457,8 +463,8 @@ public class UserInputPanel extends IzPanel
     }
 
     /**
-     * Called by fields that allow revalidation.
-     * No validation is required since we do not progress through the installer.
+     * Called by fields that allow revalidation. No validation is required since
+     * we do not progress through the installer.
      */
     private void updateDialog()
     {
@@ -531,7 +537,8 @@ public class UserInputPanel extends IzPanel
     }
 
     /**
-     * @return Caption for the summary panel. Returns null if summaryKey is not specified.
+     * @return Caption for the summary panel. Returns null if summaryKey is not
+     * specified.
      */
     @Override
     public String getSummaryCaption()
@@ -550,6 +557,7 @@ public class UserInputPanel extends IzPanel
 
     /**
      * Summarize all the visible views in the panel.
+     *
      * @return
      */
     @Override
@@ -590,7 +598,7 @@ public class UserInputPanel extends IzPanel
      */
     private String getViewSummary(GUIField view)
     {
-        String  associatedVariable, associatedLabel, key, value;
+        String associatedVariable, associatedLabel, key, value;
         associatedVariable = view.getVariable();
         associatedLabel = view.getSummaryKey();
 
@@ -622,12 +630,11 @@ public class UserInputPanel extends IzPanel
         String key = "";
         String value = "";
 
-
-        for(String variable : variables)
+        for (String variable : variables)
         {
             boolean firstColumn = (column % numberOfColumns == 0);
 
-            if(!firstColumn)
+            if (!firstColumn)
             {
                 tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
                 column++;
@@ -635,10 +642,10 @@ public class UserInputPanel extends IzPanel
             else
             {
                 tab = "";
-                column=1; //Reset to first column
+                column = 1; //Reset to first column
             }
 
-            key = installData.getMessages().get(installData.getMessages().get(labels.get(column-1)));
+            key = installData.getMessages().get(installData.getMessages().get(labels.get(column - 1)));
             value = installData.getVariable(variable);
 
             if (key != null)

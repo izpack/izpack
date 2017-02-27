@@ -19,11 +19,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.mapper;
 
 /**
- * Constant for built-in mappers. The constant names are also used in the configuration.
+ * Constant for built-in mappers. The constant names are also used in the
+ * configuration.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)

@@ -7,8 +7,10 @@ import java.util.List;
  */
 public interface CustomFieldType
 {
+
     /**
      * Get all the variables from the custom fields.
+     *
      * @return
      */
     List<String> getVariables();

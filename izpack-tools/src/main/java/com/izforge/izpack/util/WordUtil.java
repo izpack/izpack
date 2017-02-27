@@ -40,7 +40,9 @@ public class WordUtil
             try
             {
                 if (in != null)
+                {
                     in.close();
+                }
             }
             catch (IOException ignored) {}
         }

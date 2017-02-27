@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.resource;
 
 import java.io.InputStream;
@@ -37,7 +36,6 @@ import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
-
 
 /**
  * Default implementation of {@link Locales}.
@@ -68,7 +66,8 @@ public class DefaultLocales implements Locales
     private String isoCode;
 
     /**
-     * The supported locales, keyed on 2 and 3 letter language codes and 3 letter country codes.
+     * The supported locales, keyed on 2 and 3 letter language codes and 3
+     * letter country codes.
      */
     private Map<String, Locale> isoLocales = new LinkedHashMap<String, Locale>();
 
@@ -85,14 +84,13 @@ public class DefaultLocales implements Locales
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(DefaultLocales.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(DefaultLocales.class.getName());
 
     /**
      * Constructs a {@code DefaultLocales}.
      * <p/>
-     * The locale will default to that of the current host if supported, else it will be set to the first supported
-     * locale.
+     * The locale will default to that of the current host if supported, else it
+     * will be set to the first supported locale.
      *
      * @param resources the resources
      * @throws ResourceException if the locales can't be determined
@@ -106,7 +104,8 @@ public class DefaultLocales implements Locales
     /**
      * Constructs a {@code DefaultLocales}.
      * <p/>
-     * The locale will default to that supplied if supported, else it will be set to the first supported locale.
+     * The locale will default to that supplied if supported, else it will be
+     * set to the first supported locale.
      *
      * @param resources the resources
      * @throws ResourceException if the locales can't be determined
@@ -129,7 +128,7 @@ public class DefaultLocales implements Locales
                 }
                 if (locale == null)
                 {
-                    logger.warning("No locale for: " + code);
+                    LOGGER.warning("No locale for: " + code);
                 }
                 else
                 {
@@ -169,7 +168,8 @@ public class DefaultLocales implements Locales
     /**
      * Sets the current locale.
      * <p/>
-     * This uses a 2 or 3 letter ISO country or language code to locate the corresponding locale.
+     * This uses a 2 or 3 letter ISO country or language code to locate the
+     * corresponding locale.
      *
      * @param code the ISO code
      * @throws ResourceNotFoundException if the locale isn't supported
@@ -186,9 +186,11 @@ public class DefaultLocales implements Locales
     /**
      * Returns the current locale's 3 character ISO code.
      * <p/>
-     * This is the code that was used to select the locale's messages and may be a country or language code.
+     * This is the code that was used to select the locale's messages and may be
+     * a country or language code.
      *
-     * @return the current locale's ISO code, or {@code null} if there is no current locale
+     * @return the current locale's ISO code, or {@code null} if there is no
+     * current locale
      */
     @Override
     public String getISOCode()
@@ -200,7 +202,8 @@ public class DefaultLocales implements Locales
      * Returns the locale corresponding to the supplied ISO2/ISO3 language code.
      *
      * @param code the 2 or 3 character ISO language code
-     * @return the corresponding locale, or {@code null} if the locale isn't supported
+     * @return the corresponding locale, or {@code null} if the locale isn't
+     * supported
      */
     @Override
     public Locale getLocale(String code)
@@ -246,7 +249,7 @@ public class DefaultLocales implements Locales
      *
      * @return messages for the current locale
      * @throws ResourceNotFoundException if the resource cannot be found
-     * @throws ResourceException         if no locale is set or the stream is not valid
+     * @throws ResourceException if no locale is set or the stream is not valid
      */
     @Override
     public Messages getMessages()
@@ -280,7 +283,8 @@ public class DefaultLocales implements Locales
      * Returns the available locales.
      *
      * @param defaultLocale the default locale
-     * @return the available locales, keyed on 2 and 3 character ISO language and country codes
+     * @return the available locales, keyed on 2 and 3 character ISO language
+     * and country codes
      */
     private Map<String, Locale> getAvailableLocales(Locale defaultLocale)
     {
@@ -294,10 +298,11 @@ public class DefaultLocales implements Locales
     }
 
     /**
-     * Adds a locale to the supplied locales, keying it on its 2 and 3 character ISO country and language codes.
+     * Adds a locale to the supplied locales, keying it on its 2 and 3 character
+     * ISO country and language codes.
      *
      * @param locales the locales to add to
-     * @param locale  the locale to add
+     * @param locale the locale to add
      */
     private void addLocale(Map<String, Locale> locales, Locale locale)
     {
@@ -305,13 +310,14 @@ public class DefaultLocales implements Locales
     }
 
     /**
-     * Adds a locale to the supplied locales, keying it on its 2 and 3 character ISO country and language codes.
+     * Adds a locale to the supplied locales, keying it on its 2 and 3 character
+     * ISO country and language codes.
      * <p/>
-     * Where multiple locales have the same language code, the locale not associated with a country will be used,
-     * unless it is the default locale.
+     * Where multiple locales have the same language code, the locale not
+     * associated with a country will be used, unless it is the default locale.
      *
-     * @param locales       the locales to add to
-     * @param locale        the locale to add
+     * @param locales the locales to add to
+     * @param locale the locale to add
      * @param defaultLocale the default locale. May be {@code null}
      */
     private void addLocale(Map<String, Locale> locales, Locale locale, Locale defaultLocale)
@@ -365,7 +371,7 @@ public class DefaultLocales implements Locales
         }
         else
         {
-		    		Messages parentMessages = messages;
+            Messages parentMessages = messages;
             messages = null;
             locale = findByCountry(code);
             if (locale == null)
@@ -392,7 +398,7 @@ public class DefaultLocales implements Locales
                 }
                 if (in == null)
                 {
-                    logger.warning("Cannot find messages for locale: " + code);
+                    LOGGER.warning("Cannot find messages for locale: " + code);
                 }
                 else
                 {
@@ -419,7 +425,7 @@ public class DefaultLocales implements Locales
         }
         catch (ResourceNotFoundException ignore)
         {
-            logger.fine("Locale has no langpack for code: " + code);
+            LOGGER.fine("Locale has no langpack for code: " + code);
         }
         return result;
     }
@@ -428,7 +434,8 @@ public class DefaultLocales implements Locales
      * Returns the supported locales.
      *
      * @return the supported locales
-     * @throws ResourceException if the supported locales exist but cannot be read
+     * @throws ResourceException if the supported locales exist but cannot be
+     * read
      */
     @SuppressWarnings("unchecked")
     private List<String> getSupportedLocales()
@@ -466,6 +473,5 @@ public class DefaultLocales implements Locales
     {
         return isoLocales.get(code.toUpperCase());
     }
-
 
 }

@@ -12,6 +12,7 @@ import org.apache.tools.ant.input.MultipleChoiceInputRequest;
 
 class AntActionInputHandler extends DefaultInputHandler
 {
+
     @Override
     public void handleInput(InputRequest request) throws BuildException
     {

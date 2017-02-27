@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.console.file;
 
 import static org.junit.Assert.assertEquals;
@@ -37,7 +36,6 @@ import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.file.FileField;
 import com.izforge.izpack.panels.userinput.field.file.TestFileFieldConfig;
 
-
 /**
  * Tests the {@link ConsoleFileField}.
  *
@@ -50,7 +48,6 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
      * Test file.
      */
     private File file;
-
 
     /**
      * Sets up the test.
@@ -71,7 +68,6 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
     {
         assertTrue(file.delete());
     }
-
 
     /**
      * Verifies that pressing return enters the default value.
@@ -140,6 +136,5 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
         FileField model = new FileField(config, installData);
         return new ConsoleFileField(model, console, prompt);
     }
-
 
 }

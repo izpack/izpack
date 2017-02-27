@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
 
 import java.io.File;
@@ -28,12 +27,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.logging.Logger;
 
-import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.util.os.FileQueue;
-
 
 /**
  * An unpacker for {@link Pack#loose loose} pack files.
@@ -56,15 +53,15 @@ public class LooseFileUnpacker extends FileUnpacker
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(LooseFileUnpacker.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LooseFileUnpacker.class.getName());
 
     /**
      * Constructs a <tt>LooseFileUnpacker</tt>.
      *
-     * @param sourceDir   the absolute source directory
+     * @param sourceDir the absolute source directory
      * @param cancellable determines if unpacking should be cancelled
-     * @param queue       the file queue. May be {@code null}
-     * @param prompt      the prompt to warn of missing files
+     * @param queue the file queue. May be {@code null}
+     * @param prompt the prompt to warn of missing files
      */
     public LooseFileUnpacker(File sourceDir, Cancellable cancellable, FileQueue queue, Prompt prompt)
     {
@@ -76,10 +73,10 @@ public class LooseFileUnpacker extends FileUnpacker
     /**
      * Unpacks a pack file.
      *
-     * @param file            the pack file meta-data
+     * @param file the pack file meta-data
      * @param packInputStream the pack input stream
-     * @param target          the target
-     * @throws IOException        for any I/O error
+     * @param target the target
+     * @throws IOException for any I/O error
      * @throws InstallerException for any installer exception
      */
     @Override
@@ -108,32 +105,34 @@ public class LooseFileUnpacker extends FileUnpacker
                 // may have a different length & last modified than we had at compile time, therefore we have to
                 // build a new PackFile for the copy process...
                 file = new PackFile(resolvedFile.getParentFile(), resolvedFile, file.getTargetPath(),
-                                    file.osConstraints(), file.override(), file.overrideRenameTo(),
-                                    file.blockable(), file.getAdditionals());
+                        file.osConstraints(), file.override(), file.overrideRenameTo(),
+                        file.blockable(), file.getAdditionals());
 
                 copy(file, stream, target);
             }
             catch (IOException e)
             {
-                logger.warning("Error when copying file " + resolvedFile + ": " + e);
+                LOGGER.warning("Error when copying file " + resolvedFile + ": " + e);
             }
             finally
             {
                 try
                 {
                     if (stream != null)
+                    {
                         stream.close();
+                    }
                 }
-                catch(IOException e)
+                catch (IOException e)
                 {
-                    logger.warning("Error when closing stream: " + e);
+                    LOGGER.warning("Error when closing stream: " + e);
                 }
             }
         }
         else
         {
             // file not found. Since this file was loosely bundled, continue with the installation.
-            logger.warning("Could not find loosely bundled file: " + file.getRelativeSourcePath());
+            LOGGER.warning("Could not find loosely bundled file: " + file.getRelativeSourcePath());
             if (prompt.confirm(Prompt.Type.WARNING, "File not found", "Could not find loosely bundled file: "
                     + file.getRelativeSourcePath(), Prompt.Options.OK_CANCEL) == Prompt.Option.OK)
             {

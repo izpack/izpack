@@ -28,6 +28,7 @@ import java.util.TreeMap;
 
 public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements CommentedMap<K, V>
 {
+
     private static final long serialVersionUID = -861700824946477984L;
 
     private static final String SEPARATOR = ";#;";
@@ -35,47 +36,52 @@ public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements Comment
     private static final String LAST_CATEGORY = "zzzzzzzzzzzzzzzzzzzzzz";
     private static final String META_COMMENT = "comment";
     private static final String META_NEWLINE_COUNT = "newline";
-    private SortedMap<String, Object> _meta;
+    private SortedMap<String, Object> meta;
 
-    @Override public int getNewLineCount(Object key)
+    @Override
+    public int getNewLineCount(Object key)
     {
         Integer emptyLines = (Integer) getMeta(META_NEWLINE_COUNT, key);
-        return emptyLines==null ? 0 : emptyLines.intValue();
+        return emptyLines == null ? 0 : emptyLines.intValue();
     }
 
-    @Override public Integer addEmptyLine(K key)
+    @Override
+    public Integer addEmptyLine(K key)
     {
         Integer newLines = (Integer) getMeta(META_NEWLINE_COUNT, key);
         if (newLines == null)
         {
             newLines = Integer.valueOf(0);
         }
-        return (Integer) putMeta(META_NEWLINE_COUNT, key, Integer.valueOf(newLines.intValue()+1));
+        return (Integer) putMeta(META_NEWLINE_COUNT, key, Integer.valueOf(newLines.intValue() + 1));
     }
 
     @SuppressWarnings("unchecked")
-    @Override public List<String> getComment(Object key)
+    @Override
+    public List<String> getComment(Object key)
     {
         return (List<String>) getMeta(META_COMMENT, key);
     }
 
-    @Override public void clear()
+    @Override
+    public void clear()
     {
         super.clear();
-        if (_meta != null)
+        if (this.meta != null)
         {
-            _meta.clear();
+            this.meta.clear();
         }
     }
 
     @SuppressWarnings("unchecked")
-    @Override public void putAll(Map<? extends K, ? extends V> map)
+    @Override
+    public void putAll(Map<? extends K, ? extends V> map)
     {
         super.putAll(map);
         if (map instanceof CommonMultiMap)
         {
             @SuppressWarnings("rawtypes")
-            Map<String, String> meta = ((CommonMultiMap) map)._meta;
+            Map<String, String> meta = ((CommonMultiMap) map).meta;
 
             if (meta != null)
             {
@@ -85,12 +91,14 @@ public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements Comment
     }
 
     @SuppressWarnings("unchecked")
-    @Override public List<String> putComment(K key, List<String> comment)
+    @Override
+    public List<String> putComment(K key, List<String> comment)
     {
         return (List<String>) putMeta(META_COMMENT, key, comment);
     }
 
-    @Override public V remove(Object key)
+    @Override
+    public V remove(Object key)
     {
         V ret = super.remove(key);
 
@@ -99,7 +107,8 @@ public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements Comment
         return ret;
     }
 
-    @Override public V remove(Object key, int index)
+    @Override
+    public V remove(Object key, int index)
     {
         V ret = super.remove(key, index);
 
@@ -112,14 +121,15 @@ public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements Comment
     }
 
     @SuppressWarnings("unchecked")
-    @Override public List<String> removeComment(Object key)
+    @Override
+    public List<String> removeComment(Object key)
     {
         return (List<String>) removeMeta(META_COMMENT, key);
     }
 
     Object getMeta(String category, Object key)
     {
-        return (_meta == null) ? null : _meta.get(makeKey(category, key));
+        return (this.meta == null) ? null : this.meta.get(makeKey(category, key));
     }
 
     Object putMeta(String category, K key, Object value)
@@ -129,15 +139,15 @@ public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements Comment
 
     void removeMeta(Object key)
     {
-        if (_meta != null)
+        if (this.meta != null)
         {
-            _meta.subMap(makeKey(FIRST_CATEGORY, key), makeKey(LAST_CATEGORY, key)).clear();
+            this.meta.subMap(makeKey(FIRST_CATEGORY, key), makeKey(LAST_CATEGORY, key)).clear();
         }
     }
 
     Object removeMeta(String category, Object key)
     {
-        return (_meta == null) ? null : _meta.remove(makeKey(category, key));
+        return (this.meta == null) ? null : this.meta.remove(makeKey(category, key));
     }
 
     private String makeKey(String category, Object key)
@@ -153,11 +163,11 @@ public class CommonMultiMap<K, V> extends BasicMultiMap<K, V> implements Comment
 
     private Map<String, Object> meta()
     {
-        if (_meta == null)
+        if (this.meta == null)
         {
-            _meta = new TreeMap<String, Object>();
+            this.meta = new TreeMap<String, Object>();
         }
 
-        return _meta;
+        return this.meta;
     }
 }

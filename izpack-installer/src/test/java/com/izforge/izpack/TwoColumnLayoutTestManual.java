@@ -18,16 +18,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack;
 
 /**
- * TwoColumnLayoutTestManual.java is a 1.4 application that
- * demonstrates the use of JButton, JTextField and
- * JLabel.  It requires no other files.
+ * TwoColumnLayoutTestManual.java is a 1.4 application that demonstrates the use
+ * of JButton, JTextField and JLabel. It requires no other files.
+ *
  * @author abhayani Amit Bhayani
  */
-
 import com.izforge.izpack.gui.TwoColumnConstraints;
 import com.izforge.izpack.gui.TwoColumnLayout;
 
@@ -39,6 +37,7 @@ import java.awt.event.ActionListener;
 
 public class TwoColumnLayoutTestManual implements ActionListener
 {
+
     JFrame converterFrame;
     JPanel converterPanel;
     JTextField tempText;
@@ -101,7 +100,6 @@ public class TwoColumnLayoutTestManual implements ActionListener
         converterPanel.add(label, constraints1);
         converterPanel.add(addRow, constraints2);
 
-
         label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
     }
@@ -134,9 +132,8 @@ public class TwoColumnLayoutTestManual implements ActionListener
     }
 
     /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event-dispatching thread.
+     * Create the GUI and show it. For thread safety, this method should be
+     * invoked from the event-dispatching thread.
      */
     private static void createAndShowGUI()
     {

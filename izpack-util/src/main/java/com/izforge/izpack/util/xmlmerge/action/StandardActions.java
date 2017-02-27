@@ -19,11 +19,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.action;
 
 /**
- * Constants for built-in actions. The constant names are also used in the configuration.
+ * Constants for built-in actions. The constant names are also used in the
+ * configuration.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)

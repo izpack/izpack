@@ -14,7 +14,6 @@ import java.util.List;
 
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.UninstallerListener;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.AbstractUIProgressHandler;
 
 /**

@@ -40,7 +40,6 @@ import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.choice.TestChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.radio.RadioField;
 
-
 /**
  * Tests the {@link ConsoleRadioField}.
  *
@@ -48,6 +47,7 @@ import com.izforge.izpack.panels.userinput.field.radio.RadioField;
  */
 public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
 {
+
     private final RulesEngine rules = installData.getRules();
 
     /**
@@ -99,7 +99,8 @@ public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
     }
 
     /**
-     * Creates a new {@link ConsoleRadioField} that updates the "radio" variable.
+     * Creates a new {@link ConsoleRadioField} that updates the "radio"
+     * variable.
      *
      * @param selected the initial selection
      * @return a new field
@@ -121,6 +122,7 @@ public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
 
     private static class BooleanCondition extends Condition
     {
+
         private static final long serialVersionUID = -1127142177617533100L;
         private final boolean value;
 
@@ -130,12 +132,22 @@ public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
             super.setId(id);
             super.setInstallData(installData);
         }
+
         @Override
-        public void readFromXML(IXMLElement xmlcondition) throws Exception {}
+        public void readFromXML(IXMLElement xmlcondition) throws Exception
+        {
+        }
+
         @Override
-        public void makeXMLData(IXMLElement conditionRoot) {}
+        public void makeXMLData(IXMLElement conditionRoot)
+        {
+        }
+
         @Override
-        public boolean isTrue() { return this.value; }
+        public boolean isTrue()
+        {
+            return this.value;
+        }
 
         @Override
         public Set<String> getVarRefs()

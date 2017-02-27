@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge;
 
 import java.io.File;
@@ -36,7 +35,8 @@ import com.izforge.izpack.util.FileUtil;
  */
 public class ClassResolver
 {
-    public static final List<String> packageBegin = Arrays.asList("com/", "org/", "net/");
+
+    public static final List<String> PACKAGE_BEGIN = Arrays.asList("com/", "org/", "net/");
 
     /**
      * Search for a standard package begin like com/ org/ net/
@@ -47,7 +47,7 @@ public class ClassResolver
     public static String processFileToClassName(File file)
     {
         String absolutePath = ResolveUtils.convertPathToPosixPath(file.getAbsolutePath());
-        for (String packageString : packageBegin)
+        for (String packageString : PACKAGE_BEGIN)
         {
             if (!absolutePath.contains(packageString))
             {

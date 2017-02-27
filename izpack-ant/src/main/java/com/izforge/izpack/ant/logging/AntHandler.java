@@ -33,26 +33,33 @@ import java.util.logging.LogRecord;
  * @author Fyodor Kupolov
  * @version 1.0
  */
-public class AntHandler extends Handler {
+public class AntHandler extends Handler
+{
+
     private StringBuilder sb = new StringBuilder();
     private Project project;
 
-    public AntHandler(Project project) {
+    public AntHandler(Project project)
+    {
         this.project = project;
     }
 
     @Override
-    public synchronized void publish(LogRecord record) {
+    public synchronized void publish(LogRecord record)
+    {
         String msg = record.getMessage();
-        if (msg != null) {
+        if (msg != null)
+        {
             sb.append(msg);
         }
         Throwable thrown = record.getThrown();
-        if (thrown != null) {
+        if (thrown != null)
+        {
             sb.append("\n").append(thrown.toString()).append('\n');
         }
         final int level = convert(record.getLevel());
-        if (level >= 0) {
+        if (level >= 0)
+        {
             project.log(sb.toString(), level);
         }
         sb.setLength(0);
@@ -64,31 +71,39 @@ public class AntHandler extends Handler {
      * @param level JUL level
      * @return Ant message priority
      */
-    private int convert(Level level) {
+    private int convert(Level level)
+    {
         final int lev = level.intValue();
-        if (lev >= Level.SEVERE.intValue()) {
+        if (lev >= Level.SEVERE.intValue())
+        {
             return Project.MSG_ERR;
         }
-        if (lev >= Level.WARNING.intValue()) {
+        if (lev >= Level.WARNING.intValue())
+        {
             return Project.MSG_WARN;
         }
-        if (lev >= Level.INFO.intValue()) {
+        if (lev >= Level.INFO.intValue())
+        {
             return Project.MSG_INFO;
         }
-        if (lev >= Level.FINE.intValue()) {
+        if (lev >= Level.FINE.intValue())
+        {
             return Project.MSG_VERBOSE;
         }
-        if (lev > Level.OFF.intValue()) {
+        if (lev > Level.OFF.intValue())
+        {
             return Project.MSG_DEBUG;
         }
         return -1;
     }
 
     @Override
-    public void flush() {
+    public void flush()
+    {
     }
 
     @Override
-    public void close() {
+    public void close()
+    {
     }
 }

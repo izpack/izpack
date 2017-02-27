@@ -18,11 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.rule;
-
-
-import com.izforge.izpack.panels.userinput.processor.Processor;
 
 /**
  * Describes the format of an {@link RuleField}.
@@ -32,26 +28,26 @@ import com.izforge.izpack.panels.userinput.processor.Processor;
 public enum RuleFormat
 {
     /**
-     * Specifies to return the contents of all fields concatenated into one long string, with separation between
-     * each component.
+     * Specifies to return the contents of all fields concatenated into one long
+     * string, with separation between each component.
      */
     PLAIN_STRING("plainString"),
-
     /**
-     * Specifies to return the contents of all fields together with all separators as specified in the field format
-     * concatenated into one long string.
-     * In this case the resulting string looks just like the user saw it during data entry.
+     * Specifies to return the contents of all fields together with all
+     * separators as specified in the field format concatenated into one long
+     * string. In this case the resulting string looks just like the user saw it
+     * during data entry.
      */
     DISPLAY_FORMAT("displayFormat"),
-
     /**
-     * Specifies to return the contents of all fields concatenated into one long string, with a special separator
-     * string inserted in between the individual components.
+     * Specifies to return the contents of all fields concatenated into one long
+     * string, with a special separator string inserted in between the
+     * individual components.
      */
     SPECIAL_SEPARATOR("specialSeparator"),
-
     /**
-     * Specifies to return the contents of all fields using an {@link Processor}.
+     * Specifies to return the contents of all fields using an
+     * {@link Processor}.
      */
     PROCESSED("processed");
 
@@ -79,7 +75,8 @@ public enum RuleFormat
      * Returns a {@code RuleFormat} for the specified value.
      *
      * @param value the value
-     * @return the corresponding {@code RuleFormat}, or {@code null} if none is found
+     * @return the corresponding {@code RuleFormat}, or {@code null} if none is
+     * found
      */
     public static RuleFormat fromString(String value)
     {

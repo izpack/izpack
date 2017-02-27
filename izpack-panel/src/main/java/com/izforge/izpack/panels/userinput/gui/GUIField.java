@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -35,7 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * GUI presentation of a field.
@@ -56,17 +54,18 @@ public abstract class GUIField extends AbstractFieldView
     private UpdateListener listener;
 
     /**
-     * Holds static label text with variable references which must not be overridden,
-     * because the variables might change during the installation; for always showing the actual value after resolving.
+     * Holds static label text with variable references which must not be
+     * overridden, because the variables might change during the installation;
+     * for always showing the actual value after resolving.
      */
     private final Map<Integer, String> untranslatedItems;
 
     /**
-     * Holds static tooltip text with variable references which must not be overridden,
-     * because the variables might change during the installation; for always showing the actual value after resolving.
+     * Holds static tooltip text with variable references which must not be
+     * overridden, because the variables might change during the installation;
+     * for always showing the actual value after resolving.
      */
     private final Map<Integer, String> untranslatedTooltips;
-
 
     /**
      * Constructs a {@code GUIField}.
@@ -86,7 +85,8 @@ public abstract class GUIField extends AbstractFieldView
      * This implementation simply returns {@code true}.
      *
      * @param prompt the prompt to display messages
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     public boolean updateField(Prompt prompt)
     {
@@ -99,7 +99,8 @@ public abstract class GUIField extends AbstractFieldView
      * This implementation simply returns {@code true}.
      *
      * @param prompt the prompt to display messages
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     public boolean updateField(Prompt prompt, boolean skipValidation)
     {
@@ -129,7 +130,8 @@ public abstract class GUIField extends AbstractFieldView
     }
 
     /**
-     * Return a {@link JComponent} of this field which is the primary candidate to gain focus.
+     * Return a {@link JComponent} of this field which is the primary candidate
+     * to gain focus.
      *
      * @return the primary {@link JComponent} to gain focus
      */
@@ -148,7 +150,8 @@ public abstract class GUIField extends AbstractFieldView
     /**
      * Adds the field.
      * <p/>
-     * This adds the field description (if any), the field label, and field component.
+     * This adds the field description (if any), the field label, and field
+     * component.
      *
      * @param component the component
      */
@@ -180,14 +183,14 @@ public abstract class GUIField extends AbstractFieldView
     /**
      * Adds a component.
      *
-     * @param component   the component
+     * @param component the component
      * @param constraints the component constraints
      */
     protected void addComponent(JComponent component, Object constraints)
     {
         if (component instanceof JTextPane)
         {
-            JTextPane pane = (JTextPane)component;
+            JTextPane pane = (JTextPane) component;
             String oldText = pane.getText();
             if (oldText != null)
             {
@@ -196,7 +199,7 @@ public abstract class GUIField extends AbstractFieldView
         }
         else if (component instanceof JLabel)
         {
-            JLabel label = (JLabel)component;
+            JLabel label = (JLabel) component;
             String oldText = label.getText();
             if (oldText != null)
             {
@@ -219,7 +222,7 @@ public abstract class GUIField extends AbstractFieldView
             JComponent jc = c.getComponent();
             if (jc instanceof JTextPane)
             {
-                JTextPane pane = (JTextPane)jc;
+                JTextPane pane = (JTextPane) jc;
                 pane.setOpaque(false);
                 String oldText = untranslatedItems.get(Integer.valueOf(jc.hashCode()));
                 if (oldText != null)
@@ -234,7 +237,7 @@ public abstract class GUIField extends AbstractFieldView
             }
             else if (jc instanceof JLabel)
             {
-                JLabel label = (JLabel)jc;
+                JLabel label = (JLabel) jc;
                 String oldText = untranslatedItems.get(Integer.valueOf(label.hashCode()));
                 if (oldText != null)
                 {
@@ -356,7 +359,8 @@ public abstract class GUIField extends AbstractFieldView
     /**
      * Helper to replace variables in a string.
      *
-     * @param value the string to perform variable replacement on. May be {@code null}
+     * @param value the string to perform variable replacement on. May be
+     * {@code null}
      * @return the string with any variables replaced with their values
      */
     protected String replaceVariables(String value)
@@ -368,7 +372,7 @@ public abstract class GUIField extends AbstractFieldView
      * Show localized warning message dialog basing on given parameters.
      *
      * @param message the message to print out in dialog box.
-     * @param prompt  the prompt to use
+     * @param prompt the prompt to use
      */
     protected void warning(String message, Prompt prompt)
     {

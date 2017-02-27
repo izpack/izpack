@@ -1,33 +1,33 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright 2005-2006 Klaus Bartz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.coi.tools.os.win;
 
 import java.io.Serializable;
 
 /**
  * <p>
- * Data container for Windows registry values. Windows registry values can contain different data
- * types. It is not possible to map they all to one Java type. Therefore this class contains the
- * different container types. DO NOT CHANGE METHODE SIGNATURES etc. without addapt the native method
+ * Data container for Windows registry values. Windows registry values can
+ * contain different data types. It is not possible to map they all to one Java
+ * type. Therefore this class contains the different container types. DO NOT
+ * CHANGE METHODE SIGNATURES etc. without addapt the native method
  * RegistryImpl.setValueN and RegistryImpl.getValue.
  * </p>
  *
@@ -38,7 +38,10 @@ public class RegDataContainer implements Cloneable, Serializable, MSWinConstants
 
     private static final long serialVersionUID = 3979265850388066865L;
 
-    private static final int[] VALID_TYPES = {0, 1, 2, 3, 4, 6, 7};
+    private static final int[] VALID_TYPES =
+    {
+        0, 1, 2, 3, 4, 6, 7
+    };
 
     private long dwordData = 0;
 
@@ -59,7 +62,8 @@ public class RegDataContainer implements Cloneable, Serializable, MSWinConstants
     }
 
     /**
-     * Creates a RegDataContainer for a special type The data self is not set. Valid types are
+     * Creates a RegDataContainer for a special type The data self is not set.
+     * Valid types are
      *
      * @param type
      * @throws IllegalArgumentException if the type is not valid
@@ -131,8 +135,8 @@ public class RegDataContainer implements Cloneable, Serializable, MSWinConstants
     }
 
     /**
-     * Returns the binary data of this container. It will be contain only data, if the type of this
-     * object is REG_BINARY.
+     * Returns the binary data of this container. It will be contain only data,
+     * if the type of this object is REG_BINARY.
      *
      * @return binary data
      */
@@ -142,8 +146,8 @@ public class RegDataContainer implements Cloneable, Serializable, MSWinConstants
     }
 
     /**
-     * Returns the dword data of this container. It will be contain only data, if the type of this
-     * object is REG_DWORD.
+     * Returns the dword data of this container. It will be contain only data,
+     * if the type of this object is REG_DWORD.
      *
      * @return the dword data
      */
@@ -153,8 +157,8 @@ public class RegDataContainer implements Cloneable, Serializable, MSWinConstants
     }
 
     /**
-     * Returns the multi string data as string array of this container. It will be contain only
-     * data, if the type of this object is REG_REG_MULTI_SZ.
+     * Returns the multi string data as string array of this container. It will
+     * be contain only data, if the type of this object is REG_REG_MULTI_SZ.
      *
      * @return the multi string data
      */
@@ -164,8 +168,8 @@ public class RegDataContainer implements Cloneable, Serializable, MSWinConstants
     }
 
     /**
-     * Returns the string data of this container. It will be contain only data, if the type of this
-     * object is REG_REG_SZ.
+     * Returns the string data of this container. It will be contain only data,
+     * if the type of this object is REG_REG_SZ.
      *
      * @return the string data
      */
@@ -254,8 +258,8 @@ public class RegDataContainer implements Cloneable, Serializable, MSWinConstants
     }
 
     /**
-     * Returns the contained data depending to the type. Dword data are transformed from long to
-     * Long.
+     * Returns the contained data depending to the type. Dword data are
+     * transformed from long to Long.
      *
      * @return the contained data
      */

@@ -130,7 +130,7 @@ public abstract class AbstractPackagerTest
     /**
      * Helper to create a packager that writes to the provided jar.
      *
-     * @param jar          the jar stream
+     * @param jar the jar stream
      * @param mergeManager the merge manager
      * @return a new packager
      */
@@ -139,10 +139,10 @@ public abstract class AbstractPackagerTest
     /**
      * Verifies that the pack size is calculated correctly.
      *
-     * @param expectedSize     the expected pack size
+     * @param expectedSize the expected pack size
      * @param expectedFileSize the expected total file size
-     * @param size             the pack size. May be {@code 0}
-     * @param files            the pack files
+     * @param size the pack size. May be {@code 0}
+     * @param files the pack files
      * @throws Exception for any error
      */
     private void checkSize(long expectedSize, long expectedFileSize, long size, File... files) throws Exception
@@ -158,7 +158,7 @@ public abstract class AbstractPackagerTest
         for (File file : files)
         {
             packInfo.addFile(file.getParentFile(), file, "$INSTALL_PATH/" + file.getName(), null,
-                             OverrideType.OVERRIDE_TRUE, null, Blockable.BLOCKABLE_NONE, null, null);
+                    OverrideType.OVERRIDE_TRUE, null, Blockable.BLOCKABLE_NONE, null, null);
             fileSize += file.length();
         }
         packager.addPack(packInfo);
@@ -182,7 +182,7 @@ public abstract class AbstractPackagerTest
      * Helper to return a stream to the content of a jar entry.
      *
      * @param name the name of the entry
-     * @param jar  the jar
+     * @param jar the jar
      * @return a stream to the content
      * @throws IOException for any I/O error
      */

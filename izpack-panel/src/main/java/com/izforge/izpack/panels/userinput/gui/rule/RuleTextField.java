@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.rule;
 
 import javax.swing.JTextField;
@@ -30,7 +29,6 @@ import javax.swing.text.PlainDocument;
 import com.izforge.izpack.panels.userinput.field.rule.FieldSpec;
 
 /*---------------------------------------------------------------------------*/
-
 /**
  * One line synopsis. <BR>
  * <BR>
@@ -43,6 +41,7 @@ import com.izforge.izpack.panels.userinput.field.rule.FieldSpec;
 /*---------------------------------------------------------------------------*/
 public class RuleTextField extends JTextField
 {
+
     private static final long serialVersionUID = 8291069586976953430L;
     private final FieldSpec spec;
 
@@ -88,7 +87,6 @@ public class RuleTextField extends JTextField
     // --------------------------------------------------------------------------
     //
     // --------------------------------------------------------------------------
-
     class Rule extends PlainDocument
     {
 
@@ -98,7 +96,6 @@ public class RuleTextField extends JTextField
         private static final long serialVersionUID = 3258134643651063862L;
 
         private final FieldSpec spec;
-
 
         public Rule(FieldSpec spec)
         {

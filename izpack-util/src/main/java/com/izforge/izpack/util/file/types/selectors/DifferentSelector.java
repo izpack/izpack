@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types.selectors;
 
 import java.io.File;
@@ -24,14 +23,11 @@ import org.apache.commons.io.FileUtils;
 
 /**
  * This selector selects files against a mapped set of target files, selecting
- * all those files which are different.
- * Files with different lengths are deemed different
- * automatically
- * Files with identical timestamps are viewed as matching by
- * default, unless you specify otherwise.
- * Contents are compared if the lengths are the same
- * and the timestamps are ignored or the same,
- * except if you decide to ignore contents to gain speed.
+ * all those files which are different. Files with different lengths are deemed
+ * different automatically Files with identical timestamps are viewed as
+ * matching by default, unless you specify otherwise. Contents are compared if
+ * the lengths are the same and the timestamps are ignored or the same, except
+ * if you decide to ignore contents to gain speed.
  * <p/>
  * This is a useful selector to work with programs and tasks that don't handle
  * dependency checking properly; Even if a predecessor task always creates its
@@ -39,16 +35,16 @@ import org.apache.commons.io.FileUtils;
  * selector, so their dependencies are driven on the absolute state of the
  * files, not a timestamp.
  * <p/>
- * Clearly, however, bulk file comparisons is inefficient; anything that can
- * use timestamps is to be preferred. If this selector must be used, use it
- * over as few files as possible, perhaps following it with an &lt;uptodate;&gt
- * to keep the descendent routines conditional.
+ * Clearly, however, bulk file comparisons is inefficient; anything that can use
+ * timestamps is to be preferred. If this selector must be used, use it over as
+ * few files as possible, perhaps following it with an &lt;uptodate;&gt to keep
+ * the descendent routines conditional.
  */
 public class DifferentSelector extends MappingSelector
 {
+
     private boolean ignoreFileTimes = true;
     private boolean ignoreContents = false;
-
 
     /**
      * This flag tells the selector to ignore file times in the comparison
@@ -73,7 +69,7 @@ public class DifferentSelector extends MappingSelector
     /**
      * this test is our selection test that compared the file with the destfile
      *
-     * @param srcfile  the source file
+     * @param srcfile the source file
      * @param destfile the destination file
      * @return true if the files are different
      */

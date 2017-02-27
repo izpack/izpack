@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xml;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
-
 
 /**
  * A Collection of convenient XML-Helper Methods and Constants
@@ -35,7 +33,7 @@ public class XMLHelper
     //~ Static fields/initializers *********************************************************
 
     /**
-     * YES   = "YES"
+     * YES = "YES"
      */
     public final static String YES = "YES";
 
@@ -65,17 +63,16 @@ public class XMLHelper
     public final static String OFF = "OFF";
 
     /**
-     * _1 = "1"
+     * STRING_1 = "1"
      */
-    public final static String _1 = "1";
+    public final static String STRING_1 = "1";
 
     /**
-     * _0 = "0"
+     * STRING_0 = "0"
      */
-    public final static String _0 = "0";
+    public final static String STRING_0 = "0";
 
     //~ Constructors ***********************************************************************
-
     /**
      * Creates a new XMLHelper object.
      */
@@ -85,10 +82,9 @@ public class XMLHelper
     }
 
     //~ Methods ****************************************************************************
-
     /**
-     * Determines if the named attribute in true. True is represented by any of the
-     * following strings and is not case sensitive. <br>
+     * Determines if the named attribute in true. True is represented by any of
+     * the following strings and is not case sensitive. <br>
      * <p/>
      * <ul>
      * <li>
@@ -105,13 +101,14 @@ public class XMLHelper
      * </li>
      * </ul>
      * <p/>
-     * <br> Every other string, including the empty string as well as the non-existence of
-     * the attribute will cuase <code>false</code> to be returned.
+     * <br> Every other string, including the empty string as well as the
+     * non-existence of the attribute will cuase <code>false</code> to be
+     * returned.
      *
      * @param element the <code>IXMLElement</code> to search for the attribute.
-     * @param name    the name of the attribute to test.
-     * @return <code>true</code> if the attribute value equals one of the pre-defined
-     *         strings, <code>false</code> otherwise.
+     * @param name the name of the attribute to test.
+     * @return <code>true</code> if the attribute value equals one of the
+     * pre-defined strings, <code>false</code> otherwise.
      */
 
     /*--------------------------------------------------------------------------*/
@@ -131,7 +128,7 @@ public class XMLHelper
         {
             return (true);
         }
-        else if (value.equals(_1))
+        else if (value.equals(STRING_1))
         {
             return (true);
         }
@@ -143,8 +140,9 @@ public class XMLHelper
      * The Opposit of AttributeIsTrue()
      *
      * @param element the element to inspect
-     * @param name    the attribute to inspect
-     * @return returns true if name attribute of the given element contains &quot;false&quot;
+     * @param name the attribute to inspect
+     * @return returns true if name attribute of the given element contains
+     * &quot;false&quot;
      */
     public static boolean attributeIsFalse(IXMLElement element, String name)
     {

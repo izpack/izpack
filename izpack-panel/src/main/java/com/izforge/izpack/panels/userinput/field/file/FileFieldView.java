@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.file;
 
 import static com.izforge.izpack.api.handler.Prompt.Type.WARNING;
@@ -28,7 +27,6 @@ import java.io.File;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
-
 
 /**
  * Presentation helper for file fields.
@@ -51,7 +49,7 @@ public class FileFieldView
     /**
      * Constructs an {@code FileFieldView}.
      *
-     * @param field  the field
+     * @param field the field
      * @param prompt the prompt
      */
     public FileFieldView(AbstractFileField field, Prompt prompt)
@@ -126,7 +124,8 @@ public class FileFieldView
      * Returns a localised message for the supplied message identifier.
      *
      * @param id the message identifier
-     * @return the corresponding message, or {@code id} if the message does not exist
+     * @return the corresponding message, or {@code id} if the message does not
+     * exist
      */
     protected String getMessage(String id)
     {
@@ -138,7 +137,8 @@ public class FileFieldView
      * Validates a value.
      *
      * @param value the value to validate
-     * @return {@code true} if the value is valid, {@code false} if it is invalid
+     * @return {@code true} if the value is valid, {@code false} if it is
+     * invalid
      */
     protected boolean validate(File value)
     {
@@ -165,7 +165,7 @@ public class FileFieldView
     /**
      * Displays a warning message.
      *
-     * @param title   the warning title
+     * @param title the warning title
      * @param message the warning message
      */
     protected void warn(String title, String message)
@@ -176,7 +176,7 @@ public class FileFieldView
     /**
      * Displays an error message.
      *
-     * @param title   the error title
+     * @param title the error title
      * @param message the error message
      */
     protected void error(String title, String message)

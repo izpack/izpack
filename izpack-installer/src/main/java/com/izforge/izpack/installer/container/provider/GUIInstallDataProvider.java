@@ -24,12 +24,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Provide installData for GUI :
- * Load install data with l&f and GUIPrefs
+ * Provide installData for GUI : Load install data with l&f and GUIPrefs
  */
 public class GUIInstallDataProvider extends AbstractInstallDataProvider
 {
-    private static final Logger logger = Logger.getLogger(GUIInstallDataProvider.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(GUIInstallDataProvider.class.getName());
 
     public static final String MODIFIER_USE_BUTTON_ICONS = "useButtonIcons";
     public static final String MODIFIER_USE_LABEL_ICONS = "useLabelIcons";
@@ -43,9 +43,9 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
         substanceVariants.put("default", "org.pushingpixels.substance.api.skin.SubstanceBusinessLookAndFeel");
         substanceVariants.put("business", "org.pushingpixels.substance.api.skin.SubstanceBusinessLookAndFeel");
         substanceVariants.put("business-blue",
-                              "org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel");
+                "org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel");
         substanceVariants.put("business-black",
-                              "org.pushingpixels.substance.api.skin.SubstanceBusinessBlackSteelLookAndFeel");
+                "org.pushingpixels.substance.api.skin.SubstanceBusinessBlackSteelLookAndFeel");
         substanceVariants.put("creme", "org.pushingpixels.substance.api.skin.SubstanceCremeLookAndFeel");
         substanceVariants.put("creme-coffee", "org.pushingpixels.substance.api.skin.SubstanceCremeCoffeeLookAndFeel");
         substanceVariants.put("sahara", "org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel");
@@ -53,7 +53,7 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
         substanceVariants.put("moderate", "org.pushingpixels.substance.api.skin.SubstanceModerateLookAndFeel");
         substanceVariants.put("nebula", "org.pushingpixels.substance.api.skin.SubstanceNebulaLookAndFeel");
         substanceVariants.put("nebula-brick-wall",
-                              "org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
+                "org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
         substanceVariants.put("autumn", "org.pushingpixels.substance.api.skin.SubstanceAutumnLookAndFeel");
         substanceVariants.put("mist-silver", "org.pushingpixels.substance.api.skin.SubstanceMistSilverLookAndFeel");
         substanceVariants.put("mist-aqua", "org.pushingpixels.substance.api.skin.SubstanceMistAquaLookAndFeel");
@@ -62,10 +62,10 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
         substanceVariants.put("gemini", "org.pushingpixels.substance.api.skin.SubstanceGeminiLookAndFeel");
         substanceVariants.put("mariner", "org.pushingpixels.substance.api.skin.SubstanceMarinerLookAndFeel");
         substanceVariants.put("officesilver",
-                              "org.pushingpixels.substance.api.skin.SubstanceOfficeSilver2007LookAndFeel");
+                "org.pushingpixels.substance.api.skin.SubstanceOfficeSilver2007LookAndFeel");
         substanceVariants.put("officeblue", "org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel");
         substanceVariants.put("officeblack",
-                              "org.pushingpixels.substance.api.skin.SubstanceOfficeBlack2007LookAndFeel");
+                "org.pushingpixels.substance.api.skin.SubstanceOfficeBlack2007LookAndFeel");
 
         looksVariants.put("windows", "com.jgoodies.looks.windows.WindowsLookAndFeel");
         looksVariants.put("plastic", "com.jgoodies.looks.plastic.PlasticLookAndFeel");
@@ -73,9 +73,8 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
         looksVariants.put("plasticXP", "com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
     }
 
-
     public GUIInstallData provide(Resources resources, Locales locales, DefaultVariables variables,
-                                  Housekeeper housekeeper, PlatformModelMatcher matcher)
+            Housekeeper housekeeper, PlatformModelMatcher matcher)
             throws Exception
     {
         final GUIInstallData guiInstallData = new GUIInstallData(variables, matcher.getCurrentPlatform());
@@ -135,23 +134,23 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
         boolean useLabelIcons = true;
         if (installData.guiPrefs.modifier.containsKey(MODIFIER_USE_LABEL_ICONS)
                 && "no".equalsIgnoreCase(installData.guiPrefs.modifier
-                                                 .get(MODIFIER_USE_LABEL_ICONS)))
+                        .get(MODIFIER_USE_LABEL_ICONS)))
         {
             useLabelIcons = false;
         }
         LabelFactory.setUseLabelIcons(useLabelIcons);
         if (installData.guiPrefs.modifier.containsKey(MODIFIER_LABEL_FONT_SIZE))
         {  //'labelFontSize' modifier found in 'guiprefs'
-            final String valStr =
-                    installData.guiPrefs.modifier.get(MODIFIER_LABEL_FONT_SIZE);
+            final String valStr
+                    = installData.guiPrefs.modifier.get(MODIFIER_LABEL_FONT_SIZE);
             try
             {      //parse value and enter as label-font-size multiplier:
                 LabelFactory.setLabelFontSize(Float.parseFloat(valStr));
             }
             catch (NumberFormatException ex)
             {      //error parsing value; log message
-                logger.warning("Error parsing guiprefs '"+MODIFIER_LABEL_FONT_SIZE+"' value (" +
-                                       valStr + ')');
+                LOGGER.warning("Error parsing guiprefs '" + MODIFIER_LABEL_FONT_SIZE + "' value ("
+                        + valStr + ')');
             }
         }
 
@@ -178,19 +177,25 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
             ButtonFactory.useButtonIcons(useButtonIcons);
             installData.buttonsHColor = new Color(255, 255, 255);
             @SuppressWarnings("unchecked")
-			Class<LookAndFeel> lafClass = (Class<LookAndFeel>) Class.forName(
+            Class<LookAndFeel> lafClass = (Class<LookAndFeel>) Class.forName(
                     "com.incors.plaf.kunststoff.KunststoffLookAndFeel");
             @SuppressWarnings("unchecked")
-			Class<MetalTheme> mtheme = (Class<MetalTheme>) Class.forName("javax.swing.plaf.metal.MetalTheme");
-            Class[] params = {mtheme};
+            Class<MetalTheme> mtheme = (Class<MetalTheme>) Class.forName("javax.swing.plaf.metal.MetalTheme");
+            Class[] params =
+            {
+                mtheme
+            };
             @SuppressWarnings("unchecked")
-			Class<IzPackKMetalTheme> theme = (Class<IzPackKMetalTheme>) Class.forName("com.izforge.izpack.gui.IzPackKMetalTheme");
+            Class<IzPackKMetalTheme> theme = (Class<IzPackKMetalTheme>) Class.forName("com.izforge.izpack.gui.IzPackKMetalTheme");
             Method setCurrentThemeMethod = lafClass.getMethod("setCurrentTheme", params);
 
             // We invoke and place Kunststoff as our L&F
             LookAndFeel kunststoff = lafClass.newInstance();
             MetalTheme ktheme = theme.newInstance();
-            Object[] kparams = {ktheme};
+            Object[] kparams =
+            {
+                ktheme
+            };
             UIManager.setLookAndFeel(kunststoff);
             setCurrentThemeMethod.invoke(kunststoff, kparams);
             return;
@@ -259,19 +264,24 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
             {
                 variant = substanceVariants.get("default");
             }
-            logger.info("Using laf " + variant);
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                  try {
-                      UIManager.setLookAndFeel(variant);
-                      UIManager.getLookAndFeelDefaults().put("ClassLoader", JPanel.class.getClassLoader());
-                      checkSubstanceLafLoaded();
-                  } catch (Exception e) {
-                      logger.log(Level.SEVERE, "Error loading Substance look and feel: " + e.getMessage(), e);
-                    System.out.println("Substance Graphite failed to initialize");
-                  }
+            LOGGER.info("Using laf " + variant);
+            SwingUtilities.invokeLater(new Runnable()
+            {
+                public void run()
+                {
+                    try
+                    {
+                        UIManager.setLookAndFeel(variant);
+                        UIManager.getLookAndFeelDefaults().put("ClassLoader", JPanel.class.getClassLoader());
+                        checkSubstanceLafLoaded();
+                    }
+                    catch (Exception e)
+                    {
+                        LOGGER.log(Level.SEVERE, "Error loading Substance look and feel: " + e.getMessage(), e);
+                        System.out.println("Substance Graphite failed to initialize");
+                    }
                 }
-              });
+            });
         }
     }
 
@@ -283,9 +293,9 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
         ClassLoader classLoader = (cl != null) ? cl : JPanel.class.getClassLoader();
         Class aClass = (Class) defaults.get(uiClassName);
 
-        logger.fine("PanelUI: " + uiClassName);
-        logger.fine("ClassLoader: " + classLoader);
-        logger.fine("Cached class: " + aClass);
+        LOGGER.fine("PanelUI: " + uiClassName);
+        LOGGER.fine("ClassLoader: " + classLoader);
+        LOGGER.fine("Cached class: " + aClass);
         if (aClass != null)
         {
             return;
@@ -293,23 +303,23 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
 
         if (classLoader == null)
         {
-            logger.fine("Using system loader to load " + uiClassName);
+            LOGGER.fine("Using system loader to load " + uiClassName);
             aClass = Class.forName(uiClassName, true, Thread.currentThread().getContextClassLoader());
-            logger.fine("Done loading");
+            LOGGER.fine("Done loading");
         }
         else
         {
-            logger.fine("Using custom loader to load " + uiClassName);
+            LOGGER.fine("Using custom loader to load " + uiClassName);
             aClass = classLoader.loadClass(uiClassName);
-            logger.fine("Done loading");
+            LOGGER.fine("Done loading");
         }
         if (aClass != null)
         {
-            logger.fine("Loaded class: " + aClass.getName());
+            LOGGER.fine("Loaded class: " + aClass.getName());
         }
         else
         {
-            logger.fine("Couldn't load the class");
+            LOGGER.fine("Couldn't load the class");
         }
     }
 

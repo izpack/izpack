@@ -18,13 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.panel;
 
 import com.izforge.izpack.api.data.Panel;
 
 import java.util.List;
-
 
 /**
  * Manages navigation between panels.
@@ -58,7 +56,8 @@ public interface Panels
     /**
      * Returns the current panel index.
      *
-     * @return the current panel index, or {@code -1} if there is no current panel
+     * @return the current panel index, or {@code -1} if there is no current
+     * panel
      */
     int getIndex();
 
@@ -81,7 +80,8 @@ public interface Panels
     /**
      * Navigates to the next panel.
      *
-     * @param validate if {@code true}, only move to the next panel if validation succeeds
+     * @param validate if {@code true}, only move to the next panel if
+     * validation succeeds
      * @return {@code true} if the next panel was navigated to
      */
     boolean next(boolean validate);
@@ -112,7 +112,7 @@ public interface Panels
     /**
      * Determines if there is another panel after the specified index.
      *
-     * @param index       the panel index
+     * @param index the panel index
      * @param visibleOnly if {@code true}, only examine visible panels
      * @return the next panel index, or {@code -1} if there are no more panels
      */
@@ -129,9 +129,10 @@ public interface Panels
     /**
      * Determines if there is another panel prior to the specified index.
      *
-     * @param index       the panel index
+     * @param index the panel index
      * @param visibleOnly if {@code true}, only examine visible panels
-     * @return the previous panel index, or {@code -1} if there are no more panels
+     * @return the previous panel index, or {@code -1} if there are no more
+     * panels
      */
     int getPrevious(int index, boolean visibleOnly);
 
@@ -139,7 +140,8 @@ public interface Panels
      * Determines if there is another panel prior to the current index.
      *
      * @param visibleOnly if {@code true}, only examine visible panels
-     * @return the previous panel index, or {@code -1} if there are no more panels
+     * @return the previous panel index, or {@code -1} if there are no more
+     * panels
      */
     int getPrevious(boolean visibleOnly);
 

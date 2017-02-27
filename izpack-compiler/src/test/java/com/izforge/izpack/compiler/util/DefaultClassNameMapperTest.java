@@ -73,7 +73,6 @@ public class DefaultClassNameMapperTest
      */
     private ClassNameMapper mapper;
 
-
     /**
      * Default constructor.
      */
@@ -83,7 +82,8 @@ public class DefaultClassNameMapperTest
     }
 
     /**
-     * Tests the mapping of installer listener simple names to their fully qualified names.
+     * Tests the mapping of installer listener simple names to their fully
+     * qualified names.
      */
     @Test
     public void testInstallerListeners()
@@ -97,7 +97,8 @@ public class DefaultClassNameMapperTest
     }
 
     /**
-     * Tests the mapping of uninstaller listener simple names to their fully qualified names.
+     * Tests the mapping of uninstaller listener simple names to their fully
+     * qualified names.
      */
     @Test
     public void testUninstallerListeners()
@@ -108,7 +109,8 @@ public class DefaultClassNameMapperTest
     }
 
     /**
-     * Tests the mapping of validator simple names to their fully qualified names.
+     * Tests the mapping of validator simple names to their fully qualified
+     * names.
      */
     @Test
     public void testValidators()
@@ -122,7 +124,8 @@ public class DefaultClassNameMapperTest
     }
 
     /**
-     * Tests the mapping of processor simple names to their fully qualified names.
+     * Tests the mapping of processor simple names to their fully qualified
+     * names.
      */
     @Test
     public void testProcessors()

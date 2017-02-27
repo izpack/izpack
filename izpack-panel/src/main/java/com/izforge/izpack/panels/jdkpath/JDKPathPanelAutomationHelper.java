@@ -10,6 +10,7 @@ import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 
 public class JDKPathPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation
 {
+
     @Override
     public void createInstallationRecord(InstallData installData, IXMLElement rootElement)
     {
@@ -38,5 +39,7 @@ public class JDKPathPanelAutomationHelper extends PanelAutomationHelper implemen
     }
 
     @Override
-    public void processOptions(InstallData installData, Overrides overrides) {}
+    public void processOptions(InstallData installData, Overrides overrides)
+    {
+    }
 }

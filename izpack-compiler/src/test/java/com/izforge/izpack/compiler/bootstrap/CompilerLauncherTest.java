@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.bootstrap;
 
 import com.izforge.izpack.compiler.Compiler;
@@ -29,9 +28,6 @@ import com.izforge.izpack.compiler.stream.JarOutputStream;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 import org.hamcrest.core.IsNull;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -39,7 +35,6 @@ import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -52,6 +47,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @Container(CompilerContainer.class)
 public class CompilerLauncherTest
 {
+
     private CompilerContainer compilerContainer;
 
     public CompilerLauncherTest(CompilerContainer compilerContainer)
@@ -90,7 +86,10 @@ public class CompilerLauncherTest
     @Test
     public void testCompilerBinding() throws Exception
     {
-        compilerContainer.processCompileDataFromArgs(new String[]{"bindingTest.xml"});
+        compilerContainer.processCompileDataFromArgs(new String[]
+        {
+            "bindingTest.xml"
+        });
         Compiler compiler = compilerContainer.getComponent(Compiler.class);
         assertThat(compiler, IsNull.notNullValue());
     }
@@ -114,7 +113,10 @@ public class CompilerLauncherTest
     @Test
     public void testCompilerConfigBinding() throws Exception
     {
-        compilerContainer.processCompileDataFromArgs(new String[]{"bindingTest.xml"});
+        compilerContainer.processCompileDataFromArgs(new String[]
+        {
+            "bindingTest.xml"
+        });
         CompilerData data = compilerContainer.getComponent(CompilerData.class);
         assertThat(data, IsNull.notNullValue());
         CompilerConfig compiler = compilerContainer.getComponent(CompilerConfig.class);

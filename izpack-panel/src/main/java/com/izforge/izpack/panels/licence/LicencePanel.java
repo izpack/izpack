@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.licence;
 
 import com.izforge.izpack.api.GuiId;
@@ -41,6 +40,7 @@ import java.awt.event.KeyListener;
  */
 public class LicencePanel extends AbstractLicencePanel implements ActionListener
 {
+
     private static final long serialVersionUID = 3691043187997552948L;
 
     /**
@@ -52,20 +52,20 @@ public class LicencePanel extends AbstractLicencePanel implements ActionListener
     /**
      * Constructs a <tt>LicencePanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public LicencePanel(Panel panel, final InstallerFrame parent, GUIInstallData installData, Resources resources,
-                        Log log)
+            Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
 
         // We put our components
         add(LabelFactory.create(getString("LicencePanel.info"),
-                                parent.getIcons().get("history"), LEADING), NEXT_LINE);
+                parent.getIcons().get("history"), LEADING), NEXT_LINE);
 
         JTextArea textArea = new JTextArea(loadLicenceAsString());
         textArea.setName(GuiId.LICENCE_TEXT_AREA.id);
@@ -91,7 +91,7 @@ public class LicencePanel extends AbstractLicencePanel implements ActionListener
             }
         };
         textArea.registerKeyboardAction(fireDefault, null, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
-                                        JComponent.WHEN_FOCUSED);
+                JComponent.WHEN_FOCUSED);
 
         ButtonGroup group = new ButtonGroup();
 
@@ -104,9 +104,9 @@ public class LicencePanel extends AbstractLicencePanel implements ActionListener
         {
             @Override
             public void keyTyped(KeyEvent e)
-            { 
+            {
             }
-            
+
             @Override
             public void keyReleased(KeyEvent e)
             {
@@ -119,9 +119,10 @@ public class LicencePanel extends AbstractLicencePanel implements ActionListener
                     parent.lockNextButton();
                 }
             }
-            
+
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(KeyEvent e)
+            {
             }
         });
 
@@ -134,9 +135,9 @@ public class LicencePanel extends AbstractLicencePanel implements ActionListener
         {
             @Override
             public void keyTyped(KeyEvent e)
-            { 
+            {
             }
-            
+
             @Override
             public void keyReleased(KeyEvent e)
             {
@@ -149,9 +150,10 @@ public class LicencePanel extends AbstractLicencePanel implements ActionListener
                     parent.lockNextButton();
                 }
             }
-            
+
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(KeyEvent e)
+            {
             }
         });
 
@@ -175,7 +177,7 @@ public class LicencePanel extends AbstractLicencePanel implements ActionListener
             parent.lockNextButton();
         }
     }
-    
+
     /**
      * Indicates wether the panel has been validated or not.
      *

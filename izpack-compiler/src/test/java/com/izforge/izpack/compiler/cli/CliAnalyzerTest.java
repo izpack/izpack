@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.cli;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,6 +33,7 @@ import com.izforge.izpack.compiler.data.CompilerData;
  */
 public class CliAnalyzerTest
 {
+
     private CliAnalyzer analyzer;
 
     @Before
@@ -45,28 +45,39 @@ public class CliAnalyzerTest
     @Test(expected = RuntimeException.class)
     public void voidArgumentShouldThrowRuntimeException() throws Exception
     {
-        analyzer.parseArgs(new String[]{});
+        analyzer.parseArgs(new String[]
+        {
+        });
     }
 
     @Test
     public void fileNameShouldBeParsed() throws Exception
     {
-        CompilerData data = analyzer.parseArgs(new String[]{"myInstall.xml"});
+        CompilerData data = analyzer.parseArgs(new String[]
+        {
+            "myInstall.xml"
+        });
         assertThat(data.getInstallFile(), Is.is("myInstall.xml"));
     }
 
     @Test
     public void homeDirShouldBeParsed() throws Exception
     {
-        CompilerData data = analyzer.parseArgs(new String[]{"myInstall.xml", "-h/mon/che min/"});
+        CompilerData data = analyzer.parseArgs(new String[]
+        {
+            "myInstall.xml", "-h/mon/che min/"
+        });
         assertThat(data.getInstallFile(), Is.is("myInstall.xml"));
-        assertThat(CompilerData.IZPACK_HOME, Is.is("/mon/che min/"));
+        assertThat(CompilerData.izpackHome, Is.is("/mon/che min/"));
     }
 
     @Test
     public void baseDirShouldBeParsed() throws Exception
     {
-        CompilerData data = analyzer.parseArgs(new String[]{"myInstall.xml", "-b/mon/che min/"});
+        CompilerData data = analyzer.parseArgs(new String[]
+        {
+            "myInstall.xml", "-b/mon/che min/"
+        });
         assertThat(data.getInstallFile(), Is.is("myInstall.xml"));
         assertThat(data.getBasedir(), Is.is("/mon/che min/"));
     }
@@ -74,7 +85,10 @@ public class CliAnalyzerTest
     @Test
     public void multipleOptionShouldBeParsed() throws Exception
     {
-        CompilerData data = analyzer.parseArgs(new String[]{"myInstall.xml", "-b/mon/che min/", "-k web", "-o graou.jar"});
+        CompilerData data = analyzer.parseArgs(new String[]
+        {
+            "myInstall.xml", "-b/mon/che min/", "-k web", "-o graou.jar"
+        });
         assertThat(data.getInstallFile(), Is.is("myInstall.xml"));
         assertThat(data.getBasedir(), Is.is("/mon/che min/"));
         assertThat(data.getKind(), Is.is("web"));

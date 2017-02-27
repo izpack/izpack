@@ -22,7 +22,6 @@ package com.izforge.izpack.installer.gui;
 
 import javax.swing.Icon;
 
-
 /**
  * Panel navigator.
  *
@@ -48,7 +47,8 @@ public interface Navigator
     /**
      * Makes the 'next' button visible or invisible.
      *
-     * @param visible if {@code true} makes the button visible, otherwise makes it invisible.
+     * @param visible if {@code true} makes the button visible, otherwise makes
+     * it invisible.
      */
     void setNextVisible(boolean visible);
 
@@ -83,7 +83,8 @@ public interface Navigator
     /**
      * Makes the 'previous' button visible/invisible.
      *
-     * @param visible if {@code true} makes the button visible, otherwise makes it invisible.
+     * @param visible if {@code true} makes the button visible, otherwise makes
+     * it invisible.
      */
     void setPreviousVisible(boolean visible);
 
@@ -118,7 +119,8 @@ public interface Navigator
     /**
      * Makes the 'quit' button visible/invisible.
      *
-     * @param visible if {@code true} makes the button visible, otherwise makes it invisible.
+     * @param visible if {@code true} makes the button visible, otherwise makes
+     * it invisible.
      */
     void setQuitVisible(boolean visible);
 
@@ -139,14 +141,16 @@ public interface Navigator
     /**
      * Navigates to the next panel.
      *
-     * @return {@code true} if the next panel was displayed, or {@code false} if the last panel is displayed
+     * @return {@code true} if the next panel was displayed, or {@code false} if
+     * the last panel is displayed
      */
     boolean next();
 
     /**
      * Navigates to the previous panel.
      *
-     * @return {@code true} if the previous panel was displayed, or {@code false} if the first panel is displayed
+     * @return {@code true} if the previous panel was displayed, or
+     * {@code false} if the first panel is displayed
      */
     boolean previous();
 

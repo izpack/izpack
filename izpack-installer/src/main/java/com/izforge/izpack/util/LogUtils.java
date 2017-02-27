@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import com.izforge.izpack.api.data.Variables;
@@ -32,10 +31,11 @@ import java.util.logging.*;
  */
 public class LogUtils
 {
+
     private static final String LOGGING_CONFIGURATION = "/com/izforge/izpack/installer/logging/logging.properties";
 
-    private static final boolean OVERRIDE =
-            System.getProperty("java.util.logging.config.class") == null
+    private static final boolean OVERRIDE
+            = System.getProperty("java.util.logging.config.class") == null
             && System.getProperty("java.util.logging.config.file") == null;
 
     public static void loadConfiguration() throws IOException
@@ -67,8 +67,8 @@ public class LogUtils
                 {
                     is = variables != null
                             ? new VariableSubstitutorInputStream(
-                            resourceStream, null,
-                            variables, SubstitutionType.TYPE_JAVA_PROPERTIES, false)
+                                    resourceStream, null,
+                                    variables, SubstitutionType.TYPE_JAVA_PROPERTIES, false)
                             : resourceStream;
                     final Properties props = new Properties();
                     props.load(is);
@@ -124,25 +124,24 @@ public class LogUtils
             final PipedInputStream in = new PipedInputStream(out);
             try
             {
-                new Thread(
-                        new Runnable()
+                new Thread(new Runnable()
+                {
+                    public void run()
+                    {
+                        try
                         {
-                            public void run()
-                            {
-                                try
-                                {
-                                    configuration.store(out, null);
-                                }
-                                catch (IOException e)
-                                {
-                                    e.printStackTrace();
-                                }
-                                finally
-                                {
-                                    IOUtils.closeQuietly(out);
-                                }
-                            }
+                            configuration.store(out, null);
                         }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        finally
+                        {
+                            IOUtils.closeQuietly(out);
+                        }
+                    }
+                }
                 ).start();
 
                 manager.readConfiguration(in);
@@ -155,7 +154,10 @@ public class LogUtils
             setStandardLevel(Logger.getLogger(""));
 
             // Default excludes
-            for (String prefix : new String[]{"sun.awt", "java.awt", "javax.swing"})
+            for (String prefix : new String[]
+            {
+                "sun.awt", "java.awt", "javax.swing"
+            })
             {
                 setStandardLevel(Logger.getLogger(prefix), Level.INFO);
             }
@@ -183,7 +185,7 @@ public class LogUtils
 
     private static void setStandardLevel(Logger logger)
     {
-        setStandardLevel(logger, Debug.isDEBUG() ? Level.FINE : Level.INFO);
+        setStandardLevel(logger, Debug.isDebug() ? Level.FINE : Level.INFO);
     }
 
     private static void setStandardLevel(Logger logger, Level defaultLevel)

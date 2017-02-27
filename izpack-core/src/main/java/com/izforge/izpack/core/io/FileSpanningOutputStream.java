@@ -15,7 +15,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.izforge.izpack.core.io;
 
 import java.io.File;
@@ -28,8 +27,9 @@ import java.util.logging.Logger;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * An <tt>OutputStream</tt> which transparently spans over multiple volumes. The size of the volumes and an
- * additional space for the first volume can be specified.
+ * An <tt>OutputStream</tt> which transparently spans over multiple volumes. The
+ * size of the volumes and an additional space for the first volume can be
+ * specified.
  *
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  * @author Tim Anderson
@@ -53,12 +53,14 @@ public class FileSpanningOutputStream extends OutputStream
     public static final long DEFAULT_VOLUME_SIZE = 650 * MB;
 
     /**
-     * The no. of bytes allocated to the magic number written at the start of each volume.
+     * The no. of bytes allocated to the magic number written at the start of
+     * each volume.
      */
     protected static final int MAGIC_NUMBER_LENGTH = 10;
 
     /**
-     * The minimum volume size. Need to be able to fit at least MAGIC_NUMBER_LENGTH + 1 bytes per volume.
+     * The minimum volume size. Need to be able to fit at least
+     * MAGIC_NUMBER_LENGTH + 1 bytes per volume.
      */
     private static final int MIN_VOLUME_SIZE = MAGIC_NUMBER_LENGTH + 1;
 
@@ -80,19 +82,20 @@ public class FileSpanningOutputStream extends OutputStream
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(FileSpanningOutputStream.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(FileSpanningOutputStream.class.getName());
 
     /**
-     * Constructs a <tt>FileSpanningOutputStream</tt> with specified initial volume path, a maximum size for the first
-     * volume, and a maximum volume size for all subsequent volumes.
+     * Constructs a <tt>FileSpanningOutputStream</tt> with specified initial
+     * volume path, a maximum size for the first volume, and a maximum volume
+     * size for all subsequent volumes.
      * <p/>
-     * The <tt>maxFirstVolumeSize</tt> argument may be used to specify a different maximum volume size for the first
-     * volume; this is useful to leave space on media for other files.
+     * The <tt>maxFirstVolumeSize</tt> argument may be used to specify a
+     * different maximum volume size for the first volume; this is useful to
+     * leave space on media for other files.
      *
-     * @param volumePath         the path to the first volume
+     * @param volumePath the path to the first volume
      * @param maxFirstVolumeSize the maximum size of the first volume
-     * @param maxVolumeSize      the maximum volume size for subsequent volumes
+     * @param maxVolumeSize the maximum volume size for subsequent volumes
      * @throws IOException for any I/O error
      */
     public FileSpanningOutputStream(String volumePath, long maxFirstVolumeSize, long maxVolumeSize) throws IOException
@@ -101,9 +104,10 @@ public class FileSpanningOutputStream extends OutputStream
     }
 
     /**
-     * Constructs a <tt>FileSpanningOutputStream</tt> with specified initial volume and a maximum volume size.
+     * Constructs a <tt>FileSpanningOutputStream</tt> with specified initial
+     * volume and a maximum volume size.
      *
-     * @param volume        the first volume
+     * @param volume the first volume
      * @param maxVolumeSize the maximum volume size
      * @throws IOException for any I/O error
      */
@@ -113,15 +117,17 @@ public class FileSpanningOutputStream extends OutputStream
     }
 
     /**
-     * Constructs a <tt>FileSpanningOutputStream</tt> with specified initial volume, a maximum size for the first
-     * volume, and a maximum volume size for all subsequent volumes.
+     * Constructs a <tt>FileSpanningOutputStream</tt> with specified initial
+     * volume, a maximum size for the first volume, and a maximum volume size
+     * for all subsequent volumes.
      * <p/>
-     * The <tt>maxFirstVolumeSize</tt> argument may be used to specify a different maximum volume size for the first
-     * volume; this is useful to leave space on media for other files.
+     * The <tt>maxFirstVolumeSize</tt> argument may be used to specify a
+     * different maximum volume size for the first volume; this is useful to
+     * leave space on media for other files.
      *
-     * @param volume             the first volume
+     * @param volume the first volume
      * @param maxFirstVolumeSize the maximum size of the first volume
-     * @param maxVolumeSize      the maximum volume size for subsequent volumes
+     * @param maxVolumeSize the maximum volume size for subsequent volumes
      * @throws IOException for any I/O error
      */
     public FileSpanningOutputStream(File volume, long maxFirstVolumeSize, long maxVolumeSize) throws IOException
@@ -227,11 +233,14 @@ public class FileSpanningOutputStream extends OutputStream
     }
 
     /**
-     * The <tt>SpanningOutputStream</tt> sits between the <tt>GZIPOutputStream</tt> and the volume
-     * <tt>FileOutputStream</tt>. When a volume fills, it is closed and a new one opened and written to.
+     * The <tt>SpanningOutputStream</tt> sits between the
+     * <tt>GZIPOutputStream</tt> and the volume
+     * <tt>FileOutputStream</tt>. When a volume fills, it is closed and a new
+     * one opened and written to.
      */
     private static class SpanningOutputStream extends ByteCountingOutputStream
     {
+
         /**
          * The maximum size of each volume.
          */
@@ -257,13 +266,12 @@ public class FileSpanningOutputStream extends OutputStream
          */
         private final long maxFirstVolumeSize;
 
-
         /**
          * Constructs a <tt>SpanningOutputStream</tt>.
          *
-         * @param volume             the first volume
+         * @param volume the first volume
          * @param maxFirstVolumeSize the maximum size of the first volume
-         * @param maxVolumeSize      the maximum volume size for subsequent volumes
+         * @param maxVolumeSize the maximum volume size for subsequent volumes
          * @throws IOException for any I/O error
          */
         public SpanningOutputStream(File volume, long maxFirstVolumeSize, long maxVolumeSize) throws IOException
@@ -300,7 +308,7 @@ public class FileSpanningOutputStream extends OutputStream
             {
                 // there's not enough space available, so write as much as possible, create the next volume, and
                 // call this recursively
-                logger.fine("Not enough space left on volume. (available: " + available + ")");
+                LOGGER.fine("Not enough space left on volume. (available: " + available + ")");
                 if (available > 0)
                 {
                     super.write(b, off, (int) available);
@@ -362,8 +370,9 @@ public class FileSpanningOutputStream extends OutputStream
         /**
          * Initialises the volume.
          * <p/>
-         * This writes a random byte array at the start of the volume. Each volume in the collection will have the same
-         * bytes at the start, to detect an incorrect volume being used when read back in.
+         * This writes a random byte array at the start of the volume. Each
+         * volume in the collection will have the same bytes at the start, to
+         * detect an incorrect volume being used when read back in.
          *
          * @throws IOException
          */
@@ -393,9 +402,9 @@ public class FileSpanningOutputStream extends OutputStream
             byte[] result = new byte[MAGIC_NUMBER_LENGTH];
             Random random = new Random();
             random.nextBytes(result);
-            if (logger.isLoggable(Level.FINE))
+            if (LOGGER.isLoggable(Level.FINE))
             {
-                logger.fine("Created new magic number for SpanningOutputStream: " + formatMagic(magic));
+                LOGGER.fine("Created new magic number for SpanningOutputStream: " + formatMagic(magic));
             }
             return result;
         }

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.container;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
@@ -28,7 +27,6 @@ import com.izforge.izpack.test.util.TestHousekeeper;
 import com.izforge.izpack.util.Housekeeper;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.injectors.ProviderAdapter;
-
 
 /**
  * Test installer container for automated installation mode.

@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.install;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -57,7 +56,9 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
     }
 
     @Override
-    public void createInstallationRecord(InstallData idata, IXMLElement panelRoot) {}
+    public void createInstallationRecord(InstallData idata, IXMLElement panelRoot)
+    {
+    }
 
     @Override
     public void runAutomated(InstallData idata, IXMLElement panelRoot) throws InstallerException
@@ -80,10 +81,10 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
     }
 
     @Override
-    public void startAction(String name, int no_of_steps)
+    public void startAction(String name, int noOfSteps)
     {
         System.out.println("[ Starting to unpack ]");
-        this.noOfPacks = no_of_steps;
+        this.noOfPacks = noOfSteps;
     }
 
     @Override
@@ -109,7 +110,7 @@ public class InstallPanelAutomationHelper extends PanelAutomationHelper implemen
     }
 
     @Override
-    public void setSubStepNo(int no_of_substeps)
+    public void setSubStepNo(int noOfSubsteps)
     {
         // not used here
     }

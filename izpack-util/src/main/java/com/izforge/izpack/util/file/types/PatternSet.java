@@ -14,7 +14,6 @@
  *  limitations under the License.
  *
  */
-
 package com.izforge.izpack.util.file.types;
 
 import java.util.StringTokenizer;
@@ -23,21 +22,24 @@ import java.util.Vector;
 /**
  * Named collection of include/exclude tags.
  * <p/>
- * <p>Moved out of MatchingTask to make it a standalone object that
- * could be referenced (by scripts for example).
+ * <p>
+ * Moved out of MatchingTask to make it a standalone object that could be
+ * referenced (by scripts for example).
  */
 public class PatternSet extends DataType implements Cloneable
 {
+
     private Vector<NameEntry> includeList = new Vector<NameEntry>();
     private Vector<NameEntry> excludeList = new Vector<NameEntry>();
 
     /**
-     * inner class to hold a name on list.  "If" and "Unless" attributes
-     * may be used to invalidate the entry based on the existence of a
-     * property (typically set thru the use of the Available task).
+     * inner class to hold a name on list. "If" and "Unless" attributes may be
+     * used to invalidate the entry based on the existence of a property
+     * (typically set thru the use of the Available task).
      */
     public class NameEntry
     {
+
         private String name;
         private String ifCond;
         private String unlessCond;
@@ -53,12 +55,11 @@ public class PatternSet extends DataType implements Cloneable
         }
 
         /**
-         * Sets the if attribute. This attribute and the "unless"
-         * attribute are used to validate the name, based in the
-         * existence of the property.
+         * Sets the if attribute. This attribute and the "unless" attribute are
+         * used to validate the name, based in the existence of the property.
          *
-         * @param cond A property name. If this property is not
-         *             present, the name is invalid.
+         * @param cond A property name. If this property is not present, the
+         * name is invalid.
          */
         public void setIf(String cond)
         {
@@ -66,12 +67,11 @@ public class PatternSet extends DataType implements Cloneable
         }
 
         /**
-         * Sets the unless attribute. This attribute and the "if"
-         * attribute are used to validate the name, based in the
-         * existence of the property.
+         * Sets the unless attribute. This attribute and the "if" attribute are
+         * used to validate the name, based in the existence of the property.
          *
-         * @param cond A property name. If this property is
-         *             present, the name is invalid.
+         * @param cond A property name. If this property is present, the name is
+         * invalid.
          */
         public void setUnless(String cond)
         {
@@ -225,7 +225,7 @@ public class PatternSet extends DataType implements Cloneable
      * Adds the patterns of the other instance to this set.
      *
      * @param other the other PatternSet instance.
-     * @param p     the current project.
+     * @param p the current project.
      */
     public void append(PatternSet other/*, Project p*/)
     {
@@ -289,12 +289,13 @@ public class PatternSet extends DataType implements Cloneable
         }
 
         Vector<String> tmpNames = new Vector<String>();
-        for (NameEntry ne : list) {
-          String pattern = ne.getName();
-          if (pattern != null && pattern.length() > 0)
-          {
-              tmpNames.addElement(pattern);
-          }
+        for (NameEntry ne : list)
+        {
+            String pattern = ne.getName();
+            if (pattern != null && pattern.length() > 0)
+            {
+                tmpNames.addElement(pattern);
+            }
         }
 
         String[] result = new String[tmpNames.size()];

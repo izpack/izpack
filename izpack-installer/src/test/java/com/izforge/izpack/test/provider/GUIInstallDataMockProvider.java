@@ -18,7 +18,6 @@
  */
 package com.izforge.izpack.test.provider;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Locales;
@@ -37,7 +36,7 @@ public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider
      * Provides an {@link GUIInstallData}.
      *
      * @param variables the variables
-     * @param locales   the locales
+     * @param locales the locales
      * @return an {@link GUIInstallData}
      * @throws IOException if the default messages cannot be found
      */

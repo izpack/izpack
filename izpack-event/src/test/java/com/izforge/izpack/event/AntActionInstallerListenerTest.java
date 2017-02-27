@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.event;
-
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
@@ -88,7 +86,6 @@ public class AntActionInstallerListenerTest
      */
     private Resources resources;
 
-
     /**
      * Sets up the test case.
      *
@@ -108,7 +105,7 @@ public class AntActionInstallerListenerTest
 
         // copy build.xml to the install dir, so that the listener can find it
         IOUtils.copy(getClass().getResourceAsStream("/com/izforge/izpack/event/ant/build.xml"),
-                            new FileOutputStream(new File(installDir, "build.xml")));
+                new FileOutputStream(new File(installDir, "build.xml")));
 
         resources = Mockito.mock(Resources.class);
         InputStream specStream = getClass().getResourceAsStream("/com/izforge/izpack/event/ant/AntActionsSpec.xml");
@@ -130,7 +127,7 @@ public class AntActionInstallerListenerTest
         UninstallData uninstallData = new UninstallData();
         ProgressNotifiers notifiers = new ProgressNotifiersImpl();
         AntActionInstallerListener listener = new AntActionInstallerListener(replacer, resources, installData,
-                                                                             uninstallData, notifiers);
+                uninstallData, notifiers);
         listener.initialise();
 
         // Verify that when the beforePacks method is invoked, the corresponding Ant target is called.

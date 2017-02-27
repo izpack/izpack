@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.radio;
 
 import java.awt.event.ActionEvent;
@@ -38,7 +37,6 @@ import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.radio.RadioField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 
-
 /**
  * Radio field view.
  *
@@ -46,6 +44,7 @@ import com.izforge.izpack.panels.userinput.gui.GUIField;
  */
 public class GUIRadioField extends GUIField implements ActionListener
 {
+
     /**
      * The choices.
      */
@@ -56,7 +55,7 @@ public class GUIRadioField extends GUIField implements ActionListener
     /**
      * Constructs a {@code GUIRadioField}.
      *
-     * @param field       the field
+     * @param field the field
      */
     public GUIRadioField(RadioField field)
     {
@@ -84,7 +83,8 @@ public class GUIRadioField extends GUIField implements ActionListener
             button.setText(choice.getValue());
             button.addActionListener(this);
 
-            button.addItemListener(new ItemListener() {
+            button.addItemListener(new ItemListener()
+            {
 
                 @Override
                 public void itemStateChanged(ItemEvent e)
@@ -127,15 +127,17 @@ public class GUIRadioField extends GUIField implements ActionListener
     @Override
     public RadioField getField()
     {
-       return (RadioField) super.getField();
+        return (RadioField) super.getField();
     }
 
     /**
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)
@@ -205,6 +207,7 @@ public class GUIRadioField extends GUIField implements ActionListener
      */
     private class RadioChoiceView
     {
+
         private Choice choice;
 
         private JRadioButton button;
@@ -248,7 +251,7 @@ public class GUIRadioField extends GUIField implements ActionListener
                 if (selected)
                 {
                     radioButton.setSelected(true);
-               }
+                }
             }
             else
             {

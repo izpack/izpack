@@ -18,11 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field.search;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.Field;
 
 import java.io.File;
@@ -31,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-
 /**
  * Search field.
  *
@@ -39,7 +36,8 @@ import java.util.logging.Logger;
  */
 public class SearchField extends Field
 {
-    private static final Logger logger = Logger.getLogger(SearchField.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(SearchField.class.getName());
 
     private final InstallData installData;
     /**
@@ -75,7 +73,7 @@ public class SearchField extends Field
     /**
      * Constructs a {@code SearchField}.
      *
-     * @param config      the field configuration
+     * @param config the field configuration
      * @param installData the installation data
      * @throws IzPackException if the field cannot be read
      */
@@ -94,7 +92,8 @@ public class SearchField extends Field
     /**
      * Returns the name of the file to search for.
      *
-     * @return the name of the file to search for. May be {@code null} if searching for directories
+     * @return the name of the file to search for. May be {@code null} if
+     * searching for directories
      */
     public String getFilename()
     {
@@ -104,8 +103,8 @@ public class SearchField extends Field
     /**
      * Returns the filename to check the existence of.
      * <p/>
-     * This is used when searching for directories; the file name is appended to a directory to determine if
-     * the correct directory has been located.
+     * This is used when searching for directories; the file name is appended to
+     * a directory to determine if the correct directory has been located.
      *
      * @return the filename to to check the existence of. May be {@code null}
      */
@@ -135,10 +134,9 @@ public class SearchField extends Field
     }
 
     /**
-     * Returns the search choices.
-     * Checks whether a placeholder item is in the combobox and resolve the paths automatically:
-     * /usr/lib/&#42; searches all folders in usr/lib to find
-     * /usr/lib/&#42;/lib/tools.jar
+     * Returns the search choices. Checks whether a placeholder item is in the
+     * combobox and resolve the paths automatically: /usr/lib/&#42; searches all
+     * folders in usr/lib to find /usr/lib/&#42;/lib/tools.jar
      *
      * @return the search choices
      */
@@ -148,10 +146,10 @@ public class SearchField extends Field
     }
 
     /**
-     * Returns the search choices depending on a given list of pre-selected choices.
-     * Checks whether a placeholder item is in the combobox and resolve the paths automatically:
-     * /usr/lib/&#42; searches all folders in usr/lib to find
-     * /usr/lib/&#42;/lib/tools.jar
+     * Returns the search choices depending on a given list of pre-selected
+     * choices. Checks whether a placeholder item is in the combobox and resolve
+     * the paths automatically: /usr/lib/&#42; searches all folders in usr/lib
+     * to find /usr/lib/&#42;/lib/tools.jar
      *
      * @return the search choices
      */
@@ -210,32 +208,37 @@ public class SearchField extends Field
     /*
      * UTILITIES
      */
-
     /**
      * Resolve Windows environment variables
+     *
      * @param path - eg: "%JAVA_HOME%\\bin"
      * @param env - System.getenv() (or forced config for testing)
      */
-    public static String resolveEnvValue( String path, Map<String, String> env ) {
+    public static String resolveEnvValue(String path, Map<String, String> env)
+    {
         StringBuilder str = new StringBuilder();
         int start = 0, envStart;
 
-        while( (envStart = path.indexOf('%', start)) >= 0 ) {
+        while ((envStart = path.indexOf('%', start)) >= 0)
+        {
             int end = path.indexOf('%', envStart + 1);
-            if( end < 0 ) {
+            if (end < 0)
+            {
                 break;
             }
             String envKey = path.substring(envStart + 1, end);
             String envValue = env.get(envKey); //System.getenv( envKey );
 
-            if( envStart > start ) {
-                str.append( path.substring(start, envStart) );
+            if (envStart > start)
+            {
+                str.append(path.substring(start, envStart));
             }
-            str.append( envValue );
+            str.append(envValue);
             start = end + 1;
         }
-        if( start > 0 ) {
-            str.append( path.substring(start) );
+        if (start > 0)
+        {
+            str.append(path.substring(start));
             return str.toString();
         }
 
@@ -268,19 +271,19 @@ public class SearchField extends Field
                     return true;        // no file to check for
                 }
 
-                if( file.isDirectory() )
+                if (file.isDirectory())
                 {
                     file = new File(file, checkFilename);
-                    if( !file.exists() )
+                    if (!file.exists())
                     {
-                        logger.fine(file.getAbsolutePath() + " does not exist");
+                        LOGGER.fine(file.getAbsolutePath() + " does not exist");
                         return false;
                     }
                 }
                 else
                 {
                     // Check that the file's path and name ends with "checkFilename"
-                    if( !file.getAbsolutePath().endsWith( checkFilename.replaceAll("\\\\/", File.separator) ) )
+                    if (!file.getAbsolutePath().endsWith(checkFilename.replaceAll("\\\\/", File.separator)))
                     {
                         return false;
                     }
@@ -297,8 +300,8 @@ public class SearchField extends Field
     /**
      * Return the result of the search according to result type.
      * <p/>
-     * Sometimes, the whole path of the file is wanted, sometimes only the directory where the
-     * file is in, sometimes the parent directory.
+     * Sometimes, the whole path of the file is wanted, sometimes only the
+     * directory where the file is in, sometimes the parent directory.
      *
      * @return null on error
      */

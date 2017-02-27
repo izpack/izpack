@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.container.provider;
 
 import java.io.InputStream;
@@ -48,7 +47,8 @@ import com.izforge.izpack.core.rules.RulesEngineImpl;
  */
 public class RulesProvider implements Provider
 {
-    private static final Logger logger = Logger.getLogger(RulesProvider.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(RulesProvider.class.getName());
 
     /**
      * Resource name of the conditions specification
@@ -58,14 +58,14 @@ public class RulesProvider implements Provider
     /**
      * Reads the conditions specification file and initializes the rules engine.
      *
-     * @param installData        the installation data
-     * @param variables          the variables
+     * @param installData the installation data
+     * @param variables the variables
      * @param conditionContainer the condition container
-     * @param resources          the resources
+     * @param resources the resources
      * @return a new rules engine
      */
     public RulesEngine provide(AutomatedInstallData installData, DefaultVariables variables,
-                               ConditionContainer conditionContainer, Resources resources)
+            ConditionContainer conditionContainer, Resources resources)
     {
         RulesEngine result = new RulesEngineImpl(installData, conditionContainer, installData.getPlatform());
         Map<String, Condition> conditions = readConditions(resources);
@@ -92,7 +92,8 @@ public class RulesProvider implements Provider
      * This looks for a serialized resource named <em>"rules"</em>.
      *
      * @param resources the resources
-     * @return the conditions, keyed on id, or <tt>null</tt> if the resource doesn't exist or cannot be read
+     * @return the conditions, keyed on id, or <tt>null</tt> if the resource
+     * doesn't exist or cannot be read
      */
     @SuppressWarnings("unchecked")
     private Map<String, Condition> readConditions(Resources resources)
@@ -104,11 +105,11 @@ public class RulesProvider implements Provider
         }
         catch (ResourceNotFoundException rnfe)
         {
-            logger.fine("No optional rules defined");
+            LOGGER.fine("No optional rules defined");
         }
         catch (ResourceException re)
         {
-            logger.log(Level.SEVERE, "Optional rules could not be loaded", re);
+            LOGGER.log(Level.SEVERE, "Optional rules could not be loaded", re);
         }
         return rules;
     }
@@ -134,7 +135,7 @@ public class RulesProvider implements Provider
         }
         catch (Exception e)
         {
-            logger.fine("No optional resource found: " + CONDITIONS_SPECRESOURCENAME);
+            LOGGER.fine("No optional resource found: " + CONDITIONS_SPECRESOURCENAME);
         }
         return conditions;
     }

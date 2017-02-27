@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.combo;
 
 import java.awt.event.ItemEvent;
@@ -32,7 +31,6 @@ import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 
-
 /**
  * Combo field view.
  *
@@ -40,6 +38,7 @@ import com.izforge.izpack.panels.userinput.gui.GUIField;
  */
 public class GUIComboField extends GUIField
 {
+
     /**
      * The combo.
      */
@@ -77,8 +76,10 @@ public class GUIComboField extends GUIField
      * Updates the field from the view.
      *
      * @param prompt the prompt to display messages
-     * @param skipValidation set to true when wanting to save field data without validating
-     * @return {@code true} if the field was updated, {@code false} if the view is invalid
+     * @param skipValidation set to true when wanting to save field data without
+     * validating
+     * @return {@code true} if the field was updated, {@code false} if the view
+     * is invalid
      */
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)
@@ -100,7 +101,7 @@ public class GUIComboField extends GUIField
         refreshChoices();
 
         boolean result = super.updateView();
-        ComboField field = (ComboField)getField();
+        ComboField field = (ComboField) getField();
         String value = field.getInitialValue();
 
         if (value != null)
@@ -141,7 +142,7 @@ public class GUIComboField extends GUIField
      */
     private void refreshChoices()
     {
-        ComboField field = (ComboField)getField();
+        ComboField field = (ComboField) getField();
         combo.removeAllItems();
         int index = 0;
         for (Choice choice : field.getChoices())
@@ -159,7 +160,7 @@ public class GUIComboField extends GUIField
             }
             index++;
         }
-     }
+    }
 
     @Override
     public JComponent getFirstFocusableComponent()

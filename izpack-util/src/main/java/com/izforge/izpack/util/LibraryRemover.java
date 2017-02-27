@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util;
 
 import java.io.BufferedOutputStream;
@@ -42,17 +41,19 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * This class tries to remove a given list of files which are locked by this process. For this the
- * paths of the files are stored in a temporary file and a new process will be created. The class
- * files which are needed by the new process will be unpacked from the jar file under users temp dir
- * in a "sandbox". The new process receive the path of the temporary file and some other
- * information. After a wait intervall it reads the path file and removes all files which there are
- * listed. Next the created "sandbox" and the path file will be removed. This class uses the
- * characteristik of the system loader that jar files will be keeped open, simple class files will
- * be closed after loading a class. Therefore jar files are locked and cannot be deleted, class
+ * This class tries to remove a given list of files which are locked by this
+ * process. For this the paths of the files are stored in a temporary file and a
+ * new process will be created. The class files which are needed by the new
+ * process will be unpacked from the jar file under users temp dir in a
+ * "sandbox". The new process receive the path of the temporary file and some
+ * other information. After a wait intervall it reads the path file and removes
+ * all files which there are listed. Next the created "sandbox" and the path
+ * file will be removed. This class uses the characteristik of the system loader
+ * that jar files will be keeped open, simple class files will be closed after
+ * loading a class. Therefore jar files are locked and cannot be deleted, class
  * files are not locked and deletable.<br>
- * The idea for this stuff is copied from Chadwick McHenry's SelfModifier in the uninstaller stuff
- * of IzPack.
+ * The idea for this stuff is copied from Chadwick McHenry's SelfModifier in the
+ * uninstaller stuff of IzPack.
  *
  * @author Klaus Bartz
  */
@@ -60,11 +61,14 @@ public class LibraryRemover
 {
 
     /**
-     * All class files which are needed for the second process. All have to be in this installers
-     * jar file. No slash in front should be used; no dot else slashes should be used;
-     * extension (.class) will be required.
+     * All class files which are needed for the second process. All have to be
+     * in this installers jar file. No slash in front should be used; no dot
+     * else slashes should be used; extension (.class) will be required.
      */
-    private static final String[] SANDBOX_CONTENT = {"com/izforge/izpack/util/LibraryRemover.class"};
+    private static final String[] SANDBOX_CONTENT =
+    {
+        "com/izforge/izpack/util/LibraryRemover.class"
+    };
 
     /**
      * System property name of base for log and sandbox of secondary processes.
@@ -112,7 +116,8 @@ public class LibraryRemover
     private Date date = new Date();
 
     /**
-     * Constructor for both phases. Depending on the phase different initializing will be performed.
+     * Constructor for both phases. Depending on the phase different
+     * initializing will be performed.
      *
      * @param phase for which an object should be created.
      * @throws IOException
@@ -133,7 +138,8 @@ public class LibraryRemover
     }
 
     /**
-     * Entry point for phase 1. This class tries to remove all files given in the Vector.
+     * Entry point for phase 1. This class tries to remove all files given in
+     * the Vector.
      *
      * @param temporaryFileNames
      * @throws IOException
@@ -147,7 +153,8 @@ public class LibraryRemover
     /**
      * Internal invoke method for phase 1.
      *
-     * @param temporaryFileNames list of paths of the files which should be removed
+     * @param temporaryFileNames list of paths of the files which should be
+     * removed
      * @throws IOException
      */
     private void invoke1(List<String> temporaryFileNames) throws IOException
@@ -183,11 +190,11 @@ public class LibraryRemover
         // This allows later to delete the classes because class files are deleteable
         // also the using process is running, jar files are not deletable in that
         // situation.,
-        for (String aSANDBOX_CONTENT : SANDBOX_CONTENT)
+        for (String sandboxContent : SANDBOX_CONTENT)
         {
-            in = getClass().getResourceAsStream("/" + aSANDBOX_CONTENT);
+            in = getClass().getResourceAsStream("/" + sandboxContent);
 
-            File outFile = new File(sandbox, aSANDBOX_CONTENT);
+            File outFile = new File(sandbox, sandboxContent);
             File parent = outFile.getParentFile();
             if (parent != null && !parent.exists())
             {
@@ -304,7 +311,8 @@ public class LibraryRemover
     }
 
     /**
-     * Copied from com.izforge.izpack.uninstaller.SelfModifier. Little addaption for this class.
+     * Copied from com.izforge.izpack.uninstaller.SelfModifier. Little addaption
+     * for this class.
      *
      * @param nextPhase phase of the spawn
      * @return created process object
@@ -317,9 +325,12 @@ public class LibraryRemover
 
         // invoke from tmpdir, passing target method arguments as args, and
         // SelfModifier parameters as sustem properties
-        String[] javaCmd = new String[]{ProcessHelper.getJavaCommand(), "-classpath", sandbox.getAbsolutePath(),
-                "-D" + BASE_KEY + "=" + base, "-D" + PHASE_KEY + "=" + nextPhase,
-                getClass().getName()};
+        String[] javaCmd = new String[]
+        {
+            ProcessHelper.getJavaCommand(), "-classpath", sandbox.getAbsolutePath(),
+            "-D" + BASE_KEY + "=" + base, "-D" + PHASE_KEY + "=" + nextPhase,
+            getClass().getName()
+        };
 
         StringBuilder sb = new StringBuilder("Spawning phase ");
         sb.append(nextPhase).append(": ");
@@ -334,8 +345,9 @@ public class LibraryRemover
     }
 
     /**
-     * Recursively delete a file structure. Copied from com.izforge.izpack.uninstaller.SelfModifier.
-     * Little addaption to this class.
+     * Recursively delete a file structure. Copied from
+     * com.izforge.izpack.uninstaller.SelfModifier. Little addaption to this
+     * class.
      *
      * @return command for spawning
      */
@@ -378,11 +390,11 @@ public class LibraryRemover
 
     /**
      * ********************************************************************************************
-     * --------------------------------------------------------------------- Logging
-     * --------------------------------------------------------------------- Copied from
-     * com.izforge.izpack.uninstaller.SelfModifier.
+     * ---------------------------------------------------------------------
+     * Logging
+     * ---------------------------------------------------------------------
+     * Copied from com.izforge.izpack.uninstaller.SelfModifier.
      */
-
     PrintStream log = null;
 
     private PrintStream checkLog()

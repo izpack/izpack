@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.merge;
 
 import java.io.File;
@@ -31,13 +30,13 @@ import com.izforge.izpack.merge.resolve.PathResolver;
 
 /**
  * A mergeable file allow to chose files to merge in the installer.<br />
- * The source can be files in jar or directory. You may also filters sources with a given regexp.
+ * The source can be files in jar or directory. You may also filters sources
+ * with a given regexp.
  *
  * @author Anthonin Bonnefoy
  */
 public class MergeManagerImpl implements MergeManager
 {
-
 
     private List<Mergeable> mergeableList;
     private PathResolver pathResolver;
@@ -114,9 +113,9 @@ public class MergeManagerImpl implements MergeManager
     @Override
     public String toString()
     {
-        return "MergeManagerImpl{" +
-                "mergeableList=" + mergeableList +
-                ", pathResolver=" + pathResolver +
-                '}';
+        return "MergeManagerImpl{"
+                + "mergeableList=" + mergeableList
+                + ", pathResolver=" + pathResolver
+                + '}';
     }
 }

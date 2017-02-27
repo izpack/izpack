@@ -19,12 +19,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge;
 
 /**
- * An action merging the contents of the specified elements. The factories for actions to apply to
- * children elements are configurable through this interface.
+ * An action merging the contents of the specified elements. The factories for
+ * actions to apply to children elements are configurable through this
+ * interface.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)

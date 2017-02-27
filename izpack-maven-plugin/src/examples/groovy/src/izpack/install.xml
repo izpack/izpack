@@ -46,11 +46,11 @@
 
     <resources>
         <!-- groovy.png is the wrong shape for Installer.image, which is
-       == expected to fit down the left-hand side. Putting it here causes
-       == the rest of the panels to be wrongly sized. However, using
-       == groovy.png as a Heading image works much better.
-       == <res id="Installer.image" src="resource/infiniflow.gif" />
-       == -->
+        == expected to fit down the left-hand side. Putting it here causes
+        == the rest of the panels to be wrongly sized. However, using
+        == groovy.png as a Heading image works much better.
+        == <res id="Installer.image" src="resource/infiniflow.gif" />
+        == -->
         <res id="Heading.image" src="resource/groovy.png"/>
 
         <res id="HTMLLicencePanel.licence" src="resource/asl2.html"/>

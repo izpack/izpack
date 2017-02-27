@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.finish;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -46,6 +45,7 @@ import java.util.logging.Logger;
  */
 public class FinishConsolePanel extends AbstractConsolePanel
 {
+
     private static final Logger LOGGER = Logger.getLogger(FinishConsolePanel.class.getName());
     private static final String AUTO_INSTALL_SCRIPT_NAME = "auto-install.xml";
 

@@ -51,25 +51,26 @@ public class DefaultTargetPanelTest extends AbstractPanelTest
     /**
      * Constructs a {@code DefaultTargetPanelTest}.
      *
-     * @param container           the panel container
-     * @param installData         the installation data
-     * @param resourceManager     the resource manager
-     * @param factory             the panel factory
-     * @param rules               the rules
-     * @param icons               the icons
+     * @param container the panel container
+     * @param installData the installation data
+     * @param resourceManager the resource manager
+     * @param factory the panel factory
+     * @param rules the rules
+     * @param icons the icons
      * @param uninstallDataWriter the uninstallation data writer
-     * @param locales             the locales
+     * @param locales the locales
      */
     public DefaultTargetPanelTest(TestGUIPanelContainer container, GUIInstallData installData,
-                                  ResourceManager resourceManager,
-                                  ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
-                                  UninstallDataWriter uninstallDataWriter, Locales locales)
+            ResourceManager resourceManager,
+            ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
+            UninstallDataWriter uninstallDataWriter, Locales locales)
     {
         super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
     }
 
     /**
-     * Verifies that if no path is entered, it will default to that of the <em>user.dir</em> system property.
+     * Verifies that if no path is entered, it will default to that of the
+     * <em>user.dir</em> system property.
      *
      * @throws Exception for any error
      */
@@ -81,7 +82,8 @@ public class DefaultTargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verifies that if the <em>TargetPanel.dir</em> property is set, it will be used.
+     * Verifies that if the <em>TargetPanel.dir</em> property is set, it will be
+     * used.
      *
      * @throws Exception for any error
      */
@@ -95,7 +97,8 @@ public class DefaultTargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verifies that if no <em>TargetPanel.dir</em> property is set, the default install path will be used.
+     * Verifies that if no <em>TargetPanel.dir</em> property is set, the default
+     * install path will be used.
      *
      * @throws Exception for any error
      */
@@ -109,8 +112,9 @@ public class DefaultTargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verifies that when the <em>TargetPanel.dir.&lt;platform&gt;</em> variable is set for the current platform,
-     * it will be used in preference to any other.
+     * Verifies that when the <em>TargetPanel.dir.&lt;platform&gt;</em> variable
+     * is set for the current platform, it will be used in preference to any
+     * other.
      *
      * @throws Exception for any error
      */
@@ -128,7 +132,8 @@ public class DefaultTargetPanelTest extends AbstractPanelTest
     }
 
     /**
-     * Verfiies that the installation path matches that expected, after the panel has been showh.
+     * Verfiies that the installation path matches that expected, after the
+     * panel has been showh.
      *
      * @param expectedPath the expected installation path
      * @throws Exception for any error

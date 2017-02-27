@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.rule;
 
 import java.awt.event.FocusEvent;
@@ -38,18 +37,19 @@ import com.izforge.izpack.gui.FlowLayout;
 import com.izforge.izpack.panels.userinput.field.rule.FieldLayout;
 import com.izforge.izpack.panels.userinput.field.rule.FieldSpec;
 import com.izforge.izpack.panels.userinput.field.rule.RuleField;
-import com.izforge.izpack.panels.userinput.field.rule.RuleFormat;
 
 /**
  * This class assists the user in entering serial numbers. <BR>
  * <BR>
- * Serial numbers, license number, CD keys and the like are often lenghty alpha-numerical numbers.
- * In many cases they are devided into multiple parts by dash or point separators. Entering these in
- * a single text field can be a frustrating experience for the user. This class provides a way of
- * presenting the user with an assembly of input fields that are arranged in the same way as the
- * key, with the separators already in place. Immideate testing for format compliance if performed
- * ans soon as each field is completed. In addition, the cursor is automatically advanced to make
- * entering numbers as painless as possible. <br>
+ * Serial numbers, license number, CD keys and the like are often lenghty
+ * alpha-numerical numbers. In many cases they are devided into multiple parts
+ * by dash or point separators. Entering these in a single text field can be a
+ * frustrating experience for the user. This class provides a way of presenting
+ * the user with an assembly of input fields that are arranged in the same way
+ * as the key, with the separators already in place. Immideate testing for
+ * format compliance if performed ans soon as each field is completed. In
+ * addition, the cursor is automatically advanced to make entering numbers as
+ * painless as possible. <br>
  * <br>
  * <b>Formatting:</b>
  * <p/>
@@ -63,11 +63,12 @@ import com.izforge.izpack.panels.userinput.field.rule.RuleFormat;
  * <br>
  * <code>"N:4:4 - H:6:6 - AN:3:3 x A:5:5"</code><br>
  * <br>
- * This formatting string will produce a serial number field consisting of four separate input
- * fields. The fisrt input field will accept four numeric digits, the second six hexa-decimal
- * digits, the third three alpha-numeric digits and the fourth five letters. The first three input
- * fields will be separated by '-' and the third and fourth by 'x'. The following snapshot was
- * obtained with this setting: <br>
+ * This formatting string will produce a serial number field consisting of four
+ * separate input fields. The fisrt input field will accept four numeric digits,
+ * the second six hexa-decimal digits, the third three alpha-numeric digits and
+ * the fourth five letters. The first three input fields will be separated by
+ * '-' and the third and fourth by 'x'. The following snapshot was obtained with
+ * this setting: <br>
  * <br>
  * <img src="doc-files/RuleInputField-1.gif"/>
  *
@@ -76,6 +77,7 @@ import com.izforge.izpack.panels.userinput.field.rule.RuleFormat;
  */
 public class RuleInputField extends JComponent implements KeyListener, FocusListener, CaretListener
 {
+
     private static final long serialVersionUID = 3832616275124958257L;
 
     private final RuleField field;
@@ -120,7 +122,8 @@ public class RuleInputField extends JComponent implements KeyListener, FocusList
     }
 
     /**
-     * Returns the field contents, formatted according to its {@link RuleFormat}.
+     * Returns the field contents, formatted according to its
+     * {@link RuleFormat}.
      *
      * @return the field contents
      */
@@ -162,7 +165,8 @@ public class RuleInputField extends JComponent implements KeyListener, FocusList
     }
 
     /**
-     * Creates the items that make up this field. All fields are stored in <code>inputFields</code>.
+     * Creates the items that make up this field. All fields are stored in
+     * <code>inputFields</code>.
      */
     private void createItems()
     {
@@ -188,13 +192,16 @@ public class RuleInputField extends JComponent implements KeyListener, FocusList
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(boolean enabled)
+    {
         for (JTextField jTextField : inputFields)
         {
             jTextField.setEnabled(enabled);
         }
         super.setEnabled(enabled);
-    };
+    }
+
+    ;
 
     /*---------------------------------------------------------------------------*
      Implementation for KeyListener
@@ -212,11 +219,12 @@ public class RuleInputField extends JComponent implements KeyListener, FocusList
     }
 
     /**
-     * This method is invoked when a key has been pressed. This method verifies the condition of the
-     * input field in focus. Once the column count in the field has reached the specified maximum,
-     * the rule specified for the field in question is invoked. In case the test result is positive,
-     * focus is set to the next field. If hte test result is negative, the field content is marked
-     * and the caret set to the start of the field.
+     * This method is invoked when a key has been pressed. This method verifies
+     * the condition of the input field in focus. Once the column count in the
+     * field has reached the specified maximum, the rule specified for the field
+     * in question is invoked. In case the test result is positive, focus is set
+     * to the next field. If hte test result is negative, the field content is
+     * marked and the caret set to the start of the field.
      *
      * @param event the key event forwarded by the system.
      */
@@ -256,14 +264,13 @@ public class RuleInputField extends JComponent implements KeyListener, FocusList
     /*---------------------------------------------------------------------------*
      Implementation for FocusListener
      *---------------------------------------------------------------------------*/
-
     /**
      * Invoked when a component gains the keyboard focus.
      *
      * @param event the focus event forwardes by the sytem.
      */
     /*--------------------------------------------------------------------------*/
-    /*
+ /*
      * $ @design <- keep this tag in place and don't write on this line!
      *
      * Enter design related documentation here.
@@ -286,8 +293,8 @@ public class RuleInputField extends JComponent implements KeyListener, FocusList
     }
 
     /**
-     * Invoked when a component loses the keyboard focus. This method does nothing, we are only
-     * interested in 'focus gained' events.
+     * Invoked when a component loses the keyboard focus. This method does
+     * nothing, we are only interested in 'focus gained' events.
      *
      * @param event the focus event forwardes by the sytem.
      */
@@ -300,7 +307,6 @@ public class RuleInputField extends JComponent implements KeyListener, FocusList
     /*---------------------------------------------------------------------------*
      Implementation for CaretListener
      *---------------------------------------------------------------------------*/
-
     /**
      * Called when the caret position is updated.
      *

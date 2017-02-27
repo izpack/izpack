@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.console;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -34,7 +33,6 @@ import com.izforge.izpack.api.config.Options;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Abstract implementation of the {@link ConsolePanel} interface.
  *
@@ -47,7 +45,6 @@ public abstract class AbstractConsolePanel implements ConsolePanel
      * The the parent panel/view. May be {@code null}
      */
     private final PanelView<ConsolePanel> panel;
-
 
     /**
      * Constructs an {@code AbstractConsolePanel}.
@@ -68,14 +65,16 @@ public abstract class AbstractConsolePanel implements ConsolePanel
     /**
      * Prompts to end the console panel.
      * <p/>
-     * If the panel is valid, this displays a prompt to continue, quit, or redisplay. On redisplay,
-     * it invokes {@link #run(InstallData, Console)}. <br/>
-     * If the panel is invalid, this invokes {@link #promptRerunPanel(InstallData, Console)}.<br/>
+     * If the panel is valid, this displays a prompt to continue, quit, or
+     * redisplay. On redisplay, it invokes {@link #run(InstallData, Console)}.
+     * <br/>
+     * If the panel is invalid, this invokes
+     * {@link #promptRerunPanel(InstallData, Console)}.<br/>
      *
      * @param installData the installation date
-     * @param console     the console to use
-     * @return {@code true} to continue, {@code false} to quit. If redisplaying the panel, the result of
-     *         {@link #run(InstallData, Console)} is returned
+     * @param console the console to use
+     * @return {@code true} to continue, {@code false} to quit. If redisplaying
+     * the panel, the result of {@link #run(InstallData, Console)} is returned
      */
     protected boolean promptEndPanel(InstallData installData, Console console)
     {
@@ -94,7 +93,7 @@ public abstract class AbstractConsolePanel implements ConsolePanel
                 throw new UserInterruptException(messages.get("ConsoleInstaller.aborted.PressedQuit"));
 
             default:
-                result =  run(installData, console);
+                result = run(installData, console);
                 break;
         }
         return result;
@@ -103,13 +102,14 @@ public abstract class AbstractConsolePanel implements ConsolePanel
     /**
      * Prompts to re-run the panel or quit.
      * <p/>
-     * This displays a prompt to redisplay the panel or quit. On redisplay, it invokes
-     * {@link #run(InstallData, Console)}.
+     * This displays a prompt to redisplay the panel or quit. On redisplay, it
+     * invokes {@link #run(InstallData, Console)}.
      *
      * @param installData the installation date
-     * @param console     the console to use
-     * @return {@code true} to re-display, {@code false} to quit. If redisplaying the panel, the result of
-     *         {@link #run(InstallData, Console)} is returned
+     * @param console the console to use
+     * @return {@code true} to re-display, {@code false} to quit. If
+     * redisplaying the panel, the result of {@link #run(InstallData, Console)}
+     * is returned
      */
     protected boolean promptRerunPanel(InstallData installData, Console console)
     {
@@ -133,7 +133,8 @@ public abstract class AbstractConsolePanel implements ConsolePanel
     /**
      * Returns the panel.
      *
-     * @return the panel, or {@code null} if no panel/view was supplied at construction
+     * @return the panel, or {@code null} if no panel/view was supplied at
+     * construction
      */
     protected Panel getPanel()
     {
@@ -174,7 +175,8 @@ public abstract class AbstractConsolePanel implements ConsolePanel
     }
 
     /**
-     * Search for a proper translation key belonging to the panel implementation.
+     * Search for a proper translation key belonging to the panel
+     * implementation.
      *
      * @param subkey the subkey for the string which should be returned
      * @return the founded string
@@ -185,11 +187,12 @@ public abstract class AbstractConsolePanel implements ConsolePanel
     }
 
     /**
-     * Search for a proper translation key belonging to the panel implementation.
+     * Search for a proper translation key belonging to the panel
+     * implementation.
      *
-     * @param subkey         the subkey for the string which should be returned
-     * @param alternateClass the short name of the class which should be used if no string is
-     *                       present with the runtime class name
+     * @param subkey the subkey for the string which should be returned
+     * @param alternateClass the short name of the class which should be used if
+     * no string is present with the runtime class name
      * @return the founded string
      */
     public String getI18nStringForClass(String subkey, String alternateClass, InstallData installData)
@@ -206,8 +209,8 @@ public abstract class AbstractConsolePanel implements ConsolePanel
 
         Class<?> clazz = PanelHelper.getIzPanel(this.getClass().getName());
 
-        String fullClassname = alternateClass==null?clazz.getName():alternateClass;
-        String simpleClassname = alternateClass==null?clazz.getSimpleName():alternateClass;
+        String fullClassname = alternateClass == null ? clazz.getName() : alternateClass;
+        String simpleClassname = alternateClass == null ? clazz.getSimpleName() : alternateClass;
 
         do
         {
@@ -225,7 +228,8 @@ public abstract class AbstractConsolePanel implements ConsolePanel
                 fullClassname = clazz.getName();
                 simpleClassname = clazz.getSimpleName();
             }
-        } while ((alternateClass == null && !(clazz == null || clazz.equals(AbstractConsolePanel.class))));
+        }
+        while ((alternateClass == null && !(clazz == null || clazz.equals(AbstractConsolePanel.class))));
         if (panelId != null)
         {
             prefixes.add(2, panelId);

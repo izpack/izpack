@@ -29,6 +29,7 @@ import java.util.Set;
 
 /**
  * Directed graph for dependencies with a <List> ordered for computation
+ *
  * @param <Vertex> the generic type of vertexes
  */
 public class DependencyGraph<Vertex>
@@ -48,23 +49,31 @@ public class DependencyGraph<Vertex>
 
     /**
      * Add vertex to to from's list of neighbors; self-loops allowed
+     *
      * @param from source vertex
      * @param to target vertex
      */
     public void addEdge(Vertex from, Vertex to)
     {
-        if (!st.containsKey(from)) addVertex(from);
-        if (!st.containsKey(to)) addVertex(to);
+        if (!st.containsKey(from))
+        {
+            addVertex(from);
+        }
+        if (!st.containsKey(to))
+        {
+            addVertex(to);
+        }
         st.get(from).add(to);
     }
 
     /**
      * Add a new vertex with no neighbors if vertex does not yet exist
+     *
      * @param v vertex to be added
      */
     public void addVertex(Vertex v)
     {
-        if (!st.containsKey(v)) 
+        if (!st.containsKey(v))
         {
             st.put(v, new HashSet<Vertex>());
         }
@@ -82,12 +91,12 @@ public class DependencyGraph<Vertex>
         StringBuilder s = new StringBuilder();
         for (Vertex v : st.keySet())
         {
-            s.append(String.format("%s: depth=%d [",v,depthUtils.getDepth(v)));
-            String sep="";
+            s.append(String.format("%s: depth=%d [", v, depthUtils.getDepth(v)));
+            String sep = "";
             for (Vertex w : st.get(v))
             {
                 s.append(sep).append(w);
-                sep=",";
+                sep = ",";
             }
             s.append("]\n");
         }
@@ -95,19 +104,20 @@ public class DependencyGraph<Vertex>
     }
 
     /**
-     * utility class for DependencyGraph
-     * provides
-     * - setting and checking the depth of a vertex 
-     * - a comparator for sorting vertices in descending order of depth
+     * utility class for DependencyGraph provides - setting and checking the
+     * depth of a vertex - a comparator for sorting vertices in descending order
+     * of depth
      *
      * @param <T> type of vertex elements in graph
      */
     private class DepthUtils<T> implements Comparator<T>
     {
-        private Map<T, Integer> depths = new HashMap<T, Integer>();
-        private Map<T,Set<T>> graph;
 
-        public DepthUtils(Map<T, Set<T>> graph) {
+        private Map<T, Integer> depths = new HashMap<T, Integer>();
+        private Map<T, Set<T>> graph;
+
+        public DepthUtils(Map<T, Set<T>> graph)
+        {
             this.graph = graph;
         }
 
@@ -115,7 +125,8 @@ public class DependencyGraph<Vertex>
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
         @Override
-        public int compare(T o1, T o2) {
+        public int compare(T o1, T o2)
+        {
             return getDepth(o2).compareTo(getDepth(o1));
         }
 
@@ -130,7 +141,8 @@ public class DependencyGraph<Vertex>
         private void computeDepths()
         {
             HashSet<Vertex> visited = new HashSet<Vertex>();
-            for (Vertex vertex : st.keySet()) {
+            for (Vertex vertex : st.keySet())
+            {
                 computeDepths(visited, vertex, 0);
             }
         }
@@ -138,7 +150,7 @@ public class DependencyGraph<Vertex>
         private void computeDepths(HashSet<Vertex> visited, Vertex vertex, int depth)
         {
             depth++;
-            if (! visited.contains(vertex))
+            if (!visited.contains(vertex))
             {
                 visited.add(vertex);
                 depthUtils.ensureDepth(vertex, depth);
@@ -154,18 +166,20 @@ public class DependencyGraph<Vertex>
          * @param o the vertex
          * @return depth of vertex (as far as computed yet)
          */
-        private Integer getDepth(T o) {
+        private Integer getDepth(T o)
+        {
             return depths.containsKey(o) ? depths.get(o) : 0;
         }
 
         /**
-         * ensure, that the depth of the vertex is at least depth
-         * it can only be increased, not lowered
-         * 
+         * ensure, that the depth of the vertex is at least depth it can only be
+         * increased, not lowered
+         *
          * @param o the vertex
          * @param depth of the vertex
          */
-        private void ensureDepth(T o, int depth) {
+        private void ensureDepth(T o, int depth)
+        {
             if (getDepth(o) < depth)
             {
                 depths.put(o, new Integer(depth));

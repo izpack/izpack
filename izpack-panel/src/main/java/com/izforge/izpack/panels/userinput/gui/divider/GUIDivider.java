@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.gui.divider;
 
 import com.izforge.izpack.gui.TwoColumnConstraints;

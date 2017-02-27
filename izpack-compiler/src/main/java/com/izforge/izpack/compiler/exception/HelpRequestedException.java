@@ -16,12 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.exception;
 
 /**
  * Exception thrown when help has been requested
  */
-public class HelpRequestedException extends RuntimeException {
+public class HelpRequestedException extends RuntimeException
+{
+
     private static final long serialVersionUID = 1L;
 }

@@ -19,14 +19,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge;
 
 import org.jdom2.Element;
 
 /**
- * Creates operation (action, mapper and matcher) instances corresponding to a pair of elements from
- * the original and patch DOMs.
+ * Creates operation (action, mapper and matcher) instances corresponding to a
+ * pair of elements from the original and patch DOMs.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
@@ -35,13 +34,15 @@ public interface OperationFactory
 {
 
     /**
-     * Creates operation (action, mapper and matcher) instances corresponding to a pair of elements
-     * from the original and patch DOMs.
+     * Creates operation (action, mapper and matcher) instances corresponding to
+     * a pair of elements from the original and patch DOMs.
      *
      * @param originalElement Original element
      * @param modifiedElement Modified element
-     * @return The operation (action, mapper or matcher) for the given element pair
-     * @throws AbstractXmlMergeException If an error occurs during operation creation
+     * @return The operation (action, mapper or matcher) for the given element
+     * pair
+     * @throws AbstractXmlMergeException If an error occurs during operation
+     * creation
      */
     public Operation getOperation(Element originalElement, Element modifiedElement)
             throws AbstractXmlMergeException;

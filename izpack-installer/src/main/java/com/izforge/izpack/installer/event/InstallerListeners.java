@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.event;
-
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Pack;
@@ -41,9 +39,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * A container for {@link InstallerListener}s that supports notifying each registered listener.
+ * A container for {@link InstallerListener}s that supports notifying each
+ * registered listener.
  *
  * @author Tim Anderson
  */
@@ -56,8 +54,9 @@ public class InstallerListeners
     private final List<InstallerListener> listeners = new ArrayList<InstallerListener>();
 
     /**
-     * The file listeners, i.e. those listeners for who {@link InstallerListener#isFileListener() isFileListener()}
-     * returns {@code true}.
+     * The file listeners, i.e. those listeners for who
+     * {@link InstallerListener#isFileListener() isFileListener()} returns
+     * {@code true}.
      */
     private final List<InstallerListener> fileListeners = new ArrayList<InstallerListener>();
 
@@ -71,12 +70,11 @@ public class InstallerListeners
      */
     private final Prompt prompt;
 
-
     /**
      * Constructs an {@code InstallerListeners}.
      *
      * @param installData the installation data
-     * @param prompt      the prompt
+     * @param prompt the prompt
      */
     public InstallerListeners(AutomatedInstallData installData, Prompt prompt)
     {
@@ -156,7 +154,7 @@ public class InstallerListeners
                     fileListeners.add(listener);
                 }
             }
-                catch (IzPackException ize)
+            catch (IzPackException ize)
             {
                 handleError(ize);
             }
@@ -166,7 +164,7 @@ public class InstallerListeners
     /**
      * Invoked before packs are installed.
      *
-     * @param packs    the packs to install
+     * @param packs the packs to install
      * @param listener the progress listener
      * @throws InstallerException if a listener throws an exception
      */
@@ -182,7 +180,7 @@ public class InstallerListeners
                 }
                 l.beforePacks(packs);
             }
-                catch (IzPackException ize)
+            catch (IzPackException ize)
             {
                 handleError(ize);
             }
@@ -192,8 +190,8 @@ public class InstallerListeners
     /**
      * Invoked before a pack is installed.
      *
-     * @param pack     the pack
-     * @param i        the pack number
+     * @param pack the pack
+     * @param i the pack number
      * @param listener the progress listener
      * @throws InstallerException if a listener throws an exception
      */
@@ -209,7 +207,7 @@ public class InstallerListeners
                 }
                 l.beforePack(pack, i);
             }
-                catch (IzPackException ize)
+            catch (IzPackException ize)
             {
                 handleError(ize);
             }
@@ -217,9 +215,11 @@ public class InstallerListeners
     }
 
     /**
-     * Determines if the listener should be notified of every file and directory installation.
+     * Determines if the listener should be notified of every file and directory
+     * installation.
      *
-     * @return <tt>true</tt> if the listener should be notified, otherwise <tt>false</tt>
+     * @return <tt>true</tt> if the listener should be notified, otherwise
+     * <tt>false</tt>
      */
     public boolean isFileListener()
     {
@@ -229,9 +229,9 @@ public class InstallerListeners
     /**
      * Invoked before a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws InstallerException if a listener throws an exception
      */
     public void beforeDir(File dir, PackFile packFile, Pack pack) throws InstallerException
@@ -242,7 +242,7 @@ public class InstallerListeners
             {
                 l.beforeDir(dir, packFile, pack);
             }
-                catch (IzPackException ize)
+            catch (IzPackException ize)
             {
                 handleError(ize);
             }
@@ -252,9 +252,9 @@ public class InstallerListeners
     /**
      * Invoked after a directory is created.
      *
-     * @param dir      the directory
+     * @param dir the directory
      * @param packFile corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws InstallerException if a listener throws an exception
      */
     public void afterDir(File dir, PackFile packFile, Pack pack) throws InstallerException
@@ -265,7 +265,7 @@ public class InstallerListeners
             {
                 l.afterDir(dir, packFile, pack);
             }
-                catch (IzPackException ize)
+            catch (IzPackException ize)
             {
                 handleError(ize);
             }
@@ -275,11 +275,12 @@ public class InstallerListeners
     /**
      * Invoked before a file is installed.
      * <p/>
-     * This implementation only invokes those listeners whose {@link #isFileListener()} returns <tt>true</tt>.
+     * This implementation only invokes those listeners whose
+     * {@link #isFileListener()} returns <tt>true</tt>.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws InstallerException if a listener throws an exception
      */
     public void beforeFile(File file, PackFile packFile, Pack pack) throws InstallerException
@@ -290,7 +291,7 @@ public class InstallerListeners
             {
                 l.beforeFile(file, packFile, pack);
             }
-                catch (IzPackException ize)
+            catch (IzPackException ize)
             {
                 handleError(ize);
             }
@@ -300,11 +301,12 @@ public class InstallerListeners
     /**
      * Invoked after a file is installed.
      * <p/>
-     * This implementation only invokes those listeners whose {@link #isFileListener()} returns <tt>true</tt>.
+     * This implementation only invokes those listeners whose
+     * {@link #isFileListener()} returns <tt>true</tt>.
      *
-     * @param file     the file
+     * @param file the file
      * @param packFile corresponding pack file
-     * @param pack     the pack that {@code packFile} comes from
+     * @param pack the pack that {@code packFile} comes from
      * @throws InstallerException if a listener throws an exception
      */
     public void afterFile(File file, PackFile packFile, Pack pack) throws InstallerException
@@ -315,7 +317,7 @@ public class InstallerListeners
             {
                 l.afterFile(file, packFile, pack);
             }
-                catch (IzPackException ize)
+            catch (IzPackException ize)
             {
                 handleError(ize);
             }
@@ -325,8 +327,8 @@ public class InstallerListeners
     /**
      * Invoked after a pack is installed.
      *
-     * @param pack     current pack object
-     * @param i        current pack number
+     * @param pack current pack object
+     * @param i current pack number
      * @param listener the progress listener
      * @throws InstallerException if a listener throws an exception
      */
@@ -352,7 +354,7 @@ public class InstallerListeners
     /**
      * Invoked after packs are installed.
      *
-     * @param packs    the installed packs
+     * @param packs the installed packs
      * @param listener the progress listener
      * @throws InstallerException if a listener throws an exception
      */
@@ -368,7 +370,7 @@ public class InstallerListeners
                 }
                 l.afterPacks(packs, listener);
             }
-                catch (IzPackException ize)
+            catch (IzPackException ize)
             {
                 handleError(ize);
             }

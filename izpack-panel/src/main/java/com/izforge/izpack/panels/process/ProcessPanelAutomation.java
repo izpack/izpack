@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.process;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -49,12 +48,12 @@ public class ProcessPanelAutomation extends PanelAutomationHelper implements Pan
      * Constructs a <tt>ProcessPanelAutomationHelper</tt>.
      *
      * @param installData the installation data
-     * @param resources   the resources
-     * @param rules       the rules
-     * @param matcher     the platform-model matcher
+     * @param resources the resources
+     * @param rules the rules
+     * @param matcher the platform-model matcher
      */
     public ProcessPanelAutomation(InstallData installData, RulesEngine rules, Resources resources,
-                                  PlatformModelMatcher matcher)
+            PlatformModelMatcher matcher)
     {
         processPanelWorker = new ProcessPanelWorker(installData, rules, resources, matcher);
         processPanelWorker.setHandler(this);
@@ -78,7 +77,9 @@ public class ProcessPanelAutomation extends PanelAutomationHelper implements Pan
     }
 
     @Override
-    public void processOptions(InstallData installData, Overrides overrides) {}
+    public void processOptions(InstallData installData, Overrides overrides)
+    {
+    }
 
     public void logOutput(String message, boolean stderr)
     {

@@ -18,9 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.installer.unpacker;
-
 
 import java.io.File;
 
@@ -41,7 +39,7 @@ public class LooseFileUnpackerTest extends AbstractFileUnpackerTest
      * Helper to create an unpacker.
      *
      * @param sourceDir the source directory
-     * @param queue     the file queue. May be {@code null}
+     * @param queue the file queue. May be {@code null}
      * @return a new unpacker
      */
     protected FileUnpacker createUnpacker(File sourceDir, FileQueue queue)

@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.compiler.packager.impl;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -61,21 +60,21 @@ public class Packager extends PackagerBase
     /**
      * Constructs a <tt>Packager</tt>.
      *
-     * @param properties        the properties
-     * @param listener          the packager listener
-     * @param jarOutputStream   the installer jar output stream
-     * @param compressor        the pack compressor
-     * @param outputStream      decoration of the installer jar stream. May be
-     *                          compressed or not depending on the compiler data.
-     * @param mergeManager      the merge manager
-     * @param pathResolver      the path resolver
+     * @param properties the properties
+     * @param listener the packager listener
+     * @param jarOutputStream the installer jar output stream
+     * @param compressor the pack compressor
+     * @param outputStream decoration of the installer jar stream. May be
+     * compressed or not depending on the compiler data.
+     * @param mergeManager the merge manager
+     * @param pathResolver the path resolver
      * @param mergeableResolver the mergeable resolver
-     * @param compilerData      the compiler data
+     * @param compilerData the compiler data
      */
     public Packager(Properties properties, PackagerListener listener, JarOutputStream jarOutputStream,
-                    PackCompressor compressor, OutputStream outputStream, MergeManager mergeManager,
-                    CompilerPathResolver pathResolver, MergeableResolver mergeableResolver, CompilerData compilerData,
-                    RulesEngine rulesEngine)
+            PackCompressor compressor, OutputStream outputStream, MergeManager mergeManager,
+            CompilerPathResolver pathResolver, MergeableResolver mergeableResolver, CompilerData compilerData,
+            RulesEngine rulesEngine)
     {
         super(properties, listener, jarOutputStream, mergeManager, pathResolver, mergeableResolver, compressor,
                 compilerData, rulesEngine);
@@ -98,7 +97,8 @@ public class Packager extends PackagerBase
         if (level >= 0 && level < 10)
         {
             jarOutputStream.setLevel(level);
-        } else
+        }
+        else
         {
             jarOutputStream.setLevel(Deflater.BEST_COMPRESSION);
         }
@@ -132,7 +132,6 @@ public class Packager extends PackagerBase
 
         // First write the serialized files and file metadata data for each pack
         // while counting bytes.
-
         int packNumber = 0;
         IXMLElement root = new XMLElementImpl("packs");
 
@@ -151,7 +150,8 @@ public class Packager extends PackagerBase
                 String jarFile = getInfo().getInstallerBase() + ".pack-" + pack.getName() + ".jar";
                 packJar = getJarOutputStream(new File(jarFile));
                 entry = new org.apache.tools.zip.ZipEntry("packs/pack-" + pack.getName());
-            } else
+            }
+            else
             {
                 entry = new org.apache.tools.zip.ZipEntry(RESOURCES_PATH + "packs/pack-" + pack.getName());
             }
@@ -197,18 +197,19 @@ public class Packager extends PackagerBase
                     {
                         /*
                          * Warning!
-						 *
-						 * Pack200 archives must be stored in separated streams,
-						 * as the Pack200 unpacker reads the entire stream...
-						 *
-						 * See
-						 * http://java.sun.com/javase/6/docs/api/java/util/jar
-						 * /Pack200.Unpacker.html
-						 */
+                         *
+                         * Pack200 archives must be stored in separated streams,
+                         * as the Pack200 unpacker reads the entire stream...
+                         *
+                         * See
+                         * http://java.sun.com/javase/6/docs/api/java/util/jar
+                         * /Pack200.Unpacker.html
+                         */
                         pack200Map.put(pack200Counter, file);
                         objOut.writeInt(pack200Counter);
                         pack200Counter = pack200Counter + 1;
-                    } else
+                    }
+                    else
                     {
                         FileInputStream inStream = new FileInputStream(file);
                         long bytesWritten = IOUtils.copy(inStream, objOut);
@@ -219,7 +220,10 @@ public class Packager extends PackagerBase
                         }
                     }
 
-                    storedFiles.put(file, new Object[]{pack.getName(), pos}); // TODO
+                    storedFiles.put(file, new Object[]
+                    {
+                        pack.getName(), pos
+                    }); // TODO
                     // -
                     // see
                     // IZPACK-799
@@ -349,13 +353,13 @@ public class Packager extends PackagerBase
      * ******************
      */
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * com.izforge.izpack.compiler.packager.IPackager#addConfigurationInformation
-	 * (com.izforge.izpack.api.adaptator.IXMLElement)
-	 */
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.izforge.izpack.compiler.packager.IPackager#addConfigurationInformation
+     * (com.izforge.izpack.api.adaptator.IXMLElement)
+     */
     @Override
     public void addConfigurationInformation(IXMLElement data)
     {

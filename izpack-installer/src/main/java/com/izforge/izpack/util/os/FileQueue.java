@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.izforge.izpack.util.Librarian;
 
-
 public class FileQueue
 {
 
@@ -18,7 +17,6 @@ public class FileQueue
      * The librarian.
      */
     private final Librarian librarian;
-
 
     /**
      * Constructs a <tt>FileQueue</tt>.

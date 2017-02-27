@@ -24,7 +24,6 @@ import java.util.List;
 
 import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
 
-
 /**
  * Implementation of {@link PasswordGroupFieldConfig} for testing purposes.
  *
@@ -42,7 +41,7 @@ public class TestPasswordGroupFieldConfig extends TestFieldConfig implements Pas
      * Constructs a {@code TestPasswordGroupFieldConfig}.
      *
      * @param variable the variable
-     * @param fields   the password fields
+     * @param fields the password fields
      */
     public TestPasswordGroupFieldConfig(String variable, List<PasswordField> fields)
     {
@@ -62,7 +61,8 @@ public class TestPasswordGroupFieldConfig extends TestFieldConfig implements Pas
     }
 
     @Override
-    public boolean getOmitFromAuto() {
+    public boolean getOmitFromAuto()
+    {
         return false;
     }
 }

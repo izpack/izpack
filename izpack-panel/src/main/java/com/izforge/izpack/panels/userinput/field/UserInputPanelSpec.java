@@ -16,9 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,19 +83,18 @@ public class UserInputPanelSpec
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(UserInputPanelSpec.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(UserInputPanelSpec.class.getName());
 
     /**
      * Constructs a {@code UserInputPanelSpec}.
      *
-     * @param resources   the resources
+     * @param resources the resources
      * @param installData the installation data
-     * @param factory     the factory
-     * @param matcher     the platform-model matcher
+     * @param factory the factory
+     * @param matcher the platform-model matcher
      */
     public UserInputPanelSpec(Resources resources, InstallData installData, ObjectFactory factory,
-                              PlatformModelMatcher matcher)
+            PlatformModelMatcher matcher)
     {
         Messages messages = installData.getMessages();
         try
@@ -106,7 +103,7 @@ public class UserInputPanelSpec
         }
         catch (ResourceNotFoundException exception)
         {
-            logger.info(exception.getMessage());
+            LOGGER.info(exception.getMessage());
         }
 
         config = new Config(SPEC_FILE_NAME, resources, installData, factory, messages);

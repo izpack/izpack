@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.util.xmlmerge.action;
 
 import java.util.ArrayList;
@@ -40,24 +39,25 @@ import com.izforge.izpack.util.xmlmerge.Mapper;
 import com.izforge.izpack.util.xmlmerge.Matcher;
 
 /**
- * Merge implementation traversing parallelly both element contents. Works when contents are in the
- * same order in both elements.
+ * Merge implementation traversing parallelly both element contents. Works when
+ * contents are in the same order in both elements.
  *
  * @author Laurent Bovet (LBO)
  * @author Alex Mathey (AMA)
  */
 public class OrderedMergeAction extends AbstractMergeAction
 {
-    private static final Logger logger = Logger.getLogger(OrderedMergeAction.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(OrderedMergeAction.class.getName());
 
     @Override
     public void perform(Element originalElement, Element patchElement, Element outputParentElement)
             throws AbstractXmlMergeException
     {
 
-        logger.fine("Merging: " + originalElement + " (original) and " + patchElement + "(patch)");
+        LOGGER.fine("Merging: " + originalElement + " (original) and " + patchElement + "(patch)");
 
-        Mapper mapper = (Mapper) m_mapperFactory.getOperation(originalElement, patchElement);
+        Mapper mapper = (Mapper) mapperFactory.getOperation(originalElement, patchElement);
 
         if (originalElement == null)
         {
@@ -74,7 +74,7 @@ public class OrderedMergeAction extends AbstractMergeAction
                     .getNamespacePrefix(), originalElement.getNamespaceURI());
             addAttributes(workingElement, originalElement);
 
-            logger.fine("Adding " + workingElement);
+            LOGGER.fine("Adding " + workingElement);
             outputParentElement.addContent(workingElement);
 
             doIt(workingElement, originalElement, patchElement);
@@ -96,8 +96,12 @@ public class OrderedMergeAction extends AbstractMergeAction
 
         addAttributes(parentOut, parentIn2);
 
-        Content[] list1 = (Content[]) parentIn1.getContent().toArray(new Content[] {});
-        Content[] list2 = (Content[]) parentIn2.getContent().toArray(new Content[] {});
+        Content[] list1 = (Content[]) parentIn1.getContent().toArray(new Content[]
+        {
+        });
+        Content[] list2 = (Content[]) parentIn2.getContent().toArray(new Content[]
+        {
+        });
 
         int offsetTreated1 = 0;
         int offsetTreated2 = 0;
@@ -105,7 +109,7 @@ public class OrderedMergeAction extends AbstractMergeAction
         for (Content content1 : list1)
         {
 
-            logger.fine("List 1: " + content1);
+            LOGGER.fine("List 1: " + content1);
 
             if (content1 instanceof Comment || content1 instanceof Text)
             {
@@ -126,15 +130,15 @@ public class OrderedMergeAction extends AbstractMergeAction
                 for (int j = offsetTreated2; j < list2.length; j++)
                 {
 
-                    logger.fine("List 2: " + list2[j]);
+                    LOGGER.fine("List 2: " + list2[j]);
 
                     if (list2[j] instanceof Element)
                     {
 
-                        if (((Matcher) m_matcherFactory.getOperation(e1, (Element) list2[j]))
+                        if (((Matcher) matcherFactory.getOperation(e1, (Element) list2[j]))
                                 .matches(e1, (Element) list2[j]))
                         {
-                            logger.fine("Match found: " + e1 + " and " + list2[j]);
+                            LOGGER.fine("Match found: " + e1 + " and " + list2[j]);
                             posInList2 = j;
                             break;
                         }
@@ -159,16 +163,13 @@ public class OrderedMergeAction extends AbstractMergeAction
                     {
                         applyAction(parentOut, null, (Element) list2[offsetTreated2]);
                     }
-                    else
+                    // FIXME prevent double comments in output by enhancing applyAction() to
+                    // Content type instead of Element
+                    // Workaround: Add only comments from original document (List1)
+                    else if (!(list2[offsetTreated2] instanceof Comment))
                     {
-                        // FIXME prevent double comments in output by enhancing applyAction() to
-                        // Content type instead of Element
-                        // Workaround: Add only comments from original document (List1)
-                        if (!(list2[offsetTreated2] instanceof Comment))
-                        {
-                            contentToAdd = (Content) list2[offsetTreated2].clone();
-                            parentOut.addContent(contentToAdd);
-                        }
+                        contentToAdd = (Content) list2[offsetTreated2].clone();
+                        parentOut.addContent(contentToAdd);
                     }
 
                     offsetTreated2++;
@@ -201,16 +202,13 @@ public class OrderedMergeAction extends AbstractMergeAction
             {
                 applyAction(parentOut, null, (Element) list2[offsetTreated2]);
             }
-            else
+            else if (!(list2[offsetTreated2] instanceof Comment))
             {
                 // FIXME prevent double comments in output by enhancing applyAction() to Content
                 // type instead of Element
                 // Workaround: Add only comments from original document (List1)
-                if (!(list2[offsetTreated2] instanceof Comment))
-                {
-                    contentToAdd = (Content) list2[offsetTreated2].clone();
-                    parentOut.addContent(contentToAdd);
-                }
+                contentToAdd = (Content) list2[offsetTreated2].clone();
+                parentOut.addContent(contentToAdd);
             }
 
             offsetTreated2++;
@@ -229,8 +227,8 @@ public class OrderedMergeAction extends AbstractMergeAction
     private void applyAction(Element workingParent, Element originalElement, Element patchElement)
             throws AbstractXmlMergeException
     {
-        Action action = (Action) m_actionFactory.getOperation(originalElement, patchElement);
-        Mapper mapper = (Mapper) m_mapperFactory.getOperation(originalElement, patchElement);
+        Action action = (Action) actionFactory.getOperation(originalElement, patchElement);
+        Mapper mapper = (Mapper) mapperFactory.getOperation(originalElement, patchElement);
 
         action.perform(originalElement, mapper.map(patchElement), workingParent);
     }
@@ -253,14 +251,14 @@ public class OrderedMergeAction extends AbstractMergeAction
         {
             attr.detach();
             allAttributes.put(attr.getQualifiedName(), attr);
-            logger.fine("adding attr from out:" + attr);
+            LOGGER.fine("adding attr from out:" + attr);
         }
 
         for (Attribute attr : inAttributes)
         {
             attr.detach();
             allAttributes.put(attr.getQualifiedName(), attr);
-            logger.fine("adding attr from in:" + attr);
+            LOGGER.fine("adding attr from in:" + attr);
         }
 
         out.setAttributes(new ArrayList<Attribute>(allAttributes.values()));

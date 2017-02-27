@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.htmlhello;
 
 import com.izforge.izpack.api.data.Panel;
@@ -27,21 +26,22 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel;
 
 /**
- * Class HTMLHelloPanel is a version of the hello panel that displays
- * HTML content.
+ * Class HTMLHelloPanel is a version of the hello panel that displays HTML
+ * content.
  */
 public class HTMLHelloPanel extends HTMLInfoPanel
 {
+
     private static final long serialVersionUID = -7671648991830935148L;
 
     /**
      * Constructs an <tt>HTMLHelloPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param log         the log
+     * @param resources the resources
+     * @param log the log
      */
     public HTMLHelloPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {

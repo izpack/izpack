@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.resource;
 
 import static org.junit.Assert.assertEquals;
@@ -37,8 +36,10 @@ import com.izforge.izpack.api.exception.ResourceNotFoundException;
  */
 public class ResourceManagerTest
 {
+
     /**
-     * Verifies images can be retrieved for each of the supported countries and languages.
+     * Verifies images can be retrieved for each of the supported countries and
+     * languages.
      */
     @Test
     public void testImages()
@@ -68,20 +69,20 @@ public class ResourceManagerTest
     {
         ResourceManager resources = new ResourceManager();
         resources.setResourceBasePath("/com/izforge/izpack/core/resource/");
-        
+
         ImageIcon icon = resources.getImageIcon("testbmp.bmp");
         assertNotNull(icon);
-        
+
         assertEquals(20, icon.getIconWidth());
         assertEquals(20, icon.getIconHeight());
     }
-    
-    @Test(expected=ResourceNotFoundException.class)
+
+    @Test(expected = ResourceNotFoundException.class)
     public void testInvalidImageName()
     {
         ResourceManager resources = new ResourceManager();
         resources.setResourceBasePath("/com/izforge/izpack/core/resource/");
-        
+
         // this resource does not exist
         resources.getImageIcon("testbmp.bmpx");
     }

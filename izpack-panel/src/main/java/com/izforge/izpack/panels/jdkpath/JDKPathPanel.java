@@ -19,7 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.jdkpath;
 
 import java.awt.Desktop;
@@ -52,25 +51,26 @@ import com.izforge.izpack.util.Platform;
  */
 public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
 {
+
     private static final long serialVersionUID = 3257006553327810104L;
 
-    private static final Logger logger = Logger.getLogger(JDKPathPanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(JDKPathPanel.class.getName());
 
     private final RegistryDefaultHandler handler;
 
     /**
      * Constructs a <tt>JDKPathPanel</tt>.
      *
-     * @param panel       the panel meta-data
-     * @param parent      the parent window
+     * @param panel the panel meta-data
+     * @param parent the parent window
      * @param installData the installation data
-     * @param resources   the resources
-     * @param handler     the registry handler
-     * @param replacer    the variable replacer
-     * @param log         the log
+     * @param resources the resources
+     * @param handler the registry handler
+     * @param replacer the variable replacer
+     * @param log the log
      */
     public JDKPathPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                        RegistryDefaultHandler handler, VariableSubstitutor replacer, Log log)
+            RegistryDefaultHandler handler, VariableSubstitutor replacer, Log log)
     {
         super(panel, parent, installData, resources, log);
         this.handler = handler;
@@ -78,7 +78,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         setMustExist(true);
         if (!installData.getPlatform().isA(Platform.Name.MAC_OSX))
         {
-            setExistFiles(JDKPathPanelHelper.testFiles);
+            setExistFiles(JDKPathPanelHelper.TEST_FILES);
         }
 
         String msg = getString("JDKPathPanel.jdkDownload");
@@ -115,7 +115,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         }
         catch (Exception err)
         {
-            logger.log(Level.WARNING, err.getMessage());
+            LOGGER.log(Level.WARNING, err.getMessage());
         }
     }
 
@@ -127,7 +127,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     @Override
     public boolean isValidated()
     {
-        if(super.isValidated())
+        if (super.isValidated())
         {
             String detectedJavaVersion;
             String strPath = pathSelectionPanel.getPath();
@@ -164,7 +164,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         pathSelectionPanel.setPath(defaultValue);
 
         // Should we skip this panel?
-        if(JDKPathPanelHelper.skipPanel(installData, defaultValue))
+        if (JDKPathPanelHelper.skipPanel(installData, defaultValue))
         {
             parent.skipPanel();
         }

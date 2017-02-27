@@ -18,12 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.panels.userinput.field;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.binding.OsModel;
-import com.izforge.izpack.api.exception.IzPackException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +33,7 @@ import java.util.List;
  */
 public class FieldReader extends ElementReader implements FieldConfig
 {
+
     /**
      * The field element.
      */
@@ -91,7 +90,7 @@ public class FieldReader extends ElementReader implements FieldConfig
     /**
      * Constructs a {@code FieldReader}.
      *
-     * @param field  the field element to read
+     * @param field the field element to read
      * @param config the configuration
      */
     public FieldReader(IXMLElement field, Config config)
@@ -126,18 +125,21 @@ public class FieldReader extends ElementReader implements FieldConfig
      *
      * @return the 'omitFromAuto' attribute
      */
-    public boolean getOmitFromAuto() {
+    public boolean getOmitFromAuto()
+    {
         return getConfig().getBoolean(getSpec(), OMIT_FROM_AUTO, false);
     }
 
     /**
      * Returns the variable that the field reads and updates.
      * <p/>
-     * This implementation throws an exception if the variable is not present; subclasses override and return
-     * {@code null} if the variable is optional.
+     * This implementation throws an exception if the variable is not present;
+     * subclasses override and return {@code null} if the variable is optional.
      *
-     * @return the 'variable' attribute, or {@code null} if the variable is optional but not present
-     * @throws IzPackException if the 'variable' attribute is mandatory but not present
+     * @return the 'variable' attribute, or {@code null} if the variable is
+     * optional but not present
+     * @throws IzPackException if the 'variable' attribute is mandatory but not
+     * present
      */
     @Override
     public String getVariable()
@@ -195,7 +197,8 @@ public class FieldReader extends ElementReader implements FieldConfig
     /**
      * Returns the operating systems that this field applies to.
      *
-     * @return the operating systems, or an empty list if the field applies to all operating systems
+     * @return the operating systems, or an empty list if the field applies to
+     * all operating systems
      */
     @Override
     public List<OsModel> getOsModels()
@@ -232,7 +235,8 @@ public class FieldReader extends ElementReader implements FieldConfig
     /**
      * Returns the field size.
      *
-     * @return the field size, or {@code -1} if no size is specified, or the specified size is invalid
+     * @return the field size, or {@code -1} if no size is specified, or the
+     * specified size is invalid
      */
     @Override
     public int getSize()
@@ -259,7 +263,7 @@ public class FieldReader extends ElementReader implements FieldConfig
         {
             FieldValidatorReader reader = new FieldValidatorReader(element, config);
             result.add(new FieldValidator(reader.getClassName(), reader.getParameters(), reader.getMessage(),
-                                          config.getFactory()));
+                    config.getFactory()));
         }
         return result;
     }
@@ -269,6 +273,7 @@ public class FieldReader extends ElementReader implements FieldConfig
     {
         return getValidators(this.field);
     }
+
     /**
      * Returns the processor the field.
      *
@@ -298,7 +303,8 @@ public class FieldReader extends ElementReader implements FieldConfig
      * @return the field tooltip. May be @{code null}
      */
     @Override
-    public String getTooltip() {
+    public String getTooltip()
+    {
         return getConfig().getAttribute(field, TOOLTIP, true);
     }
 
@@ -327,10 +333,12 @@ public class FieldReader extends ElementReader implements FieldConfig
     /**
      * Returns the 'spec' element.
      *
-     * @param field  the parent field element
+     * @param field the parent field element
      * @param config the configuration
-     * @return the 'spec' element, or {@code null} if the spec element is optional and not found
-     * @throws IzPackException if the 'spec' element is mandatory but not present
+     * @return the 'spec' element, or {@code null} if the spec element is
+     * optional and not found
+     * @throws IzPackException if the 'spec' element is mandatory but not
+     * present
      */
     protected IXMLElement getSpec(IXMLElement field, Config config)
     {
@@ -340,7 +348,8 @@ public class FieldReader extends ElementReader implements FieldConfig
     /**
      * Extracts the text from an element. The text can be defined:
      * <ol>
-     * <li>in the locale's messages, under the key defined by the {@code id} attribute; or
+     * <li>in the locale's messages, under the key defined by the {@code id}
+     * attribute; or
      * <li>as value of the attribute {@code txt}.
      * </ol>
      *
