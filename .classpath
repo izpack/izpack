@@ -10,7 +10,7 @@
 	<classpathentry kind="lib" path="lib/jna-platform-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/bcpkix-jdk15on-150.jar"/>
 	<classpathentry kind="lib" path="lib/bcprov-jdk15on-150.jar"/>
-	<classpathentry kind="lib" path="lib/mongo-java-driver-3.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/mongo-java-driver-3.4.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="eclipse-bin"/>
 </classpath>

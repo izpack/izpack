@@ -255,7 +255,7 @@
             <!-- older ant jar, which izpack distributes and uses for fileset behavior -->
             <include name="ant.jar"/>
             <include name="jakarta-regexp-1.3.jar"/>
-            <include name="mongo-java-driver-3.0.1.jar"/>
+            <include name="mongo-java-driver-3.4.2.jar"/>
             <include name="jna-4.0.0.jar"/>
             <include name="jna-platform-4.0.0.jar"/>
         </fileset>
@@ -282,7 +282,7 @@
     <target name="compile.compiler" depends="prepare">
         <javac srcdir="${src.dir}"
         	includeantruntime="yes"
-            classpath="${basedir}/lib/jakarta-regexp-1.3.jar:${basedir}/lib/mongo-java-driver-3.0.1.jar:${basedir}/lib/jna-4.0.0.jar:${basedir}/lib/jna-platform-4.0.0.jar"
+            classpath="${basedir}/lib/jakarta-regexp-1.3.jar:${basedir}/lib/mongo-java-driver-3.4.2.jar:${basedir}/lib/jna-4.0.0.jar:${basedir}/lib/jna-platform-4.0.0.jar"
                destdir="${build.dir}"
                optimize="on"
                source="${compat.source}"
@@ -380,7 +380,7 @@
     <target name="compile.installer" depends="prepare">
         <javac srcdir="${src.dir}"
         	includeantruntime="yes"
-               classpath="${basedir}/lib/jakarta-regexp-1.3.jar:${basedir}/lib/mongo-java-driver-3.0.1.jar:${basedir}/lib/jna-4.0.0.jar:${basedir}/lib/jna-platform-4.0.0.jar:${basedir}/lib/bcpkix-jdk15on-150.jar:${basedir}/lib/bcprov-jdk15on-150.jar"
+               classpath="${basedir}/lib/jakarta-regexp-1.3.jar:${basedir}/lib/mongo-java-driver-3.4.2.jar:${basedir}/lib/jna-4.0.0.jar:${basedir}/lib/jna-platform-4.0.0.jar:${basedir}/lib/bcpkix-jdk15on-150.jar:${basedir}/lib/bcprov-jdk15on-150.jar"
                destdir="${build.dir}"
                optimize="on"
                source="${compat.source}"
