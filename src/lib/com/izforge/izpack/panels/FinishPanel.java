@@ -24,11 +24,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -145,6 +148,30 @@ public class FinishPanel extends IzPanel implements ActionListener
             constraints.gridx = 0;
             add(autoButton, constraints);
  
+            JCheckBox check = new JCheckBox(
+                    parent.langpack.getString("FinishPanel.launchAfterInstall"));
+            check.setSelected(false);
+            idata.setVariable("launch_app_after_install", "off");
+            check.addItemListener(new ItemListener() {
+
+                public void itemStateChanged(ItemEvent e)
+                {
+                    if (e.getStateChange() == ItemEvent.SELECTED)
+                    {
+                        idata.setVariable("launch_app_after_install", "on");
+                    }
+                    else
+                    {
+                        idata.setVariable("launch_app_after_install", "off");
+                    }
+                }
+            });
+            constraints.gridx = 0;
+            constraints.insets = new Insets(50, 0, 0, 0); // add padding between the launch
+                                                          // application checkbox and the
+                                                          // previous
+                                                          // element
+            add(check, constraints);
         }
         else
         {

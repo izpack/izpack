@@ -134,6 +134,8 @@
     <str id="FinishPanel.auto" txt="Generate an automatic installation script"/>
     <str id="FinishPanel.auto.tip" txt="Use this script to repeat this installation on other computers."/>
     <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
+    <str id="FinishPanel.launchAfterInstall" txt="<launch application text>"/>
+    <str id="FinishPanel.launchAfterInstall.fail" txt="<launch application fail text>"/>
 
 		<!-- ImgPacksPanel strings -->
 		<str id="ImgPacksPanel.dependencyList" txt="Dependencies and/or excludes"/>
