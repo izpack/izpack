@@ -165,19 +165,10 @@ public class ConsolePrompt extends AbstractPrompt
         }
         else
         {
-            String defaultValue = no;
+        	result = Option.NO;
             if (defaultOption != null && defaultOption == Option.YES)
             {
-                defaultValue = yes;
-            }
-            String selected = console.prompt(yesNoPrompt, new String[]{yes, no}, defaultValue);
-            if (yes.equals(selected))
-            {
-                result = Option.YES;
-            }
-            else
-            {
-                result = Option.NO;
+            	 result = Option.YES;
             }
         }
         return result;
