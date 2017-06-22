@@ -81,7 +81,7 @@ public class GUIPackResources extends AbstractPackResources
 
         try
         {
-            URL url = new URL("jar:" + packLocalFile.toURI().toURL() + "!/packs/pack-" + name);
+            URL url = new URL("jar:" + packLocalFile.getPath() + "!/packs/pack-" + name);
             result = url.openStream();
         }
         catch (IOException exception)
