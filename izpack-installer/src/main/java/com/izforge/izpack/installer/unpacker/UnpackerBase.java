@@ -250,23 +250,26 @@ public abstract class UnpackerBase implements IUnpacker
         logger.info(new String(chars));
         logger.info(startMessage);
 
-        URLClassLoader cl = (URLClassLoader) getClass().getClassLoader();
-        InputStream is = null;
-        try
+        if (getClass().getClassLoader() instanceof URLClassLoader) // Java 9
         {
-            URL url = cl.findResource("META-INF/MANIFEST.MF");
-            is = url.openStream();
-            Manifest manifest = new Manifest(is);
-            Attributes attr = manifest.getMainAttributes();
-            logger.info(messages.get("installer.version", attr.getValue("Created-By")));
-        }
-        catch (IOException e)
-        {
-            logger.log(Level.WARNING, "IzPack version not found in manifest", e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(is);
+            URLClassLoader cl = (URLClassLoader) getClass().getClassLoader();
+            InputStream is = null;
+            try
+            {
+                URL url = cl.findResource("META-INF/MANIFEST.MF");
+                is = url.openStream();
+                Manifest manifest = new Manifest(is);
+                Attributes attr = manifest.getMainAttributes();
+                logger.info(messages.get("installer.version", attr.getValue("Created-By")));
+            }
+            catch (IOException e)
+            {
+                logger.log(Level.WARNING, "IzPack version not found in manifest", e);
+            }
+            finally
+            {
+                IOUtils.closeQuietly(is);
+            }
         }
 
         logger.info(messages.get("installer.platform", matcher.getCurrentPlatform()));
