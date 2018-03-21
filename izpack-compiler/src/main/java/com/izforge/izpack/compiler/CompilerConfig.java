@@ -1014,7 +1014,7 @@ public class CompilerConfig extends Thread
         {
             for (TargetFileSet fs : readFileSets(packElement, baseDir))
             {
-                processFileSetChildren(fs, baseDir, pack);
+                processFileSetChildren(fs, baseDir, null, pack);
             }
         }
         catch (Exception e)
@@ -1023,7 +1023,7 @@ public class CompilerConfig extends Thread
         }
     }
 
-    private void processFileSetChildren(TargetFileSet fs, File baseDir, PackInfo pack) throws Exception
+    private void processFileSetChildren(TargetFileSet fs, File baseDir, List<OsModel> parentOsList, PackInfo pack) throws Exception
     {
         String[][] includedFilesAndDirs = new String[][]{
                 fs.getDirectoryScanner().getIncludedDirectories(),
@@ -1039,8 +1039,20 @@ public class CompilerConfig extends Thread
                     {
                         File file = new File(fs.getDir(), filePath);
                         String target = new File(fs.getTargetDir(), filePath).getPath();
+                        
+                        // get list of OS constraints safisfiying both parent's and fs's
+                        List<OsModel> commonOsList;
+                        try
+                        {
+                            commonOsList = OsConstraintHelper.commonOsList(parentOsList, fs.getOsList());
+                        }
+                        catch (OsConstraintHelper.UnsatisfiableOsConstraintsException ex)
+                        {
+                            throw new CompilerException(ex.getMessage());
+                        }
+                        
                         logAddingFile(file.toString(), target);
-                        pack.addFile(baseDir, file, target, fs.getOsList(),
+                        pack.addFile(baseDir, file, target, commonOsList,
                                      fs.getOverride(), fs.getOverrideRenameTo(),
                                      fs.getBlockable(), fs.getAdditionals(), fs.getCondition(), fs.getPack200Properties());
                     }
@@ -1688,7 +1700,7 @@ public class CompilerConfig extends Thread
             {
                 for (IXMLElement fileSetNode : filesetNodes)
                 {
-                    processFileSetChildren(readArchiveFileSet(fileSetNode, baseTempDir, targetDir), baseTempDir, pack);
+                    processFileSetChildren(readArchiveFileSet(fileSetNode, baseTempDir, targetDir), baseTempDir, osList, pack);
                 }
             }
         }
