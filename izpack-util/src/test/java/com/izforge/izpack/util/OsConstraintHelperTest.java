@@ -19,13 +19,17 @@
 package com.izforge.izpack.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
 
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.binding.OsModel;
+import java.util.Arrays;
 
 /**
  * Tests {@link OsConstraintHelper}.
@@ -92,5 +96,141 @@ public class OsConstraintHelperTest
         assertEquals(name, model.getName());
         assertEquals(version, model.getVersion());
     }
-
+    
+    /**
+     * Tests the {@link OsConstraintHelper#getOsList} method.
+     */
+    @Test
+    public void testCommonOsList()
+    {
+        OsModel x64 = new OsModel("x64", null, null, null, null);
+        OsModel mac = new OsModel(null, "mac", null, null, null);
+        OsModel unix = new OsModel(null, "unix", null, null, null);
+        OsModel win = new OsModel(null, "windows", null, null, null);
+        OsModel x64mac = new OsModel("x64", "mac", null, null, null);
+        OsModel x64unix = new OsModel("x64", "unix", null, null, null);
+        OsModel x64win = new OsModel("x64", "windows", null, null, null);
+        OsModel x86unix = new OsModel("x86", "unix", null, null, null);
+        OsModel x86win = new OsModel("x86", "windows", null, null, null);
+        
+        List<OsModel> anyList = Collections.emptyList();
+        List<OsModel> x64List = Collections.singletonList(x64);
+        List<OsModel> macList = Collections.singletonList(mac);
+        List<OsModel> winList = Collections.singletonList(win);
+        List<OsModel> unixX64winList = Arrays.asList(unix, x64win); // unix or (x64 and win)
+        List<OsModel> macX86unixWinList = Arrays.asList(mac, x86unix, win); // mac or (x86 and unix) or win
+        
+        // [] and []
+        checkCommonOsList(anyList, anyList, true, x86win, x64mac, x64unix);
+        
+        // [] and [win]
+        checkCommonOsList(anyList, winList, true, x86win, x64win);
+        checkCommonOsList(anyList, winList, false, x64mac, x64unix);
+        
+        // [win] and []
+        checkCommonOsList(winList, anyList, true, x86win, x64win);
+        checkCommonOsList(winList, anyList, false, x64mac, x64unix);
+        
+        // [win] and [win]
+        checkCommonOsList(winList, winList, true, x86win, x64win);
+        checkCommonOsList(winList, winList, false, x64mac, x64unix);
+        
+        // [win] and [x64]
+        checkCommonOsList(winList, x64List, true, x64win);
+        checkCommonOsList(winList, x64List, false, x86win, x64mac, x86unix, x64unix);
+        
+        // [unix or (x64 and win)] and [x64]
+        checkCommonOsList(unixX64winList, x64List, true, x64win, x64unix);
+        checkCommonOsList(unixX64winList, x64List, false, x86win, x86unix, x64mac);
+        
+        // [unix or (x64 and win)] and [mac] is unsatisfiable
+        try
+        {
+            OsConstraintHelper.commonOsList(unixX64winList, macList);
+            fail();
+        }
+        catch (OsConstraintHelper.UnsatisfiableOsConstraintsException ex) {
+            // expected
+        }
+        
+        // [unix or (x64 and win)] and [mac or (x86 and unix) or win]
+        checkCommonOsList(unixX64winList, macX86unixWinList, true, x86unix, x64win);
+        checkCommonOsList(unixX64winList, macX86unixWinList, false, x86win, x64unix, x64mac);
+    }
+    
+    /**
+     * Computes and verifies list of common OS constraints of lists
+     * {@code osList} and {@code otherOsList}.
+     * <p>
+     * <b>Note:</b> It is expected that the combination of {@code osList} and
+     * {@code otherOsList} is satisfiable.
+     * 
+     * @param osList list of OS constraints
+     * @param otherOsList other list of OS constraints
+     * @param result expected verification result
+     * @param matches tested OS instances
+     */
+    private void checkCommonOsList(List<OsModel> osList, List<OsModel> otherOsList,
+            boolean result, OsModel... matches)
+    {
+        List<OsModel> commonOsList;
+        try
+        {
+            commonOsList = OsConstraintHelper.commonOsList(osList, otherOsList);
+        }
+        catch (OsConstraintHelper.UnsatisfiableOsConstraintsException ex)
+        {
+            fail(ex.getMessage());
+            return;
+        }
+        
+        if (commonOsList.isEmpty())
+        {
+            // all matches match []
+            assertTrue(result);
+            return;
+        }
+        
+        for (OsModel match : matches)
+        {
+            assertTrue(match(commonOsList, match) == result);
+        }
+    }
+    
+    private boolean match(List<OsModel> osList, OsModel os)
+    {
+        for (OsModel constraints : osList)
+        {
+            boolean match = true;
+            
+            if (constraints.getArch() != null && os.getArch() != null)
+            {
+                match = constraints.getArch().equals(os.getArch());
+            }
+            if (match && constraints.getFamily() != null && os.getFamily() != null)
+            {
+                match = constraints.getFamily().equals(os.getFamily());
+            }
+            if (match && constraints.getJre() != null && os.getJre() != null)
+            {
+                match = constraints.getJre().equals(os.getJre());
+            }
+            if (match && constraints.getName() != null && os.getName() != null)
+            {
+                match = constraints.getName().equals(os.getName());
+            }
+            if (match && constraints.getVersion() != null && os.getVersion() != null)
+            {
+                match = constraints.getVersion().equals(os.getVersion());
+            }
+            
+            if (match)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
 }
