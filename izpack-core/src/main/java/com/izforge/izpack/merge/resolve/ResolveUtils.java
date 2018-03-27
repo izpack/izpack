@@ -169,7 +169,7 @@ public class ResolveUtils
 
     public static Set<URL> getJarUrlForPackage(String packageName)
     {
-        URLClassLoader loader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
+    	ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Set<URL> result = new HashSet<URL>();
         try
         {

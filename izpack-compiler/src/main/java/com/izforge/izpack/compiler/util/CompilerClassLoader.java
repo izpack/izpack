@@ -51,7 +51,7 @@ public class CompilerClassLoader extends URLClassLoader
      */
     public CompilerClassLoader(ClassNameMapper mapper)
     {
-        this(CompilerClassLoader.class.getClassLoader(), mapper);
+        this(new URLClassLoader(new URL[0], CompilerClassLoader.class.getClassLoader()), mapper);
     }
 
     /**

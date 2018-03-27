@@ -45,10 +45,10 @@ public class ClassUtils
     {
         try
         {
-            URLClassLoader systemClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
+        	URLClassLoader urlClassLoader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
             Method declaredMethod = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
             declaredMethod.setAccessible(true);
-            declaredMethod.invoke(systemClassLoader, out.toURI().toURL());
+            declaredMethod.invoke(urlClassLoader, out.toURI().toURL());
         }
         catch (Exception e)
         {

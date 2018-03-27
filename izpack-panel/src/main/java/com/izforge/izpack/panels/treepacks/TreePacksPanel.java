@@ -393,10 +393,10 @@ public class TreePacksPanel extends IzPanel
      */
     private void syncCheckboxesWithModel(CheckBoxNode rootNode)
     {
-        Enumeration<CheckBoxNode> e = rootNode.children();
+        Enumeration<TreeNode> e = rootNode.children();
         while (e.hasMoreElements())
         {
-            CheckBoxNode node = e.nextElement();
+            CheckBoxNode node = (CheckBoxNode) e.nextElement();
             String nodeText = node.getId();
             Object nodePack = namesToPacks.get(nodeText);
 
