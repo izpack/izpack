@@ -86,6 +86,11 @@ import com.izforge.izpack.util.helper.SpecHelper;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.io.FileUtils;
@@ -99,8 +104,6 @@ import java.text.ParseException;
 import java.util.*;
 import java.util.jar.Pack200;
 import java.util.logging.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import static com.izforge.izpack.api.data.Info.EXPIRE_DATE_FORMAT;
 
@@ -1203,7 +1206,7 @@ public class CompilerConfig extends Thread
                             logger.info("Adding content from archive: " + abssrcfile);
                             addArchiveContent(fileNode, baseDir, abssrcfile, fs.getTargetDir(),
                                               fs.getOsList(), fs.getOverride(), fs.getOverrideRenameTo(),
-                                              fs.getBlockable(), pack, fs.getAdditionals(), fs.getCondition(),
+                                              fs.getBlockable(), pack, (Map<String, HashMap<String, Object>>) fs.getAdditionals(), fs.getCondition(),
                                               pack200Properties);
                         }
                         else
@@ -1547,8 +1550,8 @@ public class CompilerConfig extends Thread
             ZipFile zip;
             try
             {
-                zip = new ZipFile(refXMLFile, ZipFile.OPEN_READ);
-                ZipEntry specentry = zip.getEntry("META-INF/izpack.xml");
+                zip = new ZipFile(refXMLFile);
+                ZipArchiveEntry specentry = zip.getEntry("META-INF/izpack.xml");
                 specin = zip.getInputStream(specentry);
             }
             catch (IOException e)
@@ -1614,7 +1617,7 @@ public class CompilerConfig extends Thread
      */
     private void addArchiveContent(IXMLElement fileNode, File baseDir, File archive, String targetDir,
                                    List<OsModel> osList, OverrideType override, String overrideRenameTo,
-                                   Blockable blockable, PackInfo pack, Map<String, ?> additionals,
+                                   Blockable blockable, PackInfo pack, Map<String, HashMap<String, Object>> additionals,
                                    String condition, Map<String, String> pack200Properties) throws Exception
     {
         String archiveName = archive.getName();
@@ -1642,16 +1645,20 @@ public class CompilerConfig extends Thread
         {
             archiveInputStream = new ArchiveStreamFactory().createArchiveInputStream(archive, uncompressedInputStream);
 
-            // file is an archive (incl. ZIP archive) - unpack recursively
             baseTempDir = com.izforge.izpack.util.file.FileUtils.createTempDirectory("izpack", TEMP_DIR);
+
+            if (additionals == null) additionals = new LinkedHashMap<String, HashMap<String, Object>>();
+
+            if (archiveInputStream instanceof ZipArchiveInputStream) getAdditionalDataFromZipArchive(additionals, archive, targetDir);
 
             while (true)
             {
-                ArchiveEntry entry = archiveInputStream.getNextEntry();
-                if (entry == null)
-                {
-                    break;
-                }
+                ArchiveEntry entry;
+
+                entry = getAdditionalDataFromTarArchive(additionals, archiveInputStream, targetDir);
+
+                if (entry == null) break;
+
                 String entryName = entry.getName();
                 if (entry.isDirectory())
                 {
@@ -1667,24 +1674,14 @@ public class CompilerConfig extends Thread
                 }
                 else
                 {
-                    FileOutputStream tempFileStream = null;
-                    try
-                    {
-                        File tempFile = new File(baseTempDir, entryName);
-                        tempFileStream = FileUtils.openOutputStream(tempFile);
-                        IOUtils.copy(archiveInputStream, tempFileStream);
-                        tempFileStream.close();
+                    File tempFile = new File(baseTempDir, entryName);
+                    FileUtils.copyToFile(archiveInputStream, tempFile);
 
-                        if (hasNoFileSet)
-                        {
-                            String target = targetDir + "/" + entryName;
-                            logAddingFile(entryName + " (" + archiveName + ")", target);
-                            pack.addFile(baseTempDir, tempFile, target, osList, override, overrideRenameTo, blockable, additionals, condition, pack200Properties);
-                        }
-                    }
-                    finally
+                    if (hasNoFileSet)
                     {
-                        IOUtils.closeQuietly(tempFileStream);
+                        String target = targetDir + "/" + entryName;
+                        logAddingFile(entryName + " (" + archiveName + ")", target);
+                        pack.addFile(baseTempDir, tempFile, target, osList, override, overrideRenameTo, blockable, additionals, condition, pack200Properties);
                     }
                 }
             }
@@ -1734,6 +1731,67 @@ public class CompilerConfig extends Thread
                 FileUtils.forceDeleteOnExit(baseTempDir);
             }
         }
+    }
+
+    private void getAdditionalDataFromZipArchive(Map<String, HashMap<String, Object>> additionals, File zipArchive, String targetDir) throws IOException {
+
+        ZipFile tmpZip = new ZipFile(zipArchive);
+
+        Enumeration<ZipArchiveEntry> allZipArchEntries = tmpZip.getEntries();
+
+        while (allZipArchEntries.hasMoreElements()) {
+
+            ZipArchiveEntry entry = allZipArchEntries.nextElement();
+
+            if (entry != null) {
+
+                HashMap<String, Object> tmpMap = new HashMap<String, Object>();
+
+                String perm = Integer.toOctalString(entry.getUnixMode());
+
+                tmpMap.put("entryName", entry.getName());
+                tmpMap.put("isSymbolicLink", entry.isUnixSymlink());
+                tmpMap.put("isLink", false);
+                tmpMap.put("getMode", perm.substring(perm.length() - 3));
+
+                if (entry.isUnixSymlink()) {
+                    InputStream stream = tmpZip.getInputStream(entry);
+                    String result = IOUtils.toString(stream, "UTF-8");
+                    tmpMap.put("getLinkName", result);
+                }
+
+                additionals.put(targetDir + "/" + entry.getName(), tmpMap);
+            }
+        }
+    }
+
+    private ArchiveEntry getAdditionalDataFromTarArchive(Map<String, HashMap<String, Object>> additionals, ArchiveInputStream archiveInputStream, String targetDir) throws IOException {
+
+        ArchiveEntry entry;
+
+        if (archiveInputStream instanceof TarArchiveInputStream) {
+            entry = ((TarArchiveInputStream) archiveInputStream).getNextTarEntry();
+
+            if (entry != null) {
+                if (additionals == null) {
+                    additionals = new LinkedHashMap<String, HashMap<String, Object>>();
+                }
+
+                HashMap<String, Object> tmpMap = new HashMap<String, Object>();
+
+                tmpMap.put("entryName", entry.getName());
+                tmpMap.put("isSymbolicLink", ((TarArchiveEntry) entry).isSymbolicLink());
+                tmpMap.put("isLink", ((TarArchiveEntry) entry).isLink());
+                tmpMap.put("getLinkName", ((TarArchiveEntry) entry).getLinkName());
+                tmpMap.put("getMode", Integer.toOctalString(((TarArchiveEntry) entry).getMode()));
+
+                additionals.put(targetDir + "/" + entry.getName(), tmpMap);
+            }
+        }
+
+        else entry = archiveInputStream.getNextEntry();
+
+        return entry;
     }
 
     /**
@@ -2027,7 +2085,6 @@ public class CompilerConfig extends Thread
     private void addResources(IXMLElement data, File baseDir) throws CompilerException
     {
         notifyCompilerListener("addResources", CompilerListener.BEGIN, data);
-
         // A list of packsLang-files that were defined by the user in the resource-section The key of
         // this map is an packsLang-file identifier, e.g. <code>packsLang.xml_eng</code>, the values
         // are lists of {@link URL} pointing to the concrete packsLang-files.         *

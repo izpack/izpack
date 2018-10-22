@@ -28,8 +28,11 @@ import com.izforge.izpack.util.os.FileQueue;
 import com.izforge.izpack.util.os.FileQueueMove;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import sun.security.krb5.internal.crypto.HmacSha1Aes128CksumType;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.logging.Logger;
 
 
@@ -146,7 +149,50 @@ public abstract class FileUnpacker
 
         postCopy(file);
 
+        if (file.getAdditionals() != null) {
+            Map fullAdditionalsMap = file.getAdditionals();
+            HashMap<String,Object> filePropertiesMap = (HashMap<String, Object>) fullAdditionalsMap.get(file.getTargetPath());
+            setAdditionalData(target.getPath(), filePropertiesMap);
+        }
         return bytesCopied;
+    }
+
+    private void setAdditionalData(String target, HashMap<String, Object> additionals)
+    {
+        ArrayList<String> execCommands = new ArrayList<String>();
+
+        if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+            if ((Boolean) additionals.get("isSymbolicLink")) {
+                execCommands.add("ln -sf " + additionals.get("getLinkName") + " " + target);
+            }
+            if ((Boolean) additionals.get("isLink")) {
+                String pathToLink = target.substring(0, target.length() - ((String) additionals.get("entryName")).length());
+                execCommands.add("ln -fv " + pathToLink + additionals.get("getLinkName") + " " + target);
+            }
+            execCommands.add("chmod " + additionals.get("getMode") + " " + target);
+        }
+        else if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+
+                if ((Boolean) additionals.get("isSymbolicLink")) {
+                    execCommands.add("cmd.exe /c del " + target);
+                    execCommands.add("cmd.exe /c mklink " + target + " " + ((String) additionals.get("getLinkName")).replace('/', '\\'));
+                }
+
+                if ((Boolean) additionals.get("isLink")) {
+                    execCommands.add("cmd.exe /c del " + target);
+                    String pathToLink = target.substring(0, target.length() - ((String) additionals.get("entryName")).length());
+                    execCommands.add("cmd.exe /c mklink /H " + target + " " + pathToLink + ((String) additionals.get("getLinkName")).replace('/', '\\'));
+                }
+        }
+
+        for (String tmpString : execCommands) {
+            try {
+                Process pr = Runtime.getRuntime().exec(tmpString);
+                pr.waitFor();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -157,7 +203,6 @@ public abstract class FileUnpacker
     protected void postCopy(PackFile file)
     {
         setLastModified(file);
-
         if (isBlockable(file))
         {
             queue();
