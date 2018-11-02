@@ -1144,6 +1144,7 @@ public class CompilerConfig extends Thread
         {
             String src = getSrcSubstitutedAttributeValue(fileNode);
             boolean unpack = Boolean.parseBoolean(fileNode.getAttribute("unpack"));
+            boolean keeppermissions = Boolean.parseBoolean(fileNode.getAttribute("keeppermissions"));
 
             TargetFileSet fs = new TargetFileSet();
             try
@@ -1206,8 +1207,8 @@ public class CompilerConfig extends Thread
                             logger.info("Adding content from archive: " + abssrcfile);
                             addArchiveContent(fileNode, baseDir, abssrcfile, fs.getTargetDir(),
                                               fs.getOsList(), fs.getOverride(), fs.getOverrideRenameTo(),
-                                              fs.getBlockable(), pack, (Map<String, HashMap<String, Object>>) fs.getAdditionals(), fs.getCondition(),
-                                              pack200Properties);
+                                              fs.getBlockable(), pack, fs.getAdditionals(), fs.getCondition(),
+                                              keeppermissions, pack200Properties);
                         }
                         else
                         {
@@ -1613,12 +1614,13 @@ public class CompilerConfig extends Thread
      * @param override    Overriding behaviour.
      * @param pack        Pack to be packed into
      * @param additionals Map which contains additional data
+     * @param keeppermissions Save files permissions or not
      * @param condition   condition that must evaluate {@code} true for the file to be installed. May be {@code null}
      */
     private void addArchiveContent(IXMLElement fileNode, File baseDir, File archive, String targetDir,
                                    List<OsModel> osList, OverrideType override, String overrideRenameTo,
-                                   Blockable blockable, PackInfo pack, Map<String, HashMap<String, Object>> additionals,
-                                   String condition, Map<String, String> pack200Properties) throws Exception
+                                   Blockable blockable, PackInfo pack, Map<String, ?> additionals,
+                                   String condition, boolean keeppermissions, Map<String, String> pack200Properties) throws Exception
     {
         String archiveName = archive.getName();
 
@@ -1647,15 +1649,17 @@ public class CompilerConfig extends Thread
 
             baseTempDir = com.izforge.izpack.util.file.FileUtils.createTempDirectory("izpack", TEMP_DIR);
 
-            if (additionals == null) additionals = new LinkedHashMap<String, HashMap<String, Object>>();
-
-            if (archiveInputStream instanceof ZipArchiveInputStream) getAdditionalDataFromZipArchive(additionals, archive, targetDir);
+            if (keeppermissions && additionals == null) {
+                additionals = new LinkedHashMap<String, HashMap<String, Object>>();
+                if (archiveInputStream instanceof ZipArchiveInputStream)
+                    getAdditionalDataFromZipArchive((LinkedHashMap<String, HashMap<String, Object>>) additionals, archive, targetDir);
+            }
 
             while (true)
             {
                 ArchiveEntry entry;
 
-                entry = getAdditionalDataFromTarArchive(additionals, archiveInputStream, targetDir);
+                entry = getAdditionalDataFromTarArchive((LinkedHashMap<String, HashMap<String, Object>>) additionals, archiveInputStream, targetDir, keeppermissions);
 
                 if (entry == null) break;
 
@@ -1765,30 +1769,27 @@ public class CompilerConfig extends Thread
         }
     }
 
-    private ArchiveEntry getAdditionalDataFromTarArchive(Map<String, HashMap<String, Object>> additionals, ArchiveInputStream archiveInputStream, String targetDir) throws IOException {
+    private ArchiveEntry getAdditionalDataFromTarArchive(Map<String, HashMap<String, Object>> additionals, ArchiveInputStream archiveInputStream, String targetDir, boolean keeppermissions) throws IOException {
 
         ArchiveEntry entry;
 
         if (archiveInputStream instanceof TarArchiveInputStream) {
             entry = ((TarArchiveInputStream) archiveInputStream).getNextTarEntry();
 
-            if (entry != null) {
-                if (additionals == null) {
-                    additionals = new LinkedHashMap<String, HashMap<String, Object>>();
+            if (keeppermissions) {
+                if (entry != null) {
+                    HashMap<String, Object> tmpMap = new HashMap<String, Object>();
+
+                    tmpMap.put("entryName", entry.getName());
+                    tmpMap.put("isSymbolicLink", ((TarArchiveEntry) entry).isSymbolicLink());
+                    tmpMap.put("isLink", ((TarArchiveEntry) entry).isLink());
+                    tmpMap.put("getLinkName", ((TarArchiveEntry) entry).getLinkName());
+                    tmpMap.put("getMode", Integer.toOctalString(((TarArchiveEntry) entry).getMode()));
+
+                    additionals.put(targetDir + "/" + entry.getName(), tmpMap);
                 }
-
-                HashMap<String, Object> tmpMap = new HashMap<String, Object>();
-
-                tmpMap.put("entryName", entry.getName());
-                tmpMap.put("isSymbolicLink", ((TarArchiveEntry) entry).isSymbolicLink());
-                tmpMap.put("isLink", ((TarArchiveEntry) entry).isLink());
-                tmpMap.put("getLinkName", ((TarArchiveEntry) entry).getLinkName());
-                tmpMap.put("getMode", Integer.toOctalString(((TarArchiveEntry) entry).getMode()));
-
-                additionals.put(targetDir + "/" + entry.getName(), tmpMap);
             }
         }
-
         else entry = archiveInputStream.getNextEntry();
 
         return entry;

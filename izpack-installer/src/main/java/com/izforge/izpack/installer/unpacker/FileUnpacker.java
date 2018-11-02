@@ -151,12 +151,20 @@ public abstract class FileUnpacker
 
         if (file.getAdditionals() != null) {
             Map fullAdditionalsMap = file.getAdditionals();
-            HashMap<String,Object> filePropertiesMap = (HashMap<String, Object>) fullAdditionalsMap.get(file.getTargetPath());
-            setAdditionalData(target.getPath(), filePropertiesMap);
+            HashMap<String, Object> filePropertiesMap = (HashMap<String, Object>) fullAdditionalsMap.get(file.getTargetPath());
+            if (filePropertiesMap != null) setAdditionalData(target.getPath(), filePropertiesMap);
         }
+
         return bytesCopied;
     }
 
+    /**
+     * Sets the file permissions and type in accordance with the initial values.
+     * MacOS not supported yet.
+     *
+     * @param target the the full path to file
+     * @param additionals the collection which contains full information about file
+     */
     private void setAdditionalData(String target, HashMap<String, Object> additionals)
     {
         ArrayList<String> execCommands = new ArrayList<String>();
@@ -272,7 +280,13 @@ public abstract class FileUnpacker
         }
         else
         {
-            result = FileUtils.openOutputStream(target);
+            try {
+                result = FileUtils.openOutputStream(target);
+            }
+            catch (IOException e) { //if target file cannot be opened for writing, we delete him and create new
+                    target.delete();
+                    result = FileUtils.openOutputStream(target);
+            }
         }
         return result;
     }
