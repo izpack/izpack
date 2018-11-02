@@ -28,10 +28,8 @@ import com.izforge.izpack.util.os.FileQueue;
 import com.izforge.izpack.util.os.FileQueueMove;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import sun.security.krb5.internal.crypto.HmacSha1Aes128CksumType;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -162,40 +160,39 @@ public abstract class FileUnpacker
      * Sets the file permissions and type in accordance with the initial values.
      * MacOS not supported yet.
      *
-     * @param target the the full path to file
-     * @param additionals the collection which contains full information about file
+     * @param target the full path to file
+     * @param additionals the collection which contains full information about current file
      */
     private void setAdditionalData(String target, HashMap<String, Object> additionals)
     {
+        boolean isLinux = System.getProperty("os.name").toLowerCase().contains("linux");
+        boolean isWindows = System.getProperty("os.name").toLowerCase().contains("windows");
+
         ArrayList<String> execCommands = new ArrayList<String>();
 
-        if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+        if (isLinux) {
             if ((Boolean) additionals.get("isSymbolicLink")) {
-                execCommands.add("ln -sf " + additionals.get("getLinkName") + " " + target);
-            }
-            if ((Boolean) additionals.get("isLink")) {
+                execCommands.add("ln -sf " + additionals.get("linkName") + " " + target);
+            } else if ((Boolean) additionals.get("isLink")) {
                 String pathToLink = target.substring(0, target.length() - ((String) additionals.get("entryName")).length());
-                execCommands.add("ln -fv " + pathToLink + additionals.get("getLinkName") + " " + target);
+                execCommands.add("ln -fv " + pathToLink + additionals.get("linkName") + " " + target);
             }
-            execCommands.add("chmod " + additionals.get("getMode") + " " + target);
+            execCommands.add("chmod " + additionals.get("unixMode") + " " + target);
         }
-        else if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-
-                if ((Boolean) additionals.get("isSymbolicLink")) {
-                    execCommands.add("cmd.exe /c del " + target);
-                    execCommands.add("cmd.exe /c mklink " + target + " " + ((String) additionals.get("getLinkName")).replace('/', '\\'));
-                }
-
-                if ((Boolean) additionals.get("isLink")) {
-                    execCommands.add("cmd.exe /c del " + target);
-                    String pathToLink = target.substring(0, target.length() - ((String) additionals.get("entryName")).length());
-                    execCommands.add("cmd.exe /c mklink /H " + target + " " + pathToLink + ((String) additionals.get("getLinkName")).replace('/', '\\'));
-                }
+        else if (isWindows) {
+            if ((Boolean) additionals.get("isSymbolicLink")) {
+                execCommands.add("cmd.exe /c del " + target);
+                execCommands.add("cmd.exe /c mklink " + target + " " + ((String) additionals.get("linkName")).replace('/', '\\'));
+            } else if ((Boolean) additionals.get("isLink")) {
+                execCommands.add("cmd.exe /c del " + target);
+                String pathToLink = target.substring(0, target.length() - ((String) additionals.get("entryName")).length());
+                execCommands.add("cmd.exe /c mklink /H " + target + " " + pathToLink + ((String) additionals.get("linkName")).replace('/', '\\'));
+            }
         }
 
-        for (String tmpString : execCommands) {
+        for (String command : execCommands) {
             try {
-                Process pr = Runtime.getRuntime().exec(tmpString);
+                Process pr = Runtime.getRuntime().exec(command);
                 pr.waitFor();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -88,6 +88,7 @@ import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.archivers.tar.TarUtils;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipFile;
@@ -1144,7 +1145,7 @@ public class CompilerConfig extends Thread
         {
             String src = getSrcSubstitutedAttributeValue(fileNode);
             boolean unpack = Boolean.parseBoolean(fileNode.getAttribute("unpack"));
-            boolean keeppermissions = Boolean.parseBoolean(fileNode.getAttribute("keeppermissions"));
+            boolean keepPermissions = Boolean.parseBoolean(fileNode.getAttribute("keeppermissions"));
 
             TargetFileSet fs = new TargetFileSet();
             try
@@ -1208,7 +1209,7 @@ public class CompilerConfig extends Thread
                             addArchiveContent(fileNode, baseDir, abssrcfile, fs.getTargetDir(),
                                               fs.getOsList(), fs.getOverride(), fs.getOverrideRenameTo(),
                                               fs.getBlockable(), pack, fs.getAdditionals(), fs.getCondition(),
-                                              keeppermissions, pack200Properties);
+                                              keepPermissions, pack200Properties);
                         }
                         else
                         {
@@ -1614,14 +1615,16 @@ public class CompilerConfig extends Thread
      * @param override    Overriding behaviour.
      * @param pack        Pack to be packed into
      * @param additionals Map which contains additional data
-     * @param keeppermissions Save files permissions or not
+     * @param keepPermissions Save files permissions or not
      * @param condition   condition that must evaluate {@code} true for the file to be installed. May be {@code null}
      */
     private void addArchiveContent(IXMLElement fileNode, File baseDir, File archive, String targetDir,
                                    List<OsModel> osList, OverrideType override, String overrideRenameTo,
                                    Blockable blockable, PackInfo pack, Map<String, ?> additionals,
-                                   String condition, boolean keeppermissions, Map<String, String> pack200Properties) throws Exception
+                                   String condition, boolean keepPermissions, Map<String, String> pack200Properties) throws Exception
     {
+        boolean isTarArch = false;
+
         String archiveName = archive.getName();
 
         InputStream originalInputStream = IOUtils.buffer(FileUtils.openInputStream(archive));
@@ -1649,19 +1652,20 @@ public class CompilerConfig extends Thread
 
             baseTempDir = com.izforge.izpack.util.file.FileUtils.createTempDirectory("izpack", TEMP_DIR);
 
-            if (keeppermissions && additionals == null) {
-                additionals = new LinkedHashMap<String, HashMap<String, Object>>();
+            if (keepPermissions && additionals == null) {
+                additionals = new HashMap<String, HashMap<String, Object>>();
                 if (archiveInputStream instanceof ZipArchiveInputStream)
-                    getAdditionalDataFromZipArchive((LinkedHashMap<String, HashMap<String, Object>>) additionals, archive, targetDir);
+                    getAdditionalDataFromZipArchive((HashMap<String, HashMap<String, Object>>) additionals, archive, targetDir);
+                else if (archiveInputStream instanceof TarArchiveInputStream) isTarArch = true;
             }
 
             while (true)
             {
-                ArchiveEntry entry;
-
-                entry = getAdditionalDataFromTarArchive((LinkedHashMap<String, HashMap<String, Object>>) additionals, archiveInputStream, targetDir, keeppermissions);
+                ArchiveEntry entry = archiveInputStream.getNextEntry();
 
                 if (entry == null) break;
+
+                if (isTarArch) getAdditionalDataFromTarArchiveByEntry((HashMap<String, HashMap<String, Object>>) additionals, (TarArchiveEntry) entry, targetDir);
 
                 String entryName = entry.getName();
                 if (entry.isDirectory())
@@ -1737,8 +1741,16 @@ public class CompilerConfig extends Thread
         }
     }
 
-    private void getAdditionalDataFromZipArchive(Map<String, HashMap<String, Object>> additionals, File zipArchive, String targetDir) throws IOException {
-
+    /**
+     * Collect permissions of all files from zip archive
+     *
+     * @param additionals the collection which will be filled with full information about files contained in the Zip-archive
+     * @param zipArchive Zip-archive
+     * @param targetDir  the target directory
+     * @throws IOException Description of the Exception
+     */
+    private void getAdditionalDataFromZipArchive(Map<String, HashMap<String, Object>> additionals, File zipArchive, String targetDir) throws IOException
+    {
         ZipFile tmpZip = new ZipFile(zipArchive);
 
         Enumeration<ZipArchiveEntry> allZipArchEntries = tmpZip.getEntries();
@@ -1756,12 +1768,12 @@ public class CompilerConfig extends Thread
                 tmpMap.put("entryName", entry.getName());
                 tmpMap.put("isSymbolicLink", entry.isUnixSymlink());
                 tmpMap.put("isLink", false);
-                tmpMap.put("getMode", perm.substring(perm.length() - 3));
+                tmpMap.put("unixMode", perm.substring(perm.length() - 3));
 
                 if (entry.isUnixSymlink()) {
                     InputStream stream = tmpZip.getInputStream(entry);
                     String result = IOUtils.toString(stream, "UTF-8");
-                    tmpMap.put("getLinkName", result);
+                    tmpMap.put("linkName", result);
                 }
 
                 additionals.put(targetDir + "/" + entry.getName(), tmpMap);
@@ -1769,30 +1781,26 @@ public class CompilerConfig extends Thread
         }
     }
 
-    private ArchiveEntry getAdditionalDataFromTarArchive(Map<String, HashMap<String, Object>> additionals, ArchiveInputStream archiveInputStream, String targetDir, boolean keeppermissions) throws IOException {
+    /**
+     * Collect permissions of single file from tar archive (by entry)
+     *
+     * @param additionals the collection which contains full information about files contained in the Zip-archive
+     * @param entry current tar entry
+     * @param targetDir the target directory
+     */
+    private void getAdditionalDataFromTarArchiveByEntry(Map<String, HashMap<String, Object>> additionals, TarArchiveEntry entry, String targetDir)
+    {
+        if (entry != null) {
+            HashMap<String, Object> tmpMap = new HashMap<String, Object>();
 
-        ArchiveEntry entry;
+            tmpMap.put("entryName", entry.getName());
+            tmpMap.put("isSymbolicLink", entry.isSymbolicLink());
+            tmpMap.put("isLink", entry.isLink());
+            tmpMap.put("linkName", entry.getLinkName());
+            tmpMap.put("unixMode", Integer.toOctalString(entry.getMode()));
 
-        if (archiveInputStream instanceof TarArchiveInputStream) {
-            entry = ((TarArchiveInputStream) archiveInputStream).getNextTarEntry();
-
-            if (keeppermissions) {
-                if (entry != null) {
-                    HashMap<String, Object> tmpMap = new HashMap<String, Object>();
-
-                    tmpMap.put("entryName", entry.getName());
-                    tmpMap.put("isSymbolicLink", ((TarArchiveEntry) entry).isSymbolicLink());
-                    tmpMap.put("isLink", ((TarArchiveEntry) entry).isLink());
-                    tmpMap.put("getLinkName", ((TarArchiveEntry) entry).getLinkName());
-                    tmpMap.put("getMode", Integer.toOctalString(((TarArchiveEntry) entry).getMode()));
-
-                    additionals.put(targetDir + "/" + entry.getName(), tmpMap);
-                }
-            }
+            additionals.put(targetDir + "/" + entry.getName(), tmpMap);
         }
-        else entry = archiveInputStream.getNextEntry();
-
-        return entry;
     }
 
     /**
