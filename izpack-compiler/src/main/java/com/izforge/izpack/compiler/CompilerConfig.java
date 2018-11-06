@@ -88,7 +88,6 @@ import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.archivers.tar.TarUtils;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipFile;
@@ -1650,6 +1649,7 @@ public class CompilerConfig extends Thread
         {
             archiveInputStream = new ArchiveStreamFactory().createArchiveInputStream(archive, uncompressedInputStream);
 
+            // file is an archive (incl. ZIP archive) - unpack recursively
             baseTempDir = com.izforge.izpack.util.file.FileUtils.createTempDirectory("izpack", TEMP_DIR);
 
             if (keepPermissions && additionals == null) {
