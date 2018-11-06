@@ -31,7 +31,6 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -149,12 +148,6 @@ public abstract class FileUnpacker
 
         postCopy(file);
 
-        if (file.getAdditionals() != null) {
-            Map fullAdditionalsMap = file.getAdditionals();
-            HashMap<String, Object> filePropertiesMap = (HashMap<String, Object>) fullAdditionalsMap.get(file.getTargetPath());
-            if (filePropertiesMap != null) setAdditionalData(target.getPath(), filePropertiesMap);
-        }
-
         return bytesCopied;
     }
 
@@ -162,7 +155,7 @@ public abstract class FileUnpacker
      * Sets the file permissions and type in accordance with the initial values.
      * MacOS not supported yet.
      *
-     * @param target the full path to file
+     * @param target      the full path to file
      * @param additionals the collection which contains full information about current file
      */
     private void setAdditionalData(String target, HashMap<String, Object> additionals)
@@ -204,15 +197,22 @@ public abstract class FileUnpacker
 
     /**
      * Invoked after copying is complete to set the last modified timestamp, and queue blockable files.
+     * If there are saved file permissions, then restore them,
      *
      * @param file the pack file meta-data
      */
     protected void postCopy(PackFile file)
     {
         setLastModified(file);
+
         if (isBlockable(file))
         {
             queue();
+        }
+
+        if (file.getAdditionals() != null) {
+            HashMap<String, Object> filePropertiesMap = (HashMap<String, Object>) file.getAdditionals().get(file.getTargetPath());
+            if (filePropertiesMap != null) setAdditionalData(target.getPath(), filePropertiesMap);
         }
     }
 

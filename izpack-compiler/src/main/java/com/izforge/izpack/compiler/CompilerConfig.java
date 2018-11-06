@@ -1608,14 +1608,14 @@ public class CompilerConfig extends Thread
     /**
      * Add files in an archive to a pack
      *
-     * @param archive     the archive file to unpack
-     * @param targetDir   the target directory where the content of the archive will be installed
-     * @param osList      The target OS constraints.
-     * @param override    Overriding behaviour.
-     * @param pack        Pack to be packed into
-     * @param additionals Map which contains additional data
+     * @param archive         the archive file to unpack
+     * @param targetDir       the target directory where the content of the archive will be installed
+     * @param osList          The target OS constraints.
+     * @param override        Overriding behaviour.
+     * @param pack            Pack to be packed into
+     * @param additionals     Map which contains additional data
      * @param keepPermissions Save files permissions or not
-     * @param condition   condition that must evaluate {@code} true for the file to be installed. May be {@code null}
+     * @param condition       condition that must evaluate {@code} true for the file to be installed. May be {@code null}
      */
     private void addArchiveContent(IXMLElement fileNode, File baseDir, File archive, String targetDir,
                                    List<OsModel> osList, OverrideType override, String overrideRenameTo,
@@ -1744,9 +1744,9 @@ public class CompilerConfig extends Thread
     /**
      * Collect permissions of all files from zip archive
      *
-     * @param additionals the collection which will be filled with full information about files contained in the Zip-archive
-     * @param zipArchive Zip-archive
-     * @param targetDir  the target directory
+     * @param additionals  the collection which will be filled with full information about files contained in the Zip-archive
+     * @param zipArchive   Zip-archive
+     * @param targetDir    the target directory
      * @throws IOException Description of the Exception
      */
     private void getAdditionalDataFromZipArchive(Map<String, HashMap<String, Object>> additionals, File zipArchive, String targetDir) throws IOException
@@ -1785,8 +1785,8 @@ public class CompilerConfig extends Thread
      * Collect permissions of single file from tar archive (by entry)
      *
      * @param additionals the collection which contains full information about files contained in the Zip-archive
-     * @param entry current tar entry
-     * @param targetDir the target directory
+     * @param entry       current tar entry
+     * @param targetDir   the target directory
      */
     private void getAdditionalDataFromTarArchiveByEntry(Map<String, HashMap<String, Object>> additionals, TarArchiveEntry entry, String targetDir)
     {
