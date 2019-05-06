@@ -1,62 +1,26 @@
-#dist: trusty
 language: java
-#install: true
 sudo: false
 
+addons:
+  apt:
+    packages:
+      - openjdk-6-jdk
+
+# use java 6 compatible maven version (installed into target directory so rat check passes)
 before_install:
   - if [[ $JAVA_HOME = *java-6* ]]; then jdk_switcher use openjdk6; fi
   - wget https://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip -P ./target
   - unzip -qq ./target/apache-maven-3.2.5-bin.zip -d ./target
   - export M2_HOME=$PWD/target/apache-maven-3.2.5
   - export PATH=$M2_HOME/bin:$PATH
-  - cp ./.travis.settings.xml $HOME/.m2/settings.xml
 
-install:
-#  - bash .travis.install-maven.sh "${MVN_VERSION}" "${HOME}/mvn-home"
-#  - export M2_HOME=${HOME}/mvn-home
-#  - export PATH=${HOME}/mvn-home/bin:${PATH}
-  - mvn -version
-
-addons:
-  apt:
-    packages:
-      - fluxbox
-
-cache:
- directories:
-   - $HOME/.m2/repository
-
-before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - fluxbox &> ~/fluxbox.log &
-  - sleep 3
-
-matrix:
-  include:
-    - addons:
-        apt:
-          packages:
-            - fluxbox
-            - openjdk-6-jdk
-      jdk: openjdk6
-      env: MVN_VERSION="3.2.5"
-    - jdk: openjdk7
-      env: MVN_VERSION="3.3.9"
-    - jdk: oraclejdk8
-      env: MVN_VERSION="3.3.9"
-# FIXME:
-# Travis build fail on JDK 9 due to missing JAXB module in classpath
-#    - jdk: oraclejdk9
-#      env: MVN_VERSION="3.3.9"
-
-env:
-  global:
-    - JAVA_OPTS="-Djava.awt.headless=false -Dhttps.protocols=TLSv1.2,TLSv1.1,TLSv1"
+jdk:
+  - openjdk6
+  - openjdk7
+  - oraclejdk8
 
 script:
-  - mvn -U clean verify
-  - mvn verify -Pwith-gui-tests
+  - mvn
 
-notifications:
-  email: false
+after_success:
+- mvn clean test
