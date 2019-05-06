@@ -26,7 +26,7 @@ before_script:
 
 
 script:
-  - mvn 
+  - mvn -X 
 
 after_success:
   - mvn clean test
