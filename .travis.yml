@@ -1,26 +1,35 @@
 language: java
 sudo: false
 
-addons:
-  apt:
-    packages:
-      - openjdk-6-jdk
+env: 
+    global:
+        - TRAVIS_JDK=zulu@1.6.107
+        - JABBA_HOME=/home/travis/.jabba
+
+
+before_install:
+  - curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.10.1/install.sh | bash && . ~/.jabba/jabba.sh
 
 # use java 6 compatible maven version (installed into target directory so rat check passes)
-before_install:
-  - if [[ $JAVA_HOME = *java-6* ]]; then jdk_switcher use openjdk6; fi
+install:
+  - $JABBA_HOME/bin/jabba install $TRAVIS_JDK && export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" ##&& export PATH="$JAVA_HOME/bin:$PATH" && java -Xmx32m -version
   - wget https://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip -P ./target
   - unzip -qq ./target/apache-maven-3.2.5-bin.zip -d ./target
   - export M2_HOME=$PWD/target/apache-maven-3.2.5
-  - export PATH=$M2_HOME/bin:$PATH
+  - export PATH="$M2_HOME/bin:$JAVA_HOME/bin:$PATH"
+  - java -Xmx32m -version
 
-jdk:
-  - openjdk6
-  - openjdk7
-  - oraclejdk8
+# Undo _JAVA_OPTIONS environment variable
+before_script:
+  - unset _JAVA_OPTIONS
+
 
 script:
   - mvn
 
 after_success:
-- mvn clean test
+  - mvn clean test
+  
+cache:
+  directories:
+    - $HOME/.jabba/jdk
