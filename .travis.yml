@@ -5,8 +5,8 @@ env:
   global:
     - TRAVIS_JDK=zulu@1.6.119
     - JABBA_HOME=/home/travis/.jabba
-    - JAVA_OPTS="-Djava.awt.headless=false -Dhttps.protocols=TLSv1.2,TLSv1.1"
-    - MAVEN_OPTS="-Dhttps.protocols=TLSv1.2,TLSv1.1"
+    - JAVA_OPTS="-Djava.awt.headless=false -Dhttps.protocols=SSLv3"
+    - MAVEN_OPTS="-Dhttps.protocols=SSLv3"
 
 before_install:
   - curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.10.1/install.sh | bash && . ~/.jabba/jabba.sh
