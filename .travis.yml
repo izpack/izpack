@@ -26,6 +26,7 @@ install:
   #- echo "security.provider.8=org.bouncycastle.jce.provider.BouncyCastleProvider" >> $JAVA_HOME/jre/lib/security/java.security
   - sed -i 's/^security.provider.1=sun.security.provider.Sun/security.provider.1=org.bouncycastle.jce.provider.BouncyCastleProvider/g' $JAVA_HOME/jre/lib/security/java.security
   - sed -i 's/^security.provider.2=sun.security.rsa.SunRsaSign/security.provider.2=org.bouncycastle.jsse.provider.BouncyCastleJsseProvider/g' $JAVA_HOME/jre/lib/security/java.security
+  - sed -i 's/^security.provider.3=com.sun.net.ssl.internal.ssl.Provider/security.provider.3=sun.security.provider.Sun/g' $JAVA_HOME/jre/lib/security/java.security
   - cat $JAVA_HOME/jre/lib/security/java.security
   
   
