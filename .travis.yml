@@ -4,6 +4,7 @@ install: true
 sudo: false
 
 before_install:
+  - if [[ $JAVA_HOME = *java-6* ]]; then jdk_switcher use openjdk6; fi
   - cp ./.travis.settings.xml $HOME/.m2/settings.xml
 
 install:
@@ -36,8 +37,6 @@ matrix:
             - openjdk-6-jdk
       jdk: openjdk6
       env: MVN_VERSION="3.2.5"
-      before_install:
-        - jdk_switcher use openjdk6
     - jdk: openjdk7
       env: MVN_VERSION="3.3.9"
     - jdk: oraclejdk8
