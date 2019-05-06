@@ -50,7 +50,7 @@ before_script:
 
 
 script:
-  - mvn -X 
+  - mvn -U clean verify
 
 after_success:
   - mvn clean test
