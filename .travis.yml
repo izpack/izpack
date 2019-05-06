@@ -21,6 +21,8 @@ install:
   - wget http://central.maven.org/maven2/org/bouncycastle/bcprov-jdk16/1.46/bcprov-jdk16-1.46.jar -P $JAVA_HOME/jre/lib/ext
   - java -Xmx32m -version
   - cat $JAVA_HOME/jre/lib/security/java.security
+  
+  - echo "security.provider.8=org.bouncycastle.jce.provider.BouncyCastleProvider" >> $JAVA_HOME/jre/lib/security/java.security
 
 # Undo _JAVA_OPTIONS environment variable
 before_script:
