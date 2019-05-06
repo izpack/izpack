@@ -5,12 +5,16 @@ sudo: false
 
 before_install:
   - if [[ $JAVA_HOME = *java-6* ]]; then jdk_switcher use openjdk6; fi
+  - wget https://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip -P ./target
+  - unzip -qq ./target/apache-maven-3.2.5-bin.zip -d ./target
+  - export M2_HOME=$PWD/target/apache-maven-3.2.5
+  - export PATH=$M2_HOME/bin:$PATH
   - cp ./.travis.settings.xml $HOME/.m2/settings.xml
 
 install:
-  - bash .travis.install-maven.sh "${MVN_VERSION}" "${HOME}/mvn-home"
-  - export M2_HOME=${HOME}/mvn-home
-  - export PATH=${HOME}/mvn-home/bin:${PATH}
+#  - bash .travis.install-maven.sh "${MVN_VERSION}" "${HOME}/mvn-home"
+#  - export M2_HOME=${HOME}/mvn-home
+#  - export PATH=${HOME}/mvn-home/bin:${PATH}
   - mvn -version
 
 addons:
