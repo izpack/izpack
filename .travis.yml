@@ -36,6 +36,6 @@ script:
 after_success:
   - mvn clean test
   
-cache:
-  directories:
-    - $HOME/.jabba/jdk
+#cache:
+#  directories:
+#    - $HOME/.jabba/jdk
