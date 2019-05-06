@@ -25,10 +25,10 @@ before_script:
 
 
 script:
-  - mvn -Dhttps.protocols=TLSv1.1,TLSv1.2
+  - mvn -Dhttps.protocols=TLSv1.1,TLSv1.2,TLSv1
 
 after_success:
-  - mvn -Dhttps.protocols=TLSv1.1,TLSv1.2 clean test
+  - mvn -Dhttps.protocols=TLSv1.1,TLSv1.2,TLSv1 clean test
   
 cache:
   directories:
