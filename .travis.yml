@@ -3,9 +3,10 @@ sudo: false
 
 env: 
   global:
-    - TRAVIS_JDK=zulu@1.6.107
+    - TRAVIS_JDK=zulu@1.6.119
     - JABBA_HOME=/home/travis/.jabba
     - JAVA_OPTS="-Djava.awt.headless=false -Dhttps.protocols=TLSv1.2,TLSv1.1,TLSv1"
+    - MAVEN_OPTS=-Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2
 
 before_install:
   - curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.10.1/install.sh | bash && . ~/.jabba/jabba.sh
@@ -25,10 +26,10 @@ before_script:
 
 
 script:
-  - mvn -Dhttps.protocols=TLSv1.1,TLSv1.2,TLSv1
+  - mvn 
 
 after_success:
-  - mvn -Dhttps.protocols=TLSv1.1,TLSv1.2,TLSv1 clean test
+  - mvn clean test
   
 cache:
   directories:
