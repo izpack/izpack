@@ -10,12 +10,12 @@ env:
 
 before_install:
   - cp ./.travis.settings.xml $HOME/.m2/settings.xml
-  if [[ $TRAVIS_JDK_1_6 = *zulu@1.6* ]]; then 
+  if [ $TRAVIS_JDK_1_6 = *zulu@1.6* ]; then 
   - curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.10.1/install.sh | bash && . ~/.jabba/jabba.sh
   fi
 
 install:
-  if [[ $TRAVIS_JDK_1_6 = *zulu@1.6* ]]; then 
+  if [ $TRAVIS_JDK_1_6 = *zulu@1.6* ]; then 
   - $JABBA_HOME/bin/jabba install $TRAVIS_JDK_1_6 && export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK_1_6" ##&& export PATH="$JAVA_HOME/bin:$PATH" && java -Xmx32m -version
   - wget https://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip -P ./target
   - unzip -qq ./target/apache-maven-3.2.5-bin.zip -d ./target
