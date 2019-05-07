@@ -1,60 +1,78 @@
 language: java
+install: true
 sudo: false
 
-env: 
+env:
   global:
-    - TRAVIS_JDK=zulu@1.6.119
+    - JAVA_OPTS="-Djava.awt.headless=false -Dhttps.protocols=TLSv1.2,TLSv1.1,TLSv1"
+#    - TRAVIS_JDK_1_6=zulu@1.6.119
     - JABBA_HOME=/home/travis/.jabba
-    - JAVA_OPTS="-Djava.awt.headless=false -Dhttps.protocols=TLSv1.2"
-    - MAVEN_OPTS="-Dhttps.protocols=TLSv1.2"
 
 before_install:
+  - cp ./.travis.settings.xml $HOME/.m2/settings.xml
+  if [[ $TRAVIS_JDK_1_6 = *zulu@1.6* ]]; then 
   - curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.10.1/install.sh | bash && . ~/.jabba/jabba.sh
+  fi
 
-# use java 6 compatible maven version (installed into target directory so rat check passes)
 install:
-  - $JABBA_HOME/bin/jabba install $TRAVIS_JDK && export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK" ##&& export PATH="$JAVA_HOME/bin:$PATH" && java -Xmx32m -version
+  if [[ $TRAVIS_JDK_1_6 = *zulu@1.6* ]]; then 
+  - $JABBA_HOME/bin/jabba install $TRAVIS_JDK_1_6 && export JAVA_HOME="$JABBA_HOME/jdk/$TRAVIS_JDK_1_6" ##&& export PATH="$JAVA_HOME/bin:$PATH" && java -Xmx32m -version
   - wget https://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip -P ./target
   - unzip -qq ./target/apache-maven-3.2.5-bin.zip -d ./target
   - export M2_HOME=$PWD/target/apache-maven-3.2.5
-  - export PATH="$M2_HOME/bin:$JAVA_HOME/bin:$PATH"
   - wget http://central.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.61/bcprov-jdk15on-1.61.jar -P $JAVA_HOME/jre/lib/ext
   - wget http://central.maven.org/maven2/org/bouncycastle/bctls-jdk15on/1.61/bctls-jdk15on-1.61.jar -P $JAVA_HOME/jre/lib/ext
   - java -Xmx32m -version
-  - ls -la $JAVA_HOME/jre/lib/ext
-  - cat $JAVA_HOME/jre/lib/security/java.security
-  #- echo "security.provider.8=org.bouncycastle.jce.provider.BouncyCastleProvider" >> $JAVA_HOME/jre/lib/security/java.security
   - sed -i 's/^security.provider.1=sun.security.provider.Sun/security.provider.1=org.bouncycastle.jce.provider.BouncyCastleProvider/g' $JAVA_HOME/jre/lib/security/java.security
   - sed -i 's/^security.provider.2=sun.security.rsa.SunRsaSign/security.provider.2=org.bouncycastle.jsse.provider.BouncyCastleJsseProvider/g' $JAVA_HOME/jre/lib/security/java.security
   - sed -i 's/^security.provider.3=com.sun.net.ssl.internal.ssl.Provider/security.provider.3=sun.security.provider.Sun/g' $JAVA_HOME/jre/lib/security/java.security
   - sed -i 's/^security.provider.4=com.sun.crypto.provider.SunJCE/security.provider.4=com.sun.net.ssl.internal.ssl.Provider/g' $JAVA_HOME/jre/lib/security/java.security
   - sed -i 's/^security.provider.5=sun.security.jgss.SunProvider/security.provider.5=com.sun.crypto.provider.SunJCE/g' $JAVA_HOME/jre/lib/security/java.security
   - cat $JAVA_HOME/jre/lib/security/java.security
-  
-  
-#
-# List of providers and their preference orders (see above):
-#
-#security.provider.1=sun.security.provider.Sun
-#security.provider.2=sun.security.rsa.SunRsaSign
-#security.provider.3=com.sun.net.ssl.internal.ssl.Provider
-#security.provider.4=com.sun.crypto.provider.SunJCE
-#security.provider.5=sun.security.jgss.SunProvider
-#security.provider.6=com.sun.security.sasl.Provider
-#security.provider.7=org.jcp.xml.dsig.internal.dom.XMLDSigRI
-#security.provider.8=sun.security.smartcardio.SunPCSC  
+  else
+  - bash .travis.install-maven.sh "${MVN_VERSION}" "${HOME}/mvn-home"
+  - export M2_HOME=${HOME}/mvn-home
+  fi
+  - export PATH="$M2_HOME/bin:$JAVA_HOME/bin:$PATH"
+  #- export PATH=${HOME}/mvn-home/bin:${PATH}
+  - mvn -version
 
-# Undo _JAVA_OPTIONS environment variable
+addons:
+  apt:
+    packages:
+      - fluxbox
+
+cache:
+ directories:
+   - $HOME/.m2/repository
+
 before_script:
-  - unset _JAVA_OPTIONS
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - fluxbox &> ~/fluxbox.log &
+  - sleep 3
 
+matrix:
+  include:
+    - addons:
+        apt:
+          packages:
+            - fluxbox
+            #- openjdk-6-jdk
+      #jdk: openjdk6
+      env: MVN_VERSION="3.2.5" TRAVIS_JDK_1_6=zulu@1.6.119
+    - jdk: openjdk7
+      env: MVN_VERSION="3.3.9"
+    - jdk: oraclejdk8
+      env: MVN_VERSION="3.3.9"
+# FIXME:
+# Travis build fail on JDK 9 due to missing JAXB module in classpath
+#    - jdk: oraclejdk9
+#      env: MVN_VERSION="3.3.9"
 
 script:
   - mvn -U clean verify
+  - mvn verify -Pwith-gui-tests
 
-after_success:
-  - mvn clean test
-  
-#cache:
-#  directories:
-#    - $HOME/.jabba/jdk
+notifications:
+  email: false
