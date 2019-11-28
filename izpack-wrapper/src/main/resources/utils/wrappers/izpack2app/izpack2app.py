@@ -21,7 +21,7 @@
 import os
 import sys
 from shutil import *
-from functools import *
+from functools import reduce
 
 def main():
 	base = os.path.dirname(sys.argv[0])
