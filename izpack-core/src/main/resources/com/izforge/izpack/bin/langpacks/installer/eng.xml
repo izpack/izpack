@@ -117,6 +117,12 @@
 
     <!-- InfoPanel strings -->
     <str id="InfoPanel.info" txt="Please read the following information: "/>
+	
+    <!-- SudoPanel strings -->
+    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
+    <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
+    <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
 
     <!-- PathInputPanel strings -->
     <str id="PathInputPanel.isfile"
