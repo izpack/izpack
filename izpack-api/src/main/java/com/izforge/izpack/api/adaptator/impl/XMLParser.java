@@ -123,7 +123,7 @@ public class XMLParser implements IXMLParser
             }
 
             XMLReader xmlReader = parser.getXMLReader();
-            filter = new LineNumberFilter(xmlReader);
+            filter = new LineNumberFilter(new UserInputFilter(xmlReader));
         }
         catch (ParserConfigurationException e)
         {
