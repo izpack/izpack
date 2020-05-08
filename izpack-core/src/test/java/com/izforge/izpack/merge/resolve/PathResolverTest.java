@@ -28,12 +28,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.hamcrest.collection.IsCollectionContaining;
+import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
+import org.hamcrest.core.IsCollectionContaining;
 import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsNot;
-import org.hamcrest.number.IsGreaterThan;
-import org.hamcrest.text.StringContains;
+import org.hamcrest.core.StringContains;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -77,7 +77,7 @@ public class PathResolverTest
     public void testResolvePathOfJar()
     {
         Set<URL> urlList = pathResolver.resolvePath("com/izforge");
-        assertThat(urlList.size(), new IsGreaterThan<Integer>(1));
+        assertThat(urlList.size(), Matchers.greaterThan(1));
     }
 
     @Test

@@ -13,8 +13,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.collection.IsCollectionContaining;
 import org.hamcrest.core.Is;
+import org.hamcrest.core.IsCollectionContaining;
 
 /**
  * Matcher for zip files
@@ -80,7 +80,7 @@ public class ZipMatcher extends TypeSafeMatcher<ZipFile>
     @Factory
     public static Matcher<ZipFile> isZipContainingFile(String fileName)
     {
-        return new ZipMatcher(IsCollectionContaining.hasItem(Is.is(fileName)));
+        return new ZipMatcher(IsCollectionContaining.hasItems(Is.is(fileName)));
     }
 
     @Factory

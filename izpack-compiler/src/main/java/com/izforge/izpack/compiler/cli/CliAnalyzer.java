@@ -25,6 +25,7 @@ import com.izforge.izpack.compiler.exception.HelpRequestedException;
 import com.izforge.izpack.compiler.exception.NoArgumentException;
 import org.apache.commons.cli.*;
 
+import java.io.PrintStream;
 import java.util.List;
 
 
@@ -71,24 +72,24 @@ public class CliAnalyzer {
      * @return Compile data with informations
      */
     public CompilerData printAndParseArgs(String[] args) throws ParseException {
-        printHeader();
+        final PrintStream printStream = System.out;
+        printHeader(printStream);
         CompilerData result = parseArgs(args);
-        printTail(result);
+        printTail(printStream, result);
         return result;
     }
 
-    private void printHeader() {
+    private void printHeader(PrintStream out) {
         // Outputs some informations
-        System.out.println("");
-        System.out.println(".::  IzPack - Version " + CompilerData.IZPACK_VERSION + " ::.");
-        System.out.println("");
-        System.out.println("< compiler specifications version: " + CompilerData.VERSION + " >");
-        System.out.println("");
-        System.out.println("- Copyright (c) 2001-2010 Julien Ponge and others. All Rights Reserved.");
-        System.out.println("- Visit http://izpack.org/ for the latest releases");
-        System.out
-                .println("- Released under the terms of the Apache Software License version 2.0.");
-        System.out.println("");
+        out.println();
+        out.format(".::  IzPack - Version %s ::.%n", CompilerData.IZPACK_VERSION);
+        out.println();
+        out.format("< compiler specifications version: %s >%n", CompilerData.VERSION);
+        out.println();
+        out.format("- Copyright (c) %s Julien Ponge and others. All Rights Reserved.%n", CompilerData.IZPACK_COPYYEARS);
+        out.println("- Visit http://izpack.org/ for the latest releases");
+        out.println("- Released under the terms of the Apache Software License version 2.0.");
+        out.println();
     }
 
     /**
@@ -96,16 +97,16 @@ public class CliAnalyzer {
      *
      * @param result Compile data created from arguments
      */
-    private void printTail(CompilerData result) {
+    private void printTail(PrintStream out, CompilerData result) {
         // Outputs what we are going to do
-        System.out.println("-> Processing  : " + result.getInstallFile());
-        System.out.println("-> Output      : " + result.getOutput());
-        System.out.println("-> Base path   : " + result.getBasedir());
-        System.out.println("-> Kind        : " + result.getKind());
-        System.out.println("-> Compression : " + result.getComprFormat());
-        System.out.println("-> Compr. level: " + result.getComprLevel());
-        System.out.println("-> IzPack home : " + CompilerData.IZPACK_HOME);
-        System.out.println("");
+        out.format("-> Processing   : %s%n", result.getInstallFile());
+        out.format("-> Output       : %s%n", result.getOutput());
+        out.format("-> Base path    : %s%n", result.getBasedir());
+        out.format("-> Kind         : %s%n", result.getKind());
+        out.format("-> Compression  : %s%n", result.getComprFormat());
+        out.format("-> Compr. level : %s%n", result.getComprLevel());
+        out.format("-> IzPack home  : %s%n", CompilerData.IZPACK_HOME);
+        out.println();
     }
 
 

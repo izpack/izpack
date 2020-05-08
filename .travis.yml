@@ -39,8 +39,8 @@ matrix:
 #    - jdk: oraclejdk11
 
 script:
-  - mvn -U clean verify
-  - mvn verify -Pwith-gui-tests
+  - mvn -U clean verify -B
+  - mvn verify -Pwith-gui-tests -B
 
 notifications:
   email: false
