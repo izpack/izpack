@@ -292,6 +292,14 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
+                    <xs:attribute name="height" type="xs:unsignedByte" use="optional">
+                        <xs:annotation>
+                            <xs:documentation>
+                                This is a number to define the height of the "textarea" in rows.
+                                Used by the "textarea" field. The default value is 5.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
                 </xs:complexType>
             </xs:element>
             <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
@@ -557,6 +565,7 @@
             <xs:enumeration value="space"/>
             <xs:enumeration value="staticText"/>
             <xs:enumeration value="text"/>
+            <xs:enumeration value="textarea"/>
             <xs:enumeration value="title"/>
         </xs:restriction>
     </xs:simpleType>

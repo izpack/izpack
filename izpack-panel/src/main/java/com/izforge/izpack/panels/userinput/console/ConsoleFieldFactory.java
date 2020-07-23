@@ -38,6 +38,7 @@ import com.izforge.izpack.panels.userinput.console.rule.ConsoleRuleField;
 import com.izforge.izpack.panels.userinput.console.search.ConsoleSearchField;
 import com.izforge.izpack.panels.userinput.console.spacer.ConsoleSpacerField;
 import com.izforge.izpack.panels.userinput.console.staticText.ConsoleStaticText;
+import com.izforge.izpack.panels.userinput.console.text.ConsoleTextArea;
 import com.izforge.izpack.panels.userinput.console.text.ConsoleTextField;
 import com.izforge.izpack.panels.userinput.console.title.ConsoleTitleField;
 import com.izforge.izpack.panels.userinput.field.Field;
@@ -55,6 +56,7 @@ import com.izforge.izpack.panels.userinput.field.rule.RuleField;
 import com.izforge.izpack.panels.userinput.field.search.SearchField;
 import com.izforge.izpack.panels.userinput.field.space.Spacer;
 import com.izforge.izpack.panels.userinput.field.statictext.StaticText;
+import com.izforge.izpack.panels.userinput.field.text.TextArea;
 import com.izforge.izpack.panels.userinput.field.text.TextField;
 import com.izforge.izpack.panels.userinput.field.title.TitleField;
 import com.izforge.izpack.util.Console;
@@ -143,6 +145,10 @@ public class ConsoleFieldFactory
         else if (field instanceof TextField)
         {
             result = new ConsoleTextField((TextField) field, console, prompt);
+        }
+        else if (field instanceof TextArea)
+        {
+            result = new ConsoleTextArea((TextArea) field, console, prompt);
         }
         else if (field instanceof TitleField)
         {
