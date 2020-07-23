@@ -24,7 +24,6 @@ package com.izforge.izpack.panels.userinput.field.text;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.panels.userinput.field.Field;
-import com.izforge.izpack.panels.userinput.field.FieldConfig;
 
 /**
  * Text area field.
