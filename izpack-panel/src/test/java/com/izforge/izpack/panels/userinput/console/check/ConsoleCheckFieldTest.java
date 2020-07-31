@@ -91,7 +91,7 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
         String variable = "check";
 
         TestCheckFieldConfig config = new TestCheckFieldConfig(variable, "selected", "unselected");
-        config.setInitialValue("true");
+        config.setInitialValue("selected");
 
         CheckField model = new CheckField(config, installData);
         ConsoleCheckField field = new ConsoleCheckField(model, console, prompt);
