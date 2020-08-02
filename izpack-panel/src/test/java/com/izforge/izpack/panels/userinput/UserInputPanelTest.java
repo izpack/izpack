@@ -179,6 +179,44 @@ public class UserInputPanelTest extends AbstractPanelTest
         assertEquals("text3 default value", installData.getVariable("text3"));
     }
 
+    /**
+     * Tests text fields.
+     *
+     * @throws Exception for any error
+     */
+    @Test
+    public void testTextareaField() throws Exception
+    {
+        // Set the base path in order to pick up com/izforge/izpack/panels/userinput/text/userInputSpec.xml
+        getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/textarea/");
+        InstallData installData = getInstallData();
+
+        installData.setVariable("textarea3value", "textarea3\ndefault value");
+
+        // show the panel
+        FrameFixture frame = showUserInputPanel("textinput");
+
+        JTextComponentFixture text1 = frame.textBox("textarea1");
+        assertEquals("", text1.text());
+
+        JTextComponentFixture text2 = frame.textBox("textarea2");
+        assertEquals("textarea2\nvalue", text2.text());
+
+        JTextComponentFixture text3 = frame.textBox("textarea3");
+        assertEquals("textarea3\ndefault value", text3.text());
+
+        assertEquals("", installData.getVariable("textarea1"));
+
+        text1.setText("textarea1\nvalue");
+
+        // attempt to navigate to the next panel
+        checkNavigateNext(frame);
+
+        assertEquals("textarea1\nvalue", installData.getVariable("textarea1"));
+        assertEquals("textarea2\nvalue", installData.getVariable("textarea2"));
+        assertEquals("textarea3\ndefault value", installData.getVariable("textarea3"));
+    }
+
     /*
      * Initial selection should be determined by attribute 'set'.
      */
