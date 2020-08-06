@@ -424,6 +424,12 @@ public class UserInputPanelTest extends AbstractPanelTest
         // update passwordC
         passwordC.setText("xyz");
 
+        // for passwordD, the initial value is determined by the 'set' attribute
+        JTextComponentFixture passwordD1 = frame.textBox("passwordD.1");
+        JTextComponentFixture passwordD2 = frame.textBox("passwordD.2");
+        assertEquals("ab2345", passwordD1.component().getText());
+        assertEquals("ab2345", passwordD2.component().getText());
+
         assertTrue(getPanels().getView().panelValidated());
 
         // test password validation

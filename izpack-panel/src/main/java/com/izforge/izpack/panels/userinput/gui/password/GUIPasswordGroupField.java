@@ -29,7 +29,8 @@ import com.izforge.izpack.panels.userinput.field.password.PasswordField;
 import com.izforge.izpack.panels.userinput.field.password.PasswordGroupField;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPasswordField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +119,7 @@ public class GUIPasswordGroupField extends GUIField
 
         if (value != null)
         {
-            passwords.get(0).setText(replaceVariables(value));
+            setPasswords(replaceVariables(value));
             result = true;
         }
         else
@@ -128,11 +129,19 @@ public class GUIPasswordGroupField extends GUIField
             String defaultValue = field.getDefaultValue();
             if (defaultValue != null)
             {
-                passwords.get(0).setText(defaultValue);
+                setPasswords(defaultValue);
             }
         }
 
         return result;
+    }
+
+    private void setPasswords(String value)
+    {
+        for (JPasswordField password : passwords)
+        {
+            password.setText(value);
+        }
     }
 
     /**
