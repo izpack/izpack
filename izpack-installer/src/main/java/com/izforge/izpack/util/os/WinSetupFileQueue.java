@@ -76,7 +76,7 @@ public class WinSetupFileQueue extends WinSetupAPIBase
      */
     public void addCopy(File sourcefile, File targetfile, boolean forceInUse) throws IOException
     {
-        int style = 0 /*SP_COPY_IN_USE_NEEDS_REBOOT*/;
+        int style = SP_COPY_IN_USE_NEEDS_REBOOT;
         if (forceInUse)
         {
             style |= SP_COPY_FORCE_IN_USE;
