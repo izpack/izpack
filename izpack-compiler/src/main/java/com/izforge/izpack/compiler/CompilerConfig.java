@@ -1658,6 +1658,7 @@ public class CompilerConfig extends Thread
                     String dName = FilenameUtils.normalizeNoEndSeparator(entryName);
                     File tempDir = new File(baseTempDir, dName);
                     FileUtils.forceMkdir(tempDir);
+                    updateLastModifiedDate(tempDir, entry);
                     if (hasNoFileSet)
                     {
                         String target = targetDir + "/" + dName;
@@ -1674,7 +1675,7 @@ public class CompilerConfig extends Thread
                         tempFileStream = FileUtils.openOutputStream(tempFile);
                         IOUtils.copy(archiveInputStream, tempFileStream);
                         tempFileStream.close();
-
+                        updateLastModifiedDate(tempFile, entry);
                         if (hasNoFileSet)
                         {
                             String target = targetDir + "/" + entryName;
@@ -1734,6 +1735,11 @@ public class CompilerConfig extends Thread
                 FileUtils.forceDeleteOnExit(baseTempDir);
             }
         }
+    }
+
+    private void updateLastModifiedDate(File target, ArchiveEntry entry)
+    {
+        target.setLastModified(entry.getLastModifiedDate().getTime());
     }
 
     /**
