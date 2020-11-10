@@ -21,6 +21,27 @@
 
 package com.izforge.izpack.panels.sudo;
 
+import static com.izforge.izpack.util.Platform.Name.UNIX;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -29,17 +50,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.util.Platform;
-import static com.izforge.izpack.util.Platform.Name.UNIX;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * The packs selection panel class.
@@ -49,6 +60,10 @@ import java.util.List;
  */
 public class SudoPanel extends IzPanel implements ActionListener
 {
+	/**
+     * The logger.
+     */
+    private static Logger logger = Logger.getLogger(SudoPanel.class.getName());
 
     /**
      *
@@ -58,16 +73,6 @@ public class SudoPanel extends IzPanel implements ActionListener
     private final JTextField passwordField;
 
     private boolean isValid = false;
-
-    /**
-     * Replaces variables in scripts.
-     */
-    private final VariableSubstitutor replacer;
-
-    /**
-     * The platform-model matcher.
-     */
-    private final PlatformModelMatcher matcher;
 
     /**
      * The constructor.
@@ -83,8 +88,6 @@ public class SudoPanel extends IzPanel implements ActionListener
                      VariableSubstitutor replacer, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, resources);
-        this.replacer = replacer;
-        this.matcher = matcher;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -142,7 +145,6 @@ public class SudoPanel extends IzPanel implements ActionListener
 
         isValid = false;
         
-        File file = null;
         try
         {
             if(platform.isA(UNIX)) 
@@ -157,19 +159,8 @@ public class SudoPanel extends IzPanel implements ActionListener
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+        	logger.log(Level.WARNING, e.getMessage(), e);
             isValid = false;
-        }
-        try
-        {
-            if (file != null && file.exists())
-            {
-                file.delete();
-            }
-        }
-        catch (Exception e)
-        {
-            // ignore
         }
     }
 
