@@ -88,5 +88,15 @@ public class CompilerConfigSamplesTest
                 "resources/Splash.image"));
     }
 
-
+    @Test
+    @InstallFile("samples/izpack-jdk11-min.xml")
+    public void installerShouldContainInstallerJdk11() throws Exception
+    {
+        compilerConfig.executeCompiler();
+        jar = testContainer.getComponent(JarFile.class);
+        assertThat((ZipFile)jar, ZipMatcher.isZipContainingFiles(
+                "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class",
+                "resources/vars",
+                "com/izforge/izpack/img/JFrameIcon.png"));
+    }
 }
