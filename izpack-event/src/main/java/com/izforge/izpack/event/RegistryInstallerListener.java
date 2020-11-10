@@ -622,8 +622,12 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
         }
         
         // add the estimated size
-        long estimatedSizeInBytes = Long.parseLong(installData.getVariable(InstallData.ESTIMATED_SIZE));
-        registry.setValue(keyName, "EstimatedSize", estimatedSizeInBytes);
+        String estimatedSize = installData.getVariable(InstallData.ESTIMATED_SIZE);
+        if (estimatedSize != null && !estimatedSize.isEmpty()) 
+        {
+	        long estimatedSizeInBytes = Long.parseLong(estimatedSize);
+	        registry.setValue(keyName, "EstimatedSize", estimatedSizeInBytes);
+        }
         
         // Try to write the uninstaller icon out.
         InputStream in = null;
