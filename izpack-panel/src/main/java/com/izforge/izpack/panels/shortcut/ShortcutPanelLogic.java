@@ -1199,7 +1199,7 @@ public class ShortcutPanelLogic implements CleanupClient
             {
             }
         }
-        if (OsVersion.IS_UNIX)
+        if (!startMenuShortcuts.isEmpty() && OsVersion.IS_UNIX)
         {
             writeXDGMenuFile(startMenuShortcuts, getGroupName(), programGroupIconFile, programGroupComment);
         }
