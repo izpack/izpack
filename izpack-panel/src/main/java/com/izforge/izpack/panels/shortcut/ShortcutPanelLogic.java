@@ -1065,7 +1065,7 @@ public class ShortcutPanelLogic implements CleanupClient
                 {
                     allowProgramGroup = true;
                     data.addToGroup = true;
-                    data.type = Shortcut.APPLICATIONS;
+                    data.type = shortcut.getLinkType();
                     shortcuts.add(data.clone());
                 }
             }
