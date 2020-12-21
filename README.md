@@ -122,12 +122,6 @@ If you are not a member of one of the above groups of your interest you may subs
 
 Be invited to join us again.
 
-#### Google Plus - Social Networking
-
-IzPack has its own page at Google+. We will forward blog posts there and it is open for discussions for registered Google users.
-
-The address is https://plus.google.com/+izpack/.
-
 ### IzPack@Twitter
 
 IzPack has a [Twitter account](https://twitter.com/izpack). We will forward blog posts there and it is open for your tweets for registered Twitter users. Or just follow us to get the latest news.
