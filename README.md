@@ -11,7 +11,7 @@ under different terms.
 
 ## Building IzPack from source
 
-![Java CI with Maven](https://github.com/reinhapa/izpack/workflows/Java%20CI%20with%20Maven/badge.svg)
+![Java CI with Maven](https://github.com/izpack/izpack/workflows/Java%20CI%20with%20Maven/badge.svg)
 
 IzPack requires Java SE 1.8 and at minimum Maven 3. Due to the JDK compatibility the maximum Maven version supported is 3.6.3 when compiled using JDK 1.8.
 
