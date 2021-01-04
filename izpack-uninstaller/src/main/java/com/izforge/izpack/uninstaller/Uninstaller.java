@@ -82,7 +82,7 @@ public class Uninstaller
         boolean console = false;
         for (String arg : args)
         {
-            if (arg.equals("-c"))
+            if (arg.equals("-c") || arg.equals("-console"))
             {
                 console = true;
             }
@@ -129,7 +129,7 @@ public class Uninstaller
             boolean force = false;
             for (String arg : args)
             {
-                if (arg.equals("-f"))
+                if (arg.equals("-f") || arg.equals("-force"))
                 {
                     force = true;
                 }
@@ -156,7 +156,7 @@ public class Uninstaller
 
                     for (String arg : args)
                     {
-                        if (arg.equals("-f"))
+                        if (arg.equals("-f") || arg.equals("-force"))
                         {
                             forceOptionState = true;
                         }
