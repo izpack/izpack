@@ -23,6 +23,8 @@ package com.izforge.izpack.installer.automation;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.Overrides;
+import com.izforge.izpack.core.data.AutomatedOverrides;
 import com.izforge.izpack.installer.panel.AbstractPanels;
 import com.izforge.izpack.installer.panel.Panels;
 
@@ -80,24 +82,27 @@ public class AutomatedPanels extends AbstractPanels<AutomatedPanelView, PanelAut
         }
         else
         {
-        	PanelAutomation view = newPanel.getView();
+            PanelAutomation view = newPanel.getView();
             newPanel.executePreActivationActions();
 
             IXMLElement xml = installData.getInstallationRecordPanelRoot(newPanel.getPanelId());
             if (xml != null)
             {
                 view.runAutomated(installData, xml);
-                installData.getVariables().registerBlockedVariableNames(newPanel.getPanel().getAffectedVariableNames(), newPanel.getPanelId());
-                result = executeValidationActions(newPanel, true);
             }
             else
             {
                 // This cannot happen for auto-install.xml
-                view.processOptions(installData, installData.getVariables().getOverrides());
-                installData.getVariables().registerBlockedVariableNames(newPanel.getPanel().getAffectedVariableNames(), newPanel.getPanelId());
-                result = executeValidationActions(newPanel, true);
+                Overrides overrides = installData.getVariables().getOverrides();
+                if (overrides == null)
+                {
+                    overrides = new AutomatedOverrides(installData);
+                }
+                view.processOptions(installData, overrides);
             }
 
+            installData.getVariables().registerBlockedVariableNames(newPanel.getPanel().getAffectedVariableNames(), newPanel.getPanelId());
+            result = executeValidationActions(newPanel, true);
         }
         return result;
     }

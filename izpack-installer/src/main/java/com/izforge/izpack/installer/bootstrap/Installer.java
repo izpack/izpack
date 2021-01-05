@@ -227,14 +227,6 @@ public class Installer
             logger.info("Command line arguments: " + StringTool.stringArrayToSpaceSeparatedString(args));
 
             Overrides defaults = getDefaults(defaultsFile);
-            if (type == INSTALLER_AUTO && path == null && defaults == null)
-            {
-                logger.log(Level.SEVERE,
-                        "Unattended installation mode needs either a defaults file specified by '-defaults-file'" +
-                        " or an installation record XML file as argument");
-                System.exit(1);
-            }
-
             launchInstall(type, consoleAction, path, langcode, media, defaults, args);
 
         }
