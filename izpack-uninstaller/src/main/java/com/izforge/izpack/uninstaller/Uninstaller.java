@@ -160,7 +160,7 @@ public class Uninstaller
                         {
                             forceOptionState = true;
                         }
-                        else if (arg.equals("-x"))
+                        else if (arg.equals("-x") || arg.equals("-hide-force-option"))
                         {
                             displayForceOption = false;
                         }
