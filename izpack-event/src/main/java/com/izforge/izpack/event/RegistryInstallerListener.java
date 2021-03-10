@@ -629,6 +629,13 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
 	        registry.setValue(keyName, "EstimatedSize", estimatedSizeInBytes);
         }
         
+        // set the publisher in the registry
+        String publisher = installData.getVariable("Publisher");
+        if (publisher != null && !publisher.isEmpty()) 
+        {
+	        registry.setValue(keyName, "Publisher", publisher);
+        }
+        
         // Try to write the uninstaller icon out.
         InputStream in = null;
         FileOutputStream out = null;
