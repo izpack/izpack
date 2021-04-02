@@ -18,18 +18,13 @@
  */
 package com.izforge.izpack.test.junit;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
-import org.junit.Rule;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
@@ -44,9 +39,11 @@ import com.izforge.izpack.api.exception.IzPackException;
  */
 public class PicoRunner extends PlatformRunner
 {
+    private final ClassLoader savedContextClassLoader;
+    private final Class<? extends Container> containerClass;
+
     private FrameworkMethod method;
     private Object currentTestInstance;
-    private Class<? extends Container> containerClass;
     private Container containerInstance;
 
     /**
@@ -57,12 +54,15 @@ public class PicoRunner extends PlatformRunner
     /**
      * Creates a {@code PicoRunner} for the given test {@code klass}.
      *
-     * @param klass The test class which is to be run.
+     * @param testClass The test class which is to be run.
      * @throws InitializationError If an initialization error occurs.
      */
-    public PicoRunner(Class<?> klass) throws InitializationError
+    public PicoRunner(Class<?> testClass) throws InitializationError
     {
-        super(klass);
+        super(testClass);
+        logger.info("Creating test=" + testClass.getName());
+        savedContextClassLoader = Thread.currentThread().getContextClassLoader();
+        containerClass = testClass.getAnnotation(com.izforge.izpack.test.Container.class).value();
     }
 
     @Override
@@ -75,27 +75,28 @@ public class PicoRunner extends PlatformRunner
     {
         this.method = method;
         Statement statement = super.methodBlock(method);
-        try
-        {
-            for (Field field : containerClass.getFields())
+        return new Statement() {
+          @Override
+          public void evaluate() throws Throwable 
+          {
+            try
             {
-                Annotation annotation = field.getAnnotation(Rule.class);
-                if (annotation != null)
+                statement.evaluate();
+            }
+            finally
+            {
+                Thread.currentThread().setContextClassLoader(savedContextClassLoader);
+                try
                 {
-                    TestRule rule = (TestRule) field.get(containerInstance);
-                    Description description = Description.createTestDescription(
-                            method.getMethod().getDeclaringClass(), method.getName());
-                    statement = rule.apply(statement, description);
-
+                    containerInstance.dispose();
+                }
+                finally
+                {
+                    containerInstance = null;
                 }
             }
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new IzPackException(e);
-        }
-
-        return statement;
+          }
+        };
     }
 
     /**
@@ -119,16 +120,13 @@ public class PicoRunner extends PlatformRunner
     {
         final Class<?> javaClass = getTestClass().getJavaClass();
 
-        logger.info("Creating test=" + getTestClass().getName());
-
-        containerClass = javaClass.getAnnotation(com.izforge.izpack.test.Container.class).value();
-
         // create container outside of EDT which matches behaviour in InstallerGui
         containerInstance = createContainer(containerClass);
         containerInstance.addComponent(javaClass);
 
         SwingUtilities.invokeAndWait(new Runnable()
         {
+            @Override
             public void run()
             {
                 try

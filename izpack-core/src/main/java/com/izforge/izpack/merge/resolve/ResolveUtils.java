@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipFile;
 
 import com.izforge.izpack.api.exception.IzPackException;
@@ -45,6 +47,8 @@ public class ResolveUtils
 {
     public static final String CLASSNAME_PREFIX = "com.izforge.izpack.panels";
     public static final String BASE_CLASSNAME_PATH = CLASSNAME_PREFIX.replaceAll("\\.", "/") + "/";
+
+    private static final Logger logger = Logger.getLogger(ResolveUtils.class.getName());
 
     /**
      * Extract file name from url and test jar file
@@ -122,9 +126,28 @@ public class ResolveUtils
 
     static Collection<URL> getClassPathUrl()
     {
-        Collection<URL> result = new HashSet<URL>();
-        java.net.URLClassLoader loader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
-        result.addAll(Arrays.asList(loader.getURLs()));
+        Collection<URL> result = new HashSet<>();
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        if (loader instanceof URLClassLoader)
+        {
+            result.addAll(Arrays.asList(((URLClassLoader)loader).getURLs()));
+        }
+        else
+        {
+            logger.warning("Unable to lookup class path URL directly from " + loader.getClass().getName() 
+                + " using 'java.class.path' system property instead.");
+            for (String classPathEntry : System.getProperty("java.class.path").split(File.pathSeparator))
+            {
+                try
+                {
+                   result.add(new File(classPathEntry).toURI().toURL());
+                }
+                catch (MalformedURLException mue)
+                {
+                   logger.log(Level.WARNING, "Unable to get URL for [" + classPathEntry + "]", mue);
+                }
+            }
+        }
         try
         {
             Enumeration<URL> urlEnumeration = loader.getResources("");
@@ -134,6 +157,7 @@ public class ResolveUtils
         }
         catch (IOException ignored)
         {
+            logger.log(Level.WARNING, "Unable to get additional entries from class loader", ignored);
         }
         return result;
     }
@@ -169,8 +193,8 @@ public class ResolveUtils
 
     public static Set<URL> getJarUrlForPackage(String packageName)
     {
-        URLClassLoader loader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
-        Set<URL> result = new HashSet<URL>();
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        Set<URL> result = new HashSet<>();
         try
         {
             Enumeration<URL> urls = loader.getResources(packageName);
