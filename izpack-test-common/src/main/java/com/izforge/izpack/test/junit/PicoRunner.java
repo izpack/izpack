@@ -86,13 +86,16 @@ public class PicoRunner extends PlatformRunner
             finally
             {
                 Thread.currentThread().setContextClassLoader(savedContextClassLoader);
-                try
+                if (containerInstance != null)
                 {
-                    containerInstance.dispose();
-                }
-                finally
-                {
-                    containerInstance = null;
+                    try
+                    {
+                      containerInstance.dispose();
+                    }
+                    finally
+                    {
+                      containerInstance = null;
+                    }
                 }
             }
           }
