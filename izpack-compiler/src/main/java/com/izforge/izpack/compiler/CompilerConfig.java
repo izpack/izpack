@@ -587,7 +587,7 @@ public class CompilerConfig extends Thread
             String stage = ixmlElement.getAttribute("stage");
             URL url = resourceFinder.findProjectResource(src, "Jar file", ixmlElement);
             boolean uninstaller = "both".equalsIgnoreCase(stage) || "uninstall".equalsIgnoreCase(stage);
-            compiler.checkJarVersions(new File(url.getFile()), minimalJavaVersion);
+            compiler.checkJarVersions(FileUtil.convertUrlToFile(url), minimalJavaVersion);
             if (!compiler.getJavaVersionCorrect())
             {
                 if (javaVersionStrict)
