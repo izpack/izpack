@@ -593,7 +593,7 @@ public class UserInputPanel extends IzPanel
         {
             associatedLabel = null;
         }
-        return installData.getMessages().get(associatedLabel);
+        return userInputModel.getConfig().getLocalString(associatedLabel);
     }
 
     /**
@@ -644,7 +644,7 @@ public class UserInputPanel extends IzPanel
 
         if (associatedLabel != null)
         {
-            key = installData.getMessages().get(associatedLabel);
+            key = userInputModel.getConfig().getLocalString(associatedLabel);
             value = installData.getVariable(associatedVariable);
             return (key + " " + value + "<br>");
         }
@@ -686,7 +686,7 @@ public class UserInputPanel extends IzPanel
                 column=1; //Reset to first column
             }
 
-            key = installData.getMessages().get(installData.getMessages().get(labels.get(column-1)));
+            key = userInputModel.getConfig().getLocalString(userInputModel.getConfig().getLocalString(labels.get(column-1)));
             value = installData.getVariable(variable);
 
             if (key != null)
