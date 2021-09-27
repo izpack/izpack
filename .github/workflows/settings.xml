@@ -1,0 +1,15 @@
+<settings>
+  <servers>
+    <!-- Sonatype Nexus -->
+    <server>
+      <id>sonatype-nexus-snapshots</id>
+      <username>${env.USERNAME}</username>
+      <password>${env.PASSWORD}</password>
+    </server>
+    <server>
+      <id>sonatype-nexus-staging</id>
+      <username>${env.USERNAME}</username>
+      <password>${env.PASSWORD}</password>
+    </server>
+  </servers>
+</settings>
