@@ -85,11 +85,13 @@ public class LooseFileUnpacker extends FileUnpacker
         File resolvedFile = file.getFile();
         if (!resolvedFile.exists())
         {
-            // try alternative destination - the current working directory
-            // user.dir is likely (depends on launcher type) the current directory of the executable or
-            // jar-file...
-            final File userDir = new File(System.getProperty("user.dir"));
-            resolvedFile = new File(userDir, file.getRelativeSourcePath());
+            // If provided, try finding the file in 'looseFilesDir', otherwise
+            // fallback to 'user.dir' which is likely (depends on launcher type)
+            // the current directory of the executable or jar-file...
+
+            final String looseFilesDir = System.getProperty("looseFilesDir", System.getProperty("user.dir"));
+            final File parent = new File(looseFilesDir);
+            resolvedFile = new File(parent, file.getRelativeSourcePath());
         }
         if (resolvedFile.exists())
         {

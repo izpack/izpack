@@ -14,6 +14,7 @@
     </info>
 
     <guiprefs width="640" height="480" resizable="yes">
+<!--
         <laf name="substance">
             <param name="variant" value="graphite"/>
             <os family="unix"/>
@@ -22,6 +23,7 @@
             <param name="variant" value="graphite"/>
             <os family="windows"/>
         </laf>
+-->
     </guiprefs>
     <locale>
         <langpack iso3="eng"/>

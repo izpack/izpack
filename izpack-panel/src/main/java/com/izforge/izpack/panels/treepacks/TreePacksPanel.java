@@ -1,5 +1,37 @@
 package com.izforge.izpack.panels.treepacks;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTree;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+
+import org.apache.commons.io.IOUtils;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.data.Pack;
@@ -17,21 +49,6 @@ import com.izforge.izpack.installer.web.WebAccessor;
 import com.izforge.izpack.panels.packs.PacksModel;
 import com.izforge.izpack.panels.packs.PacksPanelAutomationHelper;
 import com.izforge.izpack.util.IoHelper;
-import org.apache.commons.io.IOUtils;
-
-import javax.swing.*;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.InputStream;
-import java.util.*;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -60,7 +77,7 @@ public class TreePacksPanel extends IzPanel
     private final Map<String, List<String>> treeData;
 
     private CheckTreeController checkTreeController;
-    private HashMap<String, CheckBoxNode> nameToCheckBox = new HashMap<String, CheckBoxNode>();
+    private HashMap<String, CheckBoxNode> nameToCheckBox = new HashMap<>();
 
     /**
      * The constructor.
@@ -393,10 +410,10 @@ public class TreePacksPanel extends IzPanel
      */
     private void syncCheckboxesWithModel(CheckBoxNode rootNode)
     {
-        Enumeration<CheckBoxNode> e = rootNode.children();
+        Enumeration<?> e = rootNode.children();
         while (e.hasMoreElements())
         {
-            CheckBoxNode node = e.nextElement();
+            CheckBoxNode node = (CheckBoxNode) e.nextElement();
             String nodeText = node.getId();
             Object nodePack = namesToPacks.get(nodeText);
 
@@ -433,7 +450,7 @@ public class TreePacksPanel extends IzPanel
      */
     private Map<String, List<String>> createTreeData()
     {
-        Map<String, List<String>> treeData = new HashMap<String, List<String>>();
+        Map<String, List<String>> treeData = new HashMap<>();
 
         for (Pack pack : packsModel.getVisiblePacks())
         {
@@ -446,7 +463,7 @@ public class TreePacksPanel extends IzPanel
                 }
                 else
                 {
-                    kids = new ArrayList<String>();
+                    kids = new ArrayList<>();
                 }
                 kids.add(pack.getName());
                 treeData.put(pack.getParent(), kids);
@@ -548,7 +565,7 @@ public class TreePacksPanel extends IzPanel
     {
         if (parent == null) // the root node
         {
-            List<TreeNode> rootNodes = new ArrayList<TreeNode>();
+            List<TreeNode> rootNodes = new ArrayList<>();
             for (Pack pack : packsModel.getVisiblePacks())
             {
                 if (pack.getParent() == null)
@@ -561,7 +578,7 @@ public class TreePacksPanel extends IzPanel
         }
         else
         {
-            List<TreeNode> links = new ArrayList<TreeNode>();
+            List<TreeNode> links = new ArrayList<>();
             List<String> kids = treeData.get(parent);
             Pack pack = namesToPacks.get(parent);
             String translated = getI18NPackName(parent);
