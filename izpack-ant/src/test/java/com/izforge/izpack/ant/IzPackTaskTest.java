@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.util.zip.ZipFile;
 
 import org.apache.tools.ant.Project;
-import org.hamcrest.collection.IsCollectionContaining;
+import org.apache.tools.ant.PropertyHelper;
 import org.hamcrest.core.Is;
+import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -49,7 +50,25 @@ public class IzPackTaskTest
         task.setOutput("target/izpackResult.jar");
         task.setCompression("default");
         task.setCompressionLevel(-1);
-        task.setProject(new Project());
+        task.setProject(createProject());
+        task.setInheritAll(true);
+    }
+
+    /**
+     * Create a project containing a non String property.
+     *
+     * The public Project.setProperty allows String properties only.
+     * But internally the Hashtable allows properties of any type (Object).
+     *
+     * If using within a gradle context, saving non String values seems to be usual practice.
+     * To put in an foreign Object here is a bit tricky...
+     *
+     * @return
+     */
+    private Project createProject() {
+        final Project project = new Project();
+        PropertyHelper.getPropertyHelper(project).setNewProperty("answer", new Integer(42));
+        return project;
     }
 
 }

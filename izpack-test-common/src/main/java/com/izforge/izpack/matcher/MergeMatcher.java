@@ -9,8 +9,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.collection.IsCollectionContaining;
 import org.hamcrest.core.Is;
+import org.hamcrest.core.IsCollectionContaining;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.mock.MockOutputStream;
@@ -68,7 +68,7 @@ public class MergeMatcher extends TypeSafeMatcher<Mergeable>
     @Factory
     public static Matcher<Mergeable> isMergeableContainingFile(String fileName)
     {
-        return new MergeMatcher(IsCollectionContaining.hasItem(Is.is(fileName)));
+        return new MergeMatcher(IsCollectionContaining.hasItems(Is.is(fileName)));
     }
 
     @Factory

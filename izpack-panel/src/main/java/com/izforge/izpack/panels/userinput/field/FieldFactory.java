@@ -49,6 +49,7 @@ import com.izforge.izpack.panels.userinput.field.search.SearchFieldReader;
 import com.izforge.izpack.panels.userinput.field.space.Spacer;
 import com.izforge.izpack.panels.userinput.field.statictext.StaticText;
 import com.izforge.izpack.panels.userinput.field.statictext.StaticTextFieldReader;
+import com.izforge.izpack.panels.userinput.field.text.TextArea;
 import com.izforge.izpack.panels.userinput.field.text.TextField;
 import com.izforge.izpack.panels.userinput.field.title.TitleField;
 import com.izforge.izpack.panels.userinput.field.title.TitleFieldReader;
@@ -68,7 +69,7 @@ public class FieldFactory
      */
     enum Type
     {
-        BUTTON, CHECK, COMBO, CUSTOM, DIR, DIVIDER, FILE, MULTIFILE, PASSWORD, RADIO, RULE, SPACE, SEARCH, STATICTEXT, TEXT, TITLE
+        BUTTON, CHECK, COMBO, CUSTOM, DIR, DIVIDER, FILE, MULTIFILE, PASSWORD, RADIO, RULE, SPACE, SEARCH, STATICTEXT, TEXT, TITLE, TEXTAREA
     }
 
     /**
@@ -167,6 +168,9 @@ public class FieldFactory
                 break;
             case TEXT:
                 result = new TextField(new FieldReader(element, config), installData);
+                break;
+            case TEXTAREA:
+                result = new TextArea(new TextAreaReader(element, config), installData);
                 break;
             case TITLE:
                 result = new TitleField(new TitleFieldReader(element, config), installData);

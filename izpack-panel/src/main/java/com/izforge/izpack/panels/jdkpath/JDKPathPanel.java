@@ -23,6 +23,7 @@
 package com.izforge.izpack.panels.jdkpath;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -187,4 +188,27 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     {
         this.installData.setVariable(JDKPathPanelHelper.JDK_PATH, pathSelectionPanel.getPath());
     }
+    
+    /**
+     * Determines if required files exist relative to the specified path
+     *
+     * @return {@code true} if no files are required, or they exist
+     */
+    protected boolean checkRequiredFilesExist(String path)
+    {
+        if (existFiles == null || path == null || path.isEmpty())
+        {
+            return true;
+        }
+        for (String existFile : existFiles)
+        {
+            File file = new File(path, existFile).getAbsoluteFile();
+            if (file.exists())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

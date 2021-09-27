@@ -1,8 +1,8 @@
 package com.izforge.izpack.api.config.spi;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
+
 
 public class AbstractParserTest extends AbstractParser {
 	

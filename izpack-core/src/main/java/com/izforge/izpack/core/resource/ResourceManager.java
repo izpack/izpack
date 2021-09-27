@@ -69,7 +69,7 @@ public class ResourceManager extends AbstractResources
      */
     public ResourceManager()
     {
-        this(ClassLoader.getSystemClassLoader());
+        this(Thread.currentThread().getContextClassLoader());
     }
 
     /**

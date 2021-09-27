@@ -17,3 +17,4 @@ izpack-compiler/out.zip
 .metadata
 .idea
 /bin
+.recommenders/

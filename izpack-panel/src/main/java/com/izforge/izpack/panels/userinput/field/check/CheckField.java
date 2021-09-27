@@ -81,7 +81,7 @@ public class CheckField extends Field
     /**
      * Returns the initial selection of the check box.
      * <p/>
-     * The initial selection is determined by the {@link #getInitialValue initial value}. If this is the same as the
+     * The initial selection is determined by the {@link #getInitialValue()}. If this is the same as the
      * {@link #getTrueValue() 'true value'} or {@code "true"} then the check box should be selected.
      *
      * @return {@code true} if the check box should be selected, {@code false} if it should be deselected.
@@ -102,9 +102,15 @@ public class CheckField extends Field
     {
         if (originalValue != null)
         {
-            return Boolean.parseBoolean(replaceVariables(originalValue))
-                    ? replaceVariables(trueValue)
-                    : replaceVariables(falseValue);
+            String replacedTrueValue = replaceVariables(trueValue);
+            if (replacedTrueValue.equals(replaceVariables(originalValue)))
+            {
+                return replacedTrueValue;
+            }
+            else
+            {
+                return replaceVariables(falseValue);
+            }
         }
         return null;
     }

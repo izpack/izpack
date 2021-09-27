@@ -30,6 +30,8 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
@@ -147,7 +149,7 @@ public class XMLParser implements IXMLParser
         return null;
     }
 
-    private DOMResult parseLineNrFromInputSource(InputSource inputSource)
+    private DOMResult parseLineNrFromInputSource(InputSource inputSource, Source xslSource)
     {
         DOMResult result = null;
         try
@@ -156,7 +158,18 @@ public class XMLParser implements IXMLParser
             SAXSource source = new SAXSource(inputSource);
             source.setXMLReader(filter);
 
-            TransformerFactory.newInstance().newTransformer().transform(source, result);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+            final Transformer transformer;
+            if (xslSource == null)
+            {
+                transformer = transformerFactory.newTransformer();
+            }
+            else
+            {
+                transformer = transformerFactory.newTransformer(xslSource);
+            }
+            transformer.transform(source, result);
 
             filter.applyLN(result);
         }
@@ -193,18 +206,23 @@ public class XMLParser implements IXMLParser
 
         this.parsedItem = null;
         InputSource inputSource = new InputSource(inputStream);
-        DOMResult result = parseLineNrFromInputSource(inputSource);
+        DOMResult result = parseLineNrFromInputSource(inputSource, null);
         return searchFirstElement(result);
     }
 
     public IXMLElement parse(InputStream inputStream, String systemId)
+    {
+        return parse(inputStream, systemId, null);
+    }
+
+    public IXMLElement parse(InputStream inputStream, String systemId, Source xslSource)
     {
         checkNotNullStream(inputStream);
 
         this.parsedItem = systemId;
         InputSource inputSource = new InputSource(inputStream);
         inputSource.setSystemId(systemId);
-        DOMResult result = parseLineNrFromInputSource(inputSource);
+        DOMResult result = parseLineNrFromInputSource(inputSource, xslSource);
         return searchFirstElement(result);
     }
 
@@ -221,7 +239,7 @@ public class XMLParser implements IXMLParser
     {
         this.parsedItem = inputURL.toString();
         InputSource inputSource = new InputSource(inputURL.toExternalForm());
-        DOMResult domResult = parseLineNrFromInputSource(inputSource);
+        DOMResult domResult = parseLineNrFromInputSource(inputSource, null);
         return searchFirstElement(domResult);
     }
 

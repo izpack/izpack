@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 
 public class JDKPathPanelHelper
 {
-    public static final String[] testFiles = new String[]{"lib" + File.separator + "tools.jar"};
+    public static final String[] testFiles = new String[]{"lib" + File.separator + "tools.jar", "bin" + File.separator + "javac" + (OsVersion.IS_WINDOWS ? ".exe" : "")};
     public static final String JDK_VALUE_NAME = "JavaHome";
     public static final String JDK_ROOT_KEY = "Software\\JavaSoft\\Java Development Kit";
     public static final String OSX_JDK_HOME = "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home/";
@@ -175,12 +175,12 @@ public class JDKPathPanelHelper
         for (String existFile : testFiles)
         {
             File path = new File(strPath, existFile).getAbsoluteFile();
-            if (!path.exists())
+            if (path.exists())
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**

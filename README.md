@@ -11,11 +11,11 @@ under different terms.
 
 ## Building IzPack from source
 
-[![Build Status](https://secure.travis-ci.org/izpack/izpack.png?branch=master)](http://travis-ci.org/izpack/izpack)
+![Java CI with Maven](https://github.com/izpack/izpack/workflows/Java%20CI%20with%20Maven/badge.svg)
 
-IzPack only requires Java SE 6+ and at minimum Maven 3. Due to the JDK compatibility the maximum Maven version supported is 3.2.6 when compiled using JDK 1.6.
+IzPack requires Java SE 1.8 and at minimum Maven 3. Due to the JDK compatibility the maximum Maven version supported is 3.6.3 when compiled using JDK 1.8.
 
-    mvn clean install
+    mvn verify install
 
 The build generates a distribution IzPack installer JAR in `izpack-dist/target`.
 
@@ -121,12 +121,6 @@ If you are not a member you can subscribe by sending an e-mail to:
 If you are not a member of one of the above groups of your interest you may subscribe to them with or without being logged on as Google user on the web interface or by mail. For more help on Google Groups [visit the according help center](https://support.google.com/groups).
 
 Be invited to join us again.
-
-#### Google Plus - Social Networking
-
-IzPack has its own page at Google+. We will forward blog posts there and it is open for discussions for registered Google users.
-
-The address is https://plus.google.com/+izpack/.
 
 ### IzPack@Twitter
 

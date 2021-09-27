@@ -21,6 +21,7 @@
 import os
 import sys
 from shutil import *
+from functools import reduce
 
 def main():
 	base = os.path.dirname(sys.argv[0])
@@ -47,6 +48,6 @@ def main():
 	
 if __name__ == '__main__':
 	if (len(sys.argv) != 3):
-		print "Usage: izpack2app.py installer.jar Installer.app"
+		print("Usage: izpack2app.py installer.jar Installer.app")
 	else:
 		main()

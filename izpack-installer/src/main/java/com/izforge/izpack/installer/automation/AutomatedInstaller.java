@@ -37,7 +37,10 @@ import com.izforge.izpack.util.PrivilegedRunner;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.xml.transform.stream.StreamSource;
 
 /**
  * Runs the install process in text only (no GUI) mode.
@@ -248,14 +251,27 @@ public class AutomatedInstaller implements InstallerBase
      */
     private IXMLElement getXMLData(File input) throws IOException
     {
+        IXMLElement rtn;
         FileInputStream in = new FileInputStream(input);
-
-        // Initialises the parser
-        // TODO: Create an XSD for auto-install files and activate validation here
-        IXMLParser parser = new XMLParser(false);
-        IXMLElement rtn = parser.parse(in, input.getAbsolutePath());
-        in.close();
-
+        try
+        {
+            // Initialises the parser
+            // TODO: Create an XSD for auto-install files and activate validation here
+            XMLParser parser = new XMLParser(false);
+            InputStream xsl = getClass().getResourceAsStream("/resources/AutomatedInstallation.xsl");
+            if (xsl == null)
+            {
+                rtn = parser.parse(in, input.getAbsolutePath());
+            }
+            else
+            {
+                rtn = parser.parse(in, input.getAbsolutePath(), new StreamSource(xsl));
+            }
+        }
+        finally
+        {
+            in.close();
+        }
         return rtn;
     }
 

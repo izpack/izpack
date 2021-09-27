@@ -120,6 +120,11 @@
 
     <str id="InfoPanel.info" txt="Leggere attentamente le seguenti informazioni: "/>
 
+    <str id="SudoPanel.info" txt="Per effettuare l'installazione sono necessari privilegi di amministratore"/>
+    <str id="SudoPanel.tip" txt="Si prega di notare che le password fanno distinzione fra maiuscolo e minuscolo"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="Per favore inserisca la propria password di amministratore:"/>
+    <str id="SudoPanel.invalidPassword" txt="Password errata o privilegi non sufficienti"/>
+
     <str id="PathInputPanel.required" txt="La cartella selezionata deve esistere."/>
     <str id="PathInputPanel.required.forModificationInstallation" txt="La cartella selezionata deve esistere."/>
     <str id="PathInputPanel.notValid" txt="La cartella selezionata non contiene il prodotto richiesto."/>

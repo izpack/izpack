@@ -21,13 +21,21 @@
 
 package com.izforge.izpack.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -37,6 +45,7 @@ import java.util.List;
  */
 public class FileUtil
 {
+    private static final Pattern WINDOWS_DRIVE_PATTERN = Pattern.compile("^/([a-zA-Z]:.+)$");
 
     public static File convertUrlToFile(URL url)
     {
@@ -47,16 +56,44 @@ public class FileUtil
     {
         try
         {
+            URI uri = url.toURI();
+            if ("jar".equals(url.getProtocol()))
+            {
+              uri = new URI(url.getPath());
+            }
+            StringBuilder result = new StringBuilder();
+            final String host = uri.getHost();
+            if (host != null && !host.isEmpty())
+            {
+              result.append("//").append(host);
+            }
+            final String path = uri.getPath();
+            result.append(handleWindowsUrl(path == null ? uri.getSchemeSpecificPart() : path));
             final String encodedQuery = url.getQuery();
-            return new URI(url.getPath()).getPath() + (encodedQuery == null || encodedQuery.isEmpty() ? "" : "?" + URLDecoder.decode(encodedQuery, "UTF-8"));
+            if (encodedQuery !=null && encodedQuery.isEmpty())
+            {
+              result.append('?').append(URLDecoder.decode(encodedQuery, "UTF-8"));
+            }
+            return result.toString();
         }
-        catch (final URISyntaxException e) {
+        catch (final URISyntaxException e)
+        {
             throw new RuntimeException(e);
         }
         catch (final UnsupportedEncodingException e)
         {
             throw new RuntimeException(e);
         }
+    }
+    
+    private static String handleWindowsUrl(String path)
+    {
+      Matcher matcher = WINDOWS_DRIVE_PATTERN.matcher(path);
+      if (matcher.matches())
+      {
+        return matcher.group(1);
+      }
+      return path;
     }
 
     public static File getLockFile(String applicationName){

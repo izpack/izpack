@@ -443,9 +443,15 @@ public class Compiler extends Thread
         }
         dis.readUnsignedShort();
         int major = dis.readUnsignedShort();
-        String[] splitMinimalVersion = minimalJavaVersion.split("\\.");
         setJavaVersionExpected(major);
-        if (major > (44 + Integer.parseInt(splitMinimalVersion[1])))
+        String[] splitMinimalVersion = minimalJavaVersion.split("\\.");
+        int minimalVersion = Integer.parseInt(splitMinimalVersion[0]);
+        if (minimalVersion < 10 && splitMinimalVersion.length > 1) 
+        {
+        	minimalVersion = Integer.parseInt(splitMinimalVersion[1]);
+        }
+        
+        if (major > (44 + minimalVersion) )
         {
             setJavaVersionCorrect(false);
         }

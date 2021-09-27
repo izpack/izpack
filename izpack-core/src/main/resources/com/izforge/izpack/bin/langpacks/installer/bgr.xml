@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<!-- The English langpack -->
+
+<izpack:langpack version="5.0"
+                 xmlns:izpack="http://izpack.org/schema/langpack"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
+
+    <!-- Heading messages START -->
+    <str id="CheckedHelloPanel.headline" txt="Добре дошли"/>
+    <str id="CompilePanel.headline" txt="Compile Java Sources"/>
+    <str id="ConditionalUserInputPanel.headline" txt="Потребителски данни"/>
+    <str id="FinishPanel.headline" txt="Инсталацията завърши"/>
+    <str id="HelloPanel.headline" txt="Добре дошли"/>
+    <str id="HTMLInfoPanel.headline" txt="Информация"/>
+    <str id="HTMLLicencePanel.headline" txt="Лицензионни споразумения"/>
+    <str id="PDFLicencePanel.headline" txt="Лицензионни споразумения"/>
+    <str id="ImgPacksPanel.headline" txt="Select Installation Packages"/>
+    <str id="InfoPanel.headline" txt="Информация"/>
+    <str id="InstallPanel.headline" txt="Инсталация"/>
+    <str id="JDKPathPanel.headline" txt="JDK Path"/>
+    <str id="LicencePanel.headline" txt="Лицензионни споразумения"/>
+    <str id="PacksPanel.headline" txt="Изберете инсталационни пакети"/>
+    <str id="ProcessPanel.headline" txt="Изпълнение на външни процеси"/>
+    <str id="ShortcutPanel.headline" txt="Установяване на преки пътища"/>
+    <str id="SimpleFinishPanel.headline" txt="Инсталацията завърши"/>
+    <str id="SummaryPanel.headline" txt="Общо за конфигурацията"/>
+    <str id="TargetPanel.headline" txt="Път за инсталация"/>
+    <str id="TreePacksPanel.headline" txt="Изберете инсталационни пакети"/>
+    <str id="UserInputPanel.headline" txt="Потребителски данни"/>
+    <str id="UserPathPanel.headline" txt="Изберете път"/>
+    <str id="InstallationTypePanel.headline" txt="Тип на инсталацията"/>
+
+    <!-- TreePacksPanel Strings -->
+    <str id="TreePacksPanel.confirm"
+         txt="Натиснете 0 за да потвърдите избора си."/>
+    <str id="TreePacksPanel.prompt"
+         txt="Изберете пакети, които желаете да инсталирате."/>
+    <str id="TreePacksPanel.no.packs"
+         txt="Нямате избрани пакети!\nЖелаете ли да продължите?"/>
+    <str id="TreePacksPanel.space.required"
+         txt="Общо необходимо дисково пространство:"/>
+    <str id="TreePacksPanel.invalid"
+         txt="Избран е невалиден пакет"/>
+    <str id="TreePacksPanel.dependent"
+         txt="Зависимости"/>
+    <str id="TreePacksPanel.children"
+         txt="Дъщерен"/>
+    <str id="TreePacksPanel.no.number"
+         txt="Въведете номер от изброените по-горе."/>
+    <str id="TreePacksPanel.required"
+         txt="Изисква се"/>
+    <str id="TreePacksPanel.unselectable"
+         txt="Неизбираем"/>
+    <str id="TreePacksPanel.done"
+         txt="Готово!"/>
+
+    <!-- General installer strings -->
+    <str id="installer.title" txt="IzPack - Инсталация на "/>
+    <str id="installer.next" txt="Напред"/>
+    <str id="installer.prev" txt="Назад"/>
+    <str id="installer.quit" txt="Изход"/>
+    <str id="installer.madewith" txt="(Създаден с IzPack - http://izpack.org/)"/>
+    <str id="installer.reboot.ask.title" txt="Изисква рестарт"/>
+    <str id="installer.reboot.ask.message"
+         txt="Изисква се рестарт за да бъдат направени някой промени. Желаете ли да рестартирате сега?"/>
+    <str id="installer.reboot.notice.title" txt="Препоръчва се рестарт"/>
+    <str id="installer.reboot.notice.message" txt="Препоръчва се да се рестартира за да бъдат направени някой промени."/>
+    <str id="installer.quit.title" txt="Сигурни ли сте, че искате да излезете?"/>
+    <str id="installer.quit.message" txt="Това ще прекъсне Вашата инсталация!"/>
+    <str id="installer.warning" txt="Внимание!"/>
+    <str id="installer.yes" txt="Да"/>
+    <str id="installer.no" txt="Не"/>
+    <str id="installer.cancel" txt="Отказ"/>
+    <str id="installer.error" txt="Грешка"/>
+    <str id="installer.help" txt="Помощ"/>
+    <str id="installer.help.close" txt="Затвори"/>
+    <str id="installer.step" txt="Стъпка"/>
+    <str id="installer.of" txt="на"/>
+    <str id="installer.Message" txt="Съобщение"/>
+    <str id="installer.uninstall.writefailed" txt="Грешка при запис на инфомрация за деинсталиране."/>
+    <str id="installer.errorMessage" txt="Получена е грешка"/>
+    <str id="installer.close" txt="Затвори"/>
+    <str id="installer.showDetails" txt="Покажи детайли"/>
+    <str id="installer.hideDetails" txt="Скрий детайли"/>
+    <str id="installer.copy" txt="Копирай"/>
+    <str id="installer.sendReport" txt="Изпрати отчет"/>
+    <str id="installer.continueQuestion" txt="Продължи въпреки това?"/>
+    <str id="installer.cancelled" txt="Инсталацията е отказана"/>
+    <str id="installer.started" txt="Инсталацията е стартирана"/>
+    <str id="installer.platform" txt="Платформа: {0}"/>
+    <str id="installer.version" txt="Framework: {0}"/>
+    <str id="installer.finished" txt="Инсталацията завърши"/>
+
+    <!-- Uninstaller specific strings -->
+    <str id="uninstaller.warning" txt="Това ще деинсталира инсталираното приложение!"/>
+    <str id="uninstaller.destroytarget" txt=" Наложи изтриването на "/>
+    <str id="uninstaller.uninstall" txt="Деинсталирай"/>
+
+    <!-- The strings for the 'official' IzPack plugins -->
+    <!-- HelloPanel strings -->
+    <str id="HelloPanel.welcome1" txt="Добре дошли към инсталацията на "/>
+    <str id="HelloPanel.welcome2" txt="!"/>
+    <str id="HelloPanel.authors" txt="Този софтуер е разработен от: "/>
+    <str id="HelloPanel.url" txt="Уеб адрес: "/>
+
+    <!-- LicensePanel strings -->
+    <str id="LicencePanel.info" txt="Прочетете следното лицензионно споразумение внимателно:"/>
+    <str id="LicencePanel.agree" txt="Да, приемам всички условия на лицензионното споразумение."/>
+    <str id="LicencePanel.notagree" txt="Не, не приемам условията на лицензионното споразумение."/>
+    <str id="LicencePanel.yes" txt="Да"/>
+    <str id="LicencePanel.no" txt="Не"/>
+
+    <!-- PrinterSelect Panel -->
+    <str id="PrinterSelectPanel.select_printer" txt="Изберете принтер за първоначално използване и тестване."/>
+
+    <!-- InfoPanel strings -->
+    <str id="InfoPanel.info" txt="Прочетете внимателно следната информация: "/>
+
+    <!-- PathInputPanel strings -->
+    <str id="PathInputPanel.isfile"
+        txt="Въвели сте път към файл. Изберете път към нова или съществуваща директория."/>
+    <str id="PathInputPanel.required" txt="Избраната директория трябва да съществува."/>
+    <str id="PathInputPanel.required.forModificationInstallation" txt="Избраната директория трябва да съществува."/>
+    <str id="PathInputPanel.notValid"
+         txt="Избраната директория не съдържа избрания продукт."/>
+
+    <!-- TargetPanel strings -->
+    <str id="TargetPanel.info" txt="Изберете път за инсталация: "/>
+    <str id="TargetPanel.browse" txt="Избери..."/>
+    <str id="TargetPanel.warn"
+         txt="Директорията вече съществува! Наистина ли желаете да инсталирате тук и да презапишете файловете?"/>
+    <str id="TargetPanel.empty_target"
+         txt="Не сте избрали целеви път! Това коректно ли е?"/>
+    <str id="TargetPanel.createdir" txt="Целевата директория ще бъде създадена: "/>
+    <str id="TargetPanel.nodir" txt="Това не е директория! Изберете директория!"/>
+    <str id="TargetPanel.notwritable"
+         txt="Директорията не е достъпна за запис! Изберете друга директория!"/>
+    <str id="TargetPanel.incompatibleInstallation"
+         txt="Открита е несъвместима инсталация. Деинсталирайте първо или изберете друг път за инсталация."/>
+    <str id="TargetPanel.syntax.error"
+         txt="Невалиден път към директория. Въведете валиден път към директория съобразно изискванията на опереационната система."/>
+
+    <!-- JDKPathPanel strings -->
+    <str id="JDKPathPanel.extendedIntro"
+         txt="Изнсталацията на приложението изисква JDK версия от ${JDKPathPanel.minVersion} до ${JDKPathPanel.maxVersion}. Java runtime environment (JRE) не е достатъчно."/>
+    <str id="JDKPathPanel.intro"
+         txt="Инсталирането на приложението изисква JDK. Java runtime environment (JRE) не е достатъчно."/>
+    <str id="JDKPathPanel.info" txt="Изберете път към JDK:"/>
+    <str id="JDKPathPanel.badVersion1" txt="Избраният JDK е с неподходяща версия (налична: "/>
+    <str id="JDKPathPanel.badVersion2" txt=" изисква: "/>
+    <str id="JDKPathPanel.badVersion3" txt="). Да се използва ли този JDK въпреки това?"/>
+    <str id="JDKPathPanel.badVersion4" txt="Продължи въреки това? [y/n] [n]"/>
+    <str id="JDKPathPanel.nonValidPathInReg"
+         txt="Windows registry съдържа невалиден път за този JDK. Да се използва ли този JDK въпреки това?"/>
+    <str id="JDKPathPanel.jdkDownload"
+         txt="&lt;html&gt;&lt;p&gt;Този софтуер изисква поне версия ${JDKPathPanel.minVersion} на Java Development Kit (JDK).&lt;p/&gt;
+         В случай, че не е инсталиран отидете на &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,
+         за да го изтеглите и инсталирате.&lt;/html&gt;"/>
+
+    <!-- PacksPanel strings -->
+    <str id="PacksPanel.info" txt="Изберете пакети за инсталация:"/>
+    <str id="PacksPanel.tip" txt="Бележка: Засивените пакети са задължителни."/>
+    <str id="PacksPanel.space" txt="Общо необходимо пространство: "/>
+    <str id="PacksPanel.freespace" txt="Налично пространство: "/>
+    <str id="PacksPanel.description" txt="Описание"/>
+    <str id="PacksPanel.dependencyList"
+         txt="Избраният пакет има следните зависимости или несъвместимости"/>
+    <str id="PacksPanel.dependencies" txt="Зависимости: "/>
+    <str id="PacksPanel.excludes" txt="Несъвместимости: "/>
+    <str id="PacksPanel.notEnoughSpace"
+         txt="Дисковото пространство необходимо за инсталацията надвишава свободното."/>
+    <str id="PacksPanel.notAscertainable" txt="не може да се установи"/>
+
+    <!-- InstallPanel strings -->
+    <str id="InstallPanel.info" txt="Натиснете 'Инсталирай!' за начало на инсталационния процес"/>
+    <str id="InstallPanel.install" txt="Инсталирай!"/>
+    <str id="InstallPanel.tip" txt="Прогрес на инсталация на пакет:"/>
+    <str id="InstallPanel.begin" txt=" "/>
+    <str id="InstallPanel.finished" txt="[Завърши]"/>
+    <str id="InstallPanel.progress" txt="Общ прогрес на инсталацията:"/>
+    <str id="InstallPanel.overwrite.title" txt="Файлът вече съществува"/>
+    <str id="InstallPanel.overwrite.question" txt="Следният файл вече съществува. Да се презапише ли?"/>
+
+    <!-- InstallationGroupPanel strings -->
+    <str id="InstallationGroupPanel.colNameSelected" txt="Избран"/>
+    <str id="InstallationGroupPanel.colNameInstallType" txt="ТипИнсталация"/>
+    <str id="InstallationGroupPanel.colNameSize" txt="Размер"/>
+
+    <!-- InstallationTypePanel strings -->
+    <str id="InstallationTypePanel.info" txt="Изберете тип на инсталацията:"/>
+    <str id="InstallationTypePanel.normal" txt="Нова инсталация"/>
+    <str id="InstallationTypePanel.modify" txt="Промяна на инсталация"/>
+
+    <!-- FinishPanel strings -->
+    <str id="FinishPanel.success" txt="Инсталацията завърши успешно."/>
+    <str id="FinishPanel.done" txt="Готово"/>
+    <str id="FinishPanel.fail" txt="Инсталацията е прекратена!"/>
+    <str id="FinishPanel.uninst.info" txt="Създадена е деинсталация в: "/>
+    <str id="FinishPanel.auto" txt="Генериране на автоматичен инсталационен скрипт"/>
+    <str id="FinishPanel.auto.tip"
+         txt="Използвайте този скрипт за да повторите инсталацията на други системи."/>
+    <str id="FinishPanel.auto.dialog.filterdesc" txt="XML файлове"/>
+
+    <!-- ImgPacksPanel strings -->
+    <str id="ImgPacksPanel.dependencyList" txt="Зависимости и/или несъвместимости"/>
+    <str id="ImgPacksPanel.packs" txt="Следните пакети са налични:"/>
+    <str id="ImgPacksPanel.snap" txt="Пакетна снимка:"/>
+    <str id="ImgPacksPanel.checkbox" txt=" Инсталирай този пакет"/>
+
+    <!-- ShortcutPanel strings -->
+    <str id="ShortcutPanel.regular.list" txt="Изберете програмна група за преките пътища:"/>
+    <str id="ShortcutPanel.regular.default" txt="По подразбиране"/>
+    <str id="ShortcutPanel.regular.desktop" txt="Създай пряк път на работния плот"/>
+    <str id="ShortcutPanel.regular.startup" txt="Стартирай след инсталацията"/>
+    <str id="ShortcutPanel.regular.create" txt="Създай преки пътища в Старт менюто"/>
+    <str id="ShortcutPanel.regular.userIntro" txt="създай пряк път за:"/>
+    <str id="ShortcutPanel.regular.currentUser" txt="текущ потребител"/>
+    <str id="ShortcutPanel.regular.allUsers" txt="всички потребители"/>
+    <str id="ShortcutPanel.alternate.apology"
+         txt="Съжеляваме на IzPack не поддържа създаването на преки пътища за тази операционна система. За да създаването на преки пътища се консултирайте с ръководството на вашата операционна система."/>
+    <str id="ShortcutPanel.alternate.targetsLabel"
+         txt="Това е списък от целеви директории до които производителя на софтуера желае да има достъп."/>
+    <str id="ShortcutPanel.alternate.textFileExplanation"
+         txt="Можете да съхраните детайлна информация за дестинациите на приложнието в текстов файл за по-късна справка."/>
+    <str id="ShortcutPanel.alternate.saveButton" txt="Запис в текстов файл"/>
+    <str id="ShortcutPanel.textFile.header"
+         txt="Информация за пряк път\n====================\n\nСледва списък с информация относно преките пътища.\nТази информация може да се използва за ръчното им създаване.\n"/>
+    <str id="ShortcutPanel.textFile.name" txt="Пряк път          : "/>
+    <str id="ShortcutPanel.textFile.location" txt="Предвидено място  : "/>
+    <str id="ShortcutPanel.textFile.description" txt="Описание          : "/>
+    <str id="ShortcutPanel.textFile.target" txt="Пряк път цел      : "/>
+    <str id="ShortcutPanel.textFile.command" txt="Команден ред      : "/>
+    <str id="ShortcutPanel.textFile.iconName" txt="Файл с икона      : "/>
+    <str id="ShortcutPanel.textFile.iconIndex" txt="Индекс на икона   : "/>
+    <str id="ShortcutPanel.textFile.work" txt="Работна директория: "/>
+    <str id="ShortcutPanel.location.desktop" txt="Работен плот"/>
+    <str id="ShortcutPanel.location.applications" txt="Меню Приложения"/>
+    <str id="ShortcutPanel.location.startMenu" txt="Старт Меню"/>
+    <str id="ShortcutPanel.location.startup" txt="Старт група"/>
+    <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Старт-Меню"/>
+    <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="XDG-Menu"/>
+    <str id="ShortcutPanel.group.error" txt="Невалидна програмна група. Въведете буквеноцифрово име."/>
+
+    <!-- UserInputPanel strings -->
+    <str id="UserInputPanel.error.caption" txt="Грешка"/>
+    <str id="UserInputPanel.dir.nodirectory.message" txt="Трябва да въведете валидна директория."/>
+    <str id="UserInputPanel.dir.nodirectory.caption" txt="Не е избрана директория"/>
+    <str id="UserInputPanel.dir.notdirectory.message"
+         txt="Избраната директория не съществува или не е валидна."/>
+    <str id="UserInputPanel.dir.notdirectory.caption" txt="Невалидна директория"/>
+    <str id="UserInputPanel.file.nofile.message" txt="Трябва да изберете валиден файл."/>
+    <str id="UserInputPanel.file.nofile.caption" txt="Не е избран файл"/>
+    <str id="UserInputPanel.file.notfile.message"
+         txt="Избраният файл не съществува или не е валиден."/>
+    <str id="UserInputPanel.file.notfile.caption" txt="Невалиден файл"/>
+    <str id="UserInputPanel.search.autodetect" txt="Автодетект"/>
+    <str id="UserInputPanel.search.autodetect.failed.message" txt="Автодетект се провали."/>
+    <str id="UserInputPanel.search.autodetect.failed.caption" txt="Автодетект Провал"/>
+    <str id="UserInputPanel.search.autodetect.tooltip"
+         txt="Проверка за файл или директория в пътищата по-горе."/>
+    <str id="UserInputPanel.search.location" txt="Въведете място на {0}."/>
+    <str id="UserInputPanel.search.location.checkedfile" txt="Съществуването на {0} е отбелязано."/>
+    <str id="UserInputPanel.search.browse" txt="Избор..."/>
+    <str id="UserInputPanel.search.delete" txt="Изтриване..."/>
+    <str id="UserInputPanel.search.wrongselection.message"
+         txt="Избраният от вас файл или директория или не съществува, или не е подходящ."/>
+    <str id="UserInputPanel.search.wrongselection.caption" txt="Невалиден избор"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Добавяне"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Премахване"/>
+
+    <!-- UserPathPanel strings -->
+    <str id="UserPathPanel.required" txt="Избраната директория трябва да съществува."/>
+    <str id="UserPathPanel.info" txt="Изберете път: "/>
+    <str id="UserPathPanel.browse" txt="Избор"/>
+    <str id="UserPathPanel.exists_warn"
+         txt="Директорията вече съществува! Сигурни ли сте, че искате да инсталирате тук и евентуално да презапишете съществуващи файлове?"/>
+    <str id="UserPathPanel.empty_target"
+         txt="Не сте посочили целево местоположение! Дали това е правилно?"/>
+    <str id="UserPathPanel.createdir" txt="Целевата директория ще бъде създадена: "/>
+    <str id="UserPathPanel.nodir" txt="Този файл не е директория! Моля, изберете директория!"/>
+    <str id="UserPathPanel.notwritable"
+         txt="Тази директория не достъпна за запис! Моля, изберете друга директория!"/>
+
+    <!-- CompilePanel strings -->
+    <str id="CompilePanel.heading" txt="Компилиране"/>
+    <str id="CompilePanel.tip" txt="Прогрес на задачата за компилиране:"/>
+    <str id="CompilePanel.browse" txt="Избор..."/>
+    <str id="CompilePanel.browse.approve" txt="Използвай като компилатор"/>
+    <str id="CompilePanel.start" txt="Старт"/>
+    <str id="CompilePanel.progress.initial" txt="[Натиснете Старт бутона]"/>
+    <str id="CompilePanel.progress.finished" txt="[Завърши]"/>
+    <str id="CompilePanel.progress.overall" txt="общ прогрес на компилацията:"/>
+    <str id="CompilePanel.error" txt="Компилацията пропадна"/>
+    <str id="CompilePanel.error.reconfigure" txt="Преконфигурирай"/>
+    <str id="CompilePanel.error.ignore" txt="Игнорирай"/>
+    <str id="CompilePanel.error.abort" txt="Прекъсни"/>
+    <str id="CompilePanel.error.seebelow" txt="Вижте по-долу за неуспешната команда и нейния изход."/>
+    <str id="CompilePanel.error.nofiles" txt="Грешка при сканиране на файлове за компилация."/>
+    <str id="CompilePanel.error.compilernotfound" txt="Компилаторът не може да бъде стартиран."/>
+    <str id="CompilePanel.error.invalidarguments" txt="Невалидни аргументи към компилатора."/>
+    <str id="CompilePanel.error.noclassfile"
+         txt="Компилаторът не създаде клас файл за изходния файл "/>
+    <str id="CompilePanel.choose_compiler" txt="Да се използва омпилатор:"/>
+    <str id="CompilePanel.additional_arguments" txt="Допълнителни аргументи:"/>
+
+    <!-- ProcessPanel strings -->
+    <str id="ProcessPanel.heading" txt="Обработване"/>
+
+    <!-- SummaryPanel strings -->
+    <str id="SummaryPanel.info"
+         txt="Installation will proceed with the following settings. Press Next to continue."/>
+    <str id="SummaryPanel.next" txt="Next"/>
+    <str id="TargetPanel.summaryCaption" txt="Инсталационен път"/>
+    <str id="JDKPathPanel.summaryCaption" txt="JDK път"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Избрана функция за инсталиране"/>
+    <str id="PacksPanel.summaryCaption" txt="Избрани инсталационни пакети"/>
+    <str id="ImgPacksPanel.summaryCaption" txt="Избрани инсталационни пакети"/>
+    <str id="TreePacksPanel.summaryCaption" txt="Избрани инсталационни пакети"/>
+    <str id="UserPathPanel.summaryCaption" txt="Избран път"/>
+    <str id="DefaultTargetPanel.summaryCaption" txt="Инсталационен път"/>
+
+    <!-- Strings for the Registry -->
+    <str id="functionFailed.RegOpenKeyEx" txt="Cannot open registry key {0}\\{1}."/>
+
+    <!-- CheckedHelloPanel strings -->
+    <str id="CheckedHelloPanel.productAlreadyExist0"
+         txt="Този продукт вече е инсталиран в тази директория "/>
+    <str id="CheckedHelloPanel.productAlreadyExist1" txt="Сигурни ли сте, че искате да инсталирате друго копие?"/>
+    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="Деинсталиращият ключ ще бъде с име: "/>
+
+    <!-- ConsolePrompt strings -->
+    <str id="ConsolePrompt.okCancel" txt="Въведете O за OK, C за Cancel: "/>
+    <str id="ConsolePrompt.yesNo" txt="Въведете Y за Yes, N за No: "/>
+    <str id="ConsolePrompt.yesNoCancel" txt="Въведете Y за Yes, N за No, или C за Cancel: "/>
+    <str id="ConsolePrompt.ok" txt="O"/>
+    <str id="ConsolePrompt.cancel" txt="C"/>
+    <str id="ConsolePrompt.yes" txt="Y"/>
+    <str id="ConsolePrompt.no" txt="N"/>
+
+    <!-- ConsoleInstaller strings -->
+    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Натиснете 1 за продължение, 2 за изход, 3 за показване отново"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Натиснете 1 за приемане, 2 за отхвърляне, 3 за показване отново"/>
+    <str id="ConsoleInstaller.redisplayQuit" txt="Натиснете 1 за показване отново, 2 за изход"/>
+    <str id="ConsoleInstaller.permissionError" txt="Необходими са административни привилегии. Моля, стартирайте отново инсталатора с административни привилегии."/>
+    <str id="ConsoleInstaller.inputSelection" txt="Избор: "/>
+    <str id="ConsoleInstaller.pagingMore" txt="Още"/>
+    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C е натиснат"/>
+    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="Лицензът е отхвърлен"/>
+    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Натиснат е изход"/>
+    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="Има чакащи файлови операции след рестартиране"/>
+    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Рестартиране сега автоматично"/>
+    <str id="ConsoleInstaller.shutdown.done" txt="Конзолната инсталация завърши"/>
+    <str id="ConsoleInstaller.shutdown.aborted" txt="Конзолната инсталация е ПРЕКЪСНАТА от потребителя!"/>
+    <str id="ConsoleInstaller.shutdown.failed" txt="Конзолната инсталация е ПРОВАЛЕНА!"/>
+
+    <!-- AutomatedInstaller Strings -->
+    <str id="AutomatedInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+
+    <!-- Next Media Strings -->
+    <str id="nextmedia.title" txt="Следваща инсталационна медиа"/>
+    <str id="nextmedia.msg" txt="Изберете Следваща инсталационна медиа."/>
+    <str id="nextmedia.browsebtn" txt="Избор"/>
+    <str id="nextmedia.okbtn" txt="Приложи"/>
+    <str id="nextmedia.cancelbtn" txt="Отказ"/>
+    <str id="nextmedia.choosertitle" txt="Избор на инсталационна медиа"/>
+    <str id="nextmedia.filedesc" txt="инсталационни пакети (.pak*)"/>
+
+    <!-- This string defines the time stamp format in the installation report.
+The format details are documented in java.text.SimpleDateFormat -->
+    <str id="log.timeStamp" txt="dd-MM-yyyy [HH:mm:ss]  zzzz"/>
+
+    <!-- Strings for various purposes in the logging/reporting system -->
+    <str id="log.reportHeading" txt="                           IzPack ИНСТАЛАЦИОНЕН ОТЧЕТ"/>
+    <str id="log.installFailed" txt="ВНИМАНИЕ!!! Инсталацията не успя!"/>
+    <str id="log.partialInstall"
+         txt="ВНИМАНИЕ!!! Инсталацията може да не е напълно успешна!"/>
+    <str id="log.messageCount"
+         txt="Този отчет съдържа {0} основни съобщение/я, {1} предупреждение/я и {2} грешка/и"/>
+    <str id="log.application" txt="Инсталационен отчет за : {0} Версия {1}"/>
+    <str id="log.timePrefix" txt="Време на инсталация     : {0}"/>
+    <str id="log.pathPrefix" txt="Инсталационен път       : {0}"/>
+    <str id="log.messageHeading" txt="                         --- Инсталационнни съобщения ---"/>
+    <str id="log.warningHeading" txt="                               --- Предупреждения ---"/>
+    <str id="log.errorHeading" txt="                                --- Грешки ---"/>
+    <str id="log.exceptionPrefix" txt="                 &gt;&gt; Exception: {0}"/>
+    <str id="log.messagePrefix" txt="Съобщ.   [{0}] - "/>
+    <str id="log.warningPrefix" txt="Предупр.[{0}] - "/>
+    <str id="log.errorPrefix" txt="Грешка[{0}] - "/>
+    <str id="log.reportWriteErrorTitle" txt="Грешка при запис на отчет"/>
+    <str id="log.reportWriteError" txt="Не може да се запише инсталационния отчет в ''{0}''"/>
+    <str id="log.informUserTitle" txt="Проблеми при инсталацията"/>
+    <str id="log.saveLogTitle" txt="Запис на лог файл"/>
+    <str id="log.LogFileName" txt="installLog.txt"/>
+    <str id="log.informUserFail"
+         txt="&lt;html&gt;Деинсталацията не успя!&lt;br&gt;Желаете ли да се създаде лог файл?&lt;/html&gt;"/>
+    <str id="log.informUserPartial"
+         txt="&lt;html&gt;Инсталацията може да не е напълно успешна!&lt;br&gt;Желаете ли да създадете лог файл?&lt;/html&gt;"/>
+
+    <!-- Strings for individual messages in the logging/reporting system. Numbers
+for each category (message/warning/error) start at 0 -->
+    <str id="log.message_" txt=""/>
+    <str id="log.warning_" txt=""/>
+    <str id="log.error_0" txt="не мога да запиша ''{0}''"/>
+    <str id="debug.changevariable" txt="промени стойност"/>
+
+    <str id="data.validation.error.title" txt="Валидацията пропадна"/>
+    <str id="data.validation.warning.title" txt="Изисква се внимание"/>
+
+</izpack:langpack>

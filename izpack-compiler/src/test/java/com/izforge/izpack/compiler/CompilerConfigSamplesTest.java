@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.jar.JarFile;
 import java.util.zip.ZipFile;
 
-import org.hamcrest.collection.IsCollectionContaining;
+import org.hamcrest.core.IsCollectionContaining;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -88,5 +88,15 @@ public class CompilerConfigSamplesTest
                 "resources/Splash.image"));
     }
 
-
+    @Test
+    @InstallFile("samples/izpack-jdk11-min.xml")
+    public void installerShouldContainInstallerJdk11() throws Exception
+    {
+        compilerConfig.executeCompiler();
+        jar = testContainer.getComponent(JarFile.class);
+        assertThat((ZipFile)jar, ZipMatcher.isZipContainingFiles(
+                "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class",
+                "resources/vars",
+                "com/izforge/izpack/img/JFrameIcon.png"));
+    }
 }

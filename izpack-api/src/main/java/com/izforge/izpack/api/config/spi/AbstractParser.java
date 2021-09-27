@@ -27,12 +27,16 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.net.URL;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.izforge.izpack.api.config.Config;
 import com.izforge.izpack.api.config.InvalidFileFormatException;
 
 abstract class AbstractParser
 {
+	private static Logger logger = Logger.getLogger(AbstractParser.class.getName());
+	
     private final String _comments;
     private Config _config = Config.getGlobal();
     private final String _operators;
@@ -73,7 +77,7 @@ abstract class AbstractParser
         return new IniSource(input, handler, _comments, getConfig());
     }
 
-    void parseOptionLine(String line, HandlerBase handler, int lineNumber) throws InvalidFileFormatException
+    void parseOptionLine(String line, IniSource source, HandlerBase handler) throws InvalidFileFormatException
     {
         int idx = indexOfOperator(line);
         String name = null;
@@ -88,18 +92,32 @@ abstract class AbstractParser
             }
             else
             {
-                parseError(line, lineNumber);
+                parseError(line, source.getLineNumber());
             }
         }
         else
         {
+        	// If the value is a string we have to check if the terminating '"' is the last character of the line.
+        	// If this is not the case then get the next line.
+        	int lastCharacterIndex = line.length() -1;
+        	if ((idx < lastCharacterIndex) && (line.charAt(idx + 1) == '"') && (line.charAt(lastCharacterIndex) != '"')) {
+        		try {
+        			String nextLine = source.readLine();
+        			line += nextLine;
+    			} 
+        		catch (IOException e) 
+        		{
+    				logger.log(Level.WARNING, "Read next line from ini source to parse options failed.", e);
+    	            parseError(line, source.getLineNumber() - 1);
+    			}
+        	}
             name = unescapeFilter(line.substring(0, idx)).trim();
             value = unescapeFilter(line.substring(idx + 1)).trim();
         }
 
         if (name.length() == 0)
         {
-            parseError(line, lineNumber);
+            parseError(line, source.getLineNumber());
         }
 
         if (getConfig().isLowerCaseOption())

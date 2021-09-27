@@ -47,5 +47,15 @@
                 <pwd txt="Enter password" size="8" set="qwerty"/>
             </spec>
         </field>
+        <field type="space"/>
+        <field type="password" variable="passwordD">
+            <description txt="Password D"/>
+            <spec set="ab2345">
+                <pwd txt="Enter password" size="8"/>
+                <pwd txt="Re-enter password" size="8"/>
+            </spec>
+            <validator class="com.izforge.izpack.panels.userinput.validator.PasswordEqualityValidator"
+                       txt="Passwords must match"/>
+        </field>
     </panel>
 </izpack:userInput>

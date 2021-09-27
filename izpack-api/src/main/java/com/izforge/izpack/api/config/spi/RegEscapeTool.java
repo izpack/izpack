@@ -25,12 +25,16 @@ package com.izforge.izpack.api.config.spi;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.izforge.izpack.api.config.Registry;
 import com.izforge.izpack.api.config.Registry.Type;
 
 public class RegEscapeTool extends EscapeTool
 {
+	private static Logger logger = Logger.getLogger(RegEscapeTool.class.getName());
+	
     private static final RegEscapeTool INSTANCE = ServiceFinder.findService(RegEscapeTool.class);
     private static final Charset HEX_CHARSET = Charset.forName("UTF-16LE");
     private static final int LOWER_DIGIT = 0x0f;
@@ -45,6 +49,12 @@ public class RegEscapeTool extends EscapeTool
     public TypeValuesPair decode(String raw)
     {
         Type type = type(raw);
+        
+        if (type == null) {
+        	logger.log(Level.WARNING, "Unsupported type detected. Current raw data: " + raw);
+        	return null;
+        }
+        
         String value = (type == Type.REG_SZ) ? unquote(raw) : raw.substring(type.toString().length() + 1);
         String[] values;
 
@@ -53,7 +63,7 @@ public class RegEscapeTool extends EscapeTool
 
             case REG_EXPAND_SZ:
             case REG_MULTI_SZ:
-                value = bytes2string(binary(value));
+            	value = bytes2string(binary(value));
                 break;
 
             case REG_DWORD:
@@ -216,7 +226,8 @@ public class RegEscapeTool extends EscapeTool
         String str;
 
         if (bytes.length < 2) {
-        	return null;
+        	// return empty string
+        	return "";
         }
         try
         {
@@ -240,6 +251,12 @@ public class RegEscapeTool extends EscapeTool
     private String[] splitMulti(String value)
     {
         int len = value.length();
+        
+        if (len == 0) {
+        	// return array with a single empty string to keep the key in the section
+        	return new String[] {""};
+        }
+        
         int start;
         int end;
         int n = 0;

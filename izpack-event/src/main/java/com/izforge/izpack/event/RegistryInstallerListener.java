@@ -601,7 +601,7 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
                 + uninstallerPath + "\\" + installData.getInfo().getUninstallerName() + "\"";
         String appVersion = installData.getVariable("APP_VER");
         String appUrl = installData.getVariable("APP_URL");
-
+        
         try
         {
             registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
@@ -620,6 +620,22 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
         {
             registry.setValue(keyName, "HelpLink", appUrl);
         }
+        
+        // add the estimated size
+        String estimatedSize = installData.getVariable(InstallData.ESTIMATED_SIZE);
+        if (estimatedSize != null && !estimatedSize.isEmpty()) 
+        {
+	        long estimatedSizeInBytes = Long.parseLong(estimatedSize);
+	        registry.setValue(keyName, "EstimatedSize", estimatedSizeInBytes);
+        }
+        
+        // set the publisher in the registry
+        String publisher = installData.getVariable("Publisher");
+        if (publisher != null && !publisher.isEmpty()) 
+        {
+	        registry.setValue(keyName, "Publisher", publisher);
+        }
+        
         // Try to write the uninstaller icon out.
         InputStream in = null;
         FileOutputStream out = null;

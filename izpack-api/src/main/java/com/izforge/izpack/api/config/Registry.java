@@ -51,7 +51,8 @@ public interface Registry extends Profile
         REG_RESOURCE_LIST("hex(8)"),
         REG_FULL_RESOURCE_DESCRIPTOR("hex(9)"),
         REG_RESOURCE_REQUIREMENTS_LIST("hex(a)"),
-        REG_QWORD("hex(b)");
+        REG_QWORD("hex(b)"),
+        REG_ZERO_LENGTH_BINARY("hex(200000)");
         private static final Map<String, Type> MAPPING;
 
         static

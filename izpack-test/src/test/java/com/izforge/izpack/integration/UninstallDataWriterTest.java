@@ -23,10 +23,12 @@ package com.izforge.izpack.integration;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.ExecutableFile;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
+import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
@@ -41,6 +43,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -91,13 +94,20 @@ public class UninstallDataWriterTest
      * @param uninstallDataWriter the uninstall jar writer
      * @param installData         the install data
      * @param rulesEngine         the rules engine
+     * 
+     * @throws IOException  for any I/O error 
      */
     public UninstallDataWriterTest(UninstallDataWriter uninstallDataWriter, AutomatedInstallData installData,
-                                   RulesEngine rulesEngine)
+                                   RulesEngine rulesEngine, UninstallData uninstallData) throws IOException
     {
         this.uninstallDataWriter = uninstallDataWriter;
         this.installData = installData;
         this.rulesEngine = rulesEngine;
+        uninstallData.addExecutable(new ExecutableFile());
+        uninstallData.addAdditionalData("serializableData", "myString");
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        bout.write("myData".getBytes());
+        uninstallData.addAdditionalData("serializableByteArrayOutputStream", bout);
     }
 
     /**
@@ -138,11 +148,13 @@ public class UninstallDataWriterTest
                 ZipMatcher.isZipContainingFiles(
                         "com/izforge/izpack/uninstaller/Uninstaller.class",
                         "com/izforge/izpack/uninstaller/Destroyer.class",
-                        "com/izforge/izpack/data/ExecutableFile.class",
+                        "executables",
                         "langpack.xml",
                         "META-INF/MANIFEST.MF",
                         "com/izforge/izpack/gui/IconsDatabase.class",
-                        "com/izforge/izpack/img/trash.png"));
+                        "com/izforge/izpack/img/trash.png",
+                        "serializableData",
+                        "serializableByteArrayOutputStream"));
 
         // basicInstall.xml doesn't reference any listeners, so the com/izforge/izpack/event package shouldn't have
         // been written. Verify that one of the listeners in the package doesn't appear

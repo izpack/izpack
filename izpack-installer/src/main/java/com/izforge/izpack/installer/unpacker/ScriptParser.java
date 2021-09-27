@@ -21,17 +21,12 @@
 
 package com.izforge.izpack.installer.unpacker;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.logging.Logger;
-
-import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.api.data.ParsableFile;
+import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.util.PlatformModelMatcher;
+
+import java.io.*;
+import java.util.logging.Logger;
 
 /**
  * A {@link ParsableFile} parser.
@@ -99,13 +94,24 @@ public class ScriptParser
 
         // Parses the file
         // (Use buffering because substitutor processes byte at a time)
-        FileInputStream inFile = new FileInputStream(file);
-        BufferedInputStream in = new BufferedInputStream(inFile, 5120);
-        FileOutputStream outFile = new FileOutputStream(parsedFile);
-        BufferedOutputStream out = new BufferedOutputStream(outFile, 5120);
-        replacer.substitute(in, out, parsable.getType(), parsable.getEncoding());
-        in.close();
-        out.close();
+        Reader reader = null;
+        Writer writer = null;
+        try {
+            FileInputStream inFile = new FileInputStream(file);
+            FileOutputStream outFile = new FileOutputStream(parsedFile);
+            InputStreamReader inReader = parsable.getEncoding() != null ?
+                new InputStreamReader(inFile, parsable.getEncoding()) :
+                new InputStreamReader(inFile);
+            OutputStreamWriter outWriter = parsable.getEncoding() != null ?
+                new OutputStreamWriter(outFile, parsable.getEncoding()) :
+                new OutputStreamWriter(outFile);
+            reader = new BufferedReader(inReader, 5120);
+            writer = new BufferedWriter(outWriter, 5120);
+            replacer.substitute(reader, writer, parsable.getType());
+        } finally {
+            if (reader != null) reader.close();
+            if (writer != null) writer.close();
+        }
 
         // Replace the original file with the parsed one
         if (!file.delete())

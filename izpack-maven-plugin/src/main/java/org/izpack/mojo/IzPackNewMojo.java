@@ -156,6 +156,13 @@ public class IzPackNewMojo extends AbstractMojo
      */
     @Parameter( defaultValue = "true")
     private boolean enableAttachArtifact;
+    
+    /**
+     * Comma separated list of strings marked for exclusion.
+     * By default the list is empty.
+     */
+    @Parameter
+    private String excludeProperties;
 
     private PropertyManager propertyManager;
 
@@ -228,6 +235,10 @@ public class IzPackNewMojo extends AbstractMojo
         {
             Properties properties = project.getProperties();
             Properties userProps  = session.getUserProperties();
+            String[] exclusionList = null;
+            if (excludeProperties != null) {
+                exclusionList = excludeProperties.split(",");
+            }
             for (String propertyName : properties.stringPropertyNames())
             {
                 String value;
@@ -240,13 +251,16 @@ public class IzPackNewMojo extends AbstractMojo
                 } else {
                     value = properties.getProperty(propertyName);
                 }
-                if (propertyManager.addProperty(propertyName, value))
+                if (!containsExcludedProperty(propertyName, exclusionList))
                 {
-                    getLog().debug("Maven property added: " + propertyName + "=" + value);
-                }
-                else
-                {
-                    getLog().warn("Maven property " + propertyName + " could not be overridden");
+                    if (propertyManager.addProperty(propertyName, value))
+                    {
+                        getLog().debug("Maven property added: " + propertyName + "=" + value);
+                    }
+                    else
+                    {
+                        getLog().warn("Maven property " + propertyName + " could not be overridden");
+                    }
                 }
             }
         }
@@ -304,4 +318,15 @@ public class IzPackNewMojo extends AbstractMojo
         return consoleHandler;
     }
 
+    private boolean containsExcludedProperty(String property, String[] exclusionList) {
+        if (exclusionList == null) {
+          return false;
+        }
+        for (String s : exclusionList) {
+          if (property.contains(s.trim())) {
+              return true;
+          }
+        }
+        return false;
+    }
 }

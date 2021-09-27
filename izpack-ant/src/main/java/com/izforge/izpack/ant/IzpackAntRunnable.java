@@ -20,12 +20,12 @@ public class IzpackAntRunnable implements Runnable
     private final String input;
     private final Properties properties;
     private final Boolean inheritAll;
-    private final Hashtable<String, String> projectProps;
+    private final Hashtable<String, Object> projectProps;
     private final Handler logHandler;
 
     public IzpackAntRunnable(String compression, String kind, String input, String configText, String basedir,
                              String output, boolean mkdirs, int compressionLevel, Properties properties,
-                             Boolean inheritAll, Hashtable<String, String> antProjectProperties, String izPackDir,
+                             Boolean inheritAll, Hashtable<String, Object> antProjectProperties, String izPackDir,
                              Handler logHandler)
     {
         this.compilerData = new CompilerData(compression, kind, input, configText, basedir, output, mkdirs, compressionLevel);
@@ -67,7 +67,7 @@ public class IzpackAntRunnable implements Runnable
             while (e.hasMoreElements())
             {
                 String name = e.nextElement();
-                String value = projectProps.get(name);
+                String value = projectProps.get(name).toString();
                 value = fixPathString(value);
                 propertyManager.addProperty(name, value);
             }

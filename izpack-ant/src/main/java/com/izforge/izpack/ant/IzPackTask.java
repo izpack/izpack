@@ -222,7 +222,9 @@ public class IzPackTask extends Task implements PackagerListener
             @SuppressWarnings("unchecked")
 			Class<IzpackAntRunnable> runableClass 
 			        = (Class<IzpackAntRunnable>) loader.loadClass(IzpackAntRunnable.class.getName());
-            Constructor constructor = runableClass.getConstructors()[0];
+            Constructor<IzpackAntRunnable> constructor = runableClass.getConstructor(String.class, String.class, 
+            		String.class, String.class, String.class, String.class, Boolean.TYPE, Integer.TYPE, Properties.class,
+            		Boolean.class, Hashtable.class, String.class, Handler.class);
             Object instance = constructor.newInstance(compression, kind, input, configText, basedir, output, mkdirs,
                     compressionLevel, properties, inheritAll, getProject().getProperties(), izPackDir, logHandler);
             final Thread thread = new Thread((Runnable) instance);
@@ -386,17 +388,7 @@ public class IzPackTask extends Task implements PackagerListener
 
         property.execute(); // don't call perform(), so no build events triggered
 
-        Properties props = property.getProperties();
-        Enumeration e = props.keys();
-        while (e.hasMoreElements())
-        {
-            String name = (String) e.nextElement();
-            String value = props.getProperty(name);
-            log("Adding property: " + property.getClass() + name + "=" + value,
-                    Project.MSG_VERBOSE);
-
-            properties.setProperty(name, value);
-        }
+        property.addProperty(properties);
     }
 
     /**

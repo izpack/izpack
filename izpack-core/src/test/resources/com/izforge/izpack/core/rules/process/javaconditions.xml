@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<izpack:conditions version="5.0"
+                   xmlns:izpack="http://izpack.org/schema/conditions"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://izpack.org/schema/conditions http://izpack.org/schema/5.0/izpack-conditions-5.0.xsd">
+    <condition type="java" id="java0">
+        <java>
+            <class>not.existing.Class</class>
+            <field>someField</field>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+
+    <condition type="java" id="java1">
+        <java>
+            <class>com.izforge.izpack.core.rules.process.JavaConditionTest</class>
+            <field>NOT_EXISTENT_VALUE</field>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+
+    <condition type="java" id="java2">
+        <java>
+            <class>com.izforge.izpack.core.rules.process.JavaConditionTest</class>
+            <field>CONSTANT_VALUE</field>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+
+    <condition type="java" id="java3">
+        <java>
+            <class>com.izforge.izpack.core.rules.process.JavaConditionTest</class>
+            <field>CONSTANT_OBJECT_VALUE</field>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+
+    <condition type="java" id="java4">
+        <java>
+            <class>com.izforge.izpack.core.rules.process.JavaConditionTest</class>
+            <method>notExistingMethod</method>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+
+    <condition type="java" id="java5">
+        <java>
+            <class>com.izforge.izpack.core.rules.process.JavaConditionTest</class>
+            <method>conditionMethodWithArgument</method>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+
+    <condition type="java" id="java6">
+        <java>
+            <class>com.izforge.izpack.core.rules.process.JavaConditionTest</class>
+            <method>conditionMethodWithNonBooleanResult</method>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+
+    <condition type="java" id="java7">
+        <java>
+            <class>com.izforge.izpack.core.rules.process.JavaConditionTest</class>
+            <method>conditionMethodFailing</method>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+
+    <condition type="java" id="java8">
+        <java>
+            <class>com.izforge.izpack.core.rules.process.JavaConditionTest</class>
+            <method>conditionMethodPrimitiveResult</method>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+
+    <condition type="java" id="java9">
+        <java>
+            <class>com.izforge.izpack.core.rules.process.JavaConditionTest</class>
+            <method>conditionMethod</method>
+        </java>
+        <returnvalue type="boolean">true</returnvalue>
+    </condition>
+</izpack:conditions>

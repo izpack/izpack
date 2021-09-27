@@ -27,12 +27,16 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.net.URL;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.izforge.izpack.api.config.Config;
 import com.izforge.izpack.api.config.InvalidFileFormatException;
 
 public class IniParser extends AbstractParser
 {
+	private static Logger logger = Logger.getLogger(IniParser.class.getName());
+
     private static final String COMMENTS = ";#";
     private static final String OPERATORS = ":=";
     static final char SECTION_BEGIN = '[';
@@ -103,7 +107,7 @@ public class IniParser extends AbstractParser
                     }
                 }
 
-                parseOptionLine(line, handler, source.getLineNumber());
+                parseOptionLine(line, source, handler);
             }
         }
 
@@ -121,7 +125,24 @@ public class IniParser extends AbstractParser
 
         if (line.charAt(line.length() - 1) != SECTION_END)
         {
-            parseError(line, source.getLineNumber());
+    		// Maybe a line break, expect the line continues as seen in windows registry exports. 
+        	// Read the next line and append it to the current if SECTION_END is found, otherwise throw error.
+    		try {
+				String nextLine = source.readLine();
+				if (nextLine.charAt(nextLine.length() - 1) != SECTION_END)
+		        {
+					parseError(line, source.getLineNumber());
+		        }
+				else {
+					// append line to existing line
+					line += nextLine;
+				}
+			} 
+    		catch (IOException e) 
+    		{
+				logger.log(Level.WARNING, "Read next line from ini source failed.", e);
+	            parseError(line, source.getLineNumber() - 1);
+			}
         }
 
         sectionName = unescapeFilter(line.substring(1, line.length() - 1).trim());

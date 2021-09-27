@@ -46,6 +46,11 @@ public interface InstallData
      * The install path.
      */
     String INSTALL_PATH = "INSTALL_PATH";
+    
+    /**
+     * The estimated size of the installation on disk.
+     */
+    String ESTIMATED_SIZE = "ESTIMATED_SIZE";
 
     /**
      * Determines if the installation is being modified.

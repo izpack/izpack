@@ -20,7 +20,7 @@ package com.izforge.izpack.panels;
 
 import static org.fest.swing.timing.Timeout.timeout;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.text.StringContains.containsString;
+import static org.hamcrest.core.StringContains.containsString;
 
 import java.util.Arrays;
 

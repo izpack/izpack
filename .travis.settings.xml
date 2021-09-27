@@ -14,7 +14,7 @@
                 <repository>
                     <id>central</id>
                     <name>Central Repository</name>
-                    <url>http://repo1.maven.org/maven2</url>
+                    <url>https://repo1.maven.org/maven2</url>
                     <releases>
                         <enabled>true</enabled>
                         <updatePolicy>always</updatePolicy>
@@ -28,7 +28,7 @@
                 <repository>
                     <id>central2</id>
                     <name>Central Repository 2</name>
-                    <url>http://repo1.maven.apache.org/maven2</url>
+                    <url>https://repo1.maven.apache.org/maven2</url>
                     <releases>
                         <enabled>true</enabled>
                         <updatePolicy>always</updatePolicy>
@@ -107,8 +107,7 @@
             <pluginRepositories>
                 <pluginRepository>
                     <id>central</id>
-                    <!-- specify repo1 which support http -->
-                    <url>http://repo1.maven.org/maven2</url>
+                    <url>https://repo1.maven.org/maven2</url>
                     <releases>
                         <enabled>true</enabled>
                         <updatePolicy>always</updatePolicy>
@@ -121,8 +120,7 @@
 
                 <pluginRepository>
                     <id>central2</id>
-                    <!-- specify repo1 which support http -->
-                    <url>http://repo1.maven.apache.org/maven2</url>
+                    <url>https://repo1.maven.apache.org/maven2</url>
                     <releases>
                         <enabled>true</enabled>
                         <updatePolicy>always</updatePolicy>
@@ -131,6 +129,71 @@
                         <enabled>false</enabled>
                         <updatePolicy>always</updatePolicy>
                     </snapshots>
+                </pluginRepository>
+
+
+                <pluginRepository>
+                    <id>sonatype</id>
+                    <name>OSS Sonatype repo (releases)</name>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                        <checksumPolicy>warn</checksumPolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>fail</checksumPolicy>
+                    </snapshots>
+                    <url>https://oss.sonatype.org/content/repositories/releases/</url>
+                </pluginRepository>
+
+                <pluginRepository>
+                    <id>sonatype-snapshots</id>
+                    <name>OSS Sonatype repo (snapshots)</name>
+                    <releases>
+                        <enabled>false</enabled>
+                        <updatePolicy>always</updatePolicy>
+                        <checksumPolicy>warn</checksumPolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>fail</checksumPolicy>
+                    </snapshots>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </pluginRepository>
+
+                <pluginRepository>
+                    <id>sonatype-apache</id>
+                    <name>Apache repo (releases)</name>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                        <checksumPolicy>warn</checksumPolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>fail</checksumPolicy>
+                    </snapshots>
+                    <url>https://repository.apache.org/releases/</url>
+                </pluginRepository>
+
+                <pluginRepository>
+                    <id>apache-snapshots</id>
+                    <name>ASF repo (snapshots)</name>
+                    <releases>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>warn</checksumPolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                        <checksumPolicy>fail</checksumPolicy>
+                    </snapshots>
+                    <url>https://repository.apache.org/snapshots/</url>
                 </pluginRepository>
             </pluginRepositories>
         </profile>

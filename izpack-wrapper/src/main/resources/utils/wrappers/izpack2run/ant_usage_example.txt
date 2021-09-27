@@ -1,0 +1,15 @@
+		<izpack
+            output   ="${distroPathIzpack}/${distroPath}-Linux-64bit-Installer.jar" 
+            input    ="${izpack-proj}/install_linux.xml"
+            basedir  ="${izpack-proj}"
+            izPackDir="${izpack-home}">
+        </izpack>
+		
+        <exec executable="java" failonerror="true">
+            <arg value="-cp"                                                         />
+            <arg value="${izpack-wrap}"                                              />
+            <arg value="utils.wrappers.izpack2run.Merge2In1"                         />
+            <arg value="${izpack-wrap}/utils/wrappers/izpack2run/linux_stub"         />
+            <arg value="${distroPathIzpack}/${distroPath}-Linux-64bit-Installer.jar" />
+            <arg value="${distroPathIzpack}/${distroPath}-Linux-64bit-Installer.run" />
+        </exec>

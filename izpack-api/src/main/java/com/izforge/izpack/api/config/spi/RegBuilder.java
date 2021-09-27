@@ -51,6 +51,10 @@ public class RegBuilder extends AbstractProfileBuilder
     {
         String name = (rawName.charAt(0) == EscapeTool.DOUBLE_QUOTE) ? RegEscapeTool.getInstance().unquote(rawName) : rawName;
         TypeValuesPair tv = RegEscapeTool.getInstance().decode(rawValue);
+        
+        if (tv == null) {
+        	return;
+        }
 
         if (tv.getType() != Type.REG_SZ)
         {

@@ -21,14 +21,12 @@ package com.izforge.izpack.compiler.container;
 
 import java.util.jar.JarFile;
 
-import org.junit.Rule;
 import org.junit.runners.model.FrameworkMethod;
 import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
-import com.izforge.izpack.test.junit.UnloadJarRule;
 
 /**
  * Abstract implementation of a container for testing purposes.
@@ -38,12 +36,10 @@ import com.izforge.izpack.test.junit.UnloadJarRule;
  */
 public abstract class AbstractTestInstallationContainer extends AbstractContainer
 {
-    protected Class klass;
+    protected Class<?> klass;
     protected FrameworkMethod frameworkMethod;
-    @Rule
-    public UnloadJarRule unloadJarRule = new UnloadJarRule();
 
-    public AbstractTestInstallationContainer(Class klass, FrameworkMethod frameworkMethod)
+    public AbstractTestInstallationContainer(Class<?> klass, FrameworkMethod frameworkMethod)
     {
         this.klass = klass;
         this.frameworkMethod = frameworkMethod;

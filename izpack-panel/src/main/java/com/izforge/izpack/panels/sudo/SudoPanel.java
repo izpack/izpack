@@ -21,37 +21,49 @@
 
 package com.izforge.izpack.panels.sudo;
 
-import com.izforge.izpack.api.data.ExecutableFile;
+import static com.izforge.izpack.util.Platform.Name.UNIX;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.data.ParsableFile;
-import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
-import com.izforge.izpack.installer.unpacker.ScriptParser;
-import com.izforge.izpack.util.FileExecutor;
+import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The packs selection panel class.
  *
- * @author Jan Blok
- * @since November 27, 2003
+ * @author Jan Blok - Pier Paolo Ucchino
+ * @since November 27, 2003 - November 29, 2019
  */
 public class SudoPanel extends IzPanel implements ActionListener
 {
+	/**
+     * The logger.
+     */
+    private static Logger logger = Logger.getLogger(SudoPanel.class.getName());
 
     /**
      *
@@ -61,16 +73,6 @@ public class SudoPanel extends IzPanel implements ActionListener
     private final JTextField passwordField;
 
     private boolean isValid = false;
-
-    /**
-     * Replaces variables in scripts.
-     */
-    private final VariableSubstitutor replacer;
-
-    /**
-     * The platform-model matcher.
-     */
-    private final PlatformModelMatcher matcher;
 
     /**
      * The constructor.
@@ -86,24 +88,14 @@ public class SudoPanel extends IzPanel implements ActionListener
                      VariableSubstitutor replacer, PlatformModelMatcher matcher)
     {
         super(panel, parent, installData, resources);
-        this.replacer = replacer;
-        this.matcher = matcher;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        add(LabelFactory
-                    .create(
-                            /* installData.getLangpack().getString("SudoPanel.info") */
-                            "For installing administrator privileges are necessary",
-                            JLabel.TRAILING));
+        add(LabelFactory.create(getString("SudoPanel.info"),JLabel.TRAILING));
 
         add(Box.createRigidArea(new Dimension(0, 5)));
 
-        add(LabelFactory
-                    .create(
-                            /* installData.getLangpack().getString("SudoPanel.tip") */
-                            "Please note that passwords are case-sensitive",
-                            parent.getIcons().get("tip"), JLabel.TRAILING));
+        add(LabelFactory.create(getString("SudoPanel.tip"),parent.getIcons().get("tip"), JLabel.TRAILING));
 
         add(Box.createRigidArea(new Dimension(0, 5)));
 
@@ -112,14 +104,8 @@ public class SudoPanel extends IzPanel implements ActionListener
         spacePanel.setAlignmentY(CENTER_ALIGNMENT);
         spacePanel.setBorder(BorderFactory.createEmptyBorder(80, 30, 0, 50));
         spacePanel.setLayout(new BorderLayout(5, 5));
-        spacePanel
-                .add(
-                        LabelFactory
-                                .create(
-                                        /* installData.getLangpack().getString("SudoPanel.specifyAdminPassword") */
-                                        "Please specify your password:"),
-                        BorderLayout.NORTH);
-        passwordField = new JPasswordField();
+        spacePanel.add(LabelFactory.create(getString("SudoPanel.specifyAdminPassword")),BorderLayout.NORTH);
+        passwordField = new JTextField();
         passwordField.addActionListener(this);
         JPanel space2Panel = new JPanel();
         space2Panel.setLayout(new BorderLayout());
@@ -142,6 +128,7 @@ public class SudoPanel extends IzPanel implements ActionListener
      *
      * @param e The event.
      */
+    @Override
     public void actionPerformed(ActionEvent e)
     {
         doSudoCmd();
@@ -152,68 +139,28 @@ public class SudoPanel extends IzPanel implements ActionListener
 
     private void doSudoCmd()
     {
+        Platform platform = installData.getPlatform();
+        
         String pass = passwordField.getText();
 
-        File file = null;
+        isValid = false;
+        
         try
         {
-            // write file in /tmp
-            file = new File("/tmp/cmd_sudo.sh");// ""c:/temp/run.bat""
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write("echo $password | sudo -S ls\nexit $?".getBytes()); // "echo
-            // $password
-            // >
-            // pipo.txt"
-            fos.close();
-
-            // execute
-            List<OsModel> oses = new ArrayList<OsModel>();
-            oses.add(new OsModel("unix", null, null, null, null));
-
-            ParsableFile parsableFile = new ParsableFile(file.getAbsolutePath(), null, null, oses);
-            ScriptParser scriptParser = new ScriptParser(replacer, matcher);
-            scriptParser.parse(parsableFile);
-
-            ArrayList<ExecutableFile> executableFiles = new ArrayList<ExecutableFile>();
-            ExecutableFile executableFile = new ExecutableFile(file.getAbsolutePath(),
-                                                               ExecutableFile.POSTINSTALL, ExecutableFile.ABORT, oses,
-                                                               false);
-            executableFiles.add(executableFile);
-            FileExecutor fileExecutor = new FileExecutor(executableFiles);
-            int retval = fileExecutor.executeFiles(ExecutableFile.POSTINSTALL, matcher, this);
-            if (retval == 0)
+            if(platform.isA(UNIX)) 
             {
-                this.installData.setVariable("password", pass);
-                isValid = true;
+                isValid = checkUnixRootPassByCommandline(pass);
+
+                if (isValid)
+                {
+                    installData.setVariable("password", pass);
+                }
             }
-            // else is already showing dialog
-            // {
-            // JOptionPane.showMessageDialog(this, "Cannot execute 'sudo' cmd,
-            // check your password", "Error", JOptionPane.ERROR_MESSAGE);
-            // }
         }
         catch (Exception e)
         {
-            // JOptionPane.showMessageDialog(this, "Cannot execute 'sudo' cmd,
-            // check your password", "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+        	logger.log(Level.WARNING, e.getMessage(), e);
             isValid = false;
-        }
-        try
-        {
-            if (file != null && file.exists())
-            {
-                file.delete();// you don't
-            }
-            // want the file
-            // with password
-            // tobe arround,
-            // in case of
-            // error
-        }
-        catch (Exception e)
-        {
-            // ignore
         }
     }
 
@@ -230,9 +177,57 @@ public class SudoPanel extends IzPanel implements ActionListener
         }
         if (!isValid)
         {
-            JOptionPane.showInternalMessageDialog(this, "Password", "Password is not valid",
-                                                  JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,getString("SudoPanel.invalidPassword"),"Error",JOptionPane.ERROR_MESSAGE);
         }
         return isValid;
     }
+    
+    private static List<String> getSudoCommandline(String password, String command) {
+        if(password == null) password = "";
+        if(command == null) command = "";
+
+        List<String> cmd = new ArrayList<String>();
+        
+        cmd.add("/bin/bash");
+        cmd.add("-c");
+        cmd.add("echo " + password + " | sudo -S " + command.trim());
+        
+        return cmd;
+    }
+
+    public static void execCmdAuthByCommandline(String password,String commandString) throws Exception {
+        List<String> command = getSudoCommandline(password,commandString);
+
+        get(command);
+    }
+
+    public static boolean checkUnixRootPassByCommandline(String password) throws Exception {
+        boolean root = false;
+
+        String dir = "/test_root_" + new Date().getTime();
+
+        execCmdAuthByCommandline(password, "mkdir " + dir);
+
+        if (new File(dir).exists() == true) {
+            execCmdAuthByCommandline(password, "rm -rf " + dir);
+            root = true;
+        }
+
+        return root;
+    }   
+
+    public static int get(List<String> command) throws Exception {
+
+        int result = -1;
+
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            processBuilder.inheritIO();
+
+            result = processBuilder.start().waitFor();
+        } catch (Exception reason) {
+            throw new Exception("Problem executing command",reason);
+        }
+        return result;
+    }     
 }

@@ -21,9 +21,12 @@
 
 package com.izforge.izpack.ant;
 
-import org.apache.tools.ant.Project;
-
 import java.util.Properties;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Reference;
 
 /**
  * A subclass of Ant Property to validate values, but not add to the ant
@@ -31,41 +34,77 @@ import java.util.Properties;
  *
  * @author Chad McHenry
  */
-public class Property extends org.apache.tools.ant.taskdefs.Property
+public class Property extends Task
 {
-    /**
-     * Store the property[s] of this Property tag.
-     */
-    protected Properties props = new Properties();
+	private String name;
+	private String value;
+	private Reference ref;
 
     /**
-     * Creates new IZPackTask
+     * Creates new property
      */
     public Property()
     {
-        super(false);
+    }
+    
+    protected void addProperty(Properties properties)
+    {
+        log("Adding property: " + getClass() + name + "=" + value, Project.MSG_VERBOSE);
+        properties.setProperty(name, value);
     }
 
-    public Properties getProperties()
+    public void setName(String name)
     {
-        return props;
+    	this.name = name;
+    }
+    
+    public void setValue(String value)
+    {
+    	this.value = value;
+    }
+    
+    public void setRefid(Reference ref)
+    {
+    	this.ref = ref;
     }
 
     /**
-     * Overridden to store properties locally, not in the Ant Project.
-     *
-     * @param name  name of property
-     * @param value value to set
+     * set the property in the project to the value.
+     * if the task was give a file, resource or env attribute
+     * here is where it is loaded
+     * @throws BuildException on error
      */
-    protected void addProperty(String name, String value)
+    @Override
+    public void execute() throws BuildException
     {
-        if (props.get(name) == null)
+        if (getProject() == null)
         {
-            props.put(name, value);
+            throw new IllegalStateException("project has not been set");
         }
-        else
+
+        if (name != null)
         {
-            log("Override ignored for " + name, Project.MSG_VERBOSE);
+            if (value == null && ref == null)
+            {
+                throw new BuildException("You must specify value or "
+                                         + "refid with the name attribute",
+                                         getLocation());
+            }
         }
+
+        if ((name != null) && (ref != null))
+        {
+            value = ref.getReferencedObject(getProject()).toString();
+        }
+    }
+
+    /**
+     * get the value of this property
+     * @return the current value or the empty string
+     */
+    @Override
+    public String toString()
+    {
+        return value == null ? "" : value;
     }
 }

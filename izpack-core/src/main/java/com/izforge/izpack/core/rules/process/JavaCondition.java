@@ -22,6 +22,7 @@
 package com.izforge.izpack.core.rules.process;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
@@ -66,7 +67,7 @@ public class JavaCondition extends Condition
     }
 
     @Override
-    public boolean isTrue()
+    public boolean  isTrue()
     {
         if (!this.complete)
         {
@@ -105,36 +106,79 @@ public class JavaCondition extends Condition
             }
             if ((this.usedmethod == null) && (this.methodname != null))
             {
-                logger.warning("Method not implemented yet");
-                return false;
-            }
-
-            if (this.usedfield != null)
-            {
-                // access field
-                if ("boolean".equals(this.returnvaluetype))
+                try
                 {
-                    try
-                    {
-                        boolean returnval = this.usedfield.getBoolean(null);
-                        boolean expectedreturnval = Boolean.valueOf(this.returnvalue);
-                        return returnval == expectedreturnval;
-                    }
-                    catch (IllegalArgumentException e)
-                    {
-                        logger.log(Level.WARNING, this.fieldname + ": " + e.getMessage(), e);
-                    }
-                    catch (IllegalAccessException e)
-                    {
-                        logger.log(Level.WARNING, this.fieldname + ": " + e.getMessage(), e);
-                    }
+                    this.usedmethod = this.usedclass.getMethod(this.methodname);
                 }
-                else
+                catch (SecurityException e)
                 {
-                    logger.warning("Field not implemented yet");
+                    logger.warning("No permission to access specified method: " + this.methodname);
+                    return false;
+                }
+                catch (NoSuchMethodException e)
+                {
+                    logger.warning("No such method: " + this.methodname);
                     return false;
                 }
             }
+            if (this.usedfield != null)
+            {
+                // access field
+                try
+                {
+                    Object value = this.usedfield.get(null);
+                    logger.log(Level.FINE, this.fieldname + ":  value: " + value);
+                    return checkValue(value);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    logger.log(Level.WARNING, this.fieldname + ": " + e.getMessage(), e);
+                }
+                catch (IllegalAccessException e)
+                {
+                    logger.log(Level.WARNING, this.fieldname + ": " + e.getMessage(), e);
+                }
+            }
+            if (this.usedmethod != null)
+            {
+                // access method
+                try
+                {
+                    Object value = this.usedmethod.invoke(null);
+                    logger.log(Level.FINE, this.methodname + ":  value: " + value);
+                    return checkValue(value);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    logger.log(Level.WARNING, this.methodname + ": " + e.getMessage(), e);
+                }
+                catch (IllegalAccessException e)
+                {
+                    logger.log(Level.WARNING, this.methodname + ": " + e.getMessage(), e);
+                }
+                catch (InvocationTargetException e)
+                {
+                    logger.log(Level.WARNING, this.methodname + ": " + e.getMessage(), e.getTargetException());
+                }
+            }
+            return false;
+        }
+    }
+
+    private boolean checkValue(Object returnval)
+    {
+        // access field
+        if ("boolean".equals(this.returnvaluetype))
+        {
+            return Boolean.valueOf(this.returnvalue).equals(returnval);
+        }
+        else if ("string".equals(this.returnvaluetype))
+        {
+            return String.valueOf(this.returnvalue).equals(returnval);
+        }
+        else
+        {
+            logger.warning("Return type '" + this.returnvalue + "' not supported");
             return false;
         }
     }

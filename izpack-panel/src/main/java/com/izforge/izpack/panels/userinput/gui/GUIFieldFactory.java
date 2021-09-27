@@ -44,6 +44,7 @@ import com.izforge.izpack.panels.userinput.field.rule.RuleField;
 import com.izforge.izpack.panels.userinput.field.search.SearchField;
 import com.izforge.izpack.panels.userinput.field.space.Spacer;
 import com.izforge.izpack.panels.userinput.field.statictext.StaticText;
+import com.izforge.izpack.panels.userinput.field.text.TextArea;
 import com.izforge.izpack.panels.userinput.field.text.TextField;
 import com.izforge.izpack.panels.userinput.field.title.TitleField;
 import com.izforge.izpack.panels.userinput.gui.button.GUIButtonField;
@@ -60,6 +61,7 @@ import com.izforge.izpack.panels.userinput.gui.rule.GUIRuleField;
 import com.izforge.izpack.panels.userinput.gui.search.GUISearchField;
 import com.izforge.izpack.panels.userinput.gui.space.GUISpacer;
 import com.izforge.izpack.panels.userinput.gui.statictext.GUIStaticText;
+import com.izforge.izpack.panels.userinput.gui.text.GUITextArea;
 import com.izforge.izpack.panels.userinput.gui.text.GUITextField;
 import com.izforge.izpack.panels.userinput.gui.title.GUITitleField;
 
@@ -125,6 +127,10 @@ public class GUIFieldFactory
         else if (field instanceof TextField)
         {
             result = new GUITextField((TextField) field);
+        }
+        else if (field instanceof TextArea)
+        {
+            result = new GUITextArea((TextArea) field);
         }
         else if (field instanceof ComboField)
         {

@@ -704,6 +704,16 @@ public class PacksModel extends AbstractTableModel
         }
 
         installData.setSelectedPacks(packsToInstall);
+        
+        // calculate the estimated size and store in variable
+        long estimatedSizeInBytes = 0;
+        for (Pack p : packsToInstall)
+        {
+        	estimatedSizeInBytes += p.getSize();
+        }
+        // the size of the installed files (in KB)
+        installData.setVariable(InstallData.ESTIMATED_SIZE, Long.toString(estimatedSizeInBytes / 1024));
+        
         return packsToInstall;
     }
 

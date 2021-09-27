@@ -38,10 +38,10 @@
         <field type="staticText" txt="Check boxes initialised via set and true and false attributes"/>
 
         <field type="check" variable="check3">
-            <spec txt="Check 3: " set="true" true="check3set" false="check3unset"/>
+            <spec txt="Check 3: " set="check3set" true="check3set" false="check3unset"/>
         </field>
         <field type="check" variable="check4">
-            <spec txt="Check 4: " set="false" true="check4set" false="check4unset"/>
+            <spec txt="Check 4: " set="check4unset" true="check4set" false="check4unset"/>
         </field>
 
         <field type="divider"/>

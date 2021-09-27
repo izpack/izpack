@@ -74,7 +74,7 @@ public class OptionsParser extends AbstractParser
         handler.startOptions();
         for (String line = source.readLine(); line != null; line = source.readLine())
         {
-            parseOptionLine(line, handler, source.getLineNumber());
+            parseOptionLine(line, source, handler);
         }
 
         handler.endOptions();

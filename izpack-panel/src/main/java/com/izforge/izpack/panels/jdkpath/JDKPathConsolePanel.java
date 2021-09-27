@@ -66,23 +66,23 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
 
     public boolean run(InstallData installData, Properties properties)
     {
-        String strTargetPath = properties.getProperty(InstallData.INSTALL_PATH);
-        if (strTargetPath == null || "".equals(strTargetPath.trim()))
+        String strJDKPath = properties.getProperty(JDKPathPanelHelper.JDK_PATH);
+        if (strJDKPath == null || "".equals(strJDKPath.trim()))
         {
-            System.err.println("Missing mandatory target path!");
+            System.err.println("Missing mandatory JDK path!");
             return false;
         }
         else
         {
             try
             {
-                strTargetPath = variableSubstitutor.substitute(strTargetPath);
+            	strJDKPath = variableSubstitutor.substitute(strJDKPath);
             }
             catch (Exception e)
             {
                 // ignore
             }
-            installData.setInstallPath(strTargetPath);
+            installData.setVariable(JDKPathPanelHelper.JDK_PATH, strJDKPath);
             return true;
         }
     }

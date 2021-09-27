@@ -44,6 +44,7 @@ import com.izforge.izpack.installer.debugger.Debugger;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.Platform;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -274,6 +275,11 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         ImageIcon jframeIcon = getIcons().get("JFrameIcon");
         setIconImage(jframeIcon.getImage());
+
+        if (installdata.getPlatform().isA(Platform.Name.LINUX)) {
+            setWMClass(getTitle());
+        }
+
         // Prepares the glass pane to block the gui interaction when needed
         JPanel glassPane = (JPanel) getGlassPane();
         glassPane.addMouseListener(new MouseAdapter()
@@ -381,6 +387,21 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
             }
 
         });
+    }
+
+    private void setWMClass(String title) {
+
+        final Toolkit toolkit = Toolkit.getDefaultToolkit();
+        try {
+            final java.lang.reflect.Field field =
+                toolkit.getClass().getDeclaredField("awtAppClassName");
+            field.setAccessible(true);
+            field.set(toolkit, title);
+        }
+        catch (Exception e) {
+            // Oh well.
+            log.addDebugMessage("Failed to set WM_CLASS", null, Log.PANEL_TRACE, e);
+        }
     }
 
     /**
