@@ -40,6 +40,8 @@ public class ConsoleInstallDataProvider extends AbstractInstallDataProvider
         loadDefaultLocale(consoleInstallData, locales);
         // Load custom langpack if exist.
         AbstractInstallDataProvider.addCustomLangpack(consoleInstallData, locales);
+        // Load user input langpack if exist.
+        AbstractInstallDataProvider.addUserInputLangpack(consoleInstallData, locales);
         return consoleInstallData;
     }
 

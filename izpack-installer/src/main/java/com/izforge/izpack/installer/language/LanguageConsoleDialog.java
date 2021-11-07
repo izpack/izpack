@@ -101,6 +101,7 @@ public class LanguageConsoleDialog {
       installData.setLocale(locales.getLocale(), locales.getISOCode());
       installData.setMessages(locales.getMessages());
       AbstractInstallDataProvider.addCustomLangpack(installData, locales);
+      AbstractInstallDataProvider.addUserInputLangpack(installData, locales);
     }
     catch (Exception exception)
     {

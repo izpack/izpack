@@ -85,12 +85,16 @@ public class AutomatedInstallDataProviderTest
 
         // now set up the default lang pack, and the custom lang pack
         InputStream defaultPack = createLangPack("str id='standard.message' txt='This is a standard message'",
-                                                 "str id='overridden.message' txt='This should be replaced'");
+                                                 "str id='overridden.message' txt='This should be replaced'",
+                                                 "str id='overridden.message2' txt='This should also be replaced'");
         InputStream customPack = createLangPack("str id='custom.message' txt='This is a custom message'",
                                                 "str id='overridden.message' txt='Message overridden'");
+        InputStream userInputPack = createLangPack("str id='user.input.message' txt='This is a user input panel message'",
+                                                   "str id='overridden.message2' txt='Message2 overridden'");
 
         mock(loader, "resources/langpacks/eng.xml", defaultPack);
         mock(loader, "resources/" + Resources.CUSTOM_TRANSLATIONS_RESOURCE_NAME + "_eng", customPack);
+        mock(loader, "resources/" + Resources.USER_INPUT_TRANSLATIONS_RESOURCE_NAME + "_eng", userInputPack);
 
         // set up the locale to english because the mock resources contain only a langpack for english
         Locales locales = new DefaultLocales(resources, Locale.ENGLISH);
@@ -113,6 +117,8 @@ public class AutomatedInstallDataProviderTest
         assertEquals("This is a standard message", messages.get("standard.message"));
         assertEquals("This is a custom message", messages.get("custom.message"));
         assertEquals("Message overridden", messages.get("overridden.message"));
+        assertEquals("This is a user input panel message", messages.get("user.input.message"));
+        assertEquals("Message2 overridden", messages.get("overridden.message2"));
     }
 
     /**
