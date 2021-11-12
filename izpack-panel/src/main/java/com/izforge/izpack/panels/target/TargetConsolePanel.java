@@ -26,6 +26,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
+import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.panels.path.PathInputBase;
 import com.izforge.izpack.panels.path.PathInputConsolePanel;
 import com.izforge.izpack.util.Console;
@@ -100,7 +101,7 @@ public class TargetConsolePanel extends PathInputConsolePanel implements Console
 
         File pathFile;
         String normalizedPath;
-        String defaultPath = TargetPanelHelper.getPath(installData);
+        String defaultPath = InstallPathHelper.getPath(installData);
         PathInputBase.setInstallData(installData);
 
         if (defaultPath == null)

@@ -37,6 +37,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.debugger.Debugger;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.installer.util.PackHelper;
 import com.izforge.izpack.panels.treepacks.PackValidator;
 import com.izforge.izpack.util.Debug;
@@ -242,7 +243,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         {
             String msg;
             freeBytes = IoHelper.getFreeSpace(IoHelper.existingParent(
-                    new File(this.installData.getInstallPath())).getAbsolutePath());
+                    new File(InstallPathHelper.getPath(installData))).getAbsolutePath());
             if (freeBytes < 0)
             {
                 msg = getString("PacksPanel.notAscertainable");
@@ -256,7 +257,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     }
 
     /**
-     * Indicates wether the panel has been validated or not.
+     * Indicates whether the panel has been validated or not.
      *
      * @return true if the needed space is less than the free space, else false
      */

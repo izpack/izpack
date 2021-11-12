@@ -38,6 +38,8 @@ import java.awt.LayoutManager;
 import java.awt.LayoutManager2;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This is a special layout manager for IzPanels.
@@ -46,6 +48,11 @@ import java.util.ArrayList;
  */
 public class IzPanelLayout implements LayoutManager, LayoutManager2, LayoutConstants
 {
+    /**
+     * The logger.
+     */
+    private static Logger logger = Logger.getLogger(IzPanelLayout.class.getName());
+
     /**
      * PathSelectionPanel Class object
      */
@@ -106,7 +113,7 @@ public class IzPanelLayout implements LayoutManager, LayoutManager2, LayoutConst
         catch (ClassNotFoundException e)
         {
             pathSelectionPanel = null;
-            e.printStackTrace();
+            logger.log(Level.FINE, "Class " +PATH_SELECTION_PANEL_CLASS + " not found", e);
         }
     }
     /**
@@ -141,7 +148,6 @@ public class IzPanelLayout implements LayoutManager, LayoutManager2, LayoutConst
             new IzPanelConstraints(DEFAULT_CONTROL_ALIGNMENT, DEFAULT_CONTROL_ALIGNMENT, 0,
                     NEXT_ROW, Byte.MAX_VALUE, Byte.MAX_VALUE, AUTOMATIC_GAP, AUTOMATIC_GAP,
                     FULL_LINE_STRETCH, 0.0),
-
     };
 
     /**
@@ -258,7 +264,7 @@ public class IzPanelLayout implements LayoutManager, LayoutManager2, LayoutConst
             {
                 return (FULL_LINE_COMPONENT_CONSTRAINT);
             }
-            if (pathSelectionPanel.isAssignableFrom(clazz)
+            if ((pathSelectionPanel != null && pathSelectionPanel.isAssignableFrom(clazz))
                 || JCheckBox.class.isAssignableFrom(clazz)
                 || JRadioButton.class.isAssignableFrom(clazz)
                 || USER_PATH_SELECTION_PANEL_CLASS.equals(clazz.getName()))
@@ -1183,7 +1189,7 @@ public class IzPanelLayout implements LayoutManager, LayoutManager2, LayoutConst
     {
 
         if ((comp instanceof MultiLineLabel)
-            || pathSelectionPanel.isInstance(comp)
+            || (pathSelectionPanel != null && pathSelectionPanel.isInstance(comp))
             || USER_PATH_SELECTION_PANEL_CLASS.equals(comp.getClass().getName()))
         {
             return (true);

@@ -1,9 +1,12 @@
 package com.izforge.izpack.installer.gui;
 
-import javax.swing.SwingUtilities;
-
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.installer.base.InstallDataConfiguratorWithRules;
+
+import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Installer frame controller
@@ -12,43 +15,34 @@ import com.izforge.izpack.installer.base.InstallDataConfiguratorWithRules;
  */
 public class InstallerController
 {
+    private static final Logger logger = Logger.getLogger(InstallerController.class.getName());
 
     private InstallerFrame installerFrame;
 
     public InstallerController(InstallDataConfiguratorWithRules installDataRulesEngineManager,
                                InstallerFrame installerFrame)
     {
-
         this.installerFrame = installerFrame;
         installDataRulesEngineManager.configureInstallData();
-
     }
 
     public InstallerController buildInstallation()
     {
 
-        run(new Runnable()
+        run(() ->
         {
-            @Override
-            public void run()
-            {
-                installerFrame.buildGUI();
-                installerFrame.sizeFrame();
-            }
+            installerFrame.buildGUI();
+            installerFrame.sizeFrame();
         });
         return this;
     }
 
     public void launchInstallation()
     {
-        run(new Runnable()
+        run(() ->
         {
-            @Override
-            public void run()
-            {
-                installerFrame.setVisible(true);
-                installerFrame.navigateNext();
-            }
+            installerFrame.setVisible(true);
+            installerFrame.navigateNext();
         });
     }
 
@@ -69,8 +63,14 @@ public class InstallerController
             {
                 SwingUtilities.invokeAndWait(action);
             }
+            catch (InvocationTargetException e) {
+                Throwable targetException = e.getTargetException();
+                logger.log(Level.INFO, "Action invocation failed", targetException);
+                throw new IzPackException(targetException);
+            }
             catch (Exception exception)
             {
+                logger.log(Level.INFO, "Action invocation failed", exception);
                 throw new IzPackException(exception);
             }
         }

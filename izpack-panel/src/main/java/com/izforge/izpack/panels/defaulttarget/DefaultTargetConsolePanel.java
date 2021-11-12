@@ -22,13 +22,13 @@
 package com.izforge.izpack.panels.defaulttarget;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.config.Options;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
-import com.izforge.izpack.panels.target.TargetPanelHelper;
+import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.util.Console;
-import com.izforge.izpack.api.config.Options;
 
 import java.util.Properties;
 
@@ -87,7 +87,7 @@ public class DefaultTargetConsolePanel extends AbstractConsolePanel
     {
         printHeadLine(installData, console);
 
-        String path = TargetPanelHelper.getPath(installData);
+        String path = InstallPathHelper.getPath(installData);
         installData.setInstallPath(path);
         return true;
     }

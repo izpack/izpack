@@ -41,6 +41,7 @@ import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.installer.bootstrap.Installer;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
+import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.installer.util.PackHelper;
 import com.izforge.izpack.util.*;
 import com.izforge.izpack.util.file.DirectoryScanner;
@@ -51,6 +52,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -445,6 +447,16 @@ public abstract class UnpackerBase implements IUnpacker
     protected void preUnpack(List<Pack> packs) throws InstallerException
     {
         logger.fine("Unpacker starting");
+        String installPath = installData.getInstallPath();
+        if (installPath == null)
+        {
+            installPath = InstallPathHelper.getPath(installData);
+            if (installPath == null)
+            {
+                throw new InstallerException("No install path specified, can't proceed.");
+            }
+            installData.setInstallPath(installPath);
+        }
         listener.startAction("Unpacking", packs.size());
         listeners.beforePacks(packs, listener);
     }

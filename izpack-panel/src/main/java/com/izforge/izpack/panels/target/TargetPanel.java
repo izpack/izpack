@@ -29,6 +29,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
+import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.panels.path.PathInputPanel;
 
 /**
@@ -64,7 +65,7 @@ public class TargetPanel extends PathInputPanel
     @Override
     public void panelActivate()
     {
-       String path = TargetPanelHelper.getPath(installData);
+       String path = InstallPathHelper.getPath(installData);
 
         if (path != null)
         {

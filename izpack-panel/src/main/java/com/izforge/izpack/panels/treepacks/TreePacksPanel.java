@@ -30,6 +30,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import com.izforge.izpack.installer.util.InstallPathHelper;
 import org.apache.commons.io.IOUtils;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -294,10 +295,10 @@ public class TreePacksPanel extends IzPanel
         }
     }
 
-    private long getAvaiableBytes()
+    private long getAvailableBytes()
     {
         return IoHelper.getFreeSpace(IoHelper.existingParent(
-                new File(this.installData.getInstallPath())).getAbsolutePath());
+                new File(InstallPathHelper.getPath(installData))).getAbsolutePath());
     }
     /**
      * Show the amount of free space available for the installation path.
@@ -307,7 +308,7 @@ public class TreePacksPanel extends IzPanel
         if (IoHelper.supported("getFreeSpace") && freeSpaceLabel != null)
         {
             String msg = null;
-            long freeBytes = getAvaiableBytes();
+            long freeBytes = getAvailableBytes();
             if (freeBytes < 0)
             {
                 msg = getString("PacksPanel.notAscertainable");
@@ -329,7 +330,7 @@ public class TreePacksPanel extends IzPanel
     public boolean isValidated()
     {
         packsModel.updatePacksToInstall();
-        long freeBytes = getAvaiableBytes();
+        long freeBytes = getAvailableBytes();
         if (IoHelper.supported("getFreeSpace")
                 && freeBytes >= 0
                 && freeBytes <= packsModel.getTotalByteSize())

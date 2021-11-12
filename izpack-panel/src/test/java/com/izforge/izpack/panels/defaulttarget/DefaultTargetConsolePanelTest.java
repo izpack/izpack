@@ -20,7 +20,7 @@
  */
 package com.izforge.izpack.panels.defaulttarget;
 
-import static com.izforge.izpack.panels.target.TargetPanelHelper.TARGET_PANEL_DIR;
+import static com.izforge.izpack.installer.util.InstallPathHelper.TARGET_PANEL_DIR;
 import static com.izforge.izpack.util.Platform.Name.MAC_OSX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

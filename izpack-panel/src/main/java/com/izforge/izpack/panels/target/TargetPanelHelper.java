@@ -20,14 +20,11 @@ package com.izforge.izpack.panels.target;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
-import com.izforge.izpack.util.Platform;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,61 +38,9 @@ import java.util.logging.Logger;
 public class TargetPanelHelper
 {
     /**
-     * Target panel directory variable name.
-     */
-    public static final String TARGET_PANEL_DIR = "TargetPanel.dir";
-
-    /**
-     * Target panel directory variable prefix.
-     */
-    private static final String PREFIX = TARGET_PANEL_DIR + ".";
-
-    /**
      * The logger.
      */
     private static final Logger logger = Logger.getLogger(TargetPanelHelper.class.getName());
-
-    /**
-     * Returns the installation path for the current platform.
-     * <p/>
-     * This looks for a variable in the following order:
-     * <ol>
-     * <li>{@code TargetPanel.dir.<platform symbolic name>}</li>
-     * <li>{@code TargetPanel.dir.<platform name>}. This searches any parent platforms if none is found</li>
-     * <li>{@code TargetPanel.dir}</li>
-     * <li>{@code DEFAULT_INSTALL_PATH}</li>
-     * <li>{@code SYSTEM_user_dir}</li>
-     * </ol>
-     *
-     * @param installData the installation data
-     * @return the default platform path, or {@code null} if none is found
-     */
-    public static String getPath(InstallData installData)
-    {
-        String currentPath = installData.getInstallPath();
-        if (currentPath != null)
-        {
-            return currentPath;
-        }
-
-        String defaultPath = installData.getDefaultInstallPath();
-        if (defaultPath == null)
-        {
-            // Make the default path point to the current location
-            defaultPath = System.getProperty("user.dir");
-        }
-
-        String path = getTargetPanelDir(installData);
-        if (path != null)
-        {
-            path = installData.getVariables().replace(path);
-        }
-        if (path == null && defaultPath != null)
-        {
-            path = installData.getVariables().replace(defaultPath);
-        }
-        return path;
-    }
 
     /**
      * Determines if there is IzPack installation information at the specified path that is incompatible with the
@@ -145,65 +90,5 @@ public class TargetPanelHelper
         }
 
         return result;
-    }
-
-    /**
-     * Returns the installation path for the current platform.
-     * <p/>
-     * This looks for a variable prefixed with {@code TargetPanel.dir} in the following order:
-     * <ol>
-     * <li>{@code TargetPanel.dir.<platform symbolic name>}</li>
-     * <li>{@code TargetPanel.dir.<platform name>}. This searches any parent platforms if none is found</li>
-     * <li>{@code TargetPanel.dir}</li>
-     * </ol>
-     *
-     * @param installData the installation data
-     * @return the default platform path, or {@code null} if none is found
-     */
-    private static String getTargetPanelDir(InstallData installData)
-    {
-        Platform platform = installData.getPlatform();
-        String path = null;
-        if (platform.getSymbolicName() != null)
-        {
-            path = installData.getVariable(PREFIX + platform.getSymbolicName().toLowerCase());
-        }
-        if (path == null)
-        {
-            path = getTargetPanelDir(installData, platform.getName());
-        }
-        if (path == null)
-        {
-            path = installData.getVariable(TARGET_PANEL_DIR);
-        }
-        return path;
-    }
-
-    /**
-     * Returns the installation path for the specified platform name.
-     * <p/>
-     * This looks for a variable named {@code TargetPanel.dir.<platform name>}. If none is found, it searches the
-     * parent platforms, in a breadth-first manner.
-     *
-     * @param installData the installation data
-     * @param name        the platform name
-     * @return the default path, or {@code null} if none is found
-     */
-    private static String getTargetPanelDir(InstallData installData, Platform.Name name)
-    {
-        String path = null;
-        List<Platform.Name> queue = new ArrayList<Platform.Name>();
-        queue.add(name);
-        while (!queue.isEmpty())
-        {
-            name = queue.remove(0);
-            path = installData.getVariable(PREFIX + name.toString().toLowerCase());
-            if (path != null)
-            {
-                break;
-            }
-            Collections.addAll(queue, name.getParents());
-        }
-        return path;
     }
 }
