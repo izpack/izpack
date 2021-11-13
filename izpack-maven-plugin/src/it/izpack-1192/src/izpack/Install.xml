@@ -1,0 +1,45 @@
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
+    <info>
+        <appname>Test 1192</appname>
+        <appversion>1.2.3</appversion>
+        <appsubpath>test-1192</appsubpath>
+        <javaversion>1.6</javaversion>
+    </info>
+
+    <locale>
+        <langpack iso3="eng"/>
+    </locale>
+
+    <guiprefs width="800" height="600" resizable="no"/>
+
+    <panels>
+        <panel classname="HTMLInfoPanel" id="info"/>
+        <panel classname="DefaultTargetPanel"/>
+        <panel classname="SummaryPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="SimpleFinishPanel"/>
+    </panels>
+
+    <resources>
+        <res id="HTMLInfoPanel.info" src="Readme.html"/>
+    </resources>
+
+    <variables>
+        <variable name="TargetPanel.dir" value="Test"/>
+    </variables>
+
+    <packs>
+        <pack name="Test core" required="yes">
+            <description>The core files needed for the application</description>
+        </pack>
+        <pack name="Test core1" required="no">
+            <description>The optional files needed for the application</description>
+        </pack>
+        <pack name="Test core2" required="no">
+            <description>The optional files needed for the application</description>
+        </pack>
+    </packs>
+</izpack:installation>
