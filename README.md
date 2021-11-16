@@ -1,4 +1,8 @@
 # IzPack
+[![Java CI with Maven](https://github.com/izpack/izpack/actions/workflows/maven.yml/badge.svg)](https://github.com/izpack/izpack/actions/workflows/maven.yml)
+[![Apache License 2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.codehaus.izpack/izpack-core/badge.svg)](https://search.maven.org/search?q=g:org.codehaus.izpack)
+[![Java 8](https://img.shields.io/badge/java-8-blue.svg)](https://adoptium.net/)
 
 [IzPack](http://izpack.org/) is a widely used tool for packaging applications on the Java platform as cross-platform installers.
 
@@ -10,8 +14,6 @@ Some third-party components (e.g., look and feel libraries) may be released
 under different terms.
 
 ## Building IzPack from source
-
-![Java CI with Maven](https://github.com/izpack/izpack/workflows/Java%20CI%20with%20Maven/badge.svg)
 
 IzPack requires Java SE 1.8 and at minimum Maven 3. Due to the JDK compatibility the maximum Maven version supported is 3.6.3 when compiled using JDK 1.8.
 
@@ -35,6 +37,10 @@ During the migration from the Codehaus services, which were shut down, we had do
 
 If you are wondering where to find some service the project offers visit out web site http://izpack.org/.
 This domain is still kindly provided and paid by Julien Ponge, the project founder.
+
+The most recent snapshots builds based on the `master` branch are available on the Soantype Server:
+
+[https://oss.sonatype.org/content/repositories/snapshots/org/codehaus/izpack/](https://oss.sonatype.org/content/repositories/snapshots/org/codehaus/izpack/)
 
 Below I provide a list of new services divided by providers:
 
