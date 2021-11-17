@@ -29,6 +29,9 @@ public class VariableSubstitutorInputStream extends InputStream
 {
     private String encoding;
     private Reader substitutorReader;
+    private boolean lastSegment;
+    private int index;
+    private byte[] buffer = new byte[0];
 
     public VariableSubstitutorInputStream(InputStream inputStream, Variables variables, SubstitutionType type, boolean bracesRequired) throws UnsupportedEncodingException
     {
@@ -68,7 +71,31 @@ public class VariableSubstitutorInputStream extends InputStream
     @Override
     public int read() throws IOException
     {
-        return substitutorReader.read();
+        if (index == buffer.length) {
+            index = 0;
+            buffer = new byte[0];
+            if (lastSegment)
+            {
+                return -1;
+            }
+            char[] buff = new char[1024];
+            int count = 0;
+            while (count < buff.length)
+            {
+                int curChar = substitutorReader.read();
+                if (curChar == -1)
+                {
+                    lastSegment = true;
+                    if (count == 0) {
+                        return -1;
+                    }
+                    break;
+                }
+                buff[count++] = (char) curChar;
+            }
+            buffer = String.valueOf(buff, 0, count).getBytes(encoding);
+        }
+        return buffer[index++] & 0xff;
     }
 
     @Override
