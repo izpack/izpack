@@ -8,30 +8,10 @@
     <version>testing</version>
     <name>IzPack-172-it</name>
 
-    <build>
-
-        <defaultGoal>package</defaultGoal>
-
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.izpack</groupId>
-                <artifactId>izpack-maven-plugin</artifactId>
-                <version>${project.version}</version>
-                <executions>
-                    <execution>
-                        <id>standard-installer</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>izpack</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
     <properties>
+        <izpack.version>@pom.version@</izpack.version>
+        <izpack.staging>${project.build.directory}/izpack</izpack.staging>
+
         <archive>${project.build.directory}/${project.build.finalName}.jar</archive>
         <version>testing</version>
         <app.group>${project.groupId}</app.group>
@@ -43,4 +23,65 @@
 
     </properties>
 
+    <build>
+
+        <defaultGoal>package</defaultGoal>
+
+        <finalName>${project.artifactId}</finalName>
+		
+        <plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>izpack-configuration</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<outputDirectory>${project.build.directory}/izpack</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/izpack</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		
+            <plugin>
+                <groupId>org.codehaus.izpack</groupId>
+                <artifactId>izpack-maven-plugin</artifactId>
+                <version>${izpack.version}</version>
+                <executions>
+                    <execution>
+                        <id>standard-installer</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>izpack</goal>
+                        </goals>
+                        <configuration>
+                            <!-- base for relative paths in izpack descriptor -->
+                            <baseDir>${izpack.staging}</baseDir>
+                            <installFile>${project.build.directory}/izpack/install.xml</installFile>
+							<finalName>test-installer</finalName>
+							<classifier>172</classifier>
+							<mkdirs>true</mkdirs>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.izpack</groupId>
+                        <artifactId>izpack-panel</artifactId>
+                        <version>${izpack.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>
