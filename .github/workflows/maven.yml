@@ -37,7 +37,7 @@ jobs:
           fluxbox &> ~/fluxbox.log &
           mvn -B verify -Pwith-gui-tests
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: contains( github.ref, 'master')
     needs: build
     name: Deploy
     runs-on: ubuntu-latest
@@ -55,3 +55,4 @@ jobs:
         env:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
