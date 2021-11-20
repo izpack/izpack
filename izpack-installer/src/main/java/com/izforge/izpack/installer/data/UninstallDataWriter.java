@@ -92,6 +92,12 @@ public class UninstallDataWriter
      */
     public boolean isUninstallRequired()
     {
+        // if install path is not available then license panel could be the first panel and quit button was pressed or
+        // in any case when the install-path is not available we can't write uninstall data
+        if (installData.getInstallPath() == null)
+        {
+            return false;
+        }
         String condition = installData.getInfo().getUninstallerCondition();
 
         return (installData.getInfo().getUninstallerPath() != null)

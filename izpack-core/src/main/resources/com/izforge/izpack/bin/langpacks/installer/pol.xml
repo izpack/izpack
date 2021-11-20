@@ -64,7 +64,7 @@
     <str id="ImgPacksPanel.snap" txt="Szczegóły pakietu:"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Wybrane pakiety do zainstalowania"/>
     <str id="InfoPanel.headline" txt="Informacje"/>
-    <str id="InfoPanel.info" txt="Proszę przeczytać poniższe informację: "/>
+    <str id="InfoPanel.info" txt="Proszę przeczytać poniższe informacje: "/>
     <str id="InstallationGroupPanel.colNameInstallType" txt="Rodzaj instalacji"/>
     <str id="InstallationGroupPanel.colNameSelected" txt="Wybrany"/>
     <str id="InstallationGroupPanel.colNameSize" txt="Rozmiar"/>

@@ -166,23 +166,26 @@
             <id>run-its</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>shitty-maven-plugin</artifactId>
-                        <version>1.0-alpha-3</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>clean</goal>
-                                    <goal>install</goal>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <parallel>true</parallel>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+					<plugin>
+						<artifactId>maven-invoker-plugin</artifactId>
+						<version>3.2.2</version>
+						<configuration>
+						  <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+						  <settingsFile>src/it/settings.xml</settingsFile>
+						  <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+						  <postBuildHookScript>validate</postBuildHookScript> <!-- no extension required -->
+						  <showErrors>true</showErrors>
+						</configuration>
+						<executions>
+						  <execution>
+							<id>integration-test</id>
+							<goals>
+							  <goal>install</goal>
+							  <goal>run</goal>
+							</goals>
+						  </execution>
+						</executions>
+					</plugin>					
                 </plugins>
             </build>
         </profile>
