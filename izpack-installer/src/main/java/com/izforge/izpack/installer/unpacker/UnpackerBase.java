@@ -1336,8 +1336,12 @@ public abstract class UnpackerBase implements IUnpacker
             if (!parsableFile.hasCondition() || isConditionTrue(parsableFile.getCondition()))
             {
                 String path = IoHelper.translatePath(parsableFile.getPath(), variables);
-                parsableFile.setPath(path);
-                parsables.add(parsableFile);
+                File file = new File(path);
+                if (file.exists() && file.isFile())
+                {
+                    parsableFile.setPath(path);
+                    parsables.add(parsableFile);
+                }
             }
         }
     }
