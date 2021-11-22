@@ -189,6 +189,7 @@ public class CompilerConfig extends Thread
      */
     private Set<String> userInputPanelIds;
 
+    private boolean optionalPacks = false;
     private String unpackerClassname = "com.izforge.izpack.installer.unpacker.Unpacker";
     private String packagerClassname = "com.izforge.izpack.compiler.packager.impl.Packager";
     private final CompilerPathResolver pathResolver;
@@ -771,7 +772,32 @@ public class CompilerConfig extends Thread
         compiler.checkDependencies();
         compiler.checkExcludes();
 
+        checkOptionalPacks();
         notifyCompilerListener("addPacks", CompilerListener.END, data);
+    }
+
+    private void checkOptionalPacks() {
+        if (optionalPacks) {
+            List<Panel> panels = packager.getPanelList();
+            boolean packsPanelSpecified = false;
+            for (Panel panel : panels)
+            {
+                String className = panel.getClassName();
+                if (className.equals("com.izforge.izpack.panels.imgpacks.ImgPacksPanel") ||
+                        className.equals("com.izforge.izpack.panels.packs.PacksPanel") ||
+                        className.equals("com.izforge.izpack.panels.treepacks.TreePacksPanel"))
+                {
+                    packsPanelSpecified = true;
+                    break;
+                }
+            }
+            if (!packsPanelSpecified)
+            {
+                // if there are optional packs and no ImgPacksPanel, PacksPanel or TreePacksPanel specified then we just
+                // inform the user as there maybe custom panel providing similar functionality
+                logger.info("There are optional packs specified but none of the ImgPacksPanel, PacksPanel and TreePacksPanel defined.");
+            }
+        }
     }
 
     /**
@@ -781,7 +807,7 @@ public class CompilerConfig extends Thread
      *
      * @param data The XML data
      * @param baseDir the base directory of the pack
-     * @throws CompilerException an error occured during compiling
+     * @throws CompilerException an error occurred during compiling
      */
     private void addPacksSingle(IXMLElement data, File baseDir) throws CompilerException
     {
@@ -809,6 +835,10 @@ public class CompilerConfig extends Thread
             boolean loose = Boolean.parseBoolean(packElement.getAttribute("loose", "false"));
             String description = xmlCompilerHelper.requireChildNamed(packElement, "description").getContent();
             boolean required = xmlCompilerHelper.requireYesNoAttribute(packElement, "required");
+            if (!required)
+            {
+                optionalPacks = true;
+            }
             String group = packElement.getAttribute("group");
             String installGroups = packElement.getAttribute("installGroups");
             String excludeGroup = packElement.getAttribute("excludeGroup");

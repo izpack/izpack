@@ -155,11 +155,9 @@ public class VariableSubstitutorReader extends Reader
             data = pushbackReader.read();
         }
 
+        boolean variable = wasItPlausibleVariableName(data);
         String name = varNameBuffer.toString();
-        if (
-                ( (!inBraces || data == '}') && (!inBraces || variable_end == '\0' || variable_end == data) )
-                && name.length() > 0
-                )
+        if (variable && name.length() > 0)
         {
             // check for environment variables
             if (inBraces && name.startsWith("ENV[")
@@ -209,7 +207,7 @@ public class VariableSubstitutorReader extends Reader
                     + (inBraces ? "{" : "")
                     + varNameBuffer.toString()
                     + (inBraces && !unclosedBraces ? "}" : "")
-                    + (variable_end == '\0' ? "" : variable_end);
+                    + (variable_end != '\0' && variable ? variable_end : "");
         }
         else
         {
@@ -223,6 +221,33 @@ public class VariableSubstitutorReader extends Reader
         }
 
         return varValue.charAt(varValueIndex++);
+    }
+
+    private boolean wasItPlausibleVariableName(int data) throws IOException
+    {
+        if (variable_end == '\0')
+        {
+            return !inBraces || data == '}';
+        }
+        if (inBraces)
+        {
+            if (data != '}')
+            {
+                return false;
+            }
+            int nextData = pushbackReader.read();
+            if (nextData == -1)
+            {
+                return false;
+            }
+            if (variable_end == nextData)
+            {
+                return true;
+            }
+            pushbackReader.unread(nextData);
+            return false;
+        }
+        return variable_end == data;
     }
 
     @Override

@@ -52,6 +52,8 @@ public class VariableSubstitutorImplTest
         Properties properties = new Properties(System.getProperties());
         properties.put("MY_PROP", "one");
         properties.put("MY_PROP2", "two");
+        properties.put("PHRASE", "वसुधैव कुटुम्बकम्");
+        properties.put("MEANING", "The world is a family");
         Variables variables = new DefaultVariables(properties);
         variableSubstitutor = new VariableSubstitutorImpl(variables);
     }
@@ -69,11 +71,20 @@ public class VariableSubstitutorImplTest
     public void shouldSubstitutePlainText() throws Exception
     {
         assertThat(
-                variableSubstitutor.substitute("${MY_PROP}${MY_PROP2}", SubstitutionType.TYPE_PLAIN),
-                Is.is("onetwo"));
+                variableSubstitutor.substitute("Variable ${MY_PROP} and ${MY_PROP2}", SubstitutionType.TYPE_PLAIN),
+                Is.is("Variable one and two"));
         assertThat(
                 variableSubstitutor.substitute("$MY_PROP2$MY_PROP", SubstitutionType.TYPE_PLAIN),
                 Is.is("twoone"));
+        assertThat(
+                variableSubstitutor.substitute("$MY_PROP2$MY_PRO", SubstitutionType.TYPE_PLAIN),
+                Is.is("two$MY_PRO"));
+        assertThat(
+                variableSubstitutor.substitute("$$$MY_PROP2$MY_PRO", SubstitutionType.TYPE_PLAIN),
+                Is.is("$$two$MY_PRO"));
+        assertThat(
+                variableSubstitutor.substitute("A nice Sanskrit phrase is \"$PHRASE\", meaning in English is \"$MEANING\".", SubstitutionType.TYPE_PLAIN),
+                Is.is("A nice Sanskrit phrase is \"वसुधैव कुटुम्बकम्\", meaning in English is \"The world is a family\"."));
     }
 
     @Test
@@ -82,6 +93,15 @@ public class VariableSubstitutorImplTest
         assertThat(
                 variableSubstitutor.substitute("@MY_PROP@@MY_PROP2@", SubstitutionType.TYPE_ANT),
                 Is.is("onetwo"));
+        assertThat(
+                variableSubstitutor.substitute("@{MY_PROP}", SubstitutionType.TYPE_ANT),
+                Is.is("@{MY_PROP}"));
+        assertThat(
+                variableSubstitutor.substitute("Variable @{MY_PROP}@ and @MY_PROP2@", SubstitutionType.TYPE_ANT),
+                Is.is("Variable one and two"));
+        assertThat(
+                variableSubstitutor.substitute("A nice Sanskrit phrase is \"@PHRASE@\", meaning in English is \"@MEANING@\".", SubstitutionType.TYPE_ANT),
+                Is.is("A nice Sanskrit phrase is \"वसुधैव कुटुम्बकम्\", meaning in English is \"The world is a family\"."));
     }
 
     @Test
@@ -109,5 +129,4 @@ public class VariableSubstitutorImplTest
             fail("The system variable resolution of ${SYSTEM_user_dir} resulted in an invalid string '" + substituted + "\"");
         }
     }
-
 }
