@@ -131,22 +131,19 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
 
             result = result.replaceAll("( )+", " ");
 
+            // we will remove child elements of head except title
+            result = removeHTMLTag(result, "base");
+            result = removeHTMLTag(result, "link");
+            result = removeHTMLTag(result, "meta");
+            result = removeHTMLTag(result, "noscript");
+            result = removeHTMLTag(result, "script");
+            result = removeHTMLTag(result, "style");
+            result = removeHTMLTag(result, "template");
 
-            result = result.replaceAll("<( )*head([^>])*>", "<head>");
-            result = result.replaceAll("(<( )*(/)( )*head( )*>)", "</head>");
-            result = result.replaceAll("(<head>).*(</head>)", "");
-            result = result.replaceAll("<( )*script([^>])*>", "<script>");
-            result = result.replaceAll("(<( )*(/)( )*script( )*>)", "</script>");
-            result = result.replaceAll("(<script>).*(</script>)", "");
+            result = result.replaceAll("[ \\t]*<( )*title([^>])*>[ \\t]*", "<title>");
+            result = result.replaceAll("([ \\t]*<( )*(/)( )*title( )*>[ \\t]*)", "</title>");
 
-            // remove all styles (prepare first by clearing attributes)
-            result = result.replaceAll("<( )*style([^>])*>", "<style>");
-            result = result.replaceAll("(<( )*(/)( )*style( )*>)", "</style>");
-            result = result.replaceAll("(<style>).*(</style>)", "");
-
-            result = result.replaceAll("(<( )*(/)( )*sup( )*>)", "</sup>");
-            result = result.replaceAll("<( )*sup([^>])*>", "<sup>");
-            result = result.replaceAll("(<sup>).*(</sup>)", "");
+            result = removeHTMLTag(result, "sup");
 
             // insert tabs in spaces of <td> tags
             result = result.replaceAll("<( )*td([^>])*>", "\t");
@@ -191,7 +188,17 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
             result = result.replaceAll("(\r)( )+(\t)", "\r\t");
             result = result.replaceAll("(\r)(\t)+(\\r)", "\r\r");
             result = result.replaceAll("(\r)(\t)+", "\r\t");
+            result = result.replaceAll("\\r", "\n");
+            result = result.replaceAll("[\\t ]+\\n", "\n");
+            result = result.replaceAll("\\n\\n+\\n", "\n\n").trim();
         }
         return result;
+    }
+
+    private String removeHTMLTag(String text, String tag)
+    {
+        String result = text.replaceAll("[ \\t]*<( )*" + tag + "([^>])*>[ \\t]*", "<" + tag + ">");
+        result = result.replaceAll("([ \\t]*<( )*(/)( )*" + tag + "( )*>[ \\t]*)", "</" + tag + ">");
+        return result.replaceAll("(<" + tag + ">)(.|\n)*(</" + tag + ">)", "");
     }
 }
