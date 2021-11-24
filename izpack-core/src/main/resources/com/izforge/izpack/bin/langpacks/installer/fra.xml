@@ -34,7 +34,7 @@
     <str id="InstallationTypePanel.headline" txt="Type d'installation"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Installation de "/>
+    <str id="installer.title" txt="IzPack - Installation de"/>
     <str id="installer.next" txt="Suivant"/>
     <str id="installer.prev" txt="Précédent"/>
     <str id="installer.quit" txt="Quitter"/>

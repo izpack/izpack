@@ -90,7 +90,7 @@
 
     <!-- General installer strings -->
     <!-- Notice! more natural Japanese requires string after product name -->
-    <str id="installer.title" txt="IzPack - インストール - "/>
+    <str id="installer.title" txt="IzPack - インストール -"/>
     <str id="installer.next" txt="次へ"/>
     <str id="installer.prev" txt="前へ"/>
     <str id="installer.quit" txt="終了"/>

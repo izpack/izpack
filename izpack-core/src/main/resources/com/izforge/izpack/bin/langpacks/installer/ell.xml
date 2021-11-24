@@ -9,7 +9,7 @@
 
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Εγκατάσταση του "/>
+    <str id="installer.title" txt="IzPack - Εγκατάσταση του"/>
     <str id="installer.next" txt="Επόμενο"/>
     <str id="installer.prev" txt="Προηγούμενο"/>
     <str id="installer.quit" txt="Έξοδος"/>

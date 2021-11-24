@@ -31,7 +31,7 @@
     <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Инсталација "/>
+    <str id="installer.title" txt="IzPack - Инсталација"/>
     <str id="installer.next" txt="Следеће"/>
     <str id="installer.prev" txt="Претходно"/>
     <str id="installer.quit" txt="Излаз"/>
