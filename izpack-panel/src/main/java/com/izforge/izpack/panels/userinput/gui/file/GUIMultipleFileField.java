@@ -84,12 +84,12 @@ public class GUIMultipleFileField extends GUIField
     @Override
     public boolean updateField(Prompt prompt, boolean skipValidation)
     {
-        boolean result = fileInput.validateField();
-        if (skipValidation || result)
+        if (skipValidation || fileInput.validateField())
         {
             getField().setValues(fileInput.getSelectedFiles());
+            return true;
         }
-        return result;
+        return false;
     }
 
     /**
