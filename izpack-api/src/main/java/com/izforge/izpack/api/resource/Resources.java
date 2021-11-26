@@ -44,6 +44,12 @@ public interface Resources
     String CUSTOM_TRANSLATIONS_RESOURCE_NAME = "CustomLangPack.xml";
 
     /**
+     * The base name of the XML file that specifies the User Input langpack. Searched is for the file
+     * with the name expanded by _ISO3.
+     */
+    String USER_INPUT_TRANSLATIONS_RESOURCE_NAME = "userInputLang.xml";
+
+    /**
      * The base name of the XML file that specifies the pack langpack. Searched is for the file
      * with the name expanded by _ISO3.
      */

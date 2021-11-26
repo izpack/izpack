@@ -60,7 +60,7 @@
     <str id="InstallationTypePanel.headline" txt="Installasjonstype"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Installasjon av "/>
+    <str id="installer.title" txt="IzPack - Installasjon av"/>
     <str id="installer.next" txt="Neste"/>
     <str id="installer.prev" txt="Forrige"/>
     <str id="installer.quit" txt="Avslutt"/>

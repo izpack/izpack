@@ -33,7 +33,7 @@
     <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - 安裝部署 "/>
+    <str id="installer.title" txt="IzPack - 安裝部署"/>
     <str id="installer.next" txt="下一步"/>
     <str id="installer.prev" txt="上一步"/>
     <str id="installer.quit" txt="退出"/>

@@ -59,7 +59,7 @@
     <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="Alliaria - Instaladorea: "/>
+    <str id="installer.title" txt="Alliaria - Instaladorea:"/>
     <str id="installer.next" txt="Aurrera"/>
     <str id="installer.prev" txt="Atzera"/>
     <str id="installer.quit" txt="Amaitu"/>

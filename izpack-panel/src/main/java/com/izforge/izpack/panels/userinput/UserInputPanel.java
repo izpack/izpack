@@ -593,7 +593,7 @@ public class UserInputPanel extends IzPanel
         {
             associatedLabel = null;
         }
-        return installData.getMessages().get(associatedLabel);
+        return installData.getVariables().replace(installData.getMessages().get(associatedLabel));
     }
 
     /**
@@ -646,7 +646,7 @@ public class UserInputPanel extends IzPanel
         {
             key = installData.getMessages().get(associatedLabel);
             value = installData.getVariable(associatedVariable);
-            return (key + " " + value + "<br>");
+            return (installData.getVariables().replace(key) + " " + value + "<br>");
         }
         return "";
     }
@@ -696,7 +696,7 @@ public class UserInputPanel extends IzPanel
                     row++;
                     entry.append(String.format("%1$-3s", row + ". "));
                 }
-                entry.append(tab).append(key);
+                entry.append(tab).append(installData.getVariables().replace(key));
                 entry.append(" ").append(value);
                 entry.append("<br>");
             }

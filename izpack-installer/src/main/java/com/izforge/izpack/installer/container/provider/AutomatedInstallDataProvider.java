@@ -30,6 +30,8 @@ public class AutomatedInstallDataProvider extends AbstractInstallDataProvider
         loadDefaultLocale(automatedInstallData, locales);
         // Load custom langpack if exist.
         AbstractInstallDataProvider.addCustomLangpack(automatedInstallData, locales);
+        // Load user input langpack if exist.
+        AbstractInstallDataProvider.addUserInputLangpack(automatedInstallData, locales);
         return automatedInstallData;
     }
 
