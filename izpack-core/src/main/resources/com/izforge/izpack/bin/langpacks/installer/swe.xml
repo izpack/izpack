@@ -58,7 +58,7 @@
          txt="Klar!"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Installation av "/>
+    <str id="installer.title" txt="IzPack - Installation av"/>
     <str id="installer.next" txt="Nästa"/>
     <str id="installer.prev" txt="Föregående"/>
     <str id="installer.quit" txt="Avsluta"/>

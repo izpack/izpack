@@ -33,7 +33,7 @@
     <str id="ConsoleInstaller.shutdown.failed" txt="Instalace selhala!"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Instalace "/>
+    <str id="installer.title" txt="IzPack - Instalace"/>
     <str id="installer.next" txt="Další"/>
     <str id="installer.prev" txt="Předcházející"/>
     <str id="installer.quit" txt="Konec"/>

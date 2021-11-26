@@ -57,7 +57,7 @@
     <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack نصب "/>
+    <str id="installer.title" txt="IzPack نصب"/>
     <str id="installer.next" txt="بعدی"/>
     <str id="installer.prev" txt="قبلی"/>
     <str id="installer.quit" txt="خروج"/>
