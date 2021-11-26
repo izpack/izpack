@@ -57,7 +57,7 @@
          txt="Готово!"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Инсталация на "/>
+    <str id="installer.title" txt="IzPack - Инсталация на"/>
     <str id="installer.next" txt="Напред"/>
     <str id="installer.prev" txt="Назад"/>
     <str id="installer.quit" txt="Изход"/>

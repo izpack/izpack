@@ -64,7 +64,7 @@
     <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
 
     <!-- Genel kurulum karakter dizileri -->
-    <str id="installer.title" txt="IzPack - Kurulum "/>
+    <str id="installer.title" txt="IzPack - Kurulum"/>
     <str id="installer.next" txt="Sonraki"/>
     <str id="installer.prev" txt="Önceki"/>
     <str id="installer.quit" txt="Çıkış"/>

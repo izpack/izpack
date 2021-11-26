@@ -308,6 +308,7 @@ public class LanguageDialog extends JDialog
             installData.setMessages(locales.getMessages());
 
             AbstractInstallDataProvider.addCustomLangpack(installData, locales);
+            AbstractInstallDataProvider.addUserInputLangpack(installData, locales);
 
             // Configure buttons after locale has been loaded
             installData.configureGuiButtons();

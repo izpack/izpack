@@ -60,7 +60,7 @@
     <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack - Inštalácia "/>
+    <str id="installer.title" txt="IzPack - Inštalácia"/>
     <str id="installer.next" txt="Ďalší"/>
     <str id="installer.prev" txt="Predchádzajúci"/>
     <str id="installer.quit" txt="Koniec"/>

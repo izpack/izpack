@@ -86,7 +86,7 @@
     <str id="installer.quit.message" txt="Zamknięcie programu spowoduje przerwanie instalacji!"/>
     <str id="installer.quit.title" txt="Czy na pewno chcesz wyjść?"/>
     <str id="installer.step" txt="Krok"/>
-    <str id="installer.title" txt="IzPack - Instalacja programu "/>
+    <str id="installer.title" txt="IzPack - Instalacja programu"/>
     <str id="installer.warning" txt="Ostrzeżenie!"/>
     <str id="installer.yes" txt="Tak"/>
     <str id="installer.errorMessage" txt="An error occured"/>
