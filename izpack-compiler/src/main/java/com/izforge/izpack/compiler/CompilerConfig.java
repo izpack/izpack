@@ -2224,7 +2224,7 @@ public class CompilerConfig extends Thread
 
             // Just validate to avoid XML parser errors during installation later
             if (id.startsWith(Resources.CUSTOM_TRANSLATIONS_RESOURCE_NAME)
-                    || id.startsWith(UserInputPanelSpec.LANG_FILE_NAME)
+                    || id.startsWith(Resources.USER_INPUT_TRANSLATIONS_RESOURCE_NAME)
                     || id.startsWith(Resources.PACK_TRANSLATIONS_RESOURCE_NAME))
             {
                 new LangPackXmlParser().parse(url);

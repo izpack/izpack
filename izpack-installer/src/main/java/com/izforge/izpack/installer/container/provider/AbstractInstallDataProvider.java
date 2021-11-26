@@ -186,18 +186,32 @@ public abstract class AbstractInstallDataProvider implements Provider
      */
     public static void addCustomLangpack(AutomatedInstallData installData, Locales locales)
     {
-        // We try to load and add a custom langpack.
+        addLangpack(Resources.CUSTOM_TRANSLATIONS_RESOURCE_NAME, "custom", installData, locales);
+    }
+
+    /**
+     * Add the contents of a custom langpack to the default langpack, if it exists.
+     *
+     * @param installData the install data to be used
+     */
+    public static void addUserInputLangpack(AutomatedInstallData installData, Locales locales)
+    {
+        addLangpack(Resources.USER_INPUT_TRANSLATIONS_RESOURCE_NAME, "user input", installData, locales);
+    }
+
+    private static void addLangpack(String resName, String langPackName, AutomatedInstallData installData, Locales locales)
+    {
+        // We try to load and add langpack.
         try
         {
-            installData.getMessages().add(locales.getMessages(Resources.CUSTOM_TRANSLATIONS_RESOURCE_NAME));
-            logger.fine("Found custom langpack for " + installData.getLocaleISO3());
+            installData.getMessages().add(locales.getMessages(resName));
+            logger.fine("Found " + langPackName + " langpack for " + installData.getLocaleISO3());
         }
         catch (ResourceNotFoundException exception)
         {
-            logger.fine("No custom langpack for " + installData.getLocaleISO3() + " available");
+            logger.fine("No " + langPackName + " langpack for " + installData.getLocaleISO3() + " available");
         }
     }
-
 
     private String getDir(Resources resources)
     {

@@ -96,8 +96,7 @@ public class Config
      * @param factory     the factory
      * @param messages    the messages
      */
-    public Config(String path, Resources resources, InstallData installData, ObjectFactory factory,
-                  Messages messages)
+    public Config(String path, Resources resources, InstallData installData, ObjectFactory factory)
     {
         IXMLParser parser = new XMLParser(false);
 
@@ -105,7 +104,7 @@ public class Config
         this.path = url.getPath();
         this.installData = installData;
         this.factory = factory;
-        this.messages = messages;
+        this.messages = installData.getMessages();
 
         InputStream input = null;
         try
@@ -344,6 +343,10 @@ public class Config
             {
                 // no localised message found, so use the txt attribute
                 result = element.getAttribute(TEXT);
+            }
+
+            if (result != null) {
+                result = installData.getVariables().replace(result);
             }
         }
         return result;

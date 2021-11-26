@@ -20,19 +20,16 @@
 package com.izforge.izpack.panels.userinput.field;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.factory.ObjectFactory;
-import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.util.PlatformModelMatcher;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The user input panel specification.
@@ -46,11 +43,6 @@ public class UserInputPanelSpec
      * The name of the XML file that specifies the panel layout.
      */
     public static final String SPEC_FILE_NAME = "userInputSpec.xml";
-
-    /**
-     * The user input language pack resource name.
-     */
-    public static final String LANG_FILE_NAME = "userInputLang.xml";
 
     /**
      * Panel element name.
@@ -83,12 +75,6 @@ public class UserInputPanelSpec
     private static final String PANEL_IDENTIFIER = "id";
 
     /**
-     * The logger.
-     */
-    private static final Logger logger = Logger.getLogger(UserInputPanelSpec.class.getName());
-
-
-    /**
      * Constructs a {@code UserInputPanelSpec}.
      *
      * @param resources   the resources
@@ -99,17 +85,7 @@ public class UserInputPanelSpec
     public UserInputPanelSpec(Resources resources, InstallData installData, ObjectFactory factory,
                               PlatformModelMatcher matcher)
     {
-        Messages messages = installData.getMessages();
-        try
-        {
-            messages = messages.newMessages(LANG_FILE_NAME);
-        }
-        catch (ResourceNotFoundException exception)
-        {
-            logger.info(exception.getMessage());
-        }
-
-        config = new Config(SPEC_FILE_NAME, resources, installData, factory, messages);
+        config = new Config(SPEC_FILE_NAME, resources, installData, factory);
         this.installData = installData;
         this.matcher = matcher;
     }
