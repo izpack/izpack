@@ -368,12 +368,7 @@ public class LanguageDialog extends JDialog
         /**
          * Icons cache.
          */
-        private TreeMap<String, ImageIcon> icons = new TreeMap<String, ImageIcon>();
-
-        /**
-         * Grayed icons cache.
-         */
-        private TreeMap<String, ImageIcon> grayIcons = new TreeMap<String, ImageIcon>();
+        private TreeMap<String, ImageIcon> icons = new TreeMap<>();
 
         /**
          * Default constructor.
@@ -407,22 +402,13 @@ public class LanguageDialog extends JDialog
                     ImageIcon icon;
                     icon = resources.getImageIcon("flag." + code);
                     icons.put(code, icon);
-                    icon = new ImageIcon(GrayFilter.createDisabledImage(icon.getImage()));
-                    grayIcons.put(code, icon);
                 }
                 catch (ResourceException exception)
                 {
                     logger.log(Level.WARNING, exception.getMessage(), exception);
                 }
             }
-            if (isSelected || index == -1)
-            {
-                setIcon(icons.get(code));
-            }
-            else
-            {
-                setIcon(grayIcons.get(code));
-            }
+            setIcon(icons.get(code));
             return result;
         }
     }
