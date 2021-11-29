@@ -216,11 +216,8 @@ public class PathInputPanel extends IzPanel implements ActionListener
     public void panelActivate()
     {
         super.panelActivate();
-        if (modifyInstallation())
-        {
-            // installation directory has to exist if an installation is being modified
-            mustExist = true;
-        }
+        // installation directory has to exist if an installation is being modified
+        mustExist = modifyInstallation();
         PathInputBase.setInstallData(installData);
     }
 
