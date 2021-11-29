@@ -272,27 +272,26 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
 
     public boolean validateField()
     {
-        boolean result = false;
         int fileCount = model.getSize();
 
-        if (fileCount == 0 && allowEmpty)
+        if (fileCount == 0)
         {
-            return true;
-        }
-        else
-        {
-            for (int i = 0; i < fileCount; i++)
+            if (allowEmpty)
             {
-                result = validateFile((String) model.getElementAt(i));
-                if (!result)
-                {
-                    break;
-                }
+                return true;
+            }
+            showMessage(isDirectory ? "dir.nodirectory" : "file.nofile");
+            return false;
+        }
+        for (int i = 0; i < fileCount; i++)
+        {
+            if (!validateFile((String) model.getElementAt(i)))
+            {
+                return false;
             }
         }
 
-        return result;
-
+        return true;
     }
 
     @Override
@@ -309,5 +308,4 @@ public class MultipleFileInputField extends JPanel implements ActionListener, Fo
     {
         return createMultipleVariables;
     }
-
 }
