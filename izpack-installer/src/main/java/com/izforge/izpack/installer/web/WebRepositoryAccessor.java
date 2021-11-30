@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -60,7 +62,16 @@ public class WebRepositoryAccessor
     {
         byte[] raw = new byte[BUFFER_SIZE];
         WebAccessor webAccessor = new WebAccessor(null);
-        InputStream in = webAccessor.openInputStream(new URL(url));
+        URL escapedUrl;
+        try
+        {
+            escapedUrl = new URI(null, url, null).toURL();
+        }
+        catch (URISyntaxException e)
+        {
+            throw new IOException(e);
+        }
+        InputStream in = webAccessor.openInputStream(escapedUrl);
         int r = in.read(raw);
         File tempDir = new File(tempFolder);
 

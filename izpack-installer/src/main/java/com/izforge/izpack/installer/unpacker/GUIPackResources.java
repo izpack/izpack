@@ -47,11 +47,9 @@ public class GUIPackResources extends AbstractPackResources
         String baseName = installData.getInfo().getInstallerBase();
         File installerDir = new File(baseName).getParentFile();
 
-        if (baseName.contains("/"))
-            baseName = baseName.substring(baseName.lastIndexOf('/'));
-
+        baseName = baseName.substring(baseName.lastIndexOf(baseName.contains("\\") ? '\\' :'/') + 1);
         String packFileName = baseName + ".pack-" + name + ".jar";
-        String path = null;
+        String path;
 
         // Look first in same directory as primary jar, then download it if not found
         File packLocalFile = new File(installerDir, packFileName);
@@ -59,6 +57,7 @@ public class GUIPackResources extends AbstractPackResources
         {
             logger.info("Found local pack " + packLocalFile.getAbsolutePath());
             try {
+
                 path = "jar:" + packLocalFile.toURI().toURL() + "!/packs/pack-" + name;
             } catch(MalformedURLException exception) {
                 throw new ResourceException("Malformed URL", exception);
@@ -66,7 +65,7 @@ public class GUIPackResources extends AbstractPackResources
         }
         else
         {
-            String packURL = webDirURL + "/" + baseName + ".pack-" + name.replace(" ", "%20") + ".jar";
+            String packURL = webDirURL + "/" + baseName + ".pack-" + name + ".jar";
             logger.info("Downloading remote pack " + packURL);
             String tempFolder = IoHelper.translatePath(installData.getInfo().getUninstallerPath()
                     + WEB_TEMP_SUB_PATH, installData.getVariables());
