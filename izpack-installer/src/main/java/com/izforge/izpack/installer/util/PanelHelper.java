@@ -20,6 +20,8 @@
  */
 package com.izforge.izpack.installer.util;
 
+import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.gui.IzPanel;
@@ -207,5 +209,20 @@ public class PanelHelper
         return result;
     }
 
-
+    public static String getPanelResourceName(Panel panel, String defaultSuffix, Resources resources)
+    {
+        String className = panel.getClassName();
+        String panelName = className.substring(className.lastIndexOf('.') + 1);
+        panelName = panelName.replaceAll("Console", "");
+        String panelId = panel.getPanelId();
+        if (panelId != null)
+        {
+            String key = panelName + "." + panelId;
+            if (resources.getString(key, null) != null)
+            {
+                return key;
+            }
+        }
+        return panelName + "." + defaultSuffix;
+    }
 }

@@ -26,6 +26,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.console.AbstractTextConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
+import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -36,20 +37,13 @@ import com.izforge.izpack.util.Console;
 public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
 {
     private final Resources resources;
-    private final String panelId;
-    private final String resourcePrefix;
+    private final String panelResourceName;
 
     public HTMLInfoConsolePanel(PanelView<ConsolePanel> panel, Resources resources)
     {
-        this(panel, resources, "HTMLInfoPanel");
-    }
-
-    public HTMLInfoConsolePanel(PanelView<ConsolePanel> panel, Resources resources, String resourcePrefix)
-    {
         super(panel);
-        panelId = panel.getPanelId();
         this.resources = resources;
-        this.resourcePrefix = resourcePrefix;
+        panelResourceName = PanelHelper.getPanelResourceName(panel.getPanel(), "info", resources);
     }
 
     /**
@@ -65,7 +59,7 @@ public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
     public boolean run(InstallData installData, Console console)
     {
         super.run(installData, console);
-        console.println(installData.getMessages().get("InfoPanel.info"));
+        console.println(installData.getMessages().get(panelResourceName));
         return true;
     }
 
@@ -77,20 +71,11 @@ public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
     @Override
     protected String getText()
     {
-        String result = null;
-        if (panelId != null)
+        String text = resources.getString(panelResourceName, null);
+        if (text != null)
         {
-            result = resources.getString(resourcePrefix + "." + panelId, null);
+            return removeHTML(text);
         }
-        if (result == null)
-        {
-            result = resources.getString(resourcePrefix + ".info", null);
-        }
-        if (result != null)
-        {
-            result = removeHTML(result);
-        }
-        return result;
+        return null;
     }
-
 }

@@ -33,10 +33,8 @@ import com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel;
  */
 public class HTMLHelloConsolePanel extends HTMLInfoConsolePanel
 {
-
     public HTMLHelloConsolePanel(Resources resources, PanelView<ConsolePanel> panel)
     {
-        super(panel, resources, "HTMLHelloPanel");
+        super(panel, resources);
     }
-
 }

@@ -116,8 +116,11 @@
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Please read the following information: "/>
-	
+    <str id="InfoPanel.info" txt="Please read the following information:"/>
+
+    <!-- HTMLInfoPanel strings -->
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
     <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
