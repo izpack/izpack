@@ -31,6 +31,7 @@ import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.installer.util.PanelHelper;
 
 /**
  * The info panel class. Displays some raw-text informations.
@@ -39,8 +40,12 @@ import com.izforge.izpack.installer.gui.IzPanel;
  */
 public class InfoPanel extends IzPanel
 {
-
     private static final long serialVersionUID = 3833748780590905399L;
+
+    /**
+     * Resource name for panel content.
+     */
+    private final String panelResourceName;
 
     /**
      * The info string.
@@ -59,10 +64,11 @@ public class InfoPanel extends IzPanel
     public InfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
+        panelResourceName = PanelHelper.getPanelResourceName(panel, "info", resources);
         // We load the text.
         loadInfo();
         // The info label.
-        add(LabelFactory.create(getString("InfoPanel.info"), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
+        add(LabelFactory.create(getString(panelResourceName), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
         // The text area which shows the info.
         JTextArea textArea = new JTextArea(info);
         textArea.setName(GuiId.INFO_PANEL_TEXT_AREA.id);
@@ -80,7 +86,7 @@ public class InfoPanel extends IzPanel
     private void loadInfo()
     {
         String defaultValue = "Error : could not load the info text !";
-        info = getResources().getString("InfoPanel.info", defaultValue);
+        info = getResources().getString(panelResourceName, defaultValue);
     }
 
     /**

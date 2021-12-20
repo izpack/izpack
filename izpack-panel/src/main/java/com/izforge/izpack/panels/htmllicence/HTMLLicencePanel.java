@@ -72,7 +72,7 @@ public class HTMLLicencePanel extends AbstractLicencePanel implements HyperlinkL
         super(panel, parent, installData, new IzPanelLayout(log), resources);
 
         // We put our components
-        add(LabelFactory.create(getString("LicencePanel.info"), parent.getIcons().get("history"), LEADING), NEXT_LINE);
+        add(LabelFactory.create(getString(titleMessageKey), parent.getIcons().get("history"), LEADING), NEXT_LINE);
         try
         {
             textArea = new JEditorPane();

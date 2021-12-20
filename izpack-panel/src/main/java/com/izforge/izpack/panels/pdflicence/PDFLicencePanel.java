@@ -77,7 +77,7 @@ public class PDFLicencePanel extends AbstractLicencePanel implements ActionListe
 		super(panel, parent, installData, new IzPanelLayout(log), resources);
 
 		// We put our components
-		add(LabelFactory.create(getString("LicencePanel.info"), parent.getIcons().get("history"), LEADING), NEXT_LINE);
+		add(LabelFactory.create(getString(titleMessageKey), parent.getIcons().get("history"), LEADING), NEXT_LINE);
 
 		final SwingController controller = new SwingController();
 		final SwingViewBuilder builder = new SwingViewBuilder(controller, createProperties());

@@ -19,9 +19,11 @@
 
 package com.izforge.izpack.installer.util;
 
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.core.data.DefaultVariables;
@@ -35,6 +37,8 @@ import org.mockito.Mockito;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -50,12 +54,19 @@ public class PanelHelperTest
 {
     private Resources resources;
     private Panel panel;
+    private InstallData installData;
+    private Map<String, String> map;
 
     @Before
     public void setUp() throws Exception
     {
         resources = Mockito.mock(Resources.class);
         panel = Mockito.mock(Panel.class);
+        installData = Mockito.mock(InstallData.class);
+        Messages messages = Mockito.mock(Messages.class);
+        map = Mockito.mock(Map.class);
+        when(installData.getMessages()).thenReturn(messages);
+        when(messages.getMessages()).thenReturn(map);
     }
 
     @Test
@@ -126,6 +137,78 @@ public class PanelHelperTest
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
 
         String result = PanelHelper.getPanelResourceName(panel, "info", resources);
+
+        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+    }
+
+    @Test
+    public void titleMessageKeyShouldBeWithDefaultSuffix()
+    {
+        when(map.containsKey("HTMLInfoPanel.somePanelId")).thenReturn(false);
+        when(panel.getPanelId()).thenReturn("somePanelId");
+        when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel");
+
+        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+
+        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+    }
+
+    @Test
+    public void titleMessageKeyShouldBeWithDefaultSuffixForNullPanelId()
+    {
+        when(map.containsKey("HTMLInfoPanel.somePanelId")).thenReturn(false);
+        when(panel.getPanelId()).thenReturn(null);
+        when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel");
+
+        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+
+        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+    }
+
+    @Test
+    public void titleMessageKeyShouldBeWithDefaultSuffixForConsolePanel()
+    {
+        when(map.containsKey("HTMLInfoPanel.somePanelId")).thenReturn(false);
+        when(panel.getPanelId()).thenReturn("somePanelId");
+        when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
+
+        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+
+        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+    }
+
+    @Test
+    public void titleMessageKeyShouldBeWithDefaultSuffixForConsolePanelForNullPanelId()
+    {
+        when(map.containsKey("HTMLInfoPanel.somePanelId")).thenReturn(false);
+        when(panel.getPanelId()).thenReturn(null);
+        when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
+
+        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+
+        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+    }
+
+    @Test
+    public void titleMessageKeyShouldBeWithPanelIdSuffix()
+    {
+        when(map.containsKey("HTMLInfoPanel.somePanelId")).thenReturn(true);
+        when(panel.getPanelId()).thenReturn("somePanelId");
+        when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel");
+
+        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+
+        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+    }
+
+    @Test
+    public void titleMessageKeyShouldBeWithPanelIdSuffixForConsolePanel()
+    {
+        when(map.containsKey("HTMLInfoPanel.somePanelId")).thenReturn(true);
+        when(panel.getPanelId()).thenReturn("somePanelId");
+        when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
+
+        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
 
         Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
     }
