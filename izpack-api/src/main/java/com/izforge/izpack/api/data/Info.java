@@ -117,6 +117,11 @@ public class Info implements Serializable
     private String uninstallerCondition = null;
 
     /**
+     * condition for writing the uninstaller
+     */
+    private boolean hideForceOption = false;
+
+    /**
      * The path of the summary log file
      */
     private String summaryLogFilePath = "$INSTALL_PATH/Uninstaller/InstallSummary.htm";
@@ -635,6 +640,15 @@ public class Info implements Serializable
 
     }
 
+    public boolean getHideForceOption()
+    {
+        return hideForceOption;
+    }
+
+    public void setHideForceOption(boolean hideForceOption)
+    {
+        this.hideForceOption = hideForceOption;
+    }
 
     public String getUninstallerCondition()
     {
@@ -645,7 +659,6 @@ public class Info implements Serializable
     {
         this.uninstallerCondition = uninstallerCondition;
     }
-
 
     public void addTempDir(TempDir tempDir)
     {

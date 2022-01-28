@@ -2753,6 +2753,10 @@ public class CompilerConfig extends Thread
                 {
                     info.setUninstallerPath(uninstallerPath);
                 }
+
+                boolean hideForceOption = Boolean.parseBoolean(uninstallInfo.getAttribute("hide-force-option"));
+                info.setHideForceOption(hideForceOption);
+
                 String conditionId = parseConditionAttribute(uninstallInfo);
                 if (conditionId != null)
                 {

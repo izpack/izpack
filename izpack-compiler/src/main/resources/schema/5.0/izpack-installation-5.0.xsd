@@ -137,6 +137,7 @@
         <xs:attribute type="types:yesNoTrueFalseType" name="write" use="optional" default="true"/>
         <xs:attribute type="xs:string" name="path" use="optional" default="$INSTALL_PATH/Uninstaller"/>
         <xs:attribute type="xs:string" name="name" use="optional" default="uninstaller.jar"/>
+        <xs:attribute type="types:yesNoTrueFalseType" name="hide-force-option" use="optional" default="false"/>
         <xs:attribute type="xs:string" name="condition" use="optional"/>
     </xs:complexType>
 

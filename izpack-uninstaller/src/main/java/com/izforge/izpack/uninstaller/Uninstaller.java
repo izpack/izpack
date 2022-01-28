@@ -151,7 +151,7 @@ public class Uninstaller
                 UninstallerContainer container = new GUIUninstallerContainer();
                 try
                 {
-                    boolean displayForceOption = true;
+                    boolean displayForceOption =  this.getClass().getResource("/hide-force-option") == null;
                     boolean forceOptionState = false;
 
                     for (String arg : args)

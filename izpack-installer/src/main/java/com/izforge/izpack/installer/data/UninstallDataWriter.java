@@ -129,6 +129,7 @@ public class UninstallDataWriter
             writeNativeLibraries();
             writeAdditionalUninstallData();
             writeScriptFiles();
+            writeHideForceOption();
 
             jar.close();
             result = true;
@@ -426,6 +427,22 @@ public class UninstallDataWriter
             rootStream.flush();
             jar.closeEntry();
             idx++;
+        }
+    }
+
+    /**
+     * Writes hide-force-option entry if specified.
+     *
+     * @throws IOException for any I/O error
+     */
+    private void writeHideForceOption() throws IOException
+    {
+        if (installData.getInfo().getHideForceOption())
+        {
+            // we add this entry only if user wants hide force option
+            // just entry is enough for us to check whether the user has specified
+            jar.putNextEntry(new JarEntry("hide-force-option"));
+            jar.closeEntry();
         }
     }
 
