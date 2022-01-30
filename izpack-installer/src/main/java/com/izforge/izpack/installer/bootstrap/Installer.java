@@ -224,7 +224,10 @@ public class Installer
 
             initializeLogging(logFileName);
 
-            logger.info("Command line arguments: " + StringTool.stringArrayToSpaceSeparatedString(args));
+            if (args.length != 0)
+            {
+                logger.info("Command line arguments: " + StringTool.stringArrayToSpaceSeparatedString(args));
+            }
 
             Overrides defaults = getDefaults(defaultsFile);
             launchInstall(type, consoleAction, path, langcode, media, defaults, args);
