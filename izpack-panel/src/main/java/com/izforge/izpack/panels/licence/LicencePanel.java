@@ -64,7 +64,7 @@ public class LicencePanel extends AbstractLicencePanel implements ActionListener
         super(panel, parent, installData, new IzPanelLayout(log), resources);
 
         // We put our components
-        add(LabelFactory.create(getString("LicencePanel.info"),
+        add(LabelFactory.create(getString(titleMessageKey),
                                 parent.getIcons().get("history"), LEADING), NEXT_LINE);
 
         JTextArea textArea = new JTextArea(loadLicenceAsString());

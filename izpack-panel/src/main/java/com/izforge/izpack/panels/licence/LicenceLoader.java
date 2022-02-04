@@ -44,25 +44,24 @@ import java.net.URL;
  * @author Michael Aichler
  */
 class LicenceLoader {
-
-    private final static String DEFAULT_SUFFIX = ".licence";
-
     private final Panel panel;
-    private final Class<?> panelClass;
     private final Resources resources;
+
+    /**
+     * Resource name for panel content.
+     */
+    private final String panelResourceName;
 
     /**
      * Creates a new licence loader.
      *
-     * @param panelClass The class of the concrete licence panel implementation.
      * @param panel The panel metadata (needed for the panel identifier).
      * @param resources The resource locator.
      */
-    LicenceLoader(Class<?> panelClass, Panel panel, Resources resources) {
-
+    LicenceLoader(Panel panel, Resources resources) {
         this.panel = panel;
-        this.panelClass = panelClass;
         this.resources = resources;
+        panelResourceName = PanelHelper.getPanelResourceName(panel, "licence", resources);
     }
 
     /**
@@ -74,158 +73,28 @@ class LicenceLoader {
      */
     URL asURL() throws ResourceException
     {
-        Class<?> targetClass = findTargetClass(panelClass);
-
-        String resourceNamePrefix = targetClass.getSimpleName();
-        String defaultResourceName = resourceNamePrefix + DEFAULT_SUFFIX;
-        String specificResourceName = buildSpecificResourceName(resourceNamePrefix, panel);
-
         try
         {
-            if (null != specificResourceName)
-            {
-                return resources.getURL(specificResourceName);
-            }
+            return resources.getURL(panelResourceName);
         }
         catch (ResourceNotFoundException ignored)
         {
+            String panelClassName = panel.getClassName();
+            String panelName = panelClassName.substring(panelClassName.lastIndexOf('.') + 1);
+            String message = "Could not open license document for the resource id " + panelResourceName +
+                    " of the panel " + panelName;
+            throw new ResourceNotFoundException(message);
         }
-
-        try
-        {
-            return resources.getURL(defaultResourceName);
-        }
-        catch (ResourceNotFoundException ignored)
-        {
-        }
-
-        String message = buildFinalErrorMessage(resourceNamePrefix, defaultResourceName,
-                specificResourceName);
-
-        throw new ResourceNotFoundException(message);
     }
 
     /**
      * Loads the licence into a string using UTF-8 as encoding.
      *
      * @return A string representation of the licence.
-     * @throws ResourceException If the licence could not be found or if file
-     *      content could not be converted to UTF-8.
      */
-    String asString() throws ResourceException
+    String asString()
     {
-        return asString("UTF-8");
-    }
-
-    /**
-     * Loads the licence into a string with the specified {@code encoding}.
-     *
-     * @param encoding The target character encoding.
-     * @return A string representation of the licence in the specified encoding.
-     * @throws ResourceException If the licence could not be found or if file
-     *      content could not be converted to the specified {@code encoding}.
-     */
-    String asString(final String encoding) throws ResourceException
-    {
-        URL url = asURL();
-        InputStream in = null;
-
-        try
-        {
-            in = url.openStream();
-            return IOUtils.toString(in, Charsets.toCharset(encoding));
-        }
-        catch (IOException e)
-        {
-            throw new ResourceNotFoundException("Cannot convert license document from resource " +
-                    url.getFile() + " to text: " + e.getMessage());
-
-        }
-        finally
-        {
-            IOUtils.closeQuietly(in);
-        }
-    }
-
-    /**
-     * Finds the IzPanel target class for the given {@code panelClass}.
-     *
-     * @param panelClass The panel class.
-     * @return The related IzPanel class.
-     * @throws ResourceException If a related IzPanel class could not be found.
-     *
-     * @see PanelHelper#getIzPanel(String)
-     */
-    static Class<?> findTargetClass(Class<?> panelClass) throws ResourceException
-    {
-        Class<?> targetClass = PanelHelper.getIzPanel(panelClass.getName());
-
-        if (null == targetClass)
-        {
-            throw new ResourceNotFoundException("No IzPanel implementation found for " +
-                    panelClass.getSimpleName());
-        }
-
-        return targetClass;
-    }
-
-    /**
-     * Builds the resource name for a specific panel id.
-     *
-     * @param resourceNamePrefix The resource name prefix.
-     * @param panel The panel providing a specific id.
-     * @return The specific resource name or {@code null}, if the panel does not
-     *      have an identifier.
-     */
-    static String buildSpecificResourceName(String resourceNamePrefix, Panel panel)
-    {
-        if (null != panel)
-        {
-            if (panel.hasPanelId())
-            {
-                return resourceNamePrefix + '.' + panel.getPanelId();
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Builds an informative error message.
-     *
-     * @param panelType The panel type.
-     * @param resourceNames The list of evaluated resource names
-     * @return The built error message.
-     */
-    static String buildFinalErrorMessage(String panelType, String... resourceNames)
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Cannot open any of the possible license document resources (");
-
-        boolean isFirst = true;
-
-        for (String resourceName : resourceNames)
-        {
-            if (null != resourceName)
-            {
-                if (!isFirst)
-                {
-                    sb.append(", ");
-                }
-
-                sb.append(resourceName);
-
-                if (isFirst)
-                {
-                    isFirst = false;
-                }
-            }
-        }
-
-        sb.append(") for panel type '");
-        sb.append(panelType);
-        sb.append("'");
-
-        return sb.toString();
+        return resources.getString(panelResourceName,
+                "Could not open license document for the resource id " + panelResourceName);
     }
 }

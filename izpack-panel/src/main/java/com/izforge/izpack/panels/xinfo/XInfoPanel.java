@@ -37,6 +37,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.gui.LayoutHelper;
+import com.izforge.izpack.installer.util.PanelHelper;
 
 /**
  * The XInfo panel class - shows some adaptative text (ie by parsing for some variables.
@@ -45,11 +46,12 @@ import com.izforge.izpack.installer.gui.LayoutHelper;
  */
 public class XInfoPanel extends IzPanel
 {
+    private static final long serialVersionUID = 3257009856274970416L;
 
     /**
-     *
+     * Resource name for panel content.
      */
-    private static final long serialVersionUID = 3257009856274970416L;
+    private final String panelResourceName;
 
     /**
      * The text area.
@@ -72,6 +74,7 @@ public class XInfoPanel extends IzPanel
     public XInfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
     {
         super(panel, parent, installData, resources);
+        panelResourceName = PanelHelper.getPanelResourceName(panel, "info", resources);
 
         // We initialize our layout
         GridBagLayout layout = new GridBagLayout();
@@ -80,7 +83,7 @@ public class XInfoPanel extends IzPanel
 
         // We add the components
 
-        JLabel infoLabel = LabelFactory.create(getString("InfoPanel.info"),
+        JLabel infoLabel = LabelFactory.create(getString(panelResourceName),
                                                parent.getIcons().get("edit"), JLabel.TRAILING);
         LayoutHelper.buildConstraints(gbConstraints, 0, 0, 1, 1, 1.0, 0.0);
         gbConstraints.insets = new Insets(5, 5, 5, 5);
@@ -111,7 +114,7 @@ public class XInfoPanel extends IzPanel
      */
     private void loadInfo()
     {
-        info = getResources().getString("XInfoPanel.info", null, "Error : could not load the info text !");
+        info = getResources().getString(panelResourceName, null, "Error : could not load the info text !");
     }
 
     /**

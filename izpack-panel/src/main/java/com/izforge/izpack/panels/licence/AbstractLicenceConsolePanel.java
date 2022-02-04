@@ -65,7 +65,7 @@ public abstract class AbstractLicenceConsolePanel extends AbstractTextConsolePan
     {
         super(panel);
         this.resources = resources;
-        this.licenceLoader = new LicenceLoader(getClass(), getPanel(), resources);
+        this.licenceLoader = new LicenceLoader(getPanel(), resources);
     }
 
     /**
@@ -88,20 +88,7 @@ public abstract class AbstractLicenceConsolePanel extends AbstractTextConsolePan
 
     protected String loadLicenceAsString()
     {
-        return loadLicenceAsString("UTF-8");
-    }
-
-    protected String loadLicenceAsString(final String encoding)
-    {
-        try
-        {
-            return licenceLoader.asString(encoding);
-        }
-        catch (ResourceException e)
-        {
-            logger.warning(e.getMessage());
-            return null;
-        }
+        return licenceLoader.asString();
     }
 
     /**

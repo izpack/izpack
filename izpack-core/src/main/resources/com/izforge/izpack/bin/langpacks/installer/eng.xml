@@ -105,19 +105,31 @@
     <str id="HelloPanel.authors" txt="This software is developed by: "/>
     <str id="HelloPanel.url" txt="The homepage is at: "/>
 
-    <!-- LicensePanel strings -->
+    <!-- LicencePanel strings -->
     <str id="LicencePanel.info" txt="Please read the following license agreement carefully:"/>
     <str id="LicencePanel.agree" txt="I accept the terms of this license agreement."/>
     <str id="LicencePanel.notagree" txt="I do not accept the terms of this license agreement."/>
     <str id="LicencePanel.yes" txt="Yes"/>
     <str id="LicencePanel.no" txt="No"/>
 
+    <!-- HTMLLicencePanel strings -->
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+
+    <!-- PDFLicencePanel strings -->
+    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+
     <!-- PrinterSelect Panel -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Please read the following information: "/>
-	
+    <str id="InfoPanel.info" txt="Please read the following information:"/>
+
+    <!-- HTMLInfoPanel strings -->
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+
+    <!-- XInfoPanel strings -->
+    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
     <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>

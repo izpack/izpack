@@ -25,6 +25,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.installer.util.PanelHelper;
 
 import java.awt.LayoutManager2;
 import java.net.URL;
@@ -44,13 +45,15 @@ public abstract class AbstractLicencePanel extends IzPanel
      */
     private final transient LicenceLoader licenceLoader;
 
+    protected final String titleMessageKey;
 
     public AbstractLicencePanel(Panel panel, InstallerFrame parent,
                                 GUIInstallData installData, LayoutManager2 layoutManager,
                                 Resources resources)
     {
         super(panel, parent, installData, layoutManager, resources);
-        licenceLoader = new LicenceLoader(getClass(), getMetadata(), resources);
+        licenceLoader = new LicenceLoader(panel, resources);
+        titleMessageKey = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
     }
 
     /**
@@ -73,19 +76,6 @@ public abstract class AbstractLicencePanel extends IzPanel
 
     protected String loadLicenceAsString()
     {
-        return loadLicenceAsString("UTF-8");
-    }
-
-    protected String loadLicenceAsString(final String encoding)
-    {
-        try
-        {
-            return licenceLoader.asString(encoding);
-        }
-        catch (ResourceException e)
-        {
-            logger.warning(e.getMessage());
-            return null;
-        }
+        return licenceLoader.asString();
     }
 }

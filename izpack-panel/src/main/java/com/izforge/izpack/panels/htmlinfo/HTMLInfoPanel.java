@@ -38,6 +38,7 @@ import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.util.HyperlinkHandler;
 
 /**
@@ -47,18 +48,12 @@ import com.izforge.izpack.util.HyperlinkHandler;
  */
 public class HTMLInfoPanel extends IzPanel
 {
-
     private static final long serialVersionUID = 3257008769514025270L;
-
-    /**
-     * Resource prefix for panel.
-     */
-    protected String panelResourcePrefixStr;
 
     /**
      * Resource name for panel content.
      */
-    protected String panelResourceNameStr;
+    private final String panelResourceName;
 
     /**
      * The text area.
@@ -76,7 +71,7 @@ public class HTMLInfoPanel extends IzPanel
      */
     public HTMLInfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
-        this(panel, parent, installData, "HTMLInfoPanel", true, resources, log);
+        this(panel, parent, installData, true, resources, log);
     }
 
     /**
@@ -85,24 +80,20 @@ public class HTMLInfoPanel extends IzPanel
      * @param panel             the panel  meta-data
      * @param parent            the parent window
      * @param installData       the installation data
-     * @param resPrefixStr      prefix string for content resource name.
      * @param showInfoLabelFlag true to show "please read..." label above content
      * @param resources         the resources
      * @param log               the log
      */
     public HTMLInfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData,
-                         String resPrefixStr, boolean showInfoLabelFlag, Resources resources, Log log)
+                         boolean showInfoLabelFlag, Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
-        //setup given resource prefix and name:
-        panelResourcePrefixStr = resPrefixStr;
-        panelResourceNameStr = resPrefixStr + ".info";
+        panelResourceName = PanelHelper.getPanelResourceName(panel, "info", resources);
 
         // We add the components
-
         if (showInfoLabelFlag)
         {  //flag is set; add label above content
-            add(LabelFactory.create(getString("InfoPanel.info"), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
+            add(LabelFactory.create(getString(panelResourceName), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
         }
         try
         {
@@ -136,7 +127,6 @@ public class HTMLInfoPanel extends IzPanel
             textArea.setEditable(false);
             textArea.addHyperlinkListener(new HyperlinkHandler());
             JScrollPane scroller = new JScrollPane(textArea);
-            //textArea.setPage(loadHTMLInfoContent());
             //set caret so beginning of file is displayed:
             textArea.setCaretPosition(0);
             add(scroller, NEXT_LINE);
@@ -149,43 +139,23 @@ public class HTMLInfoPanel extends IzPanel
     }
 
     /*
-    * loads the content of the info resource as text so that it can be parsed afterwards
-    */
-
+     * loads the content of the info resource as text so that it can be parsed afterwards
+     */
     private URL loadHTMLInfoContent()
     {
-        Resources resources = getResources();
-        if (getMetadata() != null && getMetadata().getPanelId() != null)
-        {
-            try
-            {
-                String panelSpecificResName = panelResourcePrefixStr + '.' + this.getMetadata().getPanelId();
-                String panelspecificResContent = resources.getString(panelSpecificResName, null);
-                if (panelspecificResContent != null)
-                {
-                    panelResourceNameStr = panelSpecificResName;
-                }
-            }
-            catch (Exception e)
-            {
-                // Those ones can be skipped
-            }
-        }
-
         try
         {
-            return resources.getURL(panelResourceNameStr);
+            return getResources().getURL(panelResourceName);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            ex.printStackTrace();
+            e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     /**
-     * Indicates wether the panel has been validated or not.
+     * Indicates whether the panel has been validated or not.
      *
      * @return Always true.
      */

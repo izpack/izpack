@@ -20,10 +20,14 @@
  */
 package com.izforge.izpack.installer.util;
 
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.gui.IzPanel;
 
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 
@@ -207,5 +211,32 @@ public class PanelHelper
         return result;
     }
 
+    public static String getPanelTitleMessageKey(Panel panel, String defaultSuffix, InstallData installData)
+    {
+        return getPanelSpecificKey(panel, defaultSuffix,
+                key -> installData.getMessages().getMessages().containsKey(key));
+    }
 
+    public static String getPanelResourceName(Panel panel, String defaultSuffix, Resources resources)
+    {
+        return getPanelSpecificKey(panel, defaultSuffix,
+                key -> resources.getString(key, null) != null);
+    }
+
+    private static String getPanelSpecificKey(Panel panel, String defaultSuffix, Predicate<String> predicate)
+    {
+        String className = panel.getClassName();
+        String panelName = className.substring(className.lastIndexOf('.') + 1);
+        panelName = panelName.replaceAll("Console", "");
+        String panelId = panel.getPanelId();
+        if (panelId != null)
+        {
+            String key = panelName + "." + panelId;
+            if (predicate.test(key))
+            {
+                return key;
+            }
+        }
+        return panelName + "." + defaultSuffix;
+    }
 }
