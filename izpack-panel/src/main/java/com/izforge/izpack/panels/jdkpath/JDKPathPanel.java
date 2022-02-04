@@ -1,5 +1,4 @@
 /*
- * $Id$
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
@@ -75,12 +74,6 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     {
         super(panel, parent, installData, resources, log);
         this.handler = handler;
-
-        setMustExist(true);
-        if (!installData.getPlatform().isA(Platform.Name.MAC_OSX))
-        {
-            setExistFiles(JDKPathPanelHelper.testFiles);
-        }
 
         String msg = getString("JDKPathPanel.jdkDownload");
         if (msg != null && !msg.isEmpty())
@@ -161,6 +154,12 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     public void panelActivate()
     {
         super.panelActivate();
+        setMustExist(true);
+        if (!installData.getPlatform().isA(Platform.Name.MAC_OSX))
+        {
+            setExistFiles(JDKPathPanelHelper.testFiles);
+        }
+
         String defaultValue = JDKPathPanelHelper.getDefaultJavaPath(installData, handler);
         pathSelectionPanel.setPath(defaultValue);
 
@@ -188,27 +187,10 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     {
         this.installData.setVariable(JDKPathPanelHelper.JDK_PATH, pathSelectionPanel.getPath());
     }
-    
-    /**
-     * Determines if required files exist relative to the specified path
-     *
-     * @return {@code true} if no files are required, or they exist
-     */
-    protected boolean checkRequiredFilesExist(String path)
+
+    @Override
+    protected boolean checkInstallationInformation(File path)
     {
-        if (existFiles == null || path == null || path.isEmpty())
-        {
-            return true;
-        }
-        for (String existFile : existFiles)
-        {
-            File file = new File(path, existFile).getAbsoluteFile();
-            if (file.exists())
-            {
-                return true;
-            }
-        }
-        return false;
+        return true; // we don't need installation information in JDK path, assume to be true
     }
-    
 }
