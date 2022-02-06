@@ -86,46 +86,46 @@
     <str id="installer.quit.message" txt="Zamknięcie programu spowoduje przerwanie instalacji!"/>
     <str id="installer.quit.title" txt="Czy na pewno chcesz wyjść?"/>
     <str id="installer.step" txt="Krok"/>
-    <str id="installer.title" txt="IzPack - Instalacja programu"/>
+    <str id="installer.title" txt="IzPack - Instalacja programu "/>
     <str id="installer.warning" txt="Ostrzeżenie!"/>
     <str id="installer.yes" txt="Tak"/>
-    <str id="installer.errorMessage" txt="An error occured"/>
-    <str id="installer.close" txt="Close"/>
-    <str id="installer.showDetails" txt="Show Details"/>
-    <str id="installer.hideDetails" txt="Hide Details"/>
-    <str id="installer.copy" txt="Copy"/>
-    <str id="installer.sendReport" txt="Send Report"/>
-    <str id="installer.continueQuestion" txt="Continue anyway?"/>
-    <str id="installer.cancelled" txt="Installation cancelled"/>
-    <str id="installer.started" txt="Installation started"/>
-    <str id="installer.platform" txt="Platform: {0}"/>
+    <str id="installer.errorMessage" txt="Wystąpił błąd"/>
+    <str id="installer.close" txt="Zamknij"/>
+    <str id="installer.showDetails" txt="Pokaż szczegóły"/>
+    <str id="installer.hideDetails" txt="Ukryj szczegóły"/>
+    <str id="installer.copy" txt="Kopiuj"/>
+    <str id="installer.sendReport" txt="Wyślij raport"/>
+    <str id="installer.continueQuestion" txt="Kontynuować pomimo to?"/>
+    <str id="installer.cancelled" txt="Instalacja anulowana"/>
+    <str id="installer.started" txt="Instalacja wystartowała"/>
+    <str id="installer.platform" txt="Platforma: {0}"/>
     <str id="installer.version" txt="Framework: {0}"/>
-    <str id="installer.finished" txt="Installation finished"/>
+    <str id="installer.finished" txt="Instalacja zakończona"/>
 
     <!-- ConsolePrompt strings -->
-    <str id="ConsolePrompt.okCancel" txt="Enter O for OK, C to Cancel: "/>
-    <str id="ConsolePrompt.yesNo" txt="Enter Y for Yes, N for No: "/>
-    <str id="ConsolePrompt.yesNoCancel" txt="Enter Y for Yes, N for No, or C to Cancel: "/>
+    <str id="ConsolePrompt.okCancel" txt="Wciśnij O (OK) lub C (Anuluj): "/>
+    <str id="ConsolePrompt.yesNo" txt="Wciśnij Y (Tak) lub N (Nie): "/>
+    <str id="ConsolePrompt.yesNoCancel" txt="Wciśnij Y (Tak), N (Nie) lub C (Anuluj): "/>
     <str id="ConsolePrompt.ok" txt="O"/>
     <str id="ConsolePrompt.cancel" txt="C"/>
     <str id="ConsolePrompt.yes" txt="Y"/>
     <str id="ConsolePrompt.no" txt="N"/>
 
     <!-- ConsoleInstaller strings -->
-    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
-    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
-    <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
-    <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
-    <str id="ConsoleInstaller.pagingMore" txt="More"/>
-    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
-    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="License rejected"/>
-    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Quit pressed"/>
-    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="There are file operations pending after reboot"/>
-    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Rebooting now automatically"/>
-    <str id="ConsoleInstaller.shutdown.done" txt="Console installation done"/>
-    <str id="ConsoleInstaller.shutdown.aborted" txt="Console installation ABORTED by the user!"/>
-    <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
+    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Wciśnij 1 aby kontynuować, 2 aby wyjść, 3 aby wyświetlić ponownie"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Wciśnij 1 aby zaakceptować, 2 aby odrzucić, 3 aby wyświetlić ponownie"/>
+    <str id="ConsoleInstaller.redisplayQuit" txt="Wciśnij 1 aby wyświetlić ponownie, 2 aby wyjść"/>
+    <str id="ConsoleInstaller.permissionError" txt="Uprawnienia administracyjne wymagane. Proszę uruchom ponownie instalator z uprawnieniami administracyjnymi."/>
+    <str id="ConsoleInstaller.inputSelection" txt="Wybór pola: "/>
+    <str id="ConsoleInstaller.pagingMore" txt="Więcej"/>
+    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C wciśnięto"/>
+    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="Licencja odrzucona"/>
+    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Wyjście wciśnięto"/>
+    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="Oczekujące operacje na plikach po restarcie"/>
+    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Automatyczny restart"/>
+    <str id="ConsoleInstaller.shutdown.done" txt="Instalacja ukończona"/>
+    <str id="ConsoleInstaller.shutdown.aborted" txt="Instalacja przerwana przez użytkownika!"/>
+    <str id="ConsoleInstaller.shutdown.failed" txt="Instalacja ukończona niepowodzeniem!"/>
 
     <str id="InstallPanel.begin" txt=" "/>
     <str id="InstallPanel.finished" txt="[Zakończono]"/>
