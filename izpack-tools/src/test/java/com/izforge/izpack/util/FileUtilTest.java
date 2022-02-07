@@ -87,4 +87,11 @@ public class FileUtilTest extends AbstractPlatformTest
     URL windowsUrl = new URL("file:C:/somedirectory/somefile.txt");
     assertEquals("C:/somedirectory/somefile.txt", FileUtil.convertUrlToFilePath(windowsUrl));
   }
+
+  @Test
+  public void testSpecialCharacterInURL() throws MalformedURLException
+  {
+    URL windowsUrl = new URL("file:C:/some directory/some file.txt"); // space is special character
+    assertEquals("C:/some directory/some file.txt", FileUtil.convertUrlToFilePath(windowsUrl));
+  }
 }

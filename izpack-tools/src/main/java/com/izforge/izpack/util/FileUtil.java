@@ -56,10 +56,19 @@ public class FileUtil
     {
         try
         {
-            URI uri = url.toURI();
-            if ("jar".equals(url.getProtocol()))
+            URI uri;
+            try
             {
-              uri = new URI(url.getPath());
+                uri = url.toURI();
+            }
+            catch (URISyntaxException e)
+            {
+                String escaped = new URI("ignore", url.toString(), null).getRawSchemeSpecificPart();
+                uri = new URI(escaped);
+            }
+            if ("jar".equals(uri.getScheme()))
+            {
+              uri = new URI(uri.getRawSchemeSpecificPart());
             }
             StringBuilder result = new StringBuilder();
             final String host = uri.getHost();
@@ -76,11 +85,7 @@ public class FileUtil
             }
             return result.toString();
         }
-        catch (final URISyntaxException e)
-        {
-            throw new RuntimeException(e);
-        }
-        catch (final UnsupportedEncodingException e)
+        catch (final URISyntaxException | UnsupportedEncodingException e)
         {
             throw new RuntimeException(e);
         }
