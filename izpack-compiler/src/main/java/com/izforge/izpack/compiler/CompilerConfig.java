@@ -1009,7 +1009,7 @@ public class CompilerConfig extends Thread
             }
             catch (Exception e)
             {
-                throw new CompilerException(e.getMessage());
+                throw new CompilerException(getMessage(e) + " while processing refpackset " + refPackSet.getName());
             }
         }
 
@@ -1249,7 +1249,7 @@ public class CompilerConfig extends Thread
             }
             catch (Exception e)
             {
-                throw new CompilerException(e.getMessage(), e);
+                throw new CompilerException(getMessage(e) + " while processing " + src, e);
             }
         }
     }
@@ -3745,7 +3745,7 @@ public class CompilerConfig extends Thread
             }
             catch (Exception e)
             {
-                throw new CompilerException(e.getMessage());
+                throw new CompilerException(getMessage(e) + " while processing fileset " + fileSetNode.getName());
             }
         }
         return fslist;
@@ -3803,7 +3803,7 @@ public class CompilerConfig extends Thread
         }
         catch (Exception e)
         {
-            throw new CompilerException(e.getMessage());
+            throw new CompilerException(getMessage(e) + " while processing fileset " + fileSetNode.getName());
         }
 
         String attr = fileSetNode.getAttribute("includes");
@@ -3842,6 +3842,15 @@ public class CompilerConfig extends Thread
         readAndAddExcludes(fileSetNode, fs);
 
         return fs;
+    }
+
+    private String getMessage(Exception e)
+    {
+        String message = e.getMessage();
+        if (message == null) {
+            message = e.getClass().getName();
+        }
+        return message;
     }
 
     private void readAndAddIncludes(IXMLElement parent, TargetFileSet fileset)
