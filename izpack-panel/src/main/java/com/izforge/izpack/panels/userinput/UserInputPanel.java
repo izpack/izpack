@@ -245,6 +245,10 @@ public class UserInputPanel extends IzPanel
             setInitialFocus(firstFocusedComponent);
             firstFocusedComponent.requestFocusInWindow();
         }
+        else
+        {
+            parent.unlockNextButton();
+        }
     }
 
     /**
@@ -323,7 +327,11 @@ public class UserInputPanel extends IzPanel
 
                 if (firstFocusedComponent == null)
                 {
-                    firstFocusedComponent = view.getFirstFocusableComponent();
+                    JComponent component = view.getFirstFocusableComponent();
+                    if (component != null && component.isEnabled())
+                    {
+                        firstFocusedComponent = component;
+                    }
                 }
             }
             else
