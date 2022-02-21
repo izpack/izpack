@@ -22,6 +22,7 @@
 package com.izforge.izpack.installer.requirement;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +32,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.handler.Prompt.Option;
 import com.izforge.izpack.api.installer.RequirementChecker;
+import com.izforge.izpack.installer.bootstrap.Installer;
 import com.izforge.izpack.util.FileUtil;
 
 /**
@@ -123,10 +125,29 @@ public class LockFileChecker implements RequirementChecker
      */
     protected boolean handleLockFile(File file)
     {
-        boolean result = true;
-        logger.fine("Lock File Exists, asking user for permission to proceed.");
         StringBuilder msg = new StringBuilder();
         String appName = installData.getInfo().getAppName();
+        if (Installer.getInstallerMode() == Installer.INSTALLER_AUTO) {
+            logger.fine("Lock File Exists.");
+            msg.append("The " + appName + " installer you are attempting to run seems to have a copy already running.");
+            msg.append(" This could be from a previous failed installation attempt or you may have accidentally");
+            msg.append(" launched the installer twice. The recommended action is to wait for the other copy of the");
+            msg.append(" installer to start. If you are sure there is no other copy of the installer running, you can");
+            msg.append(" delete the lock file \"");
+            try
+            {
+                 msg.append(file.getCanonicalPath());
+            }
+            catch (IOException ignored)
+            {
+            }
+            msg.append("\" and restart the installer.");
+            System.out.println(msg);
+            // Leave the file as it is.
+            logger.fine("Leaving temp file alone and exiting");
+            return false;
+        }
+        logger.fine("Lock File Exists, asking user for permission to proceed.");
         msg.append("The " + appName + " installer you are attempting to run seems to have a copy already running.\n\n");
         msg.append("This could be from a previous failed installation attempt or you may have accidentally launched\n");
         msg.append("the installer twice. The recommended action is to select 'No' and wait for the other copy of\n");
@@ -141,13 +162,10 @@ public class LockFileChecker implements RequirementChecker
             // FIXME Avoid deleting lock for other running instances by using some pool of locks
             // (this is just a workaround to clean up)
             file.deleteOnExit();
+            return true;
         }
-        else
-        {
-            // Leave the file as it is.
-            logger.fine("Leaving temp file alone and exiting");
-            result = false;
-        }
-        return result;
+        // Leave the file as it is.
+        logger.fine("Leaving temp file alone and exiting");
+        return false;
     }
 }
