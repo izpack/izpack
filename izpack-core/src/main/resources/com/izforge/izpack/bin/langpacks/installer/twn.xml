@@ -187,6 +187,10 @@
     <str id="LicencePanel.notagree" txt="我不接受，該許可授權的條款."/>
     <str id="LicencePanel.yes" txt="是"/>
 
+    <!-- Lock File strings -->
+    <str id="LockFile.exists.message" txt="The &quot;$APP_NAME&quot; installer you are attempting to run seems to have a copy already running. This could be from a previous failed installation attempt or you may have accidentally launched the installer twice. The recommended action is to wait for the other copy of the installer to start. If you are sure there is no other copy of the installer running, you can delete the lock file &quot;$LOCK_FILE&quot; and restart the installer."/>
+    <str id="LockFile.exists.prompt" txt="The &quot;$APP_NAME&quot; installer you are attempting to run seems to have a copy already running.&#10;&#10;This could be from a previous failed installation attempt or you may have accidentally launched&#10;the installer twice. The recommended action is to select 'No' and wait for the other copy of&#10;the installer to start. If you are sure there is no other copy of the installer running, click&#10;the 'Yes' button to allow this installer to run.&#10;&#10;Are you sure you want to continue with this installation?"/>
+
     <!-- Next Media strings -->
     <str id="nextmedia.browsebtn" txt="Browse"/>
     <str id="nextmedia.cancelbtn" txt="Cancel"/>

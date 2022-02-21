@@ -22,6 +22,7 @@
 package com.izforge.izpack.installer.requirement;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +32,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.handler.Prompt.Option;
 import com.izforge.izpack.api.installer.RequirementChecker;
+import com.izforge.izpack.installer.bootstrap.Installer;
 import com.izforge.izpack.util.FileUtil;
 
 /**
@@ -123,30 +125,41 @@ public class LockFileChecker implements RequirementChecker
      */
     protected boolean handleLockFile(File file)
     {
-        boolean result = true;
-        logger.fine("Lock File Exists, asking user for permission to proceed.");
-        StringBuilder msg = new StringBuilder();
-        String appName = installData.getInfo().getAppName();
-        msg.append("The " + appName + " installer you are attempting to run seems to have a copy already running.\n\n");
-        msg.append("This could be from a previous failed installation attempt or you may have accidentally launched\n");
-        msg.append("the installer twice. The recommended action is to select 'No' and wait for the other copy of\n");
-        msg.append("the installer to start. If you are sure there is no other copy of the installer running, click\n");
-        msg.append("the 'Yes' button to allow this installer to run.\n\n");
-        msg.append("Are you sure you want to continue with this installation?");
-        Option selected = prompt.confirm(Prompt.Type.WARNING, msg.toString(), Prompt.Options.YES_NO);
-        if (selected == Option.YES)
+        boolean result = false;
+        if (Installer.getInstallerMode() == Installer.INSTALLER_AUTO)
         {
-            // Take control of the file so it gets deleted after this installer instance exits.
-            logger.fine("Setting temp file to delete on continue");
-            // FIXME Avoid deleting lock for other running instances by using some pool of locks
-            // (this is just a workaround to clean up)
-            file.deleteOnExit();
+            logger.fine("Lock file exists.");
+            try
+            {
+                installData.setVariable("LOCK_FILE", file.getCanonicalPath());
+            }
+            catch (IOException ignored)
+            {
+            }
+            String msg = installData.getMessages().get("LockFile.exists.message", "Lock file exist.");
+            System.out.println(installData.getVariables().replace(msg));
+            // Leave the file as it is.
+            logger.fine("Leaving temp file alone and exiting");
         }
         else
         {
-            // Leave the file as it is.
-            logger.fine("Leaving temp file alone and exiting");
-            result = false;
+            logger.fine("Lock file exists, asking user for permission to proceed.");
+            String msg = installData.getMessages().get("LockFile.exists.prompt", "Lock file exist.");
+            Option selected = prompt.confirm(Prompt.Type.WARNING, installData.getVariables().replace(msg), Prompt.Options.YES_NO);
+            if (selected == Option.YES)
+            {
+                // Take control of the file so it gets deleted after this installer instance exits.
+                logger.fine("Setting temp file to delete on continue");
+                // FIXME Avoid deleting lock for other running instances by using some pool of locks
+                // (this is just a workaround to clean up)
+                file.deleteOnExit();
+                result = true;
+            }
+            else
+            {
+                // Leave the file as it is.
+                logger.fine("Leaving temp file alone and exiting");
+            }
         }
         return result;
     }
