@@ -358,6 +358,7 @@ public class CompilerConfig extends Thread
         addPanels(data);
         addListeners(data);
         addPacks(data);
+        resolveConditions(); // this should happen after add packs as it adds "izpack.selected.<pack name>" conditions
         addInstallerRequirement(data);
         checkReferencedConditions();
         checkReferencedPacks();
@@ -3251,17 +3252,21 @@ public class CompilerConfig extends Thread
                                                         + e.getMessage(), e);
                 }
             }
-            try
-            {
-                rules.resolveConditions();
-            }
-            catch (Exception e)
-            {
-                throw new CompilerException("Conditions check failed: "
-                                                    + e.getMessage(), e);
-            }
         }
         notifyCompilerListener("addConditions", CompilerListener.END, data);
+    }
+
+    private void resolveConditions()
+    {
+        try
+        {
+            rules.resolveConditions();
+        }
+        catch (Exception e)
+        {
+            throw new CompilerException("Conditions check failed: "
+                    + e.getMessage(), e);
+        }
     }
 
     /**

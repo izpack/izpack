@@ -81,6 +81,9 @@ public class RefCondition extends ConditionReference
         {
             return false;
         }
+        if (condition.getInstallData() == null) {
+            condition.setInstallData(this.getInstallData());
+        }
         return condition.isTrue();
     }
 
