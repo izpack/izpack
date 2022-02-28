@@ -1,11 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
-
-<!-- The Indonesian langpack -->
-<!-- translation provided by Thomas Edwin Santosa - thomas (at) katalisindonesia dot com-->
-
-<izpack:langpack version="5.0"
-                 xmlns:izpack="http://izpack.org/schema/langpack"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<izpack:langpack xmlns:izpack="http://izpack.org/schema/langpack" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 version="5.0"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
     <!-- Heading messages START -->
@@ -46,7 +41,8 @@
     <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
     <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
     <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="ConsoleInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
     <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
     <str id="ConsoleInstaller.pagingMore" txt="More"/>
     <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
@@ -128,13 +124,10 @@
     <str id="TargetPanel.browse" txt="Jelajah..."/>
     <str id="TargetPanel.warn"
          txt="Direktori tersebut sudah ada! Apakah Anda yakin untuk melakukan pemasangan ke sana dan kemungkinan menimpa arsip-arsip yang telah ada?"/>
-    <str id="TargetPanel.empty_target"
-         txt="Anda belum menspesifikasi lokasi tujuan! Apakah betul?"/>
+    <str id="TargetPanel.empty_target" txt="Anda belum menspesifikasi lokasi tujuan! Apakah betul?"/>
     <str id="TargetPanel.createdir" txt="Direktori tujuan akan dibuat: "/>
-    <str id="TargetPanel.nodir"
-         txt="Arsip ini bukan direktori! Silakan pilih sebuah direktori!"/>
-    <str id="TargetPanel.notwritable"
-         txt="Direktori ini tidak dapat ditulisi! Silakan pilih direktori lain!"/>
+    <str id="TargetPanel.nodir" txt="Arsip ini bukan direktori! Silakan pilih sebuah direktori!"/>
+    <str id="TargetPanel.notwritable" txt="Direktori ini tidak dapat ditulisi! Silakan pilih direktori lain!"/>
 
     <str id="JDKPathPanel.extendedIntro"
          txt="Aplikasi yang telah dipasang membutuhkan sebuah JDK dengan versi antara ${JDKPathPanel.minVersion} dan ${JDKPathPanel.maxVersion}. Sebuah Java Runtime Environment (JRE) tidak cukup."/>
@@ -152,8 +145,7 @@
     <str id="PacksPanel.space" txt="Jumlah ruang yang dibutuhkan: "/>
     <str id="PacksPanel.freespace" txt="Ruang yang ada: "/>
     <str id="PacksPanel.description" txt="Deskripsi"/>
-    <str id="PacksPanel.dependencyList"
-         txt="Paket yang terpilih membutuhkan paket-paket berikut dipasang "/>
+    <str id="PacksPanel.dependencyList" txt="Paket yang terpilih membutuhkan paket-paket berikut dipasang "/>
     <str id="PacksPanel.dependencies" txt="Ketergantungan: "/>
     <str id="PacksPanel.excludes" txt="Pengecualian: "/>
     <str id="ImgPacksPanel.dependencyList" txt="Ketergantungan"/>
@@ -175,15 +167,13 @@
     <str id="FinishPanel.fail" txt="Pemasangan gagal!"/>
     <str id="FinishPanel.uninst.info" txt="Program penghapusan sudah dibuat di: "/>
     <str id="FinishPanel.auto" txt="Buat naskah pemasangan otomatis"/>
-    <str id="FinishPanel.auto.tip"
-         txt="Gunakan naskah ini untuk mengulangi pemasangan ini ke komputer lain."/>
+    <str id="FinishPanel.auto.tip" txt="Gunakan naskah ini untuk mengulangi pemasangan ini ke komputer lain."/>
     <str id="FinishPanel.auto.dialog.filterdesc" txt="Arsip-arsip XML"/>
 
     <str id="ImgPacksPanel.packs" txt="Paket-paket berikut tersedia:"/>
     <str id="ImgPacksPanel.snap" txt="Gambaran paket:"/>
     <str id="ImgPacksPanel.checkbox" txt=" Pasang paket berikut"/>
 
-    <str id="ShortcutPanel.headline" txt="Pemasangan Jalan Pintas"/>
     <str id="ShortcutPanel.regular.list" txt="Pilih Kelompok Program untuk Jalan Pintas:"/>
     <str id="ShortcutPanel.regular.default" txt="Nilai awal"/>
     <str id="ShortcutPanel.regular.desktop" txt="Buat jalan pintas di atas meja (desktop)"/>
@@ -321,7 +311,7 @@
     <str id="log.messageHeading" txt="                         --- Pesan-Pesan Pemasangan ---"/>
     <str id="log.warningHeading" txt="                         --- Peringatan-Peringatan ---"/>
     <str id="log.errorHeading" txt="                           --- Kesalahan-Kesalahan---"/>
-    <str id="log.exceptionPrefix" txt="                  >> Eksepsi: {0}"/>
+    <str id="log.exceptionPrefix" txt="                  &gt;&gt; Eksepsi: {0}"/>
     <str id="log.messagePrefix" txt="Pesan  [{0}] - "/>
     <str id="log.warningPrefix" txt="Warning [{0}] - "/>
     <str id="log.errorPrefix" txt="Kesalahan [{0}] - "/>
@@ -348,5 +338,48 @@
     <str id="InstallationGroupPanel.colNameSize" txt="Ukuran"/>
 
     <str id="debug.changevariable" txt="ubah nilai"/>
+    <str id="AutomatedInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
+    <str id="installer.reboot.ask.title" txt="Reboot required"/>
+    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
+    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
+    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
+    <str id="JDKPathPanel.jdkDownload"
+         txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="PathInputPanel.isfile"
+         txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
+    <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
+    <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
+    <str id="TargetPanel.incompatibleInstallation"
+         txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.syntax.error"
+         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TreePacksPanel.children" txt="Children"/>
+    <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
+    <str id="TreePacksPanel.dependent" txt="Dependencies"/>
+    <str id="TreePacksPanel.done" txt="Done!"/>
+    <str id="TreePacksPanel.invalid" txt="Invalid pack selected"/>
+    <str id="TreePacksPanel.no.number" txt="Please enter a number from the selection above."/>
+    <str id="TreePacksPanel.no.packs" txt="You have not selected any packs!\nAre you sure you want to continue?"/>
+    <str id="TreePacksPanel.prompt" txt="Please select which packs you want to install."/>
+    <str id="TreePacksPanel.required" txt="Required"/>
+    <str id="TreePacksPanel.space.required" txt="Total space required:"/>
+    <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
+    <str id="UserInputPanel.search.delete" txt="Delete..."/>
+    <str id="data.validation.error.title" txt="Validation failed"/>
+    <str id="data.validation.warning.title" txt="Attention needed"/>
 </izpack:langpack>
-

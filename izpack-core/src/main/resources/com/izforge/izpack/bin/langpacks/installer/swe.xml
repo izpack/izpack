@@ -1,82 +1,67 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
-
-<!-- The Swedish langpack -->
-
-<izpack:langpack version="5.0"
-                 xmlns:izpack="http://izpack.org/schema/langpack"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<izpack:langpack xmlns:izpack="http://izpack.org/schema/langpack" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 version="5.0"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
 
     <!-- Heading messages START -->
-    <str id="CheckedHelloPanel.headline" txt="Välkommen"/>
-    <str id="CompilePanel.headline" txt="Komilera Java-källkod"/>
-    <str id="ConditionalUserInputPanel.headline" txt="Användardata"/>
-    <str id="FinishPanel.headline" txt="Installationen slutförd"/>
-    <str id="HelloPanel.headline" txt="Välkommen"/>
+    <str id="CheckedHelloPanel.headline" txt="VÃ¤lkommen"/>
+    <str id="CompilePanel.headline" txt="Komilera Java-kÃ¤llkod"/>
+    <str id="ConditionalUserInputPanel.headline" txt="AnvÃ¤ndardata"/>
+    <str id="FinishPanel.headline" txt="Installationen slutfÃ¶rd"/>
+    <str id="HelloPanel.headline" txt="VÃ¤lkommen"/>
     <str id="HTMLInfoPanel.headline" txt="Information"/>
     <str id="HTMLLicencePanel.headline" txt="Licensavtal"/>
     <str id="PDFLicencePanel.headline" txt="Licensavtal"/>
     <str id="ImgPacksPanel.headline" txt="Select Installationspaket"/>
     <str id="InfoPanel.headline" txt="Information"/>
     <str id="InstallPanel.headline" txt="Installation"/>
-    <str id="JDKPathPanel.headline" txt="JDK-sökväg"/>
+    <str id="JDKPathPanel.headline" txt="JDK-sÃ¶kvÃ¤g"/>
     <str id="LicencePanel.headline" txt="Licensavtal"/>
-    <str id="PacksPanel.headline" txt="Välj installationspaket"/>
-    <str id="ProcessPanel.headline" txt="Utför externt kommando"/>
-    <str id="ShortcutPanel.headline" txt="Konfigurera genvägar"/>
-    <str id="SimpleFinishPanel.headline" txt="Installationen slutförd"/>
-    <str id="SummaryPanel.headline" txt="Sammanställd konfigurationsinformation"/>
-    <str id="TargetPanel.headline" txt="Sökväg"/>
-    <str id="TreePacksPanel.headline" txt="Välj installationspaket"/>
-    <str id="UserInputPanel.headline" txt="Användardata"/>
-    <str id="UserPathPanel.headline" txt="Välj sökväg"/>
+    <str id="PacksPanel.headline" txt="VÃ¤lj installationspaket"/>
+    <str id="ProcessPanel.headline" txt="UtfÃ¶r externt kommando"/>
+    <str id="ShortcutPanel.headline" txt="Konfigurera genvÃ¤gar"/>
+    <str id="SimpleFinishPanel.headline" txt="Installationen slutfÃ¶rd"/>
+    <str id="SummaryPanel.headline" txt="SammanstÃ¤lld konfigurationsinformation"/>
+    <str id="TargetPanel.headline" txt="SÃ¶kvÃ¤g"/>
+    <str id="TreePacksPanel.headline" txt="VÃ¤lj installationspaket"/>
+    <str id="UserInputPanel.headline" txt="AnvÃ¤ndardata"/>
+    <str id="UserPathPanel.headline" txt="VÃ¤lj sÃ¶kvÃ¤g"/>
     <str id="InstallationTypePanel.headline" txt="Installationsmetod"/>
 
     <!-- TreePacksPanel Strings -->
-    <str id="TreePacksPanel.confirm"
-         txt="Tryck 0 för att bekräfta dina val."/>
-    <str id="TreePacksPanel.prompt"
-         txt="Vänligen välj vilka paket som du vill installera."/>
-    <str id="TreePacksPanel.no.packs"
-         txt="Du har inte valt några paket!\nÄr du säker på att du vill fortsätta?"/>
-    <str id="TreePacksPanel.space.required"
-         txt="Totalt utrymme som krävs:"/>
-    <str id="TreePacksPanel.invalid"
-         txt="Ogiltigt paket valt"/>
-    <str id="TreePacksPanel.dependent"
-         txt="Beroenden"/>
-    <str id="TreePacksPanel.children"
-         txt="Underpaket"/>
-    <str id="TreePacksPanel.no.number"
-         txt="Vänligen mata ett av numren från listan ovan."/>
-    <str id="TreePacksPanel.required"
-         txt="Obligatorisk"/>
-    <str id="TreePacksPanel.unselectable"
-         txt="Ej valbar"/>
-    <str id="TreePacksPanel.done"
-         txt="Klar!"/>
+    <str id="TreePacksPanel.confirm" txt="Tryck 0 fÃ¶r att bekrÃ¤fta dina val."/>
+    <str id="TreePacksPanel.prompt" txt="VÃ¤nligen vÃ¤lj vilka paket som du vill installera."/>
+    <str id="TreePacksPanel.no.packs" txt="Du har inte valt nÃ¥gra paket!\nÃ„r du sÃ¤ker pÃ¥ att du vill fortsÃ¤tta?"/>
+    <str id="TreePacksPanel.space.required" txt="Totalt utrymme som krÃ¤vs:"/>
+    <str id="TreePacksPanel.invalid" txt="Ogiltigt paket valt"/>
+    <str id="TreePacksPanel.dependent" txt="Beroenden"/>
+    <str id="TreePacksPanel.children" txt="Underpaket"/>
+    <str id="TreePacksPanel.no.number" txt="VÃ¤nligen mata ett av numren frÃ¥n listan ovan."/>
+    <str id="TreePacksPanel.required" txt="Obligatorisk"/>
+    <str id="TreePacksPanel.unselectable" txt="Ej valbar"/>
+    <str id="TreePacksPanel.done" txt="Klar!"/>
 
     <!-- General installer strings -->
     <str id="installer.title" txt="IzPack - Installation av"/>
-    <str id="installer.next" txt="Nästa"/>
-    <str id="installer.prev" txt="Föregående"/>
+    <str id="installer.next" txt="NÃ¤sta"/>
+    <str id="installer.prev" txt="FÃ¶regÃ¥ende"/>
     <str id="installer.quit" txt="Avsluta"/>
     <str id="installer.madewith" txt="(Skapad med IzPack - http://izpack.org/)"/>
-    <str id="installer.quit.title" txt="Är du säker att du vill avsluta?"/>
+    <str id="installer.quit.title" txt="Ã„r du sÃ¤ker att du vill avsluta?"/>
     <str id="installer.quit.message" txt="Detta kommer att avbryta installationen!"/>
     <str id="installer.warning" txt="Varning!"/>
     <str id="installer.yes" txt="Ja"/>
     <str id="installer.no" txt="Nej"/>
     <str id="installer.cancel" txt="Avbryt"/>
     <str id="installer.error" txt="Fel"/>
-    <str id="installer.errorMessage" txt="Ett fel har inträffat"/>
-    <str id="installer.close" txt="Stäng"/>
+    <str id="installer.errorMessage" txt="Ett fel har intrÃ¤ffat"/>
+    <str id="installer.close" txt="StÃ¤ng"/>
     <str id="installer.showDetails" txt="Visa detaljer"/>
-    <str id="installer.hideDetails" txt="Dölj detaljer"/>
+    <str id="installer.hideDetails" txt="DÃ¶lj detaljer"/>
     <str id="installer.copy" txt="Kopiera"/>
     <str id="installer.sendReport" txt="Skicka rapport"/>
-    <str id="installer.continueQuestion" txt="Fortsätt ändå?"/>
+    <str id="installer.continueQuestion" txt="FortsÃ¤tt Ã¤ndÃ¥?"/>
     <str id="installer.cancelled" txt="Installationen avbryten"/>
     <str id="installer.started" txt="Installation started"/>
     <str id="installer.platform" txt="Platform: {0}"/>
@@ -89,106 +74,100 @@
     <str id="uninstaller.uninstall" txt="Avinstallera"/>
 
     <!-- The strings for the 'official' IzPack plugins -->
-    <str id="HelloPanel.welcome1" txt="Välkommen till installationen av "/>
+    <str id="HelloPanel.welcome1" txt="VÃ¤lkommen till installationen av "/>
     <str id="HelloPanel.welcome2" txt="!"/>
-    <str id="HelloPanel.authors" txt="Det här programmet har utvecklats av: "/>
-    <str id="HelloPanel.url" txt="Programmets hemsida är: "/>
+    <str id="HelloPanel.authors" txt="Det hÃ¤r programmet har utvecklats av: "/>
+    <str id="HelloPanel.url" txt="Programmets hemsida Ã¤r: "/>
 
-    <str id="LicencePanel.info" txt="Vänligen läs följande licensavtal:"/>
+    <str id="LicencePanel.info" txt="VÃ¤nligen lÃ¤s fÃ¶ljande licensavtal:"/>
     <str id="LicencePanel.agree" txt="Jag accepterar villkoren i detta licensavtal"/>
     <str id="LicencePanel.notagree" txt="Jag accepterar inte villkoren i detta licensavtal."/>
     <str id="LicencePanel.yes" txt="Ja"/>
     <str id="LicencePanel.no" txt="Nej"/>
 
-    <str id="InfoPanel.info" txt="Vänligen läs följande information: "/>
+    <str id="InfoPanel.info" txt="VÃ¤nligen lÃ¤s fÃ¶ljande information: "/>
 
-    <str id="PathInputPanel.required" txt="Den valda mappen måste existera."/>
-    <str id="PathInputPanel.notValid" txt="Den valda mappen innehåller inte den eftersökta produkten."/>
+    <str id="PathInputPanel.required" txt="Den valda mappen mÃ¥ste existera."/>
+    <str id="PathInputPanel.notValid" txt="Den valda mappen innehÃ¥ller inte den eftersÃ¶kta produkten."/>
 
-    <str id="TargetPanel.info" txt="Välj installationssökväg: "/>
-    <str id="TargetPanel.browse" txt="Bläddra ..."/>
+    <str id="TargetPanel.info" txt="VÃ¤lj installationssÃ¶kvÃ¤g: "/>
+    <str id="TargetPanel.browse" txt="BlÃ¤ddra ..."/>
     <str id="TargetPanel.warn"
-         txt="Katalogen existerar! Är du säker att du vill installera här och möjligen skriva över existerande filer?"/>
-    <str id="TargetPanel.empty_target"
-         txt="Du har inte specificerat en målkatalog! Är det korrekt?"/>
-    <str id="TargetPanel.createdir" txt="Målkatalogen kommer att skapas:"/>
-    <str id="TargetPanel.nodir"
-         txt="Den valda sökvägen är inte en mapp! Vänligen välj en annan mapp!"/>
-    <str id="TargetPanel.notwritable"
-         txt="Den valda mappen kan inte skrivas! Vänligen välj en annan mapp!"/>
+         txt="Katalogen existerar! Ã„r du sÃ¤ker att du vill installera hÃ¤r och mÃ¶jligen skriva Ã¶ver existerande filer?"/>
+    <str id="TargetPanel.empty_target" txt="Du har inte specificerat en mÃ¥lkatalog! Ã„r det korrekt?"/>
+    <str id="TargetPanel.createdir" txt="MÃ¥lkatalogen kommer att skapas:"/>
+    <str id="TargetPanel.nodir" txt="Den valda sÃ¶kvÃ¤gen Ã¤r inte en mapp! VÃ¤nligen vÃ¤lj en annan mapp!"/>
+    <str id="TargetPanel.notwritable" txt="Den valda mappen kan inte skrivas! VÃ¤nligen vÃ¤lj en annan mapp!"/>
 
     <str id="JDKPathPanel.intro"
-         txt="Den installerade applikationen behöver en JDK. Java runtime environment (JRE) är inte tillräckligt."/>
-    <str id="JDKPathPanel.info" txt="Ange sökvägen till en JDK:"/>
-    <str id="JDKPathPanel.badVersion1" txt="Den valda JDK är fel version (tillgänglig: "/>
-    <str id="JDKPathPanel.badVersion2" txt=" behövd: "/>
-    <str id="JDKPathPanel.badVersion3" txt=") vill du använda denna JDK ändå?"/>
-    <str id="JDKPathPanel.badVersion4" txt="Fortsätt ändå? [y/n] [n]"/>
+         txt="Den installerade applikationen behÃ¶ver en JDK. Java runtime environment (JRE) Ã¤r inte tillrÃ¤ckligt."/>
+    <str id="JDKPathPanel.info" txt="Ange sÃ¶kvÃ¤gen till en JDK:"/>
+    <str id="JDKPathPanel.badVersion1" txt="Den valda JDK Ã¤r fel version (tillgÃ¤nglig: "/>
+    <str id="JDKPathPanel.badVersion2" txt=" behÃ¶vd: "/>
+    <str id="JDKPathPanel.badVersion3" txt=") vill du anvÃ¤nda denna JDK Ã¤ndÃ¥?"/>
+    <str id="JDKPathPanel.badVersion4" txt="FortsÃ¤tt Ã¤ndÃ¥? [y/n] [n]"/>
     <str id="JDKPathPanel.nonValidPathInReg"
-         txt="Registret i Windows innehåller en ogiltig sökväg för denna JDK. Skall denna JDK användas ändå?"/>
+         txt="Registret i Windows innehÃ¥ller en ogiltig sÃ¶kvÃ¤g fÃ¶r denna JDK. Skall denna JDK anvÃ¤ndas Ã¤ndÃ¥?"/>
     <str id="JDKPathPanel.jdkDownload"
-         txt="&lt;html&gt;&lt;p&gt;Den här programvaran kräver åtminstonde version ${JDKPathPanel.minVersion} av Java Development Kit (JDK).&lt;p/&gt;
-         Om den inte är installerad, vänligen gå till &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,
-         för att ladda ner den.&lt;/html&gt;"/>
-    
+         txt="&lt;html&gt;&lt;p&gt;Den hÃ¤r programvaran krÃ¤ver Ã¥tminstonde version ${JDKPathPanel.minVersion} av Java Development Kit (JDK).&lt;p/&gt;          Om den inte Ã¤r installerad, vÃ¤nligen gÃ¥ till &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,          fÃ¶r att ladda ner den.&lt;/html&gt;"/>
+
     <!-- PacksPanel strings -->
-    <str id="PacksPanel.info" txt="Välj de paket du vill installera:"/>
-    <str id="PacksPanel.tip" txt="Obs: gråade paket är obligatoriska."/>
-    <str id="PacksPanel.space" txt="Totalt utrymme som krävs: "/>
+    <str id="PacksPanel.info" txt="VÃ¤lj de paket du vill installera:"/>
+    <str id="PacksPanel.tip" txt="Obs: grÃ¥ade paket Ã¤r obligatoriska."/>
+    <str id="PacksPanel.space" txt="Totalt utrymme som krÃ¤vs: "/>
     <str id="PacksPanel.freespace" txt="Ledigt utrymme: "/>
     <str id="PacksPanel.description" txt="Beskrivning"/>
     <str id="PacksPanel.dependencyList"
-         txt="För att installera det valda paketet krävs att följande paket installeras"/>
+         txt="FÃ¶r att installera det valda paketet krÃ¤vs att fÃ¶ljande paket installeras"/>
     <str id="ImgPacksPanel.dependencyList" txt="Beroenden"/>
     <str id="PacksPanel.notEnoughSpace"
-         txt="Det finns inte tillräckligt med utrymme för att genomföra installationen."/>
-    <str id="PacksPanel.notAscertainable" txt="Inte tillgängligt"/>
+         txt="Det finns inte tillrÃ¤ckligt med utrymme fÃ¶r att genomfÃ¶ra installationen."/>
+    <str id="PacksPanel.notAscertainable" txt="Inte tillgÃ¤ngligt"/>
 
     <!-- InstallPanel strings -->
-    <str id="InstallPanel.info" txt="Klicka på 'Installera!' för att starta installationsprocessen"/>
+    <str id="InstallPanel.info" txt="Klicka pÃ¥ 'Installera!' fÃ¶r att starta installationsprocessen"/>
     <str id="InstallPanel.install" txt="Installera!"/>
-    <str id="InstallPanel.tip" txt="Installationsförlopp för paket:"/>
+    <str id="InstallPanel.tip" txt="InstallationsfÃ¶rlopp fÃ¶r paket:"/>
     <str id="InstallPanel.begin" txt="[Inget]"/>
-    <str id="InstallPanel.finished" txt="[Slutförd]"/>
-    <str id="InstallPanel.progress" txt="Installationsförlopp:"/>
+    <str id="InstallPanel.finished" txt="[SlutfÃ¶rd]"/>
+    <str id="InstallPanel.progress" txt="InstallationsfÃ¶rlopp:"/>
     <str id="InstallPanel.overwrite.title" txt="Filen existerar redan"/>
-    <str id="InstallPanel.overwrite.question" txt="Följande fil existerar redan. Ska den skrivas över?"/>
+    <str id="InstallPanel.overwrite.question" txt="FÃ¶ljande fil existerar redan. Ska den skrivas Ã¶ver?"/>
 
-    <str id="FinishPanel.success" txt="Installationen har slutförts utan fel."/>
+    <str id="FinishPanel.success" txt="Installationen har slutfÃ¶rts utan fel."/>
     <str id="FinishPanel.done" txt="Klar"/>
     <str id="FinishPanel.fail" txt="Installationen har misslyckats!"/>
     <str id="FinishPanel.uninst.info" txt="Ett avinstallationsprogram har skapats i: "/>
     <str id="FinishPanel.auto" txt="Generera ett automatiskt installationsskript"/>
-    <str id="FinishPanel.auto.tip"
-         txt="Använd detta skript för att upprepa installationen på andra datorer."/>
+    <str id="FinishPanel.auto.tip" txt="AnvÃ¤nd detta skript fÃ¶r att upprepa installationen pÃ¥ andra datorer."/>
 
-    <str id="ImgPacksPanel.packs" txt="Följande paket är tillgängliga:"/>
+    <str id="ImgPacksPanel.packs" txt="FÃ¶ljande paket Ã¤r tillgÃ¤ngliga:"/>
     <str id="ImgPacksPanel.snap" txt="Paket granskning:"/>
     <str id="ImgPacksPanel.checkbox" txt=" Installera detta paket"/>
 
-    <str id="ShortcutPanel.regular.list" txt="Välj en programgrupp för genvägarna:"/>
-    <str id="ShortcutPanel.regular.default" txt="Återställ"/>
-    <str id="ShortcutPanel.regular.desktop" txt="Skapa genväg på skrivbordet"/>
-    <str id="ShortcutPanel.regular.create" txt="Skapa genvägar"/>
-    <str id="ShortcutPanel.regular.userIntro" txt="skapa genväg för:"/>
-    <str id="ShortcutPanel.regular.currentUser" txt="nuvarande användare"/>
-    <str id="ShortcutPanel.regular.allUsers" txt="alla användare"/>
+    <str id="ShortcutPanel.regular.list" txt="VÃ¤lj en programgrupp fÃ¶r genvÃ¤garna:"/>
+    <str id="ShortcutPanel.regular.default" txt="Ã…terstÃ¤ll"/>
+    <str id="ShortcutPanel.regular.desktop" txt="Skapa genvÃ¤g pÃ¥ skrivbordet"/>
+    <str id="ShortcutPanel.regular.create" txt="Skapa genvÃ¤gar"/>
+    <str id="ShortcutPanel.regular.userIntro" txt="skapa genvÃ¤g fÃ¶r:"/>
+    <str id="ShortcutPanel.regular.currentUser" txt="nuvarande anvÃ¤ndare"/>
+    <str id="ShortcutPanel.regular.allUsers" txt="alla anvÃ¤ndare"/>
 
     <str id="ShortcutPanel.alternate.apology"
-         txt="Vi ber om ursäkt men IzPack har inte stöd för skapandet av genvägar på det här operativsystemet. För att skapa genvägar, vänligen se handboken till ditt operativsystem."/>
+         txt="Vi ber om ursÃ¤kt men IzPack har inte stÃ¶d fÃ¶r skapandet av genvÃ¤gar pÃ¥ det hÃ¤r operativsystemet. FÃ¶r att skapa genvÃ¤gar, vÃ¤nligen se handboken till ditt operativsystem."/>
     <str id="ShortcutPanel.alternate.targetsLabel"
-         txt="Följande är en lista med de mål som tillverkaren av denna mjukvara ville att du skulle ha tillgång till."/>
+         txt="FÃ¶ljande Ã¤r en lista med de mÃ¥l som tillverkaren av denna mjukvara ville att du skulle ha tillgÃ¥ng till."/>
     <str id="ShortcutPanel.alternate.textFileExplanation"
-         txt="Du kan spara detaljerad information om applikationens mål i en textfil för senare referens."/>
+         txt="Du kan spara detaljerad information om applikationens mÃ¥l i en textfil fÃ¶r senare referens."/>
     <str id="ShortcutPanel.alternate.saveButton" txt="Spara textfil"/>
 
     <str id="ShortcutPanel.textFile.header"
-         txt="Genvägsinformation\n====================\n\nHär följer en lista med all relevant information om de tänkta\ngenvägarna. Den här informationen bör göra det möjligt att skapa genvägar manuellt.\n"/>
+         txt="GenvÃ¤gsinformation\n====================\n\nHÃ¤r fÃ¶ljer en lista med all relevant information om de tÃ¤nkta\ngenvÃ¤garna. Den hÃ¤r informationen bÃ¶r gÃ¶ra det mÃ¶jligt att skapa genvÃ¤gar manuellt.\n"/>
 
-    <str id="ShortcutPanel.textFile.name" txt="Genväg            : "/>
-    <str id="ShortcutPanel.textFile.location" txt="Tänkt placering   : "/>
+    <str id="ShortcutPanel.textFile.name" txt="GenvÃ¤g            : "/>
+    <str id="ShortcutPanel.textFile.location" txt="TÃ¤nkt placering   : "/>
     <str id="ShortcutPanel.textFile.description" txt="Beskrivning       : "/>
-    <str id="ShortcutPanel.textFile.target" txt="Mål för genvägen  : "/>
+    <str id="ShortcutPanel.textFile.target" txt="MÃ¥l fÃ¶r genvÃ¤gen  : "/>
     <str id="ShortcutPanel.textFile.command" txt="Kommandorad       : "/>
     <str id="ShortcutPanel.textFile.iconName" txt="Ikonfil           : "/>
     <str id="ShortcutPanel.textFile.iconIndex" txt="Ikonindex         : "/>
@@ -200,77 +179,81 @@
     <str id="ShortcutPanel.location.startup" txt="Autostart gruppen"/>
 
     <str id="UserInputPanel.error.caption" txt="Problem med input"/>
-    <str id="UserInputPanel.search.autodetect" txt="Upptäck automatiskt"/>
+    <str id="UserInputPanel.search.autodetect" txt="UpptÃ¤ck automatiskt"/>
 
     <!-- more descriptive error message would be cool, like specifying what file we looked for -->
-    <str id="UserInputPanel.search.autodetect.failed.message" txt="Automatisk upptäckt misslyckades."/>
-    <str id="UserInputPanel.search.autodetect.failed.caption" txt="Automatisk upptäckt misslyckades."/>
+    <str id="UserInputPanel.search.autodetect.failed.message" txt="Automatisk upptÃ¤ckt misslyckades."/>
+    <str id="UserInputPanel.search.autodetect.failed.caption" txt="Automatisk upptÃ¤ckt misslyckades."/>
     <str id="UserInputPanel.search.autodetect.tooltip"
-         txt="Försök att automatiskt hitta filen eller mappen i de angivna sökvägarna ovan."/>
-    <str id="UserInputPanel.search.location" txt="Ange sökväg för {0}."/>
-    <str id="UserInputPanel.search.location.checkedfile" txt="Existensen för {0} är bekräftad."/>
-    <str id="UserInputPanel.search.browse" txt="Bläddra..."/>
+         txt="FÃ¶rsÃ¶k att automatiskt hitta filen eller mappen i de angivna sÃ¶kvÃ¤garna ovan."/>
+    <str id="UserInputPanel.search.location" txt="Ange sÃ¶kvÃ¤g fÃ¶r {0}."/>
+    <str id="UserInputPanel.search.location.checkedfile" txt="Existensen fÃ¶r {0} Ã¤r bekrÃ¤ftad."/>
+    <str id="UserInputPanel.search.browse" txt="BlÃ¤ddra..."/>
     <str id="UserInputPanel.search.wrongselection.message"
-         txt="Den fil eller mapp du har angivit finns inte, eller så är den inte lämplig."/>
+         txt="Den fil eller mapp du har angivit finns inte, eller sÃ¥ Ã¤r den inte lÃ¤mplig."/>
     <str id="UserInputPanel.search.wrongselection.caption" txt="Felaktigt val."/>
 
     <!-- CompilePanel strings -->
     <str id="CompilePanel.heading" txt="Kompilering"/>
-    <str id="CompilePanel.tip" txt="Kompileringsstatus för jobb:"/>
-    <str id="CompilePanel.browse" txt="Bläddra..."/>
-    <str id="CompilePanel.browse.approve" txt="Använd denna kompilator"/>
+    <str id="CompilePanel.tip" txt="Kompileringsstatus fÃ¶r jobb:"/>
+    <str id="CompilePanel.browse" txt="BlÃ¤ddra..."/>
+    <str id="CompilePanel.browse.approve" txt="AnvÃ¤nd denna kompilator"/>
     <str id="CompilePanel.start" txt="Start"/>
-    <str id="CompilePanel.progress.initial" txt="[Tryck på Start knappen]"/>
+    <str id="CompilePanel.progress.initial" txt="[Tryck pÃ¥ Start knappen]"/>
     <str id="CompilePanel.progress.finished" txt="[Klar]"/>
-    <str id="CompilePanel.progress.overall" txt="Övergripande kompileringsstatus:"/>
+    <str id="CompilePanel.progress.overall" txt="Ã–vergripande kompileringsstatus:"/>
     <str id="CompilePanel.error" txt="Kompilering misslyckades"/>
     <str id="CompilePanel.error.reconfigure" txt="Omkonfigurera"/>
     <str id="CompilePanel.error.ignore" txt="Ignorera"/>
     <str id="CompilePanel.error.abort" txt="Avbryt"/>
-    <str id="CompilePanel.error.seebelow" txt="Det misslyckade kommandot samt dess utskrift återfinns nedan."/>
-    <str id="CompilePanel.error.nofiles" txt="Ett fel inträffade när filer för kompilering eftersöktes."/>
-    <str id="CompilePanel.error.compilernotfound" txt="Kunde inte köra kompilatorn."/>
+    <str id="CompilePanel.error.seebelow" txt="Det misslyckade kommandot samt dess utskrift Ã¥terfinns nedan."/>
+    <str id="CompilePanel.error.nofiles" txt="Ett fel intrÃ¤ffade nÃ¤r filer fÃ¶r kompilering eftersÃ¶ktes."/>
+    <str id="CompilePanel.error.compilernotfound" txt="Kunde inte kÃ¶ra kompilatorn."/>
     <str id="CompilePanel.error.invalidarguments" txt="Felaktiga argument givna till kompilatorn."/>
-    <str id="CompilePanel.error.noclassfile" txt="Kompilatorn genererade ingen klassfil för kodfilen"/>
-    <str id="CompilePanel.choose_compiler" txt="Använd kompilator:"/>
+    <str id="CompilePanel.error.noclassfile" txt="Kompilatorn genererade ingen klassfil fÃ¶r kodfilen"/>
+    <str id="CompilePanel.choose_compiler" txt="AnvÃ¤nd kompilator:"/>
     <str id="CompilePanel.additional_arguments" txt="Extra kompilator-argument:"/>
 
     <str id="ProcessPanel.heading" txt="Processar"/>
 
     <!-- Strings for the summary of panels - START -->
     <str id="SummaryPanel.info"
-         txt="Färdig att installera. Viktiga inställningar anges nedan. Tryck &quot;Nästa&quot; för att starta installationen, "/>
-    <str id="SummaryPanel.next" txt="Nästa"/>
-    <str id="TargetPanel.summaryCaption" txt="Sökväg för installationen"/>
-    <str id="JDKPathPanel.summaryCaption" txt="Sökväg till JDK"/>
-    <str id="PacksPanel.summaryCaption" txt="Valda paket för installering"/>
-    <str id="ImgPacksPanel.summaryCaption" txt="Valda paket för installering"/>
-    <str id="TreePacksPanel.summaryCaption" txt="Valda paket för installering"/>
+         txt="FÃ¤rdig att installera. Viktiga instÃ¤llningar anges nedan. Tryck &quot;NÃ¤sta&quot; fÃ¶r att starta installationen, "/>
+    <str id="SummaryPanel.next" txt="NÃ¤sta"/>
+    <str id="TargetPanel.summaryCaption" txt="SÃ¶kvÃ¤g fÃ¶r installationen"/>
+    <str id="JDKPathPanel.summaryCaption" txt="SÃ¶kvÃ¤g till JDK"/>
+    <str id="PacksPanel.summaryCaption" txt="Valda paket fÃ¶r installering"/>
+    <str id="ImgPacksPanel.summaryCaption" txt="Valda paket fÃ¶r installering"/>
+    <str id="TreePacksPanel.summaryCaption" txt="Valda paket fÃ¶r installering"/>
     <!-- Strings for the summary of panels - END -->
 
     <!-- Strings for the Registry -->
-    <str id="functionFailed.RegOpenKeyEx" txt="Kan inte öppna registernyckel {0}\\{1}."/>
+    <str id="functionFailed.RegOpenKeyEx" txt="Kan inte Ã¶ppna registernyckel {0}\\{1}."/>
 
     <!-- CheckedHelloPanel strings -->
     <str id="CheckedHelloPanel.productAlreadyExist0"
-         txt="Den här produkten är redan installerad på den här datorn under sökvägen "/>
-    <str id="CheckedHelloPanel.productAlreadyExist1" txt="Är du säker på att du vill installera ytterligare en instans?"/>
+         txt="Den hÃ¤r produkten Ã¤r redan installerad pÃ¥ den hÃ¤r datorn under sÃ¶kvÃ¤gen "/>
+    <str id="CheckedHelloPanel.productAlreadyExist1"
+         txt="Ã„r du sÃ¤ker pÃ¥ att du vill installera ytterligare en instans?"/>
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="Avinstallationsnyckelns namn: "/>
 
     <!-- ConsolePrompt strings -->
-    <str id="ConsolePrompt.okCancel" txt="Tryck O för OK, A för att Avbryta: "/>
-    <str id="ConsolePrompt.yesNo" txt="Tryck J för Ja, N för Nej: "/>
-    <str id="ConsolePrompt.yesNoCancel" txt="Tryck J för Ja, N för Nej eller A för att Avbryta: "/>
+    <str id="ConsolePrompt.okCancel" txt="Tryck O fÃ¶r OK, A fÃ¶r att Avbryta: "/>
+    <str id="ConsolePrompt.yesNo" txt="Tryck J fÃ¶r Ja, N fÃ¶r Nej: "/>
+    <str id="ConsolePrompt.yesNoCancel" txt="Tryck J fÃ¶r Ja, N fÃ¶r Nej eller A fÃ¶r att Avbryta: "/>
     <str id="ConsolePrompt.ok" txt="O"/>
     <str id="ConsolePrompt.cancel" txt="A"/>
     <str id="ConsolePrompt.yes" txt="J"/>
     <str id="ConsolePrompt.no" txt="N"/>
 
     <!-- ConsoleInstaller strings -->
-    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Tryck 1 för att fortsätta, 2 för att avbryta, 3 för att repetera"/>
-    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Tryck 1 för att acceptera, 2 för att neka, 3 för att repetera"/>
-    <str id="ConsoleInstaller.redisplayQuit" txt="Tryck 1 för att repetera, 2 för att avsluta"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administratörsrättigheter krävs. Väligen kör installationen med administratörsrättigheter."/>
+    <str id="ConsoleInstaller.continueQuitRedisplay"
+         txt="Tryck 1 fÃ¶r att fortsÃ¤tta, 2 fÃ¶r att avbryta, 3 fÃ¶r att repetera"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay"
+         txt="Tryck 1 fÃ¶r att acceptera, 2 fÃ¶r att neka, 3 fÃ¶r att repetera"/>
+    <str id="ConsoleInstaller.redisplayQuit" txt="Tryck 1 fÃ¶r att repetera, 2 fÃ¶r att avsluta"/>
+    <str id="ConsoleInstaller.permissionError"
+         txt="AdministratÃ¶rsrÃ¤ttigheter krÃ¤vs. VÃ¤ligen kÃ¶r installationen med administratÃ¶rsrÃ¤ttigheter."/>
     <str id="ConsoleInstaller.inputSelection" txt="Ditt val: "/>
     <str id="ConsoleInstaller.pagingMore" txt="More"/>
     <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
@@ -283,15 +266,16 @@
     <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
 
     <!-- AutomatedInstaller Strings -->
-    <str id="AutomatedInstaller.permissionError" txt="Administratörsrättigheter krävs. Väligen kör installationen med administratörsrättigheter."/>
+    <str id="AutomatedInstaller.permissionError"
+         txt="AdministratÃ¶rsrÃ¤ttigheter krÃ¤vs. VÃ¤ligen kÃ¶r installationen med administratÃ¶rsrÃ¤ttigheter."/>
 
     <!-- Next Media Strings -->
-    <str id="nextmedia.title" txt="Nästa installationsmedium"/>
-    <str id="nextmedia.msg" txt="Välj nästa installationsmedium."/>
-    <str id="nextmedia.browsebtn" txt="Bläddra"/>
-    <str id="nextmedia.okbtn" txt="Värkställ"/>
+    <str id="nextmedia.title" txt="NÃ¤sta installationsmedium"/>
+    <str id="nextmedia.msg" txt="VÃ¤lj nÃ¤sta installationsmedium."/>
+    <str id="nextmedia.browsebtn" txt="BlÃ¤ddra"/>
+    <str id="nextmedia.okbtn" txt="VÃ¤rkstÃ¤ll"/>
     <str id="nextmedia.cancelbtn" txt="Avbryt"/>
-    <str id="nextmedia.choosertitle" txt="Välj installationsmedium"/>
+    <str id="nextmedia.choosertitle" txt="VÃ¤lj installationsmedium"/>
     <str id="nextmedia.filedesc" txt="installationspaket (.pak*)"/>
 
     <!-- This string defines the time stamp format in the installation report.
@@ -301,16 +285,14 @@ The format details are documented in java.text.SimpleDateFormat -->
     <!-- Strings for various purposes in the logging/reporting system -->
     <str id="log.reportHeading" txt="                           IzPack INSTALLATIONSRAPPORT"/>
     <str id="log.installFailed" txt="VARNING!!! Installationen misslyckades!"/>
-    <str id="log.partialInstall"
-         txt="VARNING!!! Installationen kanske inte avslutades korrekt!"/>
-    <str id="log.messageCount"
-         txt="Den här rapporten innehåller {0} allmänna meddelanden, {1} varningar och {2} fel"/>
-    <str id="log.application" txt="Installationsrapport för : {0} Version {1}"/>
-    <str id="log.timePrefix"  txt="Installationstid         : {0}"/>
-    <str id="log.pathPrefix"  txt="Installationssökväg      : {0}"/>
+    <str id="log.partialInstall" txt="VARNING!!! Installationen kanske inte avslutades korrekt!"/>
+    <str id="log.messageCount" txt="Den hÃ¤r rapporten innehÃ¥ller {0} allmÃ¤nna meddelanden, {1} varningar och {2} fel"/>
+    <str id="log.application" txt="Installationsrapport fÃ¶r : {0} Version {1}"/>
+    <str id="log.timePrefix" txt="Installationstid         : {0}"/>
+    <str id="log.pathPrefix" txt="InstallationssÃ¶kvÃ¤g      : {0}"/>
     <str id="log.messageHeading" txt="                         --- Installationsmeddelanden ---"/>
     <str id="log.warningHeading" txt="                               --- Varningar ---"/>
-    <str id="log.errorHeading"   txt="                                  --- Fel ---"/>
+    <str id="log.errorHeading" txt="                                  --- Fel ---"/>
     <str id="log.exceptionPrefix" txt="                 &gt;&gt; Exception: {0}"/>
     <str id="log.messagePrefix" txt="Meddelande  [{0}] - "/>
     <str id="log.warningPrefix" txt="Varning [{0}] - "/>
@@ -333,9 +315,75 @@ for each category (message/warning/error) start at 0 -->
     <str id="debug.changevariable" txt="modify value"/>
 
     <str id="data.validation.error.title" txt="Validering misslyckades"/>
-    <str id="data.validation.warning.title" txt="Validering misslyckades - fortsätter installationen"/>
+    <str id="data.validation.warning.title" txt="Validering misslyckades - fortsÃ¤tter installationen"/>
 
 
     <!-- Add your own panels specific strings here if you need -->
 
+    <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
+    <str id="installer.help" txt="Help"/>
+    <str id="installer.help.close" txt="Close"/>
+    <str id="installer.Message" txt="Message"/>
+    <str id="installer.of" txt="of"/>
+    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
+    <str id="installer.reboot.ask.title" txt="Reboot required"/>
+    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
+    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
+    <str id="installer.step" txt="Step"/>
+    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="InstallationGroupPanel.colNameInstallType" txt="InstallType"/>
+    <str id="InstallationGroupPanel.colNameSelected" txt="Selected"/>
+    <str id="InstallationGroupPanel.colNameSize" txt="Size"/>
+    <str id="InstallationTypePanel.info" txt="Please choose the type of installation:"/>
+    <str id="InstallationTypePanel.modify" txt="Modify installation"/>
+    <str id="InstallationTypePanel.normal" txt="New installation"/>
+    <str id="JDKPathPanel.extendedIntro"
+         txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="PacksPanel.dependencies" txt="Dependencies: "/>
+    <str id="PacksPanel.excludes" txt="Excludes: "/>
+    <str id="PathInputPanel.isfile"
+         txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
+    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
+    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
+    <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
+    <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
+    <str id="TargetPanel.incompatibleInstallation"
+         txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.syntax.error"
+         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="XDG-Menu"/>
+    <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Start-Menu"/>
+    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="UserPathPanel.summaryCaption" txt="Selected Path"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
+    <str id="UserInputPanel.dir.nodirectory.caption" txt="No Directory Selected"/>
+    <str id="UserInputPanel.dir.nodirectory.message" txt="You must select a valid directory."/>
+    <str id="UserInputPanel.dir.notdirectory.caption" txt="Invalid Directory"/>
+    <str id="UserInputPanel.dir.notdirectory.message"
+         txt="The directory you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.file.nofile.caption" txt="No File Selected"/>
+    <str id="UserInputPanel.file.nofile.message" txt="You must select a valid file."/>
+    <str id="UserInputPanel.file.notfile.caption" txt="Invalid File"/>
+    <str id="UserInputPanel.file.notfile.message"
+         txt="The file you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.search.delete" txt="Delete..."/>
+    <str id="UserPathPanel.browse" txt="Browse"/>
+    <str id="UserPathPanel.createdir" txt="The target directory will be created: "/>
+    <str id="UserPathPanel.empty_target" txt="You have not specified a target location! Is this correct?"/>
+    <str id="UserPathPanel.exists_warn"
+         txt="The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"/>
+    <str id="UserPathPanel.info" txt="Select the path: "/>
+    <str id="UserPathPanel.nodir" txt="This file is not a directory! Please choose a directory!"/>
+    <str id="UserPathPanel.notwritable" txt="This directory can not be written! Please choose another directory!"/>
+    <str id="UserPathPanel.required" txt="The chosen directory should exist."/>
 </izpack:langpack>

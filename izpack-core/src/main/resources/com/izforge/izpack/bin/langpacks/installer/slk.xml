@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-
-<!-- The Slovak langpack -->
-
-<izpack:langpack version="5.0"
-                 xmlns:izpack="http://izpack.org/schema/langpack"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<izpack:langpack xmlns:izpack="http://izpack.org/schema/langpack" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 version="5.0"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
 
@@ -47,7 +43,8 @@
     <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
     <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
     <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="ConsoleInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
     <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
     <str id="ConsoleInstaller.pagingMore" txt="More"/>
     <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
@@ -123,21 +120,17 @@
     <!-- PathInputPanel strings -->
     <str id="PathInputPanel.required" txt="Vybraný priečinok by mal existovať."/>
     <str id="PathInputPanel.required.forModificationInstallation" txt="Vybraný priečinok musí existovať."/>
-    <str id="PathInputPanel.notValid"
-         txt="Vybraný priečinok neobsahuje požadovaný produkt."/>
+    <str id="PathInputPanel.notValid" txt="Vybraný priečinok neobsahuje požadovaný produkt."/>
 
     <!-- TargetPanel strings -->
     <str id="TargetPanel.info" txt="Vyberte inštalačný priečinok :"/>
     <str id="TargetPanel.browse" txt="Prehľadať ..."/>
     <str id="TargetPanel.warn"
          txt="Adresár existuje ! Ste si istý ,že chcete nainštalovať softvér do tohto priečinku ? Súčasná verzia súborov bude prepísaná?"/>
-    <str id="TargetPanel.empty_target"
-         txt="Nevybrali ste cieľový priečinok! Je to správne?"/>
+    <str id="TargetPanel.empty_target" txt="Nevybrali ste cieľový priečinok! Je to správne?"/>
     <str id="TargetPanel.createdir" txt="Cieľový priečinok bude vytvorený :"/>
-    <str id="TargetPanel.nodir"
-         txt="Súbor nie je priečinok! Vyberte priečinok!"/>
-    <str id="TargetPanel.notwritable"
-         txt="Do vybraného priečinku sa nedá zapisovať ! Vyberte iný priečinok!"/>
+    <str id="TargetPanel.nodir" txt="Súbor nie je priečinok! Vyberte priečinok!"/>
+    <str id="TargetPanel.notwritable" txt="Do vybraného priečinku sa nedá zapisovať ! Vyberte iný priečinok!"/>
 
     <!-- JDKPathPanel strings -->
     <str id="JDKPathPanel.extendedIntro"
@@ -157,13 +150,11 @@
     <str id="PacksPanel.space" txt="Vyžadované miesto na disku: "/>
     <str id="PacksPanel.freespace" txt="Voľné miesto: "/>
     <str id="PacksPanel.description" txt="Poznámka"/>
-    <str id="PacksPanel.dependencyList"
-         txt="Vybraný balík potrebuje mať nainštalované aj tieto balíky "/>
+    <str id="PacksPanel.dependencyList" txt="Vybraný balík potrebuje mať nainštalované aj tieto balíky "/>
     <str id="PacksPanel.dependencies" txt="Závislosti: "/>
     <str id="PacksPanel.excludes" txt="Vylúčené: "/>
     <str id="ImgPacksPanel.dependencyList" txt="Závisle balíky"/>
-    <str id="PacksPanel.notEnoughSpace"
-         txt="Na disku nie je dostatočné množstvo voľného miesta."/>
+    <str id="PacksPanel.notEnoughSpace" txt="Na disku nie je dostatočné množstvo voľného miesta."/>
     <str id="PacksPanel.notAscertainable" txt="nie je možné zistiť"/>
 
     <!-- InstallPanel strings -->
@@ -191,8 +182,7 @@
     <str id="FinishPanel.fail" txt="Inštalácia zlyhala!"/>
     <str id="FinishPanel.uninst.info" txt="Odinštalačný program bol vytvorený v:"/>
     <str id="FinishPanel.auto" txt="Vytvoriť automatický inštalačný skript"/>
-    <str id="FinishPanel.auto.tip"
-         txt="Použite tento skript v prípade inštalácie na iný počítač."/>
+    <str id="FinishPanel.auto.tip" txt="Použite tento skript v prípade inštalácie na iný počítač."/>
     <str id="FinishPanel.done" txt="Hotovo"/>
     <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Súbory"/>
 
@@ -238,13 +228,11 @@
     <str id="UserInputPanel.search.autodetect" txt="Automatická detekcia"/>
     <str id="UserInputPanel.dir.nodirectory.message" txt="Musite vybrať priečinok."/>
     <str id="UserInputPanel.dir.nodirectory.caption" txt="Nevubratý žiadny priečinok"/>
-    <str id="UserInputPanel.dir.notdirectory.message"
-         txt="Vybratý priečinok neexistuje alebo je nesprávny."/>
+    <str id="UserInputPanel.dir.notdirectory.message" txt="Vybratý priečinok neexistuje alebo je nesprávny."/>
     <str id="UserInputPanel.dir.notdirectory.caption" txt="Zlý priečinok"/>
     <str id="UserInputPanel.file.nofile.message" txt="Musíte vybrať nesprávny súbor."/>
     <str id="UserInputPanel.file.nofile.caption" txt="Nevybratý súbor"/>
-    <str id="UserInputPanel.file.notfile.message"
-         txt="Vybratý súbor neexistuje alebo je nesprávny."/>
+    <str id="UserInputPanel.file.notfile.message" txt="Vybratý súbor neexistuje alebo je nesprávny."/>
     <str id="UserInputPanel.file.notfile.caption" txt="Nesprávny Súbor"/>
 
 
@@ -265,12 +253,10 @@
     <str id="UserPathPanel.browse" txt="Prehľadávať"/>
     <str id="UserPathPanel.exists_warn"
          txt="Priečinok už existuje! Ste si istý že do neho chcete inštalovať a potenciálne prepísať existujúce súbory?"/>
-    <str id="UserPathPanel.empty_target"
-         txt="Nevybrali ste cieľový priečinok! Je to správne?"/>
+    <str id="UserPathPanel.empty_target" txt="Nevybrali ste cieľový priečinok! Je to správne?"/>
     <str id="UserPathPanel.createdir" txt="Cieľový priečinok bude vytvorený: "/>
     <str id="UserPathPanel.nodir" txt="Tento súbor nie je priečinok! Vyberte priečinok!"/>
-    <str id="UserPathPanel.notwritable"
-         txt="Do tohoto priečinku sa nedá zapisovať! Prosím vyberte iný priečinok!"/>
+    <str id="UserPathPanel.notwritable" txt="Do tohoto priečinku sa nedá zapisovať! Prosím vyberte iný priečinok!"/>
 
     <!-- CompilePanel strings -->
     <str id="CompilePanel.heading" txt="Preklad"/>
@@ -335,7 +321,7 @@ The format details are documented in java.text.SimpleDateFormat -->
     <str id="log.messageHeading" txt="                         --- Inštalačné správy ---"/>
     <str id="log.warningHeading" txt="                               --- Varovania ---"/>
     <str id="log.errorHeading" txt="                                --- Chyby ---"/>
-    <str id="log.exceptionPrefix" txt="                 >> Vynimka: {0}"/>
+    <str id="log.exceptionPrefix" txt="                 &gt;&gt; Vynimka: {0}"/>
     <str id="log.messagePrefix" txt="Správa  [{0}] - "/>
     <str id="log.warningPrefix" txt="Varovanie [{0}] - "/>
     <str id="log.errorPrefix" txt="Chyba [{0}] - "/>
@@ -372,5 +358,41 @@ The format details are documented in java.text.SimpleDateFormat -->
     <str id="data.validation.warning.title" txt="Overenie zlyhalo - inštalácia pokračuje"/>
 
 
+    <str id="AutomatedInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
+    <str id="JDKPathPanel.jdkDownload"
+         txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="PathInputPanel.isfile"
+         txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
+    <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
+    <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
+    <str id="TargetPanel.incompatibleInstallation"
+         txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.syntax.error"
+         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TreePacksPanel.children" txt="Children"/>
+    <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
+    <str id="TreePacksPanel.dependent" txt="Dependencies"/>
+    <str id="TreePacksPanel.done" txt="Done!"/>
+    <str id="TreePacksPanel.invalid" txt="Invalid pack selected"/>
+    <str id="TreePacksPanel.no.number" txt="Please enter a number from the selection above."/>
+    <str id="TreePacksPanel.no.packs" txt="You have not selected any packs!\nAre you sure you want to continue?"/>
+    <str id="TreePacksPanel.prompt" txt="Please select which packs you want to install."/>
+    <str id="TreePacksPanel.required" txt="Required"/>
+    <str id="TreePacksPanel.space.required" txt="Total space required:"/>
+    <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
+    <str id="UserInputPanel.search.delete" txt="Delete..."/>
 </izpack:langpack>
-

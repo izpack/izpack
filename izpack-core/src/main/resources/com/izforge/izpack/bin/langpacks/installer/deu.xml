@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-
-<!-- The German langpack -->
-
-<izpack:langpack version="5.0"
-                 xmlns:izpack="http://izpack.org/schema/langpack"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<izpack:langpack xmlns:izpack="http://izpack.org/schema/langpack" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 version="5.0"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
 
@@ -98,16 +94,14 @@
     <!-- PathInputPanel strings -->
     <str id="PathInputPanel.required" txt="Das gewählte Verzeichnis muss existieren."/>
     <str id="PathInputPanel.required.forModificationInstallation" txt="Das gewählte Verzeichnis muss existieren."/>
-    <str id="PathInputPanel.notValid"
-         txt="Das gewählte Verzeichnis enthält nicht das benötigte Produkt."/>
+    <str id="PathInputPanel.notValid" txt="Das gewählte Verzeichnis enthält nicht das benötigte Produkt."/>
 
     <!-- TargetPanel strings -->
     <str id="TargetPanel.info" txt="Wählen Sie den Installationspfad:"/>
     <str id="TargetPanel.browse" txt="Auswählen..."/>
     <str id="TargetPanel.warn"
          txt="Das Verzeichnis existiert bereits! Sind Sie sicher, dass Sie in diesem Verzeichnis installieren wollen?"/>
-    <str id="TargetPanel.empty_target"
-         txt="Sie haben ein namenloses Ziel eingegeben! Wollen Sie fortfahren?"/>
+    <str id="TargetPanel.empty_target" txt="Sie haben ein namenloses Ziel eingegeben! Wollen Sie fortfahren?"/>
     <str id="TargetPanel.createdir" txt="Das folgende Verzeichnis wird erstellt:"/>
     <str id="TargetPanel.nodir"
          txt="Sie haben ein Ziel eingegeben, welches kein Verzeichnis ist! Bitte wählen Sie ein Verzeichnis aus!"/>
@@ -129,9 +123,7 @@
     <str id="JDKPathPanel.nonValidPathInReg"
          txt="Die Windows-Registry enthält für dieses JDK einen fehlerhaften Pfad-Eintrag. Soll das JDK trotzdem benutzt werden?"/>
     <str id="JDKPathPanel.jdkDownload"
-         txt="&lt;html&gt;&lt;p&gt;Dieses Produkt benötigt mindestens Version ${JDKPathPanel.minVersion} des Java Development Kit (JDK).&lt;p/&gt;
-         Wenn es nicht installiert ist, gehen Sie bitte auf &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,
-         für den Download und installieren Sie es.&lt;/html&gt;"/>
+         txt="&lt;html&gt;&lt;p&gt;Dieses Produkt benötigt mindestens Version ${JDKPathPanel.minVersion} des Java Development Kit (JDK).&lt;p/&gt;          Wenn es nicht installiert ist, gehen Sie bitte auf &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,          für den Download und installieren Sie es.&lt;/html&gt;"/>
 
     <!-- PacksPanel strings -->
     <str id="PacksPanel.info" txt="Bitte wählen Sie hier die Installationspakete aus:"/>
@@ -140,14 +132,13 @@
     <str id="PacksPanel.space" txt="Erforderlicher Speicherplatz: "/>
     <str id="PacksPanel.freespace" txt="Verfügbarer Speicherplatz: "/>
     <str id="PacksPanel.description" txt="Beschreibung"/>
-    <str id="PacksPanel.dependencyList"
-         txt="Das Paket hat folgende Abhängigkeiten und/oder Ausschlüsse:"/>
+    <str id="PacksPanel.dependencyList" txt="Das Paket hat folgende Abhängigkeiten und/oder Ausschlüsse:"/>
     <str id="PacksPanel.dependencies" txt="Abhängigkeiten: "/>
     <str id="PacksPanel.excludes" txt="Ausschlüsse: "/>
     <str id="PacksPanel.notEnoughSpace"
          txt="Der erforderliche Festplattenplatz für die Installation ist größer als der zur Verfügung stehende Speicherplatz."/>
     <str id="PacksPanel.notAscertainable" txt="nicht bestimmbar"/>
-    <str id="PacksPanel.installedpacks.summarycaption" txt="Bereits installierte Pakete"/>
+
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.info" txt="Starten Sie hier die Installation:"/>
@@ -187,7 +178,6 @@
     <str id="ImgPacksPanel.checkbox" txt=" Installiere dieses Paket"/>
 
     <!-- ShortcutPanel strings -->
-    <str id="ShortcutPanel.headline" txt="Verknüpfungen einrichten"/>
     <str id="ShortcutPanel.regular.list" txt="Wählen Sie eine Programmgruppe für die Verknüpfung:"/>
     <str id="ShortcutPanel.regular.default" txt="Standard"/>
     <str id="ShortcutPanel.regular.desktop" txt="Zusätzliche Verknüpfungen auf dem Desktop erstellen"/>
@@ -228,8 +218,7 @@
     <str id="UserInputPanel.dir.notdirectory.caption" txt="Ungültiges Verzeichnis"/>
     <str id="UserInputPanel.file.nofile.message" txt="Wählen Sie eine gültige Datei."/>
     <str id="UserInputPanel.file.nofile.caption" txt="Keine Datei ausgewählt"/>
-    <str id="UserInputPanel.file.notfile.message"
-         txt="Die gewählte Datei existiert nicht oder ist nicht gültig."/>
+    <str id="UserInputPanel.file.notfile.message" txt="Die gewählte Datei existiert nicht oder ist nicht gültig."/>
     <str id="UserInputPanel.file.notfile.caption" txt="Ungültige Datei"/>
 
     <!-- more descriptive error message would be cool, like specifying what
@@ -254,8 +243,7 @@ file we looked for -->
     <str id="UserPathPanel.browse" txt="Auswählen"/>
     <str id="UserPathPanel.exists_warn"
          txt="Das Verzeichnis existiert bereits! Sind Sie sicher, dass Sie in diesem Verzeichnis installieren und möglicherweise bestehende Dateien üvberschreiben wollen?"/>
-    <str id="UserPathPanel.empty_target"
-         txt="Sie haben kein Zielverzeichnis ausgewählt! Ist das korrekt?"/>
+    <str id="UserPathPanel.empty_target" txt="Sie haben kein Zielverzeichnis ausgewählt! Ist das korrekt?"/>
     <str id="UserPathPanel.createdir" txt="Das Zielverzeichnis wird erstellt: "/>
     <str id="UserPathPanel.nodir" txt="Sie haben eine Datei ausgewählt! Bitte wählen Sie ein Verzeichnis aus!"/>
     <str id="UserPathPanel.notwritable"
@@ -278,8 +266,7 @@ file we looked for -->
     <str id="CompilePanel.error.nofiles" txt="Beim Suchen der Dateien für die Kompilierung trat ein Fehler auf."/>
     <str id="CompilePanel.error.compilernotfound" txt="Der Compiler konnte nicht gefunden werden."/>
     <str id="CompilePanel.error.invalidarguments" txt="Der Compiler versteht die zusätzlichen Parameter nicht."/>
-    <str id="CompilePanel.error.noclassfile"
-         txt="Der Compiler hat keine Klassendatei erzeugt für die Quelldatei "/>
+    <str id="CompilePanel.error.noclassfile" txt="Der Compiler hat keine Klassendatei erzeugt für die Quelldatei "/>
     <str id="CompilePanel.choose_compiler" txt="Zu verwendender Compiler:"/>
     <str id="CompilePanel.additional_arguments" txt="Zusätzliche Compilerparameter:"/>
 
@@ -302,8 +289,7 @@ file we looked for -->
     <str id="functionFailed.RegOpenKeyEx" txt="Der Registry-Schlüssel {0}\\{1} konnte nicht geöffnet werden."/>
 
     <!-- CheckedHelloPanel strings -->
-    <str id="CheckedHelloPanel.productAlreadyExist0"
-         txt="Das Produkt ist bereits auf Ihrem Computer unter "/>
+    <str id="CheckedHelloPanel.productAlreadyExist0" txt="Das Produkt ist bereits auf Ihrem Computer unter "/>
     <str id="CheckedHelloPanel.productAlreadyExist1" txt=" installiert. Soll eine weitere Version installiert werden?"/>
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="Der Deinstallationschlüssel lautet wie folgt: "/>
 
@@ -320,13 +306,15 @@ file we looked for -->
     <str id="ConsoleInstaller.continueQuitRedisplay" txt="Eingabe 1 (Weiter), 2 (Beenden), 3 (Erneut anzeigen)"/>
     <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Eingabe 1 (Bestätigen), 2 (Ablehnen), 3 (Erneut anzeigen)"/>
     <str id="ConsoleInstaller.redisplayQuit" txt="Eingabe 1 (Erneut anzeigen), 2 (Beenden)"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administratorrechte erforderlich. Bitte starten Sie das Installationsprogramm erneut unter den erforderlichen Benutzerrechten."/>
+    <str id="ConsoleInstaller.permissionError"
+         txt="Administratorrechte erforderlich. Bitte starten Sie das Installationsprogramm erneut unter den erforderlichen Benutzerrechten."/>
     <str id="ConsoleInstaller.inputSelection" txt="Auswahl eingeben: "/>
     <str id="ConsoleInstaller.pagingMore" txt="Mehr"/>
     <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C betätigt"/>
     <str id="ConsoleInstaller.aborted.LicenseRejected" txt="Lizenzvereinbarung abgelehnt"/>
     <str id="ConsoleInstaller.aborted.PressedQuit" txt="Beenden betätigt"/>
-    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="Einige Dateioperationen werden erst nach einem Neustart fertiggestellt"/>
+    <str id="ConsoleInstaller.shutdown.pendingFileOperations"
+         txt="Einige Dateioperationen werden erst nach einem Neustart fertiggestellt"/>
     <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Automatischer Neustart erfolgt"/>
     <str id="ConsoleInstaller.shutdown.done" txt="Textkonsolen-Installation beendet"/>
     <str id="ConsoleInstaller.shutdown.aborted" txt="Benutzerabbruch der Textkonsolen-Installation!"/>
@@ -354,10 +342,8 @@ The format details are documented in java.text.SimpleDateFormat -->
     <!-- Strings for various purposes in the logging/reporting system -->
     <str id="log.reportHeading" txt="                          IzPack INSTALLATIONSREPORT"/>
     <str id="log.installFailed" txt="Achtung!!! Die Installation ist fehlgeschlagen!"/>
-    <str id="log.partialInstall"
-         txt="Achtung!!! Die Installation konnte nicht vollständig ausgeführt werden!"/>
-    <str id="log.messageCount"
-         txt="Dieser Report enthält {0} Meldung(en), {1} Warnung(en) und {2} Fehlermeldung(en)"/>
+    <str id="log.partialInstall" txt="Achtung!!! Die Installation konnte nicht vollständig ausgeführt werden!"/>
+    <str id="log.messageCount" txt="Dieser Report enthält {0} Meldung(en), {1} Warnung(en) und {2} Fehlermeldung(en)"/>
     <str id="log.application" txt="Installationsreport für : {0} Version {1}"/>
     <str id="log.timePrefix" txt="Install time            : {0}"/>
     <str id="log.pathPrefix" txt="Install directory       : {0}"/>
@@ -388,4 +374,34 @@ for each category (message/warning/error) start at 0 -->
     <str id="data.validation.error.title" txt="Überprüfung fehlgeschlagen"/>
     <str id="data.validation.warning.title" txt="Wichtiger Hinweis"/>
 
+    <str id="AutomatedInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
+    <str id="PathInputPanel.isfile"
+         txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
+    <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
+    <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
+    <str id="TargetPanel.syntax.error"
+         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TreePacksPanel.children" txt="Children"/>
+    <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
+    <str id="TreePacksPanel.dependent" txt="Dependencies"/>
+    <str id="TreePacksPanel.done" txt="Done!"/>
+    <str id="TreePacksPanel.invalid" txt="Invalid pack selected"/>
+    <str id="TreePacksPanel.no.number" txt="Please enter a number from the selection above."/>
+    <str id="TreePacksPanel.no.packs" txt="You have not selected any packs!\nAre you sure you want to continue?"/>
+    <str id="TreePacksPanel.prompt" txt="Please select which packs you want to install."/>
+    <str id="TreePacksPanel.required" txt="Required"/>
+    <str id="TreePacksPanel.space.required" txt="Total space required:"/>
+    <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="UserInputPanel.search.delete" txt="Delete..."/>
 </izpack:langpack>

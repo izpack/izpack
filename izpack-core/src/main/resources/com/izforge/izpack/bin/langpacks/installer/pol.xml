@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Author: Kamil Dybicz
-  E-mail: galdrian@o2.pl
-  Created by: IzPack Translation Helper
-  Created at: 2009-04-22 12:36
--->
-
-<!-- The Polish langpack -->
-
-<izpack:langpack version="5.0"
-                 xmlns:izpack="http://izpack.org/schema/langpack"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<izpack:langpack xmlns:izpack="http://izpack.org/schema/langpack" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 version="5.0"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
     <str id="CheckedHelloPanel.headline" txt="Witaj"/>
@@ -112,10 +102,13 @@
     <str id="ConsolePrompt.no" txt="N"/>
 
     <!-- ConsoleInstaller strings -->
-    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Wciśnij 1 aby kontynuować, 2 aby wyjść, 3 aby wyświetlić ponownie"/>
-    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Wciśnij 1 aby zaakceptować, 2 aby odrzucić, 3 aby wyświetlić ponownie"/>
+    <str id="ConsoleInstaller.continueQuitRedisplay"
+         txt="Wciśnij 1 aby kontynuować, 2 aby wyjść, 3 aby wyświetlić ponownie"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay"
+         txt="Wciśnij 1 aby zaakceptować, 2 aby odrzucić, 3 aby wyświetlić ponownie"/>
     <str id="ConsoleInstaller.redisplayQuit" txt="Wciśnij 1 aby wyświetlić ponownie, 2 aby wyjść"/>
-    <str id="ConsoleInstaller.permissionError" txt="Uprawnienia administracyjne wymagane. Proszę uruchom ponownie instalator z uprawnieniami administracyjnymi."/>
+    <str id="ConsoleInstaller.permissionError"
+         txt="Uprawnienia administracyjne wymagane. Proszę uruchom ponownie instalator z uprawnieniami administracyjnymi."/>
     <str id="ConsoleInstaller.inputSelection" txt="Wybór pola: "/>
     <str id="ConsoleInstaller.pagingMore" txt="Więcej"/>
     <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C wciśnięto"/>
@@ -289,4 +282,50 @@
     <str id="UserPathPanel.notwritable" txt="Brak uprawnień do zapisu w wybranym katalogu! Wybierz inny katalog!"/>
     <str id="UserPathPanel.required" txt="Wybrany katalog musi istnieć."/>
     <str id="UserPathPanel.summaryCaption" txt="Wybrano katalog"/>
+    <str id="AutomatedInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
+    <str id="installer.reboot.ask.title" txt="Reboot required"/>
+    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
+    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
+    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
+    <str id="JDKPathPanel.jdkDownload"
+         txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="PathInputPanel.isfile"
+         txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
+    <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
+    <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
+    <str id="TargetPanel.incompatibleInstallation"
+         txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.syntax.error"
+         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TreePacksPanel.children" txt="Children"/>
+    <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
+    <str id="TreePacksPanel.dependent" txt="Dependencies"/>
+    <str id="TreePacksPanel.done" txt="Done!"/>
+    <str id="TreePacksPanel.invalid" txt="Invalid pack selected"/>
+    <str id="TreePacksPanel.no.number" txt="Please enter a number from the selection above."/>
+    <str id="TreePacksPanel.no.packs" txt="You have not selected any packs!\nAre you sure you want to continue?"/>
+    <str id="TreePacksPanel.prompt" txt="Please select which packs you want to install."/>
+    <str id="TreePacksPanel.required" txt="Required"/>
+    <str id="TreePacksPanel.space.required" txt="Total space required:"/>
+    <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
+    <str id="UserInputPanel.search.delete" txt="Delete..."/>
+    <str id="log.message_" txt=""/>
+    <str id="log.warning_" txt=""/>
+    <str id="data.validation.error.title" txt="Validation failed"/>
+    <str id="data.validation.warning.title" txt="Attention needed"/>
 </izpack:langpack>

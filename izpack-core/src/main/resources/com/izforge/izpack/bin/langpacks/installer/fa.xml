@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-
-<!-- The Persian langpack -->
-
-<izpack:langpack version="5.0"
-                 xmlns:izpack="http://izpack.org/schema/langpack"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<izpack:langpack xmlns:izpack="http://izpack.org/schema/langpack" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 version="5.0"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
 
@@ -44,7 +40,8 @@
     <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
     <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
     <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="ConsoleInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
     <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
     <str id="ConsoleInstaller.pagingMore" txt="More"/>
     <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
@@ -119,13 +116,10 @@
     <str id="TargetPanel.browse" txt="جستجو..."/>
     <str id="TargetPanel.warn"
          txt="پوشۀ موردنظر وجود دارد. آیا مایلید نرم افزار را در این دایرکتوری نصب و احتمالاً فایل های موجود را رونویسی کنید؟"/>
-    <str id="TargetPanel.empty_target"
-         txt="شما مقصد را مشخص نکرده اید. انتخاب پیش فرض صحیح است؟ "/>
+    <str id="TargetPanel.empty_target" txt="شما مقصد را مشخص نکرده اید. انتخاب پیش فرض صحیح است؟ "/>
     <str id="TargetPanel.createdir" txt="پوشۀ جدید ایجاد شود؟"/>
-    <str id="TargetPanel.nodir"
-         txt="مورد انتخاب شده فایل است!لطفاً یک دایرکتوری انتخاب کنید!"/>
-    <str id="TargetPanel.notwritable"
-         txt="این دایرکتوری قابل نوشتن نیست! لطفاً یک دایرکتوری دیگر انتخاب کنید!"/>
+    <str id="TargetPanel.nodir" txt="مورد انتخاب شده فایل است!لطفاً یک دایرکتوری انتخاب کنید!"/>
+    <str id="TargetPanel.notwritable" txt="این دایرکتوری قابل نوشتن نیست! لطفاً یک دایرکتوری دیگر انتخاب کنید!"/>
 
     <str id="JDKPathPanel.extendedIntro"
          txt="نرم افزار نصب شده به JDK نسخۀ ${JDKPathPanel.minVersion} تا ${JDKPathPanel.maxVersion} نیاز دارد. JRE برای اجرا کافی نیست."/>
@@ -142,13 +136,11 @@
     <str id="PacksPanel.space" txt="حافظۀ موردنیاز:"/>
     <str id="PacksPanel.freespace" txt="حافظۀ موجود:"/>
     <str id="PacksPanel.description" txt="شرح"/>
-    <str id="PacksPanel.dependencyList"
-         txt="بستۀ انتخاب شده پیش نیازها و/ یا موارد قابل حذف زیر را دارد:"/>
+    <str id="PacksPanel.dependencyList" txt="بستۀ انتخاب شده پیش نیازها و/ یا موارد قابل حذف زیر را دارد:"/>
     <str id="PacksPanel.dependencies" txt="پیش نیازها:"/>
     <str id="PacksPanel.excludes" txt="موارد قابل حذف:"/>
     <str id="ImgPacksPanel.dependencyList" txt="پیش نیازها و/ یا موارد قابل حذف:"/>
-    <str id="PacksPanel.notEnoughSpace"
-         txt="فضای دیسک موردنیاز برای نصب از فضای موجود بیشتر است."/>
+    <str id="PacksPanel.notEnoughSpace" txt="فضای دیسک موردنیاز برای نصب از فضای موجود بیشتر است."/>
     <str id="PacksPanel.notAscertainable" txt="امکان پذیر نیست."/>
 
     <str id="InstallPanel.info" txt="برای آغاز عملیات دکمۀ   َنصب َ  را بزنید."/>
@@ -165,14 +157,12 @@
     <str id="FinishPanel.fail" txt="عملیات نصب ناموفق بود!"/>
     <str id="FinishPanel.uninst.info" txt="برنامۀ Uninstall در مسیر زیر ایجاد شد:"/>
     <str id="FinishPanel.auto" txt="ایجاد اسکریپت خودکار نصب"/>
-    <str id="FinishPanel.auto.tip"
-         txt="از این اسکریپت برای تکرار عملیات نصب روی کامپیوترهای دیگر استفاده کنید."/>
+    <str id="FinishPanel.auto.tip" txt="از این اسکریپت برای تکرار عملیات نصب روی کامپیوترهای دیگر استفاده کنید."/>
 
     <str id="ImgPacksPanel.packs" txt="فهرست بسته های موجود:"/>
     <str id="ImgPacksPanel.snap" txt="تصویر بسته:"/>
     <str id="ImgPacksPanel.checkbox" txt=" این بسته نصب شود"/>
 
-    <str id="ShortcutPanel.headline" txt="میانبرهای برپاساز"/>
     <str id="ShortcutPanel.regular.list" txt="یک گروه برنامه برای میانبرها انتخاب کنید:"/>
     <str id="ShortcutPanel.regular.default" txt="پیش فرض"/>
     <str id="ShortcutPanel.regular.desktop" txt="ایجاد میانبر برای میزکار"/>
@@ -284,7 +274,7 @@
     <str id="log.messageHeading" txt=" ---پیغام های نصب---"/>
     <str id="log.warningHeading" txt="---هشدارها---"/>
     <str id="log.errorHeading" txt="---پیغام های خطا---"/>
-    <str id="log.exceptionPrefix" txt=">>Exception: {0}"/>
+    <str id="log.exceptionPrefix" txt="&gt;&gt;Exception: {0}"/>
     <str id="log.messagePrefix" txt="پیغام [{0}]-"/>
     <str id="log.warningPrefix" txt="هشدار [{0}]-"/>
     <str id="log.errorPrefix" txt="خطا [{0}]-"/>
@@ -304,4 +294,79 @@
 
     <str id="log.error_0" txt="قادر به نوشتن ''{0}'' نیست."/>
 
+    <str id="AutomatedInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
+    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
+    <str id="installer.reboot.ask.title" txt="Reboot required"/>
+    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
+    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
+    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
+    <str id="InstallationTypePanel.headline" txt="Installation Type"/>
+    <str id="UserPathPanel.headline" txt="Select Path"/>
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="InstallationGroupPanel.colNameInstallType" txt="InstallType"/>
+    <str id="InstallationGroupPanel.colNameSelected" txt="Selected"/>
+    <str id="InstallationGroupPanel.colNameSize" txt="Size"/>
+    <str id="InstallationTypePanel.info" txt="Please choose the type of installation:"/>
+    <str id="InstallationTypePanel.modify" txt="Modify installation"/>
+    <str id="InstallationTypePanel.normal" txt="New installation"/>
+    <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
+    <str id="JDKPathPanel.jdkDownload"
+         txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="PathInputPanel.isfile"
+         txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
+    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
+    <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
+    <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
+    <str id="TargetPanel.incompatibleInstallation"
+         txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.syntax.error"
+         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TreePacksPanel.children" txt="Children"/>
+    <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
+    <str id="TreePacksPanel.dependent" txt="Dependencies"/>
+    <str id="TreePacksPanel.done" txt="Done!"/>
+    <str id="TreePacksPanel.invalid" txt="Invalid pack selected"/>
+    <str id="TreePacksPanel.no.number" txt="Please enter a number from the selection above."/>
+    <str id="TreePacksPanel.no.packs" txt="You have not selected any packs!\nAre you sure you want to continue?"/>
+    <str id="TreePacksPanel.prompt" txt="Please select which packs you want to install."/>
+    <str id="TreePacksPanel.required" txt="Required"/>
+    <str id="TreePacksPanel.space.required" txt="Total space required:"/>
+    <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="UserPathPanel.summaryCaption" txt="Selected Path"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
+    <str id="UserInputPanel.dir.nodirectory.caption" txt="No Directory Selected"/>
+    <str id="UserInputPanel.dir.nodirectory.message" txt="You must select a valid directory."/>
+    <str id="UserInputPanel.dir.notdirectory.caption" txt="Invalid Directory"/>
+    <str id="UserInputPanel.dir.notdirectory.message"
+         txt="The directory you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.file.nofile.caption" txt="No File Selected"/>
+    <str id="UserInputPanel.file.nofile.message" txt="You must select a valid file."/>
+    <str id="UserInputPanel.file.notfile.caption" txt="Invalid File"/>
+    <str id="UserInputPanel.file.notfile.message"
+         txt="The file you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.search.delete" txt="Delete..."/>
+    <str id="UserPathPanel.browse" txt="Browse"/>
+    <str id="UserPathPanel.createdir" txt="The target directory will be created: "/>
+    <str id="UserPathPanel.empty_target" txt="You have not specified a target location! Is this correct?"/>
+    <str id="UserPathPanel.exists_warn"
+         txt="The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"/>
+    <str id="UserPathPanel.info" txt="Select the path: "/>
+    <str id="UserPathPanel.nodir" txt="This file is not a directory! Please choose a directory!"/>
+    <str id="UserPathPanel.notwritable" txt="This directory can not be written! Please choose another directory!"/>
+    <str id="UserPathPanel.required" txt="The chosen directory should exist."/>
+    <str id="debug.changevariable" txt="modify value"/>
+    <str id="data.validation.error.title" txt="Validation failed"/>
+    <str id="data.validation.warning.title" txt="Attention needed"/>
 </izpack:langpack>

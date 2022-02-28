@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
-
-<!-- The Italian langpack -->
-
-<izpack:langpack version="5.0"
-                 xmlns:izpack="http://izpack.org/schema/langpack"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<izpack:langpack xmlns:izpack="http://izpack.org/schema/langpack" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 version="5.0"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
 
@@ -46,7 +42,8 @@
     <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
     <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
     <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="ConsoleInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
     <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
     <str id="ConsoleInstaller.pagingMore" txt="More"/>
     <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
@@ -65,9 +62,9 @@
     <str id="installer.quit" txt="Esci"/>
     <str id="installer.madewith" txt="(Creato con IzPack - http://izpack.org/)"/>
     <str id="installer.quit.title" txt="Sicuri di voler uscire?"/>
-    <str id="installer.quit.message" txt="Verrà interrotta l'installazione!"/>
+    <str id="installer.quit.message" txt="VerrÃ  interrotta l'installazione!"/>
     <str id="installer.warning" txt="Avvertimento!"/>
-    <str id="installer.yes" txt="Sì"/>
+    <str id="installer.yes" txt="SÃ¬"/>
     <str id="installer.no" txt="No"/>
     <str id="installer.cancel" txt="Annulla"/>
     <str id="installer.error" txt="Errore"/>
@@ -98,20 +95,20 @@
     <str id="HelloPanel.welcome1" txt="Benvenuto nell'installazione di "/>
     <str id="HelloPanel.welcome2" txt="!"/>
     <str id="HelloPanel.authors" txt="Gli autori di questo software sono: "/>
-    <str id="HelloPanel.url" txt="La homepage di questo software è: "/>
+    <str id="HelloPanel.url" txt="La homepage di questo software Ã¨: "/>
 
     <str id="PrinterSelectPanel.select_printer"
          txt="Selezionare la stampante da usare per la configurazione iniziale e le prove."/>
 
     <str id="CheckedHelloPanel.productAlreadyExist0"
-         txt="Questo programma è già installato in questo computer nella cartella "/>
+         txt="Questo programma Ã¨ giÃ  installato in questo computer nella cartella "/>
     <str id="CheckedHelloPanel.productAlreadyExist1" txt=" . Sicuri di voler installare nuovamente il programma?"/>
-    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="La chiave di disinstallazione sarà: "/>
+    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="La chiave di disinstallazione sarÃ : "/>
 
     <str id="LicencePanel.info" txt="Leggere attentamente l'accordo di licenza:"/>
     <str id="LicencePanel.agree" txt="Accetto i termini di questo accordo di licenza."/>
     <str id="LicencePanel.notagree" txt="Non accetto i termini di questo accordo di licenza."/>
-    <str id="LicencePanel.yes" txt="Sì"/>
+    <str id="LicencePanel.yes" txt="SÃ¬"/>
     <str id="LicencePanel.no" txt="No"/>
 
     <str id="InstallationTypePanel.info" txt="Selezionare il tipo di installazione:"/>
@@ -132,27 +129,25 @@
     <str id="TargetPanel.info" txt="Scegliere il percorso d'installazione: "/>
     <str id="TargetPanel.browse" txt="Sfoglia..."/>
     <str id="TargetPanel.warn"
-         txt="Questa cartella esiste già! Siete sicuri di usare questa cartella ed eventualmente sostituire i file esistenti?"/>
-    <str id="TargetPanel.empty_target" txt="Non è stato specificato il percorso di destinazione! Continuare?"/>
-    <str id="TargetPanel.createdir" txt="Verrà creata la cartella: "/>
-    <str id="TargetPanel.nodir" txt="Questa non è una cartella! Selezionare una cartella!"/>
-    <str id="TargetPanel.notwritable" txt="Quasta cartella non è scrivibile! Selezionare un'altra cartella!"/>
+         txt="Questa cartella esiste giÃ ! Siete sicuri di usare questa cartella ed eventualmente sostituire i file esistenti?"/>
+    <str id="TargetPanel.empty_target" txt="Non Ã¨ stato specificato il percorso di destinazione! Continuare?"/>
+    <str id="TargetPanel.createdir" txt="VerrÃ  creata la cartella: "/>
+    <str id="TargetPanel.nodir" txt="Questa non Ã¨ una cartella! Selezionare una cartella!"/>
+    <str id="TargetPanel.notwritable" txt="Quasta cartella non Ã¨ scrivibile! Selezionare un'altra cartella!"/>
 
     <str id="JDKPathPanel.extendedIntro"
-         txt="Il programma installato richiede una JDK di versione compresa tra ${JDKPathPanel.minVersion} e ${JDKPathPanel.maxVersion}. Una Java Runtime Environment (JRE) non è sufficiente."/>
+         txt="Il programma installato richiede una JDK di versione compresa tra ${JDKPathPanel.minVersion} e ${JDKPathPanel.maxVersion}. Una Java Runtime Environment (JRE) non Ã¨ sufficiente."/>
     <str id="JDKPathPanel.intro"
-         txt="L'applicazione necessita della JDK. La Java Runtime Environment (JRE) non è sufficente."/>
+         txt="L'applicazione necessita della JDK. La Java Runtime Environment (JRE) non Ã¨ sufficente."/>
     <str id="JDKPathPanel.info" txt="Selezionare il percorso del JDK:"/>
-    <str id="JDKPathPanel.badVersion1" txt="La versione della JDK selezionata non è corretta (disponibili: "/>
+    <str id="JDKPathPanel.badVersion1" txt="La versione della JDK selezionata non Ã¨ corretta (disponibili: "/>
     <str id="JDKPathPanel.badVersion2" txt=" richiesta: "/>
     <str id="JDKPathPanel.badVersion3" txt=") usare comunquesta questa JDK?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continuare comunque? [y/n] [n]"/>
     <str id="JDKPathPanel.nonValidPathInReg"
          txt="Il registro di Windows contiene un percorso non valido per questa JDK. Volete usare comunque questa JDK?"/>
     <str id="JDKPathPanel.jdkDownload"
-         txt="&lt;html&gt;&lt;p&gt;Questo software richiede una versione minima ${JDKPathPanel.minVersion} di Java Development Kit (JDK).&lt;p/&gt;
-         Qualora non sia installata, si prega di visitare &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,
-         per ottenerla e installarla.&lt;/html&gt;"/> 
+         txt="&lt;html&gt;&lt;p&gt;Questo software richiede una versione minima ${JDKPathPanel.minVersion} di Java Development Kit (JDK).&lt;p/&gt;          Qualora non sia installata, si prega di visitare &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,          per ottenerla e installarla.&lt;/html&gt;"/>
 
     <str id="PacksPanel.info" txt="Scegliere i componenti da installare:"/>
     <str id="PacksPanel.tip" txt="Nota: i componenti in grigio sono obbligatori."/>
@@ -163,7 +158,7 @@
     <str id="PacksPanel.dependencies" txt="Dipendenze: "/>
     <str id="PacksPanel.excludes" txt="Esclusioni: "/>
     <str id="ImgPacksPanel.dependencyList" txt="Dipedenze e/o esclusioni"/>
-    <str id="PacksPanel.notEnoughSpace" txt="Lo spazio disponibile non è sufficiente"/>
+    <str id="PacksPanel.notEnoughSpace" txt="Lo spazio disponibile non Ã¨ sufficiente"/>
     <str id="PacksPanel.notAscertainable" txt="Non prevedibile"/>
 
     <str id="InstallPanel.info" txt="Selezionare 'Installa' per iniziare il processo di installazione"/>
@@ -172,13 +167,13 @@
     <str id="InstallPanel.begin" txt=" "/>
     <str id="InstallPanel.finished" txt="[Completato]"/>
     <str id="InstallPanel.progress" txt="Progresso totale dell'installazione:"/>
-    <str id="InstallPanel.overwrite.title" txt="Il file esiste già"/>
-    <str id="InstallPanel.overwrite.question" txt="Questo file esiste già. Sovrascriverlo?"/>
+    <str id="InstallPanel.overwrite.title" txt="Il file esiste giÃ "/>
+    <str id="InstallPanel.overwrite.question" txt="Questo file esiste giÃ . Sovrascriverlo?"/>
 
-    <str id="FinishPanel.success" txt="L'installazione è stata completata con successo."/>
+    <str id="FinishPanel.success" txt="L'installazione Ã¨ stata completata con successo."/>
     <str id="FinishPanel.done" txt="OK"/>
-    <str id="FinishPanel.fail" txt="L'installazione è fallita!"/>
-    <str id="FinishPanel.uninst.info" txt="È stato creato un programma di disinstallazione in:"/>
+    <str id="FinishPanel.fail" txt="L'installazione Ã¨ fallita!"/>
+    <str id="FinishPanel.uninst.info" txt="Ãˆ stato creato un programma di disinstallazione in:"/>
     <str id="FinishPanel.auto" txt="Genera uno script d'installazione automatica"/>
     <str id="FinishPanel.auto.tip" txt="Usa questo script per ripetere l'installazione in altri computer."/>
     <str id="FinishPanel.auto.dialog.filterdesc" txt="File XML"/>
@@ -188,7 +183,6 @@
     <str id="ImgPacksPanel.snap" txt="Elenco componenti: "/>
     <str id="ImgPacksPanel.checkbox" txt=" Installa questo componente"/>
 
-    <str id="ShortcutPanel.headline" txt="Impostazione collegamenti"/>
     <str id="ShortcutPanel.regular.list" txt="Selezionare un gruppo di programmi per il collegamento:"/>
     <str id="ShortcutPanel.regular.default" txt="Predefinito"/>
     <str id="ShortcutPanel.regular.desktop" txt="Crea un collegamento sul desktop"/>
@@ -203,13 +197,13 @@
     <str id="ShortcutPanel.alternate.apology"
          txt="IzPack non supporta la creazione di collegamenti in questo sistema operativo. Per crearli manualmente consultare la guida in linea del sistema operativo."/>
     <str id="ShortcutPanel.alternate.targetsLabel"
-         txt="Questa è una lista di 'destinazioni' che il produttore del programma voleva mettere a disposizione."/>
+         txt="Questa Ã¨ una lista di 'destinazioni' che il produttore del programma voleva mettere a disposizione."/>
     <str id="ShortcutPanel.alternate.textFileExplanation"
-         txt="È possibile salvare le informazioni dettagliate sulla destinazione dell'applicazione in un file di testo per un futuro riferimento."/>
+         txt="Ãˆ possibile salvare le informazioni dettagliate sulla destinazione dell'applicazione in un file di testo per un futuro riferimento."/>
     <str id="ShortcutPanel.alternate.saveButton" txt="Salvare in un file di testo"/>
 
     <str id="ShortcutPanel.textFile.header"
-         txt="Informazioni Scorciatoie\n====================\n\nQuesta è la lista di tutte le informazioni sulle scorciatoie originalmente\nselezionate. Con quest'informazione è possibile crearle manualmente.\n"/>
+         txt="Informazioni Scorciatoie\n====================\n\nQuesta Ã¨ la lista di tutte le informazioni sulle scorciatoie originalmente\nselezionate. Con quest'informazione Ã¨ possibile crearle manualmente.\n"/>
     <str id="ShortcutPanel.textFile.name" txt="Collegamento              : "/>
     <str id="ShortcutPanel.textFile.location" txt="Percorso                  : "/>
     <str id="ShortcutPanel.textFile.description" txt="Descrizione               : "/>
@@ -229,12 +223,11 @@
 
     <str id="UserInputPanel.dir.nodirectory.message" txt="Selezionare una cartella valida."/>
     <str id="UserInputPanel.dir.nodirectory.caption" txt="Nessuna cartella selezionata"/>
-    <str id="UserInputPanel.dir.notdirectory.message"
-         txt="La cartella selezionata o non è esiste o non è valida."/>
+    <str id="UserInputPanel.dir.notdirectory.message" txt="La cartella selezionata o non Ã¨ esiste o non Ã¨ valida."/>
     <str id="UserInputPanel.dir.notdirectory.caption" txt="Cartella non valida"/>
     <str id="UserInputPanel.file.nofile.message" txt="Selezionare un file valido."/>
     <str id="UserInputPanel.file.nofile.caption" txt="Nessun file selezionato"/>
-    <str id="UserInputPanel.file.notfile.message" txt="Il file selezionato o non esiste o non è valido."/>
+    <str id="UserInputPanel.file.notfile.message" txt="Il file selezionato o non esiste o non Ã¨ valido."/>
     <str id="UserInputPanel.file.notfile.caption" txt="File non valido"/>
 
 
@@ -244,7 +237,7 @@
     <str id="UserInputPanel.search.autodetect.tooltip"
          txt="Verificare il file o la cartella nel percorso sopra specificato."/>
     <str id="UserInputPanel.search.location" txt="Inserire il percorso di {0}."/>
-    <str id="UserInputPanel.search.location.checkedfile" txt="È stata verificata l'esistenza di {0}."/>
+    <str id="UserInputPanel.search.location.checkedfile" txt="Ãˆ stata verificata l'esistenza di {0}."/>
     <str id="UserInputPanel.search.browse" txt="Sfoglia..."/>
     <str id="UserInputPanel.search.wrongselection.message"
          txt="Il file o la cartella selezionati non esistono o non sono appropriati."/>
@@ -254,11 +247,11 @@
     <str id="UserPathPanel.info" txt="Selezionare il percorso: "/>
     <str id="UserPathPanel.browse" txt="Sfoglia"/>
     <str id="UserPathPanel.exists_warn"
-         txt="La cartella esiste già! Sicuri di voler installare qui il programma e sovrscrivere i file esistenti?"/>
-    <str id="UserPathPanel.empty_target" txt="Non è stata specificata una destinazione! È corretto?"/>
-    <str id="UserPathPanel.createdir" txt="Verrà creata la cartella: "/>
-    <str id="UserPathPanel.nodir" txt="Questo file non è una cartella! Scegliere una cartella!"/>
-    <str id="UserPathPanel.notwritable" txt="Questa cartella non è scrivibile! Scegliere un'altra cartella!"/>
+         txt="La cartella esiste giÃ ! Sicuri di voler installare qui il programma e sovrscrivere i file esistenti?"/>
+    <str id="UserPathPanel.empty_target" txt="Non Ã¨ stata specificata una destinazione! Ãˆ corretto?"/>
+    <str id="UserPathPanel.createdir" txt="VerrÃ  creata la cartella: "/>
+    <str id="UserPathPanel.nodir" txt="Questo file non Ã¨ una cartella! Scegliere una cartella!"/>
+    <str id="UserPathPanel.notwritable" txt="Questa cartella non Ã¨ scrivibile! Scegliere un'altra cartella!"/>
 
     <str id="CompilePanel.heading" txt="Compilazione"/>
     <str id="CompilePanel.tip" txt="Progresso della compilazione:"/>
@@ -268,11 +261,11 @@
     <str id="CompilePanel.progress.initial" txt="[Selezionare 'Inizio']"/>
     <str id="CompilePanel.progress.finished" txt="[Completato]"/>
     <str id="CompilePanel.progress.overall" txt="Progresso totale della compilazione:"/>
-    <str id="CompilePanel.error" txt="La compilazione è fallita"/>
+    <str id="CompilePanel.error" txt="La compilazione Ã¨ fallita"/>
     <str id="CompilePanel.error.reconfigure" txt="Configurare di nuovo"/>
     <str id="CompilePanel.error.ignore" txt="Ignora"/>
     <str id="CompilePanel.error.abort" txt="Annulla"/>
-    <str id="CompilePanel.error.seebelow" txt="Controllate il comando che è fallito ed il suo output."/>
+    <str id="CompilePanel.error.seebelow" txt="Controllate il comando che Ã¨ fallito ed il suo output."/>
     <str id="CompilePanel.error.nofiles" txt="Errore durante la ricerca dei file per la compilazione."/>
     <str id="CompilePanel.error.compilernotfound" txt="Impossibile avviare il compilatore."/>
     <str id="CompilePanel.error.invalidarguments" txt="Parametri non validi"/>
@@ -284,7 +277,7 @@
 
     <!-- Strings for the summary of panels - START -->
     <str id="SummaryPanel.info"
-         txt="L'installazione proseguirà con le impostazioni indicate qui sotto. Selezionare &quot;Avanti&quot; per iniziare l'installazione."/>
+         txt="L'installazione proseguirÃ  con le impostazioni indicate qui sotto. Selezionare &quot;Avanti&quot; per iniziare l'installazione."/>
     <str id="SummaryPanel.next" txt="Avanti"/>
     <str id="TargetPanel.summaryCaption" txt="Percorso installazione"/>
     <str id="JDKPathPanel.summaryCaption" txt="Percorso JDK"/>
@@ -317,7 +310,7 @@
 
     <!-- Strings for various purposes in the logging/reporting system  -->
     <str id="log.reportHeading" txt="                           IzPack - Report installazione"/>
-    <str id="log.installFailed" txt="ATTENZIONE!!! L'installazione non è stata completata correttamente!"/>
+    <str id="log.installFailed" txt="ATTENZIONE!!! L'installazione non Ã¨ stata completata correttamente!"/>
     <str id="log.partialInstall"
          txt="ATTENZIONE!!! L'installazione potrebbe non essere stata completata correttamente!"/>
     <str id="log.messageCount" txt="Questo report contiene {0} messaggio(i) generali, {1} avviso(i) e {2} errore(i)"/>
@@ -337,7 +330,7 @@
     <str id="log.saveLogTitle" txt="Salva il file del log"/>
     <str id="log.LogFileName" txt="installLog.txt"/>
     <str id="log.informUserFail"
-         txt="&lt;html&gt;L'installazione non è stata completata correttamente!&lt;br&gt;Registrare un file di log?&lt;/html&gt;"/>
+         txt="&lt;html&gt;L'installazione non Ã¨ stata completata correttamente!&lt;br&gt;Registrare un file di log?&lt;/html&gt;"/>
     <str id="log.informUserPartial"
          txt="&lt;html&gt;L'installazione potrebbe non essere stata completata correttamente!&lt;br&gt;Registrare un file di log?&lt;/html&gt;"/>
 
@@ -356,6 +349,41 @@
     <str id="debug.changevariable" txt="modifica valore"/>
 
     <str id="data.validation.error.title" txt="Validatione fallita"/>
-    <str id="data.validation.warning.title" txt="Avviso"/> 
- 
+    <str id="data.validation.warning.title" txt="Avviso"/>
+
+    <str id="AutomatedInstaller.permissionError"
+         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
+    <str id="installer.reboot.ask.title" txt="Reboot required"/>
+    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
+    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
+    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PathInputPanel.isfile"
+         txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="TargetPanel.incompatibleInstallation"
+         txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.syntax.error"
+         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TreePacksPanel.children" txt="Children"/>
+    <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
+    <str id="TreePacksPanel.dependent" txt="Dependencies"/>
+    <str id="TreePacksPanel.done" txt="Done!"/>
+    <str id="TreePacksPanel.invalid" txt="Invalid pack selected"/>
+    <str id="TreePacksPanel.no.number" txt="Please enter a number from the selection above."/>
+    <str id="TreePacksPanel.no.packs" txt="You have not selected any packs!\nAre you sure you want to continue?"/>
+    <str id="TreePacksPanel.prompt" txt="Please select which packs you want to install."/>
+    <str id="TreePacksPanel.required" txt="Required"/>
+    <str id="TreePacksPanel.space.required" txt="Total space required:"/>
+    <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
+    <str id="UserInputPanel.search.delete" txt="Delete..."/>
 </izpack:langpack>
