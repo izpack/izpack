@@ -1,10 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<izpack:langpack xmlns:izpack="http://izpack.org/schema/langpack" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 version="5.0"
+<izpack:langpack version="5.0"
+                 xmlns:izpack="http://izpack.org/schema/langpack"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
+    <!-- AutomatedInstaller strings -->
+    <str id="AutomatedInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
 
-    <!-- Heading messages START -->
+    <!-- CheckedHelloPanel strings -->
+    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="شناسۀ حذف نرم افزار:"/>
+    <str id="CheckedHelloPanel.productAlreadyExist0" txt="نسخۀ نصب شدۀ نرم افزار در این مسیر موجود است."/>
+    <str id="CheckedHelloPanel.productAlreadyExist1" txt="آیا مایلید یک نصب جدید داشته باشید؟"/>
+
+    <!-- CompilePanel strings -->
+    <str id="CompilePanel.additional_arguments" txt="سایر آرگومان های کامپایلر:"/>
+    <str id="CompilePanel.browse" txt="جستجو..."/>
+    <str id="CompilePanel.browse.approve" txt="بعنوان کامپایلر انتخاب شود."/>
+    <str id="CompilePanel.choose_compiler" txt="کامپایلر مورد استفاده:"/>
+    <str id="CompilePanel.error" txt="عملیات کامپایل ناموفق بود."/>
+    <str id="CompilePanel.error.abort" txt="انصراف"/>
+    <str id="CompilePanel.error.compilernotfound" txt="قادر به اجرای کامپایلر نمی باشد."/>
+    <str id="CompilePanel.error.ignore" txt="چشم پوشی"/>
+    <str id="CompilePanel.error.invalidarguments" txt="آرگومان های کامپایلر نامعتبرند."/>
+    <str id="CompilePanel.error.noclassfile" txt="کامپایلر هیچ فایل کلاسی برای فایل منبع نساخته است."/>
+    <str id="CompilePanel.error.nofiles" txt="خطا هنگام پویش فایل ها برای عملیات کامپایل"/>
+    <str id="CompilePanel.error.reconfigure" txt="پیکربندی مجدد"/>
+    <str id="CompilePanel.error.seebelow" txt="فرمان ناموفق به همراه خروجی آن به نمایش در آمده."/>
+    <str id="CompilePanel.heading" txt="کامپایل"/>
+    <str id="CompilePanel.start" txt="آغاز"/>
+    <str id="CompilePanel.tip" txt="میزان پیشرفت کامپایل برنامه:"/>
+    <str id="CompilePanel.progress.finished" txt="[پایان عملیات]"/>
+    <str id="CompilePanel.progress.initial" txt="[دکمۀ آغاز را بزنید]"/>
+    <str id="CompilePanel.progress.overall" txt="میزان پیشرفت عملیات کامپایل:"/>
+
+    <!-- ConsoleInstaller strings -->
+    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="License rejected"/>
+    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
+    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Quit pressed"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
+    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
+    <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
+    <str id="ConsoleInstaller.pagingMore" txt="More"/>
+    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
+    <str id="ConsoleInstaller.shutdown.aborted" txt="Console installation ABORTED by the user!"/>
+    <str id="ConsoleInstaller.shutdown.done" txt="Console installation done"/>
+    <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
+    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="There are file operations pending after reboot"/>
+    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Rebooting now automatically"/>
+
+    <!-- ConsolePrompt strings -->
+    <str id="ConsolePrompt.cancel" txt="C"/>
+    <str id="ConsolePrompt.ok" txt="O"/>
+    <str id="ConsolePrompt.okCancel" txt="Enter O for OK, C to Cancel: "/>
+    <str id="ConsolePrompt.no" txt="N"/>
+    <str id="ConsolePrompt.yes" txt="Y"/>
+    <str id="ConsolePrompt.yesNo" txt="Enter Y for Yes, N for No: "/>
+    <str id="ConsolePrompt.yesNoCancel" txt="Enter Y for Yes, N for No, or C to Cancel: "/>
+
+    <!-- FinishPanel strings -->
+    <str id="FinishPanel.auto" txt="ایجاد اسکریپت خودکار نصب"/>
+    <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
+    <str id="FinishPanel.auto.tip" txt="از این اسکریپت برای تکرار عملیات نصب روی کامپیوترهای دیگر استفاده کنید."/>
+    <str id="FinishPanel.done" txt="انجام شد."/>
+    <str id="FinishPanel.fail" txt="عملیات نصب ناموفق بود!"/>
+    <str id="FinishPanel.success" txt="عملیات نصب با موفقیت انجام شد."/>
+    <str id="FinishPanel.uninst.info" txt="برنامۀ Uninstall در مسیر زیر ایجاد شد:"/>
+
+    <!-- General installer strings -->
+    <str id="installer.cancel" txt="لغو"/>
+    <str id="installer.cancelled" txt="Installation cancelled"/>
+    <str id="installer.close" txt="Close"/>
+    <str id="installer.continueQuestion" txt="Continue anyway?"/>
+    <str id="installer.copy" txt="Copy"/>
+    <str id="installer.error" txt="خطا"/>
+    <str id="installer.errorMessage" txt="An error occurred"/>
+    <str id="installer.finished" txt="Installation finished"/>
+    <str id="installer.help" txt="راهنمایی"/>
+    <str id="installer.help.close" txt="بستن"/>
+    <str id="installer.hideDetails" txt="Hide Details"/>
+    <str id="installer.madewith" txt="(http://www.izforge.com/ IzPack محصولی از)"/>
+    <str id="installer.Message" txt="پیغام"/>
+    <str id="installer.next" txt="بعدی"/>
+    <str id="installer.no" txt="خیر"/>
+    <str id="installer.of" txt=" "/>
+    <str id="installer.platform" txt="Platform: {0}"/>
+    <str id="installer.prev" txt="قبلی"/>
+    <str id="installer.quit" txt="خروج"/>
+    <str id="installer.quit.message" txt="این کار موجب لغو عملیات نصب می شود!"/>
+    <str id="installer.quit.title" txt="آیا می خواهید از برنامه خارج شوید؟"/>
+    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
+    <str id="installer.reboot.ask.title" txt="Reboot required"/>
+    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
+    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
+    <str id="installer.sendReport" txt="Send Report"/>
+    <str id="installer.showDetails" txt="Show Details"/>
+    <str id="installer.started" txt="Installation started"/>
+    <str id="installer.step" txt="گام"/>
+    <str id="installer.title" txt="IzPack نصب"/>
+    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
+    <str id="installer.version" txt="Framework: {0}"/>
+    <str id="installer.warning" txt="هشدار!"/>
+    <str id="installer.yes" txt="بله"/>
+
+    <!-- Heading strings -->
     <str id="CheckedHelloPanel.headline" txt="خوش آمدید"/>
     <str id="CompilePanel.headline" txt="کامپایل منابع جاوا"/>
     <str id="ConditionalUserInputPanel.headline" txt="اطلاعات کاربر"/>
@@ -12,13 +111,14 @@
     <str id="HelloPanel.headline" txt="خوش آمدید"/>
     <str id="HTMLInfoPanel.headline" txt="اطلاعات"/>
     <str id="HTMLLicencePanel.headline" txt="توافقنامۀ کاربر"/>
-    <str id="PDFLicencePanel.headline" txt="توافقنامۀ کاربر"/>
     <str id="ImgPacksPanel.headline" txt="انتخاب بسته های نصب"/>
     <str id="InfoPanel.headline" txt="اطلاعات"/>
+    <str id="InstallationTypePanel.headline" txt="Installation Type"/>
     <str id="InstallPanel.headline" txt="نصب"/>
     <str id="JDKPathPanel.headline" txt="JDK مسیر"/>
     <str id="LicencePanel.headline" txt="توافقنامۀ کاربر"/>
     <str id="PacksPanel.headline" txt="انتخاب بسته های نصب"/>
+    <str id="PDFLicencePanel.headline" txt="توافقنامۀ کاربر"/>
     <str id="ProcessPanel.headline" txt="پردازش خارج از برنامه"/>
     <str id="ShortcutPanel.headline" txt="میانبرها"/>
     <str id="SimpleFinishPanel.headline" txt="نصب به پایان رسید."/>
@@ -26,307 +126,124 @@
     <str id="TargetPanel.headline" txt="مسیر مقصد"/>
     <str id="TreePacksPanel.headline" txt="انتخاب بسته های نصب"/>
     <str id="UserInputPanel.headline" txt="اطلاعات کاربر"/>
+    <str id="UserPathPanel.headline" txt="Select Path"/>
 
-    <!-- ConsolePrompt strings -->
-    <str id="ConsolePrompt.okCancel" txt="Enter O for OK, C to Cancel: "/>
-    <str id="ConsolePrompt.yesNo" txt="Enter Y for Yes, N for No: "/>
-    <str id="ConsolePrompt.yesNoCancel" txt="Enter Y for Yes, N for No, or C to Cancel: "/>
-    <str id="ConsolePrompt.ok" txt="O"/>
-    <str id="ConsolePrompt.cancel" txt="C"/>
-    <str id="ConsolePrompt.yes" txt="Y"/>
-    <str id="ConsolePrompt.no" txt="N"/>
-
-    <!-- ConsoleInstaller strings -->
-    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
-    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
-    <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.permissionError"
-         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
-    <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
-    <str id="ConsoleInstaller.pagingMore" txt="More"/>
-    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
-    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="License rejected"/>
-    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Quit pressed"/>
-    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="There are file operations pending after reboot"/>
-    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Rebooting now automatically"/>
-    <str id="ConsoleInstaller.shutdown.done" txt="Console installation done"/>
-    <str id="ConsoleInstaller.shutdown.aborted" txt="Console installation ABORTED by the user!"/>
-    <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
-
-    <!-- General installer strings -->
-    <str id="installer.title" txt="IzPack نصب"/>
-    <str id="installer.next" txt="بعدی"/>
-    <str id="installer.prev" txt="قبلی"/>
-    <str id="installer.quit" txt="خروج"/>
-    <str id="installer.madewith" txt="(http://www.izforge.com/ IzPack محصولی از)"/>
-    <str id="installer.quit.title" txt="آیا می خواهید از برنامه خارج شوید؟"/>
-    <str id="installer.quit.message" txt="این کار موجب لغو عملیات نصب می شود!"/>
-    <str id="installer.warning" txt="هشدار!"/>
-    <str id="installer.yes" txt="بله"/>
-    <str id="installer.no" txt="خیر"/>
-    <str id="installer.cancel" txt="لغو"/>
-    <str id="installer.error" txt="خطا"/>
-    <str id="installer.help" txt="راهنمایی"/>
-    <str id="installer.help.close" txt="بستن"/>
-    <str id="installer.step" txt="گام"/>
-    <str id="installer.of" txt=" "/>
-    <str id="installer.Message" txt="پیغام"/>
-    <str id="installer.errorMessage" txt="An error occured"/>
-    <str id="installer.close" txt="Close"/>
-    <str id="installer.showDetails" txt="Show Details"/>
-    <str id="installer.hideDetails" txt="Hide Details"/>
-    <str id="installer.copy" txt="Copy"/>
-    <str id="installer.sendReport" txt="Send Report"/>
-    <str id="installer.continueQuestion" txt="Continue anyway?"/>
-    <str id="installer.cancelled" txt="Installation cancelled"/>
-    <str id="installer.started" txt="Installation started"/>
-    <str id="installer.platform" txt="Platform: {0}"/>
-    <str id="installer.version" txt="Framework: {0}"/>
-    <str id="installer.finished" txt="Installation finished"/>
-
-    <!-- Uninstaller specific strings -->
-    <str id="uninstaller.warning" txt="این کار موجب حذف برنامه(ها)ی نصب شده می شود!"/>
-    <str id="uninstaller.destroytarget" txt=" حذف اجباری "/>
-    <str id="uninstaller.uninstall" txt="حذف برنامه"/>
-
-    <!-- The strings for the 'official' IzPack plugins -->
-    <str id="HelloPanel.welcome1" txt="به برنامۀ نصب خوش آمدید"/>
-    <str id="HelloPanel.welcome2" txt="!"/>
+    <!-- HelloPanel strings -->
     <str id="HelloPanel.authors" txt="نرم افزاری از:"/>
     <str id="HelloPanel.url" txt="نشانی اینترنتی:"/>
+    <str id="HelloPanel.welcome1" txt="به برنامۀ نصب خوش آمدید"/>
+    <str id="HelloPanel.welcome2" txt="!"/>
 
-    <str id="PrinterSelectPanel.select_printer" txt="یک چاپگر برای نصب و آزمون مقدماتی انتخاب کنید."/>
+    <!-- HTMLInfoPanel strings -->
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
 
-    <str id="CheckedHelloPanel.productAlreadyExist0" txt="نسخۀ نصب شدۀ نرم افزار در این مسیر موجود است."/>
-    <str id="CheckedHelloPanel.productAlreadyExist1" txt="آیا مایلید یک نصب جدید داشته باشید؟"/>
-    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="شناسۀ حذف نرم افزار:"/>
+    <!-- HTMLLicencePanel strings -->
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
-    <str id="LicencePanel.info" txt="لطفاً توافقنامۀ کاربر را به دقت مطالعه نمایید:"/>
-    <str id="LicencePanel.agree" txt="موارد قیدشده در توافقنامه را می پذیرم."/>
-    <str id="LicencePanel.notagree" txt="موارد قیدشده در توافقنامه را نمی پذیرم."/>
-    <str id="LicencePanel.yes" txt="بله"/>
-    <str id="LicencePanel.no" txt="خیر"/>
-
-    <str id="InfoPanel.info" txt="لطفاً اطلاعات زیر را مطالعه نمایید:"/>
-
-    <str id="PathInputPanel.required" txt="دایرکتوری انتخاب شده باید موجود باشد."/>
-    <str id="PathInputPanel.notValid" txt="نرم افزار مورد نظر در دایرکتوری انتخاب شده موجود نمی باشد."/>
-
-    <str id="TargetPanel.info" txt=" مسیر نصب را انتخاب کنید:"/>
-    <str id="TargetPanel.browse" txt="جستجو..."/>
-    <str id="TargetPanel.warn"
-         txt="پوشۀ موردنظر وجود دارد. آیا مایلید نرم افزار را در این دایرکتوری نصب و احتمالاً فایل های موجود را رونویسی کنید؟"/>
-    <str id="TargetPanel.empty_target" txt="شما مقصد را مشخص نکرده اید. انتخاب پیش فرض صحیح است؟ "/>
-    <str id="TargetPanel.createdir" txt="پوشۀ جدید ایجاد شود؟"/>
-    <str id="TargetPanel.nodir" txt="مورد انتخاب شده فایل است!لطفاً یک دایرکتوری انتخاب کنید!"/>
-    <str id="TargetPanel.notwritable" txt="این دایرکتوری قابل نوشتن نیست! لطفاً یک دایرکتوری دیگر انتخاب کنید!"/>
-
-    <str id="JDKPathPanel.extendedIntro"
-         txt="نرم افزار نصب شده به JDK نسخۀ ${JDKPathPanel.minVersion} تا ${JDKPathPanel.maxVersion} نیاز دارد. JRE برای اجرا کافی نیست."/>
-    <str id="JDKPathPanel.intro" txt="نرم افزار نصب شده به JDK نیاز دارد. JRE برای اجرا کافی نیست."/>
-    <str id="JDKPathPanel.info" txt="مسیر JRE را انتخاب کنید:"/>
-    <str id="JDKPathPanel.badVersion1" txt="نسخۀ JDK انتخاب شده نامناسب است."/>
-    <str id="JDKPathPanel.badVersion2" txt="نسخۀ JDK موردنیاز:"/>
-    <str id="JDKPathPanel.badVersion3" txt="از همین JDK استفاده شود؟"/>
-    <str id="JDKPathPanel.nonValidPathInReg"
-         txt="مسیر این JDK در رجیستری ویندوز نامعتبر است. آیا می خواهید از همین JDK استفاده کنید؟"/>
-
-    <str id="PacksPanel.info" txt="بسته های موردنظر را برای نصب انتخاب کنید:"/>
-    <str id="PacksPanel.tip" txt="توجه:  نصب بسته های خاکستری شده اجباری است."/>
-    <str id="PacksPanel.space" txt="حافظۀ موردنیاز:"/>
-    <str id="PacksPanel.freespace" txt="حافظۀ موجود:"/>
-    <str id="PacksPanel.description" txt="شرح"/>
-    <str id="PacksPanel.dependencyList" txt="بستۀ انتخاب شده پیش نیازها و/ یا موارد قابل حذف زیر را دارد:"/>
-    <str id="PacksPanel.dependencies" txt="پیش نیازها:"/>
-    <str id="PacksPanel.excludes" txt="موارد قابل حذف:"/>
+    <!-- ImgPacksPanel strings -->
+    <str id="ImgPacksPanel.checkbox" txt=" این بسته نصب شود"/>
     <str id="ImgPacksPanel.dependencyList" txt="پیش نیازها و/ یا موارد قابل حذف:"/>
-    <str id="PacksPanel.notEnoughSpace" txt="فضای دیسک موردنیاز برای نصب از فضای موجود بیشتر است."/>
-    <str id="PacksPanel.notAscertainable" txt="امکان پذیر نیست."/>
-
-    <str id="InstallPanel.info" txt="برای آغاز عملیات دکمۀ   َنصب َ  را بزنید."/>
-    <str id="InstallPanel.install" txt="نصب!"/>
-    <str id="InstallPanel.tip" txt="در حال نصب بسته ها:"/>
-    <str id="InstallPanel.begin" txt="[عملیات هنوز انجام نشده]"/>
-    <str id="InstallPanel.finished" txt="[پایان عملیات]"/>
-    <str id="InstallPanel.progress" txt="میزان پیشرفت عملیات نصب:"/>
-    <str id="InstallPanel.overwrite.title" txt="فایل موردنظر وجود دارد."/>
-    <str id="InstallPanel.overwrite.question" txt="فایل زیر وجود دارد.آیا رونویسی شود؟"/>
-
-    <str id="FinishPanel.success" txt="عملیات نصب با موفقیت انجام شد."/>
-    <str id="FinishPanel.done" txt="انجام شد."/>
-    <str id="FinishPanel.fail" txt="عملیات نصب ناموفق بود!"/>
-    <str id="FinishPanel.uninst.info" txt="برنامۀ Uninstall در مسیر زیر ایجاد شد:"/>
-    <str id="FinishPanel.auto" txt="ایجاد اسکریپت خودکار نصب"/>
-    <str id="FinishPanel.auto.tip" txt="از این اسکریپت برای تکرار عملیات نصب روی کامپیوترهای دیگر استفاده کنید."/>
-
     <str id="ImgPacksPanel.packs" txt="فهرست بسته های موجود:"/>
     <str id="ImgPacksPanel.snap" txt="تصویر بسته:"/>
-    <str id="ImgPacksPanel.checkbox" txt=" این بسته نصب شود"/>
 
-    <str id="ShortcutPanel.regular.list" txt="یک گروه برنامه برای میانبرها انتخاب کنید:"/>
-    <str id="ShortcutPanel.regular.default" txt="پیش فرض"/>
-    <str id="ShortcutPanel.regular.desktop" txt="ایجاد میانبر برای میزکار"/>
-    <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Start-Menu"/>
-    <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="K-Menu"/>
-    <!-- "StartMenu" is a placeholder will be replaced at runtime -->
-    <str id="ShortcutPanel.regular.create" txt="ایجاد میانبر برای منوی آغاز"/>
-    <str id="ShortcutPanel.regular.userIntro" txt="ایجاد میانبر برای:"/>
-    <str id="ShortcutPanel.regular.currentUser" txt="کاربر فعلی"/>
-    <str id="ShortcutPanel.regular.allUsers" txt="تمام کاربران"/>
+    <!-- InfoPanel strings -->
+    <str id="InfoPanel.info" txt="لطفاً اطلاعات زیر را مطالعه نمایید:"/>
 
-    <str id="ShortcutPanel.alternate.apology"
-         txt="متأسفانه IzPack قادر نیست در این محیط میانبر بسازد! به راهنمای سیستم عامل مراجعه کنید."/>
-    <str id="ShortcutPanel.alternate.targetsLabel"
-         txt="فهرست مقصدهایی که سازندۀ برنامه می خواهد به آنها دسترسی داشته باشید:"/>
-    <str id="ShortcutPanel.alternate.textFileExplanation"
-         txt=" می توانید مشروح اطلاعات مربوط به محل نصب برنامه را درفایل متنی نگهداری کنید."/>
-    <str id="ShortcutPanel.alternate.saveButton" txt="فایل متنی ذخیره شود."/>
+    <!-- InstallPanel strings -->
+    <str id="InstallPanel.begin" txt="[عملیات هنوز انجام نشده]"/>
+    <str id="InstallPanel.finished" txt="[پایان عملیات]"/>
+    <str id="InstallPanel.info" txt="برای آغاز عملیات دکمۀ   َنصب َ  را بزنید."/>
+    <str id="InstallPanel.install" txt="نصب!"/>
+    <str id="InstallPanel.overwrite.question" txt="فایل زیر وجود دارد.آیا رونویسی شود؟"/>
+    <str id="InstallPanel.overwrite.title" txt="فایل موردنظر وجود دارد."/>
+    <str id="InstallPanel.progress" txt="میزان پیشرفت عملیات نصب:"/>
+    <str id="InstallPanel.tip" txt="در حال نصب بسته ها:"/>
 
-    <str id="ShortcutPanel.textFile.header"
-         txt="Shortcut Information\n====================\n\nThe following is a listing of all relevant information about the intended\nshortcuts. This information should make it possible to create shortcuts manually.\n"/>
-    <str id="ShortcutPanel.textFile.name" txt="میانبر:"/>
-    <str id="ShortcutPanel.textFile.location" txt="محل ایجاد:"/>
-    <str id="ShortcutPanel.textFile.description" txt="شرح:"/>
-    <str id="ShortcutPanel.textFile.target" txt="مقصد میانبر:"/>
-    <str id="ShortcutPanel.textFile.command" txt="خط فرمان:"/>
-    <str id="ShortcutPanel.textFile.iconName" txt="فایل شمایل:"/>
-    <str id="ShortcutPanel.textFile.iconIndex" txt="اندیس شمایل:"/>
-    <str id="ShortcutPanel.textFile.work" txt="دایرکتوری فعال:"/>
-
-    <str id="ShortcutPanel.location.desktop" txt="میزکار"/>
-    <str id="ShortcutPanel.location.applications" txt="منوی برنامه"/>
-    <str id="ShortcutPanel.location.startMenu" txt="منوی آغاز"/>
-    <str id="ShortcutPanel.location.startup" txt="گروه برپاساز"/>
-
-    <str id="UserInputPanel.error.caption" txt="خطا در ورود اطلاعات"/>
-    <str id="UserInputPanel.search.autodetect" txt="جستجوی خودکار"/>
-
-    <!-- more descriptive error message would be cool, like specifying what file we looked for -->
-    <str id="UserInputPanel.search.autodetect.failed.message" txt="جستجوی خودکار به نتیجه نرسید."/>
-    <str id="UserInputPanel.search.autodetect.failed.caption" txt="جستجوی خودکار به نتیجه نرسید."/>
-    <str id="UserInputPanel.search.autodetect.tooltip" txt=" فایل یا پوشۀ مورد نظر را درمسیر داده شده  جستجو کنید."/>
-    <str id="UserInputPanel.search.location" txt="مسیر {0} را وارد کنید."/>
-    <str id="UserInputPanel.search.location.checkedfile" txt="وجود {0} بررسی شد."/>
-    <str id="UserInputPanel.search.browse" txt="جستجو..."/>
-    <str id="UserInputPanel.search.wrongselection.message"
-         txt="فایل یا دایرکتوری ای که انتخاب کرده اید وجود ندارد یا نا مناسب  است."/>
-    <str id="UserInputPanel.search.wrongselection.caption" txt="انتخاب نادرست"/>
-
-    <str id="CompilePanel.heading" txt="کامپایل"/>
-    <str id="CompilePanel.tip" txt="میزان پیشرفت کامپایل برنامه:"/>
-    <str id="CompilePanel.browse" txt="جستجو..."/>
-    <str id="CompilePanel.browse.approve" txt="بعنوان کامپایلر انتخاب شود."/>
-    <str id="CompilePanel.start" txt="آغاز"/>
-    <str id="CompilePanel.progress.initial" txt="[دکمۀ آغاز را بزنید]"/>
-    <str id="CompilePanel.progress.finished" txt="[پایان عملیات]"/>
-    <str id="CompilePanel.progress.overall" txt="میزان پیشرفت عملیات کامپایل:"/>
-    <str id="CompilePanel.error" txt="عملیات کامپایل ناموفق بود."/>
-    <str id="CompilePanel.error.reconfigure" txt="پیکربندی مجدد"/>
-    <str id="CompilePanel.error.ignore" txt="چشم پوشی"/>
-    <str id="CompilePanel.error.abort" txt="انصراف"/>
-    <str id="CompilePanel.error.seebelow" txt="فرمان ناموفق به همراه خروجی آن به نمایش در آمده."/>
-    <str id="CompilePanel.error.nofiles" txt="خطا هنگام پویش فایل ها برای عملیات کامپایل"/>
-    <str id="CompilePanel.error.compilernotfound" txt="قادر به اجرای کامپایلر نمی باشد."/>
-    <str id="CompilePanel.error.invalidarguments" txt="آرگومان های کامپایلر نامعتبرند."/>
-    <str id="CompilePanel.error.noclassfile" txt="کامپایلر هیچ فایل کلاسی برای فایل منبع نساخته است."/>
-    <str id="CompilePanel.choose_compiler" txt="کامپایلر مورد استفاده:"/>
-    <str id="CompilePanel.additional_arguments" txt="سایر آرگومان های کامپایلر:"/>
-
-    <str id="ProcessPanel.heading" txt="در حال پردازش"/>
-
-    <!-- Strings for the summary of panels - START -->
-    <str id="SummaryPanel.info"
-         txt="آمادۀ نصب... فهرست اطلاعات مهم در زیر آمده. برای آغاز عملیات نصب دکمۀ &quot;Next&quot; را بزنید."/>
-    <str id="SummaryPanel.next" txt="بعدی"/>
-    <str id="TargetPanel.summaryCaption" txt="مسیر نصب"/>
-    <str id="JDKPathPanel.summaryCaption" txt="JDK مسیر"/>
-    <str id="PacksPanel.summaryCaption" txt="بسته های نصب انتخاب شده"/>
-    <str id="ImgPacksPanel.summaryCaption" txt="بسته های نصب انتخاب شده"/>
-    <str id="TreePacksPanel.summaryCaption" txt="بسته های نصب انتخاب شده"/>
-    <!-- Strings for the summary of panels - END -->
-
-    <!-- Strings for the Registry -->
-    <str id="functionFailed.RegOpenKeyEx" txt="قادر به باز کردن کلید {0}\\{1} رجیستری نیست."/>
-
-    <!-- Add your own panels specific strings here if you need -->
-    <str id="nextmedia.title" txt="رسانۀ نصب بعدی"/>
-    <str id="nextmedia.msg" txt="رسانۀ نصب بعدی را انتخاب کنید."/>
-    <str id="nextmedia.browsebtn" txt="جستجو"/>
-    <str id="nextmedia.okbtn" txt="تأیید"/>
-    <str id="nextmedia.cancelbtn" txt="لغو"/>
-    <str id="nextmedia.choosertitle" txt="رسانۀ نصب را انتخاب کنید."/>
-    <str id="nextmedia.filedesc" txt="بسته های نصب (*.pack) "/>
-    <!-- Strings for the loggin/reporting system (Messenger) -->
-
-    <!-- This string defines the time stamp format in the installation report.
-         The format details are documented in
-    java.text.SimpleDateFormat -->
-    <str id="log.timeStamp" txt="MM-dd-yyyy [HH:mm:ss] zzzz"/>
-
-    <!-- Strings for various purposes in the logging/reporting system -->
-    <str id="log.reportHeading" txt="گزارش نصب IzPack"/>
-    <str id="log.installFailed" txt="هشدار!!! عملیات نصب ناموفق!"/>
-    <str id="log.partialInstall" txt="هشدار!!! عملیات نصب به طور کامل انجام نشده است!"/>
-    <str id="log.messageCount" txt="این گزارش شامل {0} پیغام عمومی، {1} هشدار و {2} پیغام خطا می باشد."/>
-    <str id="log.application" txt="گزارش نصب: {0} نسخۀ {1}"/>
-    <str id="log.timePrefix" txt="زمان نصب:{0}"/>
-    <str id="log.pathPrefix" txt="مسیر نصب:{1}"/>
-    <str id="log.messageHeading" txt=" ---پیغام های نصب---"/>
-    <str id="log.warningHeading" txt="---هشدارها---"/>
-    <str id="log.errorHeading" txt="---پیغام های خطا---"/>
-    <str id="log.exceptionPrefix" txt="&gt;&gt;Exception: {0}"/>
-    <str id="log.messagePrefix" txt="پیغام [{0}]-"/>
-    <str id="log.warningPrefix" txt="هشدار [{0}]-"/>
-    <str id="log.errorPrefix" txt="خطا [{0}]-"/>
-    <str id="log.reportWriteErrorTitle" txt="خطادر نوشتن گزارش"/>
-    <str id="log.reportWriteError" txt="قادر به نوشتن گزارش نصب در ''{0}'' نیست."/>
-    <str id="log.informUserTitle" txt="مشکلات نصب"/>
-    <str id="log.saveLogTitle" txt="فایل وقایع ذخیره شود؟"/>
-    <str id="log.LogFileName" txt="installLog.txt"/>
-    <str id="log.informUserFail"
-         txt="&lt;html&gt;The installation did not succeed!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
-    <str id="log.informUserPartial"
-         txt="&lt;html&gt;The installation might not have completely succeeded!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
-    <!-- Strings for individual messages in the logging/reporting system.Numbers for each category (message/warning/error) start at 0 -->
-    <str id="log.message_" txt=""/>
-
-    <str id="log.warning_" txt=""/>
-
-    <str id="log.error_0" txt="قادر به نوشتن ''{0}'' نیست."/>
-
-    <str id="AutomatedInstaller.permissionError"
-         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
-    <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
-    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
-    <str id="installer.reboot.ask.title" txt="Reboot required"/>
-    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
-    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
-    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
-    <str id="InstallationTypePanel.headline" txt="Installation Type"/>
-    <str id="UserPathPanel.headline" txt="Select Path"/>
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <!-- InstallationGroupPanel strings -->
     <str id="InstallationGroupPanel.colNameInstallType" txt="InstallType"/>
     <str id="InstallationGroupPanel.colNameSelected" txt="Selected"/>
     <str id="InstallationGroupPanel.colNameSize" txt="Size"/>
+
+    <!-- InstallationTypePanel strings -->
     <str id="InstallationTypePanel.info" txt="Please choose the type of installation:"/>
     <str id="InstallationTypePanel.modify" txt="Modify installation"/>
     <str id="InstallationTypePanel.normal" txt="New installation"/>
+
+    <!-- JDKPathPanel strings -->
+    <str id="JDKPathPanel.badVersion1" txt="نسخۀ JDK انتخاب شده نامناسب است."/>
+    <str id="JDKPathPanel.badVersion2" txt="نسخۀ JDK موردنیاز:"/>
+    <str id="JDKPathPanel.badVersion3" txt="از همین JDK استفاده شود؟"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.jdkDownload"
-         txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
-    <str id="PathInputPanel.isfile"
-         txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="JDKPathPanel.extendedIntro" txt="نرم افزار نصب شده به JDK نسخۀ ${JDKPathPanel.minVersion} تا ${JDKPathPanel.maxVersion} نیاز دارد. JRE برای اجرا کافی نیست."/>
+    <str id="JDKPathPanel.info" txt="مسیر JRE را انتخاب کنید:"/>
+    <str id="JDKPathPanel.intro" txt="نرم افزار نصب شده به JDK نیاز دارد. JRE برای اجرا کافی نیست."/>
+    <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.nonValidPathInReg" txt="مسیر این JDK در رجیستری ویندوز نامعتبر است. آیا می خواهید از همین JDK استفاده کنید؟"/>
+
+    <!-- LicencePanel strings -->
+    <str id="LicencePanel.agree" txt="موارد قیدشده در توافقنامه را می پذیرم."/>
+    <str id="LicencePanel.info" txt="لطفاً توافقنامۀ کاربر را به دقت مطالعه نمایید:"/>
+    <str id="LicencePanel.no" txt="خیر"/>
+    <str id="LicencePanel.notagree" txt="موارد قیدشده در توافقنامه را نمی پذیرم."/>
+    <str id="LicencePanel.yes" txt="بله"/>
+
+    <!-- Next Media strings -->
+    <str id="nextmedia.browsebtn" txt="جستجو"/>
+    <str id="nextmedia.cancelbtn" txt="لغو"/>
+    <str id="nextmedia.choosertitle" txt="رسانۀ نصب را انتخاب کنید."/>
+    <str id="nextmedia.filedesc" txt="بسته های نصب (*.pack) "/>
+    <str id="nextmedia.msg" txt="رسانۀ نصب بعدی را انتخاب کنید."/>
+    <str id="nextmedia.okbtn" txt="تأیید"/>
+    <str id="nextmedia.title" txt="رسانۀ نصب بعدی"/>
+
+    <!-- PacksPanel strings -->
+    <str id="PacksPanel.dependencies" txt="پیش نیازها:"/>
+    <str id="PacksPanel.dependencyList" txt="بستۀ انتخاب شده پیش نیازها و/ یا موارد قابل حذف زیر را دارد:"/>
+    <str id="PacksPanel.description" txt="شرح"/>
+    <str id="PacksPanel.excludes" txt="موارد قابل حذف:"/>
+    <str id="PacksPanel.freespace" txt="حافظۀ موجود:"/>
+    <str id="PacksPanel.info" txt="بسته های موردنظر را برای نصب انتخاب کنید:"/>
+    <str id="PacksPanel.notAscertainable" txt="امکان پذیر نیست."/>
+    <str id="PacksPanel.notEnoughSpace" txt="فضای دیسک موردنیاز برای نصب از فضای موجود بیشتر است."/>
+    <str id="PacksPanel.space" txt="حافظۀ موردنیاز:"/>
+    <str id="PacksPanel.tip" txt="توجه:  نصب بسته های خاکستری شده اجباری است."/>
+
+    <!-- PathInputPanel strings -->
+    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PathInputPanel.notValid" txt="نرم افزار مورد نظر در دایرکتوری انتخاب شده موجود نمی باشد."/>
+    <str id="PathInputPanel.required" txt="دایرکتوری انتخاب شده باید موجود باشد."/>
     <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
+
+    <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+
+    <!-- PrinterSelect Panel strings -->
+    <str id="PrinterSelectPanel.select_printer" txt="یک چاپگر برای نصب و آزمون مقدماتی انتخاب کنید."/>
+
+    <!-- ProcessPanel strings -->
+    <str id="ProcessPanel.heading" txt="در حال پردازش"/>
+
+    <!-- Registry strings -->
+    <str id="functionFailed.RegOpenKeyEx" txt="قادر به باز کردن کلید {0}\\{1} رجیستری نیست."/>
+
+    <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
     <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
     <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
     <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
-    <str id="TargetPanel.incompatibleInstallation"
-         txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
-    <str id="TargetPanel.syntax.error"
-         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+
+    <!-- TargetPanel strings -->
+    <str id="TargetPanel.browse" txt="جستجو..."/>
+    <str id="TargetPanel.createdir" txt="پوشۀ جدید ایجاد شود؟"/>
+    <str id="TargetPanel.empty_target" txt="شما مقصد را مشخص نکرده اید. انتخاب پیش فرض صحیح است؟ "/>
+    <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.info" txt=" مسیر نصب را انتخاب کنید:"/>
+    <str id="TargetPanel.nodir" txt="مورد انتخاب شده فایل است!لطفاً یک دایرکتوری انتخاب کنید!"/>
+    <str id="TargetPanel.notwritable" txt="این دایرکتوری قابل نوشتن نیست! لطفاً یک دایرکتوری دیگر انتخاب کنید!"/>
+    <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TargetPanel.warn" txt="پوشۀ موردنظر وجود دارد. آیا مایلید نرم افزار را در این دایرکتوری نصب و احتمالاً فایل های موجود را رونویسی کنید؟"/>
+
+    <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>
     <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
     <str id="TreePacksPanel.dependent" txt="Dependencies"/>
@@ -338,35 +255,125 @@
     <str id="TreePacksPanel.required" txt="Required"/>
     <str id="TreePacksPanel.space.required" txt="Total space required:"/>
     <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+
+    <!-- Uninstaller specific strings -->
+    <str id="uninstaller.destroytarget" txt=" حذف اجباری "/>
+    <str id="uninstaller.uninstall" txt="حذف برنامه"/>
+    <str id="uninstaller.warning" txt="این کار موجب حذف برنامه(ها)ی نصب شده می شود!"/>
+
+    <!-- XInfoPanel strings -->
     <str id="XInfoPanel.info" txt="Please read the following information:"/>
+
+    <!-- ShortcutPanel strings -->
+    <str id="ShortcutPanel.alternate.apology" txt="متأسفانه IzPack قادر نیست در این محیط میانبر بسازد! به راهنمای سیستم عامل مراجعه کنید."/>
+    <str id="ShortcutPanel.alternate.saveButton" txt="فایل متنی ذخیره شود."/>
+    <str id="ShortcutPanel.alternate.targetsLabel" txt="فهرست مقصدهایی که سازندۀ برنامه می خواهد به آنها دسترسی داشته باشید:"/>
+    <str id="ShortcutPanel.alternate.textFileExplanation" txt=" می توانید مشروح اطلاعات مربوط به محل نصب برنامه را درفایل متنی نگهداری کنید."/>
     <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.location.applications" txt="منوی برنامه"/>
+    <str id="ShortcutPanel.location.desktop" txt="میزکار"/>
+    <str id="ShortcutPanel.location.startMenu" txt="منوی آغاز"/>
+    <str id="ShortcutPanel.location.startup" txt="گروه برپاساز"/>
+    <str id="ShortcutPanel.regular.allUsers" txt="تمام کاربران"/>
+    <str id="ShortcutPanel.regular.create" txt="ایجاد میانبر برای منوی آغاز"/>
+    <str id="ShortcutPanel.regular.currentUser" txt="کاربر فعلی"/>
+    <str id="ShortcutPanel.regular.default" txt="پیش فرض"/>
+    <str id="ShortcutPanel.regular.desktop" txt="ایجاد میانبر برای میزکار"/>
+    <str id="ShortcutPanel.regular.list" txt="یک گروه برنامه برای میانبرها انتخاب کنید:"/>
+    <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="K-Menu"/>
+    <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Start-Menu"/>
     <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="ShortcutPanel.regular.userIntro" txt="ایجاد میانبر برای:"/>
+    <str id="ShortcutPanel.textFile.command" txt="خط فرمان:"/>
+    <str id="ShortcutPanel.textFile.description" txt="شرح:"/>
+    <str id="ShortcutPanel.textFile.header" txt="Shortcut Information\n====================\n\nThe following is a listing of all relevant information about the intended\nshortcuts. This information should make it possible to create shortcuts manually.\n"/>
+    <str id="ShortcutPanel.textFile.iconIndex" txt="اندیس شمایل:"/>
+    <str id="ShortcutPanel.textFile.iconName" txt="فایل شمایل:"/>
+    <str id="ShortcutPanel.textFile.location" txt="محل ایجاد:"/>
+    <str id="ShortcutPanel.textFile.name" txt="میانبر:"/>
+    <str id="ShortcutPanel.textFile.target" txt="مقصد میانبر:"/>
+    <str id="ShortcutPanel.textFile.work" txt="دایرکتوری فعال:"/>
+
+    <!-- SummaryPanel strings -->
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
+    <str id="ImgPacksPanel.summaryCaption" txt="بسته های نصب انتخاب شده"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="JDKPathPanel.summaryCaption" txt="JDK مسیر"/>
+    <str id="PacksPanel.summaryCaption" txt="بسته های نصب انتخاب شده"/>
+    <str id="SummaryPanel.info" txt="آمادۀ نصب... فهرست اطلاعات مهم در زیر آمده. برای آغاز عملیات نصب دکمۀ &quot;Next&quot; را بزنید."/>
+    <str id="SummaryPanel.next" txt="بعدی"/>
+    <str id="TargetPanel.summaryCaption" txt="مسیر نصب"/>
+    <str id="TreePacksPanel.summaryCaption" txt="بسته های نصب انتخاب شده"/>
     <str id="UserPathPanel.summaryCaption" txt="Selected Path"/>
+
+    <!-- UserInputPanel strings -->
     <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
     <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
     <str id="UserInputPanel.dir.nodirectory.caption" txt="No Directory Selected"/>
     <str id="UserInputPanel.dir.nodirectory.message" txt="You must select a valid directory."/>
     <str id="UserInputPanel.dir.notdirectory.caption" txt="Invalid Directory"/>
-    <str id="UserInputPanel.dir.notdirectory.message"
-         txt="The directory you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.dir.notdirectory.message" txt="The directory you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.error.caption" txt="خطا در ورود اطلاعات"/>
     <str id="UserInputPanel.file.nofile.caption" txt="No File Selected"/>
     <str id="UserInputPanel.file.nofile.message" txt="You must select a valid file."/>
     <str id="UserInputPanel.file.notfile.caption" txt="Invalid File"/>
-    <str id="UserInputPanel.file.notfile.message"
-         txt="The file you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.file.notfile.message" txt="The file you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.search.autodetect" txt="جستجوی خودکار"/>
+    <str id="UserInputPanel.search.autodetect.failed.caption" txt="جستجوی خودکار به نتیجه نرسید."/>
+    <str id="UserInputPanel.search.autodetect.failed.message" txt="جستجوی خودکار به نتیجه نرسید."/>
+    <str id="UserInputPanel.search.autodetect.tooltip" txt=" فایل یا پوشۀ مورد نظر را درمسیر داده شده  جستجو کنید."/>
+    <str id="UserInputPanel.search.browse" txt="جستجو..."/>
     <str id="UserInputPanel.search.delete" txt="Delete..."/>
+    <str id="UserInputPanel.search.location" txt="مسیر {0} را وارد کنید."/>
+    <str id="UserInputPanel.search.location.checkedfile" txt="وجود {0} بررسی شد."/>
+    <str id="UserInputPanel.search.wrongselection.caption" txt="انتخاب نادرست"/>
+    <str id="UserInputPanel.search.wrongselection.message" txt="فایل یا دایرکتوری ای که انتخاب کرده اید وجود ندارد یا نا مناسب  است."/>
+
+    <!-- UserPathPanel strings -->
     <str id="UserPathPanel.browse" txt="Browse"/>
     <str id="UserPathPanel.createdir" txt="The target directory will be created: "/>
     <str id="UserPathPanel.empty_target" txt="You have not specified a target location! Is this correct?"/>
-    <str id="UserPathPanel.exists_warn"
-         txt="The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"/>
+    <str id="UserPathPanel.exists_warn" txt="The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"/>
     <str id="UserPathPanel.info" txt="Select the path: "/>
     <str id="UserPathPanel.nodir" txt="This file is not a directory! Please choose a directory!"/>
     <str id="UserPathPanel.notwritable" txt="This directory can not be written! Please choose another directory!"/>
     <str id="UserPathPanel.required" txt="The chosen directory should exist."/>
+
+    <!-- This string defines the time stamp format in the installation report.
+         The format details are documented in java.text.SimpleDateFormat -->
+    <str id="log.timeStamp" txt="MM-dd-yyyy [HH:mm:ss] zzzz"/>
+
+    <!-- Strings for various purposes in the logging/reporting system -->
+    <str id="log.application" txt="گزارش نصب: {0} نسخۀ {1}"/>
+    <str id="log.errorHeading" txt="---پیغام های خطا---"/>
+    <str id="log.errorPrefix" txt="خطا [{0}]-"/>
+    <str id="log.exceptionPrefix" txt="&gt;&gt;Exception: {0}"/>
+    <str id="log.informUserFail" txt="&lt;html&gt;The installation did not succeed!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
+    <str id="log.informUserPartial" txt="&lt;html&gt;The installation might not have completely succeeded!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
+    <str id="log.informUserTitle" txt="مشکلات نصب"/>
+    <str id="log.installFailed" txt="هشدار!!! عملیات نصب ناموفق!"/>
+    <str id="log.LogFileName" txt="installLog.txt"/>
+    <str id="log.messageCount" txt="این گزارش شامل {0} پیغام عمومی، {1} هشدار و {2} پیغام خطا می باشد."/>
+    <str id="log.messageHeading" txt=" ---پیغام های نصب---"/>
+    <str id="log.messagePrefix" txt="پیغام [{0}]-"/>
+    <str id="log.partialInstall" txt="هشدار!!! عملیات نصب به طور کامل انجام نشده است!"/>
+    <str id="log.pathPrefix" txt="مسیر نصب:{1}"/>
+    <str id="log.reportHeading" txt="گزارش نصب IzPack"/>
+    <str id="log.reportWriteError" txt="قادر به نوشتن گزارش نصب در ''{0}'' نیست."/>
+    <str id="log.reportWriteErrorTitle" txt="خطادر نوشتن گزارش"/>
+    <str id="log.saveLogTitle" txt="فایل وقایع ذخیره شود؟"/>
+    <str id="log.timePrefix" txt="زمان نصب:{0}"/>
+    <str id="log.warningHeading" txt="---هشدارها---"/>
+    <str id="log.warningPrefix" txt="هشدار [{0}]-"/>
+
+    <!-- Strings for individual messages in the logging/reporting system.
+         Numbers for each category (message/warning/error) start at 0 -->
     <str id="debug.changevariable" txt="modify value"/>
+    <str id="log.error_0" txt="قادر به نوشتن ''{0}'' نیست."/>
+    <str id="log.message_" txt=""/>
+    <str id="log.warning_" txt=""/>
+
     <str id="data.validation.error.title" txt="Validation failed"/>
     <str id="data.validation.warning.title" txt="Attention needed"/>
+
 </izpack:langpack>

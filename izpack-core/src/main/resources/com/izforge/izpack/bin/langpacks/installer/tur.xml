@@ -1,9 +1,109 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<izpack:langpack xmlns:izpack="http://izpack.org/schema/langpack" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 version="5.0"
+<?xml version="1.0" encoding="UTF-8"?>
+<izpack:langpack version="5.0"
+                 xmlns:izpack="http://izpack.org/schema/langpack"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
-    <!-- Heading messages START -->
+    <!-- AutomatedInstaller strings -->
+    <str id="AutomatedInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+
+    <!-- CheckedHelloPanel strings -->
+    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="The uninstall key will be named: "/>
+    <str id="CheckedHelloPanel.productAlreadyExist0" txt="This product is already installed on this computer under the path "/>
+    <str id="CheckedHelloPanel.productAlreadyExist1" txt="Are you sure you want to install another entity?"/>
+
+    <!-- CompilePanel strings -->
+    <str id="CompilePanel.additional_arguments" txt="İlave derleyici parametreleri:"/>
+    <str id="CompilePanel.browse" txt="Göz at..."/>
+    <str id="CompilePanel.browse.approve" txt="Derleyici olarak kullan"/>
+    <str id="CompilePanel.choose_compiler" txt="Kullanılacak derleyici:"/>
+    <str id="CompilePanel.error" txt="Derleme başarısızlıkla sonuçlandı"/>
+    <str id="CompilePanel.error.abort" txt="Iptal et"/>
+    <str id="CompilePanel.error.compilernotfound" txt="Derleyici çalıştırılamadı."/>
+    <str id="CompilePanel.error.ignore" txt="Yoksay"/>
+    <str id="CompilePanel.error.invalidarguments" txt="Derleyiciye geçersiz parametreler verildi."/>
+    <str id="CompilePanel.error.noclassfile" txt="Derleyici kaynak dosya için class dosyasını oluşturamadı. "/>
+    <str id="CompilePanel.error.nofiles" txt="Derleme için gereken dosyaları tararken hata oluştu."/>
+    <str id="CompilePanel.error.reconfigure" txt="Tekrar yapılandır"/>
+    <str id="CompilePanel.error.seebelow" txt="Başarısız olan komutu ve çıktısını görmek için aşağıya bakın."/>
+    <str id="CompilePanel.heading" txt="Derleme"/>
+    <str id="CompilePanel.start" txt="Başla"/>
+    <str id="CompilePanel.tip" txt="Derleme işlemi ilerleme durumu:"/>
+    <str id="CompilePanel.progress.finished" txt="[Bitir]"/>
+    <str id="CompilePanel.progress.initial" txt="[Başla düğmesine basın]"/>
+    <str id="CompilePanel.progress.overall" txt="Tüm derlemenin ilerleme durumu::"/>
+
+    <!-- ConsoleInstaller strings -->
+    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="License rejected"/>
+    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
+    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Quit pressed"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
+    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
+    <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
+    <str id="ConsoleInstaller.pagingMore" txt="More"/>
+    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
+    <str id="ConsoleInstaller.shutdown.aborted" txt="Console installation ABORTED by the user!"/>
+    <str id="ConsoleInstaller.shutdown.done" txt="Console installation done"/>
+    <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
+    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="There are file operations pending after reboot"/>
+    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Rebooting now automatically"/>
+
+    <!-- ConsolePrompt strings -->
+    <str id="ConsolePrompt.cancel" txt="C"/>
+    <str id="ConsolePrompt.ok" txt="O"/>
+    <str id="ConsolePrompt.okCancel" txt="Enter O for OK, C to Cancel: "/>
+    <str id="ConsolePrompt.no" txt="N"/>
+    <str id="ConsolePrompt.yes" txt="Y"/>
+    <str id="ConsolePrompt.yesNo" txt="Enter Y for Yes, N for No: "/>
+    <str id="ConsolePrompt.yesNoCancel" txt="Enter Y for Yes, N for No, or C to Cancel: "/>
+
+    <!-- FinishPanel strings -->
+    <str id="FinishPanel.auto" txt="Bir otomatik kurulum senaryosu(script) oluştur"/>
+    <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
+    <str id="FinishPanel.auto.tip" txt="Bu kurulum senaryosunu(script) kurulumu diğer bilgisayarlarda tekrar edtmek için kullan."/>
+    <str id="FinishPanel.done" txt="Bitti"/>
+    <str id="FinishPanel.fail" txt="Kurulum başarılamadı!"/>
+    <str id="FinishPanel.success" txt="Kurulum başarılı bir şekilde tamamlandı."/>
+    <str id="FinishPanel.uninst.info" txt="Bir kaldırma(uninstaller) programı takip eden dizinde oluşturuldu: "/>
+
+    <!-- General installer strings -->
+    <str id="installer.cancel" txt="İptal"/>
+    <str id="installer.cancelled" txt="Installation cancelled"/>
+    <str id="installer.close" txt="Close"/>
+    <str id="installer.continueQuestion" txt="Continue anyway?"/>
+    <str id="installer.copy" txt="Copy"/>
+    <str id="installer.error" txt="Hata"/>
+    <str id="installer.errorMessage" txt="An error occurred"/>
+    <str id="installer.finished" txt="Installation finished"/>
+    <str id="installer.help" txt="Help"/>
+    <str id="installer.help.close" txt="Close"/>
+    <str id="installer.hideDetails" txt="Hide Details"/>
+    <str id="installer.madewith" txt="(IzPack ile hazırlanmıştır - http://izpack.org/)"/>
+    <str id="installer.Message" txt="Message"/>
+    <str id="installer.next" txt="Sonraki"/>
+    <str id="installer.no" txt="Hayır"/>
+    <str id="installer.of" txt="of"/>
+    <str id="installer.platform" txt="Platform: {0}"/>
+    <str id="installer.prev" txt="Önceki"/>
+    <str id="installer.quit" txt="Çıkış"/>
+    <str id="installer.quit.message" txt="Bu kurulumu iptal edecektir!"/>
+    <str id="installer.quit.title" txt="Çıkmak istediğinizden emin misiniz?"/>
+    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
+    <str id="installer.reboot.ask.title" txt="Reboot required"/>
+    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
+    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
+    <str id="installer.sendReport" txt="Send Report"/>
+    <str id="installer.showDetails" txt="Show Details"/>
+    <str id="installer.started" txt="Installation started"/>
+    <str id="installer.step" txt="Step"/>
+    <str id="installer.title" txt="IzPack - Kurulum"/>
+    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
+    <str id="installer.version" txt="Framework: {0}"/>
+    <str id="installer.warning" txt="Uyarı!"/>
+    <str id="installer.yes" txt="Evet"/>
+
+    <!-- Heading strings -->
     <str id="CheckedHelloPanel.headline" txt="Hoşgeldiniz"/>
     <str id="CompilePanel.headline" txt="Java Kaynak Kodlarını Derle"/>
     <str id="ConditionalUserInputPanel.headline" txt="Kullanıcı Bilgileri"/>
@@ -11,13 +111,14 @@
     <str id="HelloPanel.headline" txt="Hoşgeldiniz"/>
     <str id="HTMLInfoPanel.headline" txt="Bilgiler"/>
     <str id="HTMLLicencePanel.headline" txt="Lisans Anlaşmaları"/>
-    <str id="PDFLicencePanel.headline" txt="Lisans Anlaşmaları"/>
     <str id="ImgPacksPanel.headline" txt="Kurmak İstediğiniz Paketleri Seçiniz"/>
     <str id="InfoPanel.headline" txt="Bilgiler"/>
+    <str id="InstallationTypePanel.headline" txt="Installation Type"/>
     <str id="InstallPanel.headline" txt="Kurulum"/>
     <str id="JDKPathPanel.headline" txt="JDK Path"/>
     <str id="LicencePanel.headline" txt="Lisans Anlaşmaları"/>
     <str id="PacksPanel.headline" txt="Kurmak İstediğiniz Paketleri Seçiniz"/>
+    <str id="PDFLicencePanel.headline" txt="Lisans Anlaşmaları"/>
     <str id="ProcessPanel.headline" txt="Harici İşlemleri Gerçekleştir"/>
     <str id="ShortcutPanel.headline" txt="Kısayollar"/>
     <str id="SimpleFinishPanel.headline" txt="Kurulum Tamamlandı"/>
@@ -25,232 +126,68 @@
     <str id="TargetPanel.headline" txt="Hedef Dizin"/>
     <str id="TreePacksPanel.headline" txt="Kurmak İstediğiniz Paketleri Seçiniz"/>
     <str id="UserInputPanel.headline" txt="Kullanıcı Bilgileri"/>
+    <str id="UserPathPanel.headline" txt="Select Path"/>
 
-    <!-- ConsolePrompt strings -->
-    <str id="ConsolePrompt.okCancel" txt="Enter O for OK, C to Cancel: "/>
-    <str id="ConsolePrompt.yesNo" txt="Enter Y for Yes, N for No: "/>
-    <str id="ConsolePrompt.yesNoCancel" txt="Enter Y for Yes, N for No, or C to Cancel: "/>
-    <str id="ConsolePrompt.ok" txt="O"/>
-    <str id="ConsolePrompt.cancel" txt="C"/>
-    <str id="ConsolePrompt.yes" txt="Y"/>
-    <str id="ConsolePrompt.no" txt="N"/>
-
-    <!-- ConsoleInstaller strings -->
-    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
-    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
-    <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.permissionError"
-         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
-    <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
-    <str id="ConsoleInstaller.pagingMore" txt="More"/>
-    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
-    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="License rejected"/>
-    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Quit pressed"/>
-    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="There are file operations pending after reboot"/>
-    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Rebooting now automatically"/>
-    <str id="ConsoleInstaller.shutdown.done" txt="Console installation done"/>
-    <str id="ConsoleInstaller.shutdown.aborted" txt="Console installation ABORTED by the user!"/>
-    <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
-
-    <!-- Genel kurulum karakter dizileri -->
-    <str id="installer.title" txt="IzPack - Kurulum"/>
-    <str id="installer.next" txt="Sonraki"/>
-    <str id="installer.prev" txt="Önceki"/>
-    <str id="installer.quit" txt="Çıkış"/>
-    <str id="installer.madewith" txt="(IzPack ile hazırlanmıştır - http://izpack.org/)"/>
-    <str id="installer.quit.title" txt="Çıkmak istediğinizden emin misiniz?"/>
-    <str id="installer.quit.message" txt="Bu kurulumu iptal edecektir!"/>
-    <str id="installer.warning" txt="Uyarı!"/>
-    <str id="installer.yes" txt="Evet"/>
-    <str id="installer.no" txt="Hayır"/>
-    <str id="installer.cancel" txt="İptal"/>
-    <str id="installer.error" txt="Hata"/>
-    <str id="installer.errorMessage" txt="An error occured"/>
-    <str id="installer.close" txt="Close"/>
-    <str id="installer.showDetails" txt="Show Details"/>
-    <str id="installer.hideDetails" txt="Hide Details"/>
-    <str id="installer.copy" txt="Copy"/>
-    <str id="installer.sendReport" txt="Send Report"/>
-    <str id="installer.continueQuestion" txt="Continue anyway?"/>
-    <str id="installer.cancelled" txt="Installation cancelled"/>
-    <str id="installer.started" txt="Installation started"/>
-    <str id="installer.platform" txt="Platform: {0}"/>
-    <str id="installer.version" txt="Framework: {0}"/>
-    <str id="installer.finished" txt="Installation finished"/>
-
-    <!-- Uninstaller specific strings -->
-    <str id="uninstaller.warning" txt="Bu kurulmuş olan program(lar)ı kaldıracaktır!"/>
-    <str id="uninstaller.destroytarget" txt=" Zorla sil "/>
-    <str id="uninstaller.uninstall" txt="Kaldır"/>
-
-    <!-- The strings for the 'official' IzPack plugins -->
-    <str id="HelloPanel.welcome1" txt="Kuruluma hoşgeldiniz "/>
-    <str id="HelloPanel.welcome2" txt="!"/>
+    <!-- HelloPanel strings -->
     <str id="HelloPanel.authors" txt="Bu yaılımın geliştiricileri: "/>
     <str id="HelloPanel.url" txt="Ev sayfası: "/>
+    <str id="HelloPanel.welcome1" txt="Kuruluma hoşgeldiniz "/>
+    <str id="HelloPanel.welcome2" txt="!"/>
 
-    <str id="LicencePanel.info" txt="Lütfen aşağıdaki lisans anlaşmasını dikkatlice okuyunuz:"/>
-    <str id="LicencePanel.agree" txt="Lisans anlaşmasının şartlarını kabul ediyorum."/>
-    <str id="LicencePanel.notagree" txt="Lisans anlaşmasının şartlarını kabul etmiyorum."/>
-    <str id="LicencePanel.yes" txt="Evet"/>
-    <str id="LicencePanel.no" txt="Hayır"/>
+    <!-- HTMLInfoPanel strings -->
+    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
 
-    <str id="InfoPanel.info" txt="Lütfen aşağıdaki bilgileri okuyunuz: "/>
+    <!-- HTMLLicencePanel strings -->
+    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
-    <str id="PathInputPanel.required" txt="Seçilen dizin var olmalı."/>
-    <str id="PathInputPanel.notValid" txt="Seçilen dizin gerek duyulan ürünü içermemekte."/>
-
-    <str id="TargetPanel.info" txt="Kurulum dizinini seçin: "/>
-    <str id="TargetPanel.browse" txt="Göz at..."/>
-    <str id="TargetPanel.warn"
-         txt="Dizin zaten var! Buraya kurmak ve belkide mevcut dosyaların üzerine yazmak istediğinizden emin misiniz?"/>
-    <str id="TargetPanel.empty_target" txt="Hedef dizini belirtmediniz! Bu doğru mu?"/>
-    <str id="TargetPanel.createdir" txt="Hedef dizin oluşturulacak: "/>
-    <str id="TargetPanel.nodir" txt="Bu dosya bir dizin değil! Lütfen bir dizin seçin!"/>
-    <str id="TargetPanel.notwritable" txt="Bu dizine yazılamaz! Lütfen başka bir dizin seçin!"/>
-
-    <str id="JDKPathPanel.intro"
-         txt="Kurulan uygulama JDK gerektirmekte. Java çalıştırma ortamı (JRE) yeterli olmayacak."/>
-    <str id="JDKPathPanel.info" txt="JDK yolunu seçin:"/>
-    <str id="JDKPathPanel.badVersion1" txt="Seçilen JDK yanlış bir sürüme sahip (var olan: "/>
-    <str id="JDKPathPanel.badVersion2" txt=" gereken: "/>
-    <str id="JDKPathPanel.badVersion3" txt=") buna rağmen bu JDK'yı kullanmak istiyor musunuz?"/>
-
-    <str id="PacksPanel.info" txt="Kurmak istediğiniz paketleri seçin:"/>
-    <str id="PacksPanel.tip" txt="Not: Gri paketlerin kurulması gereklidir."/>
-    <str id="PacksPanel.space" txt="Gereken toplam alan: "/>
-    <str id="PacksPanel.freespace" txt="Kullanılabilir alan: "/>
-    <str id="PacksPanel.description" txt="Açıklama"/>
-    <str id="PacksPanel.dependencyList" txt="Seçilen paket takip eden paketlerin kurulmasını gerektirmektedir"/>
+    <!-- ImgPacksPanel strings -->
+    <str id="ImgPacksPanel.checkbox" txt=" Bu paketi kur"/>
     <str id="ImgPacksPanel.dependencyList" txt="Bağımlılıklar"/>
-    <str id="PacksPanel.notEnoughSpace" txt="Gereken toplam alan kullanılabilir alanı aşıyor."/>
-    <str id="PacksPanel.notAscertainable" txt="tahkik edilebilir değil"/>
-
-    <str id="InstallPanel.info" txt="Kurulumu başlatmak için 'Kur!' a tıklayın."/>
-    <str id="InstallPanel.install" txt="Kur!"/>
-    <str id="InstallPanel.tip" txt="Paket kurulum ilerleme durumu:"/>
-    <str id="InstallPanel.begin" txt="[Hiçbir şey]"/>
-    <str id="InstallPanel.finished" txt="[Bitir]"/>
-    <str id="InstallPanel.progress" txt="Tüm kurulumun ilerleme durumu:"/>
-    <str id="InstallPanel.overwrite.title" txt="Dosya zaten var"/>
-    <str id="InstallPanel.overwrite.question" txt="Takip eden dosya zaten var. Bu dosyanın üzerine yazılmalı mı"/>
-
-    <str id="FinishPanel.success" txt="Kurulum başarılı bir şekilde tamamlandı."/>
-    <str id="FinishPanel.done" txt="Bitti"/>
-    <str id="FinishPanel.fail" txt="Kurulum başarılamadı!"/>
-    <str id="FinishPanel.uninst.info" txt="Bir kaldırma(uninstaller) programı takip eden dizinde oluşturuldu: "/>
-    <str id="FinishPanel.auto" txt="Bir otomatik kurulum senaryosu(script) oluştur"/>
-    <str id="FinishPanel.auto.tip"
-         txt="Bu kurulum senaryosunu(script) kurulumu diğer bilgisayarlarda tekrar edtmek için kullan."/>
-
     <str id="ImgPacksPanel.packs" txt="Takip eden paketler kullanılabilir:"/>
     <str id="ImgPacksPanel.snap" txt="Paket enstantenesi(snapshot):"/>
-    <str id="ImgPacksPanel.checkbox" txt=" Bu paketi kur"/>
 
-    <str id="ShortcutPanel.regular.list" txt="Kısayollar için bir program grubu seç:"/>
-    <str id="ShortcutPanel.regular.default" txt="İlk duruma getir"/>
-    <str id="ShortcutPanel.regular.desktop" txt="Kısayolları masaüstünde yarat."/>
-    <str id="ShortcutPanel.regular.create" txt="Kısayolları Yarat"/>
-    <str id="ShortcutPanel.regular.userIntro" txt="yandaki için kısayolları yarat:"/>
-    <str id="ShortcutPanel.regular.currentUser" txt="şu anki kullanıcı"/>
-    <str id="ShortcutPanel.regular.allUsers" txt="tüm kullanıcılar"/>
+    <!-- InfoPanel strings -->
+    <str id="InfoPanel.info" txt="Lütfen aşağıdaki bilgileri okuyunuz: "/>
 
-    <str id="ShortcutPanel.alternate.apology"
-         txt="Üzgünüz, ama IzPack bu işletim sistemi üzerinde kısayol yaratmayı desteklemiyor. Kısayol oluşturmak için, lütfen işletim sisteminizin kılavuzuna başvurun."/>
-    <str id="ShortcutPanel.alternate.targetsLabel"
-         txt="Takip eden liste bu yazılım ürününün sizin ulaşabilmenizi beklediği hedefleri göstermektedir."/>
-    <str id="ShortcutPanel.alternate.textFileExplanation"
-         txt="Uygulama hedefleri hakkında detaylı bilgiyi sonra kullanabilmek amacıyla bir dosyaya kaydedebilirsiniz."/>
-    <str id="ShortcutPanel.alternate.saveButton" txt="Dosyaya Kaydet"/>
+    <!-- InstallPanel strings -->
+    <str id="InstallPanel.begin" txt="[Hiçbir şey]"/>
+    <str id="InstallPanel.finished" txt="[Bitir]"/>
+    <str id="InstallPanel.info" txt="Kurulumu başlatmak için 'Kur!' a tıklayın."/>
+    <str id="InstallPanel.install" txt="Kur!"/>
+    <str id="InstallPanel.overwrite.question" txt="Takip eden dosya zaten var. Bu dosyanın üzerine yazılmalı mı"/>
+    <str id="InstallPanel.overwrite.title" txt="Dosya zaten var"/>
+    <str id="InstallPanel.progress" txt="Tüm kurulumun ilerleme durumu:"/>
+    <str id="InstallPanel.tip" txt="Paket kurulum ilerleme durumu:"/>
 
-    <str id="ShortcutPanel.textFile.header"
-         txt="Kısayol Bilgileri\n====================\n\nAşağıdaki liste planlanan kısayollarla ilgili tüm bilgileri içermektedir.\n Bu bilgiler kısayolları elle oluşturabilmenizi sağlayabilmelidir.\n"/>
-
-    <str id="ShortcutPanel.textFile.name" txt="Kısayol          : "/>
-    <str id="ShortcutPanel.textFile.location" txt="Planlanan Yer : "/>
-    <str id="ShortcutPanel.textFile.description" txt="Açıklama       : "/>
-    <str id="ShortcutPanel.textFile.target" txt="Kısayol Hedefi   : "/>
-    <str id="ShortcutPanel.textFile.command" txt="Komut Satırı      : "/>
-    <str id="ShortcutPanel.textFile.iconName" txt="Ikon Dosyası         : "/>
-    <str id="ShortcutPanel.textFile.iconIndex" txt="Ikon Dizini        : "/>
-    <str id="ShortcutPanel.textFile.work" txt="Çalışma Dizini : "/>
-
-    <str id="ShortcutPanel.location.desktop" txt="Masaüstü"/>
-    <str id="ShortcutPanel.location.applications" txt="Uygulama Menüsü"/>
-    <str id="ShortcutPanel.location.startMenu" txt="Başlangıç Menüsü"/>
-    <str id="ShortcutPanel.location.startup" txt="Başlangıç Grubu"/>
-
-    <str id="UserInputPanel.error.caption" txt="Giriş Problemi"/>
-    <str id="UserInputPanel.search.autodetect" txt="Otomatik tespit"/>
-
-    <!-- more descriptive error message would be cool, like specifying what file we looked for -->
-    <str id="UserInputPanel.search.autodetect.failed.message" txt="Otomatik tespit başarısız."/>
-    <str id="UserInputPanel.search.autodetect.failed.caption" txt="Otomatik tespit başarısız."/>
-    <str id="UserInputPanel.search.autodetect.tooltip" txt="Yukarıda verilen yoldaki dizin veya dosyayı kontrol edin."/>
-    <str id="UserInputPanel.search.location" txt="{0}'(n)in yerini girin."/>
-    <str id="UserInputPanel.search.location.checkedfile" txt="{0} nun varlığı kontrol edildi."/>
-    <str id="UserInputPanel.search.browse" txt="Göz at..."/>
-    <str id="UserInputPanel.search.wrongselection.message"
-         txt="Seçtiğiniz dosya ya da dizin uygun değil veya mevcut değil."/>
-    <str id="UserInputPanel.search.wrongselection.caption" txt="Geçersiz seçim."/>
-
-    <str id="CompilePanel.heading" txt="Derleme"/>
-    <str id="CompilePanel.tip" txt="Derleme işlemi ilerleme durumu:"/>
-    <str id="CompilePanel.browse" txt="Göz at..."/>
-    <str id="CompilePanel.browse.approve" txt="Derleyici olarak kullan"/>
-    <str id="CompilePanel.start" txt="Başla"/>
-    <str id="CompilePanel.progress.initial" txt="[Başla düğmesine basın]"/>
-    <str id="CompilePanel.progress.finished" txt="[Bitir]"/>
-    <str id="CompilePanel.progress.overall" txt="Tüm derlemenin ilerleme durumu::"/>
-    <str id="CompilePanel.error" txt="Derleme başarısızlıkla sonuçlandı"/>
-    <str id="CompilePanel.error.reconfigure" txt="Tekrar yapılandır"/>
-    <str id="CompilePanel.error.ignore" txt="Yoksay"/>
-    <str id="CompilePanel.error.abort" txt="Iptal et"/>
-    <str id="CompilePanel.error.seebelow" txt="Başarısız olan komutu ve çıktısını görmek için aşağıya bakın."/>
-    <str id="CompilePanel.error.nofiles" txt="Derleme için gereken dosyaları tararken hata oluştu."/>
-    <str id="CompilePanel.error.compilernotfound" txt="Derleyici çalıştırılamadı."/>
-    <str id="CompilePanel.error.invalidarguments" txt="Derleyiciye geçersiz parametreler verildi."/>
-    <str id="CompilePanel.error.noclassfile" txt="Derleyici kaynak dosya için class dosyasını oluşturamadı. "/>
-    <str id="CompilePanel.choose_compiler" txt="Kullanılacak derleyici:"/>
-    <str id="CompilePanel.additional_arguments" txt="İlave derleyici parametreleri:"/>
-    <str id="ProcessPanel.heading" txt="Derleniyor"/>
-
-    <!-- Add your own panels specific strings here if you need -->
-
-    <str id="AutomatedInstaller.permissionError"
-         txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
-    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="The uninstall key will be named: "/>
-    <str id="CheckedHelloPanel.productAlreadyExist0"
-         txt="This product is already installed on this computer under the path "/>
-    <str id="CheckedHelloPanel.productAlreadyExist1" txt="Are you sure you want to install another entity?"/>
-    <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
-    <str id="installer.help" txt="Help"/>
-    <str id="installer.help.close" txt="Close"/>
-    <str id="installer.Message" txt="Message"/>
-    <str id="installer.of" txt="of"/>
-    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
-    <str id="installer.reboot.ask.title" txt="Reboot required"/>
-    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
-    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
-    <str id="installer.step" txt="Step"/>
-    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
-    <str id="InstallationTypePanel.headline" txt="Installation Type"/>
-    <str id="UserPathPanel.headline" txt="Select Path"/>
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <!-- InstallationGroupPanel strings -->
     <str id="InstallationGroupPanel.colNameInstallType" txt="InstallType"/>
     <str id="InstallationGroupPanel.colNameSelected" txt="Selected"/>
     <str id="InstallationGroupPanel.colNameSize" txt="Size"/>
+
+    <!-- InstallationTypePanel strings -->
     <str id="InstallationTypePanel.info" txt="Please choose the type of installation:"/>
     <str id="InstallationTypePanel.modify" txt="Modify installation"/>
     <str id="InstallationTypePanel.normal" txt="New installation"/>
+
+    <!-- JDKPathPanel strings -->
+    <str id="JDKPathPanel.badVersion1" txt="Seçilen JDK yanlış bir sürüme sahip (var olan: "/>
+    <str id="JDKPathPanel.badVersion2" txt=" gereken: "/>
+    <str id="JDKPathPanel.badVersion3" txt=") buna rağmen bu JDK'yı kullanmak istiyor musunuz?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro"
-         txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
-    <str id="JDKPathPanel.jdkDownload"
-         txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
-    <str id="JDKPathPanel.nonValidPathInReg"
-         txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
+    <str id="JDKPathPanel.extendedIntro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="JDKPathPanel.info" txt="JDK yolunu seçin:"/>
+    <str id="JDKPathPanel.intro" txt="Kurulan uygulama JDK gerektirmekte. Java çalıştırma ortamı (JRE) yeterli olmayacak."/>
+    <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
+
+    <!-- LicencePanel strings -->
+    <str id="LicencePanel.agree" txt="Lisans anlaşmasının şartlarını kabul ediyorum."/>
+    <str id="LicencePanel.info" txt="Lütfen aşağıdaki lisans anlaşmasını dikkatlice okuyunuz:"/>
+    <str id="LicencePanel.no" txt="Hayır"/>
+    <str id="LicencePanel.notagree" txt="Lisans anlaşmasının şartlarını kabul etmiyorum."/>
+    <str id="LicencePanel.yes" txt="Evet"/>
+
+    <!-- Next Media strings -->
     <str id="nextmedia.browsebtn" txt="Browse"/>
     <str id="nextmedia.cancelbtn" txt="Cancel"/>
     <str id="nextmedia.choosertitle" txt="Choose install media"/>
@@ -258,22 +195,55 @@
     <str id="nextmedia.msg" txt="Choose the next install media."/>
     <str id="nextmedia.okbtn" txt="Apply"/>
     <str id="nextmedia.title" txt="Next install media"/>
+
+    <!-- PacksPanel strings -->
     <str id="PacksPanel.dependencies" txt="Dependencies: "/>
+    <str id="PacksPanel.dependencyList" txt="Seçilen paket takip eden paketlerin kurulmasını gerektirmektedir"/>
+    <str id="PacksPanel.description" txt="Açıklama"/>
     <str id="PacksPanel.excludes" txt="Excludes: "/>
-    <str id="PathInputPanel.isfile"
-         txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PacksPanel.freespace" txt="Kullanılabilir alan: "/>
+    <str id="PacksPanel.info" txt="Kurmak istediğiniz paketleri seçin:"/>
+    <str id="PacksPanel.notAscertainable" txt="tahkik edilebilir değil"/>
+    <str id="PacksPanel.notEnoughSpace" txt="Gereken toplam alan kullanılabilir alanı aşıyor."/>
+    <str id="PacksPanel.space" txt="Gereken toplam alan: "/>
+    <str id="PacksPanel.tip" txt="Not: Gri paketlerin kurulması gereklidir."/>
+
+    <!-- PathInputPanel strings -->
+    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="PathInputPanel.notValid" txt="Seçilen dizin gerek duyulan ürünü içermemekte."/>
+    <str id="PathInputPanel.required" txt="Seçilen dizin var olmalı."/>
     <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
+
+    <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+
+    <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
+
+    <!-- ProcessPanel strings -->
+    <str id="ProcessPanel.heading" txt="Derleniyor"/>
+
+    <!-- Registry strings -->
     <str id="functionFailed.RegOpenKeyEx" txt="Cannot open registry key {0}\\{1}."/>
+
+    <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
     <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
     <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
     <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
-    <str id="TargetPanel.incompatibleInstallation"
-         txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
-    <str id="TargetPanel.syntax.error"
-         txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+
+    <!-- TargetPanel strings -->
+    <str id="TargetPanel.browse" txt="Göz at..."/>
+    <str id="TargetPanel.createdir" txt="Hedef dizin oluşturulacak: "/>
+    <str id="TargetPanel.empty_target" txt="Hedef dizini belirtmediniz! Bu doğru mu?"/>
+    <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.info" txt="Kurulum dizinini seçin: "/>
+    <str id="TargetPanel.nodir" txt="Bu dosya bir dizin değil! Lütfen bir dizin seçin!"/>
+    <str id="TargetPanel.notwritable" txt="Bu dizine yazılamaz! Lütfen başka bir dizin seçin!"/>
+    <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TargetPanel.warn" txt="Dizin zaten var! Buraya kurmak ve belkide mevcut dosyaların üzerine yazmak istediğinizden emin misiniz?"/>
+
+    <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>
     <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
     <str id="TreePacksPanel.dependent" txt="Dependencies"/>
@@ -285,11 +255,46 @@
     <str id="TreePacksPanel.required" txt="Required"/>
     <str id="TreePacksPanel.space.required" txt="Total space required:"/>
     <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+
+    <!-- Uninstaller specific strings -->
+    <str id="uninstaller.destroytarget" txt=" Zorla sil "/>
+    <str id="uninstaller.uninstall" txt="Kaldır"/>
+    <str id="uninstaller.warning" txt="Bu kurulmuş olan program(lar)ı kaldıracaktır!"/>
+
+    <!-- XInfoPanel strings -->
     <str id="XInfoPanel.info" txt="Please read the following information:"/>
+
+    <!-- ShortcutPanel strings -->
+    <str id="ShortcutPanel.alternate.apology" txt="Üzgünüz, ama IzPack bu işletim sistemi üzerinde kısayol yaratmayı desteklemiyor. Kısayol oluşturmak için, lütfen işletim sisteminizin kılavuzuna başvurun."/>
+    <str id="ShortcutPanel.alternate.saveButton" txt="Dosyaya Kaydet"/>
+    <str id="ShortcutPanel.alternate.targetsLabel" txt="Takip eden liste bu yazılım ürününün sizin ulaşabilmenizi beklediği hedefleri göstermektedir."/>
+    <str id="ShortcutPanel.alternate.textFileExplanation" txt="Uygulama hedefleri hakkında detaylı bilgiyi sonra kullanabilmek amacıyla bir dosyaya kaydedebilirsiniz."/>
     <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.location.applications" txt="Uygulama Menüsü"/>
+    <str id="ShortcutPanel.location.desktop" txt="Masaüstü"/>
+    <str id="ShortcutPanel.location.startMenu" txt="Başlangıç Menüsü"/>
+    <str id="ShortcutPanel.location.startup" txt="Başlangıç Grubu"/>
+    <str id="ShortcutPanel.regular.allUsers" txt="tüm kullanıcılar"/>
+    <str id="ShortcutPanel.regular.create" txt="Kısayolları Yarat"/>
+    <str id="ShortcutPanel.regular.currentUser" txt="şu anki kullanıcı"/>
+    <str id="ShortcutPanel.regular.default" txt="İlk duruma getir"/>
+    <str id="ShortcutPanel.regular.desktop" txt="Kısayolları masaüstünde yarat."/>
+    <str id="ShortcutPanel.regular.list" txt="Kısayollar için bir program grubu seç:"/>
     <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="XDG-Menu"/>
     <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Start-Menu"/>
     <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="ShortcutPanel.regular.userIntro" txt="yandaki için kısayolları yarat:"/>
+    <str id="ShortcutPanel.textFile.command" txt="Komut Satırı      : "/>
+    <str id="ShortcutPanel.textFile.description" txt="Açıklama       : "/>
+    <str id="ShortcutPanel.textFile.header" txt="Kısayol Bilgileri\n====================\n\nAşağıdaki liste planlanan kısayollarla ilgili tüm bilgileri içermektedir.\n Bu bilgiler kısayolları elle oluşturabilmenizi sağlayabilmelidir.\n"/>
+    <str id="ShortcutPanel.textFile.iconIndex" txt="Ikon Dizini        : "/>
+    <str id="ShortcutPanel.textFile.iconName" txt="Ikon Dosyası         : "/>
+    <str id="ShortcutPanel.textFile.location" txt="Planlanan Yer : "/>
+    <str id="ShortcutPanel.textFile.name" txt="Kısayol          : "/>
+    <str id="ShortcutPanel.textFile.target" txt="Kısayol Hedefi   : "/>
+    <str id="ShortcutPanel.textFile.work" txt="Çalışma Dizini : "/>
+
+    <!-- SummaryPanel strings -->
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Chosen Installation Packs"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
@@ -300,37 +305,51 @@
     <str id="TargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="TreePacksPanel.summaryCaption" txt="Chosen Installation Packs"/>
     <str id="UserPathPanel.summaryCaption" txt="Selected Path"/>
+
+    <!-- UserInputPanel strings -->
     <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
     <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
     <str id="UserInputPanel.dir.nodirectory.caption" txt="No Directory Selected"/>
     <str id="UserInputPanel.dir.nodirectory.message" txt="You must select a valid directory."/>
     <str id="UserInputPanel.dir.notdirectory.caption" txt="Invalid Directory"/>
-    <str id="UserInputPanel.dir.notdirectory.message"
-         txt="The directory you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.dir.notdirectory.message" txt="The directory you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.error.caption" txt="Giriş Problemi"/>
     <str id="UserInputPanel.file.nofile.caption" txt="No File Selected"/>
     <str id="UserInputPanel.file.nofile.message" txt="You must select a valid file."/>
     <str id="UserInputPanel.file.notfile.caption" txt="Invalid File"/>
-    <str id="UserInputPanel.file.notfile.message"
-         txt="The file you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.file.notfile.message" txt="The file you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.search.autodetect" txt="Otomatik tespit"/>
+    <str id="UserInputPanel.search.autodetect.failed.caption" txt="Otomatik tespit başarısız."/>
+    <str id="UserInputPanel.search.autodetect.failed.message" txt="Otomatik tespit başarısız."/>
+    <str id="UserInputPanel.search.autodetect.tooltip" txt="Yukarıda verilen yoldaki dizin veya dosyayı kontrol edin."/>
+    <str id="UserInputPanel.search.browse" txt="Göz at..."/>
     <str id="UserInputPanel.search.delete" txt="Delete..."/>
+    <str id="UserInputPanel.search.location" txt="{0}'(n)in yerini girin."/>
+    <str id="UserInputPanel.search.location.checkedfile" txt="{0} nun varlığı kontrol edildi."/>
+    <str id="UserInputPanel.search.wrongselection.caption" txt="Geçersiz seçim."/>
+    <str id="UserInputPanel.search.wrongselection.message" txt="Seçtiğiniz dosya ya da dizin uygun değil veya mevcut değil."/>
+
+    <!-- UserPathPanel strings -->
     <str id="UserPathPanel.browse" txt="Browse"/>
     <str id="UserPathPanel.createdir" txt="The target directory will be created: "/>
     <str id="UserPathPanel.empty_target" txt="You have not specified a target location! Is this correct?"/>
-    <str id="UserPathPanel.exists_warn"
-         txt="The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"/>
+    <str id="UserPathPanel.exists_warn" txt="The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"/>
     <str id="UserPathPanel.info" txt="Select the path: "/>
     <str id="UserPathPanel.nodir" txt="This file is not a directory! Please choose a directory!"/>
     <str id="UserPathPanel.notwritable" txt="This directory can not be written! Please choose another directory!"/>
     <str id="UserPathPanel.required" txt="The chosen directory should exist."/>
+
+    <!-- This string defines the time stamp format in the installation report.
+         The format details are documented in java.text.SimpleDateFormat -->
     <str id="log.timeStamp" txt="MM-dd-yyyy [HH:mm:ss] zzzz"/>
+
+    <!-- Strings for various purposes in the logging/reporting system -->
     <str id="log.application" txt="Installation report for : {0} Version {1}"/>
     <str id="log.errorHeading" txt="                                --- Errors ---"/>
     <str id="log.errorPrefix" txt="Error [{0}] - "/>
     <str id="log.exceptionPrefix" txt="                 &gt;&gt; Exception: {0}"/>
-    <str id="log.informUserFail"
-         txt="&lt;html&gt;The installation did not succeed!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
-    <str id="log.informUserPartial"
-         txt="&lt;html&gt;The installation might not have completely succeeded!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
+    <str id="log.informUserFail" txt="&lt;html&gt;The installation did not succeed!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
+    <str id="log.informUserPartial" txt="&lt;html&gt;The installation might not have completely succeeded!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
     <str id="log.informUserTitle" txt="Installation Problems"/>
     <str id="log.installFailed" txt="WARNING!!! The installation did not succeed!"/>
     <str id="log.LogFileName" txt="installLog.txt"/>
@@ -346,10 +365,15 @@
     <str id="log.timePrefix" txt="Install time            : {0}"/>
     <str id="log.warningHeading" txt="                               --- Warnings ---"/>
     <str id="log.warningPrefix" txt="Warning [{0}] - "/>
+
+    <!-- Strings for individual messages in the logging/reporting system.
+         Numbers for each category (message/warning/error) start at 0 -->
     <str id="debug.changevariable" txt="modify value"/>
     <str id="log.error_0" txt="unable to write ''{0}''"/>
     <str id="log.message_" txt=""/>
     <str id="log.warning_" txt=""/>
+
     <str id="data.validation.error.title" txt="Validation failed"/>
     <str id="data.validation.warning.title" txt="Attention needed"/>
+
 </izpack:langpack>
