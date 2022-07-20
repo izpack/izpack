@@ -57,7 +57,7 @@
 			<artifactId>pdfbox</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.icepdf.os</groupId>
+			<groupId>com.github.pcorless.icepdf</groupId>
 			<artifactId>icepdf-viewer</artifactId>
 		</dependency>
 		<!-- PDF Panel -->
