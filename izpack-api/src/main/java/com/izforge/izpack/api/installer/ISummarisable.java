@@ -28,7 +28,33 @@ package com.izforge.izpack.api.installer;
  */
 public interface ISummarisable
 {
+    /**
+     * This method will be called to get the summary of this class which should be placed
+     * in the SummaryPanel. The returned text should not contain a caption of this
+     * item. The caption will be requested from the method getCaption. If <code>null</code>
+     * returns, no summary for this panel will be generated. Default behaviour is to return
+     * <code>null</code>.
+     *
+     * @return the summary for this class
+     */
     String getSummaryBody();
 
+    /**
+     * This method will be called to get the caption for this class which should be placed in
+     * the SummaryPanel. If <code>null</code> returns, no summary for this panel will be
+     * generated. Default behaviour is to return the string given by langpack for the
+     * key <code>&lt;current class name>.summaryCaption&gt;</code> if exist, else the string
+     * &quot;summaryCaption.&lt;ClassName&gt;&quot;.
+     *
+     * @return the caption for this class
+     */
     String getSummaryCaption();
+
+    /**
+     * Checks if the panel has been visited during the input process or not. This method allows
+     * the implementer to conditionally show infos within the summary panel.
+     *
+     * @return <code>true</code> if the panel was displayed, <code>false</code> otherwise
+     */
+    boolean isVisited();
 }

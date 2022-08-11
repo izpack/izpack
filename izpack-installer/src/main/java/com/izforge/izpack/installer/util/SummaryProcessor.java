@@ -23,7 +23,6 @@ package com.izforge.izpack.installer.util;
 
 import com.izforge.izpack.api.installer.ISummarisable;
 import com.izforge.izpack.installer.data.GUIInstallData;
-import com.izforge.izpack.installer.gui.IzPanel;
 
 /**
  * A helper class which creates a summary from all panels. This class calls all declared panels for
@@ -74,7 +73,7 @@ public class SummaryProcessor
         buffer.append(HTML_HEADER);
         for (ISummarisable panel : idata.getPanels())
         {
-            if (((IzPanel) panel).getMetadata().isVisited())
+            if (panel.isVisited())
             {
                 String caption = panel.getSummaryCaption();
                 String msg = panel.getSummaryBody();
