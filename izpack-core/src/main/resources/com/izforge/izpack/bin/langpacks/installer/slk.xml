@@ -373,6 +373,7 @@
     <!-- Strings for individual messages in the logging/reporting system.
          Numbers for each category (message/warning/error) start at 0 -->
     <str id="debug.changevariable" txt="zmente hodnotu"/>
+    <str id="debug.deletevariable" txt="delete value"/>
     <str id="log.error_0" txt="nedá sa zapisovať do ''{0}''"/>
     <str id="log.message_" txt=""/>
     <str id="log.warning_" txt=""/>

@@ -27,20 +27,24 @@ import java.util.List;
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
- * @version $Id: $
  */
 public class VariableHistory
 {
-    private String name;
-    private List<String[]> values;
+    private final String name;
+    private final List<String[]> values;
     private boolean newvariable;
     private boolean changed;
-
+    private boolean removed;
 
     public VariableHistory(String variable)
     {
         name = variable;
-        values = new ArrayList<String[]>();
+        values = new ArrayList<>();
+    }
+
+    private void addComment(String value, String comment)
+    {
+        values.add(new String[]{value, comment});
     }
 
 
@@ -52,21 +56,14 @@ public class VariableHistory
         return this.name;
     }
 
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name)
+    public boolean isAvailable()
     {
-        this.name = name;
+        return !removed;
     }
 
     public void addValue(String value, String comment)
     {
-        String[] valuecomment = new String[2];
-        valuecomment[0] = value;
-        valuecomment[1] = comment;
-        values.add(valuecomment);
+        addComment(value, comment);
         if (values.size() == 1)
         {
             newvariable = true;
@@ -76,6 +73,14 @@ public class VariableHistory
         {
             changed = true;
         }
+        removed = false;
+    }
+
+    public void removeValue(String comment)
+    {
+        addComment(null, comment);
+        changed = true;
+        removed = true;
     }
 
     public String[] getValueComment(int index)
@@ -157,5 +162,21 @@ public class VariableHistory
     public String toString()
     {
         return this.getLastValue();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof VariableHistory)
+        {
+            return name.equals(((VariableHistory)obj).name);
+        }
+        return false;
     }
 }

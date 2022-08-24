@@ -21,11 +21,12 @@
 
 package com.izforge.izpack.installer.debugger;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import java.awt.*;
-import java.util.Map;
-
+import java.awt.Color;
+import java.awt.Component;
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
@@ -34,13 +35,6 @@ import java.util.Map;
 public class VariableHistoryTableCellRenderer extends DefaultTableCellRenderer
 {
     private static final long serialVersionUID = 6779914244548965230L;
-    private Map<String, VariableHistory> variablehistory;
-
-    public VariableHistoryTableCellRenderer(Map<String, VariableHistory> variablehistory)
-    {
-        this.variablehistory = variablehistory;
-    }
-
 
     /* (non-Javadoc)
     * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
@@ -69,15 +63,6 @@ public class VariableHistoryTableCellRenderer extends DefaultTableCellRenderer
             comp.setBackground(Color.yellow);
         }
         return comp;
-    }
-
-    public void clearState()
-    {
-        for (String s : variablehistory.keySet())
-        {
-            VariableHistory variableHistory = variablehistory.get(s);
-            variableHistory.clearState();
-        }
     }
 }
 

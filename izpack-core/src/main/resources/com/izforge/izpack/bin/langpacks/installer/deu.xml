@@ -373,6 +373,7 @@
     <!-- Strings for individual messages in the logging/reporting system.
          Numbers for each category (message/warning/error) start at 0 -->
     <str id="debug.changevariable" txt="Wert ändern"/>
+    <str id="debug.deletevariable" txt="Wert löschen"/>
     <str id="log.error_0" txt="konnte die Datei ''{0}'' nicht schreiben"/>
     <str id="log.message_" txt=""/>
     <str id="log.warning_" txt=""/>

@@ -22,24 +22,26 @@
 package com.izforge.izpack.installer.debugger;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
- * @version $Id: $
  */
 public class VariableHistoryTableModel extends AbstractTableModel
 {
     private static final long serialVersionUID = 5966543100431588652L;
 
     public static final String[] columnheader = {"Name", "Value"};
-    private Map<String, VariableHistory> variablevalues;
+    private final List<VariableHistory> tableValues;
+    private final Map<String, VariableHistory> historyValues;
 
-    public VariableHistoryTableModel(Map<String, VariableHistory> values)
+    public VariableHistoryTableModel()
     {
-        this.variablevalues = values;
+        this.tableValues = new ArrayList<>();
+        this.historyValues = new HashMap<>();
     }
 
     /* (non-Javadoc)
@@ -57,7 +59,7 @@ public class VariableHistoryTableModel extends AbstractTableModel
 
     public int getRowCount()
     {
-        return this.variablevalues == null ? 0 : this.variablevalues.keySet().size();
+        return tableValues.size();
     }
 
     /* (non-Javadoc)
@@ -66,16 +68,17 @@ public class VariableHistoryTableModel extends AbstractTableModel
 
     public Object getValueAt(int rowIndex, int columnIndex)
     {
+        if (rowIndex < 0 || rowIndex > tableValues.size() || columnIndex < 0 )
+        {
+            return null;
+        }
+        VariableHistory variableHistory = tableValues.get(rowIndex);
         switch (columnIndex)
         {
             case 0:
-                String[] keys = this.variablevalues.keySet().toArray(new String[this.variablevalues.keySet().size()]);
-                Arrays.sort(keys);
-                return keys[rowIndex];
+                return variableHistory.getName();
 
             case 1:
-                String variablename = (String) getValueAt(rowIndex, 0);
-                VariableHistory variableHistory = variablevalues.get(variablename);
                 return variableHistory;
         }
         return null;
@@ -88,23 +91,6 @@ public class VariableHistoryTableModel extends AbstractTableModel
     public String getColumnName(int column)
     {
         return columnheader[column];
-    }
-
-    /* (non-Javadoc)
-     * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
-     */
-
-    public boolean isCellEditable(int rowIndex, int columnIndex)
-    {
-        return false;
-        /*
-        if (columnIndex == 0) {
-            return false;
-        }
-        else {
-            return true;
-        }
-        */
     }
 
     /* (non-Javadoc)
@@ -122,5 +108,42 @@ public class VariableHistoryTableModel extends AbstractTableModel
             return String.class;
         }
     }
-}
 
+    public void clearState()
+    {
+        for (VariableHistory variableHistory : tableValues)
+        {
+            variableHistory.clearState();
+        }
+    }
+
+    public void setValue(String name, String value, String comment)
+    {
+        VariableHistory variableHistory = historyValues.get(name);
+        if (variableHistory == null)
+        {
+            variableHistory = new VariableHistory(name);
+            historyValues.put(name, variableHistory);
+        }
+        if (!tableValues.contains(variableHistory))
+        {
+            tableValues.add(variableHistory);
+        }
+        variableHistory.addValue(value, comment);
+    }
+
+    public void removeValue(String name, String comment)
+    {
+        VariableHistory variableHistory = historyValues.get(name);
+        if (variableHistory == null)
+        {
+            variableHistory = new VariableHistory(name);
+            historyValues.put(name, variableHistory);
+        }
+        else
+        {
+            tableValues.remove(variableHistory);
+        }
+        variableHistory.removeValue(comment);
+    }
+}

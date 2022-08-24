@@ -301,7 +301,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
 
         // We add the panels container
         panelsContainer = new JPanel();
-        panelsContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        panelsContainer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         panelsContainer.setLayout(new GridLayout(1, 1));
         contentPane.add(panelsContainer, BorderLayout.CENTER);
 
@@ -341,7 +341,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         // create a debug panel if TRACE is enabled
         if (Debug.isTRACE())
         {
-            debugger = new Debugger(installdata, getIcons(), rules);
+            debugger = new Debugger(installdata, getIcons(), rules, installdata.buttonsHColor);
             // this needed to fully initialize the debugger
             JPanel debugpanel = debugger.getDebugPanel();
 
@@ -365,7 +365,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         {
             JPanel imgPanel = new JPanel();
             imgPanel.setLayout(new BorderLayout());
-            imgPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
+            imgPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
             iconLabel = new JLabel(icon);
             iconLabel.setBorder(BorderFactory.createLoweredBevelBorder());
             imgPanel.add(iconLabel, BorderLayout.NORTH);
