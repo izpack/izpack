@@ -21,6 +21,7 @@ package com.izforge.izpack.com.izforge.izpack.installer.debugger;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Messages;
+import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.debugger.Debugger;
@@ -31,6 +32,8 @@ import org.mockito.invocation.InvocationOnMock;
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.mockito.Matchers.anyString;
@@ -48,17 +51,26 @@ public class DebuggerTest {
 
     @Test
     public void testRemoveHTML() throws InterruptedException, InvocationTargetException {
+        InstallData installdata = mock(InstallData.class, "installdata");
+        Variables variables = mock(Variables.class, "variables");
+        RulesEngine rules = mock(RulesEngine.class, "rules");
+        Messages messages = mock(Messages.class, "messages");
+        Condition condition1 = mock(Condition.class, "condition1");
+        Condition condition2 = mock(Condition.class, "condition2");
+
         IconsDatabase icons = new IconsDatabase();
         Properties properties = new Properties();
         properties.setProperty("key", "value");
+        Map<String, Condition> conditions= new HashMap<>();
+        conditions.put("izpack.testOne", condition1);
+        conditions.put("izpack.testTwo", condition2);
 
-        InstallData installdata = mock(InstallData.class);
-        Variables variables = mock(Variables.class);
-        RulesEngine rules = mock(RulesEngine.class);
-        Messages messages = mock(Messages.class);
-
+        when(condition1.getId()).thenReturn("izpack.testOne");
+        when(condition2.getId()).thenReturn("izpack.testTwo");
         when(installdata.getVariables()).thenReturn(variables);
         when(variables.getProperties()).thenReturn(properties);
+        when(rules.getKnownConditionIds()).thenReturn(conditions.keySet());
+        when(rules.getCondition(anyString())).thenAnswer(ctx -> conditions.get(ctx.getArguments()[0]));
         doAnswer(ctx -> updateProperty(properties, ctx)).when(installdata).setVariable(anyString(), anyString());
         when(installdata.getMessages()).thenReturn(messages);
         when(messages.get("debug.changevariable")).thenReturn("Modify");

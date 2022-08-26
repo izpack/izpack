@@ -21,25 +21,26 @@
 
 package com.izforge.izpack.installer.debugger;
 
-import javax.swing.table.AbstractTableModel;
-import java.util.Arrays;
-import java.util.Map;
+import com.izforge.izpack.api.rules.Condition;
 
+import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
- * @version $Id: $
  */
 public class ConditionHistoryTableModel extends AbstractTableModel
 {
     private static final long serialVersionUID = 5966543100431588652L;
 
     public static final String[] columnheader = {"Id", "Value"};
-    private Map<String, ConditionHistory> conditionvalues;
 
-    public ConditionHistoryTableModel(Map<String, ConditionHistory> values)
+    private final List<ConditionHistory> tableValues;
+
+    public ConditionHistoryTableModel()
     {
-        this.conditionvalues = values;
+        this.tableValues = new ArrayList<>();
     }
 
     /* (non-Javadoc)
@@ -57,7 +58,7 @@ public class ConditionHistoryTableModel extends AbstractTableModel
 
     public int getRowCount()
     {
-        return this.conditionvalues == null ? 0 : this.conditionvalues.keySet().size();
+        return tableValues.size();
     }
 
     /* (non-Javadoc)
@@ -66,16 +67,17 @@ public class ConditionHistoryTableModel extends AbstractTableModel
 
     public Object getValueAt(int rowIndex, int columnIndex)
     {
+        if (rowIndex < 0  || rowIndex > tableValues.size() || columnIndex < 0 )
+        {
+            return null;
+        }
+        final ConditionHistory conditionHistory = tableValues.get(rowIndex);
         switch (columnIndex)
         {
             case 0:
-                String[] keys = this.conditionvalues.keySet().toArray(new String[this.conditionvalues.keySet().size()]);
-                Arrays.sort(keys);
-                return keys[rowIndex];
+                return conditionHistory.getId();
 
             case 1:
-                String conditionid = (String) getValueAt(rowIndex, 0);
-                ConditionHistory conditionHistory = conditionvalues.get(conditionid);
                 return conditionHistory;
         }
         return null;
@@ -88,15 +90,6 @@ public class ConditionHistoryTableModel extends AbstractTableModel
     public String getColumnName(int column)
     {
         return columnheader[column];
-    }
-
-    /* (non-Javadoc)
-     * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
-     */
-
-    public boolean isCellEditable(int rowIndex, int columnIndex)
-    {
-        return false;
     }
 
     /* (non-Javadoc)
@@ -113,6 +106,27 @@ public class ConditionHistoryTableModel extends AbstractTableModel
         {
             return String.class;
         }
+    }
+
+    public void clearState()
+    {
+        for (ConditionHistory conditionHistory : tableValues)
+        {
+            conditionHistory.clearState();
+        }
+    }
+
+    public void setValue(Condition condition, boolean currentValue,  String comment) {
+        ConditionHistory conditionHistory = tableValues.stream()
+                .filter(ch -> ch.getId().equals(condition.getId()))
+                .findFirst()
+                .orElse(null);
+        if (conditionHistory == null)
+        {
+            conditionHistory = new ConditionHistory(condition);
+            tableValues.add(conditionHistory);
+        }
+        conditionHistory.addValue(currentValue, comment);
     }
 }
 

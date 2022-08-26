@@ -28,12 +28,11 @@ import java.util.List;
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
- * @version $Id: $
  */
 public class ConditionHistory
 {
-    private Condition condition;
-    private List<Object[]> values;
+    private final Condition condition;
+    private final List<Object[]> values;
 
     private boolean newcondition;
     private boolean changedcondition;
@@ -42,9 +41,13 @@ public class ConditionHistory
     public ConditionHistory(Condition condition)
     {
         this.condition = condition;
-        values = new ArrayList<Object[]>();
+        values = new ArrayList<>();
         newcondition = true;
         changedcondition = true;
+    }
+
+    public String getId() {
+        return condition.getId();
     }
 
     public void addValue(boolean value, String comment)
@@ -107,11 +110,6 @@ public class ConditionHistory
         return this.changedcondition;
     }
 
-    public String toString()
-    {
-        return Boolean.toString(getLastValue());
-    }
-
     public String getConditionHistoryDetails()
     {
         StringBuffer details = new StringBuffer();
@@ -133,6 +131,25 @@ public class ConditionHistory
         details.append(this.condition.getDependenciesDetails());
         details.append("</body></html>");
         return details.toString();
+    }
+
+    public String toString()
+    {
+        return Boolean.toString(getLastValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return condition.getId().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ConditionHistory)
+        {
+            return condition.getId().equals((((ConditionHistory)obj).condition.getId()));
+        }
+        return false;
     }
 }
 

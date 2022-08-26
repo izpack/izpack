@@ -34,13 +34,6 @@ import java.util.Map;
 public class ConditionHistoryTableCellRenderer extends DefaultTableCellRenderer
 {
     private static final long serialVersionUID = 6779914244548965230L;
-    private Map<String, ConditionHistory> conditionhistory;
-
-    public ConditionHistoryTableCellRenderer(Map<String, ConditionHistory> conditionhistory)
-    {
-        this.conditionhistory = conditionhistory;
-    }
-
 
     /* (non-Javadoc)
     * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
@@ -70,15 +63,4 @@ public class ConditionHistoryTableCellRenderer extends DefaultTableCellRenderer
         }
         return comp;
     }
-
-    public void clearState()
-    {
-        for (String s : conditionhistory.keySet())
-        {
-            ConditionHistory conditionHistory = conditionhistory.get(s);
-            conditionHistory.clearState();
-        }
-    }
 }
-
-

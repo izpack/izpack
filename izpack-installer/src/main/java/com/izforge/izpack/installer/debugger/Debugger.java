@@ -33,10 +33,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -71,12 +68,10 @@ public class Debugger
     private final RulesEngine rules;
     private final Color buttonsHColor;
     private final VariableHistoryTableModel variablesmodel;
-    private final Map<String, ConditionHistory> conditionhistory;
+    private final ConditionHistoryTableModel conditionhistorymodel;
 
     private Properties lasttimevariables;
     private JTable variablestable;
-    private ConditionHistoryTableModel conditionhistorymodel;
-    private ConditionHistoryTableCellRenderer conditionhistoryrenderer;
 
     public Debugger(InstallData installdata, IconsDatabase icons, RulesEngine rules, Color buttonsHColor)
     {
@@ -86,7 +81,7 @@ public class Debugger
         this.icons = icons;
         this.buttonsHColor = buttonsHColor;
         this.variablesmodel = new VariableHistoryTableModel();
-        this.conditionhistory = new HashMap<>();
+        this.conditionhistorymodel = new ConditionHistoryTableModel();
         this.init();
     }
 
@@ -97,16 +92,7 @@ public class Debugger
         {
             variablesmodel.setValue(variableName, lasttimevariables.getProperty(variableName), "initial value");
         }
-        for (String conditionid : rules.getKnownConditionIds())
-        {
-            Condition currentcondition = rules.getCondition(conditionid);
-            boolean result = this.rules.isConditionTrue(currentcondition);
-
-            ConditionHistory ch = new ConditionHistory(currentcondition);
-
-            ch.addValue(result, "initial value");
-            conditionhistory.put(conditionid, ch);
-        }
+        updateConditionsHistory("initial value");
     }
 
     private void debugVariables(Panel nextpanelmetadata, Panel lastpanelmetadata)
@@ -117,31 +103,19 @@ public class Debugger
 
     private void debugConditions(Panel nextpanelmetadata, Panel lastpanelmetadata)
     {
-        conditionhistoryrenderer.clearState();
-        updateChangedConditions(
+        conditionhistorymodel.clearState();
+        updateConditionsHistory(
                 "changed after panel switch" +
                 (lastpanelmetadata == null ? "" : " from " + lastpanelmetadata.getPanelId()) +
                 " to " + nextpanelmetadata.getPanelId());
     }
 
-    private void updateChangedConditions(String comment)
+    private void updateConditionsHistory(String comment)
     {
-        Set<String> conditionids = this.rules.getKnownConditionIds();
-        for (String conditionid : conditionids)
+        for (String conditionid : rules.getKnownConditionIds())
         {
-            Condition currentcondition = rules.getCondition(conditionid);
-            ConditionHistory aConditionHistory = null;
-            if (!conditionhistory.containsKey(conditionid))
-            {
-                // new condition
-                aConditionHistory = new ConditionHistory(currentcondition);
-                conditionhistory.put(conditionid, aConditionHistory);
-            }
-            else
-            {
-                aConditionHistory = conditionhistory.get(conditionid);
-            }
-            aConditionHistory.addValue(this.rules.isConditionTrue(currentcondition), comment);
+            Condition condition = rules.getCondition(conditionid);
+            conditionhistorymodel.setValue(condition, rules.isConditionTrue(condition), comment);
         }
         conditionhistorymodel.fireTableDataChanged();
     }
@@ -193,7 +167,7 @@ public class Debugger
         lasttimevariables = (Properties) idata.getVariables().getProperties().clone();
         variablesmodel.setValue(name, value, "modified manually");
         variablesmodel.fireTableDataChanged();
-        updateChangedConditions("after manual modification of variable " + name);
+        updateConditionsHistory("after manual modification of variable " + name);
     }
 
     private void removeVariableManually(String name)
@@ -201,7 +175,7 @@ public class Debugger
         lasttimevariables = (Properties) idata.getVariables().getProperties().clone();
         variablesmodel.removeValue(name, "removed manually");
         variablesmodel.fireTableDataChanged();
-        updateChangedConditions("after manual modification of variable " + name);
+        updateConditionsHistory("after manual modification of variable " + name);
     }
 
     private static boolean isSet(String value)
@@ -320,10 +294,8 @@ public class Debugger
         conditionpanel.setLayout(new BorderLayout());
         conditionpanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
-        conditionhistorymodel = new ConditionHistoryTableModel(conditionhistory);
         final JTable conditiontable = new JTable(conditionhistorymodel);
-        conditionhistoryrenderer = new ConditionHistoryTableCellRenderer(conditionhistory);
-        conditiontable.setDefaultRenderer(ConditionHistory.class, conditionhistoryrenderer);
+        conditiontable.setDefaultRenderer(ConditionHistory.class, new ConditionHistoryTableCellRenderer());
         conditiontable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         conditiontable.setRowSelectionAllowed(true);
         conditiontable.addMouseListener(new MouseAdapter()
@@ -332,14 +304,10 @@ public class Debugger
             public void mouseClicked(MouseEvent e)
             {
                 int selectedrow = conditiontable.getSelectedRow();
-
-                String selectedcondition = (String) conditiontable.getModel().getValueAt(selectedrow, 0);
+                ConditionHistory aConditionHistory = (ConditionHistory) conditiontable.getModel().getValueAt(selectedrow, 1);
 
                 if (e.getClickCount() == 2)
                 {
-
-                    ConditionHistory aConditionHistory = conditionhistory.get(selectedcondition);
-
                     JFrame variabledetails = new JFrame("Details");
 
                     JTextPane detailspane = new JTextPane();
@@ -384,7 +352,7 @@ public class Debugger
 
     public void packSelectionChanged(String comment)
     {
-        this.updateChangedConditions(comment);
+        this.updateConditionsHistory(comment);
     }
 }
 
