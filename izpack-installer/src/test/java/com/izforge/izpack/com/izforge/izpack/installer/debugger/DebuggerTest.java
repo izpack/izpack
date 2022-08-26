@@ -23,6 +23,7 @@ import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
+import com.izforge.izpack.core.rules.process.VariableCondition;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.debugger.Debugger;
 import org.junit.Test;
@@ -35,39 +36,51 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class DebuggerTest {
+public class DebuggerTest
+{
 
-    public static void main(String[] args) {
-        try {
+    public static void main(String[] args)
+    {
+        try
+        {
             new DebuggerTest().testRemoveHTML();
-        } catch (InterruptedException | InvocationTargetException e) {
-            e.printStackTrace();
+        }
+        catch (InterruptedException | InvocationTargetException e)
+        {
+            throw new RuntimeException(e);
         }
     }
 
     @Test
-    public void testRemoveHTML() throws InterruptedException, InvocationTargetException {
+    public void testRemoveHTML() throws InterruptedException, InvocationTargetException
+    {
         InstallData installdata = mock(InstallData.class, "installdata");
         Variables variables = mock(Variables.class, "variables");
         RulesEngine rules = mock(RulesEngine.class, "rules");
         Messages messages = mock(Messages.class, "messages");
-        Condition condition1 = mock(Condition.class, "condition1");
-        Condition condition2 = mock(Condition.class, "condition2");
 
         IconsDatabase icons = new IconsDatabase();
         Properties properties = new Properties();
-        properties.setProperty("key", "value");
-        Map<String, Condition> conditions= new HashMap<>();
-        conditions.put("izpack.testOne", condition1);
-        conditions.put("izpack.testTwo", condition2);
+        Map<String, Condition> conditions = new HashMap<>();
+        for (int count = 0; count < 10; count++)
+        {
+            final String name = "izpack.test." + UUID.randomUUID();
+            final String value = "value" + count;
+            properties.setProperty(name, value);
+            VariableCondition condition = new VariableCondition(name, value);
+            final String id = "cond." + UUID.randomUUID();
+            condition.setId(id);
+            condition.setInstallData(installdata);
+            conditions.put(id, condition);
+        }
 
-        when(condition1.getId()).thenReturn("izpack.testOne");
-        when(condition2.getId()).thenReturn("izpack.testTwo");
         when(installdata.getVariables()).thenReturn(variables);
+        when(installdata.getVariable(anyString())).thenAnswer(ctx -> properties.getProperty((String) ctx.getArguments()[0]));
         when(variables.getProperties()).thenReturn(properties);
         when(rules.getKnownConditionIds()).thenReturn(conditions.keySet());
         when(rules.getCondition(anyString())).thenAnswer(ctx -> conditions.get(ctx.getArguments()[0]));
@@ -82,17 +95,22 @@ public class DebuggerTest {
         debugframe.setContentPane(debugger.getDebugPanel());
         debugframe.setSize(new Dimension(400, 400));
         debugframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        debugframe.setLocationRelativeTo(null);
         debugframe.setVisible(true);
     }
 
-    private static Object updateProperty(Properties properties, InvocationOnMock ctx) {
+    private static Object updateProperty(Properties properties, InvocationOnMock ctx)
+    {
         final Object[] arguments = ctx.getArguments();
         final String key = (String) arguments[0];
         final String value = (String) arguments[1];
-        if (value == null) {
+        if (value == null)
+        {
             System.out.println("removing: " + key);
             properties.remove(key);
-        } else {
+        }
+        else
+        {
             System.out.println("updateing: " + key + " to: " + value);
             properties.setProperty(key, value);
         }

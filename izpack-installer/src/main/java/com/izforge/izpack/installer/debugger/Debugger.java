@@ -59,7 +59,6 @@ import com.izforge.izpack.gui.IconsDatabase;
  * Class for debugging variables and conditions.
  *
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
- * @version $Id: $
  */
 public class Debugger
 {
@@ -71,7 +70,6 @@ public class Debugger
     private final ConditionHistoryTableModel conditionhistorymodel;
 
     private Properties lasttimevariables;
-    private JTable variablestable;
 
     public Debugger(InstallData installdata, IconsDatabase icons, RulesEngine rules, Color buttonsHColor)
     {
@@ -185,14 +183,15 @@ public class Debugger
 
     public JPanel getDebugPanel()
     {
-        JPanel debugpanel = new JPanel();
+        final JPanel debugpanel = new JPanel();
         debugpanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         debugpanel.setLayout(new BorderLayout());
 
-        variablestable = new JTable(variablesmodel);
+        JTable variablestable = new JTable(variablesmodel);
         variablestable.setDefaultRenderer(VariableHistory.class, new VariableHistoryTableCellRenderer());
         variablestable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         variablestable.setRowSelectionAllowed(true);
+        variablestable.setRowSorter(new DebugRowSorter<>(variablesmodel));
 
         JScrollPane scrollpane = new JScrollPane(variablestable);
 
@@ -244,13 +243,12 @@ public class Debugger
                 }
             }
         });
-
         variablestable.addMouseListener(new MouseAdapter()
         {
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                int selectedrow = variablestable.getSelectedRow();
+                int selectedrow = variablestable.getRowSorter().convertRowIndexToModel(variablestable.getSelectedRow());
                 VariableHistory variableHistory = (VariableHistory) variablesmodel.getValueAt(selectedrow,1);
                 String selectedVariableName = variableHistory.getName();
 
@@ -275,6 +273,7 @@ public class Debugger
                     container.add(scroller, BorderLayout.CENTER);
 
                     variabledetails.pack();
+                    variabledetails.setLocationRelativeTo(debugpanel);
                     variabledetails.setVisible(true);
                 }
             }
@@ -298,12 +297,13 @@ public class Debugger
         conditiontable.setDefaultRenderer(ConditionHistory.class, new ConditionHistoryTableCellRenderer());
         conditiontable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         conditiontable.setRowSelectionAllowed(true);
+        conditiontable.setRowSorter(new DebugRowSorter<>(conditionhistorymodel));
         conditiontable.addMouseListener(new MouseAdapter()
         {
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                int selectedrow = conditiontable.getSelectedRow();
+                int selectedrow = conditiontable.getRowSorter().convertRowIndexToModel(conditiontable.getSelectedRow());
                 ConditionHistory aConditionHistory = (ConditionHistory) conditiontable.getModel().getValueAt(selectedrow, 1);
 
                 if (e.getClickCount() == 2)
@@ -321,6 +321,7 @@ public class Debugger
                     container.add(scroller, BorderLayout.CENTER);
 
                     variabledetails.pack();
+                    variabledetails.setLocationRelativeTo(debugpanel);
                     variabledetails.setVisible(true);
                 }
             }
