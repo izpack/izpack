@@ -661,6 +661,7 @@
               <exclude>**/UserInputPanelTest.java</exclude>
               <exclude>**/ConditionCheckTest.java</exclude>
               <exclude>**/PDFLicencePanelTest.java</exclude>
+              <exclude>**/DebuggerTest</exclude>
             </excludes>
           </configuration>
         </plugin>
@@ -895,6 +896,7 @@
                 <include>**/UserInputPanelTest.java</include>
                 <include>**/ConditionCheckTest.java</include>
                 <include>**/PDFLicencePanelTest.java</include>
+                <include>**/DebuggerTest</include>
               </includes>
             </configuration>
           </plugin>
