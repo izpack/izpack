@@ -230,6 +230,8 @@ public class Debugger extends WindowAdapter
                 {
                     idata.setVariable(varnametxt, varvaluetxt);
                     modifyVariableManually(varnametxt, varvaluetxt);
+                    varname.setText("");
+                    varvalue.setText("");
                 }
             }
         });
@@ -245,6 +247,8 @@ public class Debugger extends WindowAdapter
                 {
                     idata.setVariable(varnametxt, null);
                     removeVariableManually(varnametxt);
+                    varname.setText("");
+                    varvalue.setText("");
                 }
             }
         });
