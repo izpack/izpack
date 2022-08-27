@@ -32,6 +32,9 @@ import org.mockito.invocation.InvocationOnMock;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,12 +94,24 @@ public class DebuggerTest
 
         Debugger debugger = new Debugger(installdata, icons, rules, new Color(230, 230, 230));
 
-        JFrame debugframe = new JFrame("Debug information");
-        debugframe.setContentPane(debugger.getDebugPanel());
-        debugframe.setSize(new Dimension(400, 400));
+        JFrame debugframe = debugger.initialize(new JFrame("Debug information"));
         debugframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        debugframe.setLocationRelativeTo(null);
         debugframe.setVisible(true);
+        KeyStroke resetDebugWindow = KeyStroke.getKeyStroke(KeyEvent.VK_D,
+                InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK);
+        final JPanel contentPane = (JPanel)debugframe.getContentPane();
+        contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(resetDebugWindow, "reset.debug.window");
+        contentPane.getActionMap().put("reset.debug.window", new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                Dimension panelsize = debugger.getDefaultPanelSize();
+                debugframe.setSize(panelsize);
+                debugframe.setPreferredSize(panelsize);
+                debugframe.setLocationRelativeTo(null);
+            }
+        });
     }
 
     private static Object updateProperty(Properties properties, InvocationOnMock ctx)

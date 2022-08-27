@@ -34,6 +34,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -60,14 +61,17 @@ import com.izforge.izpack.gui.IconsDatabase;
  *
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  */
-public class Debugger
+public class Debugger extends WindowAdapter
 {
+    private final Dimension DEFAULT_PANEL_SIZE = new Dimension(500, 500);
+
     private final InstallData idata;
     private final IconsDatabase icons;
     private final RulesEngine rules;
     private final Color buttonsHColor;
     private final VariableHistoryTableModel variablesmodel;
     private final ConditionHistoryTableModel conditionhistorymodel;
+    private final Preferences preferences;
 
     private Properties lasttimevariables;
 
@@ -80,6 +84,7 @@ public class Debugger
         this.buttonsHColor = buttonsHColor;
         this.variablesmodel = new VariableHistoryTableModel();
         this.conditionhistorymodel = new ConditionHistoryTableModel();
+        preferences = Preferences.userNodeForPackage(Debugger.class);
         this.init();
     }
 
@@ -354,6 +359,41 @@ public class Debugger
     public void packSelectionChanged(String comment)
     {
         this.updateConditionsHistory(comment);
+    }
+
+    public JFrame initialize(JFrame targetFrame) {
+        final Dimension panelSize = getPanelSize();
+        int defaultX = 0;
+        int defaultY = 0;
+        targetFrame.setLocation(preferences.getInt("x", defaultX), preferences.getInt("y", defaultY));
+        targetFrame.setContentPane(getDebugPanel());
+        targetFrame.addWindowListener(this);
+        targetFrame.setSize(panelSize);
+        targetFrame.setPreferredSize(panelSize);
+        return targetFrame;
+    }
+
+    public Dimension getDefaultPanelSize()
+    {
+        return DEFAULT_PANEL_SIZE;
+    }
+    public Dimension getPanelSize()
+    {
+        return new Dimension(preferences.getInt("width", DEFAULT_PANEL_SIZE.width), preferences.getInt("height", DEFAULT_PANEL_SIZE.height));
+    }
+
+    public void storePositionAndSize(Component component)
+    {
+        preferences.putInt("x", component.getX());
+        preferences.putInt("y", component.getY());
+        preferences.putInt("width", component.getWidth());
+        preferences.putInt("height", component.getHeight());
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e)
+    {
+        storePositionAndSize(e.getComponent());
     }
 }
 
