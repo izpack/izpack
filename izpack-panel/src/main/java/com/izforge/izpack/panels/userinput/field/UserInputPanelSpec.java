@@ -99,7 +99,18 @@ public class UserInputPanelSpec
      */
     public IXMLElement getPanelSpec(Panel panel)
     {
-        String panelId = panel.getPanelId();
+        return  getPanelSpec(panel.getPanelId());
+    }
+
+    /**
+     * Returns the specification for the supplied panel id.
+     *
+     * @param panelId the panel id
+     * @return the corresponding specification
+     * @throws IzPackException if there is no specification for the panel
+     */
+    public IXMLElement getPanelSpec(String panelId)
+    {
         List<IXMLElement> panels = config.getRoot().getChildrenNamed(PANEL);
         IXMLElement result = null;
         for (IXMLElement spec : panels)
