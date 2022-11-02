@@ -171,11 +171,12 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
             String variable = dataElement.getAttribute(AUTO_ATTRIBUTE_KEY);
             // Substitute variable used in the 'value' field
             String value = dataElement.getAttribute(AUTO_ATTRIBUTE_VALUE);
-            if (value != null)
+            if (variable != null && value != null)
             {
                 attributeValues.put(variable, value);
             }
         }
+        final Variables variables = idata.getVariables();
         final IXMLElement panelSpec = model.getPanelSpec(panel.getPanelId());
         final HashSet<String> blockedVariablesList = new HashSet<String>();
         if (panelSpec != null)
@@ -185,10 +186,14 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
                 final String variable = field.getVariable();
                 if (variable != null)
                 {
-                    final String value = attributeValues.get(variable);
+                    final String value = attributeValues.remove(variable);
                     if (value == null)
                     {
-                        setVariable(idata, blockedVariablesList, variable, field.getDefaultValue());
+                        // only set variable value if not already set
+                        if (variables.get(variable) == null)
+                        {
+                            setVariable(idata, blockedVariablesList, variable, field.getDefaultValue());
+                        }
                     }
                     else
                     {
@@ -198,14 +203,9 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
             }
         }
         // add remaining defined entry values not yet set
-        final Variables variables = idata.getVariables();
         for (Map.Entry<String, String> entry : attributeValues.entrySet())
         {
-            String variable = entry.getKey();
-            if (variables.get(variable) == null)
-            {
-                setVariable(idata, blockedVariablesList, variable, entry.getValue());
-            }
+            setVariable(idata, blockedVariablesList, entry.getKey(), entry.getValue());
         }
 
         variables.registerBlockedVariableNames(blockedVariablesList, panelRoot.getName());
