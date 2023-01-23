@@ -26,7 +26,6 @@ import com.izforge.izpack.compiler.container.CompilerContainer;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.data.PropertyManager;
 import com.izforge.izpack.compiler.logging.MavenStyleLogFormatter;
-import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Developer;
 import org.apache.maven.plugin.AbstractMojo;
@@ -38,8 +37,9 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
 import java.io.File;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -164,6 +164,18 @@ public class IzPackNewMojo extends AbstractMojo
     @Parameter
     private String excludeProperties;
 
+    /**
+     * List of properties to be included.
+     */
+    @Parameter
+    private String[] includeProperties;
+
+    /**
+     * Skip automatic inclusion of properties.
+     */
+    @Parameter( defaultValue = "false" )
+    private boolean skipIncludeProperties;
+
     private PropertyManager propertyManager;
 
     public void execute() throws MojoExecutionException, MojoFailureException
@@ -233,6 +245,19 @@ public class IzPackNewMojo extends AbstractMojo
     	//TODO - project is annotated as @required, so the check project!=null should be useless!?!
         if (project != null)
         {
+            if (this.skipIncludeProperties) {
+                getLog().debug("Skipping automatic inclusion of properties.");
+                return;
+            }
+            Set<String> includeFilter;
+            if (null != this.includeProperties) {
+                includeFilter = new HashSet<>();
+                for (String includeProperty : this.includeProperties) {
+                    includeFilter.add(includeProperty);
+                }
+            } else {
+                includeFilter = null;
+            }
             Properties properties = project.getProperties();
             Properties userProps  = session.getUserProperties();
             String[] exclusionList = null;
@@ -253,6 +278,12 @@ public class IzPackNewMojo extends AbstractMojo
                 }
                 if (!containsExcludedProperty(propertyName, exclusionList))
                 {
+                    if (null != includeFilter) {
+                        if (!includeFilter.contains(propertyName)) {
+                            getLog().debug("Not including property: " + propertyName);
+                            continue;
+                        }
+                    }
                     if (propertyManager.addProperty(propertyName, value))
                     {
                         getLog().debug("Maven property added: " + propertyName + "=" + value);
