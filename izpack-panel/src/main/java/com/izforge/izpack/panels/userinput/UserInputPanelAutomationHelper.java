@@ -26,12 +26,23 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Overrides;
+import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.InstallerException;
+import com.izforge.izpack.api.factory.ObjectFactory;
+import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.automation.PanelAutomation;
+import com.izforge.izpack.installer.console.ConsolePanel;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.userinput.field.AbstractFieldView;
+import com.izforge.izpack.panels.userinput.field.Field;
 import com.izforge.izpack.panels.userinput.field.FieldView;
+import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
 import com.izforge.izpack.panels.userinput.field.custom.CustomFieldType;
+import com.izforge.izpack.util.Console;
+import com.izforge.izpack.util.PlatformModelMatcher;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -58,14 +69,18 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
 
     private static final String AUTO_ATTRIBUTE_VALUE = "value";
 
+    private Panel panel;
+    private UserInputPanelSpec model;
     private List<? extends AbstractFieldView> views;
 
     /**
      * Default constructor, used during automated installation.
      */
-    public UserInputPanelAutomationHelper()
+    public UserInputPanelAutomationHelper(Panel panel, Resources resources, ObjectFactory factory,
+                                          PlatformModelMatcher matcher, InstallData installData)
     {
-
+        this.panel = panel;
+        this.model = new UserInputPanelSpec(resources, installData, factory, matcher);
     }
 
     /**
@@ -150,30 +165,59 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
     @Override
     public void runAutomated(InstallData idata, IXMLElement panelRoot) throws InstallerException
     {
-        String variable;
-        String value;
-
-        List<IXMLElement> userEntries = panelRoot.getChildrenNamed(AUTO_KEY_ENTRY);
-        HashSet<String> blockedVariablesList = new HashSet<String>();
-
-        // ----------------------------------------------------
-        // retieve each entry and substitute the associated
-        // variable
-        // ----------------------------------------------------
-        Variables variables = idata.getVariables();
-        for (IXMLElement dataElement : userEntries)
+        final Map<String, String> attributeValues = new HashMap<>();
+        for (IXMLElement dataElement : panelRoot.getChildrenNamed(AUTO_KEY_ENTRY))
         {
-            variable = dataElement.getAttribute(AUTO_ATTRIBUTE_KEY);
-
+            String variable = dataElement.getAttribute(AUTO_ATTRIBUTE_KEY);
             // Substitute variable used in the 'value' field
-            value = dataElement.getAttribute(AUTO_ATTRIBUTE_VALUE);
-            value = variables.replace(value);
-
-            logger.fine("Setting variable " + variable + " to " + value);
-            idata.setVariable(variable, value);
-            blockedVariablesList.add(variable);
+            String value = dataElement.getAttribute(AUTO_ATTRIBUTE_VALUE);
+            if (value != null)
+            {
+                attributeValues.put(variable, value);
+            }
         }
-        idata.getVariables().registerBlockedVariableNames(blockedVariablesList, panelRoot.getName());
+        final IXMLElement panelSpec = model.getPanelSpec(panel.getPanelId());
+        final HashSet<String> blockedVariablesList = new HashSet<String>();
+        if (panelSpec != null)
+        {
+            for (Field field : model.createFields(panelSpec))
+            {
+                final String variable = field.getVariable();
+                if (variable != null)
+                {
+                    final String value = attributeValues.get(variable);
+                    if (value == null)
+                    {
+                        setVariable(idata, blockedVariablesList, variable, field.getDefaultValue());
+                    }
+                    else
+                    {
+                        setVariable(idata, blockedVariablesList, variable, value);
+                    }
+                }
+            }
+        }
+        // add remaining defined entry values not yet set
+        final Variables variables = idata.getVariables();
+        for (Map.Entry<String, String> entry : attributeValues.entrySet())
+        {
+            String variable = entry.getKey();
+            if (variables.get(variable) == null)
+            {
+                setVariable(idata, blockedVariablesList, variable, entry.getValue());
+            }
+        }
+
+        variables.registerBlockedVariableNames(blockedVariablesList, panelRoot.getName());
+    }
+
+    private static void setVariable(InstallData idata, HashSet<String> blockedVariablesList,
+                                    String variable, String value)
+    {
+        final String expandedValue = idata.getVariables().replace(value);
+        logger.fine("Setting variable " + variable + " to " + expandedValue);
+        idata.setVariable(variable, expandedValue);
+        blockedVariablesList.add(variable);
     }
 
     @Override
