@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Ferdig"/>
     <str id="FinishPanel.fail" txt="Installationen mislyktes!"/>
     <str id="FinishPanel.success" txt="Installasjonen er gjennomført uten feil."/>
-    <str id="FinishPanel.uninst.info" txt="Et avinstalleringsprogram er oprettet i:"/>
+    <str id="FinishPanel.uninst.info" txt="Et avinstalleringsprogram vil bli opprettet i:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Avbryt"/>

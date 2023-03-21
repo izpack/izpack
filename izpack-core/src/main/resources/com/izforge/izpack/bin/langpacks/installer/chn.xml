@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="完成"/>
     <str id="FinishPanel.fail" txt="安装失败!"/>
     <str id="FinishPanel.success" txt="安装成功."/>
-    <str id="FinishPanel.uninst.info" txt="卸载程序已经创建在:"/>
+    <str id="FinishPanel.uninst.info" txt="将在以下位置创建卸载程序："/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="取消"/>

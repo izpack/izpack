@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="완료"/>
     <str id="FinishPanel.fail" txt="설치가 실패했습니다!"/>
     <str id="FinishPanel.success" txt="설치가 모두 끝났습니다."/>
-    <str id="FinishPanel.uninst.info" txt="설치 제거 프로그램이 다음에 만들어집니다: "/>
+    <str id="FinishPanel.uninst.info" txt="제거 프로그램은 다음에서 생성됩니다."/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="취소"/>

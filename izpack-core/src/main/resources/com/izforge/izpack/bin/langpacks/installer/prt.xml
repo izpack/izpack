@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Pronto"/>
     <str id="FinishPanel.fail" txt="A instalação falhou!"/>
     <str id="FinishPanel.success" txt="Instalação realizada com sucesso."/>
-    <str id="FinishPanel.uninst.info" txt="Uma aplicação de desinstalação foi criado em: "/>
+    <str id="FinishPanel.uninst.info" txt="Um desinstalador será criado em:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Cancelar"/>

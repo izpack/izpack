@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Gereed"/>
     <str id="FinishPanel.fail" txt="Installatie is mislukt!"/>
     <str id="FinishPanel.success" txt="Installatie is geslaagd."/>
-    <str id="FinishPanel.uninst.info" txt="Een deïnstallatie programma is geïnstalleerd in:"/>
+    <str id="FinishPanel.uninst.info" txt="Er wordt een verwijderingsprogramma gemaakt in:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Annuleer"/>

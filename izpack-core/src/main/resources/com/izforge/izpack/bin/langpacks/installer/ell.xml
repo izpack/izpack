@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Τέλος"/>
     <str id="FinishPanel.fail" txt="Η εγκατάσταση απέτυχε!"/>
     <str id="FinishPanel.success" txt="Η εγκατάσταση τέλειωσε επιτυχώς."/>
-    <str id="FinishPanel.uninst.info" txt="Το αρχείο απεγκατάστασης κατασκευάστηκε στο: "/>
+    <str id="FinishPanel.uninst.info" txt="Ένα πρόγραμμα απεγκατάστασης θα δημιουργηθεί σε:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Ακύρωση"/>

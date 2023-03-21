@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Done"/>
     <str id="FinishPanel.fail" txt="Installation has failed!"/>
     <str id="FinishPanel.success" txt="Installation has completed successfully."/>
-    <str id="FinishPanel.uninst.info" txt="An uninstaller program has been created in: "/>
+    <str id="FinishPanel.uninst.info" txt="An uninstaller will be created in:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Cancel"/>

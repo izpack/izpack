@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="完了"/>
     <str id="FinishPanel.fail" txt="インストールに失敗しました!"/>
     <str id="FinishPanel.success" txt="インストールは正常に終了しました。"/>
-    <str id="FinishPanel.uninst.info" txt="アンインストーラが以下の場所に作成されました:"/>
+    <str id="FinishPanel.uninst.info" txt="アンインストーラーは次の場所に作成されます。"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="キャンセル"/>

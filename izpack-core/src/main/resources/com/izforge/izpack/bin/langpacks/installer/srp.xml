@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Готово"/>
     <str id="FinishPanel.fail" txt="Инсталација није успела!"/>
     <str id="FinishPanel.success" txt="Инсталација је успешно завршена."/>
-    <str id="FinishPanel.uninst.info" txt="Програм за деинсталацију је креиран у:"/>
+    <str id="FinishPanel.uninst.info" txt="Деинсталатор ће бити креиран у:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Поништи"/>

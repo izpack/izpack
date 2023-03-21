@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Telah siap"/>
     <str id="FinishPanel.fail" txt="Pemasangan gagal!"/>
     <str id="FinishPanel.success" txt="Pemasangan selesai dengan sempurna."/>
-    <str id="FinishPanel.uninst.info" txt="Sebuah program 'uninstaller' telah dicipta di dalam:"/>
+    <str id="FinishPanel.uninst.info" txt="Penyahpasang akan dibuat dalam:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Batal"/>

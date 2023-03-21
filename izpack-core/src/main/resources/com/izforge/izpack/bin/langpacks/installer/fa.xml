@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="انجام شد."/>
     <str id="FinishPanel.fail" txt="عملیات نصب ناموفق بود!"/>
     <str id="FinishPanel.success" txt="عملیات نصب با موفقیت انجام شد."/>
-    <str id="FinishPanel.uninst.info" txt="برنامۀ Uninstall در مسیر زیر ایجاد شد:"/>
+    <str id="FinishPanel.uninst.info" txt="یک برنامه حذف کننده در:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="لغو"/>
