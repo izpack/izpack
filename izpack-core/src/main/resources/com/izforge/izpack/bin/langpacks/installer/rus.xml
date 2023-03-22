@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Завершено"/>
     <str id="FinishPanel.fail" txt="Установка прервана аварийно ..."/>
     <str id="FinishPanel.success" txt="Установка успешно завершена!"/>
-    <str id="FinishPanel.uninst.info" txt="Программа удаления данного приложения помещена в следующий каталог:"/>
+    <str id="FinishPanel.uninst.info" txt="Деинсталлятор будет создан в:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Отказ"/>

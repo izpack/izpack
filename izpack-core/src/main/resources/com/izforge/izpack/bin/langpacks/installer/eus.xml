@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Eginda"/>
     <str id="FinishPanel.fail" txt="Instalazio ezegokia!"/>
     <str id="FinishPanel.success" txt="Instalazio arrakastatsua."/>
-    <str id="FinishPanel.uninst.info" txt="Hurrengoko bidean sortu da desinstaladorea: "/>
+    <str id="FinishPanel.uninst.info" txt="Desinstalazio-programa bat sortuko da:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Ezeztatu"/>

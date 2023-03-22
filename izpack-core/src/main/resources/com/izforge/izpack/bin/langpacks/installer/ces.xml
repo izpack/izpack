@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Hotovo"/>
     <str id="FinishPanel.fail" txt="Chyba instalace!"/>
     <str id="FinishPanel.success" txt="Instalace proběhla úspěšně."/>
-    <str id="FinishPanel.uninst.info" txt="Odinstalační program byl vytvořený v:"/>
+    <str id="FinishPanel.uninst.info" txt="Odinstalační program bude vytvořen v:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Zrušit"/>

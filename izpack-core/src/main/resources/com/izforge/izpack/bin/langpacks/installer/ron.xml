@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Done"/>
     <str id="FinishPanel.fail" txt="Instalarea a esuat!"/>
     <str id="FinishPanel.success" txt="Instalarea s-a terminat cu succes."/>
-    <str id="FinishPanel.uninst.info" txt="Un program de dezinstalare a fost creat in:"/>
+    <str id="FinishPanel.uninst.info" txt="Un dezinstalator va fi creat în:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Revocare"/>

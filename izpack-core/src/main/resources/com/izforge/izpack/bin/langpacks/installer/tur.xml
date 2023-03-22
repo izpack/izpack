@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Bitti"/>
     <str id="FinishPanel.fail" txt="Kurulum başarılamadı!"/>
     <str id="FinishPanel.success" txt="Kurulum başarılı bir şekilde tamamlandı."/>
-    <str id="FinishPanel.uninst.info" txt="Bir kaldırma(uninstaller) programı takip eden dizinde oluşturuldu: "/>
+    <str id="FinishPanel.uninst.info" txt="Bir kaldırıcı şu konumlarda oluşturulacaktır:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="İptal"/>

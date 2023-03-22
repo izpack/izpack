@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Zakończ"/>
     <str id="FinishPanel.fail" txt="Wystąpił błąd podczas instalacji!"/>
     <str id="FinishPanel.success" txt="Instalacja została pomyślnie zakończona."/>
-    <str id="FinishPanel.uninst.info" txt="Program odinstalowujący został utworzony w: "/>
+    <str id="FinishPanel.uninst.info" txt="Deinstalator zostanie utworzony w:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Anuluj"/>

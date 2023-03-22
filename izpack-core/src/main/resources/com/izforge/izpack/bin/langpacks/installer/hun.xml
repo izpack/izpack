@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Done"/>
     <str id="FinishPanel.fail" txt="A telepítés sikertelen!"/>
     <str id="FinishPanel.success" txt="A telepítés sikeresen lezajlott."/>
-    <str id="FinishPanel.uninst.info" txt="Az eltávolító program létrehozva:"/>
+    <str id="FinishPanel.uninst.info" txt="Az eltávolító a következő helyeken jön létre:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Megszakít"/>

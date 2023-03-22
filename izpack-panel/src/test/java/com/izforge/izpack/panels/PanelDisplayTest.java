@@ -117,7 +117,7 @@ public class PanelDisplayTest extends AbstractPanelTest
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         String uninstallLabel = frameFixture.label(GuiId.SIMPLE_FINISH_UNINSTALL_LABEL.id).text();
-        assertThat(uninstallLabel, containsString("An uninstaller program has been created in"));
+        assertThat(uninstallLabel, containsString("An uninstaller will be created in"));
     }
 
     @Test

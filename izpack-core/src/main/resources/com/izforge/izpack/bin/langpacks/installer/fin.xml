@@ -65,7 +65,7 @@
     <str id="FinishPanel.done" txt="Valmis"/>
     <str id="FinishPanel.fail" txt="Asennus epäonnistui!"/>
     <str id="FinishPanel.success" txt="Asennus on päättynyt onnistuneesti!"/>
-    <str id="FinishPanel.uninst.info" txt="Asennuksen purkuohjelma löytyy hakemistosta: "/>
+    <str id="FinishPanel.uninst.info" txt="Asennuksen poisto-ohjelma luodaan:"/>
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Peruuta"/>
