@@ -31,7 +31,7 @@
     <str id="CompilePanel.tip" txt="任务编译进程:"/>
     <str id="CompilePanel.progress.finished" txt="[完成]"/>
     <str id="CompilePanel.progress.initial" txt="[按开始按钮]"/>
-    <str id="CompilePanel.progress.overall" txt="Overall compilation progress:"/>
+    <str id="CompilePanel.progress.overall" txt="总体编译进度："/>
 
     <!-- ConsoleInstaller strings -->
     <str id="ConsoleInstaller.aborted.LicenseRejected" txt="License rejected"/>
@@ -156,7 +156,7 @@
     <str id="InstallPanel.install" txt="安装 !"/>
     <str id="InstallPanel.overwrite.question" txt="以下文件已经存在. 是否进行覆盖?"/>
     <str id="InstallPanel.overwrite.title" txt="文件已经存在"/>
-    <str id="InstallPanel.progress" txt="Overall installation progress :"/>
+    <str id="InstallPanel.progress" txt="总体安装进度："/>
     <str id="InstallPanel.tip" txt="包安装过程 :"/>
 
     <!-- InstallationGroupPanel strings -->
