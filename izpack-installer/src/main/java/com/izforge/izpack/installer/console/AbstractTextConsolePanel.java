@@ -77,7 +77,9 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
         printHeadLine(installData, console);
 
         String text = getText();
-        text = installData.getVariables().replace(text);
+        if (substituteVariables()) {
+            text = installData.getVariables().replace(text);
+        }
         if (text != null)
         {
             Panel panel = getPanel();
@@ -107,6 +109,15 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
      * @return the text. A <tt>null</tt> indicates failure
      */
     protected abstract String getText();
+
+    /**
+     * Returns true if variables are to be substituted in the text or else false.
+     *
+     * @return true, the default implementation
+     */
+    protected boolean substituteVariables() {
+        return true;
+    }
 
     /**
      * Helper to strip HTML from text.

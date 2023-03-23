@@ -22,28 +22,17 @@
 package com.izforge.izpack.panels.info;
 
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.installer.console.AbstractTextConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
-import com.izforge.izpack.installer.util.PanelHelper;
+import com.izforge.izpack.panels.xinfo.XInfoConsolePanel;
 
 /**
  * Console implementation of {@link InfoPanel}.
  *
  * @author Tim Anderson
  */
-public class InfoConsolePanel extends AbstractTextConsolePanel
+public class InfoConsolePanel extends XInfoConsolePanel
 {
-    /**
-     * The resources.
-     */
-    private final Resources resources;
-
-    /**
-     * Resource name for panel content.
-     */
-    private final String panelResourceName;
-
     /**
      * Constructs an <tt>InfoConsolePanel</tt>.
      *
@@ -52,19 +41,16 @@ public class InfoConsolePanel extends AbstractTextConsolePanel
      */
     public InfoConsolePanel(Resources resources, PanelView<ConsolePanel> panel)
     {
-        super(panel);
-        this.resources = resources;
-        panelResourceName = PanelHelper.getPanelResourceName(panel.getPanel(), "info", resources);
+        super(resources, panel);
     }
 
     /**
-     * Returns the text to display.
+     * Returns true if variables are to be substituted in the text or else false.
      *
-     * @return the text
+     * @return false, in InfoPanel we don't want variable substitution
      */
     @Override
-    protected String getText()
-    {
-        return resources.getString(panelResourceName, "Error : could not load the info text!");
+    protected boolean substituteVariables() {
+        return false;
     }
 }
