@@ -84,7 +84,7 @@ public class XInfoPanel extends IzPanel
         // We add the components
 
         JLabel infoLabel = LabelFactory.create(getString(panelResourceName),
-                                               parent.getIcons().get("edit"), JLabel.TRAILING);
+                                               parent.getIcons().get("edit"), LEADING);
         LayoutHelper.buildConstraints(gbConstraints, 0, 0, 1, 1, 1.0, 0.0);
         gbConstraints.insets = new Insets(5, 5, 5, 5);
         gbConstraints.fill = GridBagConstraints.BOTH;
