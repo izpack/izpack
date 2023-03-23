@@ -223,11 +223,22 @@ public class PanelHelper
                 key -> resources.getString(key, null) != null);
     }
 
-    private static String getPanelSpecificKey(Panel panel, String defaultSuffix, Predicate<String> predicate)
-    {
+    /**
+     * Returns panel name for the specified panel.
+     *
+     * @param panel  the panel
+     * @return the panel name.
+     */
+    public static String getPanelName(Panel panel) {
         String className = panel.getClassName();
         String panelName = className.substring(className.lastIndexOf('.') + 1);
         panelName = panelName.replaceAll("Console", "");
+        return panelName;
+    }
+
+    private static String getPanelSpecificKey(Panel panel, String defaultSuffix, Predicate<String> predicate)
+    {
+        String panelName = getPanelName(panel);
         String panelId = panel.getPanelId();
         if (panelId != null)
         {

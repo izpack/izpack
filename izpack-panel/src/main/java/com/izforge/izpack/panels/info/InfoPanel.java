@@ -19,38 +19,21 @@
 
 package com.izforge.izpack.panels.info;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
-import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.gui.IzPanelLayout;
-import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
-import com.izforge.izpack.installer.gui.IzPanel;
-import com.izforge.izpack.installer.util.PanelHelper;
+import com.izforge.izpack.panels.xinfo.XInfoPanel;
 
 /**
- * The info panel class. Displays some raw-text informations.
+ * The info panel class. Displays some raw-text information.
  *
  * @author Julien Ponge
  */
-public class InfoPanel extends IzPanel
+public class InfoPanel extends XInfoPanel
 {
     private static final long serialVersionUID = 3833748780590905399L;
-
-    /**
-     * Resource name for panel content.
-     */
-    private final String panelResourceName;
-
-    /**
-     * The info string.
-     */
-    private String info;
 
     /**
      * Constructs an <tt>InfoPanel</tt>.
@@ -63,39 +46,16 @@ public class InfoPanel extends IzPanel
      */
     public InfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
-        super(panel, parent, installData, new IzPanelLayout(log), resources);
-        panelResourceName = PanelHelper.getPanelResourceName(panel, "info", resources);
-        // We load the text.
-        loadInfo();
-        // The info label.
-        add(LabelFactory.create(getString(panelResourceName), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
-        // The text area which shows the info.
-        JTextArea textArea = new JTextArea(info);
-        textArea.setName(GuiId.INFO_PANEL_TEXT_AREA.id);
-        textArea.setCaretPosition(0);
-        textArea.setEditable(false);
-        JScrollPane scroller = new JScrollPane(textArea);
-        add(scroller, NEXT_LINE);
-        // At end of layouting we should call the completeLayout method also they do nothing.
-        getLayoutHelper().completeLayout();
+        super(panel, parent, installData, resources, log);
     }
 
     /**
-     * Loads the info text.
-     */
-    private void loadInfo()
-    {
-        String defaultValue = "Error : could not load the info text !";
-        info = getResources().getString(panelResourceName, defaultValue);
-    }
-
-    /**
-     * Indicates wether the panel has been validated or not.
+     * Returns true if variables are to be substituted in the text or else false.
      *
-     * @return Always true.
+     * @return false, in InfoPanel we don't want variable substitution
      */
-    public boolean isValidated()
-    {
-        return true;
+    @Override
+    protected boolean substituteVariables() {
+        return false;
     }
 }
