@@ -33,7 +33,6 @@ import java.awt.*;
  */
 public class LabelFactory implements SwingConstants
 {
-
     private static boolean useLabelIcons = true;
     private static float labelFontSizeVal = 1.0f;
     private static Font customLabelFontObj = null;
@@ -167,7 +166,7 @@ public class LabelFactory implements SwingConstants
 
     /**
      * Returns a new JLabel with the given horizontal alignment. If isUseLabelIcons is true, the
-     * given image will be set to the label. The given text will be set allways to the label. It is
+     * given image will be set to the label. The given text will be set always to the label. It is
      * allowed, that image and/or text are null.
      *
      * @param text                the text to be set
@@ -182,7 +181,7 @@ public class LabelFactory implements SwingConstants
 
     /**
      * Returns a new JLabel or FullLineLabel with the given horizontal alignment. If isUseLabelIcons
-     * is true, the given image will be set to the label. The given text will be set allways to the
+     * is true, the given image will be set to the label. The given text will be set always to the
      * label. It is allowed, that image and/or text are null.
      *
      * @param text                the text to be set
@@ -229,17 +228,33 @@ public class LabelFactory implements SwingConstants
     }
 
     /**
-     * This class is only needed to signal a different layout handling. There is no additonal
+     * Returns a new MultiLineLabel. The given text will be set always to the label.
+     *
+     * @param text  the text to be set
+     * @return new MultiLineLabel with the given text
+     */
+    public static MultiLineLabel createMultiLineLabel(String text)
+    {
+        MultiLineLabel multiLineLabel = new MultiLineLabel(text);
+        multiLineLabel.setText(text);
+        if (customLabelFontObj != null)
+        {
+            multiLineLabel.setFont(customLabelFontObj);
+        }
+        return multiLineLabel;
+    }
+
+    /**
+     * This class is only needed to signal a different layout handling. There is no additional
      * functionality related to a JLabel. Only the needed constructors are implemented.
      * A FullLineLabel gets from the IzPanelLayout as default a constraints for a full line.
-     * Therefore the width of this label do not determine the width of a column as a JLable
+     * Therefore, the width of this label do not determine the width of a column as a JLable
      * it do.
      *
      * @author Klaus Bartz
      */
     public static class FullLineLabel extends JLabel
     {
-
         /**
          * Required (serializable)
          */
@@ -265,5 +280,4 @@ public class LabelFactory implements SwingConstants
             super();
         }
     }
-
 }

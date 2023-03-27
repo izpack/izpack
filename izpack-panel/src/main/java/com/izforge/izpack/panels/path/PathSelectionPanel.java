@@ -80,6 +80,11 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
     private GUIInstallData installData;
 
     /**
+     * The target panel (panel which uses this PathSelectionPanel as sub-panel).
+     */
+    private String targetPanel;
+
+    /**
      * The log.
      */
     private final Log log;
@@ -87,15 +92,17 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
     /**
      * Constructs a <tt>PathSelectionPanel</tt>.
      *
-     * @param parent      the parent panel
-     * @param installData the installation data
-     * @param log         the log
+     * @param parent       the parent panel
+     * @param installData  the installation data
+     * @param targetPanel  the target panel
+     * @param log          the log
      */
-    public PathSelectionPanel(IzPanel parent, GUIInstallData installData, Log log)
+    public PathSelectionPanel(IzPanel parent, GUIInstallData installData, String targetPanel, Log log)
     {
         super();
         this.parent = parent;
         this.installData = installData;
+        this.targetPanel = targetPanel;
         this.log = log;
         createLayout();
     }
@@ -105,9 +112,9 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
      */
     protected void createLayout()
     {
-        // We would use the IzPanelLayout also in this "sub" panel.                                                                                      
+        // We would use the IzPanelLayout also in this "sub" panel.
         // In an IzPanel there is support for this layout manager in
-        // more than one place, but not in this panel so we have
+        // more than one place, but not in this panel. So, we have
         // to make all things needed.
         // First create a layout helper.
         LayoutHelper layoutHelper = new LayoutHelper(this, installData);
@@ -117,24 +124,25 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
         IzPanelConstraints ipc = IzPanelLayout.getDefaultConstraint(TEXT_CONSTRAINT);
         // The text field should be stretched.
         ipc.setXStretch(1.0);
-        textField = new JTextField(installData.getInstallPath(), 50);
+        textField = new JTextField(50);
         textField.addActionListener(this);
+        textField.setName(GuiId.PATH_SELECTION_PANEL_PATH_TEXT_FIELD.id);
         parent.setInitialFocus(textField);
         add(textField, ipc);
         // We would have place between text field and button.
         add(IzPanelLayout.createHorizontalFiller(3));
         // No explicit constraints for the button (else implicit) because
         // defaults are OK.
-        browseButton = ButtonFactory.createButton(parent.getInstallerFrame().getMessages().get("TargetPanel.browse"),
-                                                  parent.getInstallerFrame().getIcons()
-                                                          .get("open"), installData.buttonsHColor);
+        String buttonText = parent.getInstallerFrame().getMessages().get(targetPanel + ".browse");
+        browseButton = ButtonFactory.createButton(buttonText, parent.getInstallerFrame().getIcons().get("open"),
+                                                  installData.buttonsHColor);
         browseButton.setName(GuiId.BUTTON_BROWSE.id);
         browseButton.addActionListener(this);
         add(browseButton);
     }
 
     // There are problems with the size if no other component needs the
-    // full size. Sometimes directly, somtimes only after a back step.
+    // full size. Sometimes directly, sometimes only after a back step.
 
     @Override
     public Dimension getMinimumSize()
@@ -160,14 +168,14 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
 
             // Prepares the file chooser
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setName(GuiId.TARGET_PANEL_FILE_CHOOSER.id);
+            fileChooser.setName(GuiId.PATH_SELECTION_PANEL_FILE_CHOOSER.id);
             fileChooser.setCurrentDirectory(new File(textField.getText()));
             fileChooser.setMultiSelectionEnabled(false);
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             fileChooser.addChoosableFileFilter(fileChooser.getAcceptAllFileFilter());
 
             // Shows it
-            if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
             {
                 String path = fileChooser.getSelectedFile().getAbsolutePath();
                 textField.setText(path);

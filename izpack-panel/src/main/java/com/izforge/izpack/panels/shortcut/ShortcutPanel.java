@@ -694,7 +694,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // about the fact that we can not create shortcuts on
         // this particular target OS.
         // ----------------------------------------------------
-        MultiLineLabel apologyLabel = new MultiLineLabel(getString("ShortcutPanel.alternate.apology"), 0, 0);
+        MultiLineLabel apologyLabel = new MultiLineLabel(getString("ShortcutPanel.alternate.apology"));
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -711,7 +711,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // ----------------------------------------------------
         // label that explains the significance ot the list box
         // ----------------------------------------------------
-        MultiLineLabel listLabel = new MultiLineLabel(getString("ShortcutPanel.alternate.targetsLabel"), 0, 0);
+        MultiLineLabel listLabel = new MultiLineLabel(getString("ShortcutPanel.alternate.targetsLabel"));
 
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -745,8 +745,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         // ----------------------------------------------------
         // static text that explains about the text file
         // ----------------------------------------------------
-        MultiLineLabel fileExplanation = new MultiLineLabel(getString("ShortcutPanel.alternate.textFileExplanation"),
-                                                            0, 0);
+        MultiLineLabel fileExplanation = new MultiLineLabel(getString("ShortcutPanel.alternate.textFileExplanation"));
 
         constraints.gridx = 0;
         constraints.gridy = 3;

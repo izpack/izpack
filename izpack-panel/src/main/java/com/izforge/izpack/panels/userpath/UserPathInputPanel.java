@@ -36,10 +36,12 @@ import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.IzPanelLayout;
+import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.panels.path.PathSelectionPanel;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.Platform;
@@ -70,7 +72,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
     /**
      * The path selection sub panel
      */
-    protected UserPathSelectionPanel _pathSelectionPanel;
+    protected PathSelectionPanel _pathSelectionPanel;
     protected String _error;
     protected String _warn;
     protected String _emptyTargetMsg;
@@ -83,7 +85,6 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
     protected String _thisPanel = "UserPathInputPanel";
     protected String _defaultPanelName = "TargetPanel";
     protected String _targetPanel = "UserPathPanel";
-    protected String _variableName = "pathVariable";
 
     /**
      * Constructs an <tt>UserPathInputPanel</tt>.
@@ -100,7 +101,6 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
         _targetPanel = targetPanel;
-        _variableName = getString(targetPanel + ".variableName");
 
         String mustExist;
         if ((mustExist = panel.getConfigurationOptionValue("mustExist", installData.getRules())) != null) {
@@ -120,13 +120,13 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
         }
         // Intro
         // row 0 column 0
-        add(createMultiLineLabel(introText));
+        add(LabelFactory.createMultiLineLabel(introText));
         add(IzPanelLayout.createParagraphGap());
         // Label for input
         // row 1 column 0.
         add(createLabel("info", _targetPanel, "open", LEFT, true), NEXT_LINE);
         // Create path selection components and add they to this panel.
-        _pathSelectionPanel = new UserPathSelectionPanel(this, installData, _targetPanel, _variableName, log);
+        _pathSelectionPanel = new PathSelectionPanel(this, installData, _targetPanel, log);
         add(_pathSelectionPanel, NEXT_LINE);
         createLayoutBottom();
         getLayoutHelper().completeLayout();
