@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.IzPanelLayout;
+import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
@@ -42,10 +43,6 @@ import com.izforge.izpack.installer.util.SummaryProcessor;
  */
 public class SummaryPanel extends IzPanel
 {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 3832626166401282361L;
 
     /**
@@ -65,7 +62,7 @@ public class SummaryPanel extends IzPanel
     public SummaryPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
-        add(createMultiLineLabelLang("SummaryPanel.info"));
+        add(LabelFactory.createMultiLineLabel(getString("SummaryPanel.info")));
         try
         {
             textArea = new JEditorPane();

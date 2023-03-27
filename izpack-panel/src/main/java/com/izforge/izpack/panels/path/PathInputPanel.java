@@ -26,6 +26,7 @@ import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.IzPanelLayout;
+import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
@@ -98,7 +99,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         }
         // Intro
         // row 0 column 0
-        add(createMultiLineLabel(introText));
+        add(LabelFactory.createMultiLineLabel(introText));
 
         add(IzPanelLayout.createParagraphGap());
 

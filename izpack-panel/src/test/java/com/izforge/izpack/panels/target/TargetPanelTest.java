@@ -264,7 +264,8 @@ public class TargetPanelTest extends AbstractPanelTest
 
         // should still be on the TargetPanel
         assertEquals(panel, getPanels().getView());
-        fixture.textBox().setText(goodDir.getAbsolutePath());
+        fixture.textBox(GuiId.TARGET_PANEL_INSTALL_PATH.id).focus();
+        fixture.textBox(GuiId.TARGET_PANEL_INSTALL_PATH.id).setText(goodDir.getAbsolutePath());
 
         // suppress dialog indicating that goodDir will be created
         installData.setVariable("ShowCreateDirectoryMessage", "false");

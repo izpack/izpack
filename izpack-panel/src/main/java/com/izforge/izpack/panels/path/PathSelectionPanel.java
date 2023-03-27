@@ -53,10 +53,6 @@ import com.izforge.izpack.installer.gui.LayoutHelper;
  */
 public class PathSelectionPanel extends JPanel implements ActionListener, LayoutConstants
 {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 3618700794577105718L;
 
     /**
@@ -107,7 +103,7 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
     {
         // We would use the IzPanelLayout also in this "sub" panel.                                                                                      
         // In an IzPanel there is support for this layout manager in
-        // more than one place, but not in this panel so we have
+        // more than one place, but not in this panel. So, we have
         // to make all things needed.
         // First create a layout helper.
         LayoutHelper layoutHelper = new LayoutHelper(this, installData);
@@ -119,6 +115,7 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
         ipc.setXStretch(1.0);
         textField = new JTextField(installData.getInstallPath(), 50);
         textField.addActionListener(this);
+        textField.setName(GuiId.TARGET_PANEL_INSTALL_PATH.id);
         parent.setInitialFocus(textField);
         add(textField, ipc);
         // We would have place between text field and button.
@@ -172,7 +169,6 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
                 String path = fileChooser.getSelectedFile().getAbsolutePath();
                 textField.setText(path);
             }
-
         }
         else
         {
@@ -223,5 +219,4 @@ public class PathSelectionPanel extends JPanel implements ActionListener, Layout
     {
         return browseButton;
     }
-
 }

@@ -55,7 +55,6 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
 {
     private static final long serialVersionUID = 3256442495255786038L;
 
-
     /**
      * The helper object which handles layout
      */
@@ -422,7 +421,7 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
     {
         String retval = null;
 
-        List<String> prefixes = new ArrayList<String>();
+        List<String> prefixes = new ArrayList<>();
         String panelId = getMetadata().getPanelId();
         Class<?> clazz = this.getClass();
 
@@ -494,40 +493,8 @@ public abstract class IzPanel extends JPanel implements AbstractUIHandler, Layou
         ImageIcon imageIcon = (iconId != null) ? parent.getIcons().get(iconId) : null;
         String msg = getI18nStringForClass(subkey, alternateClass);
         JLabel label = LabelFactory.create(msg, imageIcon, pos, isFullLine);
-        if (label != null)
-        {
-            label.setFont(getControlTextFont());
-        }
+        label.setFont(getControlTextFont());
         return (label);
-
-    }
-
-    /**
-     * Creates a multi line label with the language dependent text given by the text id. The strings
-     * is the id for the text in langpack of the installer frame. The horizontal alignment will be
-     * LEFT.
-     *
-     * @param textId id string for the text
-     * @return the newly created multi line label
-     */
-    public MultiLineLabel createMultiLineLabelLang(String textId)
-    {
-        return createMultiLineLabel(getString(textId));
-    }
-
-    /**
-     * Creates a label via LabelFactory with the given text, the given icon id and the given
-     * horizontal alignment. If the icon id is null, the label will be created also. The strings are
-     * the ids for the text in langpack and the icon in icons of the installer frame.
-     *
-     * @param text   text to be used in the label
-     * @return the created multi line label
-     */
-    public MultiLineLabel createMultiLineLabel(String text)
-    {
-        MultiLineLabel multiLineLabel = new MultiLineLabel(text, 0, 0);
-        multiLineLabel.setFont(getControlTextFont());
-        return multiLineLabel;
     }
 
     /**
