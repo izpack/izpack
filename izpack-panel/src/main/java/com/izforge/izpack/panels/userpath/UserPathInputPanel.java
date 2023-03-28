@@ -56,78 +56,71 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
 {
     private static final long serialVersionUID = 3257566217698292531L;
 
-    private static final transient Logger logger = Logger.getLogger(UserPathInputPanel.class.getName());
+    private static final Logger logger = Logger.getLogger(UserPathInputPanel.class.getName());
+
+    protected String targetPanel;
 
     /**
-     * Flag whether the choosen path must exist or not
+     * Flag whether the chosen path must exist or not
      */
-    protected boolean _mustExist = false;
-    protected boolean _loadedDefaultDir = false;
+    protected boolean mustExist = false;
+    protected boolean loadedDefaultDir = false;
     /**
-     * Files which should be exist
+     * Files which should exist
      */
-    protected String[] _existFiles = null;
-    /** The path which was chosen */
-    // protected String chosenPath;
+    protected String[] existFiles = null;
+
     /**
      * The path selection sub panel
      */
-    protected PathSelectionPanel _pathSelectionPanel;
-    protected String _error;
-    protected String _warn;
-    protected String _emptyTargetMsg;
-    protected String _warnMsg;
-    protected String _reqMsg;
-    protected String _notValidMsg;
-    protected String _notWritableMsg;
-    protected String _createDirMsg;
-    protected String _defaultDir = null;
-    protected String _thisPanel = "UserPathInputPanel";
-    protected String _defaultPanelName = "TargetPanel";
-    protected String _targetPanel = "UserPathPanel";
+    protected PathSelectionPanel pathSelectionPanel;
+    protected String error;
+    protected String warn;
+    protected String emptyTargetMsg;
+    protected String warnMsg;
+    protected String reqMsg;
+    protected String notValidMsg;
+    protected String notWritableMsg;
+    protected String createDirMsg;
+    protected String defaultDir = null;
 
     /**
      * Constructs an <tt>UserPathInputPanel</tt>.
      *
      * @param panel       the panel meta-data
+     * @param targetPanel the target panel
      * @param parent      the parent window
      * @param installData the installation data
-     * @param targetPanel the target panel
      * @param resources   the resources
      * @param log         the log
      */
-    public UserPathInputPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, String targetPanel,
+    public UserPathInputPanel(Panel panel, String targetPanel, InstallerFrame parent, GUIInstallData installData,
                               Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
-        _targetPanel = targetPanel;
+        this.targetPanel = targetPanel;
 
         String mustExist;
         if ((mustExist = panel.getConfigurationOptionValue("mustExist", installData.getRules())) != null) {
-            this._mustExist = Boolean.parseBoolean(mustExist);
+            this.mustExist = Boolean.parseBoolean(mustExist);
         }
 
         // Set default values
         loadMessages();
-        String introText = getI18nStringForClass("extendedIntro", _thisPanel);
-        if (introText == null || introText.endsWith("extendedIntro") || introText.indexOf('$') > -1)
+        String introText = getI18nStringForClass("intro", targetPanel);
+        if (introText != null)
         {
-            introText = getI18nStringForClass("intro", _thisPanel);
-            if (introText == null || introText.endsWith("intro"))
-            {
-                introText = "";
-            }
+            // Intro
+            // row 0 column 0
+            add(LabelFactory.createMultiLineLabel(introText));
+            add(IzPanelLayout.createParagraphGap());
         }
-        // Intro
-        // row 0 column 0
-        add(LabelFactory.createMultiLineLabel(introText));
-        add(IzPanelLayout.createParagraphGap());
         // Label for input
         // row 1 column 0.
-        add(createLabel("info", _targetPanel, "open", LEFT, true), NEXT_LINE);
+        add(createLabel("info", this.targetPanel, "open", LEFT, true), NEXT_LINE);
         // Create path selection components and add they to this panel.
-        _pathSelectionPanel = new PathSelectionPanel(this, installData, _targetPanel, log);
-        add(_pathSelectionPanel, NEXT_LINE);
+        pathSelectionPanel = new PathSelectionPanel(this, installData, this.targetPanel, log);
+        add(pathSelectionPanel, NEXT_LINE);
         createLayoutBottom();
         getLayoutHelper().completeLayout();
     }
@@ -150,7 +143,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
         Object source = e.getSource();
-        if (source == _pathSelectionPanel.getPathInputField())
+        if (source == pathSelectionPanel.getPathInputField())
         {
             parent.navigateNext();
         }
@@ -159,23 +152,28 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
 
     private void loadMessages()
     {
-        _error = getString("installer.error");
-        _warn = getString("installer.warning");
-        _reqMsg = getMessage("required");
-        _emptyTargetMsg = getMessage("empty_target");
-        _warnMsg = getMessage("exists_warn");
-        _notValidMsg = getMessage("notValid");
-        _notWritableMsg = getMessage("notwritable");
-        _createDirMsg = getMessage("createdir");
+        error = getString("installer.error");
+        warn = getString("installer.warning");
+        reqMsg = getMessage("required");
+        emptyTargetMsg = getMessage("empty_target");
+        warnMsg = getMessage("exists_warn");
+        notValidMsg = getMessage("notValid");
+        notWritableMsg = getMessage("notwritable");
+        createDirMsg = getMessage("createdir");
     }
 
-    private String getMessage(String type)
+    /**
+     * Helper to return a language resource string.
+     *
+     * @param subkey the search subkey in targetPanel
+     * @return the corresponding string, or {@code <targetPanel>.<subkey>} if the string is not found
+     */
+    private String getMessage(String subkey)
     {
-        String msg = null;
-        msg = getI18nStringForClass(type, _targetPanel);
+        String msg = getI18nStringForClass(subkey, targetPanel);
         if (msg == null)
         {
-            msg = getI18nStringForClass(type, _defaultPanelName);
+            msg = targetPanel + "." + subkey;
         }
         return msg;
     }
@@ -188,17 +186,17 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
     @Override
     public boolean isValidated()
     {
-        String chosenPath = _pathSelectionPanel.getPath();
+        String chosenPath = pathSelectionPanel.getPath();
         boolean ok = true;
         // We put a warning if the specified target is nameless
         if (chosenPath.length() == 0)
         {
             if (isMustExist())
             {
-                emitError(_error, _reqMsg);
+                emitError(error, reqMsg);
                 return false;
             }
-            ok = emitWarning(_warn, _emptyTargetMsg);
+            ok = emitWarning(warn, emptyTargetMsg);
         }
         if (!ok)
         {
@@ -207,17 +205,17 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
         // Normalize the path
         File path = new File(chosenPath).getAbsoluteFile();
         chosenPath = path.toString();
-        _pathSelectionPanel.setPath(chosenPath);
+        pathSelectionPanel.setPath(chosenPath);
         if (isMustExist())
         {
             if (!path.exists())
             {
-                emitError(_error, _reqMsg);
+                emitError(error, reqMsg);
                 return false;
             }
             if (!pathIsValid())
             {
-                emitError(_error, _notValidMsg);
+                emitError(error, notValidMsg);
                 return false;
             }
         }
@@ -226,20 +224,20 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
             // We assume, that we would install something into this dir
             if (!isWriteable())
             {
-                emitError(_error, _notWritableMsg);
+                emitError(error, notWritableMsg);
                 return false;
             }
             // We put a warning if the directory exists else we warn
             // that it will be created
             if (path.exists())
             {
-                int res = askQuestion(_warn, _warnMsg,
+                int res = askQuestion(warn, warnMsg,
                                       AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES);
                 ok = res == AbstractUIHandler.ANSWER_YES;
             }
             else
             {
-                ok = this.emitNotificationFeedback(_createDirMsg + "\n" + chosenPath);
+                ok = this.emitNotificationFeedback(createDirMsg + "\n" + chosenPath);
             }
         }
         return ok;
@@ -254,13 +252,13 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     protected boolean pathIsValid()
     {
-        if (_existFiles == null)
+        if (existFiles == null)
         {
             return true;
         }
-        for (String _existFile : _existFiles)
+        for (String _existFile : existFiles)
         {
-            File path = new File(_pathSelectionPanel.getPath(), _existFile).getAbsoluteFile();
+            File path = new File(pathSelectionPanel.getPath(), _existFile).getAbsoluteFile();
             if (!path.exists())
             {
                 return false;
@@ -276,7 +274,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     public boolean isMustExist()
     {
-        return _mustExist;
+        return mustExist;
     }
 
     /**
@@ -286,7 +284,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     public void setMustExist(boolean mustExist)
     {
-        _mustExist = mustExist;
+        this.mustExist = mustExist;
     }
 
     /**
@@ -296,7 +294,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     public String[] getExistFiles()
     {
-        return _existFiles;
+        return existFiles;
     }
 
     /**
@@ -306,7 +304,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     public void setExistFiles(String[] strings)
     {
-        _existFiles = strings;
+        existFiles = strings;
     }
 
     /**
@@ -330,7 +328,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
     private void loadDefaultDir()
     {
         // Load only once ...
-        if (!(_loadedDefaultDir))
+        if (!(loadedDefaultDir))
         {
             Resources resources = getResources();
             BufferedReader reader = null;
@@ -343,7 +341,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
                 os = os.toLowerCase(); // for consistency among targetPanel res files
                 try
                 {
-                    in = resources.getInputStream(_targetPanel + ".dir.".concat(os));
+                    in = resources.getInputStream(targetPanel + ".dir.".concat(os));
                 }
                 catch (ResourceNotFoundException rnfe)
                 {
@@ -355,7 +353,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
                     {
                         try
                         {
-                            in = resources.getInputStream(_targetPanel + ".dir.windows");
+                            in = resources.getInputStream(targetPanel + ".dir.windows");
                         }
                         catch (ResourceNotFoundException rnfe)
                         {
@@ -365,7 +363,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
                     {
                         try
                         {
-                            in = resources.getInputStream(_targetPanel + ".dir.mac");
+                            in = resources.getInputStream(targetPanel + ".dir.mac");
                         }
                         catch (ResourceNotFoundException rnfe)
                         {
@@ -375,7 +373,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
                     {
                         try
                         {
-                            in = resources.getInputStream(_targetPanel + ".dir.unix");
+                            in = resources.getInputStream(targetPanel + ".dir.unix");
                         }
                         catch (ResourceNotFoundException eee)
                         {
@@ -388,7 +386,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
                 {
                     try
                     {
-                        in = resources.getInputStream(_targetPanel + ".dir");
+                        in = resources.getInputStream(targetPanel + ".dir");
                     }
                     catch (ResourceNotFoundException eee)
                     {
@@ -409,14 +407,14 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
                             break;
                         }
                     }
-                    _defaultDir = line;
-                    _defaultDir = installData.getVariables().replace(_defaultDir);
+                    defaultDir = line;
+                    defaultDir = installData.getVariables().replace(defaultDir);
                 }
             }
             catch (Exception e)
             {
                 logger.log(Level.WARNING, e.getMessage(), e);
-                _defaultDir = null;
+                defaultDir = null;
                 // leave unset to take the system default set by Installer class
             }
             finally
@@ -433,7 +431,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
                 }
             }
         }
-        _loadedDefaultDir = true;
+        loadedDefaultDir = true;
     }
 
     /**
@@ -443,7 +441,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     public boolean isWriteable()
     {
-        File existParent = IoHelper.existingParent(new File(_pathSelectionPanel.getPath()));
+        File existParent = IoHelper.existingParent(new File(pathSelectionPanel.getPath()));
         if (existParent == null)
         {
             return false;
@@ -476,11 +474,11 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     public String getDefaultDir()
     {
-        if (_defaultDir == null && (!(_loadedDefaultDir)))
+        if (defaultDir == null && (!(loadedDefaultDir)))
         {
             loadDefaultDir();
         }
-        return _defaultDir;
+        return defaultDir;
     }
 
     /**
@@ -490,7 +488,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     public void setDefaultDir(String defaultDir)
     {
-        _defaultDir = defaultDir;
+        this.defaultDir = defaultDir;
     }
 
     /**
@@ -501,7 +499,7 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     public String getTargetPanel()
     {
-        return _targetPanel;
+        return targetPanel;
     }
 
     /**
@@ -512,6 +510,6 @@ public class UserPathInputPanel extends IzPanel implements ActionListener
      */
     public void setTargetPanel(String targetPanel)
     {
-        _targetPanel = targetPanel;
+        this.targetPanel = targetPanel;
     }
 }

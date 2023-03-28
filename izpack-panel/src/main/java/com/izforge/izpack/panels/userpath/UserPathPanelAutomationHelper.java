@@ -27,6 +27,9 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Overrides;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 
+import static com.izforge.izpack.panels.userpath.UserPathPanel.PATH_ELEMENT_NAME;
+import static com.izforge.izpack.panels.userpath.UserPathPanel.PATH_VARIABLE_NAME;
+
 /**
  * Functions to support automated usage of the UserPathPanel
  *
@@ -44,13 +47,13 @@ public class UserPathPanelAutomationHelper implements PanelAutomation
     public void createInstallationRecord(InstallData idata, IXMLElement panelRoot)
     {
         // Installation path markup
-        IXMLElement ipath = new XMLElementImpl(UserPathPanel.pathElementName, panelRoot);
+        IXMLElement ipath = new XMLElementImpl(PATH_ELEMENT_NAME, panelRoot);
         // check this writes even if value is the default,
         // because without the constructor, default does not get set.
-        ipath.setContent(idata.getVariable(UserPathPanel.pathVariableName));
+        ipath.setContent(idata.getVariable(PATH_VARIABLE_NAME));
 
         // Checkings to fix bug #1864
-        IXMLElement prev = panelRoot.getFirstChildNamed(UserPathPanel.pathElementName);
+        IXMLElement prev = panelRoot.getFirstChildNamed(PATH_ELEMENT_NAME);
         if (prev != null)
         {
             panelRoot.removeChild(prev);
@@ -62,14 +65,14 @@ public class UserPathPanelAutomationHelper implements PanelAutomation
     public void runAutomated(InstallData idata, IXMLElement panelRoot)
     {
         // We set the installation path
-        IXMLElement ipath = panelRoot.getFirstChildNamed(UserPathPanel.pathElementName);
+        IXMLElement ipath = panelRoot.getFirstChildNamed(PATH_ELEMENT_NAME);
 
         // Allow for variable substitution of the installpath value
         if (ipath != null)
         {
             String path = ipath.getContent();
             path = idata.getVariables().replace(path);
-            idata.setVariable(UserPathPanel.pathVariableName, path);
+            idata.setVariable(PATH_VARIABLE_NAME, path);
         }
     }
 

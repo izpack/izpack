@@ -44,11 +44,12 @@ public class UserPathPanel extends UserPathInputPanel
 
     private static final Logger logger = Logger.getLogger(UserPathPanel.class.getName());
 
+    public static final String PANEL_NAME = "UserPathPanel";
     private boolean skip = false;
 
-    public static String pathVariableName = "UserPathPanelVariable";
-    public static String pathPackDependsName = "UserPathPanelDependsName";
-    public static String pathElementName = "UserPathPanelElement";
+    public static final String PATH_VARIABLE_NAME = "UserPathPanelVariable";
+    public static final String PATH_DEPENDS_PACK_NAME = "UserPathPanelDependsName";
+    public static final String PATH_ELEMENT_NAME = "UserPathPanelElement";
 
     /**
      * Constructs an <tt>UserPathPanel</tt>.
@@ -61,35 +62,34 @@ public class UserPathPanel extends UserPathInputPanel
      */
     public UserPathPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
-        super(panel, parent, installData, UserPathPanel.class.getSimpleName(), resources, log);
+        super(panel, PANEL_NAME, parent, installData, resources, log);
         // load the default directory info (if present)
         if (getDefaultDir() != null)
         {
-            installData.setVariable(pathVariableName, getDefaultDir());
+            installData.setVariable(PATH_VARIABLE_NAME, getDefaultDir());
         }
     }
 
     @Override
     public void panelActivate()
     {
-        boolean found = false;
+        skip = true;
         logger.fine("Looking for activation condition");
-        // Need to have a way to supress panel if not in selected packs.
-        String dependsName = installData.getVariable(pathPackDependsName);
-        if (dependsName != null && !(dependsName.equalsIgnoreCase("")))
+        // Need to have a way to suppress panel if not in selected packs.
+        String dependsPackName = installData.getVariable(PATH_DEPENDS_PACK_NAME);
+        if (dependsPackName != null && !dependsPackName.isEmpty())
         {
-            logger.fine("Checking for pack dependency of " + dependsName);
+            logger.fine("Checking for pack dependency of " + dependsPackName);
             for (Pack pack : installData.getSelectedPacks())
             {
-                logger.fine("- Checking if " + pack.getName() + " equals " + dependsName);
-                if (pack.getName().equalsIgnoreCase(dependsName))
+                logger.fine("- Checking if " + pack.getName() + " equals " + dependsPackName);
+                if (pack.getName().equalsIgnoreCase(dependsPackName))
                 {
-                    found = true;
-                    logger.fine("-- Found " + dependsName + ", panel will be shown");
+                    skip = false;
+                    logger.fine("-- Found " + dependsPackName + ", panel will be shown");
                     break;
                 }
             }
-            skip = !(found);
         }
         else
         {
@@ -98,16 +98,16 @@ public class UserPathPanel extends UserPathInputPanel
         }
         if (skip)
         {
-            logger.fine(UserPathPanel.class.getSimpleName() + " will not be shown");
+            logger.fine(PANEL_NAME + " will not be shown");
             parent.skipPanel();
             return;
         }
         super.panelActivate();
         Variables variables = installData.getVariables();
         // Set the default or old value to the path selection panel.
-        String expandedPath = variables.get(pathVariableName);
+        String expandedPath = variables.get(PATH_VARIABLE_NAME);
         expandedPath = variables.replace(expandedPath);
-        _pathSelectionPanel.setPath(expandedPath);
+        pathSelectionPanel.setPath(expandedPath);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class UserPathPanel extends UserPathInputPanel
         {
             return (false);
         }
-        installData.setVariable(pathVariableName, _pathSelectionPanel.getPath());
+        installData.setVariable(PATH_VARIABLE_NAME, pathSelectionPanel.getPath());
         return (true);
     }
 
@@ -140,7 +140,7 @@ public class UserPathPanel extends UserPathInputPanel
         }
         else
         {
-            return (installData.getVariable(pathVariableName));
+            return (installData.getVariable(PATH_VARIABLE_NAME));
         }
     }
 }

@@ -34,6 +34,9 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import static com.izforge.izpack.panels.userpath.UserPathPanel.PANEL_NAME;
+import static com.izforge.izpack.panels.userpath.UserPathPanel.PATH_VARIABLE_NAME;
+
 /**
  * The UserPath panel console helper class.
  * Based on the Target panel console helper
@@ -43,28 +46,14 @@ import java.util.Properties;
  */
 public class UserPathConsolePanel extends AbstractConsolePanel
 {
-    public static final String PATH_VARIABLE;
-    public static final String PATH_PACK_DEPENDS;
-    public static final String PATH_ELEMENT;
-    public static final String USER_PATH_INFO;
-    public static final String USER_PATH_NODIR;
-    public static final String USER_PATH_EXISTS;
+    public static final String USER_PATH_INFO = "UserPathPanel.info";
+    public static final String USER_PATH_NO_DIR = "UserPathPanel.nodir";
+    public static final String USER_PATH_EXISTS = "UserPathPanel.exists_warn";
 
-    private static final String EMPTY;
+    private static final String EMPTY = "";
 
     private Messages messages;
     private final InstallData installData;
-
-    static
-    {
-        PATH_VARIABLE = UserPathPanel.pathVariableName;
-        PATH_PACK_DEPENDS = UserPathPanel.pathPackDependsName;
-        PATH_ELEMENT = UserPathPanel.pathElementName;
-        USER_PATH_INFO = "UserPathPanel.info";
-        USER_PATH_NODIR = "UserPathPanel.nodir";
-        USER_PATH_EXISTS = "UserPathPanel.exists_warn";
-        EMPTY = "";
-    }
 
     /**
      * Constructs an {@code UserPathConsolePanel}.
@@ -105,51 +94,44 @@ public class UserPathConsolePanel extends AbstractConsolePanel
 
         loadLangpack(installData);
 
-        String userPathPanel;
-        String defaultUserPathPanel;
-        String pathMessage;
-
-        VariableSubstitutor vs;
-
-        vs = new VariableSubstitutorImpl(installData.getVariables());
-        pathMessage = getTranslation(USER_PATH_INFO);
-        defaultUserPathPanel = installData.getVariable(PATH_VARIABLE);
-
-        if (defaultUserPathPanel == null)
+        String introText = getI18nStringForClass("intro", PANEL_NAME, installData);
+        if (introText != null)
         {
-            defaultUserPathPanel = EMPTY;
+            console.println(introText);
+            console.println();
         }
-        else
-        {
-            defaultUserPathPanel = vs.substitute(defaultUserPathPanel, null);
-        }
+        VariableSubstitutor vs = new VariableSubstitutorImpl(installData.getVariables());
+        String pathMessage = getTranslation(USER_PATH_INFO);
+        String defaultUserPath = installData.getVariable(PATH_VARIABLE_NAME);
 
-        userPathPanel = console.promptLocation(pathMessage + " [" + defaultUserPathPanel + "]", defaultUserPathPanel);
+        defaultUserPath = defaultUserPath == null ? EMPTY : vs.substitute(defaultUserPath, null);
 
-        // check what the userPathPanel value should be
-        if (userPathPanel == null)
+        String userPath = console.promptLocation(pathMessage + " [" + defaultUserPath + "]", defaultUserPath);
+
+        // check what the userPath value should be
+        if (userPath == null)
         {
             return false;
         }
-        else if (EMPTY.equals(userPathPanel))
+        else if (EMPTY.equals(userPath))
         {
-            if (EMPTY.equals(defaultUserPathPanel))
+            if (EMPTY.equals(defaultUserPath))
             {
                 out("Error: Path is empty! Enter a valid path");
                 return run(installData, console);
             }
             else
             {
-                userPathPanel = defaultUserPathPanel;
+                userPath = defaultUserPath;
             }
         }
         else
         {
-            userPathPanel = vs.substitute(userPathPanel, null);
+            userPath = vs.substitute(userPath, null);
         }
-        if (!isPathAFile(userPathPanel))
+        if (!isPathAFile(userPath))
         {
-            if (doesPathExists(userPathPanel) && !isPathEmpty(userPathPanel))
+            if (doesPathExists(userPath) && !isPathEmpty(userPath))
             {
                 out(getTranslation(USER_PATH_EXISTS));
 
@@ -161,14 +143,14 @@ public class UserPathConsolePanel extends AbstractConsolePanel
         }
         else
         {
-            out(getTranslation(USER_PATH_NODIR));
+            out(getTranslation(USER_PATH_NO_DIR));
             return run(installData, console);
         }
         // If you reached here, all data validation done!
         // ask the user if he wants to proceed to the next
         if (promptEndPanel(installData, console))
         {
-            installData.setVariable(PATH_VARIABLE, userPathPanel);
+            installData.setVariable(PATH_VARIABLE_NAME, userPath);
             return true;
         }
         else
