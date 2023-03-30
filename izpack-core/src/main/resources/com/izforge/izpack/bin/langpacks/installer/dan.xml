@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" required: "/>
     <str id="JDKPathPanel.badVersion3" txt="). Should this JDK be used anyway?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="JDKPathPanel.browse" txt="Gennemse ..."/>
     <str id="JDKPathPanel.info" txt="Select the JDK path:"/>
-    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="The chosen directory does not contain the required product."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Total plads krævet: "/>
     <str id="PacksPanel.tip" txt="OBS: grå pakker skal installeres."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="The chosen directory does not contain the required product."/>
-    <str id="PathInputPanel.required" txt="The chosen directory should exist."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Gennemse ..."/>
     <str id="TargetPanel.createdir" txt="Målkataloget vil blive oprettet :"/>
     <str id="TargetPanel.empty_target" txt="Du har ikke angivet et målkatalog! Er dette korrekt?"/>
+    <str id="TargetPanel.exists_warn" txt="Kataloget eksisterer allerede ! Er du sikker på du vil installere og eventuelt overskrive eksisterende filer?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Vælg den mappe du vil installere i :"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="This file is not a directory! Please choose a directory!"/>
+    <str id="TargetPanel.notValid" txt="The chosen directory does not contain the required product."/>
     <str id="TargetPanel.notwritable" txt="This directory can not be written! Please choose another directory!"/>
+    <str id="TargetPanel.required" txt="The chosen directory should exist."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Kataloget eksisterer allerede ! Er du sikker på du vil installere og eventuelt overskrive eksisterende filer?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

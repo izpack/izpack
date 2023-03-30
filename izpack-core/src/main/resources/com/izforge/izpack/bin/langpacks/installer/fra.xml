@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" requis "/>
     <str id="JDKPathPanel.badVersion3" txt=") voulez-vous vraiment utiliser cette version?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="La version installée de l'application nécessite un JDK entre la version ${JDKPathPanel.minVersion} et la version ${JDKPathPanel.maxVersion}. Un environnement d'execution Java (JRE) ne sera pas suffisant."/>
+    <str id="JDKPathPanel.browse" txt="Parcourir ..."/>
     <str id="JDKPathPanel.info" txt="Choisissez le chemin du JDK:"/>
-    <str id="JDKPathPanel.intro" txt="L’application installée nécessite un JDK. Un java runtime environment (JRE) ne sera pas suffisant."/>
+    <str id="JDKPathPanel.intro" txt="La version installée de l'application nécessite un JDK entre la version ${JDKPathPanel.minVersion} et la version ${JDKPathPanel.maxVersion}. Un environnement d'execution Java (JRE) ne sera pas suffisant."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Le répertoire choisi ne contient pas le produit requis"/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="La base de registre contient une chemin non valide pour ce JDK. Ce JDK doit-il être utilisé ?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Espace total requis :"/>
     <str id="PacksPanel.tip" txt="Note : les paquetages grisés ne sont pas optionnels."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Le répertoire choisi ne contient pas le produit requis"/>
-    <str id="PathInputPanel.required" txt="Le répertoire choisi devrait exister."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Le répertoire choisi devrait exister."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Parcourir ..."/>
     <str id="TargetPanel.createdir" txt="Le répertoire de destination sera créé :"/>
     <str id="TargetPanel.empty_target" txt="Vous avez spécifié un nom de répertoire vide ! Etes-vous sûr(e) ?"/>
+    <str id="TargetPanel.exists_warn" txt="Le répertoire existe déjà ! Etes-vous sûr de vouloir installer dans celui-ci ?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Choisissez le chemin d'installation :"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Vous avez spécifié le nom d'un fichier existant ! Veuillez choisir un autre chemin d'installation."/>
+    <str id="TargetPanel.notValid" txt="Le répertoire choisi ne contient pas le produit requis"/>
     <str id="TargetPanel.notwritable" txt="Le répertoire que vous avez choisi n'autorise pas l'écriture. Veuillez en choisir un autre."/>
+    <str id="TargetPanel.required" txt="Le répertoire choisi devrait exister."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="Le répertoire choisi devrait exister."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Le répertoire existe déjà ! Etes-vous sûr de vouloir installer dans celui-ci ?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

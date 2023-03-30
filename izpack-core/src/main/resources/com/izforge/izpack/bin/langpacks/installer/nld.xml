@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" vereist: "/>
     <str id="JDKPathPanel.badVersion3" txt=") wilt u toch deze JDK gebruiken?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Het programma heeft een Java Development Kit (JDK) met een versienummer tussen ${JDKPathPanel.minVersion} en ${JDKPathPanel.maxVersion}. Een Java Runtime Environment (JRE) is niet voldoende."/>
+    <str id="JDKPathPanel.browse" txt="Bladeren ..."/>
     <str id="JDKPathPanel.info" txt="Selecteer het JDK pad:"/>
-    <str id="JDKPathPanel.intro" txt="Het programma heeft een JDK nodig. Een Java Runtime omgeving (JRE) zal niet voldoende zijn."/>
+    <str id="JDKPathPanel.intro" txt="Het programma heeft een Java Development Kit (JDK) met een versienummer tussen ${JDKPathPanel.minVersion} en ${JDKPathPanel.maxVersion}. Een Java Runtime Environment (JRE) is niet voldoende."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="De gekozen map bevat niet het vereiste product."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Het Windows register bevat een ongeldig pad voor deze JDK. Wilt u deze JDK toch gebruiken?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Totaal benodigde ruimte: "/>
     <str id="PacksPanel.tip" txt="NB: Uitgegrijsde pakketten zijn verplicht."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="De gekozen map bevat niet het vereiste product."/>
-    <str id="PathInputPanel.required" txt="De gekozen map moet reeds bestaan."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="De gekozen map moet reeds bestaan."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Bladeren ..."/>
     <str id="TargetPanel.createdir" txt="De installatiemap zal worden aangemaakt :"/>
     <str id="TargetPanel.empty_target" txt="U heeft geen installatiemap ingevuld. Wilt u toch doorgaan?"/>
+    <str id="TargetPanel.exists_warn" txt="Deze map bestaat al. Wilt u doorgaan en het risico lopen dat bestanden worden overschreven?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Selecteer de installatiemap:"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Uw keuze is geen map! Kies s.v.p. een map!"/>
+    <str id="TargetPanel.notValid" txt="De gekozen map bevat niet het vereiste product."/>
     <str id="TargetPanel.notwritable" txt="Schrijven in deze map niet mogelijk! Kies s.v.p. een andere map!"/>
+    <str id="TargetPanel.required" txt="De gekozen map moet reeds bestaan."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="De gekozen map moet reeds bestaan."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Deze map bestaat al. Wilt u doorgaan en het risico lopen dat bestanden worden overschreven?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

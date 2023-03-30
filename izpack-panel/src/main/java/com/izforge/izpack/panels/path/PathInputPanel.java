@@ -50,65 +50,60 @@ public class PathInputPanel extends IzPanel implements ActionListener
 {
     private static final long serialVersionUID = 3257566217698292531L;
 
-    private static final transient Logger logger = Logger.getLogger(PathInputPanel.class.getName());
+    private static final Logger logger = Logger.getLogger(PathInputPanel.class.getName());
+
+    protected String targetPanel;
 
     /**
-     * Flag whether the choosen path must exist or not
+     * Flag whether the chosen path must exist or not
      */
     protected boolean mustExist = false;
 
     /**
-     * Files which should be exist
+     * Files which should exist
      */
     protected String[] existFiles = null;
 
     /**
      * The path selection sub panel
      */
-    protected final PathSelectionPanel pathSelectionPanel;
-
-    protected final String emptyTargetMsg;
-
-    protected final String warnMsg;
+    protected PathSelectionPanel pathSelectionPanel;
+    protected String error;
+    protected String warn;
 
     /**
      * Constructs a <tt>PathInputPanel</tt>.
      *
      * @param panel       the panel meta-data
+     * @param targetPanel the target panel
      * @param parent      the parent window
      * @param installData the installation data
      * @param resources   the resources
      * @param log         the log
      */
-    public PathInputPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
+    public PathInputPanel(Panel panel, String targetPanel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
+        this.targetPanel = targetPanel;
+
         // Set default values
-        emptyTargetMsg = getI18nStringForClass("empty_target", "TargetPanel");
-        warnMsg = getI18nStringForClass("warn", "TargetPanel");
+        error = getString("installer.error");
+        warn = getString("installer.warning");
 
-        String introText = getI18nStringForClass("extendedIntro", "PathInputPanel");
-        if (introText == null || introText.endsWith("extendedIntro")
-                || introText.indexOf('$') > -1)
+        String introText = getI18nStringForClass("intro", this.targetPanel);
+        if (introText != null)
         {
-            introText = getI18nStringForClass("intro", "PathInputPanel");
-            if (introText == null || introText.endsWith("intro"))
-            {
-                introText = "";
-            }
+            // Intro
+            // row 0 column 0
+            add(LabelFactory.createMultiLineLabel(introText));
+            add(IzPanelLayout.createParagraphGap());
         }
-        // Intro
-        // row 0 column 0
-        add(LabelFactory.createMultiLineLabel(introText));
-
-        add(IzPanelLayout.createParagraphGap());
 
         // Label for input
         // row 1 column 0.
-        add(createLabel("info", "TargetPanel", "open",
-                        LEFT, true), NEXT_LINE);
+        add(createLabel("info", this.targetPanel, "open", LEFT, true), NEXT_LINE);
         // Create path selection components and add they to this panel.
-        pathSelectionPanel = new PathSelectionPanel(this, installData, "TargetPanel", log);
+        pathSelectionPanel = new PathSelectionPanel(this, installData, this.targetPanel, log);
         add(pathSelectionPanel, NEXT_LINE);
         createLayoutBottom();
         getLayoutHelper().completeLayout();
@@ -151,9 +146,25 @@ public class PathInputPanel extends IzPanel implements ActionListener
     }
 
     /**
+     * Helper to return a language resource string.
+     *
+     * @param subkey the search subkey in targetPanel
+     * @return the corresponding string, or {@code <targetPanel>.<subkey>} if the string is not found
+     */
+    protected String getMessage(String subkey)
+    {
+        String msg = getI18nStringForClass(subkey, targetPanel);
+        if (msg == null)
+        {
+            msg = targetPanel + "." + subkey;
+        }
+        return msg;
+    }
+
+    /**
      * Indicates whether the panel has been validated or not.
      *
-     * @return whether the panel has been validated or not.
+     * @return Whether the panel has been validated or not.
      */
     @Override
     public boolean isValidated()
@@ -182,7 +193,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         {
             if (!isWritable(file))
             {
-                emitError(getString("installer.error"), getI18nStringForClass("notwritable", "TargetPanel"));
+                emitError(error, getMessage("notwritable"));
                 return false;
             }
 
@@ -200,9 +211,9 @@ public class PathInputPanel extends IzPanel implements ActionListener
             }
         }
 
-        if(!installData.getPlatform().isValidDirectoryPath(file))
+        if (!installData.getPlatform().isValidDirectoryPath(file))
         {
-            emitError(getString("installer.error"), getI18nStringForClass("syntax.error", "TargetPanel"));
+            emitError(error, getMessage("syntax.error"));
             return false;
         }
         return true;
@@ -272,7 +283,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
     {
         if (!file.exists())
         {
-            emitError(getString("installer.error"), getString(getI18nStringForClass("required", "PathInputPanel")));
+            emitError(error, getMessage("required"));
             return false;
         }
         return true;
@@ -287,10 +298,10 @@ public class PathInputPanel extends IzPanel implements ActionListener
     {
         if (isMustExist())
         {
-            emitError(getString("installer.error"), getI18nStringForClass("required", "PathInputPanel"));
+            emitError(error, getMessage("required"));
             return false;
         }
-        return emitWarning(getString("installer.warning"), emptyTargetMsg);
+        return emitWarning(warn, getMessage("empty_target"));
     }
 
     /**
@@ -304,9 +315,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         File info = new File(path, InstallData.INSTALLATION_INFORMATION);
         if (!info.exists())
         {
-            emitError(getString("installer.error"),
-                      getString("PathInputPanel.required.forModificationInstallation"));
-
+            emitError(error, getMessage("required.forModificationInstallation"));
             return false;
         }
         return true;
@@ -348,7 +357,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         String show = getMetadata().getConfigurationOptionValue(PathInputBase.SHOWCREATEDIRECTORYMESSAGE, installData.getRules());
         if (show == null || Boolean.getBoolean(show))
         {
-            result = emitNotificationFeedback(getI18nStringForClass("createdir", "TargetPanel") + "\n" + dir);
+            result = emitNotificationFeedback(getMessage("createdir") + "\n" + dir);
         }
         return result;
     }
@@ -368,7 +377,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         String show = getMetadata().getConfigurationOptionValue(PathInputBase.SHOWEXISTINGDIRECTORYWARNING, installData.getRules());
         if ((show == null || Boolean.getBoolean(show))  && dir.isDirectory() && dir.list().length > 0)
         {
-            result = askWarningQuestion(getString("installer.warning"), warnMsg,
+            result = askWarningQuestion(warn, getMessage("exists_warn"),
                     AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES) == AbstractUIHandler.ANSWER_YES;
         }
         return result;
@@ -422,9 +431,9 @@ public class PathInputPanel extends IzPanel implements ActionListener
         boolean isValid = checkRequiredFilesExist(pathToBeChecked);
         if (!isValid && notifyUserIfInvalid)
         {
-            String errMsg = getString(getI18nStringForClass("notValid", "PathInputPanel"));
-            logger.log(Level.WARNING, String.format("%s: '%s'", errMsg, pathToBeChecked));
-            emitError(getString("installer.error"), errMsg);
+            String notValidMsg = getMessage("notValid");
+            logger.log(Level.WARNING, String.format("%s: '%s'", notValidMsg, pathToBeChecked));
+            emitError(error, notValidMsg);
         }
         return isValid;
     }

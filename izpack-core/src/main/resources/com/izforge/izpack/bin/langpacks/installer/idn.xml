@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" yang diperlukan: "/>
     <str id="JDKPathPanel.badVersion3" txt=") apakah JDK ini tetap akan digunakan?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Aplikasi yang telah dipasang membutuhkan sebuah JDK dengan versi antara ${JDKPathPanel.minVersion} dan ${JDKPathPanel.maxVersion}. Sebuah Java Runtime Environment (JRE) tidak cukup."/>
+    <str id="JDKPathPanel.browse" txt="Jelajah..."/>
     <str id="JDKPathPanel.info" txt="Silakan pilih alamat JDK:"/>
-    <str id="JDKPathPanel.intro" txt="Instalasi yang terinstal membutuhkan JDK. Sebuah Java Runtime Environment (JRE) saja tidak akan cukup."/>
+    <str id="JDKPathPanel.intro" txt="Aplikasi yang telah dipasang membutuhkan sebuah JDK dengan versi antara ${JDKPathPanel.minVersion} dan ${JDKPathPanel.maxVersion}. Sebuah Java Runtime Environment (JRE) tidak cukup."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Direktori terpilih tidak mengandung produk yang diperlukan."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Jumlah ruang yang dibutuhkan: "/>
     <str id="PacksPanel.tip" txt="Catatan: paket-paket yang berwarna kelabu diperlukan."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Direktori terpilih tidak mengandung produk yang diperlukan."/>
-    <str id="PathInputPanel.required" txt="Direktori yang terpilih seharusnya ada."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Direktori terpilih harus ada."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Jelajah..."/>
     <str id="TargetPanel.createdir" txt="Direktori tujuan akan dibuat: "/>
     <str id="TargetPanel.empty_target" txt="Anda belum menspesifikasi lokasi tujuan! Apakah betul?"/>
+    <str id="TargetPanel.exists_warn" txt="Direktori tersebut sudah ada! Apakah Anda yakin untuk melakukan pemasangan ke sana dan kemungkinan menimpa arsip-arsip yang telah ada?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Silakan pilih lokasi pemasangan: "/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Arsip ini bukan direktori! Silakan pilih sebuah direktori!"/>
+    <str id="TargetPanel.notValid" txt="Direktori terpilih tidak mengandung produk yang diperlukan."/>
     <str id="TargetPanel.notwritable" txt="Direktori ini tidak dapat ditulisi! Silakan pilih direktori lain!"/>
+    <str id="TargetPanel.required" txt="Direktori yang terpilih seharusnya ada."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="Direktori terpilih harus ada."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Direktori tersebut sudah ada! Apakah Anda yakin untuk melakukan pemasangan ke sana dan kemungkinan menimpa arsip-arsip yang telah ada?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" απαιτούμενη: "/>
     <str id="JDKPathPanel.badVersion3" txt="), να χρησιμοποιηθεί η τρέχουσα έκδοση JDK;"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="JDKPathPanel.browse" txt="Περιήγηση..."/>
     <str id="JDKPathPanel.info" txt="Επιλέξτε τη θέση του JDK:"/>
-    <str id="JDKPathPanel.intro" txt="Η προς εγκατάσταση εφαρμογή απαιτεί το JDK. Το περιβάλλον εκτέλεσης Java (JRE) δεν είναι αρκετό."/>
+    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Ο επιλεγμένος κατάλογος δεν έχει το προαπαιτούμενο προϊόν."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Συνολικά απαιτούμενος χώρος: "/>
     <str id="PacksPanel.tip" txt="Σημείωση: τα γκριζαρισμένα πακέτα είναι απαιτούμενα."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Ο επιλεγμένος κατάλογος δεν έχει το προαπαιτούμενο προϊόν."/>
-    <str id="PathInputPanel.required" txt="Ο επιλεγμένος κατάλογος πρέπει να υπάρχει."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Περιήγηση..."/>
     <str id="TargetPanel.createdir" txt="Θα κατασκευαστεί ο εξής κατάλογος: "/>
     <str id="TargetPanel.empty_target" txt="Δεν έχετε επιλέξει κατάλογο! Είναι αυτό σωστό;"/>
+    <str id="TargetPanel.exists_warn" txt="Ο κατάλογος υπάρχει ήδη! Είσαστε σίγουροι πως θέλετε να το εγκαταστήσετε εδώ\nκαι πιθανώς να γράψετε πάνω από ήδη υπάρχοντα αρχεία;"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Επιλέξτε τη θέση εγκατάστασης: "/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Αυτό το αρχείο δεν είναι κατάλογος! Παρακαλώ επιλέξτε έναν κατάλογο!"/>
+    <str id="TargetPanel.notValid" txt="Ο επιλεγμένος κατάλογος δεν έχει το προαπαιτούμενο προϊόν."/>
     <str id="TargetPanel.notwritable" txt="Αυτός ο κατάλογος δεν είναι εγγράψιμος! Παρακαλώ επιλέξτε διαφορετικό κατάλογο!"/>
+    <str id="TargetPanel.required" txt="Ο επιλεγμένος κατάλογος πρέπει να υπάρχει."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Ο κατάλογος υπάρχει ήδη! Είσαστε σίγουροι πως θέλετε να το εγκαταστήσετε εδώ\nκαι πιθανώς να γράψετε πάνω από ήδη υπάρχοντα αρχεία;"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

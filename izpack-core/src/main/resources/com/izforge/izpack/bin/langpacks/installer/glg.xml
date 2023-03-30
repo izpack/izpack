@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" necesaria: "/>
     <str id="JDKPathPanel.badVersion3" txt=" ) desexa usar este JDK de tódolos xeitos?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="A aplicación instalada necesita un JDK entre a versión ${JDKPathPanel.minVersion} e ${JDKPathPanel.maxVersion}. O java runtime environment (JRE) non será dabondo."/>
+    <str id="JDKPathPanel.browse" txt="Escoller ..."/>
     <str id="JDKPathPanel.info" txt="Seleccione o directorio do JDK:"/>
-    <str id="JDKPathPanel.intro" txt="A aplicación necesita un JDK. Un Java Runtime Environment (JRE) non é dabondo."/>
+    <str id="JDKPathPanel.intro" txt="A aplicación instalada necesita un JDK entre a versión ${JDKPathPanel.minVersion} e ${JDKPathPanel.maxVersion}. O java runtime environment (JRE) non será dabondo."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="O directorio non contén o produto requirido"/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="O rexistro de windows contén unha ruta non válida para este JDK. Será usado este JDK de todas formas?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Espazo total requirido: "/>
     <str id="PacksPanel.tip" txt="Nota: os paquetes en gris non son opcionais."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="O directorio non contén o produto requirido"/>
-    <str id="PathInputPanel.required" txt="O directorio seleccionado debe existir"/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="O directorio de saída debe existir."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Escoller ..."/>
     <str id="TargetPanel.createdir" txt="O directorio de destino será creado:"/>
     <str id="TargetPanel.empty_target" txt="Non especificou unha localización de destino! ¿É esto correcto?"/>
+    <str id="TargetPanel.exists_warn" txt="¡O directorio xa existe! ¿Confirma o seu desexo de face-la instalación nese directorio e sobreescribi-lo posibles arquivos existentes?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Seleccione a ruta de instalación:"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Este arquivo non é un directorio! Por Favor escolle un directorio!"/>
+    <str id="TargetPanel.notValid" txt="O directorio non contén o produto requirido"/>
     <str id="TargetPanel.notwritable" txt="Este directorio non pode ser escrito! Por favor escolle outro directorio!"/>
+    <str id="TargetPanel.required" txt="O directorio seleccionado debe existir"/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="O directorio de saída debe existir."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="¡O directorio xa existe! ¿Confirma o seu desexo de face-la instalación nese directorio e sobreescribi-lo posibles arquivos existentes?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

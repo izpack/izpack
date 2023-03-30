@@ -30,6 +30,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.panels.path.PathInputPanel;
+import com.izforge.izpack.panels.target.TargetPanel;
 
 /**
  * The target directory selection panel.
@@ -56,7 +57,7 @@ public class DefaultTargetPanel extends PathInputPanel
     public DefaultTargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                               Log log)
     {
-        super(panel, parent, installData, resources, log);
+        super(panel, TargetPanel.NAME, parent, installData, resources, log);
         this.defaultTargetPanelAutomationHelper = new DefaultTargetPanelAutomationHelper();
     }
 

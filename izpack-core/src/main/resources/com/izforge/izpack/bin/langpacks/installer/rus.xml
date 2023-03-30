@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" требуется: "/>
     <str id="JDKPathPanel.badVersion3" txt="), всё равно использовать этот JDK?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="JDKPathPanel.browse" txt="Обзор..."/>
     <str id="JDKPathPanel.info" txt="Выберите путь к JDK:"/>
-    <str id="JDKPathPanel.intro" txt="Устанавливаемое приложение нуждается в JDK. Среды выполнения Java (JRE) недостаточно."/>
+    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Выбранный каталог не содержит требемого приложения."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Требуется места: "/>
     <str id="PacksPanel.tip" txt="Примечание: неактивные модули обязательны к установке."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Выбранный каталог не содержит требемого приложения."/>
-    <str id="PathInputPanel.required" txt="Выбранный каталог должен существовать."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Обзор..."/>
     <str id="TargetPanel.createdir" txt="Будет создан каталог для установки:"/>
     <str id="TargetPanel.empty_target" txt="Вы не указали каталог для установки.  Продолжать?"/>
+    <str id="TargetPanel.exists_warn" txt="Каталог уже существует! Вы желаете установить программу в него?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Выберите каталог установки:"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Выбранный файл не является каталогом! Пожалуйста, выберите каталог."/>
+    <str id="TargetPanel.notValid" txt="Выбранный каталог не содержит требемого приложения."/>
     <str id="TargetPanel.notwritable" txt="Каталог защищен от записи! Пожалуйста, выберите другой каталог."/>
+    <str id="TargetPanel.required" txt="Выбранный каталог должен существовать."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Каталог уже существует! Вы желаете установить программу в него?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

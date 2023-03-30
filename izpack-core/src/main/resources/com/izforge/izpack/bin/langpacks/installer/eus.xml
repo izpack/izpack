@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" beharrezkoa: "/>
     <str id="JDKPathPanel.badVersion3" txt=") JDK hau erabiliko dugu hala ere?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Instalaturiko aplikazioak JDK-ren bertsioa ${JDKPathPanel.minVersion} eta ${JDKPathPanel.maxVersion} tartean egon behar du, Java runtime environment (JRE)-a soilik ez da nahiko izango."/>
+    <str id="JDKPathPanel.browse" txt="Gainbegiratu..."/>
     <str id="JDKPathPanel.info" txt="Aukeratu JDKren bidea:"/>
-    <str id="JDKPathPanel.intro" txt="Instalaturiko aplikazioak JDK behar du. Java runtime environment (JRE) bakarrik edukitzea ez da nahiko izango."/>
+    <str id="JDKPathPanel.intro" txt="Instalaturiko aplikazioak JDK-ren bertsioa ${JDKPathPanel.minVersion} eta ${JDKPathPanel.maxVersion} tartean egon behar du, Java runtime environment (JRE)-a soilik ez da nahiko izango."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Aukeratutako direktorioak ez dauka behar den produktua."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Windows-en erregistroak, JDK honentzako jopunturako bide baliogabea du. Erabiliko dugu JDK hau, hala ere?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Diskan beharrezkoa den lekua: "/>
     <str id="PacksPanel.tip" txt="Nota: Pakete grisak beharrezkoak dira."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Aukeratutako direktorioak ez dauka behar den produktua."/>
-    <str id="PathInputPanel.required" txt="Aukeratutako direktorioa existitu beharko luke."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Aukeratutako direktorioa existitu beharko luke."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Gainbegiratu..."/>
     <str id="TargetPanel.createdir" txt="Jopuntu direktorioa sortuko da: "/>
     <str id="TargetPanel.empty_target" txt="Ez duzu jopuntua aukeratu! Ondo al dago?"/>
+    <str id="TargetPanel.exists_warn" txt="Direktorioa aurrez existitzen da! Ziur al zaude hemen instalatu nahi duzula? Fitxategiak gainidatzi ditzakezu!"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Aukeratu instalatzeko bidea: "/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Fitxategi hau ez da direktorioa! Aukeratu direktorio bat!"/>
+    <str id="TargetPanel.notValid" txt="Aukeratutako direktorioak ez dauka behar den produktua."/>
     <str id="TargetPanel.notwritable" txt="Ezinezkoa da direktorio honetan idatzi! Aukeratu beste direktorio bat!"/>
+    <str id="TargetPanel.required" txt="Aukeratutako direktorioa existitu beharko luke."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="Aukeratutako direktorioa existitu beharko luke."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Direktorioa aurrez existitzen da! Ziur al zaude hemen instalatu nahi duzula? Fitxategiak gainidatzi ditzakezu!"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

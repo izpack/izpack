@@ -51,7 +51,7 @@ public class TargetConsolePanel extends PathInputConsolePanel implements Console
      */
     public TargetConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
     {
-        super(panel, installData, prompt);
+        super(panel, TargetPanel.NAME, installData, prompt);
         this.installData = installData;
     }
 
@@ -76,7 +76,7 @@ public class TargetConsolePanel extends PathInputConsolePanel implements Console
         }
         else if (TargetPanelHelper.isIncompatibleInstallation(path, installData.getInfo().isReadInstallationInformation()))
         {
-            System.err.println(getIncompatibleInstallationMsg(installData));
+            System.err.println(getMessage("incompatibleInstallation"));
         }
         else
         {
@@ -99,8 +99,13 @@ public class TargetConsolePanel extends PathInputConsolePanel implements Console
     {
         printHeadLine(installData, console);
 
-        File pathFile;
-        String normalizedPath;
+        String introText = getI18nStringForClass("intro", TargetPanel.NAME, installData);
+        if (introText != null)
+        {
+            console.println(introText);
+            console.println();
+        }
+
         String defaultPath = InstallPathHelper.getPath(installData);
         PathInputBase.setInstallData(installData);
 
@@ -111,56 +116,56 @@ public class TargetConsolePanel extends PathInputConsolePanel implements Console
 
         while (true)
         {
-            String path = console.promptLocation(installData.getMessages().get("TargetPanel.info") + " [" + defaultPath + "] ", defaultPath);
+            String path = console.promptLocation(getMessage("info") + " [" + defaultPath + "] ", defaultPath);
             if (path != null)
             {
                 path = installData.getVariables().replace(path);
-                normalizedPath = PathInputBase.normalizePath(path);
-                pathFile = new File(normalizedPath);
+                String normalizedPath = PathInputBase.normalizePath(path);
+                File pathFile = new File(normalizedPath);
 
                 if (TargetPanelHelper.isIncompatibleInstallation(normalizedPath, installData.getInfo().isReadInstallationInformation()))
                 {
-                    console.println(getIncompatibleInstallationMsg(installData));
+                    console.println(getMessage("incompatibleInstallation"));
                     continue;
-                } else if (!PathInputBase.isWritable(normalizedPath))
+                }
+                else if (!PathInputBase.isWritable(normalizedPath))
                 {
-                    console.println(installData.getMessages().get("UserPathPanel.notwritable"));
+                    console.println(getMessage("notwritable"));
                     continue;
-                } else if (!normalizedPath.isEmpty())
+                }
+                else if (!normalizedPath.isEmpty())
                 {
                     if (pathFile.isFile())
                     {
-                        console.println(installData.getMessages().get("PathInputPanel.isfile"));
+                        console.println(getMessage("isfile"));
                         continue;
-                    } else if (pathFile.exists())
+                    }
+                    else if (pathFile.exists())
                     {
                         if (!checkOverwrite(pathFile, console))
                         {
                             continue;
                         }
-                    } else if (!checkCreateDirectory(pathFile, console))
+                    }
+                    else if (!checkCreateDirectory(pathFile, console))
                     {
                         continue;
                     }
                     else if (!installData.getPlatform().isValidDirectoryPath(pathFile))
                     {
-                        console.println(installData.getMessages().get("TargetPanel.syntax.error"));
+                        console.println(getMessage("syntax.error"));
                         continue;
                     }
                     installData.setInstallPath(normalizedPath);
                     return promptEndPanel(installData, console);
                 }
                 return run(installData, console);
-            } else
+            }
+            else
             {
                 return false;
             }
         }
-    }
-
-    private String getIncompatibleInstallationMsg(InstallData installData)
-    {
-        return installData.getMessages().get("TargetPanel.incompatibleInstallation");
     }
 
     @Override

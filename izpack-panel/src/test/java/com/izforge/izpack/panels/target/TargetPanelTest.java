@@ -112,7 +112,7 @@ public class TargetPanelTest extends AbstractPanelTest
 
         // attempt to navigate to the next panel
         fixture.button(GuiId.BUTTON_NEXT.id).click();
-        checkWarningQuestion(fixture, installData.getMessages().get("TargetPanel.warn"));
+        checkWarningQuestion(fixture, installData.getMessages().get("TargetPanel.exists_warn"));
 
         assertEquals(userDir.getAbsolutePath(), installData.getInstallPath());
     }
@@ -161,7 +161,7 @@ public class TargetPanelTest extends AbstractPanelTest
 
         // attempt to navigate to the next panel
         fixture.button(GuiId.BUTTON_NEXT.id).click();
-        checkWarningQuestion(fixture, installData.getMessages().get("TargetPanel.warn"));
+        checkWarningQuestion(fixture, installData.getMessages().get("TargetPanel.exists_warn"));
 
         assertEquals(dir.getAbsolutePath(), installData.getInstallPath());
         assertTrue(getPanels().getView() instanceof SimpleFinishPanel);
@@ -212,14 +212,14 @@ public class TargetPanelTest extends AbstractPanelTest
 
         // attempt to navigate to the next panel
         fixture.button(GuiId.BUTTON_NEXT.id).click();
-        checkErrorMessage(fixture, messages.get("PathInputPanel.required"));
+        checkErrorMessage(fixture, messages.get("TargetPanel.required"));
 
         assertTrue(dir.mkdirs());
 
         // attempt to navigate to the next panel
         fixture.button(GuiId.BUTTON_NEXT.id).click();
 
-        checkErrorMessage(fixture, messages.get("PathInputPanel.required.forModificationInstallation"));
+        checkErrorMessage(fixture, messages.get("TargetPanel.required.forModificationInstallation"));
 
         // create the .installinformationfile
         TargetPanelTestHelper.createInstallationInfo(dir);
@@ -300,7 +300,7 @@ public class TargetPanelTest extends AbstractPanelTest
         panel.setExistFiles(requiredFiles);
 
         fixture.button(GuiId.BUTTON_NEXT.id).click();
-        checkErrorMessage(fixture, messages.get("PathInputPanel.notValid"));
+        checkErrorMessage(fixture, messages.get("TargetPanel.notValid"));
 
         // create the required files
         for (String required : requiredFiles)

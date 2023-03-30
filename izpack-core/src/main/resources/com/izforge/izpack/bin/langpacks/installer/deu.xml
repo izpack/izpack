@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" benötigt: "/>
     <str id="JDKPathPanel.badVersion3" txt=") Soll das JDK trotzdem benutzt werden?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Für den Betrieb des Produktes wird ein JDK zwischen Version ${JDKPathPanel.minVersion} und ${JDKPathPanel.maxVersion} benötigt. Eine Java-Runtime-Umgebung (JRE) ist nicht ausreichend."/>
+    <str id="JDKPathPanel.browse" txt="Auswählen..."/>
     <str id="JDKPathPanel.info" txt="Pfad des JDK-Verzeichnisses:"/>
-    <str id="JDKPathPanel.intro" txt="Für den Betrieb des Produktes wird ein JDK benötigt. Eine Java-Runtime-Umgebung (JRE) ist nicht ausreichend."/>
+    <str id="JDKPathPanel.intro" txt="Für den Betrieb des Produktes wird ein JDK zwischen Version ${JDKPathPanel.minVersion} und ${JDKPathPanel.maxVersion} benötigt. Eine Java-Runtime-Umgebung (JRE) ist nicht ausreichend."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;Dieses Produkt benötigt mindestens Version ${JDKPathPanel.minVersion} des Java Development Kit (JDK).&lt;p/&gt;          Wenn es nicht installiert ist, gehen Sie bitte auf &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,          für den Download und installieren Sie es.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Das gewählte Verzeichnis enthält nicht das benötigte Produkt."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Die Windows-Registry enthält für dieses JDK einen fehlerhaften Pfad-Eintrag. Soll das JDK trotzdem benutzt werden?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Erforderlicher Speicherplatz: "/>
     <str id="PacksPanel.tip" txt="Hinweis: Die grau markierten Pakete können nicht optional ausgewählt werden."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Das gewählte Verzeichnis enthält nicht das benötigte Produkt."/>
-    <str id="PathInputPanel.required" txt="Das gewählte Verzeichnis muss existieren."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Das gewählte Verzeichnis muss existieren."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Auswählen..."/>
     <str id="TargetPanel.createdir" txt="Das folgende Verzeichnis wird erstellt:"/>
     <str id="TargetPanel.empty_target" txt="Sie haben ein namenloses Ziel eingegeben! Wollen Sie fortfahren?"/>
+    <str id="TargetPanel.exists_warn" txt="Das Verzeichnis existiert bereits! Sind Sie sicher, dass Sie in diesem Verzeichnis installieren wollen?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Eine inkompatible Installation wurde erkannt. Deinstallieren sie diese oder wählen Sie ein anderes Installations-Verzeichnis."/>
     <str id="TargetPanel.info" txt="Wählen Sie den Installationspfad:"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Sie haben ein Ziel eingegeben, welches kein Verzeichnis ist! Bitte wählen Sie ein Verzeichnis aus!"/>
+    <str id="TargetPanel.notValid" txt="Das gewählte Verzeichnis enthält nicht das benötigte Produkt."/>
     <str id="TargetPanel.notwritable" txt="Sie haben ein Ziel eingegeben, welches nicht beschreibbar ist! Bitte wählen Sie ein anderes Verzeichnis aus!"/>
+    <str id="TargetPanel.required" txt="Das gewählte Verzeichnis muss existieren."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="Das gewählte Verzeichnis muss existieren."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Das Verzeichnis existiert bereits! Sind Sie sicher, dass Sie in diesem Verzeichnis installieren wollen?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

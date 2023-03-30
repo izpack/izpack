@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" szükséges: "/>
     <str id="JDKPathPanel.badVersion3" txt=") mégis ezt a JDK-t használjuk?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="A telepített alkalmazásnak szüksége van egy JDK-ra, mely verziószáma ${JDKPathPanel.minVersion} és ${JDKPathPanel.maxVersion} között kell legyen. Csak (JRE) nem elegendő."/>
+    <str id="JDKPathPanel.browse" txt="Tallózás ..."/>
     <str id="JDKPathPanel.info" txt="Válassza ki a JDK helyét:"/>
-    <str id="JDKPathPanel.intro" txt="A telepített alkalmazásnak szüksége van egy JDK-ra. Egy java runtime environment (JRE) nem elegendő."/>
+    <str id="JDKPathPanel.intro" txt="A telepített alkalmazásnak szüksége van egy JDK-ra, mely verziószáma ${JDKPathPanel.minVersion} és ${JDKPathPanel.maxVersion} között kell legyen. Csak (JRE) nem elegendő."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="A kiválasztott könyvtár nem tartalmazza a szükséges Java terméket."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Összesen szükséges hely a lemezen: "/>
     <str id="PacksPanel.tip" txt="Megjegyzés: a szürke csomagok telepítése elengedhetetlen."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="A kiválasztott könyvtár nem tartalmazza a szükséges Java terméket."/>
-    <str id="PathInputPanel.required" txt="A kiválasztott könyvtár nem létezik."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Tallózás ..."/>
     <str id="TargetPanel.createdir" txt="A célmappát a tetelepítő létrehozza :"/>
     <str id="TargetPanel.empty_target" txt="Nem adott meg célmappát! Megfelelő ez így?"/>
+    <str id="TargetPanel.exists_warn" txt="A mappa már létezik ! Akarja az ott esetleg létező állományok fölülírását ?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Adja meg a telepítési mappát :"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="This file is not a directory! Please choose a directory!"/>
+    <str id="TargetPanel.notValid" txt="A kiválasztott könyvtár nem tartalmazza a szükséges Java terméket."/>
     <str id="TargetPanel.notwritable" txt="This directory can not be written! Please choose another directory!"/>
+    <str id="TargetPanel.required" txt="A kiválasztott könyvtár nem létezik."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="A mappa már létezik ! Akarja az ott esetleg létező állományok fölülírását ?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>
