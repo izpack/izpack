@@ -56,6 +56,8 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
 
     private static final Logger logger = Logger.getLogger(JDKPathPanel.class.getName());
 
+    public static final String PANEL_NAME = "JDKPathPanel";
+
     private final RegistryDefaultHandler handler;
 
     /**
@@ -72,7 +74,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     public JDKPathPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                         RegistryDefaultHandler handler, VariableSubstitutor replacer, Log log)
     {
-        super(panel, parent, installData, resources, log);
+        super(panel, PANEL_NAME, parent, installData, resources, log);
         this.handler = handler;
 
         String msg = getString("JDKPathPanel.jdkDownload");
@@ -114,14 +116,14 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
     }
 
     /**
-     * Indicates wether the panel has been validated or not.
+     * Indicates whether the panel has been validated or not.
      *
-     * @return Wether the panel has been validated or not.
+     * @return Whether the panel has been validated or not.
      */
     @Override
     public boolean isValidated()
     {
-        if(super.isValidated())
+        if (super.isValidated())
         {
             String detectedJavaVersion;
             String strPath = pathSelectionPanel.getPath();
@@ -132,7 +134,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
             {
                 if (errorMessage.endsWith("?"))
                 {
-                    if (askQuestion(getString("installer.warning"), errorMessage,
+                    if (askQuestion(warn, errorMessage,
                             AbstractUIHandler.CHOICES_YES_NO,
                             AbstractUIHandler.ANSWER_NO) == AbstractUIHandler.ANSWER_YES)
                     {
@@ -164,7 +166,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         pathSelectionPanel.setPath(defaultValue);
 
         // Should we skip this panel?
-        if(JDKPathPanelHelper.skipPanel(installData, defaultValue))
+        if (JDKPathPanelHelper.skipPanel(installData, defaultValue))
         {
             parent.skipPanel();
         }

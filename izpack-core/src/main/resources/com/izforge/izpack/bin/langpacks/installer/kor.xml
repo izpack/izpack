@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt="를 찾았지만 "/>
     <str id="JDKPathPanel.badVersion3" txt="가 필요합니다) 그래도 이 JDK를 사용하시겠습니까?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="JDKPathPanel.browse" txt="찾아보기..."/>
     <str id="JDKPathPanel.info" txt="JDK 경로를 선택하십시오:"/>
-    <str id="JDKPathPanel.intro" txt="설치한 어플리케이션은 JDK가 필요합니다. 자바 실행 환경(JRE)는 충분하지 않습니다."/>
+    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="선택한 디렉토리에 필요한 제품이 없습니다."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="필요한 총 공간: "/>
     <str id="PacksPanel.tip" txt="주의: 회색으로 표시된 꾸러미는 필수입니다."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="선택한 디렉토리에 필요한 제품이 없습니다."/>
-    <str id="PathInputPanel.required" txt="선택한 디렉토리가 존재해야 합니다."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="찾아보기..."/>
     <str id="TargetPanel.createdir" txt="대상 디렉토리가 만들어 집니다: "/>
     <str id="TargetPanel.empty_target" txt="대상 위치를 지정하지 않았습니다. 확실합니까?"/>
+    <str id="TargetPanel.exists_warn" txt="디렉토리가 이미 존재합니다! 기존의 파일을 덮어쓸 수 있습니다. 여기에 설치하시겠습니까?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="설치 경로를 선택하십시오: "/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="이 파일은 디렉토리가 아닙니다! 디렉토리를 선택하십시오!"/>
+    <str id="TargetPanel.notValid" txt="선택한 디렉토리에 필요한 제품이 없습니다."/>
     <str id="TargetPanel.notwritable" txt="이 디렉토리는 쓰기가 불가능합니다! 다른 디렉토리를 선택하십시오!"/>
+    <str id="TargetPanel.required" txt="선택한 디렉토리가 존재해야 합니다."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="디렉토리가 이미 존재합니다! 기존의 파일을 덮어쓸 수 있습니다. 여기에 설치하시겠습니까?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

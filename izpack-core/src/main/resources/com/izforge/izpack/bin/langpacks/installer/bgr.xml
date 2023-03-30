@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" изисква: "/>
     <str id="JDKPathPanel.badVersion3" txt="). Да се използва ли този JDK въпреки това?"/>
     <str id="JDKPathPanel.badVersion4" txt="Продължи въреки това? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Изнсталацията на приложението изисква JDK версия от ${JDKPathPanel.minVersion} до ${JDKPathPanel.maxVersion}. Java runtime environment (JRE) не е достатъчно."/>
+    <str id="JDKPathPanel.browse" txt="Избери..."/>
     <str id="JDKPathPanel.info" txt="Изберете път към JDK:"/>
-    <str id="JDKPathPanel.intro" txt="Инсталирането на приложението изисква JDK. Java runtime environment (JRE) не е достатъчно."/>
+    <str id="JDKPathPanel.intro" txt="Изнсталацията на приложението изисква JDK версия от ${JDKPathPanel.minVersion} до ${JDKPathPanel.maxVersion}. Java runtime environment (JRE) не е достатъчно."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;Този софтуер изисква поне версия ${JDKPathPanel.minVersion} на Java Development Kit (JDK).&lt;p/&gt;          В случай, че не е инсталиран отидете на &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,          за да го изтеглите и инсталирате.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Избраната директория не съдържа избрания продукт."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Windows registry съдържа невалиден път за този JDK. Да се използва ли този JDK въпреки това?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Общо необходимо пространство: "/>
     <str id="PacksPanel.tip" txt="Бележка: Засивените пакети са задължителни."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="Въвели сте път към файл. Изберете път към нова или съществуваща директория."/>
-    <str id="PathInputPanel.notValid" txt="Избраната директория не съдържа избрания продукт."/>
-    <str id="PathInputPanel.required" txt="Избраната директория трябва да съществува."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Избраната директория трябва да съществува."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Избери..."/>
     <str id="TargetPanel.createdir" txt="Целевата директория ще бъде създадена: "/>
     <str id="TargetPanel.empty_target" txt="Не сте избрали целеви път! Това коректно ли е?"/>
+    <str id="TargetPanel.exists_warn" txt="Директорията вече съществува! Наистина ли желаете да инсталирате тук и да презапишете файловете?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Открита е несъвместима инсталация. Деинсталирайте първо или изберете друг път за инсталация."/>
     <str id="TargetPanel.info" txt="Изберете път за инсталация: "/>
+    <str id="TargetPanel.isfile" txt="Въвели сте път към файл. Изберете път към нова или съществуваща директория."/>
     <str id="TargetPanel.nodir" txt="Това не е директория! Изберете директория!"/>
+    <str id="TargetPanel.notValid" txt="Избраната директория не съдържа избрания продукт."/>
     <str id="TargetPanel.notwritable" txt="Директорията не е достъпна за запис! Изберете друга директория!"/>
+    <str id="TargetPanel.required" txt="Избраната директория трябва да съществува."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="Избраната директория трябва да съществува."/>
     <str id="TargetPanel.syntax.error" txt="Невалиден път към директория. Въведете валиден път към директория съобразно изискванията на опереационната система."/>
-    <str id="TargetPanel.warn" txt="Директорията вече съществува! Наистина ли желаете да инсталирате тук и да презапишете файловете?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Дъщерен"/>

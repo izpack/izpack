@@ -36,6 +36,8 @@ import com.izforge.izpack.api.config.Options;
 import java.util.Arrays;
 import java.util.Properties;
 
+import static com.izforge.izpack.panels.jdkpath.JDKPathPanel.PANEL_NAME;
+
 /**
  * The JDKPathPanel panel console helper class.
  *
@@ -99,10 +101,17 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
     {
         printHeadLine(installData, console);
 
+        String introText = getI18nStringForClass("intro", PANEL_NAME, installData);
+        if (introText != null)
+        {
+            console.println(introText);
+            console.println();
+        }
+
         String detectedJavaVersion = "";
         String defaultValue = JDKPathPanelHelper.getDefaultJavaPath(installData, handler);
 
-        if(JDKPathPanelHelper.skipPanel(installData, defaultValue))
+        if (JDKPathPanelHelper.skipPanel(installData, defaultValue))
         {
             return true;
         }
@@ -111,7 +120,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
         while (bKeepAsking)
         {
             Messages messages = installData.getMessages();
-            strPath = console.promptLocation("Select JDK path [" + defaultValue + "] ", defaultValue);
+            strPath = console.promptLocation(messages.get("JDKPathPanel.info") + " [" + defaultValue + "] ", defaultValue);
             if (strPath == null)
             {
                 return false;
@@ -139,7 +148,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
                 }
                 else
                 {
-                    console.println(messages.get("PathInputPanel.notValid"));
+                    console.println(messages.get("JDKPathPanel.notValid"));
                 }
             }
             else

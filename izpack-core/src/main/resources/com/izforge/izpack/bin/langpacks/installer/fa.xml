@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt="نسخۀ JDK موردنیاز:"/>
     <str id="JDKPathPanel.badVersion3" txt="از همین JDK استفاده شود؟"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="نرم افزار نصب شده به JDK نسخۀ ${JDKPathPanel.minVersion} تا ${JDKPathPanel.maxVersion} نیاز دارد. JRE برای اجرا کافی نیست."/>
+    <str id="JDKPathPanel.browse" txt="جستجو..."/>
     <str id="JDKPathPanel.info" txt="مسیر JRE را انتخاب کنید:"/>
-    <str id="JDKPathPanel.intro" txt="نرم افزار نصب شده به JDK نیاز دارد. JRE برای اجرا کافی نیست."/>
+    <str id="JDKPathPanel.intro" txt="نرم افزار نصب شده به JDK نسخۀ ${JDKPathPanel.minVersion} تا ${JDKPathPanel.maxVersion} نیاز دارد. JRE برای اجرا کافی نیست."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="نرم افزار مورد نظر در دایرکتوری انتخاب شده موجود نمی باشد."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="مسیر این JDK در رجیستری ویندوز نامعتبر است. آیا می خواهید از همین JDK استفاده کنید؟"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="حافظۀ موردنیاز:"/>
     <str id="PacksPanel.tip" txt="توجه:  نصب بسته های خاکستری شده اجباری است."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="نرم افزار مورد نظر در دایرکتوری انتخاب شده موجود نمی باشد."/>
-    <str id="PathInputPanel.required" txt="دایرکتوری انتخاب شده باید موجود باشد."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="جستجو..."/>
     <str id="TargetPanel.createdir" txt="پوشۀ جدید ایجاد شود؟"/>
     <str id="TargetPanel.empty_target" txt="شما مقصد را مشخص نکرده اید. انتخاب پیش فرض صحیح است؟ "/>
+    <str id="TargetPanel.exists_warn" txt="پوشۀ موردنظر وجود دارد. آیا مایلید نرم افزار را در این دایرکتوری نصب و احتمالاً فایل های موجود را رونویسی کنید؟"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt=" مسیر نصب را انتخاب کنید:"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="مورد انتخاب شده فایل است!لطفاً یک دایرکتوری انتخاب کنید!"/>
+    <str id="TargetPanel.notValid" txt="نرم افزار مورد نظر در دایرکتوری انتخاب شده موجود نمی باشد."/>
     <str id="TargetPanel.notwritable" txt="این دایرکتوری قابل نوشتن نیست! لطفاً یک دایرکتوری دیگر انتخاب کنید!"/>
+    <str id="TargetPanel.required" txt="دایرکتوری انتخاب شده باید موجود باشد."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="پوشۀ موردنظر وجود دارد. آیا مایلید نرم افزار را در این دایرکتوری نصب و احتمالاً فایل های موجود را رونویسی کنید؟"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

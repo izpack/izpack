@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" потрібен: "/>
     <str id="JDKPathPanel.badVersion3" txt=") використовувати цей JDK всеодно?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Встановлена програма потребує для роботи JDK версією між ${JDKPathPanel.minVersion} та ${JDKPathPanel.maxVersion}. Середи виконання java (JRE) недостатньо."/>
+    <str id="JDKPathPanel.browse" txt="Оглянути..."/>
     <str id="JDKPathPanel.info" txt="Вкажіть шлях до JDK:"/>
-    <str id="JDKPathPanel.intro" txt="Встановлена програма потребує для роботи JDK. Середи виконання java (JRE) недостатньо."/>
+    <str id="JDKPathPanel.intro" txt="Встановлена програма потребує для роботи JDK версією між ${JDKPathPanel.minVersion} та ${JDKPathPanel.maxVersion}. Середи виконання java (JRE) недостатньо."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Вибраний каталог не містить потрібну програму."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Реєстр Windows містить хибний шлях до JDK. Використовувати цей JDK всеодно?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Потрібно місця: "/>
     <str id="PacksPanel.tip" txt="Примітка: сірі пакунки є обов’язковими."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Вибраний каталог не містить потрібну програму."/>
-    <str id="PathInputPanel.required" txt="Вибраний каталог має вже існувати."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Вибраний каталог має вже існувати."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Оглянути..."/>
     <str id="TargetPanel.createdir" txt="Буде створено каталог для встановлення: "/>
     <str id="TargetPanel.empty_target" txt="Ви не вказали шлях встановлення! Чи це вірно?"/>
+    <str id="TargetPanel.exists_warn" txt="Каталог вже існує! Ви впевнені що бажаєте встановити в нього та можливо перезаписати вже існуючі файли?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Вкажіть шлях встановлення: "/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Це файл, а не каталог! Будь ласка, вкажіть каталог!"/>
+    <str id="TargetPanel.notValid" txt="Вибраний каталог не містить потрібну програму."/>
     <str id="TargetPanel.notwritable" txt="Цей каталог захищено від запису! Будь ласка, вкажіть інший!"/>
+    <str id="TargetPanel.required" txt="Вибраний каталог має вже існувати."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="Вибраний каталог має вже існувати."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Каталог вже існує! Ви впевнені що бажаєте встановити в нього та можливо перезаписати вже існуючі файли?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

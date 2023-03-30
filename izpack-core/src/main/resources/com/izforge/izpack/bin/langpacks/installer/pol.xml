@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" wymagana: "/>
     <str id="JDKPathPanel.badVersion3" txt="). Czy mimo wszystko użyć wybranego JDK?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Zainstalowane oprogramowanie wymaga JDK w wersji pomiędzy ${JDKPathPanel.minVersion} a ${JDKPathPanel.maxVersion}. Samo środowisko uruchomieniowe Java (JRE) nie jest wystarczające."/>
+    <str id="JDKPathPanel.browse" txt="Przeglądaj..."/>
     <str id="JDKPathPanel.info" txt="Wskaż katalog JDK:"/>
-    <str id="JDKPathPanel.intro" txt="Zainstalowane oprogramowanie wymaga JDK. Samo środowisko uruchomieniowe Java (JRE) nie jest wystarczające."/>
+    <str id="JDKPathPanel.intro" txt="Zainstalowane oprogramowanie wymaga JDK w wersji pomiędzy ${JDKPathPanel.minVersion} a ${JDKPathPanel.maxVersion}. Samo środowisko uruchomieniowe Java (JRE) nie jest wystarczające."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Wybrany katalog nie zawiera wymaganego oprogramowania."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Rejestr Window zawiera nieprawidłową ścieżkę do katalogu wybranego JDK. Czy mimo wszystko użyć wybranego JDK?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Wymagane miejsce: "/>
     <str id="PacksPanel.tip" txt="Uwaga: Pakiety oznaczone szarym kolorem są wymagane."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Wybrany katalog nie zawiera wymaganego oprogramowania."/>
-    <str id="PathInputPanel.required" txt="Wybrany katalog powinien istnieć."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Wybrany katalog powinien istnieć."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Przeglądaj..."/>
     <str id="TargetPanel.createdir" txt="Katalog docelowy zostanie utworzony: "/>
     <str id="TargetPanel.empty_target" txt="Nie podałeś katalogu docelowego! Czy jesteś pewien, że chcesz kontynuować?"/>
+    <str id="TargetPanel.exists_warn" txt="Katalog już istnieje! Czy jesteś pewien, że chcesz kontynuować instalację i nadpisać istniejące pliki?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Wybierz katalog docelowy: "/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="To nie jest katalog, wybierz ponownie!"/>
+    <str id="TargetPanel.notValid" txt="Wybrany katalog nie zawiera wymaganego oprogramowania."/>
     <str id="TargetPanel.notwritable" txt="Brak uprawnień do zapisu w wybranym katalogu! Wybierz inny katalog!"/>
+    <str id="TargetPanel.required" txt="Wybrany katalog powinien istnieć."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="Wybrany katalog powinien istnieć."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Katalog już istnieje! Czy jesteś pewien, że chcesz kontynuować instalację i nadpisać istniejące pliki?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

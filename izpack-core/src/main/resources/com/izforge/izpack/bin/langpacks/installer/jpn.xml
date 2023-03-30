@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" 必須: "/>
     <str id="JDKPathPanel.badVersion3" txt=") この JDK を使用しますか?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="インストールするアプリケーションには JDK ${JDKPathPanel.minVersion} - ${JDKPathPanel.maxVersion} が必要です。Java 実行環境 (JRE) では不十分です。"/>
+    <str id="JDKPathPanel.browse" txt="参照 ..."/>
     <str id="JDKPathPanel.info" txt="JDK パスの選択:"/>
-    <str id="JDKPathPanel.intro" txt="インストールするアプリケーションには JDK が必要です。Java 実行環境 (JRE) では不十分です。"/>
+    <str id="JDKPathPanel.intro" txt="インストールするアプリケーションには JDK ${JDKPathPanel.minVersion} - ${JDKPathPanel.maxVersion} が必要です。Java 実行環境 (JRE) では不十分です。"/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="選択したディレクトリには必要な製品が含まれていません。"/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Windows レジストリが有効ではない JDK のパスを含んでいます。この JDK を使用しますか?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="必要なディスク容量: "/>
     <str id="PacksPanel.tip" txt="注意: 灰色で表示されている項目は、必須項目です。"/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="選択したディレクトリには必要な製品が含まれていません。"/>
-    <str id="PathInputPanel.required" txt="存在するディレクトリを選択してください。"/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="存在するディレクトリを選択してください。"/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="参照 ..."/>
     <str id="TargetPanel.createdir" txt="インストール先ディレクトリを作成します: "/>
     <str id="TargetPanel.empty_target" txt="正しいインストール先を指定してください! このパスは本当に存在していますか?"/>
+    <str id="TargetPanel.exists_warn" txt="指定されたディレクトリは既に存在します! このまま続けるとファイルを上書きするかもしれませんがいいですか?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="インストールするパスを選択してください :"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="このパスはディレクトリではありません! ディレクトリを選択してください!"/>
+    <str id="TargetPanel.notValid" txt="選択したディレクトリには必要な製品が含まれていません。"/>
     <str id="TargetPanel.notwritable" txt="このディレクトリに書き込むことができません! 別のディレクトリを選択してください!"/>
+    <str id="TargetPanel.required" txt="存在するディレクトリを選択してください。"/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="存在するディレクトリを選択してください。"/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="指定されたディレクトリは既に存在します! このまま続けるとファイルを上書きするかもしれませんがいいですか?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

@@ -83,11 +83,11 @@ public class JDKPathPanelHelper
     }
 
     /**
-     * Returns the path to the needed JDK if found in the registry. If there are more than one JDKs
-     * registered, that one with the highest allowed version will be returned. Works only on windows.
+     * Returns the path to the needed JDK if found in the registry. If there are more than one JDK
+     * registered, that one with the highest allowed version will be returned. Works only on Windows.
      * On Unix an empty string returns.
      *
-     * @return the path to the needed JDK if found in the windows registry
+     * @return the path to the needed JDK if found in the Windows registry
      */
     public static String getJavaHomeFromRegistry(RegistryDefaultHandler handler)
     {
@@ -142,7 +142,7 @@ public class JDKPathPanelHelper
             }
         }
         catch (Exception e)
-        { // Will only be happen if registry handler is good, but an
+        { // Will happen only if registry handler is good, but an
             // exception at performing was thrown. This is an error...
             e.printStackTrace();
         }
@@ -184,7 +184,7 @@ public class JDKPathPanelHelper
     }
 
     /**
-     * Validate that the given javaVersion meets meets the minimum and maximum java version requirements.
+     * Validate that the given javaVersion meets the minimum and maximum java version requirements.
      *
      * @param javaVersion
      * @return
@@ -308,7 +308,7 @@ public class JDKPathPanelHelper
      }
 
     /**
-     * Validate that the given javaVersion meets meets the minimum and maximum java version requirements.
+     * Validate that the given javaVersion meets the minimum and maximum java version requirements.
      *
      * @param currentVersion
      * @param template
@@ -322,7 +322,7 @@ public class JDKPathPanelHelper
         while (neededTokenizer.hasMoreTokens())
         {
             // Current can have no more tokens if needed has more
-            // and if a privious token was not accepted as good version.
+            // and if a previous token was not accepted as good version.
             // e.g. 1.4.2_02 needed, 1.4.2 current. The false return
             // will be right here. Only if e.g. needed is 1.4.2_00 the
             // return value will be false, but zero should not b e used
@@ -342,10 +342,10 @@ public class JDKPathPanelHelper
             }
             catch (NumberFormatException nfe)
             { // A number format exception will be raised if
-                // there is a non numeric part in the version,
+                // there is a non-numeric part in the version,
                 // e.g. 1.5.0_beta. The verification runs only into
                 // this deep area of version number (fourth sub place)
-                // if all other are equal to the given limit. Then
+                // if all others are equal to the given limit. Then
                 // it is right to return false because e.g.
                 // the minimal needed version will be 1.5.0.2.
                 return (false);
@@ -385,7 +385,7 @@ public class JDKPathPanelHelper
 
         if(!pathIsValid(javaHome))
         {
-            message.append(messages.get("PathInputPanel.notValid"));
+            message.append(messages.get("JDKPathPanel.notValid"));
         }
         else if (!verifyVersion(javaVersion))
         {

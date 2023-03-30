@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" required: "/>
     <str id="JDKPathPanel.badVersion3" txt="). Should this JDK be used anyway?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="JDKPathPanel.browse" txt="浏览 ..."/>
     <str id="JDKPathPanel.info" txt="Select the JDK path:"/>
-    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="The chosen directory does not contain the required product."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="总需求空间: "/>
     <str id="PacksPanel.tip" txt="注意: 灰色选项是必选的."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="The chosen directory does not contain the required product."/>
-    <str id="PathInputPanel.required" txt="The chosen directory should exist."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="浏览 ..."/>
     <str id="TargetPanel.createdir" txt="目标目录将创建在 :"/>
     <str id="TargetPanel.empty_target" txt="你没有指定目标路径! 是否正确?"/>
+    <str id="TargetPanel.exists_warn" txt="目录已经存在 ! 可能覆盖现存文件，是否确定在此安装?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="选择安装路径 :"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="该文件不是目录! 请选择一个目录!"/>
+    <str id="TargetPanel.notValid" txt="The chosen directory does not contain the required product."/>
     <str id="TargetPanel.notwritable" txt="目录无法写入! 请选择其他目录!"/>
+    <str id="TargetPanel.required" txt="The chosen directory should exist."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="目录已经存在 ! 可能覆盖现存文件，是否确定在此安装?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

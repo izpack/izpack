@@ -45,6 +45,8 @@ public class TargetPanel extends PathInputPanel
      */
     private static final long serialVersionUID = 3256443616359429170L;
 
+    public static final String PANEL_NAME = "TargetPanel";
+
     /**
      * Constructs a <tt>TargetPanel</tt>.
      *
@@ -56,7 +58,7 @@ public class TargetPanel extends PathInputPanel
      */
     public TargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
-        super(panel, parent, installData, resources, log);
+        super(panel, PANEL_NAME, parent, installData, resources, log);
     }
 
     /**
@@ -89,11 +91,11 @@ public class TargetPanel extends PathInputPanel
         File targetPathFile = new File(getPath());
         if (TargetPanelHelper.isIncompatibleInstallation(getPath(), installData.getInfo().isReadInstallationInformation()))
         {
-            emitError(getString("installer.error"), getString("TargetPanel.incompatibleInstallation"));
+            emitError(error, getMessage("incompatibleInstallation"));
         }
         else if (targetPathFile.isFile())
         {
-            emitError(getString("installer.error"), getString(getI18nStringForClass("isfile", "PathInputPanel")));
+            emitError(error, getMessage("isfile"));
             return false;
         }
         else if (super.isValidated())

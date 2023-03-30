@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" vaadittu versio: "/>
     <str id="JDKPathPanel.badVersion3" txt=") käytetäänkö tätä JDK:ta silti?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Asennettu ohjelmisto tarvitsee JDK:n (Java Development Kit), jonka version on oltava ${JDKPathPanel.minVersion}...${JDKPathPanel.maxVersion}. Javan ajonaikainen ympäristö (Java runtime environment; JRE) ei riitä."/>
+    <str id="JDKPathPanel.browse" txt="Selaa..."/>
     <str id="JDKPathPanel.info" txt="Valitse JDK:n polku:"/>
-    <str id="JDKPathPanel.intro" txt="Asennettu sovellus tarvitsee JDK:n (Java Development Kit). Javan ajonaikainen ympäristö (Java runtime environment; JRE) ei riitä."/>
+    <str id="JDKPathPanel.intro" txt="Asennettu ohjelmisto tarvitsee JDK:n (Java Development Kit), jonka version on oltava ${JDKPathPanel.minVersion}...${JDKPathPanel.maxVersion}. Javan ajonaikainen ympäristö (Java runtime environment; JRE) ei riitä."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Valittu hakemisto ei sisällä vaadittua tuotetta."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Windowsin rekisterissä on epäkelpo polku tälle JDK:lle. Käytetäänkö tätä JDK:ta silti?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Vaadittava levytila: "/>
     <str id="PacksPanel.tip" txt="Huomaa: harmaa valintaruutu tarkoittaa, että paketti on pakollinen."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Valittu hakemisto ei sisällä vaadittua tuotetta."/>
-    <str id="PathInputPanel.required" txt="Valitun hakemiston on oltava olemassa."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Valitun hakemiston on oltava olemassa."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Selaa..."/>
     <str id="TargetPanel.createdir" txt="Luodaan asennushakemisto: "/>
     <str id="TargetPanel.empty_target" txt="Et ole antanut asennushakemistoa! Onko tämä oikein?"/>
+    <str id="TargetPanel.exists_warn" txt="Hakemisto on jo olemassa! Haluatko varmasti asentaa kyseiseen hakemistoon ja mahdollisesti korvata olemassa olevat tiedostot?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Valitse asennushakemisto:"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Valittu tiedosto ei ole hakemisto! Ole hyvä ja valitse hakemisto!"/>
+    <str id="TargetPanel.notValid" txt="Valittu hakemisto ei sisällä vaadittua tuotetta."/>
     <str id="TargetPanel.notwritable" txt="Hakemistoon ei voi kirjoittaa! Ole hyvä ja valitse toinen hakemisto!"/>
+    <str id="TargetPanel.required" txt="Valitun hakemiston on oltava olemassa."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="Valitun hakemiston on oltava olemassa."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Hakemisto on jo olemassa! Haluatko varmasti asentaa kyseiseen hakemistoon ja mahdollisesti korvata olemassa olevat tiedostot?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

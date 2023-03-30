@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" richiesta: "/>
     <str id="JDKPathPanel.badVersion3" txt=") usare comunquesta questa JDK?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continuare comunque? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Il programma installato richiede una JDK di versione compresa tra ${JDKPathPanel.minVersion} e ${JDKPathPanel.maxVersion}. Una Java Runtime Environment (JRE) non è sufficiente."/>
+    <str id="JDKPathPanel.browse" txt="Sfoglia..."/>
     <str id="JDKPathPanel.info" txt="Selezionare il percorso del JDK:"/>
-    <str id="JDKPathPanel.intro" txt="L'applicazione necessita della JDK. La Java Runtime Environment (JRE) non è sufficente."/>
+    <str id="JDKPathPanel.intro" txt="Il programma installato richiede una JDK di versione compresa tra ${JDKPathPanel.minVersion} e ${JDKPathPanel.maxVersion}. Una Java Runtime Environment (JRE) non è sufficiente."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;Questo software richiede una versione minima ${JDKPathPanel.minVersion} di Java Development Kit (JDK).&lt;p/&gt;          Qualora non sia installata, si prega di visitare &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;,          per ottenerla e installarla.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="La cartella selezionata non contiene il prodotto richiesto."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Il registro di Windows contiene un percorso non valido per questa JDK. Volete usare comunque questa JDK?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Spazio totale necessario: "/>
     <str id="PacksPanel.tip" txt="Nota: i componenti in grigio sono obbligatori."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="La cartella selezionata non contiene il prodotto richiesto."/>
-    <str id="PathInputPanel.required" txt="La cartella selezionata deve esistere."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="La cartella selezionata deve esistere."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Sfoglia..."/>
     <str id="TargetPanel.createdir" txt="Verrà creata la cartella: "/>
     <str id="TargetPanel.empty_target" txt="Non è stato specificato il percorso di destinazione! Continuare?"/>
+    <str id="TargetPanel.exists_warn" txt="Questa cartella esiste già! Siete sicuri di usare questa cartella ed eventualmente sostituire i file esistenti?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Scegliere il percorso d'installazione: "/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Questa non è una cartella! Selezionare una cartella!"/>
+    <str id="TargetPanel.notValid" txt="La cartella selezionata non contiene il prodotto richiesto."/>
     <str id="TargetPanel.notwritable" txt="Quasta cartella non è scrivibile! Selezionare un'altra cartella!"/>
+    <str id="TargetPanel.required" txt="La cartella selezionata deve esistere."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="La cartella selezionata deve esistere."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Questa cartella esiste già! Siete sicuri di usare questa cartella ed eventualmente sostituire i file esistenti?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>

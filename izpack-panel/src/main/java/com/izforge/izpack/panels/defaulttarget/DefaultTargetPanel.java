@@ -31,6 +31,8 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.panels.path.PathInputPanel;
 
+import static com.izforge.izpack.panels.target.TargetPanel.PANEL_NAME;
+
 /**
  * The target directory selection panel.
  * TODO - not clear why this class needs to extend PathInputPanel as it uses none of its methods
@@ -56,7 +58,7 @@ public class DefaultTargetPanel extends PathInputPanel
     public DefaultTargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                               Log log)
     {
-        super(panel, parent, installData, resources, log);
+        super(panel, PANEL_NAME, parent, installData, resources, log);
         this.defaultTargetPanelAutomationHelper = new DefaultTargetPanelAutomationHelper();
     }
 

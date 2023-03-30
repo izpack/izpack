@@ -33,6 +33,7 @@ import static com.izforge.izpack.api.handler.Prompt.Type.WARNING;
 
 public class PathInputConsolePanel extends AbstractConsolePanel
 {
+    protected String targetPanel;
     private final Prompt prompt;
     private InstallData installData;
     /**
@@ -42,11 +43,28 @@ public class PathInputConsolePanel extends AbstractConsolePanel
      * @param installData the install data
      * @param prompt the console prompt
      */
-    public PathInputConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
+    public PathInputConsolePanel(PanelView<ConsolePanel> panel, String targetPanel, InstallData installData, Prompt prompt)
     {
         super(panel);
+        this.targetPanel = targetPanel;
         this.installData = installData;
         this.prompt = prompt;
+    }
+
+    /**
+     * Helper to return a language resource string.
+     *
+     * @param subkey the search subkey in targetPanel
+     * @return the corresponding string, or {@code <targetPanel>.<subkey>} if the string is not found
+     */
+    protected String getMessage(String subkey)
+    {
+        String msg = getI18nStringForClass(subkey, targetPanel, installData);
+        if (msg == null)
+        {
+            msg = targetPanel + "." + subkey;
+        }
+        return msg;
     }
 
     @Override
@@ -73,7 +91,7 @@ public class PathInputConsolePanel extends AbstractConsolePanel
             Messages messages = installData.getMessages();
             result = (OK == prompt.confirm(WARNING,
                     messages.get("installer.Message"),
-                    messages.get("TargetPanel.createdir") + "\n" + dir,
+                    getMessage("createdir") + "\n" + dir,
                     OK_CANCEL, OK));
         }
         return result;
@@ -95,7 +113,7 @@ public class PathInputConsolePanel extends AbstractConsolePanel
         if ((show == null || Boolean.getBoolean(show)) && dir.isDirectory() && dir.list().length > 0)
         {
             Messages messages = installData.getMessages();
-            result = askUser(messages.get("installer.warning"), messages.get("TargetPanel.warn"), Prompt.Option.NO);
+            result = askUser(messages.get("installer.warning"), getMessage("exists_warn"), Prompt.Option.NO);
         }
         return result;
     }

@@ -174,10 +174,11 @@
     <str id="JDKPathPanel.badVersion2" txt=" vyžadovaná: "/>
     <str id="JDKPathPanel.badVersion3" txt="), má byť táto verzia použitá aj napriek tomu?"/>
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
-    <str id="JDKPathPanel.extendedIntro" txt="Inštalovaná aplikácia potrebuje JDK(Java devepoler kit) od verzie ${JDKPathPanel.minVersion} po ${JDKPathPanel.maxVersion}. JRE (Java runtime environment) nie je postačujúce."/>
+    <str id="JDKPathPanel.browse" txt="Prehľadať ..."/>
     <str id="JDKPathPanel.info" txt="Vyberte priečinok s nainštalovanym JDK (Java devepoler kit) :"/>
-    <str id="JDKPathPanel.intro" txt="Inštalovaná aplikácia potrebuje JDK(Java devepoler kit). JRE (Java runtime environment) nie je postačujúce."/>
+    <str id="JDKPathPanel.intro" txt="Inštalovaná aplikácia potrebuje JDK(Java devepoler kit) od verzie ${JDKPathPanel.minVersion} po ${JDKPathPanel.maxVersion}. JRE (Java runtime environment) nie je postačujúce."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="Vybraný priečinok neobsahuje požadovaný produkt."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Register vo Windows  obsahuje nesprávnu cestu k JDK (Java devepoler kit). Ma byť naozaj použitá?"/>
 
     <!-- LicencePanel strings -->
@@ -212,12 +213,6 @@
     <str id="PacksPanel.space" txt="Vyžadované miesto na disku: "/>
     <str id="PacksPanel.tip" txt="Poznámka: zašedené balíky su vyžadované."/>
 
-    <!-- PathInputPanel strings -->
-    <str id="PathInputPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
-    <str id="PathInputPanel.notValid" txt="Vybraný priečinok neobsahuje požadovaný produkt."/>
-    <str id="PathInputPanel.required" txt="Vybraný priečinok by mal existovať."/>
-    <str id="PathInputPanel.required.forModificationInstallation" txt="Vybraný priečinok musí existovať."/>
-
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
 
@@ -240,12 +235,16 @@
     <str id="TargetPanel.browse" txt="Prehľadať ..."/>
     <str id="TargetPanel.createdir" txt="Cieľový priečinok bude vytvorený :"/>
     <str id="TargetPanel.empty_target" txt="Nevybrali ste cieľový priečinok! Je to správne?"/>
+    <str id="TargetPanel.exists_warn" txt="Adresár existuje ! Ste si istý ,že chcete nainštalovať softvér do tohto priečinku ? Súčasná verzia súborov bude prepísaná?"/>
     <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
     <str id="TargetPanel.info" txt="Vyberte inštalačný priečinok :"/>
+    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
     <str id="TargetPanel.nodir" txt="Súbor nie je priečinok! Vyberte priečinok!"/>
+    <str id="TargetPanel.notValid" txt="Vybraný priečinok neobsahuje požadovaný produkt."/>
     <str id="TargetPanel.notwritable" txt="Do vybraného priečinku sa nedá zapisovať ! Vyberte iný priečinok!"/>
+    <str id="TargetPanel.required" txt="Vybraný priečinok by mal existovať."/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="Vybraný priečinok musí existovať."/>
     <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
-    <str id="TargetPanel.warn" txt="Adresár existuje ! Ste si istý ,že chcete nainštalovať softvér do tohto priečinku ? Súčasná verzia súborov bude prepísaná?"/>
 
     <!-- TreePacksPanel Strings -->
     <str id="TreePacksPanel.children" txt="Children"/>
