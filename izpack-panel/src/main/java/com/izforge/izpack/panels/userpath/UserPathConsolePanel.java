@@ -21,6 +21,7 @@
 package com.izforge.izpack.panels.userpath;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.config.Options;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -31,7 +32,7 @@ import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
 
 import java.io.File;
-import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Properties;
 
 import static com.izforge.izpack.panels.userpath.UserPathPanel.PANEL_NAME;
@@ -76,16 +77,26 @@ public class UserPathConsolePanel extends AbstractConsolePanel
         return messages.get(id);
     }
 
-    public boolean generateOptions(InstallData installData, PrintWriter printWriter)
+    public boolean generateOptions(InstallData installData, Options options)
     {
-        // not implemented
-        return false;
+        final String name = PATH_VARIABLE_NAME;
+        options.add(name, installData.getVariable(name));
+        options.addEmptyLine(name);
+        options.putComment(name, Arrays.asList(getPanel().getPanelId()));
+        return true;
     }
 
-    public boolean run(InstallData installData, Properties p)
+    public boolean run(InstallData installData, Properties properties)
     {
-        // not implemented
-        return false;
+        String userPath = properties.getProperty(PATH_VARIABLE_NAME);
+        if (userPath == null || userPath.trim().isEmpty())
+        {
+            System.err.println("Missing mandatory " + PATH_VARIABLE_NAME + "!");
+            return false;
+        }
+        userPath = installData.getVariables().replace(userPath);
+        installData.setVariable(PATH_VARIABLE_NAME, userPath);
+        return true;
     }
 
     public boolean run(InstallData installData, Console console)
