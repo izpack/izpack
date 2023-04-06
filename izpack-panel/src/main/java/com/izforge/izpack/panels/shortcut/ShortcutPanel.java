@@ -193,7 +193,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
         {
             shortcutPanelLogic = new ShortcutPanelLogic(
                     installData, resources, uninstallData, housekeeper, factory, listeners, matcher);
-
+            shortcutPanelLogic.refreshShortcutData();
             if (shortcutPanelLogic.isSupported())
             {
                 isRootUser = shortcutPanelLogic.initUserType();
