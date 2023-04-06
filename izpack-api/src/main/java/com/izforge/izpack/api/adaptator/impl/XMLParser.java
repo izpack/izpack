@@ -21,9 +21,11 @@ import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.XMLException;
 import org.w3c.dom.Node;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
 import javax.xml.XMLConstants;
@@ -43,9 +45,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.logging.Logger;
 
 public class XMLParser implements IXMLParser
 {
+    private static final Logger logger = Logger.getLogger(XMLParser.class.getName());
+
     public class ByteBufferInputStream extends InputStream
     {
         private final ByteBuffer buf;
@@ -126,6 +131,7 @@ public class XMLParser implements IXMLParser
 
             XMLReader xmlReader = parser.getXMLReader();
             filter = new LineNumberFilter(xmlReader);
+            filter.setErrorHandler(new FilterErrorHandler());
         }
         catch (ParserConfigurationException e)
         {
@@ -181,7 +187,7 @@ public class XMLParser implements IXMLParser
                 extraInfos = " in " + parsedItem;
             }
             // we try to get the location of the error.
-            // can't use an ErrorHander here !
+            // can't use an ErrorHandler here !
             if (e.getLocator() == null && filter.getDocumentLocator() != null)
             {
                 Locator locator = filter.getDocumentLocator();
@@ -248,6 +254,32 @@ public class XMLParser implements IXMLParser
         if (inputStream == null)
         {
             throw new NullPointerException("The input stream must be not null.");
+        }
+    }
+
+    public static class FilterErrorHandler implements ErrorHandler {
+        @Override
+        public void warning(SAXParseException e) throws SAXException
+        {
+            logger.warning(prepareMessage(e));
+        }
+
+        @Override
+        public void error(SAXParseException e) throws SAXException
+        {
+            throw new SAXException(prepareMessage(e), e);
+        }
+
+        @Override
+        public void fatalError(SAXParseException e) throws SAXException
+        {
+            throw new SAXException(prepareMessage(e), e);
+        }
+
+        private String prepareMessage(SAXParseException e)
+        {
+            return e.getSystemId() + " (Line " + e.getLineNumber() + ", Column " + e.getColumnNumber() + ") " +
+                    e.getMessage();
         }
     }
 }
