@@ -31,6 +31,7 @@ import com.izforge.izpack.core.os.RegistryHandler;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.util.Librarian;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -91,9 +92,46 @@ public class Win_RegistryHandler extends RegistryHandler
                 {
                     // ignore
                 }
+                contents = checkedPathContents(key, value, contents);
             }
         }
         getRegistry().setValue(key, value, contents);
+    }
+
+    protected String checkedPathContents(String key, String value, String contents) {
+        if (key.equalsIgnoreCase("SYSTEM\\CurrentControlSet\\Control Session Manager\\Environment") &&
+                value.equalsIgnoreCase("Path"))
+        {
+            String[] subPaths = contents.split(";");
+            List<String> uniqueSubPaths = new ArrayList<>();
+            for (String subPath : subPaths)
+            {
+                if (subPath.length() > 0 && !containsIgnoreCase(uniqueSubPaths, subPath))
+                {
+                    uniqueSubPaths.add(subPath);
+                }
+            }
+            StringBuilder fixedContents = new StringBuilder();
+            if ( uniqueSubPaths.size() > 0 )
+            {
+                fixedContents.append(uniqueSubPaths.get(0));
+                for (int i = 1 ; i < uniqueSubPaths.size() ; i++)
+                {
+                    fixedContents.append(";").append(uniqueSubPaths.get(i));
+                }
+            }
+            contents = fixedContents.toString();
+        }
+        return contents;
+    }
+
+    private boolean containsIgnoreCase(List<String> list, String s) {
+        for (String ele : list) {
+            if (ele.equalsIgnoreCase(s)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
