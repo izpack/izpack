@@ -389,6 +389,7 @@
                             <xs:attribute name="type" type="substitutionType" default="plain"/>
                             <xs:attribute name="parse" type="types:yesNoTrueFalseType" use="optional" default="no"/>
                             <xs:attribute name="parsexml" type="types:yesNoTrueFalseType" use="optional" default="no"/>
+                            <xs:attribute name="encoding" type="xs:string"/>
                         </xs:extension>
                     </xs:simpleContent>
                 </xs:complexType>
