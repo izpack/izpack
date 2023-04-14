@@ -460,7 +460,7 @@
                             <xs:restriction base="xs:string">
                                 <xs:enumeration value="install"/>
                                 <xs:enumeration value="uninstall"/>
-                                <xs:enumeration value="compiler"/>
+                                <xs:enumeration value="compile"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>

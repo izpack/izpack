@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.compiler.util;
 
+import com.izforge.izpack.compiler.listener.ChmodCompilerListener;
 import com.izforge.izpack.event.*;
 import com.izforge.izpack.installer.web.DownloadPanel;
 import com.izforge.izpack.panels.checkedhello.CheckedHelloPanel;
@@ -71,7 +72,7 @@ public class DefaultClassNameMapper implements ClassNameMapper
     /**
      * Map of class simple names to their fully qualified names.
      */
-    private final Map<String, String> mappings = new HashMap<String, String>();
+    private final Map<String, String> mappings = new HashMap<>();
 
 
     /**
@@ -79,8 +80,11 @@ public class DefaultClassNameMapper implements ClassNameMapper
      */
     public DefaultClassNameMapper()
     {
+        // add mappings for CompilerListeners
+        addMapping(ChmodCompilerListener.class);
+
         // add mappings for InstallerListeners
-        addMapping(AntActionInstallerListener.class, BSFInstallerListener.class,
+        addMapping(AntActionInstallerListener.class, BSFInstallerListener.class, ChmodInstallerListener.class,
                    ConfigurationInstallerListener.class, ProgressBarInstallerListener.class,
                    RegistryInstallerListener.class, SummaryLoggerInstallerListener.class);
 

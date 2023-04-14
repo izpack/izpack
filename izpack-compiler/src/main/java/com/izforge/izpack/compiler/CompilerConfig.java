@@ -3500,8 +3500,8 @@ public class CompilerConfig extends Thread
             {
                 String className = xmlCompilerHelper.requireAttribute(listener, "classname");
                 Stage stage = Stage.valueOf(xmlCompilerHelper.requireAttribute(listener, "stage"));
-                // only process specs for stage="compiler" listeners
-                if (Stage.compiler.equals(stage))
+                // only process specs for stage="compile" listeners
+                if (Stage.compile.equals(stage))
                 {
                     // check <os/> specs to see if we need to instantiate and notify this listener
                     List<OsModel> osConstraints = OsConstraintHelper.getOsList(listener);
@@ -3522,7 +3522,7 @@ public class CompilerConfig extends Thread
                     if (matchesCurrentSystem)
                     {
                         Class<CompilerListener> clazz = classLoader.loadClass(className, CompilerListener.class);
-                        CompilerListener l = factory.create(clazz, CompilerListener.class);
+                        CompilerListener l = factory.create(clazz.getName(), CompilerListener.class);
                         compilerListeners.add(l);
                     }
                 }

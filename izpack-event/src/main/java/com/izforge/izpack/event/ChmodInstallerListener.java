@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 
-package com.myCompany.tools.install.listener;
+package com.izforge.izpack.event;
 
 import java.io.File;
 

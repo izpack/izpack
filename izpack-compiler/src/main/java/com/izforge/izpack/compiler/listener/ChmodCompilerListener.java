@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 
-package com.myCompany.tools.install.listener;
+package com.izforge.izpack.compiler.listener;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.CompilerException;

@@ -26,7 +26,7 @@ package com.izforge.izpack.api.data.binding;
  */
 public enum Stage
 {
-    install, uninstall, compiler;
+    install, uninstall, compile;
 
 
     public static boolean isInInstaller(Stage stage)
