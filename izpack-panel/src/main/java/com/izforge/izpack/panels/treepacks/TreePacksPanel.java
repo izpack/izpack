@@ -30,7 +30,9 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.installer.util.InstallPathHelper;
+import com.izforge.izpack.panels.packs.PackValidator;
 import org.apache.commons.io.IOUtils;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -40,7 +42,6 @@ import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
@@ -59,7 +60,7 @@ import com.izforge.izpack.util.IoHelper;
 public class TreePacksPanel extends IzPanel
 {
     private static final long serialVersionUID = 5684716698930628262L;
-    private static final transient Logger logger = Logger.getLogger(TreePacksPanel.class.getName());
+    private static final Logger logger = Logger.getLogger(TreePacksPanel.class.getName());
 
     protected JLabel requiredSpaceLabel;
     protected JLabel freeSpaceLabel;
@@ -72,6 +73,11 @@ public class TreePacksPanel extends IzPanel
     protected JScrollPane tableScroller;
 
     private Messages messages;
+
+    /**
+     * The factory for creating {@link PackValidator} instances.
+     */
+    private final transient ObjectFactory factory;
 
     private final Map<String, Pack> namesToPacks;
     private final Map<Pack, Integer> packsToRowNumbers;
@@ -88,12 +94,13 @@ public class TreePacksPanel extends IzPanel
      * @param installData the installation data
      * @param resources   the resources
      * @param locales     the supported locales
-     * @param rules       the rules
+     * @param factory     the factory for creating {@link PackValidator} instances
      */
     public TreePacksPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                          Locales locales, RulesEngine rules)
+                          Locales locales, ObjectFactory factory)
     {
         super(panel, parent, installData, resources);
+        this.factory = factory;
 
         messages = getAvailableStrings(locales);
         packsModel = new PacksModel(installData);
@@ -339,6 +346,27 @@ public class TreePacksPanel extends IzPanel
                 this, getString("PacksPanel.notEnoughSpace"), getString("installer.error"),
                                  JOptionPane.ERROR_MESSAGE);
             return false;
+        }
+        for (Pack pack : this.installData.getAvailablePacks())
+        {
+            for (String validator : pack.getValidators())
+            {
+                boolean selected = installData.getSelectedPacks().indexOf(pack) > -1;
+                try
+                {
+                    PackValidator validatorInst = factory.create(validator, PackValidator.class);
+                    if (!validatorInst.validate(this, installData, pack.getName(), selected))
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.log(Level.WARNING, "Validator threw exception for pack " + pack.getName()
+                            + ": " + e.getMessage(), e);
+                    return false;
+                }
+            }
         }
         return true;
     }

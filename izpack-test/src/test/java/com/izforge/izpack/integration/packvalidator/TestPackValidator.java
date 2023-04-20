@@ -24,7 +24,7 @@ package com.izforge.izpack.integration.packvalidator;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.installer.data.GUIInstallData;
-import com.izforge.izpack.panels.treepacks.PackValidator;
+import com.izforge.izpack.panels.packs.PackValidator;
 
 
 /**

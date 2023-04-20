@@ -31,7 +31,6 @@ import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.debugger.Debugger;
@@ -39,7 +38,6 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.installer.util.PackHelper;
-import com.izforge.izpack.panels.treepacks.PackValidator;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.IoHelper;
 
@@ -80,7 +78,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     private static final String ACTIONKEY_NEXTCOLUMNCELL = "selectNextColumnCell";
     private static final String ACTIONKEY_PREVIOUSCOLUMNCELL = "selectPreviousColumnCell";
 
-    private static final transient Logger logger = Logger.getLogger(PacksPanelBase.class.getName());
+    private static final Logger logger = Logger.getLogger(PacksPanelBase.class.getName());
 
     // Common used Swing fields
     /**
@@ -142,7 +140,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
     /**
      * The packs messages.
      */
-    private Messages messages = null;
+    private Messages messages;
 
     private Debugger debugger;
 
@@ -150,8 +148,6 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
      * The factory for creating {@link PackValidator} instances.
      */
     private final transient ObjectFactory factory;
-
-    private RulesEngine rules;
 
     /**
      * Constructs a <tt>PacksPanelBase</tt>.
@@ -161,13 +157,11 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
      * @param installData the installation data
      * @param resources   the resources
      * @param factory     the factory for creating {@link PackValidator} instances
-     * @param rules       the rules engine
      */
     public PacksPanelBase(Panel panel, InstallerFrame parent, GUIInstallData installData,
-                          Resources resources, ObjectFactory factory, RulesEngine rules)
+                          Resources resources, ObjectFactory factory)
     {
         super(panel, parent, installData, resources);
-        this.rules = rules;
         this.factory = factory;
 
         if (Debug.isTRACE()) {
@@ -268,7 +262,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
         {
             JOptionPane.showMessageDialog(this, getString("PacksPanel.notEnoughSpace"),
                                           getString("installer.error"), JOptionPane.ERROR_MESSAGE);
-            return (false);
+            return false;
         }
 
         for (Pack pack : this.installData.getAvailablePacks())
@@ -292,7 +286,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
                 }
             }
         }
-        return (true);
+        return true;
     }
 
     /**
@@ -601,7 +595,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
      */
     private void computePacks(List<Pack> packs)
     {
-        names = new HashMap<String, Pack>();
+        names = new HashMap<>();
         dependenciesExist = false;
         for (Pack pack : packs)
         {
@@ -624,7 +618,7 @@ public abstract class PacksPanelBase extends IzPanel implements PacksPanelInterf
 
         try
         {
-            packsModel = new PacksModelGUI(this, installData, rules)
+            packsModel = new PacksModelGUI(this, installData)
             {
                 /**
                  *

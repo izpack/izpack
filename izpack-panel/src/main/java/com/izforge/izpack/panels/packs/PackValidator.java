@@ -22,7 +22,7 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.panels.treepacks;
+package com.izforge.izpack.panels.packs;
 
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.installer.data.GUIInstallData;
@@ -33,6 +33,6 @@ import com.izforge.izpack.installer.data.GUIInstallData;
  */
 public interface PackValidator
 {
-    public boolean validate(AbstractUIHandler handler,
+    boolean validate(AbstractUIHandler handler,
                             GUIInstallData idata, String packName, boolean isSelected);
 }

@@ -513,7 +513,7 @@ Now you have to create and include a class implementing the 'PackValidator' inte
 
   package my;
   import com.izforge.izpack.installer.InstallData;
-  import com.izforge.izpack.panels.treepacks.PackValidator;
+  import com.izforge.izpack.panels.packs.PackValidator;
   import com.izforge.izpack.api.handler.AbstractUIHandler;
   public class Validatorclass implements PackValidator {
     public boolean validate(AbstractUIHandler handler,

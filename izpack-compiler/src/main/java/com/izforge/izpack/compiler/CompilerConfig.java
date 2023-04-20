@@ -72,7 +72,7 @@ import com.izforge.izpack.logging.FileFormatter;
 import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.panels.process.ProcessPanelWorker;
 import com.izforge.izpack.panels.shortcut.ShortcutConstants;
-import com.izforge.izpack.panels.treepacks.PackValidator;
+import com.izforge.izpack.panels.packs.PackValidator;
 import com.izforge.izpack.panels.userinput.UserInputPanel;
 import com.izforge.izpack.panels.userinput.field.FieldReader;
 import com.izforge.izpack.panels.userinput.field.SimpleChoiceReader;

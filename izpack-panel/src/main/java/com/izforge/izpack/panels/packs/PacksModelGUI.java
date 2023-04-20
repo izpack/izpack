@@ -25,7 +25,6 @@
 package com.izforge.izpack.panels.packs;
 
 import com.izforge.izpack.api.data.Pack;
-import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.data.GUIInstallData;
 
 public class PacksModelGUI extends PacksModel
@@ -35,7 +34,7 @@ public class PacksModelGUI extends PacksModel
     GUIInstallData GuiInstallData;
     private PacksPanelInterface panel;
 
-    public PacksModelGUI(PacksPanelInterface panel, GUIInstallData GuiInstallData, RulesEngine rules)
+    public PacksModelGUI(PacksPanelInterface panel, GUIInstallData GuiInstallData)
     {
         super(GuiInstallData);
         this.GuiInstallData = GuiInstallData;

@@ -42,12 +42,11 @@ import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.LayoutHelper;
 import com.izforge.izpack.panels.packs.PacksPanelBase;
-import com.izforge.izpack.panels.treepacks.PackValidator;
+import com.izforge.izpack.panels.packs.PackValidator;
 import com.izforge.izpack.util.IoHelper;
 
 /**
@@ -86,12 +85,11 @@ public class ImgPacksPanel extends PacksPanelBase
      * @param installData the installation data
      * @param resources   the resources
      * @param factory     the factory for creating {@link PackValidator} instances
-     * @param rules       the rules engine
      */
     public ImgPacksPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
-                         ObjectFactory factory, RulesEngine rules)
+                         ObjectFactory factory)
     {
-        super(panel, parent, installData, resources, factory, rules);
+        super(panel, parent, installData, resources, factory);
     }
 
     /*
