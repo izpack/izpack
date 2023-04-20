@@ -835,7 +835,8 @@ public class CompilerConfig extends Thread
 
             boolean loose = Boolean.parseBoolean(packElement.getAttribute("loose", "false"));
             String description = xmlCompilerHelper.requireChildNamed(packElement, "description").getContent();
-            boolean required = xmlCompilerHelper.requireYesNoAttribute(packElement, "required");
+            boolean hidden = Boolean.parseBoolean(packElement.getAttribute("hidden", "false"));
+            boolean required = hidden ? true : xmlCompilerHelper.requireYesNoAttribute(packElement, "required");
             if (!required)
             {
                 optionalPacks = true;
@@ -846,7 +847,6 @@ public class CompilerConfig extends Thread
             boolean uninstall = xmlCompilerHelper.validateYesNoAttribute(packElement, "uninstall", YES);
             long size = xmlCompilerHelper.getLong(packElement, "size", 0);
             String parent = packElement.getAttribute("parent");
-            boolean hidden = Boolean.parseBoolean(packElement.getAttribute("hidden", "false"));
 
             String conditionId = parseConditionAttribute(packElement);
 
