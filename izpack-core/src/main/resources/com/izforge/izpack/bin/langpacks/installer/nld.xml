@@ -310,6 +310,10 @@
     <str id="UserPathPanel.summaryCaption" txt="Gekozen pad"/>
 
     <!-- UserInputPanel strings -->
+    <str id="UserInputPanel.custom.console.add" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, {3} to add a row, and {4} to quit"/>
+    <str id="UserInputPanel.custom.console.add.and.remove" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, {3} to add a row, {4} to remove the last row, and {5} to quit"/>
+    <str id="UserInputPanel.custom.console.no.add.remove" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, and {3} to quit"/>
+    <str id="UserInputPanel.custom.console.remove" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, {3} to remove the last row, and {4} to quit"/>
     <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
     <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
     <str id="UserInputPanel.dir.nodirectory.caption" txt="Geen Map Gekozen"/>

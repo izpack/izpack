@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.exception.UserInterruptException;
 import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.panels.userinput.FieldCommand;
 import com.izforge.izpack.panels.userinput.console.ConsoleField;
 import com.izforge.izpack.panels.userinput.field.Field;
@@ -174,23 +177,26 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
     public boolean display()
     {
         numberOfRows = 0;
-        consoleFields = new HashMap<Integer, List<ConsoleField>>();
+        consoleFields = new HashMap<>();
 
         addInitialRows();
 
-        int value = REDISPLAY;
+        int value;
         do
         {
             int userValue;
             showInitialRows();
             if (isReadonly())
             {
-                userValue = getConsole().prompt("Enter 1 to continue, 2 to redisplay", 1, 2, 2, -1);
+                String prompt = getMessage("ConsoleInstaller.continueQuitRedisplay");
+                userValue = getConsole().prompt(prompt, 1, 3, 3, 2);
                 switch (userValue)
                 {
                     case 1:
                         value = CONTINUE;
                         break;
+                    case 2:
+                        throw new UserInterruptException(getMessage("ConsoleInstaller.aborted.PressedQuit"));
                     default:
                         value = REDISPLAY;
                         break;
@@ -198,22 +204,20 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
             }
             else
             {
-                userValue = getConsole().prompt("Enter the row number (" + 1 + ".." + numberOfRows + ") to edit, "
-                        + Integer.toString(numberOfRows+1) + " to accept all, "
-                        + Integer.toString(numberOfRows+2) + " to redisplay"
-                        + (canAddRow()?", " + Integer.toString(numberOfRows+3) + " to add a row":"")
-                        + (canRemoveRow()?", " + Integer.toString(numberOfRows+4) + " to remove the last row":""),
-                        1, numberOfRows+4, numberOfRows+4, -1);
+                userValue = getConsole().prompt(getPrompt(),0, numberOfRows + 4, numberOfRows + 2, 0);
+                if (userValue == 0) {
+                    throw new UserInterruptException(getMessage("ConsoleInstaller.aborted.PressedQuit"));
+                }
                 if (userValue <= numberOfRows)
                 {
                     editRow(userValue, false);
                     value = REDISPLAY;
                 }
-                else if (userValue == numberOfRows+1)
+                else if (userValue == numberOfRows + 1)
                 {
                     value = CONTINUE;
                 }
-                else if (userValue == numberOfRows+3)
+                else if (userValue == numberOfRows + 3)
                 {
                     if (addRow())
                     {
@@ -221,7 +225,7 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
                     }
                     value = REDISPLAY;
                 }
-                else if (userValue == numberOfRows+4)
+                else if (userValue == numberOfRows + 4)
                 {
                     removeRow();
                     value = REDISPLAY;
@@ -242,6 +246,21 @@ public class ConsoleCustomField extends ConsoleField implements CustomFieldType
         }
 
         return true;
+    }
+
+    private String getPrompt() {
+        InstallData installData = getField().getInstallData();
+        Messages messages = installData.getMessages();
+        if (canAddRow() && canRemoveRow()) {
+            return messages.get("UserInputPanel.custom.console.add.and.remove", numberOfRows, numberOfRows + 1, numberOfRows + 2, numberOfRows + 3, numberOfRows + 4, 0);
+        }
+        if (canAddRow()) {
+            return messages.get("UserInputPanel.custom.console.add", numberOfRows, numberOfRows + 1, numberOfRows + 2, numberOfRows + 3, 0);
+        }
+        if (canRemoveRow()) {
+            return messages.get("UserInputPanel.custom.console.remove", numberOfRows, numberOfRows + 1, numberOfRows + 2, numberOfRows + 4, 0);
+        }
+        return messages.get("UserInputPanel.custom.console.add.and.remove", numberOfRows, numberOfRows + 1, numberOfRows + 2, 0);
     }
 
     private boolean columnsAreValid()
