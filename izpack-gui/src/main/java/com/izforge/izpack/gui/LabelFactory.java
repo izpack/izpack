@@ -22,6 +22,7 @@
 package com.izforge.izpack.gui;
 
 import javax.swing.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 
 /**
@@ -228,6 +229,33 @@ public class LabelFactory implements SwingConstants
     }
 
     /**
+     * The Font of Labels in many cases
+     */
+    public static Font getControlTextFont()
+    {
+        Font fontObj = (getLAF() != null) ?
+                MetalLookAndFeel.getControlTextFont() : UIManager.getDefaults().getFont("Label.font");
+        //if guiprefs 'labelFontSize' multiplier value
+        // has been setup then apply it to the font:
+        final float val;
+        if ((val = LabelFactory.getLabelFontSize()) != 1.0f)
+        {
+            fontObj = fontObj.deriveFont(fontObj.getSize2D() * val);
+        }
+        return fontObj;
+    }
+
+    protected static MetalLookAndFeel getLAF()
+    {
+        LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
+        if (lookAndFeel instanceof MetalLookAndFeel)
+        {
+            return ((MetalLookAndFeel) lookAndFeel);
+        }
+        return (null);
+    }
+
+    /**
      * Returns a new MultiLineLabel. The given text will be set always to the label.
      *
      * @param text  the text to be set
@@ -240,6 +268,10 @@ public class LabelFactory implements SwingConstants
         if (customLabelFontObj != null)
         {
             multiLineLabel.setFont(customLabelFontObj);
+        }
+        else 
+        {
+            multiLineLabel.setFont(getControlTextFont());
         }
         return multiLineLabel;
     }
