@@ -156,9 +156,9 @@
                     <goal>run</goal>
                   </goals>
                   <configuration>
-                    <tasks>
+                    <target>
                       <mkdir dir="${project.build.directory}/apidocs" />
-                    </tasks>
+                    </target>
                   </configuration>
                 </execution>
               </executions>
