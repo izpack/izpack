@@ -445,7 +445,15 @@ public class Compiler extends Thread
         int major = dis.readUnsignedShort();
         String[] splitMinimalVersion = minimalJavaVersion.split("\\.");
         setJavaVersionExpected(major);
-        if (major > (44 + Integer.parseInt(splitMinimalVersion[1])))
+        int realJavaVersion;
+        if(splitMinimalVersion.length>1){
+            // we have a java with legacy versioning like 1.8
+            realJavaVersion = Integer.parseInt(splitMinimalVersion[1]);
+        } else {
+            // we have a java with current versioning like 11
+            realJavaVersion = Integer.parseInt(splitMinimalVersion[0]);
+        }
+        if (major > (44 + realJavaVersion))
         {
             setJavaVersionCorrect(false);
         }
