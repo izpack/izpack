@@ -32,7 +32,7 @@ import org.fest.swing.fixture.ContainerFixture;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.timing.Condition;
 import org.fest.swing.timing.Pause;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
@@ -150,7 +150,7 @@ public class AbstractPanelTest
     /**
      * Cleans up after the test case.
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
         if (frameFixture != null)
@@ -357,4 +357,3 @@ public class AbstractPanelTest
         }
     }
 }
-

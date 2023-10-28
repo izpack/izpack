@@ -23,8 +23,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNull;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.w3c.dom.Document;
 
@@ -62,7 +62,7 @@ public class ConditionTest
         this.idata = idata;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         IXMLElement conditions = new XMLElementImpl("conditions");
@@ -86,7 +86,7 @@ public class ConditionTest
         rules.resolveConditions();
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testNotCondition()
     {
         assertThat(rules.getCondition("test.not"), IS_NULL);
@@ -125,7 +125,7 @@ public class ConditionTest
         assertThat(rules.isConditionTrue("test.true2\\test.true", idata), IS_FALSE);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testNestedReferenceConditions()
     {
         assertThat(rules.isConditionTrue("newOrUpgrade", idata), IS_FALSE);

@@ -28,8 +28,8 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.junit.Before;
 import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.rules.TemporaryFolder;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -75,7 +75,7 @@ public class AbstractInstallationTest
      *
      * @throws Exception for any error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         // write to temporary folder so the test doesn't need to be run with elevated permissions

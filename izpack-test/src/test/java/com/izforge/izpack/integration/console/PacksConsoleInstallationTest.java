@@ -30,12 +30,12 @@ import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -73,7 +73,7 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/console/packs/install.xml")
     public void testInstallationNotPack2() throws Exception
     {

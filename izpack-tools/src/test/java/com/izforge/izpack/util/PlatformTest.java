@@ -20,12 +20,12 @@ package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Arch;
 import static com.izforge.izpack.util.Platform.Name;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -157,7 +157,7 @@ public class PlatformTest extends AbstractPlatformTest
     /**
      * Tests the {@link Platform#isA(Arch) method.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testIsArch()
     {
         Platform platform = new Platform(Name.WINDOWS, Arch.X64);

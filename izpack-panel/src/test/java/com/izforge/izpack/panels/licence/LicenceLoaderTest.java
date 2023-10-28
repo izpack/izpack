@@ -24,16 +24,17 @@ import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.resource.ResourceManager;
-import org.junit.Before;
+
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import java.net.URL;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 /**
@@ -48,7 +49,7 @@ public class LicenceLoaderTest {
     private URL specificUrl;
     private Resources resources;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         defaultUrl = new URL("file://default");

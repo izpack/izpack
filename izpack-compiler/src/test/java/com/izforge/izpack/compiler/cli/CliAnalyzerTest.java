@@ -22,8 +22,8 @@ package com.izforge.izpack.compiler.cli;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.hamcrest.core.Is;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.izforge.izpack.compiler.data.CompilerData;
 
@@ -36,7 +36,7 @@ public class CliAnalyzerTest
 {
     private CliAnalyzer analyzer;
 
-    @Before
+    @BeforeEach
     public void initAnalyzer()
     {
         analyzer = new CliAnalyzer();
@@ -63,7 +63,7 @@ public class CliAnalyzerTest
         assertThat(CompilerData.IZPACK_HOME, Is.is("/mon/che min/"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void baseDirShouldBeParsed() throws Exception
     {
         CompilerData data = analyzer.parseArgs(new String[]{"myInstall.xml", "-b/mon/che min/"});

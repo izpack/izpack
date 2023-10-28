@@ -21,11 +21,11 @@ package com.izforge.izpack.panels.userinput;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ import org.fest.swing.fixture.JRadioButtonFixture;
 import org.fest.swing.fixture.JTextComponentFixture;
 import org.fest.swing.timing.Timeout;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.izforge.izpack.api.GuiId;
@@ -109,7 +109,7 @@ public class UserInputPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testRuleField() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/rule/userInputSpec.xml
@@ -184,7 +184,7 @@ public class UserInputPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testTextareaField() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/text/userInputSpec.xml
@@ -237,7 +237,7 @@ public class UserInputPanelTest extends AbstractPanelTest
     /*
      * Initial selection should be updated if selection changes.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void comboWithSetShouldUpdateVariableWhenSelectionChanges() throws Exception
     {
         ResourceManager rm = getResourceManager();
@@ -255,7 +255,7 @@ public class UserInputPanelTest extends AbstractPanelTest
     /*
      * Initial selection should be updated if variable contains selected value.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void comboWithSetShouldDetermineSelectionFromVariableValue() throws Exception
     {
         ResourceManager rm = getResourceManager();
@@ -275,7 +275,7 @@ public class UserInputPanelTest extends AbstractPanelTest
     /*
      * If combo selection is cleared, variable should be set to initial value.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void comboWithSetShouldResetVariableToInitialValueIfSelectionIsCleared() throws Exception
     {
         ResourceManager rm = getResourceManager();
@@ -315,7 +315,7 @@ public class UserInputPanelTest extends AbstractPanelTest
     /*
      * If combo selection is cleared, variable should be set to the value of the first item.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void comboShouldResetVariableToValueOfFirstItemIfSelectionIsCleared() throws Exception
     {
         ResourceManager rm = getResourceManager();
@@ -335,7 +335,7 @@ public class UserInputPanelTest extends AbstractPanelTest
     /*
      * If there is neither a variable value nor a set attribute, default to first item.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void comboShouldDefaultToFirstItemAsFallback() throws Exception
     {
         ResourceManager rm = getResourceManager();
@@ -355,7 +355,7 @@ public class UserInputPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testRadioField() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/radio/userInputSpec.xml
@@ -396,7 +396,7 @@ public class UserInputPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testPassword() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/password/userInputSpec.xml
@@ -454,7 +454,7 @@ public class UserInputPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCheck() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/check/userInputSpec.xml
@@ -525,7 +525,7 @@ public class UserInputPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testSearch() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/search/userInputSpec.xml
@@ -562,7 +562,7 @@ public class UserInputPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testFile() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/file/userInputSpec.xml
@@ -626,7 +626,7 @@ public class UserInputPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDir() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/dir/userInputSpec.xml
@@ -656,7 +656,7 @@ public class UserInputPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testRefreshDynamicVariables() throws Exception
     {
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/refresh/");
@@ -687,7 +687,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         assertEquals("myhost", installData.getVariable("dynamicMasterAddress"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void processorWithDefaultConfigurationShouldUpdateFieldProperty() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/text/userInputSpec.xml
@@ -726,7 +726,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         assertEquals("Processed: ProcessorTwo", installData.getVariable("processors2.processed"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void fieldShouldBeAbleToHaveSeveralProcessors() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/text/userInputSpec.xml
@@ -744,7 +744,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         assertEquals("Processed: Processed: ProcessorThree", installData.getVariable("processors3"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void processorWithToVariableShouldNotGiveResultToFollowingProcessors() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/text/userInputSpec.xml

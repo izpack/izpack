@@ -23,10 +23,10 @@ package com.izforge.izpack.panels.target;
 import static org.fest.swing.timing.Timeout.timeout;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
@@ -34,7 +34,7 @@ import org.apache.commons.io.FileUtils;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.fixture.JOptionPaneFixture;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.izforge.izpack.api.GuiId;
@@ -101,7 +101,7 @@ public class TargetPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testEmptyPath() throws Exception
     {
         File userDir = new File(System.getProperty("user.dir"));
@@ -196,7 +196,7 @@ public class TargetPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testModifyInstallation() throws Exception
     {
         GUIInstallData installData = getInstallData();
@@ -280,7 +280,7 @@ public class TargetPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testFilesExist() throws Exception
     {
         String[] requiredFiles = {"a", "b"};

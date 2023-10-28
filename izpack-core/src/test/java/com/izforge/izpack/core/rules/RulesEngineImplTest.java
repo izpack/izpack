@@ -20,9 +20,9 @@
 package com.izforge.izpack.core.rules;
 
 
-import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,11 +36,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.izforge.izpack.core.rules.process.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
@@ -55,8 +53,6 @@ import com.izforge.izpack.core.rules.logic.AndCondition;
 import com.izforge.izpack.core.rules.logic.NotCondition;
 import com.izforge.izpack.core.rules.logic.OrCondition;
 import com.izforge.izpack.core.rules.logic.XorCondition;
-import com.izforge.izpack.util.Platform;
-import com.izforge.izpack.util.Platforms;
 
 
 public class RulesEngineImplTest
@@ -139,11 +135,10 @@ public class RulesEngineImplTest
     private static final String INSTALL_CONDITIONS[] = {AIX_INSTALL, WINDOWS_INSTALL, WINDOWS_XP_INSTALL,
             WINDOWS_2003_INSTALL, WINDOWS_VISTA_INSTALL, WINDOWS_7_INSTALL, WINDOWS_8_INSTALL, WINDOWS_10_INSTALL, 
             LINUX_INSTALL, SOLARIS_INSTALL, SOLARIS_X86_INSTALL, SOLARIS_SPARC_INSTALL, MAC_INSTALL, MAC_OSX_INSTALL};
-
-    @Rule
+    
     public ExpectedException exception = ExpectedException.none();
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         DefaultVariables variables = new DefaultVariables();
@@ -161,7 +156,7 @@ public class RulesEngineImplTest
         engine.readConditionMap(conditions);
     }
 
-    @After
+    @AfterEach
     public void resetExpectedException()
     {
         exception = ExpectedException.none();
@@ -722,13 +717,13 @@ public class RulesEngineImplTest
                                                 new ConditionContainer(parent), platform);
         for (String condition : conditions)
         {
-            assertTrue("Expected " + condition + " to be true", rules.isConditionTrue(condition));
+            assertTrue(rules.isConditionTrue(condition), "Expected " + condition + " to be true");
         }
         List<String> falseConditions = new ArrayList<String>(Arrays.asList(INSTALL_CONDITIONS));
         falseConditions.removeAll(Arrays.asList(conditions));
         for (String falseCondition : falseConditions)
         {
-            assertFalse("Expected " + falseCondition + " to be false", rules.isConditionTrue(falseCondition));
+            assertFalse(rules.isConditionTrue(falseCondition), "Expected " + falseCondition + " to be false");
         }
     }
 
@@ -776,5 +771,3 @@ public class RulesEngineImplTest
     }
 
 }
-
-

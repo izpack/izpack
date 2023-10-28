@@ -33,9 +33,9 @@ import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
 import com.izforge.izpack.util.Platforms;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 
@@ -48,8 +48,8 @@ import java.util.Properties;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the {@link BSFInstallerListener} class.
@@ -86,7 +86,7 @@ public class BSFInstallerListenerTest
      *
      * @throws java.io.IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         Properties properties = new Properties();
@@ -121,7 +121,7 @@ public class BSFInstallerListenerTest
      *
      * @throws IOException for any I/O error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testBeanshellActions() throws IOException
     {
         Resources resources = Mockito.mock(Resources.class);

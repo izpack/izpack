@@ -26,7 +26,7 @@ import java.util.zip.ZipFile;
 
 import org.hamcrest.core.IsCollectionContaining;
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
@@ -53,7 +53,7 @@ public class CompilerConfigSamplesTest
         this.compilerConfig = compilerConfig;
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/izpack.xml")
     public void installerShouldContainInstallerClassResourcesAndImages() throws Exception
     {
@@ -88,7 +88,7 @@ public class CompilerConfigSamplesTest
                 "resources/Splash.image"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/izpack-jdk11-min.xml")
     public void installerShouldContainInstallerJdk11() throws Exception
     {

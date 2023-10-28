@@ -11,10 +11,10 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Ignore;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
@@ -62,7 +62,7 @@ public class InstallationTest
         this.installerContainer = installerContainer;
     }
 
-    @After
+    @AfterEach
     public void tearBinding() throws NoSuchFieldException, IllegalAccessException
     {
         if (installerFrameFixture != null)
@@ -72,7 +72,7 @@ public class InstallationTest
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/helloAndFinish.xml")
     public void testHelloAndFinishPanels() throws Exception
     {
@@ -89,7 +89,7 @@ public class InstallationTest
         // Finish panel
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/doublePanel.xml")
     public void testMultiplePanels() throws Exception
     {
@@ -102,7 +102,7 @@ public class InstallationTest
         assertThat(secondHelloPanel.getMetadata().getPanelId(), is("34"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/panelconfiguration.xml")
     public void testPanelConfiguration() throws Exception
     {
@@ -113,7 +113,7 @@ public class InstallationTest
         assertThat(helloPanel.getMetadata().getConfigurationOptionValue("config2", installData.getRules()), is("value2"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/substanceLaf/substanceLaf.xml")
     public void testSubstanceLaf() throws Exception
     {
@@ -126,7 +126,7 @@ public class InstallationTest
         // Finish panel
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/silverpeas/silverpeas.xml")
     public void testSilverpeas() throws Exception
     {
@@ -137,7 +137,7 @@ public class InstallationTest
     }
 
     @Test
-    @Ignore
+    @Disabled
     @InstallFile("samples/helloAndFinish.xml")
     public void testHelloAndFinishPanelsCompressed() throws Exception
     {
@@ -160,7 +160,7 @@ public class InstallationTest
 //        installerFrameFixture.button(GuiId.BUTTON_QUIT.id).click();
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/basicInstall/basicInstall.xml")
     public void testBasicInstall() throws Exception
     {
