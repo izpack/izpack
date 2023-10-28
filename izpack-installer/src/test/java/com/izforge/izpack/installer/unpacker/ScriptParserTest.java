@@ -10,10 +10,11 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -25,12 +26,12 @@ public class ScriptParserTest {
 
   private File file;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     file = File.createTempFile("test", "txt");
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     FileUtils.forceDelete(file);
   }
@@ -51,8 +52,8 @@ public class ScriptParserTest {
     scriptParser.parse(parsable);
 
     String content = FileUtils.readFileToString(file, Charset.defaultCharset());
-    Assert.assertThat(content, containsString("PIPPO"));
-    Assert.assertThat(content, containsString("plutò"));
+    assertThat(content, containsString("PIPPO"));
+    assertThat(content, containsString("plutò"));
   }
 
   @Test
@@ -71,8 +72,8 @@ public class ScriptParserTest {
     scriptParser.parse(parsable);
 
     String content = FileUtils.readFileToString(file, "UTF-8");
-    Assert.assertThat(content, containsString("PIPPO"));
-    Assert.assertThat(content, containsString("plutò"));
+    assertThat(content, containsString("PIPPO"));
+    assertThat(content, containsString("plutò"));
   }
 
   @Test
@@ -89,8 +90,8 @@ public class ScriptParserTest {
     scriptParser.parse(parsable);
 
     String content = FileUtils.readFileToString(file, "UTF-8");
-    Assert.assertThat(content, containsString("PIPPO"));
-    Assert.assertThat(content, containsString("plutò"));
+    assertThat(content, containsString("PIPPO"));
+    assertThat(content, containsString("plutò"));
   }
 
   @Test
@@ -116,7 +117,7 @@ public class ScriptParserTest {
     scriptParser.parse(parsable);
 
     String content = FileUtils.readFileToString(file, "UTF-8");
-    Assert.assertEquals(cyrillicContent, content);
+    assertEquals(cyrillicContent, content);
   }
 
 }

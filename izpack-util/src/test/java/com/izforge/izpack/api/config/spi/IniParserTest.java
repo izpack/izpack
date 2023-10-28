@@ -1,14 +1,17 @@
 package com.izforge.izpack.api.config.spi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.config.BasicProfile;
 import com.izforge.izpack.api.config.Ini;
-import com.izforge.izpack.api.config.InvalidFileFormatException;
 import com.izforge.izpack.api.config.Profile.Section;
 import com.izforge.izpack.api.config.Reg;
 
@@ -18,18 +21,18 @@ public class IniParserTest extends IniParser {
 	@Test
 	public void testIndexOfOperator() {
 		//                                         012345678901 23
-		Assert.assertEquals( 13, indexOfOperator("\"DisplayName\"=\"@%SystemRoot%\\system32") );
+		assertEquals( 13, indexOfOperator("\"DisplayName\"=\"@%SystemRoot%\\system32") );
 		//                                         012345678901234 56
-		Assert.assertEquals( 16, indexOfOperator("\"http://*:2869/\"=hex:01,00") );
+		assertEquals( 16, indexOfOperator("\"http://*:2869/\"=hex:01,00") );
 		//                                         01234567890123456 7 8 90
-		Assert.assertEquals( 20, indexOfOperator("\"back-slash-quote\\\"\"=1") );	
+		assertEquals( 20, indexOfOperator("\"back-slash-quote\\\"\"=1") );
         //                                         0123456789012345678 9 0 12
-		Assert.assertEquals( 22, indexOfOperator("\"double-back-slash-\\\\\"=1") );
+		assertEquals( 22, indexOfOperator("\"double-back-slash-\\\\\"=1") );
 	}
 	
     
     @Test
-    public void parseSectionLineTest() throws InvalidFileFormatException, IOException {
+    public void parseSectionLineTest() throws IOException {
     
     	final IniParser iniParser = IniParser.newInstance();
     	
@@ -47,8 +50,8 @@ public class IniParserTest extends IniParser {
     	
     	iniParser.parse(input, iniBuilder);
     	
-    	Assert.assertNotNull(iniBuilder.getProfile());
-    	Assert.assertTrue(iniBuilder.getProfile() instanceof BasicProfile);
+    	assertNotNull(iniBuilder.getProfile());
+      assertInstanceOf(BasicProfile.class, iniBuilder.getProfile());
     	
     	String expectedProfileName = "HKEY_LOCAL_MACHINESYSTEMCurrentControlSetControlGraphicsDriversConfigurationLEN41210_00_07DE_77*ACR1626JGQ110018410" + 
     	    	 "_25_07DF_55^1A8F0E88B56475919D28F2488BC91252";
@@ -56,19 +59,19 @@ public class IniParserTest extends IniParser {
     	BasicProfile profile = (BasicProfile) iniBuilder.getProfile();
     	
     	Section section = profile.get(expectedProfileName);
-    	Assert.assertNotNull(section);
+    	assertNotNull(section);
     	
     	String setId = section.get("\"SetId\"", String.class);
-    	Assert.assertNotNull(setId);
-    	Assert.assertEquals("\"LEN41210_00_07DE_77*ACR1626JGQ110018410_25_07DF_55\"", setId);
+    	assertNotNull(setId);
+    	assertEquals("\"LEN41210_00_07DE_77*ACR1626JGQ110018410_25_07DF_55\"", setId);
 
     	String timeStamp = section.get("\"Timestamp\"", String.class);
-    	Assert.assertNotNull(timeStamp);
-    	Assert.assertEquals("hex(b):3e,ae,9a,4c,c3,ef,d5,01", timeStamp);
+    	assertNotNull(timeStamp);
+    	assertEquals("hex(b):3e,ae,9a,4c,c3,ef,d5,01", timeStamp);
     }
 
     @Test
-    public void parseSectionLineRegBuilderTest() throws InvalidFileFormatException, IOException {
+    public void parseSectionLineRegBuilderTest() throws IOException {
     
     	final IniParser iniParser = IniParser.newInstance();
     	
@@ -89,8 +92,8 @@ public class IniParserTest extends IniParser {
     	
     	iniParser.parse(input, regBuilder);
     	
-    	Assert.assertNotNull(regBuilder.getProfile());
-    	Assert.assertTrue(regBuilder.getProfile() instanceof BasicProfile);
+    	assertNotNull(regBuilder.getProfile());
+      assertInstanceOf(BasicProfile.class, regBuilder.getProfile());
     	
     	String expectedProfileName = "HKEY_LOCAL_MACHINESYSTEMCurrentControlSetControlGraphicsDriversConfigurationLEN41210_00_07DE_77*ACR1626JGQ110018410" + 
     	    	 "_25_07DF_55^1A8F0E88B56475919D28F2488BC91252";
@@ -98,19 +101,19 @@ public class IniParserTest extends IniParser {
     	BasicProfile profile = (BasicProfile) regBuilder.getProfile();
     	
     	Section section = profile.get(expectedProfileName);
-    	Assert.assertNotNull(section);
+    	assertNotNull(section);
     	
     	String setId = section.get("SetId", String.class);
-    	Assert.assertNotNull(setId);
-    	Assert.assertEquals("LEN41210_00_07DE_77*ACR1626JGQ110018410_25_07DF_55", setId);
+    	assertNotNull(setId);
+    	assertEquals("LEN41210_00_07DE_77*ACR1626JGQ110018410_25_07DF_55", setId);
 
     	String timeStamp = section.get("Timestamp", String.class);
-    	Assert.assertNotNull(timeStamp);
-    	Assert.assertEquals("3e,ae,9a,4c,c3,ef,d5,01", timeStamp);
+    	assertNotNull(timeStamp);
+    	assertEquals("3e,ae,9a,4c,c3,ef,d5,01", timeStamp);
     }
 
     @Test
-    public void parseEmptyREG_MULTI_SZTest() throws InvalidFileFormatException, IOException {
+    public void parseEmptyREG_MULTI_SZTest() throws IOException {
     
     	final IniParser iniParser = IniParser.newInstance();
     	
@@ -133,10 +136,10 @@ public class IniParserTest extends IniParser {
     	BasicProfile profile = (BasicProfile) regBuilder.getProfile();
     	
     	Section section = profile.get(expectedProfileName);
-    	Assert.assertNotNull(section);
+    	assertNotNull(section);
 
     	String language = section.get("en-US", String.class);
-    	Assert.assertNotNull(language);
-    	Assert.assertEquals("", language);
+    	assertNotNull(language);
+    	assertEquals("", language);
     }
 }

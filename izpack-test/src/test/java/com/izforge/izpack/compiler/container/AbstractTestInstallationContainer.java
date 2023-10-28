@@ -21,7 +21,7 @@ package com.izforge.izpack.compiler.container;
 
 import java.util.jar.JarFile;
 
-import org.junit.runners.model.FrameworkMethod;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.compiler.data.CompilerData;
@@ -37,18 +37,18 @@ import com.izforge.izpack.installer.container.impl.InstallerContainer;
 public abstract class AbstractTestInstallationContainer extends AbstractContainer
 {
     protected Class<?> klass;
-    protected FrameworkMethod frameworkMethod;
+    protected ExtensionContext extensionContext;
 
-    public AbstractTestInstallationContainer(Class<?> klass, FrameworkMethod frameworkMethod)
+    public AbstractTestInstallationContainer(Class<?> klass, ExtensionContext extensionContext)
     {
         this.klass = klass;
-        this.frameworkMethod = frameworkMethod;
+        this.extensionContext = extensionContext;
     }
 
     @Override
     protected void fillContainer(MutablePicoContainer picoContainer)
     {
-        TestCompilationContainer compiler = new TestCompilationContainer(klass, frameworkMethod);
+        TestCompilationContainer compiler = new TestCompilationContainer(klass, extensionContext);
         compiler.launchCompilation();
 
         // propagate compilation objects to the installer container so the installation test can use them

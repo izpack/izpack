@@ -28,8 +28,8 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
+import org.junit.jupiter.api.extension.ExtensionContext.Store.CloseableResource;
+import java.lang.reflect.Method;
 
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -39,13 +39,14 @@ import com.izforge.izpack.compiler.logging.MavenStyleLogFormatter;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.provider.JarFileProvider;
 import com.izforge.izpack.util.FileUtil;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Container for compilation tests.
  *
  * @author Anthonin Bonnefoy
  */
-public class TestCompilerContainer extends CompilerContainer
+public class TestCompilerContainer extends CompilerContainer implements CloseableResource
 {
 
     private static final String APPNAME = "Test Installation";
@@ -58,7 +59,7 @@ public class TestCompilerContainer extends CompilerContainer
     /**
      * The test method.
      */
-    private FrameworkMethod testMethod;
+    private Method testMethod;
 
     /**
      * The name of the installer.xml used in this installer
@@ -76,7 +77,7 @@ public class TestCompilerContainer extends CompilerContainer
      * @param testClass  the test class
      * @param testMethod the test method
      */
-    public TestCompilerContainer(Class<?> testClass, FrameworkMethod testMethod)
+    public TestCompilerContainer(Class<?> testClass, Method testMethod)
     {
         super(null);
         this.testClass = testClass;
@@ -148,5 +149,10 @@ public class TestCompilerContainer extends CompilerContainer
     {
         File file = new File(System.getProperty("java.io.tmpdir"), "iz-" + APPNAME + ".tmp");
         FileUtils.deleteQuietly(file);
+    }
+
+    @Override
+    public void close() throws Throwable {
+        // Cleanup resources if needed when the test context is closed
     }
 }

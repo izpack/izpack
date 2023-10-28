@@ -11,13 +11,10 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.rules.Timeout;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
@@ -30,17 +27,15 @@ import com.izforge.izpack.installer.language.LanguageDialog;
 import com.izforge.izpack.panels.hello.HelloPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 /**
  * Test for an installation
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestGUIInstallationContainer.class)
-public class InstallationTest
-{
-    @Rule
-    public TestRule globalTimeout = new Timeout(HelperTestMethod.TIMEOUT, TimeUnit.MILLISECONDS);
+@Timeout(value = HelperTestMethod.TIMEOUT, unit = TimeUnit.MILLISECONDS) // Global timeout applied to all tests
+public class InstallationTest {
 
     private FrameFixture installerFrameFixture;
     private IconsDatabase icons;
@@ -52,8 +47,7 @@ public class InstallationTest
 
     public InstallationTest(IconsDatabase icons, LanguageDialog languageDialog,
                             InstallerFrame installerFrame, GUIInstallData installData,
-                            InstallerController installerController, InstallerContainer installerContainer)
-    {
+                            InstallerController installerController, InstallerContainer installerContainer) {
         this.installerController = installerController;
         this.icons = icons;
         this.languageDialog = languageDialog;
@@ -62,11 +56,9 @@ public class InstallationTest
         this.installerContainer = installerContainer;
     }
 
-    @After
-    public void tearBinding() throws NoSuchFieldException, IllegalAccessException
-    {
-        if (installerFrameFixture != null)
-        {
+    @AfterEach
+    public void tearBinding() throws NoSuchFieldException, IllegalAccessException {
+        if (installerFrameFixture != null) {
             installerFrameFixture.cleanUp();
             installerFrameFixture = null;
         }
@@ -74,25 +66,20 @@ public class InstallationTest
 
     @Test
     @InstallFile("samples/helloAndFinish.xml")
-    public void testHelloAndFinishPanels() throws Exception
-    {
+    public void testHelloAndFinishPanels() throws Exception {
         Image image = icons.get("JFrameIcon").getImage();
         assertThat(image, notNullValue());
 
         initLangPack(languageDialog);
         installerFrameFixture = prepareFrameFixture(installerFrame, installerController);
 
-        // Hello panel
-//        installerFrameFixture.requireSize(new Dimension(640, 480));
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
         installerFrameFixture.requireVisible();
-        // Finish panel
     }
 
     @Test
     @InstallFile("samples/doublePanel.xml")
-    public void testMultiplePanels() throws Exception
-    {
+    public void testMultiplePanels() throws Exception {
         installerController.buildInstallation();
 
         HelloPanel firstHelloPanel = (HelloPanel) installerContainer.getComponent("42");
@@ -104,8 +91,7 @@ public class InstallationTest
 
     @Test
     @InstallFile("samples/panelconfiguration.xml")
-    public void testPanelConfiguration() throws Exception
-    {
+    public void testPanelConfiguration() throws Exception {
         installerController.buildInstallation();
 
         HelloPanel helloPanel = (HelloPanel) installerContainer.getComponent("hellopanel");
@@ -115,21 +101,17 @@ public class InstallationTest
 
     @Test
     @InstallFile("samples/substanceLaf/substanceLaf.xml")
-    public void testSubstanceLaf() throws Exception
-    {
+    public void testSubstanceLaf() throws Exception {
         initLangPack(languageDialog);
         installerFrameFixture = prepareFrameFixture(installerFrame, installerController);
 
-        // Hello panel
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
         installerFrameFixture.requireVisible();
-        // Finish panel
     }
 
     @Test
     @InstallFile("samples/silverpeas/silverpeas.xml")
-    public void testSilverpeas() throws Exception
-    {
+    public void testSilverpeas() throws Exception {
         initLangPack(languageDialog);
         installerFrameFixture = prepareFrameFixture(installerFrame, installerController);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
@@ -137,35 +119,9 @@ public class InstallationTest
     }
 
     @Test
-    @Ignore
-    @InstallFile("samples/helloAndFinish.xml")
-    public void testHelloAndFinishPanelsCompressed() throws Exception
-    {
-//        System.out.println("Using file " + out.getName());
-//        File workingDirectory = getWorkingDirectory("samples");
-//        File out = new File("out.jar");
-//        File installerFile = new File(workingDirectory, "helloAndFinish.xml");
-//        CompilerData data = new CompilerData(installerFile.getAbsolutePath(), workingDirectory.getAbsolutePath(), out.getAbsolutePath());
-//        data.setComprFormat("bzip2");
-//        data.setComprLevel(2);
-//        compileInstallJar(data);
-//        applicationContainer.getComponent(LanguageDialog.class).initLangPack();
-//        installerFrameFixture = prepareFrameFixture();
-//
-//        // Hello panel
-//        installerFrameFixture.requireSize(new Dimension(640, 480));
-//        installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
-//        installerFrameFixture.requireVisible();
-//        // Finish panel
-//        installerFrameFixture.button(GuiId.BUTTON_QUIT.id).click();
-    }
-
-    @Test
     @InstallFile("samples/basicInstall/basicInstall.xml")
-    public void testBasicInstall() throws Exception
-    {
+    public void testBasicInstall() throws Exception {
         File installPath = HelperTestMethod.prepareInstallation(installData);
-        // Lang picker
         HelperTestMethod.clickDefaultLang(languageDialog);
 
         installerFrameFixture = prepareFrameFixture(installerFrame, installerController);
@@ -205,6 +161,5 @@ public class InstallationTest
         Thread.sleep(300);
         installerFrameFixture.fileChooser(GuiId.FINISH_PANEL_FILE_CHOOSER.id).approve();
         assertThat(new File(installPath, "auto.xml").exists(), is(true));
-//        installerFrameFixture.button(GuiId.BUTTON_QUIT.id).click();
     }
 }

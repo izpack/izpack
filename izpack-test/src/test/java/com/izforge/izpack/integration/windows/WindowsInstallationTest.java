@@ -24,19 +24,19 @@ package com.izforge.izpack.integration.windows;
 import static com.izforge.izpack.integration.windows.WindowsHelper.checkShortcut;
 import static com.izforge.izpack.integration.windows.WindowsHelper.registryDeleteUninstallKey;
 import static com.izforge.izpack.integration.windows.WindowsHelper.registryKeyExists;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.timing.Timeout;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -54,7 +54,7 @@ import com.izforge.izpack.integration.UninstallHelper;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.test.util.TestHousekeeper;
 import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.Platform;
@@ -77,7 +77,7 @@ import com.izforge.izpack.util.os.ShellLink;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @RunOn(Platform.Name.WINDOWS)
 @Container(TestGUIInstallationContainer.class)
 public class WindowsInstallationTest extends AbstractDestroyerTest
@@ -146,7 +146,7 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
      *
      * @throws Exception for any error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         super.setUp();
@@ -158,7 +158,7 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
      *
      * @throws Exception for any error
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
         destroyRegistryEntries();
@@ -178,8 +178,8 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
     @InstallFile("samples/windows/install.xml")
     public void testInstallation() throws Exception
     {
-        assertFalse("This test must be run as administrator, or with Windows UAC turned off",
-                    new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded());
+        assertFalse(new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded(),
+                    "This test must be run as administrator, or with Windows UAC turned off");
 
         // UNINSTALL_NAME should be null prior to display of CheckedHelloPanel
         assertNull(getInstallData().getVariable("UNINSTALL_NAME"));

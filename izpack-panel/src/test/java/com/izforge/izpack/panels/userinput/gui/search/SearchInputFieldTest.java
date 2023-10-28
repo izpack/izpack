@@ -1,12 +1,13 @@
 package com.izforge.izpack.panels.userinput.gui.search;
 
 import com.izforge.izpack.panels.userinput.field.search.SearchField;
-import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class SearchInputFieldTest {
 	

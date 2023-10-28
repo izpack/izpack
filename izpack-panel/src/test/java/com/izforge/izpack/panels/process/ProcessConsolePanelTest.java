@@ -20,13 +20,13 @@
  */
 package com.izforge.izpack.panels.process;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
@@ -34,7 +34,7 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
@@ -45,7 +45,7 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestConsolePanelContainer.class)
 public class ProcessConsolePanelTest
 {
@@ -135,8 +135,7 @@ public class ProcessConsolePanelTest
         assertFalse(panel.run(installData, console));
 
         assertEquals(7, console.getOutput().size());
-        assertTrue(console.getOutput().get(6).equals(
-                "Invocation Problem calling: com.izforge.izpack.panels.process.Executable, Executable exception"));
+      assertEquals("Invocation Problem calling: com.izforge.izpack.panels.process.Executable, Executable exception", console.getOutput().get(6));
 
         // verify Executable was run the expected no. of times, with the expected arguments
         assertEquals(1, Executable.getInvocations());

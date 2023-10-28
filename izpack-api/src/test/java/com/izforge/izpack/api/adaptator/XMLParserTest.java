@@ -22,7 +22,7 @@
 
 package com.izforge.izpack.api.adaptator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,8 +33,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
@@ -65,7 +65,7 @@ public class XMLParserTest
 
         IXMLParser parser = new XMLParser();
         spec = parser.parse(input);
-        Assert.assertEquals("izpack:shortcuts", spec.getName());
+        Assertions.assertEquals("izpack:shortcuts", spec.getName());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class XMLParserTest
                 new File(XMLParserTest.class.getResource(filename).toURI()));
         IXMLParser parser = new XMLParser(false);
         spec = parser.parse(substitutedSpec);
-        Assert.assertEquals("izpack:shortcuts", spec.getName());
+        Assertions.assertEquals("izpack:shortcuts", spec.getName());
     }
 
     private void checkEltLN(IXMLElement elt)
@@ -112,34 +112,42 @@ public class XMLParserTest
         checkEltLN(elt);
     }
 
-    @Test(expected = XMLException.class)
+    @Test
     public void testXMLExceptionThrown()
     {
-        InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorFilename);
-        IXMLParser parser = new XMLParser();
-        parser.parse(input, parseErrorFilename);
+        Assertions.assertThrows(XMLException.class, () -> {
+            InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorFilename);
+            IXMLParser parser = new XMLParser();
+            parser.parse(input, parseErrorFilename);
+        });
     }
 
-    @Test(expected = XMLException.class)
+    @Test
     public void testXMLExceptionThrownXInclude()
     {
-        InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorXincludeFilename);
-        IXMLParser parser = new XMLParser();
-        parser.parse(input, parseErrorXincludeFilename);
+        Assertions.assertThrows(XMLException.class, () -> {
+            InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorXincludeFilename);
+            IXMLParser parser = new XMLParser();
+            parser.parse(input, parseErrorXincludeFilename);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNPE()
     {
-        IXMLParser parser = new XMLParser();
-        parser.parse((InputStream) null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            IXMLParser parser = new XMLParser();
+            parser.parse((InputStream) null);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testWithSystemIdNPE()
     {
-        IXMLParser parser = new XMLParser();
-        parser.parse(null, "bla");
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            IXMLParser parser = new XMLParser();
+            parser.parse(null, "bla");
+        });
     }
 
 }

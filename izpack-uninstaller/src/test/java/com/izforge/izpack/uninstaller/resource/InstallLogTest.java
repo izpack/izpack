@@ -22,7 +22,7 @@
 package com.izforge.izpack.uninstaller.resource;
 
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -31,8 +31,8 @@ import java.io.StringReader;
 import java.util.List;
 
 import org.apache.commons.io.input.ReaderInputStream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.resource.Resources;
@@ -56,7 +56,7 @@ public class InstallLogTest
      *
      * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         // set up a mock resource

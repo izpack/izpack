@@ -30,10 +30,10 @@ import java.util.jar.JarFile;
 import org.apache.maven.shared.jar.JarAnalyzer;
 import org.apache.maven.shared.jar.classes.JarClasses;
 import org.apache.maven.shared.jar.classes.JarClassesAnalysis;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
@@ -43,12 +43,12 @@ import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.merge.MergeManagerImpl;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 /**
  * Test for an Izpack compilation
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestCompilerContainer.class)
 @InstallFile("samples/helloAndFinish.xml")
 public class CompilerConfigTest
@@ -94,7 +94,7 @@ public class CompilerConfigTest
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testImportAreResolved() throws Exception
     {
         JarAnalyzer jarAnalyzer = new JarAnalyzer(new File(jar.getName()));
@@ -126,7 +126,7 @@ public class CompilerConfigTest
                 {
                     stringBuilder.append(s).append('\n');
                 }
-                Assert.fail("Missing imports : " + stringBuilder);
+                Assertions.fail("Missing imports : " + stringBuilder);
             }
         }
     }

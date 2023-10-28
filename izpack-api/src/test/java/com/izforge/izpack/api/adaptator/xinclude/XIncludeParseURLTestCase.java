@@ -29,8 +29,7 @@ import java.net.URL;
 public class XIncludeParseURLTestCase extends BaseXIncludeTestCase
 {
     @Override
-    public void doTest(String fileBase) throws Exception
-    {
+    public void doTest(String fileBase) {
         URL inputURL = getClass().getResource(fileBase + "-input.xml");
         URL expectURL = getClass().getResource(fileBase + "-expect.xml");
         // set up a new parser to parse the input xml (with includes)

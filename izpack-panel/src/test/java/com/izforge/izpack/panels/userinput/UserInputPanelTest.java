@@ -19,15 +19,16 @@
 
 package com.izforge.izpack.panels.userinput;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -45,9 +46,8 @@ import org.fest.swing.fixture.JFileChooserFixture;
 import org.fest.swing.fixture.JRadioButtonFixture;
 import org.fest.swing.fixture.JTextComponentFixture;
 import org.fest.swing.timing.Timeout;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
@@ -82,8 +82,8 @@ public class UserInputPanelTest extends AbstractPanelTest
     /**
      * Temporary folder for 'file', 'dir' and 'search' field tests.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    static Path temporaryFolder;
 
     /**
      * Constructs an {@code UserInputPanelTest}.
@@ -532,7 +532,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/search/");
 
         InstallData installData = getInstallData();
-        String path = temporaryFolder.getRoot().getPath();
+        String path = temporaryFolder.toString();
         installData.setVariable("MY_DIR", path);
         assertTrue(new File(path, "dir1").mkdir());
         assertTrue(new File(path, "dir2").mkdir());
@@ -569,7 +569,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/file/");
 
         InstallData installData = getInstallData();
-        String path = temporaryFolder.getRoot().getPath();
+        String path = temporaryFolder.toString();
         installData.setVariable("MY_DIR", path);
         assertTrue(new File(path, "fileA").createNewFile());
         assertTrue(new File(path, "fileB").createNewFile());
@@ -599,7 +599,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/multifile/");
 
         InstallData installData = getInstallData();
-        File tempFolder = temporaryFolder.getRoot();
+        File tempFolder = temporaryFolder.toFile();
         String path = tempFolder.getPath();
         installData.setVariable("MY_DIR", path);
         assertTrue(new File(path, "fileA").createNewFile());
@@ -633,7 +633,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/dir/");
 
         InstallData installData = getInstallData();
-        String path = temporaryFolder.getRoot().getPath();
+        String path = temporaryFolder.toString();
         installData.setVariable("MY_DIR", path);
         assertTrue(new File(path, "dirA").mkdir());
         assertTrue(new File(path, "dirB").mkdir());

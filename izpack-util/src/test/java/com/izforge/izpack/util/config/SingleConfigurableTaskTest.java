@@ -5,22 +5,24 @@ import com.izforge.izpack.api.config.Options;
 import com.izforge.izpack.api.config.spi.OptionsBuilder;
 import com.izforge.izpack.util.config.SingleConfigurableTask.Entry;
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SingleConfigurableTaskTest
 {
-    @Rule
-    public TemporaryFolder tmpDir = new TemporaryFolder();
+
+    @TempDir
+    static Path tmpDir;
 
 //    @Test
 //    public void testPropertiesCommentsAtEnd() throws IOException
@@ -125,7 +127,7 @@ public class SingleConfigurableTaskTest
         task.setPatchPreserveValues(false);
         task.execute();
         Options result = task.getResult();
-        Assert.assertTrue(result.keySet().contains("abc.xyz0."));
+        assertTrue(result.keySet().contains("abc.xyz0."));
         assertEquals( 3, result.length("abc.xyz0.") );
         assertEquals("value0", result.get("abc.xyz0.", 0));
         assertEquals("value1", result.get("abc.xyz0.", 1));
@@ -156,9 +158,9 @@ public class SingleConfigurableTaskTest
         task.execute();
         Options result = task.getResult();
 
-        Assert.assertTrue(result.keySet().contains("http.param.os."));
+        assertTrue(result.keySet().contains("http.param.os."));
         assertEquals("Windows", result.get("http.param.os.", 1));
-        Assert.assertTrue(result.keySet().contains("http.param.os..nativelib.1"));
+        assertTrue(result.keySet().contains("http.param.os..nativelib.1"));
         assertEquals("bin/x86-32/native_1.jar", result.get("http.param.os..nativelib.1", 1));
         assertEquals("bin/x86-32/native_2.jar", result.get("http.param.os..nativelib.2", 1));
 
@@ -200,7 +202,7 @@ public class SingleConfigurableTaskTest
         task.setPatchPreserveValues(true);
         task.execute();
         Options result = task.getResult();
-        Assert.assertTrue(result.keySet().contains("abc.xyz0."));
+        assertTrue(result.keySet().contains("abc.xyz0."));
         assertEquals(4, result.length("abc.xyz0.") );
         assertEquals("value3", result.get("abc.xyz0.", 0));
         assertEquals("value4", result.get("abc.xyz0.", 1));
@@ -232,7 +234,7 @@ public class SingleConfigurableTaskTest
         task.setPatchPreserveValues(true);
         task.execute();
         Options result = task.getResult();
-        Assert.assertTrue(result.keySet().contains("abc.xyz0."));
+        assertTrue(result.keySet().contains("abc.xyz0."));
         assertEquals( 4, result.length("abc.xyz0.") );
         assertEquals("value3", result.get("abc.xyz0.", 0));
         assertEquals("value4", result.get("abc.xyz0.", 1));
@@ -263,7 +265,7 @@ public class SingleConfigurableTaskTest
         task.setPatchPreserveValues(true);
         task.execute();
         Options result = task.getResult();
-        Assert.assertTrue(result.keySet().contains("abc.xyz0..key"));
+        assertTrue(result.keySet().contains("abc.xyz0..key"));
         assertEquals( 4, result.length("abc.xyz0..key") );
         assertEquals("value3", result.get("abc.xyz0..key", 0));
         assertEquals("value4", result.get("abc.xyz0..key", 1));
@@ -304,13 +306,13 @@ public class SingleConfigurableTaskTest
         task.addEntry(entry);
         task.execute();
         Options result = task.getResult();
-        Assert.assertTrue(result.keySet().contains("abc.xyz0."));
+        assertTrue(result.keySet().contains("abc.xyz0."));
         assertEquals( 2, result.length("abc.xyz0.") );
-        Assert.assertNull(result.get("abc.xyz0.0"));
-        Assert.assertNull(result.get("abc.xyz0.1"));
-        Assert.assertNotNull(result.get("abc.xyz0.", 0));
-        Assert.assertNotNull(result.get("abc.xyz0.", 1));
-        Assert.assertNotNull(result.get("abc.xyz.unnumbered"));
+        assertNull(result.get("abc.xyz0.0"));
+        assertNull(result.get("abc.xyz0.1"));
+        assertNotNull(result.get("abc.xyz0.", 0));
+        assertNotNull(result.get("abc.xyz0.", 1));
+        assertNotNull(result.get("abc.xyz.unnumbered"));
         assertEquals("value0_overridden", result.get("abc.xyz0.", 0));
         assertEquals("value1_overridden", result.get("abc.xyz0.", 1));
         assertEquals("value_unnumbered_overridden", result.get("abc.xyz.unnumbered"));
@@ -349,13 +351,13 @@ public class SingleConfigurableTaskTest
         task.addEntry(entry);
         task.execute();
         Options result = task.getResult();
-        Assert.assertTrue(result.keySet().contains("abc..xyz0"));
+        assertTrue(result.keySet().contains("abc..xyz0"));
         assertEquals( 2, result.length("abc..xyz0") );
-        Assert.assertNull(result.get("abc.0.xyz0"));
-        Assert.assertNull(result.get("abc.1.xyz0"));
-        Assert.assertNotNull(result.get("abc..xyz0", 0));
-        Assert.assertNotNull(result.get("abc..xyz0", 1));
-        Assert.assertNotNull(result.get("abc.xyz.unnumbered"));
+        assertNull(result.get("abc.0.xyz0"));
+        assertNull(result.get("abc.1.xyz0"));
+        assertNotNull(result.get("abc..xyz0", 0));
+        assertNotNull(result.get("abc..xyz0", 1));
+        assertNotNull(result.get("abc.xyz.unnumbered"));
         assertEquals("value0_overridden", result.get("abc..xyz0", 0));
         assertEquals("value1_overridden", result.get("abc..xyz0", 1));
         assertEquals("value_unnumbered_overridden", result.get("abc.xyz.unnumbered"));
@@ -383,13 +385,13 @@ public class SingleConfigurableTaskTest
         task.addEntry(entry);
         task.execute();
         Options result = task.getResult();
-        Assert.assertTrue(result.keySet().contains("abc.xyz0."));
+        assertTrue(result.keySet().contains("abc.xyz0."));
         assertEquals( 3, result.length("abc.xyz0.") );
-        Assert.assertNull(result.get("abc.xyz0.1"));
-        Assert.assertNull(result.get("abc.xyz0.2"));
-        Assert.assertNull(result.get("abc.xyz0.", 0));
-        Assert.assertNotNull(result.get("abc.xyz0.", 1));
-        Assert.assertNotNull(result.get("abc.xyz0.", 2));
+        assertNull(result.get("abc.xyz0.1"));
+        assertNull(result.get("abc.xyz0.2"));
+        assertNull(result.get("abc.xyz0.", 0));
+        assertNotNull(result.get("abc.xyz0.", 1));
+        assertNotNull(result.get("abc.xyz0.", 2));
         assertEquals("value1_overridden", result.get("abc.xyz0.", 1));
         assertEquals("value2_overridden", result.get("abc.xyz0.", 2));
     }
@@ -416,13 +418,13 @@ public class SingleConfigurableTaskTest
         task.addEntry(entry);
         task.execute();
         Options result = task.getResult();
-        Assert.assertTrue(result.keySet().contains("abc..xyz0"));
+        assertTrue(result.keySet().contains("abc..xyz0"));
         assertEquals( 3, result.length("abc..xyz0") );
-        Assert.assertNull(result.get("abc.1.xyz0"));
-        Assert.assertNull(result.get("abc.2.xyz0"));
-        Assert.assertNull(result.get("abc..xyz0", 0));
-        Assert.assertNotNull(result.get("abc..xyz0", 1));
-        Assert.assertNotNull(result.get("abc..xyz0", 2));
+        assertNull(result.get("abc.1.xyz0"));
+        assertNull(result.get("abc.2.xyz0"));
+        assertNull(result.get("abc..xyz0", 0));
+        assertNotNull(result.get("abc..xyz0", 1));
+        assertNotNull(result.get("abc..xyz0", 2));
         assertEquals("value1_overridden", result.get("abc..xyz0", 1));
         assertEquals("value2_overridden", result.get("abc..xyz0", 2));
     }
@@ -435,14 +437,14 @@ public class SingleConfigurableTaskTest
         URL oldFileUrl = getClass().getResource("oldversion.ini");
         URL newFileUrl = getClass().getResource("newversion.ini");
         URL expectedFileUrl = getClass().getResource("expected_after_merge.ini");
-        assertNotNull("Old file missing", oldFileUrl);
-        assertNotNull("New file missing", newFileUrl);
-        assertNotNull("Expected result file missing", expectedFileUrl);
+        assertNotNull(oldFileUrl, "Old file missing");
+        assertNotNull(newFileUrl, "New file missing");
+        assertNotNull(expectedFileUrl, "Expected result file missing");
 
         File oldFile = new File(oldFileUrl.toURI());
         File newFile = new File(newFileUrl.toURI());
         File expectedFile = new File(expectedFileUrl.toURI());
-        File toFile = tmpDir.newFile("to.ini");
+        File toFile = tmpDir.resolve("to.ini").toFile();
 
         task.setToFile(toFile);
         task.setOldFile(oldFile);
@@ -464,7 +466,7 @@ public class SingleConfigurableTaskTest
 
         printFileContent(toFile);
         printFileContent(expectedFile);
-        assertEquals(FileUtils.contentEqualsIgnoreEOL(expectedFile, toFile, "ISO-8859-1"), true);
+        assertTrue(FileUtils.contentEqualsIgnoreEOL(expectedFile, toFile, "ISO-8859-1"));
     }
 
     @Test
@@ -475,16 +477,16 @@ public class SingleConfigurableTaskTest
         URL oldFileUrl = getClass().getResource("/com/izforge/izpack/util/config with space/oldversion2.ini");
         URL newFileUrl = getClass().getResource("/com/izforge/izpack/util/config with space/newversion2.ini");
         URL expectedFileUrl = getClass().getResource("/com/izforge/izpack/util/config with space/expected_after_merge2.ini");
-        assertNotNull("Old file missing", oldFileUrl);
-        assertNotNull("New file missing", newFileUrl);
-        assertNotNull("Expected result file missing", expectedFileUrl);
+        assertNotNull(oldFileUrl, "Old file missing");
+        assertNotNull(newFileUrl, "New file missing");
+        assertNotNull(expectedFileUrl, "Expected result file missing");
 
-        System.out.println("The oldFileUrl: "+ oldFileUrl.toURI().toString());
+        System.out.println("The oldFileUrl: "+ oldFileUrl.toURI());
 
         File oldFile = new File(oldFileUrl.toURI());
         File newFile = new File(newFileUrl.toURI());
         File expectedFile = new File(expectedFileUrl.toURI());
-        File toFile = tmpDir.newFile("to.ini");
+        File toFile = tmpDir.resolve("to.ini").toFile();
 
         task.setToFile(toFile);
         task.setOldFile(oldFile);
@@ -506,7 +508,7 @@ public class SingleConfigurableTaskTest
 
         printFileContent(toFile);
         printFileContent(expectedFile);
-        assertEquals(FileUtils.contentEqualsIgnoreEOL(expectedFile, toFile, "ISO-8859-1"), true);
+        assertTrue(FileUtils.contentEqualsIgnoreEOL(expectedFile, toFile, "ISO-8859-1"));
     }
 
     private void printFileContent(File file)

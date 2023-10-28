@@ -50,14 +50,14 @@ import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
 import org.apache.commons.io.FilenameUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -65,7 +65,7 @@ import java.util.jar.JarOutputStream;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileEquals;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the {@link MultiVolumeUnpacker}.
@@ -74,8 +74,8 @@ import static org.junit.Assert.*;
  */
 public class MultiVolumeUnpackerTest
 {
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
 
     /**
@@ -86,7 +86,7 @@ public class MultiVolumeUnpackerTest
     @Test
     public void testUnpack() throws Exception
     {
-        File baseDir = temporaryFolder.getRoot();
+        File baseDir = temporaryFolder.toFile();
         File packageDir = new File(baseDir, "package");
         File installerJar = new File(packageDir, "installer.jar");
         File installDir = new File(baseDir, "install");
@@ -167,7 +167,7 @@ public class MultiVolumeUnpackerTest
     @Test
     public void testUnpackWithExecutables() throws Exception
     {
-        File baseDir = temporaryFolder.getRoot();
+        File baseDir = temporaryFolder.toFile();
         File packageDir = new File(baseDir, "package");
         File installerJar = new File(packageDir, "installer.jar");
         File installDir = new File(baseDir, "install");

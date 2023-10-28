@@ -41,8 +41,8 @@ import com.izforge.izpack.core.variable.PlainValue;
 import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class CompilerConfigMockedTest
     private CompilerConfig compilerConfig;
     private IPackager packager;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         mapStringListDyn = Mockito.mock(Map.class);

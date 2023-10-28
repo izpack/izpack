@@ -20,21 +20,19 @@
 package com.izforge.izpack.core.substitutor;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Properties;
 
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.core.data.DefaultVariables;
 import org.hamcrest.core.Is;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
-
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.fail;
-
 
 /**
  * Unit tests of substitutor features
@@ -46,7 +44,7 @@ public class VariableSubstitutorImplTest
 
     private VariableSubstitutor variableSubstitutor;
 
-    @Before
+    @BeforeEach
     public void setupVariableSubstitutor()
     {
         Properties properties = new Properties(System.getProperties());
@@ -59,8 +57,7 @@ public class VariableSubstitutorImplTest
     }
 
     @Test
-    public void shouldNotSubstitute() throws Exception
-    {
+    public void shouldNotSubstitute() {
         String res = variableSubstitutor.substitute("string not substitute", SubstitutionType.TYPE_PLAIN);
         assertThat(res, Is.is("string not substitute"));
         res = variableSubstitutor.substitute("string not ${substitute}", SubstitutionType.TYPE_PLAIN);
@@ -68,8 +65,7 @@ public class VariableSubstitutorImplTest
     }
 
     @Test
-    public void shouldSubstitutePlainText() throws Exception
-    {
+    public void shouldSubstitutePlainText() {
         assertThat(
                 variableSubstitutor.substitute("Variable ${MY_PROP} and ${MY_PROP2}", SubstitutionType.TYPE_PLAIN),
                 Is.is("Variable one and two"));
@@ -88,8 +84,7 @@ public class VariableSubstitutorImplTest
     }
 
     @Test
-    public void shouldSubstituteAntType() throws Exception
-    {
+    public void shouldSubstituteAntType() {
         assertThat(
                 variableSubstitutor.substitute("@MY_PROP@@MY_PROP2@", SubstitutionType.TYPE_ANT),
                 Is.is("onetwo"));
@@ -105,16 +100,14 @@ public class VariableSubstitutorImplTest
     }
 
     @Test
-    public void shouldSubstituteShellType() throws Exception
-    {
+    public void shouldSubstituteShellType() {
         assertThat(
                 variableSubstitutor.substitute("%MY_PROP%MY_PROP2", SubstitutionType.TYPE_SHELL),
                 Is.is("onetwo"));
     }
 
     @Test
-    public void testSystemPropertiesSubstition() throws Exception
-    {
+    public void testSystemPropertiesSubstition() {
         String substituted = variableSubstitutor.substitute("${SYSTEM[user.dir]}");
         assertNotNull(substituted);
         if (substituted.trim().isEmpty() || substituted.startsWith("${SYSTEM["))

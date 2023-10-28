@@ -23,8 +23,8 @@ import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.core.data.DefaultVariables;
 import org.hamcrest.core.Is;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -42,7 +42,7 @@ public class VariableSubstitutorInputStreamTest
 {
     private Variables variables;
 
-    @Before
+    @BeforeEach
     public void setupVariableSubstitutorInputStream()
     {
         Properties properties = new Properties(System.getProperties());

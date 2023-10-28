@@ -3,16 +3,20 @@ package com.izforge.izpack.panels.userinput;
 import com.izforge.izpack.api.handler.DefaultConfigurationHandler;
 import com.izforge.izpack.panels.userinput.processor.PortProcessor;
 import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
-import junit.framework.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 
 
-@Ignore
+@Disabled
 public class PortProcessorTest
 {
     @Test
@@ -24,7 +28,7 @@ public class PortProcessorTest
         ProcessingClient pc = new ProcessingClientStub(usedPort);
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
-        Assert.assertTrue((Integer.toString(usedPort)).equals(result));
+      assertEquals((Integer.toString(usedPort)), result);
         try
         {
             use.close();
@@ -45,7 +49,7 @@ public class PortProcessorTest
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
         System.out.println(result);
-        Assert.assertFalse(("localhost*" + Integer.toString(usedPort)).equals(result));
+      assertNotEquals(("localhost*" + Integer.toString(usedPort)), result);
         try
         {
             use.close();
@@ -65,7 +69,7 @@ public class PortProcessorTest
         ProcessingClient pc = new ProcessingClientStub("::", usedPort);
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
-        Assert.assertFalse(("::*" + Integer.toString(usedPort)).equals(result));
+      assertNotEquals(("::*" + Integer.toString(usedPort)), result);
         try
         {
             use.close();
@@ -85,7 +89,7 @@ public class PortProcessorTest
         ProcessingClient pc = new ProcessingClientStub("0.0.0.0", usedPort);
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
-        Assert.assertFalse(("0.0.0.0*" + Integer.toString(usedPort)).equals(result));
+      assertNotEquals(("0.0.0.0*" + Integer.toString(usedPort)), result);
         try
         {
             use.close();
@@ -105,7 +109,7 @@ public class PortProcessorTest
         ProcessingClient pc = new ProcessingClientStub("127.0.0.1", usedPort);
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
-        Assert.assertEquals("127.0.0.1*" + Integer.toString(usedPort), result);
+        assertEquals("127.0.0.1*" + Integer.toString(usedPort), result);
         try
         {
             use.close();

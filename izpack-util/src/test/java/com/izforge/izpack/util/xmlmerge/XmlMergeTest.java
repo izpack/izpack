@@ -1,5 +1,5 @@
 package com.izforge.izpack.util.xmlmerge;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -27,10 +27,11 @@ import com.izforge.izpack.util.xmlmerge.config.PropertyXPathConfigurer;
 
 public class XmlMergeTest
 {
-    @Rule
-    public TemporaryFolder tmpDir = new TemporaryFolder();
 
-    @Before
+    @TempDir
+    static Path tmpDir;
+
+    @BeforeEach
     public void setUp() throws Exception
     {
     }
@@ -106,11 +107,11 @@ public class XmlMergeTest
         URL patchSourceFileUrl = getClass().getResource("maps_resources_patch.xml");
         URL patchTargetFileUrl = getClass().getResource("maps_resources_original.xml");
         URL expectedFileUrl = getClass().getResource("maps_resources_expected.xml");
-        assertNotNull("Patch source file missing", patchSourceFileUrl);
-        assertNotNull("Patch target file missing", patchTargetFileUrl);
-        assertNotNull("Expected result file missing", expectedFileUrl);
+        assertNotNull(patchSourceFileUrl, "Patch source file missing");
+        assertNotNull(patchTargetFileUrl, "Patch target file missing");
+        assertNotNull(expectedFileUrl, "Expected result file missing");
 
-        File targetFile = tmpDir.newFile("maps_resources_merged.xml");
+        File targetFile = tmpDir.resolve("maps_resources_merged.xml").toFile();
 
         // Copy target file to a temporary location,
         // it should be patch target and output at one time in this test and therefore is written to it
@@ -154,7 +155,7 @@ public class XmlMergeTest
         Document expectedDocument = db.parse(new File(expectedFileUrl.toURI()));
         expectedDocument.normalizeDocument();
 
-        assertTrue("Result document does not match expected result", resultDocument.isEqualNode(expectedDocument));
+        assertTrue(resultDocument.isEqualNode(expectedDocument), "Result document does not match expected result");
     }
 
 }

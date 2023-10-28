@@ -21,9 +21,9 @@
 
 package com.izforge.izpack.integration.windows;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
@@ -69,30 +69,25 @@ public class WindowsHelper
     {
         final File[] shortcut = new File[1];
         // TODO - need to create ShellLink in the same thread each time, or it fails with a COM error.
-        SwingUtilities.invokeAndWait(new Runnable()
-        {
-            @Override
-            public void run()
+        SwingUtilities.invokeAndWait(() -> {
+            ShellLink link;
+            try
             {
-                ShellLink link;
-                try
-                {
-                    link = new ShellLink(linkType, userType, group, name, librarian);
-                }
-                catch (Exception exception)
-                {
-                    throw new IzPackException(exception);
-                }
-                assertEquals(linkType, link.getLinkType());
-                assertEquals(userType, link.getUserType());
-                assertEquals(target, new File(link.getTargetPath()));
-                assertEquals(description, link.getDescription());
-
-                // verify the shortcut file exists
-                shortcut[0] = new File(link.getFileName());
-                assertTrue(shortcut[0].exists());
-
+                link = new ShellLink(linkType, userType, group, name, librarian);
             }
+            catch (Exception exception)
+            {
+                throw new IzPackException(exception);
+            }
+            assertEquals(linkType, link.getLinkType());
+            assertEquals(userType, link.getUserType());
+            assertEquals(target, new File(link.getTargetPath()));
+            assertEquals(description, link.getDescription());
+
+            // verify the shortcut file exists
+            shortcut[0] = new File(link.getFileName());
+            assertTrue(shortcut[0].exists());
+
         });
         return shortcut[0];
     }
@@ -133,7 +128,7 @@ public class WindowsHelper
         //Value exists as a REG_SZ
         assertTrue(registry.valueExist(key, name));
         RegDataContainer value = registry.getValue(key, name);
-        assertEquals("Registry key value " + name + " is not type REG_SZ", RegDataContainer.REG_SZ, value.getType());
+        assertEquals(RegDataContainer.REG_SZ, value.getType(), "Registry key value " + name + " is not type REG_SZ");
         //Value matches expected string
         assertEquals(expected, registry.getValue(key, name).getStringData());
     }

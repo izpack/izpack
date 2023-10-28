@@ -21,16 +21,16 @@
 
 package com.izforge.izpack.core.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.resource.Locales;
@@ -102,7 +102,7 @@ public class DefaultLocalesTest
             else if (locale != null)
             {
                 locales.setLocale(code);
-                assertNotNull("Failed to retrieve messages for code=" + code, locales.getMessages());
+                assertNotNull(locales.getMessages(), "Failed to retrieve messages for code=" + code);
                 assertEquals(code.toLowerCase(), locales.getISOCode().toLowerCase());
             }
         }

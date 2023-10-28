@@ -25,11 +25,12 @@ import com.izforge.izpack.api.data.Info;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -86,7 +87,7 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         } 
         catch (ParseException ex)
         {
-            assertTrue(false);
+          fail();
         }
         assertTrue(checker.check());
 
@@ -98,7 +99,7 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         }
         catch (ParseException ex)
         {
-            assertTrue(false);
+          fail();
         }
         assertTrue(checker.check());
     }
@@ -117,7 +118,7 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         }
         catch (ParseException ex)
         {
-            assertTrue(false);
+          fail();
         }
         assertFalse(checker.check());
 
@@ -129,7 +130,7 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         }
         catch (ParseException ex)
         {
-            assertTrue(false);
+          fail();
         }
         assertFalse(checker.check());
 
@@ -141,7 +142,7 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         }
         catch (ParseException ex)
         {
-            assertTrue(false);
+          fail();
         }
         assertFalse(checker.check());
     }

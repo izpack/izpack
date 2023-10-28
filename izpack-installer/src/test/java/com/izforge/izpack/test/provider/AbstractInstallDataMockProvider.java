@@ -54,10 +54,10 @@ public abstract class AbstractInstallDataMockProvider extends AbstractInstallDat
     }
 
     /**
-     * Creates a new {@link com.izforge.izpack.api.data.AutomatedInstallData}.
+     * Creates a new {@link AutomatedInstallData}.
      *
      * @param variables the variables
-     * @return a new {@link com.izforge.izpack.api.data.AutomatedInstallData}
+     * @return a new {@link AutomatedInstallData}
      */
     protected AutomatedInstallData createInstallData(Variables variables)
     {

@@ -34,15 +34,15 @@ import org.hamcrest.core.IsCollectionContaining;
 import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsNot;
 import org.hamcrest.core.StringContains;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.merge.jar.JarMerge;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.util.FileUtil;
 
 /**
@@ -50,7 +50,7 @@ import com.izforge.izpack.util.FileUtil;
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestMergeContainer.class)
 public class PathResolverTest
 {
@@ -64,12 +64,12 @@ public class PathResolverTest
     @Test
     public void testGetMergeableFromJar() throws Exception
     {
-        List<Mergeable> jarMergeList = pathResolver.getMergeableFromPath("junit/framework");
+        List<Mergeable> jarMergeList = pathResolver.getMergeableFromPath("org/junit/jupiter/api");
         assertThat(jarMergeList.size(), Is.is(1));
         Mergeable jarMerge = jarMergeList.get(0);
         assertThat(jarMerge, IsInstanceOf.instanceOf(JarMerge.class));
-        assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("junit/framework/Assert.class",
-                "junit/framework/AssertionFailedError.class"
+        assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("org/junit/jupiter/api/Test.class",
+                "org/junit/jupiter/api/TestInstance.class"
         ));
     }
 

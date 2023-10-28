@@ -10,8 +10,8 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.PropertyHelper;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsCollectionContaining;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.matcher.ZipMatcher;
 
@@ -22,7 +22,7 @@ public class IzPackTaskTest
 {
 
     @Test
-    @Ignore
+    @Disabled
     public void testExecuteAntAction() throws IllegalAccessException, InterruptedException, IOException
     {
 

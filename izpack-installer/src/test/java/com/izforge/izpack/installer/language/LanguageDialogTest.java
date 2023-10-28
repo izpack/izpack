@@ -19,17 +19,17 @@
 package com.izforge.izpack.installer.language;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Locale;
 
 import com.izforge.izpack.gui.IconsDatabase;
 import org.fest.swing.fixture.DialogFixture;
 import org.hamcrest.core.Is;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.resource.Locales;
@@ -37,7 +37,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.container.TestLanguageContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 /**
  * Tests the {@link LanguageDialog}.
@@ -45,7 +45,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestLanguageContainer.class)
 public class LanguageDialogTest
 {
@@ -93,7 +93,7 @@ public class LanguageDialogTest
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearBinding()
     {
         if (fixture != null)

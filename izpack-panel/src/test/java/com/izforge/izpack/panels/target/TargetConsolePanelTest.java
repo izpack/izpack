@@ -29,35 +29,33 @@ import com.izforge.izpack.installer.console.ConsolePanelView;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Console;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the {@link TargetConsolePanel} class.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestConsolePanelContainer.class)
 public class TargetConsolePanelTest
 {
-
     /**
      * Temporary folder.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public File temporaryFolder;
 
     /**
      * The installation data.
@@ -73,7 +71,7 @@ public class TargetConsolePanelTest
      * The console.
      */
     private final TestConsole console;
-    
+
     /**
      * The prompt.
      */
@@ -83,7 +81,9 @@ public class TargetConsolePanelTest
      * Constructs a {@code TargetConsolePanelTest}.
      *
      * @param installData the installation data
-     * @param console     the console
+     * @param factory the object factory
+     * @param console the console
+     * @param prompt the prompt
      */
     public TargetConsolePanelTest(InstallData installData, ObjectFactory factory, TestConsole console, Prompt prompt)
     {
@@ -104,14 +104,13 @@ public class TargetConsolePanelTest
     public void testRunConsoleIncompatibleInstallation() throws Exception
     {
         // set up two potential directories to install to, "badDir" and "goodDir"
-        File root = temporaryFolder.getRoot();
-        File badDir = new File(root, "badDir");
+        File badDir = new File(temporaryFolder, "badDir");
         assertTrue(badDir.mkdirs());
-        File goodDir = new File(root, "goodDir");   // don't bother creating it
+        File goodDir = new File(temporaryFolder, "goodDir");   // don't bother creating it
         installData.setDefaultInstallPath(badDir.getAbsolutePath());
         TargetConsolePanel panel = new TargetConsolePanel(
-                createPanelView(TargetPanel.class, "panel.install_path"),
-                installData, prompt);
+            createPanelView(TargetPanel.class, "panel.install_path"),
+            installData, prompt);
 
         TargetPanelTestHelper.createBadInstallationInfo(badDir);
 
@@ -145,18 +144,17 @@ public class TargetConsolePanelTest
     @Test
     public void testIncompatibleInstallationFromProperties() throws IOException
     {
-        File root = temporaryFolder.getRoot();
-        File badDir = new File(root, "badDir");
+        File badDir = new File(temporaryFolder, "badDir");
         assertTrue(badDir.mkdirs());
         TargetPanelTestHelper.createBadInstallationInfo(badDir);
-        File goodDir = new File(root, "goodDir");   // don't bother creating it
+        File goodDir = new File(temporaryFolder, "goodDir");   // don't bother creating it
 
         Properties properties = new Properties();
         properties.setProperty(InstallData.INSTALL_PATH, badDir.getAbsolutePath());
 
         TargetConsolePanel panel = new TargetConsolePanel(
-                createPanelView(TargetPanel.class, "panel.install_path"),
-                installData, prompt);
+            createPanelView(TargetPanel.class, "panel.install_path"),
+            installData, prompt);
         assertFalse(panel.run(installData, properties));
 
         properties.setProperty(InstallData.INSTALL_PATH, goodDir.getAbsolutePath());
@@ -178,5 +176,4 @@ public class TargetConsolePanelTest
         panel.setPanelId(id);
         return new ConsolePanelView(panel, factory, installData, console);
     }
-
 }

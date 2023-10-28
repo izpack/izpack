@@ -26,8 +26,8 @@ import java.util.Arrays;
 
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.GuiId;
@@ -62,7 +62,7 @@ public class PanelDisplayTest extends AbstractPanelTest
         super(container, guiInstallData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
     }
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/panel/");

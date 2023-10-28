@@ -34,18 +34,18 @@ import com.izforge.izpack.core.variable.PlainConfigFileValue;
 import com.izforge.izpack.core.variable.PlainValue;
 import com.izforge.izpack.util.Platforms;
 import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -55,8 +55,8 @@ import static org.junit.Assert.*;
  */
 public class DefaultVariablesTest
 {
-    @Rule
-    public TemporaryFolder rootFolder = new TemporaryFolder();
+    @TempDir
+    static Path rootFolder;
 
 
     /**
@@ -74,7 +74,7 @@ public class DefaultVariablesTest
     {
         // test basic set/get
         variables.set("var1", "value1");
-        assertEquals(variables.get("var1"), "value1");
+        assertEquals("value1", variables.get("var1"));
 
         // test nulls
         variables.set("null", null);
@@ -95,22 +95,22 @@ public class DefaultVariablesTest
         // test basic set/get
         variables.set("var1", "true");
         variables.set("var2", "false");
-        assertEquals(true, variables.getBoolean("var1"));
-        assertEquals(false, variables.getBoolean("var2"));
+      assertTrue(variables.getBoolean("var1"));
+      assertFalse(variables.getBoolean("var2"));
 
         // test null
         variables.set("null", null);
-        assertEquals(false, variables.getBoolean("null"));
-        assertEquals(true, variables.getBoolean("null", true));
+      assertFalse(variables.getBoolean("null"));
+      assertTrue(variables.getBoolean("null", true));
 
         // test where no variable set
-        assertEquals(false, variables.getBoolean("nonExistingVariable"));
-        assertEquals(true, variables.getBoolean("nonExistingVariable", true));
+      assertFalse(variables.getBoolean("nonExistingVariable"));
+      assertTrue(variables.getBoolean("nonExistingVariable", true));
 
         // test when the value is not a boolean value
         variables.set("notABoolean", "yes");
-        assertEquals(false, variables.getBoolean("notABoolean"));
-        assertEquals(true, variables.getBoolean("notABoolean", true));
+      assertFalse(variables.getBoolean("notABoolean"));
+      assertTrue(variables.getBoolean("notABoolean", true));
     }
 
     /**
@@ -271,7 +271,7 @@ public class DefaultVariablesTest
         File confFile = null;
         try
         {
-            installPath = rootFolder.newFolder("myapp");
+            installPath = rootFolder.resolve("myapp").toFile();
             File confPath = new File(installPath, "conf");
             confPath.mkdirs();
             confFile = new File(confPath, "wrapper.conf");
@@ -358,7 +358,7 @@ public class DefaultVariablesTest
 
         assertNull(variables.get("depVar3")); // not created till variables refreshed
         variables.refresh();
-        assertEquals("check dependent variable", "depValue", variables.get("depVar3"));
+        assertEquals("depValue", variables.get("depVar3"), "check dependent variable");
     }
 
     /**
@@ -372,7 +372,7 @@ public class DefaultVariablesTest
         variables.add(createDynamic("name3", "${name2}"));
         assertNull(variables.get("name3")); // not created till variables refreshed
         variables.refresh();
-        assertEquals("check dependent variable", "someValue", variables.get("name3"));
+        assertEquals("someValue", variables.get("name3"), "check dependent variable");
     }
 
     /**
@@ -388,13 +388,13 @@ public class DefaultVariablesTest
         variables.add(createDynamicCheckonce("checkonceVar", "${depVar3}"));
 
         variables.refresh();
-        assertEquals("check dependent variable", "depValue", variables.get("depVar3"));
-        assertEquals("check variable with checkonce=true", "depValue", variables.get("checkonceVar"));
+        assertEquals("depValue", variables.get("depVar3"), "check dependent variable");
+        assertEquals("depValue", variables.get("checkonceVar"), "check variable with checkonce=true");
 
         variables.set("depVar1", "newValue");
         variables.refresh();
-        assertEquals("recheck dependent variable", "newValue", variables.get("depVar3")); // should be changed
-        assertEquals("recheck variable with checkonce=true", "depValue", variables.get("checkonceVar")); // should not change any more
+        assertEquals("newValue", variables.get("depVar3"), "recheck dependent variable"); // should be changed
+        assertEquals("depValue", variables.get("checkonceVar"), "recheck variable with checkonce=true"); // should not change any more
     }
 
     /**
@@ -514,7 +514,7 @@ public class DefaultVariablesTest
         {
             catched = true;
         }
-        assertFalse("empty <dynamicVariables> must not throw an exception", catched);
+        assertFalse(catched, "empty <dynamicVariables> must not throw an exception");
     }
 
     /**
@@ -526,17 +526,17 @@ public class DefaultVariablesTest
         variables.set("var1", "value1");
         variables.add(createDynamic("var1", "dynValue"));
 
-        assertEquals("static value", "value1", variables.get("var1"));       // dynamic variable not resolved till variables refreshed
+        assertEquals("value1", variables.get("var1"), "static value");       // dynamic variable not resolved till variables refreshed
         variables.refresh();
-        assertEquals("dynamic overwrite", "dynValue", variables.get("var1")); // static variable is overwritten by dynamic variable
+        assertEquals("dynValue", variables.get("var1"), "dynamic overwrite"); // static variable is overwritten by dynamic variable
 
         variables.add(createDynamic("var1", "${var2}"));                     // var2 is not defined yet
         variables.refresh();
-        assertEquals("expect unresolved reference", "${var2}", variables.get("var1"));
+        assertEquals("${var2}", variables.get("var1"), "expect unresolved reference");
 
         variables.set("var2", "value2");                                     // define var2
         variables.refresh();
-        assertEquals("expect reference resolved", "value2", variables.get("var1"));
+        assertEquals("value2", variables.get("var1"), "expect reference resolved");
     }
 
     /**
@@ -548,7 +548,7 @@ public class DefaultVariablesTest
         testMixedVariablesFromIniFileUnset(true);
         // variable "var6" is static defined, but dynamic reference is not found in ini file.
         // with unset="true" (Default) the static variable is overwritten with null
-        assertNull("undefined reference gives <null>", variables.get("var6"));
+        assertNull(variables.get("var6"), "undefined reference gives <null>");
     }
 
     /**
@@ -560,7 +560,7 @@ public class DefaultVariablesTest
         testMixedVariablesFromIniFileUnset(false);
         // variable "var6" is static defined, but dynamic reference is not found in ini file.
         // with unset="false" the static variable is conserved and can be used as default
-        assertEquals("undefined reference gives static value", "static", variables.get("var6"));
+        assertEquals("static", variables.get("var6"), "undefined reference gives static value");
     }
 
     private void testMixedVariablesFromIniFileUnset(boolean unset)
@@ -581,16 +581,16 @@ public class DefaultVariablesTest
         variables.add(createDynamicFromIni("var6", unset));
 
         // common tests for testMixedVariablesFromIniFileUnsetTrue and testMixedVariablesFromIniFileUnsetFalse
-        assertEquals("static value", "static", variables.get("var1"));       // dynamic variable not resolved till variables refreshed
+        assertEquals("static", variables.get("var1"), "static value");       // dynamic variable not resolved till variables refreshed
         variables.refresh();
-        assertEquals("ini not found", "true", variables.get("found"));      // check, whether ini was found at all
+        assertEquals("true", variables.get("found"), "ini not found");      // check, whether ini was found at all
 
         // static variable replaced by dynamic value from ini
-        assertEquals("value from ini", "ini1", variables.get("var1"));
-        assertEquals("value from ini with spaces", "ini2", variables.get("var2"));
-        assertEquals("value from ini with spaces in value", "ini with spaces", variables.get("var3"));
-        assertEquals("empty value from ini", "", variables.get("var4"));
-        assertEquals("empty value with spaces in ini", "", variables.get("var5"));
+        assertEquals("ini1", variables.get("var1"), "value from ini");
+        assertEquals("ini2", variables.get("var2"), "value from ini with spaces");
+        assertEquals("ini with spaces", variables.get("var3"), "value from ini with spaces in value");
+        assertEquals("", variables.get("var4"), "empty value from ini");
+        assertEquals("", variables.get("var5"), "empty value with spaces in ini");
     }
 
     /**
@@ -732,7 +732,7 @@ public class DefaultVariablesTest
     public void testOverrides()
     {
         File file = new File("src/test/resources/com/izforge/izpack/core/data/test.defaults");
-        assertTrue("File " + file + " not found", file.exists());
+        assertTrue(file.exists(), "File " + file + " not found");
         Overrides overrides = null;
         try
         {
@@ -746,12 +746,9 @@ public class DefaultVariablesTest
         variables.add(createDynamic("var1", "dynamic_definition"));
         variables.setOverrides(overrides);
         variables.refresh();
-        assertEquals("Wrong override after refresh without explicitly setting the variable",
-                "OVERRIDE1", variables.get("var1"));
+        assertEquals("OVERRIDE1", variables.get("var1"), "Wrong override after refresh without explicitly setting the variable");
         variables.set("var1", "explicit_value");
-        assertEquals("Explicitly set variable value not present not present after refresh"
-                        + "- user input will not override the defaults contents",
-                "explicit_value", variables.get("var1"));
+        assertEquals("explicit_value", variables.get("var1"), "Explicitly set variable value not present not present after refresh- user input will not override the defaults contents");
     }
 
 }

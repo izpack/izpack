@@ -19,11 +19,11 @@
 
 package com.izforge.izpack.core;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.izforge.izpack.api.data.Pack;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 public class PackTest
 {
@@ -31,11 +31,11 @@ public class PackTest
     @Test
     public void testToByteUnitsString()
     {
-        TestCase.assertEquals("5 bytes", Pack.toByteUnitsString(5));
-        TestCase.assertEquals("1 KB", Pack.toByteUnitsString(1024));
-        TestCase.assertEquals("2 KB", Pack.toByteUnitsString(2048));
-        TestCase.assertEquals("1 MB", Pack.toByteUnitsString(1024 * 1024));
-        TestCase.assertEquals("1 GB", Pack.toByteUnitsString(1024 * 1024 * 1024));
+        assertEquals("5 bytes", Pack.toByteUnitsString(5));
+        assertEquals("1 KB", Pack.toByteUnitsString(1024));
+        assertEquals("2 KB", Pack.toByteUnitsString(2048));
+        assertEquals("1 MB", Pack.toByteUnitsString(1024 * 1024));
+        assertEquals("1 GB", Pack.toByteUnitsString(1024 * 1024 * 1024));
     }
 
 }

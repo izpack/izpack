@@ -24,7 +24,7 @@ package com.izforge.izpack.integration.multivolume;
 import java.io.File;
 
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
@@ -54,7 +54,7 @@ public class MultiVolumeInstallationTest extends AbstractMultiVolumeInstallation
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (fixture != null)

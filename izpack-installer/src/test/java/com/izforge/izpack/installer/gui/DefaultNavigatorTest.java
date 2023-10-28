@@ -37,13 +37,13 @@ import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.panel.Panels;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -219,7 +219,7 @@ public class DefaultNavigatorTest
     }
 
     /**
-     * Tests {@link com.izforge.izpack.installer.gui.Navigator#quit()}.
+     * Tests {@link Navigator#quit()}.
      */
     @Test
     public void testQuit()

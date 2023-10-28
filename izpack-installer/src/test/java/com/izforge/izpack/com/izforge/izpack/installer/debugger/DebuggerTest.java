@@ -26,7 +26,8 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.rules.process.VariableCondition;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.debugger.Debugger;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
 
 

@@ -21,14 +21,13 @@ package com.izforge.izpack.core;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.stream.Stream;
 
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.rules.ErrorCollector;
-import org.junit.runner.RunWith;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.data.LocaleDatabase;
@@ -39,8 +38,7 @@ import com.izforge.izpack.api.resource.Locales;
  *
  * @author Hans Aikema
  */
-@Ignore
-@RunWith(Theories.class)
+@Disabled
 public class Bin_Langpacks_InstallerTest
 {
     private final static String referencePack = "eng.xml";
@@ -51,39 +49,41 @@ public class Bin_Langpacks_InstallerTest
     private static LocaleDatabase reference;
     private LocaleDatabase check;
 
-    @Rule
-    public ErrorCollector collector = new ErrorCollector();
 
-    @DataPoints
-    public static String[] langs = {"cat.xml",
-            "chn.xml",
-            "ces.xml",
-            "dan.xml",
-            "deu.xml",
-            "ell.xml",
-            "eng.xml",
-            "fas.xml"
-            , "fin.xml"
-            , "fra.xml"
-            , "hun.xml"
-            , "idn.xml"
-            , "ita.xml"
-            , "jpn.xml"
-            , "kor.xml"
-            , "msa.xml"
-            , "nld.xml"
-            , "nor.xml"
-            , "pol.xml"
-            , "bra.xml"
-            , "ron.xml"
-            , "rus.xml"
-            , "srp.xml"
-            , "spa.xml"
-            , "slk.xml"
-            , "swe.xml"
-            , "tur.xml"
-            , "ukr.xml"
-    };
+    public SoftAssertions collector = new SoftAssertions();
+
+    public static Stream<Arguments> testLangs() {
+        return Stream.of(
+            Arguments.arguments("cat.xml"),
+            Arguments.arguments("chn.xml"),
+            Arguments.arguments("ces.xml"),
+            Arguments.arguments("dan.xml"),
+            Arguments.arguments("deu.xml"),
+            Arguments.arguments("ell.xml"),
+            Arguments.arguments("eng.xml"),
+            Arguments.arguments("fas.xml"),
+            Arguments.arguments("fin.xml"),
+            Arguments.arguments("fra.xml"),
+            Arguments.arguments("hun.xml"),
+            Arguments.arguments("idn.xml"),
+            Arguments.arguments("ita.xml"),
+            Arguments.arguments("jpn.xml"),
+            Arguments.arguments("kor.xml"),
+            Arguments.arguments("msa.xml"),
+            Arguments.arguments("nld.xml"),
+            Arguments.arguments("nor.xml"),
+            Arguments.arguments("pol.xml"),
+            Arguments.arguments("bra.xml"),
+            Arguments.arguments("ron.xml"),
+            Arguments.arguments("rus.xml"),
+            Arguments.arguments("srp.xml"),
+            Arguments.arguments("spa.xml"),
+            Arguments.arguments("slk.xml"),
+            Arguments.arguments("swe.xml"),
+            Arguments.arguments("tur.xml"),
+            Arguments.arguments("ukr.xml")
+            );
+    }
 
     /**
      * Checks all language pack for missing / superfluous translations
@@ -91,7 +91,8 @@ public class Bin_Langpacks_InstallerTest
      * @param lang The lang pack
      * @throws Exception
      */
-    @Theory
+    @ParameterizedTest
+    @MethodSource
     public void testLangs(String lang) throws Exception
     {
         Bin_Langpacks_InstallerTest.reference = new LocaleDatabase(new FileInputStream(basePath + referencePack),
@@ -107,7 +108,7 @@ public class Bin_Langpacks_InstallerTest
         {
             if (this.check.containsKey(id))
             {
-                collector.addError(new Throwable("Missing translation for id:" + id));
+                collector.collectAssertionError(new AssertionError("Missing translation for id:" + id));
             }
         }
         // there should be no keys in the foreign langpack which don't exist in the 
@@ -116,7 +117,7 @@ public class Bin_Langpacks_InstallerTest
         {
             if (reference.containsKey(id))
             {
-                collector.addError(new Throwable("Superfluous translation for id:" + id));
+                collector.collectAssertionError(new AssertionError("Superfluous translation for id:" + id));
             }
         }
     }

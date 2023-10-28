@@ -22,21 +22,21 @@ package com.izforge.izpack.compiler.merge.resolve;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.compiler.container.TestResolveContainer;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.merge.PanelMerge;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 /**
  * @author Anthonin Bonnefoy
  */
 
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestResolveContainer.class)
 public class PathResolverRealPanelTest
 {
