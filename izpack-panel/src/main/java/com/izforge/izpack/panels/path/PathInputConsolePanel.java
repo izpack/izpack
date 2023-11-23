@@ -86,7 +86,7 @@ public class PathInputConsolePanel extends AbstractConsolePanel
         // if 'ShowCreateDirectoryMessage' configuration option set 'false' then don't show
         // then don't show "directory will be created" dialog:
         String show = getPanel().getConfigurationOptionValue(PathInputBase.SHOWCREATEDIRECTORYMESSAGE, installData.getRules());
-        if (show == null || Boolean.getBoolean(show))
+        if (show == null || Boolean.parseBoolean(show))
         {
             Messages messages = installData.getMessages();
             result = (OK == prompt.confirm(WARNING,
@@ -110,7 +110,7 @@ public class PathInputConsolePanel extends AbstractConsolePanel
         // "The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"
         // warning dialog:
         String show = getPanel().getConfigurationOptionValue(PathInputBase.SHOWEXISTINGDIRECTORYWARNING, installData.getRules());
-        if ((show == null || Boolean.getBoolean(show)) && dir.isDirectory() && dir.list().length > 0)
+        if ((show == null || Boolean.parseBoolean(show)) && dir.isDirectory() && dir.list().length > 0)
         {
             Messages messages = installData.getMessages();
             result = askUser(messages.get("installer.warning"), getMessage("exists_warn"), Prompt.Option.NO);

@@ -355,7 +355,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         // if 'ShowCreateDirectoryMessage' configuration option set 'false' then don't show
         // then don't show "directory will be created" dialog:
         String show = getMetadata().getConfigurationOptionValue(PathInputBase.SHOWCREATEDIRECTORYMESSAGE, installData.getRules());
-        if (show == null || Boolean.getBoolean(show))
+        if (show == null || Boolean.parseBoolean(show))
         {
             result = emitNotificationFeedback(getMessage("createdir") + "\n" + dir);
         }
@@ -380,7 +380,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         {
            show = "true";
         }
-        if ((show == null || Boolean.getBoolean(show))  && dir.isDirectory() && dir.list().length > 0)
+        if ((show == null || Boolean.parseBoolean(show))  && dir.isDirectory() && dir.list().length > 0)
         {
             result = askWarningQuestion(warn, getMessage("exists_warn"),
                     AbstractUIHandler.CHOICES_YES_NO, AbstractUIHandler.ANSWER_YES) == AbstractUIHandler.ANSWER_YES;
