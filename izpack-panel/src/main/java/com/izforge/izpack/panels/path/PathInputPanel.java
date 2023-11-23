@@ -375,7 +375,7 @@ public class PathInputPanel extends IzPanel implements ActionListener
         // "The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"
         // warning dialog:
         String show = getMetadata().getConfigurationOptionValue(PathInputBase.SHOWEXISTINGDIRECTORYWARNING, installData.getRules());
-        File installationInfo = new File(dir + File.separator + InstallData.INSTALLATION_INFORMATION);
+        File installationInfo = new File(dir, InstallData.INSTALLATION_INFORMATION);
         if (!installationInfo.exists())
         {
            show = "true";
