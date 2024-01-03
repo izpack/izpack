@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<izpack:installation version="5.0" xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
+
+    <!-- The info section -->
+    <info>
+        <appname>IzPack</appname>
+        <appversion>${project.version}</appversion>
+        <authors>
+            <author email="" name="Julien Ponge (project founder)"/>
+            <author email="" name="The fantastic IzPack developers and contributors"/>
+        </authors>
+        <url>http://izpack.org/</url>
+        <javaversion>1.5</javaversion>
+        <requiresjdk>no</requiresjdk>
+        <!--><pack200/>-->
+        <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7"/>
+        <summarylogfilepath>$INSTALL_PATH/installinfo/Summary.htm</summarylogfilepath>
+    </info>
+
+    <variables>
+        <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
+        <variable name="ApplicationShortcutPath" value="ApplicationShortcuts"/>
+    </variables>
+
+    <!-- Flexible and in the screen proportions -->
+    <guiprefs height="700" resizable="yes" width="870">
+        <!-- GUI addaption for more informations see "Modifying the GUI" in the documentation -->
+        <modifier key="layoutAnchor" value="CENTER"/>
+        <modifier key="headingPanelCounter" value="progressbar"/>
+        <modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
+        <modifier key="allYGap" value="4"/>
+        <modifier key="paragraphYGap" value="10"/>
+        <modifier key="filler1YGap" value="5"/>
+        <modifier key="filler3XGap" value="10"/>
+    </guiprefs>
+
+    <!-- We include every langpack -->
+    <locale>
+        <langpack iso3="eng"/>
+        <langpack iso3="fra"/>
+        <langpack iso3="deu"/>
+        <langpack iso3="ita"/>
+        <langpack iso3="jpn"/>
+        <langpack iso3="spa"/>
+        <langpack iso3="dan"/>
+        <langpack iso3="ell"/>
+        <langpack iso3="cat"/>
+        <langpack iso3="nld"/>
+        <langpack iso3="fin"/>
+        <langpack iso3="swe"/>
+        <langpack iso3="bra"/>
+        <langpack iso3="pol"/>
+        <langpack iso3="rus"/>
+        <langpack iso3="ukr"/>
+        <langpack iso3="hun"/>
+        <langpack iso3="slk"/>
+        <langpack iso3="ron"/>
+        <langpack iso3="msa"/>
+        <langpack iso3="nor"/>
+        <langpack iso3="chn"/>
+        <langpack iso3="srp"/>
+        <langpack iso3="ces"/>
+        <langpack iso3="kor"/>
+        <langpack iso3="glg"/>
+    </locale>
+
+    <!-- The listeners section for CustomActions -->
+    <listeners>
+        <listener classname="SummaryLoggerInstallerListener" stage="install"/>
+        <listener classname="RegistryInstallerListener" stage="install">
+            <os family="windows"/>
+        </listener>
+        <listener classname="RegistryUninstallerListener" stage="uninstall">
+            <os family="windows"/>
+        </listener>
+    </listeners>
+
+    <!-- The panels in a classic order -->
+    <panels>
+        <panel classname="CheckedHelloPanel" id="hellopanel"/>
+        <panel classname="HTMLInfoPanel" id="infopanel" encoding="ISO-8859-1"/>
+        <panel classname="HTMLLicencePanel" id="licensepanel"/>
+        <panel classname="TargetPanel" id="targetpanel"/>
+        <panel classname="PacksPanel" id="packspanel"/>
+        <panel classname="SummaryPanel" id="summarypanel"/>
+        <panel classname="InstallPanel" id="installpanel"/>
+        <panel classname="ShortcutPanel" id="shortcutpanel"/>
+        <panel classname="FinishPanel" id="finishpanel"/>
+    </panels>
+
+    <!-- The packs section -->
+    <packs>
+
+        <!-- The core files -->
+        <pack name="Core" required="yes">
+            <description>The IzPack core files.</description>
+        </pack>
+        <refpackset dir="../refpackincludes" includes="*.xml" />
+    </packs>
+</izpack:installation>

@@ -76,6 +76,17 @@ public class CompilerConfigSamplesTest
                 "com/sora/panel/VimPanel.class",
                 "resource/32/help-browser.png"))));
     }
+    @Test
+    @InstallFile("samples/refpackset/izpack.xml")
+    public void installerShouldResolveRefPackSetCorrectly() throws Exception
+    {
+        compilerConfig.executeCompiler();
+        jar = testContainer.getComponent(JarFile.class);
+        assertThat((ZipFile)jar, ZipMatcher.isZipContainingFiles(
+                "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class",
+                "resources/vars",
+                "com/izforge/izpack/img/JFrameIcon.png"));
+    }
 
 
     @Test
