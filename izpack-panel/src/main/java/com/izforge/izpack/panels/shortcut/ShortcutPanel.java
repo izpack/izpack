@@ -233,7 +233,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
             allowStartupShortcut.setVisible(shortcutPanelLogic.hasStartupShortcuts());
             usersPanel.setVisible(shortcutPanelLogic.isSupportingMultipleUsers());
             String suggestedProgramGroup = shortcutPanelLogic.getSuggestedProgramGroup();
-            if (suggestedProgramGroup == null || "".equals(suggestedProgramGroup))
+            if (suggestedProgramGroup == null || suggestedProgramGroup.isEmpty())
             {
                 if (groupList != null && !shortcutPanelLogic.allowProgramGroup())
                 {
@@ -599,11 +599,10 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
 
         // ----------------------------------------------------
         // edit box that contains the suggested program group
-        // name, which can be modfied or substituted from the
+        // name, which can be modified or substituted from the
         // list by the user
         // ----------------------------------------------------
-        String suggestedProgramGroup = shortcutPanelLogic.getSuggestedProgramGroup();
-        programGroup = new JTextField(suggestedProgramGroup, 40); // 40?
+        programGroup = new JTextField("", 40); // 40?
 
         constraints.gridx = col;
         constraints.gridy = line + 6;
