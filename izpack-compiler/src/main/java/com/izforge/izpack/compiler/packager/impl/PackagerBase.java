@@ -22,7 +22,14 @@
 
 package com.izforge.izpack.compiler.packager.impl;
 
-import com.izforge.izpack.api.data.*;
+import com.izforge.izpack.api.data.ConsolePrefs;
+import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
+import com.izforge.izpack.api.data.DynamicVariable;
+import com.izforge.izpack.api.data.GUIPrefs;
+import com.izforge.izpack.api.data.Info;
+import com.izforge.izpack.api.data.InstallerRequirement;
+import com.izforge.izpack.api.data.PackInfo;
+import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.CompilerException;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -36,12 +43,21 @@ import com.izforge.izpack.data.CustomData;
 import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.util.FileUtil;
-import org.apache.commons.io.FileUtils;
+import com.izforge.izpack.util.NoCloseOutputStream;
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.URL;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
@@ -127,43 +143,43 @@ public abstract class PackagerBase implements IPackager
     /**
      * The ordered panels.
      */
-    private final List<Panel> panelList = new ArrayList<Panel>();
+    private final List<Panel> panelList = new ArrayList<>();
 
     /**
      * The ordered pack information.
      */
-    private final List<PackInfo> packsList = new ArrayList<PackInfo>();
+    private final List<PackInfo> packsList = new ArrayList<>();
 
     /**
      * The ordered language pack locale names.
      */
-    private final List<String> langpackNameList = new ArrayList<String>();
+    private final List<String> langpackNameList = new ArrayList<>();
 
     /**
      * The ordered custom actions information.
      */
-    private final List<CustomData> customDataList = new ArrayList<CustomData>();
+    private final List<CustomData> customDataList = new ArrayList<>();
 
     /**
      * The language pack URLs keyed by locale name (e.g. de_CH).
      */
-    private final Map<String, URL> installerResourceURLMap = new HashMap<String, URL>();
+    private final Map<String, URL> installerResourceURLMap = new HashMap<>();
 
     /**
      * The conditions.
      */
-    private final Map<String, Condition> rules = new HashMap<String, Condition>();
+    private final Map<String, Condition> rules = new HashMap<>();
 
     /**
      * Dynamic variables.
      */
-    private final Map<String, List<DynamicVariable>> dynamicVariables = new HashMap<String, List<DynamicVariable>>();
+    private final Map<String, List<DynamicVariable>> dynamicVariables = new HashMap<>();
 
     /**
      * Dynamic conditions.
      */
     private final List<DynamicInstallerRequirementValidator> dynamicInstallerRequirements =
-            new ArrayList<DynamicInstallerRequirementValidator>();
+            new ArrayList<>();
 
     /**
      * Constructs a <tt>PackagerBase</tt>.
@@ -192,7 +208,7 @@ public abstract class PackagerBase implements IPackager
     }
 
     @Override
-    public void addCustomJar(CustomData ca, URL url)
+    public final void addCustomJar(CustomData ca, URL url)
     {
         if (ca != null)
         {
@@ -206,14 +222,14 @@ public abstract class PackagerBase implements IPackager
     }
 
     @Override
-    public void addJarContent(URL jarURL)
+    public final void addJarContent(URL jarURL)
     {
         sendMsg("Adding content of jar: " + jarURL.getFile(), PackagerListener.MSG_VERBOSE);
         mergeManager.addResourceToMerge(mergeableResolver.getMergeableFromURL(jarURL));
     }
 
     @Override
-    public void addLangPack(String iso3, URL xmlURL, URL flagURL)
+    public final void addLangPack(String iso3, URL xmlURL, URL flagURL)
     {
         sendMsg("Adding langpack: " + iso3, PackagerListener.MSG_VERBOSE);
         // put data & flag as entries in installer, and keep array of iso3's
@@ -224,7 +240,7 @@ public abstract class PackagerBase implements IPackager
     }
 
     @Override
-    public void addNativeLibrary(String name, URL url)
+    public final void addNativeLibrary(String name, URL url)
     {
         sendMsg("Adding native library: " + name, PackagerListener.MSG_VERBOSE);
         installerResourceURLMap.put("native/" + name, url);
@@ -232,7 +248,7 @@ public abstract class PackagerBase implements IPackager
 
 
     @Override
-    public void addNativeUninstallerLibrary(CustomData data)
+    public final void addNativeUninstallerLibrary(CustomData data)
     {
         customDataList.add(data); // serialized to keep order/variables
         // correct
@@ -240,13 +256,13 @@ public abstract class PackagerBase implements IPackager
     }
 
     @Override
-    public void addPack(PackInfo pack)
+    public final void addPack(PackInfo pack)
     {
         packsList.add(pack);
     }
 
     @Override
-    public void addPanel(Panel panel)
+    public final void addPanel(Panel panel)
     {
         sendMsg("Adding panel: " + panel.getPanelId() + " :: Classname : " + panel.getClassName());
         panelList.add(panel); // serialized to keep order/variables correct
@@ -255,7 +271,7 @@ public abstract class PackagerBase implements IPackager
     }
 
     @Override
-    public void addResource(String resId, URL url)
+    public final void addResource(String resId, URL url)
     {
         sendMsg("Adding resource: " + resId, PackagerListener.MSG_VERBOSE);
         URL oldUrl = installerResourceURLMap.put(resId, url);
@@ -267,45 +283,45 @@ public abstract class PackagerBase implements IPackager
     }
 
     @Override
-    public List<PackInfo> getPacksList()
+    public final List<PackInfo> getPacksList()
     {
         return packsList;
     }
 
     @Override
-    public List<Panel> getPanelList()
+    public final List<Panel> getPanelList()
     {
         return panelList;
     }
     
     @Override
-    public Properties getVariables()
+    public final Properties getVariables()
     {
         return properties;
     }
 
     @Override
-    public void setGUIPrefs(GUIPrefs prefs)
+    public final void setGUIPrefs(GUIPrefs prefs)
     {
         sendMsg("Setting the GUI preferences", PackagerListener.MSG_VERBOSE);
         guiPrefs = prefs;
     }
 
     @Override
-    public void setConsolePrefs(ConsolePrefs prefs)
+    public final void setConsolePrefs(ConsolePrefs prefs)
     {
         sendMsg("Setting the console preferences", PackagerListener.MSG_VERBOSE);
         consolePrefs = prefs;
     }
 
     @Override
-    public void setInfo(Info info)
+    public final void setInfo(Info info)
     {
         sendMsg("Setting the installer information", PackagerListener.MSG_VERBOSE);
         this.info = info;
     }
 
-    public Info getInfo()
+    public final Info getInfo()
     {
         return info;
     }
@@ -314,7 +330,7 @@ public abstract class PackagerBase implements IPackager
      * @return the rules
      */
     @Override
-    public Map<String, Condition> getRules()
+    public final Map<String, Condition> getRules()
     {
         return this.rules;
     }
@@ -323,7 +339,7 @@ public abstract class PackagerBase implements IPackager
      * @return the dynamic variables
      */
     @Override
-    public Map<String, List<DynamicVariable>> getDynamicVariables()
+    public final Map<String, List<DynamicVariable>> getDynamicVariables()
     {
         return dynamicVariables;
     }
@@ -332,32 +348,30 @@ public abstract class PackagerBase implements IPackager
      * @return the dynamic conditions
      */
     @Override
-    public List<DynamicInstallerRequirementValidator> getDynamicInstallerRequirements()
+    public final List<DynamicInstallerRequirementValidator> getDynamicInstallerRequirements()
     {
         return dynamicInstallerRequirements;
     }
 
     @Override
-    public void addInstallerRequirements(List<InstallerRequirement> conditions)
+    public final void addInstallerRequirements(List<InstallerRequirement> conditions)
     {
         this.installerRequirements = conditions;
     }
 
     @Override
-    public void createInstaller() throws Exception
+    public final void createInstaller() throws Exception
     {
         info.setInstallerBase(compilerData.getOutput().replaceAll(".jar", ""));
-        JarOutputStream jarOutputStream = getInstallerJar();
         try
         {
             sendStart();
             writeInstaller();
             sendStop();
-            jarOutputStream.flush();
         }
         finally
         {
-            IOUtils.closeQuietly(jarOutputStream);
+            installerJar.close();
         }
     }
 
@@ -366,14 +380,14 @@ public abstract class PackagerBase implements IPackager
      *
      * @return <tt>true</tt> if {@link Info#getWebDirURL()} is non-null
      */
-    protected boolean packSeparateJars()
+    protected final boolean packSeparateJars()
     {
         return info != null && info.getWebDirURL() != null;
     }
 
     private List<DynamicVariable> buildVariableList()
     {
-        DependencyGraph<DynamicVariable> graph = new DependencyGraph<DynamicVariable>();
+        DependencyGraph<DynamicVariable> graph = new DependencyGraph<>();
         for (List<DynamicVariable> dynVariables : dynamicVariables.values())
         {
             for (DynamicVariable var : dynVariables)
@@ -400,7 +414,7 @@ public abstract class PackagerBase implements IPackager
      *
      * @throws IOException for any I/O error
      */
-    protected void writeInstaller() throws IOException
+    protected final void writeInstaller() throws IOException
     {
         // write the installer jar. MUST be first so manifest is not overwritten by an included jar
         writeManifest();
@@ -425,31 +439,26 @@ public abstract class PackagerBase implements IPackager
     }
 
     /**
-     * Write manifest in the install jar.
+     * Write manifest in the installer jar.
      *
      * @throws IOException for any I/O error
      */
-    protected void writeManifest() throws IOException
+    protected final void writeManifest() throws IOException
     {
         Manifest manifest = new Manifest(PackagerBase.class.getResourceAsStream("MANIFEST.MF"));
-        File tempManifest = File.createTempFile("MANIFEST", ".MF", FileUtils.getTempDirectory());
-        tempManifest.deleteOnExit();
-        FileOutputStream manifestOutputStream = FileUtils.openOutputStream(tempManifest);
-        try
+        Path tempManifest = Files.createTempFile("MANIFEST", ".MF");
+        tempManifest.toFile().deleteOnExit();
+        try (OutputStream manifestOutputStream = Files.newOutputStream(tempManifest))
         {
             manifest.write(manifestOutputStream);
-            mergeManager.addResourceToMerge(tempManifest.getAbsolutePath(), "META-INF/MANIFEST.MF");
-        }
-        finally
-        {
-            IOUtils.closeQuietly(manifestOutputStream);
+            mergeManager.addResourceToMerge(tempManifest.toAbsolutePath().toString(), "META-INF/MANIFEST.MF");
         }
     }
 
     /**
      * Write skeleton installer to the installer jar.
      */
-    protected void writeSkeletonInstaller()
+    protected final void writeSkeletonInstaller()
     {
         sendMsg("Copying the skeleton installer", PackagerListener.MSG_VERBOSE);
         mergeManager.addResourceToMerge("com/izforge/izpack/installer/");
@@ -468,17 +477,16 @@ public abstract class PackagerBase implements IPackager
         mergeManager.addResourceToMerge("org/apache/commons/io/");
         mergeManager.addResourceToMerge("jline/");
         mergeManager.addResourceToMerge("org/fusesource/");
-        PackCompression comprFormat = info.getCompressionFormat();
-        switch (comprFormat)
+        switch (info.getCompressionFormat())
         {
             case DEFAULT:
                 break;
+            case XZ:
+            case LZMA:
+                mergeManager.addResourceToMerge("org/tukaani/xz");
+                break;
             default:
                 mergeManager.addResourceToMerge("org/apache/commons/compress");
-        }
-        if (comprFormat == PackCompression.XZ || comprFormat == PackCompression.LZMA)
-        {
-            mergeManager.addResourceToMerge("org/tukaani/xz");
         }
         mergeManager.addResourceToMerge("META-INF/native/");
         mergeManager.merge(installerJar);
@@ -489,11 +497,10 @@ public abstract class PackagerBase implements IPackager
      *
      * @throws IOException for any I/O error
      */
-    protected void writeInstallerObject(String entryName, Object object) throws IOException
+    protected final void writeInstallerObject(String entryName, Object object) throws IOException
     {
         installerJar.putNextEntry(new ZipEntry(RESOURCES_PATH + entryName));
-        ObjectOutputStream out = new ObjectOutputStream(installerJar);
-        try
+        try (ObjectOutputStream out = new ObjectOutputStream(new NoCloseOutputStream(installerJar)))
         {
             out.writeObject(object);
         }
@@ -504,7 +511,6 @@ public abstract class PackagerBase implements IPackager
         }
         finally
         {
-            out.flush();
             installerJar.closeEntry();
         }
     }
@@ -514,17 +520,15 @@ public abstract class PackagerBase implements IPackager
      *
      * @throws IOException for any I/O error
      */
-    protected void writeInstallerResources() throws IOException
+    protected final void writeInstallerResources() throws IOException
     {
         sendMsg("Copying " + installerResourceURLMap.size() + " files into installer");
 
         for (Map.Entry<String, URL> stringURLEntry : installerResourceURLMap.entrySet())
         {
             URL url = stringURLEntry.getValue();
-            InputStream in = null;
-            try
+            try (InputStream in = url.openStream())
             {
-                in = url.openStream();
                 ZipEntry newEntry = new ZipEntry(RESOURCES_PATH + stringURLEntry.getKey());
                 long dateTime = FileUtil.getFileDateTime(url);
                 if (dateTime != -1)
@@ -542,10 +546,6 @@ public abstract class PackagerBase implements IPackager
                     installerJar.closeEntry();
                 }
             }
-            finally
-            {
-                IOUtils.closeQuietly(in);
-            }
         }
     }
 
@@ -561,7 +561,7 @@ public abstract class PackagerBase implements IPackager
      *
      * @return the installer jar stream
      */
-    protected JarOutputStream getInstallerJar()
+    protected final JarOutputStream getInstallerJar()
     {
         return installerJar;
     }
@@ -571,7 +571,7 @@ public abstract class PackagerBase implements IPackager
      *
      * @param job the job description.
      */
-    protected void sendMsg(String job)
+    protected final void sendMsg(String job)
     {
         sendMsg(job, PackagerListener.MSG_INFO);
     }
@@ -582,7 +582,7 @@ public abstract class PackagerBase implements IPackager
      * @param job      the job description.
      * @param priority the message priority.
      */
-    protected void sendMsg(String job, int priority)
+    protected final void sendMsg(String job, int priority)
     {
         if (listener != null)
         {
@@ -593,7 +593,7 @@ public abstract class PackagerBase implements IPackager
     /**
      * Dispatches a start event to the listeners.
      */
-    protected void sendStart()
+    protected final void sendStart()
     {
         if (listener != null)
         {
@@ -604,7 +604,7 @@ public abstract class PackagerBase implements IPackager
     /**
      * Dispatches a stop event to the listeners.
      */
-    protected void sendStop()
+    protected final void sendStop()
     {
         if (listener != null)
         {
