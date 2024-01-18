@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -47,11 +48,6 @@ public class PackFile implements Serializable
     private static AtomicInteger nextInstanceId = new AtomicInteger(0);
     private final int instanceId;
 
-    /**
-     * Only available when compiling. Makes no sense when installing, use relativePath instead.
-     */
-    @SuppressWarnings("TransientFieldNotInitialized")
-    public transient String sourcePath = null;//should not be used anymore - may deprecate it.
     /**
      * The Path of the file relative to the given (compiletime's) basedirectory.
      * Can be resolved while installing with either current working directory or directory of "installer.jar".
@@ -185,7 +181,6 @@ public class PackFile implements Serializable
         }
 
         this.packedFile = src;
-        this.sourcePath = src.getPath().replace(File.separatorChar, '/');
         this.relativePath = (relativeSourcePath != null) ? relativeSourcePath.replace(File.separatorChar, '/') : null;
 
         this.targetPath = target.replace(File.separatorChar, '/');
@@ -251,7 +246,11 @@ public class PackFile implements Serializable
 
     public void setLinkedPackFile(PackFile linkedPackFile)
     {
-        this.linkedPackFile = linkedPackFile;
+        // only accept non null value
+        this.linkedPackFile = Objects.requireNonNull(linkedPackFile);
+        // update packed size and offset in order for unpacking to work correctly
+        size = linkedPackFile.size;
+        streamOffset = linkedPackFile.streamOffset;
     }
 
     public String getStreamResourceName()
@@ -428,5 +427,12 @@ public class PackFile implements Serializable
             // file is part of a loose pack
             length = 0;
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("%s (length=%s, size=%s, streamOffset=%s, backReference=%s)",
+                packedFile, length, size, streamOffset, (linkedPackFile != null));
     }
 }

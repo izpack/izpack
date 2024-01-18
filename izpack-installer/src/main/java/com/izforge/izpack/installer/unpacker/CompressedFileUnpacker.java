@@ -24,19 +24,16 @@ package com.izforge.izpack.installer.unpacker;
 import com.izforge.izpack.api.data.PackCompression;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.exception.InstallerException;
+import com.izforge.izpack.util.StreamSupport;
 import com.izforge.izpack.util.os.FileQueue;
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
-import org.apache.commons.compress.compressors.deflate.DeflateCompressorInputStream;
-import org.apache.commons.compress.compressors.deflate.DeflateParameters;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.zip.Deflater;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 /**
@@ -71,56 +68,33 @@ public class CompressedFileUnpacker extends FileUnpacker
     public void unpack(PackFile file, InputStream packInputStream, File target)
             throws IOException, InstallerException
     {
-        File tmpfile = File.createTempFile("izpack-uncompress", null, FileUtils.getTempDirectory());
         final long fileSize = file.size();
         final long fileLength = file.length();
         final long backReferenceFileLength = file.isBackReference() ? file.getLinkedPackFile().size() : fileSize;
-
-        OutputStream fo = null;
-        InputStream finalStream = null;
-
+        final Path tmpfile = Files.createTempFile("izpack-uncompress", null);
         try
         {
-            fo = IOUtils.buffer(FileUtils.openOutputStream(tmpfile));
-            final long bytesUnpacked = IOUtils.copyLarge(packInputStream, fo, 0, fileSize);
-            fo.flush();
-            fo.close();
-
-            if (!(bytesUnpacked == fileSize || bytesUnpacked == backReferenceFileLength))
+            try (OutputStream fo = Files.newOutputStream(tmpfile))
             {
-                throw new IOException("File size mismatch when reading from pack: " + file.getRelativeSourcePath());
+                final long bytesUnpacked = IOUtils.copyLarge(packInputStream, fo, 0, fileSize);
+                if (!(bytesUnpacked == fileSize || bytesUnpacked == backReferenceFileLength))
+                {
+                    throw new IOException("File size mismatch when reading from pack: " + file.getRelativeSourcePath());
+                }
             }
-
-            InputStream in = IOUtils.buffer(FileUtils.openInputStream(tmpfile));
-
-            if (compressionFormat == PackCompression.DEFLATE)
+            try (InputStream in = Files.newInputStream(tmpfile);
+                 InputStream finalStream = StreamSupport.compressedInput(compressionFormat, in))
             {
-                DeflateParameters deflateParameters = new DeflateParameters();
-                deflateParameters.setCompressionLevel(Deflater.BEST_COMPRESSION);
-                finalStream = new DeflateCompressorInputStream(in, deflateParameters);
+                final long bytesUncompressed = copy(file, finalStream, target);
+                if (bytesUncompressed != fileLength)
+                {
+                    throw new IOException("File size mismatch when uncompressing from pack: " + file.getRelativeSourcePath());
+                }
             }
-            else
-            {
-                finalStream = new CompressorStreamFactory().createCompressorInputStream(compressionFormat.toName(), in);
-            }
-
-            final long bytesUncompressed = copy(file, finalStream, target);
-
-            if (bytesUncompressed != fileLength)
-            {
-                throw new IOException("File size mismatch when uncompressing from pack: " + file.getRelativeSourcePath());
-            }
-
-        }
-        catch (CompressorException e)
-        {
-            throw new IOException("An exception occurred whilst unpacking: " + file.getRelativeSourcePath() + ": " + e.getMessage(), e);
         }
         finally
         {
-            IOUtils.closeQuietly(fo);
-            IOUtils.closeQuietly(finalStream);
-            FileUtils.deleteQuietly(tmpfile);
+            Files.deleteIfExists(tmpfile);
         }
     }
 }

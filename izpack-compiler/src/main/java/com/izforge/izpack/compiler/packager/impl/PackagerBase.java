@@ -435,7 +435,7 @@ public abstract class PackagerBase implements IPackager
         writeInstallerResources();
 
         // Pack File Data may be written to separate jars
-        writePacks();
+        writePacks(installerJar);
     }
 
     /**
@@ -484,7 +484,6 @@ public abstract class PackagerBase implements IPackager
             case XZ:
             case LZMA:
                 mergeManager.addResourceToMerge("org/tukaani/xz");
-                break;
             default:
                 mergeManager.addResourceToMerge("org/apache/commons/compress");
         }
@@ -554,17 +553,7 @@ public abstract class PackagerBase implements IPackager
      *
      * @throws IOException for any I/O error
      */
-    protected abstract void writePacks() throws IOException;
-
-    /**
-     * Returns the installer jar stream.
-     *
-     * @return the installer jar stream
-     */
-    protected final JarOutputStream getInstallerJar()
-    {
-        return installerJar;
-    }
+    protected abstract void writePacks(JarOutputStream installerJar) throws IOException;
 
     /**
      * Dispatches a message to the listeners.

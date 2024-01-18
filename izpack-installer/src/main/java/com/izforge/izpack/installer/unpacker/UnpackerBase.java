@@ -22,7 +22,16 @@
 
 package com.izforge.izpack.installer.unpacker;
 
-import com.izforge.izpack.api.data.*;
+import com.izforge.izpack.api.data.ExecutableFile;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.OverrideType;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.data.PackCompression;
+import com.izforge.izpack.api.data.PackFile;
+import com.izforge.izpack.api.data.PackInfo;
+import com.izforge.izpack.api.data.ParsableFile;
+import com.izforge.izpack.api.data.UpdateCheck;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.exception.InstallerException;
@@ -43,17 +52,32 @@ import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.installer.util.PackHelper;
-import com.izforge.izpack.util.*;
+import com.izforge.izpack.util.FileExecutor;
+import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.IoHelper;
+import com.izforge.izpack.util.LogUtils;
+import com.izforge.izpack.util.NoCloseInputStream;
+import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.file.DirectoryScanner;
 import com.izforge.izpack.util.file.GlobPatternMapper;
 import com.izforge.izpack.util.file.types.FileSet;
 import com.izforge.izpack.util.os.FileQueue;
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
@@ -251,11 +275,9 @@ public abstract class UnpackerBase implements IUnpacker
         logger.info(new String(chars));
         logger.info(startMessage);
 
-        InputStream is = null;
-        try
+        URL url = getClass().getClassLoader().getResource("META-INF/MANIFEST.MF");
+        try (InputStream is = url.openStream())
         {
-            URL url = getClass().getClassLoader().getResource("META-INF/MANIFEST.MF");
-            is = url.openStream();
             Manifest manifest = new Manifest(is);
             Attributes attr = manifest.getMainAttributes();
             logger.info(messages.get("installer.version", attr.getValue("Created-By")));
@@ -263,10 +285,6 @@ public abstract class UnpackerBase implements IUnpacker
         catch (IOException e)
         {
             logger.log(Level.WARNING, "IzPack version not found in manifest", e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(is);
         }
 
         logger.info(messages.get("installer.platform", matcher.getCurrentPlatform()));

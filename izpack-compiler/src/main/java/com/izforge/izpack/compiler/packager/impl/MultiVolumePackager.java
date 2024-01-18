@@ -171,7 +171,7 @@ public class MultiVolumePackager extends PackagerBase
      * @throws IOException for any I/O error
      */
     @Override
-    protected void writePacks() throws IOException
+    protected void writePacks(JarOutputStream installerJar) throws IOException
     {
         String classname = getClass().getSimpleName();
 
@@ -187,12 +187,11 @@ public class MultiVolumePackager extends PackagerBase
         logger.fine("Subsequent volume size: " + maxVolumeSize);
 
         File volume = new File(getInfo().getInstallerBase() + ".pak").getAbsoluteFile();
-        int volumes = writePacks(packs, volume);
+        int volumes = writePacks(installerJar, packs, volume);
 
         // write metadata for reading in volumes
         logger.fine("Written " + volumes + " volumes");
 
-        JarOutputStream installerJar = getInstallerJar();
         installerJar.putNextEntry(new ZipEntry(RESOURCES_PATH + "volumes.info"));
         ObjectOutputStream out = new ObjectOutputStream(installerJar);
         out.writeInt(volumes);
@@ -215,7 +214,7 @@ public class MultiVolumePackager extends PackagerBase
      * @param volume the first volume
      * @return the no. of volumes written
      */
-    private int writePacks(List<PackInfo> packs, File volume) throws IOException
+    private int writePacks(JarOutputStream installerJar, List<PackInfo> packs, File volume) throws IOException
     {
         FileSpanningOutputStream volumes = new FileSpanningOutputStream(volume, maxFirstVolumeSize, maxVolumeSize);
         File targetDir = volume.getParentFile();
@@ -226,7 +225,7 @@ public class MultiVolumePackager extends PackagerBase
 
         for (PackInfo packInfo : packs)
         {
-            writePack(packInfo, volumes, targetDir);
+            writePack(installerJar, packInfo, volumes, targetDir);
         }
 
         volumes.flush();
@@ -244,7 +243,7 @@ public class MultiVolumePackager extends PackagerBase
      * @param targetDir the target directory for loosefiles
      * @throws IOException for any I/O error
      */
-    private void writePack(PackInfo packInfo, FileSpanningOutputStream volumes, File targetDir) throws IOException
+    private void writePack(JarOutputStream installerJar, PackInfo packInfo, FileSpanningOutputStream volumes, File targetDir) throws IOException
     {
         Pack pack = packInfo.getPack();
         pack.setFileSize(0);
@@ -254,7 +253,6 @@ public class MultiVolumePackager extends PackagerBase
         logger.fine("Writing Pack: " + name);
         ZipEntry entry = new ZipEntry(RESOURCES_PATH + "packs/pack-" + name);
 
-        JarOutputStream installerJar = getInstallerJar();
         installerJar.putNextEntry(entry);
         ObjectOutputStream packStream = new ObjectOutputStream(installerJar);
 
@@ -339,7 +337,7 @@ public class MultiVolumePackager extends PackagerBase
         {
             long bytesWritten = IOUtils.copyLarge(in, volumes);
             long afterPosition = volumes.getFilePointer();
-            logger.fine("File (" + packFile.sourcePath + ") " + beforePosition + " <-> " + afterPosition);
+            logger.fine("File (" + packFile.getFile() + ") " + beforePosition + " <-> " + afterPosition);
 
             if (volumes.getFilePointer() != (beforePosition + bytesWritten))
             {
