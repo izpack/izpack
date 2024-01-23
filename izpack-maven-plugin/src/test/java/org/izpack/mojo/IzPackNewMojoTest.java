@@ -45,6 +45,28 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
         assertThat( mojo, IsNull.notNullValue() );
         initIzpackMojo( mojo );
 
+        MavenSession session = new MavenSession(getContainer(),       // PlexusContainer container
+                null,       // Settings settings
+                null,       // ArtifactRepository localRepository
+                null,       // EventDispatcher eventDispatcher
+                null,       // ReactorManager reactorManager
+                null,       // List goals
+                null,       // String executionRootDir
+                null,       // Properties executionProperties
+                null,       // Properties userProperties
+                null        // Date startTime
+        );
+        setVariableValueToObject(mojo, "session", session);
+
+        MavenExecutionRequest mavenRequest = session.getRequest();
+        ProjectBuildingRequest projectBuildingRequest = mavenRequest.getProjectBuildingRequest();
+        RepositorySystemSession repositorySystemSession = new DefaultRepositorySystemSession();
+        projectBuildingRequest.setRepositorySession( repositorySystemSession );
+        ProjectBuilder projectBuilder = lookup(ProjectBuilder.class);
+        ProjectBuildingResult result = projectBuilder.build(testPom, projectBuildingRequest);
+        project = result.getProject();
+
+        setVariableValueToObject(mojo, "project", project);
         mojo.execute();
 
         File file = new File( "target/sample/izpackResult.jar" );
@@ -73,6 +95,29 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
 
         // In this case the classifier should be set.
         setVariableValueToObject( mojo, "classifier", classifier );
+
+        MavenSession session = new MavenSession(getContainer(),       // PlexusContainer container
+                null,       // Settings settings
+                null,       // ArtifactRepository localRepository
+                null,       // EventDispatcher eventDispatcher
+                null,       // ReactorManager reactorManager
+                null,       // List goals
+                null,       // String executionRootDir
+                null,       // Properties executionProperties
+                null,       // Properties userProperties
+                null        // Date startTime
+        );
+        setVariableValueToObject(mojo, "session", session);
+
+        MavenExecutionRequest mavenRequest = session.getRequest();
+        ProjectBuildingRequest projectBuildingRequest = mavenRequest.getProjectBuildingRequest();
+        RepositorySystemSession repositorySystemSession = new DefaultRepositorySystemSession();
+        projectBuildingRequest.setRepositorySession( repositorySystemSession );
+        ProjectBuilder projectBuilder = lookup(ProjectBuilder.class);
+        ProjectBuildingResult result = projectBuilder.build(testPom, projectBuildingRequest);
+        project = result.getProject();
+
+        setVariableValueToObject(mojo, "project", project);
 
         // Execute the mojo.
         mojo.execute();

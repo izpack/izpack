@@ -38,7 +38,6 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
 import java.io.File;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -96,7 +95,7 @@ public class IzPackNewMojo extends AbstractMojo
     private File baseDir;
 
     /**
-     * Output where compilation result will be situate
+     * Output where compilation result will be situated
      */
     @Deprecated
     @Parameter
@@ -150,16 +149,8 @@ public class IzPackNewMojo extends AbstractMojo
     private String classifier;
 
     /**
-     * Whether to attach the generated installer jar to the project
-     * as artifact if a classifier is specified.
-     * This has no effect if no classifier was specified.
-     */
-    @Parameter( defaultValue = "true")
-    private boolean enableAttachArtifact;
-    
-    /**
      * Comma separated list of strings marked for exclusion.
-     * By default the list is empty.
+     * By default, the list is empty.
      */
     @Parameter
     private String excludeProperties;
@@ -197,10 +188,8 @@ public class IzPackNewMojo extends AbstractMojo
             throw new MojoExecutionException( "Failure", e );
         }
 
-        if (enableAttachArtifact)
-        {
-            projectHelper.attachArtifact(project, "jar", classifier, jarFile);
-        }
+        Artifact artifact = project.getArtifact();
+        artifact.setFile(jarFile);
     }
 
     private File getJarFile()
