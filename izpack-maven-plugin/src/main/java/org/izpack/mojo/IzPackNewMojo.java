@@ -95,13 +95,6 @@ public class IzPackNewMojo extends AbstractMojo
     private File baseDir;
 
     /**
-     * Output where compilation result will be situated
-     */
-    @Deprecated
-    @Parameter
-    private File output;
-
-    /**
      * Whether to automatically create parent directories of the output file
      */
     @Parameter( defaultValue = "false" )
@@ -194,27 +187,16 @@ public class IzPackNewMojo extends AbstractMojo
 
     private File getJarFile()
     {
-        File file;
-
-        if (output != null)
+        String localClassifier = classifier;
+        if (classifier == null || classifier.trim().isEmpty())
         {
-            file = output;
+            localClassifier = "";
         }
-        else
+        else if (!classifier.startsWith("-"))
         {
-            String localClassifier = classifier;
-            if (classifier == null || classifier.trim().isEmpty())
-            {
-                localClassifier = "";
-            }
-            else if (!classifier.startsWith("-"))
-            {
-                localClassifier = "-" + classifier;
-            }
-            file = new File(outputDirectory, finalName + localClassifier + ".jar");
+            localClassifier = "-" + classifier;
         }
-
-        return file;
+        return new File(outputDirectory, finalName + localClassifier + ".jar");
     }
 
     private void initMavenProperties(PropertyManager propertyManager)
