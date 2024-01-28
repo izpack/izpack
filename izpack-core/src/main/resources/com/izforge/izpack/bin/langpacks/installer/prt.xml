@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Por favor, leia atentamente a seguinte informação:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Por favor, leia atentamente o seguinte contrato de licença:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Instalar pacote"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Visualização do pacote:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Por favor, leia atentamente a seguinte informação: "/>
+    <str id="InfoPanel.info" txt="Por favor, leia atentamente a seguinte informação:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt=" "/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Nota: Os pacotes a cinza são necessários."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Por favor, leia atentamente o seguinte contrato de licença:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Selecione a impressora para utilizar na configuração inicial e testes."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="A aplicação vai ser removida!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Por favor, leia atentamente a seguinte informação:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Desculpe, mas o IzPack não pode criar atalhos neste sistema operativo. Para criar atalhos, consulte o manual do seu sistema operativo."/>

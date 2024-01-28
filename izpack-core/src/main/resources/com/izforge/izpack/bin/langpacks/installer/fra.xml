@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Veuillez lire les informations suivantes:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Veuillez lire attentivement l'accord de licence suivant:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Installer ce paquetage"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Capture d'écran associée :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Veuillez lire les informations suivantes :"/>
+    <str id="InfoPanel.info" txt="Veuillez lire les informations suivantes:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Rien]"/>
@@ -183,7 +183,7 @@
 
     <!-- LicencePanel strings -->
     <str id="LicencePanel.agree" txt="J'accepte les termes de cet accord de licence"/>
-    <str id="LicencePanel.info" txt="Veuillez lire attentivement l'accord de licence suivant :"/>
+    <str id="LicencePanel.info" txt="Veuillez lire attentivement l'accord de licence suivant:"/>
     <str id="LicencePanel.no" txt="Non"/>
     <str id="LicencePanel.notagree" txt="Je n'accepte pas les termes de cet accord de licence"/>
     <str id="LicencePanel.yes" txt="Oui"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Note : les paquetages grisés ne sont pas optionnels."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Veuillez lire attentivement l'accord de licence suivant:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Sélectionner l'imprimante à utiliser durant l'installation et les tests."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Ceci va enlever l'(es) application(s) installée(s) !"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Veuillez lire les informations suivantes:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Désolé, mais IzPack ne supporte pas la création de raccourcis pour ce système d'exploitation. Veuillez vous référer à son manuel pour créer des raccourcis."/>

@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="請閱讀以下資訊:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="請仔細閱讀以下許可權限:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" 安裝該套件"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="套件快照  :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="請閱讀以下資訊 :"/>
+    <str id="InfoPanel.info" txt="請閱讀以下資訊:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Nothing]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="注意: 灰色選項是必選的."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="請仔細閱讀以下許可權限:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="將卸解已安裝的應用程式!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="請閱讀以下資訊:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="很遺憾IzPack不支援在當前作業系統上建立捷徑方式. 建立捷徑方式，請參考作業系統手冊."/>

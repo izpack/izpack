@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Prečtěte si nasledující informace:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Pozorně si prečetěte následující licenční podmínky:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Instalovat tento balík"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Náhled balíku  :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Prečtěte si nasledující informace :"/>
+    <str id="InfoPanel.info" txt="Prečtěte si nasledující informace:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Nic]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Poznámka: zašeděné balíky jsou vyžadované."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Pozorně si prečetěte následující licenční podmínky:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Tato operace odstraní nainstalovanou aplikaci !"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Prečtěte si nasledující informace:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Litujeme, ale IzPack nepodporuje vytvoření zástupců pro tento operační systém. Vytvořit zástupce musíte sami."/>

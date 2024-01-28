@@ -59,7 +59,8 @@ public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
     public boolean run(InstallData installData, Console console)
     {
         super.run(installData, console);
-        console.println(installData.getMessages().get(panelResourceName));
+        String titleMessageKey = PanelHelper.getPanelTitleMessageKey(getPanel(), "info", installData);
+        console.println(installData.getMessages().get(titleMessageKey));
         return true;
     }
 

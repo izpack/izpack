@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Mesedez, hurrengoa irakurri:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Mesedez, irakurri hurrengo lizentzia akordioa:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Pakete hau instalatu"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Pantailaren uneko argazkia:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Mesedez, hurrengoa irakurri: "/>
+    <str id="InfoPanel.info" txt="Mesedez, hurrengoa irakurri:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt=" [Hasi gabe]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Nota: Pakete grisak beharrezkoak dira."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Mesedez, irakurri hurrengo lizentzia akordioa:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Aukeratu aurreneko instalazio eta frogetarako imprimagailua."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Instalatutako aplikazioak ezabatuko dira!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Mesedez, hurrengoa irakurri:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Barkatu baina Sistema Eragile honetan, ezin dira laburbiderik sortu ."/>

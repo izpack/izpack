@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Leggere attentamente le seguenti informazioni:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Leggere attentamente l'accordo di licenza:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Installa questo componente"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Elenco componenti: "/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Leggere attentamente le seguenti informazioni: "/>
+    <str id="InfoPanel.info" txt="Leggere attentamente le seguenti informazioni:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt=" "/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Nota: i componenti in grigio sono obbligatori."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Leggere attentamente l'accordo di licenza:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Selezionare la stampante da usare per la configurazione iniziale e le prove."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Verranno disinstallate la(e) applicazione(i) selezionate!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Leggere attentamente le seguenti informazioni:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="IzPack non supporta la creazione di collegamenti in questo sistema operativo. Per crearli manualmente consultare la guida in linea del sistema operativo."/>

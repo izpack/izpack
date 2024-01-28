@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Прочетете внимателно следната информация:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Моля, прочетете внимателно следното лицензионно споразумение:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Инсталирай този пакет"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Пакетна снимка:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Прочетете внимателно следната информация: "/>
+    <str id="InfoPanel.info" txt="Прочетете внимателно следната информация:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt=" "/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Бележка: Засивените пакети са задължителни."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Моля, прочетете внимателно следното лицензионно споразумение:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Изберете принтер за първоначално използване и тестване."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Това ще деинсталира инсталираното приложение!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Прочетете внимателно следната информация:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Съжеляваме на IzPack не поддържа създаването на преки пътища за тази операционна система. За да създаването на преки пътища се консултирайте с ръководството на вашата операционна система."/>

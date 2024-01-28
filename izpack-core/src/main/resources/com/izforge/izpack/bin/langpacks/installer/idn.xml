@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Silakan baca informasi berikut:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Silakan baca perjanjian lisensi berikut dengan seksama:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Pasang paket berikut"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Gambaran paket:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Silakan baca informasi berikut: "/>
+    <str id="InfoPanel.info" txt="Silakan baca informasi berikut:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Tidak ada]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Catatan: paket-paket yang berwarna kelabu diperlukan."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Silakan baca perjanjian lisensi berikut dengan seksama:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Pilihlah printer yang digunakan untuk pemasangan awal dan pengetesan."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Ini akan menghapus aplikasi terpasang!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Silakan baca informasi berikut:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Kami minta maaf karena IzPack tidak mendukung pembuatan jalan pintas di sistem operasi ini. Untuk membuat jalan pintas, silakan lihat petunjuk sistem operasi Anda."/>

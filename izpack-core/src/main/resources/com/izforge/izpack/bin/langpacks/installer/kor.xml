@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="다음 정보를 확인하십시오:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="다음 라이센스 정보를 주의깊게 확인하십시오:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" 이 꾸러미 설치"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="꾸러미 스냅샷:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="다음 정보를 확인하십시오: "/>
+    <str id="InfoPanel.info" txt="다음 정보를 확인하십시오:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[없음]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="주의: 회색으로 표시된 꾸러미는 필수입니다."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="다음 라이센스 정보를 주의깊게 확인하십시오:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="설치된 어플리케이션이 제거됩니다!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="다음 정보를 확인하십시오:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="IzPack은 이 운영체제를 위한 단축 아이콘 생성을 지원하지 않습니다. 단축아이콘을 생성하려면 해당 운영체제 설명서를 참조하십시오."/>

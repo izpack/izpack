@@ -71,7 +71,8 @@ public class XInfoPanel extends IzPanel
         String panelName = PanelHelper.getPanelName(panel);
 
         // The info label.
-        add(LabelFactory.create(getString(panelResourceName), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
+        String titleMessageKey = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+        add(LabelFactory.create(getString(titleMessageKey), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
         // The text area which shows the info.
         textArea = new JTextArea();
         textArea.setName(panelName.equals("XInfoPanel") ? GuiId.XINFO_PANEL_TEXT_AREA.id : GuiId.INFO_PANEL_TEXT_AREA.id);

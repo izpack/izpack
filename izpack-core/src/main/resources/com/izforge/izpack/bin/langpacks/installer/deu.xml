@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Bitte lesen Sie die folgenden Informationen:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Bitte lesen Sie die folgenden Lizenzvereinbarungen durch:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Installiere dieses Paket"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Hinweis: Die grau markierten Pakete können nicht optional ausgewählt werden."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Bitte lesen Sie die folgenden Lizenzvereinbarungen durch:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Wählen Sie den Drucker für die erste Einrichtung und Prüfung."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Jetzt werden die installierten Anwendungen entfernt!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Bitte lesen Sie die folgenden Informationen:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Leider wird die Erzeugung von Verknüpfungen durch IzPack unter diesem Betriebssystem noch nicht unterstützt. Bitte ziehen Sie das Handbuch Ihres Betriebssystems zu Rate, um manuell Verknüpfungen zu erstellen."/>

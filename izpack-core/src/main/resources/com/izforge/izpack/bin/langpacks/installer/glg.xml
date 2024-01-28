@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Por favor, lea a seguinte información:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Por favor, lea atentamente o convenio de licenza:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Instalar este paquete"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Nota: os paquetes en gris non son opcionais."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Por favor, lea atentamente o convenio de licenza:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Seleccione a impresora a usar na configuración inicial e probas."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="¡Esto eliminará a(s) aplicación(s) instalada(s)!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Por favor, lea a seguinte información:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Sentímolo, IzPack non pode crea-los atallos neste sistema operativo. Para crealos, por favor consulte o manual do seu sistema operativo."/>

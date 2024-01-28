@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Lees a.u.b. de volgende informatie:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Lees a.u.b. de volgende licentie overeenkomst:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Installeer dit pakket"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Pakket schermafdruk:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Lees a.u.b. de volgende informatie :"/>
+    <str id="InfoPanel.info" txt="Lees a.u.b. de volgende informatie:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Niks]"/>
@@ -183,7 +183,7 @@
 
     <!-- LicencePanel strings -->
     <str id="LicencePanel.agree" txt="Ik accepteer de voorwaarden van deze licentie"/>
-    <str id="LicencePanel.info" txt="Lees a.u.b. de volgende licentie overeenkomst :"/>
+    <str id="LicencePanel.info" txt="Lees a.u.b. de volgende licentie overeenkomst:"/>
     <str id="LicencePanel.no" txt="Nee"/>
     <str id="LicencePanel.notagree" txt="Ik accepteer de voorwaarden van deze licentie niet"/>
     <str id="LicencePanel.yes" txt="Ja"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="NB: Uitgegrijsde pakketten zijn verplicht."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Lees a.u.b. de volgende licentie overeenkomst:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Selecteer een printer."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Dit zal de geïnstalleerde programma(s) verwijderen !"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Lees a.u.b. de volgende informatie:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Helaas ondersteunt IzPack het maken van snelkoppelingen op dit besturingssysteem niet. Raadpleeg de handleiding van uw besturingssysteem voor het aanmaken van de snelkoppelingen."/>
