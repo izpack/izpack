@@ -47,24 +47,6 @@ public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
     }
 
     /**
-     * Runs the panel using the specified console.
-     * <p/>
-     * If there is no text to display, the panel will return {@code false}.
-     *
-     * @param installData the installation data
-     * @param console     the console
-     * @return {@code true} if the panel ran successfully, otherwise {@code false}
-     */
-    @Override
-    public boolean run(InstallData installData, Console console)
-    {
-        super.run(installData, console);
-        String titleMessageKey = PanelHelper.getPanelTitleMessageKey(getPanel(), "info", installData);
-        console.println(installData.getMessages().get(titleMessageKey));
-        return true;
-    }
-
-    /**
      * Returns the text to display.
      *
      * @return the text. A {@code null} indicates failure
