@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="選擇安裝的套件"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Installation Type"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK 路徑"/>
     <str id="PacksPanel.summaryCaption" txt="選擇安裝的套件"/>
     <str id="SummaryPanel.info" txt="安裝程式會執行下面設定，請按下一步繼續。"/>

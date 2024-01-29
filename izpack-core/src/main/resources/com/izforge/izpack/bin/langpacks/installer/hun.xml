@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Kiválasztott telepítési csomagok"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Telepítés módja"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK elérési út"/>
     <str id="PacksPanel.summaryCaption" txt="Kiválasztott telepítési csomagok"/>
     <str id="SummaryPanel.info" txt="Készen állunk a telepítésre. A fontosabb beállítások listája. Kattintson az 'Következő' gombra a telepítés megkezdéséhez, "/>

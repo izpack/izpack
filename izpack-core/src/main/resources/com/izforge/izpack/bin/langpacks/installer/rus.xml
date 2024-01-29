@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Выбранные модули для установки"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Installation Type"/>
     <str id="JDKPathPanel.summaryCaption" txt="Путь к JDK"/>
     <str id="PacksPanel.summaryCaption" txt="Выбранные модули для установки"/>
     <str id="SummaryPanel.info" txt="Все необходимые данные для начала установки собраны. Нажмите &quot;Далее&quot; для запуска."/>

@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Gekozen installatie pakketten"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Installatietype"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK pad"/>
     <str id="PacksPanel.summaryCaption" txt="Gekozen installatiepakketten"/>
     <str id="SummaryPanel.info" txt="Gereed voor installatie. Belangrijke gegevens staan hieronder opgesomd. Druk op &quot;Volgende&quot; om de installatie te starten."/>

@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installationsverzeichnis"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Gewählte Installationspakete"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Installationsart"/>
     <str id="JDKPathPanel.summaryCaption" txt="Pfad des JDK-Verzeichnisses"/>
     <str id="PacksPanel.summaryCaption" txt="Gewählte Installationspakete"/>
     <str id="SummaryPanel.info" txt="Alle für die Installation notwendigen Daten liegen nun vor. Die wichtigsten sind nachfolgend aufgeführt. Klicken Sie auf &quot;Weiter&quot;, um mit der Installation zu beginnen. "/>

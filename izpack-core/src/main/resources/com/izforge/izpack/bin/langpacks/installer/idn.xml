@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Paket-paket pemasangan yang dipilih"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Jenis Pemasangan"/>
     <str id="JDKPathPanel.summaryCaption" txt="Lokasi JDK"/>
     <str id="PacksPanel.summaryCaption" txt="Paket-paket pemasangan yang dipilih"/>
     <str id="SummaryPanel.info" txt="Siap untuk pemasangan. Daftar data yang penting terdapat di bawah. Tekan &quot;Berikut&quot; untuk memulai pemasangan."/>

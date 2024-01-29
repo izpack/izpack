@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Instalazio bidea"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Aukeratutako Instalazio Paketeak"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Instalazio Mota"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK bidea"/>
     <str id="PacksPanel.summaryCaption" txt="Aukeratutako instalazio paketeak"/>
     <str id="SummaryPanel.info" txt="Instalazioa hurrengoko konfigurazioarekin hasiko da. Sakatu Aurrera jarraitzeko."/>

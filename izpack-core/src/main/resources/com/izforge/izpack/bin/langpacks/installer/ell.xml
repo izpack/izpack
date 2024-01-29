@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Επιλεγμένα πακέτα εγκατάστασης"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Installation Type"/>
     <str id="JDKPathPanel.summaryCaption" txt="Κατάλογος JDK"/>
     <str id="PacksPanel.summaryCaption" txt="Επιλεγμένα πακέτα εγκατάστασης"/>
     <str id="SummaryPanel.info" txt="Έτοιμοι για εγκατάσταση. Διάφορες σημαντικές πληροφορίες φαίνονται παρακάτω. Πατήστε «Επόμενο» για να ξεκινήσει η εγκατάσταση, "/>

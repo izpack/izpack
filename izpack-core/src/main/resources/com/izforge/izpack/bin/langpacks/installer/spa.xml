@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Directorio de Instalación"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Paquetes de la instalación seleccionados"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Opciones de Instalación Seleccionadas"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Tipo de instalación"/>
     <str id="JDKPathPanel.summaryCaption" txt="Ruta del JDK"/>
     <str id="PacksPanel.summaryCaption" txt="Paquetes de la instalación seleccionados"/>
     <str id="SummaryPanel.info" txt="La configuración de la instalación ha terminado. Se muestra a continuación un resumen de la misma. Pulse &quot;Siguiente&quot; para comenzar la instalación: "/>

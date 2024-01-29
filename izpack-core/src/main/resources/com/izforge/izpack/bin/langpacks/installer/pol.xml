@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Wybrane pakiety do zainstalowania"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Rodzaj instalacji"/>
     <str id="JDKPathPanel.summaryCaption" txt="Katalog JDK"/>
     <str id="PacksPanel.summaryCaption" txt="Wybrane pakiety instalacyjne"/>
     <str id="SummaryPanel.info" txt="Instalator zastosuje wybrane ustawienia. Wybierz 'Dalej' aby kontynuować."/>

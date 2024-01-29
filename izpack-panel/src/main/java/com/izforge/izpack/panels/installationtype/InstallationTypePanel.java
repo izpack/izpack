@@ -28,6 +28,8 @@ import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
+import com.izforge.izpack.api.GuiId;
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -47,10 +49,10 @@ public class InstallationTypePanel extends IzPanel implements ActionListener
 {
     private static final long serialVersionUID = -8178770882900584122L;
 
-    private static final transient Logger logger = Logger.getLogger(InstallationTypePanel.class.getName());
+    private static final Logger logger = Logger.getLogger(InstallationTypePanel.class.getName());
 
-    private JRadioButton normalinstall;
-    private JRadioButton modifyinstall;
+    private JRadioButton normalInstall;
+    private JRadioButton modifyInstall;
 
 
     /**
@@ -79,19 +81,21 @@ public class InstallationTypePanel extends IzPanel implements ActionListener
 
         ButtonGroup group = new ButtonGroup();
 
-        boolean modifyinstallation = Boolean.valueOf(installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        boolean modifyInstallation = Boolean.parseBoolean(installData.getVariable(InstallData.MODIFY_INSTALLATION));
 
-        normalinstall = new JRadioButton(getString("InstallationTypePanel.normal"), !modifyinstallation);
-        normalinstall.addActionListener(this);
-        group.add(normalinstall);
-        add(normalinstall, NEXT_LINE);
+        normalInstall = new JRadioButton(getString("InstallationTypePanel.normal"), !modifyInstallation);
+        normalInstall.setName(GuiId.INSTALLATION_TYPE_NORMAL.id);
+        normalInstall.addActionListener(this);
+        group.add(normalInstall);
+        add(normalInstall, NEXT_LINE);
 
-        modifyinstall = new JRadioButton(getString("InstallationTypePanel.modify"), modifyinstallation);
-        modifyinstall.addActionListener(this);
-        group.add(modifyinstall);
-        add(modifyinstall, NEXT_LINE);
+        modifyInstall = new JRadioButton(getString("InstallationTypePanel.modify"), modifyInstallation);
+        modifyInstall.setName(GuiId.INSTALLATION_TYPE_MODIFY.id);
+        modifyInstall.addActionListener(this);
+        group.add(modifyInstall);
+        add(modifyInstall, NEXT_LINE);
 
-        setInitialFocus(normalinstall);
+        setInitialFocus(normalInstall);
         getLayoutHelper().completeLayout();
     }
 
@@ -101,22 +105,22 @@ public class InstallationTypePanel extends IzPanel implements ActionListener
     @Override
     public void panelActivate()
     {
-        boolean modifyinstallation = Boolean.valueOf(
+        boolean modifyInstallation = Boolean.parseBoolean(
                 this.installData.getVariable(InstallData.MODIFY_INSTALLATION));
-        if (modifyinstallation)
+        if (modifyInstallation)
         {
-            modifyinstall.setSelected(true);
+            modifyInstall.setSelected(true);
         }
         else
         {
-            normalinstall.setSelected(true);
+            normalInstall.setSelected(true);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == normalinstall)
+        if (e.getSource() == normalInstall)
         {
             logger.fine("Installation type: Normal installation");
             this.installData.setVariable(InstallData.MODIFY_INSTALLATION, "false");
@@ -127,5 +131,17 @@ public class InstallationTypePanel extends IzPanel implements ActionListener
             this.installData.setVariable(InstallData.MODIFY_INSTALLATION, "true");
         }
     }
-}
 
+    @Override
+    public void createInstallationRecord(IXMLElement rootElement) {
+        new InstallationTypePanelAutomation().createInstallationRecord(installData, rootElement);
+    }
+
+    @Override
+    public String getSummaryBody()
+    {
+        boolean modifyInstallation = Boolean.parseBoolean(
+                this.installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        return modifyInstallation ? getString("InstallationTypePanel.modify") : getString("InstallationTypePanel.normal");
+    }
+}

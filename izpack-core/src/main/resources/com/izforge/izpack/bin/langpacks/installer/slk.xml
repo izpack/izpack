@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Inštalačný priečinok"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Vybrané inštalačné balíky"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Typ inštalácie"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK priečinok"/>
     <str id="PacksPanel.summaryCaption" txt="Vybrané inštalačné balíky"/>
     <str id="SummaryPanel.info" txt="Inštalácia je pripravená. Dôležité informácie sú v zozname dole. Pre spustenie inštalácie  stlačte &quot;Ďaľší&quot; , "/>

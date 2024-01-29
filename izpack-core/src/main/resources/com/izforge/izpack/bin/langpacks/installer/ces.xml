@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Instalační adresář"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Instalační balíčky"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Instalační prvky"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Installation Type"/>
     <str id="JDKPathPanel.summaryCaption" txt="Cesta k JDK"/>
     <str id="PacksPanel.summaryCaption" txt="Instalační balíčky"/>
     <str id="SummaryPanel.info" txt="Instalace bude nyní probíhat podle následujících voleb. Stiskni tlačítko Další na pokráčování."/>

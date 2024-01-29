@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Asennuspolku"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Valitut asennuspaketit"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Asennuksen tyyppi"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK polku"/>
     <str id="PacksPanel.summaryCaption" txt="Valitut asennuspaketit"/>
     <str id="SummaryPanel.info" txt="Valmis asennukseen. Tärkeät tiedot on listattu alla. Paina &quot;Seuraava&quot; aloittaaksesi asennuksen."/>

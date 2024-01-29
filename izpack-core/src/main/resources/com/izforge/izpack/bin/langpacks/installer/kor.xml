@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="선택한 설치 꾸러미"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Installation Type"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK 경로"/>
     <str id="PacksPanel.summaryCaption" txt="선택한 설치 꾸러미"/>
     <str id="SummaryPanel.info" txt="설치 준비 완료. 중요한 데이터가 다음에 나와 있습니다. 설치를 시작하려면 &quot;다음&quot;을 누르십시오, "/>

@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="選択したインストール項目"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="インストールの種類"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK パス"/>
     <str id="PacksPanel.summaryCaption" txt="選択したインストール項目"/>
     <str id="SummaryPanel.info" txt="次の設定でインストールします。よければ次へボタンを押してください。"/>

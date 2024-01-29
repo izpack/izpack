@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Вказані пакунки до встановлення"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Тип встановлення"/>
     <str id="JDKPathPanel.summaryCaption" txt="Шлях до JDK"/>
     <str id="PacksPanel.summaryCaption" txt="Вказані пакунки до встановлення"/>
     <str id="SummaryPanel.info" txt="Встановлення пройде з такими налашутваннями. Натисніть Далі."/>

@@ -301,6 +301,7 @@
     <str id="DefaultTargetPanel.summaryCaption" txt="Installasjonmål"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Valgte installasjonspakker"/>
     <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="Installasjonstype"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK-filsti"/>
     <str id="PacksPanel.summaryCaption" txt="Valgte installasjonspakker"/>
     <str id="SummaryPanel.info" txt="Installasjonen vil fortsette med følgende innstillinger. Trykk på Neste for å fortsette."/>
