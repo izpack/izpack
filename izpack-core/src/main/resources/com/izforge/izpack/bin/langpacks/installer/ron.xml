@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Va rugam cititi urmatoarele informatii:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Va rugam cititi cu atentie informatiile prinvind licenta softului:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Instalare pachet"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Imagine pachet  :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Va rugam cititi urmatoarele informatii :"/>
+    <str id="InfoPanel.info" txt="Va rugam cititi urmatoarele informatii:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Nimic]"/>
@@ -183,7 +183,7 @@
 
     <!-- LicencePanel strings -->
     <str id="LicencePanel.agree" txt="Sunt de acord cu conditiile privind licenta softului."/>
-    <str id="LicencePanel.info" txt="Va rugam cititi cu atentie informatiile prinvind licenta softului :"/>
+    <str id="LicencePanel.info" txt="Va rugam cititi cu atentie informatiile prinvind licenta softului:"/>
     <str id="LicencePanel.no" txt="Nu"/>
     <str id="LicencePanel.notagree" txt="Nu sunt de acord cu conditiile privind licenta softului."/>
     <str id="LicencePanel.yes" txt="Da"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Nota: pachetele care sunt selectate implicit si nu pot fi deselectate sunt obligatorii."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Va rugam cititi cu atentie informatiile prinvind licenta softului:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Aplicatiile instalate vor fi inlaturate !"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Va rugam cititi urmatoarele informatii:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Ne pare rau dar IzPack nu suporta crearea scurtaturilor(shortcuts) pe acest sistem de operare. Pentru a crea scurtaturi(shortcuts) consultati manualul sistemului de operare."/>

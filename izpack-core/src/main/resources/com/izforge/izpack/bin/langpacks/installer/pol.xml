@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Proszę przeczytać poniższe informacje:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Proszę uważnie przeczytać poniższą umowę licencyjną:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Instaluj ten pakiet"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Szczegóły pakietu:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Proszę przeczytać poniższe informacje: "/>
+    <str id="InfoPanel.info" txt="Proszę przeczytać poniższe informacje:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt=" "/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Uwaga: Pakiety oznaczone szarym kolorem są wymagane."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Proszę uważnie przeczytać poniższą umowę licencyjną:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Wybierz drukarkę na potrzeby wstępnej konfiguracji i testów."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Umożliwia usunięcie zainstalowanego oprogramowania!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Proszę przeczytać poniższe informacje:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Niestety, program instalacyjny IzPack nie wspiera tworzenia skrótów w Twoim systemie operacyjnym. Aby utworzyć skróty, proszę skorzystać z pomocy Twojego systemu operacyjnego."/>

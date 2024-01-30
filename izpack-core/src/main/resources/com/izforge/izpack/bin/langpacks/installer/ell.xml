@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Παρακαλώ διαβάστε την ακόλουθη πληροφορία:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Παρακαλώ διαβάστε προσεκτικά την επόμενη άδεια χρήσης:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Εγκατάσταση αυτού του πακέτου"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Στιγμιότυπο πακέτου:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Παρακαλώ διαβάστε την ακόλουθη πληροφορία: "/>
+    <str id="InfoPanel.info" txt="Παρακαλώ διαβάστε την ακόλουθη πληροφορία:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Τίποτε]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Σημείωση: τα γκριζαρισμένα πακέτα είναι απαιτούμενα."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Παρακαλώ διαβάστε προσεκτικά την επόμενη άδεια χρήσης:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Θα αφαιρεθούν οι εγκατεστημένες εφαρμογές!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Παρακαλώ διαβάστε την ακόλουθη πληροφορία:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Ζητούμε συγγνώμη αλλά το IzPack δεν υποστηρίζει την κατασκευή συντομεύσεων σε αυτό το λειτουργικό σύστημα. Για να κατασκευάσετε τις συντομεύσεις παρακαλώ συμβουλευτείτε το βιβλίο οδηγιών του λειτουργικού σας συστήματος."/>

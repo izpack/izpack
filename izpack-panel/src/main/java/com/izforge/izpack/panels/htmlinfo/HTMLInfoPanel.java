@@ -92,8 +92,9 @@ public class HTMLInfoPanel extends IzPanel
 
         // We add the components
         if (showInfoLabelFlag)
-        {  //flag is set; add label above content
-            add(LabelFactory.create(getString(panelResourceName), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
+        {   //flag is set; add label above content
+            String titleMessageKey = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+            add(LabelFactory.create(getString(titleMessageKey), parent.getIcons().get("edit"), LEADING), NEXT_LINE);
         }
         try
         {

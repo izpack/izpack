@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Sila baca arahan berikut:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Sila baca syarat perjanjian yang berikut dengan teliti:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Pasang modul ini"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Gambaran mengenai pakej  :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Sila baca arahan berikut :"/>
+    <str id="InfoPanel.info" txt="Sila baca arahan berikut:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Tiada]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Perhatian: Modul yang kelabu diperlukan."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Sila baca syarat perjanjian yang berikut dengan teliti:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Ini akan menggeluarkan applikasi yang dipasang!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Sila baca arahan berikut:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Kami minta maaf tetapi Izpak tidak menyokong pembuatan shortcut pada sistem operasi ini. Untuk mencipta shortcut sila rujuk kepada panduan untuk sistem operasi ini."/>

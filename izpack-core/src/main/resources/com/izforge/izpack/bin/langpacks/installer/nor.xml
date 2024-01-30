@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Les følgende informasjon:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Les gjennom følgende lisensavtale:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Installer denne pakken"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Merk: Utgråede pakker må installeres."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Les gjennom følgende lisensavtale:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Velg hvilken skriver som skal benyttes for initielt oppsett og testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Dette vil fjerne installerte programmer!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Les følgende informasjon:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Vi beklager men IzPack støtter ikke opprettelse av snarvei på operativsystemet ditt. For å opprette en snarvei, les gjennom ditt operativsystems brukermanual."/>

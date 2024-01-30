@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" telepítésekor !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Kérem olvassa el a következő információt:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Kérem olvassa el a következő licence megállapodást:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" A csomag telepítése"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Csomag snapshot  :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Kérem olvassa el a következő információt :"/>
+    <str id="InfoPanel.info" txt="Kérem olvassa el a következő információt:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Nincs megkezdve]"/>
@@ -183,7 +183,7 @@
 
     <!-- LicencePanel strings -->
     <str id="LicencePanel.agree" txt="Elfogadja a licence feltételeit ?"/>
-    <str id="LicencePanel.info" txt="Kérem olvassa el a következő licence megállapodást :"/>
+    <str id="LicencePanel.info" txt="Kérem olvassa el a következő licence megállapodást:"/>
     <str id="LicencePanel.no" txt="Nem"/>
     <str id="LicencePanel.notagree" txt="NEM fogadom el a megadott licence feltételeit."/>
     <str id="LicencePanel.yes" txt="Igen"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Megjegyzés: a szürke csomagok telepítése elengedhetetlen."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Kérem olvassa el a következő licence megállapodást:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="A telepített alkalmazás eltávolítása következik !"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Kérem olvassa el a következő információt:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Sajnos az IzPack nem támogatja parancsikon lértehozását az Ön operációs rendszerén! Parancsikon készítésének módjáról tájékozódjon az operációs rendszer kézikönyvéből!"/>

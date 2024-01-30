@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Прочитайте, будь ласка, цю інформацію:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Уважно прочитайте ліцензійні умови, будь ласка:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Встановити"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Знімок пакунку:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Прочитайте, будь ласка, цю інформацію: "/>
+    <str id="InfoPanel.info" txt="Прочитайте, будь ласка, цю інформацію:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt=" "/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Примітка: сірі пакунки є обов’язковими."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Уважно прочитайте ліцензійні умови, будь ласка:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Вкажіть прінтер для налаштування та тестового друку."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Це видалить встановлену програму!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Прочитайте, будь ласка, цю інформацію:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Вибачте, але IzPack не може створити посилання в цій операційній системі. Щоб створити посилання зверніться до інструкцій вашої операційної системи."/>

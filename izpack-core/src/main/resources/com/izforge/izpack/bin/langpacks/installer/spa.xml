@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Por favor, lea la siguiente información:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Por favor, lea atentamente el acuerdo de licencia:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Instalar este paquete"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Nota: los paquetes en gris son obligatorios."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Por favor, lea atentamente el acuerdo de licencia:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Seleccione la impresora a usar para configuración inicial y pruebas."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="¡Se eliminarán la(s) aplicacion(es) instalada(s)!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Por favor, lea la siguiente información:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Lo sentimos, IzPack no puede crear accesos directos en este sistema operativo. Para crearlos, por favor consulte el manual de su sistema operativo."/>

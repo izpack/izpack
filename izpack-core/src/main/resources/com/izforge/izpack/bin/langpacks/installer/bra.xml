@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Por favor, leia a seguinte informação:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Por favor, leia o seguinte contrato de licença:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Instalar este pacote"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Visualização da tela do pacote  :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Por favor, leia a seguinte informação :"/>
+    <str id="InfoPanel.info" txt="Por favor, leia a seguinte informação:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Nada]"/>
@@ -183,7 +183,7 @@
 
     <!-- LicencePanel strings -->
     <str id="LicencePanel.agree" txt="Eu concordo com este contrato de licença."/>
-    <str id="LicencePanel.info" txt="Por favor, leia o seguinte contrato de licença :"/>
+    <str id="LicencePanel.info" txt="Por favor, leia o seguinte contrato de licença:"/>
     <str id="LicencePanel.no" txt="Não"/>
     <str id="LicencePanel.notagree" txt="Eu não concordo com este contrato de licença."/>
     <str id="LicencePanel.yes" txt="Sim"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Nota: pacotes cinzas são requeridos."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Por favor, leia o seguinte contrato de licença:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Selecione a impressora para utilizar na configuração inicial e teste."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Isto removerá o(s) aplicativo(s) instalado(s) !"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Por favor, leia a seguinte informação:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Desculpe, mas IzPack não pode criar atalhos neste sistema operacional. Para criar os atalhos, favor consultar o manual de seu sistema operacional."/>

@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Молим Вас, прочитајте следеће информације:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Молим Вас, прочитајте пажљиво следећи уговор о лиценци:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Инсталирај овај пакет"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Напомена: осенчени пакети су обавезни."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Молим Вас, прочитајте пажљиво следећи уговор о лиценци:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Ово ће да избрише инсталирану/е апликацију/е!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Молим Вас, прочитајте следеће информације:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Жао нам је, али IzPack не подржава прављење пречица на овом оперативном систему. Да бисте направили пречице, консултујте упутство за Ваш оперативни систем."/>

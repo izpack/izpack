@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Læs venligst den følgende information:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Læs venligst følgende licensaftale omhyggeligt:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Installer denne pakke"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Pakke øjebliksbillede  :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Læs venligst den følgende information :"/>
+    <str id="InfoPanel.info" txt="Læs venligst den følgende information:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Ingenting]"/>
@@ -183,7 +183,7 @@
 
     <!-- LicencePanel strings -->
     <str id="LicencePanel.agree" txt="Jeg accepterer vilkårene i licensaftalen."/>
-    <str id="LicencePanel.info" txt="LÃ?s venligst den følgende licensaftale:"/>
+    <str id="LicencePanel.info" txt="Læs venligst følgende licensaftale omhyggeligt:"/>
     <str id="LicencePanel.no" txt="Nej"/>
     <str id="LicencePanel.notagree" txt="Jeg accepterer IKKE vilkårene i licensaftalen."/>
     <str id="LicencePanel.yes" txt="Ja"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="OBS: grå pakker skal installeres."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Læs venligst følgende licensaftale omhyggeligt:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Dette vil fjerne installerede applikationer !"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Læs venligst den følgende information:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Vi beklager men IzPack understøtter ikke oprettelse af genveje på din operativ system. For at oprette en genvej, læs venligst din operativ system manual."/>

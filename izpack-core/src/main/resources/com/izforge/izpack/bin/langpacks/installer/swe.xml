@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Vänligen läs följande information:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Vänligen läs följande licensavtal:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Installera detta paket"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Paket granskning:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Vänligen läs följande information: "/>
+    <str id="InfoPanel.info" txt="Vänligen läs följande information:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Inget]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Obs: gråade paket är obligatoriska."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Vänligen läs följande licensavtal:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Detta kommer att ta bort den installerade applikationen!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Vänligen läs följande information:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Vi ber om ursäkt men IzPack har inte stöd för skapandet av genvägar på det här operativsystemet. För att skapa genvägar, vänligen se handboken till ditt operativsystem."/>

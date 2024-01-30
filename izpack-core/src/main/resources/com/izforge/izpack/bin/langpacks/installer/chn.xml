@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt=" !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="请阅读以下信息:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="请仔细阅读以下许可协议:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" 安装该包"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="包快照  :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="请阅读以下信息 :"/>
+    <str id="InfoPanel.info" txt="请阅读以下信息:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Nothing]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="注意: 灰色选项是必选的."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="请仔细阅读以下许可协议:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="将卸载已安装的应用程序 !"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="请阅读以下信息:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="很遗憾IzPack不支持在当前操作系统上创建快捷方式. 创建快捷方式，请参考操作系统手册."/>

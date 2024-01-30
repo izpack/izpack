@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="のインストールへようこそ !"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="以下の情報をお読みください:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="以下のライセンス利用許諾をお読みください:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" この項目をインストール"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="パッケージのスナップショット  :"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="以下の情報をお読みください :"/>
+    <str id="InfoPanel.info" txt="以下の情報をお読みください:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[未インストール]"/>
@@ -183,7 +183,7 @@
 
     <!-- LicencePanel strings -->
     <str id="LicencePanel.agree" txt="ライセンス利用許諾に同意します"/>
-    <str id="LicencePanel.info" txt="以下のライセンス利用許諾をお読みください :"/>
+    <str id="LicencePanel.info" txt="以下のライセンス利用許諾をお読みください:"/>
     <str id="LicencePanel.no" txt="いいえ"/>
     <str id="LicencePanel.notagree" txt="ライセンス利用許諾に同意しません"/>
     <str id="LicencePanel.yes" txt="はい"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="注意: 灰色で表示されている項目は、必須項目です。"/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="以下のライセンス利用許諾をお読みください:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="初期設定およびテストに使用するプリンタを選択してください。"/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="この操作は、インストール済のアプリケーションを削除します!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="以下の情報をお読みください:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="IzPackでは、お使いのオペレーティングシステムでのショートカットの作成をサポートしていません。ショートカットを作成するには、お使いのオペレーティングシステムのマニュアルを参照してください。"/>

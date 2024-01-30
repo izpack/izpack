@@ -135,10 +135,10 @@
     <str id="HelloPanel.welcome2" txt="!"/>
 
     <!-- HTMLInfoPanel strings -->
-    <str id="HTMLInfoPanel.info" txt="Please read the following information:"/>
+    <str id="HTMLInfoPanel.info" txt="Ole hyvä ja lue seuraavat tiedotteet:"/>
 
     <!-- HTMLLicencePanel strings -->
-    <str id="HTMLLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="HTMLLicencePanel.info" txt="Ole hyvä ja lue huolellisesti seuraava käyttöoikeussopimus:"/>
 
     <!-- ImgPacksPanel strings -->
     <str id="ImgPacksPanel.checkbox" txt=" Asenna tämä paketti"/>
@@ -147,7 +147,7 @@
     <str id="ImgPacksPanel.snap" txt="Pakettinäkymä:"/>
 
     <!-- InfoPanel strings -->
-    <str id="InfoPanel.info" txt="Ole hyvä ja lue seuraavat tiedotteet: "/>
+    <str id="InfoPanel.info" txt="Ole hyvä ja lue seuraavat tiedotteet:"/>
 
     <!-- InstallPanel strings -->
     <str id="InstallPanel.begin" txt="[Ei toimenpiteitä]"/>
@@ -214,7 +214,7 @@
     <str id="PacksPanel.tip" txt="Huomaa: harmaa valintaruutu tarkoittaa, että paketti on pakollinen."/>
 
     <!-- PDFLicencePanel strings -->
-    <str id="PDFLicencePanel.info" txt="Please read the following license agreement carefully:"/>
+    <str id="PDFLicencePanel.info" txt="Ole hyvä ja lue huolellisesti seuraava käyttöoikeussopimus:"/>
 
     <!-- PrinterSelect Panel strings -->
     <str id="PrinterSelectPanel.select_printer" txt="Valitse kirjoitin asennukseen ja testaukseen."/>
@@ -265,7 +265,7 @@
     <str id="uninstaller.warning" txt="Tämä poistaa asennetun sovelluksen/asennetut sovellukset!"/>
 
     <!-- XInfoPanel strings -->
-    <str id="XInfoPanel.info" txt="Please read the following information:"/>
+    <str id="XInfoPanel.info" txt="Ole hyvä ja lue seuraavat tiedotteet:"/>
 
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="Valitettavasti IzPack ei tue pikalinkkien tekemistä tässä käyttöjärjestelmässä. Pikalinkkien tekemiseksi tutustu käyttöjärjestelmäsi käyttöohjeeseen."/>

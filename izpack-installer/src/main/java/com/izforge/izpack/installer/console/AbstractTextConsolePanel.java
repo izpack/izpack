@@ -20,6 +20,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.panel.PanelView;
+import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.util.Console;
 
 import java.io.IOException;
@@ -76,6 +77,12 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
     {
         printHeadLine(installData, console);
 
+        String panelLabel = getPanelLabel(installData);
+        if (panelLabel != null)
+        {
+            console.println(panelLabel);
+        }
+
         String text = getText();
         if (substituteVariables()) {
             text = installData.getVariables().replace(text);
@@ -101,6 +108,17 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
             logger.warning("No text to display");
         }
         return promptEndPanel(installData, console);
+    }
+
+    /**
+     * Returns the panel label to display.
+     *
+     * @param installData the installation data
+     * @return the panel label. A <tt>null</tt> indicates no panel label to display
+     */
+    protected String getPanelLabel(InstallData installData) {
+        String titleMessageKey = PanelHelper.getPanelTitleMessageKey(getPanel(), "info", installData);
+        return installData.getMessages().get(titleMessageKey);
     }
 
     /**
