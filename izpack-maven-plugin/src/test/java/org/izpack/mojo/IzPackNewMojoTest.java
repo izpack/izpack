@@ -37,13 +37,12 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
     @Component
     protected MavenProject project;
 
-
     @Test
     public void testExecute() throws Exception {
         File testPom = new File( Thread.currentThread().getContextClassLoader().getResource( "basic-pom.xml" ).toURI() );
         IzPackNewMojo mojo = (IzPackNewMojo)lookupMojo( "izpack", testPom );
         assertThat( mojo, IsNull.notNullValue() );
-        initIzpackMojo( mojo );
+        initIzpack5Mojo( mojo );
 
         MavenSession session = new MavenSession(getContainer(),       // PlexusContainer container
                 null,       // Settings settings
@@ -181,17 +180,6 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
         // The IzPackMaven plugin should honor the user property set with "-Dproperty1=value1"
         assertEquals("value1" , propertyManager.getProperty("property1")); 	
         assertEquals("value1" , propertyManager.getProperty("property2"));
-    }
-
-    private void initIzpackMojo( IzPackNewMojo mojo ) throws IllegalAccessException {
-        File installFile = new File( "target/test-classes/helloAndFinish.xml" );
-        setVariableValueToObject( mojo, "comprFormat", "default" );
-        setVariableValueToObject( mojo, "installFile", installFile );
-        setVariableValueToObject( mojo, "kind", "standard" );
-        setVariableValueToObject( mojo, "baseDir", new File( "target/test-classes/" ) );
-        setVariableValueToObject( mojo, "output", new File("target/sample/izpackResult.jar") );
-        setVariableValueToObject( mojo, "comprLevel", -1 );
-        setVariableValueToObject( mojo, "mkdirs", true ); // autoboxing
     }
 
     private void initIzpack5Mojo( IzPackNewMojo mojo ) throws IllegalAccessException {
