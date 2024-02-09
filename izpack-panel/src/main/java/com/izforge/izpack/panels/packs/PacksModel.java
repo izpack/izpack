@@ -721,25 +721,25 @@ public class PacksModel extends AbstractTableModel
     /**
      * This function updates the checkboxes after a change by disabling packs that cannot be
      * installed anymore and enabling those that can after the change. This is accomplished by
-     * running a search that pinpoints the packs that must be disabled by a non-fullfiled
+     * running a search that pinpoints the packs that must be disabled by a non-fulfilled
      * dependency.
      * TODO: Look into "+2" and "-2", doesn't look safe
      */
     private void updateDeps()
     {
         int[] statusArray = new int[packs.size()];
-        for (int i = 0; i < statusArray.length; i++)
-        {
-            statusArray[i] = 0;
-        }
         dfs(statusArray);
         for (int i = 0; i < statusArray.length; i++)
         {
-            if (statusArray[i] == 0 && !checkValues.get(i).isSelectable())
+            CbSelectionState cbSelectionState = checkValues.get(i);
+            if (statusArray[i] == 0 && !cbSelectionState.isSelectable())
             {
-                checkValues.set(i, CbSelectionState.PARTIAL_SELECTED);
+                // When dependency is selected, dependent should be marked as deselected to avoid double-clicking to
+                // select dependent, issue [IZPACK-1653]
+                checkValues.set(i, cbSelectionState == CbSelectionState.DEPENDENT_DESELECTED ?
+                        CbSelectionState.DESELECTED : CbSelectionState.PARTIAL_SELECTED);
             }
-            if (statusArray[i] == 1 && checkValues.get(i).isSelectable())
+            if (statusArray[i] == 1 && cbSelectionState.isSelectable())
             {
                 checkValues.set(i, CbSelectionState.DEPENDENT_DESELECTED);
             }
