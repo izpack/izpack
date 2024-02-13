@@ -23,8 +23,9 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.licence.AbstractLicenceConsolePanel;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.util.PDFTextStripper;
+import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,7 +63,7 @@ public class PDFLicenceConsolePanel extends AbstractLicenceConsolePanel {
 		try {
 			PDFTextStripper stripper = new PDFTextStripper();
 			url = loadLicence();
-			return stripper.getText(PDDocument.load(url));
+			return stripper.getText(Loader.loadPDF(IOUtils.toByteArray(url)));
 		}
 		catch (IOException e) {
 			logger.log(Level.WARNING, "Error opening PDF license document from resource" +
