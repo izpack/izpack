@@ -95,15 +95,16 @@
       </dependency>
 
       <!-- PDF Panel -->
+      
       <dependency>
         <groupId>org.apache.pdfbox</groupId>
         <artifactId>pdfbox</artifactId>
-        <version>1.8.16</version>
+        <version>2.0.26</version>
       </dependency>
 	  <dependency>
-        <groupId>org.icepdf.os</groupId>
+        <groupId>com.github.pcorless.icepdf</groupId>
         <artifactId>icepdf-viewer</artifactId>
-        <version>6.2.2</version>
+        <version>7.0.0</version>
         <exclusions>
           <exclusion>
             <groupId>javax.media</groupId>
