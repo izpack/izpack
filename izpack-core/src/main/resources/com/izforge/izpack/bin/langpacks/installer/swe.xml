@@ -107,6 +107,7 @@
     <str id="CheckedHelloPanel.headline" txt="Välkommen"/>
     <str id="CompilePanel.headline" txt="Komilera Java-källkod"/>
     <str id="ConditionalUserInputPanel.headline" txt="Användardata"/>
+    <str id="DataCheckPanel.headline" txt="Data Check"/>
     <str id="FinishPanel.headline" txt="Installationen slutförd"/>
     <str id="HelloPanel.headline" txt="Välkommen"/>
     <str id="HTMLInfoPanel.headline" txt="Information"/>
