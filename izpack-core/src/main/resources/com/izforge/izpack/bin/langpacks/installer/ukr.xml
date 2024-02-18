@@ -107,6 +107,7 @@
     <str id="CheckedHelloPanel.headline" txt="Ласкаво просимо"/>
     <str id="CompilePanel.headline" txt="Компіляция Java"/>
     <str id="ConditionalUserInputPanel.headline" txt="Дані користувача"/>
+    <str id="DataCheckPanel.headline" txt="Data Check"/>
     <str id="FinishPanel.headline" txt="Встановлення завершено"/>
     <str id="HelloPanel.headline" txt="Ласкаво просимо"/>
     <str id="HTMLInfoPanel.headline" txt="Інформація"/>

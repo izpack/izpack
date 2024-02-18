@@ -107,6 +107,7 @@
     <str id="CheckedHelloPanel.headline" txt="Vitajte"/>
     <str id="CompilePanel.headline" txt="Kompilácia zdrojových súborov"/>
     <str id="ConditionalUserInputPanel.headline" txt="Použivateľské data"/>
+    <str id="DataCheckPanel.headline" txt="Data Check"/>
     <str id="FinishPanel.headline" txt="Inštalácia ukončená"/>
     <str id="HelloPanel.headline" txt="Vitajte"/>
     <str id="HTMLInfoPanel.headline" txt="Informácie"/>

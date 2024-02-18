@@ -107,6 +107,7 @@
     <str id="CheckedHelloPanel.headline" txt="Ongi Etorri"/>
     <str id="CompilePanel.headline" txt="Java Iturriak Konpilatu"/>
     <str id="ConditionalUserInputPanel.headline" txt="Erabiltzailearen datuak"/>
+    <str id="DataCheckPanel.headline" txt="Data Check"/>
     <str id="FinishPanel.headline" txt="Instalazioa amaitua"/>
     <str id="HelloPanel.headline" txt="Ongi Etorri"/>
     <str id="HTMLInfoPanel.headline" txt="Informazioa"/>

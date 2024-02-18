@@ -107,6 +107,7 @@
     <str id="CheckedHelloPanel.headline" txt="Hoşgeldiniz"/>
     <str id="CompilePanel.headline" txt="Java Kaynak Kodlarını Derle"/>
     <str id="ConditionalUserInputPanel.headline" txt="Kullanıcı Bilgileri"/>
+    <str id="DataCheckPanel.headline" txt="Data Check"/>
     <str id="FinishPanel.headline" txt="Kurulum Tamamlandı"/>
     <str id="HelloPanel.headline" txt="Hoşgeldiniz"/>
     <str id="HTMLInfoPanel.headline" txt="Bilgiler"/>

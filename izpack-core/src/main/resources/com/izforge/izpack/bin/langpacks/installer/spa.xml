@@ -107,6 +107,7 @@
     <str id="CheckedHelloPanel.headline" txt="Bienvenido"/>
     <str id="CompilePanel.headline" txt="Compilar código fuente Java"/>
     <str id="ConditionalUserInputPanel.headline" txt="Datos del usuario"/>
+    <str id="DataCheckPanel.headline" txt="Data Check"/>
     <str id="FinishPanel.headline" txt="Instalación completada"/>
     <str id="HelloPanel.headline" txt="Bienvenido"/>
     <str id="HTMLInfoPanel.headline" txt="Informaciones"/>

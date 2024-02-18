@@ -107,6 +107,7 @@
     <str id="CheckedHelloPanel.headline" txt="Üdvözlöm"/>
     <str id="CompilePanel.headline" txt="Java Forrás-fájlokat fordítani"/>
     <str id="ConditionalUserInputPanel.headline" txt="User Data"/>
+    <str id="DataCheckPanel.headline" txt="Data Check"/>
     <str id="FinishPanel.headline" txt="Telepítés befejeződött"/>
     <str id="HelloPanel.headline" txt="Üdvözlöm"/>
     <str id="HTMLInfoPanel.headline" txt="Információk"/>

@@ -107,6 +107,7 @@
     <str id="CheckedHelloPanel.headline" txt="ようこそ"/>
     <str id="CompilePanel.headline" txt="Java のソースをコンパイル"/>
     <str id="ConditionalUserInputPanel.headline" txt="ユーザデータ"/>
+    <str id="DataCheckPanel.headline" txt="Data Check"/>
     <str id="FinishPanel.headline" txt="インストール完了"/>
     <str id="HelloPanel.headline" txt="ようこそ"/>
     <str id="HTMLInfoPanel.headline" txt="情報"/>
