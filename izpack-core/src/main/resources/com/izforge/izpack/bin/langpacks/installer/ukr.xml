@@ -122,6 +122,7 @@
     <str id="PDFLicencePanel.headline" txt="Лізцензійні умови"/>
     <str id="ProcessPanel.headline" txt="Працюють зовнішні процеси"/>
     <str id="ShortcutPanel.headline" txt="Встановлення ярликів"/>
+    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
     <str id="SimpleFinishPanel.headline" txt="Встановлення завершено"/>
     <str id="SummaryPanel.headline" txt="Загальне налаштування"/>
     <str id="TargetPanel.headline" txt="Шлях встановлення"/>
@@ -217,14 +218,15 @@
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Уважно прочитайте ліцензійні умови, будь ласка:"/>
 
-    <!-- PrinterSelect Panel strings -->
-    <str id="PrinterSelectPanel.select_printer" txt="Вкажіть прінтер для налаштування та тестового друку."/>
-
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="Обробка"/>
 
     <!-- Registry strings -->
     <str id="functionFailed.RegOpenKeyEx" txt="Неможливо відчинити запис реєстру {0}\\{1}."/>
+
+    <!-- Select Printer Panel strings -->
+    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.select_printer" txt="Вкажіть прінтер для налаштування та тестового друку."/>
 
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>

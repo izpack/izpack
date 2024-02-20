@@ -122,6 +122,7 @@
     <str id="PDFLicencePanel.headline" txt="Licentieovereenkomst"/>
     <str id="ProcessPanel.headline" txt="Uitvoeren externe programma's"/>
     <str id="ShortcutPanel.headline" txt="Snelkoppelingen"/>
+    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
     <str id="SimpleFinishPanel.headline" txt="Installatie Gereed"/>
     <str id="SummaryPanel.headline" txt="Overzicht configuratiegegevens"/>
     <str id="TargetPanel.headline" txt="Installatiepad"/>
@@ -217,14 +218,15 @@
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Lees a.u.b. de volgende licentie overeenkomst:"/>
 
-    <!-- PrinterSelect Panel strings -->
-    <str id="PrinterSelectPanel.select_printer" txt="Selecteer een printer."/>
-
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="Bezig"/>
 
     <!-- Registry strings -->
     <str id="functionFailed.RegOpenKeyEx" txt="Kan registersleutel {0}\\{1} niet openen."/>
+
+    <!-- Select Printer Panel strings -->
+    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.select_printer" txt="Selecteer een printer."/>
 
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>

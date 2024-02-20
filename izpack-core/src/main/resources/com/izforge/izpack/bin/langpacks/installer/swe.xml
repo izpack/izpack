@@ -122,6 +122,7 @@
     <str id="PDFLicencePanel.headline" txt="Licensavtal"/>
     <str id="ProcessPanel.headline" txt="Utför externt kommando"/>
     <str id="ShortcutPanel.headline" txt="Konfigurera genvägar"/>
+    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
     <str id="SimpleFinishPanel.headline" txt="Installationen slutförd"/>
     <str id="SummaryPanel.headline" txt="Sammanställd konfigurationsinformation"/>
     <str id="TargetPanel.headline" txt="Sökväg"/>
@@ -217,14 +218,15 @@
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Vänligen läs följande licensavtal:"/>
 
-    <!-- PrinterSelect Panel strings -->
-    <str id="PrinterSelectPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
-
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="Processar"/>
 
     <!-- Registry strings -->
     <str id="functionFailed.RegOpenKeyEx" txt="Kan inte öppna registernyckel {0}\\{1}."/>
+
+    <!-- Select Printer Panel strings -->
+    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
 
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>

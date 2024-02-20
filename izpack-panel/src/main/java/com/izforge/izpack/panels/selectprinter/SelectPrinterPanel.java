@@ -22,7 +22,6 @@
  * Updated by Fabrice Mirabile the 06/01/2006
  *
  */
-
 package com.izforge.izpack.panels.selectprinter;
 
 import java.awt.GridBagConstraints;
@@ -39,6 +38,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.LabelFactory;
@@ -47,23 +47,18 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 
 /**
- * The SelectPrinter panel class.
+ * The SelectPrinterPanel class.
  *
  * @author Hal Vaughan
  */
 public class SelectPrinterPanel extends IzPanel implements ActionListener
 {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 3257848774955905587L;
 
     /**
      * The ComboBox to list the printers.
      */
-    private JComboBox cbPrinters;
-
+    private JComboBox<String> cbPrinters;
 
     /**
      * The constructor.
@@ -92,45 +87,44 @@ public class SelectPrinterPanel extends IzPanel implements ActionListener
         superLayout.addLayoutComponent(centerPanel, gbConstraints);
         add(centerPanel);
 
-        cbPrinters = new JComboBox();
-        PrintService[] pServices = PrintServiceLookup.lookupPrintServices(null, null);
-        installData.setVariable("SELECTED_PRINTER", pServices[0].getName());
-        for (PrintService pService : pServices)
+        PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
+        if (printServices.length == 0)
+        {
+            JLabel noPrinterLabel = LabelFactory.create(getString("SelectPrinterPanel.no_printer"), JLabel.LEADING);
+            centerPanel.add(noPrinterLabel);
+            return;
+        }
+
+        cbPrinters = new JComboBox<>();
+        for (PrintService pService : printServices)
         {
             cbPrinters.addItem(pService.getName());
         }
         cbPrinters.addActionListener(this);
 
-        // We create and put the labels
-        String printerText;
-
         centerPanel.add(Box.createVerticalStrut(10));
 
-        printerText = getString("PrinterSelectPanel.select_printer");
-        JLabel selectLabel = LabelFactory.create(printerText, JLabel.LEADING);
+        JLabel selectLabel = LabelFactory.create(getString("SelectPrinterPanel.select_printer"), JLabel.LEADING);
         selectLabel.setAlignmentX(JLabel.LEADING);
         centerPanel.add(selectLabel);
 
         centerPanel.add(Box.createVerticalStrut(20));
 
         centerPanel.add(cbPrinters);
-
-
     }
 
     public void actionPerformed(ActionEvent event)
     {
-        String sPrinter = (String) cbPrinters.getSelectedItem();
-        installData.setVariable("SELECTED_PRINTER", sPrinter);
+        if (cbPrinters != null)
+        {
+            String sPrinter = (String) cbPrinters.getSelectedItem();
+            installData.setVariable("SELECTED_PRINTER", sPrinter);
+        }
     }
 
-    /**
-     * Indicates wether the panel has been validated or not.
-     *
-     * @return Always true.
-     */
-    public boolean isValidated()
+    @Override
+    public void createInstallationRecord(IXMLElement rootElement)
     {
-        return true;
+        new SelectPrinterPanelAutomation().createInstallationRecord(installData, rootElement);
     }
 }
