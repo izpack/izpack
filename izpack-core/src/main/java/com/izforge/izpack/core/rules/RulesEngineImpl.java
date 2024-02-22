@@ -497,6 +497,7 @@ public class RulesEngineImpl implements RulesEngine
     {
         logger.fine("Initializing built-in conditions");
         initOsConditions(platform);
+        initInstallerModeConditions();
         if ((installData != null) && (installData.getAllPacks() != null))
         {
             logger.fine("Initializing built-in conditions for packs");
@@ -542,6 +543,12 @@ public class RulesEngineImpl implements RulesEngine
         createPlatformCondition("izpack.solarisinstall.sparc", platform, Platforms.SUNOS_SPARC);
     }
 
+    private void initInstallerModeConditions() {
+        createInstallerModeCondition("izpack.auto.installer", InstallData.INSTALLER_MODE_AUTO);
+        createInstallerModeCondition("izpack.console.installer", InstallData.INSTALLER_MODE_CONSOLE);
+        createInstallerModeCondition("izpack.gui.installer", InstallData.INSTALLER_MODE_GUI);
+    }
+
     /**
      * Creates a condition to determine if the current platform is that specified.
      *
@@ -557,6 +564,14 @@ public class RulesEngineImpl implements RulesEngine
         condition.setInstallData(installData);
         condition.setId(conditionId);
         conditionsMap.put(condition.getId(), condition);
+    }
+
+    private void createInstallerModeCondition(String conditionId, String value)
+    {
+        Condition condition = new VariableCondition("INSTALLER_MODE", value);
+        condition.setInstallData(installData);
+        condition.setId(conditionId);
+        conditionsMap.put(conditionId, condition);
     }
 
     /**

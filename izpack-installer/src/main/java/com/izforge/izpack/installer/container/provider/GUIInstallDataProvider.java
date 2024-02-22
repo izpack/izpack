@@ -2,6 +2,7 @@ package com.izforge.izpack.installer.container.provider;
 
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.GUIPrefs.LookAndFeel;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.LookAndFeels;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
@@ -84,6 +85,7 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
             throws Exception
     {
         final GUIInstallData guiInstallData = new GUIInstallData(variables, matcher.getCurrentPlatform());
+        guiInstallData.setVariable(InstallData.INSTALLER_MODE, InstallData.INSTALLER_MODE_GUI);
         // Loads the installation data
         loadInstallData(guiInstallData, resources, matcher, housekeeper);
         loadGUIInstallData(guiInstallData, resources);

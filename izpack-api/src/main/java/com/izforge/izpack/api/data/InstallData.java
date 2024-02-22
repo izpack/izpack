@@ -63,6 +63,15 @@ public interface InstallData
     String INSTALLATION_INFORMATION = ".installationinformation";
 
     /**
+     * Installer mode - auto, console, gui
+     */
+    String INSTALLER_MODE = "INSTALLER_MODE";
+
+    String INSTALLER_MODE_AUTO = "auto";
+    String INSTALLER_MODE_CONSOLE = "console";
+    String INSTALLER_MODE_GUI = "gui";
+
+    /**
      * Sets a variable to the specified value.
      * <p/>
      * This is short hand for {@code getVariables().set(name, value)}.

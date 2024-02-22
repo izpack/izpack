@@ -22,6 +22,7 @@ public class AutomatedInstallDataProvider extends AbstractInstallDataProvider
             throws IOException, ClassNotFoundException, InstallerException
     {
         AutomatedInstallData automatedInstallData = new InstallData(variables, matcher.getCurrentPlatform());
+        automatedInstallData.setVariable(com.izforge.izpack.api.data.InstallData.INSTALLER_MODE, com.izforge.izpack.api.data.InstallData.INSTALLER_MODE_AUTO);
         // Loads the installation data
         loadInstallData(automatedInstallData, resources, matcher, housekeeper);
         loadInstallerRequirements(automatedInstallData, resources);

@@ -17,6 +17,7 @@
 package com.izforge.izpack.installer.container.provider;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.data.DefaultVariables;
@@ -32,6 +33,7 @@ public class ConsoleInstallDataProvider extends AbstractInstallDataProvider
             throws Exception
     {
         final ConsoleInstallData consoleInstallData = new ConsoleInstallData(variables, matcher.getCurrentPlatform());
+        consoleInstallData.setVariable(InstallData.INSTALLER_MODE, InstallData.INSTALLER_MODE_CONSOLE);
         loadInstallData(consoleInstallData, resources, matcher, housekeeper);
         loadConsoleInstallData(consoleInstallData, resources);
         loadInstallerRequirements(consoleInstallData, resources);
