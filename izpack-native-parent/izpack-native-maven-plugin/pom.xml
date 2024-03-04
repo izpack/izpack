@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>native-maven-plugin</artifactId>
-            <version>1.0-alpha-7</version>
+            <version>1.0-M1</version>
         </dependency>
     </dependencies>
 
