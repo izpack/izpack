@@ -49,6 +49,7 @@
             <xs:element name="value" type="valueType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
         <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="condition" type="xs:string" use="optional"/>
     </xs:complexType>
 
     <xs:complexType name="keyType">
@@ -98,6 +99,11 @@
             <xs:element name="bin" type="binType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="multi" type="multiType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
+        <xs:attribute name="condition" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>The id of condition which has to be fulfilled to write this value into the registry</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="name" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Name of the value to be set or modified</xs:documentation>
@@ -113,6 +119,11 @@
         <xs:attribute name="override" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Override any existing value or not</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="saveprevious" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Save the previous value or not</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="string" type="xs:string">
