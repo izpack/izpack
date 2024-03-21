@@ -28,44 +28,37 @@
 
 package com.izforge.izpack.panels.datacheck;
 
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Properties;
-
 import javax.swing.BoxLayout;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
-import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 
+import java.util.logging.Logger;
+
 /**
- * DataCheckPanel: Provide a lot of debugging information.  Print a simple header of our
+ * DataCheckPanel: Provide a lot of debugging information. Print a simple header of our
  * instance number and a line to separate output from other instances, then print all
- * the GUIInstallData variables and list all the packs and selected packs.  I hope this will
- * be expanded by others to provide needed debugging information by those developing panels
- * for IzPack.
+ * the InstallData variables, all the packs (selected/unselected), and conditions. I hope
+ * this will be expanded by others to provide needed debugging information by those
+ * developing panels for IzPack.
  *
  * @author Hal Vaughan
  * @author Fabrice Mirabile
  */
 public class DataCheckPanel extends IzPanel
 {
-
     private static final long serialVersionUID = 3257848774955905587L;
-
-    static int instanceCount = 0;
-
-    protected int instanceNumber = 0;
-
-    private GUIInstallData installDataGUI;
-
-    JEditorPane staticText;
+    private static final Logger logger = Logger.getLogger(DataCheckPanel.class.getName());
+    protected static int instanceCount = 0;
+    protected String panelId;
+    protected int instanceNumber;
+    protected final JEditorPane panelBody;
 
     /**
      * The constructor.
@@ -78,95 +71,38 @@ public class DataCheckPanel extends IzPanel
     {
         super(panel, parent, installData, resources);
 
-        installDataGUI = installData;
+        panelId = panel.getPanelId();
         instanceNumber = instanceCount++;
 
-        String sInfo = "Debugging installDataGUI.  All GUIInstallData variables and all packs (selected packs are marked).";
         BoxLayout bLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(bLayout);
-//        setLayout(new GridLayout(3,1));
-        JLabel lInfo = new JLabel(sInfo);
-        add(lInfo);
-        staticText = new JEditorPane();
-        staticText.setEditable(false);
-        JScrollPane scrollText = new JScrollPane(staticText);
-        add(new JLabel("  "));
+        JLabel mainLabel = new JLabel(DataCheckCommon.getMainLabel(instanceNumber, panelId));
+        add(mainLabel);
+        JLabel subLabel = new JLabel(DataCheckCommon.SUB_LABEL);
+        add(subLabel);
+        panelBody = new JEditorPane();
+        panelBody.setEditable(false);
+        JScrollPane scrollText = new JScrollPane(panelBody);
         add(scrollText);
-
     }
 
     /**
-     * When the panel is made active, call the printDebugInfo method.
+     * When the panel is made active, display debug information.
      *
      * @see com.izforge.izpack.installer.gui.IzPanel#panelActivate()
      */
     public void panelActivate()
     {
-        printDebugInfo();
-    }
+        String packNames = DataCheckCommon.getPackNames(installData);
+        String panelBodyText = DataCheckCommon.getInstallDataVariables(installData) + "\n" +
+                (packNames == null ? "" : (packNames + "\n")) +
+                DataCheckCommon.getConditions(installData);
+        String infoToLog = DataCheckCommon.getMainLabelWithDashes(instanceNumber, panelId) + "\n" +
+                DataCheckCommon.SUB_LABEL + "\n" +
+                panelBodyText;
 
-    /**
-     * Get and return the list of pack names.
-     *
-     * @param packList
-     * @return String
-     */
-    private String getPackNames(List<Pack> packList)
-    {
-        String pStatus;
-        String sOutput = "";
-        Pack iPack;
-        for (int i = 0; i < packList.size(); i++)
-        {
-            iPack = packList.get(i);
-            if (installDataGUI.getSelectedPacks().indexOf(iPack) != -1)
-            {
-                pStatus = "Selected";
-            }
-            else
-            {
-                pStatus = "Unselected";
-            }
-            sOutput = sOutput + "\t" + i + ": " + iPack.getName() + " (" + pStatus + ")\n";
-        }
-        return sOutput;
-    }
-
-    /**
-     * Print list of variables names and value, as well as the list
-     * of packages and their status (selected or not).
-     */
-    private void printDebugInfo()
-    {
-        int i = 0;
-        String sInfo = "GUIInstallData Variables:\n";
-        System.out.println("------------------------Data Check Panel Instance " +
-                                   instanceNumber + "------------------------");
-        System.out.println("GUIInstallData Variables:");
-        Properties varList = installDataGUI.getVariables().getProperties();
-        String[] alphaName = new String[varList.size()];
-        Enumeration<String> varNames = (Enumeration<String>) varList.propertyNames();
-        while (varNames.hasMoreElements())
-        {
-            alphaName[i++] = varNames.nextElement();
-        }
-        java.util.Arrays.sort(alphaName);
-        for (i = 0; i < alphaName.length; i++)
-        {
-            sInfo = sInfo + "\tName: " + alphaName[i] + ", Value: " + varList.getProperty(alphaName[i]) + "\n";
-        }
-        sInfo = sInfo + "\nAvailable Packs: \n" + getPackNames(installDataGUI.getAllPacks()) + "\n";
-        System.out.println(sInfo);
-        staticText.setText(sInfo);
-    }
-
-    /**
-     * By nature, always true.
-     *
-     * @return True
-     */
-    public boolean isValidated()
-    {
-        return true;
+        logger.fine(infoToLog);
+        panelBody.setText(panelBodyText);
+        panelBody.setCaretPosition(0);
     }
 }
