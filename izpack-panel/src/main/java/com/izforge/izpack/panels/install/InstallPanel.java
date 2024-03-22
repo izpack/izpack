@@ -334,7 +334,21 @@ public class InstallPanel extends IzPanel implements ProgressListener
         parent.lockPrevButton();
         parent.lockQuitButton();
 
-        parent.install(this);
+        if (!validated)
+        {
+            // user is coming the InstallPanel first time we want to install the packages
+            parent.install(this);
+        }
+        else
+        {
+            // user is coming back to InstallPanel by pressing Previous button on the next Panel, we don't want to
+            // install the packages again
+            if (installData.getPanels().indexOf(InstallPanel.this) != (installData.getPanels().size() - 1))
+            {
+                parent.unlockNextButton();
+                parent.unlockQuitButton();
+            }
+        }
     }
 
 }
