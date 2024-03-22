@@ -602,7 +602,10 @@ public class PacksModel extends AbstractTableModel
         for (String childName : parentPack.getChildren())
         {
             int childPosition = nameToRow.get(childName);
-            checkValues.set(childPosition, parentValue);
+            if (checkValues.get(childPosition).isSelectable())
+            {
+                checkValues.set(childPosition, parentValue);
+            }
         }
     }
 
