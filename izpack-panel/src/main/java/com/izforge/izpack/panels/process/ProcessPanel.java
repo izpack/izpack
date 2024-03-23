@@ -94,6 +94,8 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
     private JTextArea outputPane;
 
     private boolean finishedWork = false;
+    private boolean unlockPrev = false;
+    private boolean unlockNext = false;
 
     /**
      * The constructor.
@@ -182,6 +184,8 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
      */
     public void finishProcessing(final boolean unlockPrev, final boolean unlockNext)
     {
+        this.unlockPrev = unlockPrev;
+        this.unlockNext = unlockNext;
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
@@ -283,6 +287,21 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
         if (!finishedWork)
         {
             this.worker.startThread();
+        }
+        else
+        {
+            if (ProcessPanel.this.installData.getPanels().indexOf(ProcessPanel.this) !=
+                    (ProcessPanel.this.installData.getPanels().size() - 1))
+            {
+                if (unlockNext)
+                {
+                    parent.unlockNextButton();
+                }
+            }
+            if (unlockPrev)
+            {
+                parent.unlockPrevButton();
+            }
         }
     }
 
