@@ -75,6 +75,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
 
     private static final transient Logger logger = Logger.getLogger(InstallerFrame.class.getName());
 
+    private static final String BACKGROUND_IMAGE = "Background.image";
     private static final String ICON_RESOURCE = "Installer.image";
 
     /**
@@ -206,6 +207,12 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
     private JFrame debugframe;
 
     /**
+     * if background image is set then this will be set to false i.e. we want the components to be transparent to
+     * see the background image
+     */
+    private boolean opaque;
+
+    /**
      * Constructs an <tt>InstallerFrame</tt>.
      *
      * @param installData         the installation data
@@ -279,6 +286,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
      */
     public void buildGUI()
     {
+        loadAndSetBackgroundImage();
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         ImageIcon jframeIcon = getIcons().get("JFrameIcon");
         setIconImage(jframeIcon.getImage());
@@ -295,6 +303,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         panelsContainer = new JPanel();
         panelsContainer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         panelsContainer.setLayout(new GridLayout(1, 1));
+        panelsContainer.setOpaque(opaque);
         contentPane.add(panelsContainer, BorderLayout.CENTER);
 
         logger.fine("Building GUI. The panel list to display is " + installdata.getPanels());
@@ -328,6 +337,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         navPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         navPanel.add(navigator.getQuit());
 
+        navPanel.setOpaque(opaque);
         contentPane.add(navPanel, BorderLayout.SOUTH);
 
         // create a debug panel if TRACE is enabled
@@ -367,7 +377,9 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
             else
             {
                 final JPanel debugPanel = debugger.getDebugPanel();
-                debugPanel.setPreferredSize(new Dimension(200, 400));
+                debugPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                debugPanel.setPreferredSize(new Dimension(210, 400));
+                debugPanel.setOpaque(opaque);
                 contentPane.add(debugPanel, BorderLayout.EAST);
             }
         }
@@ -377,10 +389,11 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         {
             JPanel imgPanel = new JPanel();
             imgPanel.setLayout(new BorderLayout());
-            imgPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+            imgPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             iconLabel = new JLabel(icon);
             iconLabel.setBorder(BorderFactory.createLoweredBevelBorder());
             imgPanel.add(iconLabel, BorderLayout.NORTH);
+            imgPanel.setOpaque(opaque);
             contentPane.add(imgPanel, BorderLayout.WEST);
             loadAndShowImageForPanelNum(iconLabel, 0);
         }
@@ -1247,6 +1260,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         createHeadingLabels(headingLines, back);
         // Panel which contains the labels
         JPanel leftHeadingPanel = new JPanel();
+        leftHeadingPanel.setOpaque(opaque);
         if (back != null)
         {
             leftHeadingPanel.setBackground(back);
@@ -1267,6 +1281,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         createHeadingCounter(navPanel, leftHeadingPanel);
         // It is possible to place an icon on the right side of the heading panel.
         JPanel imgPanel = createHeadingIcon(back);
+        imgPanel.setOpaque(opaque);
 
         // The panel for text and icon.
         JPanel northPanel = new JPanel();
@@ -1291,10 +1306,12 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
             northPanel.add(imgPanel);
         }
         headingPanel = new JPanel(new BorderLayout());
+        northPanel.setOpaque(opaque);
         headingPanel.add(northPanel);
         headingPanel.add(new JSeparator(), BorderLayout.SOUTH);
 
         // contentPane.add(northPanel, BorderLayout.NORTH);
+        headingPanel.setOpaque(opaque);
         contentPane.add(headingPanel, BorderLayout.NORTH);
     }
 
@@ -1550,4 +1567,37 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
         return message;
     }
 
+    private void loadAndSetBackgroundImage()
+    {
+        opaque = true;
+        try
+        {
+            Image image = resourceManager.getImageIcon(BACKGROUND_IMAGE).getImage()
+                    .getScaledInstance(installdata.guiPrefs.width, installdata.guiPrefs.height, Image.SCALE_DEFAULT);
+            if (image != null)
+            {
+                ImagePanel imagePanel = new ImagePanel(image);
+                setContentPane(imagePanel);
+                opaque = false;
+            }
+        }
+        catch (ResourceNotFoundException ignored)
+        {
+        }
+    }
+
+    private static class ImagePanel extends JPanel
+    {
+        Image image;
+
+        ImagePanel(Image image) {
+            this.image = image;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, null);
+        }
+    }
 }
