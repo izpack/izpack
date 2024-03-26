@@ -122,6 +122,7 @@
     <str id="PDFLicencePanel.headline" txt="توافقنامۀ کاربر"/>
     <str id="ProcessPanel.headline" txt="پردازش خارج از برنامه"/>
     <str id="ShortcutPanel.headline" txt="میانبرها"/>
+    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
     <str id="SimpleFinishPanel.headline" txt="نصب به پایان رسید."/>
     <str id="SummaryPanel.headline" txt="خلاصه اطلاعات پیکربندی"/>
     <str id="TargetPanel.headline" txt="مسیر مقصد"/>
@@ -217,14 +218,15 @@
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="لطفاً توافقنامۀ کاربر را به دقت مطالعه نمایید:"/>
 
-    <!-- PrinterSelect Panel strings -->
-    <str id="PrinterSelectPanel.select_printer" txt="یک چاپگر برای نصب و آزمون مقدماتی انتخاب کنید."/>
-
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="در حال پردازش"/>
 
     <!-- Registry strings -->
     <str id="functionFailed.RegOpenKeyEx" txt="قادر به باز کردن کلید {0}\\{1} رجیستری نیست."/>
+
+    <!-- Select Printer Panel strings -->
+    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.select_printer" txt="یک چاپگر برای نصب و آزمون مقدماتی انتخاب کنید."/>
 
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>

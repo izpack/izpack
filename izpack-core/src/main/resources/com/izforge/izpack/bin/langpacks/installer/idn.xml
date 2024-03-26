@@ -122,6 +122,7 @@
     <str id="PDFLicencePanel.headline" txt="Perjanjian Lisensi"/>
     <str id="ProcessPanel.headline" txt="Lakukan Proses-Proses Eksternal"/>
     <str id="ShortcutPanel.headline" txt="Jalan-Jalan Pintas"/>
+    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
     <str id="SimpleFinishPanel.headline" txt="Pemasangan Telah Selesai"/>
     <str id="SummaryPanel.headline" txt="Ringkasan Data Konfigurasi"/>
     <str id="TargetPanel.headline" txt="Alamat Tujuan"/>
@@ -217,14 +218,15 @@
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Silakan baca perjanjian lisensi berikut dengan seksama:"/>
 
-    <!-- PrinterSelect Panel strings -->
-    <str id="PrinterSelectPanel.select_printer" txt="Pilihlah printer yang digunakan untuk pemasangan awal dan pengetesan."/>
-
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="Pemrosesan"/>
 
     <!-- Registry strings -->
     <str id="functionFailed.RegOpenKeyEx" txt="Tidak dapat membuka kunci registri {0}\\{1}"/>
+
+    <!-- Select Printer Panel strings -->
+    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.select_printer" txt="Pilihlah printer yang digunakan untuk pemasangan awal dan pengetesan."/>
 
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>

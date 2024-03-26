@@ -122,6 +122,7 @@
     <str id="PDFLicencePanel.headline" txt="Acordo de Licença"/>
     <str id="ProcessPanel.headline" txt="Executar processos externos"/>
     <str id="ShortcutPanel.headline" txt="Configurar Atalhos"/>
+    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
     <str id="SimpleFinishPanel.headline" txt="Instalação Terminada"/>
     <str id="SummaryPanel.headline" txt="Resumo dos Dados de Configuração"/>
     <str id="TargetPanel.headline" txt="Localização de Destino"/>
@@ -217,14 +218,15 @@
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Por favor, leia atentamente o seguinte contrato de licença:"/>
 
-    <!-- PrinterSelect Panel strings -->
-    <str id="PrinterSelectPanel.select_printer" txt="Selecione a impressora para utilizar na configuração inicial e testes."/>
-
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="A processar"/>
 
     <!-- Registry strings -->
     <str id="functionFailed.RegOpenKeyEx" txt="Não foi possível abrir a chave do registo {0}\\{1}."/>
+
+    <!-- Select Printer Panel strings -->
+    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.select_printer" txt="Selecione a impressora para utilizar na configuração inicial e testes."/>
 
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>

@@ -122,6 +122,7 @@
     <str id="PDFLicencePanel.headline" txt="Accords de Licence"/>
     <str id="ProcessPanel.headline" txt="Execution de processus externes"/>
     <str id="ShortcutPanel.headline" txt="Configuration des raccourcis"/>
+    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
     <str id="SimpleFinishPanel.headline" txt="Installation Terminée"/>
     <str id="SummaryPanel.headline" txt="Résumé des données de configuration"/>
     <str id="TargetPanel.headline" txt="Chemin d'installation"/>
@@ -217,14 +218,15 @@
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Veuillez lire attentivement l'accord de licence suivant:"/>
 
-    <!-- PrinterSelect Panel strings -->
-    <str id="PrinterSelectPanel.select_printer" txt="Sélectionner l'imprimante à utiliser durant l'installation et les tests."/>
-
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="En cours de traitement"/>
 
     <!-- Registry strings -->
     <str id="functionFailed.RegOpenKeyEx" txt="Impossible d'ouvrir la clé de registre {0}\\{1}."/>
+
+    <!-- Select Printer Panel strings -->
+    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.select_printer" txt="Sélectionner l'imprimante à utiliser durant l'installation et les tests."/>
 
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>

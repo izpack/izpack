@@ -122,6 +122,7 @@
     <str id="PDFLicencePanel.headline" txt="Käyttöoikeussopimukset"/>
     <str id="ProcessPanel.headline" txt="Suoritetaan ulkopuolisia komentoja"/>
     <str id="ShortcutPanel.headline" txt="Pikalinkit"/>
+    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
     <str id="SimpleFinishPanel.headline" txt="Asennus on päättynyt"/>
     <str id="SummaryPanel.headline" txt="Yhteenveto asetustiedoista"/>
     <str id="TargetPanel.headline" txt="Kohdepolku"/>
@@ -217,14 +218,15 @@
     <!-- PDFLicencePanel strings -->
     <str id="PDFLicencePanel.info" txt="Ole hyvä ja lue huolellisesti seuraava käyttöoikeussopimus:"/>
 
-    <!-- PrinterSelect Panel strings -->
-    <str id="PrinterSelectPanel.select_printer" txt="Valitse kirjoitin asennukseen ja testaukseen."/>
-
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="Käsittely menossa..."/>
 
     <!-- Registry strings -->
     <str id="functionFailed.RegOpenKeyEx" txt="Ei voida avata rekisteriavainta {0}\\{1}."/>
+
+    <!-- Select Printer Panel strings -->
+    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.select_printer" txt="Valitse kirjoitin asennukseen ja testaukseen."/>
 
     <!-- SudoPanel strings -->
     <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
