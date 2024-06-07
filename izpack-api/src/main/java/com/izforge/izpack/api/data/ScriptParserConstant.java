@@ -42,6 +42,10 @@ public class ScriptParserConstant
      */
     public static final String HOST_NAME = "HOST_NAME";
     /**
+     * The canonical hostname (FQDN).
+     */
+    public static final String CANONICAL_HOST_NAME = "CANONICAL_HOST_NAME";
+    /**
      * The ip address.
      */
     public static final String IP_ADDRESS = "IP_ADDRESS";
