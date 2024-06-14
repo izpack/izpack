@@ -23,8 +23,8 @@ package com.izforge.izpack.integration.packaging;
 
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,8 +35,8 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.GuiId;
@@ -111,7 +111,7 @@ public class PackagingTest extends AbstractInstallationTest
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)

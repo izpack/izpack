@@ -18,10 +18,10 @@
  */
 package com.izforge.izpack.util.os;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests the {@link Win_RegistryHandler} class.
@@ -32,13 +32,13 @@ public class Win_RegistryHandlerTest
 {
     private Win_RegistryHandler win_registryHandler;
 
-    @Before
+    @BeforeEach
     public void setup()
     {
         win_registryHandler = new Win_RegistryHandler(null);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDuplicateEntriesInPath()
     {
         String key = "SYSTEM\\CurrentControlSet\\Control Session Manager\\Environment";
@@ -60,7 +60,7 @@ public class Win_RegistryHandlerTest
         assertEquals(expected, retContents);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testNonPathValue()
     {
         String key = "SYSTEM\\CurrentControlSet\\Control Session Manager\\Environment";

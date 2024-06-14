@@ -27,9 +27,10 @@ import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.FileExecutor;
-import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link JDKChecker} class.
@@ -41,7 +42,7 @@ public class JDKCheckerTest extends AbstractRequirementCheckerTest
     /**
      * Tests the {@link JDKChecker} when the JDK is not required.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testNotRequired()
     {
         TestJDKChecker checker = new TestJDKChecker(installData, prompt);
@@ -56,7 +57,7 @@ public class JDKCheckerTest extends AbstractRequirementCheckerTest
     /**
      * Tests the {@link JDKChecker} when the JDK is required.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testRequired()
     {
         TestJDKChecker checker = new TestJDKChecker(installData, prompt);

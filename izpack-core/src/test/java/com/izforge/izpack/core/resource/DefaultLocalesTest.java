@@ -21,16 +21,16 @@
 
 package com.izforge.izpack.core.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.resource.Locales;
@@ -158,7 +158,7 @@ public class DefaultLocalesTest
     /**
      * Verifies that Brazilian Portuguese (pt_BR) and Portuguese (pt_PT) can be supported.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testPortuguese()
     {
         checkDefaultLocale("PRT", "pt", "");      // Portugal

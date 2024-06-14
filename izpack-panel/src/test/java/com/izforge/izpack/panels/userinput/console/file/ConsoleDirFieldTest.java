@@ -26,7 +26,7 @@ import com.izforge.izpack.panels.userinput.field.file.DirField;
 import com.izforge.izpack.panels.userinput.field.file.TestDirFieldConfig;
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
@@ -35,7 +35,7 @@ import java.io.IOException;
 import static com.izforge.izpack.api.handler.Prompt.Option.OK;
 import static com.izforge.izpack.api.handler.Prompt.Options.OK_CANCEL;
 import static com.izforge.izpack.api.handler.Prompt.Type.WARNING;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
@@ -72,7 +72,7 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
     /**
      * Verifies that a valid directory can be entered.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testSetValue()
     {
         ConsoleDirField field = createField(null, true, false);
@@ -87,7 +87,7 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
      *
      * @throws IOException for any I/O error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCreateDir() throws IOException
     {
         ConsoleDirField field = createField(null, false, true);
@@ -113,7 +113,7 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
      *
      * @throws IOException for any I/O error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDirNoExists() throws IOException
     {
         ConsoleDirField field = createField(null, true, false);

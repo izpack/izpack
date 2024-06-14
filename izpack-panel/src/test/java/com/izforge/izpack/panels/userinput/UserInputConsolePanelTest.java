@@ -21,13 +21,13 @@
 
 package com.izforge.izpack.panels.userinput;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -105,7 +105,7 @@ public class UserInputConsolePanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testRuleField() throws Exception
     {
         // Set the base path in order to pick up com/izforge/izpack/panels/userinput/rule/userInputSpec.xml

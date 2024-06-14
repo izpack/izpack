@@ -25,7 +25,7 @@ import java.io.File;
 import java.util.zip.ZipFile;
 
 import org.hamcrest.core.Is;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.merge.Mergeable;
@@ -58,7 +58,7 @@ public class PanelMergeTest
         this.pathResolver = pathResolver;
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testResolvePanelNameFromFile() throws Exception
     {
         panelMerge = pathResolver.getPanelMerge("HelloPanel");
