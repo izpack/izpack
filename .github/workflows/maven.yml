@@ -29,14 +29,14 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven
-        run: mvn -B -U verify
+        run: ./mvnw -B -U verify
       - name: Running Maven GUI tests
         run: |
           sudo apt-get install fluxbox
           export DISPLAY=':99.0'
           Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           fluxbox &> ~/fluxbox.log &
-          mvn -B verify -Pwith-gui-tests
+          ./mvnw -B verify -Pwith-gui-tests
   deploy:
     if: contains( github.ref, 'master')
     needs: build
@@ -56,4 +56,4 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: mvn deploy --settings .github/workflows/settings.xml -DskipTests=true
+        run: ./mvnw deploy --settings .github/workflows/settings.xml -DskipTests=true
