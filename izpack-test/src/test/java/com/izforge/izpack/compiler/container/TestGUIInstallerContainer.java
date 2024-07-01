@@ -21,8 +21,7 @@
 
 package com.izforge.izpack.compiler.container;
 
-import org.picocontainer.MutablePicoContainer;
-
+import com.izforge.izpack.core.container.CdiInitializationContext;
 import com.izforge.izpack.installer.container.impl.GUIInstallerContainer;
 import com.izforge.izpack.test.util.TestHousekeeper;
 import com.izforge.izpack.util.Housekeeper;
@@ -51,21 +50,16 @@ public class TestGUIInstallerContainer extends GUIInstallerContainer
      *
      * @param container the container to use
      */
-    public TestGUIInstallerContainer(MutablePicoContainer container)
+    public TestGUIInstallerContainer(CdiInitializationContext container)
     {
         super(container);
     }
 
-    /**
-     * Registers components with the container.
-     *
-     * @param pico the container
-     */
     @Override
-    protected void registerComponents(MutablePicoContainer pico)
+    protected void fillContainer(CdiInitializationContext context)
     {
-        super.registerComponents(pico);
-        super.getContainer().removeComponent(Housekeeper.class);
-        addComponent(TestHousekeeper.class);
+        super.fillContainer(context);
+        context.removeComponent(Housekeeper.class);
+        context.addComponent(TestHousekeeper.class);
     }
 }

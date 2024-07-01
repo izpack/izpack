@@ -21,24 +21,16 @@
 
 package com.izforge.izpack.panels.userinput.console.check;
 
-import com.izforge.izpack.api.data.ConsolePrefs;
-import com.izforge.izpack.api.handler.Prompt;
-import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.core.container.DefaultContainer;
-import com.izforge.izpack.core.data.DefaultVariables;
-import com.izforge.izpack.core.handler.ConsolePrompt;
-import com.izforge.izpack.core.rules.ConditionContainer;
-import com.izforge.izpack.core.rules.RulesEngineImpl;
-import com.izforge.izpack.installer.data.ConsoleInstallData;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.check.TestCheckFieldConfig;
-import com.izforge.izpack.test.util.TestConsole;
+import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -49,37 +41,10 @@ import static org.junit.Assert.assertTrue;
 public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
 {
 
-    /**
-     * The install data.
-     */
-    private final ConsoleInstallData installData;
-
-    /**
-     * The console.
-     */
-    private final TestConsole console;
-
-    /**
-     * The prompt.
-     */
-    private final Prompt prompt;
-
-    /**
-     * Default constructor.
-     */
-    public ConsoleCheckFieldTest()
+    @Override
+    protected Platform usedPlatform()
     {
-        installData = new ConsoleInstallData(new DefaultVariables(), Platforms.HP_UX);
-        RulesEngine rules = new RulesEngineImpl(new ConditionContainer(new DefaultContainer()),
-                                                installData.getPlatform());
-
-        ConsolePrefs prefs = new ConsolePrefs();
-        prefs.enableConsoleReader = false;
-        installData.consolePrefs = prefs;
-
-        console = new TestConsole(installData, prefs);
-        prompt = new ConsolePrompt(console, installData);
-        installData.setRules(rules);
+        return Platforms.HP_UX;
     }
 
     /**

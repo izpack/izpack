@@ -19,26 +19,41 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.installer.container.provider;
+package com.izforge.izpack.core.provider;
 
-import org.picocontainer.injectors.Provider;
 
-import com.izforge.izpack.api.resource.Locales;
-import com.izforge.izpack.core.resource.DefaultLocales;
-import com.izforge.izpack.core.resource.ResourceManager;
+import com.izforge.izpack.util.Platform;
+import com.izforge.izpack.util.Platforms;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+
 
 /**
- * Provider of {@link Locales}.
+ * Injection provider for the current {@link Platform}.
  *
  * @author Tim Anderson
  */
-public class LocalesProvider implements Provider
+@ApplicationScoped
+public class PlatformProvider
 {
-
-    public Locales provide(ResourceManager resources)
+    /**
+     * Provides the current platform.
+     *
+     * @param platforms the platform factory
+     * @return the current platform
+     */
+    @Produces
+    @ApplicationScoped
+    public Platform provide(Platforms platforms)
     {
-        Locales locales = new DefaultLocales(resources);
-        resources.setLocales(locales);
-        return locales;
+        return platforms.getCurrentPlatform();
+    }
+
+    @Produces
+    @ApplicationScoped
+    public Platforms platforms()
+    {
+        return new Platforms();
     }
 }

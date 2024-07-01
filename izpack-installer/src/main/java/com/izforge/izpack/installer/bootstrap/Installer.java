@@ -318,8 +318,7 @@ public class Installer
             defaults.load();
             logger.info("Loaded " + defaults.size() + " override(s) from " + defaults.getFile());
 
-            DefaultVariables variables = container.getComponent(DefaultVariables.class);
-            variables.setOverrides(defaults);
+            container.getComponent(DefaultVariables.class).setOverrides(defaults);
         }
 
         AutomatedInstaller automatedInstaller = container.getComponent(AutomatedInstaller.class);

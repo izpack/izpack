@@ -31,6 +31,7 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import jakarta.enterprise.inject.Vetoed;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 
@@ -44,7 +45,8 @@ import com.izforge.izpack.api.resource.Resources;
  *
  * @author Tim Anderson
  */
-public abstract class AbstractResources implements Resources
+@Vetoed
+public class AbstractResources implements Resources
 {
 
     /**
@@ -79,13 +81,13 @@ public abstract class AbstractResources implements Resources
      * @throws ResourceNotFoundException if the resource cannot be found
      */
     @Override
-    public InputStream getInputStream(String name)
+    public InputStream getInputStream(final String name)
     {
-        name = resolveName(name);
-        InputStream result = loader.getResourceAsStream(name);
+        final String resolvedName = resolveName(name);
+        final InputStream result = loader.getResourceAsStream(resolvedName);
         if (result == null)
         {
-            throw new ResourceNotFoundException("Failed to locate resource: " + name);
+            throw new ResourceNotFoundException("Failed to locate resource: " + resolvedName);
         }
         return result;
     }
@@ -98,14 +100,14 @@ public abstract class AbstractResources implements Resources
      * @throws ResourceNotFoundException if the resource cannot be found
      */
     @Override
-    public URL getURL(String name)
+    public URL getURL(final String name)
     {
-        URL result = getResource(name);
-        if (result == null)
+        final URL resource = getResource(name);
+        if (resource == null)
         {
             throw new ResourceNotFoundException("Failed to locate resource: " + name);
         }
-        return result;
+        return resource;
     }
 
     /**
@@ -117,7 +119,7 @@ public abstract class AbstractResources implements Resources
      * @throws ResourceException         if the resource cannot be retrieved
      */
     @Override
-    public String getString(String name)
+    public String getString(final String name)
     {
         try
         {
@@ -134,10 +136,10 @@ public abstract class AbstractResources implements Resources
      *
      * @param name         the resource name
      * @param defaultValue the default value, if the resource cannot be found or retrieved
-     * @return the resource as a string, or {@code defaultValue} if cannot be found or retrieved
+     * @return the resource as a string, or {@code defaultValue} if the resource cannot be found or retrieved
      */
     @Override
-    public String getString(String name, String defaultValue)
+    public String getString(final String name, final String defaultValue)
     {
         return getString(name, "UTF-8", defaultValue);
     }
@@ -148,10 +150,10 @@ public abstract class AbstractResources implements Resources
      * @param name         the resource name
      * @param encoding     the resource encoding. May be {@code null}
      * @param defaultValue the default value, if the resource cannot be found or retrieved
-     * @return the resource as a string, or {@code defaultValue} if cannot be found or retrieved
+     * @return the resource as a string, or {@code defaultValue} if the resource cannot be found or retrieved
      */
     @Override
-    public String getString(String name, String encoding, String defaultValue)
+    public String getString(final String name, final String encoding, final String defaultValue)
     {
         String result;
         try
@@ -174,26 +176,16 @@ public abstract class AbstractResources implements Resources
      * @throws ResourceException         if the resource cannot be retrieved
      */
     @Override
-    public Object getObject(String name) throws ResourceException, ResourceNotFoundException
+    public Object getObject(final String name) throws ResourceException, ResourceNotFoundException
     {
-        Object result;
-        InputStream in = getInputStream(name);
-        ObjectInputStream objectIn = null;
-        try
+        try (InputStream in = getInputStream(name); ObjectInputStream objectIn = new ObjectInputStream(in))
         {
-            objectIn = new ObjectInputStream(in);
-            result = objectIn.readObject();
+            return objectIn.readObject();
         }
         catch (Exception exception)
         {
             throw new ResourceException("Failed to read resource: " + name, exception);
         }
-        finally
-        {
-            IOUtils.closeQuietly(objectIn);
-            IOUtils.closeQuietly(in);
-        }
-        return result;
     }
 
     /**
@@ -205,23 +197,23 @@ public abstract class AbstractResources implements Resources
      * @throws ResourceNotFoundException if the resource cannot be found
      */
     @Override
-    public ImageIcon getImageIcon(String name, String... alternatives)
+    public ImageIcon getImageIcon(final String name, final String... alternatives)
     {
-        URL result = getResource(name);
-        if (result == null)
+        URL resource = getResource(name);
+        if (resource == null)
         {
             for (String fallback : alternatives)
             {
-                result = getResource(fallback);
-                if (result != null)
+                resource = getResource(fallback);
+                if (resource != null)
                 {
                     break;
                 }
             }
         }
-        if (result == null)
+        if (resource == null)
         {
-            StringBuilder message = new StringBuilder("Image icon resource not found in ");
+            final StringBuilder message = new StringBuilder("Image icon resource not found in ");
             message.append(name);
             if (alternatives.length != 0)
             {
@@ -233,13 +225,11 @@ public abstract class AbstractResources implements Resources
 
         // must use ImageIO to support BMP files
         try {
-			Image image = ImageIO.read(result);
-			return new ImageIcon(image);
+            final Image image = ImageIO.read(resource);
+            return new ImageIcon(image);
         }
         catch (IOException ex) {
-            StringBuilder message = new StringBuilder("Image icon resource not available from url: ");
-            message.append(result);
-            throw new ResourceNotFoundException(message.toString());
+            throw new ResourceNotFoundException("Image icon resource not available from url: " + resource);
         }
     }
 
@@ -249,10 +239,10 @@ public abstract class AbstractResources implements Resources
      * @param name the resource name
      * @return the corresponding URL, or {@code null} if the resource cannot be found
      */
-    protected URL getResource(String name)
+    protected URL getResource(final String name)
     {
-        name = resolveName(name);
-        return loader.getResource(name);
+        final String resolvedName = resolveName(name);
+        return loader.getResource(resolvedName);
     }
 
     /**
@@ -263,23 +253,13 @@ public abstract class AbstractResources implements Resources
      * @param name the resource name
      * @return the absolute resource name, minus any leading '/'
      */
-    protected String resolveName(String name)
+    protected String resolveName(final String name)
     {
         if (name.charAt(0) == '/')
         {
-            name = name.substring(1);
+            return name.substring(1);
         }
         return name;
-    }
-
-    /**
-     * Returns the class loader.
-     *
-     * @return the class loader
-     */
-    protected ClassLoader getLoader()
-    {
-        return loader;
     }
 
     /**
@@ -291,19 +271,12 @@ public abstract class AbstractResources implements Resources
      * @throws ResourceNotFoundException if the resource cannot be found
      * @throws java.io.IOException       for any I/O error
      */
-    protected String readString(String name, String encoding) throws IOException
+    protected String readString(final String name, final String encoding) throws IOException
     {
-        String result;
-        InputStream in = getInputStream(name);
-        try
+        try (InputStream in = getInputStream(name))
         {
-            result = IOUtils.toString(in, Charsets.toCharset(encoding));
+            return IOUtils.toString(in, Charsets.toCharset(encoding));
         }
-        finally
-        {
-            IOUtils.closeQuietly(in);
-        }
-        return result;
     }
 
 }

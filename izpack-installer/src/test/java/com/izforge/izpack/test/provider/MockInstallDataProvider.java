@@ -20,47 +20,31 @@
  */
 package com.izforge.izpack.test.provider;
 
-import java.io.IOException;
-
-import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Locales;
-import com.izforge.izpack.installer.container.provider.AbstractInstallDataProvider;
-import com.izforge.izpack.util.Platforms;
+import com.izforge.izpack.core.factory.InstallDataFactory;
+import com.izforge.izpack.core.rules.RulesEngineImpl;
 
 /**
  * Test provider for {@link InstallData}.
  *
  * @author Tim Anderson
  */
-public abstract class AbstractInstallDataMockProvider extends AbstractInstallDataProvider
+final class MockInstallDataProvider
 {
 
     /**
-     * Populates an {@link AutomatedInstallData}.
+     * Populates an {@link InstallData}.
      *
      * @param installData the installation data to populate
      * @param locales     the locales
-     * @throws IOException if the default messages cannot be found
      */
-    protected void populate(AutomatedInstallData installData, Locales locales) throws IOException
+    static void populate(InstallData installData, Locales locales)
     {
-        Info info = new Info();
-        installData.setInfo(info);
-        loadDefaultLocale(installData, locales);
-        setStandardVariables(installData, null);
-    }
-
-    /**
-     * Creates a new {@link com.izforge.izpack.api.data.AutomatedInstallData}.
-     *
-     * @param variables the variables
-     * @return a new {@link com.izforge.izpack.api.data.AutomatedInstallData}
-     */
-    protected AutomatedInstallData createInstallData(Variables variables)
-    {
-        return new AutomatedInstallData(variables, Platforms.MAC_OSX);
+        installData.setInfo(new Info());
+        installData.setRules(new RulesEngineImpl(installData,null));
+        InstallDataFactory.loadDefaultLocale(installData, locales);
+        InstallDataFactory.setStandardVariables(installData, null);
     }
 }

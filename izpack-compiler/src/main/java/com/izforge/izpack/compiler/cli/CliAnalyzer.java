@@ -43,6 +43,11 @@ public class CliAnalyzer {
     private static final String ARG_COMPRESSION_LEVEL = "l";
 
 
+    public static CompilerData parseArguments(String... args) throws ParseException {
+        CliAnalyzer cliAnalyzer = new CliAnalyzer();
+        return cliAnalyzer.printAndParseArgs(args);
+    }
+
     /**
      * Get options for the command line parser
      *
@@ -175,7 +180,7 @@ public class CliAnalyzer {
      * @param commandLine
      */
     private void validateCommandLine(CommandLine commandLine) {
-        if (commandLine.getArgList().size() == 0) {
+        if (commandLine.getArgList().isEmpty()) {
             printHelp();
             throw new NoArgumentException();
         }

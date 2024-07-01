@@ -1,34 +1,92 @@
-package com.izforge.izpack.installer.container.provider;
+/*
+ * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Copyright 2010 Anthonin Bonnefoy
+ * Copyright 2012 Tim Anderson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
+package com.izforge.izpack.core.factory;
+
+import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
-import com.izforge.izpack.api.data.*;
-import com.izforge.izpack.api.data.Info.TempDir;
+import com.izforge.izpack.api.adaptator.impl.XMLParser;
+import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
+import com.izforge.izpack.api.data.DynamicVariable;
+import com.izforge.izpack.api.data.Info;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.InstallerRequirement;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.data.PackInfo;
+import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.ScriptParserConstant;
+import com.izforge.izpack.api.data.Value;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.util.*;
-import org.apache.commons.io.IOUtils;
-import org.picocontainer.injectors.Provider;
+import com.izforge.izpack.api.rules.Condition;
+import com.izforge.izpack.api.rules.RulesEngine;
+import com.izforge.izpack.core.data.DefaultVariables;
+import com.izforge.izpack.core.rules.ConditionContainer;
+import com.izforge.izpack.core.rules.RulesEngineImpl;
+import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.IoHelper;
+import com.izforge.izpack.util.OsVersion;
+import com.izforge.izpack.util.Platform;
+import com.izforge.izpack.util.TemporaryDirectory;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.net.InetAddress;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Abstract base class for providers of {@link InstallData}.
- */
-public abstract class AbstractInstallDataProvider implements Provider
+public final class InstallDataFactory
 {
+    private static final Logger LOGGER = Logger.getLogger(InstallDataFactory.class.getName());
     /**
-     * The logger.
+     * Resource name of the conditions specification
      */
-    private static final Logger logger = Logger.getLogger(AbstractInstallDataProvider.class.getName());
+    private static final String CONDITIONS_SPECRESOURCENAME = "conditions.xml";
+
+    public static <I extends InstallData> I create(
+            Resources resources, Variables variables, Platform platform, Locales locales,
+            Predicate<Pack> availablePackPredicate, BiFunction<Variables, Platform, I> installDataConstructor)
+            throws ResourceException {
+        I installData = installDataConstructor.apply(variables, platform);
+        loadInstallData(installData, resources, availablePackPredicate);
+        loadDynamicVariables(variables, installData, resources);
+        loadDynamicConditions(installData, resources);
+        loadDefaultLocale(installData, locales);
+        loadInstallerRequirements(installData, resources);
+        addCustomLangpack(installData, locales);
+        addUserInputLangpack(installData, locales);
+        return installData;
+    }
 
 
     /**
@@ -39,16 +97,14 @@ public abstract class AbstractInstallDataProvider implements Provider
      *
      * @param installData the installation data to populate
      * @param resources   the resources
-     * @param matcher     the platform-model matcher
-     * @param housekeeper the housekeeper for cleaning up temporary files
+     * @param availablePackPredicate  the predicate to match available packs
      * @throws IOException            for any I/O error
-     * @throws ClassNotFoundException if a serialized object's class cannot be found
      * @throws ResourceException      for any resource error
      */
     @SuppressWarnings("unchecked")
-    protected void loadInstallData(AutomatedInstallData installData, Resources resources,
-                                   PlatformModelMatcher matcher, Housekeeper housekeeper)
-            throws IOException, ClassNotFoundException
+    private static void loadInstallData(InstallData installData, Resources resources,
+                                        Predicate<Pack> availablePackPredicate)
+            throws ResourceException
     {
         // We load the Info data
         Info info = (Info) resources.getObject("info");
@@ -85,32 +141,21 @@ public abstract class AbstractInstallDataProvider implements Provider
 
         // We read the panels order data
         List<Panel> panelsOrder = (List<Panel>) resources.getObject("panelsOrder");
+        List<Panel> installDataPanelsOrder = installData.getPanelsOrder();
+        installDataPanelsOrder.clear();
+        installDataPanelsOrder.addAll(panelsOrder);
 
         // We read the packs data
-        InputStream in = resources.getInputStream("packs.info");
-        ObjectInputStream objIn = new ObjectInputStream(in);
-        List<PackInfo> packs;
-        try
-        {
-            packs = (List<PackInfo>) objIn.readObject();
-        }
-        finally
-        {
-            IOUtils.closeQuietly(objIn);
-        }
+        List<PackInfo> packInfos = (List<PackInfo>)resources.getObject("packs.info");
+        List<Pack> allPacks = installData.getAllPacks();
+        // initialize all packs first
+        allPacks.clear();
+        packInfos.forEach(packInfo -> allPacks.add(packInfo.getPack()));
+        // update available packs
+        installData.updateAvailablePacks(availablePackPredicate);
+        // update selected based on the available packs
+        installData.updateSelectedPacks(Pack::isPreselected);
 
-        List<Pack> availablePacks = new ArrayList<Pack>();
-        List<Pack> allPacks = new ArrayList<Pack>();
-
-        for (PackInfo packInfo : packs)
-        {
-            Pack pack = packInfo.getPack();
-            allPacks.add(pack);
-            if (matcher.matchesCurrentPlatform(pack.getOsConstraints()))
-            {
-                availablePacks.add(pack);
-            }
-        }
         setStandardVariables(installData, dir);
 
         // We load the user variables
@@ -123,25 +168,93 @@ public abstract class AbstractInstallDataProvider implements Provider
                 installData.setVariable(varName, properties.getProperty(varName));
             }
         }
+    }
 
-        installData.setPanelsOrder(panelsOrder);
-        installData.setAvailablePacks(availablePacks);
-        installData.setAllPacks(allPacks);
-
-        // get list of preselected packs
-        for (Pack availablePack : availablePacks)
+    public static void initializeRules(InstallData installData, Variables variables,
+                                       ConditionContainer conditionContainer, Resources resources)
+    {
+        RulesEngine rules = installData.getRules();
+        if (rules == null)
         {
-            if (availablePack.isPreselected())
+            rules = new RulesEngineImpl(installData, conditionContainer);
+            Map<String, Condition> conditions = readConditions(resources);
+            if (conditions != null && !conditions.isEmpty())
             {
-                installData.getSelectedPacks().add(availablePack);
+                rules.readConditionMap(conditions);
+            }
+            else
+            {
+                IXMLElement xml = readConditions();
+                if (xml != null)
+                {
+                    rules.analyzeXml(xml);
+                }
+            }
+            installData.setRules(rules);
+        }
+        variables.setRules(rules);
+    }
+
+    /**
+     * Reads conditions using the resources.
+     * <p/>
+     * This looks for a serialized resource named <em>"rules"</em>.
+     *
+     * @param resources the resources
+     * @return the conditions, keyed on id, or <tt>null</tt> if the resource doesn't exist or cannot be read
+     */
+    @SuppressWarnings("unchecked")
+    private static Map<String, Condition> readConditions(Resources resources)
+    {
+        Map<String, Condition> rules = null;
+        try
+        {
+            rules = (Map<String, Condition>) resources.getObject("rules");
+        }
+        catch (ResourceNotFoundException rnfe)
+        {
+            LOGGER.fine("No optional rules defined");
+        }
+        catch (ResourceException re)
+        {
+            LOGGER.log(Level.SEVERE, "Optional rules could not be loaded", re);
+        }
+        return rules;
+    }
+
+    /**
+     * Reads conditions from the class path.
+     * <p/>
+     * This looks for an XML resource named <em>"conditions.xml"</em>.
+     *
+     * @return the conditions, or <tt>null</tt> if they cannot be read
+     */
+    private static IXMLElement readConditions()
+    {
+        IXMLElement conditions = null;
+        try
+        {
+            InputStream input = ClassLoader.getSystemResourceAsStream(CONDITIONS_SPECRESOURCENAME);
+            if (input != null)
+            {
+                XMLParser xmlParser = new XMLParser();
+                conditions = xmlParser.parse(input);
             }
         }
-
-        // Create any temp directories
-        Set<TempDir> tempDirs = info.getTempDirs();
-        if (null != tempDirs && tempDirs.size() > 0)
+        catch (Exception e)
         {
-            for (TempDir tempDir : tempDirs)
+            LOGGER.fine("No optional resource found: " + CONDITIONS_SPECRESOURCENAME);
+        }
+        return conditions;
+    }
+
+    public static void initializeTempDirectores(InstallData installData, Housekeeper housekeeper) throws IOException
+    {
+        // Create any temp directories
+        Set<Info.TempDir> tempDirs = installData.getInfo().getTempDirs();
+        if (null != tempDirs && !tempDirs.isEmpty())
+        {
+            for (Info.TempDir tempDir : tempDirs)
             {
                 TemporaryDirectory directory = new TemporaryDirectory(tempDir, installData, housekeeper);
                 directory.create();
@@ -150,7 +263,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
     }
 
-    protected void setStandardVariables(AutomatedInstallData installData, String dir)
+    public static void setStandardVariables(InstallData installData, String dir)
     {
         // Determine the hostname and IP address
         String hostname;
@@ -166,7 +279,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
         catch (Exception exception)
         {
-            logger.log(Level.WARNING, "Failed to determine hostname and IP address", exception);
+            LOGGER.log(Level.WARNING, "Failed to determine hostname and IP address", exception);
             hostname = "";
             canonicalHostname = "";
             IPAddress = "";
@@ -188,7 +301,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      *
      * @param installData the install data to be used
      */
-    public static void addCustomLangpack(AutomatedInstallData installData, Locales locales)
+    public static void addCustomLangpack(InstallData installData, Locales locales)
     {
         addLangpack(Resources.CUSTOM_TRANSLATIONS_RESOURCE_NAME, "custom", installData, locales);
     }
@@ -198,26 +311,26 @@ public abstract class AbstractInstallDataProvider implements Provider
      *
      * @param installData the install data to be used
      */
-    public static void addUserInputLangpack(AutomatedInstallData installData, Locales locales)
+    public static void addUserInputLangpack(InstallData installData, Locales locales)
     {
         addLangpack(Resources.USER_INPUT_TRANSLATIONS_RESOURCE_NAME, "user input", installData, locales);
     }
 
-    private static void addLangpack(String resName, String langPackName, AutomatedInstallData installData, Locales locales)
+    private static void addLangpack(String resName, String langPackName, InstallData installData, Locales locales)
     {
         // We try to load and add langpack.
         try
         {
             installData.getMessages().add(locales.getMessages(resName));
-            logger.fine("Found " + langPackName + " langpack for " + installData.getLocaleISO3());
+            LOGGER.fine("Found " + langPackName + " langpack for " + installData.getLocaleISO3());
         }
         catch (ResourceNotFoundException exception)
         {
-            logger.fine("No " + langPackName + " langpack for " + installData.getLocaleISO3() + " available");
+            LOGGER.fine("No " + langPackName + " langpack for " + installData.getLocaleISO3() + " available");
         }
     }
 
-    private String getDir(Resources resources)
+    private static String getDir(Resources resources)
     {
         // We determine the operating system and the initial installation path
         String dir;
@@ -251,7 +364,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      * @param resources the resources
      * @return The Windows default installation path for applications.
      */
-    private String buildWindowsDefaultPath(Resources resources)
+    private static String buildWindowsDefaultPath(Resources resources)
     {
         try
         {
@@ -268,7 +381,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
         catch (Exception exception)
         {
-            logger.log(Level.WARNING, exception.getMessage(), exception);
+            LOGGER.log(Level.WARNING, exception.getMessage(), exception);
             return buildWindowsDefaultPathFromProps(resources);
         }
     }
@@ -279,7 +392,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      *
      * @return the program files path
      */
-    private String buildWindowsDefaultPathFromProps(Resources resources)
+    private static String buildWindowsDefaultPathFromProps(Resources resources)
     {
         StringBuilder result = new StringBuilder("");
         try
@@ -339,7 +452,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      * @param installData the installation data
      */
     @SuppressWarnings("unchecked")
-    protected void loadDynamicVariables(Variables variables, InstallData installData, Resources resources)
+    private static void loadDynamicVariables(Variables variables, InstallData installData, Resources resources)
     {
         try
         {
@@ -353,7 +466,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
         catch (Exception e)
         {
-            logger.log(Level.WARNING, "Cannot find optional dynamic variables", e);
+            LOGGER.log(Level.WARNING, "Cannot find optional dynamic variables", e);
         }
     }
 
@@ -364,7 +477,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      * @param resources   the resources
      */
     @SuppressWarnings("unchecked")
-    protected void loadDynamicConditions(AutomatedInstallData installData, Resources resources)
+    private static void loadDynamicConditions(InstallData installData, Resources resources)
     {
         try
         {
@@ -374,7 +487,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         }
         catch (Exception e)
         {
-            logger.log(Level.WARNING, "Cannot find optional dynamic conditions", e);
+            LOGGER.log(Level.WARNING, "Cannot find optional dynamic conditions", e);
         }
     }
 
@@ -387,7 +500,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      * @throws ResourceNotFoundException if the resource cannot be found
      */
     @SuppressWarnings("unchecked")
-    protected void loadInstallerRequirements(AutomatedInstallData installData, Resources resources)
+    private static void loadInstallerRequirements(InstallData installData, Resources resources)
     {
         List<InstallerRequirement> requirements =
                 (List<InstallerRequirement>) resources.getObject("installerrequirements");
@@ -401,7 +514,7 @@ public abstract class AbstractInstallDataProvider implements Provider
      * @param locales     the supported locales
      * @throws IOException for any I/O error
      */
-    protected void loadDefaultLocale(AutomatedInstallData installData, Locales locales)
+    public static void loadDefaultLocale(InstallData installData, Locales locales)
     {
         Locale locale = locales.getLocale();
         if (locale != null)
@@ -411,5 +524,4 @@ public abstract class AbstractInstallDataProvider implements Provider
             installData.setMessages(locales.getMessages());
         }
     }
-
 }
