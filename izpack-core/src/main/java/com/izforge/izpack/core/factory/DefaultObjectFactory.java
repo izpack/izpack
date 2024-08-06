@@ -24,6 +24,10 @@ package com.izforge.izpack.core.factory;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.factory.ObjectFactory;
+import com.izforge.izpack.util.ClassUtil;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 
 /**
@@ -31,6 +35,7 @@ import com.izforge.izpack.api.factory.ObjectFactory;
  *
  * @author Tim Anderson
  */
+@ApplicationScoped
 public class DefaultObjectFactory implements ObjectFactory
 {
     /**
@@ -44,6 +49,7 @@ public class DefaultObjectFactory implements ObjectFactory
      *
      * @param container the container
      */
+    @Inject
     public DefaultObjectFactory(Container container)
     {
         this.container = container;
@@ -62,23 +68,15 @@ public class DefaultObjectFactory implements ObjectFactory
     @Override
     public <T> T create(Class<T> type, Object... parameters)
     {
-        T result;
-        Container child = container.createChildContainer();
-        try
+        if (parameters.length == 0)
         {
-            child.addComponent(type);
-            for (Object parameter : parameters)
-            {
-                child.addComponent(parameter, parameter);
-            }
-            result = child.getComponent(type);
+            return container.getComponent(type);
         }
-        finally
+        else
         {
-            container.removeChildContainer(child);
-            child.dispose();
+            throw new UnsupportedOperationException("create with arguments");
         }
-        return result;
+        
     }
 
     /**
@@ -98,7 +96,7 @@ public class DefaultObjectFactory implements ObjectFactory
     @Override
     public <T> T create(String className, Class<T> superType, Object... parameters)
     {
-        Class<? extends T> type = container.getClass(className, superType);
+        Class<? extends T> type = ClassUtil.getClass(className, superType);
         return create(type, parameters);
     }
 }

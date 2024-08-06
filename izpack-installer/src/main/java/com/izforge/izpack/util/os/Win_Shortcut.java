@@ -21,15 +21,18 @@
 
 package com.izforge.izpack.util.os;
 
-import com.izforge.izpack.util.Librarian;
-import com.izforge.izpack.util.StringTool;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.izforge.izpack.util.Librarian;
+import com.izforge.izpack.util.StringTool;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,6 +43,8 @@ import java.util.logging.Logger;
  * @version 0.0.1 / 3/4/02
  */
 /*---------------------------------------------------------------------------*/
+@OsName("windows")
+@ApplicationScoped
 public class Win_Shortcut extends Shortcut
 {
     private static final Logger logger = Logger.getLogger(Win_Shortcut.class.getName());
@@ -56,6 +61,7 @@ public class Win_Shortcut extends Shortcut
      *
      * @param librarian the librarian
      */
+    @Inject
     public Win_Shortcut(Librarian librarian)
     {
         this.librarian = librarian;
@@ -167,7 +173,7 @@ public class Win_Shortcut extends Shortcut
         // groups)
         if (linkPath == null)
         {
-            return (new ArrayList<String>());
+            return (new ArrayList<>());
         }
 
         File path = new File(linkPath);
@@ -177,7 +183,7 @@ public class Win_Shortcut extends Shortcut
         // build a vector that contains only the names of
         // the directories.
         // ----------------------------------------------------
-        List<String> groups = new ArrayList<String>();
+        List<String> groups = new ArrayList<>();
         groups.add("(Default)"); // Should be the same value as DEFAULT_FOLDER from ShortcutConstants
         if (file != null)
         {

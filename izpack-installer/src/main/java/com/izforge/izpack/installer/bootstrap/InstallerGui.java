@@ -28,7 +28,6 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.installer.container.impl.GUIInstallerContainer;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
-import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.SplashScreen;
 import com.izforge.izpack.installer.language.LanguageDialog;
@@ -86,7 +85,7 @@ public class InstallerGui
 
 			if (defaults != null)
 			{
-				defaults.setInstallData(applicationComponent.getComponent(InstallData.class));
+				defaults.setInstallData(applicationComponent.getComponent(GUIInstallData.class));
 				defaults.load();
 				logger.info("Loaded " + defaults.size() + " override(s) from " + defaults.getFile());
 
