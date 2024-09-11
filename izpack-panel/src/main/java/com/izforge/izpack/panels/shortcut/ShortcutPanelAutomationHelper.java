@@ -40,7 +40,6 @@ import com.izforge.izpack.util.TargetFactory;
  * installation.
  *
  * @author Marc Eppelmann (marc.eppelmann&#064;gmx.de)
- * @version $Revision: 1540 $
  */
 public class ShortcutPanelAutomationHelper extends PanelAutomationHelper implements PanelAutomation
 {
@@ -61,9 +60,10 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
                                          UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory,
                                          InstallerListeners listeners, PlatformModelMatcher matcher) throws Exception
     {
-        shortcutPanelLogic = new ShortcutPanelLogic(installData, resources, uninstallData,
-                                                    housekeeper, factory, listeners, matcher);
+        this(new ShortcutPanelLogic(installData, resources, uninstallData,
+                                                    housekeeper, factory, listeners, matcher));
     }
+
     public ShortcutPanelAutomationHelper(ShortcutPanelLogic shortcutPanelLogic) throws Exception
     {
         this.shortcutPanelLogic = shortcutPanelLogic;
@@ -88,18 +88,18 @@ public class ShortcutPanelAutomationHelper extends PanelAutomationHelper impleme
     @Override
     public void runAutomated(InstallData installData, IXMLElement panelRoot)
     {
-        shortcutPanelLogic.setAutoinstallXMLData(panelRoot);
-        if (shortcutPanelLogic.isCreateShortcutsImmediately())
+        try
         {
-            try
+            shortcutPanelLogic.refreshShortcutData();
+            shortcutPanelLogic.setAutoinstallXMLData(panelRoot);
+            if (shortcutPanelLogic.isCreateShortcutsImmediately())
             {
-                shortcutPanelLogic.refreshShortcutData();
                 shortcutPanelLogic.createAndRegisterShortcuts();
             }
-            catch (Exception e)
-            {
-                // ignore exception
-            }
+        }
+        catch (Exception e)
+        {
+            // ignore exception
         }
     }
 
