@@ -20,7 +20,7 @@
  */
 package com.izforge.izpack.panels.userinput.console.radio;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,7 +29,7 @@ import java.util.Set;
 
 import com.izforge.izpack.panels.userinput.field.Choice;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;

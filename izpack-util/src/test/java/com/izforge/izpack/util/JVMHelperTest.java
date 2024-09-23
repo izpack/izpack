@@ -20,13 +20,13 @@
  */
 package com.izforge.izpack.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link JVMHelper}.
@@ -80,7 +80,7 @@ public class JVMHelperTest
      * Due to a bug in {@link java.lang.management.RuntimeMXBean#getInputArguments()}, arguments with spaces are
      * split. See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6459832 for more details.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testArgumentWithSpaces()
     {
         JVMHelper helper = new JVMHelper()

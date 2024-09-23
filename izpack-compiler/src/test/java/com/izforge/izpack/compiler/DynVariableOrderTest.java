@@ -26,11 +26,11 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.jar.JarFile;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
@@ -42,7 +42,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  * Tests for correct order of dynamic variable computation
  * 
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoRunner.class)
 @Container(TestCompilerContainer.class)
 public class DynVariableOrderTest
 {
@@ -60,7 +60,7 @@ public class DynVariableOrderTest
     }
 
     @SuppressWarnings("unchecked")
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         compilerConfig.executeCompiler();
@@ -104,7 +104,7 @@ public class DynVariableOrderTest
     /**
      * Test behaviour of cyclic dependencies
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile(xmlDir+"cyclicDependency.xml")
     public void testCyclicDependency() 
     {
@@ -161,7 +161,7 @@ public class DynVariableOrderTest
     /**
      * Test a longer dependency of variables in mixed order
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile(xmlDir+"mixedDependency.xml")
     public void testMixedDependency() 
     {
@@ -182,7 +182,7 @@ public class DynVariableOrderTest
     /**
      * Test two separate dependency sequences merging together
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile(xmlDir+"parallelDependency.xml")
     public void testParallelDependency() 
     {
@@ -193,7 +193,7 @@ public class DynVariableOrderTest
     /**
      * Test variables with values with indirect variable references
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile(xmlDir+"complexValueDependency.xml")
     public void testComplexValueDependency() 
     {
@@ -251,7 +251,7 @@ public class DynVariableOrderTest
     /**
      * Test variables with conditions in expression language
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile(xmlDir+"expressionLanguage.xml")
     public void testExpressionLanguageDependency() 
     {
@@ -264,7 +264,7 @@ public class DynVariableOrderTest
      * @see <a href="https://izpack.atlassian.net/browse/IZPACK-1260">IZPACK-1260</a>
      * @see com.izforge.izpack.core.data.DefaultVariablesTest#testDynamicVariablesIZPACK1260()
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile(xmlDir+"IZPACK-1260.xml")
     public void testIZPACK1260() 
     {

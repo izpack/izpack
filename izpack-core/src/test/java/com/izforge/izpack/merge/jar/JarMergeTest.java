@@ -20,7 +20,7 @@
 package com.izforge.izpack.merge.jar;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -36,8 +36,8 @@ import java.util.zip.ZipEntry;
 
 import org.hamcrest.core.Is;
 import org.hamcrest.core.StringContains;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -55,7 +55,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoRunner.class)
 @Container(TestMergeContainer.class)
 public class JarMergeTest
 {
@@ -77,7 +77,7 @@ public class JarMergeTest
         );
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testMergeClassFromJarFile() throws Exception
     {
         List<Mergeable> jarMergeList = pathResolver.getMergeableFromPath("org/fest/assertions/Assert.class");
@@ -88,7 +88,7 @@ public class JarMergeTest
         assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("org/fest/assertions/Assert.class"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testMergeClassFromJarFileWithDestination() throws Exception
     {
         List<Mergeable> jarMergeList = pathResolver.getMergeableFromPath("org/fest/assertions/Assert.class",
@@ -131,7 +131,7 @@ public class JarMergeTest
     }
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testFindFileInJarFoundWithURL() throws Exception
     {
         URL urlJar = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
@@ -148,7 +148,7 @@ public class JarMergeTest
         assertThat(file.getName(), Is.is("HelloPanel.class"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testRegexpMatch() throws Exception
     {
         String toCheckKo = "com/izforge/izpack/panels/installationgroup/";
@@ -163,7 +163,7 @@ public class JarMergeTest
     /**
      * Verifies that signature files are excluded from being merged.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testExcludeSignatures() throws IOException
     {
         // create a test jar, with a number of files, including dummy signatures

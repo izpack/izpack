@@ -36,10 +36,10 @@ import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.IoHelper;
 import org.hamcrest.core.IsNot;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
@@ -54,8 +54,8 @@ import java.util.zip.ZipFile;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the {@link UninstallDataWriter}.
@@ -113,7 +113,7 @@ public class UninstallDataWriterTest
     /**
      * Sets up the test case.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
         // write to temporary folder so the test doesn't need to be run with elevated permissions
@@ -124,7 +124,7 @@ public class UninstallDataWriterTest
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         System.getProperties().remove("izpack.mode");

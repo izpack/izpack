@@ -18,15 +18,15 @@
  */
 package com.izforge.izpack.core.rules.process;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
@@ -57,7 +57,7 @@ public class ContainsConditionTest
     /**
      * Checks conditions for file read from the test <em>contains_in_file.xml</em> file.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testInFile()
     {
         Map<String,Boolean> additional = new HashMap<String, Boolean>();
@@ -69,7 +69,7 @@ public class ContainsConditionTest
     /**
      * Checks conditions for variables read from the test <em>contains_in_variable.xml</em> file.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testInVariable()
     {
         Variables variables = new DefaultVariables();

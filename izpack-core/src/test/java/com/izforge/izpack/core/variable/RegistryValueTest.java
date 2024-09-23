@@ -1,8 +1,10 @@
 package com.izforge.izpack.core.variable;
 
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.PrivilegedRunner;
@@ -16,21 +18,21 @@ public class RegistryValueTest {
 	@Test
 	public void testResolve() throws Exception {
 		// run tests only if not elevation is needed
-		Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+		assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
 		
 		// CompilerConfig and ConfigurationInstallerListener both check for the existance of regKey - this must be provided
 		String regKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control";
 		String regValue = "CurrentUser";
-		Assert.assertEquals("USERNAME", new RegistryValue(regKey, regValue).resolve());
+		assertEquals("USERNAME", new RegistryValue(regKey, regValue).resolve());
 		
 //		Assert.assertEquals("%SystemRoot%\\MEMORY.DMP", new RegistryValue(regKey + "\\CrashControl", "DumpFile").resolve());
-		Assert.assertEquals("%SystemRoot%\\Minidump", new RegistryValue(regKey + "\\CrashControl", "MinidumpDir").resolve());
+		assertEquals("%SystemRoot%\\Minidump", new RegistryValue(regKey + "\\CrashControl", "MinidumpDir").resolve());
 		
 // This won't work			
 //			Assert.assertEquals("%SystemRoot%\\MEMORY.DMP", new RegistryValue(null, regKey, "CrashControl\\DumpFile").resolve());
 		
 		regKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\DOES_NOT_EXIST";
 		regValue = "ImagePath";
-		Assert.assertEquals(null, new RegistryValue(regKey, regValue).resolve());
+    assertNull(new RegistryValue(regKey, regValue).resolve());
 	}
 }

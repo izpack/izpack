@@ -30,9 +30,9 @@ import java.util.jar.JarFile;
 import org.apache.maven.shared.jar.JarAnalyzer;
 import org.apache.maven.shared.jar.classes.JarClasses;
 import org.apache.maven.shared.jar.classes.JarClassesAnalysis;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
@@ -93,8 +93,8 @@ public class CompilerConfigTest
                 "com/izforge/izpack/panels/checkedhello/CheckedHelloConsolePanel.class"));
     }
 
-    @Test
-    @Ignore
+    @org.junit.jupiter.api.Test
+    @Disabled
     public void testImportAreResolved() throws Exception
     {
         JarAnalyzer jarAnalyzer = new JarAnalyzer(new File(jar.getName()));
@@ -134,7 +134,7 @@ public class CompilerConfigTest
     /**
      * Verifies that the panelDependencies.properties file is used to resolve panel dependencies.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testResolvePanelDependencies()
     {
         mergeManager.addResourceToMerge(pathResolver.getPanelMerge("DefaultTargetPanel"));

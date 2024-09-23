@@ -21,14 +21,14 @@
 
 package com.izforge.izpack.panels.userinput.console.combo;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
@@ -77,7 +77,7 @@ public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
     /**
      * Tests choice not available due to false condition
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testConditionalValueFalse()
     {
         rules.addCondition(new BooleanCondition("showCondChoice", false, installData));

@@ -23,19 +23,18 @@ package com.izforge.izpack.panels.process;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
-import org.hamcrest.core.StringContains;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.substance.skin.SubstanceBusinessLookAndFeel;
 
 import com.izforge.izpack.api.GuiId;
@@ -90,7 +89,7 @@ public class ProcessPanelTest extends AbstractPanelTest
     /**
      * Sets up the test.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
         lookAndFeel = UIManager.getLookAndFeel();
@@ -102,7 +101,7 @@ public class ProcessPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
         super.tearDown();

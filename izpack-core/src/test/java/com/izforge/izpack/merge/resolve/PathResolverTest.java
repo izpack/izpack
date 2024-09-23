@@ -34,8 +34,8 @@ import org.hamcrest.core.IsCollectionContaining;
 import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsNot;
 import org.hamcrest.core.StringContains;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
@@ -50,7 +50,7 @@ import com.izforge.izpack.util.FileUtil;
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoRunner.class)
 @Container(TestMergeContainer.class)
 public class PathResolverTest
 {
@@ -61,7 +61,7 @@ public class PathResolverTest
         this.pathResolver = pathResolver;
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetMergeableFromJar() throws Exception
     {
         List<Mergeable> jarMergeList = pathResolver.getMergeableFromPath("junit/framework");
@@ -80,7 +80,7 @@ public class PathResolverTest
         assertThat(urlList.size(), Matchers.greaterThan(1));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testResolvePathOfFileAndJar() throws Exception
     {
         Set<URL> urlList = pathResolver.resolvePath("META-INF/MANIFEST.MF");
@@ -90,7 +90,7 @@ public class PathResolverTest
         ));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testResolvePathOfDirectory() throws Exception
     {
         Collection<URL> urlList = pathResolver.resolvePath("com/izforge/izpack/merge/");
@@ -108,7 +108,7 @@ public class PathResolverTest
         );
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetMergeableFromFileWithDestination() throws Exception
     {
         List<Mergeable> mergeables = pathResolver.getMergeableFromPath("com/izforge/izpack/merge/file/FileMerge.class", "a/dest/FileMerge.class");
@@ -117,7 +117,7 @@ public class PathResolverTest
         );
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetMergeableFromDirectory() throws Exception
     {
         List<Mergeable> mergeables = pathResolver.getMergeableFromPath("com/izforge/izpack/merge/");
@@ -134,7 +134,7 @@ public class PathResolverTest
                         MergeMatcher.isMergeableContainingFiles("a/dest/resolve/PathResolver.class")));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetMergeableFromPackage() throws Exception
     {
         List<Mergeable> mergeables = pathResolver.getMergeableFromPackageName("com.izforge.izpack.merge");
@@ -152,7 +152,7 @@ public class PathResolverTest
         return arrayList;
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testIsJarWithURL() throws Exception
     {
         URL fileResource = ClassLoader.getSystemResource("com/izforge/izpack/merge/AbstractMerge.class");
@@ -165,7 +165,7 @@ public class PathResolverTest
                 Is.is(true));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testIsJarWithFile() throws Exception
     {
         File fileResource = FileUtil.convertUrlToFile(ClassLoader.getSystemResource("com/izforge/izpack/merge/AbstractMerge.class"));
@@ -186,7 +186,7 @@ public class PathResolverTest
         assertThat(pathFromClassName, Is.is("com/test/sora/"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void pathResolverShouldReturnDefaultPackagePath() throws Exception
     {
         String pathFromClassName = ResolveUtils.getPanelsPackagePathFromClassName("UneClasse");
