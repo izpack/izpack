@@ -473,7 +473,7 @@ not point to a JDK, else to a JRE also the environment variable points to a
 JDK. This is not a bug, this is the behavior of the VM. But some products
 needs a JDK, for that this panel can be used. There is not only a selection
 of the path else a validation. The validation will be done with the file
-JDKPath/lib/tools.jar. If JAVA_HOME points to the VM which is placed in the
+JDKPath/bin/javac. If JAVA_HOME points to the VM which is placed in the
 JDK, the directory will be used as default (JAVA_HOME/..). If there is the
 variable
 

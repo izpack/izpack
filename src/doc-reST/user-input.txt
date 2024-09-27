@@ -1278,7 +1278,7 @@ Example
                    txt="This is a description for a search
                    input field."
                    id="description.java_sdk_home"/>
-      <spec txt="Path to Java SDK:" checkfilename="lib/tools.jar"
+      <spec txt="Path to Java SDK:" checkfilename="bin/javac"
             type="file" result="directory">
       <choice value="/usr/lib/java/" os="unix" />
       <choice value="/opt/java" os="unix" />

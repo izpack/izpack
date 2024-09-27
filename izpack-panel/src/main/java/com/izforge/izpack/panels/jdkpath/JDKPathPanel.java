@@ -159,7 +159,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
         setMustExist(true);
         if (!installData.getPlatform().isA(Platform.Name.MAC_OSX))
         {
-            setExistFiles(JDKPathPanelHelper.testFiles);
+            setExistFiles(JDKPathPanelHelper.TEST_FILES);
         }
 
         String defaultValue = JDKPathPanelHelper.getDefaultJavaPath(installData, handler);
