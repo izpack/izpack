@@ -950,15 +950,13 @@ public class CompilerConfig extends Thread
             // get the name of reference xml file
             String refFileName = xmlCompilerHelper.requireAttribute(refPackElement, "file");
             String selfcontained = refPackElement.getAttribute("selfcontained");
-            boolean isselfcontained = Boolean.valueOf(selfcontained);
-
-            final File refFile = new File(refFileName);
-            final File packDir = new File(baseDir, refFile.getParent());
+            boolean isselfcontained = Boolean.parseBoolean(selfcontained);
 
             // parsing ref-pack-set file
-            IXMLElement refXMLData = this.readRefPackData(packDir, refFile.getName(), isselfcontained);
+            IXMLElement refXMLData = this.readRefPackData(baseDir, refFileName, isselfcontained);
 
-            logger.info("Reading refpack from " + refFile.getName() + " in dir " + packDir);
+            final File packDir = new File(baseDir, refFileName).getParentFile();
+            logger.info("Reading refpack from " + refFileName + " in dir " + packDir);
             // Recursively call myself to add all packs and refpacks from the reference XML
             addPacksSingle(refXMLData, packDir);
         }
