@@ -28,6 +28,7 @@ import com.izforge.izpack.compiler.listener.PackagerListener;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorReader;
 import org.apache.commons.io.IOUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
@@ -89,10 +90,10 @@ public class PropertyManager
 {
 
     private final Properties properties;
-
     private final Variables variables;
     private final PackagerListener packagerListener;
     private final AssertionHelper assertionHelper;
+    private final String basedir;
 
     public PropertyManager(Properties properties, Variables variables, CompilerData compilerData, PackagerListener packagerListener, AssertionHelper assertionHelper)
     {
@@ -100,8 +101,9 @@ public class PropertyManager
         this.properties = properties;
         this.variables = variables;
         this.packagerListener = packagerListener;
+        this.basedir = compilerData.getBasedir();
         this.setProperty("izpack.version", CompilerData.IZPACK_VERSION);
-        this.setProperty("basedir", compilerData.getBasedir());
+        this.setProperty("basedir", basedir);
     }
 
 
@@ -236,17 +238,18 @@ public class PropertyManager
     private void loadFile(String fileName, String prefix) throws IOException
     {
         Properties props = new Properties();
-        packagerListener.packagerMsg("Loading " + fileName,
+        File file = new File(fileName);
+        if (!file.isAbsolute())
+        {
+            file = new File(basedir, fileName);
+        }
+
+        packagerListener.packagerMsg("Loading " + file,
                 PackagerListener.MSG_VERBOSE);
 
-        FileInputStream fis = new FileInputStream(fileName);
-        try
+        try (FileInputStream fis = new FileInputStream(file))
         {
             props.load(fis);
-        }
-        finally
-        {
-            fis.close();
         }
 
         addProperties(props, prefix);

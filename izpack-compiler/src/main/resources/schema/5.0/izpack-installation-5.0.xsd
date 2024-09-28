@@ -70,7 +70,7 @@
         <xs:sequence>
             <xs:element name="property" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
-                    <xs:attribute name="name" type="xs:string" use="required"/>
+                    <xs:attribute name="name" type="xs:string" use="optional"/>
                     <xs:attribute name="value" type="xs:string" use="optional"/>
                     <xs:attribute name="file" type="xs:string" use="optional"/>
                     <xs:attribute name="environment" type="xs:string" use="optional"/>
