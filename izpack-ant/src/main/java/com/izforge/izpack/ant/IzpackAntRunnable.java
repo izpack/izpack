@@ -7,7 +7,7 @@ import com.izforge.izpack.compiler.data.PropertyManager;
 import org.apache.tools.ant.BuildException;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Handler;
 
@@ -20,12 +20,12 @@ public class IzpackAntRunnable implements Runnable
     private final String input;
     private final Properties properties;
     private final Boolean inheritAll;
-    private final Hashtable<String, Object> projectProps;
+    private final Map<String, Object> projectProps;
     private final Handler logHandler;
 
     public IzpackAntRunnable(String compression, String kind, String input, String configText, String basedir,
                              String output, boolean mkdirs, int compressionLevel, Properties properties,
-                             Boolean inheritAll, Hashtable<String, Object> antProjectProperties, String izPackDir,
+                             Boolean inheritAll, Map<String, Object> antProjectProperties, String izPackDir,
                              Handler logHandler)
     {
         this.compilerData = new CompilerData(compression, kind, input, configText, basedir, output, mkdirs, compressionLevel);
@@ -63,25 +63,19 @@ public class IzpackAntRunnable implements Runnable
 
         if (inheritAll)
         {
-            Enumeration<String> e = projectProps.keys();
-            while (e.hasMoreElements())
+            for (Map.Entry<String, Object> entry : projectProps.entrySet())
             {
-                String name = e.nextElement();
-                String value = projectProps.get(name).toString();
-                value = fixPathString(value);
+                final String name = entry.getKey();
+                final String value = fixPathString(String.valueOf(entry.getValue()));
                 propertyManager.addProperty(name, value);
             }
         }
 
-        try
-        {
+        try {
             compilerConfig.executeCompiler();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new BuildException(e);
         }
-
     }
 
     private static String fixPathString(String path)

@@ -37,7 +37,13 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +55,8 @@ import java.util.logging.Logger;
  */
 public class IzPackTask extends Task implements PackagerListener
 {
+    private static final String MESSAGES = "com/izforge/izpack/ant/langpacks/messages";
+
     /**
      * The embedded installation configuration
      */
@@ -119,8 +127,6 @@ public class IzPackTask extends Task implements PackagerListener
         compressionLevel = -1;
     }
 
-
-
     /**
      * Called by ant to create the object for the config nested element.
      *
@@ -180,8 +186,7 @@ public class IzPackTask extends Task implements PackagerListener
      */
     public void packagerStart()
     {
-        log(ResourceBundle.getBundle("com/izforge/izpack/ant/langpacks/messages").getString(
-                "Packager_starting"), Project.MSG_DEBUG);
+        log(ResourceBundle.getBundle(MESSAGES).getString("Packager_starting"), Project.MSG_DEBUG);
     }
 
     /**
@@ -189,8 +194,7 @@ public class IzPackTask extends Task implements PackagerListener
      */
     public void packagerStop()
     {
-        log(ResourceBundle.getBundle("com/izforge/izpack/ant/langpacks/messages").getString(
-                "Packager_ended"), Project.MSG_DEBUG);
+        log(ResourceBundle.getBundle(MESSAGES).getString("Packager_ended"), Project.MSG_DEBUG);
     }
 
     /**
@@ -216,26 +220,29 @@ public class IzPackTask extends Task implements PackagerListener
         rootLogger.setLevel(Level.INFO);
         Handler logHandler = new AntHandler(getProject());
 
-        try
+        final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        try (URLClassLoader urlClassLoader = new URLClassLoader(getUrlsForClassloader(), contextClassLoader))
         {
-            ClassLoader loader = new URLClassLoader(getUrlsForClassloader());
-            @SuppressWarnings("unchecked")
-			Class<IzpackAntRunnable> runableClass 
-			        = (Class<IzpackAntRunnable>) loader.loadClass(IzpackAntRunnable.class.getName());
-            Constructor<IzpackAntRunnable> constructor = runableClass.getConstructor(String.class, String.class, 
+			Class<?> runableClass = urlClassLoader.loadClass(IzpackAntRunnable.class.getName());
+            Constructor<?> constructor = runableClass.getConstructor(String.class, String.class,
             		String.class, String.class, String.class, String.class, Boolean.TYPE, Integer.TYPE, Properties.class,
-            		Boolean.class, Hashtable.class, String.class, Handler.class);
-            Object instance = constructor.newInstance(compression, kind, input, configText, basedir, output, mkdirs,
+            		Boolean.class, Map.class, String.class, Handler.class);
+            Runnable instance = (Runnable)constructor.newInstance(compression, kind, input, configText, basedir, output, mkdirs,
                     compressionLevel, properties, inheritAll, getProject().getProperties(), izPackDir, logHandler);
-            final Thread thread = new Thread((Runnable) instance);
-            thread.setContextClassLoader(loader);
-            thread.start();
-            Thread.sleep(100);
-            thread.join();
+            Thread.currentThread().setContextClassLoader(urlClassLoader);
+            instance.run();
         }
-        catch (Exception e)
+        catch (BuildException e)
+        {
+            throw e;
+        }
+        catch (RuntimeException | IOException | ReflectiveOperationException e)
         {
             throw new BuildException(e);
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
 
     }
@@ -261,25 +268,17 @@ public class IzPackTask extends Task implements PackagerListener
         // Either the input attribute or config element must be specified
         if (input == null && config == null)
         {
-            throw new BuildException(ResourceBundle.getBundle(
-                    "com/izforge/izpack/ant/langpacks/messages").getString(
-                    "input_must_be_specified"));
+            throw new BuildException(ResourceBundle.getBundle(MESSAGES).getString("input_must_be_specified"));
         }
 
         if (output == null)
         {
-            throw new BuildException(ResourceBundle.getBundle(
-                    "com/izforge/izpack/ant/langpacks/messages").getString(
-                    "output_must_be_specified"));
+            throw new BuildException(ResourceBundle.getBundle(MESSAGES).getString("output_must_be_specified"));
         }
-
-        // if (installerType == null) now optional
 
         if (basedir == null)
         {
-            throw new BuildException(ResourceBundle.getBundle(
-                    "com/izforge/izpack/ant/langpacks/messages").getString(
-                    "basedir_must_be_specified"));
+            throw new BuildException(ResourceBundle.getBundle(MESSAGES).getString("basedir_must_be_specified"));
         }
     }
 
