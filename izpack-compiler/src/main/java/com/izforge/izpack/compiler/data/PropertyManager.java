@@ -175,7 +175,7 @@ public class PropertyManager
             prefix += ".";
         }
 
-        String fileName = propertyNode.getAttribute("file");
+        final String fileName = propertyNode.getAttribute("file");
 
         if (name != null)
         {
@@ -215,16 +215,17 @@ public class PropertyManager
         }
         else if (fileName != null)
         {
+            final String expandedFileName = variables.replace(fileName);
             try
             {
-                loadFile(fileName, prefix);
+                loadFile(expandedFileName, prefix);
             }
             catch (IOException e)
             {
-                packagerListener.packagerMsg("Unable to load property file: " + fileName,
+                packagerListener.packagerMsg("Unable to load property file: " + expandedFileName,
                         PackagerListener.MSG_VERBOSE);
 
-                assertionHelper.parseError(propertyNode, "Failed loading properties from file " + fileName, e);
+                assertionHelper.parseError(propertyNode, "Failed loading properties from file " + expandedFileName, e);
             }
         }
     }
@@ -235,9 +236,8 @@ public class PropertyManager
      * @param fileName name of the file to load
      * @param prefix prefix to to be automatically added to the property name, can be null
      */
-    private void loadFile(String fileName, String prefix) throws IOException
+    private void loadFile(final String fileName, final String prefix) throws IOException
     {
-        Properties props = new Properties();
         File file = new File(fileName);
         if (!file.isAbsolute())
         {
@@ -247,6 +247,7 @@ public class PropertyManager
         packagerListener.packagerMsg("Loading " + file,
                 PackagerListener.MSG_VERBOSE);
 
+        final Properties props = new Properties();
         try (FileInputStream fis = new FileInputStream(file))
         {
             props.load(fis);
