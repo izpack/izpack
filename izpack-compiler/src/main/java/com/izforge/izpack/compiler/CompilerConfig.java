@@ -952,13 +952,12 @@ public class CompilerConfig extends Thread
             String selfcontained = refPackElement.getAttribute("selfcontained");
             boolean isselfcontained = Boolean.parseBoolean(selfcontained);
 
-            // parsing ref-pack-set file
+            // parsing ref-pack- file
+            logger.info("Reading refpack from " + refFileName + " in dir " + baseDir);
             IXMLElement refXMLData = this.readRefPackData(baseDir, refFileName, isselfcontained);
 
-            final File packDir = new File(baseDir, refFileName).getParentFile();
-            logger.info("Reading refpack from " + refFileName + " in dir " + packDir);
             // Recursively call myself to add all packs and refpacks from the reference XML
-            addPacksSingle(refXMLData, packDir);
+            addPacksSingle(refXMLData, baseDir);
         }
 
         for (IXMLElement refPackSet : refPackSets)
