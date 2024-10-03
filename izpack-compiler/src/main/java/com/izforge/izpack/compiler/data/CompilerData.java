@@ -21,7 +21,6 @@ package com.izforge.izpack.compiler.data;
 
 import com.izforge.izpack.api.data.Info;
 
-import java.io.File;
 import java.util.ResourceBundle;
 
 /**
@@ -37,16 +36,16 @@ public class CompilerData
     /**
      * The compiler version.
      */
-    public final static String VERSION = "5.0";
+    public static final String VERSION = "5.0";
 
     /**
      * Standard installer.
      */
-    public final static String STANDARD = "standard";
+    public static final String STANDARD = "standard";
     /**
      * Web installer.
      */
-    public final static String WEB = "web";
+    public static final String WEB = "web";
 
 
     private String packCompression = null;
@@ -91,19 +90,22 @@ public class CompilerData
      */
     private Info externalInfo = new Info();
 
+    private static final String VERSION_BUNDLE = "version";
+
     /**
      * The IzPack version.
      */
-    public final static String IZPACK_VERSION = ResourceBundle.getBundle("version").getString("izpack.version");
+    public static final String IZPACK_VERSION = ResourceBundle.getBundle(VERSION_BUNDLE).getString("izpack.version");
+
+    /**
+     * The IzPack build number.
+     */
+    public static final String IZPACK_BUILD = ResourceBundle.getBundle(VERSION_BUNDLE).getString("izpack.build");
 
     /**
      * The IzPack copyright year range.
      */
-    public final static String IZPACK_COPYYEARS = ResourceBundle.getBundle("version").getString("izpack.copyyears");
-
-    private final static String IZ_TEST_FILE = "ShellLink.dll";
-
-    private final static String IZ_TEST_SUBDIR = "bin" + File.separator + "native" + File.separator + "izpack";
+    public static final String IZPACK_COPYYEARS = ResourceBundle.getBundle(VERSION_BUNDLE).getString("izpack.copyyears");
 
     private CompilerData()
     {

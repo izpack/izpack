@@ -82,7 +82,7 @@ public class CliAnalyzer {
     private void printHeader(PrintStream out) {
         // Outputs some informations
         out.println();
-        out.format(".::  IzPack - Version %s ::.%n", CompilerData.IZPACK_VERSION);
+        out.format(".::  IzPack - Version %s-%s ::.%n", CompilerData.IZPACK_VERSION, CompilerData.IZPACK_BUILD);
         out.println();
         out.format("< compiler specifications version: %s >%n", CompilerData.VERSION);
         out.println();

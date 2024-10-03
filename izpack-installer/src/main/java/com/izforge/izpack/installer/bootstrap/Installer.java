@@ -38,10 +38,14 @@ import org.apache.commons.io.FilenameUtils;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -209,6 +213,22 @@ public class Installer
                     {
                         media = fetchArgument(args_it, media);
                         checkPath(media);
+                    } else if ("-v".equals(arg) || "--version".equals(arg))
+                    {
+                        URL url = getClass().getClassLoader().getResource("META-INF/MANIFEST.MF");
+                        try (InputStream is = url.openStream())
+                        {
+                            Manifest manifest = new Manifest(is);
+                            Attributes attr = manifest.getMainAttributes();
+                            System.out.println(attr.getValue("Created-By"));
+                            System.exit(0);
+                        }
+                        catch (IOException e)
+                        {
+                            logger.log(Level.SEVERE, "IzPack version not found in manifest", e);
+                            System.err.println("IzPack version not found in manifest");
+                            System.exit(1);
+                        }
                     } else
                     {
                         type = INSTALLER_AUTO;

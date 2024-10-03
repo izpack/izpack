@@ -30,7 +30,11 @@ import com.izforge.izpack.util.*;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,6 +64,31 @@ public class Uninstaller
      */
     public static void main(String[] args)
     {
+        boolean console = false;
+        for (String arg : args)
+        {
+            if (arg.equals("-c") || arg.equals("-console"))
+            {
+                console = true;
+            } else if ("-v".equals(arg) || "--version".equals(arg))
+            {
+                URL url = Uninstaller.class.getClassLoader().getResource("META-INF/MANIFEST.MF");
+                try (InputStream is = url.openStream())
+                {
+                    Manifest manifest = new Manifest(is);
+                    Attributes attr = manifest.getMainAttributes();
+                    System.out.println(attr.getValue("Created-By"));
+                    System.exit(0);
+                }
+                catch (IOException e)
+                {
+                    logger.log(Level.SEVERE, "IzPack version not found in manifest", e);
+                    System.err.println("IzPack version not found in manifest");
+                    System.exit(1);
+                }
+            }
+        }
+
         // relaunch the uninstaller with elevated permissions if required
         Platform platform = new Platforms().getCurrentPlatform();
 
@@ -79,14 +108,6 @@ public class Uninstaller
             System.exit(1);
         }
 
-        boolean console = false;
-        for (String arg : args)
-        {
-            if (arg.equals("-c") || arg.equals("-console"))
-            {
-                console = true;
-            }
-        }
         if (console)
         {
             System.out.println("Command line uninstaller.\n");
