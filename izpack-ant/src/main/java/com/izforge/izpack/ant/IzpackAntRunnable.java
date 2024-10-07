@@ -41,14 +41,10 @@ public class IzpackAntRunnable implements Runnable
     @Override
     public void run()
     {
-        CompilerContainer compilerContainer = new CompilerContainer();
-		compilerContainer.addConfig("installFile", input == null ? "<config>" : input);
-        compilerContainer.addComponent(CompilerData.class, compilerData);
-        compilerContainer.addComponent(Handler.class, logHandler);
+        CompilerContainer compilerContainer = new CompilerContainer(logHandler, compilerData, () -> input == null ? "<config>" : input);
 
-        CompilerConfig compilerConfig = compilerContainer.getComponent(CompilerConfig.class);
+
         PropertyManager propertyManager = compilerContainer.getComponent(PropertyManager.class);
-
         if (properties != null)
         {
             Enumeration<Object> e = properties.keys();
@@ -72,7 +68,7 @@ public class IzpackAntRunnable implements Runnable
         }
 
         try {
-            compilerConfig.executeCompiler();
+            compilerContainer.getComponent(CompilerConfig.class).executeCompiler();
         } catch (Exception e) {
             throw new BuildException(e);
         }

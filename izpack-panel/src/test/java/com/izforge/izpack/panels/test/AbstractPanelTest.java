@@ -27,7 +27,7 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import com.izforge.izpack.installer.gui.IzPanel;
+import com.izforge.izpack.api.data.InstallData;
 import org.fest.swing.fixture.ContainerFixture;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.timing.Condition;
@@ -51,6 +51,7 @@ import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.gui.DefaultNavigator;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
+import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.gui.IzPanelView;
 import com.izforge.izpack.installer.gui.IzPanels;
 import com.izforge.izpack.test.Container;
@@ -72,7 +73,7 @@ public class AbstractPanelTest
     /**
      * The test container.
      */
-    private final TestGUIPanelContainer container;
+    private final com.izforge.izpack.api.container.Container container;
 
     /**
      * The installation data.
@@ -132,13 +133,12 @@ public class AbstractPanelTest
      * @param uninstallDataWriter the uninstallation data writer
      * @param locales             the locales
      */
-    public AbstractPanelTest(TestGUIPanelContainer container, GUIInstallData installData,
-                             ResourceManager resourceManager,
-                             ObjectFactory factory, RulesEngine rules, IconsDatabase icons,
-                             UninstallDataWriter uninstallDataWriter, Locales locales)
+    public AbstractPanelTest(com.izforge.izpack.api.container.Container container, InstallData installData,
+                             ResourceManager resourceManager, ObjectFactory factory, RulesEngine rules,
+                             IconsDatabase icons, UninstallDataWriter uninstallDataWriter, Locales locales)
     {
         this.container = container;
-        this.installData = installData;
+        this.installData = (GUIInstallData) installData;
         this.resourceManager = resourceManager;
         this.factory = factory;
         this.rules = rules;
@@ -216,10 +216,10 @@ public class AbstractPanelTest
      * @return an {@link InstallerFrame} wrapped in a {@link FrameFixture}
      * @throws IzPackException for any error
      */
-    protected FrameFixture show(Class... panelClasses)
+    protected FrameFixture show(Class<?>... panelClasses)
     {
-        List<IzPanelView> panelList = new ArrayList<IzPanelView>();
-        for (Class panelClass : panelClasses)
+        List<IzPanelView> panelList = new ArrayList<>();
+        for (Class<?> panelClass : panelClasses)
         {
             panelList.add(createPanelView(panelClass));
         }
@@ -273,7 +273,7 @@ public class AbstractPanelTest
         }
         InstallerFrame frame = handle[0];
         frameFixture = new FrameFixture(frame);
-        container.getContainer().addComponent(frame);
+        // container.addComponent(InstallerFrame.class, frame);
         InstallDataConfiguratorWithRules configuratorWithRules = new InstallDataConfiguratorWithRules(
                 installData, rules, Platforms.UNIX);
         InstallerController controller = new InstallerController(configuratorWithRules, frame);
@@ -289,7 +289,7 @@ public class AbstractPanelTest
      * @param panelClass the panel class
      * @return a new view
      */
-    protected IzPanelView createPanelView(Class panelClass)
+    protected IzPanelView createPanelView(Class<?> panelClass)
     {
         Panel panel = new Panel();
         panel.setClassName(panelClass.getName());
@@ -329,7 +329,7 @@ public class AbstractPanelTest
     {
 
         private final Class<? extends IzPanel> panelClass;
-        private final ContainerFixture fixture;
+        private final ContainerFixture<?> fixture;
 
         /**
          * Creates a condition for the given {@code fixture} and {@code panelClass}.
@@ -337,7 +337,7 @@ public class AbstractPanelTest
          * @param fixture A container fixture (needed to gain access to the robot instance).
          * @param panelClass The IzPanel class to wait for.
          */
-        public UntilPanelIsShowing(ContainerFixture fixture, Class<? extends IzPanel> panelClass)
+        public UntilPanelIsShowing(ContainerFixture<?> fixture, Class<? extends IzPanel> panelClass)
         {
             super("Waiting for panel " + panelClass.getSimpleName());
 

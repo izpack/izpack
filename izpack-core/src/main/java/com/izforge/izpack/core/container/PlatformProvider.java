@@ -19,14 +19,14 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.core.container;
+package com.izforge.izpack.core.provider;
 
 
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
-import org.picocontainer.injectors.Provider;
 
-import java.util.logging.Logger;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
 
 /**
@@ -34,22 +34,26 @@ import java.util.logging.Logger;
  *
  * @author Tim Anderson
  */
-public class PlatformProvider implements Provider
+@ApplicationScoped
+public class PlatformProvider
 {
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = Logger.getLogger(PlatformProvider.class.getName());
-
     /**
      * Provides the current platform.
      *
      * @param platforms the platform factory
      * @return the current platform
      */
+    @Produces
+    @ApplicationScoped
     public Platform provide(Platforms platforms)
     {
         return platforms.getCurrentPlatform();
+    }
+
+    @Produces
+    @ApplicationScoped
+    public Platforms platforms()
+    {
+        return new Platforms();
     }
 }

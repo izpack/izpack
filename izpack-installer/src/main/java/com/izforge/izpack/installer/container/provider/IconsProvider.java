@@ -7,8 +7,6 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
-import org.picocontainer.injectors.Provider;
-
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
@@ -16,13 +14,18 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+
 /**
  * Provide icons database
  */
-public class IconsProvider implements Provider
+@ApplicationScoped
+public class IconsProvider
 {
     private static final Logger logger = Logger.getLogger(IconsProvider.class.getName());
 
+    @Produces
     public IconsDatabase provide(Resources resources) throws Exception
     {
         IconsDatabase icons = new IconsDatabase();

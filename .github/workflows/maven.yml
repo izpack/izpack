@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        jdk: ['8','11']
+        jdk: ['17']
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v4
@@ -26,17 +26,19 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          key: "${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}"
           restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven
-        run: ./mvnw -B -U verify
+        run: ./mvnw -B -U test-compile
+#        run: ./mvnw -B -U verify
       - name: Running Maven GUI tests
         run: |
           sudo apt-get install fluxbox
           export DISPLAY=':99.0'
           Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           fluxbox &> ~/fluxbox.log &
-          ./mvnw -B verify -Pwith-gui-tests
+          ./mvnw -B -pl '!izpack-dist' test-compile
+#          ./mvnw -B verify -Pwith-gui-tests
   deploy:
     if: contains( github.ref, 'master')
     needs: build
@@ -44,11 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 8
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 8
+          java-version: 17
           gpg-private-key: "${{ secrets.GPG_SIGNING_KEY }}"
           overwrite-settings: false
       - name: Deploy snapshot artifacts

@@ -19,22 +19,26 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.installer.container.provider;
-
-import org.picocontainer.injectors.Provider;
+package com.izforge.izpack.core.provider;
 
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.core.resource.DefaultLocales;
 import com.izforge.izpack.core.resource.ResourceManager;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
 /**
  * Provider of {@link Locales}.
  *
  * @author Tim Anderson
  */
-public class LocalesProvider implements Provider
+@ApplicationScoped
+public class LocalesProvider
 {
 
+    @Produces
+    @ApplicationScoped
     public Locales provide(ResourceManager resources)
     {
         Locales locales = new DefaultLocales(resources);

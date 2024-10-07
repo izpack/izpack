@@ -36,6 +36,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 
+import jakarta.inject.Inject;
 import org.fest.swing.exception.ComponentLookupException;
 import org.fest.swing.finder.JFileChooserFinder;
 import org.fest.swing.fixture.DialogFixture;
@@ -97,7 +98,8 @@ public class UserInputPanelTest extends AbstractPanelTest
      * @param uninstallDataWriter the uninstallation data writer
      * @param locales             the locales
      */
-    public UserInputPanelTest(TestGUIPanelContainer container, GUIInstallData installData,
+    @Inject
+    public UserInputPanelTest(com.izforge.izpack.api.container.Container container, GUIInstallData installData,
                               ResourceManager resourceManager, ObjectFactory factory, RulesEngine rules,
                               IconsDatabase icons, UninstallDataWriter uninstallDataWriter, Locales locales)
     {
