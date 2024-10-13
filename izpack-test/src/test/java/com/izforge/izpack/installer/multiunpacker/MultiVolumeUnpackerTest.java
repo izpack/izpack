@@ -36,7 +36,6 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.io.VolumeLocator;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
-import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.installer.unpacker.ConsolePackResources;
@@ -61,7 +60,6 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.jar.JarOutputStream;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileEquals;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
@@ -389,7 +387,7 @@ public class MultiVolumeUnpackerTest
     private AutomatedInstallData createInstallData(File mediaDir, File installDir, Resources resources)
             throws IOException, ClassNotFoundException
     {
-        AutomatedInstallData installData = new InstallData(new DefaultVariables(), Platforms.LINUX);
+        AutomatedInstallData installData = new AutomatedInstallData(new DefaultVariables(), Platforms.LINUX);
 
         installData.setInstallPath(installDir.getPath());
         installData.setMediaPath(mediaDir.getPath());
@@ -397,8 +395,8 @@ public class MultiVolumeUnpackerTest
         InputStream langPack = getClass().getResourceAsStream("/com/izforge/izpack/bin/langpacks/installer/eng.xml");
         assertNotNull(langPack);
         installData.setMessages(new LocaleDatabase(langPack, Mockito.mock(Locales.class)));
-        List<Pack> packs = getPacks(resources);
-        installData.setAvailablePacks(packs);
+        getPacks(resources).forEach(installData.getAllPacks()::add);
+        installData.updateAvailablePacks(pack -> true);
         return installData;
     }
 
@@ -428,13 +426,12 @@ public class MultiVolumeUnpackerTest
     {
         Properties properties = new Properties();
         PackagerListener packagerListener = Mockito.mock(PackagerListener.class);
-        JarOutputStream jar = new JarOutputStream(new FileOutputStream(installerJar));
         MergeManager mergeManager = Mockito.mock(MergeManager.class);
         CompilerPathResolver resolver = Mockito.mock(CompilerPathResolver.class);
         MergeableResolver mergeableResolver = Mockito.mock(MergeableResolver.class);
         CompilerData data = new CompilerData(null, baseDir.getPath(), installerJar.getPath(), true);
         RulesEngine rulesEngine = Mockito.mock(RulesEngine.class);
-        MultiVolumePackager packager = new MultiVolumePackager(properties, packagerListener, jar, mergeManager,
+        MultiVolumePackager packager = new MultiVolumePackager(properties, packagerListener, mergeManager,
                                                                resolver, mergeableResolver, data, rulesEngine);
         packager.setInfo(new Info());
         return packager;
@@ -462,7 +459,7 @@ public class MultiVolumeUnpackerTest
         	}
         	else {
 	            pack.addFile(baseDir, file, "$INSTALL_PATH/" + file.getName(), null, OverrideType.OVERRIDE_FALSE, null,
-	                         Blockable.BLOCKABLE_NONE, null, null, null);
+	                         Blockable.BLOCKABLE_NONE, null, null);
         	}
         }
     }

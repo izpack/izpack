@@ -18,13 +18,6 @@
  */
 package com.izforge.izpack.installer.language;
 
-import com.izforge.izpack.api.exception.UserInterruptException;
-import com.izforge.izpack.api.resource.Locales;
-import com.izforge.izpack.installer.container.provider.AbstractInstallDataProvider;
-import com.izforge.izpack.installer.data.ConsoleInstallData;
-import com.izforge.izpack.util.Console;
-import com.izforge.izpack.util.Housekeeper;
-
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -32,12 +25,19 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.izforge.izpack.api.exception.UserInterruptException;
+import com.izforge.izpack.api.resource.Locales;
+import com.izforge.izpack.core.factory.InstallDataFactory;
+import com.izforge.izpack.installer.data.ConsoleInstallData;
+import com.izforge.izpack.util.Console;
+import com.izforge.izpack.util.Housekeeper;
+
 public class LanguageConsoleDialog {
   private final ConsoleInstallData installData;
   private final Console console;
   private final Housekeeper housekeeper;
   private final Locales locales;
-  private Map<String, String> displayNames = new LinkedHashMap<String, String>();
+  private Map<String, String> displayNames = new LinkedHashMap<>();
   private static final Logger logger = Logger.getLogger(LanguageConsoleDialog.class.getName());
   
   public LanguageConsoleDialog(Locales locales, ConsoleInstallData installData, Console console, Housekeeper housekeeper)
@@ -100,8 +100,8 @@ public class LanguageConsoleDialog {
       Locale.setDefault(newLocale);
       installData.setLocale(locales.getLocale(), locales.getISOCode());
       installData.setMessages(locales.getMessages());
-      AbstractInstallDataProvider.addCustomLangpack(installData, locales);
-      AbstractInstallDataProvider.addUserInputLangpack(installData, locales);
+      InstallDataFactory.addCustomLangpack(installData, locales);
+      InstallDataFactory.addUserInputLangpack(installData, locales);
     }
     catch (Exception exception)
     {

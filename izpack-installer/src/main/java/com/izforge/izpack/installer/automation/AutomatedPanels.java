@@ -22,7 +22,7 @@
 package com.izforge.izpack.installer.automation;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Overrides;
 import com.izforge.izpack.core.data.AutomatedOverrides;
 import com.izforge.izpack.installer.panel.AbstractPanels;
@@ -43,7 +43,7 @@ public class AutomatedPanels extends AbstractPanels<AutomatedPanelView, PanelAut
     /**
      * The installation data.
      */
-    private final AutomatedInstallData installData;
+    private final InstallData installData;
 
     /**
      * The logger.
@@ -57,7 +57,7 @@ public class AutomatedPanels extends AbstractPanels<AutomatedPanelView, PanelAut
      * @param panels      the panels
      * @param installData the installation data
      */
-    public AutomatedPanels(List<AutomatedPanelView> panels, AutomatedInstallData installData)
+    public AutomatedPanels(List<AutomatedPanelView> panels, InstallData installData)
     {
         super(panels, installData);
         this.installData = installData;
