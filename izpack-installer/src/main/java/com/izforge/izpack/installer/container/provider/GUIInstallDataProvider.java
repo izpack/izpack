@@ -1,5 +1,15 @@
 package com.izforge.izpack.installer.container.provider;
 
+import javax.swing.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.MetalTheme;
+import java.awt.*;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.GUIPrefs.LookAndFeel;
 import com.izforge.izpack.api.data.InstallData;
@@ -12,23 +22,8 @@ import com.izforge.izpack.gui.IzPackKMetalTheme;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.util.Housekeeper;
-import com.izforge.izpack.util.JavaVersion;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.MetalTheme;
-
-import java.awt.Color;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Provide installData for GUI :
@@ -295,7 +290,7 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
             final String variant;
             final String variantName = lookAndFeel.getVariantName();
 
-            int runtimeVersion = JavaVersion.current().feature();
+            int runtimeVersion = getJavaMajorVersion();
             Map<String, String> variants = substanceVariants;
             if (runtimeVersion > 8) {
                 // Use Radiance
@@ -375,16 +370,13 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
     {
         installData.guiPrefs = (GUIPrefs) resources.getObject("GUIPrefs");
     }
+    private static int getJavaMajorVersion() {
+        String v = System.getProperty("java.version");
 
-    private static int getJavaMajorVersion(String versionString) {
-        if (versionString == null || versionString.isEmpty())
-            return 1;
-        if (versionString.startsWith("1.")) {
-            return versionString.charAt(2) - '0';
-        } else {
-            String[] split = versionString.split("[.+_-]", 2);
-            return Integer.parseInt(split[0]);
+        if (v.startsWith("1.")) {
+            v = v.substring(2);
         }
+        String[] split = v.split("[.+_-]", 2);
+        return Integer.parseInt(split[0]);
     }
-
 }
