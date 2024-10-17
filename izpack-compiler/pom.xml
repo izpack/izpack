@@ -92,12 +92,20 @@
             <artifactId>substance</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.pushing-pixels</groupId>
+            <artifactId>radiance-theming</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.pushing-pixels</groupId>
+            <artifactId>radiance-theming-extras</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.incors</groupId>
             <artifactId>kunstoff-laf</artifactId>
         </dependency>
         <dependency>
             <groupId>com.jgoodies</groupId>
-            <artifactId>looks</artifactId>
+            <artifactId>jgoodies-looks</artifactId>
         </dependency>
     </dependencies>
 

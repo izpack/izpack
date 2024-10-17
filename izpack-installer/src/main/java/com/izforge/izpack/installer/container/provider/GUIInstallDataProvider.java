@@ -12,6 +12,7 @@ import com.izforge.izpack.gui.IzPackKMetalTheme;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.JavaVersion;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
@@ -41,37 +42,80 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
     public static final String MODIFIER_USE_LABEL_ICONS = "useLabelIcons";
     public static final String MODIFIER_LABEL_FONT_SIZE = "labelFontSize";
 
-    private static Map<String, String> substanceVariants = new HashMap<String, String>();
-    private static Map<String, String> looksVariants = new HashMap<String, String>();
+    private static final Map<String, String> substanceVariants = new HashMap<String, String>();
+    private static final Map<String, String> radianceVariants = new HashMap<>(48);
+    private static final Map<String, String> looksVariants = new HashMap<String, String>();
 
     static
     {
+        // For JDK <= 8
         substanceVariants.put("default", "org.pushingpixels.substance.api.skin.SubstanceBusinessLookAndFeel");
+
+        substanceVariants.put("autumn", "org.pushingpixels.substance.api.skin.SubstanceAutumnLookAndFeel");
         substanceVariants.put("business", "org.pushingpixels.substance.api.skin.SubstanceBusinessLookAndFeel");
-        substanceVariants.put("business-blue",
-                              "org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel");
-        substanceVariants.put("business-black",
-                              "org.pushingpixels.substance.api.skin.SubstanceBusinessBlackSteelLookAndFeel");
+        substanceVariants.put("business-black", "org.pushingpixels.substance.api.skin.SubstanceBusinessBlackSteelLookAndFeel");
+        substanceVariants.put("business-blue", "org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel");
         substanceVariants.put("creme", "org.pushingpixels.substance.api.skin.SubstanceCremeLookAndFeel");
         substanceVariants.put("creme-coffee", "org.pushingpixels.substance.api.skin.SubstanceCremeCoffeeLookAndFeel");
-        substanceVariants.put("sahara", "org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel");
-        substanceVariants.put("graphite", "org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel");
-        substanceVariants.put("moderate", "org.pushingpixels.substance.api.skin.SubstanceModerateLookAndFeel");
-        substanceVariants.put("nebula", "org.pushingpixels.substance.api.skin.SubstanceNebulaLookAndFeel");
-        substanceVariants.put("nebula-brick-wall",
-                              "org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
-        substanceVariants.put("autumn", "org.pushingpixels.substance.api.skin.SubstanceAutumnLookAndFeel");
-        substanceVariants.put("mist-silver", "org.pushingpixels.substance.api.skin.SubstanceMistSilverLookAndFeel");
-        substanceVariants.put("mist-aqua", "org.pushingpixels.substance.api.skin.SubstanceMistAquaLookAndFeel");
         substanceVariants.put("dust", "org.pushingpixels.substance.api.skin.SubstanceDustLookAndFeel");
         substanceVariants.put("dust-coffee", "org.pushingpixels.substance.api.skin.SubstanceDustCoffeeLookAndFeel");
         substanceVariants.put("gemini", "org.pushingpixels.substance.api.skin.SubstanceGeminiLookAndFeel");
+        substanceVariants.put("graphite", "org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel");
         substanceVariants.put("mariner", "org.pushingpixels.substance.api.skin.SubstanceMarinerLookAndFeel");
-        substanceVariants.put("officesilver",
-                              "org.pushingpixels.substance.api.skin.SubstanceOfficeSilver2007LookAndFeel");
+        substanceVariants.put("mist-aqua", "org.pushingpixels.substance.api.skin.SubstanceMistAquaLookAndFeel");
+        substanceVariants.put("mist-silver", "org.pushingpixels.substance.api.skin.SubstanceMistSilverLookAndFeel");
+        substanceVariants.put("moderate", "org.pushingpixels.substance.api.skin.SubstanceModerateLookAndFeel");
+        substanceVariants.put("nebula", "org.pushingpixels.substance.api.skin.SubstanceNebulaLookAndFeel");
+        substanceVariants.put("nebula-brick-wall", "org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
+        substanceVariants.put("officeblack", "org.pushingpixels.substance.api.skin.SubstanceOfficeBlack2007LookAndFeel");
         substanceVariants.put("officeblue", "org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel");
-        substanceVariants.put("officeblack",
-                              "org.pushingpixels.substance.api.skin.SubstanceOfficeBlack2007LookAndFeel");
+        substanceVariants.put("officesilver", "org.pushingpixels.substance.api.skin.SubstanceOfficeSilver2007LookAndFeel");
+        substanceVariants.put("sahara", "org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel");
+
+        // For JDK > 8
+        radianceVariants.put("default", "org.pushingpixels.radiance.theming.api.skin.RadianceBusinessLookAndFeel");
+
+        radianceVariants.put("autumn", "org.pushingpixels.radiance.theming.api.skin.RadianceAutumnLookAndFeel");
+        radianceVariants.put("business", "org.pushingpixels.radiance.theming.api.skin.RadianceBusinessLookAndFeel");
+        radianceVariants.put("business-black", "org.pushingpixels.radiance.theming.api.skin.RadianceBusinessBlackSteelLookAndFeel");
+        radianceVariants.put("business-blue", "org.pushingpixels.radiance.theming.api.skin.RadianceBusinessBlueSteelLookAndFeel");
+        radianceVariants.put("cerulean", "org.pushingpixels.radiance.theming.api.skin.RadianceCeruleanLookAndFeel"); /* NEW */
+        radianceVariants.put("creme", "org.pushingpixels.radiance.theming.api.skin.RadianceCremeLookAndFeel");
+        radianceVariants.put("creme-coffee", "org.pushingpixels.radiance.theming.api.skin.RadianceCremeCoffeeLookAndFeel");
+        radianceVariants.put("dust", "org.pushingpixels.radiance.theming.api.skin.RadianceDustLookAndFeel");
+        radianceVariants.put("dust-coffee", "org.pushingpixels.radiance.theming.api.skin.RadianceDustCoffeeLookAndFeel");
+        radianceVariants.put("gemini", "org.pushingpixels.radiance.theming.api.skin.RadianceGeminiLookAndFeel");
+        radianceVariants.put("graphite", "org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteLookAndFeel");
+        radianceVariants.put("graphite-aqua", "org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteAquaLookAndFeel");/* NEW */
+        radianceVariants.put("graphite-chalk", "org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteChalkLookAndFeel");/* NEW */
+        radianceVariants.put("graphite-electric", "org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteElectricLookAndFeel");/* NEW */
+        radianceVariants.put("graphite-glass", "org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteGlassLookAndFeel");/* NEW */
+        radianceVariants.put("graphite-gold", "org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteGoldLookAndFeel");/* NEW */
+        radianceVariants.put("graphite-sienna", "org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteSiennaLookAndFeel");/* NEW */
+        radianceVariants.put("graphite-sunset", "org.pushingpixels.radiance.theming.api.skin.RadianceGraphiteSunsetLookAndFeel");/* NEW */
+        radianceVariants.put("green-magic", "org.pushingpixels.radiance.theming.api.skin.RadianceGreenMagicLookAndFeel");/* NEW */
+        radianceVariants.put("magellan", "org.pushingpixels.radiance.theming.api.skin.RadianceMagellanLookAndFeel");/* NEW */
+        radianceVariants.put("mariner", "org.pushingpixels.radiance.theming.api.skin.RadianceMarinerLookAndFeel");
+        radianceVariants.put("mist-aqua", "org.pushingpixels.radiance.theming.api.skin.RadianceMistAquaLookAndFeel");
+        radianceVariants.put("mist-silver", "org.pushingpixels.radiance.theming.api.skin.RadianceMistSilverLookAndFeel");
+        radianceVariants.put("moderate", "org.pushingpixels.radiance.theming.api.skin.RadianceModerateLookAndFeel");
+        radianceVariants.put("nebula", "org.pushingpixels.radiance.theming.api.skin.RadianceNebulaLookAndFeel");
+        radianceVariants.put("nebula-amethyst", "org.pushingpixels.radiance.theming.api.skin.RadianceNebulaAmethystLookAndFeel"); /* NEW */
+        radianceVariants.put("nebula-brick-wall", "org.pushingpixels.radiance.theming.api.skin.RadianceNebulaBrickWallLookAndFeel");
+        radianceVariants.put("night-shade", "org.pushingpixels.radiance.theming.api.skin.RadianceNightShadeLookAndFeel"); /* NEW */
+        radianceVariants.put("raven", "org.pushingpixels.radiance.theming.api.skin.RadianceRavenLookAndFeel"); /* NEW */
+        radianceVariants.put("sahara", "org.pushingpixels.radiance.theming.api.skin.RadianceSaharaLookAndFeel");
+        radianceVariants.put("sentinel", "org.pushingpixels.radiance.theming.api.skin.RadianceSentinelLookAndFeel");/* NEW */
+        radianceVariants.put("twilight", "org.pushingpixels.radiance.theming.api.skin.RadianceTwilightLookAndFeel");/* NEW */
+
+        //From radiance-theming-extras
+        radianceVariants.put("field-of-wheat","org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceFieldOfWheatLookAndFeel");/* NEW */
+        radianceVariants.put("harvest","org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceHarvestLookAndFeel");/* NEW */
+        radianceVariants.put("magma","org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceMagmaLookAndFeel"); /* NEW */
+        radianceVariants.put("officeblack","org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceOfficeBlack2007LookAndFeel");
+        radianceVariants.put("officeblue","org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceOfficeBlue2007LookAndFeel");
+        radianceVariants.put("officesilver","org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceOfficeSilver2007LookAndFeel");
+        radianceVariants.put("streetlights","org.pushingpixels.radiance.theming.extras.api.skinpack.RadianceStreetlightsLookAndFeel");/* NEW */
 
         looksVariants.put("windows", "com.jgoodies.looks.windows.WindowsLookAndFeel");
         looksVariants.put("plastic", "com.jgoodies.looks.plastic.PlasticLookAndFeel");
@@ -222,6 +266,7 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
             {
                 if ("Nimbus".equals(info.getName()))
                 {
+                    logger.info("Using laf " + info.getClassName());
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -238,23 +283,32 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
             {
                 variant = looksVariants.get(variantName);
             }
-
+            logger.info("Using laf " + variant);
             UIManager.setLookAndFeel(variant);
             return;
         }
 
-        // Substance (http://substance.dev.java.net/)
+        // Substance (http://substance.dev.java.net/) for JDK <= 8
+        // or Radians (https://github.com/kirill-grouchnikov/radiance) for JDK > 8
         if (lookAndFeel.is(LookAndFeels.SUBSTANCE))
         {
             final String variant;
             final String variantName = lookAndFeel.getVariantName();
-            if (substanceVariants.containsKey(variantName))
+
+            int runtimeVersion = JavaVersion.current().feature();
+            Map<String, String> variants = substanceVariants;
+            if (runtimeVersion > 8) {
+                // Use Radiance
+                variants = radianceVariants;
+            }
+
+            if (variants.containsKey(variantName))
             {
-                variant = substanceVariants.get(variantName);
+                variant = variants.get(variantName);
             }
             else
             {
-                variant = substanceVariants.get("default");
+                variant = variants.get("default");
             }
 
             logger.info("Using laf " + variant);
@@ -320,6 +374,17 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
     private void loadGUIInstallData(GUIInstallData installData, Resources resources) throws Exception
     {
         installData.guiPrefs = (GUIPrefs) resources.getObject("GUIPrefs");
+    }
+
+    private static int getJavaMajorVersion(String versionString) {
+        if (versionString == null || versionString.isEmpty())
+            return 1;
+        if (versionString.startsWith("1.")) {
+            return versionString.charAt(2) - '0';
+        } else {
+            String[] split = versionString.split("[.+_-]", 2);
+            return Integer.parseInt(split[0]);
+        }
     }
 
 }
