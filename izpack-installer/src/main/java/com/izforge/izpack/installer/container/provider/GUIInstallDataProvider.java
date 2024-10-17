@@ -12,6 +12,7 @@ import com.izforge.izpack.gui.IzPackKMetalTheme;
 import com.izforge.izpack.gui.LabelFactory;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.JavaVersion;
 import com.izforge.izpack.util.OsVersion;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
@@ -290,9 +291,8 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
             final String variant;
             final String variantName = lookAndFeel.getVariantName();
 
-            int runtimeVersion = getJavaMajorVersion();
             Map<String, String> variants = substanceVariants;
-            if (runtimeVersion > 8) {
+            if (JavaVersion.CURRENT.feature() > 8) {
                 // Use Radiance
                 variants = radianceVariants;
             }
@@ -370,13 +370,5 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
     {
         installData.guiPrefs = (GUIPrefs) resources.getObject("GUIPrefs");
     }
-    private static int getJavaMajorVersion() {
-        String v = System.getProperty("java.version");
 
-        if (v.startsWith("1.")) {
-            v = v.substring(2);
-        }
-        String[] split = v.split("[.+_-]", 2);
-        return Integer.parseInt(split[0]);
-    }
 }

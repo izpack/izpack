@@ -79,6 +79,7 @@ import com.izforge.izpack.panels.userinput.field.SimpleChoiceReader;
 import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
 import com.izforge.izpack.panels.userinput.field.button.ButtonFieldReader;
 import com.izforge.izpack.util.FileUtil;
+import com.izforge.izpack.util.JavaVersion;
 import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.file.DirectoryScanner;
@@ -542,15 +543,13 @@ public class CompilerConfig extends Thread
                             mergeableList = pathResolver.getMergeableFromPackageName("com/jgoodies");
                             break;
                         case SUBSTANCE:
-                            int minimalJavaVersion = getJavaMajorVersion(compilerData.getExternalInfo().getJavaVersion());
-                            final boolean javaVersionStrict = compilerData.getExternalInfo().getJavaVersionStrict();
 
-                            if (minimalJavaVersion > 8 )
+                            if (getMinJavaVersion() > 8 )
                             {
                                 // Add RADIANCE only
                                 mergeableList = pathResolver.getMergeableJarFromPackageName("org/pushingpixels/radiance");
                             }
-                            else if (javaVersionStrict)
+                            else if (compilerData.getExternalInfo().getJavaVersionStrict())
                             {
                                 // Add SUBSTANCE only
                                 mergeableList = pathResolver.getMergeableJarFromPackageName("org/pushingpixels/substance");
@@ -4022,6 +4021,17 @@ public class CompilerConfig extends Thread
         return variableSubstitutor.substitute(attributeValue);
     }
 
+    private int getMinJavaVersion()
+    {
+        String javaVersion = compilerData.getExternalInfo().getJavaVersion();
+        int minJavaVersion = 1;
+        if (javaVersion != null && !javaVersion.isEmpty())
+        {
+            minJavaVersion = JavaVersion.parse(javaVersion).feature();
+        }
+        return minJavaVersion;
+    }
+
     // Logging helper methods
 
     private void logAddingFile(String source, String target)
@@ -4059,13 +4069,4 @@ public class CompilerConfig extends Thread
         );
     }
 
-    private static int getJavaMajorVersion(String versionString) {
-        if (versionString == null || versionString.isEmpty())
-            return 1;
-        if (versionString.startsWith("1.")) {
-            versionString = versionString.substring(2);
-        }
-        String[] split = versionString.split("[.+_-]", 2);
-        return Integer.parseInt(split[0]);
-    }
 }
