@@ -1,3 +1,19 @@
+/*
+ * Copyright 2016 Julien Ponge, René Krell and the IzPack team.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.izforge.izpack.util;
 
 import java.util.regex.Pattern;
@@ -19,10 +35,12 @@ public class JavaVersion
      */
     public static final JavaVersion CURRENT = JavaVersion.parse(System.getProperty("java.version"));
 
+    private final String src; //For equals() only while
     private final int feature;
 
-    private JavaVersion(int feature) {
+    private JavaVersion(int feature, String src) {
         this.feature = feature;
+        this.src = src;
     }
     /**
      * Parses the given string as a version string<br/>
@@ -45,7 +63,7 @@ public class JavaVersion
             versionString = versionString.substring(2);
         }
         String[] split = VersionPatterns.VERSION_PARS_SEPARATORS.split(versionString, 2);
-        return new JavaVersion(Integer.parseInt(split[0]));
+        return new JavaVersion(Integer.parseInt(split[0]), versionString);
     }
 
     /**
@@ -67,19 +85,19 @@ public class JavaVersion
             return false;
         } else {
             JavaVersion that = (JavaVersion)obj;
-            return this.feature == that.feature;
+            return this.src.equals(that.src);
         }
     }
 
     @Override
     public int hashCode()
     {
-        return feature;
+        return src.hashCode();
     }
 
     @Override
     public String toString() {
-        return Integer.toString(feature);
+        return src;
     }
 
     private static class VersionPatterns {
