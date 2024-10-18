@@ -19,8 +19,6 @@ public class JavaVersion
      */
     public static final JavaVersion CURRENT = JavaVersion.parse(System.getProperty("java.version"));
 
-    private static final Pattern VERSION_PARS_SEPARATORS = Pattern.compile("[.+_-]+");
-
     private final int feature;
 
     private JavaVersion(int feature) {
@@ -46,7 +44,7 @@ public class JavaVersion
         if (versionString.startsWith("1.")) {
             versionString = versionString.substring(2);
         }
-        String[] split = VERSION_PARS_SEPARATORS.split(versionString, 2);
+        String[] split = VersionPatterns.VERSION_PARS_SEPARATORS.split(versionString, 2);
         return new JavaVersion(Integer.parseInt(split[0]));
     }
 
@@ -82,5 +80,9 @@ public class JavaVersion
     @Override
     public String toString() {
         return Integer.toString(feature);
+    }
+
+    private static class VersionPatterns {
+        private static final Pattern VERSION_PARS_SEPARATORS = Pattern.compile("[.+_-]+");
     }
 }
