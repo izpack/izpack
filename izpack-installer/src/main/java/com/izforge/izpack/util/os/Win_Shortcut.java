@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.util.os;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.StringTool;
 
@@ -56,6 +57,7 @@ public class Win_Shortcut extends Shortcut
      *
      * @param librarian the librarian
      */
+    @Inject
     public Win_Shortcut(Librarian librarian)
     {
         this.librarian = librarian;

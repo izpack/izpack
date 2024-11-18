@@ -22,6 +22,7 @@
 package com.izforge.izpack.test.util;
 
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.Console;
@@ -72,6 +73,7 @@ public class TestConsole extends Console
     /**
      * Constructs a <tt>TestConsole</tt>.
      */
+    @Inject
     public TestConsole(InstallData installData, ConsolePrefs prefs)
     {
         super(installData, prefs);

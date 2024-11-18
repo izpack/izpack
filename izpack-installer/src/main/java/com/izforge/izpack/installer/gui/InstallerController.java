@@ -1,5 +1,6 @@
 package com.izforge.izpack.installer.gui;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.installer.base.InstallDataConfiguratorWithRules;
 
@@ -19,6 +20,7 @@ public class InstallerController
 
     private InstallerFrame installerFrame;
 
+    @Inject
     public InstallerController(InstallDataConfiguratorWithRules installDataRulesEngineManager,
                                InstallerFrame installerFrame)
     {

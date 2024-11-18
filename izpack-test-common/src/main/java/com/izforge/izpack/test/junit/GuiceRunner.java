@@ -37,7 +37,7 @@ import com.izforge.izpack.api.exception.IzPackException;
  *
  * @author Anthonin Bonnefoy
  */
-public class PicoRunner extends PlatformRunner
+public class GuiceRunner extends PlatformRunner
 {
     private final ClassLoader savedContextClassLoader;
     private final Class<? extends Container> containerClass;
@@ -49,7 +49,7 @@ public class PicoRunner extends PlatformRunner
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(PicoRunner.class.getName());
+    private static final Logger logger = Logger.getLogger(GuiceRunner.class.getName());
 
     /**
      * Creates a {@code PicoRunner} for the given test {@code klass}.
@@ -57,7 +57,7 @@ public class PicoRunner extends PlatformRunner
      * @param testClass The test class which is to be run.
      * @throws InitializationError If an initialization error occurs.
      */
-    public PicoRunner(Class<?> testClass) throws InitializationError
+    public GuiceRunner(Class<?> testClass) throws InitializationError
     {
         super(testClass);
         logger.info("Creating test=" + testClass.getName());

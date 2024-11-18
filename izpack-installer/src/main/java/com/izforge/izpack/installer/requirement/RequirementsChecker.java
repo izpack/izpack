@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.requirement;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.installer.RequirementChecker;
 
@@ -78,6 +79,7 @@ public class RequirementsChecker implements RequirementChecker
      * @param expiredChecker              the expiration checker
      * @param installerRequirementChecker the installer requirement checker
      */
+    @Inject
     public RequirementsChecker(Variables variables, LangPackChecker langChecker, JavaVersionChecker versionChecker,
                                JDKChecker jdkChecker, LockFileChecker lockChecker,
                                ExpiredChecker expiredChecker,

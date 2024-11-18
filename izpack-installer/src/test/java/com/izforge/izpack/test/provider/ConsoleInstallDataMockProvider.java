@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.test.provider;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Locales;
@@ -33,22 +34,33 @@ import java.io.IOException;
  *
  * @author Tim Anderson
  */
-public class ConsoleInstallDataMockProvider extends AbstractInstallDataMockProvider
+public class ConsoleInstallDataMockProvider extends AbstractInstallDataMockProvider<ConsoleInstallData>
 {
+    private final Variables variables;
+    private final Locales locales;
+
+    @Inject
+    public ConsoleInstallDataMockProvider(Variables variables, Locales locales)
+    {
+        this.variables = variables;
+        this.locales = locales;
+    }
 
     /**
      * Provides an {@link ConsoleInstallData}.
      *
-     * @param variables the variables
-     * @param locales   the locales
      * @return an {@link ConsoleInstallData}
-     * @throws IOException if the default messages cannot be found
      */
-    public ConsoleInstallData provide(Variables variables, Locales locales) throws IOException
+    @Override
+    public ConsoleInstallData get()
     {
-        ConsoleInstallData result = createInstallData(variables);
-        populate(result, locales);
-        return result;
+        try {
+            ConsoleInstallData result = createInstallData(variables);
+            populate(result, locales);
+            return result;
+        } catch (IOException exception) {
+            throw new IllegalStateException("Failed to create ConsoleInstallData", exception);
+        }
     }
 
     /**

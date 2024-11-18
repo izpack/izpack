@@ -25,6 +25,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,7 @@ import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.FileUtil;
 
 /**
@@ -41,13 +42,14 @@ import com.izforge.izpack.util.FileUtil;
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestMergeContainer.class)
 public class MergeableResolverTest
 {
     private MergeableResolver mergeableResolver;
     private URL resource;
 
+    @Inject
     public MergeableResolverTest(MergeableResolver mergeableResolver)
     {
         this.mergeableResolver = mergeableResolver;

@@ -23,6 +23,7 @@ package com.izforge.izpack.test.util;
 
 import java.net.URL;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.TargetFactory;
@@ -42,6 +43,7 @@ public class TestLibrarian extends Librarian
      * @param factory     the factory
      * @param housekeeper the house keeper
      */
+    @Inject
     public TestLibrarian(TargetFactory factory, Housekeeper housekeeper)
     {
         super(factory, housekeeper);

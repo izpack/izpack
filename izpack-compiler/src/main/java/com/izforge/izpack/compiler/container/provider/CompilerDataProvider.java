@@ -19,8 +19,10 @@
 
 package com.izforge.izpack.compiler.container.provider;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.name.Named;
 import org.apache.commons.cli.ParseException;
-import org.picocontainer.injectors.Provider;
 
 import com.izforge.izpack.compiler.cli.CliAnalyzer;
 import com.izforge.izpack.compiler.container.CompilerContainer;
@@ -31,22 +33,36 @@ import com.izforge.izpack.compiler.data.CompilerData;
  *
  * @author Anthonin Bonnefoy
  */
-public class CompilerDataProvider implements Provider
+public class CompilerDataProvider implements Provider<CompilerData>
 {
-    private String[] args;
+    public static final String ARGS = "CompilerDataArgs";
 
-    public CompilerDataProvider(String[] args)
+    private final String[] args;
+    private final CliAnalyzer cliAnalyzer;
+    private final CompilerContainer compilerContainer;
+
+    @Inject
+    public CompilerDataProvider(@Named(ARGS) String[] args,
+                                CliAnalyzer cliAnalyzer,
+                                CompilerContainer compilerContainer)
     {
         this.args = args;
+        this.cliAnalyzer = cliAnalyzer;
+        this.compilerContainer = compilerContainer;
     }
 
-    public CompilerData provide(CliAnalyzer cliAnalyzer, CompilerContainer compilerContainer) throws ParseException
+    @Override
+    public CompilerData get()
     {
-        CompilerData compilerData = cliAnalyzer.printAndParseArgs(args);
-        compilerContainer.addConfig("installFile", compilerData.getInstallFile());
-        // REFACTOR : find a way to test with a fake home
-        // compilerData.resolveIzpackHome();
-        return compilerData;
-    }
+        try {
+            CompilerData compilerData = cliAnalyzer.printAndParseArgs(args);
+            compilerContainer.addConfig("installFile", compilerData.getInstallFile());
+            // REFACTOR : find a way to test with a fake home
+            // compilerData.resolveIzpackHome();
+            return compilerData;
 
+        } catch (ParseException e) {
+            throw new IllegalStateException("Error while parsing the command line", e);
+        }
+    }
 }

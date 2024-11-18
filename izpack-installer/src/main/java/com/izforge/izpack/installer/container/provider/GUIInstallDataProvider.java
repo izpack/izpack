@@ -1,5 +1,6 @@
 package com.izforge.izpack.installer.container.provider;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.GUIPrefs.LookAndFeel;
 import com.izforge.izpack.api.data.InstallData;
@@ -30,7 +31,7 @@ import java.util.logging.Logger;
  * Provide installData for GUI :
  * Load install data with l&f and GUIPrefs
  */
-public class GUIInstallDataProvider extends AbstractInstallDataProvider
+public class GUIInstallDataProvider extends AbstractInstallDataProvider<GUIInstallData>
 {
     private static final Logger logger = Logger.getLogger(GUIInstallDataProvider.class.getName());
 
@@ -119,32 +120,53 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider
         looksVariants.put("plasticXP", "com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
     }
 
+    private final Resources resources;
+    private final Locales locales;
+    private final DefaultVariables variables;
+    private final Housekeeper housekeeper;
+    private final PlatformModelMatcher matcher;
 
-    public GUIInstallData provide(Resources resources, Locales locales, DefaultVariables variables,
-                                  Housekeeper housekeeper, PlatformModelMatcher matcher)
-            throws Exception
+    @Inject
+    public GUIInstallDataProvider(Resources resources,
+                                  Locales locales,
+                                  DefaultVariables variables,
+                                  Housekeeper housekeeper,
+                                  PlatformModelMatcher matcher) {
+        this.resources = resources;
+        this.locales = locales;
+        this.variables = variables;
+        this.housekeeper = housekeeper;
+        this.matcher = matcher;
+    }
+
+    @Override
+    public GUIInstallData get()
     {
-        final GUIInstallData guiInstallData = new GUIInstallData(variables, matcher.getCurrentPlatform());
-        guiInstallData.setVariable(InstallData.INSTALLER_MODE, InstallData.INSTALLER_MODE_GUI);
-        // Loads the installation data
-        loadInstallData(guiInstallData, resources, matcher, housekeeper);
-        loadGUIInstallData(guiInstallData, resources);
-        loadInstallerRequirements(guiInstallData, resources);
-        loadDynamicVariables(variables, guiInstallData, resources);
-        loadDynamicConditions(guiInstallData, resources);
-        loadDefaultLocale(guiInstallData, locales);
-        // Load custom langpack if exist.
-        AbstractInstallDataProvider.addCustomLangpack(guiInstallData, locales);
-        // Load user input langpack if exist.
-        AbstractInstallDataProvider.addUserInputLangpack(guiInstallData, locales);
-        loadLookAndFeel(guiInstallData);
-        if (UIManager.getColor("Button.background") != null)
-        {
-            guiInstallData.buttonsHColor = UIManager.getColor("Button.background");
+        try {
+            final GUIInstallData guiInstallData = new GUIInstallData(variables, matcher.getCurrentPlatform());
+            guiInstallData.setVariable(InstallData.INSTALLER_MODE, InstallData.INSTALLER_MODE_GUI);
+            // Loads the installation data
+            loadInstallData(guiInstallData, resources, matcher, housekeeper);
+            loadGUIInstallData(guiInstallData, resources);
+            loadInstallerRequirements(guiInstallData, resources);
+            loadDynamicVariables(variables, guiInstallData, resources);
+            loadDynamicConditions(guiInstallData, resources);
+            loadDefaultLocale(guiInstallData, locales);
+            // Load custom langpack if exist.
+            AbstractInstallDataProvider.addCustomLangpack(guiInstallData, locales);
+            // Load user input langpack if exist.
+            AbstractInstallDataProvider.addUserInputLangpack(guiInstallData, locales);
+            loadLookAndFeel(guiInstallData);
+            if (UIManager.getColor("Button.background") != null) {
+                guiInstallData.buttonsHColor = UIManager.getColor("Button.background");
+            }
+            // ENTER always presses button in focus
+            UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
+            return guiInstallData;
+
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to load GUI install data", e);
         }
-        // ENTER always presses button in focus
-        UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
-        return guiInstallData;
     }
 
     /**

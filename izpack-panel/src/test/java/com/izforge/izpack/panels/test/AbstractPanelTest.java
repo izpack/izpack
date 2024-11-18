@@ -54,7 +54,7 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanelView;
 import com.izforge.izpack.installer.gui.IzPanels;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Platforms;
 
@@ -64,7 +64,7 @@ import com.izforge.izpack.util.Platforms;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestGUIPanelContainer.class)
 public class AbstractPanelTest
 {
@@ -273,7 +273,7 @@ public class AbstractPanelTest
         }
         InstallerFrame frame = handle[0];
         frameFixture = new FrameFixture(frame);
-        container.getContainer().addComponent(frame);
+        container.addComponent(frame);
         InstallDataConfiguratorWithRules configuratorWithRules = new InstallDataConfiguratorWithRules(
                 installData, rules, Platforms.UNIX);
         InstallerController controller = new InstallerController(configuratorWithRules, frame);

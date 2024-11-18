@@ -20,6 +20,7 @@ package com.izforge.izpack.test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.google.inject.Inject;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNull;
@@ -38,13 +39,13 @@ import com.izforge.izpack.core.rules.logic.OrCondition;
 import com.izforge.izpack.core.rules.process.ExistsCondition;
 import com.izforge.izpack.core.rules.process.RefCondition;
 import com.izforge.izpack.core.rules.process.VariableCondition;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestConditionContainer.class)
 public class ConditionTest
 {
@@ -56,6 +57,7 @@ public class ConditionTest
     private RulesEngine rules;
     private InstallData idata;
 
+    @Inject
     public ConditionTest(InstallData idata, RulesEngine rules)
     {
         this.rules = rules;

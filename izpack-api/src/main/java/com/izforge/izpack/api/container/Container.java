@@ -22,6 +22,7 @@
 
 package com.izforge.izpack.api.container;
 
+import com.google.inject.Provider;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
 
@@ -42,6 +43,12 @@ public interface Container
      */
     <T> void addComponent(Class<T> componentType);
 
+    <T> void addComponent(T component);
+
+    <T, U extends T> void addProvider(Class<T> type, Class<? extends Provider<U>> provider);
+
+    <T, U extends T> void addProvider(Class<T> type, Provider<U> provider);
+
     /**
      * Register a component.
      *
@@ -49,7 +56,19 @@ public interface Container
      * @param implementation the component implementation
      * @throws ContainerException if registration fails
      */
-    void addComponent(Object componentKey, Object implementation);
+    <T, U extends T> void addComponent(Class<T> componentKey, Class<U> implementation);
+
+    <T, U extends T> void addComponent(Class<T> componentKey, U implementation);
+
+    <T, U extends T> void addComponent(String componentKey, Class<T> type, U implementation);
+
+    <T, U extends T> void addComponent(String componentKey, Class<T> type, Class<U> implementation);
+
+    default void addConfig(String componentKey, String value) {
+        addComponent(componentKey, String.class, value);
+    }
+
+    <T> void removeComponent(Class<T> componentType);
 
     /**
      * Retrieve a component by its component type.
@@ -67,11 +86,11 @@ public interface Container
      * <p/>
      * If the component type is registered but an instance does not exist, then it will be created.
      *
-     * @param componentKeyOrType the key or type of the component
+     * @param key the key of the component
      * @return the corresponding object instance, or <tt>null</tt> if it does not exist
      * @throws ContainerException if component creation fails
      */
-    Object getComponent(Object componentKeyOrType);
+    <T> T getComponent(String key, Class<T> type);
 
     /**
      * Creates a child container.

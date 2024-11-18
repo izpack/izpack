@@ -21,10 +21,12 @@
 
 package com.izforge.izpack.core.rules;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.XMLException;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.adaptator.impl.XMLWriter;
+import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Panel;
@@ -42,6 +44,7 @@ import com.izforge.izpack.core.rules.process.*;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 
+import javax.annotation.Nullable;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -97,6 +100,7 @@ public class RulesEngineImpl implements RulesEngine
         TYPE_CLASS_NAMES.put("variable", VariableCondition.class.getName());
     }
 
+    // Test only
     public RulesEngineImpl(ConditionContainer container, Platform platform)
     {
         this.installData = null;
@@ -104,7 +108,10 @@ public class RulesEngineImpl implements RulesEngine
         initStandardConditions(platform);
     }
 
-    public RulesEngineImpl(InstallData installData, ConditionContainer container, Platform platform)
+    @Inject
+    public RulesEngineImpl(@Nullable InstallData installData,
+                           ConditionContainer container,
+                           Platform platform)
     {
         this.installData = installData;
         this.container = container;
@@ -149,10 +156,11 @@ public class RulesEngineImpl implements RulesEngine
         Condition result = null;
         if (type != null)
         {
+            Container childContainer = container.createChildContainer();
             String className = getClassName(type);
             if (conditionClass == null)
             {
-                conditionClass = container.getClass(className, Condition.class);
+                conditionClass = childContainer.getClass(className, Condition.class);
             }
             try
             {
@@ -161,8 +169,8 @@ public class RulesEngineImpl implements RulesEngine
                     id = className + "-" + UUID.randomUUID().toString();
                     logger.fine("Random condition id " + id + " generated");
                 }
-                container.addComponent(id, conditionClass);
-                result = (Condition) container.getComponent(id);
+                childContainer.addComponent(id, Condition.class, conditionClass);
+                result = childContainer.getComponent(id, Condition.class);
                 result.setId(id);
                 result.setInstallData(installData);
                 result.readFromXML(condition);
@@ -535,7 +543,9 @@ public class RulesEngineImpl implements RulesEngine
         createPlatformCondition("izpack.windowsinstall.7", platform, Platforms.WINDOWS_7);
         createPlatformCondition("izpack.windowsinstall.8", platform, Platforms.WINDOWS_8);
         createPlatformCondition("izpack.windowsinstall.10", platform, Platforms.WINDOWS_10);
+        createPlatformCondition("izpack.windowsinstall.11", platform, Platforms.WINDOWS_11);
         createPlatformCondition("izpack.linuxinstall", platform, Platforms.LINUX);
+        createPlatformCondition("izpack.ubuntuinstall", platform, Platforms.UBUNTU_LINUX);
         createPlatformCondition("izpack.solarisinstall", platform, Platforms.SUNOS);
         createPlatformCondition("izpack.macinstall", platform, Platforms.MAC);
         createPlatformCondition("izpack.macinstall.osx", platform, Platforms.MAC_OSX);

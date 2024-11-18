@@ -1,5 +1,6 @@
 package com.izforge.izpack.installer.data;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -73,6 +74,7 @@ public class UninstallDataWriter
      * @param pathResolver  the path resolver
      * @param rules         the rules engine
      */
+    @Inject
     public UninstallDataWriter(UninstallData uninstallData, AutomatedInstallData installData, PathResolver pathResolver,
                                RulesEngine rules)
     {
@@ -202,7 +204,7 @@ public class UninstallDataWriter
         uninstallerMerge.addAll(pathResolver.getMergeableFromPath("com/izforge/izpack/logging/"));
         uninstallerMerge.addAll(pathResolver.getMergeableFromPath("com/izforge/izpack/gui/"));
         uninstallerMerge.addAll(pathResolver.getMergeableFromPath("com/izforge/izpack/img/"));
-        uninstallerMerge.addAll(pathResolver.getMergeableFromPath("org/picocontainer/"));
+        uninstallerMerge.addAll(pathResolver.getMergeableFromPath("jakarta/inject/"));
         uninstallerMerge.addAll(pathResolver.getMergeableFromPath("org/apache/commons/io/"));
 
         //required by console uninstaller

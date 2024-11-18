@@ -26,8 +26,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.picocontainer.injectors.Provider;
-
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -46,7 +46,7 @@ import com.izforge.izpack.core.rules.RulesEngineImpl;
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
  */
-public class RulesProvider implements Provider
+public class RulesProvider implements Provider<RulesEngine>
 {
     private static final Logger logger = Logger.getLogger(RulesProvider.class.getName());
 
@@ -55,18 +55,28 @@ public class RulesProvider implements Provider
      */
     private static final String CONDITIONS_SPECRESOURCENAME = "conditions.xml";
 
+    private final AutomatedInstallData installData;
+    private final DefaultVariables variables;
+    private final ConditionContainer conditionContainer;
+    private final Resources resources;
+
+    @Inject
+    public RulesProvider(AutomatedInstallData installData,
+                         DefaultVariables variables,
+                         ConditionContainer conditionContainer,
+                         Resources resources) {
+        this.installData = installData;
+        this.variables = variables;
+        this.conditionContainer = conditionContainer;
+        this.resources = resources;
+    }
+
     /**
      * Reads the conditions specification file and initializes the rules engine.
-     *
-     * @param installData        the installation data
-     * @param variables          the variables
-     * @param conditionContainer the condition container
-     * @param resources          the resources
      * @return a new rules engine
      */
-    public RulesEngine provide(AutomatedInstallData installData, DefaultVariables variables,
-                               ConditionContainer conditionContainer, Resources resources)
-    {
+    @Override
+    public RulesEngine get() {
         RulesEngine result = new RulesEngineImpl(installData, conditionContainer, installData.getPlatform());
         Map<String, Condition> conditions = readConditions(resources);
         if (conditions != null && !conditions.isEmpty())

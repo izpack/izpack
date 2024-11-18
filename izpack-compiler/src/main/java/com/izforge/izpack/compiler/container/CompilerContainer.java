@@ -19,6 +19,10 @@
 
 package com.izforge.izpack.compiler.container;
 
+import com.google.inject.util.Providers;
+import com.izforge.izpack.api.container.Container;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -29,16 +33,20 @@ import com.izforge.izpack.compiler.cli.CliAnalyzer;
 import com.izforge.izpack.compiler.container.provider.CompilerDataProvider;
 import com.izforge.izpack.compiler.container.provider.JarOutputStreamProvider;
 import com.izforge.izpack.compiler.container.provider.XmlCompilerHelperProvider;
+import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.data.PropertyManager;
 import com.izforge.izpack.compiler.helper.AssertionHelper;
 import com.izforge.izpack.compiler.helper.CompilerHelper;
+import com.izforge.izpack.compiler.helper.XmlCompilerHelper;
 import com.izforge.izpack.compiler.listener.CmdlinePackagerListener;
+import com.izforge.izpack.compiler.listener.PackagerListener;
 import com.izforge.izpack.compiler.resource.ResourceFinder;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.core.container.PlatformProvider;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.factory.DefaultObjectFactory;
 import com.izforge.izpack.core.rules.ConditionContainer;
+import com.izforge.izpack.core.rules.ConditionContainerProvider;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.merge.MergeManager;
@@ -46,77 +54,50 @@ import com.izforge.izpack.merge.MergeManagerImpl;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
-import org.picocontainer.parameters.ComponentParameter;
 
 import java.util.Properties;
+import java.util.jar.JarOutputStream;
 
 /**
  * Container for compiler.
  *
  * @author Anthonin Bonnefoy
  */
-public class CompilerContainer extends AbstractContainer
-{
-
-    /**
-     * Constructs a <tt>CompilerContainer</tt>
-     *
-     * @throws ContainerException if initialisation fails
-     */
-    public CompilerContainer()
-    {
-        initialise();
-    }
-
-    /**
-     * Constructs a <tt>CompilerContainer</tt>.
-     *
-     * @param container the underlying container. May be <tt>null</tt>
-     * @throws ContainerException if initialisation fails
-     */
-    protected CompilerContainer(MutablePicoContainer container)
-    {
-        super(container);
-    }
+public class CompilerContainer extends AbstractContainer {
 
     /**
      * Fills the container.
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails, or the container has already been initialised
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
-    {
-        addComponent(Properties.class);
-        addComponent(DefaultVariables.class);
-        addComponent(CompilerContainer.class, this);
+    protected void fillContainer() {
+        ResolverContainerFiller resolver = new ResolverContainerFiller();
+
+        addComponent(Properties.class, resolver.getPanelDependencies());
+        addComponent(Variables.class, DefaultVariables.class);
+        addComponent(Container.class, this);
         addComponent(CliAnalyzer.class);
-        addComponent(CmdlinePackagerListener.class);
+        addComponent(PackagerListener.class, CmdlinePackagerListener.class);
         addComponent(Compiler.class);
         addComponent(ResourceFinder.class);
         addComponent(CompilerConfig.class);
-        addComponent(ConditionContainer.class, ConditionContainer.class);
+        addProvider(ConditionContainer.class, ConditionContainerProvider.class);
         addComponent(AssertionHelper.class);
         addComponent(PropertyManager.class);
         addComponent(VariableSubstitutor.class, VariableSubstitutorImpl.class);
         addComponent(CompilerHelper.class);
-        container.addComponent(RulesEngine.class, RulesEngineImpl.class,
-                               new ComponentParameter(ConditionContainer.class),
-                               new ComponentParameter(Platform.class));
+        addComponent(RulesEngine.class, RulesEngineImpl.class);
         addComponent(MergeManager.class, MergeManagerImpl.class);
-        container.addComponent(ObjectFactory.class, DefaultObjectFactory.class,
-                               new ComponentParameter(CompilerContainer.class));
-        container.addComponent(PlatformModelMatcher.class);
+        addComponent(ObjectFactory.class, DefaultObjectFactory.class);
+        addComponent(PlatformModelMatcher.class);
         addComponent(Platforms.class);
+        addProvider(InstallData.class, Providers.of(null)); // Not used in Compiler
 
-        new ResolverContainerFiller().fillContainer(this);
-        container.addAdapter(new ProviderAdapter(new XmlCompilerHelperProvider()))
-                .addAdapter(new ProviderAdapter(new JarOutputStreamProvider()))
-                .addAdapter(new ProviderAdapter(new PlatformProvider()));
-
+        resolver.fillContainer(this);
+        addProvider(XmlCompilerHelper.class, XmlCompilerHelperProvider.class);
+        addProvider(JarOutputStream.class, JarOutputStreamProvider.class);
+        addProvider(Platform.class, PlatformProvider.class);
     }
 
     /**
@@ -124,9 +105,9 @@ public class CompilerContainer extends AbstractContainer
      *
      * @param args command line args passed to the main
      */
-    public void processCompileDataFromArgs(String[] args)
-    {
-        getContainer().addAdapter(new ProviderAdapter(new CompilerDataProvider(args)));
+    public void processCompileDataFromArgs(String[] args) {
+        addComponent(CompilerDataProvider.ARGS, String[].class, args);
+        addProvider(CompilerData.class, CompilerDataProvider.class);
     }
 
 }

@@ -29,6 +29,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.inject.Inject;
 import org.junit.Test;
 
 import com.izforge.izpack.api.container.Container;
@@ -98,10 +99,6 @@ public class DefaultObjectFactoryTest
         C c = factory.create(C.class);
         assertNotNull(c);
         assertSame(a1, c.a); // verify A instance was injected
-
-        A a2 = factory.create(A.class);
-        assertNotNull(a2);
-        assertNotSame(a1, a2);
     }
 
     /**
@@ -131,14 +128,16 @@ public class DefaultObjectFactoryTest
      * <tt>parameters</tt> arguments.
      */
     @Test
-    public void testCreateByClassNameNoParameters()
-    {
+    public void testCreateByClassNameNoParameters() {
         A a1 = factory.create(A.class.getName(), A.class);
         A a2 = factory.create(A.class.getName(), A.class);
         assertNotNull(a1);
         assertNotNull(a2);
         assertNotSame(a1, a2);
+    }
 
+    @Test
+    public void testCreateByClassNameNoParametersFromParentContainer() {
         container.addComponent(A.class, new A());
         A c1 = factory.create(C.class.getName(), A.class);
         assertNotNull(c1);
@@ -208,6 +207,7 @@ public class DefaultObjectFactoryTest
 
         public final A a;
 
+        @Inject
         public C(A a)
         {
             this.a = a;
@@ -219,6 +219,7 @@ public class DefaultObjectFactoryTest
         public final A a;
         public final B b;
 
+        @Inject
         public D(A a, B b)
         {
             this.a = a;

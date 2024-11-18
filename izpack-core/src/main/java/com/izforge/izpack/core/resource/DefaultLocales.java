@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
@@ -123,6 +124,7 @@ public class DefaultLocales implements Locales
      * @param resources the resources
      * @throws ResourceException if the locales can't be determined
      */
+    @Inject
     public DefaultLocales(Resources resources)
     {
         this(resources, Locale.getDefault());

@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.util;
 
+import com.google.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -100,6 +101,7 @@ public class Librarian implements CleanupClient
      * @param factory     the factory
      * @param housekeeper the house keeper
      */
+    @Inject
     public Librarian(TargetFactory factory, Housekeeper housekeeper)
     {
         housekeeper.registerForCleanup(this);

@@ -18,6 +18,7 @@
  */
 package com.izforge.izpack.test.provider;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.Variables;
@@ -30,23 +31,32 @@ import java.io.IOException;
 /**
  * Mock provider for guiInstallData
  */
-public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider
+public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider<GUIInstallData>
 {
+    private final Variables variables;
+    private final Locales locales;
+
+    @Inject
+    public GUIInstallDataMockProvider(Variables variables, Locales locales) {
+        this.variables = variables;
+        this.locales = locales;
+    }
 
     /**
      * Provides an {@link GUIInstallData}.
      *
-     * @param variables the variables
-     * @param locales   the locales
      * @return an {@link GUIInstallData}
-     * @throws IOException if the default messages cannot be found
      */
-    public GUIInstallData provide(Variables variables, Locales locales) throws IOException
+    public GUIInstallData get()
     {
-        GUIInstallData result = createInstallData(variables);
-        populate(result, locales);
-        result.configureGuiButtons();
-        return result;
+        try {
+            GUIInstallData result = createInstallData(variables);
+            populate(result, locales);
+            result.configureGuiButtons();
+            return result;
+        } catch (IOException ex) {
+            throw new IllegalStateException("Failed to create GUIInstallData", ex);
+        }
     }
 
     /**

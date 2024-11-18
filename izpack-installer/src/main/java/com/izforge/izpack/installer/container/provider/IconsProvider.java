@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
-import org.picocontainer.injectors.Provider;
-
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
@@ -19,16 +19,29 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 /**
  * Provide icons database
  */
-public class IconsProvider implements Provider
+public class IconsProvider implements Provider<IconsDatabase>
 {
     private static final Logger logger = Logger.getLogger(IconsProvider.class.getName());
 
-    public IconsDatabase provide(Resources resources) throws Exception
+    private final Resources resources;
+
+    @Inject
+    public IconsProvider(Resources resources) {
+        this.resources = resources;
+    }
+
+    @Override
+    public IconsDatabase get()
     {
-        IconsDatabase icons = new IconsDatabase();
-        loadIcons(icons);
-        loadCustomIcons(icons, resources);
-        return icons;
+        try {
+            IconsDatabase icons = new IconsDatabase();
+            loadIcons(icons);
+            loadCustomIcons(icons, resources);
+            return icons;
+
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to load icons", e);
+        }
     }
 
     /**

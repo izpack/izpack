@@ -20,49 +20,66 @@
  */
 package com.izforge.izpack.panels.test;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.izforge.izpack.api.data.ConsolePrefs;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.handler.ConsolePrompt;
+import com.izforge.izpack.installer.automation.AutomatedPanels;
+import com.izforge.izpack.installer.automation.PanelAutomationHelper;
+import com.izforge.izpack.installer.console.ConsolePanelAutomationHelper;
+import com.izforge.izpack.installer.container.provider.AutomatedPanelsProvider;
 import com.izforge.izpack.installer.container.provider.MessagesProvider;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
+import com.izforge.izpack.installer.panel.Panels;
 import com.izforge.izpack.test.provider.ConsoleInstallDataMockProvider;
 import com.izforge.izpack.test.util.TestConsole;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
-import org.picocontainer.injectors.ProviderAdapter;
+import com.izforge.izpack.util.Console;
 
 /**
  * Container for testing console panels.
  *
  * @author Tim Anderson
  */
-public class TestConsolePanelContainer extends AbstractTestPanelContainer
-{
-
-    public TestConsolePanelContainer()
-    {
-        initialise();
-    }
+public class TestConsolePanelContainer extends AbstractTestPanelContainer {
 
     /**
      * Invoked by {@link #initialise} to fill the container.
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
-    {
-        super.fillContainer(container);
-        container.addAdapter(new ProviderAdapter(new MessagesProvider()));
-        container.addAdapter(new ProviderAdapter(new ConsoleInstallDataMockProvider()));
-        ConsoleInstallData installData = container.getComponent(ConsoleInstallData.class);
-        addComponent(ConsolePrefs.class, installData.consolePrefs);
-        addComponent(TestConsole.class);
+    protected void fillContainer() {
+        super.fillContainer();
+        addProvider(Messages.class, MessagesProvider.class);
+        addProvider(ConsoleInstallData.class, ConsoleInstallDataMockProvider.class);
+        addProvider(InstallData.class, ConsoleInstallDataMockProvider.class);
+        addProvider(ConsolePrefs.class, ConsolePrefsProvider.class);
+        addComponent(Console.class, TestConsole.class);
+        addComponent(Prompt.class, ConsolePrompt.class);
         addComponent(ConsolePrompt.class);
+        addProvider(AutomatedPanels.class, AutomatedPanelsProvider.class);
+        addComponent(PanelAutomationHelper.class, ConsolePanelAutomationHelper.class);
 
-        getComponent(RulesEngine.class); // force creation of the rules
+//        getComponent(RulesEngine.class); // force creation of the rules
+    }
+
+    private static class ConsolePrefsProvider implements Provider<ConsolePrefs> {
+
+        private final ConsoleInstallData installData;
+
+        @Inject
+        public ConsolePrefsProvider(ConsoleInstallData installData) {
+            this.installData = installData;
+        }
+
+        @Override
+        public ConsolePrefs get() {
+            return installData.consolePrefs;
+        }
     }
 }

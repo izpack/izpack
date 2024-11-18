@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
@@ -65,6 +66,7 @@ public class LockFileChecker implements RequirementChecker
      * @param installData the installation data
      * @param prompt      the prompt
      */
+    @Inject
     public LockFileChecker(AutomatedInstallData installData, Prompt prompt)
     {
         this.installData = installData;

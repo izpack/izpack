@@ -24,6 +24,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import com.google.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -34,7 +35,7 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
 /**
@@ -43,7 +44,7 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class ProcessPanelAutomationTest
 {
@@ -77,6 +78,7 @@ public class ProcessPanelAutomationTest
      * @param resources   the resources
      * @param matcher     the platform-model matcher
      */
+    @Inject
     public ProcessPanelAutomationTest(InstallData installData, RulesEngine rules, ResourceManager resources,
                                       PlatformModelMatcher matcher)
     {

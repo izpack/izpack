@@ -2,6 +2,7 @@ package com.izforge.izpack.installer.data;
 
 import static com.izforge.izpack.util.Platform.Name.WINDOWS;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.util.Platform;
@@ -9,6 +10,7 @@ import com.izforge.izpack.util.Platform;
 
 public class InstallData extends AutomatedInstallData
 {
+    @Inject
     public InstallData(Variables variables, Platform platform)
     {
         super(variables, platform);

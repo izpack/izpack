@@ -84,7 +84,7 @@ public class IzPanels extends AbstractPanels<IzPanelView, IzPanel>
             {
                 panelId = view.getClass().getName();
             }
-            container.addComponent(panelId, view);
+            container.addComponent(panelId, IzPanel.class, view);
         }
     }
 

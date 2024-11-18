@@ -36,13 +36,13 @@ import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * Tests for correct order of dynamic variable computation
  * 
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestCompilerContainer.class)
 public class DynVariableOrderTest
 {

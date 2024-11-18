@@ -27,11 +27,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.google.inject.util.Providers;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.factory.ObjectFactory;
+import com.izforge.izpack.api.resource.Resources;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
@@ -83,20 +86,20 @@ public class Unix_ShortcutTest
             }
 
             @Override
-            protected void fillContainer(MutablePicoContainer container)
+            protected void fillContainer()
             {
                 addComponent(Properties.class);
-                addComponent(DefaultVariables.class);
-                addComponent(ResourceManager.class);
-                addComponent(com.izforge.izpack.installer.data.InstallData.class);
+                addComponent(Variables.class, DefaultVariables.class);
+                addComponent(Resources.class, ResourceManager.class);
+                addComponent(InstallData.class, com.izforge.izpack.installer.data.InstallData.class);
                 addComponent(TestLibrarian.class);
                 addComponent(Housekeeper.class);
                 addComponent(TargetFactory.class);
-                addComponent(DefaultObjectFactory.class);
-                addComponent(DefaultTargetPlatformFactory.class);
+                addComponent(ObjectFactory.class, DefaultObjectFactory.class);
+                addComponent(TargetPlatformFactory.class, DefaultTargetPlatformFactory.class);
                 addComponent(Platforms.class);
                 addComponent(Container.class, this);
-                container.addAdapter(new ProviderAdapter(new PlatformProvider()));
+                addProvider(Platform.class, PlatformProvider.class);
             }
         };
         factory = container.getComponent(TargetPlatformFactory.class);

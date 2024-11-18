@@ -22,6 +22,7 @@
 package com.izforge.izpack.installer.unpacker;
 
 
+import com.google.inject.Inject;
 import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.os.FileQueue;
@@ -52,6 +53,7 @@ public class FileQueueFactory
      * @param platform  the current platform
      * @param librarian the librarian
      */
+    @Inject
     public FileQueueFactory(Platform platform, Librarian librarian)
     {
         supportsQueue = platform.isA(Platform.Name.WINDOWS);

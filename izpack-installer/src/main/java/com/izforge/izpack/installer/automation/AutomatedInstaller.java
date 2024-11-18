@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.automation;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
@@ -92,6 +93,7 @@ public class AutomatedInstaller implements InstallerBase
      * @param uninstallDataWriter the uninstallation data writer
      * @param housekeeper         the house-keeper
      */
+    @Inject
     public AutomatedInstaller(AutomatedPanels panels, AutomatedInstallData installData, Locales locales,
                               RequirementsChecker requirements, UninstallDataWriter uninstallDataWriter,
                               Housekeeper housekeeper)

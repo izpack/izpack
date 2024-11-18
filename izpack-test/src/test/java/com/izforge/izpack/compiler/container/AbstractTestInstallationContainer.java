@@ -22,7 +22,6 @@ package com.izforge.izpack.compiler.container;
 import java.util.jar.JarFile;
 
 import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.core.container.AbstractContainer;
@@ -46,7 +45,7 @@ public abstract class AbstractTestInstallationContainer extends AbstractContaine
     }
 
     @Override
-    protected void fillContainer(MutablePicoContainer picoContainer)
+    protected void fillContainer()
     {
         TestCompilationContainer compiler = new TestCompilationContainer(klass, frameworkMethod);
         compiler.launchCompilation();
@@ -54,11 +53,11 @@ public abstract class AbstractTestInstallationContainer extends AbstractContaine
         // propagate compilation objects to the installer container so the installation test can use them
         CompilerData data = compiler.getComponent(CompilerData.class);
         JarFile installer = compiler.getComponent(JarFile.class);
-        picoContainer.addComponent(data);
-        picoContainer.addComponent(installer);
+        addComponent(data);
+        addComponent(installer);
 
-        fillInstallerContainer(picoContainer);
+        fillInstallerContainer();
     }
 
-    protected abstract InstallerContainer fillInstallerContainer(MutablePicoContainer picoContainer);
+    protected abstract InstallerContainer fillInstallerContainer();
 }

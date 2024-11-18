@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.requirement;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.installer.RequirementChecker;
 import com.izforge.izpack.core.resource.ResourceManager;
 
@@ -41,6 +42,7 @@ public class LangPackChecker implements RequirementChecker
      *
      * @param resources the resources
      */
+    @Inject
     public LangPackChecker(ResourceManager resources)
     {
         this.resources = resources;

@@ -20,7 +20,7 @@ import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * Test for event binding.
@@ -28,7 +28,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  * @author Anthonin Bonnefoy
  * @see com.izforge.izpack.installer.container.impl.CustomDataLoader
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class EventTest
 {

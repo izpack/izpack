@@ -1,5 +1,6 @@
 package com.izforge.izpack.installer.container.provider;
 
+import com.google.inject.Provider;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.*;
 import com.izforge.izpack.api.data.Info.TempDir;
@@ -9,7 +10,6 @@ import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.util.*;
 import org.apache.commons.io.IOUtils;
-import org.picocontainer.injectors.Provider;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 /**
  * Abstract base class for providers of {@link InstallData}.
  */
-public abstract class AbstractInstallDataProvider implements Provider
+public abstract class AbstractInstallDataProvider<T> implements Provider<T>
 {
     /**
      * The logger.

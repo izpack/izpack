@@ -24,8 +24,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Locale;
 
-import javax.swing.JFrame;
-
 import com.izforge.izpack.gui.IconsDatabase;
 import org.fest.swing.fixture.DialogFixture;
 import org.hamcrest.core.Is;
@@ -39,7 +37,7 @@ import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.container.TestLanguageContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * Tests the {@link LanguageDialog}.
@@ -47,7 +45,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestLanguageContainer.class)
 public class LanguageDialogTest
 {

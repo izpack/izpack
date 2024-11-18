@@ -1,9 +1,12 @@
 package com.izforge.izpack.ant;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.zip.ZipFile;
 
 import org.apache.tools.ant.Project;
@@ -67,8 +70,23 @@ public class IzPackTaskTest
      */
     private Project createProject() {
         final Project project = new Project();
-        PropertyHelper.getPropertyHelper(project).setNewProperty("answer", new Integer(42));
+        PropertyHelper.getPropertyHelper(project).setNewProperty("answer", 42);
         return project;
     }
 
+    @Test
+    public void testUrlsForClassloader() throws Exception {
+        IzPackTask task = new IzPackTask();
+
+        URL[] urls = task.getUrlsForClassloader();
+        assertThat(urls, arrayWithSize(185));
+
+        assertThat(hasDependency(urls, "izpack-installer"), is(true));
+        assertThat(hasDependency(urls, "guava"), is(true));
+        assertThat(hasDependency(urls, "guice"), is(true));
+    }
+
+    private boolean hasDependency(URL[] urls, String dependency) {
+        return Arrays.stream(urls).anyMatch(url -> url.toString().contains(dependency));
+    }
 }

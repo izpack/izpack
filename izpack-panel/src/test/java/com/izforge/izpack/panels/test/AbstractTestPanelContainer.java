@@ -20,40 +20,41 @@
  */
 package com.izforge.izpack.panels.test;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
-import java.util.Properties;
-
-import com.izforge.izpack.test.util.TestHousekeeper;
-import org.mockito.Mockito;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
-import org.picocontainer.injectors.ProviderAdapter;
-
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
+import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.core.container.PlatformProvider;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.factory.DefaultObjectFactory;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.core.rules.ConditionContainer;
+import com.izforge.izpack.core.rules.ConditionContainerProvider;
 import com.izforge.izpack.installer.automation.AutomatedInstaller;
 import com.izforge.izpack.installer.container.provider.RulesProvider;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
+import com.izforge.izpack.test.util.TestHousekeeper;
+import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Locale;
+import java.util.Properties;
+
+import static org.mockito.Mockito.when;
 
 /**
  * Container for testing panels.
@@ -64,35 +65,23 @@ public abstract class AbstractTestPanelContainer extends AbstractContainer
 {
 
     /**
-     * Returns the underlying container.
-     *
-     * @return the underlying container
-     */
-    @Override
-    public MutablePicoContainer getContainer()
-    {
-        return super.getContainer();
-    }
-
-    /**
      * Invoked by {@link #initialise} to fill the container.
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
+    protected void fillContainer()
     {
         addComponent(Properties.class);
         addComponent(Variables.class, DefaultVariables.class);
-        addComponent(ResourceManager.class);
+        addComponent(Resources.class, ResourceManager.class);
         addComponent(UninstallData.class);
-        addComponent(ConditionContainer.class);
+        addComponent(Container.class, this);
+        addProvider(ConditionContainer.class, ConditionContainerProvider.class);
         addComponent(UninstallDataWriter.class, Mockito.mock(UninstallDataWriter.class));
         addComponent(AutomatedInstaller.class);
 
-        container.addComponent(new DefaultObjectFactory(this));
+        addComponent(ObjectFactory.class, new DefaultObjectFactory(this));
         addComponent(IUnpacker.class, Mockito.mock(IUnpacker.class));
         addComponent(TestHousekeeper.class, Mockito.mock(TestHousekeeper.class));
         addComponent(Platforms.class);
@@ -104,7 +93,7 @@ public abstract class AbstractTestPanelContainer extends AbstractContainer
         when(locales.getLocale()).thenReturn(Locale.ENGLISH);
 
         URL resource = getClass().getResource("/com/izforge/izpack/bin/langpacks/installer/eng.xml");
-        when(locales.getMessages(anyString())).thenThrow(new ResourceNotFoundException("Resource not found"));
+        when(locales.getMessages(ArgumentMatchers.anyString())).thenThrow(new ResourceNotFoundException("Resource not found"));
         try
         {
             Messages messages = new LocaleDatabase(resource.openStream(), locales);
@@ -114,9 +103,9 @@ public abstract class AbstractTestPanelContainer extends AbstractContainer
         {
             throw new ContainerException(exception);
         }
-        container.addComponent(locales);
+        addComponent(Locales.class, locales);
 
-        container.addAdapter(new ProviderAdapter(new RulesProvider()));
-        container.addAdapter(new ProviderAdapter(new PlatformProvider()));
+        addProvider(RulesEngine.class, RulesProvider.class);
+        addProvider(Platform.class, PlatformProvider.class);
     }
 }
