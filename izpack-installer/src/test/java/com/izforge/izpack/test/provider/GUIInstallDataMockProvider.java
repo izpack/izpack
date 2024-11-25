@@ -18,20 +18,22 @@
  */
 package com.izforge.izpack.test.provider;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
+import java.io.IOException;
+
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.util.Platforms;
 
-import java.io.IOException;
-
 /**
  * Mock provider for guiInstallData
  */
-public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider
+public final class GUIInstallDataMockProvider
 {
+    private GUIInstallDataMockProvider()
+    {
+    }
 
     /**
      * Provides an {@link GUIInstallData}.
@@ -41,28 +43,15 @@ public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider
      * @return an {@link GUIInstallData}
      * @throws IOException if the default messages cannot be found
      */
-    public GUIInstallData provide(Variables variables, Locales locales) throws IOException
-    {
-        GUIInstallData result = createInstallData(variables);
-        populate(result, locales);
-        result.configureGuiButtons();
-        return result;
-    }
-
-    /**
-     * Creates a new {@link AutomatedInstallData}.
-     *
-     * @param variables the variables
-     * @return a new {@link AutomatedInstallData}
-     */
-    @Override
-    protected GUIInstallData createInstallData(Variables variables)
+    public static GUIInstallData create(Variables variables, Locales locales)
     {
         GUIInstallData result = new GUIInstallData(variables, Platforms.MAC_OSX);
         GUIPrefs guiPrefs = new GUIPrefs();
         guiPrefs.height = 600;
         guiPrefs.width = 480;
         result.guiPrefs = guiPrefs;
+        MockInstallDataProvider.populate(result, locales);
+        result.configureGuiButtons();
         return result;
     }
 }

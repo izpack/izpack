@@ -30,6 +30,7 @@ import static org.junit.Assert.assertTrue;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 
+import jakarta.inject.Inject;
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
 import org.hamcrest.core.StringContains;
@@ -80,7 +81,8 @@ public class ProcessPanelTest extends AbstractPanelTest
      * @param uninstallDataWriter the uninstallation data writer
      * @param locales             the locales
      */
-    public ProcessPanelTest(TestGUIPanelContainer container, GUIInstallData installData,
+    @Inject
+    public ProcessPanelTest(com.izforge.izpack.api.container.Container container, GUIInstallData installData,
                             ResourceManager resourceManager, ObjectFactory factory, RulesEngine rules,
                             IconsDatabase icons, UninstallDataWriter uninstallDataWriter, Locales locales)
     {

@@ -27,6 +27,7 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 
+import jakarta.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -90,6 +91,7 @@ public class UserInputConsolePanelTest
      * @param console     the console
      * @param container   the container
      */
+    @Inject
     public UserInputConsolePanelTest(InstallData installData, ObjectFactory factory, ResourceManager resources,
                                      TestConsole console, TestConsolePanelContainer container)
     {

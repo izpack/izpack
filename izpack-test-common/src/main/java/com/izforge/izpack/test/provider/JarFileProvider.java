@@ -4,18 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.jar.JarFile;
 
-import org.picocontainer.ComponentAdapter;
-import org.picocontainer.injectors.ProviderAdapter;
+import jakarta.enterprise.inject.Produces;
 
-public class JarFileProvider extends ProviderAdapter
+
+public class JarFileProvider
 {
-    public JarFile provide(File file) throws IOException {
-      return new JarFile(file, true);
-    }
-
-    @Override
-    public boolean isLazy(ComponentAdapter<?> adapter)
+    @Produces
+    public JarFile provide(File file) throws IOException
     {
-        return true;
+      return new JarFile(file, true);
     }
 }

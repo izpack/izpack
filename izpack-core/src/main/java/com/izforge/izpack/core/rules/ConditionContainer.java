@@ -19,8 +19,17 @@
 
 package com.izforge.izpack.core.rules;
 
-import com.izforge.izpack.api.container.Container;
-import com.izforge.izpack.core.container.AbstractDelegatingContainer;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.api.rules.Condition;
+import com.izforge.izpack.api.rules.RulesEngine;
+
+import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 
 
 /**
@@ -28,17 +37,64 @@ import com.izforge.izpack.core.container.AbstractDelegatingContainer;
  *
  * @author Anthonin Bonnefoy
  */
-public class ConditionContainer extends AbstractDelegatingContainer
+@ApplicationScoped
+public class ConditionContainer
 {
+  private final Instance<Condition> instance;
+  private final List<Condition> instances;
 
-    /**
-     * Constructs a <tt>ConditionContainer</tt>.
-     *
-     * @param parent the parent container
-     */
-    public ConditionContainer(Container parent)
-    {
-        super(parent.createChildContainer());
-    }
+  /**
+   * Constructs a <tt>ConditionContainer</tt>.
+   *
+   * @param container the parent container
+   */
+  @Inject
+  public ConditionContainer(Instance<Condition> instance)
+  {
+      this.instance = instance;
+      instances = new ArrayList<>();
+  }
 
+  /**
+   * Retrieve a condition by its component type.
+   * <p/>
+   * If the condition type is registered but an instance does not exist, then it will be created.
+   *
+   * @param rules the rules engine used
+   * @param conditionType the type of the condition
+   * @return the corresponding object instance, or <tt>null</tt> if it does not exist
+   * @throws ContainerException if condition creation fails
+   */
+  public <T extends Condition> T getCondition(RulesEngine rules, Class<T> conditionType)
+  {
+        T condition = instance.select(conditionType).get();
+        instances.add(condition);
+        return condition;
+//      try
+//      {
+//        return conditionType.getConstructor(RulesEngine.class).newInstance(rules);
+//      }
+//      catch (ReflectiveOperationException e1)
+//      {
+//          try
+//          {
+//              return conditionType.getConstructor().newInstance();
+//          }
+//          catch (ReflectiveOperationException e2)
+//          {
+//              throw new ContainerException("Failed to initialize condition type " + conditionType, e2);
+//          }
+//      } 
+  }
+
+  @PreDestroy
+  public void dispose()
+  {
+      instances.forEach(this::disposeCondition);
+  }
+  
+  private  <T extends Condition> void disposeCondition(T condition)
+  {
+      instance.destroy(condition);
+  }
 }
