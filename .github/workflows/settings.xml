@@ -1,19 +1,24 @@
 <settings>
   <servers>
     <!-- Sonatype Nexus -->
+<!--    <server>-->
+<!--      <id>sonatype-nexus-snapshots</id>-->
+<!--      <username>${env.USERNAME}</username>-->
+<!--      <password>${env.PASSWORD}</password>-->
+<!--    </server>-->
+<!--    <server>-->
+<!--      <id>sonatype-nexus-staging</id>-->
+<!--      <username>${env.USERNAME}</username>-->
+<!--      <password>${env.PASSWORD}</password>-->
+<!--    </server>-->
+<!--    <server>-->
+<!--      <id>gpg.passphrase</id>-->
+<!--      <passphrase>${env.GPG_PASSPHRASE}</passphrase>-->
+<!--    </server>-->
     <server>
-      <id>sonatype-nexus-snapshots</id>
-      <username>${env.USERNAME}</username>
-      <password>${env.PASSWORD}</password>
-    </server>
-    <server>
-      <id>sonatype-nexus-staging</id>
-      <username>${env.USERNAME}</username>
-      <password>${env.PASSWORD}</password>
-    </server>
-    <server>
-      <id>gpg.passphrase</id>
-      <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+      <id>artifact-registry</id>
+      <username>oauth2accesstoken</username>
+      <password>${env.GOOGLE_APPLICATION_CREDENTIALS}</password>
     </server>
   </servers>
 </settings>

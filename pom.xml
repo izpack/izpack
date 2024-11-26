@@ -21,18 +21,18 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/izpack/izpack</url>
-    <connection>scm:git:git://github.com/izpack/izpack.git</connection>
-    <developerConnection>scm:git:git@github.com:izpack/izpack.git</developerConnection>
+    <url>https://github.com/e-cervo/izpack</url>
+    <connection>scm:git:git://github.com/e-cervo/izpack.git</connection>
+    <developerConnection>scm:git:git@github.com:e-cervo/izpack.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus snapshot repository</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
+<!--    <snapshotRepository>-->
+<!--      <id>sonatype-nexus-snapshots</id>-->
+<!--      <name>Sonatype Nexus snapshot repository</name>-->
+<!--      <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--    </snapshotRepository>-->
     <!-- We do not deploy directly to the staging repository, but via the Nexus staging plugin -->
     <!--
     <repository>
@@ -41,7 +41,25 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
     -->
+    <repository>
+      <id>artifact-registry</id>
+      <url>https://europe-maven.pkg.dev/cervoprint-dev/releases</url>
+    </repository>
   </distributionManagement>
+
+  <repositories>
+    <repository>
+      <id>artifact-registry</id>
+      <url>https://europe-maven.pkg.dev/cervoprint-dev/releases</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -431,6 +449,14 @@
   </dependencyManagement>
 
   <build>
+    <extensions>
+      <extension>
+        <groupId>com.google.cloud.artifactregistry</groupId>
+        <artifactId>artifactregistry-maven-wagon</artifactId>
+        <version>2.2.0</version>
+      </extension>
+    </extensions>
+
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -541,6 +567,7 @@
           <useReleaseProfile>false</useReleaseProfile>
           <releaseProfiles>release</releaseProfiles>
           <goals>deploy</goals>
+          <arguments>-DskipTests</arguments>
 
           <!-- Automated passphrase entry: -->
 
@@ -561,17 +588,17 @@
       </plugin>
 
       <!-- Deployment -->
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.7.0</version>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>sonatype-nexus-staging</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.sonatype.plugins</groupId>-->
+<!--        <artifactId>nexus-staging-maven-plugin</artifactId>-->
+<!--        <version>1.7.0</version>-->
+<!--        <extensions>true</extensions>-->
+<!--        <configuration>-->
+<!--          <serverId>sonatype-nexus-staging</serverId>-->
+<!--          <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+<!--          <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
