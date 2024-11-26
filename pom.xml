@@ -28,19 +28,6 @@
   </scm>
 
   <distributionManagement>
-<!--    <snapshotRepository>-->
-<!--      <id>sonatype-nexus-snapshots</id>-->
-<!--      <name>Sonatype Nexus snapshot repository</name>-->
-<!--      <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--    </snapshotRepository>-->
-    <!-- We do not deploy directly to the staging repository, but via the Nexus staging plugin -->
-    <!--
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Sonatype Nexus release repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-    </repository>
-    -->
     <repository>
       <id>artifact-registry</id>
       <url>https://europe-maven.pkg.dev/cervoprint-dev/releases</url>
@@ -769,18 +756,6 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>3.2.7</version>
-          <configuration>
-            <!-- Prevent gpg from using pinentry programs -->
-            <gpgArguments>
-              <arg>--pinentry-mode</arg>
-              <arg>loopback</arg>
-            </gpgArguments>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.11.1</version>
 		  <configuration>
@@ -884,19 +859,6 @@
       </activation>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
