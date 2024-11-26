@@ -22,20 +22,25 @@ package com.izforge.izpack.panels.test;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
+import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Messages;
-import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.installer.automation.AutomatedPanels;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
+import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanelAutomationHelper;
+import com.izforge.izpack.installer.console.ConsolePanelView;
+import com.izforge.izpack.installer.console.ConsolePanels;
 import com.izforge.izpack.installer.container.provider.AutomatedPanelsProvider;
+import com.izforge.izpack.installer.container.provider.ConsolePanelsProvider;
 import com.izforge.izpack.installer.container.provider.MessagesProvider;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
-import com.izforge.izpack.installer.panel.Panels;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.test.provider.ConsoleInstallDataMockProvider;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Console;
@@ -58,14 +63,17 @@ public class TestConsolePanelContainer extends AbstractTestPanelContainer {
         addProvider(Messages.class, MessagesProvider.class);
         addProvider(ConsoleInstallData.class, ConsoleInstallDataMockProvider.class);
         addProvider(InstallData.class, ConsoleInstallDataMockProvider.class);
+        addProvider(AutomatedInstallData.class, ConsoleInstallDataMockProvider.class);
         addProvider(ConsolePrefs.class, ConsolePrefsProvider.class);
         addComponent(Console.class, TestConsole.class);
         addComponent(Prompt.class, ConsolePrompt.class);
         addComponent(ConsolePrompt.class);
         addProvider(AutomatedPanels.class, AutomatedPanelsProvider.class);
         addComponent(PanelAutomationHelper.class, ConsolePanelAutomationHelper.class);
+//        addComponent(new TypeLiteral<PanelView<ConsolePanel>>() {}, ConsolePanelView.class);
+        addProvider(ConsolePanels.class, ConsolePanelsProvider.class);
 
-//        getComponent(RulesEngine.class); // force creation of the rules
+//        addComponent(ConsolePanelView.class);
     }
 
     private static class ConsolePrefsProvider implements Provider<ConsolePrefs> {

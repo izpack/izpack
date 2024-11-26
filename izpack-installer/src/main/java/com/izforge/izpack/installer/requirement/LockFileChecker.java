@@ -21,13 +21,7 @@
 
 package com.izforge.izpack.installer.requirement;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
-import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
@@ -35,6 +29,11 @@ import com.izforge.izpack.api.handler.Prompt.Option;
 import com.izforge.izpack.api.installer.RequirementChecker;
 import com.izforge.izpack.installer.bootstrap.Installer;
 import com.izforge.izpack.util.FileUtil;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Determines if another installation is in progress, by checking for the existence of a lock file.
@@ -67,7 +66,7 @@ public class LockFileChecker implements RequirementChecker
      * @param prompt      the prompt
      */
     @Inject
-    public LockFileChecker(AutomatedInstallData installData, Prompt prompt)
+    public LockFileChecker(InstallData installData, Prompt prompt)
     {
         this.installData = installData;
         this.prompt = prompt;

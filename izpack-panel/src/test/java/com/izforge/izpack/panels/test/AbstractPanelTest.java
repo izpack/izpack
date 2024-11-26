@@ -53,7 +53,7 @@ import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanelView;
 import com.izforge.izpack.installer.gui.IzPanels;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Platforms;
@@ -65,7 +65,7 @@ import com.izforge.izpack.util.Platforms;
  * @author Tim Anderson
  */
 @RunWith(GuiceRunner.class)
-@Container(TestGUIPanelContainer.class)
+@ContainerImport(TestGUIPanelContainer.class)
 public class AbstractPanelTest
 {
 

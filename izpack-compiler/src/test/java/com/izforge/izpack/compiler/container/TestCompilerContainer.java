@@ -78,7 +78,7 @@ public class TestCompilerContainer extends CompilerContainer
      */
     public TestCompilerContainer(Class<?> testClass, FrameworkMethod testMethod)
     {
-        super();
+        super(false);
         this.testClass = testClass;
         this.testMethod = testMethod;
         initialise();
@@ -127,15 +127,16 @@ public class TestCompilerContainer extends CompilerContainer
         File installerFile = FileUtil.convertUrlToFile(getClass().getClassLoader().getResource(installFileName));
         File baseDir = installerFile.getParentFile();
 
-        File out = new File(baseDir, "out" + Math.random() + ".jar");
-        out.deleteOnExit();
+        File jarFile = new File(baseDir, "out" + Math.random() + ".jar");
+        jarFile.deleteOnExit();
         CompilerData data = new CompilerData(installerFile.getAbsolutePath(), baseDir.getAbsolutePath(),
-                                             out.getAbsolutePath(), false);
+                                             jarFile.getAbsolutePath(), false);
         addComponent(CompilerData.class, data);
-        addComponent(File.class, out);
+        addComponent(File.class, jarFile);
+        addComponent(TestCompilerContainer.class, this);
 
         addConfig("installFile", installerFile.getAbsolutePath());
-        addProvider(JarFile.class, JarFileProvider.class);
+        addProvider(JarFile.class, new JarFileProvider(jarFile));
 
         final ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(Level.INFO);

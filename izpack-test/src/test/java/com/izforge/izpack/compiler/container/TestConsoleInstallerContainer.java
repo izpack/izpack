@@ -21,11 +21,11 @@
 
 package com.izforge.izpack.compiler.container;
 
-import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.installer.console.ConsoleInstaller;
+import com.izforge.izpack.installer.console.ConsolePanels;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
-import com.izforge.izpack.installer.console.TestConsolePrefsProvider;
+import com.izforge.izpack.installer.container.provider.ConsolePanelsProvider;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.test.util.TestHousekeeper;
 import com.izforge.izpack.util.Console;
@@ -46,26 +46,19 @@ import com.izforge.izpack.util.Housekeeper;
 public class TestConsoleInstallerContainer extends ConsoleInstallerContainer
 {
 
-    public TestConsoleInstallerContainer()
-    {
-    }
-
     /**
      * Registers components with the container.
-     *
-     * @param container the container
      */
     @Override
     protected void registerComponents()
     {
         super.registerComponents();
-        removeComponent(ConsoleInstaller.class);
+
         addComponent(TestConsoleInstaller.class);
-        removeComponent(ConsolePrefs.class);
-        removeComponent(Console.class);
-        addProvider(ConsolePrefs.class, TestConsolePrefsProvider.class); // required by TestConsole
-        addComponent(TestConsole.class);
-        removeComponent(Housekeeper.class);
-        addComponent(TestHousekeeper.class);
+        addComponent(Console.class, TestConsole.class);
+        addComponent(Housekeeper.class, TestHousekeeper.class);
+
+        addProvider(ConsolePanels.class, ConsolePanelsProvider.class);
+
     }
 }

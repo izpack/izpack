@@ -25,7 +25,6 @@ import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.installer.console.TestConsolePrefsProvider;
 import com.izforge.izpack.installer.container.impl.AutomatedInstallerContainer;
 import com.izforge.izpack.test.util.TestHousekeeper;
-import com.izforge.izpack.util.Housekeeper;
 
 
 /**
@@ -49,9 +48,7 @@ public class TestAutomatedInstallerContainer extends AutomatedInstallerContainer
     protected void registerComponents()
     {
         super.registerComponents();
-        removeComponent(ConsolePrefs.class);
         addProvider(ConsolePrefs.class, TestConsolePrefsProvider.class);
-        removeComponent(Housekeeper.class);
         addComponent(TestHousekeeper.class);
     }
 }

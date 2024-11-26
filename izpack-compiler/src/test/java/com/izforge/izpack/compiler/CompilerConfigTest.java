@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarFile;
 
+import com.google.inject.Inject;
 import org.apache.maven.shared.jar.JarAnalyzer;
 import org.apache.maven.shared.jar.classes.JarClasses;
 import org.apache.maven.shared.jar.classes.JarClassesAnalysis;
@@ -41,7 +42,7 @@ import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.merge.MergeManagerImpl;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
@@ -49,7 +50,7 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * Test for an Izpack compilation
  */
 @RunWith(GuiceRunner.class)
-@Container(TestCompilerContainer.class)
+@ContainerImport(TestCompilerContainer.class)
 @InstallFile("samples/helloAndFinish.xml")
 public class CompilerConfigTest
 {
@@ -59,6 +60,7 @@ public class CompilerConfigTest
     private MergeManagerImpl mergeManager;
     private AbstractContainer testContainer;
 
+    @Inject
     public CompilerConfigTest(TestCompilerContainer container, CompilerConfig compilerConfig,
                               CompilerPathResolver pathResolver, MergeManagerImpl mergeManager)
     {

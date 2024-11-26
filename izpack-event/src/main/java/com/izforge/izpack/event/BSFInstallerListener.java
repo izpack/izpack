@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.event;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
@@ -97,6 +98,7 @@ public class BSFInstallerListener extends AbstractProgressInstallerListener
      * @param uninstallData the uninstallation data
      * @param notifiers     the progress notifiers
      */
+    @Inject
     public BSFInstallerListener(InstallData installData, VariableSubstitutor replacer, Variables variables, Resources resources,
                                 UninstallData uninstallData, ProgressNotifiers notifiers)
     {

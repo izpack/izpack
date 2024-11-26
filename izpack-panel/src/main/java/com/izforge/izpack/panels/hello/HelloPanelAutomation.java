@@ -8,8 +8,6 @@ import com.izforge.izpack.installer.automation.PanelAutomation;
 public class HelloPanelAutomation implements PanelAutomation
 {
 
-    public HelloPanelAutomation() {}
-
     /**
      * Creates an installation record for unattended installations and adds it to a XML root element.
      *

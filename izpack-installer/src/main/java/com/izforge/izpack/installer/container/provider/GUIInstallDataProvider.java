@@ -1,6 +1,7 @@
 package com.izforge.izpack.installer.container.provider;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.GUIPrefs.LookAndFeel;
 import com.izforge.izpack.api.data.InstallData;
@@ -31,6 +32,7 @@ import java.util.logging.Logger;
  * Provide installData for GUI :
  * Load install data with l&f and GUIPrefs
  */
+@Singleton
 public class GUIInstallDataProvider extends AbstractInstallDataProvider<GUIInstallData>
 {
     private static final Logger logger = Logger.getLogger(GUIInstallDataProvider.class.getName());
@@ -140,7 +142,7 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider<GUIInsta
     }
 
     @Override
-    public GUIInstallData get()
+    public GUIInstallData loadInstallData()
     {
         try {
             final GUIInstallData guiInstallData = new GUIInstallData(variables, matcher.getCurrentPlatform());
@@ -165,6 +167,7 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider<GUIInsta
             return guiInstallData;
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to load GUI install data", e);
         }
     }

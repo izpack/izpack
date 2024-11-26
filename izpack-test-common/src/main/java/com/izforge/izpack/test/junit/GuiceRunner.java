@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
+import com.izforge.izpack.test.ContainerImport;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
@@ -62,7 +63,7 @@ public class GuiceRunner extends PlatformRunner
         super(testClass);
         logger.info("Creating test=" + testClass.getName());
         savedContextClassLoader = Thread.currentThread().getContextClassLoader();
-        containerClass = testClass.getAnnotation(com.izforge.izpack.test.Container.class).value();
+        containerClass = testClass.getAnnotation(ContainerImport.class).value();
     }
 
     @Override
@@ -106,7 +107,7 @@ public class GuiceRunner extends PlatformRunner
      * Creates an instance of the test class through a pico container.
      * <p>
      *     This is done by first creating an instance of the container specified
-     *     by the {@link com.izforge.izpack.test.Container} annotation. The test
+     *     by the {@link ContainerImport} annotation. The test
      *     class is then added as component to the container and finally retrieved
      *     through the container. This last step is run on the Event Dispatcher
      *     Thread.

@@ -22,9 +22,13 @@ package com.izforge.izpack.compiler.merge.resolve;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.File;
+import java.util.Properties;
 import java.util.zip.ZipFile;
 
+import com.google.inject.Inject;
+import com.izforge.izpack.api.container.Container;
 import org.hamcrest.core.Is;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -36,7 +40,7 @@ import com.izforge.izpack.matcher.DuplicateMatcher;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.panels.hello.HelloPanel;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.MergeUtils;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
@@ -46,16 +50,26 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * @author Anthonin Bonnefoy
  */
 @RunWith(GuiceRunner.class)
-@Container(TestResolveContainer.class)
+@ContainerImport(TestResolveContainer.class)
 public class PanelMergeTest
 {
     private PanelMerge panelMerge;
 
     private CompilerPathResolver pathResolver;
+    private Container container;
 
-    public PanelMergeTest(CompilerPathResolver pathResolver)
+    @Inject
+    public PanelMergeTest(CompilerPathResolver pathResolver, Container container)
     {
         this.pathResolver = pathResolver;
+        this.container = container;
+    }
+
+    @Before
+    public void setUp() throws Exception
+    {
+        Properties properties = container.getComponent(Properties.class);
+        properties.put("HelloPanelTestWithDependenciesClass", "com.izforge.izpack.panels.depend");
     }
 
     @Test

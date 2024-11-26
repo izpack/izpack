@@ -51,7 +51,6 @@ public class TestGUIInstallerContainer extends GUIInstallerContainer
     protected void registerComponents()
     {
         super.registerComponents();
-        removeComponent(Housekeeper.class);
-        addComponent(TestHousekeeper.class);
+        addComponent(Housekeeper.class, TestHousekeeper.class);
     }
 }

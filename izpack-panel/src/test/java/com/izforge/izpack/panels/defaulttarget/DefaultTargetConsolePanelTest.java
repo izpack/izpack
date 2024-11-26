@@ -32,7 +32,7 @@ import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestConsole;
 
@@ -42,7 +42,7 @@ import com.izforge.izpack.test.util.TestConsole;
  * @author Tim Anderson
  */
 @RunWith(GuiceRunner.class)
-@Container(TestConsolePanelContainer.class)
+@ContainerImport(TestConsolePanelContainer.class)
 public class DefaultTargetConsolePanelTest
 {
 

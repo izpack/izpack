@@ -22,6 +22,7 @@
 package com.izforge.izpack.core.container;
 
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
@@ -93,9 +94,8 @@ public abstract class AbstractDelegatingContainer implements Container
     }
 
     @Override
-    public <T> void removeComponent(Class<T> componentType)
-    {
-        getContainer().removeComponent(componentType);
+    public <T, U extends T> void addComponent(TypeLiteral<T> componentKey, Class<U> implementation) {
+        getContainer().addComponent(componentKey, implementation);
     }
 
     /**

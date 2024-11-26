@@ -23,6 +23,7 @@
 package com.izforge.izpack.api.container;
 
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
 
@@ -64,11 +65,11 @@ public interface Container
 
     <T, U extends T> void addComponent(String componentKey, Class<T> type, Class<U> implementation);
 
+    <T, U extends T> void addComponent(TypeLiteral<T> componentKey, Class<U> implementation);
+
     default void addConfig(String componentKey, String value) {
         addComponent(componentKey, String.class, value);
     }
-
-    <T> void removeComponent(Class<T> componentType);
 
     /**
      * Retrieve a component by its component type.

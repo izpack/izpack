@@ -24,6 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.jar.JarFile;
 import java.util.zip.ZipFile;
 
+import com.google.inject.Inject;
 import org.hamcrest.core.IsCollectionContaining;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
@@ -32,7 +33,7 @@ import org.junit.runner.RunWith;
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.matcher.ZipMatcher;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
@@ -40,13 +41,14 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * Test for an Izpack compilation
  */
 @RunWith(GuiceRunner.class)
-@Container(TestCompilerContainer.class)
+@ContainerImport(TestCompilerContainer.class)
 public class CompilerConfigSamplesTest
 {
     private JarFile jar;
     private CompilerConfig compilerConfig;
     private AbstractContainer testContainer;
 
+    @Inject
     public CompilerConfigSamplesTest(TestCompilerContainer container, CompilerConfig compilerConfig)
     {
         this.testContainer = container;

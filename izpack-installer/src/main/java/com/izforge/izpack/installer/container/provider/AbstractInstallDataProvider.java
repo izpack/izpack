@@ -29,7 +29,17 @@ public abstract class AbstractInstallDataProvider<T> implements Provider<T>
      * The logger.
      */
     private static final Logger logger = Logger.getLogger(AbstractInstallDataProvider.class.getName());
+    private T installData;
 
+    @Override
+    public final T get() {
+        if (installData == null) {
+            installData = loadInstallData();
+        }
+        return installData;
+    }
+
+    protected abstract T loadInstallData();
 
     /**
      * Loads the installation data. Also sets environment variables to <code>installdata</code>.

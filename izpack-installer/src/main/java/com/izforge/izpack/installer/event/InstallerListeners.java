@@ -23,7 +23,7 @@ package com.izforge.izpack.installer.event;
 
 
 import com.google.inject.Inject;
-import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.event.InstallerListener;
@@ -63,7 +63,7 @@ public class InstallerListeners
     /**
      * The installation data.
      */
-    private final AutomatedInstallData installData;
+    private final InstallData installData;
 
     /**
      * The prompt.
@@ -78,7 +78,7 @@ public class InstallerListeners
      * @param prompt      the prompt
      */
     @Inject
-    public InstallerListeners(AutomatedInstallData installData, Prompt prompt)
+    public InstallerListeners(InstallData installData, Prompt prompt)
     {
         this.installData = installData;
         this.prompt = prompt;

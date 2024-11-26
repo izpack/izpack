@@ -46,7 +46,7 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  */
 @RunWith(GuiceRunner.class)
-@Container(TestConditionContainer.class)
+@ContainerImport(TestConditionContainer.class)
 public class ConditionTest
 {
 

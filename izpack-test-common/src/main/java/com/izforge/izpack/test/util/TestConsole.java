@@ -23,6 +23,7 @@ package com.izforge.izpack.test.util;
 
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.util.Console;
@@ -38,6 +39,7 @@ import java.util.List;
  *
  * @author Tim Anderson
  */
+@Singleton
 public class TestConsole extends Console
 {
     /**

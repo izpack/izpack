@@ -23,6 +23,7 @@ package com.izforge.izpack.compiler.container;
 
 import java.util.Properties;
 
+import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.compiler.util.ClassNameMapper;
 import com.izforge.izpack.compiler.util.CompilerClassLoader;
@@ -47,6 +48,7 @@ public class TestResolveContainer extends AbstractContainer
      */
     public TestResolveContainer()
     {
+        super(false);
         initialise();
     }
 
@@ -63,9 +65,10 @@ public class TestResolveContainer extends AbstractContainer
         addComponent(CompilerClassLoader.class);
         addComponent(ClassNameMapper.class,DefaultClassNameMapper.class);
         addComponent(MergeableResolver.class);
+        addComponent(Container.class, this);
 
-        Properties properties = getComponent(Properties.class);
-        properties.put("HelloPanelTestWithDependenciesClass", "com.izforge.izpack.panels.depend");
+//        Properties properties = getComponent(Properties.class);
+//        properties.put("HelloPanelTestWithDependenciesClass", "com.izforge.izpack.panels.depend");
     }
 
 }

@@ -96,6 +96,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.net.URL;
 import java.text.ParseException;
@@ -254,7 +255,7 @@ public class CompilerConfig extends Thread
                           ObjectFactory factory,
                           PlatformModelMatcher constraints,
                           CompilerClassLoader classLoader,
-                          Handler handler)
+                          @Nullable Handler handler)
     {
         this.assertionHelper = assertionHelper;
         this.rules = rules;

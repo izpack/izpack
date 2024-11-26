@@ -22,6 +22,7 @@
 package com.izforge.izpack.installer.container.impl;
 
 
+import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ContainerException;
@@ -47,15 +48,6 @@ import com.izforge.izpack.util.Console;
 public class ConsoleInstallerContainer extends InstallerContainer {
 
     /**
-     * Constructs a <tt>ConsoleInstallerContainer</tt>.
-     *
-     * @throws ContainerException if initialisation fails
-     */
-    public ConsoleInstallerContainer() {
-        initialise();
-    }
-
-    /**
      * Registers components with the container.
      */
     @Override
@@ -63,6 +55,8 @@ public class ConsoleInstallerContainer extends InstallerContainer {
         super.registerComponents();
 
         addProvider(InstallData.class, ConsoleInstallDataProvider.class);
+        addProvider(ConsoleInstallData.class, ConsoleInstallDataProvider.class);
+        addProvider(AutomatedInstallData.class, ConsoleInstallDataProvider.class);
         addProvider(Panels.class, ConsolePanelsProvider.class);
         addProvider(Messages.class, MessagesProvider.class); // required by ConsolePrompt and Console
         addProvider(ConsolePrefs.class, ConsolePrefsProvider.class); // required by Console

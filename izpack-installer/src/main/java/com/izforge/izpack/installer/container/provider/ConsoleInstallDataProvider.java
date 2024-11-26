@@ -17,6 +17,7 @@
 package com.izforge.izpack.installer.container.provider;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Locales;
@@ -26,6 +27,7 @@ import com.izforge.izpack.installer.data.ConsoleInstallData;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
+@Singleton
 public class ConsoleInstallDataProvider extends AbstractInstallDataProvider<ConsoleInstallData> {
 
     private final Resources resources;
@@ -48,7 +50,7 @@ public class ConsoleInstallDataProvider extends AbstractInstallDataProvider<Cons
     }
 
     @Override
-    public ConsoleInstallData get() {
+    public ConsoleInstallData loadInstallData() {
         try {
             final ConsoleInstallData consoleInstallData = new ConsoleInstallData(variables, matcher.getCurrentPlatform());
             consoleInstallData.setVariable(InstallData.INSTALLER_MODE, InstallData.INSTALLER_MODE_CONSOLE);

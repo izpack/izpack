@@ -21,6 +21,7 @@ package com.izforge.izpack.compiler.merge.resolve;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.google.inject.Inject;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ import com.izforge.izpack.compiler.container.TestResolveContainer;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.merge.PanelMerge;
 import com.izforge.izpack.matcher.MergeMatcher;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
@@ -37,11 +38,12 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  */
 
 @RunWith(GuiceRunner.class)
-@Container(TestResolveContainer.class)
+@ContainerImport(TestResolveContainer.class)
 public class PathResolverRealPanelTest
 {
     private CompilerPathResolver pathResolver;
 
+    @Inject
     public PathResolverRealPanelTest(CompilerPathResolver pathResolver)
     {
         this.pathResolver = pathResolver;

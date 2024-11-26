@@ -40,7 +40,7 @@ import com.izforge.izpack.panels.packs.PacksPanel;
 import com.izforge.izpack.panels.shortcut.ShortcutPanel;
 import com.izforge.izpack.panels.summary.SummaryPanel;
 import com.izforge.izpack.panels.target.TargetPanel;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.Platforms;
@@ -52,7 +52,7 @@ import com.izforge.izpack.util.Platforms;
  * installation.
  */
 @RunWith(GuiceRunner.class)
-@Container(TestGUIInstallationContainer.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class IzpackInstallationTest
 {
     @Rule

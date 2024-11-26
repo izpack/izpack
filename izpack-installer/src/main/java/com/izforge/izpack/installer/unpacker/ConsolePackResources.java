@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.unpacker;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.resource.Resources;
@@ -47,6 +48,7 @@ public class ConsolePackResources extends AbstractPackResources
      *
      * @param resources the local resources
      */
+    @Inject
     public ConsolePackResources(Resources resources, InstallData installData)
     {
         super(resources, installData);

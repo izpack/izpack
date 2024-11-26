@@ -31,6 +31,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -78,6 +79,7 @@ public class FinishPanel extends IzPanel implements ActionListener
      * @param uninstallDataWriter the uninstallation data writer
      * @param log                 the log
      */
+    @Inject
     public FinishPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                        UninstallDataWriter uninstallDataWriter, UninstallData uninstallData, Log log)
     {

@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.console;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
@@ -60,6 +61,7 @@ public class ConsolePanelView extends AbstractPanelView<ConsolePanel>
      * @param factory     the factory for creating the view
      * @param installData the installation data
      */
+    @Inject
     public ConsolePanelView(Panel panel, ObjectFactory factory, InstallData installData, Console console)
     {
         super(panel, ConsolePanel.class, factory, installData);

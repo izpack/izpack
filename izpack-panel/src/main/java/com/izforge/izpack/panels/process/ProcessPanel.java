@@ -34,6 +34,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -107,6 +108,7 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
      * @param rules       the rules
      * @param matcher     the platform-model matcher
      */
+    @Inject
     public ProcessPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                         RulesEngine rules, PlatformModelMatcher matcher)
     {

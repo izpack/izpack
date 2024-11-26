@@ -28,7 +28,7 @@ import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.language.LanguageDialog;
 import com.izforge.izpack.panels.hello.HelloPanel;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
@@ -36,7 +36,7 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * Test for an installation
  */
 @RunWith(GuiceRunner.class)
-@Container(TestGUIInstallationContainer.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class InstallationTest
 {
     @Rule

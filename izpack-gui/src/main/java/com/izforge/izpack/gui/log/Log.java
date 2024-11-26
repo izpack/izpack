@@ -235,7 +235,7 @@ public class Log implements LogError, LogWarning, LogMessage
      * @param installData the installation data
      */
     @Inject
-    public Log(AutomatedInstallData installData)
+    public Log(InstallData installData)
     {
         this.installData = installData;
 

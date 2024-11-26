@@ -34,7 +34,7 @@ import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.PlatformModelMatcher;
@@ -47,7 +47,7 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  * @author Tim Anderson
  */
 @RunWith(GuiceRunner.class)
-@Container(TestConsolePanelContainer.class)
+@ContainerImport(TestConsolePanelContainer.class)
 public class ProcessConsolePanelTest
 {
 
@@ -137,8 +137,8 @@ public class ProcessConsolePanelTest
         assertFalse(panel.run(installData, console));
 
         assertEquals(7, console.getOutput().size());
-        assertTrue(console.getOutput().get(6).equals(
-                "Invocation Problem calling: com.izforge.izpack.panels.process.Executable, Executable exception"));
+        assertEquals(console.getOutput().getLast(),
+                "Invocation Problem calling: com.izforge.izpack.panels.process.Executable, Executable exception");
 
         // verify Executable was run the expected no. of times, with the expected arguments
         assertEquals(1, Executable.getInvocations());

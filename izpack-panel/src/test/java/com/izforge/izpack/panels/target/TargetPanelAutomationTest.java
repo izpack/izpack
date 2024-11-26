@@ -38,7 +38,7 @@ import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
 
@@ -48,7 +48,7 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * @author Tim Anderson
  */
 @RunWith(GuiceRunner.class)
-@Container(TestConsolePanelContainer.class)
+@ContainerImport(TestConsolePanelContainer.class)
 public class TargetPanelAutomationTest
 {
 

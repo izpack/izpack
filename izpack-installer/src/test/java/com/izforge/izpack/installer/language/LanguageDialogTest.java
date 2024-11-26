@@ -36,7 +36,7 @@ import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.container.TestLanguageContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
@@ -46,7 +46,7 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * @author Tim Anderson
  */
 @RunWith(GuiceRunner.class)
-@Container(TestLanguageContainer.class)
+@ContainerImport(TestLanguageContainer.class)
 public class LanguageDialogTest
 {
 

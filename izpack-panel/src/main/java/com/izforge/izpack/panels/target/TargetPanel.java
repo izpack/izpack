@@ -23,6 +23,7 @@ package com.izforge.izpack.panels.target;
 
 import java.io.File;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -56,6 +57,7 @@ public class TargetPanel extends PathInputPanel
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public TargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, PANEL_NAME, parent, installData, resources, log);

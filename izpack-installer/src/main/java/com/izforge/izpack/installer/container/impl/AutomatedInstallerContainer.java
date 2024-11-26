@@ -60,6 +60,7 @@ public class AutomatedInstallerContainer extends InstallerContainer {
         super.registerComponents();
 
         addProvider(InstallData.class, AutomatedInstallDataProvider.class);
+        addProvider(AutomatedInstallData.class, AutomatedInstallDataProvider.class);
         addProvider(Panels.class, AutomatedPanelsProvider.class);
 
         addComponent(Prompt.class, AutomatedPrompt.class);

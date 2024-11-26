@@ -28,13 +28,14 @@ import java.util.jar.JarFile;
 
 import static org.junit.Assert.*;
 
+import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
@@ -43,7 +44,7 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * 
  */
 @RunWith(GuiceRunner.class)
-@Container(TestCompilerContainer.class)
+@ContainerImport(TestCompilerContainer.class)
 public class DynVariableOrderTest
 {
     static final String xmlDir="samples/dynvars/";  // Where we find our installer definitions
@@ -53,6 +54,7 @@ public class DynVariableOrderTest
 
     List<String> orderedVarnames;
 
+    @Inject
     public DynVariableOrderTest(TestCompilerContainer container, CompilerConfig compilerConfig)
     {
         this.testContainer = container;

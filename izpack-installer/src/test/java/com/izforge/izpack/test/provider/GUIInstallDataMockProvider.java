@@ -19,6 +19,7 @@
 package com.izforge.izpack.test.provider;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.Variables;
@@ -31,6 +32,7 @@ import java.io.IOException;
 /**
  * Mock provider for guiInstallData
  */
+@Singleton
 public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider<GUIInstallData>
 {
     private final Variables variables;
@@ -47,7 +49,7 @@ public class GUIInstallDataMockProvider extends AbstractInstallDataMockProvider<
      *
      * @return an {@link GUIInstallData}
      */
-    public GUIInstallData get()
+    public GUIInstallData loadInstallData()
     {
         try {
             GUIInstallData result = createInstallData(variables);

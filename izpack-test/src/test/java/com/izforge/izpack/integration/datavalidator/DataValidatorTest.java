@@ -52,7 +52,7 @@ import com.izforge.izpack.integration.HelperTestMethod;
 import com.izforge.izpack.panels.hello.HelloPanel;
 import com.izforge.izpack.panels.install.InstallPanel;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestHousekeeper;
@@ -64,7 +64,7 @@ import com.izforge.izpack.test.util.TestHousekeeper;
  * @author Tim Anderson
  */
 @RunWith(GuiceRunner.class)
-@Container(TestGUIInstallationContainer.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class DataValidatorTest
 {
     /**

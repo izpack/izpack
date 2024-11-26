@@ -15,7 +15,7 @@
         <javaversion>1.5</javaversion>
         <requiresjdk>no</requiresjdk>
         <!--><pack200/>-->
-        <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7"/>
+<!--        <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7"/>-->
         <summarylogfilepath>$INSTALL_PATH/installinfo/Summary.htm</summarylogfilepath>
     </info>
 

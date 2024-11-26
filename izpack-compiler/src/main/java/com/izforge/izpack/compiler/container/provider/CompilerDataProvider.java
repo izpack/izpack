@@ -21,6 +21,7 @@ package com.izforge.izpack.compiler.container.provider;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import org.apache.commons.cli.ParseException;
 
@@ -33,6 +34,7 @@ import com.izforge.izpack.compiler.data.CompilerData;
  *
  * @author Anthonin Bonnefoy
  */
+@Singleton
 public class CompilerDataProvider implements Provider<CompilerData>
 {
     public static final String ARGS = "CompilerDataArgs";

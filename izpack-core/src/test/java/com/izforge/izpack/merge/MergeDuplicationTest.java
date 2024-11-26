@@ -35,7 +35,7 @@ import com.izforge.izpack.matcher.DuplicateMatcher;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.MergeUtils;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
@@ -45,7 +45,7 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * @author Anthonin Bonnefoy
  */
 @RunWith(GuiceRunner.class)
-@Container(TestMergeContainer.class)
+@ContainerImport(TestMergeContainer.class)
 public class MergeDuplicationTest
 {
     private PathResolver pathResolver;

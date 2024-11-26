@@ -54,14 +54,14 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.panels.test.AbstractPanelTest;
 import com.izforge.izpack.panels.test.TestGUIPanelContainer;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 
 /**
  * Tests the {@link TargetPanel} class.
  *
  * @author Tim Anderson
  */
-@Container(TestGUIPanelContainer.class)
+@ContainerImport(TestGUIPanelContainer.class)
 public class TargetPanelTest extends AbstractPanelTest
 {
 

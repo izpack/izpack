@@ -51,7 +51,7 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.integration.AbstractDestroyerTest;
 import com.izforge.izpack.integration.HelperTestMethod;
 import com.izforge.izpack.integration.UninstallHelper;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.RunOn;
 import com.izforge.izpack.test.junit.GuiceRunner;
@@ -79,7 +79,7 @@ import com.izforge.izpack.util.os.ShellLink;
  */
 @RunWith(GuiceRunner.class)
 @RunOn(Platform.Name.WINDOWS)
-@Container(TestGUIInstallationContainer.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class WindowsInstallationTest extends AbstractDestroyerTest
 {
 

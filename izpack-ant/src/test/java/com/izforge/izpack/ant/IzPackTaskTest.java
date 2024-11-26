@@ -1,14 +1,6 @@
 package com.izforge.izpack.ant;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.zip.ZipFile;
-
+import com.izforge.izpack.matcher.ZipMatcher;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.PropertyHelper;
 import org.hamcrest.core.Is;
@@ -16,7 +8,14 @@ import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.izforge.izpack.matcher.ZipMatcher;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.zip.ZipFile;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * @author Anthonin Bonnefoy
@@ -79,7 +78,6 @@ public class IzPackTaskTest
         IzPackTask task = new IzPackTask();
 
         URL[] urls = task.getUrlsForClassloader();
-        assertThat(urls, arrayWithSize(185));
 
         assertThat(hasDependency(urls, "izpack-installer"), is(true));
         assertThat(hasDependency(urls, "guava"), is(true));

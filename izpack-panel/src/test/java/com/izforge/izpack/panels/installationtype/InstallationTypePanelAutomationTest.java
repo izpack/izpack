@@ -26,7 +26,7 @@ import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Overrides;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.junit.GuiceRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +41,7 @@ import static org.junit.Assert.assertNull;
  * @author Hitesh A. Bosamiya
  */
 @RunWith(GuiceRunner.class)
-@Container(TestConsolePanelContainer.class)
+@ContainerImport(TestConsolePanelContainer.class)
 public class InstallationTypePanelAutomationTest
 {
     /**

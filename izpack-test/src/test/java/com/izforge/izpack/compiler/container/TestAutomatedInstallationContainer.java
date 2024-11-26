@@ -11,10 +11,16 @@ public class TestAutomatedInstallationContainer extends AbstractTestInstallation
 {
     public TestAutomatedInstallationContainer(Class<?> klass, FrameworkMethod frameworkMethod)
     {
-        super(klass, frameworkMethod);
+        super(klass, frameworkMethod, false);
         initialise();
     }
 
+    @Override
+    protected void fillContainer() {
+        super.fillContainer();
+
+
+    }
 
     @Override
     protected InstallerContainer fillInstallerContainer()

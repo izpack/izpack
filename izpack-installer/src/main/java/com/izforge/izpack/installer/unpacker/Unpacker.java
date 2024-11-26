@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.unpacker;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -53,6 +54,7 @@ public class Unpacker extends UnpackerBase
      * @param listeners           the listeners
      * @param matcher             the platform-model matcher
      */
+    @Inject
     public Unpacker(InstallData installData, PackResources resources, RulesEngine rules,
                     VariableSubstitutor variableSubstitutor, UninstallData uninstallData, FileQueueFactory factory,
                     Housekeeper housekeeper, InstallerListeners listeners, Prompt prompt, PlatformModelMatcher matcher)

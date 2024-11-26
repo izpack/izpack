@@ -18,7 +18,7 @@ import com.izforge.izpack.event.RegistryUninstallerListener;
 import com.izforge.izpack.event.SummaryLoggerInstallerListener;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
@@ -29,7 +29,7 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  * @see com.izforge.izpack.installer.container.impl.CustomDataLoader
  */
 @RunWith(GuiceRunner.class)
-@Container(TestGUIInstallationContainer.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class EventTest
 {
     private final InstallerListeners listeners;

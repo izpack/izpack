@@ -21,24 +21,24 @@
 
 package com.izforge.izpack.installer.container.provider;
 
-import java.io.InputStream;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
-import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.api.rules.Condition;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.rules.ConditionContainer;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
+
+import java.io.InputStream;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Injection provider for rules.
@@ -55,13 +55,13 @@ public class RulesProvider implements Provider<RulesEngine>
      */
     private static final String CONDITIONS_SPECRESOURCENAME = "conditions.xml";
 
-    private final AutomatedInstallData installData;
+    private final InstallData installData;
     private final DefaultVariables variables;
     private final ConditionContainer conditionContainer;
     private final Resources resources;
 
     @Inject
-    public RulesProvider(AutomatedInstallData installData,
+    public RulesProvider(InstallData installData,
                          DefaultVariables variables,
                          ConditionContainer conditionContainer,
                          Resources resources) {

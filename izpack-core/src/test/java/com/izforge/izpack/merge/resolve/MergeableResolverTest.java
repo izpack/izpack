@@ -33,7 +33,7 @@ import org.junit.runner.RunWith;
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
 import com.izforge.izpack.matcher.MergeMatcher;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.FileUtil;
 
@@ -43,7 +43,7 @@ import com.izforge.izpack.util.FileUtil;
  * @author Anthonin Bonnefoy
  */
 @RunWith(GuiceRunner.class)
-@Container(TestMergeContainer.class)
+@ContainerImport(TestMergeContainer.class)
 public class MergeableResolverTest
 {
     private MergeableResolver mergeableResolver;

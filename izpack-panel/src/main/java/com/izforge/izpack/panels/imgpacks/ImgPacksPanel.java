@@ -38,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -86,6 +87,7 @@ public class ImgPacksPanel extends PacksPanelBase
      * @param resources   the resources
      * @param factory     the factory for creating {@link PackValidator} instances
      */
+    @Inject
     public ImgPacksPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                          ObjectFactory factory)
     {

@@ -13,7 +13,7 @@ public class TestGUIInstallationContainer extends AbstractTestInstallationContai
 
     public TestGUIInstallationContainer(Class klass, FrameworkMethod frameworkMethod)
     {
-        super(klass, frameworkMethod);
+        super(klass, frameworkMethod, false);
         initialise();
     }
 

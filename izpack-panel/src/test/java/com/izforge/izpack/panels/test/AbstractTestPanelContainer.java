@@ -85,7 +85,6 @@ public abstract class AbstractTestPanelContainer extends AbstractContainer
         addComponent(IUnpacker.class, Mockito.mock(IUnpacker.class));
         addComponent(TestHousekeeper.class, Mockito.mock(TestHousekeeper.class));
         addComponent(Platforms.class);
-        addComponent(Container.class, this);
         addComponent(PlatformModelMatcher.class);
 
         Locales locales = Mockito.mock(Locales.class);

@@ -24,6 +24,7 @@ package com.izforge.izpack.panels.summary;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.IzPanelLayout;
@@ -59,6 +60,7 @@ public class SummaryPanel extends IzPanel
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public SummaryPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);

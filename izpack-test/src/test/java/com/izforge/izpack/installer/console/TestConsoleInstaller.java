@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.installer.console;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.test.util.TestConsole;
@@ -33,6 +35,7 @@ import com.izforge.izpack.test.util.TestHousekeeper;
  *
  * @author Tim Anderson
  */
+@Singleton
 public class TestConsoleInstaller extends ConsoleInstaller
 {
 
@@ -46,6 +49,7 @@ public class TestConsoleInstaller extends ConsoleInstaller
      * @param housekeeper  the house-keeper
      * @throws Exception for any error
      */
+    @Inject
     public TestConsoleInstaller(ConsolePanels panels, ConsoleInstallData installData, UninstallDataWriter writer,
                                 TestConsole console, TestHousekeeper housekeeper)
             throws Exception

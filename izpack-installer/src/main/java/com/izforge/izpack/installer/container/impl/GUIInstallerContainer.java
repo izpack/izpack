@@ -26,15 +26,6 @@ import javax.swing.*;
 public class GUIInstallerContainer extends InstallerContainer {
 
     /**
-     * Constructs a <tt>GUIInstallerContainer</tt>.
-     *
-     * @throws ContainerException if initialisation fails
-     */
-    public GUIInstallerContainer() {
-        initialise();
-    }
-
-    /**
      * Registers components with the container.
      */
     @Override
@@ -68,9 +59,14 @@ public class GUIInstallerContainer extends InstallerContainer {
             SwingUtilities.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
-                    InstallerFrame frame = getComponent(InstallerFrame.class);
-                    IUnpacker unpacker = getComponent(IUnpacker.class);
-                    frame.setUnpacker(unpacker);
+                    try {
+                        InstallerFrame frame = getComponent(InstallerFrame.class);
+                        IUnpacker unpacker = getComponent(IUnpacker.class);
+                        frame.setUnpacker(unpacker);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
         } catch (Exception exception) {

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
+import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -44,14 +45,14 @@ import com.izforge.izpack.util.PlatformModelMatcher;
 public class ConsolePanelsProvider extends PanelsProvider<ConsolePanels>
 {
     private final ObjectFactory factory;
-    private final InstallerContainer container;
+    private final Container container;
     private final AutomatedInstallData installData;
     private final Console console;
     private final PlatformModelMatcher matcher;
 
     @Inject
     public ConsolePanelsProvider(ObjectFactory factory,
-                                 InstallerContainer container,
+                                 Container container,
                                  AutomatedInstallData installData,
                                  Console console,
                                  PlatformModelMatcher matcher) {

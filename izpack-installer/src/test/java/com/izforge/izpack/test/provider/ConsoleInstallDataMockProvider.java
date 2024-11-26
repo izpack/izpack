@@ -21,6 +21,7 @@
 package com.izforge.izpack.test.provider;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Locales;
@@ -34,6 +35,7 @@ import java.io.IOException;
  *
  * @author Tim Anderson
  */
+@Singleton
 public class ConsoleInstallDataMockProvider extends AbstractInstallDataMockProvider<ConsoleInstallData>
 {
     private final Variables variables;
@@ -52,7 +54,7 @@ public class ConsoleInstallDataMockProvider extends AbstractInstallDataMockProvi
      * @return an {@link ConsoleInstallData}
      */
     @Override
-    public ConsoleInstallData get()
+    public ConsoleInstallData loadInstallData()
     {
         try {
             ConsoleInstallData result = createInstallData(variables);

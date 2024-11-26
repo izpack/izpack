@@ -1,6 +1,7 @@
 package com.izforge.izpack.installer.container.provider;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
@@ -14,6 +15,7 @@ import java.io.IOException;
 /**
  * Install data loader
  */
+@Singleton
 public class AutomatedInstallDataProvider extends AbstractInstallDataProvider<AutomatedInstallData>
 {
     private final Resources resources;
@@ -37,7 +39,7 @@ public class AutomatedInstallDataProvider extends AbstractInstallDataProvider<Au
     }
 
     @Override
-    public AutomatedInstallData get()
+    public AutomatedInstallData loadInstallData()
     {
         try {
             AutomatedInstallData automatedInstallData = new InstallData(variables, matcher.getCurrentPlatform());

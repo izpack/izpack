@@ -22,6 +22,7 @@
 
 package com.izforge.izpack.core.resource;
 
+import com.google.inject.Singleton;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Locales;
@@ -46,6 +47,7 @@ import java.util.Locale;
  * @author Marcus Stursberg
  * @author Tim Anderson
  */
+@Singleton
 public class ResourceManager extends AbstractResources
 {
     /**

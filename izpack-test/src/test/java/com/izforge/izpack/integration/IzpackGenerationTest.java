@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 
 import com.izforge.izpack.compiler.container.TestCompilationContainer;
 import com.izforge.izpack.matcher.ZipMatcher;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.GuiceRunner;
 
@@ -24,7 +24,7 @@ import com.izforge.izpack.test.junit.GuiceRunner;
  */
 
 @RunWith(GuiceRunner.class)
-@Container(TestCompilationContainer.class)
+@ContainerImport(TestCompilationContainer.class)
 public class IzpackGenerationTest
 {
     @Rule

@@ -1,7 +1,6 @@
 package com.izforge.izpack.installer.container.impl;
 
 import com.izforge.izpack.api.container.Container;
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.InstallerException;
@@ -16,7 +15,6 @@ import com.izforge.izpack.core.container.PlatformProvider;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.factory.DefaultObjectFactory;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
-import com.izforge.izpack.core.resource.DefaultResources;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.core.rules.ConditionContainer;
 import com.izforge.izpack.core.rules.ConditionContainerProvider;
@@ -31,6 +29,7 @@ import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
 import com.izforge.izpack.installer.requirement.*;
 import com.izforge.izpack.installer.unpacker.FileQueueFactory;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
+import com.izforge.izpack.installer.unpacker.UnpackerProvider;
 import com.izforge.izpack.merge.MergeManagerImpl;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
@@ -93,7 +92,7 @@ public abstract class InstallerContainer extends AbstractContainer
         addProvider(ConditionContainer.class, ConditionContainerProvider.class);
         addComponent(Properties.class);
         addComponent(Variables.class, DefaultVariables.class);
-        addComponent(ResourceManager.class);
+        addComponent(Resources.class, ResourceManager.class);
         addComponent(UninstallDataWriter.class);
         addComponent(ProgressNotifiersImpl.class);
         addComponent(InstallerListeners.class);
@@ -106,7 +105,7 @@ public abstract class InstallerContainer extends AbstractContainer
         addComponent(TargetFactory.class);
         addComponent(TargetPlatformFactory.class, DefaultTargetPlatformFactory.class);
         addComponent(ObjectFactory.class, DefaultObjectFactory.class);
-        addComponent(Resources.class, DefaultResources.class);
+//        addComponent(Resources.class, DefaultResources.class);
         addComponent(PathResolver.class);
         addComponent(MergeableResolver.class);
         addComponent(Platforms.class);
@@ -121,11 +120,7 @@ public abstract class InstallerContainer extends AbstractContainer
      */
     protected void resolveComponents()
     {
-        InstallData installData = getComponent(InstallData.class);
-        String className = installData.getInfo().getUnpackerClassName();
-        Class<IUnpacker> unpackerClass = getClass(className, IUnpacker.class);
-        addComponent(IUnpacker.class, unpackerClass);
-
+        addProvider(IUnpacker.class, UnpackerProvider.class);
         CustomDataLoader customDataLoader = getComponent(CustomDataLoader.class);
         try
         {

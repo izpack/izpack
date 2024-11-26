@@ -35,6 +35,7 @@ import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.installer.console.ConsolePanel;
+import com.izforge.izpack.installer.console.ConsolePanelView;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.hello.HelloConsolePanel;
 import com.izforge.izpack.util.Console;

@@ -65,6 +65,14 @@ import java.util.jar.JarOutputStream;
  */
 public class CompilerContainer extends AbstractContainer {
 
+    public CompilerContainer() {
+        super();
+    }
+
+    protected CompilerContainer(boolean fillContainer) {
+        super(fillContainer);
+    }
+
     /**
      * Fills the container.
      *

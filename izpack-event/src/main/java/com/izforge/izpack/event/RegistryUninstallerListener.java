@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.event.AbstractUninstallerListener;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -74,6 +75,7 @@ public class RegistryUninstallerListener extends AbstractUninstallerListener
      * @param resources the resources
      * @param messages  the messages
      */
+    @Inject
     public RegistryUninstallerListener(RegistryDefaultHandler handler, Resources resources, Messages messages)
     {
         this.handler = handler.getInstance();
