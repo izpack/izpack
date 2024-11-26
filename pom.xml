@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.izpack</groupId>
   <artifactId>izpack</artifactId>
-  <version>6.0.0-ecervo</version>
+  <version>6.0.1-ecervo-SNAPSHOT</version>
   <inceptionYear>2001</inceptionYear>
   <packaging>pom</packaging>
   <name>IzPack parent</name>
@@ -24,7 +24,7 @@
     <url>https://github.com/e-cervo/izpack</url>
     <connection>scm:git:git://github.com/e-cervo/izpack.git</connection>
     <developerConnection>scm:git:git@github.com:e-cervo/izpack.git</developerConnection>
-    <tag>izpack-6.0.0-ecervo</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
