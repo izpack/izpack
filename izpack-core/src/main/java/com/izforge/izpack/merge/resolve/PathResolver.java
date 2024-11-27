@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.merge.Mergeable;
 
@@ -48,6 +49,7 @@ public class PathResolver
      *
      * @param mergeableResolver the mergeable resolver
      */
+    @Inject
     public PathResolver(MergeableResolver mergeableResolver)
     {
         this.mergeableResolver = mergeableResolver;

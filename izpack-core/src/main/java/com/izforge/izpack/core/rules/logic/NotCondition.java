@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.core.rules.logic;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.rules.Condition;
@@ -39,6 +40,7 @@ public class NotCondition extends ConditionReference
 
     private String referencedConditionId;
 
+    @Inject
     public NotCondition(RulesEngine rules)
     {
         this.rules = rules;

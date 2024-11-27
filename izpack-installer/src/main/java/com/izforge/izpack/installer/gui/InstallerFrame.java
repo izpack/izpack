@@ -22,6 +22,7 @@
 
 package com.izforge.izpack.installer.gui;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.Variables;
@@ -226,6 +227,7 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
      * @param navigator           the panel navigator
      * @param log                 the log
      */
+    @Inject
     public InstallerFrame(GUIInstallData installData, RulesEngine rules, IconsDatabase icons,
                           IzPanels panels, UninstallDataWriter uninstallDataWriter,
                           ResourceManager resourceManager, UninstallData uninstallData, Housekeeper housekeeper,

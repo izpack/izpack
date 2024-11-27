@@ -22,6 +22,7 @@
 package com.izforge.izpack.core.factory;
 
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.factory.ObjectFactory;
 
@@ -44,6 +45,7 @@ public class DefaultObjectFactory implements ObjectFactory
      *
      * @param container the container
      */
+    @Inject
     public DefaultObjectFactory(Container container)
     {
         this.container = container;
@@ -69,7 +71,7 @@ public class DefaultObjectFactory implements ObjectFactory
             child.addComponent(type);
             for (Object parameter : parameters)
             {
-                child.addComponent(parameter, parameter);
+                child.addComponent(parameter);
             }
             result = child.getComponent(type);
         }

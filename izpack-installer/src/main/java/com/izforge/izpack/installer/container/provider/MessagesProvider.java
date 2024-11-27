@@ -21,8 +21,8 @@
 
 package com.izforge.izpack.installer.container.provider;
 
-import org.picocontainer.injectors.Provider;
-
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 
@@ -32,16 +32,23 @@ import com.izforge.izpack.api.resource.Messages;
  *
  * @author Tim Anderson
  */
-public class MessagesProvider implements Provider
+public class MessagesProvider implements Provider<Messages>
 {
+    private final Locales locales;
+
+    @Inject
+    public MessagesProvider(Locales locales)
+    {
+        this.locales = locales;
+    }
 
     /**
      * Provides an {@link Messages}.
      *
-     * @param locales the locales
      * @return the messages from the current locale
      */
-    public Messages provide(Locales locales)
+    @Override
+    public Messages get()
     {
         return locales.getMessages();
     }

@@ -21,6 +21,7 @@
 package com.izforge.izpack.installer.gui;
 
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.IconsDatabase;
@@ -89,7 +90,8 @@ public class DefaultNavigator implements Navigator
      * @param icons       the icons
      * @param installData the installation data
      */
-    public DefaultNavigator(Panels panels, IconsDatabase icons, GUIInstallData installData)
+    @Inject
+    public DefaultNavigator(IzPanels panels, IconsDatabase icons, GUIInstallData installData)
     {
         this.panels = panels;
         Messages messages = installData.getMessages();

@@ -42,7 +42,7 @@ import com.izforge.izpack.panels.summary.SummaryPanel;
 import com.izforge.izpack.panels.target.TargetPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.Platforms;
 
 /**
@@ -51,7 +51,7 @@ import com.izforge.izpack.util.Platforms;
  * NOTE: this test uses the IzPack install.xml, and will remove any registry entry associated with an existing IzPack
  * installation.
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class IzpackInstallationTest
 {

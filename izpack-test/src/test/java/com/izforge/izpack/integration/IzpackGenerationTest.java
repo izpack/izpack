@@ -17,13 +17,13 @@ import com.izforge.izpack.compiler.container.TestCompilationContainer;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * Test for an installation
  */
 
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestCompilationContainer.class)
 public class IzpackGenerationTest
 {

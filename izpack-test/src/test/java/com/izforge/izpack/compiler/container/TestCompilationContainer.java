@@ -20,15 +20,19 @@
 package com.izforge.izpack.compiler.container;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.jar.JarFile;
+import java.util.jar.JarOutputStream;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.zip.ZipEntry;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -76,7 +80,7 @@ public class TestCompilationContainer extends CompilerContainer
      */
     public TestCompilationContainer(String installFile, File targetDir)
     {
-        super(null);
+        super(false);
         this.installFile = installFile;
         this.targetDir = targetDir;
         initialise();
@@ -90,7 +94,7 @@ public class TestCompilationContainer extends CompilerContainer
      */
     public TestCompilationContainer(Class<?> testClass, FrameworkMethod method)
     {
-        super(null);
+        super(false);
         InstallFile installFile = method.getAnnotation(InstallFile.class);
         if (installFile == null)
         {
@@ -137,13 +141,12 @@ public class TestCompilationContainer extends CompilerContainer
     /**
      * Fills the container.
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails, or the container has already been initialised
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
+    protected void fillContainer()
     {
-        super.fillContainer(container);
+        super.fillContainer();
         deleteLock();
         URL resource = getClass().getClassLoader().getResource(installFile);
         if (resource == null)
@@ -158,19 +161,32 @@ public class TestCompilationContainer extends CompilerContainer
             targetDir = baseDir;
         }
 
-        File out = new File(targetDir, "out" + Math.random() + ".jar");
-        out.deleteOnExit();
-        CompilerData data = new CompilerData(file.getAbsolutePath(), baseDir.getAbsolutePath(), out.getAbsolutePath(),
-                                             false);
-        container.addConfig("installFile", file.getAbsolutePath());
-        container.addComponent(CompilerData.class, data);
-        container.addComponent(File.class, out);
-        container.addAdapter(new JarFileProvider());
+
+        File jarFile = new File(targetDir, "out" + Math.random() + ".jar");
+        jarFile.deleteOnExit();
+        CompilerData data = new CompilerData(file.getAbsolutePath(), baseDir.getAbsolutePath(), jarFile.getAbsolutePath(),
+                false);
+        addConfig("installFile", file.getAbsolutePath());
+        addComponent(CompilerData.class, data);
+        addComponent(File.class, jarFile);
+
+        try {
+            JarOutputStream jos = new JarOutputStream(new FileOutputStream(jarFile));
+            jos.putNextEntry(new ZipEntry("test"));
+            jos.closeEntry();
+            jos.finish();
+            jos.close();
+
+            addComponent(JarFile.class, new JarFile(jarFile));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            // ignored
+        }
 
         final ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(Level.INFO);
         consoleHandler.setFormatter(new MavenStyleLogFormatter());
-        container.addComponent(Handler.class, consoleHandler);
+        addComponent(Handler.class, consoleHandler);
     }
 
     /**

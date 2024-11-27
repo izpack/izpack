@@ -20,17 +20,17 @@
  */
 package com.izforge.izpack.panels.test;
 
-import org.mockito.Mockito;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
-import org.picocontainer.injectors.ProviderAdapter;
-
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.gui.GUIPrompt;
+import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.base.InstallDataConfiguratorWithRules;
 import com.izforge.izpack.installer.container.provider.IconsProvider;
+import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.test.provider.GUIInstallDataMockProvider;
+import org.mockito.Mockito;
 
 
 /**
@@ -54,19 +54,17 @@ public class TestGUIPanelContainer extends AbstractTestPanelContainer
     /**
      * Invoked by {@link #initialise} to fill the container.
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
+    protected void fillContainer()
     {
-        super.fillContainer(container);
+        super.fillContainer();
         addComponent(InstallDataConfiguratorWithRules.class);
         addComponent(Log.class, Mockito.mock(Log.class));
-        addComponent(GUIPrompt.class);
+        addComponent(Prompt.class, GUIPrompt.class);
 
-        container.addAdapter(new ProviderAdapter(new GUIInstallDataMockProvider()));
-        container.addAdapter(new ProviderAdapter(new IconsProvider()));
+        addProvider(InstallData.class, GUIInstallDataMockProvider.class);
+        addProvider(IconsDatabase.class, IconsProvider.class);
     }
 }

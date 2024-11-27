@@ -214,14 +214,14 @@ public class JarMerge extends AbstractMerge
                     }
 
                     InputStream inputStream = jarFile.getInputStream(jarEntry);
-                    IoHelper.copyStreamToJar(inputStream, (java.util.zip.ZipOutputStream) outputStream, dest.toString().replaceAll("//", "/"),
+                    IoHelper.copyStreamToJar(inputStream, (ZipOutputStream) outputStream, dest.toString().replaceAll("//", "/"),
                             jarEntry.getTime());
                 }
             }
         }
         catch (IOException e)
         {
-            throw new IzPackException("Error accessing file: " + jarPath, e.getCause());
+            throw new IzPackException("Error accessing file: " + jarPath, e);
         }
         finally {
             if (jarFile != null)
@@ -236,36 +236,21 @@ public class JarMerge extends AbstractMerge
     }
 
     @Override
-    public String toString()
-    {
-        return "JarMerge{" +
-                "jarPath='" + jarPath + '\'' +
-                ", regexp='" + regexp + '\'' +
-                ", destination='" + destination + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass())
-        {
-            return false;
-        }
-
-        JarMerge jarMerge = (JarMerge) o;
-
-        return (jarPath != null) ? jarPath.equals(jarMerge.jarPath) : jarMerge.jarPath == null;
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JarMerge)) return false;
+        return jarPath.equals(((JarMerge) obj).jarPath);
     }
 
     @Override
     public int hashCode()
     {
         return jarPath != null ? jarPath.hashCode() : 0;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "JarMerge(" + jarPath + ")";
     }
 
     /**

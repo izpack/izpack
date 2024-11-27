@@ -30,6 +30,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.installer.util.InstallPathHelper;
 import com.izforge.izpack.panels.packs.PackValidator;
@@ -96,6 +97,7 @@ public class TreePacksPanel extends IzPanel
      * @param locales     the supported locales
      * @param factory     the factory for creating {@link PackValidator} instances
      */
+    @Inject
     public TreePacksPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                           Locales locales, ObjectFactory factory)
     {

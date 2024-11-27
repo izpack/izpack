@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.core.rules.logic;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -34,6 +35,7 @@ public class XorCondition extends OrCondition
 {
     private static final long serialVersionUID = 7662467959903108087L;
 
+    @Inject
     public XorCondition(RulesEngine rules)
     {
         super(rules);

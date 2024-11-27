@@ -27,6 +27,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
+import com.google.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -38,7 +39,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 
 /**
@@ -46,7 +47,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class TargetPanelAutomationTest
 {
@@ -67,6 +68,7 @@ public class TargetPanelAutomationTest
      *
      * @param installData the installation data
      */
+    @Inject
     public TargetPanelAutomationTest(InstallData installData)
     {
         this.installData = installData;

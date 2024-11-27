@@ -26,8 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.picocontainer.injectors.Provider;
-
+import com.google.inject.Provider;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -40,7 +39,7 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Tim Anderson
  */
-public abstract class PanelsProvider implements Provider
+public abstract class PanelsProvider<T extends Panels> implements Provider<T>
 {
 
     /**

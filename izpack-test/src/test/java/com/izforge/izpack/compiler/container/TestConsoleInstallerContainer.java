@@ -30,9 +30,6 @@ import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.test.util.TestHousekeeper;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.Housekeeper;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
-
 
 /**
  * Test installer container for console based installers.
@@ -53,27 +50,22 @@ public class TestConsoleInstallerContainer extends ConsoleInstallerContainer
     {
     }
 
-    public TestConsoleInstallerContainer(MutablePicoContainer container)
-    {
-        super(container);
-    }
-
     /**
      * Registers components with the container.
      *
      * @param container the container
      */
     @Override
-    protected void registerComponents(MutablePicoContainer container)
+    protected void registerComponents()
     {
-        super.registerComponents(container);
-        container.removeComponent(ConsoleInstaller.class);
-        container.addComponent(TestConsoleInstaller.class);
-        container.removeComponent(ConsolePrefs.class);
-        container.removeComponent(Console.class);
-        container.addAdapter(new ProviderAdapter(new TestConsolePrefsProvider())); // required by TestConsole
-        container.addComponent(TestConsole.class);
-        container.removeComponent(Housekeeper.class);
-        container.addComponent(TestHousekeeper.class);
+        super.registerComponents();
+        removeComponent(ConsoleInstaller.class);
+        addComponent(TestConsoleInstaller.class);
+        removeComponent(ConsolePrefs.class);
+        removeComponent(Console.class);
+        addProvider(ConsolePrefs.class, TestConsolePrefsProvider.class); // required by TestConsole
+        addComponent(TestConsole.class);
+        removeComponent(Housekeeper.class);
+        addComponent(TestHousekeeper.class);
     }
 }

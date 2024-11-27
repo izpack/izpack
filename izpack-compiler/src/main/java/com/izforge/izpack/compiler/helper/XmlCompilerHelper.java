@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.compiler.helper;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.CompilerException;
 
@@ -34,6 +35,7 @@ public class XmlCompilerHelper
 {
     private AssertionHelper assertionHelper;
 
+    @Inject
     public XmlCompilerHelper(AssertionHelper assertionHelper)
     {
         this.assertionHelper = assertionHelper;

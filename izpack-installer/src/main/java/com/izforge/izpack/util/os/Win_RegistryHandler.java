@@ -24,6 +24,7 @@ package com.izforge.izpack.util.os;
 
 import com.coi.tools.os.izpack.Registry;
 import com.coi.tools.os.win.RegDataContainer;
+import com.google.inject.Inject;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.data.DefaultVariables;
@@ -59,6 +60,7 @@ public class Win_RegistryHandler extends RegistryHandler
      *
      * @param librarian the librarian
      */
+    @Inject
     public Win_RegistryHandler(Librarian librarian)
     {
         this.librarian = librarian;

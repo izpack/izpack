@@ -23,6 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.net.URL;
 
+import com.google.inject.Inject;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,19 +32,20 @@ import com.izforge.izpack.core.container.TestMergeContainer;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.merge.resolve.ResolveUtils;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * Test a single file merge
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestMergeContainer.class)
 public class MergeManagerTest
 {
     private MergeManagerImpl mergeManager;
 
+    @Inject
     public MergeManagerTest(MergeManagerImpl mergeManager)
     {
         this.mergeManager = mergeManager;

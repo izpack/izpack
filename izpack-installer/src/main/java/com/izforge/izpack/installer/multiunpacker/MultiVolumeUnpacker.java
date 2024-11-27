@@ -22,6 +22,7 @@
 
 package com.izforge.izpack.installer.multiunpacker;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
@@ -97,6 +98,7 @@ public class MultiVolumeUnpacker extends UnpackerBase
      * @param locator             the multi-volume locator
      * @param matcher             the platform-model matcher
      */
+    @Inject
     public MultiVolumeUnpacker(InstallData installData, PackResources resources, RulesEngine rules,
                                VariableSubstitutor variableSubstitutor, UninstallData uninstallData,
                                FileQueueFactory queue, Housekeeper housekeeper, InstallerListeners listeners,

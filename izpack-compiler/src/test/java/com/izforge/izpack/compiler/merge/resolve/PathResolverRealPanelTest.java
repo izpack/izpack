@@ -30,13 +30,13 @@ import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.merge.PanelMerge;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * @author Anthonin Bonnefoy
  */
 
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestResolveContainer.class)
 public class PathResolverRealPanelTest
 {

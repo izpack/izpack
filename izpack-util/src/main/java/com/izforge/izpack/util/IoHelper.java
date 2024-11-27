@@ -26,6 +26,8 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipOutputStream;
 
 /**
  * I/O-related utility methods.
@@ -452,7 +454,7 @@ public class IoHelper
 
     }
 
-    public static void copyStreamToJar(InputStream zin, java.util.zip.ZipOutputStream out, String currentName,
+    public static void copyStreamToJar(InputStream zin, ZipOutputStream out, String currentName,
                                        long fileTime) throws IOException
     {
         // Create new entry for zip file.
@@ -462,11 +464,15 @@ public class IoHelper
         {
             newEntry.setTime(fileTime); // If found set it into output file.
         }
-        out.putNextEntry(newEntry);
-        if (zin != null)
-        {
-            IOUtils.copy(zin, out);
+        try {
+            out.putNextEntry(newEntry);
+            if (zin != null)
+            {
+                IOUtils.copy(zin, out);
+            }
+            out.closeEntry();
+        } catch (ZipException ex) {
+            // Ignore duplicate entry
         }
-        out.closeEntry();
     }
 }

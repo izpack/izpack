@@ -41,7 +41,7 @@ import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.listener.TestUninstallerListener;
 import com.izforge.izpack.uninstaller.Destroyer;
 
@@ -51,7 +51,7 @@ import com.izforge.izpack.uninstaller.Destroyer;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class UninstallerListenerTest extends AbstractDestroyerTest
 {

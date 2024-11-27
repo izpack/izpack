@@ -37,7 +37,7 @@ import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.listener.TestInstallerListener;
 
 
@@ -46,7 +46,7 @@ import com.izforge.izpack.test.listener.TestInstallerListener;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class InstallerListenerTest extends AbstractInstallationTest
 {

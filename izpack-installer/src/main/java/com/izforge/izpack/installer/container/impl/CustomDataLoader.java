@@ -22,6 +22,7 @@
 
 package com.izforge.izpack.installer.container.impl;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -77,6 +78,7 @@ public class CustomDataLoader
      * @param uninstallData the uninstallation data
      * @param listeners     the installer listeners
      */
+    @Inject
     public CustomDataLoader(PlatformModelMatcher matcher, Resources resources, ObjectFactory factory,
                             UninstallData uninstallData,
                             InstallerListeners listeners)

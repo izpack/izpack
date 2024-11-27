@@ -6,14 +6,14 @@ import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.gui.IconsDatabase;
+import com.izforge.izpack.installer.data.GUIInstallData;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
-import org.picocontainer.injectors.ProviderAdapter;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.Variables;
@@ -34,28 +34,23 @@ import com.izforge.izpack.test.provider.GUIInstallDataMockProvider;
  *
  * @author Anthonin Bonnefoy
  */
-public class TestLanguageContainer extends AbstractContainer
-{
+public class TestLanguageContainer extends AbstractContainer {
 
     /**
      * Constructs a <tt>TestLanguageContainer</tt>.
      */
-    public TestLanguageContainer()
-    {
+    public TestLanguageContainer() {
         initialise();
     }
 
     /**
      * Invoked by {@link #initialise} to fill the container.
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
-    {
-        container.addComponent(System.getProperties());
+    protected void fillContainer() {
+        addComponent(System.getProperties());
 
         ResourceManager resourceManager = Mockito.mock(ResourceManager.class);
         when(resourceManager.getObject("langpacks.info")).thenReturn(Arrays.asList("eng", "fra"));
@@ -63,19 +58,15 @@ public class TestLanguageContainer extends AbstractContainer
         ImageIcon frFlag = new ImageIcon(getClass().getResource("/com/izforge/izpack/bin/langpacks/flags/fra.gif"));
         when(resourceManager.getImageIcon("flag.eng")).thenReturn(engFlag);
         when(resourceManager.getImageIcon("flag.fra")).thenReturn(frFlag);
-        when(resourceManager.getInputStream("langpacks/eng.xml")).thenAnswer(new Answer<Object>()
-        {
+        when(resourceManager.getInputStream("langpacks/eng.xml")).thenAnswer(new Answer<Object>() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable
-            {
+            public Object answer(InvocationOnMock invocation) throws Throwable {
                 return getClass().getResourceAsStream("/com/izforge/izpack/bin/langpacks/installer/eng.xml");
             }
         });
-        when(resourceManager.getInputStream("langpacks/fra.xml")).thenAnswer(new Answer<Object>()
-        {
+        when(resourceManager.getInputStream("langpacks/fra.xml")).thenAnswer(new Answer<Object>() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable
-            {
+            public Object answer(InvocationOnMock invocation) throws Throwable {
                 return getClass().getResourceAsStream("/com/izforge/izpack/bin/langpacks/installer/fra.xml");
             }
         });
@@ -84,17 +75,17 @@ public class TestLanguageContainer extends AbstractContainer
                 .thenThrow(new IzPackException("Not available"));
 
         DefaultLocales locales = new DefaultLocales(resourceManager);
-        container.addComponent(Variables.class, DefaultVariables.class)
-                .addComponent(resourceManager)
-                .addComponent(Mockito.mock(UninstallData.class))
-                .addComponent(Mockito.mock(UninstallDataWriter.class))
-                .addComponent(Mockito.mock(AutomatedInstaller.class))
-                .addComponent(Mockito.mock(PathResolver.class))
-                .addComponent(locales)
-                .addComponent(Container.class, this);
-        container
-                .addAdapter(new ProviderAdapter(new GUIInstallDataMockProvider()))
-                .addAdapter(new ProviderAdapter(new IconsProvider()));
+        addComponent(Variables.class, DefaultVariables.class);
+        addComponent(resourceManager);
+        addComponent(Mockito.mock(UninstallData.class));
+        addComponent(Mockito.mock(UninstallDataWriter.class));
+        addComponent(Mockito.mock(AutomatedInstaller.class));
+        addComponent(Mockito.mock(PathResolver.class));
+        addComponent(locales);
+        addComponent(Container.class, this);
+
+        addProvider(InstallData.class, GUIInstallDataMockProvider.class);
+        addProvider(IconsDatabase.class, IconsProvider.class);
     }
 
 }

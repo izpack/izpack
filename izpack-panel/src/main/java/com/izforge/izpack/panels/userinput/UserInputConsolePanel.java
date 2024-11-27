@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.userinput;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
@@ -31,6 +32,7 @@ import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
+import com.izforge.izpack.installer.console.ConsolePanelView;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.userinput.console.ConsoleField;
 import com.izforge.izpack.panels.userinput.console.ConsoleFieldFactory;
@@ -114,9 +116,10 @@ public class UserInputConsolePanel extends AbstractConsolePanel
      * @param panelView     the parent panel/view
      * @param installData   the install data
      */
+    @Inject
     public UserInputConsolePanel(Resources resources, ObjectFactory factory,
                                  RulesEngine rules, PlatformModelMatcher matcher, Console console, Prompt prompt,
-                                 PanelView<ConsolePanel> panelView, InstallData installData)
+                                 ConsolePanelView panelView, InstallData installData)
     {
         super(panelView);
         this.installData = installData;

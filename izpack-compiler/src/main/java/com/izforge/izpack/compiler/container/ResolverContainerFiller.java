@@ -26,10 +26,12 @@ import java.util.Properties;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.compiler.util.ClassNameMapper;
 import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.util.DefaultClassNameMapper;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
+import com.izforge.izpack.merge.resolve.PathResolver;
 
 /**
  * Fill container with resolver dependencies.
@@ -40,18 +42,13 @@ public class ResolverContainerFiller
 {
     public void fillContainer(Container container)
     {
-        Properties properties = container.getComponent(Properties.class);
-        for (Map.Entry<Object, Object> entry : getPanelDependencies().entrySet())
-        {
-            properties.put(entry.getKey(), entry.getValue());
-        }
-        container.addComponent(DefaultClassNameMapper.class);
+        container.addComponent(ClassNameMapper.class, DefaultClassNameMapper.class);
         container.addComponent(CompilerClassLoader.class);
-        container.addComponent(CompilerPathResolver.class);
+        container.addComponent(PathResolver.class, CompilerPathResolver.class);
         container.addComponent(MergeableResolver.class);
     }
 
-    private Properties getPanelDependencies()
+    public Properties getPanelDependencies()
     {
         Properties properties = new Properties();
         try

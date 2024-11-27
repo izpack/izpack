@@ -16,6 +16,7 @@
 
 package com.izforge.izpack.core.substitutor;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
@@ -55,6 +56,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      *
      * @param variables the variables
      */
+    @Inject
     public VariableSubstitutorImpl(Variables variables)
     {
         this.variables = variables;

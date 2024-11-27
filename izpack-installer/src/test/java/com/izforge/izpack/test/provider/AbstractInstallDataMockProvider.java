@@ -35,7 +35,7 @@ import com.izforge.izpack.util.Platforms;
  *
  * @author Tim Anderson
  */
-public abstract class AbstractInstallDataMockProvider extends AbstractInstallDataProvider
+public abstract class AbstractInstallDataMockProvider<T> extends AbstractInstallDataProvider<T>
 {
 
     /**

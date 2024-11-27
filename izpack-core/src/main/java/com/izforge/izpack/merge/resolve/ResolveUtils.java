@@ -21,10 +21,7 @@ package com.izforge.izpack.merge.resolve;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.JarURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.net.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -211,9 +208,13 @@ public class ResolveUtils
         return result;
     }
 
-    public static URL processUrlToJarUrl(URL url) throws MalformedURLException
+    public static URL processUrlToJarUrl(URL url)
     {
-        return new URL("file", url.getHost(), processUrlToJarPath(url));
+        try {
+            return new URL("file", url.getHost(), processUrlToJarPath(url));
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("Unable to create URL for " + url, e);
+        }
     }
 
     public static String processUrlToJarPath(URL resource)

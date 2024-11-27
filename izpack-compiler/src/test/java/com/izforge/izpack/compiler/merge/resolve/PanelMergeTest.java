@@ -38,14 +38,14 @@ import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.panels.hello.HelloPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.MergeUtils;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * Unit tests for panel merge
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestResolveContainer.class)
 public class PanelMergeTest
 {

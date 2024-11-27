@@ -21,8 +21,8 @@
 
 package com.izforge.izpack.installer.container.provider;
 
-import org.picocontainer.injectors.Provider;
-
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.core.resource.DefaultLocales;
 import com.izforge.izpack.core.resource.ResourceManager;
@@ -32,10 +32,18 @@ import com.izforge.izpack.core.resource.ResourceManager;
  *
  * @author Tim Anderson
  */
-public class LocalesProvider implements Provider
+public class LocalesProvider implements Provider<Locales>
 {
+    private final ResourceManager resources;
 
-    public Locales provide(ResourceManager resources)
+    @Inject
+    public LocalesProvider(ResourceManager resources)
+    {
+        this.resources = resources;
+    }
+
+    @Override
+    public Locales get()
     {
         Locales locales = new DefaultLocales(resources);
         resources.setLocales(locales);

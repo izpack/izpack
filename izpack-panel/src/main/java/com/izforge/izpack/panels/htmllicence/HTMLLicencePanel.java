@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.panels.htmllicence;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -66,6 +67,7 @@ public class HTMLLicencePanel extends AbstractLicencePanel implements HyperlinkL
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public HTMLLicencePanel(Panel panel, final InstallerFrame parent, GUIInstallData installData, Resources resources,
                             Log log)
     {

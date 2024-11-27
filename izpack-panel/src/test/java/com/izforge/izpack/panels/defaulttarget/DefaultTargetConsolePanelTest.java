@@ -26,13 +26,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestConsole;
 
 /**
@@ -40,7 +41,7 @@ import com.izforge.izpack.test.util.TestConsole;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class DefaultTargetConsolePanelTest
 {
@@ -61,6 +62,7 @@ public class DefaultTargetConsolePanelTest
      * @param installData the installation data
      * @param console     the console
      */
+    @Inject
     public DefaultTargetConsolePanelTest(InstallData installData, TestConsole console)
     {
         this.console = console;

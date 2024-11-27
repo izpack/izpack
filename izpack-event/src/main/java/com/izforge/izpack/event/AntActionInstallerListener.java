@@ -22,6 +22,7 @@
 
 package com.izforge.izpack.event;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
@@ -102,6 +103,7 @@ public class AntActionInstallerListener extends AbstractProgressInstallerListene
      * @param uninstallData the uninstallation data
      * @param notifiers     the progress notifiers
      */
+    @Inject
     public AntActionInstallerListener(VariableSubstitutor replacer, Resources resources, InstallData installData,
                                       UninstallData uninstallData, ProgressNotifiers notifiers)
     {

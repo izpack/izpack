@@ -29,7 +29,7 @@ import com.izforge.izpack.installer.unpacker.Unpacker;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.Platform.Name;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,7 +52,7 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class ExecutableFileTest extends AbstractDestroyerTest
 {

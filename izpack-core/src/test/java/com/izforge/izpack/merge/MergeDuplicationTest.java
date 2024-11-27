@@ -25,6 +25,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.zip.ZipFile;
 
+import com.google.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -36,20 +37,21 @@ import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.MergeUtils;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * Test for merge duplication
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @Container(TestMergeContainer.class)
 public class MergeDuplicationTest
 {
     private PathResolver pathResolver;
     private MergeableResolver mergeableResolver;
 
+    @Inject
     public MergeDuplicationTest(PathResolver pathResolver, MergeableResolver mergeableResolver)
     {
         this.pathResolver = pathResolver;

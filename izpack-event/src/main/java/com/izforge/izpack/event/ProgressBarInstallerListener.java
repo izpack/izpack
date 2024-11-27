@@ -24,6 +24,7 @@ package com.izforge.izpack.event;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.event.ProgressListener;
@@ -48,6 +49,7 @@ public class ProgressBarInstallerListener extends AbstractProgressInstallerListe
      * @param installData the installation data
      * @param notifiers   the progress notifiers
      */
+    @Inject
     public ProgressBarInstallerListener(InstallData installData, ProgressNotifiers notifiers)
     {
         super(installData, notifiers);
