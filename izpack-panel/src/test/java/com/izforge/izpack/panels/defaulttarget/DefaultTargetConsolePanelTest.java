@@ -22,11 +22,11 @@ package com.izforge.izpack.panels.defaulttarget;
 
 import static com.izforge.izpack.installer.util.InstallPathHelper.TARGET_PANEL_DIR;
 import static com.izforge.izpack.util.Platform.Name.MAC_OSX;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.data.InstallData;
@@ -72,7 +72,7 @@ public class DefaultTargetConsolePanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testEmptyPath() throws Exception
     {
         String expectedPath = System.getProperty("user.dir");
@@ -97,7 +97,7 @@ public class DefaultTargetConsolePanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDefaultInstallPath() throws Exception
     {
         String expectedPath = "/x/y";

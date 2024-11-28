@@ -22,7 +22,7 @@ package com.izforge.izpack.compiler.merge.resolve;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.compiler.container.TestResolveContainer;

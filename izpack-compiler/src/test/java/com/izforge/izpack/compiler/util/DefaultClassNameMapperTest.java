@@ -55,10 +55,10 @@ import com.izforge.izpack.panels.userinput.processor.UnixUserProcessor;
 import com.izforge.izpack.panels.userinput.validator.*;
 import com.izforge.izpack.panels.userpath.UserPathPanel;
 import com.izforge.izpack.panels.xinfo.XInfoPanel;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Tests the {@link DefaultClassNameMapper}.
@@ -110,7 +110,7 @@ public class DefaultClassNameMapperTest
     /**
      * Tests the mapping of validator simple names to their fully qualified names.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testValidators()
     {
         assertEquals(HostAddressValidator.class.getName(), mapper.map("HostAddressValidator"));
@@ -124,7 +124,7 @@ public class DefaultClassNameMapperTest
     /**
      * Tests the mapping of processor simple names to their fully qualified names.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testProcessors()
     {
         assertEquals(PasswordEncryptionProcessor.class.getName(), mapper.map("PasswordEncryptionProcessor"));

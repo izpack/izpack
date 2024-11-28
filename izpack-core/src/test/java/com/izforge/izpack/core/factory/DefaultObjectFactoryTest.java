@@ -22,14 +22,14 @@
 package com.izforge.izpack.core.factory;
 
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -107,7 +107,7 @@ public class DefaultObjectFactoryTest
     /**
      * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method with parameters.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCreateWithParameters()
     {
         A a = new A();
@@ -130,7 +130,7 @@ public class DefaultObjectFactoryTest
      * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)} method with no
      * <tt>parameters</tt> arguments.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCreateByClassNameNoParameters()
     {
         A a1 = factory.create(A.class.getName(), A.class);
@@ -159,7 +159,7 @@ public class DefaultObjectFactoryTest
     /**
      * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)} method with parameters.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCreateByClassNameWithParameters()
     {
         A a = new A();
@@ -181,7 +181,7 @@ public class DefaultObjectFactoryTest
     /**
      * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)} method with dependency injection.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCreateByClassNameWithInjection()
     {
         A a1 = new A();

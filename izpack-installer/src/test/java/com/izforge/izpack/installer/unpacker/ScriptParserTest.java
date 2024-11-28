@@ -10,10 +10,10 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -25,12 +25,12 @@ public class ScriptParserTest {
 
   private File file;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     file = File.createTempFile("test", "txt");
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     FileUtils.forceDelete(file);
   }
@@ -93,7 +93,7 @@ public class ScriptParserTest {
     Assert.assertThat(content, containsString("plutò"));
   }
 
-  @Test
+  @org.junit.jupiter.api.Test
   public void givenPlainTextFileAndCyrillicCharactersInContent_whenParseWithUtf8Encoding_contentIsWrittenWithUtf8Encoding() throws Exception {
     Variables variables = new DefaultVariables();
     VariableSubstitutor replacer = new VariableSubstitutorImpl(variables);

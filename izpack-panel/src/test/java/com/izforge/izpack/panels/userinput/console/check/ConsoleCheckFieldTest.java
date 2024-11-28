@@ -35,10 +35,10 @@ import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.check.TestCheckFieldConfig;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -85,7 +85,7 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
     /**
      * Tests selection of the default value.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testSelectDefaultValue()
     {
         String variable = "check";
@@ -122,7 +122,7 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
     /**
      * Tests setting the state from selected to deselected.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDeselect()
     {
         String variable = "check";
