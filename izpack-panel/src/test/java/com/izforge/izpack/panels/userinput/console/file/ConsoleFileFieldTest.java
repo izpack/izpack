@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -117,9 +118,7 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
     {
         ConsoleFileField field = createField(null);
 
-        File dir = File.createTempFile("foo", "bar", FileUtils.getTempDirectory());
-        assertTrue(dir.delete());
-        assertTrue(dir.mkdir());
+        File dir = Files.createTempDirectory(FileUtils.getTempDirectory().toPath(), "foo" + "bar").toFile();
         checkInvalid(field, dir.getPath());
         assertNull(installData.getVariable("file"));
 
