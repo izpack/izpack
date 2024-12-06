@@ -47,7 +47,7 @@ public abstract class AbstractContainer implements Container {
      * The underlying container.
      */
     private final List<Module> modules = new ArrayList<>();
-    private final Injector parent;
+    private Injector parent;
     private Injector injector;
 
     /**
@@ -131,6 +131,11 @@ public abstract class AbstractContainer implements Container {
     }
 
     @Override
+    public <T, U extends T> void addComponent(TypeLiteral<T> componentKey, U implementation) {
+        addTypeLiteralModule(componentKey, binder -> binder.toInstance(implementation));
+    }
+
+    @Override
     public <T, U extends T> void addComponent(Class<T> componentKey, U implementation) {
         addSimpleModule(componentKey, binder -> binder.toInstance(implementation));
     }
@@ -151,23 +156,28 @@ public abstract class AbstractContainer implements Container {
     }
 
     private <T> void addSimpleModule(Class<T> componentKey, Consumer<AnnotatedBindingBuilder<T>> mapper) {
-        if (this.injector != null) {
-            throw new IllegalStateException("Cannot add " + componentKey.getSimpleName() + " after container has been initialized");
-        }
+        flushInjector();
         this.modules.add(new SimpleModule<T>(componentKey, mapper));
-
-        System.out.println("=> " + componentKey.getName());
-
-        if(componentKey.getName().equals("com.izforge.izpack.installer.console.ConsolePanelView")) {
-            Thread.dumpStack();
-        }
     }
 
     private <T> void addTypeLiteralModule(TypeLiteral<T> typeLiteral, Consumer<AnnotatedBindingBuilder<T>> mapper) {
-        if (this.injector != null) {
-            throw new IllegalStateException("Cannot add " + typeLiteral.getType().getTypeName() + " after container has been initialized");
-        }
+        flushInjector();
         this.modules.add(new TypeLiteralModule<T>(typeLiteral, mapper));
+    }
+
+    private void flushInjector() {
+        if (injector != null) {
+            parent = injector;
+            modules.clear();
+            injector = null;
+        }
+    }
+
+    // For test only
+    public <T> void removeComponent(Class<T> type) {
+        modules.removeIf(module ->
+                module instanceof SimpleModule && ((SimpleModule<?>) module).componentKey.equals(type)
+        );
     }
 
     /**

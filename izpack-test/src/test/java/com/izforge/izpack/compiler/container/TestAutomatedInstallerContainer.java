@@ -22,6 +22,7 @@
 package com.izforge.izpack.compiler.container;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
+import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.installer.console.TestConsolePrefsProvider;
 import com.izforge.izpack.installer.container.impl.AutomatedInstallerContainer;
 import com.izforge.izpack.test.util.TestHousekeeper;

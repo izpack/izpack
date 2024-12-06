@@ -38,6 +38,7 @@ import com.izforge.izpack.installer.language.LanguageConsoleDialog;
 import com.izforge.izpack.installer.multiunpacker.MultiVolumeUnpackerAutomationHelper;
 import com.izforge.izpack.installer.panel.Panels;
 import com.izforge.izpack.installer.unpacker.ConsolePackResources;
+import com.izforge.izpack.installer.unpacker.PackResources;
 import com.izforge.izpack.util.Console;
 
 /**
@@ -65,7 +66,7 @@ public class ConsoleInstallerContainer extends InstallerContainer {
         addComponent(Prompt.class, ConsolePrompt.class);
         addComponent(ConsoleInstaller.class);
         addComponent(ConsolePanelAutomationHelper.class);
-        addComponent(ConsolePackResources.class);
+        addComponent(PackResources.class, ConsolePackResources.class);
         addComponent(MultiVolumeUnpackerAutomationHelper.class);
         addComponent(LanguageConsoleDialog.class);
     }

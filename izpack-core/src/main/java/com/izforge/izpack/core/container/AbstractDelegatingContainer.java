@@ -98,6 +98,11 @@ public abstract class AbstractDelegatingContainer implements Container
         getContainer().addComponent(componentKey, implementation);
     }
 
+    @Override
+    public <T, U extends T> void addComponent(TypeLiteral<T> componentKey, U implementation) {
+        getContainer().addComponent(componentKey, implementation);
+    }
+
     /**
      * Retrieve a component by its component type.
      * <p/>

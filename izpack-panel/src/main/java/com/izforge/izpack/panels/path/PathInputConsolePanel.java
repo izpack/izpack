@@ -16,6 +16,7 @@
 
 package com.izforge.izpack.panels.path;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Messages;
@@ -43,6 +44,7 @@ public class PathInputConsolePanel extends AbstractConsolePanel
      * @param installData the install data
      * @param prompt the console prompt
      */
+    @Inject
     public PathInputConsolePanel(PanelView<ConsolePanel> panel, String targetPanel, InstallData installData, Prompt prompt)
     {
         super(panel);

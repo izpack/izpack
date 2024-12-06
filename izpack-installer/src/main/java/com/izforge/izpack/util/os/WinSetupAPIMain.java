@@ -1,7 +1,9 @@
 package com.izforge.izpack.util.os;
 
 import java.io.File;
+import java.util.function.Consumer;
 
+import com.izforge.izpack.api.container.ContainerConfigurer;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.util.DefaultTargetPlatformFactory;
 import com.izforge.izpack.util.Housekeeper;
@@ -35,13 +37,13 @@ public class WinSetupAPIMain
                 ObjectFactory dummy = new ObjectFactory()
                 {
                     @Override
-                    public <T> T create(Class<T> type, Object... parameters)
+                    public <T> T create(Class<T> type, Consumer<ContainerConfigurer> configurer)
                     {
                         return null;
                     }
 
                     @Override
-                    public <T> T create(String className, Class<T> superType, Object... parameters)
+                    public <T> T create(String className, Class<T> superType, Consumer<ContainerConfigurer> configurer)
                     {
                         return null;
                     }

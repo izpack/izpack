@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
@@ -75,6 +76,7 @@ public class TreePacksConsolePanel extends AbstractConsolePanel implements Conso
      * @param panel  the parent panel/view. May be {@code null}
      * @param prompt the prompt
      */
+    @Inject
     public TreePacksConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
     {
         super(panel);

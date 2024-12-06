@@ -47,12 +47,10 @@ public class TestConsoleInstaller extends ConsoleInstaller
      * @param writer       the uninstallation data writer
      * @param console      the console
      * @param housekeeper  the house-keeper
-     * @throws Exception for any error
      */
     @Inject
     public TestConsoleInstaller(ConsolePanels panels, ConsoleInstallData installData, UninstallDataWriter writer,
                                 TestConsole console, TestHousekeeper housekeeper)
-            throws Exception
     {
         super(panels, installData, writer, console, housekeeper);
     }

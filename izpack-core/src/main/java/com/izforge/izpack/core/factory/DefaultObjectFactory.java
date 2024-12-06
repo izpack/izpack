@@ -24,7 +24,10 @@ package com.izforge.izpack.core.factory;
 
 import com.google.inject.Inject;
 import com.izforge.izpack.api.container.Container;
+import com.izforge.izpack.api.container.ContainerConfigurer;
 import com.izforge.izpack.api.factory.ObjectFactory;
+
+import java.util.function.Consumer;
 
 
 /**
@@ -58,21 +61,17 @@ public class DefaultObjectFactory implements ObjectFactory
      * When specified as parameters, order is unimportant, but must be unambiguous.
      *
      * @param type       the object type
-     * @param parameters additional constructor parameters
+     * @param configurer additional configurer to create the base object
      * @return a new instance
      */
     @Override
-    public <T> T create(Class<T> type, Object... parameters)
-    {
+    public <T> T create(Class<T> type, Consumer<ContainerConfigurer> configurer) {
         T result;
         Container child = container.createChildContainer();
         try
         {
             child.addComponent(type);
-            for (Object parameter : parameters)
-            {
-                child.addComponent(parameter);
-            }
+            configurer.accept(child);
             result = child.getComponent(type);
         }
         finally
@@ -91,16 +90,16 @@ public class DefaultObjectFactory implements ObjectFactory
      *
      * @param className  the class name
      * @param superType  the super type
-     * @param parameters additional constructor parameters
+     * @param configurer additional configurers to create the base object
      * @return a new instance
      * @throws ClassCastException if <tt>className</tt> does not implement or extend <tt>superType</tt>
      * @throws com.izforge.izpack.api.exception.IzPackClassNotFoundException
      *                            if the class cannot be found
      */
     @Override
-    public <T> T create(String className, Class<T> superType, Object... parameters)
+    public <T> T create(String className, Class<T> superType, Consumer<ContainerConfigurer> configurer)
     {
         Class<? extends T> type = container.getClass(className, superType);
-        return create(type, parameters);
+        return create(type, configurer);
     }
 }

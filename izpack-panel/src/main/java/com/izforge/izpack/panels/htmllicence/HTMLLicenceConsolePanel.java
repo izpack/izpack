@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.panels.htmllicence;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
@@ -35,6 +36,7 @@ public class HTMLLicenceConsolePanel extends AbstractLicenceConsolePanel
      * @param panel     the parent panel/view. May be {@code null}
      * @param resources the resources
      */
+    @Inject
     public HTMLLicenceConsolePanel(PanelView<ConsolePanel> panel, Resources resources)
     {
         super(panel, resources);

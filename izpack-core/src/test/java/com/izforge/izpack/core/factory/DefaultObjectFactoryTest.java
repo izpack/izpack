@@ -36,14 +36,15 @@ import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.core.container.DefaultContainer;
 
+import java.util.function.Consumer;
+
 
 /**
  * Tests the {@link DefaultObjectFactory} class.
  *
  * @author Tim Anderson
  */
-public class DefaultObjectFactoryTest
-{
+public class DefaultObjectFactoryTest {
 
     /**
      * The container.
@@ -59,18 +60,16 @@ public class DefaultObjectFactoryTest
     /**
      * Constructs a <tt>DefaultObjectFactoryTest</tt>.
      */
-    public DefaultObjectFactoryTest()
-    {
+    public DefaultObjectFactoryTest() {
         container = new DefaultContainer();
         factory = new DefaultObjectFactory(container);
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method with no <tt>parameters</tt> arguments.
+     * Tests the {@link DefaultObjectFactory#create(Class, Consumer)} method with no <tt>parameters</tt> arguments.
      */
     @Test
-    public void testCreateNoParameters()
-    {
+    public void testCreateNoParameters() {
         container.addComponent(C.class, new C(new A())); // should not be returned by the factory
 
         A a1 = factory.create(A.class);
@@ -88,11 +87,10 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method with dependency injection.
+     * Tests the {@link DefaultObjectFactory#create(Class, Consumer)} method with dependency injection.
      */
     @Test
-    public void testCreateWithInjection()
-    {
+    public void testCreateWithInjection() {
         A a1 = new A();
         container.addComponent(A.class, a1);
 
@@ -102,21 +100,26 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(Class, Object...)} method with parameters.
+     * Tests the {@link DefaultObjectFactory#create(Class, Consumer)} method with parameters.
      */
     @Test
-    public void testCreateWithParameters()
-    {
+    public void testCreateWithParameters() {
         A a = new A();
         B b = new B();
 
-        D d1 = factory.create(D.class, a, b);
+        D d1 = factory.create(D.class, (configurer) -> {
+            configurer.addComponent(a);
+            configurer.addComponent(b);
+        });
         assertNotNull(d1);
         assertSame(a, d1.a);
         assertSame(b, d1.b);
 
         // verify order is unimportant for parameters
-        D d2 = factory.create(D.class, b, a);
+        D d2 = factory.create(D.class, (configurer) -> {
+            configurer.addComponent(b);
+            configurer.addComponent(a);
+        });
         assertNotNull(d2);
         assertNotSame(d2, d1);
         assertSame(a, d2.a);
@@ -124,7 +127,7 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)} method with no
+     * Tests the {@link DefaultObjectFactory#create(String, Class, Consumer)} method with no
      * <tt>parameters</tt> arguments.
      */
     @Test
@@ -144,33 +147,35 @@ public class DefaultObjectFactoryTest
         assertTrue(c1 instanceof C);
 
         // now try and create an instance  which doesn't extend the specified superType
-        try
-        {
+        try {
             factory.create(B.class.getName(), A.class);
             fail("Expected ClassCastException");
-        }
-        catch (ClassCastException expected)
-        {
+        } catch (ClassCastException expected) {
             // do nothing
         }
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)} method with parameters.
+     * Tests the {@link DefaultObjectFactory#create(String, Class, Consumer)} method with parameters.
      */
     @Test
-    public void testCreateByClassNameWithParameters()
-    {
+    public void testCreateByClassNameWithParameters() {
         A a = new A();
         B b = new B();
 
-        Object d1 = factory.create(D.class.getName(), Object.class, a, b);
+        Object d1 = factory.create(D.class.getName(), Object.class, (configurer) -> {
+            configurer.addComponent(a);
+            configurer.addComponent(b);
+        });
         assertNotNull(d1);
         assertSame(a, ((D) d1).a);
         assertSame(b, ((D) d1).b);
 
         // verify order is unimportant for parameters
-        Object d2 = factory.create(D.class.getName(), Object.class, b, a);
+        Object d2 = factory.create(D.class.getName(), Object.class, (configurer) -> {
+            configurer.addComponent(b);
+            configurer.addComponent(a);
+        });
         assertNotNull(d2);
         assertNotSame(d2, d1);
         assertSame(a, ((D) d2).a);
@@ -178,11 +183,10 @@ public class DefaultObjectFactoryTest
     }
 
     /**
-     * Tests the {@link DefaultObjectFactory#create(String, Class, Object...)} method with dependency injection.
+     * Tests the {@link DefaultObjectFactory#create(String, Class, Consumer)} method with dependency injection.
      */
     @Test
-    public void testCreateByClassNameWithInjection()
-    {
+    public void testCreateByClassNameWithInjection() {
         A a1 = new A();
         container.addComponent(A.class, a1);
 
@@ -192,36 +196,30 @@ public class DefaultObjectFactoryTest
         assertSame(a1, ((C) c).a); // verify A instance was injected
     }
 
-    public static class A
-    {
+    public static class A {
 
     }
 
-    public static class B
-    {
+    public static class B {
 
     }
 
-    public static class C extends A
-    {
+    public static class C extends A {
 
         public final A a;
 
         @Inject
-        public C(A a)
-        {
+        public C(A a) {
             this.a = a;
         }
     }
 
-    public static class D
-    {
+    public static class D {
         public final A a;
         public final B b;
 
         @Inject
-        public D(A a, B b)
-        {
+        public D(A a, B b) {
             this.a = a;
             this.b = b;
         }

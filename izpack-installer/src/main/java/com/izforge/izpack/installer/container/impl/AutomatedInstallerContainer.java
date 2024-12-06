@@ -35,6 +35,7 @@ import com.izforge.izpack.installer.container.provider.AutomatedPanelsProvider;
 import com.izforge.izpack.installer.multiunpacker.MultiVolumeUnpackerAutomationHelper;
 import com.izforge.izpack.installer.panel.Panels;
 import com.izforge.izpack.installer.unpacker.ConsolePackResources;
+import com.izforge.izpack.installer.unpacker.PackResources;
 
 /**
  * Installer container for automated installation mode.
@@ -66,7 +67,7 @@ public class AutomatedInstallerContainer extends InstallerContainer {
         addComponent(Prompt.class, AutomatedPrompt.class);
         addComponent(AutomatedInstaller.class);
         addComponent(ConsolePanelAutomationHelper.class);
-        addComponent(ConsolePackResources.class);
+        addComponent(PackResources.class, ConsolePackResources.class);
         addComponent(MultiVolumeUnpackerAutomationHelper.class);
     }
 }

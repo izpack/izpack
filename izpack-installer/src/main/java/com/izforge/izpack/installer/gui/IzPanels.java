@@ -80,13 +80,12 @@ public class IzPanels extends AbstractPanels<IzPanelView, IzPanel>
             IzPanel view = panel.getView();
             installData.getPanels().add(view);
 
-            // Not understood why we needed to add a component because it does not seem to be used further...
-//            String panelId = panel.getPanelId();
-//            if (panelId == null)
-//            {
-//                panelId = view.getClass().getName();
-//            }
-//            container.addComponent(panelId, IzPanel.class, view);
+            String panelId = panel.getPanelId();
+            if (panelId == null)
+            {
+                panelId = view.getClass().getName();
+            }
+            container.addComponent(panelId, IzPanel.class, view);
         }
     }
 

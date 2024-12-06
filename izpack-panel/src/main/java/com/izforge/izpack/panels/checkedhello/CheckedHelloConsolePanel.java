@@ -29,6 +29,7 @@ import static com.izforge.izpack.api.handler.Prompt.Type.ERROR;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.handler.Prompt;
@@ -77,6 +78,7 @@ public class CheckedHelloConsolePanel extends HelloConsolePanel
      * @param panel       the parent panel/view. May be {@code null}
      * @throws NativeLibException for any native library error
      */
+    @Inject
     public CheckedHelloConsolePanel(RegistryDefaultHandler handler, InstallData installData, Prompt prompt,
                                     PanelView<ConsolePanel> panel)
             throws NativeLibException
