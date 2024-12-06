@@ -11,7 +11,7 @@
         <url>http://izpack.org/</url>
         <javaversion>1.6</javaversion>
         <requiresjdk>no</requiresjdk>
-<!--        <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7|izpack.windowsinstall.8|izpack.windowsinstall.10|izpack.windowsinstall.11|izpack.linuxinstall"/>-->
+        <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7|izpack.windowsinstall.8|izpack.windowsinstall.10|izpack.windowsinstall.11|izpack.linuxinstall"/>
         <summarylogfilepath>$INSTALL_PATH/setup/Summary.htm</summarylogfilepath>
         <readinstallationinformation>false</readinstallationinformation>
         <writeinstallationinformation>false</writeinstallationinformation>

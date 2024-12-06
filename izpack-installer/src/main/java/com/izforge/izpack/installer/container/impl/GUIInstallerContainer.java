@@ -59,14 +59,9 @@ public class GUIInstallerContainer extends InstallerContainer {
             SwingUtilities.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        InstallerFrame frame = getComponent(InstallerFrame.class);
-                        IUnpacker unpacker = getComponent(IUnpacker.class);
-                        frame.setUnpacker(unpacker);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+                    InstallerFrame frame = getComponent(InstallerFrame.class);
+                    IUnpacker unpacker = getComponent(IUnpacker.class);
+                    frame.setUnpacker(unpacker);
                 }
             });
         } catch (Exception exception) {
