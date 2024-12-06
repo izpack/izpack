@@ -192,20 +192,11 @@ public class FileMerge extends AbstractMerge
     }
 
     @Override
-    public int hashCode()
-    {
-        return sourceToCopy != null ? sourceToCopy.hashCode() : 0;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof FileMerge)) return false;
-        return sourceToCopy.equals(((FileMerge) obj).sourceToCopy);
-    }
-
-    @Override
     public String toString()
     {
-        return "FileMerge(" + sourceToCopy + ")";
+        return "FileMerge{" +
+                "sourceToCopy=" + sourceToCopy +
+                ", destination='" + destination + '\'' +
+                '}';
     }
 }

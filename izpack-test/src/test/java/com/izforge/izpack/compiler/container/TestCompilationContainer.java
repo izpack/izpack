@@ -179,8 +179,7 @@ public class TestCompilationContainer extends CompilerContainer
 
             addComponent(JarFile.class, new JarFile(jarFile));
         } catch (IOException ex) {
-            ex.printStackTrace();
-            // ignored
+            throw new IllegalStateException("Cannot create jar file", ex);
         }
 
         final ConsoleHandler consoleHandler = new ConsoleHandler();
