@@ -19,9 +19,7 @@
 
 package com.izforge.izpack.compiler.container;
 
-import com.google.inject.util.Providers;
 import com.izforge.izpack.api.container.Container;
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -100,7 +98,6 @@ public class CompilerContainer extends AbstractContainer {
         addComponent(ObjectFactory.class, DefaultObjectFactory.class);
         addComponent(PlatformModelMatcher.class);
         addComponent(Platforms.class);
-        addProvider(InstallData.class, Providers.of(null)); // Not used in Compiler
 
         resolver.fillContainer(this);
         addProvider(XmlCompilerHelper.class, XmlCompilerHelperProvider.class);

@@ -204,6 +204,7 @@ public class UninstallDataWriter
         uninstallerMerge.addAll(pathResolver.getMergeableFromPath("com/izforge/izpack/gui/"));
         uninstallerMerge.addAll(pathResolver.getMergeableFromPath("com/izforge/izpack/img/"));
         uninstallerMerge.addAll(pathResolver.getMergeableFromPath("jakarta/inject/"));
+        uninstallerMerge.addAll(pathResolver.getMergeableFromPath("com/google/"));
         uninstallerMerge.addAll(pathResolver.getMergeableFromPath("org/apache/commons/io/"));
 
         //required by console uninstaller

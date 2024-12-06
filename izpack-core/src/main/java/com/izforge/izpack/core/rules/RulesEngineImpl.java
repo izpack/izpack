@@ -22,6 +22,7 @@
 package com.izforge.izpack.core.rules;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.XMLException;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
@@ -57,6 +58,7 @@ import java.util.logging.Logger;
  *
  * @author Dennis Reil, <Dennis.Reil@reddot.de> created: 09.11.2006, 13:48:39
  */
+@Singleton
 public class RulesEngineImpl implements RulesEngine
 {
 
@@ -100,7 +102,7 @@ public class RulesEngineImpl implements RulesEngine
         TYPE_CLASS_NAMES.put("variable", VariableCondition.class.getName());
     }
 
-    // Test only
+    @Inject
     public RulesEngineImpl(ConditionContainer container, Platform platform)
     {
         this.installData = null;
@@ -108,7 +110,6 @@ public class RulesEngineImpl implements RulesEngine
         initStandardConditions(platform);
     }
 
-    @Inject
     public RulesEngineImpl(@Nullable InstallData installData,
                            ConditionContainer container,
                            Platform platform)

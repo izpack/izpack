@@ -167,7 +167,6 @@ public class GUIInstallDataProvider extends AbstractInstallDataProvider<GUIInsta
             return guiInstallData;
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new IllegalStateException("Failed to load GUI install data", e);
         }
     }

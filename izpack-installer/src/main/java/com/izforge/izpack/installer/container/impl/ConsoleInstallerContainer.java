@@ -58,7 +58,7 @@ public class ConsoleInstallerContainer extends InstallerContainer {
         addProvider(InstallData.class, ConsoleInstallDataProvider.class);
         addProvider(ConsoleInstallData.class, ConsoleInstallDataProvider.class);
         addProvider(AutomatedInstallData.class, ConsoleInstallDataProvider.class);
-        addProvider(Panels.class, ConsolePanelsProvider.class);
+        addProvider(ConsolePanels.class, ConsolePanelsProvider.class);
         addProvider(Messages.class, MessagesProvider.class); // required by ConsolePrompt and Console
         addProvider(ConsolePrefs.class, ConsolePrefsProvider.class); // required by Console
 
