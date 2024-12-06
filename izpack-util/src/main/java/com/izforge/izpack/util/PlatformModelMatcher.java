@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.binding.OsModel;
 
 /**
@@ -55,6 +56,7 @@ public class PlatformModelMatcher
      * @param platforms the platforms
      * @param platform  the current platform
      */
+    @Inject
     public PlatformModelMatcher(Platforms platforms, Platform platform)
     {
         this.platforms = platforms;

@@ -21,27 +21,34 @@
 
 package com.izforge.izpack.installer.container.provider;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
-import org.picocontainer.injectors.Provider;
-
 
 /**
  * Provides an {@link Messages} from the current locale.
  *
  * @author Tim Anderson
  */
-public class ConsolePrefsProvider implements Provider
+public class ConsolePrefsProvider implements Provider<ConsolePrefs>
 {
+    private final ConsoleInstallData installData;
+
+    @Inject
+    public ConsolePrefsProvider(ConsoleInstallData installData)
+    {
+        this.installData = installData;
+    }
 
     /**
      * Provides an {@link ConsolePrefs}.
      *
-     * @param installData the console installation data
      * @return the console preferences
      */
-    public ConsolePrefs provide(ConsoleInstallData installData)
+    @Override
+    public ConsolePrefs get()
     {
         return installData.consolePrefs;
     }

@@ -3,7 +3,7 @@
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.2.4-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>    
     <modelVersion>4.0.0</modelVersion>
 
@@ -11,11 +11,6 @@
     <name>IzPack ant module</name>
 
     <dependencies>
-        
-        <dependency>
-            <artifactId>izpack-test-common</artifactId>
-            <groupId>${project.groupId}</groupId>            
-        </dependency>
         <dependency>
             <artifactId>izpack-compiler</artifactId>
             <groupId>${project.groupId}</groupId>
@@ -23,6 +18,11 @@
         <dependency>
             <groupId>org.apache.ant</groupId>
             <artifactId>ant</artifactId>
+        </dependency>
+
+        <dependency>
+            <artifactId>izpack-test-common</artifactId>
+            <groupId>${project.groupId}</groupId>
         </dependency>
     </dependencies>
 

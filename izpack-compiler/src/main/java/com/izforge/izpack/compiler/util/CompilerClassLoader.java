@@ -23,6 +23,7 @@ package com.izforge.izpack.compiler.util;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
 
 /**
@@ -49,6 +50,7 @@ public class CompilerClassLoader extends URLClassLoader
      *
      * @param mapper the class name mapper
      */
+    @Inject
     public CompilerClassLoader(ClassNameMapper mapper)
     {
         this(CompilerClassLoader.class.getClassLoader(), mapper);

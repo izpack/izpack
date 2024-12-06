@@ -27,9 +27,9 @@ import com.izforge.izpack.compiler.container.TestAutomatedInstallationContainer;
 import com.izforge.izpack.installer.automation.AutomatedInstaller;
 import com.izforge.izpack.integration.AbstractInstallationTest;
 import com.izforge.izpack.integration.UninstallHelper;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.FileUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,8 +58,8 @@ import static org.junit.Assert.assertNotNull;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@Container(TestAutomatedInstallationContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestAutomatedInstallationContainer.class)
 public class AutomatedInstallerTest extends AbstractInstallationTest
 {
 

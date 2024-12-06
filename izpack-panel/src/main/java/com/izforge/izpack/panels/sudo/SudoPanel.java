@@ -42,6 +42,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -84,6 +85,7 @@ public class SudoPanel extends IzPanel implements ActionListener
      * @param replacer    the variable replacer
      * @param matcher     the platform-model matcher
      */
+    @Inject
     public SudoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                      VariableSubstitutor replacer, PlatformModelMatcher matcher)
     {

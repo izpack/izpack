@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Resources;
@@ -73,6 +74,7 @@ public class Executables
      * @param prompt    the prompt for reporting errors
      * @throws IzPackException if the executables cannot be read
      */
+    @Inject
     public Executables(Resources resources, PlatformModelMatcher matcher, Prompt prompt)
     {
         this.prompt = prompt;

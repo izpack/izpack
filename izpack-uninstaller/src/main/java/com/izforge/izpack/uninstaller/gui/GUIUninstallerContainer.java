@@ -21,10 +21,8 @@
 
 package com.izforge.izpack.uninstaller.gui;
 
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
-
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.uninstaller.container.UninstallerContainer;
 
@@ -48,15 +46,13 @@ public class GUIUninstallerContainer extends UninstallerContainer
      * Invoked by {@link #initialise} to fill the container.
      * <p/>
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
+    protected void fillContainer()
     {
-        super.fillContainer(container);
+        super.fillContainer();
         addComponent(UninstallerFrame.class);
-        addComponent(GUIPrompt.class);
+        addComponent(Prompt.class, GUIPrompt.class);
     }
 }

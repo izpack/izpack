@@ -32,7 +32,6 @@ import javax.swing.UIManager;
 
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
-import org.hamcrest.core.StringContains;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +48,7 @@ import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.panels.test.AbstractPanelTest;
 import com.izforge.izpack.panels.test.TestGUIPanelContainer;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 
 
 /**
@@ -58,7 +57,7 @@ import com.izforge.izpack.test.Container;
  *
  * @author Tim Anderson
  */
-@Container(TestGUIPanelContainer.class)
+@ContainerImport(TestGUIPanelContainer.class)
 public class ProcessPanelTest extends AbstractPanelTest
 {
 

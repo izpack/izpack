@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
@@ -64,6 +65,7 @@ public class InstallationTypePanel extends IzPanel implements ActionListener
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public InstallationTypePanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                                  Log log)
     {

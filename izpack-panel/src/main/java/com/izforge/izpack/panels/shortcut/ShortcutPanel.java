@@ -51,6 +51,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
@@ -173,6 +174,7 @@ public class ShortcutPanel extends IzPanel implements ActionListener, ListSelect
      * @param factory       the factory for platform-specific implementations
      * @param matcher       the platform-model matcher
      */
+    @Inject
     public ShortcutPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                          UninstallData uninstallData, Housekeeper housekeeper, TargetFactory factory,
                          InstallerListeners listeners, PlatformModelMatcher matcher)

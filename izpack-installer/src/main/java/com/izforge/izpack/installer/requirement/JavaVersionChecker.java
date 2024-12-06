@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.installer.requirement;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.installer.RequirementChecker;
@@ -52,6 +53,7 @@ public class JavaVersionChecker implements RequirementChecker
      * @param installData the installation data
      * @param prompt      the prompt
      */
+    @Inject
     public JavaVersionChecker(InstallData installData, Prompt prompt)
     {
         this.installData = installData;

@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 
+import com.google.inject.Inject;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.StringContains;
 import org.junit.Test;
@@ -47,21 +48,22 @@ import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
 import com.izforge.izpack.merge.resolve.ResolveUtils;
-import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.ContainerImport;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * Test for merge jar
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
-@Container(TestMergeContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestMergeContainer.class)
 public class JarMergeTest
 {
     private PathResolver pathResolver;
     private MergeableResolver mergeableResolver;
 
+    @Inject
     public JarMergeTest(PathResolver pathResolver, MergeableResolver mergeableResolver)
     {
         this.pathResolver = pathResolver;

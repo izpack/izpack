@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.panels.datacheck;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
@@ -44,6 +45,7 @@ public class DataCheckConsolePanel extends AbstractConsolePanel
      *
      * @param panel the parent panel/view. May be {@code null}
      */
+    @Inject
     public DataCheckConsolePanel(PanelView<ConsolePanel> panel)
     {
         super(panel);

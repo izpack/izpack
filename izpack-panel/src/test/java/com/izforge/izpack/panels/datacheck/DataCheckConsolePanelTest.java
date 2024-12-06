@@ -20,14 +20,16 @@
  */
 package com.izforge.izpack.panels.datacheck;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
-import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.ContainerImport;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,8 +46,8 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Hitesh A. Bosamiya
  */
-@RunWith(PicoRunner.class)
-@Container(TestConsolePanelContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestConsolePanelContainer.class)
 public class DataCheckConsolePanelTest
 {
     /**
@@ -64,7 +66,8 @@ public class DataCheckConsolePanelTest
      * @param installData the installation data
      * @param console     the console
      */
-    public DataCheckConsolePanelTest(InstallData installData, TestConsole console)
+    @Inject
+    public DataCheckConsolePanelTest(InstallData installData, TestConsole console, RulesEngine rules)
     {
         this.console = console;
         this.installData = installData;

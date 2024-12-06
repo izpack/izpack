@@ -25,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
@@ -59,6 +60,7 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
     private final Prompt prompt;
     private final InstallData installData;
 
+    @Inject
     public PacksConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
     {
         super(panel);

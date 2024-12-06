@@ -1,5 +1,6 @@
 package com.izforge.izpack.installer.unpacker;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceInterruptedException;
@@ -33,6 +34,7 @@ public class GUIPackResources extends AbstractPackResources
      * @param resources   the resources
      * @param installData the installation data
      */
+    @Inject
     public GUIPackResources(Resources resources, InstallData installData)
     {
         super(resources, installData);

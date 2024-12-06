@@ -3,6 +3,7 @@ package com.izforge.izpack.panels.installationtype;
 import java.util.Collections;
 import java.util.Properties;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.config.Options;
 import com.izforge.izpack.api.data.InstallData;
@@ -22,6 +23,7 @@ public class InstallationTypeConsolePanel extends AbstractConsolePanel
      * @param panel the parent panel/view. May be {@code null}
      * @param installData the installation data
      */
+    @Inject
     public InstallationTypeConsolePanel(PanelView<ConsolePanel> panel, InstallData installData)
     {
         super(panel);

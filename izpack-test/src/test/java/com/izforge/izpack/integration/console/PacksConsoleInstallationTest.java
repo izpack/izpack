@@ -21,14 +21,14 @@
 
 package com.izforge.izpack.integration.console;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestConsoleInstallationContainer;
 import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,8 +43,8 @@ import static org.junit.Assert.assertTrue;
  *
  * @author René Krell
  */
-@RunWith(PicoRunner.class)
-@Container(TestConsoleInstallationContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestConsoleInstallationContainer.class)
 public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTest
 {
 
@@ -52,7 +52,7 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
      * The installer.
      */
     private final TestConsoleInstaller installer;
-    private AutomatedInstallData installData;
+    private InstallData installData;
 
     /**
      * Constructs a <tt>PacksConsoleInstallationTest</tt>
@@ -61,7 +61,8 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
      * @param installData the installation data
      * @throws Exception for any error
      */
-    public PacksConsoleInstallationTest(TestConsoleInstaller installer, AutomatedInstallData installData) throws Exception
+    @Inject
+    public PacksConsoleInstallationTest(TestConsoleInstaller installer, InstallData installData) throws Exception
     {
         super(installData);
         this.installer = installer;

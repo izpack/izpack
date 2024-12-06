@@ -28,6 +28,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
@@ -70,6 +71,7 @@ public class ShortcutConsolePanel extends AbstractConsolePanel
      * @param prompt        the prompt
      * @param panel         the parent panel/view
      */
+    @Inject
     public ShortcutConsolePanel(InstallData installData, Resources resources, UninstallData uninstallData,
                                 Housekeeper housekeeper, TargetFactory factory, InstallerListeners listeners,
                                 PlatformModelMatcher matcher, Prompt prompt, PanelView<ConsolePanel> panel)

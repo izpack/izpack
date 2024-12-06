@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.core.io.VolumeLocator;
@@ -35,6 +36,7 @@ public class MultiVolumeUnpackerHelper implements VolumeLocator
      * @param installData the installation data
      * @param frame       the installer frame
      */
+    @Inject
     public MultiVolumeUnpackerHelper(InstallData installData, InstallerFrame frame)
     {
         this.installData = installData;

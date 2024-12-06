@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.defaulttarget;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -55,6 +56,7 @@ public class DefaultTargetPanel extends PathInputPanel
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public DefaultTargetPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                               Log log)
     {

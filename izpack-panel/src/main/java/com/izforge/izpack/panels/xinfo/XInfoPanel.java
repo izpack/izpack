@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.xinfo;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -64,6 +65,7 @@ public class XInfoPanel extends IzPanel
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public XInfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);

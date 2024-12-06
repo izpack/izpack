@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.panels.selectprinter;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.config.Options;
 import com.izforge.izpack.api.data.InstallData;
@@ -44,6 +45,7 @@ public class SelectPrinterConsolePanel extends AbstractConsolePanel
      * @param panel the parent panel/view. May be {@code null}
      * @param installData the installation data
      */
+    @Inject
     public SelectPrinterConsolePanel(PanelView<ConsolePanel> panel, InstallData installData)
     {
         super(panel);

@@ -49,9 +49,9 @@ import com.izforge.izpack.panels.install.InstallPanel;
 import com.izforge.izpack.panels.packs.PacksPanel;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.panels.packs.PackValidator;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestHousekeeper;
 
 
@@ -60,8 +60,8 @@ import com.izforge.izpack.test.util.TestHousekeeper;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@Container(TestGUIInstallationContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class PackValidatorTest
 {
     /**

@@ -1,5 +1,6 @@
 package com.izforge.izpack.panels.process;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.handler.Prompt.Type;
@@ -34,6 +35,7 @@ public class ProcessConsolePanel extends AbstractConsolePanel implements Console
 
     private int currentJob = 0;
 
+    @Inject
     public ProcessConsolePanel(RulesEngine rules, Resources resources, Prompt prompt, PlatformModelMatcher matcher,
                                PanelView<ConsolePanel> panel)
     {

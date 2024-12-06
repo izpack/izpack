@@ -38,7 +38,7 @@ public class ConditionContainer extends AbstractDelegatingContainer
      */
     public ConditionContainer(Container parent)
     {
-        super(parent.createChildContainer());
+        super(parent::createChildContainer);
     }
 
 }

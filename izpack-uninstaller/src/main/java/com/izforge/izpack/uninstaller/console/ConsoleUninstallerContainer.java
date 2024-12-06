@@ -23,13 +23,14 @@ package com.izforge.izpack.uninstaller.console;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.ConsolePrefs;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.uninstaller.container.UninstallerContainer;
 import com.izforge.izpack.util.Console;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
 
 
 /**
@@ -52,22 +53,20 @@ public class ConsoleUninstallerContainer extends UninstallerContainer
      * Invoked by {@link #initialise} to fill the container.
      * <p/>
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
+    protected void fillContainer()
     {
-        super.fillContainer(container);
+        super.fillContainer();
 
         ConsolePrefs consolePrefs = new ConsolePrefs();
         consolePrefs.enableConsoleReader = false;
         addComponent(ConsolePrefs.class, consolePrefs);
-        addComponent(DefaultVariables.class);
-        addComponent(AutomatedInstallData.class);
+        addComponent(Variables.class, DefaultVariables.class);
+        addComponent(InstallData.class, AutomatedInstallData.class);
         addComponent(Console.class);
-        addComponent(ConsolePrompt.class);
+        addComponent(Prompt.class, ConsolePrompt.class);
         addComponent(ConsoleDestroyerListener.class);
         addComponent(ConsoleUninstaller.class);
     }

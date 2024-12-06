@@ -154,7 +154,12 @@ public interface OsVersionConstants
      * Windows 10
      */
     public final static String WINDOWS_10_VERSION = "10.0";
-    
+
+    /**
+     * Windows 11
+     */
+    public final static String WINDOWS_11_VERSION = "11.0";
+
     /**
      * REDHAT  = "RedHat"
      */

@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.event;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.event.ProgressListener;
@@ -50,6 +51,7 @@ public class SummaryLoggerInstallerListener extends AbstractProgressInstallerLis
      *
      * @param installData the installation data
      */
+    @Inject
     public SummaryLoggerInstallerListener(InstallData installData)
     {
         super(installData);

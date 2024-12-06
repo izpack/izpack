@@ -23,14 +23,15 @@ package com.izforge.izpack.compiler.container;
 
 import java.util.Properties;
 
-import org.picocontainer.PicoException;
-
+import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.compiler.util.ClassNameMapper;
 import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.compiler.util.DefaultClassNameMapper;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
+import com.izforge.izpack.merge.resolve.PathResolver;
 
 /**
  * Container for com.izforge.izpack.resolve package tests.
@@ -47,6 +48,7 @@ public class TestResolveContainer extends AbstractContainer
      */
     public TestResolveContainer()
     {
+        super(false);
         initialise();
     }
 
@@ -54,19 +56,19 @@ public class TestResolveContainer extends AbstractContainer
      * Invoked by {@link #initialise} to fill the container.
      *
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
      */
     @Override
     protected void fillContainer()
     {
         addComponent(Properties.class);
-        addComponent(CompilerPathResolver.class);
+        addComponent(PathResolver.class, CompilerPathResolver.class);
         addComponent(CompilerClassLoader.class);
-        addComponent(DefaultClassNameMapper.class);
+        addComponent(ClassNameMapper.class,DefaultClassNameMapper.class);
         addComponent(MergeableResolver.class);
+        addComponent(Container.class, this);
 
-        Properties properties = getComponent(Properties.class);
-        properties.put("HelloPanelTestWithDependenciesClass", "com.izforge.izpack.panels.depend");
+//        Properties properties = getComponent(Properties.class);
+//        properties.put("HelloPanelTestWithDependenciesClass", "com.izforge.izpack.panels.depend");
     }
 
 }

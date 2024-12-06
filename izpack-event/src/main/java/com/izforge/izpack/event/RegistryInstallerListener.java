@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.event;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
@@ -157,6 +158,7 @@ public class RegistryInstallerListener extends AbstractProgressInstallerListener
      * @param housekeeper   the housekeeper
      * @param handler       the registry handler reference
      */
+    @Inject
     public RegistryInstallerListener(IUnpacker unpacker, VariableSubstitutor substitutor,
                                      InstallData installData, UninstallData uninstallData,
                                      Resources resources, RulesEngine rules, Housekeeper housekeeper,

@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.factory.ObjectFactory;
 
 /**
@@ -109,6 +110,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
      * @param platform  the current platform
      * @param platforms the platform factory
      */
+    @Inject
     public DefaultTargetPlatformFactory(ObjectFactory factory, Platform platform, Platforms platforms)
     {
         this.factory = factory;

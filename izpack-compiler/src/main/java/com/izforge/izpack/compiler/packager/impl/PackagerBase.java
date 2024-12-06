@@ -462,7 +462,8 @@ public abstract class PackagerBase implements IPackager
     {
         sendMsg("Copying the skeleton installer", PackagerListener.MSG_VERBOSE);
         mergeManager.addResourceToMerge("com/izforge/izpack/installer/");
-        mergeManager.addResourceToMerge("org/picocontainer/");
+        mergeManager.addResourceToMerge("com/google/");
+        mergeManager.addResourceToMerge("jakarta/inject/");
         mergeManager.addResourceToMerge("com/izforge/izpack/img/");
         mergeManager.addResourceToMerge("com/izforge/izpack/bin/icons/");
         mergeManager.addResourceToMerge("com/izforge/izpack/api/");
@@ -474,7 +475,7 @@ public abstract class PackagerBase implements IPackager
         mergeManager.addResourceToMerge("com/izforge/izpack/util/");
         mergeManager.addResourceToMerge("com/izforge/izpack/logging/");
         mergeManager.addResourceToMerge("com/coi/tools/");
-        mergeManager.addResourceToMerge("org/apache/commons/io/");
+        mergeManager.addResourceToMerge("org/apache/commons/");
         mergeManager.addResourceToMerge("jline/");
         mergeManager.addResourceToMerge("org/fusesource/");
         switch (info.getCompressionFormat())

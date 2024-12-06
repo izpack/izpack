@@ -16,6 +16,8 @@
 
 package com.izforge.izpack.util;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.UserInterruptException;
@@ -39,6 +41,7 @@ import java.util.logging.Logger;
  *
  * @author Tim Anderson
  */
+@Singleton
 public class Console
 {
     private static final Logger logger = Logger.getLogger(Console.class.getName());
@@ -63,6 +66,7 @@ public class Console
     /**
      * Constructs a <tt>Console</tt> with <tt>System.in</tt> and <tt>System.out</tt> as the I/O streams.
      */
+    @Inject
     public Console(InstallData installData, ConsolePrefs prefs)
     {
         this.installData = installData;

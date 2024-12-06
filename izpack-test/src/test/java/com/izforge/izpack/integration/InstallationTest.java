@@ -28,15 +28,15 @@ import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.language.LanguageDialog;
 import com.izforge.izpack.panels.hello.HelloPanel;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 /**
  * Test for an installation
  */
-@RunWith(PicoRunner.class)
-@Container(TestGUIInstallationContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class InstallationTest
 {
     @Rule
@@ -95,10 +95,10 @@ public class InstallationTest
     {
         installerController.buildInstallation();
 
-        HelloPanel firstHelloPanel = (HelloPanel) installerContainer.getComponent("42");
+        HelloPanel firstHelloPanel = installerContainer.getComponent("42", HelloPanel.class);
         assertThat(firstHelloPanel.getMetadata().getPanelId(), is("42"));
 
-        HelloPanel secondHelloPanel = (HelloPanel) installerContainer.getComponent("34");
+        HelloPanel secondHelloPanel = installerContainer.getComponent("34", HelloPanel.class);
         assertThat(secondHelloPanel.getMetadata().getPanelId(), is("34"));
     }
 
@@ -108,7 +108,7 @@ public class InstallationTest
     {
         installerController.buildInstallation();
 
-        HelloPanel helloPanel = (HelloPanel) installerContainer.getComponent("hellopanel");
+        HelloPanel helloPanel = installerContainer.getComponent("hellopanel", HelloPanel.class);
         assertThat(helloPanel.getMetadata().getConfigurationOptionValue("config1", installData.getRules()), is("value1"));
         assertThat(helloPanel.getMetadata().getConfigurationOptionValue("config2", installData.getRules()), is("value2"));
     }

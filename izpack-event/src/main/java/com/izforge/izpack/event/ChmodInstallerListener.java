@@ -23,6 +23,7 @@ package com.izforge.izpack.event;
 
 import java.io.File;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackFile;
@@ -45,6 +46,7 @@ public class ChmodInstallerListener extends AbstractProgressInstallerListener
      *
      * @param installData the installation data
      */
+    @Inject
     public ChmodInstallerListener(InstallData installData)
     {
         super(installData);

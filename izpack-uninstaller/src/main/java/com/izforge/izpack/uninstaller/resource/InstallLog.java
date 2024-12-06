@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.uninstaller.resource;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.resource.Resources;
 import org.apache.commons.io.IOUtils;
@@ -64,6 +65,7 @@ public class InstallLog
      * @param resources used to locate the <em>install.log</em> resource
      * @throws IzPackException if the resources cannot be found
      */
+    @Inject
     public InstallLog(Resources resources)
     {
         InputStream in = null;

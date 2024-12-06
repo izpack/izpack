@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.Panel;
@@ -60,6 +61,7 @@ public class HelloPanel extends IzPanel
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public HelloPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         this(panel, parent, installData, new IzPanelLayout(log), resources);

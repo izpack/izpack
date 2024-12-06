@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class DebuggerTest

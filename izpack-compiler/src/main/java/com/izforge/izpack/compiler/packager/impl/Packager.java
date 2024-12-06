@@ -20,6 +20,7 @@
 
 package com.izforge.izpack.compiler.packager.impl;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.Pack;
@@ -34,6 +35,7 @@ import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.util.NoCloseOutputStream;
 import com.izforge.izpack.util.StreamSupport;
+import org.apache.commons.compress.java.util.jar.Pack200;
 import org.apache.commons.io.output.CountingOutputStream;
 
 import java.io.BufferedOutputStream;
@@ -50,7 +52,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
-import java.util.jar.Pack200;
 import java.util.logging.Logger;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
@@ -79,9 +80,15 @@ public class Packager extends PackagerBase
      * @param mergeableResolver the mergeable resolver
      * @param compilerData      the compiler data
      */
-    public Packager(Properties properties, PackagerListener listener, JarOutputStream jarOutputStream,
-                    MergeManager mergeManager, CompilerPathResolver pathResolver, MergeableResolver mergeableResolver,
-                    CompilerData compilerData, RulesEngine rulesEngine)
+    @Inject
+    public Packager(Properties properties,
+                    PackagerListener listener,
+                    JarOutputStream jarOutputStream,
+                    MergeManager mergeManager,
+                    CompilerPathResolver pathResolver,
+                    MergeableResolver mergeableResolver,
+                    CompilerData compilerData,
+                    RulesEngine rulesEngine)
     {
         super(properties, listener, jarOutputStream, mergeManager, pathResolver, mergeableResolver,
                 compilerData, rulesEngine);

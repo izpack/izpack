@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.core.rules.logic;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.ConditionWithMultipleOperands;
@@ -36,6 +37,7 @@ public class OrCondition extends ConditionWithMultipleOperands
 
     protected transient RulesEngine rules;
 
+    @Inject
     public OrCondition(RulesEngine rules)
     {
         this.rules = rules;

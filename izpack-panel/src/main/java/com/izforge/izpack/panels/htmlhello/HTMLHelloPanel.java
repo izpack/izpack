@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.panels.htmlhello;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.gui.log.Log;
@@ -43,6 +44,7 @@ public class HTMLHelloPanel extends HTMLInfoPanel
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public HTMLHelloPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, parent, installData, false, resources, log);

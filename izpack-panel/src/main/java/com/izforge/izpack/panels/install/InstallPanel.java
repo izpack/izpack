@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.resource.Resources;
@@ -99,6 +100,7 @@ public class InstallPanel extends IzPanel implements ProgressListener
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public InstallPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, parent, installData, new IzPanelLayout(log), resources);
