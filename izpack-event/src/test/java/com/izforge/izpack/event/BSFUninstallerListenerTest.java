@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import com.izforge.izpack.api.data.InstallData;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -43,7 +44,6 @@ import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.event.ProgressListener;

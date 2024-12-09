@@ -20,7 +20,6 @@
 package com.izforge.izpack.panels.installationgroup;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.handler.Prompt;
@@ -47,18 +46,18 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
     private static final String SPACE = " ";
 
     private final Prompt prompt;
-    private final AutomatedInstallData automatedInstallData;
+    private final InstallData installData;
     private final PlatformModelMatcher matcher;
     
     private GroupData[] rows;
 
     @SuppressWarnings("UnusedDeclaration")
     public InstallationGroupConsolePanel(PanelView<ConsolePanel> panel, Prompt prompt,
-                                         AutomatedInstallData automatedInstallData, PlatformModelMatcher matcher)
+                                         InstallData installData, PlatformModelMatcher matcher)
     {
         super(panel);
         this.prompt = prompt;
-        this.automatedInstallData = automatedInstallData;
+        this.installData = installData;
         this.matcher = matcher;
     }
 
@@ -75,17 +74,10 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
         printHeadLine(installData, console);
 
         // Set/restore availablePacks from allPacks; consider OS constraints
-        this.automatedInstallData.setAvailablePacks(new ArrayList<Pack>());
-        for (Pack pack : this.automatedInstallData.getAllPacks())
-        {
-            if (matcher.matchesCurrentPlatform(pack.getOsConstraints()))
-            {
-                this.automatedInstallData.getAvailablePacks().add(pack);
-            }
-        }
+        this.installData.updateAvailablePacks(pack -> matcher.matchesCurrentPlatform(pack.getOsConstraints()));
 
         // If there are no groups, skip this panel
-        Map<String, GroupData> installGroups = InstallationGroups.getInstallGroups(automatedInstallData);
+        Map<String, GroupData> installGroups = InstallationGroups.getInstallGroups(this.installData);
         if (installGroups.size() == 0)
         {
             console.prompt("Skip InstallGroup selection", new String[]{"Yes", "No"}, "Yes");
@@ -101,7 +93,7 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
             selected = selectGroup(sortedGroups);
         }
 
-        this.automatedInstallData.setVariable("INSTALL_GROUP", selected.name);
+        this.installData.setVariable("INSTALL_GROUP", selected.name);
         logger.fine("Added variable INSTALL_GROUP=" + selected.name);
 
         setSelectedPacksBySelectedGroup(selected);
@@ -121,8 +113,8 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
     public void createInstallationRecord(IXMLElement panelRoot)
     {
         InstallationGroupPanelAutomationHelper helper = new InstallationGroupPanelAutomationHelper();
-        this.automatedInstallData.setAttribute("GroupData", rows);
-        helper.createInstallationRecord(this.automatedInstallData, panelRoot);
+        this.installData.setAttribute("GroupData", rows);
+        helper.createInstallationRecord(this.installData, panelRoot);
     }
 
     protected void setSelectedPacksBySelectedGroup(GroupData selected)
@@ -130,7 +122,7 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
         logger.fine("data=" + selected.name);
 
         // Now remove the packs not in groupPackNames
-        Iterator<Pack> iter = automatedInstallData.getAvailablePacks().iterator();
+        Iterator<Pack> iter = installData.getAvailablePacks().iterator();
         while (iter.hasNext())
         {
             Pack pack = iter.next();
@@ -146,8 +138,8 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
             }
         }
 
-        this.automatedInstallData.getSelectedPacks().clear();
-        this.automatedInstallData.getSelectedPacks().addAll(this.automatedInstallData.getAvailablePacks());
+        this.installData.getSelectedPacks().clear();
+        this.installData.getSelectedPacks().addAll(this.installData.getAvailablePacks());
 
     }
 

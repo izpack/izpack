@@ -74,7 +74,7 @@ public class ConsolePanels extends AbstractPanels<ConsolePanelView, ConsolePanel
             {
                 panelId = view.getClass().getName();
             }
-            container.addComponent(panelId, view);
+            container.addPanel(panelId, view);
         }
     }
 
