@@ -33,6 +33,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.data.GUIInstallData;
@@ -67,6 +68,7 @@ public class DataCheckPanel extends IzPanel
      * @param parent      the parent frame
      * @param installData the installation data
      */
+    @Inject
     public DataCheckPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
     {
         super(panel, parent, installData, resources);

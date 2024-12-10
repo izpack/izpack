@@ -21,9 +21,13 @@
 
 package com.izforge.izpack.core.container;
 
+import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
+
+import java.util.function.Supplier;
 
 
 /**
@@ -37,7 +41,8 @@ public abstract class AbstractDelegatingContainer implements Container
     /**
      * The container to delegate to.
      */
-    private final Container container;
+    private final Supplier<Container> container;
+    private Container instance;
 
 
     /**
@@ -45,9 +50,16 @@ public abstract class AbstractDelegatingContainer implements Container
      *
      * @param container the container
      */
-    public AbstractDelegatingContainer(Container container)
+    public AbstractDelegatingContainer(Supplier<Container> container)
     {
         this.container = container;
+    }
+
+    private Container getContainer() {
+        if (instance == null) {
+            instance = container.get();
+        }
+        return instance;
     }
 
     /**
@@ -59,7 +71,7 @@ public abstract class AbstractDelegatingContainer implements Container
     @Override
     public <T> void addComponent(Class<T> componentType)
     {
-        container.addComponent(componentType);
+        getContainer().addComponent(componentType);
     }
 
     /**
@@ -70,9 +82,25 @@ public abstract class AbstractDelegatingContainer implements Container
      * @throws ContainerException if registration fails
      */
     @Override
-    public void addComponent(Object componentKey, Object implementation)
+    public <T, U extends T> void addComponent(String componentKey, Class<T> type, U implementation)
     {
-        container.addComponent(componentKey, implementation);
+        getContainer().addComponent(componentKey, type, implementation);
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(String componentKey, Class<T> type, Class<U> implementation)
+    {
+        getContainer().addComponent(componentKey, type, implementation);
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(TypeLiteral<T> componentKey, Class<U> implementation) {
+        getContainer().addComponent(componentKey, implementation);
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(TypeLiteral<T> componentKey, U implementation) {
+        getContainer().addComponent(componentKey, implementation);
     }
 
     /**
@@ -87,7 +115,7 @@ public abstract class AbstractDelegatingContainer implements Container
     @Override
     public <T> T getComponent(Class<T> componentType)
     {
-        return container.getComponent(componentType);
+        return getContainer().getComponent(componentType);
     }
 
     /**
@@ -95,14 +123,39 @@ public abstract class AbstractDelegatingContainer implements Container
      * <p/>
      * If the component type is registered but an instance does not exist, then it will be created.
      *
-     * @param componentKeyOrType the key or type of the component
+     * @param key the key or type of the component
      * @return the corresponding object instance, or <tt>null</tt> if it does not exist
      * @throws ContainerException if component creation fails
      */
     @Override
-    public Object getComponent(Object componentKeyOrType)
+    public <T> T getComponent(String key, Class<T> type)
     {
-        return container.getComponent(componentKeyOrType);
+        return getContainer().getComponent(key, type);
+    }
+
+    @Override
+    public <T> void addComponent(T component) {
+        getContainer().addComponent(component);
+    }
+
+    @Override
+    public <T, U extends T> void addProvider(Class<T> type, Class<? extends Provider<U>> provider) {
+        getContainer().addProvider(type, provider);
+    }
+
+    @Override
+    public <T, U extends T> void addProvider(Class<T> type, Provider<U> provider) {
+        getContainer().addProvider(type, provider);
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(Class<T> componentKey, Class<U> implementation) {
+        getContainer().addComponent(componentKey, implementation);
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(Class<T> componentKey, U implementation) {
+        getContainer().addComponent(componentKey, implementation);
     }
 
     /**
@@ -120,7 +173,7 @@ public abstract class AbstractDelegatingContainer implements Container
     @Override
     public Container createChildContainer()
     {
-        return container.createChildContainer();
+        return getContainer().createChildContainer();
     }
 
     /**
@@ -132,7 +185,7 @@ public abstract class AbstractDelegatingContainer implements Container
     @Override
     public boolean removeChildContainer(Container child)
     {
-        return container.removeChildContainer(child);
+        return getContainer().removeChildContainer(child);
     }
 
     /**
@@ -141,7 +194,7 @@ public abstract class AbstractDelegatingContainer implements Container
     @Override
     public void dispose()
     {
-        container.dispose();
+        getContainer().dispose();
     }
 
     /**
@@ -156,6 +209,6 @@ public abstract class AbstractDelegatingContainer implements Container
     @Override
     public <T> Class<T> getClass(String className, Class<T> superType)
     {
-        return container.getClass(className, superType);
+        return getContainer().getClass(className, superType);
     }
 }

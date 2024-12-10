@@ -28,6 +28,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Resources;
@@ -60,6 +61,7 @@ public class PacksPanel extends PacksPanelBase
      * @param resources   the resources
      * @param factory     the factory for creating {@link PackValidator} instances
      */
+    @Inject
     public PacksPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                       ObjectFactory factory)
     {

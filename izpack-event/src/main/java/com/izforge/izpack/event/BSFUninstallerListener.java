@@ -29,6 +29,7 @@ import java.io.ObjectInputStream;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.event.AbstractUninstallerListener;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -46,6 +47,7 @@ public class BSFUninstallerListener extends AbstractUninstallerListener
 
     private List<BSFAction> actions;
 
+    @Inject
     public BSFUninstallerListener(Resources resources)
     {
         this.resources = resources;

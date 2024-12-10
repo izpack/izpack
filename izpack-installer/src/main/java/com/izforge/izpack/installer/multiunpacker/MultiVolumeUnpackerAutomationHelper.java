@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.core.io.VolumeLocator;
@@ -30,6 +31,7 @@ public class MultiVolumeUnpackerAutomationHelper implements VolumeLocator
      *
      * @param installData the installation data
      */
+    @Inject
     public MultiVolumeUnpackerAutomationHelper(InstallData installData)
     {
         this.installData = installData;

@@ -19,12 +19,12 @@
 
 package com.izforge.izpack.compiler.container.provider;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.izforge.izpack.compiler.data.CompilerData;
-import org.picocontainer.injectors.Provider;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,9 +36,18 @@ import java.util.zip.Deflater;
  *
  * @author Anthonin Bonnefoy
  */
-public class JarOutputStreamProvider implements Provider
+public class JarOutputStreamProvider implements Provider<JarOutputStream>
 {
-    public JarOutputStream provide(CompilerData compilerData)
+    private final CompilerData compilerData;
+
+    @Inject
+    public JarOutputStreamProvider(CompilerData compilerData)
+    {
+        this.compilerData = compilerData;
+    }
+
+    @Override
+    public JarOutputStream get()
     {
         try
         {

@@ -44,6 +44,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -130,6 +131,7 @@ public class CompilePanel extends IzPanel implements ActionListener, CompileHand
      * @param unpacker            the unpacker
      * @throws IOException for any I/O error
      */
+    @Inject
     public CompilePanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                         VariableSubstitutor variableSubstitutor, IUnpacker unpacker,
                         PlatformModelMatcher matcher) throws IOException

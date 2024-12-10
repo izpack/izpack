@@ -24,6 +24,7 @@ package com.izforge.izpack.installer.container.provider;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -39,22 +40,33 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Tim Anderson
  */
-public class AutomatedPanelsProvider extends PanelsProvider
+public class AutomatedPanelsProvider extends PanelsProvider<AutomatedPanels>
 {
+    private final ObjectFactory factory;
+    private final AutomatedInstallData installData;
+    private final PanelAutomationHelper helper;
+    private final PlatformModelMatcher matcher;
+
+    @Inject
+    public AutomatedPanelsProvider(ObjectFactory factory,
+                                   AutomatedInstallData installData,
+                                   PanelAutomationHelper helper,
+                                   PlatformModelMatcher matcher) {
+        this.factory = factory;
+        this.installData = installData;
+        this.helper = helper;
+        this.matcher = matcher;
+    }
 
     /**
      * Creates the panels.
      * <p/>
      * This invokes any pre-construction actions associated with them.
      *
-     * @param factory     the factory
-     * @param installData the installation data
-     * @param helper      the helper
-     * @param matcher     the platform-model matcher
      * @throws IzPackException if a panel doesn't have unique identifier
      */
-    public AutomatedPanels provide(ObjectFactory factory, AutomatedInstallData installData,
-                                   PanelAutomationHelper helper, PlatformModelMatcher matcher)
+    @Override
+    public AutomatedPanels get()
     {
         List<AutomatedPanelView> panels = new ArrayList<AutomatedPanelView>();
 

@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.htmlinfo;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.console.AbstractTextConsolePanel;
@@ -39,6 +40,7 @@ public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
     private final Resources resources;
     private final String panelResourceName;
 
+    @Inject
     public HTMLInfoConsolePanel(PanelView<ConsolePanel> panel, Resources resources)
     {
         super(panel);

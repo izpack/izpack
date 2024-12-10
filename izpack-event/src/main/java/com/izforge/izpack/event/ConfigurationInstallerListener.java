@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.event;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.api.data.InstallData;
@@ -107,6 +108,7 @@ public class ConfigurationInstallerListener extends AbstractProgressInstallerLis
      * @param replacer    the variable replacer
      * @param notifiers   the progress notifiers
      */
+    @Inject
     public ConfigurationInstallerListener(InstallData installData, Resources resources,
                                           VariableSubstitutor replacer, ProgressNotifiers notifiers)
     {

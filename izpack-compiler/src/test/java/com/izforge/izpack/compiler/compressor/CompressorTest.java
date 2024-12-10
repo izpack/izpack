@@ -47,8 +47,8 @@ public class CompressorTest
                 baseDir + "/target/output.jar",
                 false);
         data.setComprFormat(PackCompression.BZIP2.toName());
-        JarOutputStreamProvider jarOutputStreamProvider = new JarOutputStreamProvider();
-        JarOutputStream jarOutputStream = jarOutputStreamProvider.provide(data);
+        JarOutputStreamProvider jarOutputStreamProvider = new JarOutputStreamProvider(data);
+        JarOutputStream jarOutputStream = jarOutputStreamProvider.get();
         ZipEntry zipEntry = new ZipEntry("test");
         zipEntry.setComment("bzip2");
         jarOutputStream.putNextEntry(zipEntry);

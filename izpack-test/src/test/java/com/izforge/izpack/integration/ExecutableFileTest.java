@@ -26,10 +26,10 @@ import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.unpacker.Unpacker;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.Platform.Name;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,8 +52,8 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@Container(TestGUIInstallationContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class ExecutableFileTest extends AbstractDestroyerTest
 {
     /**

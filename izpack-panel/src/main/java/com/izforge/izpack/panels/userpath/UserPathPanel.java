@@ -23,6 +23,7 @@ package com.izforge.izpack.panels.userpath;
 
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Panel;
@@ -60,6 +61,7 @@ public class UserPathPanel extends UserPathInputPanel
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public UserPathPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         super(panel, PANEL_NAME, parent, installData, resources, log);

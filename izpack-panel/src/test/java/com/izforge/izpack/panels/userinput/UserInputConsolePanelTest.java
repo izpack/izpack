@@ -27,6 +27,8 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 
+import com.google.inject.Inject;
+import com.izforge.izpack.api.rules.RulesEngine;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -40,8 +42,8 @@ import com.izforge.izpack.installer.console.ConsolePanelView;
 import com.izforge.izpack.installer.console.ConsolePanels;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
-import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.ContainerImport;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestConsole;
 
 
@@ -50,8 +52,8 @@ import com.izforge.izpack.test.util.TestConsole;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@Container(TestConsolePanelContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestConsolePanelContainer.class)
 public class UserInputConsolePanelTest
 {
 
@@ -90,8 +92,9 @@ public class UserInputConsolePanelTest
      * @param console     the console
      * @param container   the container
      */
+    @Inject
     public UserInputConsolePanelTest(InstallData installData, ObjectFactory factory, ResourceManager resources,
-                                     TestConsole console, TestConsolePanelContainer container)
+                                     TestConsole console, TestConsolePanelContainer container, RulesEngine rules)
     {
         this.installData = installData;
         this.factory = factory;

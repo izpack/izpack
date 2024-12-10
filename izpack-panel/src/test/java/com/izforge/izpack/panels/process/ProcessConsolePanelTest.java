@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.google.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,8 +34,8 @@ import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
-import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.ContainerImport;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
@@ -45,8 +46,8 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@Container(TestConsolePanelContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestConsolePanelContainer.class)
 public class ProcessConsolePanelTest
 {
 
@@ -90,6 +91,7 @@ public class ProcessConsolePanelTest
      * @param matcher     the platform-model matcher
      * @param console     the console
      */
+    @Inject
     public ProcessConsolePanelTest(InstallData installData, RulesEngine rules, ResourceManager resources,
                                    Prompt prompt, PlatformModelMatcher matcher, TestConsole console)
     {
@@ -135,8 +137,8 @@ public class ProcessConsolePanelTest
         assertFalse(panel.run(installData, console));
 
         assertEquals(7, console.getOutput().size());
-        assertTrue(console.getOutput().get(6).equals(
-                "Invocation Problem calling: com.izforge.izpack.panels.process.Executable, Executable exception"));
+        assertEquals(console.getOutput().getLast(),
+                "Invocation Problem calling: com.izforge.izpack.panels.process.Executable, Executable exception");
 
         // verify Executable was run the expected no. of times, with the expected arguments
         assertEquals(1, Executable.getInvocations());

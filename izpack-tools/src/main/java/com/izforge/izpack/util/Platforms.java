@@ -164,12 +164,17 @@ public class Platforms
     public static Platform WINDOWS_10 = new Platform(Name.WINDOWS, "WINDOWS_10", OsVersionConstants.WINDOWS_10_VERSION);
 
     /**
+     * Windows 10 platform.
+     */
+    public static Platform WINDOWS_11 = new Platform(Name.WINDOWS, "WINDOWS_11", OsVersionConstants.WINDOWS_11_VERSION);
+
+    /**
      * Known platforms.
      */
     public static Platform[] PLATFORMS = {AIX, DEBIAN_LINUX, FEDORA_LINUX, FREEBSD, HP_UX, LINUX, MAC, MAC_OSX,
             MANDRAKE_LINUX, MANDRIVA_LINUX, OS_2, RED_HAT_LINUX, SUNOS, SUNOS_X86,
             SUNOS_SPARC, SUSE_LINUX, UBUNTU_LINUX, UNIX, WINDOWS, WINDOWS_XP,
-            WINDOWS_2003, WINDOWS_VISTA, WINDOWS_7, WINDOWS_8, WINDOWS_10};
+            WINDOWS_2003, WINDOWS_VISTA, WINDOWS_7, WINDOWS_8, WINDOWS_10, WINDOWS_11};
 
     /**
      * Cached linux name.

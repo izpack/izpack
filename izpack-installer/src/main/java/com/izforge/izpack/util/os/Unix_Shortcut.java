@@ -52,6 +52,7 @@
 
 package com.izforge.izpack.util.os;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
@@ -208,6 +209,7 @@ public class Unix_Shortcut extends Shortcut
      * @param resources   the resources
      * @param installData the installation data
      */
+    @Inject
     @SuppressWarnings("WeakerAccess")
     public Unix_Shortcut(Resources resources, InstallData installData)
     {

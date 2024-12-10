@@ -18,6 +18,7 @@
  */
 package com.izforge.izpack.installer.language;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.resource.Locales;
@@ -91,6 +92,7 @@ public class LanguageDialog extends JDialog
      * @param locales      the locales
      * @param installData  the installation data
      */
+    @Inject
     public LanguageDialog(Resources resources, Locales locales, GUIInstallData installData, IconsDatabase icons)
     {
         super();

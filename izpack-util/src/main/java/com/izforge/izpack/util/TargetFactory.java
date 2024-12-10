@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.util;
 
+import com.google.inject.Inject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -242,6 +244,7 @@ public class TargetFactory
      *
      * @param factory the factory to delegate to
      */
+    @Inject
     public TargetFactory(TargetPlatformFactory factory)
     {
         this.factory = factory;

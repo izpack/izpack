@@ -23,6 +23,7 @@ package com.izforge.izpack.installer.gui;
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
@@ -35,7 +36,8 @@ import com.izforge.izpack.core.rules.ConditionContainer;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.data.GUIInstallData;
-import com.izforge.izpack.installer.panel.Panels;
+import com.izforge.izpack.installer.data.InstallData;
+import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -86,7 +88,8 @@ public class DefaultNavigatorTest
     public DefaultNavigatorTest()
     {
         frame = Mockito.mock(InstallerFrame.class);
-        installData = new GUIInstallData(new DefaultVariables(), Platforms.WINDOWS);
+        Variables variables = new DefaultVariables();
+        installData = new GUIInstallData(variables, Platforms.WINDOWS);
         RulesEngine rules = new RulesEngineImpl(Mockito.mock(ConditionContainer.class), Platforms.WINDOWS);
         installData.setRules(rules);
         final Resources resources = Mockito.mock(Resources.class);
@@ -95,9 +98,11 @@ public class DefaultNavigatorTest
         container = new DefaultContainer()
         {
             {
-                getContainer().addComponent(frame);
-                getContainer().addComponent(resources);
-                getContainer().addComponent(installData);
+                addComponent(InstallerFrame.class, frame);
+                addComponent(Resources.class, resources);
+                addComponent(InstallData.class, installData);
+                addComponent(Variables.class, variables);
+                addComponent(Platform.class, Platforms.WINDOWS);
             }
         };
         factory = new DefaultObjectFactory(container);
@@ -110,7 +115,7 @@ public class DefaultNavigatorTest
     @Test
     public void testNavigation()
     {
-        Panels panels = createPanels(3);
+        IzPanels panels = createPanels(3);
         Navigator navigator = createNavigator(panels);
 
         // prior to display of first panel
@@ -282,7 +287,7 @@ public class DefaultNavigatorTest
      * @param panels the panels to navigate
      * @return a new {@code Navigator}
      */
-    private DefaultNavigator createNavigator(Panels panels)
+    private DefaultNavigator createNavigator(IzPanels panels)
     {
         return createNavigator(panels, frame);
     }
@@ -294,7 +299,7 @@ public class DefaultNavigatorTest
      * @param frame  the installer frame
      * @return a new {@code Navigator}
      */
-    private DefaultNavigator createNavigator(Panels panels, InstallerFrame frame)
+    private DefaultNavigator createNavigator(IzPanels panels, InstallerFrame frame)
     {
         IconsDatabase icons = new IconsDatabase();
         DefaultNavigator navigator = new DefaultNavigator(panels, icons, installData);

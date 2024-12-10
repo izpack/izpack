@@ -34,6 +34,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackColor;
 import com.izforge.izpack.api.data.binding.OsModel;
@@ -112,6 +113,7 @@ public class Compiler extends Thread
      * @param loader         the class loader to use to load classes
      * @param compilerHelper the compiler helper
      */
+    @Inject
     public Compiler(CompilerClassLoader loader, CompilerHelper compilerHelper)
     {
         this.loader = loader;

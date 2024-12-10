@@ -23,13 +23,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.jar.JarFile;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 
+import com.izforge.izpack.test.provider.JarFileProvider;
 import org.apache.commons.io.FileUtils;
 import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -37,7 +38,6 @@ import com.izforge.izpack.compiler.CompilerConfig;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.logging.MavenStyleLogFormatter;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.provider.JarFileProvider;
 import com.izforge.izpack.util.FileUtil;
 
 /**
@@ -78,7 +78,7 @@ public class TestCompilerContainer extends CompilerContainer
      */
     public TestCompilerContainer(Class<?> testClass, FrameworkMethod testMethod)
     {
-        super(null);
+        super(false);
         this.testClass = testClass;
         this.testMethod = testMethod;
         initialise();
@@ -103,13 +103,12 @@ public class TestCompilerContainer extends CompilerContainer
     /**
      * Fills the container.
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails, or the container has already been initialised
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
+    protected void fillContainer()
     {
-        super.fillContainer(container);
+        super.fillContainer();
         try
         {
             deleteLock();
@@ -128,20 +127,21 @@ public class TestCompilerContainer extends CompilerContainer
         File installerFile = FileUtil.convertUrlToFile(getClass().getClassLoader().getResource(installFileName));
         File baseDir = installerFile.getParentFile();
 
-        File out = new File(baseDir, "out" + Math.random() + ".jar");
-        out.deleteOnExit();
+        File jarFile = new File(baseDir, "out" + Math.random() + ".jar");
+        jarFile.deleteOnExit();
         CompilerData data = new CompilerData(installerFile.getAbsolutePath(), baseDir.getAbsolutePath(),
-                                             out.getAbsolutePath(), false);
+                                             jarFile.getAbsolutePath(), false);
         addComponent(CompilerData.class, data);
-        addComponent(File.class, out);
+        addComponent(File.class, jarFile);
+        addComponent(TestCompilerContainer.class, this);
 
-        container.addConfig("installFile", installerFile.getAbsolutePath());
-        container.addAdapter(new JarFileProvider());
+        addConfig("installFile", installerFile.getAbsolutePath());
+        addProvider(JarFile.class, new JarFileProvider(jarFile));
 
         final ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(Level.INFO);
         consoleHandler.setFormatter(new MavenStyleLogFormatter());
-        container.addComponent(Handler.class, consoleHandler);
+        addComponent(Handler.class, consoleHandler);
     }
 
     private void deleteLock() throws IOException

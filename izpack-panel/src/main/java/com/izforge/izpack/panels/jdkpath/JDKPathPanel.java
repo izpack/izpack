@@ -32,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
@@ -71,6 +72,7 @@ public class JDKPathPanel extends PathInputPanel implements HyperlinkListener
      * @param replacer    the variable replacer
      * @param log         the log
      */
+    @Inject
     public JDKPathPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                         RegistryDefaultHandler handler, VariableSubstitutor replacer, Log log)
     {

@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.panels.licence;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -58,6 +59,7 @@ public class LicencePanel extends AbstractLicencePanel implements ActionListener
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public LicencePanel(Panel panel, final InstallerFrame parent, GUIInstallData installData, Resources resources,
                         Log log)
     {

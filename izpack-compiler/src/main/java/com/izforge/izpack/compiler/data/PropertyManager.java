@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.compiler.data;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.CompilerException;
@@ -95,6 +96,7 @@ public class PropertyManager
     private final AssertionHelper assertionHelper;
     private final String basedir;
 
+    @Inject
     public PropertyManager(Properties properties, Variables variables, CompilerData compilerData, PackagerListener packagerListener, AssertionHelper assertionHelper)
     {
         this.assertionHelper = assertionHelper;

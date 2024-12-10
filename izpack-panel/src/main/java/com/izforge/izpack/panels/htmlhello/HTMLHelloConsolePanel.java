@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.htmlhello;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
@@ -33,6 +34,7 @@ import com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel;
  */
 public class HTMLHelloConsolePanel extends HTMLInfoConsolePanel
 {
+    @Inject
     public HTMLHelloConsolePanel(Resources resources, PanelView<ConsolePanel> panel)
     {
         super(panel, resources);

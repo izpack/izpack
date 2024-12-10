@@ -22,6 +22,7 @@ package com.izforge.izpack.compiler.helper;
 import java.io.File;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.CompilerException;
 
@@ -36,6 +37,7 @@ public class AssertionHelper
 
     private String parsedFile;
 
+    @Inject
     public AssertionHelper(String parsedFile)
     {
         this.parsedFile = parsedFile;

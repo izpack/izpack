@@ -38,6 +38,7 @@ import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 
@@ -233,7 +234,8 @@ public class Log implements LogError, LogWarning, LogMessage
      *
      * @param installData the installation data
      */
-    public Log(AutomatedInstallData installData)
+    @Inject
+    public Log(InstallData installData)
     {
         this.installData = installData;
 

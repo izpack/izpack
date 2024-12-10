@@ -21,13 +21,16 @@
 
 package com.izforge.izpack.installer.automation;
 
+import com.google.inject.TypeLiteral;
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.container.ContainerConfigurer;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.installer.panel.AbstractPanelView;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.installer.util.PanelHelper;
 
 
@@ -36,8 +39,7 @@ import com.izforge.izpack.installer.util.PanelHelper;
  *
  * @author Tim Anderson
  */
-public class AutomatedPanelView extends AbstractPanelView<PanelAutomation>
-{
+public class AutomatedPanelView extends AbstractPanelView<PanelAutomation> {
     /**
      * The handler.
      */
@@ -53,8 +55,7 @@ public class AutomatedPanelView extends AbstractPanelView<PanelAutomation>
      * @param handler     the handler
      */
     public AutomatedPanelView(Panel panel, ObjectFactory factory, InstallData installData,
-                              AbstractUIHandler handler)
-    {
+                              AbstractUIHandler handler) {
         super(panel, PanelAutomation.class, factory, installData);
         this.handler = handler;
     }
@@ -64,8 +65,7 @@ public class AutomatedPanelView extends AbstractPanelView<PanelAutomation>
      *
      * @return the corresponding {@link PanelAutomation} implementation class, or {@code null} if none is found
      */
-    public Class<PanelAutomation> getViewClass()
-    {
+    public Class<PanelAutomation> getViewClass() {
         Panel panel = getPanel();
         return PanelHelper.getAutomatedPanel(panel.getClassName());
     }
@@ -78,14 +78,17 @@ public class AutomatedPanelView extends AbstractPanelView<PanelAutomation>
      * @return the new view
      */
     @Override
-    protected PanelAutomation createView(Panel panel, Class<PanelAutomation> viewClass)
-    {
+    protected PanelAutomation createView(Panel panel, Class<PanelAutomation> viewClass) {
         Class<PanelAutomation> impl = getViewClass();
-        if (impl == null)
-        {
+        if (impl == null) {
             throw new IzPackException("Automation implementation not found for panel: " + panel.getClassName());
         }
-        return getFactory().create(impl, panel);
+        return getFactory().create(impl, (configurer) -> configurer.addComponent(panel));
+    }
+
+    @Override
+    protected void addPanelView(ContainerConfigurer configurer, PanelView<PanelAutomation> panelView) {
+        configurer.addComponent(new TypeLiteral<PanelView<PanelAutomation>>() {}, this);
     }
 
     /**
@@ -94,8 +97,7 @@ public class AutomatedPanelView extends AbstractPanelView<PanelAutomation>
      * @return the handler
      */
     @Override
-    protected AbstractUIHandler getHandler()
-    {
+    protected AbstractUIHandler getHandler() {
         return handler;
     }
 
@@ -107,22 +109,17 @@ public class AutomatedPanelView extends AbstractPanelView<PanelAutomation>
      * @return {@code true} if the warning doesn't invalidate the panel; {@code false} if it does
      */
     @Override
-    protected boolean isWarningValid(String message, boolean defaultAnswer)
-    {
-        if (defaultAnswer)
-        {
+    protected boolean isWarningValid(String message, boolean defaultAnswer) {
+        if (defaultAnswer) {
             handler.emitNotification(message + " - ignoring");
-        }
-        else
-        {
+        } else {
             handler.emitError(getMessage("data.validation.error.title"), message);
         }
         return defaultAnswer;
     }
 
     @Override
-    public void createInstallationRecord(IXMLElement panelRoot)
-    {
+    public void createInstallationRecord(IXMLElement panelRoot) {
         //You don't create a auto.xml for an auto installation
     }
 }

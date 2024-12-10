@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.panels.installationgroup;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
@@ -52,6 +53,7 @@ public class InstallationGroupConsolePanel extends AbstractConsolePanel implemen
     
     private GroupData[] rows;
 
+    @Inject
     @SuppressWarnings("UnusedDeclaration")
     public InstallationGroupConsolePanel(PanelView<ConsolePanel> panel, Prompt prompt,
                                          AutomatedInstallData automatedInstallData, PlatformModelMatcher matcher)

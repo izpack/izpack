@@ -23,6 +23,7 @@ package com.izforge.izpack.panels.install;
 
 import java.util.Properties;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
@@ -45,6 +46,7 @@ public class InstallConsolePanel extends AbstractConsolePanel implements Progres
 
     private int noOfPacks = 0;
 
+    @Inject
     public InstallConsolePanel(IUnpacker unpacker, PanelView<ConsolePanel> panel)
     {
         super(panel);

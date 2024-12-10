@@ -23,7 +23,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.net.URL;
+import java.util.function.Consumer;
 
+import com.izforge.izpack.api.container.ContainerConfigurer;
 import org.junit.Test;
 
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
@@ -192,11 +194,11 @@ public class DefaultTargetPlatformFactoryTest
          * Creates a new instance of the specified type.
          *
          * @param type       the object type
-         * @param parameters
+         * @param configurer
          * @return a new instance
          */
         @Override
-        public <T> T create(Class<T> type, Object... parameters)
+        public <T> T create(Class<T> type, Consumer<ContainerConfigurer> configurer)
         {
             try
             {
@@ -213,14 +215,14 @@ public class DefaultTargetPlatformFactoryTest
          *
          * @param className  the class name
          * @param superType  the super type
-         * @param parameters
+         * @param configurer
          * @return a new instance
          * @throws ClassCastException           if <tt>className</tt> does not implement or extend <tt>superType</tt>
          * @throws IzPackClassNotFoundException if the class cannot be found
          */
         @Override
         @SuppressWarnings("unchecked")
-        public <T> T create(String className, Class<T> superType, Object... parameters)
+        public <T> T create(String className, Class<T> superType, Consumer<ContainerConfigurer> configurer)
         {
             Class type;
             try

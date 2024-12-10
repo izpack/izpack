@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.data.GUIInstallData;
 
@@ -26,6 +27,7 @@ public class SplashScreen
     
     private JFrame frame;
 
+    @Inject
     public SplashScreen(Resources resources, GUIInstallData installData)
     {
         this.installData = installData;

@@ -52,6 +52,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.GUIPrompt;
@@ -129,6 +130,7 @@ public class UninstallerFrame extends JFrame
      * @param housekeeper the housekeeper
      * @param messages    the locale-specific messages
      */
+    @Inject
     public UninstallerFrame(Destroyer destroyer, InstallLog log, Housekeeper housekeeper, Messages messages)
             throws Exception
     {

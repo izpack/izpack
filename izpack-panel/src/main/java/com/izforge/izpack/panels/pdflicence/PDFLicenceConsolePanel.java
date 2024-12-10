@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.panels.pdflicence;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
@@ -47,6 +48,7 @@ public class PDFLicenceConsolePanel extends AbstractLicenceConsolePanel {
 	 * @param resources
 	 *            the resources
 	 */
+	@Inject
 	public PDFLicenceConsolePanel(PanelView<ConsolePanel> panel, Resources resources) {
 		super(panel, resources);
 	}

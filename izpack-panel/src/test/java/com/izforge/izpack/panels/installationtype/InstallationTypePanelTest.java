@@ -21,7 +21,6 @@
 package com.izforge.izpack.panels.installationtype;
 
 import com.izforge.izpack.api.GuiId;
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Locales;
@@ -35,19 +34,14 @@ import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanelView;
 import com.izforge.izpack.panels.defaulttarget.DefaultTargetPanel;
-import com.izforge.izpack.panels.pdflicence.PDFLicencePanel;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.panels.test.AbstractPanelTest;
 import com.izforge.izpack.panels.test.TestGUIPanelContainer;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import static com.izforge.izpack.installer.util.InstallPathHelper.TARGET_PANEL_DIR;
-import static com.izforge.izpack.util.Platform.Name.MAC_OSX;
-import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -55,7 +49,7 @@ import static org.junit.Assert.*;
  *
  * @author Hitesh A. Bosamiya
  */
-@Container(TestGUIPanelContainer.class)
+@ContainerImport(TestGUIPanelContainer.class)
 public class InstallationTypePanelTest extends AbstractPanelTest
 {
     /**

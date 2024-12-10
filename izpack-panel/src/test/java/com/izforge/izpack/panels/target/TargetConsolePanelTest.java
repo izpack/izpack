@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.panels.target;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -28,8 +29,8 @@ import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanelView;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
-import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.ContainerImport;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Console;
 import org.junit.Rule;
@@ -48,8 +49,8 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@Container(TestConsolePanelContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestConsolePanelContainer.class)
 public class TargetConsolePanelTest
 {
 
@@ -85,6 +86,7 @@ public class TargetConsolePanelTest
      * @param installData the installation data
      * @param console     the console
      */
+    @Inject
     public TargetConsolePanelTest(InstallData installData, ObjectFactory factory, TestConsole console, Prompt prompt)
     {
         this.console = console;

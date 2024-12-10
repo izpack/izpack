@@ -55,6 +55,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Panel;
@@ -111,6 +112,7 @@ public class InstallationGroupPanel extends IzPanel
      * @param resources   the resources
      * @param matcher     the platform-model matcher
      */
+    @Inject
     public InstallationGroupPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                                   PlatformModelMatcher matcher)
     {

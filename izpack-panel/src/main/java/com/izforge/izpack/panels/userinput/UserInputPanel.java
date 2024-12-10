@@ -18,6 +18,7 @@
  */
 package com.izforge.izpack.panels.userinput;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -132,6 +133,7 @@ public class UserInputPanel extends IzPanel
      * @param matcher     the platform-model matcher
      * @param prompt      the prompt
      */
+    @Inject
     public UserInputPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                           RulesEngine rules, ObjectFactory factory, final PlatformModelMatcher matcher, Prompt prompt)
     {

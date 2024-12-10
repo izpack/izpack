@@ -21,6 +21,7 @@ package com.izforge.izpack.installer.base;
 
 import javax.swing.JOptionPane;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -60,6 +61,7 @@ public class InstallDataConfiguratorWithRules
      * @param rules       the rules
      * @param platform    the current platform
      */
+    @Inject
     public InstallDataConfiguratorWithRules(InstallData installData, RulesEngine rules, Platform platform)
     {
         this.installData = installData;

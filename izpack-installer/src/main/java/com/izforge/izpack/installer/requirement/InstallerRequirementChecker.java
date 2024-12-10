@@ -23,6 +23,7 @@ package com.izforge.izpack.installer.requirement;
 
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.InstallerRequirement;
 import com.izforge.izpack.api.handler.Prompt;
@@ -68,6 +69,7 @@ public class InstallerRequirementChecker implements RequirementChecker
      * @param rules       the rules engine
      * @param prompt      the prompt
      */
+    @Inject
     public InstallerRequirementChecker(InstallData installData, RulesEngine rules, Prompt prompt)
     {
         this.installData = installData;
