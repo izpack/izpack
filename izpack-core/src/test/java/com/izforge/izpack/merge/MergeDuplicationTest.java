@@ -25,8 +25,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.zip.ZipFile;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
@@ -43,7 +43,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoRunner.class)
 @Container(TestMergeContainer.class)
 public class MergeDuplicationTest
 {
@@ -56,7 +56,7 @@ public class MergeDuplicationTest
         this.mergeableResolver = mergeableResolver;
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testAddJarDuplicated() throws Exception
     {
         URL resource = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");

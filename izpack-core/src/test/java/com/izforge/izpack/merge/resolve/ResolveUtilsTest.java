@@ -24,7 +24,7 @@ import static org.hamcrest.core.Is.is;
 
 import java.net.URL;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for resolveUtils

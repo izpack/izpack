@@ -31,7 +31,7 @@ import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.test.util.TestHelper;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;

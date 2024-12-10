@@ -19,14 +19,14 @@ package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Arch;
 import static com.izforge.izpack.util.Platform.Name;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -99,7 +99,7 @@ public class PlatformsTest extends AbstractPlatformTest
     /**
      * Tests the {@link Platforms#getCurrentPlatform(String, String, String)} method.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetCurrentPlatformByNameArchVersion()
     {
         Platforms platforms = new Platforms();
@@ -114,7 +114,7 @@ public class PlatformsTest extends AbstractPlatformTest
 	/**
      * Tests the {@link Platforms#getCurrentPlatform(String, String, String)} method with windows 8.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testGetWin8PlatformByNameArchVersion()
     {
         Platforms platforms = new Platforms();
@@ -162,7 +162,7 @@ public class PlatformsTest extends AbstractPlatformTest
     /**
      * Ensures all of the public static Platform instances are registered in {@link Platforms#PLATFORMS}.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testPlatforms()
     {
         int expected = 0;

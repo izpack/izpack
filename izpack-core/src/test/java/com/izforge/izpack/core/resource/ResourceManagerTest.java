@@ -21,12 +21,12 @@
 
 package com.izforge.izpack.core.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.swing.ImageIcon;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 
@@ -40,7 +40,7 @@ public class ResourceManagerTest
     /**
      * Verifies images can be retrieved for each of the supported countries and languages.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testImages()
     {
         ResourceManager resources = new ResourceManager()

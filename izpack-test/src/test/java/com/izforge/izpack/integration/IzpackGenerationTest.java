@@ -6,9 +6,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.jar.JarFile;
 import java.util.zip.ZipFile;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
@@ -39,7 +39,7 @@ public class IzpackGenerationTest
         this.container = container;
     }
 
-    @Before
+    @BeforeEach
     public void before()
     {
         container.launchCompilation();

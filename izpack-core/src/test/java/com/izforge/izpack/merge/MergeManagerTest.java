@@ -24,8 +24,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.net.URL;
 
 import org.hamcrest.core.Is;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.core.container.TestMergeContainer;
 import com.izforge.izpack.matcher.MergeMatcher;
@@ -38,7 +38,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoRunner.class)
 @Container(TestMergeContainer.class)
 public class MergeManagerTest
 {
@@ -49,7 +49,7 @@ public class MergeManagerTest
         this.mergeManager = mergeManager;
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testProcessJarPath() throws Exception
     {
         URL resource = new URL("file:/home/test/unjar.jar!com/package/in/jar");
@@ -82,14 +82,14 @@ public class MergeManagerTest
         assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/MergeManager.class"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testAddSingleClassToMergeWithDestinationFromAJar() throws Exception
     {
         mergeManager.addResourceToMerge("org/junit/", "com/dest/");
         assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/Assert.class"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testAddPackageToMergeWithDestinationFromAJar() throws Exception
     {
         mergeManager.addResourceToMerge("org/junit", "com/dest");

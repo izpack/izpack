@@ -26,13 +26,13 @@ import static com.izforge.izpack.util.Platform.Arch.X86;
 import static com.izforge.izpack.util.Platform.Name.SUNOS;
 import static com.izforge.izpack.util.Platform.Name.UNIX;
 import static com.izforge.izpack.util.Platform.Name.WINDOWS;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.data.binding.OsModel;
 
@@ -67,7 +67,7 @@ public class PlatformModelMatcherTest
     /**
      * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the architecture is specified.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testArchitectureMatch()
     {
         OsModel x86 = new OsModel("x86", null, null, null, null);
@@ -82,7 +82,7 @@ public class PlatformModelMatcherTest
     /**
      * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the family is specified.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testFamilyMatch()
     {
         OsModel unix = new OsModel(null, "unix", null, null, null);
@@ -98,7 +98,7 @@ public class PlatformModelMatcherTest
      * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the family and name is
      * specified.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testFamilyNameMatch()
     {
         OsModel mac = new OsModel(null, "mac", null, "Mac OS", null);
@@ -127,7 +127,7 @@ public class PlatformModelMatcherTest
     /**
      * Tests the {@link PlatformModelMatcher#match(Platform, OsModel)} method when only the version is specified.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testVersionMatch()
     {
         OsModel xp = new OsModel(null, null, null, null, OsVersionConstants.WINDOWS_XP_VERSION);
@@ -160,7 +160,7 @@ public class PlatformModelMatcherTest
     /**
      * Tests {@link PlatformModelMatcher#matches(Platform, java.util.List)} when only the family is specified.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testMatchesByFamily()
     {
         Platform platform = Platforms.WINDOWS;
@@ -179,7 +179,7 @@ public class PlatformModelMatcherTest
     /**
      * Tests {@link PlatformModelMatcher#matches(Platform, java.util.List)} when only the name is specified.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testMatchesByName()
     {
         Platform platform = Platforms.MAC_OSX;

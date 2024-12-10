@@ -26,13 +26,13 @@ import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.ALPH
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.ALPHANUMERIC;
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.NUMERIC;
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.OPEN;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
 
@@ -74,7 +74,7 @@ public class FieldLayoutTest
     /**
      * Tests an email address layout.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testEmailAddress()
     {
         FieldLayout layout = new FieldLayout("AN:15:U @ AN:10:40 . A:3:3");
@@ -115,7 +115,7 @@ public class FieldLayoutTest
     /**
      * Tests invalid field layouts.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testInvalidLayout()
     {
         // malformed field specs are treated as separators

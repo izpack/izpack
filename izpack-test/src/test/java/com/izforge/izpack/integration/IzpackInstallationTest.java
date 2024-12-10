@@ -1,7 +1,7 @@
 package com.izforge.izpack.integration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,10 +14,10 @@ import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.timing.Timeout;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsCollectionContaining;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
@@ -86,7 +86,7 @@ public class IzpackInstallationTest
      *
      * @throws NativeLibException for any native library error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws NativeLibException
     {
         RegistryHandler registry = handler.getInstance();
@@ -106,7 +106,7 @@ public class IzpackInstallationTest
         }
     }
 
-    @After
+    @AfterEach
     public void tearBinding() throws NoSuchFieldException, IllegalAccessException
     {
         try

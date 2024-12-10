@@ -23,7 +23,7 @@ package com.izforge.izpack.event;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,9 +36,9 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 
@@ -79,7 +79,7 @@ public class BSFUninstallerListenerTest
     /**
      * Sets up the test case.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
         installDir = temporaryFolder.getRoot();
@@ -102,7 +102,7 @@ public class BSFUninstallerListenerTest
      *
      * @throws IOException for any I/O error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testBeanshell() throws IOException
     {
         List<BSFAction> actions = getActions("/com/izforge/izpack/event/bsf/BSFActionsSpec-bsh.xml", "Base");
