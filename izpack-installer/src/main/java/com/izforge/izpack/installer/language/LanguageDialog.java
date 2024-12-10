@@ -18,16 +18,13 @@
  */
 package com.izforge.izpack.installer.language;
 
-import com.izforge.izpack.api.GuiId;
-import com.izforge.izpack.api.exception.ResourceException;
-import com.izforge.izpack.api.resource.Locales;
-import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.gui.IconsDatabase;
-import com.izforge.izpack.installer.container.provider.AbstractInstallDataProvider;
-import com.izforge.izpack.installer.data.GUIInstallData;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -39,6 +36,30 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import com.izforge.izpack.api.GuiId;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.exception.ResourceException;
+import com.izforge.izpack.api.resource.Locales;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.core.factory.InstallDataFactory;
+import com.izforge.izpack.gui.IconsDatabase;
+import com.izforge.izpack.installer.data.GuiExtension;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
 /**
  * Used to prompt the user for the language. Languages can be displayed in iso3 or the native
  * notation or the notation of the default locale. Revising to native notation is based on code
@@ -48,6 +69,7 @@ import java.util.logging.Logger;
  * @author Christian Murphy
  * @author Klaus Bartz
  */
+@ApplicationScoped
 public class LanguageDialog extends JDialog
 {
     private static final long serialVersionUID = 3256443616359887667L;
@@ -55,7 +77,7 @@ public class LanguageDialog extends JDialog
     /**
      * The installation data.
      */
-    private final GUIInstallData installData;
+    private final InstallData installData;
 
     /**
      * The resources.
@@ -70,7 +92,7 @@ public class LanguageDialog extends JDialog
     /**
      * Maps ISO3 codes to the corresponding language display values.
      */
-    private Map<String, String> displayNames = new HashMap<String, String>();
+    private Map<String, String> displayNames = new HashMap<>();
 
     /**
      * The combo box.
@@ -91,7 +113,8 @@ public class LanguageDialog extends JDialog
      * @param locales      the locales
      * @param installData  the installation data
      */
-    public LanguageDialog(Resources resources, Locales locales, GUIInstallData installData, IconsDatabase icons)
+    @Inject
+    public LanguageDialog(Resources resources, Locales locales, InstallData installData, IconsDatabase icons)
     {
         super();
         ImageIcon imageIcon = icons.get("JFrameIcon");
@@ -279,12 +302,15 @@ public class LanguageDialog extends JDialog
      */
     private boolean useFlags()
     {
-        if (installData.guiPrefs.modifier.containsKey("useFlags")
-                && "no".equalsIgnoreCase(installData.guiPrefs.modifier.get("useFlags")))
+        GuiExtension guiExtension = installData.getExtension(GuiExtension.class)
+            .orElseThrow(() -> new IllegalArgumentException("Unsupported install data reference"));
+        Map<String, String> modifier = guiExtension.modifiers();
+        if (modifier.containsKey("useFlags") && "no".equalsIgnoreCase(modifier.get("useFlags")))
         {
-            return (false);
+          return false;
         }
-        return (true);
+
+        return true;
     }
 
 
@@ -307,11 +333,13 @@ public class LanguageDialog extends JDialog
             installData.setLocale(locales.getLocale(), locales.getISOCode());
             installData.setMessages(locales.getMessages());
 
-            AbstractInstallDataProvider.addCustomLangpack(installData, locales);
-            AbstractInstallDataProvider.addUserInputLangpack(installData, locales);
+            InstallDataFactory.addCustomLangpack(installData, locales);
+            InstallDataFactory.addUserInputLangpack(installData, locales);
 
             // Configure buttons after locale has been loaded
-            installData.configureGuiButtons();
+            GuiExtension guiExtension = installData.getExtension(GuiExtension.class)
+                .orElseThrow(() -> new IllegalArgumentException("Unsupported install data reference"));
+            guiExtension.configureGuiButtons();
         }
         catch (Exception exception)
         {

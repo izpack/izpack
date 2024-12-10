@@ -21,15 +21,19 @@
 
 package com.izforge.izpack.uninstaller.console;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.ConsolePrefs;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
-import com.izforge.izpack.core.data.DefaultVariables;
-import com.izforge.izpack.core.handler.ConsolePrompt;
+import com.izforge.izpack.api.resource.Locales;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.core.container.CdiInitializationContext;
+import com.izforge.izpack.installer.container.provider.ConsoleInstallDataFactory;
 import com.izforge.izpack.uninstaller.container.UninstallerContainer;
-import com.izforge.izpack.util.Console;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
+import com.izforge.izpack.util.Platform;
+
+import java.util.function.Predicate;
 
 
 /**
@@ -52,23 +56,28 @@ public class ConsoleUninstallerContainer extends UninstallerContainer
      * Invoked by {@link #initialise} to fill the container.
      * <p/>
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
+    protected void fillContainer(CdiInitializationContext context)
     {
-        super.fillContainer(container);
-
+        super.fillContainer(context);
         ConsolePrefs consolePrefs = new ConsolePrefs();
         consolePrefs.enableConsoleReader = false;
-        addComponent(ConsolePrefs.class, consolePrefs);
-        addComponent(DefaultVariables.class);
-        addComponent(AutomatedInstallData.class);
-        addComponent(Console.class);
-        addComponent(ConsolePrompt.class);
-        addComponent(ConsoleDestroyerListener.class);
-        addComponent(ConsoleUninstaller.class);
+        context.addComponent(ConsolePrefs.class, consolePrefs);
+
+//        addComponent(DefaultVariables.class);
+//        addComponent(AutomatedInstallData.class);
+//        addComponent(Console.class);
+//        addComponent(ConsolePrompt.class);
+//        addComponent(ConsoleDestroyerListener.class);
+//        addComponent(ConsoleUninstaller.class);
+    }
+
+    @Override
+    public InstallData create(Resources resources, Variables variables, Platform platform, Locales locales,
+                              Predicate<Pack> availablePackPredicate)
+    {
+        return ConsoleInstallDataFactory.create(resources, variables, platform, locales, availablePackPredicate);
     }
 }

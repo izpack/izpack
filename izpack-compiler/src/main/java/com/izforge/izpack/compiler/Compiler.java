@@ -48,6 +48,8 @@ import com.izforge.izpack.compiler.util.CompilerClassLoader;
 import com.izforge.izpack.compiler.packager.IPackager;
 import com.izforge.izpack.data.CustomData;
 import com.izforge.izpack.api.data.PackInfo;
+import jakarta.inject.Inject;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,7 +69,7 @@ import java.util.zip.ZipInputStream;
  * @author Chadwick McHenry
  * @see CompilerConfig
  */
-public class Compiler extends Thread
+public class Compiler
 {
 
     /**
@@ -112,6 +114,7 @@ public class Compiler extends Thread
      * @param loader         the class loader to use to load classes
      * @param compilerHelper the compiler helper
      */
+    @Inject
     public Compiler(CompilerClassLoader loader, CompilerHelper compilerHelper)
     {
         this.loader = loader;
@@ -128,26 +131,6 @@ public class Compiler extends Thread
     public void setPackager(IPackager packager)
     {
         this.packager = packager;
-    }
-
-    /**
-     * The run() method.
-     */
-    @Override
-    public void run()
-    {
-        try
-        {
-            createInstaller();
-        }
-        catch (CompilerException ce)
-        {
-            logger.severe(ce.getMessage());
-        }
-        catch (Exception e)
-        {
-            logger.log(Level.SEVERE, e.getMessage(), e);
-        }
     }
 
     /**

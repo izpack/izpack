@@ -21,6 +21,8 @@ package com.izforge.izpack.installer.data;
 
 import com.izforge.izpack.data.CustomData;
 import com.izforge.izpack.api.data.ExecutableFile;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Vetoed;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ import java.util.Map;
  *
  * @author Julien Ponge created October 27, 2002
  */
+@ApplicationScoped
 public class UninstallData
 {
 
