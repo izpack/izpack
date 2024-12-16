@@ -27,6 +27,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
+import jakarta.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -67,6 +68,7 @@ public class TargetPanelAutomationTest
      *
      * @param installData the installation data
      */
+    @Inject
     public TargetPanelAutomationTest(InstallData installData)
     {
         this.installData = installData;

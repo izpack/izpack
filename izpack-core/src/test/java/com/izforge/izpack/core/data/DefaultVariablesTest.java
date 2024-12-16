@@ -21,7 +21,30 @@
 
 package com.izforge.izpack.core.data;
 
-import com.izforge.izpack.api.data.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+
+import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.DynamicVariable;
+import com.izforge.izpack.api.data.Overrides;
+import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.core.container.DefaultContainer;
@@ -32,20 +55,11 @@ import com.izforge.izpack.core.rules.process.VariableCondition;
 import com.izforge.izpack.core.variable.ConfigFileValue;
 import com.izforge.izpack.core.variable.PlainConfigFileValue;
 import com.izforge.izpack.core.variable.PlainValue;
+import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.Platforms;
-import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import static org.junit.Assert.*;
+import jakarta.inject.Inject;
 
 
 /**
@@ -53,6 +67,8 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
+@RunWith(PicoRunner.class)
+@Container(DefaultContainer.class)
 public class DefaultVariablesTest
 {
     @Rule
@@ -64,7 +80,10 @@ public class DefaultVariablesTest
      */
     private final DefaultVariables variables = new DefaultVariables();
 
+    @Inject
+    ConditionContainer conditionContainer;
 
+    
     /**
      * Tests the {@link Variables#set(String, String)}, {@link Variables#get(String)} and
      * {@link Variables#get(String, String)} methods.
@@ -220,16 +239,15 @@ public class DefaultVariablesTest
     public void testConditionalDynamicVariables()
     {
         // set up conditions
-        Map<String, Condition> conditions = new HashMap<String, Condition>();
+        Map<String, Condition> conditions = new HashMap<>();
         conditions.put("cond1", new VariableCondition("os", "windows")); // true when os = windows
         conditions.put("cond2", new VariableCondition("os", "unix"));    // true when os = unix
 
         // set up the rules
         AutomatedInstallData installData = new AutomatedInstallData(variables, Platforms.FREEBSD);
-        RulesEngineImpl rules = new RulesEngineImpl(installData, new ConditionContainer(new DefaultContainer()),
-                installData.getPlatform());
+        RulesEngineImpl rules = new RulesEngineImpl(installData, conditionContainer);
         rules.readConditionMap(conditions);
-        ((DefaultVariables) variables).setRules(rules);
+        variables.setRules(rules);
 
         // add dynamic variables
         variables.add(createDynamic("INSTALL_PATH", "c:\\Program Files", "cond1")); // evaluated when os = windows
@@ -253,16 +271,15 @@ public class DefaultVariablesTest
     public void testDynamicVariablesIZPACK1260()
     {
         // set up conditions
-        Map<String, Condition> conditions = new HashMap<String, Condition>();
+        Map<String, Condition> conditions = new HashMap<>();
         conditions.put("haveInstallPath", new ExistsCondition(ExistsCondition.ContentType.VARIABLE, "INSTALL_PATH"));
         conditions.put("previous.wrapper.conf.exists", new ExistsCondition(ExistsCondition.ContentType.FILE, "${previous.wrapper.conf}"));
 
         // set up the rules
         AutomatedInstallData installData = new AutomatedInstallData(variables, Platforms.LINUX);
-        RulesEngineImpl rules = new RulesEngineImpl(installData, new ConditionContainer(new DefaultContainer()),
-                installData.getPlatform());
+        RulesEngineImpl rules = new RulesEngineImpl(installData, conditionContainer);
         rules.readConditionMap(conditions);
-        ((DefaultVariables) variables).setRules(rules);
+        variables.setRules(rules);
 
         variables.add(createDynamicCheckonce("previous.wrapper.conf", "${INSTALL_PATH}/conf/wrapper.conf".replace("/", File.separator), "haveInstallPath"));
         variables.add(createDynamicCheckonce("previous.wrapper.conf", "${INSTALL_PATH}/wrapper.conf".replace("/", File.separator), "haveInstallPath+!previous.wrapper.conf.exists"));
@@ -296,16 +313,15 @@ public class DefaultVariablesTest
     public void testDynamicVariablesWithUserInput()
     {
         // set up conditions
-        Map<String, Condition> conditions = new HashMap<String, Condition>();
+        Map<String, Condition> conditions = new HashMap<>();
         conditions.put("cond1", new VariableCondition("condvar1", "x"));
         conditions.put("cond2", new VariableCondition("condvar2", "y"));
 
         // set up the rules
         AutomatedInstallData installData = new AutomatedInstallData(variables, Platforms.LINUX);
-        RulesEngineImpl rules = new RulesEngineImpl(installData, new ConditionContainer(new DefaultContainer()),
-                installData.getPlatform());
+        RulesEngineImpl rules = new RulesEngineImpl(installData, conditionContainer);
         rules.readConditionMap(conditions);
-        ((DefaultVariables) variables).setRules(rules);
+        variables.setRules(rules);
 
         variables.add(createDynamicCheckonce("var", "a", "cond1+cond2"));
         variables.add(createDynamicCheckonce("var", "b", "cond1+!cond2"));
@@ -321,7 +337,7 @@ public class DefaultVariablesTest
         variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
         assertEquals("b", variables.get("var"));
 
-        Set<String> blocked = new HashSet<String>();
+        Set<String> blocked = new HashSet<>();
         // we now do overwrite the variable on a UserInputPanel
         blocked.add("var");
         variables.set("var", "anothervalue");
@@ -348,7 +364,6 @@ public class DefaultVariablesTest
      * Therefore we have to provide the variables here in the correct order.
      * @see com.izforge.izpack.compiler.DynVariableOrderTest for ordering tests
      */
-    @SuppressWarnings("JavadocReference")
     @Test
     public void testDependentDynamicVariables()
     {
@@ -413,16 +428,15 @@ public class DefaultVariablesTest
         final String observedVar = "thechoice";
 
         // set up conditions
-        Map<String, Condition> conditions = new HashMap<String, Condition>();
+        Map<String, Condition> conditions = new HashMap<>();
         conditions.put("cond1", new VariableCondition("condvar1", "1"));
         conditions.put("cond2", new VariableCondition("condvar2", "1"));
 
         // set up the rules
         AutomatedInstallData installData = new AutomatedInstallData(variables, Platforms.LINUX);
-        RulesEngineImpl rules = new RulesEngineImpl(installData, new ConditionContainer(new DefaultContainer()),
-                installData.getPlatform());
+        RulesEngineImpl rules = new RulesEngineImpl(installData, conditionContainer);
         rules.readConditionMap(conditions);
-        ((DefaultVariables) variables).setRules(rules);
+        variables.setRules(rules);
 
         variables.add(createDynamic(observedVar, "fallback value", null));
         variables.add(createDynamic(observedVar, "choice1", "cond1"));
@@ -600,16 +614,15 @@ public class DefaultVariablesTest
     public void testBlockedDynamicVariables()
     {
         // set up conditions
-        Map<String, Condition> conditions = new HashMap<String, Condition>();
+        Map<String, Condition> conditions = new HashMap<>();
         conditions.put("cond1", new VariableCondition("condvar1", "1"));
         variables.set("condvar1", "0");
 
         // set up the rules
         AutomatedInstallData installData = new AutomatedInstallData(variables, Platforms.LINUX);
-        RulesEngineImpl rules = new RulesEngineImpl(installData, new ConditionContainer(new DefaultContainer()),
-                installData.getPlatform());
+        RulesEngineImpl rules = new RulesEngineImpl(installData, conditionContainer);
         rules.readConditionMap(conditions);
-        ((DefaultVariables) variables).setRules(rules);
+        variables.setRules(rules);
 
         String blockedVar = "a";
         variables.add(createDynamic(blockedVar, "oldValue"));
@@ -619,7 +632,7 @@ public class DefaultVariablesTest
         assertEquals("oldValue", variables.get(blockedVar));
 
         // block variable
-        Set<String> blockedVars = new HashSet<String>();
+        Set<String> blockedVars = new HashSet<>();
         blockedVars.add(blockedVar);
         Panel blocker = new Panel();
         variables.registerBlockedVariableNames(blockedVars, blocker);

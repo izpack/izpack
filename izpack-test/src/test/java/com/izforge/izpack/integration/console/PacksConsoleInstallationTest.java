@@ -52,7 +52,7 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
      * The installer.
      */
     private final TestConsoleInstaller installer;
-    private AutomatedInstallData installData;
+    private InstallData installData;
 
     /**
      * Constructs a <tt>PacksConsoleInstallationTest</tt>
@@ -61,11 +61,11 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
      * @param installData the installation data
      * @throws Exception for any error
      */
-    public PacksConsoleInstallationTest(TestConsoleInstaller installer, AutomatedInstallData installData) throws Exception
+    public PacksConsoleInstallationTest(TestConsoleInstaller installer, InstallData installData) throws Exception
     {
         super(installData);
         this.installer = installer;
-        this.installData=installData;
+        this.installData = installData;
     }
 
     /**

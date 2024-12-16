@@ -21,6 +21,17 @@
 
 package com.izforge.izpack.core.rules;
 
+import java.io.OutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.logging.Logger;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.XMLException;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
@@ -38,15 +49,20 @@ import com.izforge.izpack.core.rules.logic.AndCondition;
 import com.izforge.izpack.core.rules.logic.NotCondition;
 import com.izforge.izpack.core.rules.logic.OrCondition;
 import com.izforge.izpack.core.rules.logic.XorCondition;
-import com.izforge.izpack.core.rules.process.*;
+import com.izforge.izpack.core.rules.process.CompareNumericsCondition;
+import com.izforge.izpack.core.rules.process.CompareVersionsCondition;
+import com.izforge.izpack.core.rules.process.CompareVersionsMajorCondition;
+import com.izforge.izpack.core.rules.process.ContainsCondition;
+import com.izforge.izpack.core.rules.process.EmptyCondition;
+import com.izforge.izpack.core.rules.process.ExistsCondition;
+import com.izforge.izpack.core.rules.process.JavaCondition;
+import com.izforge.izpack.core.rules.process.PackSelectionCondition;
+import com.izforge.izpack.core.rules.process.RefCondition;
+import com.izforge.izpack.core.rules.process.UserCondition;
+import com.izforge.izpack.core.rules.process.VariableCondition;
+import com.izforge.izpack.util.ClassUtil;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
-
-import java.io.OutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.logging.Logger;
 
 
 /**
@@ -57,18 +73,12 @@ import java.util.logging.Logger;
 public class RulesEngineImpl implements RulesEngine
 {
 
-    private final Map<String, String> panelConditions = new HashMap<String, String>();
-
-    private final Map<String, String> packConditions = new HashMap<String, String>();
-
-    private final Map<String, String> optionalPackConditions = new HashMap<String, String>();
-
-    private final Map<String, Condition> conditionsMap = new HashMap<String, Condition>();
-
-    private final Set<ConditionReference> refConditions = new HashSet<ConditionReference>();
-
+    private final Map<String, String> panelConditions = new HashMap<>();
+    private final Map<String, String> packConditions = new HashMap<>();
+    private final Map<String, String> optionalPackConditions = new HashMap<>();
+    private final Map<String, Condition> conditionsMap = new HashMap<>();
+    private final Set<ConditionReference> refConditions = new HashSet<>();
     private final InstallData installData;
-
     private final ConditionContainer container;
 
     private static final Logger logger = Logger.getLogger(RulesEngineImpl.class.getName());
@@ -76,7 +86,7 @@ public class RulesEngineImpl implements RulesEngine
     /**
      * The built-in condition types, with their corresponding class names.
      */
-    private static final Map<String, String> TYPE_CLASS_NAMES = new HashMap<String, String>();
+    private static final Map<String, String> TYPE_CLASS_NAMES = new HashMap<>();
 
     static
     {
@@ -97,20 +107,13 @@ public class RulesEngineImpl implements RulesEngine
         TYPE_CLASS_NAMES.put("variable", VariableCondition.class.getName());
     }
 
-    public RulesEngineImpl(ConditionContainer container, Platform platform)
-    {
-        this.installData = null;
-        this.container = container;
-        initStandardConditions(platform);
-    }
-
-    public RulesEngineImpl(InstallData installData, ConditionContainer container, Platform platform)
+    public RulesEngineImpl(InstallData installData, ConditionContainer container)
     {
         this.installData = installData;
         this.container = container;
         if (installData != null)
         {
-            initStandardConditions(platform);
+            initStandardConditions(installData.getPlatform());
         }
     }
 
@@ -152,7 +155,7 @@ public class RulesEngineImpl implements RulesEngine
             String className = getClassName(type);
             if (conditionClass == null)
             {
-                conditionClass = container.getClass(className, Condition.class);
+                conditionClass = ClassUtil.getClass(className, Condition.class);
             }
             try
             {
@@ -161,8 +164,7 @@ public class RulesEngineImpl implements RulesEngine
                     id = className + "-" + UUID.randomUUID().toString();
                     logger.fine("Random condition id " + id + " generated");
                 }
-                container.addComponent(id, conditionClass);
-                result = (Condition) container.getComponent(id);
+                result = container.getCondition(this,  conditionClass);
                 result.setId(id);
                 result.setInstallData(installData);
                 result.readFromXML(condition);
@@ -929,7 +931,7 @@ public class RulesEngineImpl implements RulesEngine
 
         @Override
         public Set<String> getVarRefs() {
-            return new HashSet<String>(0);
+            return new HashSet<>(0);
         }
 
     }

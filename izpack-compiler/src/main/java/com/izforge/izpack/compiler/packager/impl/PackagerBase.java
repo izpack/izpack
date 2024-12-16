@@ -46,6 +46,7 @@ import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.NoCloseOutputStream;
 import org.apache.commons.io.IOUtils;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
@@ -53,6 +54,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +62,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
+import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 
 /**
@@ -88,11 +91,6 @@ public abstract class PackagerBase implements IPackager
      * The listeners.
      */
     private final PackagerListener listener;
-
-    /**
-     * Executable zipped output stream. First to open, last to close.
-     */
-    private final JarOutputStream installerJar;
 
     /**
      * The merge manager.
@@ -186,25 +184,40 @@ public abstract class PackagerBase implements IPackager
      *
      * @param properties        the properties
      * @param listener          the packager listener
-     * @param installerJar      the installer jar output stream
      * @param mergeManager      the merge manager
      * @param pathResolver      the path resolver
      * @param mergeableResolver the mergeable resolver
      * @param compilerData      the compiler data
      */
-    public PackagerBase(Properties properties, PackagerListener listener, JarOutputStream installerJar,
-                        MergeManager mergeManager, CompilerPathResolver pathResolver,
-                        MergeableResolver mergeableResolver, CompilerData compilerData,
-                        RulesEngine rulesEngine)
+    public PackagerBase(Properties properties, PackagerListener listener, MergeManager mergeManager,
+                        CompilerPathResolver pathResolver, MergeableResolver mergeableResolver,
+                        CompilerData compilerData, RulesEngine rulesEngine)
     {
         this.properties = properties;
         this.listener = listener;
-        this.installerJar = installerJar;
         this.mergeManager = mergeManager;
         this.pathResolver = pathResolver;
         this.mergeableResolver = mergeableResolver;
         this.compilerData = compilerData;
         this.rulesEngine = rulesEngine;
+    }
+
+    static JarOutputStream getJarOutputStream(Path file, CompilerData compilerData) throws IOException {
+        if (compilerData.isMkdirs())
+        {
+            Files.createDirectories(file.getParent());
+        }
+        JarOutputStream jarOutputStream =  new JarOutputStream(new BufferedOutputStream(Files.newOutputStream(file)));
+        int level = compilerData.getComprLevel();
+        if (level >= 0 && level < 10)
+        {
+            jarOutputStream.setLevel(level);
+        }
+        else
+        {
+            jarOutputStream.setLevel(Deflater.BEST_COMPRESSION);
+        }
+        return jarOutputStream;
     }
 
     @Override
@@ -363,15 +376,11 @@ public abstract class PackagerBase implements IPackager
     public final void createInstaller() throws Exception
     {
         info.setInstallerBase(compilerData.getOutput().replaceAll(".jar", ""));
-        try
+        try (JarOutputStream installerJar = getJarOutputStream(Paths.get(compilerData.getOutput()), compilerData))
         {
             sendStart();
-            writeInstaller();
+            writeInstaller(installerJar);
             sendStop();
-        }
-        finally
-        {
-            installerJar.close();
         }
     }
 
@@ -414,25 +423,25 @@ public abstract class PackagerBase implements IPackager
      *
      * @throws IOException for any I/O error
      */
-    protected final void writeInstaller() throws IOException
+    protected final void writeInstaller(JarOutputStream installerJar) throws IOException
     {
         // write the installer jar. MUST be first so manifest is not overwritten by an included jar
         writeManifest();
-        writeSkeletonInstaller();
+        writeSkeletonInstaller(installerJar);
 
-        writeInstallerObject("info", info);
-        writeInstallerObject("vars", properties);
-        writeInstallerObject("ConsolePrefs", consolePrefs);
-        writeInstallerObject("GUIPrefs", guiPrefs);
-        writeInstallerObject("panelsOrder", panelList);
-        writeInstallerObject("customData", customDataList);
-        writeInstallerObject("langpacks.info", langpackNameList);
-        writeInstallerObject("rules", rules);
-        writeInstallerObject("dynvariables", buildVariableList());
-        writeInstallerObject("dynconditions", dynamicInstallerRequirements);
-        writeInstallerObject("installerrequirements", installerRequirements);
+        writeInstallerObject(installerJar, "info", info);
+        writeInstallerObject(installerJar, "vars", properties);
+        writeInstallerObject(installerJar, "ConsolePrefs", consolePrefs);
+        writeInstallerObject(installerJar, "GUIPrefs", guiPrefs);
+        writeInstallerObject(installerJar, "panelsOrder", panelList);
+        writeInstallerObject(installerJar, "customData", customDataList);
+        writeInstallerObject(installerJar, "langpacks.info", langpackNameList);
+        writeInstallerObject(installerJar, "rules", rules);
+        writeInstallerObject(installerJar, "dynvariables", buildVariableList());
+        writeInstallerObject(installerJar, "dynconditions", dynamicInstallerRequirements);
+        writeInstallerObject(installerJar, "installerrequirements", installerRequirements);
 
-        writeInstallerResources();
+        writeInstallerResources(installerJar);
 
         // Pack File Data may be written to separate jars
         writePacks(installerJar);
@@ -458,11 +467,15 @@ public abstract class PackagerBase implements IPackager
     /**
      * Write skeleton installer to the installer jar.
      */
-    protected final void writeSkeletonInstaller()
+    protected final void writeSkeletonInstaller(JarOutputStream installerJar)
     {
         sendMsg("Copying the skeleton installer", PackagerListener.MSG_VERBOSE);
         mergeManager.addResourceToMerge("com/izforge/izpack/installer/");
-        mergeManager.addResourceToMerge("org/picocontainer/");
+        mergeManager.addResourceToMerge("org/jboss/classfilewriter/");
+        mergeManager.addResourceToMerge("org/jboss/jandex/");
+        mergeManager.addResourceToMerge("org/jboss/jdeparser/");
+        mergeManager.addResourceToMerge("org/jboss/logging/");
+        mergeManager.addResourceToMerge("org/jboss/weld/");
         mergeManager.addResourceToMerge("com/izforge/izpack/img/");
         mergeManager.addResourceToMerge("com/izforge/izpack/bin/icons/");
         mergeManager.addResourceToMerge("com/izforge/izpack/api/");
@@ -476,6 +489,10 @@ public abstract class PackagerBase implements IPackager
         mergeManager.addResourceToMerge("com/coi/tools/");
         mergeManager.addResourceToMerge("org/apache/commons/io/");
         mergeManager.addResourceToMerge("jline/");
+        mergeManager.addResourceToMerge("jakarta/annotation/");
+        mergeManager.addResourceToMerge("jakarta/el/");
+        mergeManager.addResourceToMerge("jakarta/enterprise/");
+        mergeManager.addResourceToMerge("jakarta/interceptor/");
         mergeManager.addResourceToMerge("org/fusesource/");
         switch (info.getCompressionFormat())
         {
@@ -496,7 +513,7 @@ public abstract class PackagerBase implements IPackager
      *
      * @throws IOException for any I/O error
      */
-    protected final void writeInstallerObject(String entryName, Object object) throws IOException
+    protected final void writeInstallerObject(JarOutputStream installerJar, String entryName, Object object) throws IOException
     {
         installerJar.putNextEntry(new ZipEntry(RESOURCES_PATH + entryName));
         try (ObjectOutputStream out = new ObjectOutputStream(new NoCloseOutputStream(installerJar)))
@@ -519,7 +536,7 @@ public abstract class PackagerBase implements IPackager
      *
      * @throws IOException for any I/O error
      */
-    protected final void writeInstallerResources() throws IOException
+    protected final void writeInstallerResources(JarOutputStream installerJar) throws IOException
     {
         sendMsg("Copying " + installerResourceURLMap.size() + " files into installer");
 
