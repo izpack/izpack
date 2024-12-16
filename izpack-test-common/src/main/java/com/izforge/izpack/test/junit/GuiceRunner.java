@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
+import com.izforge.izpack.test.ContainerImport;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
@@ -37,7 +38,7 @@ import com.izforge.izpack.api.exception.IzPackException;
  *
  * @author Anthonin Bonnefoy
  */
-public class PicoRunner extends PlatformRunner
+public class GuiceRunner extends PlatformRunner
 {
     private final ClassLoader savedContextClassLoader;
     private final Class<? extends Container> containerClass;
@@ -49,7 +50,7 @@ public class PicoRunner extends PlatformRunner
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(PicoRunner.class.getName());
+    private static final Logger logger = Logger.getLogger(GuiceRunner.class.getName());
 
     /**
      * Creates a {@code PicoRunner} for the given test {@code klass}.
@@ -57,12 +58,12 @@ public class PicoRunner extends PlatformRunner
      * @param testClass The test class which is to be run.
      * @throws InitializationError If an initialization error occurs.
      */
-    public PicoRunner(Class<?> testClass) throws InitializationError
+    public GuiceRunner(Class<?> testClass) throws InitializationError
     {
         super(testClass);
         logger.info("Creating test=" + testClass.getName());
         savedContextClassLoader = Thread.currentThread().getContextClassLoader();
-        containerClass = testClass.getAnnotation(com.izforge.izpack.test.Container.class).value();
+        containerClass = testClass.getAnnotation(ContainerImport.class).value();
     }
 
     @Override
@@ -106,7 +107,7 @@ public class PicoRunner extends PlatformRunner
      * Creates an instance of the test class through a pico container.
      * <p>
      *     This is done by first creating an instance of the container specified
-     *     by the {@link com.izforge.izpack.test.Container} annotation. The test
+     *     by the {@link ContainerImport} annotation. The test
      *     class is then added as component to the container and finally retrieved
      *     through the container. This last step is run on the Event Dispatcher
      *     Thread.

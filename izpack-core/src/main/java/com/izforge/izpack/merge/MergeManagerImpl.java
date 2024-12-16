@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.merge;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.merge.resolve.PathResolver;
 
@@ -37,14 +38,14 @@ import java.util.zip.ZipOutputStream;
 public class MergeManagerImpl implements MergeManager
 {
 
-
     private final List<Mergeable> mergeableList;
     private final PathResolver pathResolver;
 
+    @Inject
     public MergeManagerImpl(PathResolver pathResolver)
     {
         this.pathResolver = pathResolver;
-        mergeableList = new ArrayList<Mergeable>();
+        mergeableList = new ArrayList<>();
     }
 
     @Override

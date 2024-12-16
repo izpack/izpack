@@ -20,6 +20,7 @@
  */
 package com.izforge.izpack.installer.gui;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.data.GUIInstallData;
@@ -41,6 +42,7 @@ public class TestIzPanel extends IzPanel
      * @param installData the installation data
      * @param resources   the resources
      */
+    @Inject
     public TestIzPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
     {
         super(panel, parent, installData, resources);

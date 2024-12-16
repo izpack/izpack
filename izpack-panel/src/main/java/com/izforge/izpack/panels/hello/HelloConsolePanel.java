@@ -21,16 +21,18 @@
 
 package com.izforge.izpack.panels.hello;
 
-import java.util.ArrayList;
-import java.util.Properties;
-
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.installer.console.AbstractConsolePanel;
 import com.izforge.izpack.installer.console.ConsolePanel;
+import com.izforge.izpack.installer.console.ConsolePanelView;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.util.Console;
+
+import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Hello Panel console helper
@@ -45,6 +47,7 @@ public class HelloConsolePanel extends AbstractConsolePanel
      *
      * @param panel the parent panel/view. May be {@code null}
      */
+    @Inject
     public HelloConsolePanel(PanelView<ConsolePanel> panel)
     {
         super(panel);

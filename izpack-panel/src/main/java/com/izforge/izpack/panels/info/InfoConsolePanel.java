@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.info;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
@@ -39,6 +40,7 @@ public class InfoConsolePanel extends XInfoConsolePanel
      * @param resources the resources
      * @param panel     the parent panel/view. May be {@code null}
      */
+    @Inject
     public InfoConsolePanel(Resources resources, PanelView<ConsolePanel> panel)
     {
         super(resources, panel);

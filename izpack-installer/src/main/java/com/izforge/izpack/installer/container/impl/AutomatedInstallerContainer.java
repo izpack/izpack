@@ -22,67 +22,52 @@
 package com.izforge.izpack.installer.container.impl;
 
 
+import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.core.handler.AutomatedPrompt;
 import com.izforge.izpack.installer.automation.AutomatedInstaller;
+import com.izforge.izpack.installer.automation.AutomatedPanels;
 import com.izforge.izpack.installer.console.ConsolePanelAutomationHelper;
 import com.izforge.izpack.installer.container.provider.AutomatedInstallDataProvider;
 import com.izforge.izpack.installer.container.provider.AutomatedPanelsProvider;
 import com.izforge.izpack.installer.multiunpacker.MultiVolumeUnpackerAutomationHelper;
+import com.izforge.izpack.installer.panel.Panels;
 import com.izforge.izpack.installer.unpacker.ConsolePackResources;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
+import com.izforge.izpack.installer.unpacker.PackResources;
 
 /**
  * Installer container for automated installation mode.
  *
  * @author Tim Anderson
  */
-public class AutomatedInstallerContainer extends InstallerContainer
-{
+public class AutomatedInstallerContainer extends InstallerContainer {
 
     /**
      * Constructs a <tt>AutomatedInstallerContainer</tt>.
      *
      * @throws ContainerException if initialisation fails
      */
-    public AutomatedInstallerContainer()
-    {
+    public AutomatedInstallerContainer() {
         initialise();
     }
 
     /**
-     * Constructs a <tt>AutomatedInstallerContainer</tt>.
-     * <p/>
-     * This constructor is provided for testing purposes.
-     *
-     * @param container the underlying container
-     * @throws ContainerException if initialisation fails
-     */
-    protected AutomatedInstallerContainer(MutablePicoContainer container)
-    {
-        initialise(container);
-    }
-
-    /**
      * Registers components with the container.
-     *
-     * @param container the container
      */
     @Override
-    protected void registerComponents(MutablePicoContainer container)
-    {
-        super.registerComponents(container);
+    protected void registerComponents() {
+        super.registerComponents();
 
-        container
-                .addAdapter(new ProviderAdapter(new AutomatedInstallDataProvider()))
-                .addAdapter(new ProviderAdapter(new AutomatedPanelsProvider()));
+        addProvider(InstallData.class, AutomatedInstallDataProvider.class);
+        addProvider(AutomatedInstallData.class, AutomatedInstallDataProvider.class);
+        addProvider(Panels.class, AutomatedPanelsProvider.class);
 
-        container
-                .addComponent(AutomatedPrompt.class)
-                .addComponent(AutomatedInstaller.class)
-                .addComponent(ConsolePanelAutomationHelper.class)
-                .addComponent(ConsolePackResources.class)
-                .addComponent(MultiVolumeUnpackerAutomationHelper.class);
+        addComponent(Prompt.class, AutomatedPrompt.class);
+        addComponent(AutomatedInstaller.class);
+        addComponent(ConsolePanelAutomationHelper.class);
+        addComponent(PackResources.class, ConsolePackResources.class);
+        addComponent(MultiVolumeUnpackerAutomationHelper.class);
     }
 }

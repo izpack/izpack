@@ -16,6 +16,7 @@
 
 package com.izforge.izpack.compiler;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.IXMLWriter;
@@ -89,16 +90,17 @@ import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
+import org.apache.commons.compress.java.util.jar.Pack200;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.*;
-import java.util.jar.Pack200;
 import java.util.logging.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -239,12 +241,21 @@ public class CompilerConfig extends Thread
      *
      * @param compilerData Object containing all information found in command line
      */
-    public CompilerConfig(CompilerData compilerData, VariableSubstitutor variableSubstitutor,
-                          Compiler compiler, XmlCompilerHelper xmlCompilerHelper,
-                          PropertyManager propertyManager, MergeManager mergeManager,
-                          AssertionHelper assertionHelper, RulesEngine rules, CompilerPathResolver pathResolver,
-                          ResourceFinder resourceFinder, ObjectFactory factory, PlatformModelMatcher constraints,
-                          CompilerClassLoader classLoader, Handler handler)
+    @Inject
+    public CompilerConfig(CompilerData compilerData,
+                          VariableSubstitutor variableSubstitutor,
+                          Compiler compiler,
+                          XmlCompilerHelper xmlCompilerHelper,
+                          PropertyManager propertyManager,
+                          MergeManager mergeManager,
+                          AssertionHelper assertionHelper,
+                          RulesEngine rules,
+                          CompilerPathResolver pathResolver,
+                          ResourceFinder resourceFinder,
+                          ObjectFactory factory,
+                          PlatformModelMatcher constraints,
+                          CompilerClassLoader classLoader,
+                          @Nullable Handler handler)
     {
         this.assertionHelper = assertionHelper;
         this.rules = rules;

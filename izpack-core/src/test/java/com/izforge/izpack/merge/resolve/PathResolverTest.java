@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.google.inject.Inject;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsCollectionContaining;
@@ -41,8 +42,8 @@ import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.merge.jar.JarMerge;
-import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.ContainerImport;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.FileUtil;
 
 /**
@@ -50,12 +51,13 @@ import com.izforge.izpack.util.FileUtil;
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
-@Container(TestMergeContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestMergeContainer.class)
 public class PathResolverTest
 {
     private PathResolver pathResolver;
 
+    @Inject
     public PathResolverTest(PathResolver pathResolver)
     {
         this.pathResolver = pathResolver;

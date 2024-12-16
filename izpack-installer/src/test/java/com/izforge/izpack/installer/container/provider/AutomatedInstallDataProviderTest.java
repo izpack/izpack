@@ -100,15 +100,15 @@ public class AutomatedInstallDataProviderTest
         Locales locales = new DefaultLocales(resources, Locale.ENGLISH);
         resources.setLocales(locales);
 
-        AutomatedInstallDataProvider provider = new AutomatedInstallDataProvider();
-
         DefaultVariables variables = new DefaultVariables();
         Housekeeper housekeeper = Mockito.mock(Housekeeper.class);
         PlatformModelMatcher matcher = Mockito.mock(PlatformModelMatcher.class);
         when(matcher.getCurrentPlatform()).thenReturn(Platforms.MANDRAKE_LINUX);
 
         // populate the installation data
-        AutomatedInstallData installData = provider.provide(resources, locales, variables, housekeeper, matcher);
+        AutomatedInstallDataProvider provider = new AutomatedInstallDataProvider(
+                resources, locales, variables, housekeeper, matcher);
+        AutomatedInstallData installData = provider.get();
 
         // verify the expected messages are returned
         Messages messages = installData.getMessages();

@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.core.handler;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.AbstractPrompt;
 import com.izforge.izpack.api.handler.Prompt;
@@ -50,6 +51,7 @@ public class ConsolePrompt extends AbstractPrompt
      * @param console  the console
      * @param installData
      */
+    @Inject
     public ConsolePrompt(Console console, InstallData installData)
     {
         this.console = console;

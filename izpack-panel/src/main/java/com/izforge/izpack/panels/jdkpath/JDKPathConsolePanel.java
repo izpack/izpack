@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.jdkpath;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
@@ -56,6 +57,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
      * @param handler             the registry handler
      * @param panel               the parent panel/view. May be {@code null}
      */
+    @Inject
     public JDKPathConsolePanel(VariableSubstitutor variableSubstitutor, RegistryDefaultHandler handler,
                                PanelView<ConsolePanel> panel, InstallData installData)
     {

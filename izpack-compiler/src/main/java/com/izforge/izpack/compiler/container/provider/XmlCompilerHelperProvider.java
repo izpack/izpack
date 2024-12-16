@@ -19,8 +19,8 @@
 
 package com.izforge.izpack.compiler.container.provider;
 
-import org.picocontainer.injectors.Provider;
-
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.izforge.izpack.compiler.helper.AssertionHelper;
 import com.izforge.izpack.compiler.helper.XmlCompilerHelper;
 
@@ -29,10 +29,19 @@ import com.izforge.izpack.compiler.helper.XmlCompilerHelper;
  *
  * @author Anthonin Bonnefoy
  */
-public class XmlCompilerHelperProvider implements Provider
+public class XmlCompilerHelperProvider implements Provider<XmlCompilerHelper>
 {
 
-    public XmlCompilerHelper provide(String installFile, AssertionHelper assertionHelper)
+    private final AssertionHelper assertionHelper;
+
+    @Inject
+    public XmlCompilerHelperProvider(AssertionHelper assertionHelper)
+    {
+        this.assertionHelper = assertionHelper;
+    }
+
+    @Override
+    public XmlCompilerHelper get()
     {
         return new XmlCompilerHelper(assertionHelper);
     }

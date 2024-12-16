@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.finish;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.Prompt;
@@ -60,6 +61,7 @@ public class FinishConsolePanel extends AbstractConsolePanel
      *
      * @param panel the parent panel/view. May be {@code null}
      */
+    @Inject
     public FinishConsolePanel(final ObjectFactory factory, ConsoleInstaller parent, final PlatformModelMatcher matcher,
             UninstallData uninstallData, Prompt prompt, PanelView<ConsolePanel> panel)
     {

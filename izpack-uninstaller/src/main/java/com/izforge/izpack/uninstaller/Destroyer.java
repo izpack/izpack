@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.uninstaller.event.UninstallerListeners;
@@ -98,6 +99,7 @@ public class Destroyer implements Runnable
      * @param listeners the uninstaller listeners
      * @param prompt    the prompt
      */
+    @Inject
     public Destroyer(InstallLog log, UninstallerListeners listeners,
                      Executables executables, RootScripts rootScripts, Prompt prompt)
     {

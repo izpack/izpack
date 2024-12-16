@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.uninstaller.resource;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
@@ -68,6 +69,7 @@ public class RootScripts
      * @param platform  the current platform
      * @throws IzPackException if the root scripts cannot be read
      */
+    @Inject
     public RootScripts(Resources resources, Platform platform)
     {
         if (platform.isA(Platform.Name.UNIX))

@@ -35,10 +35,10 @@ import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
 import com.izforge.izpack.integration.UninstallHelper;
 import com.izforge.izpack.integration.console.AbstractConsoleInstallationTest;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.Platforms;
@@ -70,9 +70,9 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@RunWith(GuiceRunner.class)
 @RunOn(WINDOWS)
-@Container(TestConsoleInstallationContainer.class)
+@ContainerImport(TestConsoleInstallationContainer.class)
 public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationTest
 {
     /**

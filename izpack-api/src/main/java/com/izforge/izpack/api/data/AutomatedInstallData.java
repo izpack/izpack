@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.api.data;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -146,6 +147,7 @@ public class AutomatedInstallData implements InstallData
      * @param variables the variables
      * @param platform  the platform
      */
+    @Inject
     public AutomatedInstallData(Variables variables, Platform platform)
     {
         this.variables = variables;

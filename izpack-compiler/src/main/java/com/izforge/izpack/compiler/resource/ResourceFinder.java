@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.compiler.resource;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.exception.CompilerException;
@@ -43,6 +44,7 @@ public class ResourceFinder
     private PropertyManager propertyManager;
     private XmlCompilerHelper xmlCompilerHelper;
 
+    @Inject
     public ResourceFinder(AssertionHelper assertionHelper, CompilerData compilerData, PropertyManager propertyManager,
                           XmlCompilerHelper xmlCompilerHelper)
     {

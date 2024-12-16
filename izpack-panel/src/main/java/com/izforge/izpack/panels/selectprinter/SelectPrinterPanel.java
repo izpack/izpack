@@ -38,6 +38,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -68,6 +69,7 @@ public class SelectPrinterPanel extends IzPanel implements ActionListener
      * @param installData the installation data
      * @param resources   the resources
      */
+    @Inject
     public SelectPrinterPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources)
     {
         super(panel, parent, installData, resources);

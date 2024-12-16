@@ -1,9 +1,7 @@
 package com.izforge.izpack.compiler.container;
 
-import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
-
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
+import org.junit.runners.model.FrameworkMethod;
 
 /**
  * Container for integration testing
@@ -15,14 +13,14 @@ public class TestGUIInstallationContainer extends AbstractTestInstallationContai
 
     public TestGUIInstallationContainer(Class klass, FrameworkMethod frameworkMethod)
     {
-        super(klass, frameworkMethod);
+        super(klass, frameworkMethod, false);
         initialise();
     }
 
     @Override
-    protected InstallerContainer fillInstallerContainer(MutablePicoContainer container)
+    protected InstallerContainer fillInstallerContainer()
     {
-        return new TestGUIInstallerContainer(container);
+        return new TestGUIInstallerContainer();
     }
 
 }

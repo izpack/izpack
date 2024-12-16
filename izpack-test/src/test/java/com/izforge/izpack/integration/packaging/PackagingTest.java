@@ -50,9 +50,9 @@ import com.izforge.izpack.installer.unpacker.Unpacker;
 import com.izforge.izpack.integration.AbstractInstallationTest;
 import com.izforge.izpack.integration.HelperTestMethod;
 import com.izforge.izpack.matcher.ZipMatcher;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 
 
 /**
@@ -60,8 +60,8 @@ import com.izforge.izpack.test.junit.PicoRunner;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@Container(TestGUIInstallationContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class PackagingTest extends AbstractInstallationTest
 {
     /**

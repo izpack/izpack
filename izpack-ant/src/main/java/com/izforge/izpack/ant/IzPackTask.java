@@ -37,16 +37,11 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * A IzPack Ant task.
@@ -202,6 +197,7 @@ public class IzPackTask extends Task implements PackagerListener
      *
      * @throws BuildException Description of the Exception
      */
+    @Override
     public void execute() throws org.apache.tools.ant.BuildException
     {
         checkInput();
@@ -247,20 +243,22 @@ public class IzPackTask extends Task implements PackagerListener
 
     }
 
-    private URL[] getUrlsForClassloader() throws IOException
+    URL[] getUrlsForClassloader() throws IOException
     {
-        Collection<URL> result = new HashSet<URL>();
         ClassLoader currentLoader = getClass().getClassLoader();
-        Enumeration<URL> urlEnumeration = currentLoader.getResources("");
-        result.addAll(Collections.list(urlEnumeration));
-        urlEnumeration = currentLoader.getResources("META-INF/");
-        while (urlEnumeration.hasMoreElements())
-        {
-            URL url = urlEnumeration.nextElement();
-            result.add(ResolveUtils.processUrlToJarUrl(url));
-        }
-        URL[] urlArray = new URL[result.size()];
-        return result.toArray(urlArray);
+
+        Set<URL> result = new LinkedHashSet<>();
+        result.addAll(currentLoader.resources("").collect(Collectors.toSet()));
+        result.addAll(findDependencies(currentLoader,"META-INF/"));
+        result.addAll(findDependencies(currentLoader,"com/google/"));
+        result.addAll(findDependencies(currentLoader,"jakarta/inject/"));
+        return result.toArray(new URL[0]);
+    }
+
+    private Set<URL> findDependencies(ClassLoader currentLoader, String name) {
+        return currentLoader.resources(name)
+                .map(ResolveUtils::processUrlToJarUrl)
+                .collect(Collectors.toSet());
     }
 
     private void checkInput()

@@ -21,34 +21,32 @@
 
 package com.izforge.izpack.core.container;
 
-
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
-import org.picocontainer.injectors.Provider;
-
-import java.util.logging.Logger;
-
 
 /**
  * Injection provider for the current {@link Platform}.
  *
  * @author Tim Anderson
  */
-public class PlatformProvider implements Provider
+public class PlatformProvider implements Provider<Platform>
 {
+    private final Platforms platforms;
 
-    /**
-     * The logger.
-     */
-    private static final Logger logger = Logger.getLogger(PlatformProvider.class.getName());
+    @Inject
+    public PlatformProvider(Platforms platforms)
+    {
+        this.platforms = platforms;
+    }
 
     /**
      * Provides the current platform.
-     *
-     * @param platforms the platform factory
      * @return the current platform
      */
-    public Platform provide(Platforms platforms)
+    @Override
+    public Platform get()
     {
         return platforms.getCurrentPlatform();
     }

@@ -22,6 +22,8 @@
 
 package com.izforge.izpack.api.container;
 
+import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
 
@@ -32,24 +34,8 @@ import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
  */
-public interface Container
+public interface Container extends ContainerConfigurer
 {
-    /**
-     * Register a component type.
-     *
-     * @param componentType the component type
-     * @throws ContainerException if registration fails
-     */
-    <T> void addComponent(Class<T> componentType);
-
-    /**
-     * Register a component.
-     *
-     * @param componentKey   the component identifier. This must be unique within the container
-     * @param implementation the component implementation
-     * @throws ContainerException if registration fails
-     */
-    void addComponent(Object componentKey, Object implementation);
 
     /**
      * Retrieve a component by its component type.
@@ -67,11 +53,11 @@ public interface Container
      * <p/>
      * If the component type is registered but an instance does not exist, then it will be created.
      *
-     * @param componentKeyOrType the key or type of the component
+     * @param key the key of the component
      * @return the corresponding object instance, or <tt>null</tt> if it does not exist
      * @throws ContainerException if component creation fails
      */
-    Object getComponent(Object componentKeyOrType);
+    <T> T getComponent(String key, Class<T> type);
 
     /**
      * Creates a child container.
@@ -100,15 +86,4 @@ public interface Container
      * Disposes of the container and all of its child containers.
      */
     void dispose();
-
-    /**
-     * Returns a class given its name.
-     *
-     * @param className the class name
-     * @param superType the super type
-     * @return the corresponding class
-     * @throws ClassCastException           if <tt>className</tt> does not implement or extend <tt>superType</tt>
-     * @throws IzPackClassNotFoundException if the class cannot be found
-     */
-    <T> Class<T> getClass(String className, Class<T> superType);
 }

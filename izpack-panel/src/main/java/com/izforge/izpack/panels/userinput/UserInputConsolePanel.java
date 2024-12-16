@@ -21,7 +21,9 @@
 
 package com.izforge.izpack.panels.userinput;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.config.Options;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -40,7 +42,6 @@ import com.izforge.izpack.panels.userinput.field.FieldHelper;
 import com.izforge.izpack.panels.userinput.field.UserInputPanelSpec;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.util.PlatformModelMatcher;
-import com.izforge.izpack.api.config.Options;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -114,6 +115,7 @@ public class UserInputConsolePanel extends AbstractConsolePanel
      * @param panelView     the parent panel/view
      * @param installData   the install data
      */
+    @Inject
     public UserInputConsolePanel(Resources resources, ObjectFactory factory,
                                  RulesEngine rules, PlatformModelMatcher matcher, Console console, Prompt prompt,
                                  PanelView<ConsolePanel> panelView, InstallData installData)

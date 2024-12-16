@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.core.rules.process;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.rules.Condition;
@@ -38,6 +39,7 @@ public class RefCondition extends ConditionReference
 
     private String referencedConditionId;
 
+    @Inject
     public RefCondition(RulesEngine rules)
     {
         this.rules = rules;

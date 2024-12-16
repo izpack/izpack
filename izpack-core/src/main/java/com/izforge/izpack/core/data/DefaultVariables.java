@@ -43,7 +43,6 @@ import java.util.logging.Logger;
  */
 public class DefaultVariables implements Variables
 {
-
     /**
      * The variables.
      */

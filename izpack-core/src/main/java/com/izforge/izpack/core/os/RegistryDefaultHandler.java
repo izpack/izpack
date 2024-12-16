@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.core.os;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.util.TargetFactory;
 
 import java.util.logging.Level;
@@ -60,6 +61,7 @@ public class RegistryDefaultHandler
      *
      * @param factory the factory for creating {@link RegistryHandler} instances for the current platform
      */
+    @Inject
     public RegistryDefaultHandler(TargetFactory factory)
     {
         this.factory = factory;

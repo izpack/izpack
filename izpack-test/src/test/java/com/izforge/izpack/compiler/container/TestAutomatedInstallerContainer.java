@@ -22,12 +22,10 @@
 package com.izforge.izpack.compiler.container;
 
 import com.izforge.izpack.api.data.ConsolePrefs;
+import com.izforge.izpack.installer.automation.PanelAutomationHelper;
 import com.izforge.izpack.installer.console.TestConsolePrefsProvider;
 import com.izforge.izpack.installer.container.impl.AutomatedInstallerContainer;
 import com.izforge.izpack.test.util.TestHousekeeper;
-import com.izforge.izpack.util.Housekeeper;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
 
 
 /**
@@ -45,27 +43,13 @@ public class TestAutomatedInstallerContainer extends AutomatedInstallerContainer
     }
 
     /**
-     * Constructs a <tt>TestAutomatedInstallerContainer</tt>.
-     *
-     * @param container the container to use
-     */
-    public TestAutomatedInstallerContainer(MutablePicoContainer container)
-    {
-        super(container);
-    }
-
-    /**
      * Registers components with the container.
-     *
-     * @param container the container
      */
     @Override
-    protected void registerComponents(MutablePicoContainer container)
+    protected void registerComponents()
     {
-        super.registerComponents(container);
-        container.removeComponent(ConsolePrefs.class);
-        container.addAdapter(new ProviderAdapter(new TestConsolePrefsProvider()));
-        container.removeComponent(Housekeeper.class);
-        container.addComponent(TestHousekeeper.class);
+        super.registerComponents();
+        addProvider(ConsolePrefs.class, TestConsolePrefsProvider.class);
+        addComponent(TestHousekeeper.class);
     }
 }

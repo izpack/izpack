@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.panels.pdflicence;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -71,6 +72,7 @@ public class PDFLicencePanel extends AbstractLicencePanel implements ActionListe
 	 * @param log
 	 *            the log
 	 */
+	@Inject
 	public PDFLicencePanel(Panel panel, final InstallerFrame parent, GUIInstallData installData, Resources resources,
 			Log log)
 	{

@@ -21,7 +21,10 @@
 
 package com.izforge.izpack.installer.console;
 
+import com.google.inject.Inject;
+import com.google.inject.TypeLiteral;
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.container.ContainerConfigurer;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -30,6 +33,7 @@ import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.core.handler.PromptUIHandler;
 import com.izforge.izpack.installer.panel.AbstractPanelView;
+import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.util.Console;
 
@@ -60,6 +64,7 @@ public class ConsolePanelView extends AbstractPanelView<ConsolePanel>
      * @param factory     the factory for creating the view
      * @param installData the installation data
      */
+    @Inject
     public ConsolePanelView(Panel panel, ObjectFactory factory, InstallData installData, Console console)
     {
         super(panel, ConsolePanel.class, factory, installData);
@@ -93,7 +98,10 @@ public class ConsolePanelView extends AbstractPanelView<ConsolePanel>
         {
             throw new IzPackException("Console implementation not found for panel: " + panel.getClassName());
         }
-        return getFactory().create(impl, panel, this);
+        return getFactory().create(impl, (configurer) -> {
+            configurer.addComponent(panel);;
+            configurer.addComponent(new TypeLiteral<PanelView<ConsolePanel>>() {}, this);
+        });
     }
 
     /**
@@ -120,4 +128,8 @@ public class ConsolePanelView extends AbstractPanelView<ConsolePanel>
         getView().createInstallationRecord(panelRoot);
     }
 
+    @Override
+    protected void addPanelView(ContainerConfigurer configurer, PanelView<ConsolePanel> panelView) {
+        configurer.addComponent(new TypeLiteral<PanelView<ConsolePanel>>() {}, this);
+    }
 }

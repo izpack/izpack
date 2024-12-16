@@ -160,6 +160,8 @@ public interface InstallData
      */
     RulesEngine getRules();
 
+    void setRules(RulesEngine rules);
+
     /**
      * Returns the current locale.
      *

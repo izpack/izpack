@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.simplefinish;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.finish.FinishConsolePanel;
@@ -38,6 +39,7 @@ public class SimpleFinishConsolePanel extends FinishConsolePanel
      *
      * @param panel the parent panel/view. May be {@code null}
      */
+    @Inject
     public SimpleFinishConsolePanel(PanelView<ConsolePanel> panel)
     {
         super(panel);

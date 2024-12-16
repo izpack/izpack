@@ -24,6 +24,8 @@ package com.izforge.izpack.installer.container.provider;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
+import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -40,22 +42,35 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Tim Anderson
  */
-public class ConsolePanelsProvider extends PanelsProvider
+public class ConsolePanelsProvider extends PanelsProvider<ConsolePanels>
 {
+    private final ObjectFactory factory;
+    private final Container container;
+    private final AutomatedInstallData installData;
+    private final Console console;
+    private final PlatformModelMatcher matcher;
+
+    @Inject
+    public ConsolePanelsProvider(ObjectFactory factory,
+                                 Container container,
+                                 AutomatedInstallData installData,
+                                 Console console,
+                                 PlatformModelMatcher matcher) {
+        this.factory = factory;
+        this.container = container;
+        this.installData = installData;
+        this.console = console;
+        this.matcher = matcher;
+    }
 
     /**
      * Creates the panels.
      * <p/>
      * This invokes any pre-construction actions associated with them.
      *
-     * @param factory     the factory
-     * @param installData the installation data
-     * @param console     the console
-     * @param matcher     the platform-model matcher
      * @throws IzPackException if a panel doesn't have unique identifier
      */
-    public ConsolePanels provide(ObjectFactory factory, InstallerContainer container, AutomatedInstallData installData, Console console,
-                                 PlatformModelMatcher matcher)
+    public ConsolePanels get()
     {
         List<ConsolePanelView> panels = new ArrayList<ConsolePanelView>();
 

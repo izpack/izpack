@@ -31,9 +31,9 @@ import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.matcher.ZipMatcher;
-import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.ContainerImport;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import com.izforge.izpack.util.IoHelper;
 import org.hamcrest.core.IsNot;
 import org.junit.After;
@@ -63,8 +63,8 @@ import static org.junit.Assert.assertTrue;
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@Container(TestGUIInstallationContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestGUIInstallationContainer.class)
 public class UninstallDataWriterTest
 {
     /**

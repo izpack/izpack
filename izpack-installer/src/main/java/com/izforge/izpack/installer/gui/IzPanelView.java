@@ -21,12 +21,15 @@
 
 package com.izforge.izpack.installer.gui;
 
+import com.google.inject.TypeLiteral;
 import com.izforge.izpack.api.adaptator.IXMLElement;
+import com.izforge.izpack.api.container.ContainerConfigurer;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.installer.panel.AbstractPanelView;
+import com.izforge.izpack.installer.panel.PanelView;
 
 import java.awt.*;
 
@@ -123,5 +126,10 @@ public class IzPanelView extends AbstractPanelView<IzPanel>
     public void createInstallationRecord(IXMLElement panelRoot)
     {
         getView().createInstallationRecord(panelRoot);
+    }
+
+    @Override
+    protected void addPanelView(ContainerConfigurer configurer, PanelView<IzPanel> panelView) {
+        configurer.addComponent(new TypeLiteral<PanelView<IzPanel>>() {}, this);
     }
 }

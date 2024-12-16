@@ -22,6 +22,7 @@ package com.izforge.izpack.panels.checkedhello;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
@@ -73,6 +74,7 @@ public class CheckedHelloPanel extends HelloPanel
      * @param log         the log
      * @throws Exception if it cannot be determined if the application is registered
      */
+    @Inject
     public CheckedHelloPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources,
                              RegistryDefaultHandler handler, Log log) throws Exception
     {

@@ -19,23 +19,22 @@
 
 package com.izforge.izpack.compiler.bootstrap;
 
+import com.google.inject.Inject;
+import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.compiler.Compiler;
 import com.izforge.izpack.compiler.CompilerConfig;
 import com.izforge.izpack.compiler.container.CompilerContainer;
 import com.izforge.izpack.compiler.data.CompilerData;
-import com.izforge.izpack.compiler.logging.MavenStyleLogFormatter;
 import com.izforge.izpack.compiler.packager.impl.AbstractPackagerTest;
-import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.ContainerImport;
+import com.izforge.izpack.test.junit.GuiceRunner;
 import org.hamcrest.core.IsNull;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Properties;
 import java.util.jar.JarOutputStream;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -44,21 +43,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
-@Container(CompilerContainer.class)
+@RunWith(GuiceRunner.class)
+@ContainerImport(TestCompilerLauncherContainer.class)
 public class CompilerLauncherTest
 {
-    private final CompilerContainer compilerContainer;
+    private final Container compilerContainer;
 
-    public CompilerLauncherTest(CompilerContainer compilerContainer)
+    @Inject
+    public CompilerLauncherTest(Container compilerContainer)
     {
-        final ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(Level.INFO);
-        consoleHandler.setFormatter(new MavenStyleLogFormatter());
-        compilerContainer.addComponent(Handler.class, consoleHandler);
-
         this.compilerContainer = compilerContainer;
+    }
 
+    @After
+    public void tearDown()
+    {
+        TestCompilerDataProvider.reset();
     }
 
     @Test
@@ -72,13 +72,11 @@ public class CompilerLauncherTest
     public void testJarOutputStream() throws Exception
     {
         String baseDir = AbstractPackagerTest.getBaseDir().getPath();
-        compilerContainer.addComponent(CompilerData.class,
-                new CompilerData(
+        TestCompilerDataProvider.compilerData = new CompilerData(
                         baseDir + "src/test/resources/bindingTest.xml",
                         "",
                         baseDir + "/target/output.jar",
-                        true)
-        );
+                        true);
         JarOutputStream jarOutputStream = compilerContainer.getComponent(JarOutputStream.class);
         assertThat(jarOutputStream, IsNull.notNullValue());
     }
@@ -86,7 +84,8 @@ public class CompilerLauncherTest
     @Test
     public void testCompilerBinding() throws Exception
     {
-        compilerContainer.processCompileDataFromArgs(new String[]{"bindingTest.xml"});
+        TestCompilerDataProvider.args = new String[]{"bindingTest.xml"};
+
         Compiler compiler = compilerContainer.getComponent(Compiler.class);
         assertThat(compiler, IsNull.notNullValue());
     }
@@ -96,13 +95,11 @@ public class CompilerLauncherTest
     {
         String baseDir = AbstractPackagerTest.getBaseDir().getPath();
 
-        compilerContainer.addComponent(CompilerData.class,
-                new CompilerData(
+        TestCompilerDataProvider.compilerData = new CompilerData(
                         baseDir + "src/test/resources/bindingTest.xml",
                         "",
                         baseDir + "/target/output.jar",
-                        false)
-        );
+                        false);
         CompilerData data = compilerContainer.getComponent(CompilerData.class);
         assertThat(data, IsNull.notNullValue());
     }
@@ -110,7 +107,7 @@ public class CompilerLauncherTest
     @Test
     public void testCompilerConfigBinding() throws Exception
     {
-        compilerContainer.processCompileDataFromArgs(new String[]{"bindingTest.xml"});
+        TestCompilerDataProvider.args = new String[]{"bindingTest.xml"};
         CompilerData data = compilerContainer.getComponent(CompilerData.class);
         assertThat(data, IsNull.notNullValue());
         CompilerConfig compiler = compilerContainer.getComponent(CompilerConfig.class);

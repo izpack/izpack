@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.panels.target;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
@@ -51,6 +52,7 @@ public class TargetConsolePanel extends PathInputConsolePanel implements Console
      *
      * @param panel the parent panel/view. May be {@code null}
      */
+    @Inject
     public TargetConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
     {
         super(panel, PANEL_NAME, installData, prompt);

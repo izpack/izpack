@@ -21,6 +21,9 @@
 package com.izforge.izpack.util;
 
 import com.izforge.izpack.api.container.Container;
+import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.factory.ObjectFactory;
+import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.core.container.PlatformProvider;
 import com.izforge.izpack.core.data.DefaultVariables;
@@ -35,8 +38,6 @@ import com.izforge.izpack.util.os.Win_RegistryHandler;
 import com.izforge.izpack.util.os.Win_Shortcut;
 import org.junit.Before;
 import org.junit.Test;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
 
 import java.util.Properties;
 
@@ -71,20 +72,20 @@ public class InstallerTargetPlatformFactoryTest
             }
 
             @Override
-            protected void fillContainer(MutablePicoContainer container)
+            protected void fillContainer()
             {
                 addComponent(Properties.class);
-                addComponent(DefaultVariables.class);
-                addComponent(ResourceManager.class);
-                addComponent(InstallData.class);
+                addComponent(Variables.class, DefaultVariables.class);
+                addComponent(Resources.class, ResourceManager.class);
+                addComponent(com.izforge.izpack.api.data.InstallData.class, InstallData.class);
                 addComponent(TestLibrarian.class);
                 addComponent(Housekeeper.class);
                 addComponent(TargetFactory.class);
-                addComponent(DefaultObjectFactory.class);
-                addComponent(DefaultTargetPlatformFactory.class);
+                addComponent(ObjectFactory.class, DefaultObjectFactory.class);
+                addComponent(TargetPlatformFactory.class, DefaultTargetPlatformFactory.class);
                 addComponent(Platforms.class);
                 addComponent(Container.class, this);
-                container.addAdapter(new ProviderAdapter(new PlatformProvider()));
+                addProvider(Platform.class, PlatformProvider.class);
             }
         };
         factory = container.getComponent(TargetPlatformFactory.class);

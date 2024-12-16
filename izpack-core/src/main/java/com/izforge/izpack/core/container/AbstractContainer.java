@@ -22,15 +22,17 @@
 
 package com.izforge.izpack.core.container;
 
-import org.picocontainer.Characteristics;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoBuilder;
-import org.picocontainer.PicoException;
-
+import com.google.inject.*;
+import com.google.inject.Module;
+import com.google.inject.binder.AnnotatedBindingBuilder;
+import com.google.inject.name.Names;
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
-import com.izforge.izpack.api.exception.IzPackException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 
 /**
@@ -39,39 +41,49 @@ import com.izforge.izpack.api.exception.IzPackException;
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
  */
-public abstract class AbstractContainer implements Container
-{
+public abstract class AbstractContainer implements Container {
 
     /**
      * The underlying container.
      */
-    private MutablePicoContainer container;
-
+    private final List<Module> modules = new ArrayList<>();
+    private Injector parent;
+    private Injector injector;
 
     /**
      * Constructs an <tt>AbstractContainer</tt>.
      * <p/>
      * The container must be initialised via {@link #initialise()} before use.
      */
-    public AbstractContainer()
-    {
-        this(null);
+    public AbstractContainer() {
+        this(null, true);
+    }
+
+    public AbstractContainer(boolean fillContainer) {
+        this(null, fillContainer);
+    }
+
+    public List<Module> getModules() {
+        return modules;
+    }
+
+    public void addModules(List<Module> modules) {
+        this.modules.addAll(modules);
     }
 
     /**
      * Constructs an <tt>AbstractContainer</tt>.
      * <p/>
-     * If a container is provided, {@link #initialise(MutablePicoContainer)} will be invoked. Subclasses should only
+     * If a container is provided, {@link #initialise()} will be invoked. Subclasses should only
      * provide a container if they don't require their constructor to complete before <tt>initialise</tt> is called.
      *
-     * @param container the underlying container. May be <tt>null</tt>
+     * @param parent the underlying container. May be <tt>null</tt>
      * @throws ContainerException if initialisation fails
      */
-    public AbstractContainer(MutablePicoContainer container)
-    {
-        if (container != null)
-        {
-            initialise(container);
+    private AbstractContainer(Injector parent, boolean fillContainer) {
+        this.parent = parent;
+        if (fillContainer) {
+            initialise();
         }
     }
 
@@ -82,16 +94,23 @@ public abstract class AbstractContainer implements Container
      * @throws ContainerException if registration fails
      */
     @Override
-    public <T> void addComponent(Class<T> componentType)
-    {
-        try
-        {
-            container.as(Characteristics.USE_NAMES).addComponent(componentType);
-        }
-        catch (PicoException exception)
-        {
-            throw new ContainerException(exception);
-        }
+    public <T> void addComponent(Class<T> componentType) {
+        addSimpleModule(componentType, binder -> binder.in(Scopes.SINGLETON));
+    }
+
+    @Override
+    public <T> void addComponent(T component) {
+        addSimpleModule((Class<T>) component.getClass(), binder -> binder.toInstance(component));
+    }
+
+    @Override
+    public <T, U extends T> void addProvider(Class<T> type, Class<? extends Provider<U>> provider) {
+        addSimpleModule(type, binder -> binder.toProvider(provider).in(Scopes.SINGLETON));
+    }
+
+    @Override
+    public <T, U extends T> void addProvider(Class<T> type, Provider<U> provider) {
+        addSimpleModule(type, binder -> binder.toProvider(provider));
     }
 
     /**
@@ -102,16 +121,63 @@ public abstract class AbstractContainer implements Container
      * @throws ContainerException if registration fails
      */
     @Override
-    public void addComponent(Object componentKey, Object implementation)
-    {
-        try
-        {
-            container.addComponent(componentKey, implementation);
+    public <T, U extends T> void addComponent(Class<T> componentKey, Class<U> implementation) {
+        addSimpleModule(componentKey, binder -> binder.to(implementation).in(Scopes.SINGLETON));
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(TypeLiteral<T> componentKey, Class<U> implementation) {
+        addTypeLiteralModule(componentKey, binder -> binder.to(implementation).in(Scopes.SINGLETON));
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(TypeLiteral<T> componentKey, U implementation) {
+        addTypeLiteralModule(componentKey, binder -> binder.toInstance(implementation));
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(Class<T> componentKey, U implementation) {
+        addSimpleModule(componentKey, binder -> binder.toInstance(implementation));
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(String componentKey, Class<T> type, U implementation) {
+        addSimpleModule(type, binder -> binder
+                .annotatedWith(Names.named(componentKey))
+                .toInstance(implementation));
+    }
+
+    @Override
+    public <T, U extends T> void addComponent(String componentKey, Class<T> type, Class<U> implementation) {
+        addSimpleModule(type, binder -> binder
+                .annotatedWith(Names.named(componentKey))
+                .to(implementation)
+                .in(Scopes.SINGLETON));
+    }
+
+    private <T> void addSimpleModule(Class<T> componentKey, Consumer<AnnotatedBindingBuilder<T>> mapper) {
+        flushInjector();
+        this.modules.add(new SimpleModule<T>(componentKey, mapper));
+    }
+
+    private <T> void addTypeLiteralModule(TypeLiteral<T> typeLiteral, Consumer<AnnotatedBindingBuilder<T>> mapper) {
+        flushInjector();
+        this.modules.add(new TypeLiteralModule<T>(typeLiteral, mapper));
+    }
+
+    private void flushInjector() {
+        if (injector != null) {
+            parent = injector;
+            modules.clear();
+            injector = null;
         }
-        catch (PicoException exception)
-        {
-            throw new ContainerException(exception);
-        }
+    }
+
+    // For test only
+    public <T> void removeComponent(Class<T> type) {
+        modules.removeIf(module ->
+                module instanceof SimpleModule && ((SimpleModule<?>) module).componentKey.equals(type)
+        );
     }
 
     /**
@@ -124,16 +190,8 @@ public abstract class AbstractContainer implements Container
      * @throws ContainerException if component creation fails
      */
     @Override
-    public <T> T getComponent(Class<T> componentType)
-    {
-        try
-        {
-            return container.getComponent(componentType);
-        }
-        catch (PicoException exception)
-        {
-            throw new ContainerException(exception);
-        }
+    public <T> T getComponent(Class<T> componentType) {
+        return getInjector().getInstance(componentType);
     }
 
     /**
@@ -141,40 +199,24 @@ public abstract class AbstractContainer implements Container
      * <p/>
      * If the component type is registered but an instance does not exist, then it will be created.
      *
-     * @param componentKeyOrType the key or type of the component
+     * @param key the key or type of the component
      * @return the corresponding object instance, or <tt>null</tt> if it does not exist
      * @throws ContainerException if component creation fails
      */
     @Override
-    public Object getComponent(Object componentKeyOrType)
-    {
-        try
-        {
-            return container.getComponent(componentKeyOrType);
-        }
-        catch (PicoException exception)
-        {
-            throw new ContainerException(exception);
-        }
+    public <T> T getComponent(String key, Class<T> type) {
+        return getInjector().getInstance(Key.get(type, Names.named(key)));
     }
 
-    /**
-     * Register a config item.
-     *
-     * @param name  the name of the config item
-     * @param value the value of the config item
-     * @throws ContainerException if registration fails
-     */
-    public void addConfig(String name, Object value)
-    {
-        try
-        {
-            container.addConfig(name, value);
+    private Injector getInjector() {
+        if (injector == null) {
+            if (parent != null) {
+                injector = parent.createChildInjector(modules);
+            } else {
+                injector = Guice.createInjector(modules);
+            }
         }
-        catch (IzPackException exception)
-        {
-            throw new ContainerException(exception);
-        }
+        return injector;
     }
 
     /**
@@ -191,18 +233,8 @@ public abstract class AbstractContainer implements Container
      * @throws ContainerException if creation fails
      */
     @Override
-    public Container createChildContainer()
-    {
-        try
-        {
-            // TODO - dispose() won't be invoked on the Container, just the MutablePicoContainer.
-            // not an issue for now
-            return new ChildContainer(container);
-        }
-        catch (PicoException exception)
-        {
-            throw new ContainerException(exception);
-        }
+    public Container createChildContainer() {
+        return new ChildContainer(getInjector());
     }
 
     /**
@@ -212,14 +244,9 @@ public abstract class AbstractContainer implements Container
      * @return <tt>true</tt> if the container was removed
      */
     @Override
-    public boolean removeChildContainer(Container child)
-    {
-        boolean removed = false;
-        if (child instanceof AbstractContainer)
-        {
-            removed = container.removeChildContainer(((AbstractContainer) child).container);
-        }
-        return removed;
+    public boolean removeChildContainer(Container child) {
+        // Not supported by Guice
+        return false;
     }
 
 
@@ -227,9 +254,9 @@ public abstract class AbstractContainer implements Container
      * Disposes of the container and all of its child containers.
      */
     @Override
-    public void dispose()
-    {
-        container.dispose();
+    public void dispose() {
+        modules.clear();
+        injector = null;
     }
 
     /**
@@ -243,30 +270,24 @@ public abstract class AbstractContainer implements Container
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <T> Class<T> getClass(String className, Class<T> superType)
-    {
+    public <T> Class<T> getClass(String className, Class<T> superType) {
         @SuppressWarnings("rawtypes")
-		Class type;
-        try
-        {
+        Class type;
+        try {
             // Using the superclass class loader to load the child to avoid multiple copies of the superclass being
             // loaded in separate class loaders. This is typically an issue during testing where
             // the same classes may be loaded twice - once by maven, and once by the installer.
             ClassLoader classLoader = superType.getClassLoader();
-            if (classLoader == null)
-            {
+            if (classLoader == null) {
                 // may be null for bootstrap class loader
                 classLoader = getClass().getClassLoader();
             }
             type = classLoader.loadClass(className);
-            if (!superType.isAssignableFrom(type))
-            {
+            if (!superType.isAssignableFrom(type)) {
                 throw new ClassCastException("Class '" + type.getName() + "' does not implement "
-                                                     + superType.getName());
+                        + superType.getName());
             }
-        }
-        catch (ClassNotFoundException exception)
-        {
+        } catch (ClassNotFoundException exception) {
             throw new IzPackClassNotFoundException(className, exception);
         }
         return (Class<T>) type;
@@ -279,38 +300,11 @@ public abstract class AbstractContainer implements Container
      *
      * @throws ContainerException if initialisation fails, or the container has already been initialised
      */
-    protected void initialise()
-    {
-        initialise(createContainer());
-    }
-
-    /**
-     * Initialises the container.
-     * <p/>
-     * This must only be invoked once.
-     *
-     * @param container the container
-     * @throws ContainerException if initialisation fails, or the container has already been initialised
-     */
-    protected void initialise(MutablePicoContainer container)
-    {
-        if (this.container != null)
-        {
+    protected void initialise() {
+        if (this.injector != null) {
             throw new ContainerException("Container already initialised");
         }
-        this.container = container;
-        try
-        {
-            fillContainer(container);
-        }
-        catch (ContainerException exception)
-        {
-            throw exception;
-        }
-        catch (Exception exception)
-        {
-            throw new ContainerException(exception);
-        }
+        fillContainer();
     }
 
     /**
@@ -321,67 +315,54 @@ public abstract class AbstractContainer implements Container
      * For convenience, implementations are permitted to throw <tt>PicoException</tt> - these
      * will be rethrown as {@link ContainerException}.
      * <p/>
-     * This implementation delegates to {@link #fillContainer()}.
-     *
-     * @param container the underlying container
-     * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
-     */
-    protected void fillContainer(MutablePicoContainer container)
-    {
-        fillContainer();
-    }
-
-    /**
-     * Invoked by {@link #initialise} to fill the container.
-     * <p/>
-     * This implementation is a no-op.
-     * <p/>
-     * For convenience, implementations are permitted to throw <tt>PicoException</tt> - these
-     * will be rethrown as {@link ContainerException}.
      *
      * @throws ContainerException if initialisation fails
-     * @throws PicoException      for any PicoContainer error
      */
-    protected void fillContainer()
-    {
-    }
-
-    /**
-     * Returns the underlying container.
-     *
-     * @return the underlying container, or <tt>null</tt> if {@link #initialise} hasn't been invoked
-     */
-    protected MutablePicoContainer getContainer()
-    {
-        return container;
-    }
-
-    /**
-     * Creates a new container.
-     *
-     * @return a new container
-     */
-    protected MutablePicoContainer createContainer()
-    {
-        return new PicoBuilder().withConstructorInjection().withCaching().build();
+    protected void fillContainer() {
     }
 
     /**
      * Concrete container used by {@link #createChildContainer()}.
      */
-    private static class ChildContainer extends AbstractContainer
-    {
+    private static class ChildContainer extends AbstractContainer {
 
         /**
          * Constructs a ChildContainer.
          *
          * @param parent the parent container
          */
-        public ChildContainer(MutablePicoContainer parent)
-        {
-            super(parent.makeChildContainer());
+        public ChildContainer(Injector parent) {
+            super(parent, true);
         }
     }
 
+    private static class SimpleModule<T> implements Module {
+        private final Class<T> componentKey;
+        private final Consumer<AnnotatedBindingBuilder<T>> mapper;
+
+        private SimpleModule(Class<T> componentKey, Consumer<AnnotatedBindingBuilder<T>> mapper) {
+            this.componentKey = componentKey;
+            this.mapper = mapper;
+        }
+
+        @Override
+        public final void configure(Binder binder) {
+            mapper.accept(binder.bind(componentKey));
+        }
+    }
+
+    public static class TypeLiteralModule<T> implements Module {
+        private final TypeLiteral<T> typeLiteral;
+        private final Consumer<AnnotatedBindingBuilder<T>> mapper;
+
+        private TypeLiteralModule(TypeLiteral<T> typeLiteral, Consumer<AnnotatedBindingBuilder<T>> mapper) {
+            this.typeLiteral = typeLiteral;
+            this.mapper = mapper;
+        }
+
+        @Override
+        public final void configure(Binder binder) {
+            mapper.accept(binder.bind(typeLiteral));
+        }
+    }
 }

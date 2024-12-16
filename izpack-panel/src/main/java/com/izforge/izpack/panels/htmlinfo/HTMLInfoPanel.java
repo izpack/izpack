@@ -29,6 +29,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.text.Document;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Resources;
@@ -69,6 +70,7 @@ public class HTMLInfoPanel extends IzPanel
      * @param resources   the resources
      * @param log         the log
      */
+    @Inject
     public HTMLInfoPanel(Panel panel, InstallerFrame parent, GUIInstallData installData, Resources resources, Log log)
     {
         this(panel, parent, installData, true, resources, log);

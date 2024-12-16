@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.exception.CompilerException;
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.compiler.util.CompilerClassLoader;
@@ -76,6 +77,7 @@ public class CompilerPathResolver extends PathResolver
      * @param loader            the class loader
      * @param panelDependencies panel dependency properties
      */
+    @Inject
     public CompilerPathResolver(MergeableResolver mergeableResolver, CompilerClassLoader loader,
                                 Properties panelDependencies)
     {

@@ -18,6 +18,7 @@
  */
 package com.izforge.izpack.installer.language;
 
+import com.google.inject.Inject;
 import com.izforge.izpack.api.exception.UserInterruptException;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.installer.container.provider.AbstractInstallDataProvider;
@@ -39,7 +40,8 @@ public class LanguageConsoleDialog {
   private final Locales locales;
   private Map<String, String> displayNames = new LinkedHashMap<String, String>();
   private static final Logger logger = Logger.getLogger(LanguageConsoleDialog.class.getName());
-  
+
+  @Inject
   public LanguageConsoleDialog(Locales locales, ConsoleInstallData installData, Console console, Housekeeper housekeeper)
   {
     this.installData = installData;

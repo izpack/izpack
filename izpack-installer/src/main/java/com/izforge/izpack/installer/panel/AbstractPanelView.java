@@ -18,6 +18,7 @@ package com.izforge.izpack.installer.panel;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
+import com.izforge.izpack.api.container.ContainerConfigurer;
 import com.izforge.izpack.api.data.*;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -40,8 +41,7 @@ import java.util.logging.Logger;
  *
  * @author Tim Anderson
  */
-public abstract class AbstractPanelView<T> implements PanelView<T>
-{
+public abstract class AbstractPanelView<T> implements PanelView<T> {
 
     /**
      * The panel.
@@ -185,9 +185,11 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
             view = createView(panel, viewClass);
 
             List<String> dataValidatorClassNames = panel.getValidators();
-            for (String dataValidatorClassName : dataValidatorClassNames)
-            {
-                DataValidator validator = factory.create(dataValidatorClassName, DataValidator.class, panel, view);
+            for (String dataValidatorClassName : dataValidatorClassNames) {
+                DataValidator validator = factory.create(dataValidatorClassName, DataValidator.class, (configurer) -> {
+                    configurer.addComponent(panel);
+                    configurer.addComponent(view);
+                });
 
                 validators.add(validator);
             }
@@ -277,6 +279,7 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
     {
         //Panel specific should be overwritten my the panel
     }
+
     /**
      * Determines if the panel can be shown.
      *
@@ -367,10 +370,15 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
      * @param viewClass the view base class
      * @return the new view
      */
-    protected T createView(Panel panel, Class<T> viewClass)
-    {
-        return factory.create(panel.getClassName(), viewClass, panel, this);
+    protected T createView(Panel panel, Class<T> viewClass) {
+        return factory.create(panel.getClassName(), viewClass, (configurer) -> {
+            configurer.addComponent(panel);
+//            configurer.addComponent(new TypeLiteral<PanelView<T>>() {}, this);
+            addPanelView(configurer, this);
+        });
     }
+
+    protected abstract void addPanelView(ContainerConfigurer configurer, PanelView<T> panelView);
 
     /**
      * Initialises the view.
@@ -606,8 +614,10 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
         {
             for (PanelActionConfiguration config : configurations)
             {
-                PanelAction action = factory.create(config.getActionClassName(), PanelAction.class, panel,
-                                                    ActionStage.preconstruct);
+                PanelAction action = factory.create(config.getActionClassName(), PanelAction.class, (configurer) -> {
+                    configurer.addComponent(panel);
+                    configurer.addComponent(ActionStage.preconstruct);
+                });
                 action.initialize(config);
                 action.executeAction(installData, null);
             }
@@ -630,8 +640,11 @@ public abstract class AbstractPanelView<T> implements PanelView<T>
         {
             for (PanelActionConfiguration config : configurations)
             {
-                PanelAction action = factory.create(config.getActionClassName(), PanelAction.class, panel, view,
-                                                    stage);
+                PanelAction action = factory.create(config.getActionClassName(), PanelAction.class, (configurer) -> {
+                    configurer.addComponent(panel);
+                    configurer.addComponent(view);
+                    configurer.addComponent(stage);
+                });
                 action.initialize(config);
                 actions.add(action);
             }

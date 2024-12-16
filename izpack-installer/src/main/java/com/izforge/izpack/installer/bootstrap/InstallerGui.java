@@ -24,6 +24,7 @@ package com.izforge.izpack.installer.bootstrap;
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.Overrides;
 import com.izforge.izpack.api.exception.IzPackException;
+import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.installer.container.impl.GUIInstallerContainer;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
@@ -52,6 +53,7 @@ public class InstallerGui
     public static void run(final String langCode, final String mediaPath, final Overrides defaults) throws Exception
     {
         final InstallerContainer applicationComponent = new GUIInstallerContainer();
+        applicationComponent.getComponent(RulesEngine.class); // Initialize the rules engine in InstallData
         final Container installerContainer = applicationComponent.getComponent(Container.class);
 
 		final Object trigger = new Object();

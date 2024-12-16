@@ -79,12 +79,13 @@ public class IzPanels extends AbstractPanels<IzPanelView, IzPanel>
             // need to defer creation of the IzPanel until after the InstallerFrame is constructed
             IzPanel view = panel.getView();
             installData.getPanels().add(view);
+
             String panelId = panel.getPanelId();
             if (panelId == null)
             {
                 panelId = view.getClass().getName();
             }
-            container.addComponent(panelId, view);
+            container.addComponent(panelId, IzPanel.class, view);
         }
     }
 
