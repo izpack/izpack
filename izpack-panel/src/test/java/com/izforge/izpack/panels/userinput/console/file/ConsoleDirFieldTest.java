@@ -36,8 +36,7 @@ import static com.izforge.izpack.api.handler.Prompt.Option.OK;
 import static com.izforge.izpack.api.handler.Prompt.Options.OK_CANCEL;
 import static com.izforge.izpack.api.handler.Prompt.Type.WARNING;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 

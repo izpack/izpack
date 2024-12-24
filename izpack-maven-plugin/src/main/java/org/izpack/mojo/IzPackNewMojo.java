@@ -19,7 +19,6 @@
 package org.izpack.mojo;
 
 import com.izforge.izpack.api.data.Info;
-import com.izforge.izpack.api.data.binding.IzpackProjectInstaller;
 import com.izforge.izpack.api.exception.CompilerException;
 import com.izforge.izpack.compiler.CompilerConfig;
 import com.izforge.izpack.compiler.container.CompilerContainer;
@@ -155,20 +154,14 @@ public class IzPackNewMojo extends AbstractMojo
         File jarFile = getJarFile();
 
         CompilerData compilerData = initCompilerData(jarFile);
-        CompilerContainer compilerContainer = new CompilerContainer();
-        compilerContainer.addConfig("installFile", installFile.getPath());
-        compilerContainer.getComponent(IzpackProjectInstaller.class);
-        compilerContainer.addComponent(CompilerData.class, compilerData);
-        compilerContainer.addComponent(Handler.class, createLogHandler());
-
-        CompilerConfig compilerConfig = compilerContainer.getComponent(CompilerConfig.class);
+        CompilerContainer compilerContainer = new CompilerContainer(createLogHandler(), compilerData, installFile::getPath);
 
         propertyManager = compilerContainer.getComponent(PropertyManager.class);
         initMavenProperties(propertyManager);
 
         try
         {
-            compilerConfig.executeCompiler();
+            compilerContainer.getComponent(CompilerConfig.class).executeCompiler();
         }
         catch ( CompilerException e )
         {
