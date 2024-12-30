@@ -26,7 +26,6 @@ import com.izforge.izpack.compiler.container.CompilerContainer;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.data.PropertyManager;
 import com.izforge.izpack.compiler.logging.MavenStyleLogFormatter;
-import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Developer;
 import org.apache.maven.plugin.AbstractMojo;
@@ -127,19 +126,27 @@ public class IzPackNewMojo extends AbstractMojo
     private File outputDirectory;
 
     /**
-     * Name of the generated JAR.
+     * Name of the compiled installer jar.
      */
-    @Parameter( alias = "jarName", property = "jar.finalName", defaultValue = "${project.build.finalName}")
+    @Parameter
     private String finalName;
 
     /**
-     * Classifier to add to the artifact generated. If given, the artifact is attachable.
-     * Furthermore, the output file name gets -<i>classifier</i> as suffix.
-     * If this is not given,it will merely be written to the output directory
-     * according to the finalName.
+     * When packaging type is not izpack-jar and <i>enableAttachArtifact</i> is
+     * set to true, classifier to add to the artifact attached. If not given
+     * then it defaults to <i>installer</i>. If the <i>finalName</i> is not
+     * given then -<i>classifier</i> is added as a suffix to the module jar name
+     * for the installer jar.
      */
     @Parameter
     private String classifier;
+
+    /**
+     * When packaging type is not izpack-jar, whether to attach the generated
+     * installer jar to the project artifact.
+     */
+    @Parameter( defaultValue = "true")
+    private boolean enableAttachArtifact;
 
     /**
      * Comma separated list of strings marked for exclusion.
@@ -181,22 +188,33 @@ public class IzPackNewMojo extends AbstractMojo
             throw new MojoExecutionException( "Failure", e );
         }
 
-        Artifact artifact = project.getArtifact();
-        artifact.setFile(jarFile);
+        if (project.getPackaging().equals("izpack-jar"))
+        {
+            project.getArtifact().setFile(jarFile);
+        }
+        else if (enableAttachArtifact)
+        {
+            projectHelper.attachArtifact(project, "jar", classifier, jarFile);
+        }
     }
 
     private File getJarFile()
     {
-        String localClassifier = classifier;
         if (classifier == null || classifier.trim().isEmpty())
         {
-            localClassifier = "";
+            classifier = "installer";
         }
-        else if (!classifier.startsWith("-"))
+
+        String installerFileName = finalName;
+        if (finalName == null)
         {
-            localClassifier = "-" + classifier;
+            installerFileName = project.getBuild().getFinalName();
+            if (!project.getPackaging().equals("izpack-jar"))
+            {
+                installerFileName += "-" + classifier;
+            }
         }
-        return new File(outputDirectory, finalName + localClassifier + ".jar");
+        return new File(outputDirectory, installerFileName + ".jar");
     }
 
     private void initMavenProperties(PropertyManager propertyManager)
@@ -224,13 +242,19 @@ public class IzPackNewMojo extends AbstractMojo
                 }
                 if (!containsExcludedProperty(propertyName, exclusionList))
                 {
-                    if (propertyManager.addProperty(propertyName, value))
+                    String existingValue = propertyManager.getProperty(propertyName);
+                    if (existingValue != null && existingValue.equals(value))
+                    {
+                        getLog().debug("Maven property exists: " + propertyName + "=" + value);
+                    }
+                    else if (propertyManager.addProperty(propertyName, value))
                     {
                         getLog().debug("Maven property added: " + propertyName + "=" + value);
                     }
                     else
                     {
-                        getLog().warn("Maven property " + propertyName + " could not be overridden");
+                        getLog().warn("Property " + propertyName + "=" + existingValue +
+                                " could not be overridden with maven property " + propertyName + "=" + value);
                     }
                 }
             }
@@ -247,7 +271,6 @@ public class IzPackNewMojo extends AbstractMojo
             {
                 if (project.getDevelopers() != null)
                 {
-                    //noinspection unchecked
                     for (Developer dev : project.getDevelopers())
                     {
                         info.addAuthor(new Info.Author(dev.getName(), dev.getEmail()));

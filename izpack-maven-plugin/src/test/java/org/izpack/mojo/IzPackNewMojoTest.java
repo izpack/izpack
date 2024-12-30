@@ -26,7 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test of new IzPack mojo
- * 
+ *
  * @author Anthonin Bonnefoy
  */
 public class IzPackNewMojoTest extends AbstractMojoTestCase {
@@ -66,6 +66,7 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
         project = result.getProject();
 
         setVariableValueToObject(mojo, "project", project);
+        setVariableValueToObject(mojo, "finalName", "izpackResult");
         mojo.execute();
 
         File file = new File( "target/sample/izpackResult.jar" );
@@ -78,9 +79,61 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
     }
 
     @Test
-    public void testFixIZPACK_903() throws Exception {
+    public void testExecuteNoFinalNameForIzPackPackaging() throws Exception {
         String classifier = "install";
-        File file = new File( "target/sample/izpackResult-" + classifier + ".jar" );
+        File file = new File( "target/sample/izpack-dist-test-harness-5.0.0-SNAPSHOT.jar" );
+
+        // Cleanup from any previous runs.
+        file.delete();
+        assertThat( file.exists(), Is.is( false ) );
+
+        // Create and configure the mojo.
+        File testPom = new File( Thread.currentThread().getContextClassLoader().getResource( "basic-pom.xml" ).toURI() );
+        IzPackNewMojo mojo = (IzPackNewMojo)lookupMojo( "izpack", testPom );
+        assertThat( mojo, IsNull.notNullValue() );
+        initIzpack5Mojo( mojo );
+
+        // In this case the classifier should be set.
+        setVariableValueToObject( mojo, "classifier", classifier );
+
+        MavenSession session = new MavenSession(getContainer(),       // PlexusContainer container
+                null,       // Settings settings
+                null,       // ArtifactRepository localRepository
+                null,       // EventDispatcher eventDispatcher
+                null,       // ReactorManager reactorManager
+                null,       // List goals
+                null,       // String executionRootDir
+                null,       // Properties executionProperties
+                null,       // Properties userProperties
+                null        // Date startTime
+        );
+        setVariableValueToObject(mojo, "session", session);
+
+        MavenExecutionRequest mavenRequest = session.getRequest();
+        ProjectBuildingRequest projectBuildingRequest = mavenRequest.getProjectBuildingRequest();
+        RepositorySystemSession repositorySystemSession = new DefaultRepositorySystemSession();
+        projectBuildingRequest.setRepositorySession( repositorySystemSession );
+        ProjectBuilder projectBuilder = lookup(ProjectBuilder.class);
+        ProjectBuildingResult result = projectBuilder.build(testPom, projectBuildingRequest);
+        project = result.getProject();
+        project.setPackaging("izpack-jar");
+
+        setVariableValueToObject(mojo, "project", project);
+
+        // Execute the mojo.
+        mojo.execute();
+
+        // Ensure that the classifier value is still set correctly.
+        assertEquals( classifier, getVariableValueFromObject( mojo, "classifier" ) );
+
+        // Verify the generated file exists.
+        assertThat( file.exists(), Is.is( true ) );
+    }
+
+    @Test
+    public void testExecuteNoFinalNameWithClassifier() throws Exception {
+        String classifier = "install";
+        File file = new File( "target/sample/izpack-dist-test-harness-5.0.0-SNAPSHOT-" + classifier + ".jar" );
 
         // Cleanup from any previous runs.
         file.delete();
@@ -127,7 +180,54 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
         // Verify the generated file exists.
         assertThat( file.exists(), Is.is( true ) );
     }
-    
+
+    @Test
+    public void testExecuteNoFinalNameWithoutClassifier() throws Exception {
+        File file = new File( "target/sample/izpack-dist-test-harness-5.0.0-SNAPSHOT-installer.jar" );
+
+        // Cleanup from any previous runs.
+        file.delete();
+        assertThat( file.exists(), Is.is( false ) );
+
+        // Create and configure the mojo.
+        File testPom = new File( Thread.currentThread().getContextClassLoader().getResource( "basic-pom.xml" ).toURI() );
+        IzPackNewMojo mojo = (IzPackNewMojo)lookupMojo( "izpack", testPom );
+        assertThat( mojo, IsNull.notNullValue() );
+        initIzpack5Mojo( mojo );
+
+        MavenSession session = new MavenSession(getContainer(),       // PlexusContainer container
+                null,       // Settings settings
+                null,       // ArtifactRepository localRepository
+                null,       // EventDispatcher eventDispatcher
+                null,       // ReactorManager reactorManager
+                null,       // List goals
+                null,       // String executionRootDir
+                null,       // Properties executionProperties
+                null,       // Properties userProperties
+                null        // Date startTime
+        );
+        setVariableValueToObject(mojo, "session", session);
+
+        MavenExecutionRequest mavenRequest = session.getRequest();
+        ProjectBuildingRequest projectBuildingRequest = mavenRequest.getProjectBuildingRequest();
+        RepositorySystemSession repositorySystemSession = new DefaultRepositorySystemSession();
+        projectBuildingRequest.setRepositorySession( repositorySystemSession );
+        ProjectBuilder projectBuilder = lookup(ProjectBuilder.class);
+        ProjectBuildingResult result = projectBuilder.build(testPom, projectBuildingRequest);
+        project = result.getProject();
+
+        setVariableValueToObject(mojo, "project", project);
+
+        // Execute the mojo.
+        mojo.execute();
+
+        // Ensure that the classifier value is still set correctly.
+        assertEquals( "installer", getVariableValueFromObject( mojo, "classifier" ) );
+
+        // Verify the generated file exists.
+        assertThat( file.exists(), Is.is( true ) );
+    }
+
     @Test
     public void testFixIZPACK_1400() throws Exception {
 
@@ -173,12 +273,12 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
         assertEquals("default", props.getProperty("property1"));
         // but computated properties do reflect the user property
         assertEquals("value1",  props.getProperty("property2"));
-        
+
         // verify the behavior of IzPack Maven Plugin
         PropertyManager propertyManager = (PropertyManager) getVariableValueFromObject(mojo, "propertyManager");
         assertThat(propertyManager, IsNull.notNullValue() );
         // The IzPackMaven plugin should honor the user property set with "-Dproperty1=value1"
-        assertEquals("value1" , propertyManager.getProperty("property1")); 	
+        assertEquals("value1" , propertyManager.getProperty("property1"));
         assertEquals("value1" , propertyManager.getProperty("property2"));
     }
 
@@ -189,7 +289,6 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase {
         setVariableValueToObject( mojo, "kind", "standard" );
         setVariableValueToObject( mojo, "baseDir", new File( "target/test-classes/" ) );
         setVariableValueToObject( mojo, "outputDirectory", new File( "target/sample" ).getAbsoluteFile() );
-        setVariableValueToObject( mojo, "finalName", "izpackResult" );
         setVariableValueToObject( mojo, "comprLevel", -1 );
         setVariableValueToObject( mojo, "mkdirs", true ); // autoboxing
     }
