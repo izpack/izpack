@@ -221,6 +221,64 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase
         assertNull(propertyManager.getProperty("sensitive.data")); // property name with sensitive word in it  is excluded
     }
 
+    public void testFixIZPACK_1525_SkipIzPackInConfiguration() throws Exception
+    {
+        File file = new File( "target/sample/izpackResult.jar" );
+
+        // Cleanup from any previous runs.
+        file.delete();
+        assertThat( file.exists(), Is.is( false ) );
+        // Create and configure the mojo.
+        IzPackNewMojo mojo = setupMojo("basic-pom.xml", null);
+
+        setVariableValueToObject(mojo, "finalName", "izpackResult");
+        setVariableValueToObject(mojo, "skipIzPack", true);
+        mojo.execute();
+
+        assertThat( file.exists(), Is.is( true ) );
+        assertEquals(0, file.length());
+    }
+
+    public void testFixIZPACK_1525_SkipIzPackAtCommandLine() throws Exception
+    {
+        File file = new File( "target/sample/izpackResult.jar" );
+
+        // Cleanup from any previous runs.
+        file.delete();
+        assertThat( file.exists(), Is.is( false ) );
+        // Create and configure the mojo.
+        Properties userProps = new Properties();
+        userProps.setProperty("skipIzPack", "true"); // simulates "-skipIzPack=true" on mvn commandline
+
+        IzPackNewMojo mojo = setupMojo("basic-pom.xml", userProps);
+
+        setVariableValueToObject(mojo, "finalName", "izpackResult");
+        mojo.execute();
+
+        assertThat( file.exists(), Is.is( true ) );
+        assertEquals(0, file.length());
+    }
+
+
+    public void testFixIZPACK_1525_SkipIzPackAtCommandLineIzPackNoFinalName() throws Exception
+    {
+        File file = new File( "target/sample/izpack-dist-test-harness-5.0.0-SNAPSHOT-installer.jar" );
+
+        // Cleanup from any previous runs.
+        file.delete();
+        assertThat( file.exists(), Is.is( false ) );
+        // Create and configure the mojo.
+        Properties userProps = new Properties();
+        userProps.setProperty("skipIzPack", "true"); // simulates "-skipIzPack=true" on mvn commandline
+
+        IzPackNewMojo mojo = setupMojo("basic-pom.xml", userProps);
+
+        mojo.execute();
+
+        assertThat( file.exists(), Is.is( true ) );
+        assertEquals(0, file.length());
+    }
+
     private IzPackNewMojo setupMojo(String testPom, Properties userProps) throws Exception
     {
         File testFile = new File(Thread.currentThread().getContextClassLoader().getResource(testPom).toURI());
