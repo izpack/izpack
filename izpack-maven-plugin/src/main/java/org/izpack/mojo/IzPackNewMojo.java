@@ -37,6 +37,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -160,6 +161,16 @@ public class IzPackNewMojo extends AbstractMojo
 
     private Set<String> trimmedExcludeProperties;
 
+    /**
+     * Whether to skip IzPack creation or not. This can be overridden by setting
+     * command line parameter skipIzPack. At the command line if the value is
+     * not provided or value is other than false then it is assumed to be
+     * skipIzPack is set to true.
+     * By default, the skipIzPack is false.
+     */
+    @Parameter( defaultValue = "false")
+    private boolean skipIzPack;
+
     private PropertyManager propertyManager;
 
     public void execute() throws MojoExecutionException, MojoFailureException
@@ -167,7 +178,30 @@ public class IzPackNewMojo extends AbstractMojo
         trimExcludeProperties();
 
         File jarFile = getJarFile();
+        if (isSkipIzPack())
+        {
+            getLog().info("Skipping IzPack creation.");
+            // We need empty file, so that install phase does not have any error
+            // for izpack-jar packaging. Also, empty file will be useful for
+            // unit tests.
+            createEmptyFile(jarFile);
+        }
+        else
+        {
+            createIzPack(jarFile);
+        }
 
+        if (project.getPackaging().equals("izpack-jar"))
+        {
+            project.getArtifact().setFile(jarFile);
+        }
+        else if (enableAttachArtifact)
+        {
+            projectHelper.attachArtifact(project, "jar", classifier, jarFile);
+        }
+    }
+
+    private void createIzPack(File jarFile) throws MojoFailureException, MojoExecutionException {
         CompilerData compilerData = initCompilerData(jarFile);
         CompilerContainer compilerContainer = new CompilerContainer();
         compilerContainer.addConfig("installFile", installFile.getPath());
@@ -194,14 +228,31 @@ public class IzPackNewMojo extends AbstractMojo
         {
             throw new MojoExecutionException( "Failure", e );
         }
+    }
 
-        if (project.getPackaging().equals("izpack-jar"))
+    private boolean isSkipIzPack()
+    {
+        Properties userProperties = session.getUserProperties();
+        boolean skipIzPack = this.skipIzPack;
+        String skipIzPackStr = userProperties.getProperty("skipIzPack");
+        // if skipIzPack is specified on command line then only we will override
+        // or else we will be using what is specified under configuration or the
+        // default value
+        if (skipIzPackStr != null)
         {
-            project.getArtifact().setFile(jarFile);
+            skipIzPack = Boolean.parseBoolean(skipIzPackStr);
         }
-        else if (enableAttachArtifact)
+        return skipIzPack;
+    }
+
+    private static void createEmptyFile(File jarFile) throws MojoExecutionException {
+        try
         {
-            projectHelper.attachArtifact(project, "jar", classifier, jarFile);
+            jarFile.createNewFile();
+        }
+        catch (IOException e)
+        {
+            throw new MojoExecutionException("Failure", e);
         }
     }
 
