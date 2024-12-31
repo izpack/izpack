@@ -37,7 +37,9 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -149,16 +151,21 @@ public class IzPackNewMojo extends AbstractMojo
     private boolean enableAttachArtifact;
 
     /**
-     * Comma separated list of strings marked for exclusion.
+     * Comma separated list of words, from which any of the word is present in
+     * the property name then that property is excluded.
      * By default, the list is empty.
      */
     @Parameter
-    private String excludeProperties;
+    private Set<String> excludeProperties;
+
+    private Set<String> trimmedExcludeProperties;
 
     private PropertyManager propertyManager;
 
     public void execute() throws MojoExecutionException, MojoFailureException
     {
+        trimExcludeProperties();
+
         File jarFile = getJarFile();
 
         CompilerData compilerData = initCompilerData(jarFile);
@@ -219,44 +226,35 @@ public class IzPackNewMojo extends AbstractMojo
 
     private void initMavenProperties(PropertyManager propertyManager)
     {
-    	//TODO - project is annotated as @required, so the check project!=null should be useless!?!
-        if (project != null)
+        Properties properties = project.getProperties();
+        Properties userProps  = session.getUserProperties();
+        for (String propertyName : properties.stringPropertyNames())
         {
-            Properties properties = project.getProperties();
-            Properties userProps  = session.getUserProperties();
-            String[] exclusionList = null;
-            if (excludeProperties != null) {
-                exclusionList = excludeProperties.split(",");
-            }
-            for (String propertyName : properties.stringPropertyNames())
+            if (containsExcludedProperty(propertyName))
             {
-                String value;
-                // TODO: should all user properties be provided as property?
-                // Intentionally user properties are searched for properties defined in pom.xml only
-                // see https://izpack.atlassian.net/browse/IZPACK-1402 for discussion
-                if (userProps.containsKey(propertyName))
-                {
-                    value = userProps.getProperty(propertyName);
-                } else {
-                    value = properties.getProperty(propertyName);
-                }
-                if (!containsExcludedProperty(propertyName, exclusionList))
-                {
-                    String existingValue = propertyManager.getProperty(propertyName);
-                    if (existingValue != null && existingValue.equals(value))
-                    {
-                        getLog().debug("Maven property exists: " + propertyName + "=" + value);
-                    }
-                    else if (propertyManager.addProperty(propertyName, value))
-                    {
-                        getLog().debug("Maven property added: " + propertyName + "=" + value);
-                    }
-                    else
-                    {
-                        getLog().warn("Property " + propertyName + "=" + existingValue +
-                                " could not be overridden with maven property " + propertyName + "=" + value);
-                    }
-                }
+                continue;
+            }
+            // TODO: should all user properties be provided as property?
+            // Intentionally user properties are searched for properties defined in pom.xml only
+            // see https://izpack.atlassian.net/browse/IZPACK-1402 for discussion
+            String value = userProps.getProperty(propertyName);
+            if (value == null)
+            {
+                value = properties.getProperty(propertyName);
+            }
+            String existingValue = propertyManager.getProperty(propertyName);
+            if (existingValue != null && existingValue.equals(value))
+            {
+                getLog().debug("Maven property exists: " + propertyName + "=" + value);
+            }
+            else if (propertyManager.addProperty(propertyName, value))
+            {
+                getLog().debug("Maven property added: " + propertyName + "=" + value);
+            }
+            else
+            {
+                getLog().warn("Property " + propertyName + "=" + existingValue +
+                        " could not be overridden with maven property " + propertyName + "=" + value);
             }
         }
     }
@@ -265,22 +263,19 @@ public class IzPackNewMojo extends AbstractMojo
     {
         Info info = new Info();
 
-        if (project != null)
+        if (autoIncludeDevelopers)
         {
-            if (autoIncludeDevelopers)
+            if (project.getDevelopers() != null)
             {
-                if (project.getDevelopers() != null)
+                for (Developer dev : project.getDevelopers())
                 {
-                    for (Developer dev : project.getDevelopers())
-                    {
-                        info.addAuthor(new Info.Author(dev.getName(), dev.getEmail()));
-                    }
+                    info.addAuthor(new Info.Author(dev.getName(), dev.getEmail()));
                 }
             }
-            if (autoIncludeUrl)
-            {
-                info.setAppURL(project.getUrl());
-            }
+        }
+        if (autoIncludeUrl)
+        {
+            info.setAppURL(project.getUrl());
         }
         return new CompilerData(comprFormat, kind, installFile.getPath(), null, baseDir.getPath(), jarFile.getPath(),
                                 mkdirs, comprLevel, info);
@@ -312,14 +307,27 @@ public class IzPackNewMojo extends AbstractMojo
         return consoleHandler;
     }
 
-    private boolean containsExcludedProperty(String property, String[] exclusionList) {
-        if (exclusionList == null) {
-          return false;
+    private void trimExcludeProperties() {
+        if (excludeProperties != null)
+        {
+            trimmedExcludeProperties = new HashSet<>();
+            for (String word : excludeProperties)
+            {
+                trimmedExcludeProperties.add(word.trim().toLowerCase());
+            }
         }
-        for (String s : exclusionList) {
-          if (property.contains(s.trim())) {
-              return true;
-          }
+    }
+
+    private boolean containsExcludedProperty(String property) {
+        if (trimmedExcludeProperties != null)
+        {
+            for (String word : trimmedExcludeProperties)
+            {
+                if (property.toLowerCase().contains(word))
+                {
+                    return true;
+                }
+            }
         }
         return false;
     }
