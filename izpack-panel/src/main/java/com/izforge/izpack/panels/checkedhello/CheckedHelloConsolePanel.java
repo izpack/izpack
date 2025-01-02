@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.NativeLibException;
+import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
@@ -145,9 +146,22 @@ public class CheckedHelloConsolePanel extends HelloConsolePanel
                 path = "<not found>";
             }
             Messages messages = installData.getMessages();
-            String message = messages.get("CheckedHelloPanel.productAlreadyExist0") + path + "\n"
-                    + messages.get("CheckedHelloPanel.productAlreadyExist1");
-            result = prompt.confirm(ERROR, message, YES_NO) == YES;
+            String message = messages.get("CheckedHelloPanel.productAlreadyExist0") + path + ".";
+
+            String skipContinueInstallPromptStr = getPanel()
+                    .getConfigurationOptionValue("skipContinueInstallPrompt", installData.getRules());
+            boolean skipContinueInstallPrompt = Boolean.parseBoolean(skipContinueInstallPromptStr);
+
+            if (skipContinueInstallPrompt)
+            {
+                prompt.error(messages.get("installer.cancelled"), message);
+                result = false;
+            }
+            else
+            {
+                message += "\n" + messages.get("CheckedHelloPanel.productAlreadyExist1");
+                result = prompt.confirm(ERROR, message, YES_NO) == YES;
+            }
         }
         catch (NativeLibException exception)
         {
