@@ -96,10 +96,22 @@ public class CheckedHelloPanel extends HelloPanel
         {
             path = "<not found>";
         }
-        String noLuck = getString("CheckedHelloPanel.productAlreadyExist0") + path + " . "
-                + getString("CheckedHelloPanel.productAlreadyExist1");
-        return (askQuestion(getString("installer.error"), noLuck,
-                            AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES);
+        String skipContinueInstallPromptStr = getMetadata()
+                .getConfigurationOptionValue("skipContinueInstallPrompt", installData.getRules());
+        boolean skipContinueInstallPrompt = Boolean.parseBoolean(skipContinueInstallPromptStr);
+
+        String noLuck = getString("CheckedHelloPanel.productAlreadyExist0") + path + ".";
+        if (skipContinueInstallPrompt)
+        {
+            emitError(getString("installer.cancelled"), noLuck);
+            return false;
+        }
+        else
+        {
+            noLuck += " " + getString("CheckedHelloPanel.productAlreadyExist1");
+            return (askQuestion(getString("installer.error"), noLuck,
+                    AbstractUIHandler.CHOICES_YES_NO) == AbstractUIHandler.ANSWER_YES);
+        }
     }
 
     /**
