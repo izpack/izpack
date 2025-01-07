@@ -385,7 +385,7 @@
       <dependency>
         <groupId>org.apache.maven.shared</groupId>
         <artifactId>maven-shared-jar</artifactId>
-        <version>3.1.1</version>
+        <version>3.2.0</version>
       </dependency>
 
       <!-- laf -->
