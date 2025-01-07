@@ -64,7 +64,7 @@ public class EnvironmentValue extends ValueImpl implements Serializable
     @Override
     public String resolve()
     {
-        return IoHelper.getenv(variable);
+        return System.getenv(variable);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class EnvironmentValue extends ValueImpl implements Serializable
             _variable_ = substitutor.substitute(_variable_);
         }
 
-        return IoHelper.getenv(_variable_);
+        return System.getenv(_variable_);
     }
 
     @Override

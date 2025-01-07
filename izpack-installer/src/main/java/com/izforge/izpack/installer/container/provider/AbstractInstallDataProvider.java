@@ -256,7 +256,7 @@ public abstract class AbstractInstallDataProvider implements Provider
         try
         {
             //get value from environment...
-            String prgFilesPath = IoHelper.getenv("ProgramFiles");
+            String prgFilesPath = System.getenv("ProgramFiles");
             if (prgFilesPath != null && prgFilesPath.length() > 0)
             {
                 return prgFilesPath + File.separatorChar;

@@ -23,7 +23,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 
@@ -41,9 +40,6 @@ public class IoHelper
      * Placeholder during translatePath computing
      */
     private static final String MASKED_SLASH_PLACEHOLDER = "~&_&~";
-
-    private static Properties envVars = null;
-
 
     /**
      * Creates a temp file with delete on exit rule. The extension is extracted from the template if
@@ -172,10 +168,6 @@ public class IoHelper
             {
                 return true;
             }
-        }
-        else if ("getenv".equals(method))
-        {
-            return true;
         }
         else
         {
@@ -345,111 +337,6 @@ public class IoHelper
             destination = destination.replace('/', File.separatorChar);
         }
         return destination;
-    }
-
-    /**
-     * Returns the value of the environment variable given by key. This method is a work around for
-     * VM versions which do not support getenv in an other way. At the first call all environment
-     * variables will be loaded via an exec. On Windows keys are not case sensitive.
-     *
-     * @param key variable name for which the value should be resolved
-     * @return the value of the environment variable given by key
-     */
-    public static String getenv(String key)
-    {
-        if (envVars == null)
-        {
-            loadEnv();
-        }
-        if (envVars == null)
-        {
-            return (null);
-        }
-        if (OsVersion.IS_WINDOWS)
-        {
-            key = key.toUpperCase();
-        }
-        return (String) (envVars.get(key));
-    }
-
-    /**
-     * Loads all environment variables via an exec.
-     */
-    private static void loadEnv()
-    {
-        String[] output = new String[2];
-        String[] params;
-        if (OsVersion.IS_WINDOWS)
-        {
-            String command = "cmd.exe";
-            if (System.getProperty("os.name").toLowerCase().contains("windows 9"))
-            {
-                command = "command.com";
-            }
-            params = new String[]{command, "/C", "set"};
-        }
-        else
-        {
-            params = new String[]{"env"};
-        }
-        FileExecutor fe = new FileExecutor();
-        fe.executeCommand(params, output);
-        if (output[0].length() <= 0)
-        {
-            return;
-        }
-        String lineSep = System.getProperty("line.separator");
-        StringTokenizer tokenizer = new StringTokenizer(output[0], lineSep);
-        envVars = new Properties();
-        String var = null;
-        while (tokenizer.hasMoreTokens())
-        {
-            String line = tokenizer.nextToken();
-            if (line.indexOf('=') == -1)
-            { // May be a env var with a new line in it.
-                if (var == null)
-                {
-                    var = lineSep + line;
-                }
-                else
-                {
-                    var += lineSep + line;
-                }
-            }
-            else
-            { // New var, perform the previous one.
-                setEnvVar(var);
-                var = line;
-            }
-        }
-        setEnvVar(var);
-    }
-
-    /**
-     * Extracts key and value from the given string var. The key should be separated from the value
-     * by a sign. On Windows all chars of the key are translated to upper case.
-     *
-     * @param var expression for setting the environment variable
-     */
-    private static void setEnvVar(String var)
-    {
-        if (var == null)
-        {
-            return;
-        }
-        int index = var.indexOf('=');
-        if (index < 0)
-        {
-            return;
-        }
-        String key = var.substring(0, index);
-        // On windows change all key chars to upper.
-        if (OsVersion.IS_WINDOWS)
-        {
-            key = key.toUpperCase();
-        }
-        envVars.setProperty(key, var.substring(index + 1));
-
     }
 
     public static void copyStreamToJar(InputStream zin, java.util.zip.ZipOutputStream out, String currentName,

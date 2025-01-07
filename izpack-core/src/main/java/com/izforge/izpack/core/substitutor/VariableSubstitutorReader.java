@@ -163,7 +163,7 @@ public class VariableSubstitutorReader extends Reader
             if (inBraces && name.startsWith("ENV[")
                     && (name.lastIndexOf(']') == name.length() - 1))
             {
-                varValue = IoHelper.getenv(name.substring(4, name.length() - 1));
+                varValue = System.getenv(name.substring(4, name.length() - 1));
                 if (varValue == null)
                 {
                     varValue = "";
