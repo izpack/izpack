@@ -2100,7 +2100,7 @@ public class CompilerConfig extends Thread
         for (IXMLElement resNode : root.getChildrenNamed("res"))
         {
             String id = xmlCompilerHelper.requireAttribute(resNode, "id");
-            String src = xmlCompilerHelper.requireAttribute(resNode, SRC_ATTRIBUTE);
+            String src = getSrcSubstitutedAttributeValue(resNode);
             // the parse attribute causes substitution to occur
             boolean substitute = xmlCompilerHelper.validateYesNoAttribute(resNode, "parse", NO);
             // the parsexml attribute causes the xml document to be parsed
