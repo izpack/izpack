@@ -39,6 +39,7 @@ import org.apache.maven.project.MavenProjectHelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.ConsoleHandler;
@@ -170,6 +171,12 @@ public class IzPackNewMojo extends AbstractMojo
      */
     @Parameter( defaultValue = "false")
     private boolean skipIzPack;
+
+    /**
+     * A list of key/value pairs to add to the manifest.
+     */
+    @Parameter
+    private Map<String, String> manifestEntries;
 
     private PropertyManager propertyManager;
 
@@ -329,7 +336,7 @@ public class IzPackNewMojo extends AbstractMojo
             info.setAppURL(project.getUrl());
         }
         return new CompilerData(comprFormat, kind, installFile.getPath(), null, baseDir.getPath(), jarFile.getPath(),
-                                mkdirs, comprLevel, info);
+                                mkdirs, comprLevel, info, manifestEntries);
     }
 
     private Handler createLogHandler()

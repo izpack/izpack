@@ -58,6 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.jar.Attributes;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
@@ -445,14 +446,8 @@ public abstract class PackagerBase implements IPackager
      */
     protected final void writeManifest() throws IOException
     {
-        Manifest manifest = new Manifest(PackagerBase.class.getResourceAsStream("MANIFEST.MF"));
-        Path tempManifest = Files.createTempFile("MANIFEST", ".MF");
-        tempManifest.toFile().deleteOnExit();
-        try (OutputStream manifestOutputStream = Files.newOutputStream(tempManifest))
-        {
-            manifest.write(manifestOutputStream);
-            mergeManager.addResourceToMerge(tempManifest.toAbsolutePath().toString(), "META-INF/MANIFEST.MF");
-        }
+        final InputStream inputStream = PackagerBase.class.getResourceAsStream("MANIFEST.MF");
+        mergeManager.addResourceToMerge(compilerData.getTempManifestFileWithAdditionalEntries(inputStream), "META-INF/MANIFEST.MF");
     }
 
     /**

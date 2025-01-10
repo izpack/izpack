@@ -18,10 +18,16 @@ import org.hamcrest.core.IsNull;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Properties;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.util.*;
+import java.util.jar.Attributes;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 import java.util.zip.ZipFile;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -277,6 +283,53 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase
 
         assertThat( file.exists(), Is.is( true ) );
         assertEquals(0, file.length());
+    }
+
+    @Test
+    public void testManifestEntries() throws Exception
+    {
+        File file = new File( "target/sample/izpackResult.jar" );
+
+        // Cleanup from any previous runs.
+        file.delete();
+        assertThat( file.exists(), Is.is( false ) );
+
+        // Create and configure the mojo.
+        IzPackNewMojo mojo = setupMojo("basic-pom.xml", null);
+
+        setVariableValueToObject(mojo, "finalName", "izpackResult");
+        Map<String, String> manifestEntries = new HashMap<>();
+        manifestEntries.put("Main-Class", "MyClass");
+        manifestEntries.put("ManifestEntry1", "ManifestValue1");
+        manifestEntries.put("ManifestEntry2", "ManifestValue2");
+        setVariableValueToObject(mojo, "manifestEntries", manifestEntries);
+
+        // Execute the mojo.
+        mojo.execute();
+
+        assertThat( file.exists(), Is.is( true ) );
+
+        try (FileSystem zipFileSystem = FileSystems.newFileSystem(URI.create("jar:" + file.toURI()), Collections.emptyMap()))
+        {
+            try (InputStream manifestInputStream = Files.newInputStream(zipFileSystem.getPath("META-INF/MANIFEST.MF")))
+            {
+                Manifest manifest = new Manifest(manifestInputStream);
+                final Attributes mainAttributes = manifest.getMainAttributes();
+                // Manifest-Version, Created-By, and Main-Class should not get overwritten, we just verify Main-Class
+                assertEquals("com.izforge.izpack.installer.bootstrap.Installer", mainAttributes.get(new Attributes.Name("Main-Class")));
+                assertEquals("ManifestValue1", mainAttributes.get(new Attributes.Name("ManifestEntry1")));
+                assertEquals("ManifestValue2", mainAttributes.get(new Attributes.Name("ManifestEntry2")));
+            }
+            try (InputStream manifestInputStream = Files.newInputStream(zipFileSystem.getPath("uninstaller-META-INF/MANIFEST.MF")))
+            {
+                Manifest manifest = new Manifest(manifestInputStream);
+                final Attributes mainAttributes = manifest.getMainAttributes();
+                // Manifest-Version, Created-By, and Main-Class should not get overwritten, we just verify Main-Class
+                assertEquals("com.izforge.izpack.uninstaller.Uninstaller", mainAttributes.get(new Attributes.Name("Main-Class")));
+                assertEquals("ManifestValue1", mainAttributes.get(new Attributes.Name("ManifestEntry1")));
+                assertEquals("ManifestValue2", mainAttributes.get(new Attributes.Name("ManifestEntry2")));
+            }
+        }
     }
 
     private IzPackNewMojo setupMojo(String testPom, Properties userProps) throws Exception
