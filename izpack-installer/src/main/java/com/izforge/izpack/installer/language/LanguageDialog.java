@@ -215,7 +215,14 @@ public class LanguageDialog extends JDialog
         Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
         setLocation(center.x - frameSize.width / 2, center.y - frameSize.height / 2 - 10);
         setResizable(true);
-        comboBox.setSelectedItem(Locale.getDefault().getISO3Language().toLowerCase());
+
+        String defaultIso3Lang = installData.getVariable("DEFAULT_ISO3_LANG");
+        if (defaultIso3Lang == null || !displayNames.containsKey(defaultIso3Lang.toLowerCase()))
+        {
+            defaultIso3Lang = Locale.getDefault().getISO3Language();
+        }
+
+        comboBox.setSelectedItem(defaultIso3Lang.toLowerCase());
         setModal(true);
         toFront();
     }

@@ -24,8 +24,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Locale;
 
-import javax.swing.JFrame;
-
 import com.izforge.izpack.gui.IconsDatabase;
 import org.fest.swing.fixture.DialogFixture;
 import org.hamcrest.core.Is;
@@ -147,6 +145,21 @@ public class LanguageDialogTest
     }
 
     /**
+     * Tests with DEFAULT_ISO3_LANG variable to set the default selected language.
+     */
+    @Test
+    public void testWithDefaultIso3Variable()
+    {
+        installData.setVariable("DEFAULT_ISO3_LANG", "fra");
+
+        fixture = new DialogFixture(createDialog("iso3"));
+        checkDefaultSelected("eng", "fra", "fra");
+
+        // remove the variable set by this test case
+        installData.setVariable("DEFAULT_ISO3_LANG", null);
+    }
+
+    /**
      * Verifies that the combo box has the correct elements for English and French and that the locale is set correctly
      * when French is selected.
      *
@@ -162,6 +175,24 @@ public class LanguageDialogTest
         fixture.button(GuiId.BUTTON_LANG_OK.id).click();
         assertNotNull(locales.getLocale());
         assertEquals("fra", locales.getLocale().getISO3Language());
+    }
+
+    /**
+     * Verifies that the combo box has the correct elements for English and French and that the locale is set correctly
+     * to selectedIso3.
+     *
+     * @param englishDisplayName the expected display name for English
+     * @param frenchDisplayName  the expected display name for French
+     * @param selectedIso3       the expected selection
+     */
+    private void checkDefaultSelected(String englishDisplayName, String frenchDisplayName, String selectedIso3)
+    {
+        fixture.show();
+        assertThat(fixture.comboBox(GuiId.COMBO_BOX_LANG_FLAG.id).contents(),
+                Is.is(new String[]{englishDisplayName, frenchDisplayName}));
+        fixture.button(GuiId.BUTTON_LANG_OK.id).click();
+        assertNotNull(locales.getLocale());
+        assertEquals(selectedIso3, locales.getLocale().getISO3Language());
     }
 
     /**

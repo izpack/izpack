@@ -65,14 +65,27 @@ public class LanguageConsoleDialog {
       default:
         Iterator<String> iterator = displayNames.keySet().iterator();
         console.println("Select your language");
+
+        String defaultIso3Lang = installData.getVariable("DEFAULT_ISO3_LANG");
+        if (defaultIso3Lang == null || !displayNames.containsKey(defaultIso3Lang.toLowerCase()))
+        {
+          defaultIso3Lang = Locale.getDefault().getISO3Language();
+        }
+
         int i = 0;
+        int defaultCodeIndex = -1;
         while (iterator.hasNext())
         {
-          console.println(i + "  [" + (i == 0 ? "x" : " ") + "] " + iterator.next());
+          String langCode = iterator.next();
+          if (langCode.equalsIgnoreCase(defaultIso3Lang))
+          {
+              defaultCodeIndex = i;
+          }
+          console.println(i + "  [" + (i == defaultCodeIndex? "x" : " ") + "] " + langCode);
           i++;
         }
         try {
-            int numberOfUniqueLanguage = console.prompt(installData.getMessages().get("ConsoleInstaller.inputSelection"), 0, displayNames.keySet().size() - 1, 0, 0);
+            int numberOfUniqueLanguage = console.prompt(installData.getMessages().get("ConsoleInstaller.inputSelection"), 0, displayNames.keySet().size() - 1, defaultCodeIndex, 0);
             String[] keys = displayNames.keySet().toArray(new String[0]);
             propagateLocale(keys[numberOfUniqueLanguage]);
         }
