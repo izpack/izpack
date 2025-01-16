@@ -19,7 +19,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -224,7 +223,36 @@ public class IzPackNewMojoTest extends AbstractMojoTestCase
         assertEquals("value1" , propertyManager.getProperty("property1"));
         assertNull(propertyManager.getProperty("password")); // property name with pass word in it is excluded
         assertNull(propertyManager.getProperty("passphrase")); // property name with pass word in it  is excluded
-        assertNull(propertyManager.getProperty("sensitive.data")); // property name with sensitive word in it  is excluded
+        assertNull(propertyManager.getProperty("sensitive.data")); // property name with sensitive word in it is excluded
+    }
+
+    public void testFixIZPACK_1402() throws Exception
+    {
+        // Create and configure the mojo.
+        Properties userProps = new Properties();
+        userProps.setProperty("property1", "value1"); // simulates "-Dproperty1=value1" on mvn commandline
+        userProps.setProperty("sensitive.data", "Through command line"); // simulates "-Dsensitive.data=Through command line" on mvn commandline
+
+        IzPackNewMojo mojo = setupMojo("pom-izpack-1655.xml", userProps);
+        setVariableValueToObject(mojo, "includeProperties", new HashSet<>(Arrays.asList("property1", "staging.dir")));
+
+        // Execute the mojo.
+        mojo.execute();
+
+        // first verify the default behavior of maven
+        Properties props = project.getProperties();
+        // project.Properties do not reflect the user properties, so property1 reflects pom.xml
+        assertEquals("default", props.getProperty("property1"));
+
+        // verify the behavior of IzPack Maven Plugin
+        PropertyManager propertyManager = (PropertyManager) getVariableValueFromObject(mojo, "propertyManager");
+        assertThat(propertyManager, IsNull.notNullValue() );
+        // The IzPackMaven plugin should honor the user property set with "-Dproperty1=value1"
+        assertEquals("value1" , propertyManager.getProperty("property1")); // property1 should get added
+        assertThat(propertyManager.getProperty("staging.dir"), IsNull.notNullValue()); //  staging.dir should get added
+        assertNull(propertyManager.getProperty("password")); // password is not in the includeProperties, should not be added
+        assertNull(propertyManager.getProperty("passphrase")); // passphrase is not in the includeProperties, should not be added
+        assertNull(propertyManager.getProperty("sensitive.data")); // sensitive.data is not in the includeProperties, should not be added
     }
 
     public void testFixIZPACK_1525_SkipIzPackInConfiguration() throws Exception

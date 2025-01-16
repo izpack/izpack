@@ -38,7 +38,9 @@ import org.apache.maven.project.MavenProjectHelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -163,6 +165,13 @@ public class IzPackNewMojo extends AbstractMojo
     private Set<String> trimmedExcludeProperties;
 
     /**
+     * Comma separated list of Maven property names to be included in the installer.
+     * By default, the list is empty.
+     */
+    @Parameter
+    private Set<String> includeProperties;
+
+    /**
      * Whether to skip IzPack creation or not. This can be overridden by setting
      * command line parameter skipIzPack. At the command line if the value is
      * not provided or value is other than false then it is assumed to be
@@ -182,8 +191,6 @@ public class IzPackNewMojo extends AbstractMojo
 
     public void execute() throws MojoExecutionException, MojoFailureException
     {
-        trimExcludeProperties();
-
         File jarFile = getJarFile();
         if (isSkipIzPack())
         {
@@ -219,7 +226,8 @@ public class IzPackNewMojo extends AbstractMojo
         CompilerConfig compilerConfig = compilerContainer.getComponent(CompilerConfig.class);
 
         propertyManager = compilerContainer.getComponent(PropertyManager.class);
-        initMavenProperties(propertyManager);
+
+        addMavenProperties();
 
         try
         {
@@ -282,11 +290,39 @@ public class IzPackNewMojo extends AbstractMojo
         return new File(outputDirectory, installerFileName + ".jar");
     }
 
-    private void initMavenProperties(PropertyManager propertyManager)
+    private void addMavenProperties() {
+        if (includeProperties == null)
+        {
+            trimExcludeProperties();
+            List<String> includedProperties = initMavenProperties(project.getProperties().stringPropertyNames());
+            if (!includedProperties.isEmpty())
+            {
+                includedProperties.sort(String.CASE_INSENSITIVE_ORDER);
+                getLog().warn("You have not provided list of Maven properties to be included in the installer." +
+                        " Some of the sensitive maven properties may get included in the list." +
+                        " It is recommended to use 'includedProperties' to avoid this." +
+                        " Following Maven properties got included in the installer:\n" +
+                        String.join(", ", includedProperties));
+            }
+        }
+        else
+        {
+            List<String> includedProperties = initMavenProperties(trimIncludeProperties());
+            if (!includedProperties.isEmpty())
+            {
+                includedProperties.sort(String.CASE_INSENSITIVE_ORDER);
+                getLog().info("Following Maven properties got included in the installer:\n" +
+                        String.join(", ", includedProperties));
+            }
+        }
+    }
+
+    private List<String> initMavenProperties(Set<String> propertyNames)
     {
         Properties properties = project.getProperties();
         Properties userProps  = session.getUserProperties();
-        for (String propertyName : properties.stringPropertyNames())
+        List<String> includedProperties = new ArrayList<>();
+        for (String propertyName : propertyNames)
         {
             if (containsExcludedProperty(propertyName))
             {
@@ -303,18 +339,22 @@ public class IzPackNewMojo extends AbstractMojo
             String existingValue = propertyManager.getProperty(propertyName);
             if (existingValue != null && existingValue.equals(value))
             {
+                includedProperties.add(propertyName + "=" + value);
                 getLog().debug("Maven property exists: " + propertyName + "=" + value);
             }
             else if (propertyManager.addProperty(propertyName, value))
             {
+                includedProperties.add(propertyName + "=" + value);
                 getLog().debug("Maven property added: " + propertyName + "=" + value);
             }
             else
             {
+                includedProperties.add(propertyName + "=" + existingValue);
                 getLog().warn("Property " + propertyName + "=" + existingValue +
                         " could not be overridden with maven property " + propertyName + "=" + value);
             }
         }
+        return includedProperties;
     }
 
     private CompilerData initCompilerData(File jarFile)
@@ -388,5 +428,17 @@ public class IzPackNewMojo extends AbstractMojo
             }
         }
         return false;
+    }
+
+    private Set<String> trimIncludeProperties()
+    {
+        Set<String> trimmedIncludeProperties = new HashSet<>();
+        if (includeProperties != null)
+        {
+            for (String word : includeProperties) {
+                trimmedIncludeProperties.add(word.trim());
+            }
+        }
+        return trimmedIncludeProperties;
     }
 }
