@@ -30,22 +30,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class AbstractTextConsolePanelTest
 {
-    private AbstractTextConsolePanel abstractTextConsolePanel;
-
-    @Before
-    public void setup()
-    {
-        abstractTextConsolePanel = new AbstractTextConsolePanel(null)
-        {
-
-            @Override
-            protected String getText()
-            {
-                return null;
-            }
-        };
-    }
-
     @Test
     public void testRemoveHTML()
     {
@@ -72,12 +56,12 @@ public class AbstractTextConsolePanelTest
                 "</html>\n";
         String expected =  "Welcome\n\nWelcome to IzPack";
 
-        assertEquals(expected, abstractTextConsolePanel.removeHTML(html));
+        assertEquals(expected, AbstractTextConsolePanel.removeHTML(html));
     }
 
     @Test
     public void testRemoveHTMLForNull()
     {
-        assertEquals("", abstractTextConsolePanel.removeHTML(null));
+        assertEquals("", AbstractTextConsolePanel.removeHTML(null));
     }
 }
