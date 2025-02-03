@@ -3,7 +3,7 @@
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.2.4-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -40,7 +40,7 @@
 
     <properties>
         <izpack.version>${project.version}</izpack.version>
-        <staging.dir>${basedir}/target/staging/</staging.dir>
+        <staging.dir>${basedir}/target/staging</staging.dir>
     </properties>
 
     <build>
@@ -74,7 +74,9 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/izpack</directory>
+<!--
                                     <filtering>true</filtering>
+ -->
                                 </resource>
                                 <resource>
                                     <directory>src/main/resources</directory>

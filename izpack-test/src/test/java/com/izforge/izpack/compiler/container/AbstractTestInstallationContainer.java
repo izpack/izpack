@@ -22,10 +22,10 @@ package com.izforge.izpack.compiler.container;
 import java.util.jar.JarFile;
 
 import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.core.container.AbstractContainer;
+import com.izforge.izpack.core.container.CdiInitializationContext;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 
 /**
@@ -46,19 +46,20 @@ public abstract class AbstractTestInstallationContainer extends AbstractContaine
     }
 
     @Override
-    protected void fillContainer(MutablePicoContainer picoContainer)
+    protected void fillContainer(CdiInitializationContext context)
     {
+        super.fillContainer(context);
         TestCompilationContainer compiler = new TestCompilationContainer(klass, frameworkMethod);
         compiler.launchCompilation();
 
         // propagate compilation objects to the installer container so the installation test can use them
         CompilerData data = compiler.getComponent(CompilerData.class);
         JarFile installer = compiler.getComponent(JarFile.class);
-        picoContainer.addComponent(data);
-        picoContainer.addComponent(installer);
+        context.addComponent(CompilerData.class, data);
+        context.addComponent(JarFile.class, installer);
 
-        fillInstallerContainer(picoContainer);
+        fillInstallerContainer(context);
     }
 
-    protected abstract InstallerContainer fillInstallerContainer(MutablePicoContainer picoContainer);
+    protected abstract InstallerContainer fillInstallerContainer(CdiInitializationContext picoContainer);
 }
