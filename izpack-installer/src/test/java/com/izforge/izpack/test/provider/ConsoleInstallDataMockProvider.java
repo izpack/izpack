@@ -20,21 +20,24 @@
  */
 package com.izforge.izpack.test.provider;
 
+import java.io.IOException;
+
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
 import com.izforge.izpack.util.Platforms;
 
-import java.io.IOException;
-
 /**
  * Test provider for {@link ConsoleInstallData}.
  *
  * @author Tim Anderson
  */
-public class ConsoleInstallDataMockProvider extends AbstractInstallDataMockProvider
+public class ConsoleInstallDataMockProvider
 {
+    private ConsoleInstallDataMockProvider()
+    {
+    }
 
     /**
      * Provides an {@link ConsoleInstallData}.
@@ -44,29 +47,12 @@ public class ConsoleInstallDataMockProvider extends AbstractInstallDataMockProvi
      * @return an {@link ConsoleInstallData}
      * @throws IOException if the default messages cannot be found
      */
-    public ConsoleInstallData provide(Variables variables, Locales locales) throws IOException
+    public static ConsoleInstallData create(Variables variables, Locales locales)
     {
-        ConsoleInstallData result = createInstallData(variables);
-        populate(result, locales);
-        return result;
-    }
-
-    /**
-     * Creates a new {@link ConsoleInstallData}.
-     *
-     * @param variables the variables
-     * @return a new {@link ConsoleInstallData}
-     */
-    @Override
-    protected ConsoleInstallData createInstallData(Variables variables)
-    {
-        ConsoleInstallData result = new ConsoleInstallData(variables, Platforms.MAC_OSX);
-
         ConsolePrefs consolePrefs = new ConsolePrefs();
         consolePrefs.enableConsoleReader = false;
-        result.consolePrefs = consolePrefs;
-
+        ConsoleInstallData result = new ConsoleInstallData(variables, Platforms.MAC_OSX, consolePrefs);
+        MockInstallDataProvider.populate(result, locales);
         return result;
     }
-
 }

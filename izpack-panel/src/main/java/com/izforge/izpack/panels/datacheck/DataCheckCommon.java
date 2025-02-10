@@ -63,7 +63,7 @@ public class DataCheckCommon
         StringBuilder output = new StringBuilder("Available Packs:\n");
         int index = 0;
         List<Pack> allPacks = installData.getAllPacks();
-        if (allPacks == null)
+        if (allPacks == null || allPacks.isEmpty())
         {
             return null;
         }

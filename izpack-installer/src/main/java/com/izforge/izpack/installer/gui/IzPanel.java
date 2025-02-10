@@ -20,6 +20,25 @@
 
 package com.izforge.izpack.installer.gui;
 
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.LayoutManager2;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.Panel;
@@ -27,15 +46,12 @@ import com.izforge.izpack.api.handler.AbstractUIHandler;
 import com.izforge.izpack.api.installer.ISummarisable;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.handler.PromptUIHandler;
-import com.izforge.izpack.gui.*;
+import com.izforge.izpack.gui.GUIPrompt;
+import com.izforge.izpack.gui.IzPanelLayout;
+import com.izforge.izpack.gui.LabelFactory;
+import com.izforge.izpack.gui.LayoutConstants;
+import com.izforge.izpack.gui.MultiLineLabel;
 import com.izforge.izpack.installer.data.GUIInstallData;
-
-import javax.swing.*;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import java.awt.*;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Defines the base class for the IzPack panels. Any panel should be a subclass of it and should

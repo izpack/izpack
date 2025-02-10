@@ -23,12 +23,15 @@ package com.coi.tools.os.win;
 
 import java.io.Serializable;
 
+import jakarta.enterprise.inject.Vetoed;
+
 /**
  * Data container for Windows registry logging. This container is used to hold old and new created
  * registry data used at rewinding the registry changes.
  *
  * @author Klaus Bartz
  */
+@Vetoed
 public class RegistryLogItem implements Cloneable, Serializable
 {
 
@@ -227,6 +230,7 @@ public class RegistryLogItem implements Cloneable, Serializable
         this.valueName = valueName;
     }
 
+    @Override
     public Object clone() throws CloneNotSupportedException
     {
         RegistryLogItem retval = (RegistryLogItem) super.clone();
