@@ -4,18 +4,18 @@ import com.izforge.izpack.api.handler.DefaultConfigurationHandler;
 import com.izforge.izpack.panels.userinput.processor.PortProcessor;
 import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
 import junit.framework.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 
 
-@Ignore
+@Disabled
 public class PortProcessorTest
 {
-    @Test
+    @org.junit.jupiter.api.Test
     public void testProcessGenericBoundPort() throws IOException
     {
         // create a ServerSocket on any free port (for all available network interfaces)
@@ -35,7 +35,7 @@ public class PortProcessorTest
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testProcessSpecificBoundPort() throws IOException
     {
         // create a ServerSocket for localhost on any free port
@@ -56,7 +56,7 @@ public class PortProcessorTest
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testProcessGenericOnGenericBoundPortIPv6() throws IOException
     {
         // create a ServerSocket for localhost on any free port
@@ -76,7 +76,7 @@ public class PortProcessorTest
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testProcessGenericOnGenericBoundPortIPv4() throws IOException
     {
         // create a ServerSocket for localhost on any free port

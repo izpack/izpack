@@ -33,7 +33,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Console;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
@@ -41,7 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the {@link TargetConsolePanel} class.
@@ -100,7 +100,7 @@ public class TargetConsolePanelTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testRunConsoleIncompatibleInstallation() throws Exception
     {
         // set up two potential directories to install to, "badDir" and "goodDir"

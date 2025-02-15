@@ -21,15 +21,15 @@
  */
 package com.izforge.izpack.util.os;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Properties;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.injectors.ProviderAdapter;
 
@@ -73,7 +73,7 @@ public class Unix_ShortcutTest
      *
      * @throws Exception for any error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         container = new AbstractContainer()
@@ -103,8 +103,8 @@ public class Unix_ShortcutTest
     }
 
 
-    @Test
-    @Ignore
+    @org.junit.jupiter.api.Test
+    @Disabled
     public void main() throws IOException, ResourceNotFoundException
     {
 //        Unix_Shortcut aSample = new Unix_Shortcut(idata);
@@ -188,7 +188,7 @@ public class Unix_ShortcutTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testLink() throws Exception
     {
       Platform platform = new Platform(Platform.Name.LINUX);
@@ -279,7 +279,7 @@ public class Unix_ShortcutTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testSimple() throws Exception
     {
       Platform platform = new Platform(Platform.Name.LINUX);

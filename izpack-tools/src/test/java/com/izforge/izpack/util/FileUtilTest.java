@@ -21,12 +21,12 @@
 
 package com.izforge.izpack.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FileUtilTest extends AbstractPlatformTest
 {
@@ -60,14 +60,14 @@ public class FileUtilTest extends AbstractPlatformTest
     assertEquals("/somedirectory/somefile.txt", FileUtil.convertUrlToFilePath(linuxUrl));
   }
 
-  @Test
+  @org.junit.jupiter.api.Test
   public void testConvertUrlToFilePathFromWindowsJar() throws MalformedURLException
   {
     URL windowsUrl = new URL("jar:file:/C:/somedirectory/setup.jar!/some%20path/");
     assertEquals("C:/somedirectory/setup.jar!/some path/", FileUtil.convertUrlToFilePath(windowsUrl));
   }
 
-  @Test
+  @org.junit.jupiter.api.Test
   public void testConvertUrlToFilePathFromWindowsFile() throws MalformedURLException
   {
     URL windowsUrl = new URL("file:/C:/somedirectory/somefile.txt");

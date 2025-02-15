@@ -51,7 +51,7 @@ import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 
@@ -65,7 +65,7 @@ import java.util.jar.JarOutputStream;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileEquals;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the {@link MultiVolumeUnpacker}.
@@ -164,7 +164,7 @@ public class MultiVolumeUnpackerTest
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testUnpackWithExecutables() throws Exception
     {
         File baseDir = temporaryFolder.getRoot();
