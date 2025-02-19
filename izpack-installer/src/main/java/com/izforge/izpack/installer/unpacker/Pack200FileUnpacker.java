@@ -24,6 +24,7 @@ package com.izforge.izpack.installer.unpacker;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.util.os.FileQueue;
+import org.apache.commons.compress.java.util.jar.Pack200;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -31,8 +32,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.jar.JarOutputStream;
-import java.util.jar.Pack200;
-
 
 /**
  * A file unpacker for pack200 files.

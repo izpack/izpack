@@ -57,7 +57,7 @@
 			<artifactId>pdfbox</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.icepdf.os</groupId>
+			<groupId>com.github.pcorless.icepdf</groupId>
 			<artifactId>icepdf-viewer</artifactId>
 		</dependency>
 		<!-- PDF Panel -->
@@ -77,7 +77,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
