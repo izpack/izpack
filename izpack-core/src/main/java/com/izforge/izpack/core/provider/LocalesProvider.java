@@ -19,37 +19,30 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.core.container;
+package com.izforge.izpack.core.provider;
 
+import com.izforge.izpack.api.resource.Locales;
+import com.izforge.izpack.core.resource.DefaultLocales;
+import com.izforge.izpack.core.resource.ResourceManager;
 
-import com.izforge.izpack.util.Platform;
-import com.izforge.izpack.util.Platforms;
-import org.picocontainer.injectors.Provider;
-
-import java.util.logging.Logger;
-
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
 /**
- * Injection provider for the current {@link Platform}.
+ * Provider of {@link Locales}.
  *
  * @author Tim Anderson
  */
-public class PlatformProvider implements Provider
+@ApplicationScoped
+public class LocalesProvider
 {
 
-    /**
-     * The logger.
-     */
-    private static final Logger logger = Logger.getLogger(PlatformProvider.class.getName());
-
-    /**
-     * Provides the current platform.
-     *
-     * @param platforms the platform factory
-     * @return the current platform
-     */
-    public Platform provide(Platforms platforms)
+    @Produces
+    @ApplicationScoped
+    public Locales provide(ResourceManager resources)
     {
-        return platforms.getCurrentPlatform();
+        Locales locales = new DefaultLocales(resources);
+        resources.setLocales(locales);
+        return locales;
     }
 }

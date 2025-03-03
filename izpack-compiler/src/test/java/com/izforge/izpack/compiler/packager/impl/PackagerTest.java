@@ -49,26 +49,23 @@ import static org.mockito.Mockito.mock;
 public class PackagerTest extends AbstractPackagerTest
 {
 
-    @Rule
-    public final TemporaryFolder temporaryFolder = new TemporaryFolder();
-
     /**
      * Helper to create a packager that writes to the provided jar.
      *
-     * @param jar          the jar stream
+     * @param installerJar the installer jar destination
      * @param mergeManager the merge manager
      * @return a new packager
      */
     @Override
-    protected PackagerBase createPackager(JarOutputStream jar, MergeManager mergeManager)
+    protected PackagerBase createPackager(File installerJar, MergeManager mergeManager)
     {
         Properties properties = new Properties();
         CompilerPathResolver pathResolver = mock(CompilerPathResolver.class);
         MergeableResolver resolver = mock(MergeableResolver.class);
-        CompilerData data = new CompilerData("", "", "", true);
+        CompilerData data = new CompilerData("", "", installerJar.toString(), true);
         RulesEngine rulesEngine = mock(RulesEngine.class);
-        Packager packager = new Packager(properties, null, jar, mergeManager,
-                                         pathResolver, resolver, data, rulesEngine);
+        Packager packager = new Packager(properties, null, mergeManager, pathResolver, resolver, data,
+                rulesEngine);
         packager.setInfo(new Info());
         return packager;
     }
@@ -87,8 +84,7 @@ public class PackagerTest extends AbstractPackagerTest
 
         PackInfo packInfo = createPackInfo("Core", file1, file2);
 
-        JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(installerJar));
-        IPackager packager = createPackager(jarOutputStream, mock(MergeManager.class));
+        IPackager packager = createPackager(installerJar, mock(MergeManager.class));
         packager.addPack(packInfo);
 
         long startMillis = System.currentTimeMillis();
@@ -108,7 +104,7 @@ public class PackagerTest extends AbstractPackagerTest
         {
             packInfo.addFile(file.getParentFile(), file, "$INSTALL_DIR/" + file.getName(), null,
                     OverrideType.OVERRIDE_TRUE, "", Blockable.BLOCKABLE_NONE, Collections.emptyMap(),
-                    "", null);
+                    "");
         }
         return packInfo;
     }

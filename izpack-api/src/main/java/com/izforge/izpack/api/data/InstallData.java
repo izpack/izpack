@@ -23,6 +23,8 @@ package com.izforge.izpack.api.data;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.resource.Messages;
@@ -224,13 +226,6 @@ public interface InstallData
     List<Pack> getSelectedPacks();
 
     /**
-     * Sets the selected packs.
-     *
-     * @param selectedPacks the selected packs
-     */
-    void setSelectedPacks(List<Pack> selectedPacks);
-
-    /**
      * Returns the panels.
      *
      * @return the panels
@@ -322,5 +317,54 @@ public interface InstallData
      */
     Object getAttribute(String name);
 
+    /**
+     * Returns if the console reader should be enabled or not.
+     * 
+     * @return {@code true} to enable console reader, {@code false} otherwise.
+     */
+    boolean isEnableConsoleReader();
+
+    /**
+     * Update the available packs based on the given predicate.
+     *
+     * @param availablePredicate the predicate used to select the available pack
+     */
+    void updateAvailablePacks(Predicate<Pack> availablePredicate);
+
+    /**
+     * Update the available packs based on the given predicate.
+     *
+     * @param selectedPredicate the predicate used to select the selected pack
+     */
+    void updateSelectedPacks(Predicate<Pack> selectedPredicate);
+
+    /**
+     * Returns an optional implementation of the given {@code type} class.
+     * 
+     * @param <T> the type of the extension
+     * @param type the extension type
+     * @return an optional implementation for the given type
+     */
+    default <T> Optional<T> getExtension(Class<T> type) {
+        return Optional.empty();
+    }
+
+    // maybe move to internal interface/class
+
+    void setRules(RulesEngine result);
+
+    void setInstallationRecord(IXMLElement installRecord);
+
+    void setMessages(Messages messages);
+
+    void setLocale(Locale locale, String isoCode);
+
+    IXMLElement getInstallationRecordPanelRoot(String panelId);
+
+    void setDynamicInstallerRequirements(List<DynamicInstallerRequirementValidator> conditions);
+
+    void setInstallerRequirements(List<InstallerRequirement> requirements);
+
+    void setInfo(Info info);
 }
 

@@ -22,10 +22,10 @@
 package com.izforge.izpack.installer.automation;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
-import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Info;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.installer.base.InstallerBase;
 import com.izforge.izpack.installer.data.UninstallData;
@@ -33,6 +33,7 @@ import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.requirement.RequirementsChecker;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PrivilegedRunner;
+import jakarta.enterprise.inject.Vetoed;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,6 +50,7 @@ import javax.xml.transform.stream.StreamSource;
  * @author Julien Ponge <julien@izforge.com>
  * @author Johannes Lehtinen <johannes.lehtinen@iki.fi>
  */
+@Vetoed
 public class AutomatedInstaller implements InstallerBase
 {
 
@@ -60,7 +62,7 @@ public class AutomatedInstaller implements InstallerBase
     /**
      * The automated installation data.
      */
-    private final AutomatedInstallData installData;
+    private final InstallData installData;
 
     /**
      * Installation requirements.
@@ -92,7 +94,7 @@ public class AutomatedInstaller implements InstallerBase
      * @param uninstallDataWriter the uninstallation data writer
      * @param housekeeper         the house-keeper
      */
-    public AutomatedInstaller(AutomatedPanels panels, AutomatedInstallData installData, Locales locales,
+    public AutomatedInstaller(AutomatedPanels panels, InstallData installData, Locales locales,
                               RequirementsChecker requirements, UninstallDataWriter uninstallDataWriter,
                               Housekeeper housekeeper)
     {

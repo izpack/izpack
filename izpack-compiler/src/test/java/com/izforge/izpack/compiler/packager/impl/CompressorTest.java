@@ -17,15 +17,17 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.compiler.compressor;
+package com.izforge.izpack.compiler.packager.impl;
 
 import com.izforge.izpack.api.data.PackCompression;
-import com.izforge.izpack.compiler.container.provider.JarOutputStreamProvider;
 import com.izforge.izpack.compiler.data.CompilerData;
-import com.izforge.izpack.compiler.packager.impl.AbstractPackagerTest;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 
@@ -36,19 +38,22 @@ import java.util.zip.ZipEntry;
  */
 public class CompressorTest
 {
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
     public void testBzip2Compression() throws IOException//, CompressorException
     {
-        String baseDir = AbstractPackagerTest.getBaseDir().getPath();
+        final File root = temporaryFolder.getRoot();
+        String baseDir = root.toString();
         CompilerData data = new CompilerData(
                 "",
                 baseDir,
                 baseDir + "/target/output.jar",
                 false);
         data.setComprFormat(PackCompression.BZIP2.toName());
-        JarOutputStreamProvider jarOutputStreamProvider = new JarOutputStreamProvider();
-        JarOutputStream jarOutputStream = jarOutputStreamProvider.provide(data);
+        final Path setupJar = root.toPath().resolve("setup.jar");
+        JarOutputStream jarOutputStream = PackagerBase.getJarOutputStream(setupJar, data);
         ZipEntry zipEntry = new ZipEntry("test");
         zipEntry.setComment("bzip2");
         jarOutputStream.putNextEntry(zipEntry);
