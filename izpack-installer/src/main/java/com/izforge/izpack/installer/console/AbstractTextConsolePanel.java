@@ -144,7 +144,7 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
      * @param text the text. May be {@code null}
      * @return the text with HTML removed
      */
-    protected String removeHTML(String text)
+    protected static String removeHTML(String text)
     {
         String result = "";
 
@@ -224,7 +224,7 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
         return result;
     }
 
-    private String removeHTMLTag(String text, String tag)
+    private static String removeHTMLTag(String text, String tag)
     {
         String result = text.replaceAll("[ \\t]*<( )*" + tag + "([^>])*>[ \\t]*", "<" + tag + ">");
         result = result.replaceAll("([ \\t]*<( )*(/)( )*" + tag + "( )*>[ \\t]*)", "</" + tag + ">");
