@@ -4,7 +4,7 @@
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.2.5-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>izpack-compiler</artifactId>
