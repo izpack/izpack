@@ -34,6 +34,7 @@ import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.util.NoCloseOutputStream;
 import com.izforge.izpack.util.StreamSupport;
+import org.apache.commons.compress.java.util.jar.Pack200;
 import org.apache.commons.io.output.CountingOutputStream;
 
 import java.io.BufferedOutputStream;
@@ -50,7 +51,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
-import java.util.jar.Pack200;
 import java.util.logging.Logger;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;

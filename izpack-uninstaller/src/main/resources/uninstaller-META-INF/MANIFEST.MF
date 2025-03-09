@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
-Created-By: ${project.version}-${buildNumber} (IzPack)
+Created-By: IzPack ${project.version}-${buildNumber}
+Add-Opens: java.base/java.io
 Main-Class: com.izforge.izpack.uninstaller.Uninstaller
