@@ -528,12 +528,14 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
+          <argLine>-XX:+IgnoreUnrecognizedVMOptions -XX:+EnableDynamicAgentLoading --add-opens=java.base/java.io=ALL-UNNAMED --enable-native-access=ALL-UNNAMED</argLine>
           <!-- need to always fork as ClassUtils.loadJarInSystemClassLoader() mangles the system class loader -->
           <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
           <skipTests>${skipUnitTests}</skipTests>
           <systemPropertyVariables>
             <java.locale.providers>JRE,CLDR,SPI</java.locale.providers>
+            <org.apache.lucene.store.MMapDirectory.enableMemorySegments>false</org.apache.lucene.store.MMapDirectory.enableMemorySegments>
           </systemPropertyVariables>
         </configuration>
       </plugin>
