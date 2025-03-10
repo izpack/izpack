@@ -27,6 +27,8 @@ import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.ConditionReference;
 import com.izforge.izpack.api.rules.RulesEngine;
 
+import jakarta.inject.Inject;
+
 /**
  * References an already defined condition
  */
@@ -38,6 +40,7 @@ public class RefCondition extends ConditionReference
 
     private String referencedConditionId;
 
+    @Inject
     public RefCondition(RulesEngine rules)
     {
         this.rules = rules;

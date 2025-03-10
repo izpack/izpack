@@ -24,6 +24,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Locale;
 
+import javax.swing.JFrame;
+
 import com.izforge.izpack.gui.IconsDatabase;
 import org.fest.swing.fixture.DialogFixture;
 import org.hamcrest.core.Is;
@@ -32,12 +34,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.GuiId;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.container.TestLanguageContainer;
-import com.izforge.izpack.installer.data.GUIInstallData;
+import com.izforge.izpack.installer.data.GuiExtension;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
+
+import jakarta.inject.Inject;
 
 /**
  * Tests the {@link LanguageDialog}.
@@ -53,42 +59,31 @@ public class LanguageDialogTest
     /**
      * The resources.
      */
-    private final Resources resources;
+    @Inject
+    private Resources resources;
 
     /**
      * The installation data.
      */
-    private final GUIInstallData installData;
+    @Inject
+    private InstallData installData;
 
     /**
      * The locales.
      */
-    private final Locales locales;
+    @Inject
+    private Locales locales;
 
     /**
      * The locales.
      */
-    private final IconsDatabase icons;
+    @Inject
+    private IconsDatabase icons;
 
     /**
      * The dialog fixture.
      */
     private DialogFixture fixture;
-
-    /**
-     * Constructs {@code LanguageDialogTest}.
-     *
-     * @param resources   the resources
-     * @param installData the installation data
-     * @param locales     the locales. Must contain locales "eng" and "fra"
-     */
-    public LanguageDialogTest(Resources resources, GUIInstallData installData, Locales locales, IconsDatabase icons)
-    {
-        this.resources = resources;
-        this.installData = installData;
-        this.locales = locales;
-        this.icons = icons;
-    }
 
     /**
      * Cleans up after the test.
@@ -204,7 +199,9 @@ public class LanguageDialogTest
      */
     private LanguageDialog createDialog(String langDisplayType)
     {
-        installData.guiPrefs.modifier.put("langDisplayType", langDisplayType);
+        GuiExtension guiExtension = installData.getExtension(GuiExtension.class)
+            .orElseThrow(() -> new IllegalArgumentException("Unsupported install data reference"));
+        guiExtension.modifiers().put("langDisplayType", langDisplayType);
         return new LanguageDialog(resources, locales, installData, icons);
     }
 

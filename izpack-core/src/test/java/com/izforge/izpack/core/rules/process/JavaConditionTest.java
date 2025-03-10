@@ -18,25 +18,36 @@
  */
 package com.izforge.izpack.core.rules.process;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import com.izforge.izpack.api.data.InstallData;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.container.DefaultContainer;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.rules.ConditionContainer;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
+import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import jakarta.inject.Inject;
 
+@RunWith(PicoRunner.class)
+@Container(DefaultContainer.class)
 public class JavaConditionTest {
     public static final boolean CONSTANT_VALUE = true;
     public static final Boolean CONSTANT_OBJECT_VALUE = Boolean.TRUE;
+
+    @Inject
+    private ConditionContainer conditionContainer;
 
     public static void conditionMethodWithArgument(String someArgument) {
     }
@@ -85,9 +96,6 @@ public class JavaConditionTest {
      */
     private RulesEngine createRulesEngine(InstallData installData)
     {
-        DefaultContainer parent = new DefaultContainer();
-        RulesEngine rules = new RulesEngineImpl(installData, new ConditionContainer(parent), installData.getPlatform());
-        parent.addComponent(RulesEngine.class, rules);
-        return rules;
+        return new RulesEngineImpl(installData, conditionContainer);
     }
 }
