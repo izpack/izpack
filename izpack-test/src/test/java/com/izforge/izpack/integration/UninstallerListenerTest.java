@@ -22,16 +22,16 @@
 package com.izforge.izpack.integration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.jar.JarFile;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -87,7 +87,7 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
      * @throws IOException if the install directory cannot be created
      * @throws Exception   for any other error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         super.setUp();
@@ -99,7 +99,7 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         removeState();

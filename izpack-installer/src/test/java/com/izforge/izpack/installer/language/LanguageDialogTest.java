@@ -19,16 +19,16 @@
 package com.izforge.izpack.installer.language;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Locale;
 
 import com.izforge.izpack.gui.IconsDatabase;
 import org.fest.swing.fixture.DialogFixture;
 import org.hamcrest.core.Is;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.GuiId;
@@ -93,7 +93,7 @@ public class LanguageDialogTest
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearBinding()
     {
         if (fixture != null)
@@ -120,7 +120,7 @@ public class LanguageDialogTest
     /**
      * Tests the "native" language display type.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testNativeDisplayType()
     {
         LanguageDialog dialog = createDialog("native");
@@ -137,7 +137,7 @@ public class LanguageDialogTest
     /**
      * Tests the "iso3" language display type.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testISO3DisplayType()
     {
         fixture = new DialogFixture(createDialog("iso3"));

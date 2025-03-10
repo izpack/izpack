@@ -21,11 +21,11 @@
 
 package com.izforge.izpack.integration;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.GuiId;
@@ -92,7 +92,7 @@ public class InstallerListenerTest extends AbstractInstallationTest
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)

@@ -28,7 +28,7 @@ import com.izforge.izpack.compiler.packager.impl.AbstractPackagerTest;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 import org.hamcrest.core.IsNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Properties;
@@ -83,7 +83,7 @@ public class CompilerLauncherTest
         assertThat(jarOutputStream, IsNull.notNullValue());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCompilerBinding() throws Exception
     {
         compilerContainer.processCompileDataFromArgs(new String[]{"bindingTest.xml"});
@@ -91,7 +91,7 @@ public class CompilerLauncherTest
         assertThat(compiler, IsNull.notNullValue());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCompilerDataBinding()
     {
         String baseDir = AbstractPackagerTest.getBaseDir().getPath();
@@ -107,7 +107,7 @@ public class CompilerLauncherTest
         assertThat(data, IsNull.notNullValue());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCompilerConfigBinding() throws Exception
     {
         compilerContainer.processCompileDataFromArgs(new String[]{"bindingTest.xml"});

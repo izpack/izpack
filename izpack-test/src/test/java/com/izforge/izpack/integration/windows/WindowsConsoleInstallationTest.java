@@ -44,9 +44,9 @@ import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.PrivilegedRunner;
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -55,7 +55,7 @@ import java.util.logging.Logger;
 
 import static com.izforge.izpack.integration.windows.WindowsHelper.*;
 import static com.izforge.izpack.util.Platform.Name.WINDOWS;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -172,7 +172,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      *
      * @throws Exception for any error
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
     	// don't use Assume in @After methods!
@@ -197,7 +197,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/windows/install.xml")
     public void testInstallation() throws Exception
     {
@@ -220,7 +220,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/windows/install.xml")
     public void testMultipleInstallation() throws Exception
     {
@@ -301,7 +301,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      *
      * @throws Exception for any error
      */
-    @Test
+    @org.junit.jupiter.api.Test
     @InstallFile("samples/windows/consoleinstall_alt_uninstall.xml")
     public void testNonDefaultUninstaller() throws Exception
     {
@@ -386,4 +386,3 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         }
     }
 }
-

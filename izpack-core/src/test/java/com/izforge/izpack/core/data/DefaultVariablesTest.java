@@ -34,18 +34,18 @@ import com.izforge.izpack.core.variable.PlainConfigFileValue;
 import com.izforge.izpack.core.variable.PlainValue;
 import com.izforge.izpack.util.Platforms;
 import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -55,8 +55,8 @@ import static org.junit.Assert.*;
  */
 public class DefaultVariablesTest
 {
-    @Rule
-    public TemporaryFolder rootFolder = new TemporaryFolder();
+    @TempDir
+    static Path rootFolder;
 
 
     /**
@@ -154,7 +154,7 @@ public class DefaultVariablesTest
     /**
      * Tests the {@link Variables#getLong(String)} and {@link Variables#getLong(String, long)} methods.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testLongVariables()
     {
         // check basic set, get
@@ -202,7 +202,7 @@ public class DefaultVariablesTest
     /**
      * Tests simple dynamic variables.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDynamicVariables()
     {
         variables.add(createDynamic("var1", "$INSTALL_PATH"));
@@ -271,7 +271,7 @@ public class DefaultVariablesTest
         File confFile = null;
         try
         {
-            installPath = rootFolder.newFolder("myapp");
+            installPath = rootFolder.resolve("myapp").toFile();
             File confPath = new File(installPath, "conf");
             confPath.mkdirs();
             confFile = new File(confPath, "wrapper.conf");
@@ -378,7 +378,7 @@ public class DefaultVariablesTest
     /**
      * Tests dynamic variables with a deeper dependency and checkonce==true
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testDependentDynamicVariablesWithCheckOnce()
     {
         variables.set("depVar1", "depValue");
@@ -407,7 +407,7 @@ public class DefaultVariablesTest
      * <variable name="thechoice" value="choice2" condition="cond2" />
      * </dynamicvariables>
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testMixedDynamicVariables()
     {
         final String observedVar = "thechoice";
@@ -487,7 +487,7 @@ public class DefaultVariablesTest
      * This example is not useful, but should not create a loop.
      * Resolving is done in the best way it can be done. No error is thrown, but variable "a" is simply not resolved.
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testCyclicReference()
     {
         variables.add(createDynamic("a", "${b}"));
@@ -514,7 +514,7 @@ public class DefaultVariablesTest
         {
             catched = true;
         }
-        assertFalse("empty <dynamicVariables> must not throw an exception", catched);
+        assertFalse(catched, "empty <dynamicVariables> must not throw an exception");
     }
 
     /**
@@ -728,11 +728,11 @@ public class DefaultVariablesTest
     /**
      * Tests variable overrides to be passed to the installer
      */
-    @Test
+    @org.junit.jupiter.api.Test
     public void testOverrides()
     {
         File file = new File("src/test/resources/com/izforge/izpack/core/data/test.defaults");
-        assertTrue("File " + file + " not found", file.exists());
+        assertTrue(file.exists(), "File " + file + " not found");
         Overrides overrides = null;
         try
         {

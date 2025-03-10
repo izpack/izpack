@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.test.junit;
 
+import org.junit.
+
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;

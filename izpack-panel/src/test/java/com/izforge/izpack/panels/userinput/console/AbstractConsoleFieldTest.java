@@ -16,7 +16,7 @@ import org.mockito.Mockito;
 
 import java.io.InputStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Base class for console-based user-input fields.
