@@ -1,6 +1,3 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-
 name: CI
 
 on: 
@@ -17,25 +14,30 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: ${{ matrix.jdk }}
+
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
       - name: Build with Maven (no dependency check for PR)
         if: github.event_name == 'pull_request'
         run: ./mvnw -B -U verify -Ddependency-check.skip=true
+
       - name: Build with Maven (with dependency check)
         if: github.event_name != 'pull_request'
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: ./mvnw -B -U verify
+
       - name: Running Maven GUI tests
         run: |
           sudo apt-get install fluxbox
@@ -43,6 +45,24 @@ jobs:
           Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           fluxbox &> ~/fluxbox.log &
           ./mvnw -B verify -Pwith-gui-tests -Ddependency-check.skip=true
+
+      - name: Write out Unit Test report annotation for forked repo
+        if: ${{ failure() &&  (github.event.pull_request.head.repo.full_name != github.repository) }}
+        uses: mikepenz/action-junit-report@v5
+        with:
+          annotate_only: true # forked repo cannot write to checks so just do annotations
+
+      - name: Archive build logs
+        if: always()
+        uses: actions/upload-artifact@v4.6.1
+        with:
+          name: jdk${{ matrix.jdk }}-build-logs
+          retention-days: 5
+          path: |
+            **/*.jfr
+            **/hs_err_pid*.log
+            **/target/reports/*
+
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: build
@@ -62,4 +82,4 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: ./mvnw deploy --settings .github/workflows/settings.xml -DskipTests=true
+        run: ./mvnw deploy --settings .github/workflows/settings.xml -DskipTests=true -Ddependency-check.skip=true
