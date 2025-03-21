@@ -45,6 +45,8 @@ import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.FileUtil;
 
+import jakarta.inject.Inject;
+
 /**
  * Test of path resolver
  *
@@ -54,12 +56,8 @@ import com.izforge.izpack.util.FileUtil;
 @Container(TestMergeContainer.class)
 public class PathResolverTest
 {
+    @Inject
     private PathResolver pathResolver;
-
-    public PathResolverTest(PathResolver pathResolver)
-    {
-        this.pathResolver = pathResolver;
-    }
 
     @Test
     public void testGetMergeableFromJar() throws Exception
@@ -144,7 +142,7 @@ public class PathResolverTest
 
     private Collection<String> getListPathFromListURL(Collection<URL> urlList)
     {
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
         for (URL url : urlList)
         {
             arrayList.add(url.getPath());
