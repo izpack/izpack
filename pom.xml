@@ -684,7 +684,6 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.5.2</version>
           <configuration>
-            <!-- <workingDirectory>${project.build.directory}</workingDirectory> -->
             <systemPropertyVariables>
               <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
             </systemPropertyVariables>
@@ -869,7 +868,6 @@
             <executions>
               <execution>
                 <id>attach-javadoc</id>
-                <!--<phase>verify</phase>-->
                 <goals>
                   <goal>jar</goal>
                 </goals>
@@ -882,7 +880,6 @@
             <executions>
               <execution>
                 <id>attach-sources</id>
-                <!--<phase>verify</phase>-->
                 <goals>
                   <goal>jar-no-fork</goal>
                 </goals>
@@ -1020,11 +1017,6 @@
           <effort>Max</effort>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>3.6.0</version>
-      </plugin>
     </plugins>
   </reporting>
 
@@ -1032,7 +1024,7 @@
     <!-- If you are an official/codehaus IzPack developer, please add yourself here! -->
     <developer>
       <name>Julien Ponge</name>
-      <url>http://julien.ponge.info/</url>
+      <url>https://julien.ponge.info/</url>
       <roles>
         <role>Founder</role>
         <role>Maintainer</role>
@@ -1097,7 +1089,7 @@
 
   <issueManagement>
     <system>jira</system>
-    <url>http://izpack.atlassian.net</url>
+    <url>https://izpack.atlassian.net</url>
   </issueManagement>
   
 </project>
