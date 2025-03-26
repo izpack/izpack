@@ -23,6 +23,7 @@
 package com.izforge.izpack.installer.gui;
 
 import com.izforge.izpack.api.data.Info;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.event.ProgressListener;
@@ -46,6 +47,8 @@ import com.izforge.izpack.util.CleanupClient;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Platform;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -69,11 +72,12 @@ import static com.izforge.izpack.api.GuiId.BUTTON_HELP;
  * @author Dennis Reil, added RulesEngine November 10 2006, several changes in January 2007
  * @author Bill Root added per-panel quit confirmation control, Feb 2015
  */
+@ApplicationScoped
 public class InstallerFrame extends JFrame implements InstallerBase, InstallerView
 {
     private static final long serialVersionUID = 3257852069162727473L;
 
-    private static final transient Logger logger = Logger.getLogger(InstallerFrame.class.getName());
+    private static final Logger logger = Logger.getLogger(InstallerFrame.class.getName());
 
     private static final String BACKGROUND_IMAGE = "Background.image";
     private static final String ICON_RESOURCE = "Installer.image";
@@ -226,14 +230,15 @@ public class InstallerFrame extends JFrame implements InstallerBase, InstallerVi
      * @param navigator           the panel navigator
      * @param log                 the log
      */
-    public InstallerFrame(GUIInstallData installData, RulesEngine rules, IconsDatabase icons,
+    @Inject
+    public InstallerFrame(InstallData installData, RulesEngine rules, IconsDatabase icons,
                           IzPanels panels, UninstallDataWriter uninstallDataWriter,
                           ResourceManager resourceManager, UninstallData uninstallData, Housekeeper housekeeper,
                           DefaultNavigator navigator, Log log, Locales locales)
     {
         super();
         guiListener = new ArrayList<GUIListener>();
-        this.installdata = installData;
+        this.installdata = (GUIInstallData)installData;
         this.rules = rules;
         this.resourceManager = resourceManager;
         this.uninstallDataWriter = uninstallDataWriter;

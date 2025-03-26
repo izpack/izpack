@@ -26,6 +26,7 @@ import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.data.PropertyManager;
 import com.izforge.izpack.compiler.helper.AssertionHelper;
 import com.izforge.izpack.compiler.helper.XmlCompilerHelper;
+import jakarta.inject.Inject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,18 +39,18 @@ import java.net.URL;
  */
 public class ResourceFinder
 {
-    private AssertionHelper assertionHelper;
-    private CompilerData compilerData;
-    private PropertyManager propertyManager;
-    private XmlCompilerHelper xmlCompilerHelper;
+    private final CompilerData compilerData;
+    private final AssertionHelper assertionHelper;
+    private final PropertyManager propertyManager;
+    private final XmlCompilerHelper xmlCompilerHelper;
 
-    public ResourceFinder(AssertionHelper assertionHelper, CompilerData compilerData, PropertyManager propertyManager,
-                          XmlCompilerHelper xmlCompilerHelper)
+    @Inject
+    public ResourceFinder(CompilerData compilerData, PropertyManager propertyManager)
     {
-        this.assertionHelper = assertionHelper;
         this.compilerData = compilerData;
+        this.assertionHelper = new AssertionHelper(compilerData.getInstallFile());
         this.propertyManager = propertyManager;
-        this.xmlCompilerHelper = xmlCompilerHelper;
+        this.xmlCompilerHelper = new XmlCompilerHelper(assertionHelper);
     }
 
     /**

@@ -24,6 +24,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import jakarta.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -77,6 +78,7 @@ public class ProcessPanelAutomationTest
      * @param resources   the resources
      * @param matcher     the platform-model matcher
      */
+    @Inject
     public ProcessPanelAutomationTest(InstallData installData, RulesEngine rules, ResourceManager resources,
                                       PlatformModelMatcher matcher)
     {

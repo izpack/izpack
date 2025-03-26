@@ -28,6 +28,8 @@ import com.izforge.izpack.api.rules.ConditionReference;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.rules.process.RefCondition;
 
+import jakarta.inject.Inject;
+
 /**
  * Negation of a referenced condition
  */
@@ -39,6 +41,7 @@ public class NotCondition extends ConditionReference
 
     private String referencedConditionId;
 
+    @Inject
     public NotCondition(RulesEngine rules)
     {
         this.rules = rules;
