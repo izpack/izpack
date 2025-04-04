@@ -26,6 +26,7 @@ import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.compiler.helper.AssertionHelper;
 import com.izforge.izpack.compiler.listener.PackagerListener;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorReader;
+import jakarta.inject.Inject;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -92,12 +93,11 @@ public class PropertyManager
     private final Properties properties;
     private final Variables variables;
     private final PackagerListener packagerListener;
-    private final AssertionHelper assertionHelper;
     private final String basedir;
 
-    public PropertyManager(Properties properties, Variables variables, CompilerData compilerData, PackagerListener packagerListener, AssertionHelper assertionHelper)
+    @Inject
+    public PropertyManager(Properties properties, Variables variables, CompilerData compilerData, PackagerListener packagerListener)
     {
-        this.assertionHelper = assertionHelper;
         this.properties = properties;
         this.variables = variables;
         this.packagerListener = packagerListener;
@@ -175,7 +175,8 @@ public class PropertyManager
             prefix += ".";
         }
 
-        final String fileName = propertyNode.getAttribute("file");
+        String fileName = propertyNode.getAttribute("file");
+        AssertionHelper assertionHelper = new AssertionHelper(fileName);
 
         if (name != null)
         {

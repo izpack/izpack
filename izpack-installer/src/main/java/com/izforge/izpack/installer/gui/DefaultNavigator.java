@@ -21,11 +21,13 @@
 package com.izforge.izpack.installer.gui;
 
 
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.gui.ButtonFactory;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.panel.Panels;
+import jakarta.inject.Inject;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -89,24 +91,26 @@ public class DefaultNavigator implements Navigator
      * @param icons       the icons
      * @param installData the installation data
      */
-    public DefaultNavigator(Panels panels, IconsDatabase icons, GUIInstallData installData)
+    @Inject
+    public DefaultNavigator(Panels panels, IconsDatabase icons, InstallData installData)
     {
         this.panels = panels;
+        GUIInstallData guiInstallData = (GUIInstallData) installData;
         Messages messages = installData.getMessages();
         previous = ButtonFactory.createButton(messages.get("installer.prev"), icons.get("stepback"),
-                                              installData.buttonsHColor);
+                                              guiInstallData.buttonsHColor);
         ActionListener navHandler = new NavigationHandler();
         previous.addActionListener(navHandler);
         previous.setName(BUTTON_PREV.id);
         previous.setVisible(false);
 
         next = ButtonFactory.createButton(messages.get("installer.next"), icons.get("stepforward"),
-                                          installData.buttonsHColor);
+                                          guiInstallData.buttonsHColor);
         next.setName(BUTTON_NEXT.id);
         next.addActionListener(navHandler);
 
         quit = ButtonFactory.createButton(messages.get("installer.quit"), icons.get("stop"),
-                                          installData.buttonsHColor);
+                                          guiInstallData.buttonsHColor);
         quit.setName(BUTTON_QUIT.id);
         quit.addActionListener(navHandler);
 

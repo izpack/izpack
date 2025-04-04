@@ -146,8 +146,7 @@ public class PackInfo implements Serializable
      * @throws FileNotFoundException if the file specified does not exist.
      */
     public void addFile(File baseDir, File file, String targetfile, List<OsModel> osList, OverrideType override,
-                        String overrideRenameTo, Blockable blockable, Map additionals, String condition,
-                        Map<String, String> pack200Properties)
+                        String overrideRenameTo, Blockable blockable, Map additionals, String condition)
             throws IOException
     {
         if (!file.exists())
@@ -156,7 +155,7 @@ public class PackInfo implements Serializable
         }
 
         PackFile packFile = new PackFile(baseDir, file, targetfile, osList, override, overrideRenameTo, blockable,
-                                         additionals, pack200Properties);
+                                         additionals);
         packFile.setLoosePackInfo(pack.isLoose());
         packFile.setCondition(condition);
         files.put(packFile, file);
