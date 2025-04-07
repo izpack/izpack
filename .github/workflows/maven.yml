@@ -28,15 +28,18 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build with Maven (no dependency check for PR)
-        if: github.event_name == 'pull_request'
-        run: ./mvnw -B -U verify -Ddependency-check.skip=true
-
-      - name: Build with Maven (with dependency check)
+      - name: Build with Maven
         if: github.event_name != 'pull_request'
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        run: ./mvnw -B -U verify
+        run: |
+          if [ -z "$NVD_API_KEY" ]; then
+            echo "NVD_API_KEY is not set — skipping dependency check"
+            ./mvnw -B -U verify -Ddependency-check.skip=true
+          else
+            echo "NVD_API_KEY is set — running full verify with dependency check"
+            ./mvnw -B -U verify
+          fi
 
       - name: Running Maven GUI tests
         run: |
