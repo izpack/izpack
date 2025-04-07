@@ -57,7 +57,7 @@ public class InstallerRequirementCheckerTest extends AbstractRequirementCheckerT
     {
         DefaultVariables variables = new DefaultVariables();
         installData.setInstallerRequirements(new ArrayList<InstallerRequirement>());
-        rules = new RulesEngineImpl(installData, null, installData.getPlatform());
+        rules = new RulesEngineImpl(installData, null);
         variables.setRules(rules);
 
         Map<String, Condition> conditions = new HashMap<String, Condition>();

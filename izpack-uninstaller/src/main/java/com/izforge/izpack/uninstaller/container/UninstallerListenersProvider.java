@@ -25,8 +25,6 @@ package com.izforge.izpack.uninstaller.container;
 import java.io.IOException;
 import java.util.List;
 
-import org.picocontainer.injectors.Provider;
-
 import com.izforge.izpack.api.event.UninstallerListener;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -34,13 +32,17 @@ import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.uninstaller.event.UninstallerListeners;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+
 
 /**
  * A provider of {@link UninstallerListeners}.
  *
  * @author Tim Anderson
  */
-public class UninstallerListenersProvider implements Provider
+@ApplicationScoped
+public class UninstallerListenersProvider
 {
 
     /**
@@ -55,6 +57,7 @@ public class UninstallerListenersProvider implements Provider
      * @throws ResourceNotFoundException if <em>uninstallerListeners</em> cannot be found
      */
     @SuppressWarnings("unchecked")
+    @Produces
     public UninstallerListeners provide(Resources resources, ObjectFactory factory, Prompt prompt)
             throws IOException, ClassNotFoundException
     {

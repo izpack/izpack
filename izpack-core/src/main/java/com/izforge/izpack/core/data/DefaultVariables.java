@@ -102,11 +102,11 @@ public class DefaultVariables implements Variables
     /**
      * Sets the rules, used for dynamic variable evaluation.
      *
-     * @param rules the rules
+     * @param rulesEngine the rules
      */
-    public void setRules(RulesEngine rules)
+    public void setRules(RulesEngine rulesEngine)
     {
-        this.rules = rules;
+        this.rules = rulesEngine;
     }
 
     /**
