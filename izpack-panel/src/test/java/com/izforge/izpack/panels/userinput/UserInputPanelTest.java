@@ -168,17 +168,38 @@ public class UserInputPanelTest extends AbstractPanelTest
         assertEquals("text3 default value", text3.text());
 
         assertEquals("", installData.getVariable("text1"));
-        
-        text1.setText("text1 value");
+
+        String expectedText = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod " +
+                "tempor invidunt ut labore et dolore magna aliquyam";
+
+        text1.setText(expectedText);
 
         // attempt to navigate to the next panel
         checkNavigateNext(frame);
 
-        assertEquals("text1 value", installData.getVariable("text1"));
+        assertEquals(expectedText, installData.getVariable("text1"));
         assertEquals("text2 value", installData.getVariable("text2"));
         assertEquals("text3 default value", installData.getVariable("text3"));
     }
 
+    /**
+     * Tests text fields.
+     *
+     * @throws Exception for any error
+     */
+    @Test
+    public void testStaticTextField() throws Exception
+    {
+        // Set the base path in order to pick up com/izforge/izpack/panels/userinput/text/userInputSpec.xml
+        getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/statictext/");
+        InstallData installData = getInstallData();
+
+        // show the panel
+        FrameFixture frame = showUserInputPanel("checkStaticText");
+
+        // attempt to navigate to the next panel
+        checkNavigateNext(frame);
+    }
     /**
      * Tests text fields.
      *
