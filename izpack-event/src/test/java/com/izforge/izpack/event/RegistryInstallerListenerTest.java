@@ -32,8 +32,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
+import com.izforge.izpack.api.data.InstallData;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,7 +46,6 @@ import org.mockito.Mockito;
 
 import com.coi.tools.os.win.RegDataContainer;
 import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.event.ProgressListener;
@@ -180,7 +181,7 @@ public class RegistryInstallerListenerTest
     }
 
     /**
-     * Verifies that the Windows registry is updated by {@link RegistryInstallerListener#afterPacks}.
+     * Verifies that the Windows registry is updated by {@link RegistryInstallerListener#afterPacks(List)}.
      *
      * @throws NativeLibException for any regitry error
      */
