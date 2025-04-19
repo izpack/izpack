@@ -29,16 +29,15 @@ import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.os.FileQueue;
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
 import java.io.*;
+import java.nio.file.Path;
 
-import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Abstract base class for {@link FileUnpacker} tests.
@@ -50,8 +49,8 @@ public abstract class AbstractFileUnpackerTest
     /**
      * Temporary folder.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * The librarian.
@@ -68,18 +67,11 @@ public abstract class AbstractFileUnpackerTest
      *
      * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         librarian = Mockito.mock(Librarian.class);
-        cancellable = new Cancellable()
-        {
-            @Override
-            public boolean isCancelled()
-            {
-                return false;
-            }
-        };
+        cancellable = () -> false;
     }
 
     /**
@@ -90,7 +82,7 @@ public abstract class AbstractFileUnpackerTest
     @Test
     public void testUnpack() throws Exception
     {
-        File baseDir = temporaryFolder.getRoot();
+        File baseDir = temporaryFolder.toFile();
         File sourceDir = baseDir.getAbsoluteFile();
 
         File source = createSourceFile(baseDir);
@@ -133,9 +125,9 @@ public abstract class AbstractFileUnpackerTest
     protected File createSourceFile(File baseDir) throws IOException
     {
         File file = new File(baseDir, "source.txt");
-        PrintWriter writer = new PrintWriter(file);
-        writer.println("Here we go");
-        writer.close();
+        try (PrintWriter writer = new PrintWriter(file)) {
+            writer.println("Here we go");
+        }
         return file;
     }
 
@@ -180,7 +172,7 @@ public abstract class AbstractFileUnpackerTest
      * @param target    the target file
      * @param blockable the blockable type
      * @return a new pack file
-     * @throws java.io.IOException if the source file doesn't exist
+     * @throws IOException if the source file doesn't exist
      */
     protected PackFile createPackFile(File baseDir, File source, File target, Blockable blockable) throws IOException
     {
@@ -233,7 +225,7 @@ public abstract class AbstractFileUnpackerTest
      */
     private void checkQueue(Blockable blockable) throws IOException, InstallerException
     {
-        File baseDir = temporaryFolder.getRoot();
+        File baseDir = temporaryFolder.toFile();
         File sourceDir = baseDir.getAbsoluteFile();
 
         File source = createSourceFile(baseDir);
@@ -259,11 +251,9 @@ public abstract class AbstractFileUnpackerTest
     private byte[] getContent(File file) throws IOException
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        FileInputStream in = new FileInputStream(file);
-        IOUtils.copy(in, out);
-        in.close();
-        out.close();
+        try (FileInputStream in = new FileInputStream(file)) {
+            IOUtils.copy(in, out);
+        }
         return out.toByteArray();
     }
-
 }

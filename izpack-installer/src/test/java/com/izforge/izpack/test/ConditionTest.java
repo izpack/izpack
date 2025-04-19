@@ -23,9 +23,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNull;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.w3c.dom.Document;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -38,13 +38,13 @@ import com.izforge.izpack.core.rules.logic.OrCondition;
 import com.izforge.izpack.core.rules.process.ExistsCondition;
 import com.izforge.izpack.core.rules.process.RefCondition;
 import com.izforge.izpack.core.rules.process.VariableCondition;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestConditionContainer.class)
 public class ConditionTest
 {
@@ -62,7 +62,7 @@ public class ConditionTest
         this.idata = idata;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         IXMLElement conditions = new XMLElementImpl("conditions");

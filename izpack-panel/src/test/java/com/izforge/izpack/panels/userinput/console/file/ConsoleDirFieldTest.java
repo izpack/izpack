@@ -25,74 +25,59 @@ import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.file.DirField;
 import com.izforge.izpack.panels.userinput.field.file.TestDirFieldConfig;
 import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import static com.izforge.izpack.api.handler.Prompt.Option.OK;
 import static com.izforge.izpack.api.handler.Prompt.Options.OK_CANCEL;
 import static com.izforge.izpack.api.handler.Prompt.Type.WARNING;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-
 /**
  * Tests the {@link ConsoleDirField}.
- *
- * @author Tim Anderson
  */
 public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
 {
-
     /**
-     * Temporary directory.
+     * Temporary directory injected by JUnit 5.
      */
-    @Rule
-    public TemporaryFolder dir = new TemporaryFolder();
+    @TempDir
+    public Path tempDir;
 
 
-    /**
-     * Verifies that pressing return enters the default value.
-     */
     @Test
     public void testSelectDefaultValue()
     {
-        ConsoleDirField field = createField(dir.getRoot().getPath(), true, false);
+        ConsoleDirField field = createField(tempDir.toFile().getPath(), true, false);
         checkValid(field, "\n");
         verifyNoMoreInteractions(prompt);
 
-        assertEquals(dir.getRoot().getAbsolutePath(), installData.getVariable("dir"));
+        assertEquals(tempDir.toFile().getAbsolutePath(), installData.getVariable("dir"));
     }
 
-    /**
-     * Verifies that a valid directory can be entered.
-     */
     @Test
     public void testSetValue()
     {
         ConsoleDirField field = createField(null, true, false);
-        checkValid(field, dir.getRoot().getPath(), "\n");
+        checkValid(field, tempDir.toFile().getPath(), "\n");
         verifyNoMoreInteractions(prompt);
 
-        assertEquals(dir.getRoot().getAbsolutePath(), installData.getVariable("dir"));
+        assertEquals(tempDir.toFile().getAbsolutePath(), installData.getVariable("dir"));
     }
 
-    /**
-     * Verify that the target directory can be created if it doesn't exist.
-     *
-     * @throws IOException for any I/O error
-     */
     @Test
     public void testCreateDir() throws IOException
     {
         ConsoleDirField field = createField(null, false, true);
 
-        File path = dir.getRoot();
+        File path = tempDir.toFile();
         assertTrue(path.delete());
 
         String message = "The target directory will be created: \n" + path.getAbsolutePath();
@@ -105,16 +90,10 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
 
         assertTrue(path.exists());
         assertEquals(path.getPath(), installData.getVariable("dir"));
-
     }
 
-    /**
-     * Verify that validation fails if the entered directory doesn't exist.
-     *
-     * @throws IOException for any I/O error
-     */
     @Test
-    public void testDirNoExists() throws IOException
+    public void testDirNoExists()
     {
         ConsoleDirField field = createField(null, true, false);
         checkInvalid(field, "baddir");
@@ -123,11 +102,6 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
                              "The directory you have chosen either does not exist or is not valid.");
     }
 
-    /**
-     * Verify that validation fails if the entered path is a file.
-     *
-     * @throws IOException for any I/O error
-     */
     @Test
     public void testInvalidDir() throws IOException
     {
@@ -142,13 +116,6 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
                              "The directory you have chosen either does not exist or is not valid.");
     }
 
-    /**
-     * Helper to create a field that updates the 'dir' variable.
-     *
-     * @param initialValue the initial value. May be {@code null}
-     * @param mustExist    if {@code true}, the directory must exist
-     * @return a new field
-     */
     private ConsoleDirField createField(String initialValue, boolean mustExist, boolean create)
     {
         TestDirFieldConfig config = new TestDirFieldConfig("dir");
@@ -159,6 +126,4 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
         DirField model = new DirField(config, installData);
         return new ConsoleDirField(model, console, prompt);
     }
-
-
 }

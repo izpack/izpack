@@ -23,7 +23,7 @@ package com.izforge.izpack.event;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,10 +36,9 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -63,26 +62,19 @@ import com.izforge.izpack.util.Platforms;
  */
 public class BSFUninstallerListenerTest
 {
-
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
-    /**
-     * The installation directory.
-     */
-    private File installDir;
-
+    @TempDir
+    public File installDir;
 
     /**
      * Sets up the test case.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
-        installDir = temporaryFolder.getRoot();
+        // installDir is now initialized by JUnit via @TempDir
     }
 
     /**
@@ -161,16 +153,15 @@ public class BSFUninstallerListenerTest
         // stream the actions, so the BSFUninstallerListener can read them as a resource
         assertNotNull(actions);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-        objectOutput.writeObject(actions);
-        objectOutput.close();
+        try (ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput)) {
+            objectOutput.writeObject(actions);
+        }
 
         Resources resources = Mockito.mock(Resources.class);
         ByteArrayInputStream byteInput = new ByteArrayInputStream(byteOutput.toByteArray());
         Mockito.when(resources.getInputStream("bsfActions")).thenReturn(byteInput);
         return new BSFUninstallerListener(resources);
     }
-
 
     /**
      * Loads the specified BSFActionsSpec resource, returning the uninstallation actions for the specified pack.
@@ -208,5 +199,4 @@ public class BSFUninstallerListenerTest
         listener.afterPacks(packs, Mockito.mock(ProgressListener.class));
         return (List<BSFAction>) uninstallData.getAdditionalData().get("bsfActions");
     }
-
 }

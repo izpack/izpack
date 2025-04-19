@@ -1,15 +1,15 @@
 package com.izforge.izpack.integration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.data.CustomData;
@@ -20,7 +20,7 @@ import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 /**
  * Test for event binding.
@@ -28,7 +28,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  * @author Anthonin Bonnefoy
  * @see com.izforge.izpack.installer.container.impl.CustomDataLoader
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestGUIInstallationContainer.class)
 public class EventTest
 {

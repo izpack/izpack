@@ -21,7 +21,6 @@
 
 package com.izforge.izpack.event;
 
-
 import com.izforge.izpack.api.data.*;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.event.ProgressNotifiers;
@@ -31,12 +30,13 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.util.Platforms;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 import java.io.File;
@@ -48,22 +48,22 @@ import java.util.Properties;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the {@link BSFInstallerListener} class.
  *
  * @author Tim Anderson
  */
+@ExtendWith(PicoExtension.class)
 public class BSFInstallerListenerTest
 {
-
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public File temporaryFolder;
 
     /**
      * The variable replacer.
@@ -80,13 +80,12 @@ public class BSFInstallerListenerTest
      */
     private File installDir;
 
-
     /**
      * Sets up the test case.
      *
-     * @throws java.io.IOException for any I/O error
+     * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         Properties properties = new Properties();
@@ -95,7 +94,7 @@ public class BSFInstallerListenerTest
 
         installData = new AutomatedInstallData(variables, Platforms.MANDRIVA_LINUX);
 
-        installDir = temporaryFolder.getRoot();
+        installDir = temporaryFolder;
         installData.setInstallPath(installDir.getPath());
     }
 
@@ -109,7 +108,7 @@ public class BSFInstallerListenerTest
     {
         Resources resources = Mockito.mock(Resources.class);
         InputStream specStream = getClass().getResourceAsStream(
-                "/com/izforge/izpack/event/bsf/BSFActionsSpec-groovy.xml");
+            "/com/izforge/izpack/event/bsf/BSFActionsSpec-groovy.xml");
         assertNotNull(specStream);
         Mockito.when(resources.getInputStream(BSFInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
 
@@ -151,17 +150,14 @@ public class BSFInstallerListenerTest
         BSFInstallerListener listener = new BSFInstallerListener(installData, replacer, installData.getVariables(), resources, uninstallData, notifiers);
         listener.initialise();
 
-        // Verify that when the beforePacks method is invoked, the corresponding BSF action is called.
         assertFileNotExists(installDir, "beforepacks" + suffix);
         listener.beforePacks(packs);
         assertFileExists(installDir, "beforepacks" + suffix);
 
-        // Verify that when the beforePack method is invoked, the corresponding BSF action is called.
         assertFileNotExists(installDir, "beforepack" + suffix);
         listener.beforePack(pack);
         assertFileExists(installDir, "beforepack" + suffix);
 
-        // Verify that when the beforeDir method is invoked, the corresponding BSF action is called.
         File dir = new File(installDir, "dir");
         assertTrue(dir.mkdir());
         assertFileNotExists(installDir, "beforedir" + suffix);
@@ -170,12 +166,10 @@ public class BSFInstallerListenerTest
         listener.beforeDir(dir, dirPackFile, pack);
         assertFileExists(installDir, "beforedir" + suffix);
 
-        // Verify that when the afterDir method is invoked, the corresponding BSF action is called.
         assertFileNotExists(installDir, "afterdir" + suffix);
         listener.afterDir(dir, dirPackFile, pack);
         assertFileExists(installDir, "afterdir" + suffix);
 
-        // Verify that when the beforeFile method is invoked, the corresponding BSF action is called.
         File file = new File(installDir, "file.txt");
         FileUtils.touch(file);
         assertFileNotExists(installDir, "beforefile" + suffix);
@@ -184,21 +178,16 @@ public class BSFInstallerListenerTest
         listener.beforeFile(file, packFile, pack);
         assertFileExists(installDir, "beforefile" + suffix);
 
-        // Verify that when the afterFile method is invoked, the corresponding BSF action is called.
         assertFileNotExists(installDir, "afterfile" + suffix);
         listener.afterFile(file, packFile, pack);
         assertFileExists(installDir, "afterfile" + suffix);
 
-        // Verify that when the afterPack method is invoked, the corresponding BSF action is called.
         assertFileNotExists(installDir, "afterpack" + suffix);
         listener.afterPack(pack);
         assertFileExists(installDir, "afterpack" + suffix);
 
-        // Verify that when the afterPacks method is invoked, the corresponding BSF action is called.
-        // This touches a file "afterpacks.txt"
         assertFileNotExists(installDir, "afterpacks" + suffix);
         listener.afterPacks(packs, progressListener);
         assertFileExists(installDir, "afterpacks" + suffix);
     }
-
 }

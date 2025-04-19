@@ -24,56 +24,52 @@ import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.resource.ResourceManager;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.net.URL;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 /**
+ * Tests for {@link LicenceLoader}.
+ *
  * @author Michael Aichler
  */
 public class LicenceLoaderTest {
-
-    @Rule
-    public final ExpectedException thrownException = ExpectedException.none();
 
     private URL defaultUrl;
     private URL specificUrl;
     private Resources resources;
 
-    @Before
-    public void setUp() throws Exception
-    {
+    @BeforeEach
+    public void setUp() throws Exception {
         defaultUrl = new URL("file://default");
         specificUrl = new URL("file://specific");
         resources = Mockito.mock(Resources.class);
     }
 
     @Test
-    public void asUrlShouldThrowExceptionIfResourcesNotFound()
-    {
+    public void asUrlShouldThrowExceptionIfResourcesNotFound() {
         when(resources.getString("LicencePanel.somePanelId", null)).thenReturn(null);
         when(resources.getURL("LicencePanel.licence")).thenThrow(new ResourceNotFoundException(""));
 
         Panel panel = createPanel("somePanelId");
         LicenceLoader loader = createFor(panel);
 
-        thrownException.expect(ResourceException.class);
-        thrownException.expectMessage(startsWith("Could not open license document for the resource id"));
+        ResourceException exception = assertThrows(ResourceException.class, loader::asURL);
 
-        loader.asURL();
+        assertThat(exception.getMessage(), startsWith("Could not open license document for the resource id"));
     }
 
     @Test
-    public void asUrlShouldUseIzPanelClassAsPrefix()
-    {
+    public void asUrlShouldUseIzPanelClassAsPrefix() {
         when(resources.getURL("LicencePanel.licence")).thenReturn(defaultUrl);
 
         Panel panel = createPanel(null);
@@ -83,8 +79,7 @@ public class LicenceLoaderTest {
     }
 
     @Test
-    public void asUrlShouldPreferSpecificResource()
-    {
+    public void asUrlShouldPreferSpecificResource() {
         when(resources.getString("LicencePanel.somePanelId", null)).thenReturn("document content");
         when(resources.getURL("LicencePanel.somePanelId")).thenReturn(specificUrl);
 
@@ -95,8 +90,7 @@ public class LicenceLoaderTest {
     }
 
     @Test
-    public void asUrlShouldFallbackToDefaultResource()
-    {
+    public void asUrlShouldFallbackToDefaultResource() {
         when(resources.getString("LicencePanel.somePanelId", null)).thenReturn(null);
         when(resources.getURL("LicencePanel.licence")).thenReturn(defaultUrl);
 
@@ -107,8 +101,7 @@ public class LicenceLoaderTest {
     }
 
     @Test
-    public void asStringShouldLoadResource()
-    {
+    public void asStringShouldLoadResource() {
         ResourceManager rm = new ResourceManager();
         rm.setResourceBasePath("/com/izforge/izpack/panels/licence/");
 
@@ -119,19 +112,11 @@ public class LicenceLoaderTest {
         assertThat(result, equalTo("This is a licence panel"));
     }
 
-    /**
-     * Helper which creates a licence loader for the given {@code clazz} and a
-     * mocked instance of {@link Resources}.
-     *
-     * @return A newly created licence loader.
-     */
-    private LicenceLoader createFor(Panel panel)
-    {
+    private LicenceLoader createFor(Panel panel) {
         return new LicenceLoader(panel, resources);
     }
 
-    private Panel createPanel(String id)
-    {
+    private Panel createPanel(String id) {
         Panel panel = new Panel();
         panel.setPanelId(id);
         panel.setClassName("LicencePanel");

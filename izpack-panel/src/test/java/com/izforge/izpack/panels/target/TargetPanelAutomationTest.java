@@ -20,17 +20,17 @@
  */
 package com.izforge.izpack.panels.target;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
@@ -38,7 +38,7 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 
 /**
@@ -46,7 +46,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestConsolePanelContainer.class)
 public class TargetPanelAutomationTest
 {
@@ -54,8 +54,8 @@ public class TargetPanelAutomationTest
     /**
      * Temporary folder.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    static Path temporaryFolder;
 
     /**
      * The installation data.
@@ -81,7 +81,7 @@ public class TargetPanelAutomationTest
     @Test
     public void testIncompatibleInstallation() throws IOException
     {
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File badDir = new File(root, "badDir");
         assertTrue(badDir.mkdirs());
         File goodDir = new File(root, "goodDir");   // don't bother creating it

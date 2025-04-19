@@ -24,13 +24,13 @@ package com.izforge.izpack.integration.multivolume;
 import static com.izforge.izpack.test.util.TestHelper.assertFileEquals;
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.nio.file.Path;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestCompilationContainer;
@@ -49,9 +49,8 @@ public abstract class AbstractMultiVolumeInstallationTest
     /**
      * Temporary directory for installing to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * Packages an multi-volume installer and installs it.
@@ -62,7 +61,7 @@ public abstract class AbstractMultiVolumeInstallationTest
     public void testMultiVolume() throws Exception
     {
         // compiler output goes to targetDir
-        File targetDir = new File(temporaryFolder.getRoot(), "target");
+        File targetDir = temporaryFolder.resolve("target").toFile();
         assertTrue(targetDir.mkdir());
         TestCompilationContainer compiler = new TestCompilationContainer("samples/multivolume/multivolume.xml",
                                                                          targetDir);
@@ -95,7 +94,7 @@ public abstract class AbstractMultiVolumeInstallationTest
         InstallData installData = installer.getComponent(InstallData.class);
 
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         installData.setInstallPath(installPath.getAbsolutePath());
         installData.setDefaultInstallPath(installPath.getAbsolutePath());
         installData.setMediaPath(targetDir.getPath());

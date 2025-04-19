@@ -18,15 +18,15 @@
  */
 package com.izforge.izpack.core.rules.process;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
@@ -60,7 +60,7 @@ public class ContainsConditionTest
     @Test
     public void testInFile()
     {
-        Map<String,Boolean> additional = new HashMap<String, Boolean>();
+        Map<String,Boolean> additional = new HashMap<>();
         additional.put("regex_multiple_lines_dotall", true);
         additional.put("regex_multiple_lines", false);
         doTests("contains_in_file.xml", additional);
@@ -140,7 +140,7 @@ public class ContainsConditionTest
             {
                 String cond = test.getKey();
                 Boolean expected = test.getValue();
-                assertEquals("condition '" + cond + "':", expected, rules.isConditionTrue(cond));
+                assertEquals(expected, rules.isConditionTrue(cond), "condition '" + cond + "':");
             }
         }
     }

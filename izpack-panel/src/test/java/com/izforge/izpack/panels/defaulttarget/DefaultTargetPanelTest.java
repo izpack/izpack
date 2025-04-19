@@ -22,12 +22,13 @@ package com.izforge.izpack.panels.defaulttarget;
 
 import static com.izforge.izpack.installer.util.InstallPathHelper.TARGET_PANEL_DIR;
 import static com.izforge.izpack.util.Platform.Name.MAC_OSX;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Locales;

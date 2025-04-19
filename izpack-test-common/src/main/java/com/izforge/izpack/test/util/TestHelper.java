@@ -21,10 +21,11 @@
 
 package com.izforge.izpack.test.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -113,7 +114,7 @@ public class TestHelper
      */
     public static void assertFileExists(File file)
     {
-        assertTrue("File or directory " + file + " expected but not found", file.exists());
+        assertTrue(file.exists(), "File or directory " + file + " expected but not found");
     }
 
     /**
@@ -125,7 +126,7 @@ public class TestHelper
     public static void assertFileNotExists(File dir, String name)
     {
         File file = new File(dir, name);
-        assertFalse("File or directory " + file + " not expected but found", file.exists());
+        assertFalse(file.exists(), "File or directory " + file + " not expected but found");
     }
 
     /**
@@ -135,7 +136,7 @@ public class TestHelper
      */
     public static void assertFileNotExists(File file)
     {
-        assertFalse("File or directory " + file + " not expected but found", file.exists());
+        assertFalse(file.exists(), "File or directory " + file + " not expected but found");
     }
 
     /**
@@ -148,12 +149,12 @@ public class TestHelper
      */
     public static void assertFileEquals(File expected, File actual)
     {
-        assertTrue("File not found", actual.exists());
-        assertFalse("Path differs", actual.getAbsolutePath().equals(expected.getAbsolutePath()));
-        assertEquals("File length differs", expected.length(), actual.length());
+        assertTrue(actual.exists(), "File not found");
+      assertNotEquals(actual.getAbsolutePath(), expected.getAbsolutePath(), "Path differs");
+        assertEquals(expected.length(), actual.length(), "File length differs");
         try
         {
-            assertEquals("Checksum differs", FileUtils.checksumCRC32(expected), FileUtils.checksumCRC32(actual));
+            assertEquals(FileUtils.checksumCRC32(expected), FileUtils.checksumCRC32(actual), "Checksum differs");
         }
         catch (IOException exception)
         {

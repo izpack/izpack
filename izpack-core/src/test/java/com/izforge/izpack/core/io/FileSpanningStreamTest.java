@@ -22,18 +22,18 @@
 package com.izforge.izpack.core.io;
 
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Random;
 
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 
 /**
@@ -43,8 +43,8 @@ import org.junit.rules.TemporaryFolder;
  */
 public class FileSpanningStreamTest
 {
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path tmpDir;
 
     /**
      * Tests the {@link FileSpanningOutputStream#write(int)} and {@link FileSpanningInputStream#read()} methods.
@@ -54,7 +54,7 @@ public class FileSpanningStreamTest
     @Test
     public void testReadWrite() throws IOException
     {
-        File volume = new File(temporaryFolder.getRoot(), "volume");
+        File volume = tmpDir.resolve("volume").toFile();
         String basePath = volume.getPath();
         int maxSize = 32;
         FileSpanningOutputStream spanningOutputStream = new FileSpanningOutputStream(volume, maxSize);
@@ -90,7 +90,7 @@ public class FileSpanningStreamTest
     @Test
     public void testByteArrayReadWrite() throws IOException
     {
-        File volume = new File(temporaryFolder.getRoot(), "volume");
+        File volume = tmpDir.resolve("volume").toFile();
         String basePath = volume.getPath();
         int maxSize = 32;
         FileSpanningOutputStream spanningOutputStream = new FileSpanningOutputStream(volume, maxSize);
@@ -126,7 +126,7 @@ public class FileSpanningStreamTest
     @Test
     public void testSkip() throws IOException
     {
-        File volume = new File(temporaryFolder.getRoot(), "volume");
+        File volume = tmpDir.resolve("volume").toFile();
         FileSpanningOutputStream spanningOutputStream = new FileSpanningOutputStream(volume, 1024);
 
         // write 100K of random data
@@ -166,12 +166,12 @@ public class FileSpanningStreamTest
      *
      * @throws IOException for any I/O exception
      */
-    @Ignore("This is a long running test. It should be run when making changes to FileSpanningInputStream or "
+    @Disabled("This is a long running test. It should be run when making changes to FileSpanningInputStream or "
                     + "FileSpanningOutputStream")
     @Test
     public void testLargeFiles() throws IOException
     {
-        File volume = new File(temporaryFolder.getRoot(), "volume");
+        File volume = tmpDir.resolve("volume").toFile();
         long maxSize = FileSpanningOutputStream.DEFAULT_VOLUME_SIZE;
         FileSpanningOutputStream spanningOutputStream = new FileSpanningOutputStream(volume, maxSize);
 

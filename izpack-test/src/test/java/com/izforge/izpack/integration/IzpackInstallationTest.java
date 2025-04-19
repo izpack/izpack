@@ -1,12 +1,12 @@
 package com.izforge.izpack.integration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.fest.swing.fixture.DialogFixture;
@@ -14,13 +14,13 @@ import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.timing.Timeout;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsCollectionContaining;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.rules.TestRule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
+
+import com.izforge.izpack.test.junit.PicoExtension;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.exception.NativeLibException;
@@ -42,7 +42,6 @@ import com.izforge.izpack.panels.summary.SummaryPanel;
 import com.izforge.izpack.panels.target.TargetPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.Platforms;
 
 /**
@@ -51,14 +50,14 @@ import com.izforge.izpack.util.Platforms;
  * NOTE: this test uses the IzPack install.xml, and will remove any registry entry associated with an existing IzPack
  * installation.
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestGUIInstallationContainer.class)
 public class IzpackInstallationTest
 {
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
-    @Rule
-    public TestRule globalTimeout = new org.junit.rules.Timeout(HelperTestMethod.TIMEOUT, TimeUnit.MILLISECONDS);
+    @TempDir
+    public Path tempDir;
+
+    // JUnit 5 timeout is applied at the method level
 
     private DialogFixture dialogFrameFixture;
     private FrameFixture installerFrameFixture;
@@ -86,7 +85,7 @@ public class IzpackInstallationTest
      *
      * @throws NativeLibException for any native library error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws NativeLibException
     {
         RegistryHandler registry = handler.getInstance();
@@ -106,7 +105,7 @@ public class IzpackInstallationTest
         }
     }
 
-    @After
+    @AfterEach
     public void tearBinding() throws NoSuchFieldException, IllegalAccessException
     {
         try
@@ -137,7 +136,7 @@ public class IzpackInstallationTest
         installData.setVariable("izpack.setuptype", "warfile");
 
 
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = tempDir.resolve("izpackTest").toFile();
 
         installData.setInstallPath(installPath.getAbsolutePath());
         installData.setDefaultInstallPath(installPath.getAbsolutePath());
