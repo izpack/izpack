@@ -41,7 +41,7 @@ If you are wondering where to find some service the project offers, visit the we
 
 The most recent snapshots builds based on the `master` branch are available on the Sonatype Server:
 
-[https://oss.sonatype.org/content/repositories/snapshots/org/codehaus/izpack/](https://oss.sonatype.org/content/repositories/snapshots/org/codehaus/izpack/)
+[https://central.sonatype.com/service/rest/repository/browse/maven-snapshots/org/codehaus/izpack/](https://central.sonatype.com/service/rest/repository/browse/maven-snapshots/org/codehaus/izpack/)
 
 Below, we provide a list of new services divided by providers:
 
