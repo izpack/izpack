@@ -21,7 +21,6 @@
 
 package com.izforge.izpack.installer.multiunpacker;
 
-
 import com.izforge.izpack.api.data.Blockable;
 import com.izforge.izpack.api.data.OverrideType;
 import com.izforge.izpack.api.data.PackFile;
@@ -36,13 +35,11 @@ import com.izforge.izpack.installer.unpacker.FileUnpacker;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.os.FileQueue;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the {@link MultiVolumeFileUnpacker} class.
@@ -51,7 +48,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
 {
-
     /**
      * The first volume.
      */
@@ -72,7 +68,7 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
     @Test
     public void testPromptForNextMedia() throws IOException, InstallerException
     {
-        File baseDir = temporaryFolder.getRoot();
+        File baseDir = temporaryFolder.toFile();
         File source = createSourceFile(baseDir);
         File target = getTargetFile(baseDir);
 
@@ -82,15 +78,10 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
         final File renamed = new File(volume1.getPath() + ".bak");
         assertTrue(volume1.renameTo(renamed));
 
-        VolumeLocator locator = new VolumeLocator()
-        {
-            @Override
-            public File getVolume(String path, boolean corrupt) throws IOException
-            {
-                // rename the file back
-                assertTrue(renamed.renameTo(volume1));
-                return volume1;
-            }
+        VolumeLocator locator = (path, corrupt) -> {
+            // rename the file back
+            assertTrue(renamed.renameTo(volume1));
+            return volume1;
         };
 
         FileSpanningInputStream stream = new FileSpanningInputStream(volume, volumeCount);
@@ -115,30 +106,28 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
      *
      * @param baseDir the base directory
      * @return the source file
-     * @throws java.io.IOException for any I/O error
+     * @throws IOException for any I/O error
      */
     @Override
     protected File createSourceFile(File baseDir) throws IOException
     {
         File source = new File(baseDir, "source.txt");
-        PrintWriter stream = new PrintWriter(source);
-        for (int i = 0; i < 20000; ++i)
-        {
-            stream.println(i);
+        try (PrintWriter stream = new PrintWriter(source)) {
+            for (int i = 0; i < 20000; ++i) {
+                stream.println(i);
+            }
+            assertFalse(stream.checkError());
         }
-        assertFalse(stream.checkError());
-        stream.close();
 
-        volume = new File(temporaryFolder.getRoot(), "volume");
-        FileSpanningOutputStream out = new FileSpanningOutputStream(volume, 8192);
-        FileInputStream in = new FileInputStream(source);
-        IOUtils.copy(in, out);
+        volume = new File(temporaryFolder.toFile(), "volume");
+        try (FileSpanningOutputStream out = new FileSpanningOutputStream(volume, 8192);
+             FileInputStream in = new FileInputStream(source)) {
+            IOUtils.copy(in, out);
 
-        // verify there is more than one volume
-        out.close();
-        volumeCount = out.getVolumes();
-        assertTrue(volumeCount > 1);
-        in.close();
+            // verify there is more than one volume
+            volumeCount = out.getVolumes();
+            assertTrue(volumeCount > 1);
+        }
         return source;
     }
 
@@ -149,6 +138,7 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
      * @param queue     the file queue
      * @return a new unpacker
      */
+    @Override
     protected FileUnpacker createUnpacker(File sourceDir, FileQueue queue) throws IOException
     {
         FileSpanningInputStream stream = new FileSpanningInputStream(volume, volumeCount);
@@ -169,8 +159,6 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
     protected PackFile createPackFile(File baseDir, File source, File target, Blockable blockable) throws IOException
     {
         // XPackFile required for the Archivefileposition attribute.
-        XPackFile result = new XPackFile(baseDir, source, target.getName(), null, OverrideType.OVERRIDE_TRUE, null,
-                                         blockable);
-        return result;
+        return new XPackFile(baseDir, source, target.getName(), null, OverrideType.OVERRIDE_TRUE, null, blockable);
     }
 }

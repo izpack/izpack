@@ -21,21 +21,24 @@
 package com.izforge.izpack.panels.target;
 
 import static org.fest.swing.timing.Timeout.timeout;
+import org.hamcrest.MatcherAssert;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.apache.commons.io.FileUtils;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.fixture.JOptionPaneFixture;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
@@ -68,8 +71,8 @@ public class TargetPanelTest extends AbstractPanelTest
     /**
      * Temporary folder.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    static Path temporaryFolder;
 
     /**
      * Constructs a {@code TargetPanelTest}.
@@ -126,7 +129,7 @@ public class TargetPanelTest extends AbstractPanelTest
     public void testShowCreateDirectoryMessage() throws Exception
     {
         GUIInstallData installData = getInstallData();
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File dir = new File(root, "install");
         installData.setDefaultInstallPath(dir.getAbsolutePath());
 
@@ -139,7 +142,7 @@ public class TargetPanelTest extends AbstractPanelTest
         checkWarning(fixture, expectedMessage);
 
         assertEquals(dir.getAbsolutePath(), installData.getInstallPath());
-        assertTrue(getPanels().getView() instanceof SimpleFinishPanel);
+      assertInstanceOf(SimpleFinishPanel.class, getPanels().getView());
     }
 
     /**
@@ -150,8 +153,8 @@ public class TargetPanelTest extends AbstractPanelTest
     @Test
     public void testDirectoryExists() throws Exception
     {
-        File dir = temporaryFolder.getRoot();
-        temporaryFolder.newFile("warning-is-only-triggered-for-non-empty-directory.txt");
+        File dir = temporaryFolder.toFile();
+        Files.createFile(temporaryFolder.resolve("warning-is-only-triggered-for-non-empty-directory.txt"));
 
         GUIInstallData installData = getInstallData();
         installData.setDefaultInstallPath(dir.getAbsolutePath());
@@ -164,7 +167,7 @@ public class TargetPanelTest extends AbstractPanelTest
         checkWarningQuestion(fixture, installData.getMessages().get("TargetPanel.exists_warn"));
 
         assertEquals(dir.getAbsolutePath(), installData.getInstallPath());
-        assertTrue(getPanels().getView() instanceof SimpleFinishPanel);
+      assertInstanceOf(SimpleFinishPanel.class, getPanels().getView());
     }
 
     /**
@@ -175,7 +178,7 @@ public class TargetPanelTest extends AbstractPanelTest
     @Test
     public void testNotWritable() throws Exception
     {
-        File dir = temporaryFolder.newFolder("install");
+        File dir = temporaryFolder.resolve("install").toFile();
 
         GUIInstallData installData = getInstallData();
         installData.setDefaultInstallPath(dir.getAbsolutePath());
@@ -203,7 +206,7 @@ public class TargetPanelTest extends AbstractPanelTest
         Messages messages = installData.getMessages();
         installData.setVariable(InstallData.MODIFY_INSTALLATION, "true");
 
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File dir = new File(root, "install");
         installData.setDefaultInstallPath(dir.getAbsolutePath());
 
@@ -228,7 +231,7 @@ public class TargetPanelTest extends AbstractPanelTest
         checkNavigateNext(fixture);
 
         assertEquals(dir.getAbsolutePath(), installData.getInstallPath());
-        assertTrue(getPanels().getView() instanceof SimpleFinishPanel);
+      assertInstanceOf(SimpleFinishPanel.class, getPanels().getView());
     }
 
     /**
@@ -244,8 +247,8 @@ public class TargetPanelTest extends AbstractPanelTest
 
         // set up two potential directories to install to, "badDir" and "goodDir"
 
-        File badDir = temporaryFolder.newFolder("badDir");
-        File goodDir = temporaryFolder.newFolder("goodDir");
+        File badDir = temporaryFolder.resolve("badDir").toFile();
+        File goodDir = temporaryFolder.resolve("goodDir").toFile();
 
         installData.setDefaultInstallPath(badDir.getAbsolutePath());
 
@@ -287,7 +290,7 @@ public class TargetPanelTest extends AbstractPanelTest
 
         GUIInstallData installData = getInstallData();
         Messages messages = installData.getMessages();
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File dir = new File(root, "install");
         assertTrue(dir.mkdirs());
         installData.setDefaultInstallPath(dir.getAbsolutePath());

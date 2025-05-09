@@ -2,9 +2,9 @@ package com.izforge.izpack.panels.userinput.gui.file;
 
 import java.io.File;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.resource.Messages;
@@ -30,8 +30,8 @@ public class FileInputFieldTest {
         FileFieldView view = new FileFieldView(field, null);
         
         FileInputField inputField = new FileInputField(view, parent, installDataGUI);
-        Assert.assertTrue(inputField.validateField());
+        assertTrue(inputField.validateField());
         
-        Assert.assertNull(inputField.getSelectedFile());
+        assertNull(inputField.getSelectedFile());
     }
 }

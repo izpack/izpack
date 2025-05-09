@@ -21,12 +21,12 @@
 
 package com.izforge.izpack.integration;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -37,7 +37,7 @@ import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.test.listener.TestInstallerListener;
 
 
@@ -46,7 +46,7 @@ import com.izforge.izpack.test.listener.TestInstallerListener;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestGUIInstallationContainer.class)
 public class InstallerListenerTest extends AbstractInstallationTest
 {
@@ -92,7 +92,7 @@ public class InstallerListenerTest extends AbstractInstallationTest
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)

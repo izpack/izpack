@@ -29,10 +29,10 @@ import com.izforge.izpack.integration.AbstractInstallationTest;
 import com.izforge.izpack.integration.UninstallHelper;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.util.FileUtil;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -49,8 +49,8 @@ import java.io.File;
 import java.net.URL;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**
@@ -58,7 +58,7 @@ import static org.junit.Assert.assertNotNull;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestAutomatedInstallationContainer.class)
 public class AutomatedInstallerTest extends AbstractInstallationTest
 {
@@ -94,7 +94,7 @@ public class AutomatedInstallerTest extends AbstractInstallationTest
         URL url = getClass().getResource("/samples/basicInstall/auto.xml");
         assertNotNull(url);
         String recordfile = FileUtil.convertUrlToFilePath(url);
-        String installPath =  new File(temporaryFolder.getRoot(), "basicapp").getAbsolutePath();
+        String installPath =  temporaryFolder.resolve("basicapp").toAbsolutePath().toString();
         replaceInstallPathInAutoInstall(recordfile, installPath);
 
         installer.init(recordfile, null, new String[0]);

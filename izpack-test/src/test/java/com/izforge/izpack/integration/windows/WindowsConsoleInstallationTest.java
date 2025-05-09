@@ -38,16 +38,15 @@ import com.izforge.izpack.integration.console.AbstractConsoleInstallationTest;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.PrivilegedRunner;
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -55,7 +54,8 @@ import java.util.logging.Logger;
 
 import static com.izforge.izpack.integration.windows.WindowsHelper.*;
 import static com.izforge.izpack.util.Platform.Name.WINDOWS;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 
 /**
@@ -70,7 +70,7 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @RunOn(WINDOWS)
 @Container(TestConsoleInstallationContainer.class)
 public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationTest
@@ -154,7 +154,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @Override
     public void setUp() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+    	assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
     	    	
         super.setUp();
         String appName = getInstallData().getInfo().getAppName();
@@ -172,7 +172,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      *
      * @throws Exception for any error
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
     	// don't use Assume in @After methods!
@@ -201,10 +201,10 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/install.xml")
     public void testInstallation() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+    	assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
 
     	// run the install
-        checkInstall(container, APP_NAME);
+        checkInstall(container);
         assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
 
         // run the uninstaller and verify that uninstall key is removed
@@ -224,10 +224,10 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/install.xml")
     public void testMultipleInstallation() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+    	assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
     	
         // run the install
-        checkInstall(container, APP_NAME);
+        checkInstall(container);
 
         // remove the lock file to enable second installation
         removeLock();
@@ -239,7 +239,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         
         // copied from super.setUp()
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         installData2.setInstallPath(installPath.getAbsolutePath());
         installData2.setDefaultInstallPath(installPath.getAbsolutePath());
         
@@ -267,9 +267,9 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/install.xml")
     public void testRejectMultipleInstallation() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+    	assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
     	
-        checkInstall(container, APP_NAME);
+        checkInstall(container);
 
         removeLock();
 
@@ -289,7 +289,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
 
         // make sure the script has completed
         TestConsole console = installer2.getConsole();
-        assertTrue("Script still running panel: " + console.getScriptName(), console.scriptCompleted());
+        assertTrue(console.scriptCompleted(), "Script still running panel: " + console.getScriptName());
 
         // verify the second registry key hasn't been created
         assertFalse(registryKeyExists(handler2, UNINSTALL_KEY2));
@@ -305,7 +305,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/consoleinstall_alt_uninstall.xml")
     public void testNonDefaultUninstaller() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+    	assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
     	
         assertFalse(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
 
@@ -334,7 +334,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      *
      * @throws NativeLibException for any native library exception
      */
-    private void checkInstall(TestConsoleInstallerContainer container, String uninstallName) throws NativeLibException
+    private void checkInstall(TestConsoleInstallerContainer container) throws NativeLibException
     {
         // UNINSTALL_NAME should be null prior to display of CheckedHelloPanel
         InstallData installData = container.getComponent(InstallData.class);
@@ -354,7 +354,7 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         checkInstall(installer, installData);
 
         // UNINSTALL_NAME should now be defined
-        assertEquals(uninstallName, installData.getVariable("UNINSTALL_NAME"));
+        assertEquals(WindowsConsoleInstallationTest.APP_NAME, installData.getVariable("UNINSTALL_NAME"));
 
         assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
     }
@@ -386,4 +386,3 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         }
     }
 }
-

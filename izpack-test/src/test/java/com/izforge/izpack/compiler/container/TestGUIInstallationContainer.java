@@ -1,6 +1,6 @@
 package com.izforge.izpack.compiler.container;
 
-import org.junit.runners.model.FrameworkMethod;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
@@ -13,9 +13,9 @@ import com.izforge.izpack.installer.container.impl.InstallerContainer;
 public class TestGUIInstallationContainer extends AbstractTestInstallationContainer
 {
 
-    public TestGUIInstallationContainer(Class klass, FrameworkMethod frameworkMethod)
+    public TestGUIInstallationContainer(Class klass, ExtensionContext extensionContext)
     {
-        super(klass, frameworkMethod);
+        super(klass, extensionContext);
         initialise();
     }
 

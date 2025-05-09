@@ -24,21 +24,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.net.URL;
 
 import org.hamcrest.core.Is;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.core.container.TestMergeContainer;
 import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.merge.resolve.ResolveUtils;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 /**
  * Test a single file merge
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestMergeContainer.class)
 public class MergeManagerTest
 {
@@ -85,15 +85,15 @@ public class MergeManagerTest
     @Test
     public void testAddSingleClassToMergeWithDestinationFromAJar() throws Exception
     {
-        mergeManager.addResourceToMerge("org/junit/", "com/dest/");
-        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/Assert.class"));
+        mergeManager.addResourceToMerge("org/junit/jupiter/api/", "com/dest/");
+        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/Assertions.class"));
     }
 
     @Test
     public void testAddPackageToMergeWithDestinationFromAJar() throws Exception
     {
-        mergeManager.addResourceToMerge("org/junit", "com/dest");
-        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/Assert.class"));
+        mergeManager.addResourceToMerge("org/junit/jupiter/api", "com/dest");
+        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/Assertions.class"));
     }
 
 

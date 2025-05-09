@@ -1,7 +1,8 @@
 package com.izforge.izpack.compiler.container;
 
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
-import org.junit.runners.model.FrameworkMethod;
+
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.picocontainer.MutablePicoContainer;
 
 
@@ -10,12 +11,11 @@ import org.picocontainer.MutablePicoContainer;
  */
 public class TestAutomatedInstallationContainer extends AbstractTestInstallationContainer
 {
-    public TestAutomatedInstallationContainer(Class<?> klass, FrameworkMethod frameworkMethod)
+    public TestAutomatedInstallationContainer(Class<?> klass, ExtensionContext extensionContext)
     {
-        super(klass, frameworkMethod);
+        super(klass, extensionContext);
         initialise();
     }
-
 
     @Override
     protected InstallerContainer fillInstallerContainer(MutablePicoContainer container)

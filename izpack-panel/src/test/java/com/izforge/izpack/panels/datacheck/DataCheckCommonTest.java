@@ -25,13 +25,12 @@ import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the {@link DataCheckCommon} class.

@@ -33,12 +33,13 @@ import org.fest.swing.core.ComponentFoundCondition;
 import org.fest.swing.core.TypeMatcher;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.timing.Timeout;
+import static org.hamcrest.MatcherAssert.assertThat;
 import org.icepdf.core.pobjects.Document;
 import org.icepdf.core.pobjects.graphics.text.PageText;
 import org.icepdf.ri.common.views.DocumentViewController;
 import org.icepdf.ri.common.views.OnePageView;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.fest.swing.timing.Pause.pause;
 import static org.fest.swing.timing.Timeout.timeout;
@@ -46,7 +47,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertThat;
 
 public class PDFLicencePanelTest extends AbstractPanelTest {
 
@@ -58,7 +58,7 @@ public class PDFLicencePanelTest extends AbstractPanelTest {
 		super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
 	}
 
-	@Before
+	@BeforeEach
     public void setUp()
     {
         ResourceManager rm = getResourceManager();

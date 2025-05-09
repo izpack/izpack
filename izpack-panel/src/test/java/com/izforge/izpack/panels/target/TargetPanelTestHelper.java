@@ -20,8 +20,9 @@
  */
 package com.izforge.izpack.panels.target;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,7 +44,7 @@ class TargetPanelTestHelper
      * Creates an ".installationinformation" file, in the specified directory.
      *
      * @param dir the directory to write to
-     * @throws java.io.IOException for any I/O error
+     * @throws IOException for any I/O error
      */
     public static void createInstallationInfo(File dir) throws IOException
     {
@@ -57,7 +58,7 @@ class TargetPanelTestHelper
      * Creates a bad ".installationinformation" file, in the specified directory.
      *
      * @param dir the directory to write to
-     * @throws java.io.IOException for any I/O error
+     * @throws IOException for any I/O error
      */
     public static void createBadInstallationInfo(File dir) throws IOException
     {
@@ -78,7 +79,7 @@ class TargetPanelTestHelper
         String messageId = "TargetPanel.incompatibleInstallation";
         String result = installData.getMessages().get(messageId);
         assertNotNull(result); // expect the message to exist
-        assertTrue(!messageId.equals(result));
+      assertFalse(messageId.equals(result));
         return result;
     }
 
