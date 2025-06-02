@@ -406,7 +406,7 @@
       <dependency>
         <groupId>org.pushing-pixels</groupId>
         <artifactId>radiance-theming-extras</artifactId>
-        <version>7.5.0</version>
+        <version>8.0.0</version>
       </dependency>
       <dependency>
         <groupId>com.incors</groupId>
