@@ -84,6 +84,7 @@ import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.file.DirectoryScanner;
 import com.izforge.izpack.util.helper.SpecHelper;
+import jakarta.inject.Inject;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
@@ -97,6 +98,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.*;
 import java.util.logging.*;
@@ -112,7 +115,7 @@ import static com.izforge.izpack.api.data.Info.EXPIRE_DATE_FORMAT;
  * @author Scott Stark
  * @version $Revision$
  */
-public class CompilerConfig extends Thread
+public class CompilerConfig
 {
     private static Logger logger;
 
@@ -239,19 +242,19 @@ public class CompilerConfig extends Thread
      *
      * @param compilerData Object containing all information found in command line
      */
+    @Inject
     public CompilerConfig(CompilerData compilerData, VariableSubstitutor variableSubstitutor,
-                          Compiler compiler, XmlCompilerHelper xmlCompilerHelper,
-                          PropertyManager propertyManager, MergeManager mergeManager,
-                          AssertionHelper assertionHelper, RulesEngine rules, CompilerPathResolver pathResolver,
-                          ResourceFinder resourceFinder, ObjectFactory factory, PlatformModelMatcher constraints,
+                          Compiler compiler, PropertyManager propertyManager, MergeManager mergeManager,
+                          RulesEngine rules, CompilerPathResolver pathResolver,ResourceFinder resourceFinder,
+                          ObjectFactory factory, PlatformModelMatcher constraints,
                           CompilerClassLoader classLoader, Handler handler)
     {
-        this.assertionHelper = assertionHelper;
+        this.assertionHelper = new AssertionHelper(compilerData.getInstallFile());
         this.rules = rules;
         this.compilerData = compilerData;
         this.variableSubstitutor = variableSubstitutor;
         this.compiler = compiler;
-        this.xmlCompilerHelper = xmlCompilerHelper;
+        this.xmlCompilerHelper = new XmlCompilerHelper(assertionHelper);
         this.propertyManager = propertyManager;
         this.mergeManager = mergeManager;
         this.pathResolver = pathResolver;
@@ -287,26 +290,6 @@ public class CompilerConfig extends Thread
 
         logger = Logger.getLogger(CompilerConfig.class.getName());
         logger.info("Logging initialized at level '" + logger.getParent().getLevel() + "'");
-    }
-
-    /**
-     * The run() method.
-     */
-    @Override
-    public void run()
-    {
-        try
-        {
-            executeCompiler();
-        }
-        catch (CompilerException ce)
-        {
-            logger.severe(ce.getMessage());
-        }
-        catch (Exception e)
-        {
-            logger.log(Level.SEVERE, e.getMessage(), e);
-        }
     }
 
     /**
@@ -1110,7 +1093,7 @@ public class CompilerConfig extends Thread
                         logAddingFile(file.toString(), target);
                         pack.addFile(baseDir, file, target, osList,
                                      fs.getOverride(), fs.getOverrideRenameTo(),
-                                     fs.getBlockable(), fs.getAdditionals(), fs.getCondition(), fs.getPack200Properties());
+                                     fs.getBlockable(), fs.getAdditionals(), fs.getCondition());
                     }
                 }
             }
@@ -1177,7 +1160,7 @@ public class CompilerConfig extends Thread
             {
                 logAddingFile(file.toString(), target);
                 pack.addFile(baseDir, file, target, osList, override, overrideRenameTo, blockable,
-                             additionals, conditionId, readPack200Properties(singleFileNode));
+                             additionals, conditionId);
             }
             catch (IOException x)
             {
@@ -1239,8 +1222,6 @@ public class CompilerConfig extends Thread
                     fs.setFollowSymlinks(Boolean.parseBoolean(boolval));
                 }
 
-                Map<String, String> pack200Properties = readPack200Properties(fileNode);
-
                 LinkedList<String> srcfiles = new LinkedList<String>();
                 Collections.addAll(srcfiles, fs.getDirectoryScanner().getIncludedDirectories());
                 Collections.addAll(srcfiles, fs.getDirectoryScanner().getIncludedFiles());
@@ -1254,8 +1235,7 @@ public class CompilerConfig extends Thread
                             logger.info("Adding content from archive: " + abssrcfile);
                             addArchiveContent(fileNode, baseDir, abssrcfile, fs.getTargetDir(),
                                               fs.getOsList(), fs.getOverride(), fs.getOverrideRenameTo(),
-                                              fs.getBlockable(), pack, fs.getAdditionals(), fs.getCondition(),
-                                              pack200Properties);
+                                              fs.getBlockable(), pack, fs.getAdditionals(), fs.getCondition());
                         }
                         else
                         {
@@ -1263,7 +1243,7 @@ public class CompilerConfig extends Thread
                             logAddingFile(abssrcfile.toString(), target);
                             pack.addFile(baseDir, abssrcfile, target, fs.getOsList(),
                                          fs.getOverride(), fs.getOverrideRenameTo(), fs.getBlockable(),
-                                         fs.getAdditionals(), fs.getCondition(), pack200Properties);
+                                         fs.getAdditionals(), fs.getCondition());
                         }
                     }
                 }
@@ -1273,28 +1253,6 @@ public class CompilerConfig extends Thread
                 throw new CompilerException(getMessage(e) + " while processing " + src, e);
             }
         }
-    }
-
-    private Map<String, String> readPack200Properties(IXMLElement element)
-    {
-        IXMLElement pack200Element = element.getFirstChildNamed("pack200");
-        Map<String, String> pack200Properties = null;
-        if (pack200Element != null)
-        {
-            pack200Properties = new HashMap<String, String>();
-            addNotNullAttribute(pack200Properties, Pack200.Packer.EFFORT, pack200Element, "effort");
-            addNotNullAttribute(pack200Properties, Pack200.Packer.SEGMENT_LIMIT, pack200Element, "segment-limit");
-            addNotNullAttribute(pack200Properties, Pack200.Packer.KEEP_FILE_ORDER, pack200Element, "keep-file-order");
-            addNotNullAttribute(pack200Properties, Pack200.Packer.DEFLATE_HINT, pack200Element, "deflate-hint");
-            addNotNullAttribute(pack200Properties, Pack200.Packer.MODIFICATION_TIME, pack200Element, "modification-time");
-            addNotNullAttributeIfTrue(pack200Properties, Pack200.Packer.CODE_ATTRIBUTE_PFX + "LineNumberTable",
-                    Pack200.Packer.STRIP, pack200Element, "strip-line-numbers");
-            addNotNullAttributeIfTrue(pack200Properties, Pack200.Packer.CODE_ATTRIBUTE_PFX + "LocalVariableTable",
-                    Pack200.Packer.STRIP, pack200Element, "strip-local-variables");
-            addNotNullAttributeIfTrue(pack200Properties, Pack200.Packer.CODE_ATTRIBUTE_PFX + "SourceFile",
-                    Pack200.Packer.STRIP, pack200Element, "strip-source-files");
-        }
-        return pack200Properties;
     }
 
     private void addNotNullAttribute(Map<String, String> map, String key, IXMLElement element, String attrName)
@@ -1666,7 +1624,7 @@ public class CompilerConfig extends Thread
     private void addArchiveContent(IXMLElement fileNode, File baseDir, File archive, String targetDir,
                                    List<OsModel> osList, OverrideType override, String overrideRenameTo,
                                    Blockable blockable, PackInfo pack, Map<String, ?> additionals,
-                                   String condition, Map<String, String> pack200Properties) throws Exception
+                                   String condition) throws Exception
     {
         String archiveName = archive.getName();
 
@@ -1714,7 +1672,7 @@ public class CompilerConfig extends Thread
                     {
                         String target = targetDir + "/" + dName;
                         logAddingFile(dName + " (" + archiveName + ")", target);
-                        pack.addFile(baseTempDir, tempDir, target, osList, override, overrideRenameTo, blockable, additionals, condition, null);
+                        pack.addFile(baseTempDir, tempDir, target, osList, override, overrideRenameTo, blockable, additionals, condition);
                     }
                 }
                 else
@@ -1731,7 +1689,7 @@ public class CompilerConfig extends Thread
                         {
                             String target = targetDir + "/" + entryName;
                             logAddingFile(entryName + " (" + archiveName + ")", target);
-                            pack.addFile(baseTempDir, tempFile, target, osList, override, overrideRenameTo, blockable, additionals, condition, pack200Properties);
+                            pack.addFile(baseTempDir, tempFile, target, osList, override, overrideRenameTo, blockable, additionals, condition);
                         }
                     }
                     finally
@@ -1774,7 +1732,7 @@ public class CompilerConfig extends Thread
             String uncompressedArchiveName = FilenameUtils.getBaseName(archiveName);
             String target = targetDir + "/" + uncompressedArchiveName;
             logAddingFile(uncompressedArchiveName + " (" + archiveName + ")", target);
-            pack.addFile(baseDir, temp, target, osList, override, overrideRenameTo, blockable, additionals, condition, pack200Properties);
+            pack.addFile(baseDir, temp, target, osList, override, overrideRenameTo, blockable, additionals, condition);
         }
         finally
         {
@@ -2088,7 +2046,7 @@ public class CompilerConfig extends Thread
         // A list of packsLang-files that were defined by the user in the resource-section The key of
         // this map is an packsLang-file identifier, e.g. <code>packsLang.xml_eng</code>, the values
         // are lists of {@link URL} pointing to the concrete packsLang-files.         *
-        final Map<String, List<URL>> packsLangUrlMap = new HashMap<String, List<URL>>();
+        final Map<String, List<URL>> packsLangUrlMap = new HashMap<>();
 
         IXMLElement root = data.getFirstChildNamed("resources");
         if (root == null)
@@ -2106,11 +2064,7 @@ public class CompilerConfig extends Thread
             // the parsexml attribute causes the xml document to be parsed
             boolean parsexml = xmlCompilerHelper.validateYesNoAttribute(resNode, "parsexml", NO);
 
-            String encoding = resNode.getAttribute("encoding");
-            if (encoding == null)
-            {
-                encoding = "";
-            }
+            Charset charset = getCharset(resNode);
 
             // basedir is not prepended if src is already an absolute path
             URL originalUrl = resourceFinder.findProjectResource(baseDir, src, "Resource", resNode);
@@ -2120,7 +2074,7 @@ public class CompilerConfig extends Thread
             OutputStream os = null;
             try
             {
-                if (parsexml || !encoding.isEmpty() || (substitute && !packager.getVariables().isEmpty()))
+                if (parsexml || charset != null || (substitute && !packager.getVariables().isEmpty()))
                 {
                     // make the substitutions into a temp file
                     File parsedFile = File.createTempFile("izpp", null, TEMP_DIR);
@@ -2131,14 +2085,14 @@ public class CompilerConfig extends Thread
                     url = parsedFile.toURI().toURL();
                 }
 
-                if (!encoding.isEmpty())
+                if (charset != null)
                 {
                     File recodedFile = File.createTempFile("izenc", null, TEMP_DIR);
                     recodedFile.deleteOnExit();
 
-                    InputStreamReader reader = new InputStreamReader(originalUrl.openStream(), encoding);
+                    InputStreamReader reader = new InputStreamReader(originalUrl.openStream(), charset);
                     OutputStreamWriter writer = new OutputStreamWriter(
-                            new FileOutputStream(recodedFile), "UTF-8");
+                            new FileOutputStream(recodedFile), StandardCharsets.UTF_8);
 
                     char[] buffer = new char[1024];
                     int read;
@@ -2457,6 +2411,15 @@ public class CompilerConfig extends Thread
         }
         addMergedTranslationResources(packsLangUrlMap);
         notifyCompilerListener("addResources", CompilerListener.END, data);
+    }
+
+    private static Charset getCharset(IXMLElement resNode) {
+        final String encoding = resNode.getAttribute("encoding");
+        if (encoding != null && !encoding.isEmpty() )
+        {
+            return Charset.forName(encoding);
+        }
+        return null;
     }
 
     /**
@@ -3881,8 +3844,6 @@ public class CompilerConfig extends Thread
         {
             fs.setFollowSymlinks(Boolean.parseBoolean(boolval));
         }
-
-        fs.setPack200Properties(readPack200Properties(fileSetNode));
 
         readAndAddIncludes(fileSetNode, fs);
         readAndAddExcludes(fileSetNode, fs);
