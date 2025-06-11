@@ -40,6 +40,8 @@ import com.izforge.izpack.core.rules.process.RefCondition;
 import com.izforge.izpack.core.rules.process.VariableCondition;
 import com.izforge.izpack.test.junit.PicoRunner;
 
+import jakarta.inject.Inject;
+
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
@@ -48,19 +50,15 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestConditionContainer.class)
 public class ConditionTest
 {
-
     private static final Matcher<? super Boolean> IS_TRUE = Is.is(true);
     private static final Matcher<? super Boolean> IS_FALSE = Is.is(false);
     private static final Matcher<Object> IS_NULL = IsNull.nullValue();
     private static final Matcher<Object> IS_NOT_NULL = IsNull.notNullValue();
+    
+    @Inject
     private RulesEngine rules;
+    @Inject
     private InstallData idata;
-
-    public ConditionTest(InstallData idata, RulesEngine rules)
-    {
-        this.rules = rules;
-        this.idata = idata;
-    }
 
     @Before
     public void setUp() throws Exception

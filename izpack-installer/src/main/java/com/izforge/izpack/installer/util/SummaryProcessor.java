@@ -35,15 +35,10 @@ public class SummaryProcessor
 {
 
     private static String HTML_HEADER;
-
     private static String HTML_FOOTER = "</body>\n</html>\n";
-
     private static String BODY_START = "<div class=\"body\">";
-
     private static String BODY_END = "</div>";
-
     private static String HEAD_START = "<h1>";
-
     private static String HEAD_END = "</h1>\n";
 
     static

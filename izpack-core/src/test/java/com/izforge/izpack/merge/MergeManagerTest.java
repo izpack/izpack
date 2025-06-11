@@ -33,6 +33,8 @@ import com.izforge.izpack.merge.resolve.ResolveUtils;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 
+import jakarta.inject.Inject;
+
 /**
  * Test a single file merge
  *
@@ -42,12 +44,8 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestMergeContainer.class)
 public class MergeManagerTest
 {
+    @Inject
     private MergeManagerImpl mergeManager;
-
-    public MergeManagerTest(MergeManagerImpl mergeManager)
-    {
-        this.mergeManager = mergeManager;
-    }
 
     @Test
     public void testProcessJarPath() throws Exception

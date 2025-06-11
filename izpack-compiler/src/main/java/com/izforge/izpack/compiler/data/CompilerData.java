@@ -20,6 +20,7 @@
 package com.izforge.izpack.compiler.data;
 
 import com.izforge.izpack.api.data.Info;
+import jakarta.enterprise.inject.Vetoed;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +35,7 @@ import java.util.jar.Manifest;
 /**
  * Data for compiler
  */
+@Vetoed
 public class CompilerData
 {
     /**

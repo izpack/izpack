@@ -22,14 +22,18 @@ package com.izforge.izpack.installer.data;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.swing.UIManager;
 
+import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.GUIPrefs;
 import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.installer.ISummarisable;
 import com.izforge.izpack.api.resource.Messages;
-import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.util.Platform;
 
 /**
@@ -38,7 +42,7 @@ import com.izforge.izpack.util.Platform;
  * @author Julien Ponge <julien@izforge.com>
  * @author Johannes Lehtinen <johannes.lehtinen@iki.fi>
  */
-public class GUIInstallData extends InstallData implements Serializable
+public class GUIInstallData extends AutomatedInstallData implements Serializable, GuiExtension
 {
 
     private static final long serialVersionUID = 4048793450990024505L;
@@ -56,14 +60,14 @@ public class GUIInstallData extends InstallData implements Serializable
     /**
      * The panels list.
      */
-    private List<IzPanel> panels = new ArrayList<IzPanel>();
-
+    private List<ISummarisable> panels = new ArrayList<>();
 
     public GUIInstallData(Variables variables, Platform platform)
     {
         super(variables, platform);
     }
 
+    @Override
     public void configureGuiButtons()
     {
         Messages messages = getMessages();
@@ -77,13 +81,33 @@ public class GUIInstallData extends InstallData implements Serializable
         UIManager.put("OptionPane.sendReportButtonText", messages.get("installer.sendReport"));
     }
 
+    @Override
+    public Map<String, String> modifiers()
+    {
+        return guiPrefs == null ? Collections.emptyMap() : guiPrefs.modifier;
+    }
+
+    @Override
+    public void addPanel(ISummarisable view)
+    {
+        panels.add(view);
+    }
+
     /**
      * Returns the panels.
      *
      * @return the panels
      */
-    public List<IzPanel> getPanels()
+    public List<ISummarisable> getPanels()
     {
         return panels;
+    }
+
+    @Override
+    public <T> Optional<T> getExtension(Class<T> type) {
+        if (GuiExtension.class.equals(type)) {
+            return Optional.of(type.cast(this));
+        }
+        return super.getExtension(type);
     }
 }

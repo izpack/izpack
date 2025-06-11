@@ -26,8 +26,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.picocontainer.injectors.Provider;
-
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -40,7 +38,7 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Tim Anderson
  */
-public abstract class PanelsProvider implements Provider
+public abstract class PanelsProvider
 {
 
     /**
@@ -52,10 +50,10 @@ public abstract class PanelsProvider implements Provider
      * @return the panels for the current platform
      * @throws IzPackException if a panel doesn't have unique identifier
      */
-    protected List<Panel> prepare(InstallData installData, PlatformModelMatcher matcher)
+    public List<Panel> prepare(InstallData installData, PlatformModelMatcher matcher)
     {
-        List<Panel> result = new ArrayList<Panel>();
-        Set<String> ids = new HashSet<String>();
+        List<Panel> result = new ArrayList<>();
+        Set<String> ids = new HashSet<>();
         for (Panel panel : installData.getPanelsOrder())
         {
             if (matcher.matchesCurrentPlatform(panel.getOsConstraints()))
