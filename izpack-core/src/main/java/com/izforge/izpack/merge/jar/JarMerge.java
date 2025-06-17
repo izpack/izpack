@@ -72,9 +72,13 @@ public class JarMerge extends AbstractMerge
         {
             builder.append("+(.*)");
         }
-        else
+        else if (destination.isEmpty())
         {
             builder.append("/*(.*)");
+        }
+        else
+        {
+            builder.append("($|/+)(.*)");
         }
         regexp = builder.toString();
     }
@@ -98,9 +102,13 @@ public class JarMerge extends AbstractMerge
         {
             builder.append("+(.*)");
         }
-        else
+        else if (pathInsideJar.isEmpty())
         {
             builder.append("/*(.*)");
+        }
+        else
+        {
+            builder.append("($|/+)(.*)");
         }
         regexp = builder.toString();
     }
@@ -202,7 +210,7 @@ public class JarMerge extends AbstractMerge
                     }
                     mergeList.add(jarEntry.getName());
 
-                    String matchFile = matcher.group(1);
+                    String matchFile = matcher.group(matcher.groupCount());
                     StringBuilder dest = new StringBuilder(destination);
                     if (matchFile != null && matchFile.length() > 0)
                     {
