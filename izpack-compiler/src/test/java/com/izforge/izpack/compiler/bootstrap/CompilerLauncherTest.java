@@ -21,6 +21,7 @@ package com.izforge.izpack.compiler.bootstrap;
 
 import com.izforge.izpack.compiler.Compiler;
 import com.izforge.izpack.compiler.CompilerConfig;
+import com.izforge.izpack.compiler.cli.CliAnalyzer;
 import com.izforge.izpack.compiler.container.CompilerContainer;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.logging.MavenStyleLogFormatter;
@@ -37,6 +38,7 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 
+import static com.izforge.izpack.compiler.cli.CliAnalyzer.parseArguments;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -86,7 +88,7 @@ public class CompilerLauncherTest
     @Test
     public void testCompilerBinding() throws Exception
     {
-        compilerContainer.processCompileDataFromArgs(new String[]{"bindingTest.xml"});
+        compilerContainer.addComponent(CompilerData.class, parseArguments("bindingTest.xml"));
         Compiler compiler = compilerContainer.getComponent(Compiler.class);
         assertThat(compiler, IsNull.notNullValue());
     }
@@ -110,7 +112,7 @@ public class CompilerLauncherTest
     @Test
     public void testCompilerConfigBinding() throws Exception
     {
-        compilerContainer.processCompileDataFromArgs(new String[]{"bindingTest.xml"});
+        compilerContainer.addComponent(CompilerData.class, parseArguments("bindingTest.xml"));
         CompilerData data = compilerContainer.getComponent(CompilerData.class);
         assertThat(data, IsNull.notNullValue());
         CompilerConfig compiler = compilerContainer.getComponent(CompilerConfig.class);
