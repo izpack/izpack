@@ -22,6 +22,8 @@
 
 package com.izforge.izpack.installer.container.impl;
 
+import java.util.List;
+
 import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -31,7 +33,9 @@ import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
-import java.util.List;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * Reads the <em>customData</em> resource in order to populate the {@link InstallerListeners} and {@link UninstallData}.
@@ -39,6 +43,7 @@ import java.util.List;
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
  */
+@ApplicationScoped
 public class CustomDataLoader
 {
 
@@ -77,6 +82,7 @@ public class CustomDataLoader
      * @param uninstallData the uninstallation data
      * @param listeners     the installer listeners
      */
+    @Inject
     public CustomDataLoader(PlatformModelMatcher matcher, Resources resources, ObjectFactory factory,
                             UninstallData uninstallData,
                             InstallerListeners listeners)
@@ -101,6 +107,7 @@ public class CustomDataLoader
      * @throws IzPackException if an {@link InstallerListener} throws an exception
      */
     @SuppressWarnings("unchecked")
+    @PostConstruct
     public void loadCustomData()
     {
         List<CustomData> customData = (List<CustomData>) resources.getObject("customData");
@@ -133,7 +140,6 @@ public class CustomDataLoader
      *
      * @param className the listener class name
      */
-    @SuppressWarnings("unchecked")
     private void addInstallerListener(String className)
     {
         InstallerListener listener = factory.create(className, InstallerListener.class);
