@@ -2,7 +2,7 @@
 [![Java CI with Maven](https://github.com/izpack/izpack/actions/workflows/maven.yml/badge.svg)](https://github.com/izpack/izpack/actions/workflows/maven.yml)
 [![Apache License 2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.codehaus.izpack/izpack-core/badge.svg)](https://search.maven.org/search?q=g:org.codehaus.izpack)
-[![Java 8](https://img.shields.io/badge/java-11-blue.svg)](https://adoptium.net/)
+[![Java 11](https://img.shields.io/badge/java-11-blue.svg)](https://adoptium.net/)
 [![javadoc](https://javadoc.io/badge2/org.codehaus.izpack/izpack-api/javadoc.svg)](https://javadoc.io/doc/org.codehaus.izpack/izpack-api)
 
 [IzPack](http://izpack.org/) is a widely used tool for packaging applications on the Java platform as cross-platform installers.
