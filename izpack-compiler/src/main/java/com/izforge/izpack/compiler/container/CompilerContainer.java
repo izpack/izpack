@@ -20,43 +20,20 @@
 package com.izforge.izpack.compiler.container;
 
 import com.izforge.izpack.api.exception.ContainerException;
-import com.izforge.izpack.api.factory.ObjectFactory;
-import com.izforge.izpack.api.rules.RulesEngine;
-import com.izforge.izpack.api.substitutor.VariableSubstitutor;
-import com.izforge.izpack.compiler.Compiler;
-import com.izforge.izpack.compiler.CompilerConfig;
-import com.izforge.izpack.compiler.cli.CliAnalyzer;
-import com.izforge.izpack.compiler.container.provider.CompilerDataProvider;
-import com.izforge.izpack.compiler.container.provider.JarOutputStreamProvider;
-import com.izforge.izpack.compiler.container.provider.XmlCompilerHelperProvider;
-import com.izforge.izpack.compiler.data.PropertyManager;
-import com.izforge.izpack.compiler.helper.AssertionHelper;
-import com.izforge.izpack.compiler.helper.CompilerHelper;
-import com.izforge.izpack.compiler.listener.CmdlinePackagerListener;
-import com.izforge.izpack.compiler.resource.ResourceFinder;
+import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.core.container.AbstractContainer;
-import com.izforge.izpack.core.container.PlatformProvider;
-import com.izforge.izpack.core.data.DefaultVariables;
-import com.izforge.izpack.core.factory.DefaultObjectFactory;
-import com.izforge.izpack.core.rules.ConditionContainer;
-import com.izforge.izpack.core.rules.RulesEngineImpl;
-import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
-import com.izforge.izpack.merge.MergeManager;
-import com.izforge.izpack.merge.MergeManagerImpl;
-import com.izforge.izpack.util.Platform;
-import com.izforge.izpack.util.PlatformModelMatcher;
-import com.izforge.izpack.util.Platforms;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
-import org.picocontainer.parameters.ComponentParameter;
+import com.izforge.izpack.core.container.CdiInitializationContext;
+import jakarta.enterprise.inject.Vetoed;
 
-import java.util.Properties;
+import java.util.function.Supplier;
+import java.util.logging.Handler;
 
 /**
  * Container for compiler.
  *
  * @author Anthonin Bonnefoy
  */
+@Vetoed
 public class CompilerContainer extends AbstractContainer
 {
 
@@ -65,9 +42,13 @@ public class CompilerContainer extends AbstractContainer
      *
      * @throws ContainerException if initialisation fails
      */
-    public CompilerContainer()
+    public CompilerContainer(Handler handler, CompilerData compilerData, Supplier<String> installFileSupplier)
     {
-        initialise();
+        initialise(ctx -> {
+            ctx.addComponent(Handler.class, handler);
+            ctx.addComponent(CompilerData.class, compilerData);
+            ctx.addConfig("installFile", installFileSupplier.get());
+        });
     }
 
     /**
@@ -76,7 +57,7 @@ public class CompilerContainer extends AbstractContainer
      * @param container the underlying container. May be <tt>null</tt>
      * @throws ContainerException if initialisation fails
      */
-    protected CompilerContainer(MutablePicoContainer container)
+    protected CompilerContainer(CdiInitializationContext container)
     {
         super(container);
     }
@@ -84,49 +65,34 @@ public class CompilerContainer extends AbstractContainer
     /**
      * Fills the container.
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails, or the container has already been initialised
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
+    protected void fillContainer(CdiInitializationContext context)
     {
-        addComponent(Properties.class);
-        addComponent(DefaultVariables.class);
-        addComponent(CompilerContainer.class, this);
-        addComponent(CliAnalyzer.class);
-        addComponent(CmdlinePackagerListener.class);
-        addComponent(Compiler.class);
-        addComponent(ResourceFinder.class);
-        addComponent(CompilerConfig.class);
-        addComponent(ConditionContainer.class, ConditionContainer.class);
-        addComponent(AssertionHelper.class);
-        addComponent(PropertyManager.class);
-        addComponent(VariableSubstitutor.class, VariableSubstitutorImpl.class);
-        addComponent(CompilerHelper.class);
-        container.addComponent(RulesEngine.class, RulesEngineImpl.class,
-                               new ComponentParameter(ConditionContainer.class),
-                               new ComponentParameter(Platform.class));
-        addComponent(MergeManager.class, MergeManagerImpl.class);
-        container.addComponent(ObjectFactory.class, DefaultObjectFactory.class,
-                               new ComponentParameter(CompilerContainer.class));
-        container.addComponent(PlatformModelMatcher.class);
-        addComponent(Platforms.class);
+        super.fillContainer(context);
+        new ResolverContainerFiller().fillContainer(context);
 
-        new ResolverContainerFiller().fillContainer(this);
-        container.addAdapter(new ProviderAdapter(new XmlCompilerHelperProvider()))
-                .addAdapter(new ProviderAdapter(new JarOutputStreamProvider()))
-                .addAdapter(new ProviderAdapter(new PlatformProvider()));
-
-    }
-
-    /**
-     * Add CompilerDataComponent by processing command line args
-     *
-     * @param args command line args passed to the main
-     */
-    public void processCompileDataFromArgs(String[] args)
-    {
-        getContainer().addAdapter(new ProviderAdapter(new CompilerDataProvider(args)));
+//        addComponent(CompilerContainer.class, this); already added by super.fillContainer()
+//        addComponent(Properties.class);
+//        addComponent(DefaultVariables.class);
+//        addComponent(CliAnalyzer.class);
+//        addComponent(CmdlinePackagerListener.class);
+//        addComponent(Compiler.class);
+//        addComponent(ResourceFinder.class);
+//        addComponent(CompilerConfig.class);
+//        addComponent(ConditionContainer.class);
+//        addComponent(AssertionHelper.class);
+//        addComponent(PropertyManager.class);
+//        addComponent(VariableSubstitutorImpl.class);
+//        addComponent(CompilerHelper.class);
+//        addComponent(RulesEngineImpl.class);
+//        addComponent(MergeManagerImpl.class);
+//        addComponent(DefaultObjectFactory.class);
+//        addComponent(PlatformModelMatcher.class);
+//        addComponent(XmlCompilerHelperProvider.class);
+//        addComponent(JarOutputStreamProvider.class);
+//        addComponent(PlatformProvider.class);
     }
 
 }

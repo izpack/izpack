@@ -27,6 +27,8 @@ import com.izforge.izpack.api.rules.ConditionWithMultipleOperands;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.rules.process.RefCondition;
 
+import jakarta.inject.Inject;
+
 /**
  * Defines a condition where both operands have to be true
  *
@@ -38,6 +40,7 @@ public class AndCondition extends ConditionWithMultipleOperands
 
     protected transient RulesEngine rules;
 
+    @Inject
     public AndCondition(RulesEngine rules)
     {
         this.rules = rules;
