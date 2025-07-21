@@ -30,11 +30,15 @@ import java.util.Set;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.merge.Mergeable;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
 /**
  * Try to resolve paths by searching inside the classpath or files with the corresponding name
  *
  * @author Anthonin Bonnefoy
  */
+@ApplicationScoped
 public class PathResolver
 {
     /**
@@ -48,6 +52,7 @@ public class PathResolver
      *
      * @param mergeableResolver the mergeable resolver
      */
+    @Inject
     public PathResolver(MergeableResolver mergeableResolver)
     {
         this.mergeableResolver = mergeableResolver;
@@ -81,7 +86,7 @@ public class PathResolver
     public List<Mergeable> getMergeableFromPath(String resourcePath)
     {
         Set<URL> urlList = resolvePath(resourcePath);
-        List<Mergeable> result = new ArrayList<Mergeable>();
+        List<Mergeable> result = new ArrayList<>();
         for (URL url : urlList)
         {
             result.add(mergeableResolver.getMergeableFromURL(url, resourcePath));
@@ -97,7 +102,7 @@ public class PathResolver
     public List<Mergeable> getMergeableJarFromPackageName(String packageName)
     {
         Set<URL> urlSet = ResolveUtils.getJarUrlForPackage(packageName);
-        ArrayList<Mergeable> list = new ArrayList<Mergeable>();
+        ArrayList<Mergeable> list = new ArrayList<>();
         for (URL url : urlSet)
         {
             list.add(mergeableResolver.getMergeableFromURL(url));
@@ -115,7 +120,7 @@ public class PathResolver
     public List<Mergeable> getMergeableFromPath(String resourcePath, String destination)
     {
         Set<URL> urlList = resolvePath(resourcePath);
-        List<Mergeable> result = new ArrayList<Mergeable>();
+        List<Mergeable> result = new ArrayList<>();
         for (URL url : urlList)
         {
             result.add(mergeableResolver.getMergeableFromURLWithDestination(url, destination));
@@ -131,7 +136,7 @@ public class PathResolver
      */
     protected Set<URL> findResources(String resourcePath)
     {
-        Set<URL> result = new HashSet<URL>();
+        Set<URL> result = new HashSet<>();
         URL path = ResolveUtils.getFileFromPath(resourcePath);
         if (path != null)
         {

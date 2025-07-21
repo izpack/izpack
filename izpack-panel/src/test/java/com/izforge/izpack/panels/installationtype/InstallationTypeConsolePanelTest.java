@@ -29,6 +29,7 @@ import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
+import jakarta.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -62,6 +63,7 @@ public class InstallationTypeConsolePanelTest
      * @param installData the installation data
      * @param console     the console
      */
+    @Inject
     public InstallationTypeConsolePanelTest(InstallData installData, TestConsole console)
     {
         this.console = console;
