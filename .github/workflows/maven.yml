@@ -42,19 +42,20 @@ jobs:
           fi
 
       - name: Running Maven GUI tests
+        env:
+          DISPLAY: ':99.0'
         run: |
           sudo apt-get update
           sudo apt-get install fluxbox
-          export DISPLAY=':99.0'
           Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           fluxbox &> ~/fluxbox.log &
           ./mvnw -B verify -Pwith-gui-tests -Ddependency-check.skip=true
 
-      - name: Write out Unit Test report annotation for forked repo
-        if: ${{ failure() &&  (github.event.pull_request.head.repo.full_name != github.repository) }}
-        uses: mikepenz/action-junit-report@v5
+      - name: Test Summary
+        uses: test-summary/action@v2
         with:
-          annotate_only: true # forked repo cannot write to checks so just do annotations
+          paths: '**/target/surefire-reports/**/TEST-*.xml'
+        if: always()
 
       - name: Archive build logs
         if: always()
@@ -63,9 +64,10 @@ jobs:
           name: jdk${{ matrix.jdk }}-build-logs
           retention-days: 5
           path: |
+            fluxbox.log
             **/*.jfr
             **/hs_err_pid*.log
-            **/target/reports/*
+            **/target/surefire-reports/**/TEST-*.xml
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
