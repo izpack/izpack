@@ -19,14 +19,14 @@ package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Arch;
 import static com.izforge.izpack.util.Platform.Name;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

@@ -25,11 +25,11 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.util.Platforms;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -41,12 +41,12 @@ public class InstallPathHelperTest
 {
 	private String orgUserDir;
 	
-	@Before
+	@BeforeEach
 	public void initialize() {
 		orgUserDir = System.getProperty("user.dir");
 	}
 	
-	@After
+	@AfterEach
 	public void cleanup() {
 		System.setProperty("user.dir", orgUserDir);
 	}

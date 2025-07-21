@@ -24,13 +24,13 @@ package com.izforge.izpack.integration;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.izforge.izpack.api.data.InstallData;
 
@@ -45,8 +45,8 @@ public class AbstractInstallationTest
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     public static final String LOGGING_CONFIGURATION = "/com/izforge/izpack/installer/logging/logging.properties";
 
@@ -75,11 +75,11 @@ public class AbstractInstallationTest
      *
      * @throws Exception for any error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         installData.setInstallPath(installPath.getAbsolutePath());
         installData.setDefaultInstallPath(installPath.getAbsolutePath());
     }

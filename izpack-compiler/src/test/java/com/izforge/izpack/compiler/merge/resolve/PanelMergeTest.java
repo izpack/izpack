@@ -25,8 +25,8 @@ import java.io.File;
 import java.util.zip.ZipFile;
 
 import org.hamcrest.core.Is;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.compiler.container.TestResolveContainer;
@@ -38,14 +38,14 @@ import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.panels.hello.HelloPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.MergeUtils;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 /**
  * Unit tests for panel merge
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestResolveContainer.class)
 public class PanelMergeTest
 {

@@ -9,12 +9,12 @@
 
     <artifactId>izpack-tools</artifactId>
     <name>IzPack tools module</name>
-    <description>Module containing all utilities classes completly independent</description>
+    <description>Module containing all utilities classes completely independent</description>
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

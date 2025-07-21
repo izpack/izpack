@@ -21,12 +21,12 @@
 
 package com.izforge.izpack.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FileUtilTest extends AbstractPlatformTest
 {

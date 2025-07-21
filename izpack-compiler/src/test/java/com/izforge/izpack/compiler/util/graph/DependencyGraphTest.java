@@ -18,18 +18,19 @@
  */
 package com.izforge.izpack.compiler.util.graph;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.ListIterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DependencyGraphTest {
 
     /**
-     * Test method for {@link com.izforge.izpack.compiler.util.graph.DependencyGraph#getOrderedList()}.
+     * Test method for {@link DependencyGraph#getOrderedList()}.
      */
     @Test
     public void testGetOrderedList() {
@@ -57,14 +58,14 @@ public class DependencyGraphTest {
 
     private void testContained(List<? extends Object> list, Object var)
     {
-        assertTrue(String.format("'%s' must be contained in list '%s'",var,list), list.contains(var));
+        assertTrue(list.contains(var), String.format("'%s' must be contained in list '%s'", var, list));
     }
 
     private void testOrder(List<? extends Object> list, Object var1, Object var2)
     {
         testContained(list, var1);
         testContained(list, var2);
-        assertTrue(String.format("'%s' must come after '%s' in list '%s'",var1,var2,list), list.indexOf(var1) > list.indexOf(var2));
+        assertTrue(list.indexOf(var1) > list.indexOf(var2), String.format("'%s' must come after '%s' in list '%s'", var1, var2, list));
     }
 
     private void testUnique(List<? extends Object> list)
@@ -76,7 +77,7 @@ public class DependencyGraphTest {
             ListIterator<? extends Object> it2 = list.listIterator(it.nextIndex());
             while (it2.hasNext())
             {
-                assertFalse(String.format("'%s' must occur only once in list '%s'",object,list), object.equals(it2.next()));
+              assertNotEquals(object, it2.next(), String.format("'%s' must occur only once in list '%s'", object, list));
             }
         }
     }

@@ -23,8 +23,8 @@ package com.izforge.izpack.integration.packaging;
 
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,9 +35,9 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -52,7 +52,7 @@ import com.izforge.izpack.integration.HelperTestMethod;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 
 /**
@@ -60,7 +60,7 @@ import com.izforge.izpack.test.junit.PicoRunner;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestGUIInstallationContainer.class)
 public class PackagingTest extends AbstractInstallationTest
 {
@@ -111,7 +111,7 @@ public class PackagingTest extends AbstractInstallationTest
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)

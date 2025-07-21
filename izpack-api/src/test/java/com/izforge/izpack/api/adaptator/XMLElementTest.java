@@ -22,12 +22,15 @@
 
 package com.izforge.izpack.api.adaptator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -44,7 +47,7 @@ public class XMLElementTest
 
     private IXMLElement root;
 
-    @Before
+    @BeforeEach
     public void setUp() throws FileNotFoundException
     {
         /* méthode DOM */
@@ -55,70 +58,67 @@ public class XMLElementTest
     @Test
     public void testGetName()
     {
-        Assert.assertEquals("izpack:installation", root.getName());
-        Assert.assertEquals(root.getChildAtIndex(0).getName(), "info");
+        assertEquals("izpack:installation", root.getName());
+        assertEquals(root.getChildAtIndex(0).getName(), "info");
     }
 
     @Test
-    public void testAddChild() throws NoSuchMethodException
-    {
+    public void testAddChild() {
         IXMLElement element = new XMLElementImpl("child", root);
         root.addChild(element);
         element = root.getChildAtIndex(root.getChildrenCount() - 1);
-        Assert.assertEquals(element.getName(), "child");
+        assertEquals(element.getName(), "child");
     }
 
     @Test
-    public void testAddChildToDifferentDocument() throws NoSuchMethodException
-    {
+    public void testAddChildToDifferentDocument() {
         IXMLElement element = new XMLElementImpl("child");
         root.addChild(element);
         element = root.getChildAtIndex(root.getChildrenCount() - 1);
-        Assert.assertEquals(element.getName(), "child");
+        assertEquals(element.getName(), "child");
     }
 
     @Test
-    public void testRemoveChild() throws NoSuchMethodException
-    {
+    public void testRemoveChild() {
         IXMLElement element = new XMLElementImpl("child", root);
         root.addChild(element);
         element = root.getChildAtIndex(root.getChildrenCount() - 1);
         root.removeChild(element);
-        Assert.assertEquals(root.getChildrenNamed("child").size(), 0);
+        assertEquals(root.getChildrenNamed("child").size(), 0);
     }
 
     @Test
     public void testHasChildrenIfTrue()
     {
-        Assert.assertTrue(root.hasChildren());
+        assertTrue(root.hasChildren());
     }
 
     @Test
     public void testHasChildrenIfFalse()
     {
         IXMLElement element = new XMLElementImpl("test");
-        Assert.assertFalse(element.hasChildren());
+        assertFalse(element.hasChildren());
     }
 
     @Test
     public void testGetChildrenCount()
     {
         IXMLElement element = root.getChildAtIndex(0);
-        Assert.assertEquals(element.getChildrenCount(), 9);
+        assertEquals(element.getChildrenCount(), 9);
     }
 
     @Test
     public void testGetChildAtIndex()
     {
         IXMLElement element = root.getChildAtIndex(1);
-        Assert.assertEquals("variables", element.getName());
+        assertEquals("variables", element.getName());
     }
 
     @Test
     public void testGetFirstChildNamed()
     {
         IXMLElement element = root.getFirstChildNamed("locale");
-        Assert.assertEquals(element.getName(), "locale");
+        assertEquals(element.getName(), "locale");
     }
 
     @Test
@@ -126,6 +126,6 @@ public class XMLElementTest
     {
         IXMLElement element = root.getChildAtIndex(2);
         List<IXMLElement> list = element.getChildrenNamed("modifier");
-        Assert.assertEquals(7, list.size());
+        assertEquals(7, list.size());
     }
 }

@@ -1,19 +1,18 @@
 package com.izforge.izpack.core.data;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.Properties;
 
 import com.izforge.izpack.api.data.Variables;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.api.data.ValueFilter;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
@@ -26,8 +25,8 @@ import com.izforge.izpack.core.variable.filters.RegularExpressionFilter;
 
 public class DynamicVariableImplTest
 {
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+    @TempDir
+    static Path tmpDir;
 
     @Test
     public void testSimple()
@@ -81,7 +80,7 @@ public class DynamicVariableImplTest
 
         try
         {
-            configFile = folder.newFile("_wrapper_.conf");
+            configFile = tmpDir.resolve("_wrapper_.conf").toFile();
             OutputStream out = new FileOutputStream(configFile);
             int len;
             while ((len = in.read(buf)) > 0) {

@@ -21,12 +21,8 @@
 
 package com.izforge.izpack.event;
 
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,12 +30,10 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
 import com.coi.tools.os.win.RegDataContainer;
@@ -61,7 +55,7 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
 import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PlatformRunner;
+import com.izforge.izpack.test.junit.PlatformExecutionCondition;
 import com.izforge.izpack.test.util.TestLibrarian;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Librarian;
@@ -76,19 +70,18 @@ import com.izforge.izpack.util.os.Win_RegistryHandler;
  *
  * @author Tim Anderson
  */
-@RunWith(PlatformRunner.class)
+@ExtendWith(PlatformExecutionCondition.class)
 @RunOn(Platform.Name.WINDOWS)
 public class RegistryInstallerListenerTest
 {
-    private boolean skipTests = new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded();
-
+    private final boolean skipTests = new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded();
     private final boolean isAdminUser = new PrivilegedRunner(Platforms.WINDOWS).isAdminUser();
 
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public File temporaryFolder;
 
     /**
      * The variable replacer.
@@ -141,12 +134,11 @@ public class RegistryInstallerListenerTest
      *
      * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
-        //assertFalse("This test must be run as administrator, or with Windows UAC turned off",
-        //            new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded());
-        Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+        assumeTrue(!skipTests && isAdminUser,
+                   "This test must be run as administrator, or with Windows UAC turned off");
 
         Properties properties = new Properties();
         Variables variables = new DefaultVariables(properties);
@@ -157,8 +149,7 @@ public class RegistryInstallerListenerTest
         data.setMessages(Mockito.mock(Messages.class));
         installData = data;
 
-        File installDir = temporaryFolder.getRoot();
-        installData.setInstallPath(installDir.getPath());
+        installData.setInstallPath(temporaryFolder.getPath());
 
         resources = Mockito.mock(Resources.class);
         InputStream specStream = getClass().getResourceAsStream("/com/izforge/izpack/event/registry/RegistrySpec.xml");
@@ -182,13 +173,14 @@ public class RegistryInstallerListenerTest
     /**
      * Verifies that the Windows registry is updated by {@link RegistryInstallerListener#afterPacks}.
      *
-     * @throws NativeLibException for any regitry error
+     * @throws NativeLibException for any registry error
      */
     @Test
     public void testRegistry() throws NativeLibException
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	
+        assumeTrue(!skipTests && isAdminUser,
+                   "This test must be run as administrator, or with Windows UAC turned off");
+
         String appName = "IzPackRegistryTest";
         String appVersion = "1.0";
         String uninstallName = appName + "-" + appVersion;
@@ -344,7 +336,7 @@ public class RegistryInstallerListenerTest
         assertKeyExists(key);
         assertTrue(registry.valueExist(key, name));
         RegDataContainer value = registry.getValue(key, name);
-        assertEquals("Registry key value " + name + " is not type " + typeName, type, value.getType());
+        assertEquals(type, value.getType(), "Registry key value " + name + " is not type " + typeName);
         return value;
     }
 

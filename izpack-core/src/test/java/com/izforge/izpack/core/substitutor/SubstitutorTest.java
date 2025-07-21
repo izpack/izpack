@@ -22,10 +22,13 @@
 package com.izforge.izpack.core.substitutor;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Assertions.*;
+
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.data.DefaultVariables;
-import junit.framework.TestCase;
 
 
 /**
@@ -35,44 +38,13 @@ import junit.framework.TestCase;
  * @note This test will create VariableSubstitutor object with null parameter!
  * There won't be Properties object available!
  */
-public class SubstitutorTest extends TestCase
+public class SubstitutorTest
 {
     private final String umlautString = "ÄöäÖüÜ";
     private final String cyrillicString = "Закончить";
     private final String japanesString = "ƒCƒ“ƒXƒg[ƒ‹‚Ì’†Ž~";
 
     protected VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables());
-
-    /**
-     * Constructor for the test.
-     *
-     * @param arg0 Parameter string for the constructor.
-     */
-    public SubstitutorTest(String arg0)
-    {
-        super(arg0);
-    }
-
-    /**
-     * (non-Javadoc)
-     *
-     * @see junit.framework.TestCase#setUp()
-     */
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-    }
-
-    /**
-     * (non-Javadoc)
-     *
-     * @see junit.framework.TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-    }
-
 
     /**
      * Tests return value of substitute for string containing umlaut characters.

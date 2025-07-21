@@ -21,19 +21,19 @@
 
 package com.izforge.izpack.integration.packvalidator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
@@ -51,7 +51,7 @@ import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.panels.packs.PackValidator;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.test.util.TestHousekeeper;
 
 
@@ -60,15 +60,15 @@ import com.izforge.izpack.test.util.TestHousekeeper;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestGUIInstallationContainer.class)
 public class PackValidatorTest
 {
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * Install data.
@@ -122,11 +122,11 @@ public class PackValidatorTest
     /**
      * Sets up the test case.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         assertTrue(installPath.mkdirs());
         installData.setInstallPath(installPath.getAbsolutePath());
     }
@@ -134,7 +134,7 @@ public class PackValidatorTest
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)
@@ -204,4 +204,3 @@ public class PackValidatorTest
     }
 
 }
-

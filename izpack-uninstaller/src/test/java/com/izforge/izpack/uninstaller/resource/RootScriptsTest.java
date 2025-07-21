@@ -22,8 +22,8 @@
 package com.izforge.izpack.uninstaller.resource;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
@@ -34,8 +34,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.exception.IzPackException;
@@ -62,9 +62,9 @@ public class RootScriptsTest
     /**
      * Sets up the test case.
      *
-     * @throws java.io.IOException for any I/O error
+     * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         // Set up a mock Resources implementation.

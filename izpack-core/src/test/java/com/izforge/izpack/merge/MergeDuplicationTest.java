@@ -25,8 +25,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.zip.ZipFile;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
@@ -36,14 +36,14 @@ import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.MergeUtils;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 /**
  * Test for merge duplication
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestMergeContainer.class)
 public class MergeDuplicationTest
 {
