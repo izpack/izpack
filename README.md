@@ -2,10 +2,18 @@
 [![Java CI with Maven](https://github.com/izpack/izpack/actions/workflows/maven.yml/badge.svg)](https://github.com/izpack/izpack/actions/workflows/maven.yml)
 [![Apache License 2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.codehaus.izpack/izpack-core/badge.svg)](https://search.maven.org/search?q=g:org.codehaus.izpack)
-[![Java 8](https://img.shields.io/badge/java-8-blue.svg)](https://adoptium.net/)
+[![Java 11](https://img.shields.io/badge/java-11-blue.svg)](https://adoptium.net/)
 [![javadoc](https://javadoc.io/badge2/org.codehaus.izpack/izpack-api/javadoc.svg)](https://javadoc.io/doc/org.codehaus.izpack/izpack-api)
 
 [IzPack](http://izpack.org/) is a widely used tool for packaging applications on the Java platform as cross-platform installers.
+
+## Social media
+
+IzPack is present on social media. We will forward blog posts there, and it is open for your posts. Or just follow us to get the latest news.
+
+You can follow use here:
+- [![Mastodon Follow](https://img.shields.io/mastodon/follow/113873434510897578?domain=fosstodon.org)](https://fosstodon.org/@izpack)
+- [![Static Badge](https://img.shields.io/badge/Follow%20@izpack.org--blue?style=social&logo=bluesky)](https://bsky.app/profile/izpack.org)
 
 ## License
 
@@ -16,8 +24,8 @@ under different terms.
 
 ## Building IzPack from source
 
-IzPack requires Java SE 1.8 and at minimum Maven 3. Due to the JDK compatibility,
-the maximum Maven version supported is 3.6.3 when compiled using JDK 1.8.
+IzPack requires Java 11 and at minimum Maven 3. Due to the JDK compatibility,
+the maximum Maven version supported is 3.9.10 when compiled using JDK 11.
 
     mvn verify install
 
@@ -112,24 +120,17 @@ The existing subscribers have been left and don't probably have to re-subscribe.
 In particular, there are activated the following lists:
 - [izpack-announce@googlegroups.com](mailto:izpack-announce@googlegroups.com)<br>
 [Read more about the izpack-announce group](https://groups.google.com/forum/#!aboutgroup/izpack-announce).<br>
-Do no longer use the former list ~~announce@izpack.codehaus.org~~!<br>
 If you are not a member you can subscribe by sending an e-mail to:
 [izpack-announce+subscribe@googlegroups.com](mailto:izpack-announce+subscribe@googlegroups.com).
 - [izpack-user@googlegroups.com](mailto:izpack-user@googlegroups.com)<br>
 [Read more about the izpack-user group](https://groups.google.com/forum/#!aboutgroup/izpack-user).<br>
-Do no longer use the former list ~~user@izpack.codehaus.org~~!<br>
 If you are not a member you can subscribe by sending an e-mail to:
 [izpack-user+subscribe@googlegroups.com](mailto:izpack-user+subscribe@googlegroups.com).
 - [izpack-dev@googlegroups.com](mailto:izpack-dev@googlegroups.com)<br>
 [Read more about the izpack-dev group](https://groups.google.com/forum/#!aboutgroup/izpack-dev).<br>
-Do no longer use the former list ~~dev@izpack.codehaus.org~~!<br>
 If you are not a member you can subscribe by sending an e-mail to:
 [izpack-dev+subscribe@googlegroups.com](mailto:izpack-dev+subscribe@googlegroups.com).
 
 If you are not a member of one of the above groups of your interest, you may subscribe to them with or without being logged on as Google user on the web interface or by mail. For more help on Google Groups [visit the according help center](https://support.google.com/groups).
 
 Be invited to join us again.
-
-### IzPack@Twitter
-
-IzPack has a [Twitter account](https://twitter.com/izpack). We will forward blog posts there, and it is open for your tweets for registered Twitter users. Or just follow us to get the latest news.
