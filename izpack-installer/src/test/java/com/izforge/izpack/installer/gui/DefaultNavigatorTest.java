@@ -20,10 +20,29 @@
  */
 package com.izforge.izpack.installer.gui;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.core.container.CdiInitializationContext;
+import org.junit.Test;
+import org.mockito.Mockito;
+
 import com.izforge.izpack.api.container.Container;
+import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.data.Panel;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.factory.ObjectFactory;
+import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -36,15 +55,8 @@ import com.izforge.izpack.core.rules.RulesEngineImpl;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.panel.Panels;
+import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 /**
  * Tests the {@link DefaultNavigator}.
@@ -87,17 +99,26 @@ public class DefaultNavigatorTest
     {
         frame = Mockito.mock(InstallerFrame.class);
         installData = new GUIInstallData(new DefaultVariables(), Platforms.WINDOWS);
-        RulesEngine rules = new RulesEngineImpl(Mockito.mock(ConditionContainer.class), Platforms.WINDOWS);
+        RulesEngine rules = new RulesEngineImpl(installData, Mockito.mock(ConditionContainer.class));
         installData.setRules(rules);
         final Resources resources = Mockito.mock(Resources.class);
         installData.setMessages(new LocaleDatabase((Messages) null, new DefaultLocales(resources)));
 
         container = new DefaultContainer()
         {
+            @Override
+            protected void fillContainer(CdiInitializationContext context)
             {
-                getContainer().addComponent(frame);
-                getContainer().addComponent(resources);
-                getContainer().addComponent(installData);
+                super.fillContainer(context);
+                context.addComponent(InstallerFrame.class, frame);
+                context.addComponent(Resources.class, resources);
+            }
+
+            @Override
+            public AutomatedInstallData create(Resources resources, Variables variables, Platform platform,
+                                               Locales locales, Predicate<Pack> availablePackPredicate)
+            {
+                return installData;
             }
         };
         factory = new DefaultObjectFactory(container);
@@ -310,7 +331,7 @@ public class DefaultNavigatorTest
      */
     private IzPanels createPanels(int count)
     {
-        List<IzPanelView> views = new ArrayList<IzPanelView>();
+        List<IzPanelView> views = new ArrayList<>();
         for (int i = 0; i < count; ++i)
         {
             Panel panel = new Panel();
