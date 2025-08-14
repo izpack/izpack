@@ -18,3 +18,4 @@ izpack-compiler/out.zip
 .idea
 /bin
 .recommenders/
+weld-validation-report.html
