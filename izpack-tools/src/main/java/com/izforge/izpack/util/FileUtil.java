@@ -243,7 +243,7 @@ public class FileUtil
         }
         String canonicalFilePath = file.getCanonicalPath();
         String canonicalBaseDirPath = basedir.getCanonicalPath();
-        if (canonicalFilePath.startsWith(canonicalBaseDirPath))
+        if (file.getCanonicalFile().toPath().startsWith(canonicalBaseDirPath))
         {
             int length = canonicalBaseDirPath.length();
             if (length < canonicalFilePath.length())
