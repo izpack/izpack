@@ -18,10 +18,10 @@
  */
 package com.izforge.izpack.installer.console;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests the {@link AbstractTextConsolePanel} class.
@@ -32,7 +32,7 @@ public class AbstractTextConsolePanelTest
 {
     private AbstractTextConsolePanel abstractTextConsolePanel;
 
-    @Before
+    @BeforeEach
     public void setup()
     {
         abstractTextConsolePanel = new AbstractTextConsolePanel(null)

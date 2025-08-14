@@ -26,20 +26,21 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Overrides;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.izforge.izpack.test.junit.PicoExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Tests the {@link InstallationTypePanelAutomation} class.
  *
  * @author Hitesh A. Bosamiya
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestConsolePanelContainer.class)
 public class InstallationTypePanelAutomationTest
 {

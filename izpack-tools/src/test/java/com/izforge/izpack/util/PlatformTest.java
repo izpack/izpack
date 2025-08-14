@@ -20,12 +20,13 @@ package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Arch;
 import static com.izforge.izpack.util.Platform.Name;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -178,13 +179,13 @@ public class PlatformTest extends AbstractPlatformTest
         Platform platform5 = new Platform(Name.WINDOWS, null, OsVersionConstants.WINDOWS_2003_VERSION, Arch.X86);
         Platform platform6 = new Platform(Name.WINDOWS, "win2003", OsVersionConstants.WINDOWS_2003_VERSION, Arch.X86);
 
-        assertTrue(platform1.equals(platform1));
-        assertTrue(platform1.equals(platform2));
-        assertFalse(platform1.equals(platform3));
-        assertFalse(platform1.equals(platform4));
-        assertFalse(platform1.equals(platform5));
-        assertFalse(platform4.equals(platform5));
-        assertTrue(platform5.equals(platform6));  // symbolic name not used in equality
+      assertEquals(platform1, platform1);
+      assertEquals(platform1, platform2);
+      assertNotEquals(platform1, platform3);
+      assertNotEquals(platform1, platform4);
+      assertNotEquals(platform1, platform5);
+      assertNotEquals(platform4, platform5);
+      assertEquals(platform5, platform6);  // symbolic name not used in equality
     }
 
     /**

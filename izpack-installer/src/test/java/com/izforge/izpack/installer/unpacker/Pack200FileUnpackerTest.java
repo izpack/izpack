@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the {@link Pack200FileUnpacker} class.

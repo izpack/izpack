@@ -31,10 +31,14 @@ import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_VIEWPREF_FORM_
 import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_VIEWPREF_HIDEMENUBAR;
 import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_VIEWPREF_HIDETOOLBAR;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.icepdf.ri.common.ComponentKeyBinding;
@@ -43,7 +47,7 @@ import org.icepdf.ri.common.SwingViewBuilder;
 import org.icepdf.ri.common.views.DocumentViewController;
 import org.icepdf.ri.util.ViewerPropertiesManager;
 
-public class PDFDisplayer extends javax.swing.JFrame {
+public class PDFDisplayer extends JFrame {
 
 	private static final String FILE_NAME = "./src/test/resources/com/izforge/izpack/panels/panel/PDFLicencePanel.pdf";
 	private static final long serialVersionUID = 1L;
@@ -62,21 +66,21 @@ public class PDFDisplayer extends javax.swing.JFrame {
 
 		ComponentKeyBinding.install(controller, viewerComponentPanel);
 
-		addWindowListener(new java.awt.event.WindowAdapter() {
+		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(java.awt.event.WindowEvent evt) {
+			public void windowClosing(WindowEvent evt) {
 				exitApplication(controller);
 			}
 		});
 
-		getContentPane().add(controller.getDocumentViewController().getViewContainer(), java.awt.BorderLayout.CENTER);
+		getContentPane().add(controller.getDocumentViewController().getViewContainer(), BorderLayout.CENTER);
 
 		JPanel p = new JPanel();
 		p.setLayout(new FlowLayout(FlowLayout.CENTER));
 		p.add(builder.buildFitToolBar());
 		p.add(builder.buildPageNavigationToolBar());
 		p.add(builder.buildZoomToolBar());
-		getContentPane().add(p, java.awt.BorderLayout.SOUTH);
+		getContentPane().add(p, BorderLayout.SOUTH);
 
 		// Open a PDF document to view
 		controller.openDocument(FILE_NAME);

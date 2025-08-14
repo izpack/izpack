@@ -21,15 +21,15 @@
  */
 package com.izforge.izpack.util.os;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Properties;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.injectors.ProviderAdapter;
 
@@ -40,6 +40,7 @@ import com.izforge.izpack.core.container.PlatformProvider;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.factory.DefaultObjectFactory;
 import com.izforge.izpack.core.resource.ResourceManager;
+import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.test.util.TestLibrarian;
 import com.izforge.izpack.util.DefaultTargetPlatformFactory;
 import com.izforge.izpack.util.Housekeeper;
@@ -73,7 +74,7 @@ public class Unix_ShortcutTest
      *
      * @throws Exception for any error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         container = new AbstractContainer()
@@ -88,7 +89,7 @@ public class Unix_ShortcutTest
                 addComponent(Properties.class);
                 addComponent(DefaultVariables.class);
                 addComponent(ResourceManager.class);
-                addComponent(com.izforge.izpack.installer.data.InstallData.class);
+                addComponent(InstallData.class);
                 addComponent(TestLibrarian.class);
                 addComponent(Housekeeper.class);
                 addComponent(TargetFactory.class);
@@ -104,7 +105,7 @@ public class Unix_ShortcutTest
 
 
     @Test
-    @Ignore
+    @Disabled
     public void main() throws IOException, ResourceNotFoundException
     {
 //        Unix_Shortcut aSample = new Unix_Shortcut(idata);

@@ -27,7 +27,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.runners.model.FrameworkMethod;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.api.exception.ContainerException;
@@ -86,16 +86,28 @@ public class TestCompilationContainer extends CompilerContainer
      * Constructs a <tt>TestCompilationContainer</tt> for a specific test.
      *
      * @param testClass the test class
-     * @param method    the test method
+     * @param context   the extension context
      */
-    public TestCompilationContainer(Class<?> testClass, FrameworkMethod method)
+    public TestCompilationContainer(Class<?> testClass, ExtensionContext context)
     {
         super(null);
-        InstallFile installFile = method.getAnnotation(InstallFile.class);
+        InstallFile installFile = null;
+
+        // Try to get the annotation from the test method
+        if (context.getTestMethod().isPresent()) {
+            installFile = context.getTestMethod().get().getAnnotation(InstallFile.class);
+        }
+
+        // If not found, try to get it from the test class
         if (installFile == null)
         {
             installFile = testClass.getAnnotation(InstallFile.class);
         }
+
+        if (installFile == null) {
+            throw new IllegalArgumentException("No @InstallFile annotation found on test method or class");
+        }
+
         this.installFile = installFile.value();
         initialise();
     }

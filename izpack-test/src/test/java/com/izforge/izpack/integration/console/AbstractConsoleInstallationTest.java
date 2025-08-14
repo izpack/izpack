@@ -30,8 +30,8 @@ import com.izforge.izpack.test.util.TestConsole;
 
 import java.io.File;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -80,7 +80,7 @@ public class AbstractConsoleInstallationTest extends AbstractDestroyerTest
 
         // make sure the script has completed
         TestConsole console = installer.getConsole();
-        assertTrue("Script still running panel: " + console.getScriptName(), console.scriptCompleted());
+        assertTrue(console.scriptCompleted(), "Script still running panel: " + console.getScriptName());
 
         String installPath = installData.getInstallPath();
 

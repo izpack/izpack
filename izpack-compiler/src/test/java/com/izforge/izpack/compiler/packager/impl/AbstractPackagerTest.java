@@ -26,9 +26,9 @@ import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackInfo;
 import com.izforge.izpack.merge.MergeManager;
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
 import java.io.*;
@@ -40,7 +40,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -59,7 +59,7 @@ public abstract class AbstractPackagerTest
      */
     private MergeManager mergeManager;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         mergeManager = mock(MergeManager.class);
@@ -227,12 +227,12 @@ public abstract class AbstractPackagerTest
             }
             else
             {
-                Assert.fail("Resource not found");
+                fail("Resource not found");
             }
         }
         catch (URISyntaxException e)
         {
-            Assert.fail(e.getMessage());
+            fail(e.getMessage());
         }
         return path;
     }
