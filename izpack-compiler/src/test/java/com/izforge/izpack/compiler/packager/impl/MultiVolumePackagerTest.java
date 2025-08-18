@@ -29,8 +29,8 @@ import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import org.mockito.Mockito;
 
+import java.io.File;
 import java.util.Properties;
-import java.util.jar.JarOutputStream;
 
 /**
  * Tests the {@link MultiVolumePackager}.
@@ -43,12 +43,12 @@ public class MultiVolumePackagerTest extends AbstractPackagerTest
     /**
      * Helper to create a packager that writes to the provided jar.
      *
-     * @param jar          the jar stream
+     * @param installerJar the installer jar destination
      * @param mergeManager the merge manager
      * @return a new packager
      */
     @Override
-    protected PackagerBase createPackager(JarOutputStream jar, MergeManager mergeManager)
+    protected PackagerBase createPackager(File installerJar, MergeManager mergeManager)
     {
         Properties properties = new Properties();
         CompilerPathResolver pathResolver = Mockito.mock(CompilerPathResolver.class);
@@ -60,7 +60,7 @@ public class MultiVolumePackagerTest extends AbstractPackagerTest
                 baseDir + "/target/test.jar",
                 true);
         RulesEngine rulesEngine = Mockito.mock(RulesEngine.class);
-        MultiVolumePackager packager = new MultiVolumePackager(properties, null, jar, mergeManager,
+        MultiVolumePackager packager = new MultiVolumePackager(properties, null, mergeManager,
                                                                pathResolver, resolver, data, rulesEngine);
         packager.setInfo(new Info());
         return packager;

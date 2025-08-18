@@ -23,6 +23,7 @@ package com.izforge.izpack.api.data;
 
 
 import com.izforge.izpack.api.exception.InstallerException;
+import com.izforge.izpack.api.rules.RulesEngine;
 
 import java.util.Properties;
 import java.util.Set;
@@ -189,4 +190,11 @@ public interface Variables
      * @return the variables overrides
      */
     Overrides getOverrides();
+
+    /**
+     * Sets the current rules engine
+     *
+     * @param rulesEngine the new rules engine
+     */
+    void setRules(RulesEngine rulesEngine);
 }
