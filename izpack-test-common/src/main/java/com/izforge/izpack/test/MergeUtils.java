@@ -1,6 +1,8 @@
 package com.izforge.izpack.test;
 
+import com.izforge.izpack.api.merge.MergeTarget;
 import com.izforge.izpack.api.merge.Mergeable;
+import com.izforge.izpack.util.IoHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,8 +21,9 @@ public class MergeUtils
     {
         File tempFile = File.createTempFile("test", ".zip");
         ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(tempFile));
-        mergeable.merge(outputStream);
-        mergeable.merge(outputStream);
+        MergeTarget mergeTarget = IoHelper.mergeTarget(outputStream);
+        mergeable.merge(mergeTarget);
+        mergeable.merge(mergeTarget);
         outputStream.close();
         return tempFile;
     }
@@ -30,7 +33,8 @@ public class MergeUtils
     {
         File tempFile = File.createTempFile("test", ".zip");
         ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(tempFile));
-        mergeable.merge(outputStream);
+        MergeTarget mergeTarget = IoHelper.mergeTarget(outputStream);
+        mergeable.merge(mergeTarget);
         outputStream.close();
         return tempFile;
     }
