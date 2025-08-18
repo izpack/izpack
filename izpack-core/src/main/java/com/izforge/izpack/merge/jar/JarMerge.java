@@ -21,31 +21,32 @@ package com.izforge.izpack.merge.jar;
 
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.exception.MergeException;
-import com.izforge.izpack.merge.AbstractMerge;
+import com.izforge.izpack.api.merge.MergeTarget;
+import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.util.FileUtil;
-import com.izforge.izpack.util.IoHelper;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipOutputStream;
 
 /**
  * Jar files merger.
  *
  * @author Anthonin Bonnefoy
  */
-public class JarMerge extends AbstractMerge
+public class JarMerge implements Mergeable
 {
+    private static final Logger LOGGER = Logger.getLogger(JarMerge.class.getName());
     private final String jarPath;
-
     private final String regexp;
     private final String destination;
 
@@ -55,32 +56,18 @@ public class JarMerge extends AbstractMerge
      *
      * @param resource     the resource to merge
      * @param jarPath      Path to the jar to merge
-     * @param mergeContent map linking outputstream to their content to avoir duplication
      */
-    public JarMerge(URL resource, String jarPath, Map<OutputStream, List<String>> mergeContent)
+    public JarMerge(URL resource, String jarPath)
     {
+        LOGGER.finer(() -> String.format("JarMerge(%s, %s)", resource, jarPath));
         this.jarPath = jarPath;
-        this.mergeContent = mergeContent;
-        destination = FileUtil.convertUrlToFilePath(resource).replace(this.jarPath, "").replaceAll("file:",
-                                                                                                      "").replaceAll(
-                "!/?", "").replaceAll("//", "/");
-
+        destination = FileUtil.convertUrlToFilePath(resource)
+                .replace(this.jarPath, "")
+                .replace("file:", "")
+                .replaceAll("!/?", "")
+                .replace("//", "/");
         // make sure any $ characters are escaped, otherwise inner classes won't be merged
-        StringBuilder builder = new StringBuilder(destination.replace("$", "\\$"));
-
-        if (destination.endsWith("/"))
-        {
-            builder.append("+(.*)");
-        }
-        else if (destination.isEmpty())
-        {
-            builder.append("/*(.*)");
-        }
-        else
-        {
-            builder.append("($|/+)(.*)");
-        }
-        regexp = builder.toString();
+        regexp = getRegexp(destination.replace("$", "\\$"));
     }
 
     /**
@@ -89,15 +76,18 @@ public class JarMerge extends AbstractMerge
      * @param jarPath       Path to the jar to merge
      * @param pathInsideJar Inside path of the jar to merge. Can be a package or a file. Needed to build the regexp
      * @param destination   Destination of the package
-     * @param mergeContent  map linking outputstream to their content to avoir duplication
      */
-    public JarMerge(String jarPath, String pathInsideJar, String destination,
-                    Map<OutputStream, List<String>> mergeContent)
+    public JarMerge(String jarPath, String pathInsideJar, String destination)
     {
+        LOGGER.finer(() -> String.format("JarMerge(%s, %s, %s)", jarPath, pathInsideJar, destination));
         this.jarPath = jarPath;
         this.destination = destination;
-        this.mergeContent = mergeContent;
-        StringBuilder builder = new StringBuilder().append(pathInsideJar);
+        regexp = getRegexp(pathInsideJar);
+    }
+
+    private String getRegexp(String pathInsideJar)
+    {
+        StringBuilder builder = new StringBuilder(pathInsideJar);
         if (pathInsideJar.endsWith("/"))
         {
             builder.append("+(.*)");
@@ -110,7 +100,7 @@ public class JarMerge extends AbstractMerge
         {
             builder.append("($|/+)(.*)");
         }
-        regexp = builder.toString();
+        return builder.toString();
     }
 
 
@@ -130,7 +120,7 @@ public class JarMerge extends AbstractMerge
         }
         catch (IOException e)
         {
-            throw new RuntimeException(e);
+            throw new IzPackException(e);
         }
         return null;
     }
@@ -140,8 +130,8 @@ public class JarMerge extends AbstractMerge
         try
         {
             ArrayList<String> fileNameInZip = getFileNameInJar();
-            ArrayList<File> result = new ArrayList<File>();
-            ArrayList<File> filteredResult = new ArrayList<File>();
+            ArrayList<File> result = new ArrayList<>();
+            ArrayList<File> filteredResult = new ArrayList<>();
             for (String fileName : fileNameInZip)
             {
                 result.add(new File(jarPath + "!" + fileName));
@@ -163,67 +153,40 @@ public class JarMerge extends AbstractMerge
 
     private ArrayList<String> getFileNameInJar() throws IOException
     {
-        JarFile jarFile = new JarFile(jarPath);
-        ArrayList<String> arrayList = new ArrayList<String>();
-        Enumeration<JarEntry> jarEntries = jarFile.entries();
-        while (jarEntries.hasMoreElements())
+        try (JarFile jarFile = new JarFile(jarPath))
         {
-            JarEntry jarEntry = jarEntries.nextElement();
-            arrayList.add(jarEntry.getName());
+            ArrayList<String> arrayList = new ArrayList<>();
+            Enumeration<JarEntry> jarEntries = jarFile.entries();
+            while (jarEntries.hasMoreElements())
+            {
+                JarEntry jarEntry = jarEntries.nextElement();
+                arrayList.add(jarEntry.getName());
+            }
+            return arrayList;
         }
-        return arrayList;
     }
 
 
-    public void merge(ZipOutputStream outputStream)
-    {
-        mergeImpl(outputStream);
-    }
-
-    private void mergeImpl(OutputStream outputStream)
+    public void merge(MergeTarget mergeTarget)
     {
         Pattern pattern = Pattern.compile(regexp);
-        List<String> mergeList = getMergeList(outputStream);
-        JarFile jarFile = null;
-        JarEntry jarEntry;
-        try
+        try (JarFile jarFile = new JarFile(jarPath))
         {
-            jarFile = new JarFile(jarPath);
-            Enumeration<JarEntry> jarFileEntries = jarFile.entries();
-
-            while (jarFileEntries.hasMoreElements())
+            for (final Enumeration<JarEntry> jarFileEntries = jarFile.entries(); jarFileEntries.hasMoreElements(); )
             {
-                jarEntry = jarFileEntries.nextElement();
+                final JarEntry jarEntry = jarFileEntries.nextElement();
 
-                if (isManifest(jarEntry.getName())) {
-                    // Skip the JAR's manifest file to avoid
-                    // overwriting it in the target JAR
-                    continue;
-                }
-
-                Matcher matcher = pattern.matcher(jarEntry.getName());
-                if (matcher.matches() && !isSignature(jarEntry.getName()))
+                // Skip the JAR's manifest file to avoid overwriting it in the target JAR
+                final String jarEntryName = jarEntry.getName();
+                if (!isManifest(jarEntryName))
                 {
-                    if (mergeList.contains(jarEntry.getName()))
+                    Matcher matcher = pattern.matcher(jarEntryName);
+                    if (matcher.matches()
+                            && !isSignature(jarEntryName))
                     {
-                        continue;
+                        mergeTarget.offer(destination(matcher), jarEntry.getTime(),
+                                outputStream -> IOUtils.copy(jarFile.getInputStream(jarEntry), outputStream));
                     }
-                    mergeList.add(jarEntry.getName());
-
-                    String matchFile = matcher.group(matcher.groupCount());
-                    StringBuilder dest = new StringBuilder(destination);
-                    if (matchFile != null && matchFile.length() > 0)
-                    {
-                        if (dest.length() > 0 && dest.charAt(dest.length() - 1) != '/')
-                        {
-                            dest.append('/');
-                        }
-                        dest.append(matchFile);
-                    }
-
-                    InputStream inputStream = jarFile.getInputStream(jarEntry);
-                    IoHelper.copyStreamToJar(inputStream, (java.util.zip.ZipOutputStream) outputStream, dest.toString().replaceAll("//", "/"),
-                            jarEntry.getTime());
                 }
             }
         }
@@ -231,16 +194,20 @@ public class JarMerge extends AbstractMerge
         {
             throw new IzPackException("Error accessing file: " + jarPath, e.getCause());
         }
-        finally {
-            if (jarFile != null)
+    }
+
+    private String destination(Matcher matcher) {
+        String matchFile = matcher.group(matcher.groupCount());
+        StringBuilder dest = new StringBuilder(destination);
+        if (matchFile != null && !matchFile.isEmpty())
+        {
+            if (dest.length() > 0 && dest.charAt(dest.length() - 1) != '/')
             {
-                try
-                {
-                    jarFile.close();
-                }
-                catch (IOException ignored) {}
+                dest.append('/');
             }
+            dest.append(matchFile);
         }
+        return dest.toString().replace("//", "/");
     }
 
     @Override
@@ -256,18 +223,12 @@ public class JarMerge extends AbstractMerge
     @Override
     public boolean equals(Object o)
     {
-        if (this == o)
+        if (o instanceof JarMerge)
         {
-            return true;
+            JarMerge jarMerge = (JarMerge) o;
+            return Objects.equals(jarPath, jarMerge.jarPath);
         }
-        if (o == null || getClass() != o.getClass())
-        {
-            return false;
-        }
-
-        JarMerge jarMerge = (JarMerge) o;
-
-        return (jarPath != null) ? jarPath.equals(jarMerge.jarPath) : jarMerge.jarPath == null;
+        return false;
     }
 
     @Override
