@@ -89,6 +89,7 @@ import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
+import org.apache.commons.compress.java.util.jar.Pack200;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -98,7 +99,6 @@ import java.io.*;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.*;
-import java.util.jar.Pack200;
 import java.util.logging.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -614,13 +614,13 @@ public class CompilerConfig extends Thread
                 {
                     throw new CompilerException(url.getFile() + " does not meet the minimal version requirements."
                             + "\nRequired minimal target Java version: " + minimalJavaVersion
-                            + "\nFound class target Java version: 1." + compiler.getJavaVersionExpected());
+                            + "\nFound class target Java version: " + compiler.getJavaVersionExpected());
                 }
                 else
                 {
                     logger.warning(url.getFile() + " does not meet the minimal version requirements which may cause issues during runtime."
                             + "\nRequired minimal target Java version: " + minimalJavaVersion
-                            + "\nFound class target Java version: 1." + compiler.getJavaVersionExpected());
+                            + "\nFound class target Java version: " + compiler.getJavaVersionExpected());
                 }
             }
             compiler.addJar(url, uninstaller);

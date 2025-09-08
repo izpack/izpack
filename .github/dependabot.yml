@@ -5,6 +5,11 @@ updates:
   schedule:
     interval: "weekly"
 - package-ecosystem: "maven"
-  directory: "/"
+  directories: 
+    - "/"
   schedule:
-    interval: "weekly"
+    interval: "daily"
+  ignore:
+    - dependency-name: org.easytesting:fest-util
+      versions:
+        - ">= 1.1.6"

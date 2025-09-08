@@ -26,6 +26,7 @@ import com.izforge.izpack.api.data.OverrideType;
 import com.izforge.izpack.api.data.PackFile;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.os.FileQueue;
+import org.apache.commons.compress.java.util.jar.Pack200;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.CountingOutputStream;

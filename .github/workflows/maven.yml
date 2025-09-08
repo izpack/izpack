@@ -1,54 +1,86 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-
 name: CI
 
 on: 
-  - push
-  - pull_request
-  - workflow_dispatch
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        jdk: ['8','11']
+        jdk: ['11', '21']
         os: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+
       - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
-          distribution: temurin
+          distribution: zulu
           java-version: ${{ matrix.jdk }}
+
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
       - name: Build with Maven
-        run: ./mvnw -B -U verify
-      - name: Running Maven GUI tests
+        if: github.event_name != 'pull_request'
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: |
+          if [ -z "$NVD_API_KEY" ]; then
+            echo "NVD_API_KEY is not set — skipping dependency check"
+            ./mvnw -B -U verify -Ddependency-check.skip=true
+          else
+            echo "NVD_API_KEY is set — running full verify with dependency check"
+            ./mvnw -B -U verify
+          fi
+
+      - name: Running Maven GUI tests
+        env:
+          DISPLAY: ':99.0'
+        run: |
+          sudo apt-get update
           sudo apt-get install fluxbox
-          export DISPLAY=':99.0'
           Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           fluxbox &> ~/fluxbox.log &
-          ./mvnw -B verify -Pwith-gui-tests
+          ./mvnw -B verify -Pwith-gui-tests -Ddependency-check.skip=true
+
+      - name: Test Summary
+        uses: test-summary/action@v2
+        with:
+          paths: '**/target/surefire-reports/**/TEST-*.xml'
+        if: always()
+
+      - name: Archive build logs
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: jdk${{ matrix.jdk }}-build-logs
+          retention-days: 5
+          path: |
+            fluxbox.log
+            **/*.jfr
+            **/hs_err_pid*.log
+            **/target/surefire-reports/**/TEST-*.xml
+
   deploy:
-    if: contains( github.ref, 'master')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: build
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 8
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - name: Set up JDK
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 8
+          java-version: 11
           gpg-private-key: "${{ secrets.GPG_SIGNING_KEY }}"
           overwrite-settings: false
       - name: Deploy snapshot artifacts
@@ -56,4 +88,4 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: ./mvnw deploy --settings .github/workflows/settings.xml -DskipTests=true
+        run: ./mvnw deploy --settings .github/workflows/settings.xml -DskipTests=true -Ddependency-check.skip=true

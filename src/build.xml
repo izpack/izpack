@@ -1160,7 +1160,6 @@
         <copy todir="${dist.dir}/bin" includeEmptyDirs="yes" overwrite="yes" preservelastmodified="true">
             <fileset dir="${dist-files.dir}">
                 <include name="compile*" />
-                <include name="lcp.bat" />
                 <include name="start.sh" />
             </fileset>
         </copy>

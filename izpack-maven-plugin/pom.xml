@@ -3,7 +3,7 @@
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.2.4-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -173,7 +173,7 @@
                 <plugins>
 					<plugin>
 						<artifactId>maven-invoker-plugin</artifactId>
-						<version>3.9.0</version>
+						<version>3.9.1</version>
 						<configuration>
 						  <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
 						  <settingsFile>src/it/settings.xml</settingsFile>
