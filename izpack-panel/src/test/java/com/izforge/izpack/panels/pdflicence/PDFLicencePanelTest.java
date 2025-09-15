@@ -28,7 +28,10 @@ import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.gui.IzPanelView;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.panels.test.AbstractPanelTest;
+import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.panels.test.TestGUIPanelContainer;
+import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.junit.PicoRunner;
 import org.fest.swing.core.ComponentFoundCondition;
 import org.fest.swing.core.TypeMatcher;
 import org.fest.swing.fixture.FrameFixture;
@@ -39,6 +42,7 @@ import org.icepdf.ri.common.views.DocumentViewController;
 import org.icepdf.ri.common.views.OnePageView;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.fest.swing.timing.Pause.pause;
 import static org.fest.swing.timing.Timeout.timeout;
@@ -48,9 +52,11 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
+@RunWith(PicoRunner.class)
+@Container(TestConsolePanelContainer.class)
 public class PDFLicencePanelTest extends AbstractPanelTest {
 
-	public PDFLicencePanelTest(TestGUIPanelContainer container, GUIInstallData installData,
+	public PDFLicencePanelTest(com.izforge.izpack.api.container.Container container, GUIInstallData installData,
 							   ResourceManager resourceManager, ObjectFactory factory,
 							   RulesEngine rules, IconsDatabase icons,
 							   UninstallDataWriter uninstallDataWriter, Locales locales)

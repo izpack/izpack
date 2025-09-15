@@ -110,12 +110,11 @@ public class MultiVolumePackager extends PackagerBase
      * @param mergeableResolver the mergeable resolver
      * @param compilerData      the compiler data
      */
-    public MultiVolumePackager(Properties properties, PackagerListener listener, JarOutputStream installerJar,
-                               MergeManager mergeManager, CompilerPathResolver pathResolver,
-                               MergeableResolver mergeableResolver, CompilerData compilerData, RulesEngine rulesEngine)
+    public MultiVolumePackager(Properties properties, PackagerListener listener, MergeManager mergeManager,
+                               CompilerPathResolver pathResolver, MergeableResolver mergeableResolver,
+                               CompilerData compilerData, RulesEngine rulesEngine)
     {
-        super(properties, listener, installerJar, mergeManager, pathResolver, mergeableResolver,
-              compilerData, rulesEngine);
+        super(properties, listener, mergeManager, pathResolver, mergeableResolver, compilerData, rulesEngine);
     }
 
     /**
