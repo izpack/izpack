@@ -431,7 +431,7 @@
       <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
-        <version>12.1.3</version>
+        <version>12.1.5</version>
         <configuration>
           <skipProvidedScope>true</skipProvidedScope>
           <suppressionFiles>
@@ -778,7 +778,7 @@
         <plugin>
           <groupId>org.owasp</groupId>
           <artifactId>dependency-check-maven</artifactId>
-          <version>12.1.3</version>
+          <version>12.1.5</version>
           <configuration>
             <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
             <!-- The OSS Index Server (https://ossindex.sonatype.org) can sometimes be flaky -->
@@ -1002,7 +1002,7 @@
       <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
-        <version>12.1.3</version>
+        <version>12.1.5</version>
         <reportSets>
           <reportSet>
             <reports>
