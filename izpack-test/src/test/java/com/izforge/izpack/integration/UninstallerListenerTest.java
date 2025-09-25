@@ -22,17 +22,17 @@
 package com.izforge.izpack.integration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.jar.JarFile;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
@@ -41,7 +41,7 @@ import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.test.listener.TestUninstallerListener;
 import com.izforge.izpack.uninstaller.Destroyer;
 
@@ -51,7 +51,7 @@ import com.izforge.izpack.uninstaller.Destroyer;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestGUIInstallationContainer.class)
 public class UninstallerListenerTest extends AbstractDestroyerTest
 {
@@ -87,7 +87,7 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
      * @throws IOException if the install directory cannot be created
      * @throws Exception   for any other error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         super.setUp();
@@ -99,7 +99,7 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         removeState();
@@ -108,7 +108,7 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
     /**
      * Verifies that the uninstaller jar is written, and contains key classes and files.
      *
-     * @throws java.io.IOException if the jar cannot be read
+     * @throws IOException if the jar cannot be read
      */
     @Test
     @InstallFile("samples/event/customlisteners.xml")

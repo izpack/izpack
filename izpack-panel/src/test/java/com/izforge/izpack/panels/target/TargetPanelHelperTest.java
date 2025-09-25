@@ -23,9 +23,9 @@ package com.izforge.izpack.panels.target;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,8 +33,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -46,12 +46,12 @@ public class TargetPanelHelperTest
 {
 	private String orgUserDir;
 	
-	@Before
+	@BeforeEach
 	public void initialize() {
 		orgUserDir = System.getProperty("user.dir");
 	}
 	
-	@After
+	@AfterEach
 	public void cleanup() {
 		System.setProperty("user.dir", orgUserDir);
 	}

@@ -21,7 +21,6 @@
 
 package com.izforge.izpack.event;
 
-
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
@@ -34,12 +33,13 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.util.Platforms;
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 import java.io.File;
@@ -52,21 +52,19 @@ import java.util.Properties;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Tests the {@link AntActionInstallerListener} class.
- *
- * @author Tim Anderson
  */
+@ExtendWith(PicoExtension.class)
 public class AntActionInstallerListenerTest
 {
-
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public File temporaryFolder;
 
     /**
      * The variable replacer.
@@ -88,13 +86,12 @@ public class AntActionInstallerListenerTest
      */
     private Resources resources;
 
-
     /**
      * Sets up the test case.
      *
      * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         Properties properties = new Properties();
@@ -103,12 +100,12 @@ public class AntActionInstallerListenerTest
 
         installData = new AutomatedInstallData(variables, Platforms.OS_2);
 
-        installDir = temporaryFolder.getRoot();
+        installDir = temporaryFolder;
         installData.setInstallPath(installDir.getPath());
 
         // copy build.xml to the install dir, so that the listener can find it
         IOUtils.copy(getClass().getResourceAsStream("/com/izforge/izpack/event/ant/build.xml"),
-                            new FileOutputStream(new File(installDir, "build.xml")));
+                     new FileOutputStream(new File(installDir, "build.xml")));
 
         resources = Mockito.mock(Resources.class);
         InputStream specStream = getClass().getResourceAsStream("/com/izforge/izpack/event/ant/AntActionsSpec.xml");
@@ -134,28 +131,23 @@ public class AntActionInstallerListenerTest
         listener.initialise();
 
         // Verify that when the beforePacks method is invoked, the corresponding Ant target is called.
-        // This touches a file "beforepacks.txt"
         assertFileNotExists(installDir, "beforepacks.txt");
         listener.beforePacks(packs);
         assertFileExists(installDir, "beforepacks.txt");
 
         // Verify that when the beforePack method is invoked, the corresponding Ant target is called.
-        // This touches a file "beforepack.txt"
         assertFileNotExists(installDir, "beforepack.txt");
         listener.beforePack(pack);
         assertFileExists(installDir, "beforepack.txt");
 
         // Verify that when the afterPack method is invoked, the corresponding Ant target is called.
-        // This touches a file "afterpack.txt"
         assertFileNotExists(installDir, "afterpack.txt");
         listener.afterPack(pack);
         assertFileExists(installDir, "afterpack.txt");
 
         // Verify that when the afterPacks method is invoked, the corresponding Ant target is called.
-        // This touches a file "afterpacks.txt"
         assertFileNotExists(installDir, "afterpacks.txt");
         listener.afterPacks(packs, progressListener);
         assertFileExists(installDir, "afterpacks.txt");
     }
-
 }

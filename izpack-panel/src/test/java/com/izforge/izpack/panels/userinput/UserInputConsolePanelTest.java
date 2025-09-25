@@ -21,14 +21,14 @@
 
 package com.izforge.izpack.panels.userinput;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
@@ -41,7 +41,7 @@ import com.izforge.izpack.installer.console.ConsolePanels;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.test.util.TestConsole;
 
 
@@ -50,7 +50,7 @@ import com.izforge.izpack.test.util.TestConsole;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestConsolePanelContainer.class)
 public class UserInputConsolePanelTest
 {

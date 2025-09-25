@@ -21,12 +21,13 @@
 
 package com.izforge.izpack.core.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.swing.ImageIcon;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 
@@ -75,14 +76,15 @@ public class ResourceManagerTest
         assertEquals(20, icon.getIconWidth());
         assertEquals(20, icon.getIconHeight());
     }
-    
-    @Test(expected=ResourceNotFoundException.class)
-    public void testInvalidImageName()
-    {
+
+    @Test
+    public void testInvalidImageName() {
         ResourceManager resources = new ResourceManager();
         resources.setResourceBasePath("/com/izforge/izpack/core/resource/");
-        
-        // this resource does not exist
-        resources.getImageIcon("testbmp.bmpx");
+
+        assertThrows(ResourceNotFoundException.class, () -> {
+            // this resource does not exist
+            resources.getImageIcon("testbmp.bmpx");
+        });
     }
 }

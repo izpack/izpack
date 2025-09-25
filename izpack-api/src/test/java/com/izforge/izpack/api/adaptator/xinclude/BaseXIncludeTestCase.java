@@ -19,15 +19,15 @@
 
 package com.izforge.izpack.api.adaptator.xinclude;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSpace;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.net.URL;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
@@ -77,15 +77,14 @@ public abstract class BaseXIncludeTestCase
     public void deepEqual(IXMLElement a, IXMLElement b)
     {
 
-        assertEquals("element names ", a.getName(), b.getName());
+        assertEquals(a.getName(), b.getName(), "element names ");
 //        assertEquals("element attributes for " + a.getName(),
 //                a.getAttributes(), b.getAttributes());
         if (null != b.getContent() && null != a.getContent())
         {
             assertThat(a.getContent(), equalToIgnoringWhiteSpace(b.getContent()));
         }
-        assertEquals("equal number of children " + a.getName(),
-                a.getChildrenCount(), b.getChildrenCount());
+        assertEquals(a.getChildrenCount(), b.getChildrenCount(), "equal number of children " + a.getName());
 
         List<IXMLElement> aChildren = a.getChildren();
         List<IXMLElement> bChildren = b.getChildren();

@@ -29,19 +29,19 @@ import com.izforge.izpack.installer.unpacker.Unpacker;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.util.Platform.Name;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -52,7 +52,7 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestGUIInstallationContainer.class)
 public class ExecutableFileTest extends AbstractDestroyerTest
 {
@@ -90,7 +90,7 @@ public class ExecutableFileTest extends AbstractDestroyerTest
      * <li>"never" - are not executed</li>
      * </ul>
      *
-     * @throws java.io.IOException if the jar cannot be read
+     * @throws IOException if the jar cannot be read
      */
     @Test
     @InstallFile("samples/executables/executables.xml")
@@ -135,7 +135,7 @@ public class ExecutableFileTest extends AbstractDestroyerTest
     private File checkContains(String name, String content) throws IOException
     {
         checkExists(name);
-        File file = new File(temporaryFolder.getRoot(), name);
+        File file = temporaryFolder.resolve(name).toFile();
         List<String> fileContent = FileUtils.readLines(file, Charset.defaultCharset());
         assertEquals(1, fileContent.size());
         assertEquals(content, StringUtils.trim(fileContent.get(0)));
@@ -149,7 +149,7 @@ public class ExecutableFileTest extends AbstractDestroyerTest
      */
     private void checkExists(String name)
     {
-        File file = new File(temporaryFolder.getRoot(), name);
+        File file = temporaryFolder.resolve(name).toFile();
         assertTrue(file.exists());
     }
 
@@ -160,14 +160,14 @@ public class ExecutableFileTest extends AbstractDestroyerTest
      */
     private void checkNotExists(String name)
     {
-        File file = new File(temporaryFolder.getRoot(), name);
+        File file = temporaryFolder.resolve(name).toFile();
         assertFalse(file.exists());
     }
 
     /**
      * No-op implementation of {@link ProgressListener}. Can't use Mockito to mock this for some reason -
      * attempts to do so result in a ClassCastException - possibly because the same class has been mocked already,
-     * but in an isolated class loader by the {@link ExecutableFileTest#runDestroyer(java.io.File)} method.
+     * but in an isolated class loader by the {@link ExecutableFileTest#runDestroyer(File)} method.
      */
     private static class NoOpProgressHandler implements ProgressListener
     {

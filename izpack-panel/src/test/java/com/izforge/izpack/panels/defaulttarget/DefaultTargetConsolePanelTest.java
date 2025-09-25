@@ -21,18 +21,18 @@
 package com.izforge.izpack.panels.defaulttarget;
 
 import static com.izforge.izpack.installer.util.InstallPathHelper.TARGET_PANEL_DIR;
+import com.izforge.izpack.test.junit.PicoExtension;
 import static com.izforge.izpack.util.Platform.Name.MAC_OSX;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
 
 /**
@@ -40,7 +40,7 @@ import com.izforge.izpack.test.util.TestConsole;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestConsolePanelContainer.class)
 public class DefaultTargetConsolePanelTest
 {

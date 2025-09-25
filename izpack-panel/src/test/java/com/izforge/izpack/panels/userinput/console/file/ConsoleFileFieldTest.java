@@ -21,17 +21,17 @@
 
 package com.izforge.izpack.panels.userinput.console.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.file.FileField;
@@ -57,7 +57,7 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
      *
      * @throws IOException for any error
      */
-    @Before
+    @BeforeEach
     public void aetUp() throws IOException
     {
         file = File.createTempFile("foo", "bar", FileUtils.getTempDirectory());
@@ -66,7 +66,7 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         assertTrue(file.delete());

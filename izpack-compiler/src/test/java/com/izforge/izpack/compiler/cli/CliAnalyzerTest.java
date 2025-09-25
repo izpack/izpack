@@ -22,10 +22,12 @@ package com.izforge.izpack.compiler.cli;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.hamcrest.core.Is;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.izforge.izpack.compiler.data.CompilerData;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test cli analyzer
@@ -36,16 +38,15 @@ public class CliAnalyzerTest
 {
     private CliAnalyzer analyzer;
 
-    @Before
+    @BeforeEach
     public void initAnalyzer()
     {
         analyzer = new CliAnalyzer();
     }
 
-    @Test(expected = RuntimeException.class)
-    public void voidArgumentShouldThrowRuntimeException() throws Exception
-    {
-        analyzer.parseArgs(new String[]{});
+    @Test
+    public void voidArgumentShouldThrowRuntimeException() {
+        assertThrows(RuntimeException.class, () -> analyzer.parseArgs(new String[]{}));
     }
 
     @Test

@@ -32,8 +32,8 @@ import org.fest.swing.fixture.ContainerFixture;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.timing.Condition;
 import org.fest.swing.timing.Pause;
-import org.junit.After;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 import com.izforge.izpack.api.data.Panel;
@@ -54,7 +54,7 @@ import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanelView;
 import com.izforge.izpack.installer.gui.IzPanels;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Platforms;
 
@@ -64,7 +64,7 @@ import com.izforge.izpack.util.Platforms;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestGUIPanelContainer.class)
 public class AbstractPanelTest
 {
@@ -150,7 +150,7 @@ public class AbstractPanelTest
     /**
      * Cleans up after the test case.
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
         if (frameFixture != null)
@@ -357,4 +357,3 @@ public class AbstractPanelTest
         }
     }
 }
-

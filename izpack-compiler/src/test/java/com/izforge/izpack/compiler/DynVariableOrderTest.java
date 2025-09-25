@@ -26,23 +26,23 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.jar.JarFile;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.izforge.izpack.api.data.DynamicVariable;
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 
 /**
  * Tests for correct order of dynamic variable computation
  * 
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestCompilerContainer.class)
 public class DynVariableOrderTest
 {
@@ -60,7 +60,7 @@ public class DynVariableOrderTest
     }
 
     @SuppressWarnings("unchecked")
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         compilerConfig.executeCompiler();
@@ -280,14 +280,14 @@ public class DynVariableOrderTest
         for (int i = 1; i < names.length; i++) {
             name2 = names[i];
             testContained(name2);
-            assertTrue(String.format("'%s' must come before '%s' in variables-list",name1,name2), seachInList(name1) < seachInList(name2));
+            assertTrue(seachInList(name1) < seachInList(name2), String.format("'%s' must come before '%s' in variables-list", name1, name2));
             name1 = name2;
         }
     }
 
     private void testContained(String name)
     {
-        assertTrue(String.format("variable '%s' must be contained in variables-list",name), seachInList(name)>-1);
+        assertTrue(seachInList(name)>-1, String.format("variable '%s' must be contained in variables-list", name));
     }
 
     private int seachInList(String name)

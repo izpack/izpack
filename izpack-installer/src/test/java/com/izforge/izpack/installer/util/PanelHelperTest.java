@@ -21,25 +21,14 @@ package com.izforge.izpack.installer.util;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.data.Variables;
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.api.substitutor.SubstitutionType;
-import com.izforge.izpack.core.data.DefaultVariables;
-import com.izforge.izpack.core.substitutor.VariableSubstitutorInputStream;
-import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -57,7 +46,7 @@ public class PanelHelperTest
     private InstallData installData;
     private Map<String, String> map;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         resources = Mockito.mock(Resources.class);
@@ -78,7 +67,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result, equalTo("HTMLInfoPanel.info"));
     }
 
     @Test
@@ -90,7 +79,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result, equalTo("HTMLInfoPanel.info"));
     }
 
     @Test
@@ -102,7 +91,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result, equalTo("HTMLInfoPanel.info"));
     }
 
     @Test
@@ -114,7 +103,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result, equalTo("HTMLInfoPanel.info"));
     }
 
     @Test
@@ -126,7 +115,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+        assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
     }
 
     @Test
@@ -138,7 +127,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+        assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
     }
 
     @Test
@@ -150,7 +139,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result, equalTo("HTMLInfoPanel.info"));
     }
 
     @Test
@@ -162,7 +151,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result, equalTo("HTMLInfoPanel.info"));
     }
 
     @Test
@@ -174,7 +163,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result, equalTo("HTMLInfoPanel.info"));
     }
 
     @Test
@@ -186,7 +175,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result, equalTo("HTMLInfoPanel.info"));
     }
 
     @Test
@@ -198,7 +187,7 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+        assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
     }
 
     @Test
@@ -210,6 +199,6 @@ public class PanelHelperTest
 
         String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+        assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
     }
 }

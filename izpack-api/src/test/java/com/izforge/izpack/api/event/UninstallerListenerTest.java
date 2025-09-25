@@ -20,15 +20,14 @@
  */
 package com.izforge.izpack.api.event;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UninstallerListenerTest {
 
@@ -41,7 +40,7 @@ public class UninstallerListenerTest {
         RecordingUninstallerListener listener = new RecordingUninstallerListener();
         listener.beforeDelete(files, progressListener);
 
-        assertThat(listener.beforeDeleteMethodCalled, equalTo(true));
+        assertTrue(listener.beforeDeleteMethodCalled);
     }
 
     /*

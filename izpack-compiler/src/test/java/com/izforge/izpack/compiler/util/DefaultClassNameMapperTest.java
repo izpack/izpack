@@ -55,10 +55,10 @@ import com.izforge.izpack.panels.userinput.processor.UnixUserProcessor;
 import com.izforge.izpack.panels.userinput.validator.*;
 import com.izforge.izpack.panels.userpath.UserPathPanel;
 import com.izforge.izpack.panels.xinfo.XInfoPanel;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Tests the {@link DefaultClassNameMapper}.

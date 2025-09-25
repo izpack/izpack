@@ -35,7 +35,7 @@ import org.mockito.Mockito;
 
 import java.io.InputStream;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Base class for {@link RequirementChecker} tests.

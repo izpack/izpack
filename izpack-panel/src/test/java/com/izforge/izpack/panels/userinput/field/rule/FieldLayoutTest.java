@@ -26,13 +26,14 @@ import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.ALPH
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.ALPHANUMERIC;
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.NUMERIC;
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.OPEN;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
 
@@ -234,7 +235,7 @@ public class FieldLayoutTest
     private void checkSeparator(FieldLayout layout, int index, String separator)
     {
         List<Object> items = layout.getLayout();
-        assertTrue(items.get(index) instanceof String);
+      assertInstanceOf(String.class, items.get(index));
         assertEquals(separator, items.get(index));
     }
 
@@ -248,7 +249,7 @@ public class FieldLayoutTest
     private void checkFieldSpec(FieldLayout layout, int index, FieldSpec expected)
     {
         List<Object> items = layout.getLayout();
-        assertTrue(items.get(index) instanceof FieldSpec);
+      assertInstanceOf(FieldSpec.class, items.get(index));
         FieldSpec spec = (FieldSpec) items.get(index);
         assertEquals(expected.getType(), spec.getType());
         assertEquals(expected.getLength(), spec.getLength());

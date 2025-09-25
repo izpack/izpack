@@ -23,11 +23,12 @@ import com.izforge.izpack.api.data.PackCompression;
 import com.izforge.izpack.compiler.container.provider.JarOutputStreamProvider;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.packager.impl.AbstractPackagerTest;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Test compressor stream

@@ -31,17 +31,17 @@ import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.PicoExtension;
 import com.izforge.izpack.test.util.TestConsole;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 
 /**
@@ -49,7 +49,7 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
+@ExtendWith(PicoExtension.class)
 @Container(TestConsoleInstallationContainer.class)
 public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
 {
@@ -118,7 +118,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     {
         InstallData installData = getInstallData();
 
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
 
         TestConsole console = installer.getConsole();
         console.addScript("HelloPanel", "1");
@@ -132,7 +132,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         assertFalse(installPath.exists());
 
         // make sure the script has completed
-        assertTrue("Script still running panel: " + console.getScriptName(), console.scriptCompleted());
+        assertTrue(console.scriptCompleted(), "Script still running panel: " + console.getScriptName());
     }
 
     /**
@@ -162,8 +162,8 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     {
         InstallData installData = getInstallData();
 
-        File file = new File(temporaryFolder.getRoot(), "IZPackInstall.properties");
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File file = temporaryFolder.resolve("IZPackInstall.properties").toFile();
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         installData.setInstallPath(installPath.getAbsolutePath());
 
         installer.run(ConsoleInstallerAction.CONSOLE_GEN_TEMPLATE, file.getPath(), new String[0]);
@@ -190,8 +190,8 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     {
         InstallData installData = getInstallData();
 
-        File file = new File(temporaryFolder.getRoot(), "IzPackInstall.properties");
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File file = temporaryFolder.resolve("IzPackInstall.properties").toFile();
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         Properties properties = new Properties();
         properties.put(InstallData.INSTALL_PATH, installPath.getPath());
         properties.store(new FileOutputStream(file), "IzPack installation properties");
