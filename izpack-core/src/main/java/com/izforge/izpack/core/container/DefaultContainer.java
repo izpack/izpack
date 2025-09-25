@@ -22,24 +22,59 @@
 package com.izforge.izpack.core.container;
 
 import com.izforge.izpack.api.container.Container;
+import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
+import com.izforge.izpack.api.exception.ResourceException;
+import com.izforge.izpack.api.resource.Locales;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.core.factory.InstallDataFactory;
+import com.izforge.izpack.util.Platform;
+
+import jakarta.enterprise.inject.Vetoed;
+
+import java.util.function.Predicate;
 
 /**
  * Default implementation of the {@link Container} interface.
  *
  * @author Tim Anderson
  */
+@Vetoed
 public class DefaultContainer extends AbstractContainer
 {
+    private final Class<?> classUnderTest;
 
     /**
      * Constructs a <tt>DefaultContainer</tt>.
      *
-     * @throws ContainerException if initialisation fails
+     * @throws ContainerException if initialization fails
      */
     public DefaultContainer()
     {
+        this(null);
+    }
+
+    public DefaultContainer(Class<?> classUnderTest)
+    {
+        this.classUnderTest = classUnderTest;
         initialise();
     }
 
+    @Override
+    protected void fillContainer(CdiInitializationContext context)
+    {
+        super.fillContainer(context);
+        if (classUnderTest != null) {
+            context.addComponent(classUnderTest);
+        }
+    }
+
+    @Override
+    public InstallData create(Resources resources, Variables variables, Platform platform, Locales locales,
+                              Predicate<Pack> availablePackPredicate) throws ResourceException {
+        return InstallDataFactory.create(resources, variables, platform, locales, availablePackPredicate, AutomatedInstallData::new);
+    }
 }

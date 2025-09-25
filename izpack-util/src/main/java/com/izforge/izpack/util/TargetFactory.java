@@ -29,6 +29,9 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
 /*---------------------------------------------------------------------------*/
 
 /**
@@ -57,6 +60,7 @@ import java.util.logging.Logger;
  *
  * ---------------------------------------------------------------------------
  */
+@ApplicationScoped
 public class TargetFactory
 {
     private static final Logger logger = Logger.getLogger(TargetFactory.class.getName());
@@ -242,6 +246,7 @@ public class TargetFactory
      *
      * @param factory the factory to delegate to
      */
+    @Inject
     public TargetFactory(TargetPlatformFactory factory)
     {
         this.factory = factory;
