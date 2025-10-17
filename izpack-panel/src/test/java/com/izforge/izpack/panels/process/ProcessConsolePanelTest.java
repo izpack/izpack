@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import jakarta.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -90,6 +91,7 @@ public class ProcessConsolePanelTest
      * @param matcher     the platform-model matcher
      * @param console     the console
      */
+    @Inject
     public ProcessConsolePanelTest(InstallData installData, RulesEngine rules, ResourceManager resources,
                                    Prompt prompt, PlatformModelMatcher matcher, TestConsole console)
     {
