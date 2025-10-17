@@ -19,6 +19,12 @@
         "major"
       ],
       "automerge": false
+    },
+    {
+      "matchDepNames": [
+        "org.easytesting:fest-util"
+      ],
+      "allowedVersions": "<1.2.0"
     }
   ],
   "schedule": [
