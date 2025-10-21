@@ -76,7 +76,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <tasks>
                         <copy todir="../izpack-native/src/main/resources/com/izforge/izpack/bin/">
