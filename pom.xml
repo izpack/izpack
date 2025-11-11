@@ -143,7 +143,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.20.0</version>
+        <version>2.21.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -426,7 +426,7 @@
       <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
-        <version>12.1.8</version>
+        <version>12.1.9</version>
         <configuration>
           <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
           <!-- The OSS Index Server (https://ossindex.sonatype.org) can sometimes be flaky -->
@@ -752,7 +752,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -991,7 +991,7 @@
       <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
-        <version>12.1.8</version>
+        <version>12.1.9</version>
         <reportSets>
           <reportSet>
             <reports>
