@@ -69,7 +69,7 @@ public class XPackFile extends PackFile implements Comparable<XPackFile>
     public XPackFile(PackFile file) throws IOException
     {
         super(file.getFile(), file.getRelativeSourcePath(), file.getTargetPath(), file.osConstraints(),
-              file.override(), file.overrideRenameTo(), file.blockable(), file.getAdditionals(), null);
+              file.override(), file.overrideRenameTo(), file.blockable(), file.getAdditionals());
         this.position = 0;
         this.setCondition(file.getCondition());
     }

@@ -21,19 +21,30 @@
 
 package com.izforge.izpack.util;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.io.RandomAccessFile;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
+import jakarta.enterprise.inject.Vetoed;
 
 /**
  * Allows an application to modify the jar file from which it came, including outright deletion. The
@@ -118,6 +129,7 @@ import java.util.zip.ZipEntry;
  * @author Chadwick McHenry
  * @version 1.0
  */
+@Vetoed
 public class SelfModifier
 {
 
@@ -427,7 +439,7 @@ public class SelfModifier
         // SelfModifier parameters as system properties
         String javaCommand = ProcessHelper.getJavaCommand();
 
-        List<String> command = new ArrayList<String>();
+        List<String> command = new ArrayList<>();
         command.add(javaCommand);
         command.addAll(new JVMHelper().getJVMArguments());
 

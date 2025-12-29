@@ -29,6 +29,7 @@ import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
+import jakarta.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -64,6 +65,7 @@ public class DataCheckConsolePanelTest
      * @param installData the installation data
      * @param console     the console
      */
+    @Inject
     public DataCheckConsolePanelTest(InstallData installData, TestConsole console)
     {
         this.console = console;
@@ -115,12 +117,10 @@ public class DataCheckConsolePanelTest
     private void mockPacks() {
         Pack pack1 = new Pack("Pack1", null, null, null, null, true, true, false, null, false, 0);
         Pack pack2 = new Pack("Pack2", null, null, null, null, false, true, false, null, false, 0);
-        List<Pack> packList = new ArrayList<>();
+        List<Pack> packList =  installData.getAllPacks();
         packList.add(pack1);
         packList.add(pack2);
-        ((ConsoleInstallData) installData).setAllPacks(packList);
-        List<Pack> selectedPackList = new ArrayList<>();
+        List<Pack> selectedPackList = installData.getSelectedPacks();
         selectedPackList.add(pack1);
-        installData.setSelectedPacks(selectedPackList);
     }
 }

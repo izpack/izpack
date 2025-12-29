@@ -706,8 +706,6 @@ public class PacksModel extends AbstractTableModel
             }
         }
 
-        installData.setSelectedPacks(packsToInstall);
-        
         // calculate the estimated size and store in variable
         long estimatedSizeInBytes = 0;
         for (Pack p : packsToInstall)

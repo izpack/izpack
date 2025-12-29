@@ -21,9 +21,6 @@
 
 package com.izforge.izpack.util;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,6 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * This class handles loading of native libraries. There must only be one instance of
@@ -47,6 +50,7 @@ import java.util.logging.Logger;
  *
  * @author Elmar Grom
  */
+@ApplicationScoped
 public class Librarian implements CleanupClient
 {
     /**
@@ -73,20 +77,20 @@ public class Librarian implements CleanupClient
      * A list that is used to track all libraries that have been loaded. This list is used to ensure
      * that each library is loaded only once.
      */
-    private List<String> trackList = new ArrayList<String>();
+    private List<String> trackList = new ArrayList<>();
 
     /**
      * A list of references to clients that use libraries that were extracted from a *.jar file.
      * This is needed because the clients need to be called for freeing their libraries.
      */
-    private List<NativeLibraryClient> clients = new ArrayList<NativeLibraryClient>();
+    private List<NativeLibraryClient> clients = new ArrayList<>();
 
     /**
      * A list of fully qualified library names. This is needed to delete the temporary library files
      * after use. The index of each name corresponds to the index of the respective client in the
      * <code>clients</code> list.
      */
-    private List<String> temporaryFileNames = new ArrayList<String>();
+    private List<String> temporaryFileNames = new ArrayList<>();
 
     /**
      * The extension to use for native libraries.
@@ -100,6 +104,7 @@ public class Librarian implements CleanupClient
      * @param factory     the factory
      * @param housekeeper the house keeper
      */
+    @Inject
     public Librarian(TargetFactory factory, Housekeeper housekeeper)
     {
         housekeeper.registerForCleanup(this);

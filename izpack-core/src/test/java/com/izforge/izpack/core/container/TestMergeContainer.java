@@ -20,10 +20,7 @@
 package com.izforge.izpack.core.container;
 
 import com.izforge.izpack.api.exception.ContainerException;
-import com.izforge.izpack.merge.MergeManager;
-import com.izforge.izpack.merge.MergeManagerImpl;
-import com.izforge.izpack.merge.resolve.MergeableResolver;
-import com.izforge.izpack.merge.resolve.PathResolver;
+import com.izforge.izpack.util.Platforms;
 
 
 /**
@@ -33,14 +30,16 @@ import com.izforge.izpack.merge.resolve.PathResolver;
  */
 public class TestMergeContainer extends AbstractContainer
 {
+    private Class<?> classUnderTest;
 
     /**
      * Constructs a <tt>TestMergeContainer</tt>.
      *
      * @throws ContainerException if initialisation fails
      */
-    public TestMergeContainer()
+    public TestMergeContainer(Class<?> classUnderTest)
     {
+        this.classUnderTest = classUnderTest;
         initialise();
     }
 
@@ -50,11 +49,14 @@ public class TestMergeContainer extends AbstractContainer
      * @throws ContainerException if initialisation fails
      */
     @Override
-    protected void fillContainer()
+    protected void fillContainer(CdiInitializationContext context)
     {
-        addComponent(MergeManager.class, MergeManagerImpl.class);
-        addComponent(PathResolver.class);
-        addComponent(MergeableResolver.class);
+        super.fillContainer(context);
+        context.addComponent(classUnderTest);
+//        addComponent(PlatformProvider.class);
+//        addComponent(MergeManagerImpl.class);
+//        addComponent(PathResolver.class);
+//        addComponent(MergeableResolver.class);
     }
 
 }

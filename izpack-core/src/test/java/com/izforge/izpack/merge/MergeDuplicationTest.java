@@ -38,6 +38,8 @@ import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.MergeUtils;
 import com.izforge.izpack.test.junit.PicoRunner;
 
+import jakarta.inject.Inject;
+
 /**
  * Test for merge duplication
  *
@@ -47,14 +49,10 @@ import com.izforge.izpack.test.junit.PicoRunner;
 @Container(TestMergeContainer.class)
 public class MergeDuplicationTest
 {
+    @Inject
     private PathResolver pathResolver;
+    @Inject
     private MergeableResolver mergeableResolver;
-
-    public MergeDuplicationTest(PathResolver pathResolver, MergeableResolver mergeableResolver)
-    {
-        this.pathResolver = pathResolver;
-        this.mergeableResolver = mergeableResolver;
-    }
 
     @Test
     public void testAddJarDuplicated() throws Exception

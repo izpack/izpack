@@ -21,6 +21,12 @@
 
 package com.izforge.izpack.panels.userinput.field.rule;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Configurable;
 import com.izforge.izpack.api.data.ConfigurationOption;
@@ -36,11 +42,12 @@ import com.izforge.izpack.panels.userinput.field.FieldValidator;
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
 import com.izforge.izpack.panels.userinput.validator.HostAddressValidator;
 import com.izforge.izpack.panels.userinput.validator.RegularExpressionValidator;
+import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
 
 /**
@@ -48,29 +55,33 @@ import static org.junit.Assert.assertTrue;
  *
  * @author René Krell
  */
+@RunWith(PicoRunner.class)
+@Container(DefaultContainer.class)
 public class RuleFieldValidatorTest
 {
+    @Inject
+    com.izforge.izpack.api.container.Container container;
+    @Inject
+    private ConditionContainer conditionContainer;
+
     /**
      * The install data.
      */
-    private final AutomatedInstallData installData;
+    private AutomatedInstallData installData;
 
     /**
      * The object factory.
      */
-    private final ObjectFactory factory;
+    private ObjectFactory factory;
 
 
-    /**
-     * Default constructor.
-     */
-    public RuleFieldValidatorTest()
+    @PostConstruct
+    public void prepare()
     {
         installData = new AutomatedInstallData(new DefaultVariables(), Platforms.LINUX);
-        RulesEngine rules = new RulesEngineImpl(new ConditionContainer(new DefaultContainer()),
-                                                installData.getPlatform());
+        RulesEngine rules = new RulesEngineImpl(installData, conditionContainer);
         installData.setRules(rules);
-        factory = new DefaultObjectFactory(new DefaultContainer());
+        factory = new DefaultObjectFactory(container);
     }
 
     @Test

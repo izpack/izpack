@@ -1,8 +1,11 @@
 /*
- * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-20212 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
+ *
+ * Copyright 2010 Anthonin Bonnefoy
+ * Copyright 2012 Tim Anderson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,23 +20,17 @@
  * limitations under the License.
  */
 
-package com.izforge.izpack.compiler.container.provider;
-
-import org.picocontainer.injectors.Provider;
-
-import com.izforge.izpack.compiler.helper.AssertionHelper;
-import com.izforge.izpack.compiler.helper.XmlCompilerHelper;
+package com.izforge.izpack.core.container;
 
 /**
- * Provide xmlCompilerHelper
+ * Initializer to be called prior starting the CDI environment.
  *
- * @author Anthonin Bonnefoy
+ * @author Patrick Reinhart
  */
-public class XmlCompilerHelperProvider implements Provider
-{
-
-    public XmlCompilerHelper provide(String installFile, AssertionHelper assertionHelper)
-    {
-        return new XmlCompilerHelper(assertionHelper);
-    }
+public interface CdiInitializer {
+    /**
+     * Called to initialize the context before the CDI environment is being started
+     * @param context the initialization context
+     */
+    void initialize(CdiInitializationContext context);
 }

@@ -30,6 +30,9 @@ import java.util.logging.Logger;
 
 import com.izforge.izpack.api.factory.ObjectFactory;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
 /**
  * Factory for constructing platform specific implementation implementations of interfaces or classes.
  * <p/>
@@ -67,6 +70,7 @@ import com.izforge.izpack.api.factory.ObjectFactory;
  * @see Platforms
  * @see Platform
  */
+@ApplicationScoped
 public class DefaultTargetPlatformFactory implements TargetPlatformFactory
 {
 
@@ -88,7 +92,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
     /**
      * Map of interfaces to their corresponding platform implementations.
      */
-    private Map<String, Implementations> implementations = new HashMap<String, Implementations>();
+    private Map<String, Implementations> implementations = new HashMap<>();
 
     /**
      * The logger.
@@ -109,6 +113,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
      * @param platform  the current platform
      * @param platforms the platform factory
      */
+    @Inject
     public DefaultTargetPlatformFactory(ObjectFactory factory, Platform platform, Platforms platforms)
     {
         this.factory = factory;
@@ -158,7 +163,6 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
      * @throws Exception for any error
      */
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T create(Class<T> type, Platform platform) throws Exception
     {
         Class<T> impl = getImplementation(type, platform);
@@ -213,12 +217,12 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
             throw new IllegalStateException("No implementation registered for class=" + type.getName()
                                                     + " and platform=" + platform);
         }
-        Class impl = Class.forName(implName);
+        Class<?> impl = Class.forName(implName);
         if (!type.isAssignableFrom(impl))
         {
             throw new IllegalStateException(impl.getName() + " does not extend " + type.getName());
         }
-        return (Class<T>) impl;
+        return (Class<T>)impl;
     }
 
     /**
@@ -251,7 +255,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
      * @param clazz the class
      * @return the corresponding implementations, or <tt>null</tt> if none are found
      */
-    protected Implementations getImplementations(Class clazz)
+    protected Implementations getImplementations(Class<?> clazz)
     {
         return implementations.get(clazz.getName());
     }
@@ -442,7 +446,7 @@ public class DefaultTargetPlatformFactory implements TargetPlatformFactory
         /**
          * The implementation class names, keyed on platform.
          */
-        private Map<Platform, String> implementations = new HashMap<Platform, String>();
+        private Map<Platform, String> implementations = new HashMap<>();
 
         /**
          * Sets the default implementation class.

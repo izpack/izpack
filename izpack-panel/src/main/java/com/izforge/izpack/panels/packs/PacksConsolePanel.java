@@ -21,7 +21,6 @@ package com.izforge.izpack.panels.packs;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -52,18 +51,19 @@ import com.izforge.izpack.util.Console;
 public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePanel
 {
 
-    private Messages messages;
-    private HashMap<String, Pack> names;
-    private List<Pack> selectedPacks;
-
     private final Prompt prompt;
     private final InstallData installData;
+    private final List<Pack> selectedPacks;
+
+    private Messages messages;
+    private HashMap<String, Pack> names;
 
     public PacksConsolePanel(PanelView<ConsolePanel> panel, InstallData installData, Prompt prompt)
     {
         super(panel);
         this.prompt = prompt;
         this.installData = installData;
+        this.selectedPacks = installData.getSelectedPacks();
 
         //load the packs lang messages if exists
         try
@@ -106,7 +106,6 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
         out(Type.INFORMATION, installData.getMessages().get("PacksPanel.info"));
         out(Type.INFORMATION, "");
 
-        selectedPacks = new LinkedList<Pack>();
         computePacks(installData.getAvailablePacks());
 
         for (String key : names.keySet())
@@ -114,8 +113,6 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
             drawHelper(key);
         }
         out(Type.INFORMATION, "Done!");
-
-        installData.setSelectedPacks(selectedPacks);
 
         if (selectedPacks.isEmpty())
         {

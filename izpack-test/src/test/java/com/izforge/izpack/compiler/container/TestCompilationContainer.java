@@ -26,9 +26,9 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 
+import com.izforge.izpack.core.container.CdiInitializationContext;
 import org.apache.commons.io.FileUtils;
 import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -36,7 +36,6 @@ import com.izforge.izpack.compiler.CompilerConfig;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.logging.MavenStyleLogFormatter;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.provider.JarFileProvider;
 import com.izforge.izpack.util.FileUtil;
 
 /**
@@ -129,21 +128,15 @@ public class TestCompilationContainer extends CompilerContainer
         }
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
-
     /**
      * Fills the container.
      *
-     * @param container the underlying container
      * @throws ContainerException if initialisation fails, or the container has already been initialised
      */
     @Override
-    protected void fillContainer(MutablePicoContainer container)
+    protected void fillContainer(CdiInitializationContext context)
     {
-        super.fillContainer(container);
+        super.fillContainer(context);
         deleteLock();
         URL resource = getClass().getClassLoader().getResource(installFile);
         if (resource == null)
@@ -162,15 +155,16 @@ public class TestCompilationContainer extends CompilerContainer
         out.deleteOnExit();
         CompilerData data = new CompilerData(file.getAbsolutePath(), baseDir.getAbsolutePath(), out.getAbsolutePath(),
                                              false);
-        container.addConfig("installFile", file.getAbsolutePath());
-        container.addComponent(CompilerData.class, data);
-        container.addComponent(File.class, out);
-        container.addAdapter(new JarFileProvider());
+        context.addConfig("installFile", file.getAbsolutePath());
+        context.addComponent(CompilerData.class, data);
+        context.addComponent(File.class, out);
 
         final ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(Level.INFO);
         consoleHandler.setFormatter(new MavenStyleLogFormatter());
-        container.addComponent(Handler.class, consoleHandler);
+        context.addComponent(Handler.class, consoleHandler);
+
+//        addComponent(JarFileProvider.class);
     }
 
     /**

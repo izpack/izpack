@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.exception.CompilerException;
+import jakarta.enterprise.inject.Vetoed;
 
 /**
  * Created by IntelliJ IDEA.

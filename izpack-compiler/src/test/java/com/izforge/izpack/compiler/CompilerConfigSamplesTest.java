@@ -36,6 +36,8 @@ import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.junit.PicoRunner;
 
+import jakarta.inject.Inject;
+
 /**
  * Test for an Izpack compilation
  */
@@ -44,14 +46,10 @@ import com.izforge.izpack.test.junit.PicoRunner;
 public class CompilerConfigSamplesTest
 {
     private JarFile jar;
+    @Inject
     private CompilerConfig compilerConfig;
+    @Inject
     private AbstractContainer testContainer;
-
-    public CompilerConfigSamplesTest(TestCompilerContainer container, CompilerConfig compilerConfig)
-    {
-        this.testContainer = container;
-        this.compilerConfig = compilerConfig;
-    }
 
     @Test
     @InstallFile("samples/izpack.xml")

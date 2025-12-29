@@ -21,17 +21,19 @@
 
 package com.izforge.izpack.installer.container.impl;
 
-
+import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
-import com.izforge.izpack.core.handler.AutomatedPrompt;
-import com.izforge.izpack.installer.automation.AutomatedInstaller;
-import com.izforge.izpack.installer.console.ConsolePanelAutomationHelper;
-import com.izforge.izpack.installer.container.provider.AutomatedInstallDataProvider;
-import com.izforge.izpack.installer.container.provider.AutomatedPanelsProvider;
-import com.izforge.izpack.installer.multiunpacker.MultiVolumeUnpackerAutomationHelper;
-import com.izforge.izpack.installer.unpacker.ConsolePackResources;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
+import com.izforge.izpack.api.exception.ResourceException;
+import com.izforge.izpack.api.resource.Locales;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.core.container.CdiInitializationContext;
+import com.izforge.izpack.core.factory.InstallDataFactory;
+import com.izforge.izpack.util.Platform;
+
+import java.util.function.Predicate;
 
 /**
  * Installer container for automated installation mode.
@@ -44,7 +46,7 @@ public class AutomatedInstallerContainer extends InstallerContainer
     /**
      * Constructs a <tt>AutomatedInstallerContainer</tt>.
      *
-     * @throws ContainerException if initialisation fails
+     * @throws ContainerException if initialization fails
      */
     public AutomatedInstallerContainer()
     {
@@ -59,30 +61,30 @@ public class AutomatedInstallerContainer extends InstallerContainer
      * @param container the underlying container
      * @throws ContainerException if initialisation fails
      */
-    protected AutomatedInstallerContainer(MutablePicoContainer container)
+    protected AutomatedInstallerContainer(CdiInitializationContext container)
     {
-        initialise(container);
+        initialise(container, this::fillContainer);
     }
 
     /**
      * Registers components with the container.
-     *
-     * @param container the container
      */
     @Override
-    protected void registerComponents(MutablePicoContainer container)
+    protected void fillContainer(CdiInitializationContext context)
     {
-        super.registerComponents(container);
+        super.fillContainer(context);
+//        addComponent(AutomatedInstallDataProvider.class);
+//        addComponent(AutomatedPanelsProvider.class);
+//        addComponent(AutomatedPrompt.class);
+//        addComponent(AutomatedInstaller.class);
+//        addComponent(ConsolePanelAutomationHelper.class);
+//        addComponent(ConsolePackResources.class);
+//        addComponent(MultiVolumeUnpackerAutomationHelper.class);
+    }
 
-        container
-                .addAdapter(new ProviderAdapter(new AutomatedInstallDataProvider()))
-                .addAdapter(new ProviderAdapter(new AutomatedPanelsProvider()));
-
-        container
-                .addComponent(AutomatedPrompt.class)
-                .addComponent(AutomatedInstaller.class)
-                .addComponent(ConsolePanelAutomationHelper.class)
-                .addComponent(ConsolePackResources.class)
-                .addComponent(MultiVolumeUnpackerAutomationHelper.class);
+    @Override
+    public InstallData create(Resources resources, Variables variables, Platform platform, Locales locales,
+                              Predicate<Pack> availablePackPredicate) throws ResourceException {
+        return InstallDataFactory.create(resources, variables, platform, locales, availablePackPredicate, AutomatedInstallData::new);
     }
 }

@@ -21,11 +21,14 @@
 
 package com.izforge.izpack.core.resource;
 
+import jakarta.enterprise.inject.Vetoed;
+
 /**
  * Default {@link} Resources} implementation.
  *
  * @author Tim Anderson
  */
+@Vetoed
 public class DefaultResources extends AbstractResources
 {
 

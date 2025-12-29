@@ -20,16 +20,17 @@
 package com.izforge.izpack.compiler.bootstrap;
 
 import com.izforge.izpack.compiler.CompilerConfig;
+import com.izforge.izpack.compiler.cli.CliAnalyzer;
 import com.izforge.izpack.compiler.container.CompilerContainer;
+import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.exception.HelpRequestedException;
 import com.izforge.izpack.compiler.exception.NoArgumentException;
 
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 
 /**
- * CompilerLauncher class initizaling bindings and launching the compiler
+ * CompilerLauncher class initialing bindings and launching the compiler
  *
  * @author Anthonin Bonnefoy
  */
@@ -47,17 +48,11 @@ public class CompilerLauncher
         int exitCode = 1;
         try
         {
-            CompilerContainer compilerContainer = new CompilerContainer();
-            compilerContainer.processCompileDataFromArgs(args);
-            compilerContainer.addComponent(Handler.class, new ConsoleHandler());
+            CompilerData compilerData = CliAnalyzer.parseArguments(args);
+            CompilerContainer compilerContainer = new CompilerContainer(new ConsoleHandler(), compilerData, compilerData::getInstallFile);
 
             CompilerConfig compiler = compilerContainer.getComponent(CompilerConfig.class);
             compiler.executeCompiler();
-            // Waits
-            while (compiler.isAlive())
-            {
-                Thread.sleep(100);
-            }
 
             if (compiler.wasSuccessful())
             {
@@ -78,8 +73,8 @@ public class CompilerLauncher
             System.err.println("-> Fatal error :");
             System.err.println("   " + err.getMessage());
             err.printStackTrace();
-            System.err.println("");
-            System.err.println("(tip : use -? to get the commmand line parameters)");
+            System.err.println();
+            System.err.println("(tip : use -? to get the command line parameters)");
         }
 
         // Closes the JVM

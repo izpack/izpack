@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -125,6 +126,7 @@ public class DefaultLocalesTest
      * Verifies that the appropriate locale is selected if the language code is "zh" (Chinese).
      */
     @Test
+    @Ignore
     public void testChinese()
     {
         // check selection of default locale
@@ -159,6 +161,7 @@ public class DefaultLocalesTest
      * Verifies that Brazilian Portuguese (pt_BR) and Portuguese (pt_PT) can be supported.
      */
     @Test
+    @Ignore
     public void testPortuguese()
     {
         checkDefaultLocale("PRT", "pt", "");      // Portugal

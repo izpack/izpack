@@ -20,34 +20,56 @@
  */
 package com.izforge.izpack.installer.container.provider;
 
-import com.izforge.izpack.api.data.*;
+import static com.izforge.izpack.core.factory.InstallDataFactory.create;
+import static com.izforge.izpack.util.Platforms.MANDRAKE_LINUX;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.notNull;
+import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
+
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.core.rules.ConditionContainer;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallDataHandler;
+import com.izforge.izpack.api.data.DynamicInstallerRequirementValidator;
+import com.izforge.izpack.api.data.DynamicVariable;
+import com.izforge.izpack.api.data.Info;
+import com.izforge.izpack.api.data.InstallerRequirement;
+import com.izforge.izpack.api.data.PackInfo;
+import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.data.DefaultVariables;
+import com.izforge.izpack.core.provider.InstallDataProvider;
 import com.izforge.izpack.core.resource.DefaultLocales;
 import com.izforge.izpack.core.resource.ResourceManager;
-import com.izforge.izpack.api.data.PackInfo;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PlatformModelMatcher;
-import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
 
 /**
- * Tests the {@link AutomatedInstallDataProvider} class.
+ * Tests the {@link InstallDataProvider} class.
  *
  * @author Tim Anderson
  */
-public class AutomatedInstallDataProviderTest
+public class InstallDataHandlerTest
 {
 
     /**
@@ -59,7 +81,10 @@ public class AutomatedInstallDataProviderTest
     @Test
     public void testCustomLangPack() throws Exception
     {
-        ClassLoader loader = Mockito.mock(ClassLoader.class);
+        InstallDataHandler dataHandler = Mockito.mock();
+        ClassLoader loader = Mockito.mock();
+        ConditionContainer conditionContainer = Mockito.mock();
+
         ResourceManager resources = new ResourceManager(loader)
         {
             @Override
@@ -100,15 +125,18 @@ public class AutomatedInstallDataProviderTest
         Locales locales = new DefaultLocales(resources, Locale.ENGLISH);
         resources.setLocales(locales);
 
-        AutomatedInstallDataProvider provider = new AutomatedInstallDataProvider();
-
         DefaultVariables variables = new DefaultVariables();
         Housekeeper housekeeper = Mockito.mock(Housekeeper.class);
         PlatformModelMatcher matcher = Mockito.mock(PlatformModelMatcher.class);
-        when(matcher.getCurrentPlatform()).thenReturn(Platforms.MANDRAKE_LINUX);
+
+        when(matcher.getCurrentPlatform()).thenReturn(MANDRAKE_LINUX);
+        when(dataHandler.create(eq(resources), eq(variables), eq(MANDRAKE_LINUX), eq(locales), notNull()))
+                .thenAnswer(ctx -> create(ctx.getArgument(0), ctx.getArgument(1), ctx.getArgument(2),
+                        ctx.getArgument(3), ctx.getArgument(4), AutomatedInstallData::new));
 
         // populate the installation data
-        AutomatedInstallData installData = provider.provide(resources, locales, variables, housekeeper, matcher);
+        InstallDataProvider provider = new InstallDataProvider();
+        InstallData installData = provider.provide(dataHandler, resources, locales, conditionContainer, variables, housekeeper, matcher);
 
         // verify the expected messages are returned
         Messages messages = installData.getMessages();
@@ -201,7 +229,7 @@ public class AutomatedInstallDataProviderTest
      */
     private InputStream createPacksInfo() throws IOException
     {
-        List<PackInfo> packsInfo = new ArrayList<PackInfo>();
+        List<PackInfo> packsInfo = new ArrayList<>();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         ObjectOutputStream objStream = new ObjectOutputStream(stream);
         objStream.writeObject(packsInfo);

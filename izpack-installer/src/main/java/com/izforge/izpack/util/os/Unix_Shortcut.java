@@ -52,18 +52,6 @@
 
 package com.izforge.izpack.util.os;
 
-import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
-import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.util.FileExecutor;
-import com.izforge.izpack.util.StringTool;
-import com.izforge.izpack.util.unix.ShellScript;
-import com.izforge.izpack.util.unix.UnixHelper;
-import com.izforge.izpack.util.unix.UnixUser;
-import com.izforge.izpack.util.unix.UnixUsers;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -73,12 +61,30 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.exception.ResourceNotFoundException;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.util.FileExecutor;
+import com.izforge.izpack.util.StringTool;
+import com.izforge.izpack.util.unix.ShellScript;
+import com.izforge.izpack.util.unix.UnixHelper;
+import com.izforge.izpack.util.unix.UnixUser;
+import com.izforge.izpack.util.unix.UnixUsers;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
 /**
  * This is the Implementation of the RFC-Based Desktop-Link. Used in KDE and GNOME.
  *
  * @author marc.eppelmann&#064;reddot.de
  * @author Bill Root
  */
+@OsName("unix")
+@ApplicationScoped
 public class Unix_Shortcut extends Shortcut
 {
     // ***********************************************************************
@@ -208,7 +214,7 @@ public class Unix_Shortcut extends Shortcut
      * @param resources   the resources
      * @param installData the installation data
      */
-    @SuppressWarnings("WeakerAccess")
+    @Inject
     public Unix_Shortcut(Resources resources, InstallData installData)
     {
         this.resources = resources;
@@ -336,7 +342,7 @@ public class Unix_Shortcut extends Shortcut
     @Override
     public List<String> getProgramGroups(int userType)
     {
-        List<String> groups = new ArrayList<String>();
+        List<String> groups = new ArrayList<>();
         groups.add("(Default)"); // Should be the same value as DEFAULT_FOLDER from ShortcutConstants
 
         File kdeShareApplnk = getKdeShareApplnkFolder(userType);

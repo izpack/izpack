@@ -27,6 +27,7 @@ import com.izforge.izpack.api.data.Overrides;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
+import jakarta.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -53,6 +54,7 @@ public class InstallationTypePanelAutomationTest
      *
      * @param installData the installation data
      */
+    @Inject
     public InstallationTypePanelAutomationTest(InstallData installData)
     {
         this.installData = installData;

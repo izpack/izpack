@@ -108,14 +108,4 @@ public class TargetFileSet extends FileSet
     {
         this.condition = condition;
     }
-
-    public void setPack200Properties(Map<String, String> pack200Properties)
-    {
-        this.pack200Properties = pack200Properties;
-    }
-
-    public Map<String, String> getPack200Properties()
-    {
-        return pack200Properties;
-    }
 }

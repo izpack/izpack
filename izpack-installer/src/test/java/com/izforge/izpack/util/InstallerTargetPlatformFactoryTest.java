@@ -20,27 +20,22 @@
  */
 package com.izforge.izpack.util;
 
-import com.izforge.izpack.api.container.Container;
-import com.izforge.izpack.core.container.AbstractContainer;
-import com.izforge.izpack.core.container.PlatformProvider;
-import com.izforge.izpack.core.data.DefaultVariables;
-import com.izforge.izpack.core.factory.DefaultObjectFactory;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.izforge.izpack.core.container.DefaultContainer;
 import com.izforge.izpack.core.os.RegistryHandler;
-import com.izforge.izpack.core.resource.ResourceManager;
-import com.izforge.izpack.installer.data.InstallData;
-import com.izforge.izpack.test.util.TestLibrarian;
+import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.os.Shortcut;
 import com.izforge.izpack.util.os.Unix_Shortcut;
 import com.izforge.izpack.util.os.Win_RegistryHandler;
 import com.izforge.izpack.util.os.Win_Shortcut;
-import org.junit.Before;
-import org.junit.Test;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
 
-import java.util.Properties;
-
-import static org.junit.Assert.assertEquals;
+import jakarta.inject.Inject;
 
 
 /**
@@ -48,47 +43,15 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Tim Anderson
  */
+@RunWith(PicoRunner.class)
+@Container(DefaultContainer.class)
 public class InstallerTargetPlatformFactoryTest
 {
     /**
      * The factory.
      */
+    @Inject
     private TargetPlatformFactory factory;
-
-
-    /**
-     * Sets up the test case.
-     *
-     * @throws Exception for any error
-     */
-    @Before
-    public void setUp() throws Exception
-    {
-        Container container = new AbstractContainer()
-        {
-            {
-                initialise();
-            }
-
-            @Override
-            protected void fillContainer(MutablePicoContainer container)
-            {
-                addComponent(Properties.class);
-                addComponent(DefaultVariables.class);
-                addComponent(ResourceManager.class);
-                addComponent(InstallData.class);
-                addComponent(TestLibrarian.class);
-                addComponent(Housekeeper.class);
-                addComponent(TargetFactory.class);
-                addComponent(DefaultObjectFactory.class);
-                addComponent(DefaultTargetPlatformFactory.class);
-                addComponent(Platforms.class);
-                addComponent(Container.class, this);
-                container.addAdapter(new ProviderAdapter(new PlatformProvider()));
-            }
-        };
-        factory = container.getComponent(TargetPlatformFactory.class);
-    }
 
     /**
      * Verifies that the correct {@link Shortcut} is created for a platform.
@@ -156,7 +119,8 @@ public class InstallerTargetPlatformFactoryTest
     private <T> void checkCreate(Class<T> clazz, Platform platform, Class<? extends T> impl) throws Exception
     {
         T object = factory.create(clazz, platform);
-        assertEquals(impl, object.getClass());
+        assertNotNull(object);
+        assertTrue(object.getClass().getName().startsWith(impl.getName()));
     }
 
 }

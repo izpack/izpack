@@ -2,25 +2,20 @@ package com.izforge.izpack.installer.container.impl;
 
 import javax.swing.SwingUtilities;
 
-import org.picocontainer.Characteristics;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
-
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.gui.GUIPrompt;
-import com.izforge.izpack.gui.log.Log;
-import com.izforge.izpack.installer.container.provider.GUIInstallDataProvider;
-import com.izforge.izpack.installer.container.provider.IconsProvider;
-import com.izforge.izpack.installer.container.provider.IzPanelsProvider;
-import com.izforge.izpack.installer.gui.DefaultNavigator;
-import com.izforge.izpack.installer.gui.InstallerController;
+import com.izforge.izpack.api.resource.Locales;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.core.container.CdiInitializationContext;
+import com.izforge.izpack.installer.container.provider.GUIInstallDataFactory;
 import com.izforge.izpack.installer.gui.InstallerFrame;
-import com.izforge.izpack.installer.gui.SplashScreen;
-import com.izforge.izpack.installer.language.LanguageDialog;
-import com.izforge.izpack.installer.multiunpacker.MultiVolumeUnpackerHelper;
-import com.izforge.izpack.installer.unpacker.GUIPackResources;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
+import com.izforge.izpack.util.Platform;
+
+import java.util.function.Predicate;
 
 /**
  * GUI Installer container.
@@ -46,47 +41,39 @@ public class GUIInstallerContainer extends InstallerContainer
      * @param container the underlying container
      * @throws ContainerException if initialisation fails
      */
-    protected GUIInstallerContainer(MutablePicoContainer container)
+    protected GUIInstallerContainer(CdiInitializationContext container)
     {
-        initialise(container);
+        initialise(container, this::fillContainer);
     }
 
     /**
      * Registers components with the container.
-     *
-     * @param pico the container
      */
     @Override
-    protected void registerComponents(MutablePicoContainer pico)
+    protected void fillContainer(CdiInitializationContext context)
     {
-        super.registerComponents(pico);
-        pico
-                .addAdapter(new ProviderAdapter(new GUIInstallDataProvider()))
-                .addAdapter(new ProviderAdapter(new IzPanelsProvider()))
-                .addAdapter(new ProviderAdapter(new IconsProvider()));
-
-        pico
-                .addComponent(GUIPrompt.class)
-                .addComponent(InstallerController.class)
-                .addComponent(DefaultNavigator.class)
-                .addComponent(InstallerFrame.class)
-                .addComponent(Log.class)
-                .addComponent(GUIPackResources.class)
-                .addComponent(MultiVolumeUnpackerHelper.class)
-                .addComponent(SplashScreen.class)
-                .as(Characteristics.USE_NAMES).addComponent(LanguageDialog.class);
+        super.fillContainer(context);
+//        addComponent(GUIInstallDataProvider.class);
+//        addComponent(IzPanelsProvider.class);
+//        addComponent(IconsProvider.class);
+//        addComponent(GUIPrompt.class);
+//        addComponent(InstallerController.class);
+//        addComponent(DefaultNavigator.class);
+//        addComponent(InstallerFrame.class);
+//        addComponent(Log.class);
+//        addComponent(GUIPackResources.class);
+//        addComponent(MultiVolumeUnpackerHelper.class);
+//        addComponent(SplashScreen.class);
+//        addComponent(LanguageDialog.class);
     }
 
     /**
      * Resolve components.
-     *
-     * @param pico the container
      */
     @Override
-    protected void resolveComponents(final MutablePicoContainer pico)
+    protected void resolveComponents(CdiInitializationContext context)
     {
-        super.resolveComponents(pico);
-        
+        super.resolveComponents(context);
         try
         {
             SwingUtilities.invokeAndWait(new Runnable()
@@ -94,8 +81,8 @@ public class GUIInstallerContainer extends InstallerContainer
                 @Override
                 public void run()
                 {
-                    InstallerFrame frame = pico.getComponent(InstallerFrame.class);
-                    IUnpacker unpacker = pico.getComponent(IUnpacker.class);
+                    InstallerFrame frame = getComponent(InstallerFrame.class);
+                    IUnpacker unpacker = getComponent(IUnpacker.class);
                     frame.setUnpacker(unpacker);
                 }
             });
@@ -105,5 +92,12 @@ public class GUIInstallerContainer extends InstallerContainer
             throw new IzPackException(exception);
         }
 
+    }
+
+    @Override
+    public InstallData create(Resources resources, Variables variables, Platform platform, Locales locales,
+                              Predicate<Pack> availablePackPredicate)
+    {
+        return GUIInstallDataFactory.create(resources, variables, platform, locales, availablePackPredicate);
     }
 }

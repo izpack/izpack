@@ -26,6 +26,8 @@ import java.util.List;
 
 import com.izforge.izpack.api.exception.NativeLibException;
 
+import jakarta.enterprise.inject.Vetoed;
+
 /**
  * System dependent helper for MS Windows registry handling. This class is only vaild on Windows. It
  * declares naitve methods which are implemented in COIOSHelper.dll. The native methods uses the
@@ -35,6 +37,7 @@ import com.izforge.izpack.api.exception.NativeLibException;
  *
  * @author Klaus Bartz
  */
+@Vetoed
 public class RegistryImpl implements MSWinConstants
 {
 
@@ -44,7 +47,7 @@ public class RegistryImpl implements MSWinConstants
 
     private boolean logPrevSetValueFlag = true;
 
-    private List<Object> logging = new ArrayList<Object>();
+    private List<Object> logging = new ArrayList<>();
 
     private boolean doLogging = false;
 
@@ -661,7 +664,7 @@ public class RegistryImpl implements MSWinConstants
      */
     public synchronized void resetLogging()
     {
-        logging = new ArrayList<Object>();
+        logging = new ArrayList<>();
         activateLogging();
     }
 
@@ -688,7 +691,7 @@ public class RegistryImpl implements MSWinConstants
      */
     public synchronized List<Object> getLoggingInfo()
     {
-        ArrayList<Object> retval = new ArrayList<Object>(logging.size());
+        ArrayList<Object> retval = new ArrayList<>(logging.size());
         for (Object aLogging : logging)
         {
             try

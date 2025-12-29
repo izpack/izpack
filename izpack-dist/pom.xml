@@ -40,7 +40,7 @@
 
     <properties>
         <izpack.version>${project.version}</izpack.version>
-        <staging.dir>${basedir}/target/staging/</staging.dir>
+        <staging.dir>${basedir}/target/staging</staging.dir>
     </properties>
 
     <build>
@@ -74,7 +74,9 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/izpack</directory>
+<!--
                                     <filtering>true</filtering>
+ -->
                                 </resource>
                                 <resource>
                                     <directory>src/main/resources</directory>

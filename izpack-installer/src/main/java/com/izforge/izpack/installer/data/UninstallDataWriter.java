@@ -1,12 +1,14 @@
 package com.izforge.izpack.installer.data;
 
-import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.data.CustomData;
 import com.izforge.izpack.api.data.ExecutableFile;
 import com.izforge.izpack.merge.resolve.PathResolver;
 import com.izforge.izpack.util.IoHelper;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
@@ -23,6 +25,7 @@ import java.util.logging.Logger;
 /**
  * Writes uninstall data to an executable jar file.
  */
+@ApplicationScoped
 public class UninstallDataWriter
 {
     /**
@@ -33,7 +36,7 @@ public class UninstallDataWriter
     /**
      * Install data.
      */
-    private final AutomatedInstallData installData;
+    private final InstallData installData;
 
     /**
      * The path resolver.
@@ -73,7 +76,8 @@ public class UninstallDataWriter
      * @param pathResolver  the path resolver
      * @param rules         the rules engine
      */
-    public UninstallDataWriter(UninstallData uninstallData, AutomatedInstallData installData, PathResolver pathResolver,
+    @Inject
+    public UninstallDataWriter(UninstallData uninstallData, InstallData installData, PathResolver pathResolver,
                                RulesEngine rules)
     {
         this.uninstallData = uninstallData;

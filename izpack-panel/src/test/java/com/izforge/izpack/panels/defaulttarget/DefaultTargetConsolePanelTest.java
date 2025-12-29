@@ -26,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import jakarta.inject.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -61,6 +62,7 @@ public class DefaultTargetConsolePanelTest
      * @param installData the installation data
      * @param console     the console
      */
+    @Inject
     public DefaultTargetConsolePanelTest(InstallData installData, TestConsole console)
     {
         this.console = console;

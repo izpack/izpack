@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -128,24 +126,17 @@ public class ResolveUtils
     {
         Collection<URL> result = new HashSet<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if (loader instanceof URLClassLoader)
+        logger.warning("Unable to lookup class path URL directly from " + loader.getClass().getName() 
+            + " using 'java.class.path' system property instead.");
+        for (String classPathEntry : System.getProperty("java.class.path").split(File.pathSeparator))
         {
-            result.addAll(Arrays.asList(((URLClassLoader)loader).getURLs()));
-        }
-        else
-        {
-            logger.warning("Unable to lookup class path URL directly from " + loader.getClass().getName() 
-                + " using 'java.class.path' system property instead.");
-            for (String classPathEntry : System.getProperty("java.class.path").split(File.pathSeparator))
+            try
             {
-                try
-                {
-                   result.add(new File(classPathEntry).toURI().toURL());
-                }
-                catch (MalformedURLException mue)
-                {
-                   logger.log(Level.WARNING, "Unable to get URL for [" + classPathEntry + "]", mue);
-                }
+               result.add(new File(classPathEntry).toURI().toURL());
+            }
+            catch (MalformedURLException mue)
+            {
+               logger.log(Level.WARNING, "Unable to get URL for [" + classPathEntry + "]", mue);
             }
         }
         try

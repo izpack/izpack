@@ -1,8 +1,20 @@
 package com.izforge.izpack.compiler.container;
 
-import com.izforge.izpack.installer.container.impl.InstallerContainer;
+import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.Pack;
+import com.izforge.izpack.api.exception.ResourceException;
+import com.izforge.izpack.core.factory.InstallDataFactory;
 import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
+
+import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.resource.Locales;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.core.container.CdiInitializationContext;
+import com.izforge.izpack.installer.container.impl.InstallerContainer;
+import com.izforge.izpack.util.Platform;
+
+import java.util.function.Predicate;
 
 
 /**
@@ -16,11 +28,15 @@ public class TestAutomatedInstallationContainer extends AbstractTestInstallation
         initialise();
     }
 
-
     @Override
-    protected InstallerContainer fillInstallerContainer(MutablePicoContainer container)
+    protected InstallerContainer fillInstallerContainer(CdiInitializationContext container)
     {
         return new TestAutomatedInstallerContainer(container);
     }
 
+    @Override
+    public InstallData create(Resources resources, Variables variables, Platform platform, Locales locales,
+                              Predicate<Pack> availablePackPredicate) throws ResourceException {
+        return InstallDataFactory.create(resources, variables, platform, locales, availablePackPredicate, AutomatedInstallData::new);
+    }
 }

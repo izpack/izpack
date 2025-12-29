@@ -21,15 +21,11 @@ package com.izforge.izpack.compiler.container;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.Properties;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.compiler.util.CompilerClassLoader;
-import com.izforge.izpack.compiler.merge.CompilerPathResolver;
-import com.izforge.izpack.compiler.util.DefaultClassNameMapper;
-import com.izforge.izpack.merge.resolve.MergeableResolver;
+import com.izforge.izpack.core.container.CdiInitializationContext;
 
 /**
  * Fill container with resolver dependencies.
@@ -38,25 +34,25 @@ import com.izforge.izpack.merge.resolve.MergeableResolver;
  */
 public class ResolverContainerFiller
 {
-    public void fillContainer(Container container)
+    public void fillContainer(CdiInitializationContext context)
     {
-        Properties properties = container.getComponent(Properties.class);
-        for (Map.Entry<Object, Object> entry : getPanelDependencies().entrySet())
-        {
-            properties.put(entry.getKey(), entry.getValue());
-        }
-        container.addComponent(DefaultClassNameMapper.class);
-        container.addComponent(CompilerClassLoader.class);
-        container.addComponent(CompilerPathResolver.class);
-        container.addComponent(MergeableResolver.class);
+//        Properties properties = context.getComponent(Properties.class);
+//        for (Map.Entry<Object, Object> entry : getPanelDependencies().entrySet())
+//        {
+//            properties.put(entry.getKey(), entry.getValue());
+//        }
+
+//        context.addComponent(DefaultClassNameMapper.class);
+//        context.addComponent(CompilerClassLoader.class);
+//        context.addComponent(CompilerPathResolver.class);
+//        context.addComponent(MergeableResolver.class);
     }
 
     private Properties getPanelDependencies()
     {
         Properties properties = new Properties();
-        try
+        try (InputStream inStream = getClass().getResourceAsStream("panelDependencies.properties"))
         {
-            InputStream inStream = getClass().getResourceAsStream("panelDependencies.properties");
             properties.load(inStream);
         }
         catch (IOException e)

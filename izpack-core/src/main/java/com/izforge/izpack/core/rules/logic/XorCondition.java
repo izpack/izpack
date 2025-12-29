@@ -23,6 +23,7 @@ package com.izforge.izpack.core.rules.logic;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.rules.Condition;
+import com.izforge.izpack.api.rules.ConditionWithMultipleOperands;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.rules.process.RefCondition;
 
@@ -30,32 +31,36 @@ import com.izforge.izpack.core.rules.process.RefCondition;
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  * @version $Id: XOrCondition.java,v 1.1 2006/09/29 14:40:38 dennis Exp $
  */
-public class XorCondition extends OrCondition
+public class XorCondition extends ConditionWithMultipleOperands
 {
     private static final long serialVersionUID = 7662467959903108087L;
 
+    protected transient RulesEngine rules;
+
     public XorCondition(RulesEngine rules)
     {
-        super(rules);
+        this.rules = rules;
     }
 
     @Override
     public void readFromXML(IXMLElement xmlcondition) throws Exception
     {
+        if (xmlcondition.getChildrenCount() <= 0)
+        {
+            throw new Exception("Missing element in condition \"" + getId() + "\"");
+        }
         if (xmlcondition.getChildrenCount() > 2)
         {
             throw new Exception("Not more than two operands allowed in XOR condition \"" + getId() + "\"");
         }
-
         for (IXMLElement element : xmlcondition.getChildren()){
             String type = element.getAttribute("type");
             if (type == null || (type.equals("ref") && !RefCondition.isValidRefCondition(element)))
             {
                 throw new Exception("Incorrect element specified in condition \"" + getId() + "\"");
             }
+            nestedConditions.add(rules.createCondition(element));
         }
-
-        super.readFromXML(xmlcondition);
     }
 
     @Override
@@ -97,4 +102,14 @@ public class XorCondition extends OrCondition
         return details.toString();
     }
 
+    @Override
+    public void makeXMLData(IXMLElement conditionRoot)
+    {
+        for (Condition condition : nestedConditions)
+        {
+            IXMLElement left = rules.createConditionElement(condition, conditionRoot);
+            condition.makeXMLData(left);
+            conditionRoot.addChild(left);
+        }
+    }
 }

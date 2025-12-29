@@ -118,16 +118,6 @@ public class PackFile implements Serializable
     private PackFile linkedPackFile;
 
     /**
-     * True if the file is a Jar and pack200 compression us activated.
-     */
-    private boolean pack200Jar = false;
-
-    /**
-     * Specific Pack200 packer settings
-     */
-    private Map<String,String> pack200Properties;
-
-    /**
      * condition for this packfile
      */
     private String condition = null;
@@ -143,11 +133,11 @@ public class PackFile implements Serializable
      * @throws FileNotFoundException if the specified file does not exist.
      */
     public PackFile(File baseDir, File src, String target, List<OsModel> osList, OverrideType override,
-                    String overrideRenameTo, Blockable blockable, Map<String, String> pack200Properties)
+                    String overrideRenameTo, Blockable blockable)
     throws IOException
     {
         this(src, FileUtil.getRelativeFileName(src, baseDir), target, osList, override, overrideRenameTo, blockable,
-                null, pack200Properties);
+                null);
     }
 
     /**
@@ -162,7 +152,7 @@ public class PackFile implements Serializable
      * @throws FileNotFoundException if the specified file does not exist.
      */
     public PackFile(File src, String relativeSourcePath, String target, List<OsModel> osList, OverrideType override,
-                    String overrideRenameTo, Blockable blockable, Map additionals, Map<String, String> pack200Properties)
+                    String overrideRenameTo, Blockable blockable, Map additionals)
             throws FileNotFoundException
     {
         instanceId = nextInstanceId.getAndIncrement();
@@ -197,11 +187,6 @@ public class PackFile implements Serializable
             this.size = this.length;
         }
         this.additionals = additionals;
-        if (pack200Properties != null)
-        {
-            this.pack200Jar = true;
-            this.pack200Properties = pack200Properties;
-        }
 
         // File.length is undefined for directories - we don't add any data, so don't skip
         // any please!
@@ -223,11 +208,11 @@ public class PackFile implements Serializable
      * @throws FileNotFoundException if the specified file does not exist.
      */
     public PackFile(File baseDir, File src, String target, List<OsModel> osList, OverrideType override,
-                    String overrideRenameTo, Blockable blockable, Map additionals, Map<String, String> pack200Properties)
+                    String overrideRenameTo, Blockable blockable, Map additionals)
     throws IOException
     {
         this(src, FileUtil.getRelativeFileName(src, baseDir), target, osList, override, overrideRenameTo, blockable,
-                additionals, pack200Properties);
+                additionals);
     }
 
     /**
@@ -408,16 +393,6 @@ public class PackFile implements Serializable
     public boolean hasCondition()
     {
         return this.condition != null;
-    }
-
-    public boolean isPack200Jar()
-    {
-        return pack200Jar;
-    }
-
-    public Map<String,String> getPack200Properties()
-    {
-        return pack200Properties;
     }
 
     public void setLoosePackInfo(boolean loose)

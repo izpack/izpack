@@ -36,6 +36,8 @@ import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.FileUtil;
 
+import jakarta.inject.Inject;
+
 /**
  * Test for mergeableResolver
  *
@@ -45,13 +47,9 @@ import com.izforge.izpack.util.FileUtil;
 @Container(TestMergeContainer.class)
 public class MergeableResolverTest
 {
+    @Inject
     private MergeableResolver mergeableResolver;
     private URL resource;
-
-    public MergeableResolverTest(MergeableResolver mergeableResolver)
-    {
-        this.mergeableResolver = mergeableResolver;
-    }
 
     @Before
     public void before() throws MalformedURLException

@@ -22,6 +22,7 @@
 package com.izforge.izpack.panels.installationgroup;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 
 import java.io.UnsupportedEncodingException;
@@ -51,17 +52,17 @@ public class InstallationGroups
      * where [name] is the installGroup name. The GroupData size is built
      * from the Pack.size sum.
      *
-     * @param automatedInstallData - the panel install installDataGUI
+     * @param installData - the panel install installDataGUI
      * @return HashMap<String, GroupData> of unique install group names
      */
-    public static HashMap<String, GroupData> getInstallGroups(AutomatedInstallData automatedInstallData)
+    public static HashMap<String, GroupData> getInstallGroups(InstallData installData)
     {
         /* First create a packsByName<String, Pack> of all packs and identify
         the unique install group names.
         */
         Map<String, Pack> packsByName = new HashMap<String, Pack>();
         HashMap<String, GroupData> installGroups = new HashMap<String, GroupData>();
-        for (Pack pack : automatedInstallData.getAvailablePacks())
+        for (Pack pack : installData.getAvailablePacks())
         {
             packsByName.put(pack.getName(), pack);
             Set<String> groups = pack.getInstallGroups();
@@ -71,8 +72,8 @@ public class InstallationGroups
                 GroupData data = installGroups.get(group);
                 if (data == null)
                 {
-                    String description = InstallationGroups.getGroupDescription(group, automatedInstallData);
-                    String sortKey =  InstallationGroups.getGroupSortKey(group, automatedInstallData);
+                    String description = InstallationGroups.getGroupDescription(group, installData);
+                    String sortKey =  InstallationGroups.getGroupSortKey(group, installData);
                     data = new GroupData(group, description, sortKey);
                     installGroups.put(group, data);
                 }
@@ -86,7 +87,7 @@ public class InstallationGroups
         for (GroupData data : installGroups.values())
         {
             logger.fine("Adding dependents for: " + data.name);
-            for (Pack pack : automatedInstallData.getAvailablePacks())
+            for (Pack pack : installData.getAvailablePacks())
             {
                 Set<String> groups = pack.getInstallGroups();
                 if (groups.size() == 0 || groups.contains(data.name))
@@ -110,13 +111,13 @@ public class InstallationGroups
      * if this variable is not defined, defaults to group
      *
      * @param group - the installation group name
-     * @param automatedInstallData - installation data
+     * @param installData - installation data
      * @return the group sortkey
      */
-    public static String getGroupSortKey(String group, AutomatedInstallData automatedInstallData)
+    public static String getGroupSortKey(String group, InstallData installData)
     {
         String key = "InstallationGroupPanel.sortKey." + group;
-        String sortKey = automatedInstallData.getVariable(key);
+        String sortKey = installData.getVariable(key);
         if (sortKey == null)
         {
             sortKey = group;
@@ -141,19 +142,19 @@ public class InstallationGroups
      * lastly, defaulting to group + " installation"
      *
      * @param group - the installation group name
-     * @param automatedInstallData - installation data
+     * @param installData - installation data
      * @return the group description
      */
-    public static String getGroupDescription(String group, AutomatedInstallData automatedInstallData)
+    public static String getGroupDescription(String group, InstallData installData)
     {
         String description = null;
         String key = "InstallationGroupPanel.description." + group;
         String htmlKey = key + ".html";
-        String html = getString(automatedInstallData, htmlKey);
+        String html = getString(installData, htmlKey);
         // This will equal the key if there is no entry
         if (htmlKey.equalsIgnoreCase(html))
         {
-            description = getString(automatedInstallData, key);
+            description = getString(installData, key);
         }
         else
         {
@@ -161,7 +162,7 @@ public class InstallationGroups
         }
         if (description == null || key.equalsIgnoreCase(description))
         {
-            description = automatedInstallData.getVariable(key);
+            description = installData.getVariable(key);
         }
         if (description == null)
         {
@@ -225,8 +226,8 @@ public class InstallationGroups
         return gname;
     }
 
-    protected static String getString(AutomatedInstallData automatedInstallData, String key)
+    protected static String getString(InstallData installData, String key)
     {
-        return automatedInstallData.getMessages().get(key);
+        return installData.getMessages().get(key);
     }
 }

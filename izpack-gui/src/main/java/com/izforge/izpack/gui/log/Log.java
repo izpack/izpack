@@ -40,6 +40,8 @@ import javax.swing.JOptionPane;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /*---------------------------------------------------------------------------*/
 
@@ -119,7 +121,7 @@ import com.izforge.izpack.api.data.InstallData;
  * @version 0.0.1 / 11/20/06
  */
 /*---------------------------------------------------------------------------*/
-
+@ApplicationScoped
 public class Log implements LogError, LogWarning, LogMessage
 {
 
@@ -233,7 +235,8 @@ public class Log implements LogError, LogWarning, LogMessage
      *
      * @param installData the installation data
      */
-    public Log(AutomatedInstallData installData)
+    @Inject
+    public Log(InstallData installData)
     {
         this.installData = installData;
 

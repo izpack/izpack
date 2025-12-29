@@ -16,15 +16,25 @@
 
 package com.izforge.izpack.core.substitutor;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Serializable;
+import java.io.StringReader;
+import java.io.Writer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.io.IOUtils;
+
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
-import org.apache.commons.io.IOUtils;
 
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * Substitutes variables occurring in an input stream or a string. This implementation supports a
@@ -38,6 +48,7 @@ import java.util.logging.Logger;
  * <p/>
  * This is a abstract base type for all kinds of variables
  */
+@ApplicationScoped
 public class VariableSubstitutorImpl implements VariableSubstitutor, Serializable
 {
     private static final long serialVersionUID = 3907213762447685687L;
@@ -55,6 +66,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      *
      * @param variables the variables
      */
+    @Inject
     public VariableSubstitutorImpl(Variables variables)
     {
         this.variables = variables;
@@ -76,6 +88,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
     /**
      * Specify whether this substitutor requires braces.
      */
+    @Override
     public void setBracesRequired(boolean braces)
     {
         bracesRequired = braces;
@@ -89,6 +102,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      * @return the string with substituted variables
      * @throws IllegalArgumentException An error occured
      */
+    @Override
     public String substitute(String str)
     {
         return substitute(str, SubstitutionType.TYPE_PLAIN);
@@ -103,6 +117,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      * @return the string with substituted variables
      * @throws IllegalArgumentException An error occured
      */
+    @Override
     public String substitute(String str, SubstitutionType type)
     {
         if (str == null)
@@ -134,6 +149,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      * @return the number of substitutions made
      * @throws IOException an error occured
      */
+    @Override
     public int substitute(InputStream in, OutputStream out, SubstitutionType type, String encoding)
             throws Exception
     {
@@ -148,6 +164,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      * @return the substituted result as string
      * @throws IOException an error occured
      */
+    @Override
     public String substitute(InputStream in, SubstitutionType type)
             throws Exception
     {
@@ -166,6 +183,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      * @return the number of substitutions made
      * @throws IOException an error occured
      */
+    @Override
     public int substitute(Reader reader, Writer writer, SubstitutionType type) throws Exception
     {
         return IOUtils.copy(new VariableSubstitutorReader(reader, variables, type, bracesRequired), writer);

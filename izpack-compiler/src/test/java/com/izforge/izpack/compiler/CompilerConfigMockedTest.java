@@ -165,11 +165,9 @@ public class CompilerConfigMockedTest
         public TestCompilerConfig(IPackager packager)
         {
             super(Mockito.mock(CompilerData.class), Mockito.mock(VariableSubstitutor.class),
-                  Mockito.mock(Compiler.class), new XmlCompilerHelper(Mockito.mock(AssertionHelper.class)),
-                  Mockito.mock(PropertyManager.class), Mockito.mock(MergeManager.class),
-                  Mockito.mock(AssertionHelper.class), Mockito.mock(RulesEngine.class),
-                  Mockito.mock(CompilerPathResolver.class), Mockito.mock(ResourceFinder.class),
-                  Mockito.mock(ObjectFactory.class),
+                  Mockito.mock(Compiler.class),Mockito.mock(PropertyManager.class), Mockito.mock(MergeManager.class),
+                  Mockito.mock(RulesEngine.class), Mockito.mock(CompilerPathResolver.class),
+                  Mockito.mock(ResourceFinder.class), Mockito.mock(ObjectFactory.class),
                   new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS),
                   new CompilerClassLoader(new DefaultClassNameMapper()),
                   Mockito.mock(Handler.class));

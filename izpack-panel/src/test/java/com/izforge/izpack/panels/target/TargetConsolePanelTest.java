@@ -32,6 +32,7 @@ import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Console;
+import jakarta.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -85,6 +86,7 @@ public class TargetConsolePanelTest
      * @param installData the installation data
      * @param console     the console
      */
+    @Inject
     public TargetConsolePanelTest(InstallData installData, ObjectFactory factory, TestConsole console, Prompt prompt)
     {
         this.console = console;

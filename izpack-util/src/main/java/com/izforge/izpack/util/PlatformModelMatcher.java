@@ -26,11 +26,15 @@ import java.util.logging.Logger;
 
 import com.izforge.izpack.api.data.binding.OsModel;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
 /**
  * Helper to match {@link Platform Platforms}s to {@link OsModel OsModels}.
  *
  * @author Tim Anderson
  */
+@ApplicationScoped
 public class PlatformModelMatcher
 {
 
@@ -55,6 +59,7 @@ public class PlatformModelMatcher
      * @param platforms the platforms
      * @param platform  the current platform
      */
+    @Inject
     public PlatformModelMatcher(Platforms platforms, Platform platform)
     {
         this.platforms = platforms;

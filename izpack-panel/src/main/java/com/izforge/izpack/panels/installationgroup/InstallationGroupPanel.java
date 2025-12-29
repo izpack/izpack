@@ -127,19 +127,12 @@ public class InstallationGroupPanel extends IzPanel
     public void panelActivate()
     {
         // Set/restore availablePacks from allPacks; consider OS constraints
-        this.installData.setAvailablePacks(new ArrayList<Pack>());
-        for (Pack pack : this.installData.getAllPacks())
-        {
-            if (matcher.matchesCurrentPlatform(pack.getOsConstraints()))
-            {
-                this.installData.getAvailablePacks().add(pack);
-            }
-        }
+        this.installData.updateAvailablePacks(pack -> matcher.matchesCurrentPlatform(pack.getOsConstraints()));
 
         logger.fine("selectedGroup=" + selectedGroup);
         // If there are no groups, skip this panel
         Map<String, GroupData> installGroups = getInstallGroups(this.installData);
-        if (installGroups.size() == 0)
+        if (installGroups.isEmpty())
         {
             super.askQuestion("Skip InstallGroup selection",
                               "Skip InstallGroup selection", AbstractUIHandler.CHOICES_YES_NO);

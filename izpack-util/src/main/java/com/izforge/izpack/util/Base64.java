@@ -20,6 +20,8 @@
  */
 package com.izforge.izpack.util;
 
+import jakarta.enterprise.inject.Vetoed;
+
 /**
  * <p>Encodes and decodes to and from Base64 notation.</p>
  * <p>Homepage: <a href="http://iharder.net/base64">http://iharder.net/base64</a>.</p>
@@ -158,6 +160,7 @@ package com.izforge.izpack.util;
  * @author rob@iharder.net
  * @version 2.3.5
  */
+@Vetoed
 public class Base64
 {
 
@@ -1398,7 +1401,7 @@ public class Base64
         if ((bytes != null) && (bytes.length >= 4) && (!dontGunzip))
         {
 
-            int head = ((int) bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);
+            int head = (bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);
             if (java.util.zip.GZIPInputStream.GZIP_MAGIC == head)
             {
                 java.io.ByteArrayInputStream bais = null;

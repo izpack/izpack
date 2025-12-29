@@ -42,6 +42,7 @@ import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
+import jakarta.inject.Inject;
 
 
 /**
@@ -49,7 +50,7 @@ import com.izforge.izpack.merge.resolve.PathResolver;
  *
  * @author Tim Anderson
  */
-public class CompilerPathResolver extends PathResolver
+public class CompilerPathResolver
 {
 
     /**
@@ -67,19 +68,23 @@ public class CompilerPathResolver extends PathResolver
      * The panel dependencies.
      */
     private final Properties panelDependencies;
+    private final PathResolver pathResolver;
+    private final MergeableResolver mergeableResolver;
 
 
     /**
      * Constructs a <tt>CompilerPathResolver</tt>.
      *
-     * @param mergeableResolver the mergeable resolver
+     * @param pathResolver the mergeable resolver
      * @param loader            the class loader
      * @param panelDependencies panel dependency properties
      */
-    public CompilerPathResolver(MergeableResolver mergeableResolver, CompilerClassLoader loader,
+    @Inject
+    public CompilerPathResolver(PathResolver pathResolver, MergeableResolver mergeableResolver, CompilerClassLoader loader,
                                 Properties panelDependencies)
     {
-        super(mergeableResolver);
+        this.pathResolver = pathResolver;
+        this.mergeableResolver = mergeableResolver;
         this.loader = loader;
         this.panelDependencies = panelDependencies;
     }
@@ -122,6 +127,14 @@ public class CompilerPathResolver extends PathResolver
         return new PanelMerge(type, mergeable);
     }
 
+    public List<Mergeable> getMergeableFromPackageName(String dependPackage) {
+        return pathResolver.getMergeableFromPackageName(dependPackage);
+    }
+
+    public List<Mergeable> getMergeableJarFromPackageName(String dependPackages) {
+        return pathResolver.getMergeableJarFromPackageName(dependPackages);
+    }
+
     /**
      * Returns a list of {@link Mergeable} instances for all resources in the specified package.
      *
@@ -142,7 +155,6 @@ public class CompilerPathResolver extends PathResolver
         {
             throw new CompilerException("Failed to locate resources in package: " + merge.getName(), exception);
         }
-        MergeableResolver mergeableResolver = getMergeableResolver();
         while (urls.hasMoreElements())
         {
             URL obtainPackage = urls.nextElement();
@@ -168,7 +180,7 @@ public class CompilerPathResolver extends PathResolver
                 String dependPackage = (String) panelDependencies.get(type.getSimpleName());
                 if (!mergeable.containsKey(dependPackage))
                 {
-                    mergeable.put(dependPackage, getMergeableFromPackageName(dependPackage));
+                    mergeable.put(dependPackage, pathResolver.getMergeableFromPackageName(dependPackage));
                 }
             }
         }

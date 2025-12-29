@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 /*---------------------------------------------------------------------------*/
 
 /**
@@ -41,10 +43,11 @@ import java.util.logging.Logger;
  * @version 0.0.1 / 2/9/02
  */
 /*---------------------------------------------------------------------------*/
+@ApplicationScoped
 public class Housekeeper
 {
 
-    private List<CleanupClient> cleanupClients = new ArrayList<CleanupClient>();
+    private List<CleanupClient> cleanupClients = new ArrayList<>();
 
     /**
      * The logger.
