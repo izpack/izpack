@@ -29,7 +29,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build with Maven
-        run: ./mvnw -B -U verify -Ddependency-check.skip=true
+        run: ./mvnw -B -U install -DskipTests -Ddependency-check.skip=true
 
       - name: Running Maven GUI tests
         env:
@@ -59,27 +59,39 @@ jobs:
             **/hs_err_pid*.log
             **/target/surefire-reports/**/TEST-*.xml
 
-  checks:
-    needs:
-      - build
-    name: License & dependency check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-java@v5
+      - name: Upload Maven artifacts for checks
+        uses: actions/upload-artifact@v6.0.0
         with:
-          distribution: temurin
-          java-version: 21
-          cache: 'maven'
+          name: jdk${{ matrix.jdk }}-m2-repository
+          path: ~/.m2/repository/org/codehaus/izpack
+          retention-days: 1
 
-      - name: OWASP dependency check
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
-        env:
-          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-          OSSINDEX_USERNAME: ${{ secrets.OSSINDEX_USERNAME }}
-          OSSINDEX_PASSWORD: ${{ secrets.OSSINDEX_PASSWORD }}
-        run: ./mvnw -V -B --settings .github/workflows/settings.xml dependency-check:check
-        timeout-minutes: 5
+  checks:
+     needs:
+       - build
+     name: License & dependency check
+     runs-on: ubuntu-latest
+     steps:
+        - uses: actions/checkout@v6
+        - uses: actions/setup-java@v5
+          with:
+            distribution: temurin
+            java-version: 21
+            cache: 'maven'
+
+        - uses: actions/download-artifact@v6.0.0
+          with:
+            name: jdk21-m2-repository
+            path: ~/.m2/repository/org/codehaus/izpack
+
+        - name: OWASP dependency check
+          if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+          env:
+            NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+            OSSINDEX_USERNAME: ${{ secrets.OSSINDEX_USERNAME }}
+            OSSINDEX_PASSWORD: ${{ secrets.OSSINDEX_PASSWORD }}
+          run: ./mvnw -V -B --settings .github/workflows/settings.xml dependency-check:check
+          timeout-minutes: 5
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
