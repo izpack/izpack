@@ -79,7 +79,7 @@ jobs:
             java-version: 21
             cache: 'maven'
 
-        - uses: actions/download-artifact@v6.0.0
+        - uses: actions/download-artifact@v7.0.0
           with:
             name: jdk21-m2-repository
             path: ~/.m2/repository/org/codehaus/izpack
