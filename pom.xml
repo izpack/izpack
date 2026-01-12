@@ -128,7 +128,7 @@
         <version>1.83</version>
       </dependency>
       <!-- PDF Panel -->
-      
+
       <!-- Commons apache -->
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -1082,5 +1082,5 @@
     <system>jira</system>
     <url>https://izpack.atlassian.net</url>
   </issueManagement>
-  
+
 </project>
