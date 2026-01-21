@@ -2,7 +2,7 @@
 <!--
   ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
   ~
-  ~ http://izpack.org/
+  ~ https://izpack.org/
   ~ http://izpack.codehaus.org/
   -
   ~ Copyright 2012 Tim Anderson
@@ -19,15 +19,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:types="http://izpack.org/schema/types"
            targetNamespace="http://izpack.org/schema/configurationactions"
            xmlns="http://izpack.org/schema/configurationactions">
 
     <xs:import namespace="http://izpack.org/schema/types"
-               schemaLocation="http://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
+               schemaLocation="https://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
 
     <xs:element name="configurationactions">
         <xs:complexType>
@@ -40,7 +38,7 @@
 
     <xs:complexType name="packType">
         <xs:sequence>
-            <xs:element name="configurationaction" type="configurationActionType" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="configurationaction" type="configurationActionType" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
@@ -77,20 +75,20 @@
             </xs:simpleType>
         </xs:attribute>
         <xs:attribute name="tofile" type="xs:string" use="required"/>
-        <xs:attribute name="patchfile" type="xs:string" use="optional"/>
-        <xs:attribute name="originalfile" type="xs:string" use="optional"/>
-        <xs:attribute name="configfile" type="xs:string" use="optional"/>
-        <xs:attribute name="create" type="xs:boolean" use="optional"/>
-        <xs:attribute name="keepOldKeys" type="xs:boolean" use="optional"/>
-        <xs:attribute name="keepOldValues" type="xs:boolean" use="optional"/>
-        <xs:attribute name="resolveExpressions" type="xs:boolean" use="optional"/>
-        <xs:attribute name="escape" type="xs:boolean" use="optional"/>
-        <xs:attribute name="escapeNewLine" type="xs:boolean" use="optional"/>
-        <xs:attribute name="headerComment" type="xs:boolean" use="optional"/>
-        <xs:attribute name="emptyLines" type="xs:boolean" use="optional"/>
-        <xs:attribute name="operator" type="xs:string" use="optional"/>
-        <xs:attribute name="condition" type="xs:string" use="optional"/>
-        <xs:attribute name="cleanup" type="xs:string" use="optional"/>
+        <xs:attribute name="patchfile" type="xs:string"/>
+        <xs:attribute name="originalfile" type="xs:string"/>
+        <xs:attribute name="configfile" type="xs:string"/>
+        <xs:attribute name="create" type="xs:boolean"/>
+        <xs:attribute name="keepOldKeys" type="xs:boolean"/>
+        <xs:attribute name="keepOldValues" type="xs:boolean"/>
+        <xs:attribute name="resolveExpressions" type="xs:boolean"/>
+        <xs:attribute name="escape" type="xs:boolean"/>
+        <xs:attribute name="escapeNewLine" type="xs:boolean"/>
+        <xs:attribute name="headerComment" type="xs:boolean"/>
+        <xs:attribute name="emptyLines" type="xs:boolean"/>
+        <xs:attribute name="operator" type="xs:string"/>
+        <xs:attribute name="condition" type="xs:string"/>
+        <xs:attribute name="cleanup" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="configurableSetType">
@@ -106,19 +104,19 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="fromfile" type="xs:string" use="optional"/>
-        <xs:attribute name="todir" type="xs:string" use="optional"/>
-        <xs:attribute name="tofile" type="xs:string" use="optional"/>
-        <xs:attribute name="keepOldKeys" type="xs:boolean" use="optional"/>
-        <xs:attribute name="keepOldValues" type="xs:boolean" use="optional"/>
-        <xs:attribute name="resolveExpressions" type="xs:boolean" use="optional"/>
-        <xs:attribute name="failonerror" type="xs:boolean" use="optional"/>
-        <xs:attribute name="includeemptydirs" type="xs:boolean" use="optional"/>
-        <xs:attribute name="overwrite" type="xs:boolean" use="optional" default="false"/>
-        <xs:attribute name="preservelastmodified" type="xs:boolean" use="optional"/>
-        <xs:attribute name="enablemultiplemappings" type="xs:boolean" use="optional"/>
+        <xs:attribute name="fromfile" type="xs:string"/>
+        <xs:attribute name="todir" type="xs:string"/>
+        <xs:attribute name="tofile" type="xs:string"/>
+        <xs:attribute name="keepOldKeys" type="xs:boolean"/>
+        <xs:attribute name="keepOldValues" type="xs:boolean"/>
+        <xs:attribute name="resolveExpressions" type="xs:boolean"/>
+        <xs:attribute name="failonerror" type="xs:boolean"/>
+        <xs:attribute name="includeemptydirs" type="xs:boolean"/>
+        <xs:attribute name="overwrite" type="xs:boolean" default="false"/>
+        <xs:attribute name="preservelastmodified" type="xs:boolean"/>
+        <xs:attribute name="enablemultiplemappings" type="xs:boolean"/>
         <xs:attribute name="condition" type="xs:string" use="required"/>
-        <xs:attribute name="cleanup" type="xs:boolean" use="optional"/>
+        <xs:attribute name="cleanup" type="xs:boolean"/>
     </xs:complexType>
 
     <xs:complexType name="fileSetType">
@@ -127,9 +125,9 @@
             <xs:element name="exclude" type="types:includeExcludeType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
         <xs:attribute name="dir" type="xs:string" use="required"/>
-        <xs:attribute name="casesensitive" type="xs:boolean" use="optional"/>
-        <xs:attribute name="defaultexcludes" type="xs:boolean" use="optional"/>
-        <xs:attribute name="followsymlinks" type="xs:boolean" use="optional"/>
+        <xs:attribute name="casesensitive" type="xs:boolean"/>
+        <xs:attribute name="defaultexcludes" type="xs:boolean"/>
+        <xs:attribute name="followsymlinks" type="xs:boolean"/>
     </xs:complexType>
 
     <xs:complexType name="mapperType">
@@ -148,17 +146,17 @@
         </xs:attribute>
         <xs:attribute name="from" type="xs:string" use="required"/>
         <xs:attribute name="to" type="xs:string" use="required"/>
-        <xs:attribute name="casesensitive" type="xs:boolean" use="optional"/>
+        <xs:attribute name="casesensitive" type="xs:boolean"/>
     </xs:complexType>
 
     <xs:complexType name="entryType">
-        <xs:attribute name="section" type="xs:string" use="optional"/>
-        <xs:attribute name="key" type="xs:string" use="optional"/>
-        <xs:attribute name="value" type="xs:string" use="optional"/>
-        <xs:attribute name="data" type="xs:string" use="optional"/>
-        <xs:attribute name="fromkey" type="xs:string" use="optional"/>
-        <xs:attribute name="tokey" type="xs:string" use="optional"/>
-        <xs:attribute name="dataType" use="optional">
+        <xs:attribute name="section" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string"/>
+        <xs:attribute name="value" type="xs:string"/>
+        <xs:attribute name="data" type="xs:string"/>
+        <xs:attribute name="fromkey" type="xs:string"/>
+        <xs:attribute name="tokey" type="xs:string"/>
+        <xs:attribute name="dataType">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="int"/>
@@ -167,7 +165,7 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="lookupType" use="optional">
+        <xs:attribute name="lookupType">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="plain"/>
@@ -175,7 +173,7 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="operation" use="optional">
+        <xs:attribute name="operation">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="+"/>
@@ -186,7 +184,7 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="unit" use="optional">
+        <xs:attribute name="unit">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="millisecond"/>
@@ -200,8 +198,8 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="default" use="optional"/>
-        <xs:attribute name="pattern" use="optional"/>
+        <xs:attribute name="default"/>
+        <xs:attribute name="pattern"/>
     </xs:complexType>
 
     <xs:complexType name="xpathPropertyType">

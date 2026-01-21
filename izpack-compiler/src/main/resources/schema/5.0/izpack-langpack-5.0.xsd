@@ -2,7 +2,7 @@
 <!--
   ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
   ~
-  ~ http://izpack.org/
+  ~ https://izpack.org/
   ~ http://izpack.codehaus.org/
   ~
   ~ Copyright 2012 Tim Anderson
@@ -20,9 +20,7 @@
   ~ limitations under the License.
   -->
 
-<xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://izpack.org/schema/langpack"
            xmlns="http://izpack.org/schema/langpack">
 

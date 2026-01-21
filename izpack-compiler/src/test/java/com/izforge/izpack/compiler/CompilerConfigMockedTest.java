@@ -58,7 +58,7 @@ import java.util.logging.Handler;
  */
 public class CompilerConfigMockedTest
 {
-    private final String START_TAG = "<izpack:installation version=\"5.0\" xmlns:izpack=\"http://izpack.org/schema/installation\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd\">";
+    private final String START_TAG = "<izpack:installation version=\"5.0\" xmlns:izpack=\"http://izpack.org/schema/installation\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://izpack.org/schema/installation https://izpack.org/schema/5.0/izpack-installation-5.0.xsd\">";
     private final String END_TAG = "</izpack:installation>";
 
     private Map<String, List<DynamicVariable>> mapStringListDyn;

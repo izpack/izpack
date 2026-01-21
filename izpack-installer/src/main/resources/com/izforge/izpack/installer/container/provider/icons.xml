@@ -3,7 +3,7 @@
 <izpack:icons version="5.0"
               xmlns:izpack="http://izpack.org/schema/icons"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://izpack.org/schema/icons http://izpack.org/schema/5.0/izpack-icons-5.0.xsd">
+              xsi:schemaLocation="http://izpack.org/schema/icons https://izpack.org/schema/5.0/izpack-icons-5.0.xsd">
 
     <icon res="/com/izforge/izpack/img/leftarrow.png" id="stepback"/>
     <icon res="/com/izforge/izpack/img/rightarrow.png" id="stepforward"/>

@@ -2,7 +2,7 @@
 <!--
   ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
   ~
-  ~ http://izpack.org/
+  ~ https://izpack.org/
   ~ http://izpack.codehaus.org/
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,15 +25,13 @@
  |         Tim Anderson
  |______________________________________________________________________________
 -->
-<xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:types="http://izpack.org/schema/types"
            targetNamespace="http://izpack.org/schema/userinput"
            xmlns="http://izpack.org/schema/userinput" xmlns:as="http://www.w3.org/2001/XMLSchema">
 
     <xs:import namespace="http://izpack.org/schema/types"
-               schemaLocation="http://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
+               schemaLocation="https://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
 
     <xs:element name="userinput">
         <xs:complexType>
@@ -50,7 +48,7 @@
                             <xs:element name="field" type="fieldType" maxOccurs="unbounded"/>
                         </xs:choice>
                         <xs:attribute name="id" type="xs:string" use="required"/>
-                        <xs:attribute name="topBuffer" type="xs:integer" use="optional" default="25">
+                        <xs:attribute name="topBuffer" type="xs:integer" default="25">
                             <xs:annotation>
                                 <xs:documentation>
                                     The percentage of left over vertical space to place on top of the components.
@@ -61,7 +59,7 @@
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:attribute>
-                        <xs:attribute name="displayHidden" type="xs:boolean" use="optional" default="false">
+                        <xs:attribute name="displayHidden" type="xs:boolean" default="false">
                             <xs:annotation>
                                 <xs:documentation>
                                     When set to true, fields on this panel will be shown as disabled when the field's
@@ -70,7 +68,7 @@
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:attribute>
-                        <xs:attribute name="displayHiddenCondition" type="xs:string" use="optional">
+                        <xs:attribute name="displayHiddenCondition" type="xs:string">
                             <xs:annotation>
                                 <xs:documentation>
                                     The condition to activate the "displayHidden" mode.
@@ -78,14 +76,14 @@
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:attribute>
-                        <xs:attribute name="readonly" type="xs:boolean" use="optional" default="false">
+                        <xs:attribute name="readonly" type="xs:boolean" default="false">
                             <xs:annotation>
                                 <xs:documentation>
                                     When set to true, all fields on this panel will be shown as disabled.
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:attribute>
-                        <xs:attribute name="readonlyCondition" type="xs:string" use="optional">
+                        <xs:attribute name="readonlyCondition" type="xs:string">
                             <xs:annotation>
                                 <xs:documentation>
                                     The condition to activate the "readonly" mode.
@@ -93,7 +91,7 @@
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:attribute>
-                        <xs:attribute name="rigid" type="xs:boolean" use="optional" default="false">
+                        <xs:attribute name="rigid" type="xs:boolean" default="false">
                             <xs:annotation>
                                 <xs:documentation>
                                     When set to true, the topBuffer will represent the number of pixels to place on top
@@ -104,7 +102,7 @@
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:attribute>
-                        <xs:attribute name="summaryKey" type="xs:string" use="optional">
+                        <xs:attribute name="summaryKey" type="xs:string">
                             <xs:annotation>
                                 <xs:documentation>
                                     The summary key attribute will allow your UserInputPanel to be displayed on the
@@ -125,8 +123,8 @@
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="description" minOccurs="0">
                 <xs:complexType>
-                    <xs:attribute name="id" type="xs:string" use="optional"/>
-                    <xs:attribute name="txt" type="xs:string" use="optional"/>
+                    <xs:attribute name="id" type="xs:string"/>
+                    <xs:attribute name="txt" type="xs:string"/>
                 </xs:complexType>
             </xs:element>
             <xs:element name="spec">
@@ -138,27 +136,27 @@
                         <xs:element name="processor" type="fieldProcessorType" minOccurs="0" maxOccurs="unbounded"/>
                         <xs:element name="run" type="buttonFieldSpecRunType" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:choice>
-                    <xs:attribute name="id" type="xs:string" use="optional">
+                    <xs:attribute name="id" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>ID of the label translation.</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="txt" type="xs:string" use="optional">
+                    <xs:attribute name="txt" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>Default text when no label translation can be found.</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="false" type="xs:string" use="optional">
+                    <xs:attribute name="false" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>Used by "check" fields as value when unchecked</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="true" type="xs:string" use="optional">
+                    <xs:attribute name="true" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>Used by "check" fields as value when checked</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="successMsg" type="xs:string" use="optional" default="">
+                    <xs:attribute name="successMsg" type="xs:string" default="">
                         <xs:annotation>
                             <xs:documentation>
                                 Used by "button" fields:
@@ -167,56 +165,56 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="filename" type="xs:string" use="optional">
+                    <xs:attribute name="filename" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>Used by "search" fields</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="checkfilename" type="xs:string" use="optional">
+                    <xs:attribute name="checkfilename" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>Used by "search" fields</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="type" type="searchType" use="optional" default="file">
+                    <xs:attribute name="type" type="searchType" default="file">
                         <xs:annotation>
                             <xs:documentation>Used by "search" fields</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="result" type="searchResultType" use="optional">
+                    <xs:attribute name="result" type="searchResultType">
                         <xs:annotation>
                             <xs:documentation>Required by "search" fields, optional otherwise</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="fileext" type="xs:string" use="optional">
+                    <xs:attribute name="fileext" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>Used by "file", "multiFile" fields</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="fileextdesc" type="xs:string" use="optional">
+                    <xs:attribute name="fileextdesc" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>Used by "file", "multiFile" fields</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="visibleRows" type="xs:unsignedInt" use="optional">
+                    <xs:attribute name="visibleRows" type="xs:unsignedInt">
                         <xs:annotation>
                             <xs:documentation>Used by "multiFile" fields</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="prefX" type="xs:unsignedInt" use="optional">
+                    <xs:attribute name="prefX" type="xs:unsignedInt">
                         <xs:annotation>
                             <xs:documentation>Used by "multiFile" fields. Indicates the preferred
                                 width of the field
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="prefY" type="xs:unsignedInt" use="optional">
+                    <xs:attribute name="prefY" type="xs:unsignedInt">
                         <xs:annotation>
                             <xs:documentation>Used by "multiFile" fields. Indicates the preferred
                                 height of the field
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="multipleVariables" type="xs:boolean" use="optional">
+                    <xs:attribute name="multipleVariables" type="xs:boolean">
                         <xs:annotation>
                             <xs:documentation>Used by "multiFile" fields. If true, a variable will
                                 be created to hold each file. If false, a single variable will be used;
@@ -224,12 +222,12 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="allowEmptyValue" type="xs:boolean" use="optional">
+                    <xs:attribute name="allowEmptyValue" type="xs:boolean">
                         <xs:annotation>
                             <xs:documentation>Used by "file", "multiFile" "dir", fields</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="mustExist" type="xs:boolean" use="optional" default="true">
+                    <xs:attribute name="mustExist" type="xs:boolean" default="true">
                         <xs:annotation>
                             <xs:documentation>
                               Determines if the directory must exist to continue.
@@ -237,7 +235,7 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="create" type="xs:boolean" use="optional" default="false">
+                    <xs:attribute name="create" type="xs:boolean" default="false">
                         <xs:annotation>
                             <xs:documentation>
                               Determines if the directory are created if they don't exist.
@@ -245,14 +243,14 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="layout" type="xs:string" use="optional">
+                    <xs:attribute name="layout" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>
                                 Used by the "rule" field.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="resultFormat" type="ruleFieldResultFormatType" use="optional">
+                    <xs:attribute name="resultFormat" type="ruleFieldResultFormatType">
                         <xs:annotation>
                             <xs:documentation>
                                 How the result should be assembled back from the single field parts of a rule field.
@@ -260,7 +258,7 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="separator" type="xs:string" use="optional">
+                    <xs:attribute name="separator" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>
                                 This is a string used as the alternative separator string when assembling the result.
@@ -268,8 +266,8 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="size" type="xs:unsignedByte" use="optional"/>
-                    <xs:attribute name="set" type="xs:string" use="optional">
+                    <xs:attribute name="size" type="xs:unsignedByte"/>
+                    <xs:attribute name="set" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>
                                 The value for this field forced to be set as initial value and which overrides previous
@@ -277,14 +275,14 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="default" type="xs:string" use="optional">
+                    <xs:attribute name="default" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>
                                 The default value for this field is the assigned "variable" has not been initialized.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="omitFromAuto" type="xs:boolean" use="optional">
+                    <xs:attribute name="omitFromAuto" type="xs:boolean">
                         <xs:annotation>
                             <xs:documentation>
                                 Whether to omit the field variable's value from being written to the auto-install.xml
@@ -292,7 +290,7 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="height" type="xs:unsignedByte" use="optional">
+                    <xs:attribute name="height" type="xs:unsignedByte">
                         <xs:annotation>
                             <xs:documentation>
                                 This is a number to define the height of the "textarea" in rows.
@@ -304,32 +302,32 @@
             </xs:element>
             <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
-                    <xs:attribute name="family" type="xs:string" use="optional"/>
+                    <xs:attribute name="family" type="xs:string"/>
                 </xs:complexType>
             </xs:element>
             <xs:element name="validator" type="fieldValidatorType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
         <xs:attribute name="type" type="typeType" use="required"/>
-        <xs:attribute name="variable" type="xs:string" use="optional"/>
-        <xs:attribute name="conditionid" type="xs:string" use="optional"/>
-        <xs:attribute name="id" type="xs:string" use="optional"/>
-        <xs:attribute name="txt" type="xs:string" use="optional"/>
-        <xs:attribute name="bold" type="xs:boolean" use="optional"/>
-        <xs:attribute name="size" type="xs:float" use="optional">
+        <xs:attribute name="variable" type="xs:string"/>
+        <xs:attribute name="conditionid" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="txt" type="xs:string"/>
+        <xs:attribute name="bold" type="xs:boolean"/>
+        <xs:attribute name="size" type="xs:float">
             <xs:annotation>
                 <xs:documentation>
                     Used by "title" fields to determine the font size
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="align" type="alignType" use="optional">
+        <xs:attribute name="align" type="alignType">
             <xs:annotation>
                 <xs:documentation>
                     Used by "title" and "divider" fields
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="summaryKey" type="xs:string" use="optional">
+        <xs:attribute name="summaryKey" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     The summary key attribute will allow your UserInputPanel field to be displayed on the
@@ -340,7 +338,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="displayHidden" type="xs:boolean" use="optional" default="false">
+        <xs:attribute name="displayHidden" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>
                     When set to true, this field will be shown as disabled when its
@@ -349,7 +347,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="displayHiddenCondition" type="xs:string" use="optional">
+        <xs:attribute name="displayHiddenCondition" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     The condition to activate the "displayHidden" mode for this field.
@@ -357,14 +355,14 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="readonly" type="xs:boolean" use="optional" default="false">
+        <xs:attribute name="readonly" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>
                     When set to true, this field will be shown as disabled.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="readonlyCondition" type="xs:string" use="optional">
+        <xs:attribute name="readonlyCondition" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     The condition to activate the "readonly" mode for this field.
@@ -372,7 +370,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="tooltip" type="xs:string" use="optional">
+        <xs:attribute name="tooltip" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     The tooltip attribute allows a UserInputPanel field to add the specified tooltip to its
@@ -380,7 +378,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="minRow" type="xs:positiveInteger" use="optional">
+        <xs:attribute name="minRow" type="xs:positiveInteger">
             <xs:annotation>
                 <xs:documentation>
                     Minimal number of rows displayed in a "custom" field.
@@ -388,7 +386,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="maxRow" type="xs:positiveInteger" use="optional">
+        <xs:attribute name="maxRow" type="xs:positiveInteger">
             <xs:annotation>
                 <xs:documentation>
                     Maximal number of rows displayed in a "custom" field, before the Add button gets deactivated.
@@ -414,18 +412,18 @@
             </xs:element>
             <xs:element name="processor" type="fieldProcessorType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
-        <xs:attribute name="os" type="types:osFamilyAttributeType" use="optional"/>
-        <xs:attribute name="conditionid" type="xs:string" use="optional"/>
-        <xs:attribute name="processor" type="xs:string" use="optional"/>
-        <xs:attribute name="set" type="xs:string" use="optional"/>
-        <xs:attribute name="id" type="xs:string" use="optional">
+        <xs:attribute name="os" type="types:osFamilyAttributeType"/>
+        <xs:attribute name="conditionid" type="xs:string"/>
+        <xs:attribute name="processor" type="xs:string"/>
+        <xs:attribute name="set" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     Used by "radio" fields to look up the language pack to localise the radio button text
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="txt" type="xs:string" use="optional">
+        <xs:attribute name="txt" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     Used by "radio" fields for the radio button text if the "id" attribute isn't present or
@@ -433,21 +431,21 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="value" type="xs:string" use="optional"/>
+        <xs:attribute name="value" type="xs:string"/>
     </xs:complexType>
 
     <!--                                                                                                        -->
     <!-- Password specification                                                                                 -->
     <!--                                                                                                        -->
     <xs:complexType name="passwordSpecType">
-        <xs:attribute name="id" type="xs:string" use="optional">
+        <xs:attribute name="id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     Used to look up the language pack to localise the password label text
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="txt" type="xs:string" use="optional">
+        <xs:attribute name="txt" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     Used for the password label text if the "id" attribute isn't present or no localised text could be
@@ -456,13 +454,13 @@
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="size" type="xs:unsignedByte" use="required"/>
-        <xs:attribute name="set" type="xs:string" use="optional"/>
+        <xs:attribute name="set" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="columnFieldColSpecType">
-        <xs:choice minOccurs="1" maxOccurs="unbounded">
-            <xs:element name="field" type="fieldType" minOccurs="1" maxOccurs="unbounded"/>
-            <xs:element name="validator" type="fieldValidatorType" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:choice maxOccurs="unbounded">
+            <xs:element name="field" type="fieldType" maxOccurs="unbounded"/>
+            <xs:element name="validator" type="fieldValidatorType" maxOccurs="unbounded"/>
         </xs:choice>
     </xs:complexType>
 
@@ -476,14 +474,14 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="backupVariable" type="xs:string" use="optional">
+                <xs:attribute name="backupVariable" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
                             Optional variable name holding the original value before processing.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="toVariable" type="xs:string" use="optional">
+                <xs:attribute name="toVariable" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
                             Optional variable name holding the value after processing.
@@ -531,8 +529,8 @@
     <xs:complexType name="fieldValidatorType">
         <xs:complexContent>
             <xs:extension base="types:configurationSectionType">
-                <xs:attribute name="id" type="xs:string" use="optional"/>
-                <xs:attribute name="txt" type="xs:string" use="optional">
+                <xs:attribute name="id" type="xs:string"/>
+                <xs:attribute name="txt" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
                             The default text to display on a validation error when no translation can be found for

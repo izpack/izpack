@@ -2,7 +2,7 @@
 <izpack:bsfactions version="5.0"
                    xmlns:izpack="http://izpack.org/schema/bsfactions"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://izpack.org/schema/bsfactions http://izpack.org/schema/5.0/izpack-bsfactions-5.0.xsd">
+                   xsi:schemaLocation="http://izpack.org/schema/bsfactions https://izpack.org/schema/5.0/izpack-bsfactions-5.0.xsd">
 
     <pack name="Base">
 

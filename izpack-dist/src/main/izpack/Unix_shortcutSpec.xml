@@ -2,7 +2,7 @@
 <izpack:shortcuts version="5.0"
                   xmlns:izpack="http://izpack.org/schema/shortcuts"
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://izpack.org/schema/shortcuts http://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
+                  xsi:schemaLocation="http://izpack.org/schema/shortcuts https://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
 
     <programGroup defaultName="IzPack ${project.version}" location="applications"/>
 

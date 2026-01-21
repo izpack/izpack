@@ -2,7 +2,7 @@
 <!--
   ~ IzPack - Copyright 2001-2013 Julien Ponge, All Rights Reserved.
   ~
-  ~ http://izpack.org/
+  ~ https://izpack.org/
   ~ http://izpack.codehaus.org/
   ~
   ~ Copyright 2012 Tim Anderson
@@ -20,15 +20,13 @@
   ~ limitations under the License.
   -->
 
-<xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:types="http://izpack.org/schema/types"
            targetNamespace="http://izpack.org/schema/shortcuts"
            xmlns="http://izpack.org/schema/shortcuts">
 
     <xs:import namespace="http://izpack.org/schema/types"
-               schemaLocation="http://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
+               schemaLocation="https://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
 
     <xs:element name="shortcuts">
         <xs:complexType>
@@ -46,11 +44,11 @@
     </xs:element>
 
     <xs:complexType name="programGroupType">
-        <xs:attribute name="installGroup" type="xs:string" use="optional"/>
-        <xs:attribute name="defaultName" type="xs:string" use="optional"/>
-        <xs:attribute name="iconFile" type="xs:string" use="optional"/>
-        <xs:attribute name="comment" type="xs:string" use="optional"/>
-        <xs:attribute name="location" type="xs:string" use="optional"/>
+        <xs:attribute name="installGroup" type="xs:string"/>
+        <xs:attribute name="defaultName" type="xs:string"/>
+        <xs:attribute name="iconFile" type="xs:string"/>
+        <xs:attribute name="comment" type="xs:string"/>
+        <xs:attribute name="location" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="shortcutType">
@@ -63,15 +61,15 @@
             </xs:element>
         </xs:choice>
         <xs:attribute name="name" type="xs:string" use="required"/>
-        <xs:attribute name="condition" type="xs:string" use="optional"/>
-        <xs:attribute name="subgroup" type="xs:string" use="optional"/>
-        <xs:attribute name="description" type="xs:string" use="optional"/>
-        <xs:attribute name="target" type="xs:string" use="optional"/>
-        <xs:attribute name="commandLine" type="xs:string" use="optional"/>
-        <xs:attribute name="iconFile" type="xs:string" use="optional"/>
-        <xs:attribute name="iconIndex" type="xs:string" use="optional"/>
-        <xs:attribute name="workingDirectory" type="xs:string" use="optional"/>
-        <xs:attribute name="initialState" use="optional">
+        <xs:attribute name="condition" type="xs:string"/>
+        <xs:attribute name="subgroup" type="xs:string"/>
+        <xs:attribute name="description" type="xs:string"/>
+        <xs:attribute name="target" type="xs:string"/>
+        <xs:attribute name="commandLine" type="xs:string"/>
+        <xs:attribute name="iconFile" type="xs:string"/>
+        <xs:attribute name="iconIndex" type="xs:string"/>
+        <xs:attribute name="workingDirectory" type="xs:string"/>
+        <xs:attribute name="initialState">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="noShow"/>
@@ -81,64 +79,64 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="desktop" type="types:yesNoTrueFalseType" use="optional"/>
-        <xs:attribute name="applications" type="types:yesNoTrueFalseType" use="optional"/>
-        <xs:attribute name="startMenu" type="types:yesNoTrueFalseType" use="optional"/>
-        <xs:attribute name="startup" type="types:yesNoTrueFalseType" use="optional"/>
-        <xs:attribute name="programGroup" type="types:yesNoTrueFalseType" use="optional"/>
-        <xs:attribute name="runAsAdministrator" type="xs:boolean" use="optional"/>
+        <xs:attribute name="desktop" type="types:yesNoTrueFalseType"/>
+        <xs:attribute name="applications" type="types:yesNoTrueFalseType"/>
+        <xs:attribute name="startMenu" type="types:yesNoTrueFalseType"/>
+        <xs:attribute name="startup" type="types:yesNoTrueFalseType"/>
+        <xs:attribute name="programGroup" type="types:yesNoTrueFalseType"/>
+        <xs:attribute name="runAsAdministrator" type="xs:boolean"/>
         
-        <xs:attribute name="encoding" type="xs:string" use="optional">
+        <xs:attribute name="encoding" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mimetype" type="xs:string" use="optional">
+        <xs:attribute name="mimetype" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="terminal" type="xs:string" use="optional">
+        <xs:attribute name="terminal" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="terminalOptions" type="xs:string" use="optional">
+        <xs:attribute name="terminalOptions" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="type" type="xs:string" use="optional">
+        <xs:attribute name="type" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="url" type="xs:string" use="optional">
+        <xs:attribute name="url" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="KdeSubstUID" type="xs:string" use="optional">
+        <xs:attribute name="KdeSubstUID" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="KdeUsername" type="xs:string" use="optional">
+        <xs:attribute name="KdeUsername" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="categories" type="xs:string" use="optional">
+        <xs:attribute name="categories" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="tryexec" type="xs:string" use="optional">
+        <xs:attribute name="tryexec" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="createForAll" type="xs:string" use="optional">
+        <xs:attribute name="createForAll" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Linux specific</xs:documentation>
             </xs:annotation>

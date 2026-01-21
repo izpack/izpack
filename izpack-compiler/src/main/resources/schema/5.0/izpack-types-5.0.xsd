@@ -2,7 +2,7 @@
 <!--
   ~ IzPack - Copyright 2001-2013 Julien Ponge, All Rights Reserved.
   ~
-  ~ http://izpack.org/
+  ~ https://izpack.org/
   ~ http://izpack.codehaus.org/
   ~
   ~ Copyright 2012 Tim Anderson
@@ -20,9 +20,7 @@
   ~ limitations under the License.
   -->
 
-<xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://izpack.org/schema/types"
            xmlns="http://izpack.org/schema/types">
 
@@ -30,11 +28,11 @@
     <!-- OS                                                                                                     -->
     <!--                                                                                                        -->
     <xs:complexType name="osType">
-        <xs:attribute type="osFamilyAttributeType" name="family" use="optional"/>
-        <xs:attribute type="xs:string" name="name" use="optional"/>
-        <xs:attribute type="xs:string" name="arch" use="optional"/>
-        <xs:attribute type="xs:string" name="version" use="optional"/>
-        <xs:attribute type="xs:string" name="jre" use="optional"/>
+        <xs:attribute type="osFamilyAttributeType" name="family"/>
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="arch"/>
+        <xs:attribute type="xs:string" name="version"/>
+        <xs:attribute type="xs:string" name="jre"/>
     </xs:complexType>
 
     <xs:simpleType name="osFamilyAttributeType">
@@ -59,22 +57,22 @@
     <xs:complexType name="conditionType">
         <xs:choice minOccurs="1" maxOccurs="unbounded">
             <xs:element name="condition" type="conditionType" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="value" type="valueElementType" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="variable" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="arg1" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="arg2" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="operator" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="string" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="file" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="dir" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="java" type="javaType" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="returnvalue" type="returnValueType" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="requiredusername" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="name" type="xs:string" minOccurs="0"/>
+            <xs:element name="value" type="valueElementType" minOccurs="0"/>
+            <xs:element name="variable" type="xs:string" minOccurs="0"/>
+            <xs:element name="arg1" type="xs:string" minOccurs="0"/>
+            <xs:element name="arg2" type="xs:string" minOccurs="0"/>
+            <xs:element name="operator" type="xs:string" minOccurs="0"/>
+            <xs:element name="string" type="xs:string" minOccurs="0"/>
+            <xs:element name="file" type="xs:string" minOccurs="0"/>
+            <xs:element name="dir" type="xs:string" minOccurs="0"/>
+            <xs:element name="java" type="javaType" minOccurs="0"/>
+            <xs:element name="returnvalue" type="returnValueType" minOccurs="0"/>
+            <xs:element name="requiredusername" type="xs:string" minOccurs="0"/>
         </xs:choice>
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="refid" type="xs:string"/>
-        <xs:attribute name="type" use="optional">
+        <xs:attribute name="type">
             <xs:simpleType>
                 <xs:union>
                     <xs:simpleType>
@@ -107,8 +105,8 @@
     <xs:complexType name="valueElementType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute name="caseInsensitive" type="xs:boolean" use="optional" default="false"/>
-                <xs:attribute name="regex" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="caseInsensitive" type="xs:boolean" default="false"/>
+                <xs:attribute name="regex" type="xs:boolean" default="false"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -139,7 +137,7 @@
     <xs:complexType name="packConditionType">
         <xs:attribute name="packid" type="xs:string" use="required"/>
         <xs:attribute name="conditionid" type="xs:string" use="required"/>
-        <xs:attribute name="optional" type="xs:boolean" use="optional" default="false">
+        <xs:attribute name="optional" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>
                     Whether an optional pack installation is allowed if condition is not met,
@@ -161,36 +159,36 @@
     <!--                                                                                                        -->
     <xs:complexType name="dynamicVariableType">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="value" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="value" minOccurs="0"/>
             <xs:element name="filters" type="dynamicVariableFiltersType" minOccurs="0"/>
             <xs:element name="arg" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
         <xs:attribute type="xs:string" name="name" use="required"/>
-        <xs:attribute type="xs:boolean" name="checkonce" use="optional" default="false"/>
-        <xs:attribute type="xs:string" name="condition" use="optional"/>
+        <xs:attribute type="xs:boolean" name="checkonce" default="false"/>
+        <xs:attribute type="xs:string" name="condition"/>
         <!-- plain -->
-        <xs:attribute type="xs:string" name="value" use="optional"/>
+        <xs:attribute type="xs:string" name="value"/>
         <!-- environment variable -->
-        <xs:attribute type="xs:string" name="environment" use="optional"/>
+        <xs:attribute type="xs:string" name="environment"/>
         <!-- configuration file -->
-        <xs:attribute type="xs:string" name="file" use="optional"/>
-        <xs:attribute type="xs:string" name="section" use="optional"/>
-        <xs:attribute type="xs:string" name="key" use="optional"/>
-        <xs:attribute type="xs:boolean" name="escape" use="optional" default="true"/>
+        <xs:attribute type="xs:string" name="file"/>
+        <xs:attribute type="xs:string" name="section"/>
+        <xs:attribute type="xs:string" name="key"/>
+        <xs:attribute type="xs:boolean" name="escape" default="true"/>
         <!-- configuration file in zip/jar file -->
-        <xs:attribute type="xs:string" name="zipfile" use="optional"/>
-        <xs:attribute type="xs:string" name="jarfile" use="optional"/>
-        <xs:attribute type="xs:string" name="entry" use="optional"/>
-        <xs:attribute type="xs:boolean" name="ignorefailure" use="optional" default="true"/>
+        <xs:attribute type="xs:string" name="zipfile"/>
+        <xs:attribute type="xs:string" name="jarfile"/>
+        <xs:attribute type="xs:string" name="entry"/>
+        <xs:attribute type="xs:boolean" name="ignorefailure" default="true"/>
         <!-- Windows registry -->
-        <xs:attribute type="xs:string" name="regkey" use="optional"/>
-        <xs:attribute type="xs:string" name="regvalue" use="optional"/>
+        <xs:attribute type="xs:string" name="regkey"/>
+        <xs:attribute type="xs:string" name="regvalue"/>
         <!-- Command execution -->
-        <xs:attribute type="xs:string" name="executable" use="optional"/>
-        <xs:attribute type="xs:string" name="dir" use="optional"/>
-        <xs:attribute type="xs:boolean" name="stderr" use="optional" default="false"/>
+        <xs:attribute type="xs:string" name="executable"/>
+        <xs:attribute type="xs:string" name="dir"/>
+        <xs:attribute type="xs:boolean" name="stderr" default="false"/>
         <!-- Type - same name for config file type and execution type -->
-        <xs:attribute name="type" use="optional">
+        <xs:attribute name="type">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="options"/>
@@ -201,7 +199,7 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute type="xs:boolean" name="unset" use="optional" default="true"/>
+        <xs:attribute type="xs:boolean" name="unset" default="true"/>
     </xs:complexType>
 
     <xs:complexType name="dynamicVariableFiltersType">
@@ -215,15 +213,15 @@
 
     <xs:complexType name="dynamicVariableRegexFilterType">
         <xs:attribute type="xs:string" name="regexp" use="required"/>
-        <xs:attribute type="xs:string" name="select" use="optional"/>
-        <xs:attribute type="xs:string" name="replace" use="optional"/>
-        <xs:attribute type="xs:string" name="defaultvalue" use="optional"/>
-        <xs:attribute type="xs:boolean" name="global" use="optional" default="false"/>
-        <xs:attribute type="xs:boolean" name="casesensitive" use="optional" default="true"/>
+        <xs:attribute type="xs:string" name="select"/>
+        <xs:attribute type="xs:string" name="replace"/>
+        <xs:attribute type="xs:string" name="defaultvalue"/>
+        <xs:attribute type="xs:boolean" name="global" default="false"/>
+        <xs:attribute type="xs:boolean" name="casesensitive" default="true"/>
     </xs:complexType>
 
     <xs:complexType name="dynamicVariableLocationFilterType">
-        <xs:attribute type="xs:string" name="basedir" use="optional"/>
+        <xs:attribute type="xs:string" name="basedir"/>
     </xs:complexType>
 
     <xs:complexType name="dynamicVariableCaseFilterType">
@@ -283,7 +281,7 @@
 
     <xs:complexType name="configurationSectionType" abstract="true">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="configuration" minOccurs="0" maxOccurs="1">
+            <xs:element name="configuration" minOccurs="0">
                 <xs:complexType>
                     <xs:sequence>
                         <!-- <xs:element name="param" type="nameValueType" minOccurs="0" maxOccurs="unbounded"/> -->

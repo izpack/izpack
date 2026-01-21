@@ -2,7 +2,7 @@
 <!--
   ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
   ~
-  ~ http://izpack.org/
+  ~ https://izpack.org/
   ~ http://izpack.codehaus.org/
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +18,7 @@
   ~ limitations under the License.
   -->
 
-<xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://izpack.org/schema/compilation"
            xmlns="http://izpack.org/schema/compilation">
 
@@ -65,8 +63,8 @@
     </xs:complexType>
 
     <xs:complexType name="classpathType">
-        <xs:attribute name="add" type="xs:string" use="optional"/>
-        <xs:attribute name="sub" type="xs:string" use="optional"/>
+        <xs:attribute name="add" type="xs:string"/>
+        <xs:attribute name="sub" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="jobType">

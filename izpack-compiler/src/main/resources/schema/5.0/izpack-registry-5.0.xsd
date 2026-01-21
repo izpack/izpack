@@ -2,7 +2,7 @@
 <!--
   ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
   ~
-  ~ http://izpack.org/
+  ~ https://izpack.org/
   ~ http://izpack.codehaus.org/
   ~
   ~ Copyright 2012 Tim Anderson
@@ -20,9 +20,7 @@
   ~ limitations under the License.
   -->
 
-<xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://izpack.org/schema/registry"
            xmlns="http://izpack.org/schema/registry">
 
@@ -49,7 +47,7 @@
             <xs:element name="value" type="valueType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
         <xs:attribute name="name" type="xs:string" use="required"/>
-        <xs:attribute name="condition" type="xs:string" use="optional"/>
+        <xs:attribute name="condition" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="keyType">
@@ -69,7 +67,7 @@
                 <xs:documentation>Root of the key as symbol.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="rootFallback" type="rootType" use="optional">
+        <xs:attribute name="rootFallback" type="rootType">
             <xs:annotation>
                 <xs:documentation>Fallback root in case root fails.</xs:documentation>
             </xs:annotation>
@@ -99,7 +97,7 @@
             <xs:element name="bin" type="binType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="multi" type="multiType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
-        <xs:attribute name="condition" type="xs:string" use="optional">
+        <xs:attribute name="condition" type="xs:string">
             <xs:annotation>
                 <xs:documentation>The id of condition which has to be fulfilled to write this value into the registry</xs:documentation>
             </xs:annotation>
@@ -111,7 +109,7 @@
         </xs:attribute>
         <xs:attribute name="keypath" type="xs:string" use="required"/>
         <xs:attribute name="root" type="rootType" use="required"/>
-        <xs:attribute name="rootFallback" type="rootType" use="optional">
+        <xs:attribute name="rootFallback" type="rootType">
             <xs:annotation>
                 <xs:documentation>Fallback root in case root fails.</xs:documentation>
             </xs:annotation>

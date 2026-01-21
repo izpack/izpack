@@ -3,7 +3,7 @@
 <izpack:langpack version="5.0"
  xmlns:izpack="http://izpack.org/schema/langpack"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
+ xsi:schemaLocation="http://izpack.org/schema/langpack https://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
     <str id="string" txt="String Text" />
     <str id="string.with.arguments" txt="Argument1: {0}, Argument2: {1}" />

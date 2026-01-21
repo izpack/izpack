@@ -2,7 +2,7 @@
 <!--
   ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
   ~
-  ~ http://izpack.org/
+  ~ https://izpack.org/
   ~ http://izpack.codehaus.org/
   ~
   ~ Copyright 2012 Tim Anderson
@@ -20,15 +20,13 @@
   ~ limitations under the License.
   -->
 
-<xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:types="http://izpack.org/schema/types"
            targetNamespace="http://izpack.org/schema/processing"
            xmlns="http://izpack.org/schema/processing">
 
     <xs:import namespace="http://izpack.org/schema/types"
-               schemaLocation="http://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
+               schemaLocation="https://izpack.org/schema/5.0/izpack-types-5.0.xsd"/>
 
     <xs:element name="processing">
         <xs:complexType>
@@ -50,9 +48,9 @@
             <xs:element name="executeclass" type="executeClassType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
         <xs:attribute name="name" type="xs:string" use="required"/>
-        <xs:attribute name="condition" type="xs:string" use="optional"/>
-        <xs:attribute name="catch" type="xs:boolean" use="optional" default="false"/>
-        <xs:attribute name="final" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="condition" type="xs:string"/>
+        <xs:attribute name="catch" type="xs:boolean" default="false"/>
+        <xs:attribute name="final" type="xs:boolean" default="false"/>
     </xs:complexType>
 
     <xs:complexType name="executeFileType">
@@ -67,8 +65,8 @@
             </xs:element>
         </xs:choice>
         <xs:attribute name="name" type="xs:string" use="required"/>
-        <xs:attribute name="workingDir" type="xs:string" use="optional"/>
-        <xs:attribute name="onError" use="optional" default="ask">
+        <xs:attribute name="workingDir" type="xs:string"/>
+        <xs:attribute name="onError" default="ask">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="ask"/>
@@ -91,14 +89,14 @@
     </xs:complexType>
 
     <xs:complexType name="onFailType">
-        <xs:attribute name="condition" type="xs:string" use="optional"/>
-        <xs:attribute name="previous" type="xs:boolean" use="optional" default="false"/>
-        <xs:attribute name="next" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="condition" type="xs:string"/>
+        <xs:attribute name="previous" type="xs:boolean" default="false"/>
+        <xs:attribute name="next" type="xs:boolean" default="false"/>
     </xs:complexType>
 
     <xs:complexType name="onSuccessType">
-        <xs:attribute name="condition" type="xs:string" use="optional"/>
-        <xs:attribute name="previous" type="xs:boolean" use="optional" default="false"/>
-        <xs:attribute name="next" type="xs:boolean" use="optional" default="true"/>
+        <xs:attribute name="condition" type="xs:string"/>
+        <xs:attribute name="previous" type="xs:boolean" default="false"/>
+        <xs:attribute name="next" type="xs:boolean" default="true"/>
     </xs:complexType>
 </xs:schema>

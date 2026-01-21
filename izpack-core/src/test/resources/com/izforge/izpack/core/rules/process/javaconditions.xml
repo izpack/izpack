@@ -2,7 +2,7 @@
 <izpack:conditions version="5.0"
                    xmlns:izpack="http://izpack.org/schema/conditions"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://izpack.org/schema/conditions http://izpack.org/schema/5.0/izpack-conditions-5.0.xsd">
+                   xsi:schemaLocation="http://izpack.org/schema/conditions https://izpack.org/schema/5.0/izpack-conditions-5.0.xsd">
     <condition type="java" id="java0">
         <java>
             <class>not.existing.Class</class>

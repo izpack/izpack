@@ -2,7 +2,7 @@
 <!--
   ~ IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
   ~
-  ~ http://izpack.org/
+  ~ https://izpack.org/
   ~ http://izpack.codehaus.org/
   ~
   ~ Copyright 2012 Tim Anderson
@@ -20,9 +20,7 @@
   ~ limitations under the License.
   -->
 
-<xs:schema attributeFormDefault="unqualified"
-           elementFormDefault="unqualified"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://izpack.org/schema/antactions"
            xmlns="http://izpack.org/schema/antactions">
 
@@ -145,10 +143,10 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="logfile" type="xs:string" use="optional"/>
-        <xs:attribute name="logfile_append" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="logfile" type="xs:string"/>
+        <xs:attribute name="logfile_append" type="xs:boolean" default="false"/>
         <xs:attribute name="messageid" type="xs:string"/>
-        <xs:attribute name="buildfile" type="xs:string" use="optional">
+        <xs:attribute name="buildfile" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     The Ant buildfile that must be preinstalled before.
@@ -156,7 +154,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="buildresource" type="xs:string" use="optional">
+        <xs:attribute name="buildresource" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     The Ant build resource that must be declared with this name in the resources section.
@@ -164,14 +162,14 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="dir" type="xs:string" use="optional">
+        <xs:attribute name="dir" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     The base directory for the called Ant build.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="condition" type="xs:string" use="optional"/>
+        <xs:attribute name="condition" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="propertyType">

@@ -136,7 +136,7 @@ public class AutomatedInstallDataProviderTest
         writer.write(" version=\"5.0\"");
         writer.write(" xmlns:izpack=\"http://izpack.org/schema/langpack\"");
         writer.write(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
-        writer.write(" xsi:schemaLocation=\"http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd\">\n");
+        writer.write(" xsi:schemaLocation=\"http://izpack.org/schema/langpack https://izpack.org/schema/5.0/izpack-langpack-5.0.xsd\">\n");
         for (String message : messages)
         {
             writer.write("<" + message + "/>\n");
