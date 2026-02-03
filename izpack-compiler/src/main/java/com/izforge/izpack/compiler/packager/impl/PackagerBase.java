@@ -468,6 +468,7 @@ public abstract class PackagerBase implements IPackager
         mergeManager.addResourceToMerge("org/apache/commons/io/");
         mergeManager.addResourceToMerge("jline/");
         mergeManager.addResourceToMerge("org/fusesource/");
+        mergeManager.addResourceToMerge("org/jsoup/");
         switch (info.getCompressionFormat())
         {
             case DEFAULT:

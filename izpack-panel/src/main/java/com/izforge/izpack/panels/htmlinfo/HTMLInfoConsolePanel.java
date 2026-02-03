@@ -54,11 +54,6 @@ public class HTMLInfoConsolePanel extends AbstractTextConsolePanel
     @Override
     protected String getText()
     {
-        String text = resources.getString(panelResourceName, null);
-        if (text != null)
-        {
-            return removeHTML(text);
-        }
-        return null;
+        return removeHTML(resources.getString(panelResourceName, null));
     }
 }

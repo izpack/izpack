@@ -22,8 +22,13 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.installer.util.PanelHelper;
 import com.izforge.izpack.util.Console;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -38,14 +43,14 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(AbstractTextConsolePanel.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AbstractTextConsolePanel.class.getName());
 
     /**
      * Constructs an {@code AbstractTextConsolePanel}.
      *
      * @param panel the parent panel/view. May be {@code null}
      */
-    public AbstractTextConsolePanel(PanelView<ConsolePanel> panel)
+    protected AbstractTextConsolePanel(PanelView<ConsolePanel> panel)
     {
         super(panel);
     }
@@ -100,12 +105,12 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
             }
             catch (IOException e)
             {
-                logger.warning("Displaying multiline text failed: " + e.getMessage());
+                LOGGER.warning("Displaying multiline text failed: " + e.getMessage());
             }
         }
         else
         {
-            logger.warning("No text to display");
+            LOGGER.warning("No text to display");
         }
         return promptEndPanel(installData, console);
     }
@@ -141,93 +146,72 @@ public abstract class AbstractTextConsolePanel extends AbstractConsolePanel
      * Helper to strip HTML from text.
      * From code originally developed by Jan Blok.
      *
-     * @param text the text. May be {@code null}
+     * @param html the text. May be {@code null}
      * @return the text with HTML removed
      */
-    protected String removeHTML(String text)
+    public static String removeHTML(String html)
     {
-        String result = "";
-
-        if (text != null)
+        if (html != null)
         {
-            // chose to keep newline (\n) instead of carriage return (\r) for line breaks.
-
-            // Replace line breaks with space
-            result = text.replaceAll("\r", " ");
-            // Remove step-formatting
-            result = result.replaceAll("\t", "");
-            // Remove repeating spaces because browsers ignore them
-
-            result = result.replaceAll("( )+", " ");
-
-            // we will remove child elements of head except title
-            result = removeHTMLTag(result, "base");
-            result = removeHTMLTag(result, "link");
-            result = removeHTMLTag(result, "meta");
-            result = removeHTMLTag(result, "noscript");
-            result = removeHTMLTag(result, "script");
-            result = removeHTMLTag(result, "style");
-            result = removeHTMLTag(result, "template");
-
-            result = result.replaceAll("[ \\t]*<( )*title([^>])*>[ \\t]*", "<title>");
-            result = result.replaceAll("([ \\t]*<( )*(/)( )*title( )*>[ \\t]*)", "</title>");
-
-            result = removeHTMLTag(result, "sup");
-
-            // insert tabs in spaces of <td> tags
-            result = result.replaceAll("<( )*td([^>])*>", "\t");
-
-            // insert line breaks in places of <BR> and <LI> tags
-            result = result.replaceAll("<( )*br( )*>", "\r");
-            result = result.replaceAll("<( )*li( )*>", "\r");
-
-            // insert line paragraphs (double line breaks) in place
-            // if <P>, <DIV> and <TR> tags
-            result = result.replaceAll("<( )*div([^>])*>", "\r\r");
-            result = result.replaceAll("<( )*tr([^>])*>", "\r\r");
-
-            result = result.replaceAll("(<) h (\\w+) >", "\r");
-            result = result.replaceAll("(\\b) (</) h (\\w+) (>) (\\b)", "");
-            result = result.replaceAll("<( )*p([^>])*>", "\r\r");
-
-            // Remove remaining tags like <a>, links, images,
-            // comments etc - anything that's enclosed inside < >
-            result = result.replaceAll("<[^>]*>", "");
-
-
-            result = result.replaceAll("&bull;", " * ");
-            result = result.replaceAll("&lsaquo;", "<");
-            result = result.replaceAll("&rsaquo;", ">");
-            result = result.replaceAll("&trade;", "(tm)");
-            result = result.replaceAll("&frasl;", "/");
-            result = result.replaceAll("&lt;", "<");
-            result = result.replaceAll("&gt;", ">");
-
-            result = result.replaceAll("&copy;", "(c)");
-            result = result.replaceAll("&reg;", "(r)");
-            result = result.replaceAll("&(.{2,6});", "");
-
-            // Remove extra line breaks and tabs:
-            // replace over 2 breaks with 2 and over 4 tabs with 4.
-            // Prepare first to remove any whitespaces in between
-            // the escaped characters and remove redundant tabs in between line breaks
-            result = result.replaceAll("(\r)( )+(\r)", "\r\r");
-            result = result.replaceAll("(\t)( )+(\t)", "\t\t");
-            result = result.replaceAll("(\t)( )+(\r)", "\t\r");
-            result = result.replaceAll("(\r)( )+(\t)", "\r\t");
-            result = result.replaceAll("(\r)(\t)+(\\r)", "\r\r");
-            result = result.replaceAll("(\r)(\t)+", "\r\t");
-            result = result.replaceAll("\\r", "\n");
-            result = result.replaceAll("[\\t ]+\\n", "\n");
-            result = result.replaceAll("\\n\\n+\\n", "\n\n").trim();
+            final WrappingStringWriter text = new WrappingStringWriter(html.length(), 80);
+            final Document doc = Jsoup.parse(html);
+            final Element titleElement = doc.selectFirst("title");
+            if (titleElement != null)
+            {
+                text.append(titleElement.text());
+            }
+            processNode(doc.body(), true, text);
+            return text.toString()
+                    .replaceAll("(\\R{2})\\R+", "$1") // limit consecutive new lines to 2
+                    .replaceFirst("^\\R+", "") // remove all leading new lines
+                    .replaceFirst("\\R+$", ""); // remove all tailing new lines
         }
-        return result;
+        return "";
     }
 
-    private String removeHTMLTag(String text, String tag)
+    private static void processNode(Node node, boolean stripNewLines, StringWriter text)
     {
-        String result = text.replaceAll("[ \\t]*<( )*" + tag + "([^>])*>[ \\t]*", "<" + tag + ">");
-        result = result.replaceAll("([ \\t]*<( )*(/)( )*" + tag + "( )*>[ \\t]*)", "</" + tag + ">");
-        return result.replaceAll("(<" + tag + ">)(.|\n)*(</" + tag + ">)", "");
+        final String nodeName = node.nodeName().toLowerCase();
+        if (nodeName.startsWith("h"))
+        {
+            text.append("\n").append("\n");
+            node.childNodes().forEach(childNode -> processNode(childNode, stripNewLines, text));
+            return;
+        }
+        else if ("br".equals(nodeName))
+        {
+            text.append("\n");
+        }
+        else if ("li".equals(nodeName))
+        {
+            text.append("\n").append("- ");
+        }
+        else if ("#text".equals(nodeName))
+        {
+            String textContent = node.toString();
+            if (stripNewLines)
+            {
+                textContent = textContent.replaceAll("\\R", "");
+            }
+            // handle html characters....
+            textContent = textContent.replaceAll("&[#a-zA-Z0-9]+;", "");
+            if (!textContent.isEmpty())
+            {
+                text.append(textContent);
+            }
+            return;
+        }
+        else if ("p".equals(nodeName) || "div".equals(nodeName))
+        {
+            text.append("\n");
+            node.childNodes().forEach(childNode -> processNode(childNode, stripNewLines, text));
+            return;
+        }
+        else if ("code".equals(nodeName))
+        {
+            node.childNodes().forEach(childNode -> processNode(childNode, false, text));
+            return;
+        }
+        node.childNodes().forEach(childNode -> processNode(childNode, stripNewLines, text));
     }
 }
