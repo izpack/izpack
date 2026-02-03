@@ -103,6 +103,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         TestConsole console = installer.getConsole();
         console.addScript("HelloPanel", "1");
         console.addScript("InfoPanel", "1");
+        console.addScript("HtmlInfoPanel", "1");
         console.addScript("LicensePanel", "\n", "1");
         console.addScript("TargetPanel", "\n", "O", "1");
 
@@ -145,6 +146,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         TestConsole console = installer.getConsole();
         console.addScript("HelloPanel", "1");
         console.addScript("InfoPanel", "1");
+        console.addScript("HtmlInfoPanel", "1");
         console.addScript("LicensePanel", "\n", "3", "1");
         console.addScript("TargetPanel", "\n", "\n", "1");
 
