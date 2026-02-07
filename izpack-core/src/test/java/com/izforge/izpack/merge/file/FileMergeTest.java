@@ -23,11 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.OutputStream;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.hamcrest.core.Is;
 import org.junit.Test;
@@ -41,53 +37,51 @@ import com.izforge.izpack.matcher.MergeMatcher;
  */
 public class FileMergeTest
 {
-    private Map<OutputStream, List<String>> mergeContent = new HashMap<OutputStream, List<String>>();
-
     @Test
-    public void testMergeSingleFile() throws Exception
+    public void testMergeSingleFile()
     {
-        FileMerge fileMerge = new FileMerge(getClass().getResource("FileMergeTest.class"), mergeContent);
+        FileMerge fileMerge = new FileMerge(getClass().getResource("FileMergeTest.class"));
         assertThat(fileMerge, MergeMatcher.isMergeableContainingFile("FileMergeTest.class"));
     }
 
     @Test
-    public void testMergeDirectory() throws Exception
+    public void testMergeDirectory()
     {
         URL url = ClassLoader.getSystemResource("com/izforge/izpack/merge/test");
-        FileMerge fileMerge = new FileMerge(url, mergeContent);
+        FileMerge fileMerge = new FileMerge(url);
         assertThat(fileMerge, MergeMatcher.isMergeableContainingFile("test/.placeholder"));
     }
 
     @Test
-    public void testMergeDirectoryWithDestination() throws Exception
+    public void testMergeDirectoryWithDestination()
     {
         URL url = ClassLoader.getSystemResource("com/izforge/izpack/merge/test");
-        FileMerge fileMerge = new FileMerge(url, "my/dest/path/", mergeContent);
+        FileMerge fileMerge = new FileMerge(url, "my/dest/path/");
         assertThat(fileMerge, MergeMatcher.isMergeableContainingFile("my/dest/path/.placeholder"));
         assertThat(fileMerge, MergeMatcher.isMergeableContainingFile("my/dest/path/izpack-panel-5.0.0-SNAPSHOT.jar"));
     }
 
     @Test
-    public void testMergeFileWithDestination() throws Exception
+    public void testMergeFileWithDestination()
     {
         URL url = ClassLoader.getSystemResource("com/izforge/izpack/merge/file/FileMergeTest.class");
-        FileMerge fileMerge = new FileMerge(url, "my/dest/path/NewFile.ga", mergeContent);
+        FileMerge fileMerge = new FileMerge(url, "my/dest/path/NewFile.ga");
         assertThat(fileMerge, MergeMatcher.isMergeableContainingFile("my/dest/path/NewFile.ga"));
     }
 
     @Test
-    public void testMergeFileWithRootDestination() throws Exception
+    public void testMergeFileWithRootDestination()
     {
         URL url = ClassLoader.getSystemResource("com/izforge/izpack/merge/file/FileMergeTest.class");
-        FileMerge fileMerge = new FileMerge(url, "NewFile.ga", mergeContent);
+        FileMerge fileMerge = new FileMerge(url, "NewFile.ga");
         assertThat(fileMerge, MergeMatcher.isMergeableContainingFile("NewFile.ga"));
     }
 
 
     @Test
-    public void findFileInDirectory() throws Exception
+    public void findFileInDirectory()
     {
-        FileMerge fileMerge = new FileMerge(ClassLoader.getSystemResource("com/izforge/izpack/merge/test"), mergeContent);
+        FileMerge fileMerge = new FileMerge(ClassLoader.getSystemResource("com/izforge/izpack/merge/test"));
         File file = fileMerge.find(new FileFilter()
         {
             public boolean accept(File pathname)

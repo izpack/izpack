@@ -43,24 +43,20 @@ import com.izforge.izpack.data.CustomData;
 import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.util.FileUtil;
+import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.NoCloseOutputStream;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.jar.Attributes;
 import java.util.jar.JarOutputStream;
-import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 
 /**
@@ -483,7 +479,7 @@ public abstract class PackagerBase implements IPackager
                 mergeManager.addResourceToMerge("org/apache/commons/compress");
         }
         mergeManager.addResourceToMerge("META-INF/native/");
-        mergeManager.merge(installerJar);
+        mergeManager.merge(IoHelper.mergeTarget(installerJar));
     }
 
     /**
