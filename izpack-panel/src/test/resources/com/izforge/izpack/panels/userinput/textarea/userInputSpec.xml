@@ -24,14 +24,15 @@
                   xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
 
     <panel id="textinput">
+        <field type="title" txt="Check text area field test cases" size="2.0" align="right"/>
         <field type="textarea" variable="textarea1">
-            <spec txt="textarea1:" size="20"/>
+            <spec txt="textarea1:" size="15" height="4" />
         </field>
         <field type="textarea" variable="textarea2">
-            <spec txt="textarea2:" size="20" set="textarea2&#10;value"/>
+            <spec txt="textarea2:" size="25" set="textarea2&#10;value"/>
         </field>
         <field type="textarea" variable="textarea3">
-            <spec txt="textarea3:" size="20" set="${textarea3value}"/>
+            <spec txt="textarea3:" size="20" height="10" set="${textarea3value}"/>
         </field>
     </panel>
 </izpack:userinput>

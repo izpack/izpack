@@ -326,6 +326,7 @@ public class IzPackNewMojo extends AbstractMojo
         {
             if (containsExcludedProperty(propertyName))
             {
+                getLog().warn("Excluding Maven property: " + propertyName);
                 continue;
             }
             // TODO: should all user properties be provided as property?
@@ -342,16 +343,23 @@ public class IzPackNewMojo extends AbstractMojo
                 includedProperties.add(propertyName + "=" + value);
                 getLog().debug("Maven property exists: " + propertyName + "=" + value);
             }
-            else if (propertyManager.addProperty(propertyName, value))
+            else if (value == null)
             {
-                includedProperties.add(propertyName + "=" + value);
-                getLog().debug("Maven property added: " + propertyName + "=" + value);
+                getLog().warn("Specified property: " + propertyName + " does not exist");
             }
             else
             {
-                includedProperties.add(propertyName + "=" + existingValue);
-                getLog().warn("Property " + propertyName + "=" + existingValue +
-                        " could not be overridden with maven property " + propertyName + "=" + value);
+                if (propertyManager.addProperty(propertyName, value))
+                {
+                    includedProperties.add(propertyName + "=" + value);
+                    getLog().debug("Maven property added: " + propertyName + "=" + value);
+                }
+                else
+                {
+                    includedProperties.add(propertyName + "=" + existingValue);
+                    getLog().warn("Property " + propertyName + "=" + existingValue +
+                            " could not be overridden with maven property " + propertyName + "=" + value);
+                }
             }
         }
         return includedProperties;

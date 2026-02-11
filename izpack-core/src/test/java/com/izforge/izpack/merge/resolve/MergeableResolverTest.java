@@ -60,9 +60,8 @@ public class MergeableResolverTest
         resource = new File(FileUtil.convertUrlToFilePath(resource) + "!jar/izforge").toURI().toURL();
     }
 
-
     @Test
-    public void testGetMergeableFromURL() throws Exception
+    public void testGetMergeableFromURL()
     {
         Mergeable mergeable = mergeableResolver.getMergeableFromURL(resource);
         assertThat(mergeable, MergeMatcher.isMergeableContainingFile("jar/izforge/izpack/panels/hello/HelloPanel.class"));
@@ -87,12 +86,10 @@ public class MergeableResolverTest
     }
 
     @Test           
-    public void testGetMergeableFromURLWithDestination() throws Exception
+    public void testGetMergeableFromURLWithDestination()
     {
         Mergeable jarMerge = mergeableResolver.getMergeableFromURLWithDestination(resource, "ga");
-        assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("ga/izpack/panels/hello/HelloPanel.class")
-        );
+        assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("ga/izpack/panels/hello/HelloPanel.class"));
     }
-
 
 }

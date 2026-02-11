@@ -143,7 +143,7 @@ public class Pack200FileUnpackerTest extends AbstractFileUnpackerTest
         FileInputStream stream = new FileInputStream(source);
         try
         {
-            IoHelper.copyStreamToJar(stream, srcJar, source.getName(), source.lastModified());
+            IoHelper.copyStreamToJar(outputStream ->  IOUtils.copy(stream, outputStream), srcJar, source.getName(), source.lastModified());
         }
         finally
         {

@@ -490,7 +490,7 @@ public class ShortcutPanelLogic implements CleanupClient
     @Override
     public void cleanUp()
     {
-        if (!installData.isInstallSuccess())
+        if (!installData.isInstallSuccess() && files != null)
         {
             // Shortcuts may have been deleted, but let's try to delete them once again
             for (String file : files)

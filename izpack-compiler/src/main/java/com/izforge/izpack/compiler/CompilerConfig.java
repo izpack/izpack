@@ -614,13 +614,13 @@ public class CompilerConfig extends Thread
                 {
                     throw new CompilerException(url.getFile() + " does not meet the minimal version requirements."
                             + "\nRequired minimal target Java version: " + minimalJavaVersion
-                            + "\nFound class target Java version: 1." + compiler.getJavaVersionExpected());
+                            + "\nFound class target Java version: " + compiler.getJavaVersionExpected());
                 }
                 else
                 {
                     logger.warning(url.getFile() + " does not meet the minimal version requirements which may cause issues during runtime."
                             + "\nRequired minimal target Java version: " + minimalJavaVersion
-                            + "\nFound class target Java version: 1." + compiler.getJavaVersionExpected());
+                            + "\nFound class target Java version: " + compiler.getJavaVersionExpected());
                 }
             }
             compiler.addJar(url, uninstaller);

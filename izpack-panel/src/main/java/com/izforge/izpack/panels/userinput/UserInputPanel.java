@@ -42,9 +42,12 @@ import com.izforge.izpack.panels.userinput.gui.UpdateListener;
 import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -76,9 +79,9 @@ public class UserInputPanel extends IzPanel
 
     private boolean saving = false;
 
-    private final List<GUIField> views = new ArrayList<GUIField>();
+    private final List<GUIField> views = new ArrayList<>();
 
-    private JPanel panel;
+    private final JPanel panel;
 
     private JComponent firstFocusedComponent;
 
@@ -136,7 +139,7 @@ public class UserInputPanel extends IzPanel
                           RulesEngine rules, ObjectFactory factory, final PlatformModelMatcher matcher, Prompt prompt)
     {
         super(panel, parent, installData, resources);
-
+        this.panel = new JPanel();
         this.rules = rules;
         this.factory = factory;
         this.matcher = matcher;
@@ -188,8 +191,6 @@ public class UserInputPanel extends IzPanel
 
         init();
         addScrollPane();
-        Dimension size = getMaximumSize();
-        setSize(size.width, size.height);
         buildUI();
         updateUIElements();
         validate();
@@ -272,8 +273,6 @@ public class UserInputPanel extends IzPanel
 
         setLayout(new BorderLayout());
 
-        panel = new JPanel();
-
         if (spec == null)
         {
             // return if we could not read the spec. further
@@ -291,14 +290,7 @@ public class UserInputPanel extends IzPanel
         // is called that will create the correct UI elements.
         // ----------------------------------------------------
         GUIFieldFactory viewFactory = new GUIFieldFactory(installData, this, parent, delegatingPrompt);
-        UpdateListener listener = new UpdateListener()
-        {
-            @Override
-            public void updated()
-            {
-                updateDialog();
-            }
-        };
+        UpdateListener listener = this::updateDialog;
 
         List<Field> fields = userInputModel.createFields(spec);
         for (Field field : fields)
@@ -353,7 +345,7 @@ public class UserInputPanel extends IzPanel
      */
     private void buildUI()
     {
-        Set<String> affectedVariables = new HashSet<String>();
+        Set<String> affectedVariables = new HashSet<>();
 
         // need to recreate the panel as TwoColumnLayout doesn't correctly support component removal
         panel.removeAll();
@@ -402,15 +394,19 @@ public class UserInputPanel extends IzPanel
                 for (Component component : view.getComponents())
                 {
                     component.setEnabled(enabled);
-                    panel.add(component.getComponent(), component.getConstraints());
+                    JComponent jcomponent = component.getComponent();
+                    jcomponent.setToolTipText(jcomponent.getName());
+                    panel.add(jcomponent, component.getConstraints());
                 }
-                String var = view.getVariable();
-                if (var != null)
+                String variable = view.getVariable();
+                if (variable != null)
                 {
-                    affectedVariables.add(var);
+                    affectedVariables.add(variable);
                 }
             }
         }
+        panel.setPreferredSize(panel.getMinimumSize());
+
         getMetadata().setAffectedVariableNames(affectedVariables);
     }
 
@@ -439,7 +435,8 @@ public class UserInputPanel extends IzPanel
                     if (skipValidation)
                     {
                         view.updateField(prompt, true);
-                    } else if (!view.updateField(prompt))
+                    }
+                    else if (!view.updateField(prompt))
                     {
                         return false;
                     }
@@ -495,8 +492,8 @@ public class UserInputPanel extends IzPanel
             {
                 Set<String> blockedNames = metadata.getAffectedVariableNames();
                 Set<String> originalBlockedNames = installData.getVariables().getBlockedVariableNames(metadata);
-                Set<String> addedBlockedNames = new HashSet<String>();
-                Set<String> removedBlockedNames = new HashSet<String>();
+                Set<String> addedBlockedNames = new HashSet<>();
+                Set<String> removedBlockedNames = new HashSet<>();
                 if (blockedNames != null)
                 {
                     for (String blockedName : blockedNames)
@@ -507,7 +504,7 @@ public class UserInputPanel extends IzPanel
                         }
                     }
                 }
-                if (originalBlockedNames != null)
+                if (originalBlockedNames != null && blockedNames != null)
                 {
                     for (String blockedName : originalBlockedNames)
                     {
@@ -646,14 +643,13 @@ public class UserInputPanel extends IzPanel
      */
     private String getViewSummary(GUIField view)
     {
-        String  associatedVariable, associatedLabel, key, value;
-        associatedVariable = view.getVariable();
-        associatedLabel = view.getSummaryKey();
+        String associatedVariable = view.getVariable();
+        String associatedLabel = view.getSummaryKey();
 
         if (associatedLabel != null)
         {
-            key = installData.getMessages().get(associatedLabel);
-            value = installData.getVariable(associatedVariable);
+            String key = installData.getMessages().get(associatedLabel);
+            String value = installData.getVariable(associatedVariable);
             return (installData.getVariables().replace(key) + " " + value + "<br>");
         }
         return "";

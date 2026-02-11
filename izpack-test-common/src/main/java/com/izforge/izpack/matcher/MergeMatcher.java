@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.izforge.izpack.util.IoHelper;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
@@ -37,7 +38,7 @@ public class MergeMatcher extends TypeSafeMatcher<Mergeable>
         try
         {
             MockOutputStream outputStream = new MockOutputStream();
-            mergeable.merge(outputStream);
+            mergeable.merge(IoHelper.mergeTarget(outputStream));
             List<String> entryName = outputStream.getListEntryName();
 
             boolean match = listMatcher.matches(entryName);

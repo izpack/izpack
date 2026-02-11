@@ -26,14 +26,13 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashMap;
 import java.util.List;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 
+import com.izforge.izpack.util.IoHelper;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.StringContains;
 import org.junit.Test;
@@ -187,9 +186,9 @@ public class JarMergeTest
         // now merge to a mocked JarOutputStream
         URL url = jar.toURI().toURL();
         String jarPath = ResolveUtils.processUrlToJarPath(url);
-        JarMerge merge = new JarMerge(url, jarPath, new HashMap<OutputStream, List<String>>());
+        JarMerge merge = new JarMerge(url, jarPath);
         JarOutputStream output = Mockito.mock(JarOutputStream.class);
-        merge.merge(output);
+        merge.merge(IoHelper.mergeTarget(output));
 
         // verify that the signature files have been excluded
         ArgumentCaptor<ZipEntry> captor = ArgumentCaptor.forClass(ZipEntry.class);

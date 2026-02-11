@@ -117,19 +117,22 @@
             <artifactId>jai_core</artifactId>
           </exclusion>
         </exclusions>
-	  </dependency>
-	  <dependency>
-		<groupId>org.bouncycastle</groupId>
-		<artifactId>bcprov-jdk18on</artifactId>
-		<version>1.80</version>
-	  </dependency>	  
-	  <dependency>
-		<groupId>org.bouncycastle</groupId>
-		<artifactId>bcprov-ext-jdk18on</artifactId>
-		<version>1.78.1</version>
-	  </dependency>	  
-	  <!-- PDF Panel -->
-      
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk18on</artifactId>
+        <version>1.83</version>
+      </dependency>
+      <!-- PDF Panel -->
+
+      <!-- Console Panel -->
+      <dependency>
+        <groupId>org.jsoup</groupId>
+        <artifactId>jsoup</artifactId>
+        <version>1.18.3</version>
+      </dependency>
+      <!-- Console Panel -->
+
       <!-- Commons apache -->
       <dependency>
         <groupId>org.apache.commons</groupId>

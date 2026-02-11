@@ -65,6 +65,7 @@
     <resources>
         <res id="LicencePanel.licence" src="Licence.txt"/>
         <res id="InfoPanel.info" src="Readme.txt"/>
+        <res id="HTMLInfoPanel.readme" src="readme.html"/>
     </resources>
 
     <!-- 
@@ -74,6 +75,7 @@
     <panels>
         <panel classname="HelloPanel"/>
         <panel classname="InfoPanel"/>
+        <panel classname="HTMLInfoPanel" id="readme"/>
         <panel classname="LicencePanel"/>
         <panel classname="TargetPanel"/>
         <panel classname="InstallPanel"/>

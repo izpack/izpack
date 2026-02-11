@@ -20,40 +20,37 @@
 package com.izforge.izpack.merge.file;
 
 import com.izforge.izpack.api.exception.MergeException;
-import com.izforge.izpack.merge.AbstractMerge;
+import com.izforge.izpack.api.merge.MergeTarget;
+import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.merge.resolve.ResolveUtils;
 import com.izforge.izpack.util.FileUtil;
-import com.izforge.izpack.util.IoHelper;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipOutputStream;
 
 /**
  * File merge. Can be a single file or a directory.
  *
  * @author Anthonin Bonnefoy
  */
-public class FileMerge extends AbstractMerge
+public class FileMerge implements Mergeable
 {
 
     private final File sourceToCopy;
 
     private final String destination;
 
-    public FileMerge(URL url, Map<OutputStream, List<String>> mergeContent)
+    public FileMerge(URL url)
     {
-        this(url, "", mergeContent);
+        this(url, "");
     }
 
-    public FileMerge(URL url, String destination, Map<OutputStream, List<String>> mergeContent)
+    public FileMerge(URL url, String destination)
     {
-        this.mergeContent = mergeContent;
         this.sourceToCopy = FileUtil.convertUrlToFile(url);
-
         this.destination = destination;
     }
 
@@ -64,7 +61,7 @@ public class FileMerge extends AbstractMerge
 
     public List<File> recursivelyListFiles(FileFilter fileFilter)
     {
-        List<File> result = new ArrayList<File>();
+        List<File> result = new ArrayList<>();
         findRecursivelyForFiles(fileFilter, sourceToCopy, result);
         return result;
     }
@@ -127,11 +124,11 @@ public class FileMerge extends AbstractMerge
         }
     }
 
-    public void merge(ZipOutputStream outputStream)
+    public void merge(MergeTarget mergeTarget)
     {
         try
         {
-            copyFileToJar(sourceToCopy, outputStream);
+            copyFileToJar(sourceToCopy, mergeTarget);
         }
         catch (IOException e)
         {
@@ -139,7 +136,7 @@ public class FileMerge extends AbstractMerge
         }
     }
 
-    private void copyFileToJar(File fileToCopy, ZipOutputStream outputStream) throws IOException
+    private void copyFileToJar(File fileToCopy, MergeTarget mergeTarget) throws IOException
     {
         if (fileToCopy.isDirectory())
         {
@@ -148,22 +145,19 @@ public class FileMerge extends AbstractMerge
             {
                 for (File file : files)
                 {
-                    copyFileToJar(file, outputStream);
+                    copyFileToJar(file, mergeTarget);
                 }
             }
         }
         else
         {
-            String entryName = resolveName(fileToCopy, this.destination);
-            List<String> mergeList = getMergeList(outputStream);
-            if (mergeList.contains(entryName))
+            mergeTarget.offer(resolveName(fileToCopy, this.destination), fileToCopy.lastModified(), outputStream ->
             {
-                return;
-            }
-            mergeList.add(entryName);
-            FileInputStream inputStream = new FileInputStream(fileToCopy);
-            IoHelper.copyStreamToJar(inputStream, outputStream, entryName, fileToCopy.lastModified());
-            inputStream.close();
+                try (FileInputStream inputStream = new FileInputStream(fileToCopy))
+                {
+                    IOUtils.copy(inputStream, outputStream);
+                }
+            });
         }
     }
 
@@ -174,7 +168,7 @@ public class FileMerge extends AbstractMerge
             return destination;
         }
         String path = ResolveUtils.convertPathToPosixPath(this.sourceToCopy.getAbsolutePath());
-        if (destination.equals(""))
+        if (destination.isEmpty())
         {
             path = ResolveUtils.convertPathToPosixPath(this.sourceToCopy.getParentFile().getAbsolutePath());
         }
@@ -183,12 +177,12 @@ public class FileMerge extends AbstractMerge
         builder.append(destination);
         String absolutePath = ResolveUtils.convertPathToPosixPath(fileToCopy.getAbsolutePath());
         builder.append(absolutePath.replaceAll(path, ""));
-        return builder.toString().replaceAll("//", "/");
+        return builder.toString().replace("//", "/");
     }
 
     private boolean isFile(String destination)
     {
-        return destination.length() != 0 && (!destination.contains("/") || !destination.endsWith("/"));
+        return !destination.isEmpty() && (!destination.contains("/") || !destination.endsWith("/"));
     }
 
     @Override
