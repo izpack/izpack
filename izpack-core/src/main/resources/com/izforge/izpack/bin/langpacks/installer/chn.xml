@@ -5,12 +5,12 @@
                  xsi:schemaLocation="http://izpack.org/schema/langpack https://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
     <!-- AutomatedInstaller strings -->
-    <str id="AutomatedInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="AutomatedInstaller.permissionError" txt="需要管理员权限。请使用管理员权限重新运行安装程序。"/>
 
     <!-- CheckedHelloPanel strings -->
-    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="The uninstall key will be named: "/>
-    <str id="CheckedHelloPanel.productAlreadyExist0" txt="This product is already installed on this computer under the path "/>
-    <str id="CheckedHelloPanel.productAlreadyExist1" txt="Are you sure you want to install another entity?"/>
+    <str id="CheckedHelloPanel.infoOverUninstallKey" txt="卸载密钥将被命名为: "/>
+    <str id="CheckedHelloPanel.productAlreadyExist0" txt="此产品已安装在此计算机上，路径为 "/>
+    <str id="CheckedHelloPanel.productAlreadyExist1" txt="你确定要安装另一个应用程序吗？"/>
 
     <!-- CompilePanel strings -->
     <str id="CompilePanel.additional_arguments" txt="额外的编译器参数:"/>
@@ -34,33 +34,33 @@
     <str id="CompilePanel.progress.overall" txt="总体编译进度："/>
 
     <!-- ConsoleInstaller strings -->
-    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="License rejected"/>
-    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
-    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Quit pressed"/>
-    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
-    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
-    <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
-    <str id="ConsoleInstaller.pagingMore" txt="More"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
-    <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.shutdown.aborted" txt="Console installation ABORTED by the user!"/>
-    <str id="ConsoleInstaller.shutdown.done" txt="Console installation done"/>
-    <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
-    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="There are file operations pending after reboot"/>
-    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Rebooting now automatically"/>
+    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="许可证被拒绝"/>
+    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="按下Ctrl-C键"/>
+    <str id="ConsoleInstaller.aborted.PressedQuit" txt="按下退出键"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="按1接受，按2拒绝，按3重新显示"/>
+    <str id="ConsoleInstaller.continueQuitRedisplay" txt="按1继续，按2退出，按3重新显示"/>
+    <str id="ConsoleInstaller.inputSelection" txt="选择: "/>
+    <str id="ConsoleInstaller.pagingMore" txt="更多"/>
+    <str id="ConsoleInstaller.permissionError" txt="需要管理员权限。请使用管理员权限重新运行安装程序。"/>
+    <str id="ConsoleInstaller.redisplayQuit" txt="按1重新显示，按2退出"/>
+    <str id="ConsoleInstaller.shutdown.aborted" txt="用户已中止控制台安装!"/>
+    <str id="ConsoleInstaller.shutdown.done" txt="控制台安装完成"/>
+    <str id="ConsoleInstaller.shutdown.failed" txt="控制台安装失败!"/>
+    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="重启后仍有文件操作未完成"/>
+    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="正在自动重启"/>
 
     <!-- ConsolePrompt strings -->
     <str id="ConsolePrompt.cancel" txt="C"/>
     <str id="ConsolePrompt.ok" txt="O"/>
-    <str id="ConsolePrompt.okCancel" txt="Enter O for OK, C to Cancel: "/>
+    <str id="ConsolePrompt.okCancel" txt="输入O表示确认，输入C表示取消: "/>
     <str id="ConsolePrompt.no" txt="N"/>
     <str id="ConsolePrompt.yes" txt="Y"/>
-    <str id="ConsolePrompt.yesNo" txt="Enter Y for Yes, N for No: "/>
-    <str id="ConsolePrompt.yesNoCancel" txt="Enter Y for Yes, N for No, or C to Cancel: "/>
+    <str id="ConsolePrompt.yesNo" txt="输入Y表示是，输入N表示否: "/>
+    <str id="ConsolePrompt.yesNoCancel" txt="输入Y表示是，输入N表示否，输入C表示取消: "/>
 
     <!-- FinishPanel strings -->
     <str id="FinishPanel.auto" txt="生成自动安装脚本"/>
-    <str id="FinishPanel.auto.dialog.filterdesc" txt="XML Files"/>
+    <str id="FinishPanel.auto.dialog.filterdesc" txt="XML 文件"/>
     <str id="FinishPanel.auto.tip" txt="使用该脚本可以在其他计算机上反复本次安装."/>
     <str id="FinishPanel.done" txt="完成"/>
     <str id="FinishPanel.fail" txt="安装失败!"/>
@@ -69,66 +69,66 @@
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="取消"/>
-    <str id="installer.cancelled" txt="Installation cancelled"/>
-    <str id="installer.close" txt="Close"/>
-    <str id="installer.continueQuestion" txt="Continue anyway?"/>
-    <str id="installer.copy" txt="Copy"/>
+    <str id="installer.cancelled" txt="安装被取消"/>
+    <str id="installer.close" txt="关闭"/>
+    <str id="installer.continueQuestion" txt="仍要继续吗？"/>
+    <str id="installer.copy" txt="复制"/>
     <str id="installer.error" txt="错误"/>
-    <str id="installer.errorMessage" txt="An error occured"/>
-    <str id="installer.finished" txt="Installation finished"/>
-    <str id="installer.help" txt="Help"/>
-    <str id="installer.help.close" txt="Close"/>
-    <str id="installer.hideDetails" txt="Hide Details"/>
+    <str id="installer.errorMessage" txt="发生错误"/>
+    <str id="installer.finished" txt="安装完成"/>
+    <str id="installer.help" txt="帮助"/>
+    <str id="installer.help.close" txt="关闭"/>
+    <str id="installer.hideDetails" txt="隐藏详情"/>
     <str id="installer.madewith" txt="(由IzPack制作生成 - http://izpack.org/)"/>
-    <str id="installer.Message" txt="Message"/>
+    <str id="installer.Message" txt="消息"/>
     <str id="installer.next" txt="下一步"/>
     <str id="installer.no" txt="否"/>
     <str id="installer.of" txt="of"/>
-    <str id="installer.platform" txt="Platform: {0}"/>
+    <str id="installer.platform" txt="平台: {0}"/>
     <str id="installer.prev" txt="上一步"/>
     <str id="installer.quit" txt="退出"/>
     <str id="installer.quit.message" txt="将取消该安装过程 !"/>
-    <str id="installer.quit.title" txt="是否确定退出?"/>
-    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
-    <str id="installer.reboot.ask.title" txt="Reboot required"/>
-    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
-    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
-    <str id="installer.sendReport" txt="Send Report"/>
-    <str id="installer.showDetails" txt="Show Details"/>
-    <str id="installer.started" txt="Installation started"/>
-    <str id="installer.step" txt="Step"/>
+    <str id="installer.quit.title" txt="是否确定退出？"/>
+    <str id="installer.reboot.ask.message" txt="需要重启以应用某些更改。现在要重启吗？"/>
+    <str id="installer.reboot.ask.title" txt="需要重启"/>
+    <str id="installer.reboot.notice.message" txt="建议重启以应用某些更改。"/>
+    <str id="installer.reboot.notice.title" txt="建议重启"/>
+    <str id="installer.sendReport" txt="发送报告"/>
+    <str id="installer.showDetails" txt="显示详情"/>
+    <str id="installer.started" txt="安装开始"/>
+    <str id="installer.step" txt="步骤"/>
     <str id="installer.title" txt="IzPack - 安装"/>
-    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
-    <str id="installer.version" txt="Framework: {0}"/>
+    <str id="installer.uninstall.writefailed" txt="无法写入卸载信息。"/>
+    <str id="installer.version" txt="框架: {0}"/>
     <str id="installer.warning" txt="警告 !"/>
     <str id="installer.yes" txt="是"/>
 
     <!-- Heading strings -->
-    <str id="CheckedHelloPanel.headline" txt="Welcome"/>
-    <str id="CompilePanel.headline" txt="Compile Java Sources"/>
-    <str id="ConditionalUserInputPanel.headline" txt="User Data"/>
-    <str id="DataCheckPanel.headline" txt="Data Check"/>
-    <str id="FinishPanel.headline" txt="Installation Finished"/>
-    <str id="HelloPanel.headline" txt="Welcome"/>
-    <str id="HTMLInfoPanel.headline" txt="Information"/>
-    <str id="HTMLLicencePanel.headline" txt="Licensing Agreements"/>
-    <str id="ImgPacksPanel.headline" txt="Select Installation Packages"/>
-    <str id="InfoPanel.headline" txt="Information"/>
-    <str id="InstallationTypePanel.headline" txt="Installation Type"/>
-    <str id="InstallPanel.headline" txt="Installation"/>
-    <str id="JDKPathPanel.headline" txt="JDK Path"/>
-    <str id="LicencePanel.headline" txt="Licensing Agreements"/>
-    <str id="PacksPanel.headline" txt="Select Installation Packages"/>
-    <str id="PDFLicencePanel.headline" txt="Licensing Agreements"/>
-    <str id="ProcessPanel.headline" txt="Perform External Processes"/>
-    <str id="ShortcutPanel.headline" txt="Setup Shortcuts"/>
-    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
-    <str id="SimpleFinishPanel.headline" txt="Installation Finished"/>
-    <str id="SummaryPanel.headline" txt="Summary Configuration Data"/>
-    <str id="TargetPanel.headline" txt="Target Path"/>
-    <str id="TreePacksPanel.headline" txt="Select Installation Packages"/>
-    <str id="UserInputPanel.headline" txt="User Data"/>
-    <str id="UserPathPanel.headline" txt="Select Path"/>
+    <str id="CheckedHelloPanel.headline" txt="欢迎"/>
+    <str id="CompilePanel.headline" txt="编译Java源代码"/>
+    <str id="ConditionalUserInputPanel.headline" txt="用户数据"/>
+    <str id="DataCheckPanel.headline" txt="数据检查"/>
+    <str id="FinishPanel.headline" txt="安装完成"/>
+    <str id="HelloPanel.headline" txt="欢迎"/>
+    <str id="HTMLInfoPanel.headline" txt="信息"/>
+    <str id="HTMLLicencePanel.headline" txt="许可协议"/>
+    <str id="ImgPacksPanel.headline" txt="选择安装包"/>
+    <str id="InfoPanel.headline" txt="信息"/>
+    <str id="InstallationTypePanel.headline" txt="安装类型"/>
+    <str id="InstallPanel.headline" txt="安装"/>
+    <str id="JDKPathPanel.headline" txt="JDK 路径"/>
+    <str id="LicencePanel.headline" txt="许可协议"/>
+    <str id="PacksPanel.headline" txt="选择安装包"/>
+    <str id="PDFLicencePanel.headline" txt="许可协议"/>
+    <str id="ProcessPanel.headline" txt="执行外部进程"/>
+    <str id="ShortcutPanel.headline" txt="设置快捷方式"/>
+    <str id="SelectPrinterPanel.headline" txt="选择打印机"/>
+    <str id="SimpleFinishPanel.headline" txt="安装完成"/>
+    <str id="SummaryPanel.headline" txt="配置数据摘要"/>
+    <str id="TargetPanel.headline" txt="目标路径"/>
+    <str id="TreePacksPanel.headline" txt="选择安装包"/>
+    <str id="UserInputPanel.headline" txt="用户数据"/>
+    <str id="UserPathPanel.headline" txt="选择路径"/>
 
     <!-- HelloPanel strings -->
     <str id="HelloPanel.authors" txt="该软件作者 : "/>
@@ -152,36 +152,36 @@
     <str id="InfoPanel.info" txt="请阅读以下信息:"/>
 
     <!-- InstallPanel strings -->
-    <str id="InstallPanel.begin" txt="[Nothing]"/>
+    <str id="InstallPanel.begin" txt="[无]"/>
     <str id="InstallPanel.finished" txt="[完成]"/>
     <str id="InstallPanel.info" txt="点击 '安装 !' 开始安装进程"/>
     <str id="InstallPanel.install" txt="安装 !"/>
-    <str id="InstallPanel.overwrite.question" txt="以下文件已经存在. 是否进行覆盖?"/>
+    <str id="InstallPanel.overwrite.question" txt="以下文件已经存在. 是否进行覆盖？"/>
     <str id="InstallPanel.overwrite.title" txt="文件已经存在"/>
     <str id="InstallPanel.progress" txt="总体安装进度："/>
     <str id="InstallPanel.tip" txt="包安装过程 :"/>
 
     <!-- InstallationGroupPanel strings -->
-    <str id="InstallationGroupPanel.colNameInstallType" txt="InstallType"/>
-    <str id="InstallationGroupPanel.colNameSelected" txt="Selected"/>
-    <str id="InstallationGroupPanel.colNameSize" txt="Size"/>
+    <str id="InstallationGroupPanel.colNameInstallType" txt="安装类型"/>
+    <str id="InstallationGroupPanel.colNameSelected" txt="已选"/>
+    <str id="InstallationGroupPanel.colNameSize" txt="尺寸"/>
 
     <!-- InstallationTypePanel strings -->
-    <str id="InstallationTypePanel.info" txt="Please choose the type of installation:"/>
-    <str id="InstallationTypePanel.modify" txt="Modify installation"/>
-    <str id="InstallationTypePanel.normal" txt="New installation"/>
+    <str id="InstallationTypePanel.info" txt="请选择安装类型:"/>
+    <str id="InstallationTypePanel.modify" txt="修改安装"/>
+    <str id="InstallationTypePanel.normal" txt="新安装"/>
 
     <!-- JDKPathPanel strings -->
-    <str id="JDKPathPanel.badVersion1" txt="The chosen JDK has the wrong version (available: "/>
-    <str id="JDKPathPanel.badVersion2" txt=" required: "/>
-    <str id="JDKPathPanel.badVersion3" txt="). Should this JDK be used anyway?"/>
-    <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
+    <str id="JDKPathPanel.badVersion1" txt="所选JDK的版本错误（可用: "/>
+    <str id="JDKPathPanel.badVersion2" txt=" 所需: "/>
+    <str id="JDKPathPanel.badVersion3" txt="). 仍要使用这个 JDK 吗？"/>
+    <str id="JDKPathPanel.badVersion4" txt="仍要继续吗？ [y/n] [n]"/>
     <str id="JDKPathPanel.browse" txt="浏览 ..."/>
-    <str id="JDKPathPanel.info" txt="Select the JDK path:"/>
-    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
-    <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
-    <str id="JDKPathPanel.notValid" txt="The chosen directory does not contain the required product."/>
-    <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
+    <str id="JDKPathPanel.info" txt="选择JDK路径:"/>
+    <str id="JDKPathPanel.intro" txt="已安装的应用程序需要JDK版本在${JDKPathPanel.minVersion}和${JDKPathPanel.maxVersion}之间。仅安装Java运行时环境（JRE）是不够的。"/>
+    <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;此软件至少需要Java开发工具包（JDK）的 ${JDKPathPanel.minVersion} 版本。&lt;p/&gt; 如果尚未安装，请访问 &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, 下载并安装。&lt;/html&gt;"/>
+    <str id="JDKPathPanel.notValid" txt="所选目录中未包含所需产品。"/>
+    <str id="JDKPathPanel.nonValidPathInReg" txt="Windows注册表中包含的此JDK路径无效。是否仍要使用此JDK？"/>
 
     <!-- LicencePanel strings -->
     <str id="LicencePanel.agree" txt="我接受该许可协议的条款."/>
@@ -191,26 +191,26 @@
     <str id="LicencePanel.yes" txt="是"/>
 
     <!-- Lock File strings -->
-    <str id="LockFile.exists.message" txt="The &quot;$APP_NAME&quot; installer you are attempting to run seems to have a copy already running. This could be from a previous failed installation attempt or you may have accidentally launched the installer twice. The recommended action is to wait for the other copy of the installer to start. If you are sure there is no other copy of the installer running, you can delete the lock file &quot;$LOCK_FILE&quot; and restart the installer."/>
-    <str id="LockFile.exists.prompt" txt="The &quot;$APP_NAME&quot; installer you are attempting to run seems to have a copy already running.&#10;&#10;This could be from a previous failed installation attempt or you may have accidentally launched&#10;the installer twice. The recommended action is to select 'No' and wait for the other copy of&#10;the installer to start. If you are sure there is no other copy of the installer running, click&#10;the 'Yes' button to allow this installer to run.&#10;&#10;Are you sure you want to continue with this installation?"/>
+    <str id="LockFile.exists.message" txt="您尝试运行的 &quot;$APP_NAME&quot; 安装程序似乎已有另一个副本正在运行。这可能是由于之前的安装尝试失败，或者您可能不小心启动了安装程序两次。建议等待另一个安装程序副本启动。如果您确定没有其他安装程序副本正在运行，则可以删除锁定文件 &quot;$LOCK_FILE&quot; 并重新启动安装程序。"/>
+    <str id="LockFile.exists.prompt" txt="您尝试运行的 &quot;$APP_NAME&quot; 安装程序似乎已有副本正在运行。&#10;&#10;这可能是由于之前的安装尝试失败，或者您可能不小心启动了&#10;安装程序两次。 建议的操作是选择“否”，然后等待&#10;安装程序的其他副本启动。如果你确定没有其他安装程序副本正在运行， 点击&#10; “是”按钮以允许此安装程序运行。&#10;&#10;您确定要继续此安装过程吗？"/>
 
     <!-- Next Media strings -->
-    <str id="nextmedia.browsebtn" txt="Browse"/>
-    <str id="nextmedia.cancelbtn" txt="Cancel"/>
-    <str id="nextmedia.choosertitle" txt="Choose install media"/>
-    <str id="nextmedia.filedesc" txt="install packs (.pak*)"/>
-    <str id="nextmedia.msg" txt="Choose the next install media."/>
-    <str id="nextmedia.okbtn" txt="Apply"/>
-    <str id="nextmedia.title" txt="Next install media"/>
+    <str id="nextmedia.browsebtn" txt="浏览"/>
+    <str id="nextmedia.cancelbtn" txt="取消"/>
+    <str id="nextmedia.choosertitle" txt="选择安装介质"/>
+    <str id="nextmedia.filedesc" txt="安装包 (.pak*)"/>
+    <str id="nextmedia.msg" txt="选择下一个安装介质。"/>
+    <str id="nextmedia.okbtn" txt="应用"/>
+    <str id="nextmedia.title" txt="下一个安装介质"/>
 
     <!-- PacksPanel strings -->
-    <str id="PacksPanel.dependencies" txt="Dependencies: "/>
+    <str id="PacksPanel.dependencies" txt="依赖项: "/>
     <str id="PacksPanel.dependencyList" txt="所选包需要安装以下包"/>
     <str id="PacksPanel.description" txt="描述"/>
-    <str id="PacksPanel.excludes" txt="Excludes: "/>
+    <str id="PacksPanel.excludes" txt="排除项: "/>
     <str id="PacksPanel.freespace" txt="有效空间: "/>
     <str id="PacksPanel.info" txt="选择你要安装的包 :"/>
-    <str id="PacksPanel.notAscertainable" txt="not ascertainable"/>
+    <str id="PacksPanel.notAscertainable" txt="无法确定"/>
     <str id="PacksPanel.notEnoughSpace" txt="安装要求的磁盘空间超出了可用的磁盘空间."/>
     <str id="PacksPanel.space" txt="总需求空间: "/>
     <str id="PacksPanel.tip" txt="注意: 灰色选项是必选的."/>
@@ -222,45 +222,45 @@
     <str id="ProcessPanel.heading" txt="处理中"/>
 
     <!-- Registry strings -->
-    <str id="functionFailed.RegOpenKeyEx" txt="Cannot open registry key {0}\\{1}."/>
+    <str id="functionFailed.RegOpenKeyEx" txt="无法打开注册表项 {0}\\{1}."/>
 
     <!-- Select Printer Panel strings -->
-    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
-    <str id="SelectPrinterPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.no_printer" txt="没有可用的打印机进行初始设置和测试。"/>
+    <str id="SelectPrinterPanel.select_printer" txt="选择打印机用于初始设置和测试。"/>
 
     <!-- SudoPanel strings -->
-    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
-    <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
-    <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
-    <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
+    <str id="SudoPanel.info" txt="需要管理员权限进行安装"/>
+    <str id="SudoPanel.invalidPassword" txt="密码无效或非管理员权限"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="请指定您的密码:"/>
+    <str id="SudoPanel.tip" txt="请注意，密码区分大小写"/>
 
     <!-- TargetPanel strings -->
     <str id="TargetPanel.browse" txt="浏览 ..."/>
     <str id="TargetPanel.createdir" txt="目标目录将创建在 :"/>
     <str id="TargetPanel.empty_target" txt="你没有指定目标路径! 是否正确?"/>
     <str id="TargetPanel.exists_warn" txt="目录已经存在 ! 可能覆盖现存文件，是否确定在此安装?"/>
-    <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.incompatibleInstallation" txt="检测到不兼容的安装。请先卸载现有版本，或选择其他目录进行安装。"/>
     <str id="TargetPanel.info" txt="选择安装路径 :"/>
-    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="TargetPanel.isfile" txt="您已输入了一个文件路径。请选择一个新目录或已有目录的路径。"/>
     <str id="TargetPanel.nodir" txt="该文件不是目录! 请选择一个目录!"/>
-    <str id="TargetPanel.notValid" txt="The chosen directory does not contain the required product."/>
+    <str id="TargetPanel.notValid" txt="所选目录中未包含所需产品。"/>
     <str id="TargetPanel.notwritable" txt="目录无法写入! 请选择其他目录!"/>
-    <str id="TargetPanel.required" txt="The chosen directory should exist."/>
-    <str id="TargetPanel.required.forModificationInstallation" txt="The chosen directory should exist."/>
-    <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TargetPanel.required" txt="所选目录应存在。"/>
+    <str id="TargetPanel.required.forModificationInstallation" txt="所选目录应存在。"/>
+    <str id="TargetPanel.syntax.error" txt="无效的目录路径。请输入符合操作系统要求的目录路径。"/>
 
     <!-- TreePacksPanel Strings -->
-    <str id="TreePacksPanel.children" txt="Children"/>
-    <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
-    <str id="TreePacksPanel.dependent" txt="Dependencies"/>
-    <str id="TreePacksPanel.done" txt="Done!"/>
-    <str id="TreePacksPanel.invalid" txt="Invalid pack selected"/>
-    <str id="TreePacksPanel.no.number" txt="Please enter a number from the selection above."/>
-    <str id="TreePacksPanel.no.packs" txt="You have not selected any packs!\nAre you sure you want to continue?"/>
-    <str id="TreePacksPanel.prompt" txt="Please select which packs you want to install."/>
-    <str id="TreePacksPanel.required" txt="Required"/>
-    <str id="TreePacksPanel.space.required" txt="Total space required:"/>
-    <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+    <str id="TreePacksPanel.children" txt="子项"/>
+    <str id="TreePacksPanel.confirm" txt="按0确认您的选择。"/>
+    <str id="TreePacksPanel.dependent" txt="依赖项"/>
+    <str id="TreePacksPanel.done" txt="完成!"/>
+    <str id="TreePacksPanel.invalid" txt="所选包无效"/>
+    <str id="TreePacksPanel.no.number" txt="请从上方选项中选择一个数字输入。"/>
+    <str id="TreePacksPanel.no.packs" txt="您尚未选择任何包！\n确定要继续吗？"/>
+    <str id="TreePacksPanel.prompt" txt="请选择您想要安装的包。"/>
+    <str id="TreePacksPanel.required" txt="必填项"/>
+    <str id="TreePacksPanel.space.required" txt="所需总空间："/>
+    <str id="TreePacksPanel.unselectable" txt="不可选择"/>
 
     <!-- Uninstaller specific strings -->
     <str id="uninstaller.destroytarget" txt=" 强制删除 "/>
@@ -273,9 +273,9 @@
     <!-- ShortcutPanel strings -->
     <str id="ShortcutPanel.alternate.apology" txt="很遗憾IzPack不支持在当前操作系统上创建快捷方式. 创建快捷方式，请参考操作系统手册."/>
     <str id="ShortcutPanel.alternate.saveButton" txt="保存文本文件"/>
-    <str id="ShortcutPanel.alternate.targetsLabel" txt="The following is a list of targets that the manufacturer of this software product wanted you to have access to."/>
+    <str id="ShortcutPanel.alternate.targetsLabel" txt="以下是本软件产品制造商希望您访问的目标列表。"/>
     <str id="ShortcutPanel.alternate.textFileExplanation" txt="为了以后参考，你可以把应用程序目标的详细信息保存在文本文件."/>
-    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.group.error" txt="无效的程序组名称。请输入字母数字组合的字符串。"/>
     <str id="ShortcutPanel.location.applications" txt="应用程序菜单"/>
     <str id="ShortcutPanel.location.desktop" txt="桌面"/>
     <str id="ShortcutPanel.location.startMenu" txt="开始菜单"/>
@@ -286,106 +286,106 @@
     <str id="ShortcutPanel.regular.default" txt="重置"/>
     <str id="ShortcutPanel.regular.desktop" txt="在桌面创建快捷方式"/>
     <str id="ShortcutPanel.regular.list" txt="选择快捷方式的程序组:"/>
-    <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="XDG-Menu"/>
-    <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Start-Menu"/>
-    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="XDG菜单"/>
+    <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="开始菜单"/>
+    <str id="ShortcutPanel.regular.startup" txt="开机自启动"/>
     <str id="ShortcutPanel.regular.userIntro" txt="创建快捷方式:"/>
     <str id="ShortcutPanel.textFile.command" txt="命令行            : "/>
     <str id="ShortcutPanel.textFile.description" txt="描述              : "/>
-    <str id="ShortcutPanel.textFile.header" txt="快捷方式信息\n====================\n\nThe following is a listing of all relevant information about the intended\nshortcuts. 该信息让手动创建快捷方式成为可能.\n"/>
+    <str id="ShortcutPanel.textFile.header" txt="快捷方式信息\n====================\n\n以下是关于预设快捷方式的所有相关信息的\n列表。该信息让手动创建快捷方式成为可能。\n"/>
     <str id="ShortcutPanel.textFile.iconIndex" txt="图标索引          : "/>
     <str id="ShortcutPanel.textFile.iconName" txt="图标文件          : "/>
-    <str id="ShortcutPanel.textFile.location" txt="Intended Location : "/>
+    <str id="ShortcutPanel.textFile.location" txt="预设位置 : "/>
     <str id="ShortcutPanel.textFile.name" txt="快捷方式          : "/>
     <str id="ShortcutPanel.textFile.target" txt="快捷目标          : "/>
     <str id="ShortcutPanel.textFile.work" txt="工作目录          : "/>
 
     <!-- SummaryPanel strings -->
-    <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
-    <str id="ImgPacksPanel.summaryCaption" txt="Chosen Installation Packs"/>
-    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
-    <str id="InstallationTypePanel.summaryCaption" txt="Installation Type"/>
-    <str id="JDKPathPanel.summaryCaption" txt="JDK Path"/>
-    <str id="PacksPanel.summaryCaption" txt="Chosen Installation Packs"/>
-    <str id="SummaryPanel.info" txt="Installation will proceed with the following settings. Press Next to continue."/>
-    <str id="SummaryPanel.next" txt="Next"/>
-    <str id="TargetPanel.summaryCaption" txt="Installation Path"/>
-    <str id="TreePacksPanel.summaryCaption" txt="Chosen Installation Packs"/>
-    <str id="UserPathPanel.summaryCaption" txt="Selected Path"/>
+    <str id="DefaultTargetPanel.summaryCaption" txt="安装路径"/>
+    <str id="ImgPacksPanel.summaryCaption" txt="选定的安装包"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="选定的安装功能"/>
+    <str id="InstallationTypePanel.summaryCaption" txt="安装类型"/>
+    <str id="JDKPathPanel.summaryCaption" txt="JDK 路径"/>
+    <str id="PacksPanel.summaryCaption" txt="选定的安装包"/>
+    <str id="SummaryPanel.info" txt="安装将按以下设置继续进行。点击“下一步”继续。"/>
+    <str id="SummaryPanel.next" txt="下一步"/>
+    <str id="TargetPanel.summaryCaption" txt="安装路径"/>
+    <str id="TreePacksPanel.summaryCaption" txt="选定的安装包"/>
+    <str id="UserPathPanel.summaryCaption" txt="选定路径"/>
 
     <!-- UserInputPanel strings -->
-    <str id="UserInputPanel.custom.console.add" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, {3} to add a row, and {4} to quit"/>
-    <str id="UserInputPanel.custom.console.add.and.remove" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, {3} to add a row, {4} to remove the last row, and {5} to quit"/>
-    <str id="UserInputPanel.custom.console.no.add.remove" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, and {3} to quit"/>
-    <str id="UserInputPanel.custom.console.remove" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, {3} to remove the last row, and {4} to quit"/>
-    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
-    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
-    <str id="UserInputPanel.dir.nodirectory.caption" txt="No Directory Selected"/>
-    <str id="UserInputPanel.dir.nodirectory.message" txt="You must select a valid directory."/>
-    <str id="UserInputPanel.dir.notdirectory.caption" txt="Invalid Directory"/>
-    <str id="UserInputPanel.dir.notdirectory.message" txt="The directory you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.custom.console.add" txt="请输入行号 1..{0} 进行编辑, {1} 接受全部, {2} 重新显示, {3} 添加行, {4} 退出"/>
+    <str id="UserInputPanel.custom.console.add.and.remove" txt="请输入行号 1..{0} 进行编辑, {1} 接受全部, {2} 重新显示, {3} 添加行 {4} 删除最后一行, {5}退出"/>
+    <str id="UserInputPanel.custom.console.no.add.remove" txt="请输入行号 1..{0} 进行编辑, {1} 接受全部, {2} 重新显示, {3} 退出"/>
+    <str id="UserInputPanel.custom.console.remove" txt="请输入行号 1..{0} 进行编辑, {1} 接受全部, {2} 重新显示, {3} 删除最后一行, {4}退出"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="添加"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="删除"/>
+    <str id="UserInputPanel.dir.nodirectory.caption" txt="未选择目录"/>
+    <str id="UserInputPanel.dir.nodirectory.message" txt="您必须选择一个有效目录。"/>
+    <str id="UserInputPanel.dir.notdirectory.caption" txt="无效目录"/>
+    <str id="UserInputPanel.dir.notdirectory.message" txt="您选择的目录不存在或无效。"/>
     <str id="UserInputPanel.error.caption" txt="录入问题"/>
-    <str id="UserInputPanel.file.nofile.caption" txt="No File Selected"/>
-    <str id="UserInputPanel.file.nofile.message" txt="You must select a valid file."/>
-    <str id="UserInputPanel.file.notfile.caption" txt="Invalid File"/>
-    <str id="UserInputPanel.file.notfile.message" txt="The file you have chosen either does not exist or is not valid."/>
+    <str id="UserInputPanel.file.nofile.caption" txt="未选择文件"/>
+    <str id="UserInputPanel.file.nofile.message" txt="您必须选择一个有效文件。"/>
+    <str id="UserInputPanel.file.notfile.caption" txt="无效文件"/>
+    <str id="UserInputPanel.file.notfile.message" txt="您选择的文件不存在或无效。"/>
     <str id="UserInputPanel.search.autodetect" txt="自动检测"/>
     <str id="UserInputPanel.search.autodetect.failed.caption" txt="自动检测失败."/>
     <str id="UserInputPanel.search.autodetect.failed.message" txt="自动检测失败."/>
     <str id="UserInputPanel.search.autodetect.tooltip" txt="在给定路径中检查文件或目录."/>
     <str id="UserInputPanel.search.browse" txt="浏览..."/>
-    <str id="UserInputPanel.search.delete" txt="Delete..."/>
+    <str id="UserInputPanel.search.delete" txt="删除..."/>
     <str id="UserInputPanel.search.location" txt="输入{0}的路径."/>
-    <str id="UserInputPanel.search.location.checkedfile" txt="The existence of {0} is checked."/>
+    <str id="UserInputPanel.search.location.checkedfile" txt="已检查 {0} 是否存在。"/>
     <str id="UserInputPanel.search.wrongselection.caption" txt="无效选项."/>
     <str id="UserInputPanel.search.wrongselection.message" txt="你选择的文件或目录不存在或者不正确."/>
 
     <!-- UserPathPanel strings -->
-    <str id="UserPathPanel.browse" txt="Browse"/>
-    <str id="UserPathPanel.createdir" txt="The target directory will be created: "/>
-    <str id="UserPathPanel.empty_target" txt="You have not specified a target location! Is this correct?"/>
-    <str id="UserPathPanel.exists_warn" txt="The directory already exists! Are you sure you want to install here and possibly overwrite existing files?"/>
-    <str id="UserPathPanel.info" txt="Select the path: "/>
-    <str id="UserPathPanel.nodir" txt="This file is not a directory! Please choose a directory!"/>
-    <str id="UserPathPanel.notwritable" txt="This directory can not be written! Please choose another directory!"/>
-    <str id="UserPathPanel.required" txt="The chosen directory should exist."/>
+    <str id="UserPathPanel.browse" txt="浏览"/>
+    <str id="UserPathPanel.createdir" txt="目标目录将被创建: "/>
+    <str id="UserPathPanel.empty_target" txt="您尚未指定目标位置！这样是否正确？"/>
+    <str id="UserPathPanel.exists_warn" txt="该目录已存在！您确定要在此处安装并可能覆盖现有文件吗？"/>
+    <str id="UserPathPanel.info" txt="选择路径: "/>
+    <str id="UserPathPanel.nodir" txt="此文件不是目录！请选择一个目录！"/>
+    <str id="UserPathPanel.notwritable" txt="无法写入此目录！请选择其他目录！"/>
+    <str id="UserPathPanel.required" txt="所选目录应存在。"/>
 
     <!-- This string defines the time stamp format in the installation report.
          The format details are documented in java.text.SimpleDateFormat -->
     <str id="log.timeStamp" txt="MM-dd-yyyy [HH:mm:ss] zzzz"/>
 
     <!-- Strings for various purposes in the logging/reporting system -->
-    <str id="log.application" txt="Installation report for : {0} Version {1}"/>
-    <str id="log.errorHeading" txt="                                --- Errors ---"/>
+    <str id="log.application" txt="安装报告 : {0} 版本 {1}"/>
+    <str id="log.errorHeading" txt="                                --- 错误 ---"/>
     <str id="log.errorPrefix" txt="Error [{0}] - "/>
-    <str id="log.exceptionPrefix" txt="                 &gt;&gt; Exception: {0}"/>
-    <str id="log.informUserFail" txt="&lt;html&gt;The installation did not succeed!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
-    <str id="log.informUserPartial" txt="&lt;html&gt;The installation might not have completely succeeded!&lt;br&gt;Would you like to write a log file?&lt;/html&gt;"/>
-    <str id="log.informUserTitle" txt="Installation Problems"/>
-    <str id="log.installFailed" txt="WARNING!!! The installation did not succeed!"/>
+    <str id="log.exceptionPrefix" txt="                 &gt;&gt; 例外: {0}"/>
+    <str id="log.informUserFail" txt="&lt;html&gt;安装未成功！&lt;br&gt;您想写一个日志文件吗？&lt;/html&gt;"/>
+    <str id="log.informUserPartial" txt="&lt;html&gt;安装可能没有完全成功！&lt;br&gt;您想写一个日志文件吗？&lt;/html&gt;"/>
+    <str id="log.informUserTitle" txt="安装问题"/>
+    <str id="log.installFailed" txt="警告!!! 安装未成功!"/>
     <str id="log.LogFileName" txt="installLog.txt"/>
-    <str id="log.messageCount" txt="This report contains {0} general message(s), {1} warning(s) and {2} error(s)"/>
-    <str id="log.messageHeading" txt="                         --- Installation Messages ---"/>
-    <str id="log.messagePrefix" txt="Message  [{0}] - "/>
-    <str id="log.partialInstall" txt="WARNING!!! The installation might not have completely succeeded!"/>
-    <str id="log.pathPrefix" txt="Install directory       : {0}"/>
-    <str id="log.reportHeading" txt="                           IzPack INSTALLATION REPORT"/>
-    <str id="log.reportWriteError" txt="Unable to write the installation report to ''{0}''"/>
-    <str id="log.reportWriteErrorTitle" txt="Error writing report"/>
-    <str id="log.saveLogTitle" txt="Save Log File"/>
-    <str id="log.timePrefix" txt="Install time            : {0}"/>
-    <str id="log.warningHeading" txt="                               --- Warnings ---"/>
-    <str id="log.warningPrefix" txt="Warning [{0}] - "/>
+    <str id="log.messageCount" txt="此报告包含 {0} 条一般消息, {1} 条警告和 {2} 条错误"/>
+    <str id="log.messageHeading" txt="                         --- 安装信息 ---"/>
+    <str id="log.messagePrefix" txt="信息  [{0}] - "/>
+    <str id="log.partialInstall" txt="警告!!! 安装可能没有完全成功!"/>
+    <str id="log.pathPrefix" txt="安装路径       : {0}"/>
+    <str id="log.reportHeading" txt="                           IzPack 安装报告"/>
+    <str id="log.reportWriteError" txt="无法将安装报告写入 ''{0}''"/>
+    <str id="log.reportWriteErrorTitle" txt="报告写入错误"/>
+    <str id="log.saveLogTitle" txt="保存日志文件"/>
+    <str id="log.timePrefix" txt="安装时间            : {0}"/>
+    <str id="log.warningHeading" txt="                               --- 警告 ---"/>
+    <str id="log.warningPrefix" txt="警告 [{0}] - "/>
 
     <!-- Strings for individual messages in the logging/reporting system.
          Numbers for each category (message/warning/error) start at 0 -->
-    <str id="debug.changevariable" txt="modify value"/>
-    <str id="debug.deletevariable" txt="delete value"/>
-    <str id="log.error_0" txt="unable to write ''{0}''"/>
+    <str id="debug.changevariable" txt="修改值"/>
+    <str id="debug.deletevariable" txt="删除值"/>
+    <str id="log.error_0" txt="无法写 ''{0}''"/>
     <str id="log.message_" txt=""/>
     <str id="log.warning_" txt=""/>
 
-    <str id="data.validation.error.title" txt="Validation failed"/>
-    <str id="data.validation.warning.title" txt="Attention needed"/>
+    <str id="data.validation.error.title" txt="验证失败"/>
+    <str id="data.validation.warning.title" txt="请注意"/>
 
 </izpack:langpack>
