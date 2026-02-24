@@ -28,6 +28,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,9 +81,7 @@ public class TemporaryDirectory implements CleanupClient
     {
         try
         {
-            tempdir = File.createTempFile(tempDirDescription.getPrefix(), tempDirDescription.getSuffix());
-            tempdir.delete();
-            tempdir.mkdir();
+            tempdir = Files.createTempDirectory(tempDirDescription.getPrefix() + tempDirDescription.getSuffix()).toFile();
         }
         catch (IOException e)
         {
