@@ -91,7 +91,7 @@ jobs:
             OSSINDEX_USERNAME: ${{ secrets.OSSINDEX_USERNAME }}
             OSSINDEX_PASSWORD: ${{ secrets.OSSINDEX_PASSWORD }}
           run: ./mvnw -V -B --settings .github/workflows/settings.xml dependency-check:check
-          timeout-minutes: 5
+          timeout-minutes: 20
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
