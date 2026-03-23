@@ -84,6 +84,11 @@ jobs:
             name: jdk21-m2-repository
             path: ~/.m2/repository/org/codehaus/izpack
 
+        - uses: actions/cache@v3
+          with:
+            key: owasp-data
+            path: ~/.m2/repository//org/owasp/dependency-check-data
+
         - name: OWASP dependency check
           if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
           env:
