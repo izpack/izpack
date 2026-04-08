@@ -16,23 +16,30 @@
 
 package com.izforge.izpack.util;
 
-import com.izforge.izpack.api.data.ConsolePrefs;
-import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.api.exception.UserInterruptException;
-import jline.Terminal;
-import jline.UnsupportedTerminal;
-import jline.console.ConsoleReader;
-import jline.console.completer.FileNameCompleter;
-import jline.internal.Log;
-
 import java.awt.event.KeyEvent;
-import java.io.*;
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.Flushable;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.jline.builtins.Completers.FileNameCompleter;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.impl.LineReaderImpl;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.InfoCmp;
+
+import com.izforge.izpack.api.data.ConsolePrefs;
+import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.exception.UserInterruptException;
 
 /**
  * I/O streams to support prompting and keyboard input from the console.
@@ -48,7 +55,7 @@ public class Console
     /**
      * Console reader.
      */
-    private ConsoleReader consoleReader;
+    private LineReader consoleReader;
 
     /**
      * File name completer allows for tab completion on files and directories.
@@ -67,13 +74,6 @@ public class Console
     {
         this.installData = installData;
 
-        Log.setOutput(new PrintStream(new OutputStream() {
-            @Override
-            public void write(int b) throws IOException
-            {
-            }
-        }));
-
         if (prefs.enableConsoleReader)
         {
             initConsoleReader();
@@ -89,15 +89,31 @@ public class Console
     {
         try
         {
-            this.consoleReader = new ConsoleReader("IzPack", new FileInputStream(FileDescriptor.in), System.out, null);
-            this.consoleReader.setHandleUserInterrupt(true);
-            Terminal terminal = consoleReader.getTerminal();
-            if (terminal == null || terminal instanceof UnsupportedTerminal)
-            {
-                consoleReader.shutdown();
+            	Terminal terminal;
+            	try {
+                terminal = TerminalBuilder.builder()
+                    .name("IzPack")
+                    .system(true)
+                    .streams(new FileInputStream(FileDescriptor.in), System.out)
+                    .build();
+            } catch (IOException e) {
                 throw new Throwable("Terminal not initialized");
             }
+    
+            // Check for dumb/unsupported terminal (replaces UnsupportedTerminal check)
+            if (terminal.getType().equals(Terminal.TYPE_DUMB) || 
+                terminal.getType().equals(Terminal.TYPE_DUMB_COLOR)) {
+                terminal.close();
+                throw new Throwable("Terminal not initialized");
+            }
+    
             fileNameCompleter = new FileNameCompleter();
+    
+            // LineReader replaces ConsoleReader
+            consoleReader = LineReaderBuilder.builder()
+                .terminal(terminal)
+                .completer(fileNameCompleter)
+                .build();
         }
         catch (Throwable t)
         {
@@ -115,7 +131,7 @@ public class Console
         int c = -1;
         if (consoleReader != null)
         {
-            c = consoleReader.readCharacter();
+            c = ((LineReaderImpl)consoleReader).readCharacter();
         }
         else if (console != null)
         {
@@ -141,7 +157,7 @@ public class Console
             {
                 return consoleReader.readLine();
             }
-            catch (jline.console.UserInterruptException e)
+            catch (org.jline.reader.UserInterruptException e)
             {
                 throw new UserInterruptException(installData.getMessages().get("ConsoleInstaller.aborted.PressedCTRL-C"), e);
             }
@@ -161,7 +177,7 @@ public class Console
     {
         if (consoleReader != null)
         {
-            consoleReader.flush();
+        	((Flushable)consoleReader).flush();
         }
         else if (console != null)
         {
@@ -194,7 +210,8 @@ public class Console
             {
                 Terminal terminal = consoleReader.getTerminal();
                 width = terminal.getWidth();
-                wrapLineFull = terminal.hasWeirdWrap();
+                // "eat_newline_glitch" (xn) — terminal eats newline after wrap, which is the "weird wrap" behavior
+                wrapLineFull = terminal.getBooleanCapability(InfoCmp.Capability.eat_newline_glitch);
             }
 
             text = WordUtil.wordWrap(text, width, wrapLineFull);
@@ -218,7 +235,8 @@ public class Console
         {
             Terminal terminal = consoleReader.getTerminal();
             width = terminal.getWidth();
-            wrapLineFull = terminal.hasWeirdWrap();
+            // "eat_newline_glitch" (xn) — terminal eats newline after wrap, which is the "weird wrap" behavior
+            wrapLineFull = terminal.getBooleanCapability(InfoCmp.Capability.eat_newline_glitch);
         }
         print(c, width);
         if (wrapLineFull)
@@ -455,7 +473,7 @@ public class Console
         String result;
         if (consoleReader != null)
         {
-            consoleReader.addCompleter(fileNameCompleter);
+            ((LineReaderImpl)consoleReader).setCompleter(fileNameCompleter);
 
             println(prompt);
             try
@@ -478,18 +496,18 @@ public class Console
                     break;
                 }
             }
-            catch (jline.console.UserInterruptException e)
+            catch (org.jline.reader.UserInterruptException e)
             {
                 throw new UserInterruptException(installData.getMessages().get("ConsoleInstaller.aborted.PressedCTRL-C"), e);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 result = null;
                 logger.log(Level.WARNING, e.getMessage(), e);
             }
             finally
             {
-                consoleReader.removeCompleter(fileNameCompleter);
+                ((LineReaderImpl)consoleReader).setCompleter(fileNameCompleter);
             }
         }
         else
@@ -537,7 +555,7 @@ public class Console
         {
             while(!submitted)
             {
-                switch (ch = consoleReader.readCharacter())
+                switch (ch = ((LineReaderImpl)consoleReader).readCharacter())
                 {
                     case -1:
                     case '\n':
@@ -560,7 +578,7 @@ public class Console
                 }
             }
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             result = null;
             logger.log(Level.WARNING, e.getMessage(), e);
