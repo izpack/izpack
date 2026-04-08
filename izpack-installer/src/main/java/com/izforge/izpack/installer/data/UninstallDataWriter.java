@@ -210,8 +210,7 @@ public class UninstallDataWriter
         uninstallerMerge.addAll(pathResolver.getMergeableFromPath("org/apache/commons/io/"));
 
         //required by console uninstaller
-        uninstallerMerge.addAll(pathResolver.getMergeableFromPath("jline/"));
-        uninstallerMerge.addAll(pathResolver.getMergeableFromPath("org/fusesource/"));
+        uninstallerMerge.addAll(pathResolver.getMergeableFromPath("org/jline/"));
 
         if (!uninstallData.getUninstallerListeners().isEmpty())
         {
