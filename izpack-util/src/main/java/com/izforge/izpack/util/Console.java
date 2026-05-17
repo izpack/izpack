@@ -20,17 +20,13 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
-import java.io.Flushable;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.jline.builtins.Completers.FileNameCompleter;
-import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
@@ -55,7 +51,7 @@ public class Console
     /**
      * Console reader.
      */
-    private LineReader consoleReader;
+    private LineReaderImpl consoleReader;
 
     /**
      * File name completer allows for tab completion on files and directories.
@@ -110,7 +106,7 @@ public class Console
             fileNameCompleter = new FileNameCompleter();
     
             // LineReader replaces ConsoleReader
-            consoleReader = LineReaderBuilder.builder()
+            consoleReader = (LineReaderImpl) LineReaderBuilder.builder()
                 .terminal(terminal)
                 .completer(fileNameCompleter)
                 .build();
@@ -131,7 +127,7 @@ public class Console
         int c = -1;
         if (consoleReader != null)
         {
-            c = ((LineReaderImpl)consoleReader).readCharacter();
+            c = consoleReader.readCharacter();
         }
         else if (console != null)
         {
@@ -177,7 +173,7 @@ public class Console
     {
         if (consoleReader != null)
         {
-        	((Flushable)consoleReader).flush();
+            consoleReader.flush();
         }
         else if (console != null)
         {
@@ -186,18 +182,6 @@ public class Console
         {
             System.out.flush();
         }
-    }
-
-    private List<CharSequence> getLines(String text)
-    {
-        List<CharSequence> lines = new LinkedList<CharSequence>();
-        StringTokenizer line = new StringTokenizer(text, "\n");
-        while (line.hasMoreTokens())
-        {
-            String token = line.nextToken();
-            lines.add(token);
-        }
-        return lines;
     }
 
     public void printMultiLine(String text, boolean wrap, boolean paging) throws IOException
@@ -473,7 +457,7 @@ public class Console
         String result;
         if (consoleReader != null)
         {
-            ((LineReaderImpl)consoleReader).setCompleter(fileNameCompleter);
+            consoleReader.setCompleter(fileNameCompleter);
 
             println(prompt);
             try
@@ -507,7 +491,7 @@ public class Console
             }
             finally
             {
-                ((LineReaderImpl)consoleReader).setCompleter(fileNameCompleter);
+                consoleReader.setCompleter(fileNameCompleter);
             }
         }
         else
@@ -555,7 +539,7 @@ public class Console
         {
             while(!submitted)
             {
-                switch (ch = ((LineReaderImpl)consoleReader).readCharacter())
+                switch (ch = consoleReader.readCharacter())
                 {
                     case -1:
                     case '\n':
