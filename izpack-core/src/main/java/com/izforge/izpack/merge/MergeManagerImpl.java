@@ -19,6 +19,7 @@
 
 package com.izforge.izpack.merge;
 
+import com.izforge.izpack.api.merge.MergeTarget;
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.merge.resolve.PathResolver;
 
@@ -26,7 +27,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipOutputStream;
 
 /**
  * A mergeable file allow to chose files to merge in the installer.<br />
@@ -66,11 +66,11 @@ public class MergeManagerImpl implements MergeManager
     }
 
     @Override
-    public void merge(ZipOutputStream outputStream)
+    public void merge(MergeTarget mergeTarget)
     {
         for (Mergeable mergeable : mergeableList)
         {
-            mergeable.merge(outputStream);
+            mergeable.merge(mergeTarget);
         }
         mergeableList.clear();
     }
