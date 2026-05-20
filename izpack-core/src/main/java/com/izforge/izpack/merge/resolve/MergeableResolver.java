@@ -19,11 +19,7 @@
 
 package com.izforge.izpack.merge.resolve;
 
-import java.io.OutputStream;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.merge.file.FileMerge;
@@ -36,8 +32,6 @@ import com.izforge.izpack.merge.jar.JarMerge;
  */
 public class MergeableResolver
 {
-    private Map<OutputStream, List<String>> mergeContent = new HashMap<OutputStream, List<String>>();
-
     public MergeableResolver()
     {
     }
@@ -46,20 +40,20 @@ public class MergeableResolver
     {
         if (!ResolveUtils.isJar(url))
         {
-            return new FileMerge(url, mergeContent);
+            return new FileMerge(url);
         }
-        return new JarMerge(url, ResolveUtils.processUrlToJarPath(url), mergeContent);
+        return new JarMerge(url, ResolveUtils.processUrlToJarPath(url));
     }
 
     public Mergeable getMergeableFromURL(URL url, String resourcePath)
     {
         if (ResolveUtils.isJar(url))
         {            
-            return new JarMerge(url, ResolveUtils.processUrlToJarPath(url), mergeContent);
+            return new JarMerge(url, ResolveUtils.processUrlToJarPath(url));
         }
         else
         {
-            return new FileMerge(url, resourcePath, mergeContent);
+            return new FileMerge(url, resourcePath);
         }
     }
 
@@ -69,13 +63,13 @@ public class MergeableResolver
         {
             if (ResolveUtils.isFileInJar(url))
             {
-                return new JarMerge(ResolveUtils.processUrlToJarPath(url), ResolveUtils.processUrlToInsidePath(url), destination, mergeContent);
+                return new JarMerge(ResolveUtils.processUrlToJarPath(url), ResolveUtils.processUrlToInsidePath(url), destination);
             }
-            return new JarMerge(ResolveUtils.processUrlToJarPath(url), ResolveUtils.processUrlToJarPackage(url), destination, mergeContent);
+            return new JarMerge(ResolveUtils.processUrlToJarPath(url), ResolveUtils.processUrlToJarPackage(url), destination);
         }
         else
         {
-            return new FileMerge(url, destination, mergeContent);
+            return new FileMerge(url, destination);
         }
     }
 }
