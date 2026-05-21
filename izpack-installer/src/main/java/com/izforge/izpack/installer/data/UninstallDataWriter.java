@@ -1,6 +1,7 @@
 package com.izforge.izpack.installer.data;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.api.merge.MergeTarget;
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.data.CustomData;
@@ -11,14 +12,16 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.jar.JarEntry;
+import java.util.Set;
 import java.util.jar.JarOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
 
 /**
  * Writes uninstall data to an executable jar file.
@@ -44,6 +47,7 @@ public class UninstallDataWriter
      * The jar to write to.
      */
     private JarOutputStream jar;
+    private MergeTarget mergeTarget;
 
     /**
      * The underlying jar file stream.
@@ -101,7 +105,7 @@ public class UninstallDataWriter
         String condition = installData.getInfo().getUninstallerCondition();
 
         return (installData.getInfo().getUninstallerPath() != null)
-                && (condition == null || condition.length() == 0 || rules.isConditionTrue(condition)
+                && (condition == null || condition.isEmpty() || rules.isConditionTrue(condition)
         );
     }
 
@@ -221,7 +225,7 @@ public class UninstallDataWriter
 
         for (Mergeable mergeable : uninstallerMerge)
         {
-            mergeable.merge(jar);
+            mergeable.merge(mergeTarget);
         }
 
         if (installData.getInfo().isPrivilegedExecutionRequiredUninstaller())
@@ -236,8 +240,7 @@ public class UninstallDataWriter
             if (shouldElevate)
             {
                 // Add resources required to elevate privileges
-                jar.putNextEntry(new JarEntry("exec-admin"));
-                jar.closeEntry();
+                mergeTarget.offer("exec-admin", -1, this::noOp);
 
                 if (rules.isConditionTrue("izpack.windowsinstall"))
                 {
@@ -256,8 +259,13 @@ public class UninstallDataWriter
                                                                      "langpack.xml");
         for (Mergeable mergeable : langPack)
         {
-            mergeable.merge(jar);
+            mergeable.merge(mergeTarget);
         }
+    }
+
+    private void noOp(OutputStream outputStream)
+    {
+        // does nothing
     }
 
     /**
@@ -270,43 +278,44 @@ public class UninstallDataWriter
     {
         List<String> files = uninstallData.getUninstalableFilesList();
 
-        jar.putNextEntry(new JarEntry("install.log"));
-        BufferedWriter logWriter = new BufferedWriter(new OutputStreamWriter(jar));
-        logWriter.write(installData.getInstallPath());
-        logWriter.newLine();
-        Iterator<String> iter = files.iterator();
-        if (extLogWriter != null)
+        mergeTarget.offer("install.log", -1, out ->
         {
-            // Write intern (in uninstaller.jar) and extern log file.
-            while (iter.hasNext())
+            BufferedWriter logWriter = new BufferedWriter(new OutputStreamWriter(out));
+            logWriter.write(installData.getInstallPath());
+            logWriter.newLine();
+            Iterator<String> iter = files.iterator();
+            if (extLogWriter != null)
             {
-                String txt = iter.next();
-                logWriter.write(txt);
-                extLogWriter.write(txt);
-                if (iter.hasNext())
+                // Write intern (in uninstaller.jar) and extern log file.
+                while (iter.hasNext())
                 {
-                    logWriter.newLine();
-                    extLogWriter.newLine();
+                    String txt = iter.next();
+                    logWriter.write(txt);
+                    extLogWriter.write(txt);
+                    if (iter.hasNext())
+                    {
+                        logWriter.newLine();
+                        extLogWriter.newLine();
+                    }
                 }
+                logWriter.flush();
+                extLogWriter.flush();
+                extLogWriter.close();
             }
-            logWriter.flush();
-            extLogWriter.flush();
-            extLogWriter.close();
-        }
-        else
-        {
-            while (iter.hasNext())
+            else
             {
-                String txt = iter.next();
-                logWriter.write(txt);
-                if (iter.hasNext())
+                while (iter.hasNext())
                 {
-                    logWriter.newLine();
+                    String txt = iter.next();
+                    logWriter.write(txt);
+                    if (iter.hasNext())
+                    {
+                        logWriter.newLine();
+                    }
                 }
+                logWriter.flush();
             }
-            logWriter.flush();
-        }
-        jar.closeEntry();
+        });
     }
 
     /**
@@ -316,15 +325,16 @@ public class UninstallDataWriter
      */
     private void writeExecutables() throws IOException
     {
-        jar.putNextEntry(new JarEntry("executables"));
-        ObjectOutputStream execStream = new ObjectOutputStream(jar);
-        execStream.writeInt(uninstallData.getExecutablesList().size());
-        for (ExecutableFile file : uninstallData.getExecutablesList())
+        mergeTarget.offer("executables", -1, out ->
         {
-            execStream.writeObject(file);
-        }
-        execStream.flush();
-        jar.closeEntry();
+            ObjectOutputStream execStream = new ObjectOutputStream(out);
+            execStream.writeInt(uninstallData.getExecutablesList().size());
+            for (ExecutableFile file : uninstallData.getExecutablesList())
+            {
+                execStream.writeObject(file);
+            }
+            execStream.flush();
+        });
     }
 
     /**
@@ -334,14 +344,14 @@ public class UninstallDataWriter
      */
     private void writeUninstallerJarFileLog() throws IOException
     {
-        BufferedWriter logWriter;
-        jar.putNextEntry(new JarEntry("jarlocation.log"));
-        logWriter = new BufferedWriter(new OutputStreamWriter(jar));
-        logWriter.write(uninstallData.getUninstallerJarFilename());
-        logWriter.newLine();
-        logWriter.write(uninstallData.getUninstallerPath());
-        logWriter.flush();
-        jar.closeEntry();
+        mergeTarget.offer("jarlocation.log", 1, out ->
+        {
+            BufferedWriter logWriter = new BufferedWriter(new OutputStreamWriter(out));
+            logWriter.write(uninstallData.getUninstallerJarFilename());
+            logWriter.newLine();
+            logWriter.write(uninstallData.getUninstallerPath());
+            logWriter.flush();
+        });
     }
 
     /**
@@ -351,22 +361,21 @@ public class UninstallDataWriter
      */
     private void writeUninstallerListeners() throws IOException
     {
-        ArrayList<String> listeners = new ArrayList<String>();
-
-        writeCustomDataResources(uninstallData.getUninstallerListeners());
-        for (CustomData data : uninstallData.getUninstallerListeners())
+        mergeTarget.offer("uninstallerListeners", -1, out ->
         {
-            if (data.listenerName != null)
+            ArrayList<String> listeners = new ArrayList<>();
+            writeCustomDataResources(uninstallData.getUninstallerListeners());
+            for (CustomData data : uninstallData.getUninstallerListeners())
             {
-                listeners.add(data.listenerName);
+                if (data.listenerName != null)
+                {
+                    listeners.add(data.listenerName);
+                }
             }
-        }
-
-        jar.putNextEntry(new JarEntry("uninstallerListeners"));
-        ObjectOutputStream stream = new ObjectOutputStream(jar);
-        stream.writeObject(listeners);
-        stream.flush();
-        jar.closeEntry();
+            ObjectOutputStream stream = new ObjectOutputStream(out);
+            stream.writeObject(listeners);
+            stream.flush();
+        });
     }
 
     /**
@@ -417,15 +426,15 @@ public class UninstallDataWriter
     private void writeScriptFiles() throws IOException
     {
         ArrayList<String> unInstallScripts = uninstallData.getUninstallScripts();
-        ObjectOutputStream rootStream;
         int idx = 0;
         for (String unInstallScript : unInstallScripts)
         {
-            jar.putNextEntry(new JarEntry(UninstallData.ROOTSCRIPT + Integer.toString(idx)));
-            rootStream = new ObjectOutputStream(jar);
-            rootStream.writeUTF(unInstallScript);
-            rootStream.flush();
-            jar.closeEntry();
+            mergeTarget.offer(UninstallData.ROOTSCRIPT + Integer.toString(idx), -1, out ->
+            {
+                ObjectOutputStream rootStream = new ObjectOutputStream(out);
+                rootStream.writeUTF(unInstallScript);
+                rootStream.flush();
+            });
             idx++;
         }
     }
@@ -441,8 +450,7 @@ public class UninstallDataWriter
         {
             // we add this entry only if user wants hide force option
             // just entry is enough for us to check whether the user has specified
-            jar.putNextEntry(new JarEntry("hide-force-option"));
-            jar.closeEntry();
+            mergeTarget.offer("hide-force-option", -1, this::noOp);
         }
     }
 
@@ -474,7 +482,7 @@ public class UninstallDataWriter
     {
         for (Mergeable mergeable : pathResolver.getMergeableFromPath(path))
         {
-            mergeable.merge(jar);
+            mergeable.merge(mergeTarget);
         }
     }
 
@@ -487,18 +495,19 @@ public class UninstallDataWriter
      */
     private void writeContent(String path, Object content) throws IOException
     {
-        jar.putNextEntry(new JarEntry(path));
-        if (content instanceof ByteArrayOutputStream)
+        mergeTarget.offer(path, -1, out ->
         {
-            ((ByteArrayOutputStream) content).writeTo(jar);
-        }
-        else
-        {
-            ObjectOutputStream out = new ObjectOutputStream(jar);
-            out.writeObject(content);
-            out.flush();
-        }
-        jar.closeEntry();
+            if (content instanceof ByteArrayOutputStream)
+            {
+                ((ByteArrayOutputStream) content).writeTo(out);
+            }
+            else
+            {
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
+                objectOutputStream.writeObject(content);
+                objectOutputStream.flush();
+            }
+        });
     }
 
     /**
@@ -523,7 +532,19 @@ public class UninstallDataWriter
 
         // Create the jar file
         jarStream = new FileOutputStream(jarPath);
-        jar = new JarOutputStream(new BufferedOutputStream(jarStream));
+
+        final Set<String> entries = new HashSet<>();
+        jar = new JarOutputStream(new BufferedOutputStream(jarStream)) {
+            @Override
+            public void putNextEntry(ZipEntry ze) throws IOException {
+                if (entries.add(ze.getName())) {
+                    super.putNextEntry(ze);
+                    return;
+                }
+                throw new IOException("Duplicate entry: " + ze.getName());
+            }
+        };
+        mergeTarget = IoHelper.mergeTarget(jar);
         jar.setLevel(9);
         uninstallData.addFile(jarPath, true);
     }
