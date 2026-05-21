@@ -28,8 +28,11 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.jar.JarOutputStream;
 import java.util.zip.Deflater;
+import java.util.zip.ZipEntry;
 
 /**
  * Provides the Jar output stream  for the final installer jar
@@ -47,7 +50,18 @@ public class JarOutputStreamProvider implements Provider
             {
                 Files.createDirectories(file.getParent());
             }
-            JarOutputStream jarOutputStream =  new JarOutputStream(new BufferedOutputStream(Files.newOutputStream(file)));
+            final Set<String> entries = new HashSet<>();
+            JarOutputStream jarOutputStream = new JarOutputStream(new BufferedOutputStream(Files.newOutputStream(file))) {
+                @Override
+                public void putNextEntry(ZipEntry ze) throws IOException {
+                    if (entries.add(ze.getName())) {
+                        super.putNextEntry(ze);
+                        return;
+                    }
+                    throw new IOException("Duplicate entry: " + ze.getName());
+                }
+            };
+
             int level = compilerData.getComprLevel();
             if (level >= 0 && level < 10)
             {
