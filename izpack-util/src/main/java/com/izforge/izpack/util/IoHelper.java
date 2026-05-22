@@ -17,14 +17,16 @@
 package com.izforge.izpack.util;
 
 import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.api.merge.MergeTarget;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * I/O-related utility methods.
@@ -40,6 +42,10 @@ public class IoHelper
      * Placeholder during translatePath computing
      */
     private static final String MASKED_SLASH_PLACEHOLDER = "~&_&~";
+
+    private IoHelper()
+    {
+    }
 
     /**
      * Creates a temp file with delete on exit rule. The extension is extracted from the template if
@@ -339,21 +345,32 @@ public class IoHelper
         return destination;
     }
 
-    public static void copyStreamToJar(InputStream zin, java.util.zip.ZipOutputStream out, String currentName,
+    public static void copyStreamToJar(MergeTarget.WriteAction writeAction, ZipOutputStream zipOutputStream, String currentName,
                                        long fileTime) throws IOException
     {
         // Create new entry for zip file.
-        ZipEntry newEntry = new ZipEntry(currentName);
+        final ZipEntry newEntry = new ZipEntry(currentName);
         // Make sure there is date and time set.
         if (fileTime != -1)
         {
             newEntry.setTime(fileTime); // If found set it into output file.
         }
-        out.putNextEntry(newEntry);
-        if (zin != null)
+        zipOutputStream.putNextEntry(newEntry);
+        writeAction.accept(zipOutputStream);
+        zipOutputStream.closeEntry();
+    }
+
+    public static MergeTarget mergeTarget(ZipOutputStream zipOutputStream)
+    {
+        final Set<String> mergedFiles = new HashSet<>();
+        return (name, timestamp, writeAction) ->
         {
-            IOUtils.copy(zin, out);
-        }
-        out.closeEntry();
+            if (mergedFiles.add(name))
+            {
+                copyStreamToJar(writeAction, zipOutputStream, name, timestamp);
+                return true;
+            }
+            return false;
+        };
     }
 }
