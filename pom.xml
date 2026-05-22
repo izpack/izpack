@@ -51,7 +51,7 @@
     <maven.compiler.source>${maven.compiler.release}</maven.compiler.source>
     <maven.compiler.target>${maven.compiler.release}</maven.compiler.target>
     <!-- Maven 2 confuses the usage of the Nexus staging plugin and would require further customization -->
-    <mavenVersion>3.9.12</mavenVersion>
+    <mavenVersion>3.9.16</mavenVersion>
     <skipTests>false</skipTests>
     <skipUnitTests>${skipTests}</skipUnitTests>
     <skipIntegrationTests>${skipTests}</skipIntegrationTests>
@@ -86,7 +86,7 @@
       <dependency>
         <groupId>org.apache.ant</groupId>
         <artifactId>ant</artifactId>
-        <version>1.10.15</version>
+        <version>1.10.17</version>
       </dependency>
       <dependency>
         <groupId>bsf</groupId>
@@ -103,7 +103,7 @@
       <dependency>
         <groupId>org.apache.pdfbox</groupId>
         <artifactId>pdfbox</artifactId>
-        <version>3.0.6</version>
+        <version>3.0.7</version>
         <exclusions>
           <exclusion>
             <groupId>org.junit.jupiter</groupId>
@@ -114,7 +114,7 @@
       <dependency>
         <groupId>com.github.pcorless.icepdf</groupId>
         <artifactId>icepdf-viewer</artifactId>
-        <version>7.3.1</version>
+        <version>7.4.1</version>
         <exclusions>
           <exclusion>
             <groupId>javax.media</groupId>
@@ -125,9 +125,17 @@
       <dependency>
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcprov-jdk18on</artifactId>
-        <version>1.83</version>
+        <version>1.84</version>
       </dependency>
       <!-- PDF Panel -->
+
+      <!-- Console Panel -->
+      <dependency>
+        <groupId>org.jsoup</groupId>
+        <artifactId>jsoup</artifactId>
+        <version>1.22.2</version>
+      </dependency>
+      <!-- Console Panel -->
 
       <!-- Commons apache -->
       <dependency>
@@ -143,7 +151,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.21.0</version>
+        <version>2.22.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -153,17 +161,17 @@
       <dependency>
         <groupId>org.ow2.asm</groupId>
         <artifactId>asm</artifactId>
-        <version>9.9.1</version>
+        <version>9.10</version>
       </dependency>
       <dependency>
         <groupId>org.tukaani</groupId>
         <artifactId>xz</artifactId>
-        <version>1.11</version>
+        <version>1.12</version>
       </dependency>
       <dependency>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-core</artifactId>
-        <version>3.2.3</version>
+        <version>3.3.0</version>
       </dependency>
 
       <!-- Maven API -->
@@ -200,7 +208,7 @@
       <dependency>
         <groupId>org.apache.maven.plugin-testing</groupId>
         <artifactId>maven-plugin-testing-harness</artifactId>
-        <version>3.5.0</version>
+        <version>3.5.1</version>
       </dependency>
 
       <!-- Internal -->
@@ -360,7 +368,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.21.0</version>
+        <version>5.23.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -426,7 +434,7 @@
       <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
-        <version>12.2.0</version>
+        <version>12.2.2</version>
         <configuration>
           <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
           <!-- The OSS Index Server (https://ossindex.sonatype.org) can sometimes be flaky -->
@@ -526,7 +534,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-XX:+IgnoreUnrecognizedVMOptions -XX:+EnableDynamicAgentLoading --add-opens=java.base/java.io=ALL-UNNAMED --enable-native-access=ALL-UNNAMED</argLine>
+          <argLine>-XX:+IgnoreUnrecognizedVMOptions -XX:+EnableDynamicAgentLoading --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --enable-native-access=ALL-UNNAMED</argLine>
           <!-- need to always fork as ClassUtils.loadJarInSystemClassLoader() mangles the system class loader -->
           <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
@@ -622,7 +630,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.6.2</version>
+          <version>3.6.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -637,12 +645,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14.1</version>
+          <version>3.15.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.5.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -662,7 +670,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.9.0</version>
+          <version>3.10.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -678,7 +686,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.4</version>
+          <version>3.5.5</version>
           <configuration>
             <systemPropertyVariables>
               <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
@@ -703,12 +711,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>3.5.4</version>
+          <version>3.5.5</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>3.5.4</version>
+          <version>3.5.5</version>
           <executions>
             <execution>
               <goals>
@@ -990,7 +998,7 @@
       <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
-        <version>12.2.0</version>
+        <version>12.2.2</version>
         <reportSets>
           <reportSet>
             <reports>
