@@ -161,7 +161,7 @@
       <dependency>
         <groupId>org.ow2.asm</groupId>
         <artifactId>asm</artifactId>
-        <version>9.10</version>
+        <version>9.10.1</version>
       </dependency>
       <dependency>
         <groupId>org.tukaani</groupId>
@@ -640,7 +640,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.21.0</version>
+          <version>3.22.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -967,7 +967,7 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-site-plugin</artifactId>
-              <version>3.21.0</version>
+              <version>3.22.0</version>
             </plugin>
           </plugins>
         </pluginManagement>
