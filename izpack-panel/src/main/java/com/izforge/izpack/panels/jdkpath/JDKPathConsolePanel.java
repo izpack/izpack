@@ -142,8 +142,6 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
                     if (strIn == null) {
                         return false;
                     }
-                    char yesDefaultCharacter = 'y'; // English default fallback
-                    String yesDefaultVariant = "yes";
                     char yesLocalizedCharacter = 'y'; // Localized fallback
                     // Extract first character of the "yes" option from pattern like [y/n], [o/n], [s/n], etc.
                     if (yesNoPromptPattern != null && yesNoPromptPattern.contains("[")
@@ -157,8 +155,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
 
                     if (strIn != null && !strIn.isEmpty()
                             && (Character.toLowerCase(strIn.charAt(0)) == Character.toLowerCase(yesLocalizedCharacter))
-                            || strIn.equalsIgnoreCase(String.valueOf(yesDefaultCharacter))
-                            || strIn.equalsIgnoreCase(yesDefaultVariant)) {
+                            || strIn.equalsIgnoreCase(String.valueOf('y')) || strIn.equalsIgnoreCase("yes")) {
                         bKeepAsking = false;
                     }
                 }
