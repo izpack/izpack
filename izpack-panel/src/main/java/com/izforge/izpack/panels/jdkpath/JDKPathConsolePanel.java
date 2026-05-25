@@ -153,8 +153,7 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
                         }
                     }
 
-                    if (strIn != null && !strIn.isEmpty()
-                            && (Character.toLowerCase(strIn.charAt(0)) == Character.toLowerCase(yesLocalizedCharacter))
+                    if (strIn.equalsIgnoreCase(String.valueOf(yesLocalizedCharacter))
                             || strIn.equalsIgnoreCase(String.valueOf('y')) || strIn.equalsIgnoreCase("yes")) {
                         bKeepAsking = false;
                     }
