@@ -135,29 +135,30 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
             {
                 if (errorMessage.endsWith("?"))
                 {
-                    errorMessage += "\n" + messages.get("JDKPathPanel.badVersion4");
-                    String strIn = console.prompt(errorMessage, (String)null);
-                    if (strIn == null)
-                    {
+                    // Ex: JDKPathPanel.badVersion4= "Continue anyway? [y/n] [n]"
+                    String yesNoPromptPattern = messages.get("JDKPathPanel.badVersion4");
+                    errorMessage += "\n" + yesNoPromptPattern;
+                    String strIn = console.prompt(errorMessage, (String) null);
+                    if (strIn == null) {
                         return false;
                     }
-                    // We will check only the first character of the answer, to manage all languages and all patterns.
-                    // Ex: JDKPathPanel.badVersion4= "Continue anyway? [y/n] [n]"
-                    String extractPattern = messages.get("JDKPathPanel.badVersion4");
+                    char yesDefaultCharacter = 'y'; // English default fallback
+                    String yesDefaultVariant = "yes";
+                    char yesLocalizedCharacter = 'y'; // Localized fallback
                     // Extract first character of the "yes" option from pattern like [y/n], [o/n], [s/n], etc.
-                    char yesCharacter = 'y'; // default fallback
-                    if (extractPattern != null && extractPattern.contains("[") && extractPattern.contains("/"))
-                    {
-                        int startIdx = extractPattern.indexOf('[');
-                        int endIdx = extractPattern.indexOf('/', startIdx);
-                        if (startIdx >= 0 && endIdx > startIdx + 1)
-                        {
-                            yesCharacter = extractPattern.charAt(startIdx + 1);
+                    if (yesNoPromptPattern != null && yesNoPromptPattern.contains("[")
+                            && yesNoPromptPattern.contains("/")) {
+                        int startIdx = yesNoPromptPattern.indexOf('[');
+                        int endIdx = yesNoPromptPattern.indexOf('/', startIdx);
+                        if (startIdx >= 0 && endIdx > startIdx + 1) {
+                            yesLocalizedCharacter = yesNoPromptPattern.charAt(startIdx + 1);
                         }
                     }
-                    
-                    if (strIn != null && !strIn.isEmpty() && Character.toLowerCase(strIn.charAt(0)) == Character.toLowerCase(yesCharacter))
-                    {
+
+                    if (strIn != null && !strIn.isEmpty()
+                            && (Character.toLowerCase(strIn.charAt(0)) == Character.toLowerCase(yesLocalizedCharacter))
+                            || strIn.equalsIgnoreCase(String.valueOf(yesDefaultCharacter))
+                            || strIn.equalsIgnoreCase(yesDefaultVariant)) {
                         bKeepAsking = false;
                     }
                 }
