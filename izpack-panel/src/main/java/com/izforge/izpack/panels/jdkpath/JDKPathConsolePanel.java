@@ -141,7 +141,22 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
                     {
                         return false;
                     }
-                    if (strIn != null && (strIn.equalsIgnoreCase("y") || strIn.equalsIgnoreCase("yes")))
+                    // We will check only the first character of the answer, to manage all languages and all patterns.
+                    // Ex: JDKPathPanel.badVersion4= "Continue anyway? [y/n] [n]"
+                    String extractPattern = messages.get("JDKPathPanel.badVersion4");
+                    // Extract first character of the "yes" option from pattern like [y/n], [o/n], [s/n], etc.
+                    char yesCharacter = 'y'; // default fallback
+                    if (extractPattern != null && extractPattern.contains("[") && extractPattern.contains("/"))
+                    {
+                        int startIdx = extractPattern.indexOf('[');
+                        int endIdx = extractPattern.indexOf('/', startIdx);
+                        if (startIdx >= 0 && endIdx > startIdx + 1)
+                        {
+                            yesCharacter = extractPattern.charAt(startIdx + 1);
+                        }
+                    }
+                    
+                    if (strIn != null && !strIn.isEmpty() && Character.toLowerCase(strIn.charAt(0)) == Character.toLowerCase(yesCharacter))
                     {
                         bKeepAsking = false;
                     }
