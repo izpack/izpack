@@ -29,11 +29,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.hamcrest.Matchers;
-import org.hamcrest.core.Is;
-import org.hamcrest.core.IsCollectionContaining;
-import org.hamcrest.core.IsInstanceOf;
-import org.hamcrest.core.IsNot;
-import org.hamcrest.core.StringContains;
+import org.hamcrest.beans.HasPropertyWithValue;
+import org.hamcrest.core.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -100,7 +97,7 @@ public class PathResolverTest
     }
 
     @Test
-    public void ftestGetMergeableFromFile()
+    public void testGetMergeableFromFile()
     {
         List<Mergeable> mergeables = pathResolver.getMergeableFromPath("com/izforge/izpack/merge/file/FileMerge.class");
         Mergeable mergeable = mergeables.get(0);
@@ -193,4 +190,11 @@ public class PathResolverTest
         assertThat(pathFromClassName, Is.is("com/izforge/izpack/panels/"));
     }
 
+    @Test
+    public void findResourcesWithMultiReleaseJar()
+    {
+        Set<URL> resources = pathResolver.findResources("org/jsoup");
+        assertThat(resources, IsCollectionContaining.hasItem(HasPropertyWithValue.hasProperty("path", StringEndsWith.endsWith("!/META-INF/versions/11/org/jsoup/"))));
+        assertThat(resources, IsCollectionContaining.hasItem(HasPropertyWithValue.hasProperty("path", StringEndsWith.endsWith("!/org/jsoup/"))));
+    }
 }
