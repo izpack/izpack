@@ -126,7 +126,7 @@
       <dependency>
         <groupId>org.jsoup</groupId>
         <artifactId>jsoup</artifactId>
-        <version>1.18.3</version>
+        <version>1.22.2</version>
       </dependency>
       <!-- Console Panel -->
 

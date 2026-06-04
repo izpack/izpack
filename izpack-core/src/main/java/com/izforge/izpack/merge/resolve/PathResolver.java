@@ -26,6 +26,8 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.merge.Mergeable;
@@ -37,6 +39,7 @@ import com.izforge.izpack.api.merge.Mergeable;
  */
 public class PathResolver
 {
+    private static final Pattern MULTI_RELEASE = Pattern.compile("!/META-INF/versions/\\d+/");
     /**
      * The mergeable resolver.
      */
@@ -81,7 +84,7 @@ public class PathResolver
     public List<Mergeable> getMergeableFromPath(String resourcePath)
     {
         Set<URL> urlList = resolvePath(resourcePath);
-        List<Mergeable> result = new ArrayList<Mergeable>();
+        List<Mergeable> result = new ArrayList<>();
         for (URL url : urlList)
         {
             result.add(mergeableResolver.getMergeableFromURL(url, resourcePath));
@@ -91,13 +94,13 @@ public class PathResolver
 
     public List<Mergeable> getMergeableFromPackageName(String dependPackage)
     {
-        return getMergeableFromPath(dependPackage.replaceAll("\\.", "/") + "/");
+        return getMergeableFromPath(dependPackage.replace(".", "/") + "/");
     }
 
     public List<Mergeable> getMergeableJarFromPackageName(String packageName)
     {
         Set<URL> urlSet = ResolveUtils.getJarUrlForPackage(packageName);
-        ArrayList<Mergeable> list = new ArrayList<Mergeable>();
+        ArrayList<Mergeable> list = new ArrayList<>();
         for (URL url : urlSet)
         {
             list.add(mergeableResolver.getMergeableFromURL(url));
@@ -115,7 +118,7 @@ public class PathResolver
     public List<Mergeable> getMergeableFromPath(String resourcePath, String destination)
     {
         Set<URL> urlList = resolvePath(resourcePath);
-        List<Mergeable> result = new ArrayList<Mergeable>();
+        List<Mergeable> result = new ArrayList<>();
         for (URL url : urlList)
         {
             result.add(mergeableResolver.getMergeableFromURLWithDestination(url, destination));
@@ -131,7 +134,7 @@ public class PathResolver
      */
     protected Set<URL> findResources(String resourcePath)
     {
-        Set<URL> result = new HashSet<URL>();
+        Set<URL> result = new HashSet<>();
         URL path = ResolveUtils.getFileFromPath(resourcePath);
         if (path != null)
         {
@@ -145,6 +148,15 @@ public class PathResolver
             {
                 URL url = iterator.nextElement();
                 result.add(url);
+                // handle multi release jar files returning only version specific part
+                if (url.getProtocol().equals("jar"))
+                {
+                    final Matcher matcher = MULTI_RELEASE.matcher(url.toString());
+                    if (matcher.find())
+                    {
+                        result.add(new URL(matcher.replaceFirst("!/")));
+                    }
+                }
             }
         }
         catch (IOException e)
