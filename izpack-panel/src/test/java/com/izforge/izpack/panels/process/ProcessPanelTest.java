@@ -28,11 +28,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
-import org.hamcrest.core.StringContains;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,7 +66,7 @@ public class ProcessPanelTest extends AbstractPanelTest
     /**
      * Saves the look & feel.
      */
-    private LookAndFeel lookAndFeel;
+    private LookAndFeel savedLookAndFeel;
 
 
     /**
@@ -93,7 +94,7 @@ public class ProcessPanelTest extends AbstractPanelTest
     @Before
     public void setUp()
     {
-        lookAndFeel = UIManager.getLookAndFeel();
+        savedLookAndFeel = UIManager.getLookAndFeel();
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/process/");
     }
 
@@ -106,7 +107,13 @@ public class ProcessPanelTest extends AbstractPanelTest
     public void tearDown() throws Exception
     {
         super.tearDown();
-        UIManager.setLookAndFeel(lookAndFeel);
+        SwingUtilities.invokeAndWait(()-> {
+            try {
+                UIManager.setLookAndFeel(savedLookAndFeel);
+            } catch (UnsupportedLookAndFeelException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**
@@ -145,7 +152,13 @@ public class ProcessPanelTest extends AbstractPanelTest
         if (lookAndFeel.isSupportedLookAndFeel())
         {
             // Substances checks that UI elements are created within the event dispatcher thread.
-            UIManager.setLookAndFeel(lookAndFeel);
+            SwingUtilities.invokeAndWait(() -> {
+                try {
+                    UIManager.setLookAndFeel(lookAndFeel);
+                } catch (UnsupportedLookAndFeelException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
 
         Executable.init();
