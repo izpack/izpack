@@ -385,9 +385,7 @@ public class IzPackTask extends Task implements PackagerListener
             properties = new Properties();
         }
 
-        property.execute(); // don't call perform(), so no build events triggered
-
-        property.addProperty(properties);
+        property.addProperties(properties::setProperty);
     }
 
     /**
