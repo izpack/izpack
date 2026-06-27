@@ -135,14 +135,26 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
             {
                 if (errorMessage.endsWith("?"))
                 {
-                    errorMessage += "\n" + messages.get("JDKPathPanel.badVersion4");
-                    String strIn = console.prompt(errorMessage, (String)null);
-                    if (strIn == null)
-                    {
+                    // Ex: JDKPathPanel.badVersion4= "Continue anyway? [y/n] [n]"
+                    String yesNoPromptPattern = messages.get("JDKPathPanel.badVersion4");
+                    errorMessage += "\n" + yesNoPromptPattern;
+                    String strIn = console.prompt(errorMessage, (String) null);
+                    if (strIn == null) {
                         return false;
                     }
-                    if (strIn != null && (strIn.equalsIgnoreCase("y") || strIn.equalsIgnoreCase("yes")))
-                    {
+                    char yesLocalizedCharacter = 'y'; // Localized fallback
+                    // Extract first character of the "yes" option from pattern like [y/n], [o/n], [s/n], etc.
+                    if (yesNoPromptPattern != null && yesNoPromptPattern.contains("[")
+                            && yesNoPromptPattern.contains("/")) {
+                        int startIdx = yesNoPromptPattern.indexOf('[');
+                        int endIdx = yesNoPromptPattern.indexOf('/', startIdx);
+                        if (startIdx >= 0 && endIdx > startIdx + 1) {
+                            yesLocalizedCharacter = yesNoPromptPattern.charAt(startIdx + 1);
+                        }
+                    }
+
+                    if (strIn.equalsIgnoreCase(String.valueOf(yesLocalizedCharacter))
+                            || strIn.equalsIgnoreCase(String.valueOf('y')) || strIn.equalsIgnoreCase("yes")) {
                         bKeepAsking = false;
                     }
                 }
