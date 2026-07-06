@@ -404,12 +404,12 @@
       <dependency>
         <groupId>org.pushing-pixels</groupId>
         <artifactId>radiance-theming</artifactId>
-        <version>8.5.0</version>
+        <version>9.0.0</version>
       </dependency>
       <dependency>
         <groupId>org.pushing-pixels</groupId>
         <artifactId>radiance-theming-extras</artifactId>
-        <version>8.5.0</version>
+        <version>9.0.0</version>
       </dependency>
       <dependency>
         <groupId>com.incors</groupId>
