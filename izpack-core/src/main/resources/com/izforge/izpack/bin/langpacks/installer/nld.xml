@@ -5,7 +5,7 @@
                  xsi:schemaLocation="http://izpack.org/schema/langpack https://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
 
     <!-- AutomatedInstaller strings -->
-    <str id="AutomatedInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
+    <str id="AutomatedInstaller.permissionError" txt="Beheerdersrechten vereist. Start het installatieprogramma opnieuw met beheerdersrechten."/>
 
     <!-- CheckedHelloPanel strings -->
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="De de-installatie zal als naam krijgen: "/>
@@ -34,29 +34,29 @@
     <str id="CompilePanel.progress.overall" txt="Voortgang compilatie:"/>
 
     <!-- ConsoleInstaller strings -->
-    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="License rejected"/>
-    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C pressed"/>
-    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Quit pressed"/>
-    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Press 1 to accept, 2 to reject, 3 to redisplay"/>
-    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Press 1 to continue, 2 to quit, 3 to redisplay"/>
-    <str id="ConsoleInstaller.inputSelection" txt="Input selection: "/>
-    <str id="ConsoleInstaller.pagingMore" txt="More"/>
-    <str id="ConsoleInstaller.permissionError" txt="Administrative privileges required. Please re-run the installer with administrative privileges."/>
-    <str id="ConsoleInstaller.redisplayQuit" txt="Press 1 to redisplay, 2 to quit"/>
-    <str id="ConsoleInstaller.shutdown.aborted" txt="Console installation ABORTED by the user!"/>
-    <str id="ConsoleInstaller.shutdown.done" txt="Console installation done"/>
-    <str id="ConsoleInstaller.shutdown.failed" txt="Console installation FAILED!"/>
-    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="There are file operations pending after reboot"/>
-    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Rebooting now automatically"/>
+    <str id="ConsoleInstaller.aborted.LicenseRejected" txt="Licentie geweigerd"/>
+    <str id="ConsoleInstaller.aborted.PressedCTRL-C" txt="CTRL-C ingedrukt"/>
+    <str id="ConsoleInstaller.aborted.PressedQuit" txt="Afsluiten ingedrukt"/>
+    <str id="ConsoleInstaller.acceptRejectRedisplay" txt="Druk 1 om te accepteren, 2 om te weigeren, 3 om opnieuw te tonen"/>
+    <str id="ConsoleInstaller.continueQuitRedisplay" txt="Druk 1 om door te gaan, 2 om af te sluiten, 3 om opnieuw te tonen"/>
+    <str id="ConsoleInstaller.inputSelection" txt="Maak een keuze: "/>
+    <str id="ConsoleInstaller.pagingMore" txt="Meer"/>
+    <str id="ConsoleInstaller.permissionError" txt="Beheerdersrechten vereist. Start het installatieprogramma opnieuw met beheerdersrechten."/>
+    <str id="ConsoleInstaller.redisplayQuit" txt="Druk 1 om opnieuw te tonen, 2 om af te sluiten"/>
+    <str id="ConsoleInstaller.shutdown.aborted" txt="Console-installatie AFGEBROKEN door de gebruiker!"/>
+    <str id="ConsoleInstaller.shutdown.done" txt="Console-installatie voltooid"/>
+    <str id="ConsoleInstaller.shutdown.failed" txt="Console-installatie MISLUKT!"/>
+    <str id="ConsoleInstaller.shutdown.pendingFileOperations" txt="Er zijn bestandsbewerkingen in behandeling na opnieuw opstarten"/>
+    <str id="ConsoleInstaller.shutdown.rebootingNow" txt="Wordt nu automatisch opnieuw opgestart"/>
 
     <!-- ConsolePrompt strings -->
-    <str id="ConsolePrompt.cancel" txt="C"/>
+    <str id="ConsolePrompt.cancel" txt="A"/>
     <str id="ConsolePrompt.ok" txt="O"/>
-    <str id="ConsolePrompt.okCancel" txt="Enter O for OK, C to Cancel: "/>
+    <str id="ConsolePrompt.okCancel" txt="Voer O in voor OK, A om te annuleren: "/>
     <str id="ConsolePrompt.no" txt="N"/>
-    <str id="ConsolePrompt.yes" txt="Y"/>
-    <str id="ConsolePrompt.yesNo" txt="Enter Y for Yes, N for No: "/>
-    <str id="ConsolePrompt.yesNoCancel" txt="Enter Y for Yes, N for No, or C to Cancel: "/>
+    <str id="ConsolePrompt.yes" txt="J"/>
+    <str id="ConsolePrompt.yesNo" txt="Voer J in voor Ja, N voor Nee: "/>
+    <str id="ConsolePrompt.yesNoCancel" txt="Voer J in voor Ja, N voor Nee, of A om te annuleren: "/>
 
     <!-- FinishPanel strings -->
     <str id="FinishPanel.auto" txt="Maak een automatisch installatie-script."/>
@@ -69,16 +69,16 @@
 
     <!-- General installer strings -->
     <str id="installer.cancel" txt="Annuleer"/>
-    <str id="installer.cancelled" txt="Installation cancelled"/>
-    <str id="installer.close" txt="Close"/>
-    <str id="installer.continueQuestion" txt="Continue anyway?"/>
-    <str id="installer.copy" txt="Copy"/>
+    <str id="installer.cancelled" txt="Installatie geannuleerd"/>
+    <str id="installer.close" txt="Sluiten"/>
+    <str id="installer.continueQuestion" txt="Toch doorgaan?"/>
+    <str id="installer.copy" txt="Kopiëren"/>
     <str id="installer.error" txt="Fout"/>
-    <str id="installer.errorMessage" txt="An error occurred"/>
-    <str id="installer.finished" txt="Installation finished"/>
+    <str id="installer.errorMessage" txt="Er is een fout opgetreden"/>
+    <str id="installer.finished" txt="Installatie voltooid"/>
     <str id="installer.help" txt="Help"/>
     <str id="installer.help.close" txt="Sluiten"/>
-    <str id="installer.hideDetails" txt="Hide Details"/>
+    <str id="installer.hideDetails" txt="Details verbergen"/>
     <str id="installer.madewith" txt="(Installatie gemaakt met IzPack - http://izpack.org/)"/>
     <str id="installer.Message" txt="Bericht"/>
     <str id="installer.next" txt="Verder"/>
@@ -89,16 +89,16 @@
     <str id="installer.quit" txt="Afsluiten"/>
     <str id="installer.quit.message" txt="Dit zal de installatie afbreken"/>
     <str id="installer.quit.title" txt="Weet u zeker dat u wilt afsluiten?"/>
-    <str id="installer.reboot.ask.message" txt="Reboot required to apply some changes. Do want to reboot now?"/>
-    <str id="installer.reboot.ask.title" txt="Reboot required"/>
-    <str id="installer.reboot.notice.message" txt="It is recommended to reboot to apply some changes."/>
-    <str id="installer.reboot.notice.title" txt="Reboot recommended"/>
-    <str id="installer.sendReport" txt="Send Report"/>
-    <str id="installer.showDetails" txt="Show Details"/>
-    <str id="installer.started" txt="Installation started"/>
+    <str id="installer.reboot.ask.message" txt="Opnieuw opstarten vereist om wijzigingen toe te passen. Wilt u nu opnieuw opstarten?"/>
+    <str id="installer.reboot.ask.title" txt="Opnieuw opstarten vereist"/>
+    <str id="installer.reboot.notice.message" txt="Het wordt aanbevolen om opnieuw op te starten om wijzigingen toe te passen."/>
+    <str id="installer.reboot.notice.title" txt="Opnieuw opstarten aanbevolen"/>
+    <str id="installer.sendReport" txt="Rapport verzenden"/>
+    <str id="installer.showDetails" txt="Details tonen"/>
+    <str id="installer.started" txt="Installatie gestart"/>
     <str id="installer.step" txt="Stap"/>
     <str id="installer.title" txt="IzPack - Installatie van"/>
-    <str id="installer.uninstall.writefailed" txt="Failed to write uninstallation information."/>
+    <str id="installer.uninstall.writefailed" txt="Kan de verwijderingsinformatie niet schrijven."/>
     <str id="installer.version" txt="Framework: {0}"/>
     <str id="installer.warning" txt="Waarschuwing !"/>
     <str id="installer.yes" txt="Ja"/>
@@ -107,7 +107,7 @@
     <str id="CheckedHelloPanel.headline" txt="Welkom"/>
     <str id="CompilePanel.headline" txt="Compileer Java Sources"/>
     <str id="ConditionalUserInputPanel.headline" txt="Gebruikersgegevens"/>
-    <str id="DataCheckPanel.headline" txt="Data Check"/>
+    <str id="DataCheckPanel.headline" txt="Gegevenscontrole"/>
     <str id="FinishPanel.headline" txt="Installatie Gereed"/>
     <str id="HelloPanel.headline" txt="Welkom"/>
     <str id="HTMLInfoPanel.headline" txt="Informatie"/>
@@ -122,7 +122,7 @@
     <str id="PDFLicencePanel.headline" txt="Licentieovereenkomst"/>
     <str id="ProcessPanel.headline" txt="Uitvoeren externe programma's"/>
     <str id="ShortcutPanel.headline" txt="Snelkoppelingen"/>
-    <str id="SelectPrinterPanel.headline" txt="Select Printer"/>
+    <str id="SelectPrinterPanel.headline" txt="Printer selecteren"/>
     <str id="SimpleFinishPanel.headline" txt="Installatie Gereed"/>
     <str id="SummaryPanel.headline" txt="Overzicht configuratiegegevens"/>
     <str id="TargetPanel.headline" txt="Installatiepad"/>
@@ -175,11 +175,11 @@
     <str id="JDKPathPanel.badVersion1" txt="De JDK van uw keuze heeft een verkeerde versie (beschikbaar: "/>
     <str id="JDKPathPanel.badVersion2" txt=" vereist: "/>
     <str id="JDKPathPanel.badVersion3" txt=") wilt u toch deze JDK gebruiken?"/>
-    <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
+    <str id="JDKPathPanel.badVersion4" txt="Toch doorgaan? [j/n] [n]"/>
     <str id="JDKPathPanel.browse" txt="Bladeren ..."/>
     <str id="JDKPathPanel.info" txt="Selecteer het JDK pad:"/>
     <str id="JDKPathPanel.intro" txt="Het programma heeft een Java Development Kit (JDK) met een versienummer tussen ${JDKPathPanel.minVersion} en ${JDKPathPanel.maxVersion}. Een Java Runtime Environment (JRE) is niet voldoende."/>
-    <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
+    <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;Deze software vereist minimaal versie ${JDKPathPanel.minVersion} van de Java Development Kit (JDK).&lt;p/&gt; Als dit niet is geïnstalleerd, ga dan naar &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt; om het te downloaden en installeren.&lt;/html&gt;"/>
     <str id="JDKPathPanel.notValid" txt="De gekozen map bevat niet het vereiste product."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="Het Windows register bevat een ongeldig pad voor deze JDK. Wilt u deze JDK toch gebruiken?"/>
 
@@ -191,8 +191,8 @@
     <str id="LicencePanel.yes" txt="Ja"/>
 
     <!-- Lock File strings -->
-    <str id="LockFile.exists.message" txt="The &quot;$APP_NAME&quot; installer you are attempting to run seems to have a copy already running. This could be from a previous failed installation attempt or you may have accidentally launched the installer twice. The recommended action is to wait for the other copy of the installer to start. If you are sure there is no other copy of the installer running, you can delete the lock file &quot;$LOCK_FILE&quot; and restart the installer."/>
-    <str id="LockFile.exists.prompt" txt="The &quot;$APP_NAME&quot; installer you are attempting to run seems to have a copy already running.&#10;&#10;This could be from a previous failed installation attempt or you may have accidentally launched&#10;the installer twice. The recommended action is to select 'No' and wait for the other copy of&#10;the installer to start. If you are sure there is no other copy of the installer running, click&#10;the 'Yes' button to allow this installer to run.&#10;&#10;Are you sure you want to continue with this installation?"/>
+    <str id="LockFile.exists.message" txt="Het installatieprogramma van &quot;$APP_NAME&quot; dat u probeert uit te voeren lijkt al een exemplaar actief te hebben. Dit kan het gevolg zijn van een eerdere mislukte installatie of u heeft het installatieprogramma per ongeluk twee keer gestart. De aanbevolen actie is te wachten totdat het andere exemplaar wordt gestart. Als u zeker weet dat er geen ander exemplaar actief is, kunt u het vergrendelingsbestand &quot;$LOCK_FILE&quot; verwijderen en het installatieprogramma opnieuw starten."/>
+    <str id="LockFile.exists.prompt" txt="Het installatieprogramma van &quot;$APP_NAME&quot; dat u probeert uit te voeren lijkt al een exemplaar actief te hebben.&#10;&#10;Dit kan het gevolg zijn van een eerdere mislukte installatie of u heeft het&#10;installatieprogramma per ongeluk twee keer gestart. De aanbevolen actie is 'Nee' te selecteren en&#10;te wachten totdat het andere exemplaar wordt gestart. Als u zeker weet dat er geen ander exemplaar&#10;actief is, klik dan op 'Ja' om dit installatieprogramma toe te staan te worden uitgevoerd.&#10;&#10;Weet u zeker dat u wilt doorgaan met deze installatie?"/>
 
     <!-- Next Media strings -->
     <str id="nextmedia.browsebtn" txt="Bladeren"/>
@@ -225,42 +225,42 @@
     <str id="functionFailed.RegOpenKeyEx" txt="Kan registersleutel {0}\\{1} niet openen."/>
 
     <!-- Select Printer Panel strings -->
-    <str id="SelectPrinterPanel.no_printer" txt="No printers available to use for initial setup and testing."/>
+    <str id="SelectPrinterPanel.no_printer" txt="Geen printers beschikbaar voor gebruik bij de initiële installatie en tests."/>
     <str id="SelectPrinterPanel.select_printer" txt="Selecteer een printer."/>
 
     <!-- SudoPanel strings -->
-    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
-    <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
-    <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
-    <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
+    <str id="SudoPanel.info" txt="Voor de installatie zijn beheerdersrechten vereist"/>
+    <str id="SudoPanel.invalidPassword" txt="Ongeldig wachtwoord of geen beheerdersrechten"/>
+    <str id="SudoPanel.specifyAdminPassword" txt="Voer uw wachtwoord in:"/>
+    <str id="SudoPanel.tip" txt="Wachtwoorden zijn hoofdlettergevoelig"/>
 
     <!-- TargetPanel strings -->
     <str id="TargetPanel.browse" txt="Bladeren ..."/>
     <str id="TargetPanel.createdir" txt="De installatiemap zal worden aangemaakt :"/>
     <str id="TargetPanel.empty_target" txt="U heeft geen installatiemap ingevuld. Wilt u toch doorgaan?"/>
     <str id="TargetPanel.exists_warn" txt="Deze map bestaat al. Wilt u doorgaan en het risico lopen dat bestanden worden overschreven?"/>
-    <str id="TargetPanel.incompatibleInstallation" txt="Incompatible installation detected. Uninstall it first, or choose another directory to install to."/>
+    <str id="TargetPanel.incompatibleInstallation" txt="Incompatibele installatie gevonden. Verwijder deze eerst of kies een andere map."/>
     <str id="TargetPanel.info" txt="Selecteer de installatiemap:"/>
-    <str id="TargetPanel.isfile" txt="You have entered a path to a file. Please select a path to a new or existing directory."/>
+    <str id="TargetPanel.isfile" txt="U heeft een pad naar een bestand ingevoerd. Selecteer een pad naar een nieuwe of bestaande map."/>
     <str id="TargetPanel.nodir" txt="Uw keuze is geen map! Kies s.v.p. een map!"/>
     <str id="TargetPanel.notValid" txt="De gekozen map bevat niet het vereiste product."/>
     <str id="TargetPanel.notwritable" txt="Schrijven in deze map niet mogelijk! Kies s.v.p. een andere map!"/>
     <str id="TargetPanel.required" txt="De gekozen map moet reeds bestaan."/>
     <str id="TargetPanel.required.forModificationInstallation" txt="De gekozen map moet reeds bestaan."/>
-    <str id="TargetPanel.syntax.error" txt="Invalid directory path. Please enter a directory path that meets the operating system's requirements."/>
+    <str id="TargetPanel.syntax.error" txt="Ongeldig mappad. Voer een mappad in dat voldoet aan de vereisten van het besturingssysteem."/>
 
     <!-- TreePacksPanel Strings -->
-    <str id="TreePacksPanel.children" txt="Children"/>
-    <str id="TreePacksPanel.confirm" txt="Press 0 to confirm your selections."/>
-    <str id="TreePacksPanel.dependent" txt="Dependencies"/>
-    <str id="TreePacksPanel.done" txt="Done!"/>
-    <str id="TreePacksPanel.invalid" txt="Invalid pack selected"/>
-    <str id="TreePacksPanel.no.number" txt="Please enter a number from the selection above."/>
-    <str id="TreePacksPanel.no.packs" txt="You have not selected any packs!\nAre you sure you want to continue?"/>
-    <str id="TreePacksPanel.prompt" txt="Please select which packs you want to install."/>
-    <str id="TreePacksPanel.required" txt="Required"/>
-    <str id="TreePacksPanel.space.required" txt="Total space required:"/>
-    <str id="TreePacksPanel.unselectable" txt="Unselectable"/>
+    <str id="TreePacksPanel.children" txt="Subpakketten"/>
+    <str id="TreePacksPanel.confirm" txt="Druk 0 om uw selecties te bevestigen."/>
+    <str id="TreePacksPanel.dependent" txt="Afhankelijkheden"/>
+    <str id="TreePacksPanel.done" txt="Klaar!"/>
+    <str id="TreePacksPanel.invalid" txt="Ongeldig pakket geselecteerd"/>
+    <str id="TreePacksPanel.no.number" txt="Voer een nummer in uit de bovenstaande selectie."/>
+    <str id="TreePacksPanel.no.packs" txt="U heeft geen pakketten geselecteerd!\nWeet u zeker dat u wilt doorgaan?"/>
+    <str id="TreePacksPanel.prompt" txt="Selecteer welke pakketten u wilt installeren."/>
+    <str id="TreePacksPanel.required" txt="Verplicht"/>
+    <str id="TreePacksPanel.space.required" txt="Totaal benodigde ruimte:"/>
+    <str id="TreePacksPanel.unselectable" txt="Niet selecteerbaar"/>
 
     <!-- Uninstaller specific strings -->
     <str id="uninstaller.destroytarget" txt=" Forceer het verwijderen van "/>
@@ -275,7 +275,7 @@
     <str id="ShortcutPanel.alternate.saveButton" txt="Tekstbestand opslaan"/>
     <str id="ShortcutPanel.alternate.targetsLabel" txt="Hier volgt een lijst van snelkoppelingen die de maker van de software u wilde geven"/>
     <str id="ShortcutPanel.alternate.textFileExplanation" txt="U kunt gedetailleerde informatie over de snelkoppelingen opslaan in een tekstbestand voor toekomstig gebruik."/>
-    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.group.error" txt="Ongeldige programmagroep. Voer een alfanumerieke tekenreeks in."/>
     <str id="ShortcutPanel.location.applications" txt="Programma Menu"/>
     <str id="ShortcutPanel.location.desktop" txt="Bureaublad"/>
     <str id="ShortcutPanel.location.startMenu" txt="Start Menu"/>
@@ -288,7 +288,7 @@
     <str id="ShortcutPanel.regular.list" txt="Selecteer een programma groep voor de snelkoppelingen:"/>
     <str id="ShortcutPanel.regular.StartMenu:K-Menu" txt="K-Menu"/>
     <str id="ShortcutPanel.regular.StartMenu:Start-Menu" txt="Start-Menu"/>
-    <str id="ShortcutPanel.regular.startup" txt="Launch on startup"/>
+    <str id="ShortcutPanel.regular.startup" txt="Starten bij opstart"/>
     <str id="ShortcutPanel.regular.userIntro" txt="Maak snelkoppeling voor:"/>
     <str id="ShortcutPanel.textFile.command" txt="Opdrachtregel     : "/>
     <str id="ShortcutPanel.textFile.description" txt="Omschrijving      : "/>
@@ -301,9 +301,9 @@
     <str id="ShortcutPanel.textFile.work" txt="Werkmap           : "/>
 
     <!-- SummaryPanel strings -->
-    <str id="DefaultTargetPanel.summaryCaption" txt="Installation Path"/>
+    <str id="DefaultTargetPanel.summaryCaption" txt="Installatiepad"/>
     <str id="ImgPacksPanel.summaryCaption" txt="Gekozen installatie pakketten"/>
-    <str id="InstallationGroupPanel.summaryCaption" txt="Chosen Installation Feature"/>
+    <str id="InstallationGroupPanel.summaryCaption" txt="Gekozen installatiefunctie"/>
     <str id="InstallationTypePanel.summaryCaption" txt="Installatietype"/>
     <str id="JDKPathPanel.summaryCaption" txt="JDK pad"/>
     <str id="PacksPanel.summaryCaption" txt="Gekozen installatiepakketten"/>
@@ -314,12 +314,12 @@
     <str id="UserPathPanel.summaryCaption" txt="Gekozen pad"/>
 
     <!-- UserInputPanel strings -->
-    <str id="UserInputPanel.custom.console.add" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, {3} to add a row, and {4} to quit"/>
-    <str id="UserInputPanel.custom.console.add.and.remove" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, {3} to add a row, {4} to remove the last row, and {5} to quit"/>
-    <str id="UserInputPanel.custom.console.no.add.remove" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, and {3} to quit"/>
-    <str id="UserInputPanel.custom.console.remove" txt="Enter the row number 1..{0} to edit, {1} to accept all, {2} to redisplay, {3} to remove the last row, and {4} to quit"/>
-    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Add"/>
-    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Remove"/>
+    <str id="UserInputPanel.custom.console.add" txt="Voer het rijnummer 1..{0} in om te bewerken, {1} om alles te accepteren, {2} om opnieuw te tonen, {3} om een rij toe te voegen, en {4} om af te sluiten"/>
+    <str id="UserInputPanel.custom.console.add.and.remove" txt="Voer het rijnummer 1..{0} in om te bewerken, {1} om alles te accepteren, {2} om opnieuw te tonen, {3} om een rij toe te voegen, {4} om de laatste rij te verwijderen, en {5} om af te sluiten"/>
+    <str id="UserInputPanel.custom.console.no.add.remove" txt="Voer het rijnummer 1..{0} in om te bewerken, {1} om alles te accepteren, {2} om opnieuw te tonen, en {3} om af te sluiten"/>
+    <str id="UserInputPanel.custom.console.remove" txt="Voer het rijnummer 1..{0} in om te bewerken, {1} om alles te accepteren, {2} om opnieuw te tonen, {3} om de laatste rij te verwijderen, en {4} om af te sluiten"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.add" txt="Toevoegen"/>
+    <str id="UserInputPanel.custom.swing.buttonlabel.remove" txt="Verwijderen"/>
     <str id="UserInputPanel.dir.nodirectory.caption" txt="Geen Map Gekozen"/>
     <str id="UserInputPanel.dir.nodirectory.message" txt="U moet een geldige map kiezen."/>
     <str id="UserInputPanel.dir.notdirectory.caption" txt="Ongeldige Map"/>
@@ -334,7 +334,7 @@
     <str id="UserInputPanel.search.autodetect.failed.message" txt="Het automatisch zoeken is mislukt."/>
     <str id="UserInputPanel.search.autodetect.tooltip" txt="Zoek naar het bestand of de map in de hierboven aangegeven paden."/>
     <str id="UserInputPanel.search.browse" txt="Bladeren..."/>
-    <str id="UserInputPanel.search.delete" txt="Delete..."/>
+    <str id="UserInputPanel.search.delete" txt="Verwijderen..."/>
     <str id="UserInputPanel.search.location" txt="Geef de locatie van {0}"/>
     <str id="UserInputPanel.search.location.checkedfile" txt="Het bestaan van {0} is gecontroleerd."/>
     <str id="UserInputPanel.search.wrongselection.caption" txt="Ongeldige selectie"/>
@@ -358,7 +358,7 @@
     <str id="log.application" txt="Installatie rapport voor : {0} Versie {1}"/>
     <str id="log.errorHeading" txt="                                --- Fouten ---"/>
     <str id="log.errorPrefix" txt="Fout [{0}] - "/>
-    <str id="log.exceptionPrefix" txt="                 &gt;&gt; Exception: {0}"/>
+    <str id="log.exceptionPrefix" txt="                 &gt;&gt; Uitzondering: {0}"/>
     <str id="log.informUserFail" txt="&lt;html&gt;De installatie is niet gelukt!&lt;br&gt;Wilt u een log-bestand opslaan?&lt;/html&gt;"/>
     <str id="log.informUserPartial" txt="&lt;html&gt;De installatie is mogelijk niet volledig gelukt!&lt;br&gt;Wilt u een log-bestand opslaan?&lt;/html&gt;"/>
     <str id="log.informUserTitle" txt="Installatie problemen"/>
@@ -380,12 +380,12 @@
     <!-- Strings for individual messages in the logging/reporting system.
          Numbers for each category (message/warning/error) start at 0 -->
     <str id="debug.changevariable" txt="wijzig waarde"/>
-    <str id="debug.deletevariable" txt="delete value"/>
+    <str id="debug.deletevariable" txt="waarde verwijderen"/>
     <str id="log.error_0" txt="Kan ''{0}'' niet wegschrijven"/>
     <str id="log.message_" txt=""/>
     <str id="log.warning_" txt=""/>
 
-    <str id="data.validation.error.title" txt="Validation failed"/>
-    <str id="data.validation.warning.title" txt="Attention needed"/>
+    <str id="data.validation.error.title" txt="Validatie mislukt"/>
+    <str id="data.validation.warning.title" txt="Aandacht vereist"/>
 
 </izpack:langpack>
