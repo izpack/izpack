@@ -144,7 +144,7 @@ public class PackFile implements Serializable
      */
     public PackFile(File baseDir, File src, String target, List<OsModel> osList, OverrideType override,
                     String overrideRenameTo, Blockable blockable, Map<String, String> pack200Properties)
-    throws IOException
+            throws IOException
     {
         this(src, FileUtil.getRelativeFileName(src, baseDir), target, osList, override, overrideRenameTo, blockable,
                 null, pack200Properties);
@@ -163,7 +163,7 @@ public class PackFile implements Serializable
      */
     public PackFile(File src, String relativeSourcePath, String target, List<OsModel> osList, OverrideType override,
                     String overrideRenameTo, Blockable blockable, Map additionals, Map<String, String> pack200Properties)
-            throws FileNotFoundException
+            throws IOException
     {
         instanceId = nextInstanceId.getAndIncrement();
         if (!src.exists()) // allows cleaner client co
@@ -171,6 +171,7 @@ public class PackFile implements Serializable
             throw new FileNotFoundException("No such file: " + src);
         }
 
+        validateTargetPath(target);
         if ('/' != File.separatorChar)
         {
             target = target.replace(File.separatorChar, '/');
@@ -211,6 +212,33 @@ public class PackFile implements Serializable
         }
     }
 
+    public static void validateTargetPath(String target) throws IOException
+    {
+        Objects.requireNonNull(target, "target");
+
+        if (containsParentTraversal(target))
+        {
+            throw new IOException("Installer target path must not contain path traversal: " + target);
+        }
+    }
+
+    private static boolean containsParentTraversal(String target)
+    {
+        int start = 0;
+        for (int i = 0; i <= target.length(); i++)
+        {
+            if (i == target.length() || target.charAt(i) == '/' || target.charAt(i) == '\\')
+            {
+                if (i > start && "..".equals(target.substring(start, i)))
+                {
+                    return true;
+                }
+                start = i + 1;
+            }
+        }
+        return false;
+    }
+
     /**
      * Constructs and initializes from a source file.
      *
@@ -224,7 +252,7 @@ public class PackFile implements Serializable
      */
     public PackFile(File baseDir, File src, String target, List<OsModel> osList, OverrideType override,
                     String overrideRenameTo, Blockable blockable, Map additionals, Map<String, String> pack200Properties)
-    throws IOException
+            throws IOException
     {
         this(src, FileUtil.getRelativeFileName(src, baseDir), target, osList, override, overrideRenameTo, blockable,
                 additionals, pack200Properties);

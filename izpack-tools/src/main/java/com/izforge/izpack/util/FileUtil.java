@@ -32,6 +32,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -241,15 +242,11 @@ public class FileUtil
         {
             throw new IOException("Base path " + basedir + " is expected to be a directory");
         }
-        String canonicalFilePath = file.getCanonicalPath();
-        String canonicalBaseDirPath = basedir.getCanonicalPath();
+        Path canonicalFilePath = file.getCanonicalFile().toPath();
+        Path canonicalBaseDirPath = basedir.getCanonicalFile().toPath();
         if (canonicalFilePath.startsWith(canonicalBaseDirPath))
         {
-            int length = canonicalBaseDirPath.length();
-            if (length < canonicalFilePath.length())
-            {
-                return canonicalFilePath.substring(length + 1);
-            }
+            return canonicalBaseDirPath.relativize(canonicalFilePath).toString();
         }
         return null;
     }
