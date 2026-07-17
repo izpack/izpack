@@ -38,7 +38,7 @@ jobs:
           fluxbox &> ~/fluxbox.log &
           ./mvnw -B verify -Pwith-gui-tests
   deploy:
-    if: contains( github.ref, 'master')
+    if: github.ref_name == '5.2'
     needs: build
     name: Deploy
     runs-on: ubuntu-latest
