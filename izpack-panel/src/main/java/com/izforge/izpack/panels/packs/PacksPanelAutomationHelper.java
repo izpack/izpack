@@ -53,8 +53,8 @@ public class PacksPanelAutomationHelper implements PanelAutomation
             IXMLElement packElement = new XMLElementImpl("pack", panelRoot);
             packElement.setAttribute("index", Integer.toString(i));
             packElement.setAttribute("name", pack.getName());
-            Boolean selected = installData.getSelectedPacks().contains(pack);
-            packElement.setAttribute("selected", selected.toString());
+            boolean selected = installData.getSelectedPacks().contains(pack);
+            packElement.setAttribute("selected", Boolean.toString(selected));
 
             panelRoot.addChild(packElement);
         }
@@ -72,58 +72,56 @@ public class PacksPanelAutomationHelper implements PanelAutomation
         final class PInfo
         {
 
-            private boolean _selected;
-
-            private int _index;
-
-            private String _name = "";
+            private final boolean selected;
+            private int index;
+            private String name = "";
 
             PInfo(boolean selected, String index, String name)
             {
-                _selected = selected;
+                this.selected = selected;
                 try
                 {
-                    _index = Integer.valueOf(index);
+                    this.index = Integer.parseInt(index);
                 }
                 catch (NumberFormatException e)
                 {
-                    _index = -100;
+                    this.index = -100;
                 }
                 if (name != null)
                 {
-                    _name = name;
+                    this.name = name;
                 }
             }
 
             public boolean isSelected()
             {
-                return _selected;
+                return selected;
             }
 
             public boolean equals(int index)
             {
-                return _index == index && _name.equals("");
+                return this.index == index && name.isEmpty();
             }
 
             public boolean equals(String name)
             {
-                return _name.equals(name);
+                return this.name.equals(name);
             }
 
             @Override
             public String toString()
             {
                 String retVal = "";
-                if (!_name.equals(""))
+                if (!name.equals(""))
                 {
-                    retVal = "Name: " + _name + " and ";
+                    retVal = "Name: " + name + " and ";
                 }
-                retVal += "Index: " + String.valueOf(_index);
+                retVal += "Index: " + index;
                 return retVal;
             }
         }
 
-        List<PInfo> autoinstallPackInfoList = new ArrayList<PInfo>();
+        List<PInfo> autoinstallPackInfoList = new ArrayList<>();
 
         // We get the packs markups
         List<IXMLElement> packList = panelRoot.getChildrenNamed("pack");
@@ -140,35 +138,36 @@ public class PacksPanelAutomationHelper implements PanelAutomation
                     || selectedString.equalsIgnoreCase("on");
             final PInfo packInfo = new PInfo(selected, index, name);
             autoinstallPackInfoList.add(packInfo);
-            logger.fine("Try to " + (selected ? "add to" : "remove from") + " selection [" + packInfo.toString() + "]");
+            logger.fine("Try to " + (selected ? "add to" : "remove from") + " selection [" + packInfo + "]");
         }
 
         // Now merge the selected pack from automated install installDataGUI with the selected packs form
         // autoinstall.xml
         logger.fine("Modify pack selection");
         RulesEngine rules = idata.getRules();
-        for (Pack pack : idata.getAvailablePacks())
+        List<Pack> availablePacks = idata.getAvailablePacks();
+        for (Pack pack : availablePacks)
         {
             // Check if the pack is in the List of autoinstall.xml (search by name and index)
-            final int indexOfAvailablePack = idata.getAvailablePacks().indexOf(pack);
+            final int indexOfAvailablePack = availablePacks.indexOf(pack);
             for (PInfo packInfo : autoinstallPackInfoList)
             {
                 // Check if we have a pack available that is referenced in autoinstall.xml
                 if ((packInfo.equals(pack.getName())) || (packInfo.equals(indexOfAvailablePack)))
                 {
+                    List<Pack> selectedPacks = idata.getSelectedPacks();
                     if (pack.isRequired())
                     {
                         // Do not modify required packs
                         if (!packInfo.isSelected() && rules.canInstallPack(pack.getName(), idata.getVariables()))
                         {
-                            logger.warning("Pack [" + packInfo.toString()
-                                                   + "] must be installed because it is required");
+                            logger.warning("Pack [" + packInfo + "] must be installed because it is required");
                         }
                         else if (!rules.canInstallPack(pack.getName(), idata.getVariables()))
                         {
                             // Pack can be removed from selection because it is required but conditions are not met
-                            idata.getSelectedPacks().remove(pack);
-                            logger.fine("Pack [" + packInfo.toString() + "] removed from selection.");
+                            selectedPacks.remove(pack);
+                            logger.fine("Pack [" + packInfo + "] removed from selection.");
                         }
                     }
                     else
@@ -176,18 +175,18 @@ public class PacksPanelAutomationHelper implements PanelAutomation
                         if (packInfo.isSelected())
                         {
                             // Check if the conditions allow to select the pack
-                            if (idata.getSelectedPacks().indexOf(pack) < 0
+                            if (!selectedPacks.contains(pack)
                                     && rules.canInstallPack(pack.getName(), idata.getVariables()))
                             {
-                                idata.getSelectedPacks().add(pack);
-                                logger.fine("Pack [" + packInfo.toString() + "] added to selection.");
+                                selectedPacks.add(pack);
+                                logger.fine("Pack [" + packInfo + "] added to selection.");
                             }
                         }
                         else
                         {
                             // Pack can be removed from selection because it is not required
-                            idata.getSelectedPacks().remove(pack);
-                            logger.fine("Pack [" + packInfo.toString() + "] removed from selection.");
+                            selectedPacks.remove(pack);
+                            logger.fine("Pack [" + packInfo + "] removed from selection.");
 
                         }
                     }
@@ -195,6 +194,7 @@ public class PacksPanelAutomationHelper implements PanelAutomation
                 }
             }
         }
+        idata.updateEstimatedSize();
         // Update panelRoot to reflect the changes made by the automation helper, panel validate or panel action
         for (int counter = panelRoot.getChildrenCount(); counter > 0; counter--)
         {

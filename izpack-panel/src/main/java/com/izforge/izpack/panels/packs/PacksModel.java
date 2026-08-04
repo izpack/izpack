@@ -48,7 +48,7 @@ import java.util.logging.Logger;
 public class PacksModel extends AbstractTableModel
 {
     private static final long serialVersionUID = 3258128076746733110L;
-    private static final transient Logger logger = Logger.getLogger(PacksModel.class.getName());
+    private static final Logger logger = Logger.getLogger(PacksModel.class.getName());
 
     protected List<Pack> packs;
     protected final List<Pack> hiddenPacks;
@@ -101,7 +101,7 @@ public class PacksModel extends AbstractTableModel
      */
     private List<Pack> getHiddenPacks()
     {
-        List<Pack> hiddenPacks = new ArrayList<Pack>();
+        List<Pack> hiddenPacks = new ArrayList<>();
         for (Pack availablePack : installData.getAvailablePacks())
         {
             if (availablePack.isHidden())
@@ -117,7 +117,7 @@ public class PacksModel extends AbstractTableModel
      */
     public List<Pack> getVisiblePacks()
     {
-        List<Pack> visiblePacks = new ArrayList<Pack>();
+        List<Pack> visiblePacks = new ArrayList<>();
         for (Pack availablePack : installData.getAvailablePacks())
         {
             if (!availablePack.isHidden())
@@ -136,7 +136,7 @@ public class PacksModel extends AbstractTableModel
      */
     private Map<String, Pack> getNametoPackMapping(List<Pack> packs)
     {
-        Map <String, Pack> nameToPack = new HashMap<String, Pack>();
+        Map <String, Pack> nameToPack = new HashMap<>();
         for (Pack pack : packs)
         {
             nameToPack.put(pack.getName(), pack);
@@ -152,7 +152,7 @@ public class PacksModel extends AbstractTableModel
      */
     private Map<String, Integer> getNametoRowMapping(List<Pack> packs)
     {
-        Map<String, Integer> nameToPos = new HashMap<String, Integer>();
+        Map<String, Integer> nameToPos = new HashMap<>();
         for (int i = 0; i < packs.size(); i++)
         {
             Pack pack = packs.get(i);
@@ -707,16 +707,7 @@ public class PacksModel extends AbstractTableModel
         }
 
         installData.setSelectedPacks(packsToInstall);
-        
-        // calculate the estimated size and store in variable
-        long estimatedSizeInBytes = 0;
-        for (Pack p : packsToInstall)
-        {
-        	estimatedSizeInBytes += p.getSize();
-        }
-        // the size of the installed files (in KB)
-        installData.setVariable(InstallData.ESTIMATED_SIZE, Long.toString(estimatedSizeInBytes / 1024));
-        
+        installData.updateEstimatedSize();
         return packsToInstall;
     }
 
@@ -799,7 +790,7 @@ public class PacksModel extends AbstractTableModel
      */
     private void dfs(int[] status)
     {
-        Map<String, PackColor> colours = new HashMap<String, PackColor>();
+        Map<String, PackColor> colours = new HashMap<>();
         for (int i = 0; i < packs.size(); i++)
         {
             for (Pack pack : packs)
@@ -874,7 +865,7 @@ public class PacksModel extends AbstractTableModel
      */
     private void removeAlreadyInstalledPacks(List<Pack> selectedPacks, Map<String, Pack> installedPacks)
     {
-        List<Pack> removePacks = new ArrayList<Pack>();
+        List<Pack> removePacks = new ArrayList<>();
 
         for (Pack selectedPack : selectedPacks)
         {
@@ -975,7 +966,7 @@ public class PacksModel extends AbstractTableModel
      */
     public Map<Pack, Integer> getPacksToRowNumbers()
     {
-        Map<Pack, Integer> packsToRowNumbers = new HashMap<Pack, Integer>();
+        Map<Pack, Integer> packsToRowNumbers = new HashMap<>();
         for (Map.Entry<String, Integer> entry : nameToRow.entrySet())
         {
             packsToRowNumbers.put(nameToPack.get(entry.getKey()), entry.getValue());
@@ -1019,7 +1010,7 @@ public class PacksModel extends AbstractTableModel
     public boolean isChecked(int row)
     {
         CbSelectionState state = checkValues.get(row);
-        return state != null ? state.isChecked() : false;
+        return state != null && state.isChecked();
     }
 
     /**
@@ -1029,7 +1020,7 @@ public class PacksModel extends AbstractTableModel
     public boolean isPartiallyChecked(int row)
     {
         CbSelectionState state = checkValues.get(row);
-        return state != null ? state.isPartiallyChecked() : false;
+        return state != null && state.isPartiallyChecked();
     }
 
     /**
@@ -1039,7 +1030,7 @@ public class PacksModel extends AbstractTableModel
     public boolean isCheckBoxSelectable(int row)
     {
         CbSelectionState state = checkValues.get(row);
-        return state != null ? state.isSelectable() : false;
+        return state != null && state.isSelectable();
     }
 
     /**
