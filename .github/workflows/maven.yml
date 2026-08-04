@@ -36,9 +36,14 @@ jobs:
           DISPLAY: ':99.0'
         run: |
           sudo apt-get update
-          sudo apt-get install fluxbox
-          Xvfb :99 -screen 0 1600x1200x16 > /dev/null 2>&1 &
+          sudo apt-get install -y fluxbox wmctrl xdotool x11-utils
+          # Start X virtual framebuffer with 24-bit depth (more compatible with Java AWT/Swing).
+          Xvfb :99 -screen 0 1600x1200x24 > /dev/null 2>&1 &
+          sleep 1
+          # Prevent AWT from expecting a reparenting WM -- fixes focus/showing issues with lightweight WMs.
+          export _JAVA_AWT_WM_NONREPARENTING=1
           fluxbox &> ~/fluxbox.log &
+          sleep 2
           ./mvnw -B verify -Pwith-gui-tests -Ddependency-check.skip=true
 
       - name: Test Summary
