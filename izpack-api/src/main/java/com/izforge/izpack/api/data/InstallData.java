@@ -46,7 +46,7 @@ public interface InstallData
      * The install path.
      */
     String INSTALL_PATH = "INSTALL_PATH";
-    
+
     /**
      * The estimated size of the installation on disk.
      */
@@ -173,7 +173,7 @@ public interface InstallData
      * @return the current locale's ISO3 language code. May be {@code null}
      */
     String getLocaleISO3();
-    
+
      /**
      * Returns the current locale's ISO2 language code.
      *
@@ -322,5 +322,25 @@ public interface InstallData
      */
     Object getAttribute(String name);
 
+    /**
+     * Updates the estimated size variable for the installation.
+     * <p>
+     * This method calculates the combined size of all selected packs, converts it from bytes to kilobytes,
+     * and assigns the value to the {@code ESTIMATED_SIZE} variable. If no packs are selected, the variable
+     * is set to {@code 0}.
+     * <p>
+     * The value of the {@code ESTIMATED_SIZE} variable can be used to display or process the estimated
+     * installation size.
+     */
+    default void updateEstimatedSize()
+    {
+        final List<Pack> selectedPacks = getSelectedPacks();
+        String estimatedSize = "0";
+        if (selectedPacks != null)
+        {
+            estimatedSize = Long.toString(selectedPacks.stream().map(Pack::getSize).reduce(0L, Long::sum) / 1024);
+        }
+        setVariable(ESTIMATED_SIZE, estimatedSize);
+    }
 }
 

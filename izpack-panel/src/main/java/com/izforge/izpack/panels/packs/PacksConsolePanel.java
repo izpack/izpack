@@ -19,9 +19,9 @@
 
 package com.izforge.izpack.panels.packs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -106,7 +106,7 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
         out(Type.INFORMATION, installData.getMessages().get("PacksPanel.info"));
         out(Type.INFORMATION, "");
 
-        selectedPacks = new LinkedList<Pack>();
+        selectedPacks = new ArrayList<>();
         computePacks(installData.getAvailablePacks());
 
         for (String key : names.keySet())
@@ -116,12 +116,7 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
         out(Type.INFORMATION, "Done!");
 
         installData.setSelectedPacks(selectedPacks);
-
-        if (selectedPacks.isEmpty())
-        {
-            out(Type.WARNING, "You have not selected any packs!");
-            return promptRerunPanel(installData, console);
-        }
+        installData.updateEstimatedSize();
         return promptEndPanel(installData, console);
     }
 
@@ -185,7 +180,7 @@ public class PacksConsolePanel extends AbstractConsolePanel implements ConsolePa
      */
     private void computePacks(List<Pack> packs)
     {
-        names = new LinkedHashMap<String, Pack>();
+        names = new LinkedHashMap<>();
         for (Pack pack : packs)
         {
             names.put(pack.getName(), pack);
