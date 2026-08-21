@@ -26,6 +26,11 @@ import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.util.PlatformModelMatcher;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
 
 /**
@@ -36,7 +41,7 @@ import java.util.logging.Logger;
  */
 public class ScriptParser
 {
-    private static final Logger logger = Logger.getLogger(ScriptParser.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ScriptParser.class.getName());
 
     /**
      * The variable replacer.
@@ -77,50 +82,23 @@ public class ScriptParser
 
         // Create a temporary file for the parsed data
         // (Use the same directory so that renaming works later)
-        File file = new File(parsable.getPath());
+        final Path file = Path.of(parsable.getPath());
 
-        logger.fine("Parsing and replacing variables in file " + file + "...");
+        LOGGER.fine(() -> "Parsing and replacing variables in file " + file + "...");
 
-        File parsedFile;
-        try
-        {
-            parsedFile = File.createTempFile("izpp", null, file.getParentFile());
-        }
-        catch (IOException exception)
-        {
-            throw new IOException("Failed to create temporary file for " + parsable.getPath() + " in directory "
-                                          + file.getParentFile(), exception);
-        }
+        final Path parsedFile = Files.createTempFile(file.getParent(),"izpp", null);
 
         // Parses the file
         // (Use buffering because substitutor processes byte at a time)
-        Reader reader = null;
-        Writer writer = null;
-        try {
-            FileInputStream inFile = new FileInputStream(file);
-            FileOutputStream outFile = new FileOutputStream(parsedFile);
-            InputStreamReader inReader = parsable.getEncoding() != null ?
-                new InputStreamReader(inFile, parsable.getEncoding()) :
-                new InputStreamReader(inFile);
-            OutputStreamWriter outWriter = parsable.getEncoding() != null ?
-                new OutputStreamWriter(outFile, parsable.getEncoding()) :
-                new OutputStreamWriter(outFile);
-            reader = new BufferedReader(inReader, 5120);
-            writer = new BufferedWriter(outWriter, 5120);
+        final String parsableEncoding = parsable.getEncoding();
+        final Charset charset = parsableEncoding != null ? Charset.forName(parsableEncoding) : StandardCharsets.UTF_8;
+        try (BufferedReader reader = Files.newBufferedReader(file, charset);
+             BufferedWriter writer = Files.newBufferedWriter(parsedFile, charset))
+        {
             replacer.substitute(reader, writer, parsable.getType());
-        } finally {
-            if (reader != null) reader.close();
-            if (writer != null) writer.close();
         }
 
         // Replace the original file with the parsed one
-        if (!file.delete())
-        {
-            throw new IOException("Failed to delete file: " + file);
-        }
-        if (!parsedFile.renameTo(file))
-        {
-            throw new IOException("Could not rename file " + parsedFile + " to " + file);
-        }
+        Files.move(parsedFile, file, StandardCopyOption.REPLACE_EXISTING);
     }
 }

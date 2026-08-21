@@ -18,12 +18,13 @@ package com.izforge.izpack.core.substitutor;
 
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
-import com.izforge.izpack.util.IoHelper;
 
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.nio.CharBuffer;
+
+import static java.lang.System.lineSeparator;
 
 /**
  * An input reader which resolves IzPack variables on the fly
@@ -42,13 +43,15 @@ public class VariableSubstitutorReader extends Reader
      */
     private boolean bracesRequired = false;
 
-    private char variable_start = '$';
-    private char variable_end = '\0';
+    private char variableStart = '$';
+    private char variableEnd = '\0';
     private boolean inBraces = false;
 
     private final StringBuilder varNameBuffer = new StringBuilder();
     private String varValue = null;
     private int varValueIndex = 0;
+    private String streamBuffer = null;
+    private int streamBufferIndex = 0;
 
 
     public VariableSubstitutorReader(Reader source, Variables variables, SubstitutionType type, boolean bracesRequired)
@@ -71,16 +74,16 @@ public class VariableSubstitutorReader extends Reader
         switch (type)
         {
             case TYPE_SHELL:
-                variable_start = '%';
+                variableStart = '%';
                 break;
 
             case TYPE_AT:
-                variable_start = '@';
+                variableStart = '@';
                 break;
 
             case TYPE_ANT:
-                variable_start = '@';
-                variable_end = '@';
+                variableStart = '@';
+                variableEnd = '@';
                 break;
 
             default:
@@ -107,26 +110,75 @@ public class VariableSubstitutorReader extends Reader
 
     @Override
     public int read(CharBuffer target) throws IOException {
-        throw new RuntimeException("Operation Not Supported");
+        throw new UnsupportedOperationException("Operation Not Supported");
+    }
+
+    private int readFromStream() throws IOException
+    {
+        if (streamBuffer != null)
+        {
+            if (streamBufferIndex < streamBuffer.length())
+            {
+                return streamBuffer.charAt(streamBufferIndex++);
+            }
+            if (streamBufferIndex == streamBuffer.length())
+            {
+                streamBuffer = null;
+                streamBufferIndex = 0;
+            }
+        }
+
+        int data = pushbackReader.read();
+        if (data == -1)
+        {
+            return -1;
+        }
+
+        char c = (char) data;
+        if (c == '\r')
+        {
+            int nextData = pushbackReader.read();
+            if (nextData != '\n')
+            {
+                pushbackReader.unread(nextData);
+            }
+            streamBuffer = lineSeparator();
+        }
+        else if (c == '\n')
+        {
+            streamBuffer = lineSeparator();
+        }
+        else
+        {
+            return data;
+        }
+
+        return streamBuffer.charAt(streamBufferIndex++);
     }
 
     @Override
     public int read() throws IOException
     {
-        if(varValue != null){
-            if(varValueIndex < varValue.length()){
+        if (varValue != null)
+        {
+            if (varValueIndex < varValue.length())
+            {
                 return varValue.charAt(varValueIndex++);
             }
-            if(varValueIndex == varValue.length()){
+            if (varValueIndex == varValue.length())
+            {
                 varValue = null;
                 varValueIndex = 0;
             }
         }
 
-        int data = pushbackReader.read();
-        if(data != variable_start) return data;
+        int data = readFromStream();
+        if (data != variableStart)
+        {
+            return data;
+        }
 
-        data = pushbackReader.read();
+        data = readFromStream();
         if (data == '{')
         {
             inBraces = true;
@@ -134,7 +186,7 @@ public class VariableSubstitutorReader extends Reader
         else if (bracesRequired)
         {
             pushbackReader.unread(data);
-            return variable_start;
+            return variableStart;
         }
 
         varNameBuffer.delete(0, varNameBuffer.length());
@@ -144,20 +196,18 @@ public class VariableSubstitutorReader extends Reader
             varNameBuffer.append((char) data);
         }
 
-        data = pushbackReader.read();
+        data = readFromStream();
         while (
-                data >= ' ' && (inBraces && data != '}')
-                || (inBraces && ((data == '[') || (data == ']')))
-                || isAllowedCharInVariableName(data)
+                data >= ' ' && inBraces && data != '}' || isAllowedCharInVariableName(data)
         )
         {
             varNameBuffer.append((char) data);
-            data = pushbackReader.read();
+            data = readFromStream();
         }
 
         boolean variable = wasItPlausibleVariableName(data);
         String name = varNameBuffer.toString();
-        if (variable && name.length() > 0)
+        if (variable && !name.isEmpty())
         {
             // check for environment variables
             if (inBraces && name.startsWith("ENV[")
@@ -194,20 +244,20 @@ public class VariableSubstitutorReader extends Reader
             }
             unclosedBraces = true;
         } else if (
-                (data == variable_start && variable_start != variable_end)
-                || (!isAllowedCharInVariableName(data) && data != '}' && data != variable_end)
+                (data == variableStart && variableStart != variableEnd)
+                || (!isAllowedCharInVariableName(data) && data != '}' && data != variableEnd)
                 )
         {
             pushbackReader.unread(data);
         }
 
-        if(varValue == null)
+        if (varValue == null)
         {
-            varValue = variable_start
+            varValue = variableStart
                     + (inBraces ? "{" : "")
                     + varNameBuffer.toString()
                     + (inBraces && !unclosedBraces ? "}" : "")
-                    + (variable_end != '\0' && variable ? variable_end : "");
+                    + (variableEnd != '\0' && variable ? variableEnd : "");
         }
         else
         {
@@ -216,7 +266,8 @@ public class VariableSubstitutorReader extends Reader
 
         inBraces = false;
 
-        if(varValue.length() == 0){
+        if (varValue.isEmpty())
+        {
             return read();
         }
 
@@ -225,7 +276,7 @@ public class VariableSubstitutorReader extends Reader
 
     private boolean wasItPlausibleVariableName(int data) throws IOException
     {
-        if (variable_end == '\0')
+        if (variableEnd == '\0')
         {
             return !inBraces || data == '}';
         }
@@ -240,14 +291,14 @@ public class VariableSubstitutorReader extends Reader
             {
                 return false;
             }
-            if (variable_end == nextData)
+            if (variableEnd == nextData)
             {
                 return true;
             }
             pushbackReader.unread(nextData);
             return false;
         }
-        return variable_end == data;
+        return variableEnd == data;
     }
 
     @Override
@@ -279,7 +330,7 @@ public class VariableSubstitutorReader extends Reader
 
     @Override
     public long skip(long n) throws IOException {
-        throw new RuntimeException("Operation Not Supported");
+        throw new UnsupportedOperationException("Operation Not Supported");
     }
 
     @Override
@@ -294,12 +345,12 @@ public class VariableSubstitutorReader extends Reader
 
     @Override
     public void mark(int readAheadLimit) throws IOException {
-        throw new RuntimeException("Operation Not Supported");
+        throw new UnsupportedOperationException("Operation Not Supported");
     }
 
     @Override
     public void reset() throws IOException {
-        throw new RuntimeException("Operation Not Supported");
+        throw new UnsupportedOperationException("Operation Not Supported");
     }
 
 
@@ -319,8 +370,10 @@ public class VariableSubstitutorReader extends Reader
      * @param str  the string to check for special characters
      * @return the string with the special characters properly escaped
      */
-    private String escapeSpecialChars(String str)
+    private String escapeSpecialChars(final String str)
     {
+        final String baseStr = str.replaceAll("\\R", lineSeparator());
+
         StringBuffer buffer;
         int len;
         int i;
@@ -335,14 +388,12 @@ public class VariableSubstitutorReader extends Reader
             case TYPE_PLAIN:
             case TYPE_AT:
             case TYPE_ANT:
-                return str;
             case TYPE_SHELL:
-                // apple mac has major problem with \r, make sure they are gone
-                return str.replace("\r", "");
+                return baseStr;
             case TYPE_JAVA_PROPERTIES:
             case TYPE_JAVA:
-                buffer = new StringBuffer(str);
-                len = str.length();
+                buffer = new StringBuffer(baseStr);
+                len = baseStr.length();
                 boolean leading = true;
                 for (i = 0; i < len; i++)
                 {
@@ -373,8 +424,7 @@ public class VariableSubstitutorReader extends Reader
                         // Check for special characters
                         // According to the spec:
                         // 'For the element, leading space characters, but not embedded or trailing
-                        // space characters,
-                        // are written with a preceding \ character'
+                        // space characters are written with a preceding \ character'
                         else if (c == ' ')
                         {
                             if (leading)
@@ -408,8 +458,8 @@ public class VariableSubstitutorReader extends Reader
                 }
                 return buffer.toString();
             case TYPE_XML:
-                buffer = new StringBuffer(str);
-                len = str.length();
+                buffer = new StringBuffer(baseStr);
+                len = baseStr.length();
                 for (i = 0; i < len; i++)
                 {
                     String r = null;

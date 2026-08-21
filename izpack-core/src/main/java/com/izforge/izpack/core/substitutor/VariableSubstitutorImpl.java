@@ -38,11 +38,11 @@ import java.util.logging.Logger;
  * <p/>
  * This is a abstract base type for all kinds of variables
  */
-public class VariableSubstitutorImpl implements VariableSubstitutor, Serializable
+public class VariableSubstitutorImpl implements VariableSubstitutor
 {
     private static final long serialVersionUID = 3907213762447685687L;
 
-    private static final Logger logger = Logger.getLogger(VariableSubstitutorImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(VariableSubstitutorImpl.class.getName());
 
     /**
      * The replacement variables
@@ -118,7 +118,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
         }
         catch (IOException e)
         {
-            logger.log(Level.SEVERE, "Error when substituting variables", e);
+            LOGGER.log(Level.SEVERE, "Error when substituting variables", e);
             throw new IzPackException(e);
         }
     }
@@ -131,13 +131,12 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      * @param out      the output stream to write
      * @param type     the file type or null for plain
      * @param encoding the character encoding or null for default
-     * @return the number of substitutions made
      * @throws IOException an error occured
      */
-    public int substitute(InputStream in, OutputStream out, SubstitutionType type, String encoding)
-            throws Exception
+    public void substitute(InputStream in, OutputStream out, SubstitutionType type, String encoding)
+            throws IOException
     {
-        return IOUtils.copy(new VariableSubstitutorInputStream(in, encoding, variables, type, bracesRequired), out);
+        new VariableSubstitutorInputStream(in, encoding, variables, type, bracesRequired).transferTo(out);
     }
 
     /**
@@ -149,7 +148,7 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      * @throws IOException an error occured
      */
     public String substitute(InputStream in, SubstitutionType type)
-            throws Exception
+            throws IOException
     {
         VariableSubstitutorInputStream inputStream = new VariableSubstitutorInputStream(in, variables, type, bracesRequired);
         return IOUtils.toString(inputStream, inputStream.getEncoding());
@@ -163,12 +162,11 @@ public class VariableSubstitutorImpl implements VariableSubstitutor, Serializabl
      * @param reader the reader to read
      * @param writer the writer used to write data out
      * @param type   the file type or null for plain
-     * @return the number of substitutions made
      * @throws IOException an error occured
      */
-    public int substitute(Reader reader, Writer writer, SubstitutionType type) throws Exception
+    public void substitute(Reader reader, Writer writer, SubstitutionType type) throws IOException
     {
-        return IOUtils.copy(new VariableSubstitutorReader(reader, variables, type, bracesRequired), writer);
+        new VariableSubstitutorReader(reader, variables, type, bracesRequired).transferTo(writer);
     }
 
 }
