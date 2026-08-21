@@ -78,14 +78,12 @@ public interface VariableSubstitutor extends Serializable
      * @param out      the output stream to write
      * @param type     the file type or null for plain
      * @param encoding the character encoding or null for default
-     * @return the number of substitutions made
      * @throws IllegalArgumentException     if unknown file type specified
      * @throws UnsupportedEncodingException if encoding not supported
      * @throws IOException                  if an I/O error occurs
-     * @throws
      */
-    int substitute(InputStream in, OutputStream out, SubstitutionType type, String encoding)
-            throws Exception;
+    void substitute(InputStream in, OutputStream out, SubstitutionType type, String encoding)
+            throws IOException;
 
     /**
      * Substitute method Variant that gets An Input Stream and returns A String
@@ -97,7 +95,7 @@ public interface VariableSubstitutor extends Serializable
      * @throws UnsupportedEncodingException If the file comes with a wrong Encoding
      * @throws IOException                  If an I/O Error occurs.
      */
-    String substitute(InputStream in, SubstitutionType type) throws Exception;
+    String substitute(InputStream in, SubstitutionType type) throws IOException;
 
     /**
      * Substitutes the variables found in the data read from the specified reader. Escapes special
@@ -106,9 +104,8 @@ public interface VariableSubstitutor extends Serializable
      * @param reader the reader to read
      * @param writer the writer used to write data out
      * @param type   the file type or null for plain
-     * @return the number of substitutions made
      * @throws IllegalArgumentException if unknown file type specified
      * @throws IOException              if an I/O error occurs
      */
-    int substitute(Reader reader, Writer writer, SubstitutionType type) throws Exception;
+    void substitute(Reader reader, Writer writer, SubstitutionType type) throws IOException;
 }
