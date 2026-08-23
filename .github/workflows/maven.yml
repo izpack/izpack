@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        jdk: ['11', '21']
+        jdk: ['17', '21']
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v7
@@ -116,7 +116,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
           gpg-private-key: "${{ secrets.GPG_SIGNING_KEY }}"
           overwrite-settings: false
       - name: Deploy snapshot artifacts

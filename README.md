@@ -2,7 +2,7 @@
 [![Java CI with Maven](https://github.com/izpack/izpack/actions/workflows/maven.yml/badge.svg)](https://github.com/izpack/izpack/actions/workflows/maven.yml)
 [![Apache License 2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Maven Central](https://img.shields.io/maven-central/v/org.codehaus.izpack/izpack-dist)](https://search.maven.org/search?q=g:org.codehaus.izpack)
-[![Java 11](https://img.shields.io/badge/java-11-blue.svg)](https://adoptium.net/)
+[![Java 17](https://img.shields.io/badge/java-17-blue.svg)](https://adoptium.net/)
 [![javadoc](https://javadoc.io/badge2/org.codehaus.izpack/izpack-api/javadoc.svg)](https://javadoc.io/doc/org.codehaus.izpack/izpack-api)
 
 [IzPack](http://izpack.org/) is a widely used tool for packaging applications on the Java platform as cross-platform installers.
@@ -24,8 +24,8 @@ under different terms.
 
 ## Building IzPack from source
 
-IzPack requires Java 11 and at minimum Maven 3. Due to the JDK compatibility,
-the maximum Maven version supported is 3.9.10 when compiled using JDK 11.
+IzPack requires Java 17 and at minimum Maven 3. Due to the JDK compatibility,
+the maximum Maven version supported is 3.9.10 when compiled using JDK 17.
 
     mvn verify install
 
