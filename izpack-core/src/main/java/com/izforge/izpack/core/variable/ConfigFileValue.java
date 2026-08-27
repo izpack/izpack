@@ -26,7 +26,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
@@ -35,6 +34,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import com.izforge.izpack.api.factory.XMLAccess;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -46,14 +46,11 @@ import com.izforge.izpack.api.config.Options;
 
 public abstract class ConfigFileValue extends ValueImpl implements Serializable
 {
-    /**
-     *
-     */
     private static final long serialVersionUID = 6082215731362372562L;
 
-    public final static int CONFIGFILE_TYPE_OPTIONS = 0;
-    public final static int CONFIGFILE_TYPE_INI = 1;
-    public final static int CONFIGFILE_TYPE_XML = 2;
+    public static final int CONFIGFILE_TYPE_OPTIONS = 0;
+    public static final int CONFIGFILE_TYPE_INI = 1;
+    public static final int CONFIGFILE_TYPE_XML = 2;
 
     public int type = CONFIGFILE_TYPE_OPTIONS; // optional, default: property file
     public String section; // mandatory for type = "ini"
@@ -61,7 +58,7 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
 
     public boolean escape = true; // optional
 
-    public ConfigFileValue(int type, String section, String key, boolean escape)
+    protected ConfigFileValue(int type, String section, String key, boolean escape)
     {
         super();
         this.type = type;
@@ -113,7 +110,7 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
     @Override
     public void validate() throws Exception
     {
-        if (this.type == CONFIGFILE_TYPE_INI && (this.section == null || this.section.length() <= 0))
+        if (this.type == CONFIGFILE_TYPE_INI && (this.section == null || this.section.isEmpty()))
         {
             throw new Exception("No INI file section defined");
         }
@@ -141,7 +138,7 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
                 ini.load(in);
                 return ini.get(section, key);
             case CONFIGFILE_TYPE_XML:
-                return parseXPath(in, key, System.getProperty("line.separator"));
+                return parseXPath(in, key, System.lineSeparator());
             default:
                 throw new Exception("Invalid configuration file type " + type);
         }
@@ -177,7 +174,7 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
                 ini = new Ini(in, config);
                 return ini.get(_section_, _key_);
             case CONFIGFILE_TYPE_XML:
-                return parseXPath(in, _key_, System.getProperty("line.separator"));
+                return parseXPath(in, _key_, System.lineSeparator());
             default:
                 throw new Exception("Invalid configuration file type '" + type + "'");
         }
@@ -186,11 +183,9 @@ public abstract class ConfigFileValue extends ValueImpl implements Serializable
     private static String parseXPath(InputStream in, String expression, String separator)
             throws ParserConfigurationException, SAXException, IOException, XPathExpressionException
     {
-        DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory domFactory = XMLAccess.documentBuilderFactory();
         domFactory.setNamespaceAware(true);
-        DocumentBuilder builder;
-        builder = domFactory.newDocumentBuilder();
-        Document doc = builder.parse(in);
+        Document doc = domFactory.newDocumentBuilder().parse(in);
         XPath xpath = XPathFactory.newInstance().newXPath();
         // XPath Query for showing all nodes value
         XPathExpression expr = xpath.compile(expression);
