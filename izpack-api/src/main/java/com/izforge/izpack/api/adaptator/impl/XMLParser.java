@@ -20,6 +20,7 @@ package com.izforge.izpack.api.adaptator.impl;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.XMLException;
+import com.izforge.izpack.api.factory.XMLAccess;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -44,14 +45,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
 public class XMLParser implements IXMLParser
 {
-    private static final Logger logger = Logger.getLogger(XMLParser.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(XMLParser.class.getName());
 
-    public class ByteBufferInputStream extends InputStream
+    public static class ByteBufferInputStream extends InputStream
     {
         private final ByteBuffer buf;
 
@@ -67,8 +68,7 @@ public class XMLParser implements IXMLParser
             {
                 return -1;
             }
-            int c = buf.get() & 0xff;
-            return c;
+            return buf.get() & 0xff;
         }
 
         @Override
@@ -90,8 +90,8 @@ public class XMLParser implements IXMLParser
         }
     }
 
-    private LineNumberFilter filter;
-    private String parsedItem = null;
+    private final LineNumberFilter filter;
+    private String parsedItem;
 
 
     public XMLParser()
@@ -108,7 +108,7 @@ public class XMLParser implements IXMLParser
     {
         try
         {
-            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            SAXParserFactory saxParserFactory = XMLAccess.saxParserFactory();
             saxParserFactory.setValidating(false); // we don't use DTD
             saxParserFactory.setNamespaceAware(true);
             saxParserFactory.setXIncludeAware(true);
@@ -133,11 +133,7 @@ public class XMLParser implements IXMLParser
             filter = new LineNumberFilter(xmlReader);
             filter.setErrorHandler(new FilterErrorHandler());
         }
-        catch (ParserConfigurationException e)
-        {
-            throw new XMLException(e);
-        }
-        catch (SAXException e)
+        catch (ParserConfigurationException | SAXException e)
         {
             throw new XMLException(e);
         }
@@ -164,7 +160,7 @@ public class XMLParser implements IXMLParser
             SAXSource source = new SAXSource(inputSource);
             source.setXMLReader(filter);
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            TransformerFactory transformerFactory = XMLAccess.transformerFactory();
 
             final Transformer transformer;
             if (xslSource == null)
@@ -236,7 +232,7 @@ public class XMLParser implements IXMLParser
     {
         this.parsedItem = null;
 
-        final ByteBuffer buf = Charset.forName("UTF-8").encode(inputString);
+        final ByteBuffer buf = StandardCharsets.UTF_8.encode(inputString);
 
         return parse(new ByteBufferInputStream(buf));
     }
@@ -261,7 +257,7 @@ public class XMLParser implements IXMLParser
         @Override
         public void warning(SAXParseException e) throws SAXException
         {
-            logger.warning(prepareMessage(e));
+            LOGGER.warning(() -> prepareMessage(e));
         }
 
         @Override
