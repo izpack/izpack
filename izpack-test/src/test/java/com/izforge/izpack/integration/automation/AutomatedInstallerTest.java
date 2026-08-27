@@ -21,6 +21,7 @@
 
 package com.izforge.izpack.integration.automation;
 
+import com.izforge.izpack.api.factory.XMLAccess;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestAutomatedInstallationContainer;
@@ -39,7 +40,6 @@ import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
@@ -115,14 +115,13 @@ public class AutomatedInstallerTest extends AbstractInstallationTest
 
     private static void replaceInstallPathInAutoInstall(String recordfile, String installpath) throws Exception {
         // Read xml and build a DOM document
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(recordfile));
-
+        Document doc = XMLAccess.documentBuilderFactory().newDocumentBuilder().parse(new InputSource(recordfile));
         XPath xpath = XPathFactory.newInstance().newXPath();
         Node node = (Node)xpath.evaluate("//installpath", doc, XPathConstants.NODE);
         node.setTextContent(installpath);
 
         // Write the DOM document to the file
-        Transformer xformer = TransformerFactory.newInstance().newTransformer();
+        Transformer xformer = XMLAccess.transformerFactory().newTransformer();
         xformer.transform(new DOMSource(doc), new StreamResult(new File(recordfile)));
    }
 }
