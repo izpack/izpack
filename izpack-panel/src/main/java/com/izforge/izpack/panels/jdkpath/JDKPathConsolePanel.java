@@ -33,8 +33,12 @@ import com.izforge.izpack.panels.path.PathInputBase;
 import com.izforge.izpack.util.Console;
 import com.izforge.izpack.api.config.Options;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.izforge.izpack.panels.jdkpath.JDKPathPanel.PANEL_NAME;
 
@@ -45,9 +49,12 @@ import static com.izforge.izpack.panels.jdkpath.JDKPathPanel.PANEL_NAME;
  */
 public class JDKPathConsolePanel extends AbstractConsolePanel
 {
-    private InstallData installData;
+    private static final Logger LOGGER = Logger.getLogger(JDKPathConsolePanel.class.getName());
+    private static final Pattern ANSWER_PATTERN = Pattern.compile("\\[(?<yes>\\w)/(?<no>\\w)] \\[(?<default>\\w)]$");
+
     private final VariableSubstitutor variableSubstitutor;
     private final RegistryDefaultHandler handler;
+    private final InstallData installData;
 
     /**
      * Constructs a <tt>JDKPathConsolePanelHelper</tt>.
@@ -68,10 +75,10 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
 
     public boolean run(InstallData installData, Properties properties)
     {
-        String strJDKPath = properties.getProperty(JDKPathPanelHelper.JDK_PATH);
-        if (strJDKPath == null || "".equals(strJDKPath.trim()))
+        String strJDKPath = properties.getProperty(JDKPathPanelHelper.JDK_PATH, "");
+        if (strJDKPath.isBlank())
         {
-            System.err.println("Missing mandatory JDK path!");
+            LOGGER.severe("Missing mandatory JDK path!");
             return false;
         }
         else
@@ -108,7 +115,6 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
             console.println();
         }
 
-        String detectedJavaVersion = "";
         String defaultValue = JDKPathPanelHelper.getDefaultJavaPath(installData, handler);
 
         if (JDKPathPanelHelper.skipPanel(installData, defaultValue))
@@ -128,22 +134,20 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
             strPath = strPath.trim();
 
             strPath = PathInputBase.normalizePath(strPath);
-            detectedJavaVersion = JDKPathPanelHelper.getCurrentJavaVersion(strPath, installData.getPlatform());
+            String detectedJavaVersion = JDKPathPanelHelper.getCurrentJavaVersion(strPath, installData.getPlatform());
 
             String errorMessage = JDKPathPanelHelper.validate(strPath, detectedJavaVersion, messages);
             if (!errorMessage.isEmpty())
             {
                 if (errorMessage.endsWith("?"))
                 {
-                    errorMessage += "\n" + messages.get("JDKPathPanel.badVersion4");
-                    String strIn = console.prompt(errorMessage, (String)null);
-                    if (strIn == null)
-                    {
-                        return false;
-                    }
-                    if (strIn != null && (strIn.equalsIgnoreCase("y") || strIn.equalsIgnoreCase("yes")))
+                    if (promptForContinuation(console, messages, errorMessage))
                     {
                         bKeepAsking = false;
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
                 else
@@ -161,13 +165,46 @@ public class JDKPathConsolePanel extends AbstractConsolePanel
         return promptEndPanel(installData, console);
     }
 
+    static boolean promptForContinuation(Console console, Messages messages, String errorMessage) {
+        // Ex: JDKPathPanel.badVersion4= "Continue anyway? [y/n] [n]"
+        final String yesNoPromptPattern = messages.get("JDKPathPanel.badVersion4");
+        final Matcher answerMatcher = ANSWER_PATTERN.matcher(yesNoPromptPattern);
+        final String defaultAnswer;
+        final String yesAnswer;
+        final String noAnswer;
+        if (answerMatcher.find())
+        {
+            defaultAnswer = Objects.requireNonNullElse(answerMatcher.group("default"), "n");
+            yesAnswer = Objects.requireNonNullElse(answerMatcher.group("yes"), "y");
+            noAnswer = Objects.requireNonNullElse(answerMatcher.group("no"), "n");
+        }
+        else
+        {
+            defaultAnswer = "n";
+            yesAnswer = "y";
+            noAnswer = "n";
+        }
+        errorMessage += "\n" + yesNoPromptPattern;
+        final String userAnswer = console.prompt(errorMessage, noAnswer);
+        final String userAnswerChar;
+        if (userAnswer.isBlank())
+        {
+            userAnswerChar = defaultAnswer;
+        }
+        else
+        {
+            userAnswerChar = userAnswer.substring(0, 1);
+        }
+        return yesAnswer.equalsIgnoreCase(userAnswerChar) || "y".equalsIgnoreCase(userAnswerChar);
+    }
+
     @Override
     public boolean generateOptions(InstallData installData, Options options)
     {
         final String name =JDKPathPanelHelper.JDK_PATH;
         options.add(name, installData.getVariable(name));
         options.addEmptyLine(name);
-        options.putComment(name, Arrays.asList(getPanel().getPanelId()));
+        options.putComment(name, List.of(getPanel().getPanelId()));
         return true;
     }
 
