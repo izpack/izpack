@@ -35,7 +35,7 @@ import com.izforge.izpack.util.LogUtils;
 import com.izforge.izpack.util.StringTool;
 import org.apache.commons.io.FilenameUtils;
 
-import java.awt.*;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,17 +59,18 @@ import java.util.logging.Logger;
  */
 public class Installer
 {
-    private static Logger logger = Logger.getLogger(Installer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Installer.class.getName());
 
-    @SuppressWarnings("WeakerAccess")
-    public static final int INSTALLER_GUI = 0, INSTALLER_AUTO = 1, INSTALLER_CONSOLE = 2;
+    public static final int INSTALLER_GUI = 0;
+    public static final int INSTALLER_AUTO = 1;
+    public static final int INSTALLER_CONSOLE = 2;
 
     /**
      * Used to keep track of the current installation mode.
      */
     private static int installerMode = 0;
 
-    /*
+    /**
      * The main method (program entry point).
      *
      * @param args The arguments passed on the command-line.
@@ -83,7 +84,7 @@ public class Installer
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Unexpected error", e);
         }
 
     }
@@ -105,7 +106,6 @@ public class Installer
         {
             LogUtils.loadConfiguration();
         }
-        logger = Logger.getLogger(Installer.class.getName());
     }
 
     private static String fetchArgument(Iterator<String> iterator, String prev) throws IllegalArgumentException
@@ -142,9 +142,11 @@ public class Installer
 
         try
         {
-            Iterator<String> args_it = Arrays.asList(args).iterator();
+            Iterator<String> argsIt = Arrays.asList(args).iterator();
 
-            int type = INSTALLER_GUI;
+            // set the installer type based on the system mode
+            int type = GraphicsEnvironment.isHeadless() ? INSTALLER_CONSOLE : INSTALLER_GUI;
+
             ConsoleInstallerAction consoleAction = ConsoleInstallerAction.CONSOLE_INSTALL;
             String path = null;
             String langcode = null;
@@ -152,14 +154,14 @@ public class Installer
             String defaultsFile = null;
             String logFileName = null;
 
-            while (args_it.hasNext())
+            while (argsIt.hasNext())
             {
-                String arg = args_it.next().trim();
+                String arg = argsIt.next().trim();
                 try
                 {
                     if ("-logfile".equalsIgnoreCase(arg))
                     {
-                        logFileName = fetchArgument(args_it, logFileName);
+                        logFileName = fetchArgument(argsIt, logFileName);
                         checkPath(logFileName);
                     } else if ("-debug".equalsIgnoreCase(arg))
                     {
@@ -178,17 +180,17 @@ public class Installer
                         type = INSTALLER_AUTO;
                     } else if ("-defaults-file".equalsIgnoreCase(arg))
                     {
-                        defaultsFile = fetchArgument(args_it, defaultsFile);
+                        defaultsFile = fetchArgument(argsIt, defaultsFile);
                         checkPath(defaultsFile);
                     } else if ("-options-template".equalsIgnoreCase(arg))
                     {
-                        path = fetchArgument(args_it, path);
+                        path = fetchArgument(argsIt, path);
                         checkPath(path);
                         type = INSTALLER_CONSOLE;
                         consoleAction = ConsoleInstallerAction.CONSOLE_GEN_TEMPLATE;
                     } else if ("-options".equalsIgnoreCase(arg))
                     {
-                        path = fetchArgument(args_it, path);
+                        path = fetchArgument(argsIt, path);
                         checkPath(path);
                         type = INSTALLER_CONSOLE;
                         consoleAction = ConsoleInstallerAction.CONSOLE_FROM_TEMPLATE;
@@ -198,20 +200,20 @@ public class Installer
                         consoleAction = ConsoleInstallerAction.CONSOLE_FROM_SYSTEMPROPERTIES;
                     } else if ("-options-auto".equalsIgnoreCase(arg))
                     {
-                        path = fetchArgument(args_it, path);
+                        path = fetchArgument(argsIt, path);
                         checkPath(path);
                         type = INSTALLER_CONSOLE;
                         consoleAction = ConsoleInstallerAction.CONSOLE_FROM_SYSTEMPROPERTIESMERGE;
                     } else if ("-language".equalsIgnoreCase(arg))
                     {
-                        langcode = fetchArgument(args_it, langcode);
+                        langcode = fetchArgument(argsIt, langcode);
                         if (langcode == null || langcode.startsWith("-"))
                         {
                             throw new IllegalArgumentException("Option must be followed by a language code");
                         }
                     } else if ("-media".equalsIgnoreCase(arg))
                     {
-                        media = fetchArgument(args_it, media);
+                        media = fetchArgument(argsIt, media);
                         checkPath(media);
                     } else if ("-v".equals(arg) || "--version".equals(arg))
                     {
@@ -225,7 +227,7 @@ public class Installer
                         }
                         catch (IOException e)
                         {
-                            logger.log(Level.SEVERE, "IzPack version not found in manifest", e);
+                            LOGGER.log(Level.SEVERE, "IzPack version not found in manifest", e);
                             System.err.println("IzPack version not found in manifest");
                             System.exit(1);
                         }
@@ -237,7 +239,7 @@ public class Installer
                 }
                 catch (IllegalArgumentException e)
                 {
-                    logger.severe("Wrong usage of command line argument \"" + arg + "\": " + e.getMessage());
+                    LOGGER.severe("Wrong usage of command line argument \"" + arg + "\": " + e.getMessage());
                     System.exit(1);
                 }
             }
@@ -246,7 +248,7 @@ public class Installer
 
             if (args.length != 0)
             {
-                logger.info("Command line arguments: " + StringTool.stringArrayToSpaceSeparatedString(args));
+                LOGGER.info(() -> "Command line arguments: " + StringTool.stringArrayToSpaceSeparatedString(args));
             }
 
             Overrides defaults = getDefaults(defaultsFile);
@@ -255,7 +257,7 @@ public class Installer
         }
         catch (Exception e)
         {
-            logger.log(Level.SEVERE, e.getMessage(), e);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(1);
         }
     }
@@ -336,7 +338,7 @@ public class Installer
         {
             defaults.setInstallData(container.getComponent(AutomatedInstallData.class));
             defaults.load();
-            logger.info("Loaded " + defaults.size() + " override(s) from " + defaults.getFile());
+            LOGGER.info(() -> "Loaded " + defaults.size() + " override(s) from " + defaults.getFile());
 
             DefaultVariables variables = container.getComponent(DefaultVariables.class);
             variables.setOverrides(defaults);
