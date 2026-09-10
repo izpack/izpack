@@ -86,7 +86,7 @@
       <dependency>
         <groupId>org.apache.ant</groupId>
         <artifactId>ant</artifactId>
-        <version>1.10.17</version>
+        <version>1.10.18</version>
       </dependency>
       <dependency>
         <groupId>bsf</groupId>
@@ -203,7 +203,7 @@
       <dependency>
         <groupId>org.apache.maven.plugin-tools</groupId>
         <artifactId>maven-plugin-annotations</artifactId>
-        <version>3.15.2</version>
+        <version>3.16.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.plugin-testing</groupId>
