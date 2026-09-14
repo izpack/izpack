@@ -24,6 +24,7 @@ package com.izforge.izpack.api.adaptator.impl;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 
+import com.izforge.izpack.api.factory.XMLAccess;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -76,9 +77,7 @@ public class XMLElementImpl implements IXMLElement
         try
         {
             // Création d'un nouveau DOM
-            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder constructeur = documentFactory.newDocumentBuilder();
-            document = constructeur.newDocument();
+            document = XMLAccess.documentBuilderFactory().newDocumentBuilder().newDocument();
             // Propriétés du DOM
             document.setXmlVersion("1.0");
             element = document.createElement(name);

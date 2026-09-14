@@ -25,6 +25,7 @@ package com.izforge.izpack.api.adaptator.impl;
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLWriter;
 import com.izforge.izpack.api.adaptator.XMLException;
+import com.izforge.izpack.api.factory.XMLAccess;
 
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -70,8 +71,7 @@ public class XMLWriter implements IXMLWriter
         try
         {
             Source source = new DOMSource(element.getElement().getOwnerDocument());
-            TransformerFactory fabrique = TransformerFactory.newInstance();
-            Transformer transformer = fabrique.newTransformer();
+            Transformer transformer = XMLAccess.transformerFactory().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             Result result;

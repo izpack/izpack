@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import com.izforge.izpack.api.factory.XMLAccess;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -141,7 +142,7 @@ public class XmlMergeTest
                 targetFile);
 
 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory dbf = XMLAccess.documentBuilderFactory();
         dbf.setNamespaceAware(true);
         dbf.setCoalescing(true);
         dbf.setIgnoringElementContentWhitespace(true);

@@ -1,15 +1,15 @@
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,9 +26,16 @@ import com.izforge.izpack.uninstaller.container.UninstallerContainer;
 import com.izforge.izpack.uninstaller.gui.GUIUninstallerContainer;
 import com.izforge.izpack.uninstaller.gui.UninstallerFrame;
 import com.izforge.izpack.uninstaller.resource.InstallLog;
-import com.izforge.izpack.util.*;
+import com.izforge.izpack.util.Housekeeper;
+import com.izforge.izpack.util.Platform;
+import com.izforge.izpack.util.Platforms;
+import com.izforge.izpack.util.PrivilegedRunner;
+import com.izforge.izpack.util.SelfModifier;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -54,7 +61,7 @@ public class Uninstaller
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(Uninstaller.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Uninstaller.class.getName());
 
 
     /**
@@ -64,7 +71,7 @@ public class Uninstaller
      */
     public static void main(String[] args)
     {
-        boolean console = false;
+        boolean console = GraphicsEnvironment.isHeadless();
         for (String arg : args)
         {
             if (arg.equals("-c") || arg.equals("-console"))
@@ -82,7 +89,7 @@ public class Uninstaller
                 }
                 catch (IOException e)
                 {
-                    logger.log(Level.SEVERE, "IzPack version not found in manifest", e);
+                    LOGGER.log(Level.SEVERE, "IzPack version not found in manifest", e);
                     System.err.println("IzPack version not found in manifest");
                     System.exit(1);
                 }
@@ -92,21 +99,12 @@ public class Uninstaller
         // relaunch the uninstaller with elevated permissions if required
         Platform platform = new Platforms().getCurrentPlatform();
 
-        try
+        if (!PrivilegedRunner.isPrivilegedMode() && isElevationRequired(platform)
+                && relaunchWithElevatedRights(platform, args))
         {
-            if (!PrivilegedRunner.isPrivilegedMode() && isElevationRequired(platform))
-            {
-                if (relaunchWithElevatedRights(platform, args))
-                {
-                    System.exit(0);
-                }
-            }
+            System.exit(0);
         }
-        catch (IOException exception)
-        {
-            logger.log(Level.SEVERE, exception.getMessage(), exception);
-            System.exit(1);
-        }
+
 
         if (console)
         {
@@ -118,11 +116,11 @@ public class Uninstaller
             Method target;
             if (console)
             {
-                target = clazz.getMethod("consoleUninstall", new Class[]{String[].class});
+                target = clazz.getMethod("consoleUninstall", String[].class);
             }
             else
             {
-                target = clazz.getMethod("uninstall", new Class[]{String[].class});
+                target = clazz.getMethod("uninstall", String[].class);
             }
             new SelfModifier(target).invoke(args);
         }
@@ -153,6 +151,7 @@ public class Uninstaller
                 if (arg.equals("-f") || arg.equals("-force"))
                 {
                     force = true;
+                    break;
                 }
             }
             uninstaller.uninstall(force);
@@ -201,7 +200,7 @@ public class Uninstaller
 
     private static void shutdown(UninstallerContainer container, Exception error)
     {
-        logger.log(Level.SEVERE, error.getMessage(), error);
+        LOGGER.log(Level.SEVERE, error.getMessage(), error);
         container.getComponent(Housekeeper.class).shutDown(1);
     }
 
@@ -251,9 +250,8 @@ public class Uninstaller
      *
      * @param platform the current platform
      * @return <tt>true</tt> if elevation is needed
-     * @throws IOException if the installation path cannot be determined
      */
-    private static boolean isElevationRequired(Platform platform) throws IOException
+    private static boolean isElevationRequired(Platform platform)
     {
         boolean result = false;
         if (Uninstaller.class.getResource(EXEC_ADMIN) != null)
