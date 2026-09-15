@@ -81,7 +81,7 @@ jobs:
         - uses: actions/setup-java@v6
           with:
             distribution: temurin
-            java-version: 21
+            java-version: 25.0.4+101.0.LTS
             cache: 'maven'
 
         - uses: actions/download-artifact@v8.0.1
@@ -116,7 +116,7 @@ jobs:
         uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 25.0.4+101.0.LTS
           gpg-private-key: "${{ secrets.GPG_SIGNING_KEY }}"
           overwrite-settings: false
       - name: Deploy snapshot artifacts
