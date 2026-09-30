@@ -91,7 +91,7 @@ public class ScriptParser
         // Parses the file
         // (Use buffering because substitutor processes byte at a time)
         final String parsableEncoding = parsable.getEncoding();
-        final Charset charset = parsableEncoding != null ? Charset.forName(parsableEncoding) : StandardCharsets.UTF_8;
+        final Charset charset = parsableEncoding != null ? Charset.forName(parsableEncoding) : Charset.defaultCharset();
         try (BufferedReader reader = Files.newBufferedReader(file, charset);
              BufferedWriter writer = Files.newBufferedWriter(parsedFile, charset))
         {
