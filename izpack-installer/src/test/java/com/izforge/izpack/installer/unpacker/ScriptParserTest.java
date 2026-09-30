@@ -94,6 +94,24 @@ public class ScriptParserTest {
   }
 
   @Test
+  public void givenPlainTextFile_whenParseWithNullEncoding_contentIsWrittenWithDefaultEncoding() throws Exception {
+    Variables variables = new DefaultVariables();
+    VariableSubstitutor replacer = new VariableSubstitutorImpl(variables);
+    PlatformModelMatcher matcher = new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS);
+    ScriptParser scriptParser = new ScriptParser(replacer, matcher);
+
+    String content = "Simple ASCII content";
+    FileUtils.writeStringToFile(file, content, Charset.defaultCharset());
+
+    ParsableFile parsable = new ParsableFile(file.getAbsolutePath(), SubstitutionType.TYPE_PLAIN, null, new ArrayList<>());
+
+    scriptParser.parse(parsable);
+
+    String readContent = FileUtils.readFileToString(file, Charset.defaultCharset());
+    Assert.assertEquals(content, readContent);
+  }
+
+  @Test
   public void givenPlainTextFileAndCyrillicCharactersInContent_whenParseWithUtf8Encoding_contentIsWrittenWithUtf8Encoding() throws Exception {
     Variables variables = new DefaultVariables();
     VariableSubstitutor replacer = new VariableSubstitutorImpl(variables);
