@@ -79,26 +79,32 @@ public class ScriptParser
         {
             return;
         }
+        final Path originalFile = Path.of(parsable.getPath()).toAbsolutePath();
+        if (!Files.isRegularFile(originalFile))
+        {
+            LOGGER.severe(() -> "File " + originalFile + " is not a regular file");
+            return;
+        }
+        if (!Files.isWritable(originalFile))
+        {
+            LOGGER.severe(() -> "File " + originalFile + " is not writable");
+            return;
+        }
+        final Path backupFile = originalFile.resolveSibling(originalFile.getFileName() + ".bak");
+        Files.copy(originalFile, backupFile, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
 
-        // Create a temporary file for the parsed data
-        // (Use the same directory so that renaming works later)
-        final Path file = Path.of(parsable.getPath());
-
-        LOGGER.fine(() -> "Parsing and replacing variables in file " + file + "...");
-
-        final Path parsedFile = Files.createTempFile(file.getParent(),"izpp", null);
-
-        // Parses the file
-        // (Use buffering because substitutor processes byte at a time)
+        LOGGER.fine(() -> "Parsing and replacing variables in file " + originalFile + "...");
+        // Parses the file (Use buffering because substitutor processes byte at a time)
         final String parsableEncoding = parsable.getEncoding();
         final Charset charset = parsableEncoding != null ? Charset.forName(parsableEncoding) : Charset.defaultCharset();
-        try (BufferedReader reader = Files.newBufferedReader(file, charset);
-             BufferedWriter writer = Files.newBufferedWriter(parsedFile, charset))
+        try (BufferedReader reader = Files.newBufferedReader(backupFile, charset);
+             BufferedWriter writer = Files.newBufferedWriter(originalFile, charset))
         {
             replacer.substitute(reader, writer, parsable.getType());
         }
-
-        // Replace the original file with the parsed one
-        Files.move(parsedFile, file, StandardCopyOption.REPLACE_EXISTING);
+        finally
+        {
+            Files.deleteIfExists(backupFile);
+        }
     }
 }
