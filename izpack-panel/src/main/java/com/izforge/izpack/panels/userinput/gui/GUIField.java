@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -252,7 +253,7 @@ public abstract class GUIField extends AbstractFieldView
             if (tooltip != null)
             {
                 String newText = replaceVariables(tooltip);
-                if (!tooltip.equals(newText))
+                if (!Objects.equals(jc.getToolTipText(), newText))
                 {
                     jc.setToolTipText(newText);
                     updated = true;
