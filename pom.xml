@@ -51,7 +51,7 @@
     <maven.compiler.source>${maven.compiler.release}</maven.compiler.source>
     <maven.compiler.target>${maven.compiler.release}</maven.compiler.target>
     <!-- Maven 2 confuses the usage of the Nexus staging plugin and would require further customization -->
-    <mavenVersion>3.9.16</mavenVersion>
+    <mavenVersion>3.10.0</mavenVersion>
     <skipTests>false</skipTests>
     <skipUnitTests>${skipTests}</skipUnitTests>
     <skipIntegrationTests>${skipTests}</skipIntegrationTests>
@@ -141,7 +141,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.20.0</version>
+        <version>3.21.0</version>
       </dependency>
       <dependency>
         <groupId>commons-cli</groupId>
@@ -171,7 +171,7 @@
       <dependency>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-core</artifactId>
-        <version>4.0.0</version>
+        <version>4.1.0</version>
       </dependency>
 
       <!-- Maven API -->
