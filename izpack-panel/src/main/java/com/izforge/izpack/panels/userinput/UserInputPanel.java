@@ -394,9 +394,7 @@ public class UserInputPanel extends IzPanel
                 for (Component component : view.getComponents())
                 {
                     component.setEnabled(enabled);
-                    JComponent jcomponent = component.getComponent();
-                    jcomponent.setToolTipText(jcomponent.getName());
-                    panel.add(jcomponent, component.getConstraints());
+                    panel.add(component.getComponent(), component.getConstraints());
                 }
                 String variable = view.getVariable();
                 if (variable != null)
