@@ -178,7 +178,7 @@
     <str id="JDKPathPanel.badVersion4" txt="Continue anyway? [y/n] [n]"/>
     <str id="JDKPathPanel.browse" txt="Browse..."/>
     <str id="JDKPathPanel.info" txt="Select the JDK path:"/>
-    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A java runtime environment (JRE) will be not sufficient."/>
+    <str id="JDKPathPanel.intro" txt="The installed application needs a JDK between version ${JDKPathPanel.minVersion} and ${JDKPathPanel.maxVersion}. A Java runtime environment (JRE) will not be sufficient."/>
     <str id="JDKPathPanel.jdkDownload" txt="&lt;html&gt;&lt;p&gt;This software requires at least version ${JDKPathPanel.minVersion} of the Java Development Kit (JDK).&lt;p/&gt; If it is not installed, please go to &lt;a href='http://java.sun.com/javase/downloads/'&gt;http://java.sun.com/javase/downloads&lt;/a&gt;, to download and install it.&lt;/html&gt;"/>
     <str id="JDKPathPanel.notValid" txt="The chosen directory does not contain the required product."/>
     <str id="JDKPathPanel.nonValidPathInReg" txt="The Windows registry contains a non-valid path for this JDK. Should this JDK be used anyway?"/>
@@ -229,7 +229,7 @@
     <str id="SelectPrinterPanel.select_printer" txt="Select the printer to use for initial setup and testing."/>
 
     <!-- SudoPanel strings -->
-    <str id="SudoPanel.info" txt="For installing administrator privileges are necessary"/>
+    <str id="SudoPanel.info" txt="Administrator privileges are required for the installation"/>
     <str id="SudoPanel.invalidPassword" txt="Invalid password or non-administrator privileges"/>
     <str id="SudoPanel.specifyAdminPassword" txt="Please specify your password:"/>
     <str id="SudoPanel.tip" txt="Please note that passwords are case-sensitive"/>
@@ -275,7 +275,7 @@
     <str id="ShortcutPanel.alternate.saveButton" txt="Save Text File"/>
     <str id="ShortcutPanel.alternate.targetsLabel" txt="The following is a list of targets that the manufacturer of this software product wanted you to have access to."/>
     <str id="ShortcutPanel.alternate.textFileExplanation" txt="You can save detailed information about the application targets in a text file for later reference."/>
-    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphnumeric string."/>
+    <str id="ShortcutPanel.group.error" txt="Invalid program group. Please enter an alphanumeric string."/>
     <str id="ShortcutPanel.location.applications" txt="Applications Menu"/>
     <str id="ShortcutPanel.location.desktop" txt="Desktop"/>
     <str id="ShortcutPanel.location.startMenu" txt="Start Menu"/>
