@@ -21,32 +21,28 @@
 
 package com.izforge.izpack.integration;
 
-import static org.junit.Assert.assertEquals;
-
-import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.integration.HelperTestMethod.prepareFrameFixture;
+import static com.izforge.izpack.integration.HelperTestMethod.waitAndCheckInstallation;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.api.event.InstallerListener;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.listener.TestInstallerListener;
-
+import org.fest.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests that {@link InstallerListener}s are invoked during installation.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class InstallerListenerTest extends AbstractInstallationTest
 {
@@ -92,7 +88,7 @@ public class InstallerListenerTest extends AbstractInstallationTest
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)
@@ -110,24 +106,24 @@ public class InstallerListenerTest extends AbstractInstallationTest
     @InstallFile("samples/event/customlisteners.xml")
     public void testInstallListenerInvocation() throws Exception
     {
-        frameFixture = HelperTestMethod.prepareFrameFixture(frame, controller);
+        frameFixture = prepareFrameFixture(frame, controller);
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
         frameFixture.requireVisible();
 
-        HelperTestMethod.waitAndCheckInstallation(getInstallData());
+        waitAndCheckInstallation(getInstallData());
 
-        assertEquals(1, listeners.size());
+        assertThat(listeners.size()).isEqualTo(1);
         TestInstallerListener listener = (TestInstallerListener) listeners.getInstallerListeners().get(0);
-        assertEquals(1, listener.getInitialiseCount());
-        assertEquals(1, listener.getBeforePacksCount());
-        assertEquals(3, listener.getBeforePackCount());
-        assertEquals(5, listener.getBeforeDirCount());
-        assertEquals(4, listener.getBeforeFileCount());
+        assertThat(listener.getInitialiseCount()).isEqualTo(1);
+        assertThat(listener.getBeforePacksCount()).isEqualTo(1);
+        assertThat(listener.getBeforePackCount()).isEqualTo(3);
+        assertThat(listener.getBeforeDirCount()).isEqualTo(5);
+        assertThat(listener.getBeforeFileCount()).isEqualTo(4);
 
-        assertEquals(listener.getBeforePacksCount(), listener.getAfterPacksCount());
-        assertEquals(listener.getBeforePackCount(), listener.getAfterPackCount());
-        assertEquals(listener.getBeforeDirCount(), listener.getAfterDirCount());
-        assertEquals(listener.getBeforeFileCount(), listener.getAfterFileCount());
+        assertThat(listener.getAfterPacksCount()).isEqualTo(listener.getBeforePacksCount());
+        assertThat(listener.getAfterPackCount()).isEqualTo(listener.getBeforePackCount());
+        assertThat(listener.getAfterDirCount()).isEqualTo(listener.getBeforeDirCount());
+        assertThat(listener.getAfterFileCount()).isEqualTo(listener.getBeforeFileCount());
     }
 
 }

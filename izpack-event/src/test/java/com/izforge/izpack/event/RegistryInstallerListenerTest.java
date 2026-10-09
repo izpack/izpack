@@ -21,26 +21,12 @@
 
 package com.izforge.izpack.event;
 
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Properties;
-
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.coi.tools.os.win.RegDataContainer;
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -60,24 +46,29 @@ import com.izforge.izpack.core.os.RegistryHandler;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
-import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PlatformRunner;
 import com.izforge.izpack.test.util.TestLibrarian;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Librarian;
-import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.PrivilegedRunner;
 import com.izforge.izpack.util.TargetFactory;
 import com.izforge.izpack.util.os.Win_RegistryHandler;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.util.Properties;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link RegistryInstallerListener} class.
  *
  * @author Tim Anderson
  */
-@RunWith(PlatformRunner.class)
-@RunOn(Platform.Name.WINDOWS)
+@EnabledOnOs(WINDOWS)
 public class RegistryInstallerListenerTest
 {
     private boolean skipTests = new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded();
@@ -87,8 +78,8 @@ public class RegistryInstallerListenerTest
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * The variable replacer.
@@ -141,12 +132,12 @@ public class RegistryInstallerListenerTest
      *
      * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         //assertFalse("This test must be run as administrator, or with Windows UAC turned off",
         //            new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded());
-        Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+        assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
 
         Properties properties = new Properties();
         Variables variables = new DefaultVariables(properties);
@@ -154,29 +145,29 @@ public class RegistryInstallerListenerTest
         replacer = new VariableSubstitutorImpl(variables);
 
         AutomatedInstallData data = new AutomatedInstallData(variables, Platforms.WINDOWS);
-        data.setMessages(Mockito.mock(Messages.class));
+        data.setMessages(mock(Messages.class));
         installData = data;
 
-        File installDir = temporaryFolder.getRoot();
+        File installDir = temporaryFolder.toFile();
         installData.setInstallPath(installDir.getPath());
 
-        resources = Mockito.mock(Resources.class);
+        resources = mock(Resources.class);
         InputStream specStream = getClass().getResourceAsStream("/com/izforge/izpack/event/registry/RegistrySpec.xml");
-        assertNotNull(specStream);
-        Mockito.when(resources.getInputStream(RegistryInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
-        Mockito.when(resources.getInputStream(RegistryInstallerListener.UNINSTALLER_ICON)).thenThrow(
+        assertThat(specStream).isNotNull();
+        when(resources.getInputStream(RegistryInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
+        when(resources.getInputStream(RegistryInstallerListener.UNINSTALLER_ICON)).thenThrow(
             new ResourceNotFoundException("Resource not found"));
 
-        unpacker = Mockito.mock(IUnpacker.class);
+        unpacker = mock(IUnpacker.class);
         uninstallData = new UninstallData();
-        rules = Mockito.mock(RulesEngine.class);
-        housekeeper = Mockito.mock(Housekeeper.class);
-        handler = Mockito.mock(RegistryDefaultHandler.class);
-        TargetFactory factory = Mockito.mock(TargetFactory.class);
-        Mockito.when(factory.getNativeLibraryExtension()).thenReturn("dll");
+        rules = mock(RulesEngine.class);
+        housekeeper = mock(Housekeeper.class);
+        handler = mock(RegistryDefaultHandler.class);
+        TargetFactory factory = mock(TargetFactory.class);
+        when(factory.getNativeLibraryExtension()).thenReturn("dll");
         Librarian librarian = new TestLibrarian(factory, housekeeper);
         registry = new Win_RegistryHandler(librarian);
-        Mockito.when(handler.getInstance()).thenReturn(registry);
+        when(handler.getInstance()).thenReturn(registry);
     }
 
     /**
@@ -187,8 +178,8 @@ public class RegistryInstallerListenerTest
     @Test
     public void testRegistry() throws NativeLibException
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	
+        assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
+
         String appName = "IzPackRegistryTest";
         String appVersion = "1.0";
         String uninstallName = appName + "-" + appVersion;
@@ -217,9 +208,9 @@ public class RegistryInstallerListenerTest
         listener.initialise();
 
         // run the listener
-        ProgressListener progressListener = Mockito.mock(ProgressListener.class);
+        ProgressListener progressListener = mock(ProgressListener.class);
         Pack pack = new Pack("Core", null, null, null, null, true, true, false, null, true, 0);
-        listener.afterPacks(Arrays.asList(pack), progressListener);
+        listener.afterPacks(asList(pack), progressListener);
 
         // verify RegistrySpec.xml changes applied to the registry
 
@@ -258,7 +249,7 @@ public class RegistryInstallerListenerTest
     private void assertKeyExists(String key) throws NativeLibException
     {
         registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
-        assertTrue(registry.keyExist(key));
+        assertThat(registry.keyExist(key)).isTrue();
     }
 
     /**
@@ -270,7 +261,7 @@ public class RegistryInstallerListenerTest
     private void assertKeyNotExists(String key) throws NativeLibException
     {
         registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
-        assertFalse(registry.keyExist(key));
+        assertThat(registry.keyExist(key)).isFalse();
     }
 
     /**
@@ -284,7 +275,7 @@ public class RegistryInstallerListenerTest
     private void assertStringEquals(String key, String name, String expected) throws NativeLibException
     {
         RegDataContainer value = getValue(key, name, RegDataContainer.REG_SZ, "REG_SZ");
-        assertEquals(expected, value.getStringData());
+        assertThat(value.getStringData()).isEqualTo(expected);
     }
 
     /**
@@ -298,7 +289,7 @@ public class RegistryInstallerListenerTest
     private void assertLongEquals(String key, String name, long expected) throws NativeLibException
     {
         RegDataContainer value = getValue(key, name, RegDataContainer.REG_DWORD, "REG_DWORD");
-        assertEquals(expected, value.getDwordData());
+        assertThat(value.getDwordData()).isEqualTo(expected);
     }
 
     /**
@@ -312,7 +303,7 @@ public class RegistryInstallerListenerTest
     private void assertBytesEquals(String key, String name, byte[] expected) throws NativeLibException
     {
         RegDataContainer value = getValue(key, name, RegDataContainer.REG_BINARY, "REG_BINARY");
-        assertArrayEquals(expected, value.getBinData());
+        assertThat(value.getBinData()).isEqualTo(expected);
     }
 
     /**
@@ -326,7 +317,7 @@ public class RegistryInstallerListenerTest
     private void assertStringsEquals(String key, String name, String[] expected) throws NativeLibException
     {
         RegDataContainer value = getValue(key, name, RegDataContainer.REG_MULTI_SZ, "REG_MULTI_SZ");
-        assertArrayEquals(expected, value.getMultiStringData());
+        assertThat(value.getMultiStringData()).isEqualTo(expected);
     }
 
     /**
@@ -342,9 +333,9 @@ public class RegistryInstallerListenerTest
     private RegDataContainer getValue(String key, String name, int type, String typeName) throws NativeLibException
     {
         assertKeyExists(key);
-        assertTrue(registry.valueExist(key, name));
+        assertThat(registry.valueExist(key, name)).isTrue();
         RegDataContainer value = registry.getValue(key, name);
-        assertEquals("Registry key value " + name + " is not type " + typeName, type, value.getType());
+        assertThat(value.getType()).as("Registry key value " + name + " is not type " + typeName).isEqualTo(type);
         return value;
     }
 

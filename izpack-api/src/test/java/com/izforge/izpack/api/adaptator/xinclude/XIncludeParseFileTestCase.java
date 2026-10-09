@@ -16,13 +16,14 @@
 
 package com.izforge.izpack.api.adaptator.xinclude;
 
+import static java.nio.file.Files.newInputStream;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
-
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Path;
 
 /**
  * Test the XInclude style functionality.
@@ -36,12 +37,17 @@ public class XIncludeParseFileTestCase extends BaseXIncludeTestCase
     {
         URL inputURL = getClass().getResource(fileBase + "-input.xml");
         URL expectURL = getClass().getResource(fileBase + "-expect.xml");
-        File fileInput = new File(inputURL.toURI());
-        File fileExcept = new File(expectURL.toURI());
+        Path fileInput = Path.of(inputURL.toURI());
+        Path fileExpected = Path.of(expectURL.toURI());
         IXMLParser parser = new XMLParser(false);
-        IXMLElement inputElement = parser.parse(new FileInputStream(fileInput), fileInput.getAbsolutePath());
-        IXMLElement expectedElement = parser.parse(new FileInputStream(fileExcept), fileInput.getAbsolutePath());
-        deepEqual(expectedElement, inputElement);
+        try (InputStream input = newInputStream(fileInput);
+             InputStream expected = newInputStream(fileExpected))
+        {
+            String basePath = fileInput.toAbsolutePath().toString();
+            IXMLElement inputElement = parser.parse(input, basePath);
+            IXMLElement expectedElement = parser.parse(expected, basePath);
+            deepEqual(expectedElement, inputElement);
+        }
     }
 
 

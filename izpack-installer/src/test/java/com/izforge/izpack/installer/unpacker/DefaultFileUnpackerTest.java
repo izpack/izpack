@@ -21,10 +21,9 @@
 
 package com.izforge.izpack.installer.unpacker;
 
+import static org.apache.commons.io.IOUtils.copy;
 
 import com.izforge.izpack.util.os.FileQueue;
-import org.apache.commons.io.IOUtils;
-
 import java.io.*;
 
 
@@ -47,7 +46,7 @@ public class DefaultFileUnpackerTest extends AbstractFileUnpackerTest
     protected InputStream createPackStream(File source) throws IOException
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        IOUtils.copy(new FileInputStream(source), out);
+        copy(new FileInputStream(source), out);
         out.close();
         return new ByteArrayInputStream(out.toByteArray());
     }

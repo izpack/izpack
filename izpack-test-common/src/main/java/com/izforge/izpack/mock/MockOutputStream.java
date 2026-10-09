@@ -1,8 +1,7 @@
 package com.izforge.izpack.mock;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class MockOutputStream extends ZipOutputStream
 
     public MockOutputStream() throws IOException
     {
-        super(FileUtils.openOutputStream(File.createTempFile("test", "test")));
+        super(Files.newOutputStream(Files.createTempFile("test", "test"), StandardOpenOption.DELETE_ON_CLOSE));
     }
 
     @Override

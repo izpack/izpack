@@ -20,22 +20,24 @@
  */
 package com.izforge.izpack.panels.target;
 
+import static com.izforge.izpack.panels.target.TargetPanelHelper.isIncompatibleInstallation;
+import static java.lang.System.getProperty;
+import static java.lang.System.setProperty;
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.delete;
+import static java.nio.file.Files.newOutputStream;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
-import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link TargetPanelHelper} class.
@@ -44,18 +46,20 @@ import static org.junit.Assert.assertTrue;
  */
 public class TargetPanelHelperTest
 {
-	private String orgUserDir;
-	
-	@Before
-	public void initialize() {
-		orgUserDir = System.getProperty("user.dir");
-	}
-	
-	@After
-	public void cleanup() {
-		System.setProperty("user.dir", orgUserDir);
-	}
-	
+    @TempDir
+    Path directory;
+    private String orgUserDir;
+
+    @BeforeEach
+    public void initialize() {
+        orgUserDir = getProperty("user.dir");
+    }
+
+    @AfterEach
+    public void cleanup() {
+        setProperty("user.dir", orgUserDir);
+    }
+
     /**
      * Tests the {@link TargetPanelHelper#isIncompatibleInstallation(String, Boolean)} method.
      *
@@ -64,31 +68,25 @@ public class TargetPanelHelperTest
     @Test
     public void testIsIncompatibleInstallation() throws IOException
     {
-        File dir = File.createTempFile("junit", "");
-        FileUtils.deleteQuietly(dir);
+        Path dir = directory.resolve("installation");
 
-        // verify that the method returns false for non-existent directory
-        assertFalse(dir.exists());
-        assertFalse(TargetPanelHelper.isIncompatibleInstallation(dir.getPath(), true));
+        assertThat(dir).doesNotExist();
+        assertThat(isIncompatibleInstallation(dir.toString(), true)).isFalse();
+        createDirectory(dir);
+        assertThat(isIncompatibleInstallation(dir.toString(), true)).isFalse();
 
-        // verify that the method returns false for existing directory
-        assertTrue(dir.mkdir());
-        assertFalse(TargetPanelHelper.isIncompatibleInstallation(dir.getPath(), true));
+        Path file = dir.resolve(InstallData.INSTALLATION_INFORMATION);
+        try (ObjectOutputStream stream = new ObjectOutputStream(newOutputStream(file)))
+        {
+            stream.writeObject(new ArrayList<Pack>());
+        }
+        assertThat(isIncompatibleInstallation(dir.toString(), true)).isFalse();
 
-        // verify that the method returns false for valid data
-        File file = new File(dir, InstallData.INSTALLATION_INFORMATION);
-        FileOutputStream stream = new FileOutputStream(file);
-        ObjectOutputStream objStream = new ObjectOutputStream(stream);
-        objStream.writeObject(new ArrayList<Pack>());
-        objStream.close();
-        assertFalse(TargetPanelHelper.isIncompatibleInstallation(dir.getPath(), true));
-
-        // verify that the method returns true for invalid data
-        assertTrue(file.delete());
-        stream = new FileOutputStream(file);
-        objStream = new ObjectOutputStream(stream);
-        objStream.writeObject(new Integer(1));
-        objStream.close();
-        assertTrue(TargetPanelHelper.isIncompatibleInstallation(dir.getPath(), true));
+        delete(file);
+        try (ObjectOutputStream stream = new ObjectOutputStream(newOutputStream(file)))
+        {
+            stream.writeObject(Integer.valueOf(1));
+        }
+        assertThat(isIncompatibleInstallation(dir.toString(), true)).isTrue();
     }
 }

@@ -18,26 +18,19 @@
  */
 package com.izforge.izpack.installer.language;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.Locale;
-
-import com.izforge.izpack.gui.IconsDatabase;
-import org.fest.swing.fixture.DialogFixture;
-import org.hamcrest.core.Is;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.container.TestLanguageContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import java.util.Locale;
+import org.fest.swing.fixture.DialogFixture;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link LanguageDialog}.
@@ -45,7 +38,6 @@ import com.izforge.izpack.test.junit.PicoRunner;
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestLanguageContainer.class)
 public class LanguageDialogTest
 {
@@ -93,7 +85,7 @@ public class LanguageDialogTest
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearBinding()
     {
         if (fixture != null)
@@ -169,12 +161,11 @@ public class LanguageDialogTest
     private void checkSelectLanguage(String englishDisplayName, String frenchDisplayName)
     {
         fixture.show();
-        assertThat(fixture.comboBox(GuiId.COMBO_BOX_LANG_FLAG.id).contents(),
-                   Is.is(new String[]{englishDisplayName, frenchDisplayName}));
+        assertThat(fixture.comboBox(GuiId.COMBO_BOX_LANG_FLAG.id).contents()).isEqualTo(new String[]{englishDisplayName, frenchDisplayName});
         fixture.comboBox(GuiId.COMBO_BOX_LANG_FLAG.id).selectItem(1);
         fixture.button(GuiId.BUTTON_LANG_OK.id).click();
-        assertNotNull(locales.getLocale());
-        assertEquals("fra", locales.getLocale().getISO3Language());
+        assertThat(locales.getLocale()).isNotNull();
+        assertThat(locales.getLocale().getISO3Language()).isEqualTo("fra");
     }
 
     /**
@@ -188,11 +179,10 @@ public class LanguageDialogTest
     private void checkDefaultSelected(String englishDisplayName, String frenchDisplayName, String selectedIso3)
     {
         fixture.show();
-        assertThat(fixture.comboBox(GuiId.COMBO_BOX_LANG_FLAG.id).contents(),
-                Is.is(new String[]{englishDisplayName, frenchDisplayName}));
+        assertThat(fixture.comboBox(GuiId.COMBO_BOX_LANG_FLAG.id).contents()).isEqualTo(new String[]{englishDisplayName, frenchDisplayName});
         fixture.button(GuiId.BUTTON_LANG_OK.id).click();
-        assertNotNull(locales.getLocale());
-        assertEquals(selectedIso3, locales.getLocale().getISO3Language());
+        assertThat(locales.getLocale()).isNotNull();
+        assertThat(locales.getLocale().getISO3Language()).isEqualTo(selectedIso3);
     }
 
     /**

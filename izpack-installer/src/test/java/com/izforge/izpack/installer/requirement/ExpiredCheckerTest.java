@@ -21,16 +21,13 @@
 
 package com.izforge.izpack.installer.requirement;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.Info;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ExpiredChecker} class.
@@ -46,18 +43,18 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
     private final long DAY_MILLISECONDS = 24 * 60 * 60 * 1000;
     private final long YEAR_MILLISECONDS = 365 * DAY_MILLISECONDS;
 
-    
+
     /**
      * DATA
      */
     ExpiredChecker checker = new ExpiredChecker(installData, prompt);
     SimpleDateFormat dateFormat = new SimpleDateFormat(Info.EXPIRE_DATE_FORMAT);
 
-    
+
     /**
      * METHODS
      */
-    
+
     /**
      * Tests the {@link ExpiredChecker} when the installer has NOT expired.
      */
@@ -66,16 +63,16 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
     {
         // no expiration date set
         installData.getInfo().setExpiresDate((Date) null);
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
 
         // bad date format
         try
         {
             installData.getInfo().setExpiresDate("01/01/2001");
-        } 
+        }
         catch (ParseException ex)
         {
-            assertNotNull(ex);
+            assertThat(ex).isNotNull();
         }
 
         // expires tomorrow
@@ -83,12 +80,12 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         try
         {
             installData.getInfo().setExpiresDate(tomorrow);
-        } 
+        }
         catch (ParseException ex)
         {
-            assertTrue(false);
+            assertThat(false).isTrue();
         }
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
 
         // expires a year from now
         String nextYear = dateFormat.format(new Date(new Date().getTime() + YEAR_MILLISECONDS));
@@ -98,9 +95,9 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         }
         catch (ParseException ex)
         {
-            assertTrue(false);
+            assertThat(false).isTrue();
         }
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
     }
 
     /**
@@ -117,9 +114,9 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         }
         catch (ParseException ex)
         {
-            assertTrue(false);
+            assertThat(false).isTrue();
         }
-        assertFalse(checker.check());
+        assertThat(checker.check()).isFalse();
 
         // expired yesterday
         String yesterday = dateFormat.format(new Date(new Date().getTime() - DAY_MILLISECONDS));
@@ -129,9 +126,9 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         }
         catch (ParseException ex)
         {
-            assertTrue(false);
+            assertThat(false).isTrue();
         }
-        assertFalse(checker.check());
+        assertThat(checker.check()).isFalse();
 
         // expired a year ago
         String lastYear = dateFormat.format(new Date(new Date().getTime() - YEAR_MILLISECONDS));
@@ -141,9 +138,9 @@ public class ExpiredCheckerTest extends AbstractRequirementCheckerTest
         }
         catch (ParseException ex)
         {
-            assertTrue(false);
+            assertThat(false).isTrue();
         }
-        assertFalse(checker.check());
+        assertThat(checker.check()).isFalse();
     }
 
 }

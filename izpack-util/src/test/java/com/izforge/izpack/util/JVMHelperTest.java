@@ -20,13 +20,11 @@
  */
 package com.izforge.izpack.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Arrays;
 import java.util.List;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link JVMHelper}.
@@ -49,7 +47,7 @@ public class JVMHelperTest
             {
                 // simulate the JVM input arguments. Note that some of these are mutually exclusive (agentlib,
                 // runjdwp), but just need to verify they are removed by getJVMArguments()
-                return Arrays.asList("-DDEBUG=true",
+                return asList("-DDEBUG=true",
                                      "-DTRACE=true",
                                      "-Xmx512M",
                                      "-Xms64M",
@@ -65,12 +63,12 @@ public class JVMHelperTest
         };
         // verify that java debug, SelfModifier and PrivilegedRunner properties are excluded.
         List<String> args = helper.getJVMArguments();
-        assertEquals(5, args.size());
-        assertTrue(args.contains("-DDEBUG=true"));
-        assertTrue(args.contains("-DTRACE=true"));
-        assertTrue(args.contains("-Xmx512M"));
-        assertTrue(args.contains("-Xms64M"));
-        assertTrue(args.contains("-XX:MaxPermSize=64m"));
+        assertThat(args).hasSize(5);
+        assertThat(args).contains("-DDEBUG=true");
+        assertThat(args).contains("-DTRACE=true");
+        assertThat(args).contains("-Xmx512M");
+        assertThat(args).contains("-Xms64M");
+        assertThat(args).contains("-XX:MaxPermSize=64m");
     }
 
 
@@ -88,7 +86,7 @@ public class JVMHelperTest
             @Override
             protected List<String> getInputArguments()
             {
-                return Arrays.asList("-Dsomepath=C:\\Program",
+                return asList("-Dsomepath=C:\\Program",
                                      "Files\\IzPack",
                                      "-Dsomeotherpath=C:\\Program",
                                      "Files",
@@ -98,9 +96,9 @@ public class JVMHelperTest
         };
         // verify that java debug, SelfModifier and PrivilegedRunner properties are excluded.
         List<String> args = helper.getJVMArguments();
-        assertEquals(2, args.size());
-        assertTrue(args.contains("-Dsomepath=C:\\Program Files\\IzPack"));
-        assertTrue(args.contains("-Dsomeotherpath=C:\\Program Files (x86)\\MyApp 5.0"));
+        assertThat(args).hasSize(2);
+        assertThat(args).contains("-Dsomepath=C:\\Program Files\\IzPack");
+        assertThat(args).contains("-Dsomeotherpath=C:\\Program Files (x86)\\MyApp 5.0");
     }
 
 }

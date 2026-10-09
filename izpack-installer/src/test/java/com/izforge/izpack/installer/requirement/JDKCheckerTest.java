@@ -21,15 +21,15 @@
 
 package com.izforge.izpack.installer.requirement;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.FileExecutor;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link JDKChecker} class.
@@ -48,9 +48,9 @@ public class JDKCheckerTest extends AbstractRequirementCheckerTest
 
         installData.getInfo().setJdkRequired(false);
         checker.setExists(true);
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
         checker.setExists(false);
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
     }
 
     /**
@@ -63,16 +63,16 @@ public class JDKCheckerTest extends AbstractRequirementCheckerTest
 
         installData.getInfo().setJdkRequired(true);
         checker.setExists(true);
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
 
         console.addScript("NoJDK-enter-N", "n");
         checker.setExists(false);
-        assertFalse(checker.check());
-        assertTrue(console.scriptCompleted());
+        assertThat(checker.check()).isFalse();
+        assertThat(console.scriptCompleted()).isTrue();
 
         // re-run the check, but this time enter Y to continue
         console.addScript("NoJDK-enter-Y", "y");
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
     }
 
     /**
@@ -93,7 +93,7 @@ public class JDKCheckerTest extends AbstractRequirementCheckerTest
         TestConsole console = new TestConsole(installData, prefs);
         ConsolePrompt prompt = new ConsolePrompt(console, installData);
         JDKChecker checker = new JDKChecker(installData, prompt);
-        assertEquals(exists, checker.check());
+        assertThat(checker.check()).isEqualTo(exists);
     }
 
     private static class TestJDKChecker extends JDKChecker

@@ -20,12 +20,10 @@ package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Arch;
 import static com.izforge.izpack.util.Platform.Name;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -73,42 +71,42 @@ public class PlatformTest extends AbstractPlatformTest
     public void testIsAName()
     {
         Platform p1 = new Platform(Name.UNIX);
-        assertTrue(p1.isA(Name.UNIX));
-        assertFalse(p1.isA(Name.LINUX));
+        assertThat(p1.isA(Name.UNIX)).isTrue();
+        assertThat(p1.isA(Name.LINUX)).isFalse();
 
         Platform p2 = new Platform(Name.LINUX);
-        assertTrue(p2.isA(Name.LINUX));
-        assertTrue(p2.isA(Name.UNIX));
-        assertFalse(p2.isA(Name.DEBIAN_LINUX));
+        assertThat(p2.isA(Name.LINUX)).isTrue();
+        assertThat(p2.isA(Name.UNIX)).isTrue();
+        assertThat(p2.isA(Name.DEBIAN_LINUX)).isFalse();
 
         Name[] linuxes = {Name.DEBIAN_LINUX, Name.FEDORA_LINUX, Name.MANDRAKE_LINUX, Name.MANDRIVA_LINUX,
                 Name.RED_HAT_LINUX, Name.SUSE_LINUX, Name.UBUNTU_LINUX};
         for (Name name : linuxes)
         {
             Platform linux = new Platform(name);
-            assertTrue(linux.isA(name));
-            assertTrue(linux.isA(Name.LINUX));
-            assertTrue(linux.isA(Name.UNIX));
-            assertFalse(linux.isA(Name.WINDOWS));
+            assertThat(linux.isA(name)).isTrue();
+            assertThat(linux.isA(Name.LINUX)).isTrue();
+            assertThat(linux.isA(Name.UNIX)).isTrue();
+            assertThat(linux.isA(Name.WINDOWS)).isFalse();
         }
 
         Name[] unixes = {Name.AIX, Name.LINUX, Name.FREEBSD, Name.HP_UX, Name.MAC_OSX, Name.SUNOS};
         for (Name name : unixes)
         {
             Platform unix = new Platform(name);
-            assertTrue(unix.isA(name));
-            assertTrue(unix.isA(Name.UNIX));
+            assertThat(unix.isA(name)).isTrue();
+            assertThat(unix.isA(Name.UNIX)).isTrue();
         }
 
         Platform p3 = new Platform(Name.MAC_OSX);
-        assertTrue(p3.isA(Name.MAC_OSX));
-        assertTrue(p3.isA(Name.UNIX));
-        assertFalse(p3.isA(Name.LINUX));
-        assertTrue(p3.isA(Name.MAC));
+        assertThat(p3.isA(Name.MAC_OSX)).isTrue();
+        assertThat(p3.isA(Name.UNIX)).isTrue();
+        assertThat(p3.isA(Name.LINUX)).isFalse();
+        assertThat(p3.isA(Name.MAC)).isTrue();
 
         Platform p4 = new Platform(Name.MAC);
-        assertTrue(p4.isA(Name.MAC));
-        assertFalse(p4.isA(Name.MAC_OSX));
+        assertThat(p4.isA(Name.MAC)).isTrue();
+        assertThat(p4.isA(Name.MAC_OSX)).isFalse();
     }
 
     /**
@@ -127,31 +125,31 @@ public class PlatformTest extends AbstractPlatformTest
         Platform vista32 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_VISTA_VERSION, Arch.X86);
         Platform vista64 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_VISTA_VERSION, Arch.X64);
 
-        assertTrue(debian.isA(debian));
-        assertTrue(debian.isA(linux));
-        assertTrue(debian.isA(unix));
-        assertFalse(debian.isA(windows));
-        assertFalse(linux.isA(debian));
-        assertFalse(unix.isA(debian));
+        assertThat(debian.isA(debian)).isTrue();
+        assertThat(debian.isA(linux)).isTrue();
+        assertThat(debian.isA(unix)).isTrue();
+        assertThat(debian.isA(windows)).isFalse();
+        assertThat(linux.isA(debian)).isFalse();
+        assertThat(unix.isA(debian)).isFalse();
 
-        assertTrue(windows7.isA(windows7));
-        assertTrue(windows7.isA(windows));
-        assertFalse(windows.isA(windows7));
+        assertThat(windows7.isA(windows7)).isTrue();
+        assertThat(windows7.isA(windows)).isTrue();
+        assertThat(windows.isA(windows7)).isFalse();
 
-        assertTrue(windows8.isA(windows8));
-        assertTrue(windows8.isA(windows));
-        assertFalse(windows.isA(windows8));
+        assertThat(windows8.isA(windows8)).isTrue();
+        assertThat(windows8.isA(windows)).isTrue();
+        assertThat(windows.isA(windows8)).isFalse();
 
-        assertTrue(windows64.isA(windows64));
-        assertTrue(windows64.isA(windows));
-        assertFalse(windows.isA(windows64));
+        assertThat(windows64.isA(windows64)).isTrue();
+        assertThat(windows64.isA(windows)).isTrue();
+        assertThat(windows.isA(windows64)).isFalse();
 
-        assertTrue(vista32.isA(vista32));
-        assertTrue(vista32.isA(windows));
-        assertFalse(vista64.isA(vista32));
-        assertTrue(vista64.isA(vista64));
-        assertTrue(vista64.isA(windows));
-        assertFalse(vista32.isA(vista64));
+        assertThat(vista32.isA(vista32)).isTrue();
+        assertThat(vista32.isA(windows)).isTrue();
+        assertThat(vista64.isA(vista32)).isFalse();
+        assertThat(vista64.isA(vista64)).isTrue();
+        assertThat(vista64.isA(windows)).isTrue();
+        assertThat(vista32.isA(vista64)).isFalse();
     }
 
     /**
@@ -161,8 +159,8 @@ public class PlatformTest extends AbstractPlatformTest
     public void testIsArch()
     {
         Platform platform = new Platform(Name.WINDOWS, Arch.X64);
-        assertTrue(platform.isA(Arch.X64));
-        assertFalse(platform.isA(Arch.X86));
+        assertThat(platform.isA(Arch.X64)).isTrue();
+        assertThat(platform.isA(Arch.X86)).isFalse();
     }
 
     /**
@@ -178,13 +176,13 @@ public class PlatformTest extends AbstractPlatformTest
         Platform platform5 = new Platform(Name.WINDOWS, null, OsVersionConstants.WINDOWS_2003_VERSION, Arch.X86);
         Platform platform6 = new Platform(Name.WINDOWS, "win2003", OsVersionConstants.WINDOWS_2003_VERSION, Arch.X86);
 
-        assertTrue(platform1.equals(platform1));
-        assertTrue(platform1.equals(platform2));
-        assertFalse(platform1.equals(platform3));
-        assertFalse(platform1.equals(platform4));
-        assertFalse(platform1.equals(platform5));
-        assertFalse(platform4.equals(platform5));
-        assertTrue(platform5.equals(platform6));  // symbolic name not used in equality
+        assertThat(platform1).isEqualTo(platform1);
+        assertThat(platform1).isEqualTo(platform2);
+        assertThat(platform1).isNotEqualTo(platform3);
+        assertThat(platform1).isNotEqualTo(platform4);
+        assertThat(platform1).isNotEqualTo(platform5);
+        assertThat(platform4).isNotEqualTo(platform5);
+        assertThat(platform5).isEqualTo(platform6);  // symbolic name not used in equality
     }
 
     /**
@@ -195,7 +193,7 @@ public class PlatformTest extends AbstractPlatformTest
     {
         String validName = "Windows_7";
         Platform platform1 = new Platform(Name.WINDOWS, validName, OsVersionConstants.WINDOWS_7_VERSION);
-        assertEquals(validName, platform1.getSymbolicName());
+        assertThat(platform1.getSymbolicName()).isEqualTo(validName);
 
         String invalidSpaces = "Windows 7";
         try
@@ -228,10 +226,10 @@ public class PlatformTest extends AbstractPlatformTest
     {
         Platform platform1 = new Platform(Name.WINDOWS, "windows_7", OsVersionConstants.WINDOWS_7_VERSION, Arch.X64,
                                           "1.6");
-        assertEquals("windows,version=6.1,arch=x64,symbolicName=windows_7,javaVersion=1.6", platform1.toString());
+        assertThat(platform1).hasToString("windows,version=6.1,arch=x64,symbolicName=windows_7,javaVersion=1.6");
 
         Platform platform2 = new Platform(Name.SUNOS);
-        assertEquals("sunos,version=null,arch=unknown,symbolicName=null,javaVersion=null", platform2.toString());
+        assertThat(platform2).hasToString("sunos,version=null,arch=unknown,symbolicName=null,javaVersion=null");
     }
 
     /**
@@ -241,10 +239,10 @@ public class PlatformTest extends AbstractPlatformTest
     public void testIsValidDirectoryPath()
     {
         Platform platform1 = new Platform(Name.WINDOWS);
-	//ensure case insensitivity
-        assertTrue(platform1.isValidDirectoryPath("C:\\test"));
-        assertTrue(platform1.isValidDirectoryPath("c:\\test"));
-	//screen invalid characters
-        assertFalse(platform1.isValidDirectoryPath("C:\\*<>"));
+    //ensure case insensitivity
+        assertThat(platform1.isValidDirectoryPath("C:\\test")).isTrue();
+        assertThat(platform1.isValidDirectoryPath("c:\\test")).isTrue();
+    //screen invalid characters
+        assertThat(platform1.isValidDirectoryPath("C:\\*<>")).isFalse();
     }
 }

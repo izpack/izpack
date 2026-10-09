@@ -21,6 +21,11 @@
 
 package com.izforge.izpack.integration;
 
+import static java.nio.charset.Charset.defaultCharset;
+import static java.nio.file.Files.readAllLines;
+import static org.apache.commons.lang3.StringUtils.trim;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
@@ -29,20 +34,11 @@ import com.izforge.izpack.installer.unpacker.Unpacker;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.Platform.Name;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.List;
-
-import static org.junit.Assert.*;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Verifies that executable files are correctly invoked during installation and uninstallation, based on their stage
@@ -52,7 +48,6 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class ExecutableFileTest extends AbstractDestroyerTest
 {
@@ -108,10 +103,10 @@ public class ExecutableFileTest extends AbstractDestroyerTest
         // perform installation and verify the postinstall.bat/postinstall.sh script runs
         unpacker.setProgressListener(new NoOpProgressHandler());
         unpacker.run();
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
 
         File file = checkContains("postinstall.log", "install");
-        assertTrue(file.delete());
+        assertThat(file.delete()).isTrue();
         checkNotExists("never.log");
         checkNotExists("uninstall.log");
 
@@ -135,10 +130,10 @@ public class ExecutableFileTest extends AbstractDestroyerTest
     private File checkContains(String name, String content) throws IOException
     {
         checkExists(name);
-        File file = new File(temporaryFolder.getRoot(), name);
-        List<String> fileContent = FileUtils.readLines(file, Charset.defaultCharset());
-        assertEquals(1, fileContent.size());
-        assertEquals(content, StringUtils.trim(fileContent.get(0)));
+        File file = temporaryFolder.resolve(name).toFile();
+        List<String> fileContent = readAllLines(file.toPath(), defaultCharset());
+        assertThat(fileContent).hasSize(1);
+        assertThat(trim(fileContent.get(0))).isEqualTo(content);
         return file;
     }
 
@@ -149,8 +144,8 @@ public class ExecutableFileTest extends AbstractDestroyerTest
      */
     private void checkExists(String name)
     {
-        File file = new File(temporaryFolder.getRoot(), name);
-        assertTrue(file.exists());
+        File file = temporaryFolder.resolve(name).toFile();
+        assertThat(file).exists();
     }
 
     /**
@@ -160,8 +155,8 @@ public class ExecutableFileTest extends AbstractDestroyerTest
      */
     private void checkNotExists(String name)
     {
-        File file = new File(temporaryFolder.getRoot(), name);
-        assertFalse(file.exists());
+        File file = temporaryFolder.resolve(name).toFile();
+        assertThat(file).doesNotExist();
     }
 
     /**

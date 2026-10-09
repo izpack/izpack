@@ -1,5 +1,23 @@
 package com.izforge.izpack.installer.unpacker;
 
+import static java.nio.charset.Charset.defaultCharset;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.createTempFile;
+import static java.nio.file.Files.getFileAttributeView;
+import static java.nio.file.Files.getOwner;
+import static java.nio.file.Files.getPosixFilePermissions;
+import static java.nio.file.Files.readAttributes;
+import static java.nio.file.Files.readString;
+import static java.nio.file.Files.setPosixFilePermissions;
+import static java.nio.file.Files.writeString;
+import static java.nio.file.attribute.AclEntry.newBuilder;
+import static java.nio.file.attribute.PosixFilePermissions.fromString;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.condition.OS.LINUX;
+import static org.junit.jupiter.api.condition.OS.MAC;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
+
 import com.izforge.izpack.api.data.ParsableFile;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.data.binding.OsModel;
@@ -9,16 +27,6 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
-import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Assume;
-import org.junit.Test;
-
-import java.io.File;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.AclEntry;
 import java.nio.file.attribute.AclEntryPermission;
@@ -27,88 +35,74 @@ import java.nio.file.attribute.AclFileAttributeView;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
 import java.nio.file.attribute.UserPrincipal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.io.TempDir;
 
-import static org.hamcrest.CoreMatchers.containsString;
 
 public class ScriptParserTest {
 
-  private File file;
+  @TempDir
+  Path temporaryDirectory;
 
-  @Before
+  private Path file;
+
+  @BeforeEach
   public void setUp() throws Exception {
-    file = File.createTempFile("test", "txt");
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    FileUtils.forceDelete(file);
+    file = createTempFile(temporaryDirectory, "test", "txt");
   }
 
   @Test
+  @EnabledOnOs({LINUX, MAC})
   public void givenPosixFile_whenParsed_permissionsOwnerAndGroupArePreserved() throws Exception {
-    String osName = System.getProperty("os.name");
-    String groupName;
-    //TODO:JUnit6 use @EnabledOnOs({ LINUX, MAC }) in the future
-    if ("Linux".equals(osName)) {
-      groupName = "users";
-    } else if ("Mac OS X".equals(osName)) {
-      groupName = "everyone";
-    } else {
-      return;
-    }
-    Path path = file.toPath();
-    Assume.assumeTrue("POSIX permissions are required",
-        Files.getFileAttributeView(path, PosixFileAttributeView.class) != null);
+    String groupName = LINUX.isCurrentOs() ? "users" : "everyone";
+    Path path = file;
+    assumeTrue(getFileAttributeView(path, PosixFileAttributeView.class) != null, "POSIX permissions are required");
     // Use a group different from the temporary file's inherited group.
-    Files.getFileAttributeView(path, PosixFileAttributeView.class).setGroup(
+    getFileAttributeView(path, PosixFileAttributeView.class).setGroup(
             path.getFileSystem().getUserPrincipalLookupService().lookupPrincipalByGroupName(groupName));
 
     Variables variables = new DefaultVariables();
     variables.set("INSTALL_PATH", "/Applications/Example.app");
     ScriptParser scriptParser = new ScriptParser(new VariableSubstitutorImpl(variables),
         new PlatformModelMatcher(new Platforms(), Platforms.MAC_OSX));
-    ParsableFile parsable = new ParsableFile(file.getAbsolutePath(),
+    ParsableFile parsable = new ParsableFile(file.toAbsolutePath().toString(),
         SubstitutionType.TYPE_PLAIN, "UTF-8", new ArrayList<OsModel>());
 
     // Preserve both shared launch-script permissions and restricted file permissions.
     for (String mode : new String[] {"rwxr-xr-x", "rw-r-----"}) {
-      FileUtils.writeStringToFile(file, "exec ${INSTALL_PATH}/bin/java", "UTF-8");
-      Set<PosixFilePermission> permissions = PosixFilePermissions.fromString(mode);
-      Files.setPosixFilePermissions(path, permissions);
-      PosixFileAttributes expectedAttributes = Files.readAttributes(path, PosixFileAttributes.class);
+      writeString(file, "exec ${INSTALL_PATH}/bin/java", UTF_8);
+      Set<PosixFilePermission> permissions = fromString(mode);
+      setPosixFilePermissions(path, permissions);
+      PosixFileAttributes expectedAttributes = readAttributes(path, PosixFileAttributes.class);
 
       scriptParser.parse(parsable);
 
-      Assert.assertEquals("exec /Applications/Example.app/bin/java",
-          FileUtils.readFileToString(file, "UTF-8"));
-      Assert.assertEquals("Permissions must survive parsing", permissions,
-          Files.getPosixFilePermissions(path));
-      PosixFileAttributes actualAttributes = Files.readAttributes(path, PosixFileAttributes.class);
-      Assert.assertEquals("Owner must survive parsing", expectedAttributes.owner(), actualAttributes.owner());
-      Assert.assertEquals("Group must survive parsing", expectedAttributes.group(), actualAttributes.group());
+      assertThat(readString(file, UTF_8)).isEqualTo("exec /Applications/Example.app/bin/java");
+      assertThat(getPosixFilePermissions(path)).as("Permissions must survive parsing").isEqualTo(permissions);
+      PosixFileAttributes actualAttributes = readAttributes(path, PosixFileAttributes.class);
+      assertThat(actualAttributes.owner()).as("Owner must survive parsing").isEqualTo(expectedAttributes.owner());
+      assertThat(actualAttributes.group()).as("Group must survive parsing").isEqualTo(expectedAttributes.group());
     }
   }
 
   @Test
+  @EnabledOnOs(WINDOWS)
   public void givenWindowsFile_whenParsed_aclAndOwnerArePreserved() throws Exception {
-    //TODO:JUnit6 use @EnabledOnOs(WINDOWS) in the future
-    if (!System.getProperty("os.name").startsWith("Windows")) {
-      return;
-    }
-    Path path = file.toPath();
-    AclFileAttributeView aclView = Files.getFileAttributeView(path, AclFileAttributeView.class);
-    Assume.assumeNotNull(aclView);
+    Path path = file;
+    AclFileAttributeView aclView = getFileAttributeView(path, AclFileAttributeView.class);
+    assumeTrue(aclView != null, "ACL file attributes are required");
 
     List<AclEntry> originalAcl = aclView.getAcl();
     UserPrincipal expectedOwner = aclView.getOwner();
     // Add an explicit entry that a new temporary file would not inherit.
     // Denying execution leaves reading, rewriting and cleanup available.
-    AclEntry denyExecute = AclEntry.newBuilder()
+    AclEntry denyExecute = newBuilder()
         .setType(AclEntryType.DENY)
         .setPrincipal(aclView.getOwner())
         .setPermissions(AclEntryPermission.EXECUTE)
@@ -118,24 +112,23 @@ public class ScriptParserTest {
     try {
       aclView.setAcl(customAcl);
       List<AclEntry> expectedAcl = aclView.getAcl();
-      Assert.assertTrue("The explicit ACL entry must be present", expectedAcl.contains(denyExecute));
+      assertThat(expectedAcl).as("The explicit ACL entry must be present").contains(denyExecute);
 
       Variables variables = new DefaultVariables();
       variables.set("INSTALL_PATH", "C:/Example");
       ScriptParser scriptParser = new ScriptParser(new VariableSubstitutorImpl(variables),
           new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS));
-      FileUtils.writeStringToFile(file, "${INSTALL_PATH}/bin/java.exe", "UTF-8");
-      ParsableFile parsable = new ParsableFile(file.getAbsolutePath(),
+      writeString(file, "${INSTALL_PATH}/bin/java.exe", UTF_8);
+      ParsableFile parsable = new ParsableFile(file.toAbsolutePath().toString(),
           SubstitutionType.TYPE_PLAIN, "UTF-8", new ArrayList<OsModel>());
 
       scriptParser.parse(parsable);
 
-      Assert.assertEquals("C:/Example/bin/java.exe", FileUtils.readFileToString(file, "UTF-8"));
-      Assert.assertEquals("ACL must survive parsing", expectedAcl,
-          Files.getFileAttributeView(path, AclFileAttributeView.class).getAcl());
-      Assert.assertEquals("Owner must survive parsing", expectedOwner, Files.getOwner(path));
+      assertThat(readString(file, UTF_8)).isEqualTo("C:/Example/bin/java.exe");
+      assertThat(getFileAttributeView(path, AclFileAttributeView.class).getAcl()).as("ACL must survive parsing").isEqualTo(expectedAcl);
+      assertThat(getOwner(path)).as("Owner must survive parsing").isEqualTo(expectedOwner);
     } finally {
-      Files.getFileAttributeView(path, AclFileAttributeView.class).setAcl(originalAcl);
+      getFileAttributeView(path, AclFileAttributeView.class).setAcl(originalAcl);
     }
   }
 
@@ -148,15 +141,15 @@ public class ScriptParserTest {
     PlatformModelMatcher matcher = new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS);
     ScriptParser scriptParser = new ScriptParser(replacer, matcher);
 
-    FileUtils.writeStringToFile(file, "${pippo}\n${pluto}\n", Charset.defaultCharset());
+    writeString(file, "${pippo}\n${pluto}\n", defaultCharset());
 
-    ParsableFile parsable = new ParsableFile(file.getAbsolutePath(), SubstitutionType.TYPE_PLAIN, null, new ArrayList<OsModel>());
+    ParsableFile parsable = new ParsableFile(file.toAbsolutePath().toString(), SubstitutionType.TYPE_PLAIN, null, new ArrayList<OsModel>());
 
     scriptParser.parse(parsable);
 
-    String content = FileUtils.readFileToString(file, Charset.defaultCharset());
-    Assert.assertThat(content, containsString("PIPPO"));
-    Assert.assertThat(content, containsString("plutò"));
+    String content = readString(file, defaultCharset());
+    assertThat(content).contains("PIPPO");
+    assertThat(content).contains("plutò");
   }
 
   @Test
@@ -168,15 +161,15 @@ public class ScriptParserTest {
     PlatformModelMatcher matcher = new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS);
     ScriptParser scriptParser = new ScriptParser(replacer, matcher);
 
-    FileUtils.writeStringToFile(file, "${pippo}\n${pluto}\n", "UTF-8");
+    writeString(file, "${pippo}\n${pluto}\n", UTF_8);
 
-    ParsableFile parsable = new ParsableFile(file.getAbsolutePath(), SubstitutionType.TYPE_PLAIN, "UTF-8", new ArrayList<OsModel>());
+    ParsableFile parsable = new ParsableFile(file.toAbsolutePath().toString(), SubstitutionType.TYPE_PLAIN, "UTF-8", new ArrayList<OsModel>());
 
     scriptParser.parse(parsable);
 
-    String content = FileUtils.readFileToString(file, "UTF-8");
-    Assert.assertThat(content, containsString("PIPPO"));
-    Assert.assertThat(content, containsString("plutò"));
+    String content = readString(file, UTF_8);
+    assertThat(content).contains("PIPPO");
+    assertThat(content).contains("plutò");
   }
 
   @Test
@@ -186,15 +179,15 @@ public class ScriptParserTest {
     PlatformModelMatcher matcher = new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS);
     ScriptParser scriptParser = new ScriptParser(replacer, matcher);
 
-    FileUtils.writeStringToFile(file, "PIPPO\nplutò\n", "UTF-8");
+    writeString(file, "PIPPO\nplutò\n", UTF_8);
 
-    ParsableFile parsable = new ParsableFile(file.getAbsolutePath(), SubstitutionType.TYPE_PLAIN, "UTF-8", new ArrayList<OsModel>());
+    ParsableFile parsable = new ParsableFile(file.toAbsolutePath().toString(), SubstitutionType.TYPE_PLAIN, "UTF-8", new ArrayList<OsModel>());
 
     scriptParser.parse(parsable);
 
-    String content = FileUtils.readFileToString(file, "UTF-8");
-    Assert.assertThat(content, containsString("PIPPO"));
-    Assert.assertThat(content, containsString("plutò"));
+    String content = readString(file, UTF_8);
+    assertThat(content).contains("PIPPO");
+    assertThat(content).contains("plutò");
   }
 
   @Test
@@ -205,14 +198,14 @@ public class ScriptParserTest {
     ScriptParser scriptParser = new ScriptParser(replacer, matcher);
 
     String content = "Simple ASCII content";
-    FileUtils.writeStringToFile(file, content, Charset.defaultCharset());
+    writeString(file, content, defaultCharset());
 
-    ParsableFile parsable = new ParsableFile(file.getAbsolutePath(), SubstitutionType.TYPE_PLAIN, null, new ArrayList<>());
+    ParsableFile parsable = new ParsableFile(file.toAbsolutePath().toString(), SubstitutionType.TYPE_PLAIN, null, new ArrayList<>());
 
     scriptParser.parse(parsable);
 
-    String readContent = FileUtils.readFileToString(file, Charset.defaultCharset());
-    Assert.assertEquals(content, readContent);
+    String readContent = readString(file, defaultCharset());
+    assertThat(readContent).isEqualTo(content);
   }
 
   @Test
@@ -231,14 +224,14 @@ public class ScriptParserTest {
         "        <Параметер Наименование=\"Количество столбцов на табло\" Тип=\"1\" Значение=\"1\"/>\n" +
         "        <Параметер Наименование=\"Окантовка строк\" Тип=\"3\" Значение=\"0,0,0,0;5,0,0,0\"/>";
 
-    FileUtils.writeStringToFile(file, cyrillicContent, "UTF-8");
+    writeString(file, cyrillicContent, UTF_8);
 
-    ParsableFile parsable = new ParsableFile(file.getAbsolutePath(), SubstitutionType.TYPE_PLAIN, "UTF-8", new ArrayList<OsModel>());
+    ParsableFile parsable = new ParsableFile(file.toAbsolutePath().toString(), SubstitutionType.TYPE_PLAIN, "UTF-8", new ArrayList<OsModel>());
 
     scriptParser.parse(parsable);
 
-    String content = FileUtils.readFileToString(file, "UTF-8");
-    Assert.assertEquals(cyrillicContent, content);
+    String content = readString(file, UTF_8);
+    assertThat(content).isEqualTo(cyrillicContent);
   }
 
 }

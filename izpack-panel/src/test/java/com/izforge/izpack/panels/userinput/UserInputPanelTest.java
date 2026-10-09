@@ -19,35 +19,11 @@
 
 package com.izforge.izpack.panels.userinput;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
-
-import org.fest.swing.exception.ComponentLookupException;
-import org.fest.swing.finder.JFileChooserFinder;
-import org.fest.swing.fixture.DialogFixture;
-import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.fixture.JComboBoxFixture;
-import org.fest.swing.fixture.JFileChooserFixture;
-import org.fest.swing.fixture.JRadioButtonFixture;
-import org.fest.swing.fixture.JTextComponentFixture;
-import org.fest.swing.timing.Timeout;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static java.lang.Thread.sleep;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.fest.swing.finder.JFileChooserFinder.findFileChooser;
+import static org.fest.swing.timing.Timeout.timeout;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
@@ -68,7 +44,23 @@ import com.izforge.izpack.panels.test.AbstractPanelTest;
 import com.izforge.izpack.panels.test.TestGUIPanelContainer;
 import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.test.Container;
-
+import java.io.File;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import javax.swing.ComboBoxModel;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import org.fest.swing.exception.ComponentLookupException;
+import org.fest.swing.fixture.DialogFixture;
+import org.fest.swing.fixture.FrameFixture;
+import org.fest.swing.fixture.JComboBoxFixture;
+import org.fest.swing.fixture.JFileChooserFixture;
+import org.fest.swing.fixture.JRadioButtonFixture;
+import org.fest.swing.fixture.JTextComponentFixture;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link UserInputPanel}.
@@ -82,8 +74,8 @@ public class UserInputPanelTest extends AbstractPanelTest
     /**
      * Temporary folder for 'file', 'dir' and 'search' field tests.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * Constructs an {@code UserInputPanelTest}.
@@ -120,15 +112,15 @@ public class UserInputPanelTest extends AbstractPanelTest
         FrameFixture frame = showUserInputPanel("ruleinput");
 
         JTextComponentFixture rule1 = frame.textBox("rule1.1");
-        assertEquals("192", rule1.text());
+        assertThat(rule1.text()).isEqualTo("192");
         JTextComponentFixture rule2 = frame.textBox("rule1.2");
-        assertEquals("168", rule2.text());
+        assertThat(rule2.text()).isEqualTo("168");
         JTextComponentFixture rule3 = frame.textBox("rule1.3");
-        assertEquals("0", rule3.text());
+        assertThat(rule3.text()).isEqualTo("0");
         JTextComponentFixture rule4 = frame.textBox("rule1.4");
-        assertEquals("1", rule4.text());
+        assertThat(rule4.text()).isEqualTo("1");
 
-        assertEquals("192.168.0.1", installData.getVariable("rule1"));
+        assertThat(installData.getVariable("rule1")).isEqualTo("192.168.0.1");
 
         rule1.setText("127");
         rule2.setText("0");
@@ -138,7 +130,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         // attempt to navigate to the next panel
         checkNavigateNext(frame);
 
-        assertEquals("127.0.0.1", installData.getVariable("rule1"));
+        assertThat(installData.getVariable("rule1")).isEqualTo("127.0.0.1");
     }
 
     /**
@@ -159,15 +151,15 @@ public class UserInputPanelTest extends AbstractPanelTest
         FrameFixture frame = showUserInputPanel("textinput");
 
         JTextComponentFixture text1 = frame.textBox("text1");
-        assertEquals("", text1.text());
+        assertThat(text1.text()).isEmpty();
 
         JTextComponentFixture text2 = frame.textBox("text2");
-        assertEquals("text2 value", text2.text());
+        assertThat(text2.text()).isEqualTo("text2 value");
 
         JTextComponentFixture text3 = frame.textBox("text3");
-        assertEquals("text3 default value", text3.text());
+        assertThat(text3.text()).isEqualTo("text3 default value");
 
-        assertEquals("", installData.getVariable("text1"));
+        assertThat(installData.getVariable("text1")).isEmpty();
 
         String expectedText = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod " +
                 "tempor invidunt ut labore et dolore magna aliquyam";
@@ -177,9 +169,9 @@ public class UserInputPanelTest extends AbstractPanelTest
         // attempt to navigate to the next panel
         checkNavigateNext(frame);
 
-        assertEquals(expectedText, installData.getVariable("text1"));
-        assertEquals("text2 value", installData.getVariable("text2"));
-        assertEquals("text3 default value", installData.getVariable("text3"));
+        assertThat(installData.getVariable("text1")).isEqualTo(expectedText);
+        assertThat(installData.getVariable("text2")).isEqualTo("text2 value");
+        assertThat(installData.getVariable("text3")).isEqualTo("text3 default value");
     }
 
     /**
@@ -218,24 +210,24 @@ public class UserInputPanelTest extends AbstractPanelTest
         FrameFixture frame = showUserInputPanel("textinput");
 
         JTextComponentFixture text1 = frame.textBox("textarea1");
-        assertEquals("", text1.text());
+        assertThat(text1.text()).isEmpty();
 
         JTextComponentFixture text2 = frame.textBox("textarea2");
-        assertEquals("textarea2\nvalue", text2.text());
+        assertThat(text2.text()).isEqualTo("textarea2\nvalue");
 
         JTextComponentFixture text3 = frame.textBox("textarea3");
-        assertEquals("textarea3\ndefault value", text3.text());
+        assertThat(text3.text()).isEqualTo("textarea3\ndefault value");
 
-        assertEquals("", installData.getVariable("textarea1"));
+        assertThat(installData.getVariable("textarea1")).isEmpty();
 
         text1.setText("textarea1\nvalue");
 
         // attempt to navigate to the next panel
         checkNavigateNext(frame);
 
-        assertEquals("textarea1\nvalue", installData.getVariable("textarea1"));
-        assertEquals("textarea2\nvalue", installData.getVariable("textarea2"));
-        assertEquals("textarea3\ndefault value", installData.getVariable("textarea3"));
+        assertThat(installData.getVariable("textarea1")).isEqualTo("textarea1\nvalue");
+        assertThat(installData.getVariable("textarea2")).isEqualTo("textarea2\nvalue");
+        assertThat(installData.getVariable("textarea3")).isEqualTo("textarea3\ndefault value");
     }
 
     /*
@@ -252,7 +244,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         checkNavigateNext(frame);
 
         InstallData installData = getInstallData();
-        assertThat(installData.getVariable("combo"), equalTo("value2"));
+        assertThat(installData.getVariable("combo")).isEqualTo("value2");
     }
 
     /*
@@ -270,7 +262,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         checkNavigateNext(frame);
 
         InstallData installData = getInstallData();
-        assertThat(installData.getVariable("combo"), equalTo("value1"));
+        assertThat(installData.getVariable("combo")).isEqualTo("value1");
     }
 
     /*
@@ -290,7 +282,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         checkCombo("combo", "value3", frame);
         checkNavigateNext(frame);
 
-        assertThat(installData.getVariable("combo"), equalTo("value3"));
+        assertThat(installData.getVariable("combo")).isEqualTo("value3");
     }
 
     /*
@@ -310,7 +302,7 @@ public class UserInputPanelTest extends AbstractPanelTest
 
         checkNavigateNext(frame);
 
-        assertThat(installData.getVariable("combo"), equalTo("value2"));
+        assertThat(installData.getVariable("combo")).isEqualTo("value2");
     }
 
     /*
@@ -330,7 +322,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         checkCombo("combo", "value2", frame);
         checkNavigateNext(frame);
 
-        assertThat(installData.getVariable("combo"), equalTo("value2"));
+        assertThat(installData.getVariable("combo")).isEqualTo("value2");
     }
 
     /*
@@ -350,7 +342,7 @@ public class UserInputPanelTest extends AbstractPanelTest
 
         checkNavigateNext(frame);
 
-        assertThat(installData.getVariable("combo"), equalTo("value1"));
+        assertThat(installData.getVariable("combo")).isEqualTo("value1");
     }
 
     /*
@@ -368,7 +360,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         checkNavigateNext(frame);
 
         InstallData installData = getInstallData();
-        assertThat(installData.getVariable("combo"), equalTo("value1"));
+        assertThat(installData.getVariable("combo")).isEqualTo("value1");
     }
 
     /**
@@ -407,9 +399,9 @@ public class UserInputPanelTest extends AbstractPanelTest
 
         checkNavigateNext(frame);
 
-        assertEquals("value2", installData.getVariable("radioA"));
-        assertEquals("valueX", installData.getVariable("radioB"));
-        assertEquals("valueQ", installData.getVariable("radioC"));
+        assertThat(installData.getVariable("radioA")).isEqualTo("value2");
+        assertThat(installData.getVariable("radioB")).isEqualTo("valueX");
+        assertThat(installData.getVariable("radioC")).isEqualTo("valueQ");
     }
 
     /**
@@ -431,16 +423,16 @@ public class UserInputPanelTest extends AbstractPanelTest
         // for passwordA, the initial value is determined by the 'set' attribute
         JTextComponentFixture passwordA1 = frame.textBox("passwordA.1");
         JTextComponentFixture passwordA2 = frame.textBox("passwordA.2");
-        assertEquals("ab1234", passwordA1.component().getText());
-        assertEquals("ab1234", passwordA2.component().getText());
+        assertThat(passwordA1.component().getText()).isEqualTo("ab1234");
+        assertThat(passwordA2.component().getText()).isEqualTo("ab1234");
 
         // passwordB has no initial value
         JTextComponentFixture passwordB = frame.textBox("passwordB.1");
-        assertEquals("", passwordB.component().getText());
+        assertThat(passwordB.component().getText()).isEmpty();
 
         // for password C, the initial value is determined by the 'set' attribute
         JTextComponentFixture passwordC = frame.textBox("passwordC.1");
-        assertEquals("qwerty", passwordC.component().getText());
+        assertThat(passwordC.component().getText()).isEqualTo("qwerty");
 
         // update passwordC
         passwordC.setText("xyz");
@@ -448,26 +440,26 @@ public class UserInputPanelTest extends AbstractPanelTest
         // for passwordD, the initial value is determined by the 'set' attribute
         JTextComponentFixture passwordD1 = frame.textBox("passwordD.1");
         JTextComponentFixture passwordD2 = frame.textBox("passwordD.2");
-        assertEquals("ab2345", passwordD1.component().getText());
-        assertEquals("ab2345", passwordD2.component().getText());
+        assertThat(passwordD1.component().getText()).isEqualTo("ab2345");
+        assertThat(passwordD2.component().getText()).isEqualTo("ab2345");
 
-        assertTrue(getPanels().getView().panelValidated());
+        assertThat(getPanels().getView().panelValidated()).isTrue();
 
         // test password validation
         passwordA2.setText("foo");
 
         frame.button(GuiId.BUTTON_NEXT.id).click();
-        DialogFixture dialog = frame.dialog(Timeout.timeout(10000));
-        assertEquals("Passwords must match", dialog.label("OptionPane.label").text());
+        DialogFixture dialog = frame.dialog(timeout(10000));
+        assertThat(dialog.label("OptionPane.label").text()).isEqualTo("Passwords must match");
         dialog.button().click();
         passwordA2.setText("ab1234");
 
         // move to the next panel and verify the variables have updated
         checkNavigateNext(frame);
 
-        assertEquals("ab1234", installData.getVariable("passwordA"));
-        assertEquals("", installData.getVariable("passwordB"));
-        assertEquals("xyz", installData.getVariable("passwordC"));
+        assertThat(installData.getVariable("passwordA")).isEqualTo("ab1234");
+        assertThat(installData.getVariable("passwordB")).isEmpty();
+        assertThat(installData.getVariable("passwordC")).isEqualTo("xyz");
     }
 
     /**
@@ -493,14 +485,14 @@ public class UserInputPanelTest extends AbstractPanelTest
         check5set.setId("cond.check5set");
         check5set.setInstallData(getInstallData());
         rules.addCondition(check5set);
-        assertTrue(check5set.isTrue());
+        assertThat(check5set.isTrue()).isTrue();
 
         // Condition cond.check6unset evaluates true when check6 is de-selected
         VariableCondition check6unset = new VariableCondition("check6", "check6unset");
         check6unset.setId("cond.check6unset");
         check6unset.setInstallData(getInstallData());
         rules.addCondition(check6unset);
-        assertTrue(check6unset.isTrue());
+        assertThat(check6unset.isTrue()).isTrue();
 
         // show the panel
         FrameFixture frame = showUserInputPanel("checkinput");
@@ -533,12 +525,12 @@ public class UserInputPanelTest extends AbstractPanelTest
         // move to the next panel and verify the variables have updated
         checkNavigateNext(frame);
 
-        assertEquals("true", installData.getVariable("check1"));
-        assertEquals("false", installData.getVariable("check2"));
-        assertEquals("check3set", installData.getVariable("check3"));
-        assertEquals("check4unset", installData.getVariable("check4"));
-        assertEquals("check5set", installData.getVariable("check5"));
-        assertEquals("check6set", installData.getVariable("check6"));
+        assertThat(installData.getVariable("check1")).isEqualTo("true");
+        assertThat(installData.getVariable("check2")).isEqualTo("false");
+        assertThat(installData.getVariable("check3")).isEqualTo("check3set");
+        assertThat(installData.getVariable("check4")).isEqualTo("check4unset");
+        assertThat(installData.getVariable("check5")).isEqualTo("check5set");
+        assertThat(installData.getVariable("check6")).isEqualTo("check6set");
     }
 
     /**
@@ -553,10 +545,10 @@ public class UserInputPanelTest extends AbstractPanelTest
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/search/");
 
         InstallData installData = getInstallData();
-        String path = temporaryFolder.getRoot().getPath();
+        String path = temporaryFolder.toString();
         installData.setVariable("MY_DIR", path);
-        assertTrue(new File(path, "dir1").mkdir());
-        assertTrue(new File(path, "dir2").mkdir());
+        assertThat(new File(path, "dir1").mkdir()).isTrue();
+        assertThat(new File(path, "dir2").mkdir()).isTrue();
 
         // show the panel
         FrameFixture frame = showUserInputPanel("searchinput");
@@ -565,17 +557,17 @@ public class UserInputPanelTest extends AbstractPanelTest
 
         // make sure the order is preserved
         ComboBoxModel model = search1.component().getModel();
-        assertEquals(path + File.separator + "dir1", model.getElementAt(0));
-        assertEquals(path + File.separator + "dir2", model.getElementAt(1));
+        assertThat(model.getElementAt(0)).isEqualTo(path + File.separator + "dir1");
+        assertThat(model.getElementAt(1)).isEqualTo(path + File.separator + "dir2");
 
-        assertEquals(0, search1.component().getSelectedIndex()); // should default to first dir1
+        assertThat(search1.component().getSelectedIndex()).isEqualTo(0); // should default to first dir1
         search1.selectItem(1);
-        assertEquals(1, search1.component().getSelectedIndex());
+        assertThat(search1.component().getSelectedIndex()).isEqualTo(1);
 
         // move to the next panel and verify the variables have updated
         checkNavigateNext(frame);
 
-        assertEquals(path + File.separator + "dir2", installData.getVariable("search1"));
+        assertThat(installData.getVariable("search1")).isEqualTo(path + File.separator + "dir2");
     }
 
     /**
@@ -590,10 +582,10 @@ public class UserInputPanelTest extends AbstractPanelTest
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/file/");
 
         InstallData installData = getInstallData();
-        String path = temporaryFolder.getRoot().getPath();
+        String path = temporaryFolder.toString();
         installData.setVariable("MY_DIR", path);
-        assertTrue(new File(path, "fileA").createNewFile());
-        assertTrue(new File(path, "fileB").createNewFile());
+        assertThat(new File(path, "fileA").createNewFile()).isTrue();
+        assertThat(new File(path, "fileB").createNewFile()).isTrue();
 
         // show the panel
         FrameFixture frame = showUserInputPanel("fileinput");
@@ -605,7 +597,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         // move to the next panel and verify the variables have updated
         checkNavigateNext(frame);
 
-        assertEquals(expected, installData.getVariable("file1"));
+        assertThat(installData.getVariable("file1")).isEqualTo(expected);
     }
 
     /**
@@ -620,26 +612,26 @@ public class UserInputPanelTest extends AbstractPanelTest
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/multifile/");
 
         InstallData installData = getInstallData();
-        File tempFolder = temporaryFolder.getRoot();
+        File tempFolder = temporaryFolder.toFile();
         String path = tempFolder.getPath();
         installData.setVariable("MY_DIR", path);
-        assertTrue(new File(path, "fileA").createNewFile());
+        assertThat(new File(path, "fileA").createNewFile()).isTrue();
         File fileB = new File(path, "fileB");
-        assertTrue(fileB.createNewFile());
+        assertThat(fileB.createNewFile()).isTrue();
         File fileC = new File(path, "fileC");
-        assertTrue(fileC.createNewFile());
+        assertThat(fileC.createNewFile()).isTrue();
 
         // show the panel
         FrameFixture frame = showUserInputPanel("multifileinput");
-        
+
         // select files
         browseFileFromFileChooser(frame, tempFolder, fileB);
         browseFileFromFileChooser(frame, tempFolder, fileC);
-        
+
         // move to the next panel and verify the variables have updated
         checkNavigateNext(frame);
 
-        assertEquals(fileB.getPath() + ";" + fileC.getPath() + ";", installData.getVariable("multiFile1"));
+        assertThat(installData.getVariable("multiFile1")).isEqualTo(fileB.getPath() + ";" + fileC.getPath() + ";");
     }
 
     /**
@@ -654,10 +646,10 @@ public class UserInputPanelTest extends AbstractPanelTest
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/userinput/dir/");
 
         InstallData installData = getInstallData();
-        String path = temporaryFolder.getRoot().getPath();
+        String path = temporaryFolder.toString();
         installData.setVariable("MY_DIR", path);
-        assertTrue(new File(path, "dirA").mkdir());
-        assertTrue(new File(path, "dirB").mkdir());
+        assertThat(new File(path, "dirA").mkdir()).isTrue();
+        assertThat(new File(path, "dirB").mkdir()).isTrue();
 
         // show the panel
         FrameFixture frame = showUserInputPanel("dirinput");
@@ -669,7 +661,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         // move to the next panel and verify the variables have updated
         checkNavigateNext(frame);
 
-        assertEquals(expected, installData.getVariable("dir1"));
+        assertThat(installData.getVariable("dir1")).isEqualTo(expected);
     }
 
     /**
@@ -693,19 +685,19 @@ public class UserInputPanelTest extends AbstractPanelTest
         FrameFixture fixture = showUserInputPanel("userinputAddress");
 
         JTextComponentFixture address = fixture.textBox();
-        assertEquals("localhost", address.text());
+        assertThat(address.text()).isEqualTo("localhost");
 
-        assertEquals("localhost", installData.getVariable("address"));
-        assertEquals("localhost", installData.getVariable("dynamicMasterAddress"));
+        assertThat(installData.getVariable("address")).isEqualTo("localhost");
+        assertThat(installData.getVariable("dynamicMasterAddress")).isEqualTo("localhost");
 
         address.setText("myhost");
 
-        assertTrue(getPanels().getView().panelValidated());
+        assertThat(getPanels().getView().panelValidated()).isTrue();
 
         checkNavigateNext(fixture);
 
-        assertEquals("myhost", installData.getVariable("address"));
-        assertEquals("myhost", installData.getVariable("dynamicMasterAddress"));
+        assertThat(installData.getVariable("address")).isEqualTo("myhost");
+        assertThat(installData.getVariable("dynamicMasterAddress")).isEqualTo("myhost");
     }
 
     @Test
@@ -719,13 +711,13 @@ public class UserInputPanelTest extends AbstractPanelTest
         FrameFixture frame = showUserInputPanel("processors");
 
         JTextComponentFixture text1 = frame.textBox("processors1");
-        assertEquals("ProcessorOne", text1.text());
-        assertEquals("ProcessorOne", installData.getVariable("processors1"));
+        assertThat(text1.text()).isEqualTo("ProcessorOne");
+        assertThat(installData.getVariable("processors1")).isEqualTo("ProcessorOne");
 
         // attempt to navigate to the next panel
         checkNavigateNext(frame);
 
-        assertEquals("Processed: ProcessorOne", installData.getVariable("processors1"));
+        assertThat(installData.getVariable("processors1")).isEqualTo("Processed: ProcessorOne");
     }
 
     @Test
@@ -742,9 +734,9 @@ public class UserInputPanelTest extends AbstractPanelTest
         // attempt to navigate to the next panel
         checkNavigateNext(frame);
 
-        assertEquals("ProcessorTwo", textField.text());
-        assertEquals("ProcessorTwo", installData.getVariable("processors2"));
-        assertEquals("Processed: ProcessorTwo", installData.getVariable("processors2.processed"));
+        assertThat(textField.text()).isEqualTo("ProcessorTwo");
+        assertThat(installData.getVariable("processors2")).isEqualTo("ProcessorTwo");
+        assertThat(installData.getVariable("processors2.processed")).isEqualTo("Processed: ProcessorTwo");
     }
 
     @Test
@@ -761,8 +753,8 @@ public class UserInputPanelTest extends AbstractPanelTest
         // attempt to navigate to the next panel
         checkNavigateNext(frame);
 
-        assertEquals("ProcessorThree", textField.text());
-        assertEquals("Processed: Processed: ProcessorThree", installData.getVariable("processors3"));
+        assertThat(textField.text()).isEqualTo("ProcessorThree");
+        assertThat(installData.getVariable("processors3")).isEqualTo("Processed: Processed: ProcessorThree");
     }
 
     @Test
@@ -779,10 +771,10 @@ public class UserInputPanelTest extends AbstractPanelTest
         // attempt to navigate to the next panel
         checkNavigateNext(frame);
 
-        assertEquals("ProcessorFour", textField.text());
-        assertEquals("Processed: ProcessorFour", installData.getVariable("processors4"));
-        assertEquals("Processed: ProcessorFour", installData.getVariable("processors4.processed.first"));
-        assertEquals("Processed: Processed: ProcessorFour", installData.getVariable("processors4.processed.second"));
+        assertThat(textField.text()).isEqualTo("ProcessorFour");
+        assertThat(installData.getVariable("processors4")).isEqualTo("Processed: ProcessorFour");
+        assertThat(installData.getVariable("processors4.processed.first")).isEqualTo("Processed: ProcessorFour");
+        assertThat(installData.getVariable("processors4.processed.second")).isEqualTo("Processed: Processed: ProcessorFour");
     }
 
     /**
@@ -799,11 +791,11 @@ public class UserInputPanelTest extends AbstractPanelTest
         Choice item = (Choice) combo.component().getSelectedItem();
         if (item == null)
         {
-            assertNull(expected);
+            assertThat(expected).isNull();
         }
         else
         {
-            assertEquals(expected, item.getKey());
+            assertThat(item.getKey()).isEqualTo(expected);
         }
         return combo;
     }
@@ -819,7 +811,7 @@ public class UserInputPanelTest extends AbstractPanelTest
     private JCheckBox checkCheckBox(String name, boolean expected, FrameFixture frame)
     {
         JCheckBox check = frame.checkBox(name).component();
-        assertEquals(expected, check.isSelected());
+        assertThat(check.isSelected()).isEqualTo(expected);
         return check;
     }
 
@@ -835,7 +827,7 @@ public class UserInputPanelTest extends AbstractPanelTest
     {
         JRadioButtonFixture fixture = frame.radioButton(name);
         JRadioButton button = fixture.component();
-        assertEquals(expected, button.isSelected());
+        assertThat(button.isSelected()).isEqualTo(expected);
         return button;
     }
 
@@ -852,7 +844,7 @@ public class UserInputPanelTest extends AbstractPanelTest
 
         waitForPanel(SimpleFinishPanel.class);
 
-        assertThat(getPanels().getView(), instanceOf(SimpleFinishPanel.class));
+        assertThat(getPanels().getView()).isInstanceOf(SimpleFinishPanel.class);
     }
 
     /**
@@ -866,7 +858,7 @@ public class UserInputPanelTest extends AbstractPanelTest
         FrameFixture fixture = show(createPanel(UserInputPanel.class, id), createPanel(SimpleFinishPanel.class));
         waitForPanel(UserInputPanel.class);
 
-        assertThat(getPanels().getView(), instanceOf(UserInputPanel.class));
+        assertThat(getPanels().getView()).isInstanceOf(UserInputPanel.class);
 
         return fixture;
     }
@@ -893,30 +885,30 @@ public class UserInputPanelTest extends AbstractPanelTest
         panel.setClassName(panelClass.getName());
         return panel;
     }
-    
+
     /**
      * Clicks on "browse" button and selects the given file in
      * given directory.<br>
-     * A Thread.sleep() is used to ensure the "selectFile" action
+     * A sleep() is used to ensure the "selectFile" action
      * is not launched while the current directory's update is
      * not finished yet.
-     * 
+     *
      * @param frame the frame from which the browse button is
      * @param currentDirectory the directory of the file to select
      * @param fileToSelect the file to select
-     * @throws InterruptedException if error occurs during Thread.sleep()
+     * @throws InterruptedException if error occurs during sleep()
      */
-    private void browseFileFromFileChooser(FrameFixture frame, File currentDirectory, 
-            File fileToSelect) throws InterruptedException 
+    private void browseFileFromFileChooser(FrameFixture frame, File currentDirectory,
+            File fileToSelect) throws InterruptedException
     {
         frame.button(GuiId.BUTTON_BROWSE.id).click();
-        
-        JFileChooserFixture fileChooser = JFileChooserFinder.findFileChooser()
+
+        JFileChooserFixture fileChooser = findFileChooser()
                 .withTimeout(10, TimeUnit.SECONDS)
                 .using(frame.robot);
-        
+
         fileChooser.setCurrentDirectory(currentDirectory);
-        Thread.sleep(50);
+        sleep(50);
         fileChooser.selectFile(fileToSelect).approve();
     }
 

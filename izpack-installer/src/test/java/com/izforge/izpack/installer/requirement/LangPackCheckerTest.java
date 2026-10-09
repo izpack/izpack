@@ -21,15 +21,12 @@
 
 package com.izforge.izpack.installer.requirement;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.core.resource.ResourceManager;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link LangPackChecker}.
@@ -58,10 +55,10 @@ public class LangPackCheckerTest
         LangPackChecker checker = new LangPackChecker(resources);
 
         // no lang packs - should evaluate false
-        assertFalse(checker.check());
+        assertThat(checker.check()).isFalse();
 
         // add a lang pack - should evaluate true
         langPacks.add("eng");
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
     }
 }

@@ -21,21 +21,21 @@
 
 package com.izforge.izpack.integration.multivolume;
 
-import java.io.File;
-
-import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
+import static com.izforge.izpack.integration.HelperTestMethod.clickDefaultLang;
+import static com.izforge.izpack.integration.HelperTestMethod.prepareFrameFixture;
+import static com.izforge.izpack.integration.HelperTestMethod.waitAndCheckInstallation;
+import static java.lang.Thread.sleep;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestGUIInstallerContainer;
-import com.izforge.izpack.compiler.packager.impl.MultiVolumePackager;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.language.LanguageDialog;
-import com.izforge.izpack.installer.multiunpacker.MultiVolumeUnpacker;
-import com.izforge.izpack.integration.HelperTestMethod;
+import java.io.File;
+import org.fest.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
 
 
 /**
@@ -54,7 +54,7 @@ public class MultiVolumeInstallationTest extends AbstractMultiVolumeInstallation
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (fixture != null)
@@ -90,42 +90,42 @@ public class MultiVolumeInstallationTest extends AbstractMultiVolumeInstallation
         InstallerFrame installerFrame = container.getComponent(InstallerFrame.class);
 
         // Lang picker
-        HelperTestMethod.clickDefaultLang(languageDialog);
+        clickDefaultLang(languageDialog);
 
-        fixture = HelperTestMethod.prepareFrameFixture(installerFrame, controller);
-        Thread.sleep(600);
+        fixture = prepareFrameFixture(installerFrame, controller);
+        sleep(600);
 
         // Hello panel
         fixture.button(GuiId.BUTTON_NEXT.id).click();
-        Thread.sleep(600);
+        sleep(600);
 
         // Info Panel
         fixture.textBox(GuiId.INFO_PANEL_TEXT_AREA.id).requireText("A readme file ...");
         fixture.button(GuiId.BUTTON_PREV.id).requireVisible();
         fixture.button(GuiId.BUTTON_NEXT.id).click();
         fixture.button(GuiId.BUTTON_PREV.id).requireEnabled();
-        Thread.sleep(300);
+        sleep(300);
 
         // Licence Panel
         fixture.textBox(GuiId.LICENCE_TEXT_AREA.id).requireText("(Consider it as a licence file ...)");
         fixture.radioButton(GuiId.LICENCE_NO_RADIO.id).requireSelected();
         fixture.button(GuiId.BUTTON_NEXT.id).requireDisabled();
         fixture.radioButton(GuiId.LICENCE_YES_RADIO.id).click();
-        Thread.sleep(300);
+        sleep(300);
         fixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Target Panel
         fixture.button(GuiId.BUTTON_NEXT.id).click();
-        Thread.sleep(1000);
+        sleep(1000);
         fixture.optionPane().requireWarningMessage();
         fixture.optionPane().okButton().click();
 
         // Install Panel
-        HelperTestMethod.waitAndCheckInstallation(installData, installPath);
+        waitAndCheckInstallation(installData, installPath);
         fixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Finish panel
-        Thread.sleep(1200);
+        sleep(1200);
         fixture.button(GuiId.BUTTON_QUIT.id).click();
     }
 

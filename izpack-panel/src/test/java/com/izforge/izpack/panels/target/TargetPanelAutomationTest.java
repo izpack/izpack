@@ -20,17 +20,10 @@
  */
 package com.izforge.izpack.panels.target;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.io.File;
-import java.io.IOException;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.panels.target.TargetPanelTestHelper.createBadInstallationInfo;
+import static com.izforge.izpack.panels.target.TargetPanelTestHelper.getIncompatibleInstallationMessage;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
@@ -38,15 +31,17 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
-
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link TargetPanelAutomation} class.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class TargetPanelAutomationTest
 {
@@ -54,8 +49,8 @@ public class TargetPanelAutomationTest
     /**
      * Temporary folder.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * The installation data.
@@ -81,32 +76,32 @@ public class TargetPanelAutomationTest
     @Test
     public void testIncompatibleInstallation() throws IOException
     {
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File badDir = new File(root, "badDir");
-        assertTrue(badDir.mkdirs());
+        assertThat(badDir.mkdirs()).isTrue();
         File goodDir = new File(root, "goodDir");   // don't bother creating it
 
         // get the expected error message for the locale
-        String expectedMessage = TargetPanelTestHelper.getIncompatibleInstallationMessage(installData);
+        String expectedMessage = getIncompatibleInstallationMessage(installData);
 
         // try and select an incompatible install dir. Should fail with an InstallerException
         TargetPanelAutomation panel = new TargetPanelAutomation();
         IXMLElement badPath = createElement(badDir);
         try
         {
-            TargetPanelTestHelper.createBadInstallationInfo(badDir);
+            createBadInstallationInfo(badDir);
             panel.runAutomated(installData, badPath);
             fail("Expected runAutomated() to fail");
         }
         catch (InstallerException expected)
         {
-            assertEquals(expectedMessage, expected.getMessage());
+            assertThat(expected.getMessage()).isEqualTo(expectedMessage);
         }
 
         // now run again, with a dir containing no incompatible install info, and verify it succeeds
         IXMLElement goodPath = createElement(goodDir);
         panel.runAutomated(installData, goodPath);
-        assertEquals(goodDir.getAbsolutePath(), installData.getInstallPath());
+        assertThat(installData.getInstallPath()).isEqualTo(goodDir.getAbsolutePath());
     }
 
     /**

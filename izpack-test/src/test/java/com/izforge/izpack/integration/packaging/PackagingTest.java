@@ -21,11 +21,20 @@
 
 package com.izforge.izpack.integration.packaging;
 
+import static com.izforge.izpack.integration.HelperTestMethod.prepareFrameFixture;
+import static com.izforge.izpack.integration.HelperTestMethod.waitAndCheckInstallation;
+import static com.izforge.izpack.matcher.ZipMatcher.getFileNameListFromZip;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import com.izforge.izpack.api.GuiId;
+import com.izforge.izpack.api.data.AutomatedInstallData;
+import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
+import com.izforge.izpack.compiler.data.CompilerData;
+import com.izforge.izpack.installer.gui.InstallerController;
+import com.izforge.izpack.installer.gui.InstallerFrame;
+import com.izforge.izpack.integration.AbstractInstallationTest;
+import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.InstallFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -33,34 +42,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
-
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.izforge.izpack.api.GuiId;
-import com.izforge.izpack.api.data.AutomatedInstallData;
-import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
-import com.izforge.izpack.compiler.data.CompilerData;
-import com.izforge.izpack.compiler.packager.impl.Packager;
-import com.izforge.izpack.installer.gui.InstallerController;
-import com.izforge.izpack.installer.gui.InstallerFrame;
-import com.izforge.izpack.installer.unpacker.Unpacker;
-import com.izforge.izpack.integration.AbstractInstallationTest;
-import com.izforge.izpack.integration.HelperTestMethod;
-import com.izforge.izpack.matcher.ZipMatcher;
-import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link Packager} in conjunction with the {@link Unpacker}.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class PackagingTest extends AbstractInstallationTest
 {
@@ -111,7 +101,7 @@ public class PackagingTest extends AbstractInstallationTest
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)
@@ -131,28 +121,28 @@ public class PackagingTest extends AbstractInstallationTest
     {
         // make sure the source jar exists
         File source = new File(compilerData.getBasedir(), "izpack-test-listener.jar");
-        assertTrue(source.exists());
+        assertThat(source).exists();
 
         // verify that the izpack-test-listener.jar has been written out as a pack200 resource
-        assertThat(installer, ZipMatcher.isZipContainingFiles("resources/packs/pack200-0"));
+        assertThat(getFileNameListFromZip(installer)).contains("resources/packs/pack200-0");
 
         // now run installation
-        frameFixture = HelperTestMethod.prepareFrameFixture(frame, controller);
+        frameFixture = prepareFrameFixture(frame, controller);
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
         frameFixture.requireVisible();
 
-        HelperTestMethod.waitAndCheckInstallation(getInstallData());
+        waitAndCheckInstallation(getInstallData());
 
         // verify the test jar has been installed, and contains the same entries as the source
         File target = new File(getInstallPath(), "izpack-test-listener.jar");
-        assertTrue(target.exists());
+        assertThat(target).exists();
 
         JarFile sourceJar = new JarFile(source);
         JarFile targetJar = new JarFile(target);
 
         Set<String> sourceEntries = getFiles(sourceJar);
         Set<String> targetEntries = getFiles(targetJar);
-        assertEquals(sourceEntries, targetEntries);
+        assertThat(targetEntries).isEqualTo(sourceEntries);
     }
 
     /**

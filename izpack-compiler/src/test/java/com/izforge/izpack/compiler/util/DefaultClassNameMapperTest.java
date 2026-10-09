@@ -20,6 +20,8 @@
  */
 package com.izforge.izpack.compiler.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.event.*;
 import com.izforge.izpack.installer.web.DownloadPanel;
 import com.izforge.izpack.panels.checkedhello.CheckedHelloPanel;
@@ -55,10 +57,7 @@ import com.izforge.izpack.panels.userinput.processor.UnixUserProcessor;
 import com.izforge.izpack.panels.userinput.validator.*;
 import com.izforge.izpack.panels.userpath.UserPathPanel;
 import com.izforge.izpack.panels.xinfo.XInfoPanel;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link DefaultClassNameMapper}.
@@ -88,12 +87,12 @@ public class DefaultClassNameMapperTest
     @Test
     public void testInstallerListeners()
     {
-        assertEquals(AntActionInstallerListener.class.getName(), mapper.map("AntActionInstallerListener"));
-        assertEquals(BSFInstallerListener.class.getName(), mapper.map("BSFInstallerListener"));
-        assertEquals(ConfigurationInstallerListener.class.getName(), mapper.map("ConfigurationInstallerListener"));
-        assertEquals(ProgressBarInstallerListener.class.getName(), mapper.map("ProgressBarInstallerListener"));
-        assertEquals(RegistryInstallerListener.class.getName(), mapper.map("RegistryInstallerListener"));
-        assertEquals(SummaryLoggerInstallerListener.class.getName(), mapper.map("SummaryLoggerInstallerListener"));
+        assertThat(mapper.map("AntActionInstallerListener")).isEqualTo(AntActionInstallerListener.class.getName());
+        assertThat(mapper.map("BSFInstallerListener")).isEqualTo(BSFInstallerListener.class.getName());
+        assertThat(mapper.map("ConfigurationInstallerListener")).isEqualTo(ConfigurationInstallerListener.class.getName());
+        assertThat(mapper.map("ProgressBarInstallerListener")).isEqualTo(ProgressBarInstallerListener.class.getName());
+        assertThat(mapper.map("RegistryInstallerListener")).isEqualTo(RegistryInstallerListener.class.getName());
+        assertThat(mapper.map("SummaryLoggerInstallerListener")).isEqualTo(SummaryLoggerInstallerListener.class.getName());
     }
 
     /**
@@ -102,9 +101,9 @@ public class DefaultClassNameMapperTest
     @Test
     public void testUninstallerListeners()
     {
-        assertEquals(AntActionUninstallerListener.class.getName(), mapper.map("AntActionUninstallerListener"));
-        assertEquals(BSFUninstallerListener.class.getName(), mapper.map("BSFUninstallerListener"));
-        assertEquals(RegistryUninstallerListener.class.getName(), mapper.map("RegistryUninstallerListener"));
+        assertThat(mapper.map("AntActionUninstallerListener")).isEqualTo(AntActionUninstallerListener.class.getName());
+        assertThat(mapper.map("BSFUninstallerListener")).isEqualTo(BSFUninstallerListener.class.getName());
+        assertThat(mapper.map("RegistryUninstallerListener")).isEqualTo(RegistryUninstallerListener.class.getName());
     }
 
     /**
@@ -113,12 +112,12 @@ public class DefaultClassNameMapperTest
     @Test
     public void testValidators()
     {
-        assertEquals(HostAddressValidator.class.getName(), mapper.map("HostAddressValidator"));
-        assertEquals(IsPortValidator.class.getName(), mapper.map("IsPortValidator"));
-        assertEquals(NotEmptyValidator.class.getName(), mapper.map("NotEmptyValidator"));
-        assertEquals(PasswordEqualityValidator.class.getName(), mapper.map("PasswordEqualityValidator"));
-        assertEquals(PortValidator.class.getName(), mapper.map("PortValidator"));
-        assertEquals(RegularExpressionValidator.class.getName(), mapper.map("RegularExpressionValidator"));
+        assertThat(mapper.map("HostAddressValidator")).isEqualTo(HostAddressValidator.class.getName());
+        assertThat(mapper.map("IsPortValidator")).isEqualTo(IsPortValidator.class.getName());
+        assertThat(mapper.map("NotEmptyValidator")).isEqualTo(NotEmptyValidator.class.getName());
+        assertThat(mapper.map("PasswordEqualityValidator")).isEqualTo(PasswordEqualityValidator.class.getName());
+        assertThat(mapper.map("PortValidator")).isEqualTo(PortValidator.class.getName());
+        assertThat(mapper.map("RegularExpressionValidator")).isEqualTo(RegularExpressionValidator.class.getName());
     }
 
     /**
@@ -127,10 +126,10 @@ public class DefaultClassNameMapperTest
     @Test
     public void testProcessors()
     {
-        assertEquals(PasswordEncryptionProcessor.class.getName(), mapper.map("PasswordEncryptionProcessor"));
-        assertEquals(PortProcessor.class.getName(), mapper.map("PortProcessor"));
-        assertEquals(UnixGroupProcessor.class.getName(), mapper.map("UnixGroupProcessor"));
-        assertEquals(UnixUserProcessor.class.getName(), mapper.map("UnixUserProcessor"));
+        assertThat(mapper.map("PasswordEncryptionProcessor")).isEqualTo(PasswordEncryptionProcessor.class.getName());
+        assertThat(mapper.map("PortProcessor")).isEqualTo(PortProcessor.class.getName());
+        assertThat(mapper.map("UnixGroupProcessor")).isEqualTo(UnixGroupProcessor.class.getName());
+        assertThat(mapper.map("UnixUserProcessor")).isEqualTo(UnixUserProcessor.class.getName());
     }
 
     /**
@@ -139,35 +138,35 @@ public class DefaultClassNameMapperTest
     @Test
     public void testIzPanels()
     {
-        assertEquals(CheckedHelloPanel.class.getName(), mapper.map("CheckedHelloPanel"));
-        assertEquals(CompilePanel.class.getName(), mapper.map("CompilePanel"));
-        assertEquals(DataCheckPanel.class.getName(), mapper.map("DataCheckPanel"));
-        assertEquals(DefaultTargetPanel.class.getName(), mapper.map("DefaultTargetPanel"));
-        assertEquals(DownloadPanel.class.getName(), mapper.map("DownloadPanel"));
-        assertEquals(FinishPanel.class.getName(), mapper.map("FinishPanel"));
-        assertEquals(HTMLHelloPanel.class.getName(), mapper.map("HTMLHelloPanel"));
-        assertEquals(HTMLInfoPanel.class.getName(), mapper.map("HTMLInfoPanel"));
-        assertEquals(HTMLLicencePanel.class.getName(), mapper.map("HTMLLicencePanel"));
-        assertEquals(HelloPanel.class.getName(), mapper.map("HelloPanel"));
-        assertEquals(ImgPacksPanel.class.getName(), mapper.map("ImgPacksPanel"));
-        assertEquals(InfoPanel.class.getName(), mapper.map("InfoPanel"));
-        assertEquals(InstallationGroupPanel.class.getName(), mapper.map("InstallationGroupPanel"));
-        assertEquals(InstallationTypePanel.class.getName(), mapper.map("InstallationTypePanel"));
-        assertEquals(InstallPanel.class.getName(), mapper.map("InstallPanel"));
-        assertEquals(JDKPathPanel.class.getName(), mapper.map("JDKPathPanel"));
-        assertEquals(LicencePanel.class.getName(), mapper.map("LicencePanel"));
-        assertEquals(PacksPanel.class.getName(), mapper.map("PacksPanel"));
-        assertEquals(ProcessPanel.class.getName(), mapper.map("ProcessPanel"));
-        assertEquals(SelectPrinterPanel.class.getName(), mapper.map("SelectPrinterPanel"));
-        assertEquals(ShortcutPanel.class.getName(), mapper.map("ShortcutPanel"));
-        assertEquals(SimpleFinishPanel.class.getName(), mapper.map("SimpleFinishPanel"));
-        assertEquals(SudoPanel.class.getName(), mapper.map("SudoPanel"));
-        assertEquals(SummaryPanel.class.getName(), mapper.map("SummaryPanel"));
-        assertEquals(TargetPanel.class.getName(), mapper.map("TargetPanel"));
-        assertEquals(TreePacksPanel.class.getName(), mapper.map("TreePacksPanel"));
-        assertEquals(UserInputPanel.class.getName(), mapper.map("UserInputPanel"));
-        assertEquals(UserPathPanel.class.getName(), mapper.map("UserPathPanel"));
-        assertEquals(XInfoPanel.class.getName(), mapper.map("XInfoPanel"));
+        assertThat(mapper.map("CheckedHelloPanel")).isEqualTo(CheckedHelloPanel.class.getName());
+        assertThat(mapper.map("CompilePanel")).isEqualTo(CompilePanel.class.getName());
+        assertThat(mapper.map("DataCheckPanel")).isEqualTo(DataCheckPanel.class.getName());
+        assertThat(mapper.map("DefaultTargetPanel")).isEqualTo(DefaultTargetPanel.class.getName());
+        assertThat(mapper.map("DownloadPanel")).isEqualTo(DownloadPanel.class.getName());
+        assertThat(mapper.map("FinishPanel")).isEqualTo(FinishPanel.class.getName());
+        assertThat(mapper.map("HTMLHelloPanel")).isEqualTo(HTMLHelloPanel.class.getName());
+        assertThat(mapper.map("HTMLInfoPanel")).isEqualTo(HTMLInfoPanel.class.getName());
+        assertThat(mapper.map("HTMLLicencePanel")).isEqualTo(HTMLLicencePanel.class.getName());
+        assertThat(mapper.map("HelloPanel")).isEqualTo(HelloPanel.class.getName());
+        assertThat(mapper.map("ImgPacksPanel")).isEqualTo(ImgPacksPanel.class.getName());
+        assertThat(mapper.map("InfoPanel")).isEqualTo(InfoPanel.class.getName());
+        assertThat(mapper.map("InstallationGroupPanel")).isEqualTo(InstallationGroupPanel.class.getName());
+        assertThat(mapper.map("InstallationTypePanel")).isEqualTo(InstallationTypePanel.class.getName());
+        assertThat(mapper.map("InstallPanel")).isEqualTo(InstallPanel.class.getName());
+        assertThat(mapper.map("JDKPathPanel")).isEqualTo(JDKPathPanel.class.getName());
+        assertThat(mapper.map("LicencePanel")).isEqualTo(LicencePanel.class.getName());
+        assertThat(mapper.map("PacksPanel")).isEqualTo(PacksPanel.class.getName());
+        assertThat(mapper.map("ProcessPanel")).isEqualTo(ProcessPanel.class.getName());
+        assertThat(mapper.map("SelectPrinterPanel")).isEqualTo(SelectPrinterPanel.class.getName());
+        assertThat(mapper.map("ShortcutPanel")).isEqualTo(ShortcutPanel.class.getName());
+        assertThat(mapper.map("SimpleFinishPanel")).isEqualTo(SimpleFinishPanel.class.getName());
+        assertThat(mapper.map("SudoPanel")).isEqualTo(SudoPanel.class.getName());
+        assertThat(mapper.map("SummaryPanel")).isEqualTo(SummaryPanel.class.getName());
+        assertThat(mapper.map("TargetPanel")).isEqualTo(TargetPanel.class.getName());
+        assertThat(mapper.map("TreePacksPanel")).isEqualTo(TreePacksPanel.class.getName());
+        assertThat(mapper.map("UserInputPanel")).isEqualTo(UserInputPanel.class.getName());
+        assertThat(mapper.map("UserPathPanel")).isEqualTo(UserPathPanel.class.getName());
+        assertThat(mapper.map("XInfoPanel")).isEqualTo(XInfoPanel.class.getName());
     }
 
     /**
@@ -176,7 +175,7 @@ public class DefaultClassNameMapperTest
     @Test
     public void testNoMapping()
     {
-        assertNull(mapper.map("NoMapping"));
-        assertNull(mapper.map(HelloPanel.class.getName()));
+        assertThat(mapper.map("NoMapping")).isNull();
+        assertThat(mapper.map(HelloPanel.class.getName())).isNull();
     }
 }

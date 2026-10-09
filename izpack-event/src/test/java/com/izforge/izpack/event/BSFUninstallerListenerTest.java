@@ -23,24 +23,12 @@ package com.izforge.izpack.event;
 
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertNotNull;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-
-import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.mockito.Mockito;
+import static java.lang.System.setProperty;
+import static java.util.Arrays.asList;
+import static org.apache.commons.io.FileUtils.touch;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
@@ -55,6 +43,18 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
 import com.izforge.izpack.util.Platforms;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Properties;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link BSFUninstallerListener} class.
@@ -67,8 +67,8 @@ public class BSFUninstallerListenerTest
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * The installation directory.
@@ -79,10 +79,10 @@ public class BSFUninstallerListenerTest
     /**
      * Sets up the test case.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
-        installDir = temporaryFolder.getRoot();
+        installDir = temporaryFolder.toFile();
     }
 
     /**
@@ -123,17 +123,17 @@ public class BSFUninstallerListenerTest
 
         File file1 = new File(installDir, "file1.txt");
         File file2 = new File(installDir, "file2.txt");
-        List<File> files = Arrays.asList(file1, file2);
+        List<File> files = asList(file1, file2);
         for (File file : files)
         {
-            FileUtils.touch(file);
+            touch(file);
         }
 
-        System.setProperty("TEST_INSTALL_PATH", installDir.getPath());
+        setProperty("TEST_INSTALL_PATH", installDir.getPath());
         // hack to pass additional parameters to script. TODO
 
         assertFileNotExists(installDir, "beforedeletion" + suffix);
-        listener.beforeDelete(files, Mockito.mock(ProgressListener.class));
+        listener.beforeDelete(files, mock(ProgressListener.class));
         assertFileExists(installDir, "beforedeletion" + suffix);
 
         assertFileNotExists(installDir, "beforedelete" + suffix);
@@ -145,7 +145,7 @@ public class BSFUninstallerListenerTest
         assertFileExists(installDir, "afterdelete" + suffix);
 
         assertFileNotExists(installDir, "afterdeletion" + suffix);
-        listener.afterDelete(files, Mockito.mock(ProgressListener.class));
+        listener.afterDelete(files, mock(ProgressListener.class));
         assertFileExists(installDir, "afterdeletion" + suffix);
     }
 
@@ -159,15 +159,15 @@ public class BSFUninstallerListenerTest
     private BSFUninstallerListener createListener(List<BSFAction> actions) throws IOException
     {
         // stream the actions, so the BSFUninstallerListener can read them as a resource
-        assertNotNull(actions);
+        assertThat(actions).isNotNull();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
         objectOutput.writeObject(actions);
         objectOutput.close();
 
-        Resources resources = Mockito.mock(Resources.class);
+        Resources resources = mock(Resources.class);
         ByteArrayInputStream byteInput = new ByteArrayInputStream(byteOutput.toByteArray());
-        Mockito.when(resources.getInputStream("bsfActions")).thenReturn(byteInput);
+        when(resources.getInputStream("bsfActions")).thenReturn(byteInput);
         return new BSFUninstallerListener(resources);
     }
 
@@ -191,21 +191,21 @@ public class BSFUninstallerListenerTest
         InstallData installData = new AutomatedInstallData(variables, Platforms.SUNOS);
         installData.setInstallPath(installDir.getPath());
 
-        Resources resources = Mockito.mock(Resources.class);
+        Resources resources = mock(Resources.class);
         InputStream specStream = getClass().getResourceAsStream(resource);
-        assertNotNull(specStream);
-        Mockito.when(resources.getInputStream(BSFInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
+        assertThat(specStream).isNotNull();
+        when(resources.getInputStream(BSFInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
 
         UninstallData uninstallData = new UninstallData();
         BSFInstallerListener listener = new BSFInstallerListener(installData, replacer, variables, resources,
                                                                  uninstallData, new ProgressNotifiersImpl());
         listener.initialise();
         Pack pack = new Pack(packName, null, null, null, null, true, true, false, null, true, 0);
-        List<Pack> packs = Arrays.asList(pack);
+        List<Pack> packs = asList(pack);
 
         // Verify that when the beforePacks method is invoked, the corresponding BSF action is called.
         listener.beforePacks(packs);
-        listener.afterPacks(packs, Mockito.mock(ProgressListener.class));
+        listener.afterPacks(packs, mock(ProgressListener.class));
         return (List<BSFAction>) uninstallData.getAdditionalData().get("bsfActions");
     }
 

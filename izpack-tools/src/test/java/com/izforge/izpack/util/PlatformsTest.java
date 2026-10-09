@@ -19,14 +19,15 @@ package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Arch;
 import static com.izforge.izpack.util.Platform.Name;
-import static org.junit.Assert.assertEquals;
+import static java.lang.System.getProperty;
+import static java.lang.reflect.Modifier.isPublic;
+import static java.lang.reflect.Modifier.isStatic;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
 import java.util.List;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -46,11 +47,11 @@ public class PlatformsTest extends AbstractPlatformTest
         Platforms platforms = new Platforms();
         Platform platform = platforms.getCurrentPlatform();
 
-        String osName = System.getProperty(OsVersionConstants.OSNAME);
+        String osName = getProperty(OsVersionConstants.OSNAME);
         Name name = platforms.getCurrentOSName();
-        Arch arch = platforms.getArch(System.getProperty(OsVersionConstants.OSARCH));
-        String version = System.getProperty(OsVersionConstants.OSVERSION);
-        String javaVersion = System.getProperty("java.version");
+        Arch arch = platforms.getArch(getProperty(OsVersionConstants.OSARCH));
+        String version = getProperty(OsVersionConstants.OSVERSION);
+        String javaVersion = getProperty("java.version");
 
         Platform match = platforms.findMatch(osName, name, arch, version);
         Platform expected = platforms.getPlatform(match, arch, version, javaVersion);
@@ -75,7 +76,7 @@ public class PlatformsTest extends AbstractPlatformTest
     }
 
     /**
-     * Tests the {@link Platforms#getCurrentPlatform(String, String)} method for Linux platforms, by simulating the 
+     * Tests the {@link Platforms#getCurrentPlatform(String, String)} method for Linux platforms, by simulating the
      * responses of the getText() and exists() methods.
      */
     @Test
@@ -105,13 +106,13 @@ public class PlatformsTest extends AbstractPlatformTest
         Platforms platforms = new Platforms();
         Platform windows7x64 = platforms.getCurrentPlatform("Windows 7", OsVersionConstants.AMD64,
                 OsVersionConstants.WINDOWS_7_VERSION);
-        assertEquals(Name.WINDOWS, windows7x64.getName());
-        assertEquals("WINDOWS_7", windows7x64.getSymbolicName());
-        assertEquals(Arch.X64, windows7x64.getArch());
-        assertEquals("6.1", windows7x64.getVersion());
+        assertThat(windows7x64.getName()).isEqualTo(Name.WINDOWS);
+        assertThat(windows7x64.getSymbolicName()).isEqualTo("WINDOWS_7");
+        assertThat(windows7x64.getArch()).isEqualTo(Arch.X64);
+        assertThat(windows7x64.getVersion()).isEqualTo("6.1");
     }
 
-	/**
+    /**
      * Tests the {@link Platforms#getCurrentPlatform(String, String, String)} method with windows 8.
      */
     @Test
@@ -120,10 +121,10 @@ public class PlatformsTest extends AbstractPlatformTest
         Platforms platforms = new Platforms();
         Platform windows8x64 = platforms.getCurrentPlatform("Windows 8", OsVersionConstants.AMD64,
                 OsVersionConstants.WINDOWS_8_VERSION);
-        assertEquals(Name.WINDOWS, windows8x64.getName());
-        assertEquals("WINDOWS_8", windows8x64.getSymbolicName());
-        assertEquals(Arch.X64, windows8x64.getArch());
-        assertEquals("6.2", windows8x64.getVersion());
+        assertThat(windows8x64.getName()).isEqualTo(Name.WINDOWS);
+        assertThat(windows8x64.getSymbolicName()).isEqualTo("WINDOWS_8");
+        assertThat(windows8x64.getArch()).isEqualTo(Arch.X64);
+        assertThat(windows8x64.getVersion()).isEqualTo("6.2");
     }
     /**
      * Tests the {@link Platforms#getPlatform(String, String)} method.
@@ -155,7 +156,7 @@ public class PlatformsTest extends AbstractPlatformTest
         checkPlatform(new Platform(Platforms.WINDOWS_8, Arch.X86), platforms.getPlatform("windows", "i386",
                 OsVersionConstants.WINDOWS_8_VERSION));
 
-		checkPlatform(new Platform(Platforms.DEBIAN_LINUX, Arch.X64), platforms.getPlatform("debian_linux", "x64",
+        checkPlatform(new Platform(Platforms.DEBIAN_LINUX, Arch.X64), platforms.getPlatform("debian_linux", "x64",
                 null));
     }
 
@@ -169,12 +170,12 @@ public class PlatformsTest extends AbstractPlatformTest
         for (Field field : Platforms.class.getFields())
         {
             int mod = field.getModifiers();
-            if (Modifier.isStatic(mod) && Modifier.isPublic(mod) && field.getType().equals(Platform.class))
+            if (isStatic(mod) && isPublic(mod) && field.getType().equals(Platform.class))
             {
                 ++expected;
             }
         }
-        assertEquals(expected, Platforms.PLATFORMS.length);
+        assertThat(Platforms.PLATFORMS.length).isEqualTo(expected);
     }
 
     /**
@@ -205,12 +206,12 @@ public class PlatformsTest extends AbstractPlatformTest
                 {
                     if (fromProcVersion != null)
                     {
-                        return Arrays.asList(fromProcVersion);
+                        return asList(fromProcVersion);
                     }
                 }
                 else if (fromRelease != null)
                 {
-                    return Arrays.asList(fromRelease);
+                    return asList(fromRelease);
                 }
                 return null;
             }

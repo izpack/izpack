@@ -20,6 +20,11 @@
  */
 package com.izforge.izpack.panels.datacheck;
 
+import static com.izforge.izpack.panels.datacheck.DataCheckCommonTest.verifyOutput;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.installer.console.ConsolePanel;
@@ -27,24 +32,16 @@ import com.izforge.izpack.installer.data.ConsoleInstallData;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link DataCheckConsolePanel} class.
  *
  * @author Hitesh A. Bosamiya
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class DataCheckConsolePanelTest
 {
@@ -80,16 +77,16 @@ public class DataCheckConsolePanelTest
         installData.setVariable("Variable2", "Value2");
         mockPacks();
         @SuppressWarnings("unchecked")
-        PanelView<ConsolePanel> panelView = Mockito.mock(PanelView.class);
-        Mockito.when(panelView.getPanelId()).thenReturn("DataCheckPanel_0");
+        PanelView<ConsolePanel> panelView = mock(PanelView.class);
+        when(panelView.getPanelId()).thenReturn("DataCheckPanel_0");
         DataCheckConsolePanel dccPanel = new DataCheckConsolePanel(panelView);
         console.addScript("DataCheckPanel.1", "1");
         List<String> output = console.getOutput();
-        assertTrue(dccPanel.run(installData, console));
-        assertEquals(DataCheckCommon.SUB_LABEL, output.get(4));
-        DataCheckCommonTest.verifyOutput(output.get(5), "InstallData Variables:", "Variable1", "Variable2");
-        DataCheckCommonTest.verifyOutput(output.get(6), "Available Packs:", "Pack1 (Selected)", "Pack2 (Unselected)");
-        DataCheckCommonTest.verifyOutput(output.get(7), "Conditions:", "izpack.windowsinstall", "izpack.linuxinstall");
+        assertThat(dccPanel.run(installData, console)).isTrue();
+        assertThat(output.get(4)).isEqualTo(DataCheckCommon.SUB_LABEL);
+        verifyOutput(output.get(5), "InstallData Variables:", "Variable1", "Variable2");
+        verifyOutput(output.get(6), "Available Packs:", "Pack1 (Selected)", "Pack2 (Unselected)");
+        verifyOutput(output.get(7), "Conditions:", "izpack.windowsinstall", "izpack.linuxinstall");
     }
 
     /**
@@ -101,15 +98,15 @@ public class DataCheckConsolePanelTest
         installData.setVariable("Variable1", "Value1");
         installData.setVariable("Variable2", "Value2");
         @SuppressWarnings("unchecked")
-        PanelView<ConsolePanel> panelView = Mockito.mock(PanelView.class);
-        Mockito.when(panelView.getPanelId()).thenReturn("DataCheckPanel_0");
+        PanelView<ConsolePanel> panelView = mock(PanelView.class);
+        when(panelView.getPanelId()).thenReturn("DataCheckPanel_0");
         DataCheckConsolePanel dccPanel = new DataCheckConsolePanel(panelView);
         console.addScript("DataCheckPanel.1", "1");
         List<String> output = console.getOutput();
-        assertTrue(dccPanel.run(installData, console));
-        assertEquals(DataCheckCommon.SUB_LABEL, output.get(4));
-        DataCheckCommonTest.verifyOutput(output.get(5), "InstallData Variables:", "Variable1", "Variable2");
-        DataCheckCommonTest.verifyOutput(output.get(6), "Conditions:", "izpack.windowsinstall", "izpack.linuxinstall");
+        assertThat(dccPanel.run(installData, console)).isTrue();
+        assertThat(output.get(4)).isEqualTo(DataCheckCommon.SUB_LABEL);
+        verifyOutput(output.get(5), "InstallData Variables:", "Variable1", "Variable2");
+        verifyOutput(output.get(6), "Conditions:", "izpack.windowsinstall", "izpack.linuxinstall");
     }
 
     private void mockPacks() {

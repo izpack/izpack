@@ -20,26 +20,22 @@
  */
 package com.izforge.izpack.panels.userinput.console.radio;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import com.izforge.izpack.panels.userinput.field.Choice;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
+import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.choice.TestChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.radio.RadioField;
-
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ConsoleRadioField}.
@@ -59,7 +55,7 @@ public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
         rules.addCondition(new BooleanCondition("showCondChoice", true, installData));
         ConsoleRadioField field = createField(1);
         checkValid(field, "\n");
-        assertEquals("B", installData.getVariable("radio"));
+        assertThat(installData.getVariable("radio")).isEqualTo("B");
     }
 
     /**
@@ -71,7 +67,7 @@ public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
         rules.addCondition(new BooleanCondition("showCondChoice", true, installData));
         ConsoleRadioField field = createField(-1);
         checkValid(field, "2");
-        assertEquals("C", installData.getVariable("radio"));
+        assertThat(installData.getVariable("radio")).isEqualTo("C");
     }
 
     /**
@@ -83,7 +79,7 @@ public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
         rules.addCondition(new BooleanCondition("showCondChoice", false, installData));
         ConsoleRadioField field = createField(1);
         checkValid(field, "3");
-        assertEquals("D", installData.getVariable("radio"));
+        assertThat(installData.getVariable("radio")).isEqualTo("D");
     }
 
     /**
@@ -95,7 +91,7 @@ public class ConsoleRadioFieldTest extends AbstractConsoleFieldTest
         rules.addCondition(new BooleanCondition("showCondChoice", true, installData));
         ConsoleRadioField field = createField(1);
         checkValid(field, "3");
-        assertEquals("X", installData.getVariable("radio"));
+        assertThat(installData.getVariable("radio")).isEqualTo("X");
     }
 
     /**

@@ -21,7 +21,7 @@ package com.izforge.izpack.compiler.container;
 
 import java.util.jar.JarFile;
 
-import org.junit.runners.model.FrameworkMethod;
+import java.lang.reflect.Method;
 import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.compiler.data.CompilerData;
@@ -37,9 +37,9 @@ import com.izforge.izpack.installer.container.impl.InstallerContainer;
 public abstract class AbstractTestInstallationContainer extends AbstractContainer
 {
     protected Class<?> klass;
-    protected FrameworkMethod frameworkMethod;
+    protected Method frameworkMethod;
 
-    public AbstractTestInstallationContainer(Class<?> klass, FrameworkMethod frameworkMethod)
+    public AbstractTestInstallationContainer(Class<?> klass, Method frameworkMethod)
     {
         this.klass = klass;
         this.frameworkMethod = frameworkMethod;

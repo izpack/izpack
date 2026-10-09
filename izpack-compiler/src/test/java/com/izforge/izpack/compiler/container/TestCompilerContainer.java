@@ -19,17 +19,11 @@
 
 package com.izforge.izpack.compiler.container;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-
-import org.apache.commons.io.FileUtils;
-import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
+import static com.izforge.izpack.util.FileUtil.convertUrlToFile;
+import static java.lang.Math.random;
+import static java.lang.System.getProperty;
+import static java.lang.Thread.currentThread;
+import static org.apache.commons.io.FileUtils.deleteQuietly;
 
 import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -38,7 +32,15 @@ import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.logging.MavenStyleLogFormatter;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.provider.JarFileProvider;
-import com.izforge.izpack.util.FileUtil;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Container for compilation tests.
@@ -58,7 +60,7 @@ public class TestCompilerContainer extends CompilerContainer
     /**
      * The test method.
      */
-    private FrameworkMethod testMethod;
+    private Method testMethod;
 
     /**
      * The name of the installer.xml used in this installer
@@ -76,7 +78,7 @@ public class TestCompilerContainer extends CompilerContainer
      * @param testClass  the test class
      * @param testMethod the test method
      */
-    public TestCompilerContainer(Class<?> testClass, FrameworkMethod testMethod)
+    public TestCompilerContainer(Class<?> testClass, Method testMethod)
     {
         super(null);
         this.testClass = testClass;
@@ -91,7 +93,7 @@ public class TestCompilerContainer extends CompilerContainer
             CompilerConfig compilerConfig = getComponent(CompilerConfig.class);
             File out = getComponent(File.class);
             compilerConfig.executeCompiler();
-            Thread currentThread = Thread.currentThread();
+            Thread currentThread = currentThread();
             currentThread.setContextClassLoader(new URLClassLoader(new URL[] {out.toURI().toURL()}, currentThread.getContextClassLoader()));
         }
         catch (Exception e)
@@ -125,10 +127,10 @@ public class TestCompilerContainer extends CompilerContainer
         }
         installFileName = installFile.value();
 
-        File installerFile = FileUtil.convertUrlToFile(getClass().getClassLoader().getResource(installFileName));
+        File installerFile = convertUrlToFile(getClass().getClassLoader().getResource(installFileName));
         File baseDir = installerFile.getParentFile();
 
-        File out = new File(baseDir, "out" + Math.random() + ".jar");
+        File out = new File(baseDir, "out" + random() + ".jar");
         out.deleteOnExit();
         CompilerData data = new CompilerData(installerFile.getAbsolutePath(), baseDir.getAbsolutePath(),
                                              out.getAbsolutePath(), false);
@@ -146,7 +148,7 @@ public class TestCompilerContainer extends CompilerContainer
 
     private void deleteLock() throws IOException
     {
-        File file = new File(System.getProperty("java.io.tmpdir"), "iz-" + APPNAME + ".tmp");
-        FileUtils.deleteQuietly(file);
+        File file = new File(getProperty("java.io.tmpdir"), "iz-" + APPNAME + ".tmp");
+        deleteQuietly(file);
     }
 }

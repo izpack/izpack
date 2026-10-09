@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.integration.console;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -31,25 +33,18 @@ import com.izforge.izpack.installer.console.ConsolePanel;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
-
-import static org.junit.Assert.*;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ConsoleInstaller}.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsoleInstallationContainer.class)
 public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
 {
@@ -119,7 +114,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     {
         InstallData installData = getInstallData();
 
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
 
         TestConsole console = installer.getConsole();
         console.addScript("HelloPanel", "1");
@@ -129,11 +124,11 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         installData.setInstallPath(installPath.getAbsolutePath());
         installer.run(ConsoleInstallerAction.CONSOLE_INSTALL, null, new String[0]);
 
-        assertFalse(installData.isInstallSuccess());
-        assertFalse(installPath.exists());
+        assertThat(installData.isInstallSuccess()).isFalse();
+        assertThat(installPath).doesNotExist();
 
         // make sure the script has completed
-        assertTrue("Script still running panel: " + console.getScriptName(), console.scriptCompleted());
+        assertThat(console.scriptCompleted()).as("Script still running panel: " + console.getScriptName()).isTrue();
     }
 
     /**
@@ -164,21 +159,21 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     {
         InstallData installData = getInstallData();
 
-        File file = new File(temporaryFolder.getRoot(), "IZPackInstall.properties");
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File file = temporaryFolder.resolve("IZPackInstall.properties").toFile();
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         installData.setInstallPath(installPath.getAbsolutePath());
 
         installer.run(ConsoleInstallerAction.CONSOLE_GEN_TEMPLATE, file.getPath(), new String[0]);
 
         // verify the installation thinks it was successful
-        assertTrue(installData.isInstallSuccess());
+        assertThat(installData.isInstallSuccess()).isTrue();
 
         // check the properties file matches that expected
         Properties properties = new Properties();
         properties.load(new FileInputStream(file));
-        assertEquals(1, properties.size());
-        assertTrue(properties.containsKey(InstallData.INSTALL_PATH));
-        assertEquals(installPath.getPath(), properties.getProperty(InstallData.INSTALL_PATH));
+        assertThat(properties).hasSize(1);
+        assertThat(properties).containsKey(InstallData.INSTALL_PATH);
+        assertThat(properties.getProperty(InstallData.INSTALL_PATH)).isEqualTo(installPath.getPath());
     }
 
     /**
@@ -192,8 +187,8 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
     {
         InstallData installData = getInstallData();
 
-        File file = new File(temporaryFolder.getRoot(), "IzPackInstall.properties");
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File file = temporaryFolder.resolve("IzPackInstall.properties").toFile();
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         Properties properties = new Properties();
         properties.put(InstallData.INSTALL_PATH, installPath.getPath());
         properties.store(new FileOutputStream(file), "IzPack installation properties");
@@ -202,15 +197,15 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         installer.run(ConsoleInstallerAction.CONSOLE_FROM_TEMPLATE, file.getPath(), new String[0]);
 
         // make sure there were no attempts to read from the console, as no prompting should occur
-        assertEquals(0, console.getReads());
+        assertThat(console.getReads()).isEqualTo(0);
 
         // verify the installation thinks it was successful
-        assertTrue(installData.isInstallSuccess());
+        assertThat(installData.isInstallSuccess()).isTrue();
 
         // make sure some of the expected files are installed
-        assertTrue(new File(installPath, "Licence.txt").exists());
-        assertTrue(new File(installPath, "Readme.txt").exists());
-        assertTrue(new File(installPath, "Uninstaller/uninstaller.jar").exists());
+        assertThat(new File(installPath, "Licence.txt").exists()).isTrue();
+        assertThat(new File(installPath, "Readme.txt").exists()).isTrue();
+        assertThat(new File(installPath, "Uninstaller/uninstaller.jar").exists()).isTrue();
     }
 
     /**
@@ -233,7 +228,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         }
 
         // verify installation failed
-        assertFalse(success);
+        assertThat(success).isFalse();
     }
 
     /**
@@ -252,7 +247,7 @@ public class ConsoleInstallationTest extends AbstractConsoleInstallationTest
         String installPath = installData.getInstallPath();
 
         // make sure some of the expected files are installed
-        assertTrue(new File(installPath, "Licence.txt").exists());
-        assertTrue(new File(installPath, "Readme.txt").exists());
+        assertThat(new File(installPath, "Licence.txt").exists()).isTrue();
+        assertThat(new File(installPath, "Readme.txt").exists()).isTrue();
     }
 }

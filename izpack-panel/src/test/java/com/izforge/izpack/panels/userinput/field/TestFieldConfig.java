@@ -21,12 +21,11 @@
 
 package com.izforge.izpack.panels.userinput.field;
 
+import static java.util.Collections.emptyList;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.binding.OsModel;
-import com.izforge.izpack.api.exception.IzPackException;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -128,7 +127,7 @@ public class TestFieldConfig implements FieldConfig
     @Override
     public List<String> getPacks()
     {
-        return Collections.emptyList();
+        return emptyList();
     }
 
     /**
@@ -139,7 +138,7 @@ public class TestFieldConfig implements FieldConfig
     @Override
     public List<OsModel> getOsModels()
     {
-        return Collections.emptyList();
+        return emptyList();
     }
 
     /**

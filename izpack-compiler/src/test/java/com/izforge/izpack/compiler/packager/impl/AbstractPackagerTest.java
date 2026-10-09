@@ -20,31 +20,38 @@
  */
 package com.izforge.izpack.compiler.packager.impl;
 
+import static java.nio.charset.Charset.defaultCharset;
+import static java.nio.file.Files.createTempFile;
+import static java.nio.file.Files.delete;
+import static java.nio.file.Files.newInputStream;
+import static java.nio.file.Files.newOutputStream;
+import static java.nio.file.Files.writeString;
+import static org.apache.commons.io.IOUtils.closeQuietly;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import com.izforge.izpack.api.data.Blockable;
 import com.izforge.izpack.api.data.OverrideType;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.PackInfo;
 import com.izforge.izpack.merge.MergeManager;
-import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
-
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.mockito.Mockito;
 
 /**
  * Enter description.
@@ -53,13 +60,15 @@ import static org.mockito.Mockito.verify;
  */
 public abstract class AbstractPackagerTest
 {
+    @TempDir
+    Path fixtureDirectory;
 
     /**
      * The merge manager.
      */
     private MergeManager mergeManager;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         mergeManager = mock(MergeManager.class);
@@ -68,7 +77,7 @@ public abstract class AbstractPackagerTest
     @Test
     public void noSplash() throws IOException
     {
-        PackagerBase packager = createPackager(Mockito.mock(JarOutputStream.class), mergeManager);
+        PackagerBase packager = createPackager(mock(JarOutputStream.class), mergeManager);
         packager.writeManifest();
 
         verify(mergeManager).addResourceToMerge(anyString(), eq("META-INF/MANIFEST.MF"));
@@ -77,7 +86,7 @@ public abstract class AbstractPackagerTest
     @Test
     public void noGuiPrefs() throws IOException
     {
-        PackagerBase packager = createPackager(Mockito.mock(JarOutputStream.class), mergeManager);
+        PackagerBase packager = createPackager(mock(JarOutputStream.class), mergeManager);
         packager.writeManifest();
 
         verify(mergeManager).addResourceToMerge(anyString(), anyString());
@@ -119,7 +128,7 @@ public abstract class AbstractPackagerTest
         long tooSmall = fileSize - 1;
         checkSize(fileSize, fileSize, tooSmall, file);
 
-        assertTrue(file.delete());
+        assertThat(file.delete()).isTrue();
     }
 
     /**
@@ -142,9 +151,9 @@ public abstract class AbstractPackagerTest
      */
     private void checkSize(long expectedSize, long expectedFileSize, long size, File... files) throws Exception
     {
-        File jar = File.createTempFile("installer", ".jar");
+        Path jar = createTempFile(fixtureDirectory, "installer", ".jar");
 
-        JarOutputStream output = new JarOutputStream(new FileOutputStream(jar));
+        JarOutputStream output = new JarOutputStream(newOutputStream(jar));
         PackagerBase packager = createPackager(output, mergeManager);
 
         PackInfo packInfo = new PackInfo("Core", "Core", null, true, false, null, true, size);
@@ -162,14 +171,14 @@ public abstract class AbstractPackagerTest
 
         ObjectInputStream packStream = new ObjectInputStream(jarEntry);
         List<PackInfo> packsInfo = (List<PackInfo>) packStream.readObject();
-        assertEquals(1, packsInfo.size());
+        assertThat(packsInfo).hasSize(1);
         Pack pack = packsInfo.get(0).getPack();
-        assertEquals(expectedSize, pack.getSize());
-        assertEquals(expectedFileSize, fileSize);
+        assertThat(pack.getSize()).isEqualTo(expectedSize);
+        assertThat(fileSize).isEqualTo(expectedFileSize);
 
-        IOUtils.closeQuietly(jarEntry);
-        IOUtils.closeQuietly(packStream);
-        assertTrue(jar.delete());
+        closeQuietly(jarEntry);
+        closeQuietly(packStream);
+        delete(jar);
     }
 
     /**
@@ -180,9 +189,9 @@ public abstract class AbstractPackagerTest
      * @return a stream to the content
      * @throws IOException for any I/O error
      */
-    private InputStream getJarEntry(String name, File jar) throws IOException
+    private InputStream getJarEntry(String name, Path jar) throws IOException
     {
-        JarInputStream input = new JarInputStream(new FileInputStream(jar));
+        JarInputStream input = new JarInputStream(newInputStream(jar));
         JarEntry entry;
         while ((entry = input.getNextJarEntry()) != null)
         {
@@ -204,11 +213,9 @@ public abstract class AbstractPackagerTest
      */
     private File createTextFile(String text) throws IOException
     {
-        File file = File.createTempFile("data", ".txt");
-        PrintStream printStream = new PrintStream(file);
-        printStream.print(text);
-        printStream.close();
-        return file;
+        Path file = createTempFile(fixtureDirectory, "data", ".txt");
+        writeString(file, text, defaultCharset());
+        return file.toFile();
     }
 
     public static File getBaseDir()
@@ -227,12 +234,12 @@ public abstract class AbstractPackagerTest
             }
             else
             {
-                Assert.fail("Resource not found");
+                fail("Resource not found");
             }
         }
         catch (URISyntaxException e)
         {
-            Assert.fail(e.getMessage());
+            fail(e.getMessage());
         }
         return path;
     }

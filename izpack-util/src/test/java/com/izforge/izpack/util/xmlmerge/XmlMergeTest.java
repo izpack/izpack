@@ -1,37 +1,37 @@
 package com.izforge.izpack.util.xmlmerge;
-import static org.junit.Assert.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.channels.FileChannel;
-import java.util.Properties;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import com.izforge.izpack.api.factory.XMLAccess;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import static com.izforge.izpack.api.factory.XMLAccess.documentBuilderFactory;
+import static java.lang.System.getProperty;
+import static java.nio.file.Files.copy;
+import static java.nio.file.Files.createFile;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.util.xmlmerge.config.ConfigurableXmlMerge;
 import com.izforge.izpack.util.xmlmerge.config.PropertyXPathConfigurer;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Properties;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 
 public class XmlMergeTest
 {
-    @Rule
-    public TemporaryFolder tmpDir = new TemporaryFolder();
+    @TempDir
+    public Path tmpDir;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
     }
@@ -78,7 +78,7 @@ public class XmlMergeTest
             fail(e.getMessage());
         }
 
-        assertNotNull(result);
+        assertThat(result).isNotNull();
 
         String expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<el1 el1_attr1=\"el1_attr1_value_from_patch\">\n" +
@@ -88,8 +88,8 @@ public class XmlMergeTest
                 "    <el4 el4_attr1=\"el4_attr1_value_from_original\" el4_attr2=\"el4_attr2_value_from_original\" />\n" +
                 "  </el3>\n" +
                 "</el1>\n";
-        expectedResult = expectedResult.replace("\n", System.getProperty("line.separator"));
-        assertEquals(result, expectedResult);
+        expectedResult = expectedResult.replace("\n", getProperty("line.separator"));
+        assertThat(expectedResult).isEqualTo(result);
     }
 
     /**
@@ -107,24 +107,13 @@ public class XmlMergeTest
         URL patchSourceFileUrl = getClass().getResource("maps_resources_patch.xml");
         URL patchTargetFileUrl = getClass().getResource("maps_resources_original.xml");
         URL expectedFileUrl = getClass().getResource("maps_resources_expected.xml");
-        assertNotNull("Patch source file missing", patchSourceFileUrl);
-        assertNotNull("Patch target file missing", patchTargetFileUrl);
-        assertNotNull("Expected result file missing", expectedFileUrl);
+        assertThat(patchSourceFileUrl).as("Patch source file missing").isNotNull();
+        assertThat(patchTargetFileUrl).as("Patch target file missing").isNotNull();
+        assertThat(expectedFileUrl).as("Expected result file missing").isNotNull();
 
-        File targetFile = tmpDir.newFile("maps_resources_merged.xml");
-
-        // Copy target file to a temporary location,
-        // it should be patch target and output at one time in this test and therefore is written to it
-        FileChannel inputChannel = null;
-        FileChannel outputChannel = null;
-        try {
-            inputChannel = new FileInputStream(new File(patchTargetFileUrl.toURI())).getChannel();
-            outputChannel = new FileOutputStream(targetFile).getChannel();
-            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-        } finally {
-            inputChannel.close();
-            outputChannel.close();
-        }
+        Path targetFile = createFile(tmpDir.resolve("maps_resources_merged.xml"));
+        // Preserve the original copy-over-existing-output behavior.
+        copy(Path.of(patchTargetFileUrl.toURI()), targetFile, StandardCopyOption.REPLACE_EXISTING);
 
         XmlMerge xmlMerge;
         Properties confProps = new Properties();
@@ -136,26 +125,26 @@ public class XmlMergeTest
         confProps.setProperty("action.path2", "REPLACE"); // Replace with that from patch
         xmlMerge = new ConfigurableXmlMerge(new PropertyXPathConfigurer(confProps));
         xmlMerge.merge( new File[]{
-                targetFile,
-                new File(patchSourceFileUrl.toURI())
+                targetFile.toFile(),
+                Path.of(patchSourceFileUrl.toURI()).toFile()
                 },
-                targetFile);
+                targetFile.toFile());
 
 
-        DocumentBuilderFactory dbf = XMLAccess.documentBuilderFactory();
+        DocumentBuilderFactory dbf = documentBuilderFactory();
         dbf.setNamespaceAware(true);
         dbf.setCoalescing(true);
         dbf.setIgnoringElementContentWhitespace(true);
         dbf.setIgnoringComments(false);
         DocumentBuilder db = dbf.newDocumentBuilder();
 
-        Document resultDocument = db.parse(targetFile);
+        Document resultDocument = db.parse(targetFile.toFile());
         resultDocument.normalizeDocument();
 
-        Document expectedDocument = db.parse(new File(expectedFileUrl.toURI()));
+        Document expectedDocument = db.parse(Path.of(expectedFileUrl.toURI()).toFile());
         expectedDocument.normalizeDocument();
 
-        assertTrue("Result document does not match expected result", resultDocument.isEqualNode(expectedDocument));
+        assertThat(resultDocument.isEqualNode(expectedDocument)).as("Result document does not match expected result").isTrue();
     }
 
 }

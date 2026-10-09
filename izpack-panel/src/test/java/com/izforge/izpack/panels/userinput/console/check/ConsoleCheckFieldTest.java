@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.panels.userinput.console.check;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -35,11 +37,7 @@ import com.izforge.izpack.panels.userinput.field.check.CheckField;
 import com.izforge.izpack.panels.userinput.field.check.TestCheckFieldConfig;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ConsoleCheckField}.
@@ -97,9 +95,9 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
         ConsoleCheckField field = new ConsoleCheckField(model, console, prompt);
 
         console.addScript("Select default", "\n");
-        assertTrue(field.display());
+        assertThat(field.display()).isTrue();
 
-        assertEquals("selected", installData.getVariable(variable));
+        assertThat(installData.getVariable(variable)).isEqualTo("selected");
     }
 
     /**
@@ -114,9 +112,9 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
 
 
         console.addScript("Select", "1\n");
-        assertTrue(field.display());
+        assertThat(field.display()).isTrue();
 
-        assertEquals("selected", installData.getVariable(variable));
+        assertThat(installData.getVariable(variable)).isEqualTo("selected");
     }
 
     /**
@@ -132,9 +130,9 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
         ConsoleCheckField field = new ConsoleCheckField(model, console, prompt);
 
         console.addScript("Deselect", "0\n");
-        assertTrue(field.display());
+        assertThat(field.display()).isTrue();
 
-        assertEquals("unselected", installData.getVariable(variable));
+        assertThat(installData.getVariable(variable)).isEqualTo("unselected");
     }
 
         /**
@@ -151,8 +149,8 @@ public class ConsoleCheckFieldTest extends AbstractConsoleFieldTest
 
         console.addScript("Deselect", "0\n");
         console.addScript("Redo", "1\n");
-        assertTrue(field.display());
+        assertThat(field.display()).isTrue();
 
-        assertEquals("unselected", installData.getVariable(variable));
+        assertThat(installData.getVariable(variable)).isEqualTo("unselected");
     }
 }

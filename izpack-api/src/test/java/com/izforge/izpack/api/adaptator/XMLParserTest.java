@@ -22,22 +22,21 @@
 
 package com.izforge.izpack.api.adaptator;
 
-import static org.junit.Assert.assertEquals;
+import static java.lang.Integer.parseInt;
+import static java.nio.charset.Charset.defaultCharset;
+import static java.nio.file.Files.readString;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.io.File;
+import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-
+import java.nio.file.Path;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-
-import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
-
-import com.izforge.izpack.api.adaptator.impl.XMLParser;
 
 /**
  * Test on the XMLElement
@@ -65,23 +64,24 @@ public class XMLParserTest
 
         IXMLParser parser = new XMLParser();
         spec = parser.parse(input);
-        Assert.assertEquals("izpack:shortcuts", spec.getName());
+        assertThat(spec.getName()).isEqualTo("izpack:shortcuts");
     }
 
     @Test
     public void testParseString() throws Exception
     {
         IXMLElement spec;
-        String substitutedSpec = FileUtils.readFileToString(
-                new File(XMLParserTest.class.getResource(filename).toURI()));
+        String substitutedSpec = readString(
+                Path.of(XMLParserTest.class.getResource(filename).toURI()),
+                defaultCharset());
         IXMLParser parser = new XMLParser(false);
         spec = parser.parse(substitutedSpec);
-        Assert.assertEquals("izpack:shortcuts", spec.getName());
+        assertThat(spec.getName()).isEqualTo("izpack:shortcuts");
     }
 
     private void checkEltLN(IXMLElement elt)
     {
-        assertEquals(Integer.parseInt(elt.getAttribute("ln")), elt.getLineNr());
+        assertThat(elt.getLineNr()).isEqualTo(parseInt(elt.getAttribute("ln")));
         for (IXMLElement child : elt.getChildren())
         {
             checkEltLN(child);
@@ -112,34 +112,42 @@ public class XMLParserTest
         checkEltLN(elt);
     }
 
-    @Test(expected = XMLException.class)
+    @Test
     public void testXMLExceptionThrown()
     {
-        InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorFilename);
-        IXMLParser parser = new XMLParser();
-        parser.parse(input, parseErrorFilename);
+        assertThatThrownBy(() -> {
+            InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorFilename);
+            IXMLParser parser = new XMLParser();
+            parser.parse(input, parseErrorFilename);
+        }).isInstanceOf(XMLException.class);
     }
 
-    @Test(expected = XMLException.class)
+    @Test
     public void testXMLExceptionThrownXInclude()
     {
-        InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorXincludeFilename);
-        IXMLParser parser = new XMLParser();
-        parser.parse(input, parseErrorXincludeFilename);
+        assertThatThrownBy(() -> {
+            InputStream input = XMLParserTest.class.getResourceAsStream(parseErrorXincludeFilename);
+            IXMLParser parser = new XMLParser();
+            parser.parse(input, parseErrorXincludeFilename);
+        }).isInstanceOf(XMLException.class);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNPE()
     {
-        IXMLParser parser = new XMLParser();
-        parser.parse((InputStream) null);
+        assertThatThrownBy(() -> {
+            IXMLParser parser = new XMLParser();
+            parser.parse((InputStream) null);
+        }).isInstanceOf(NullPointerException.class);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testWithSystemIdNPE()
     {
-        IXMLParser parser = new XMLParser();
-        parser.parse(null, "bla");
+        assertThatThrownBy(() -> {
+            IXMLParser parser = new XMLParser();
+            parser.parse(null, "bla");
+        }).isInstanceOf(NullPointerException.class);
     }
 
 }

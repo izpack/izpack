@@ -21,21 +21,18 @@
 
 package com.izforge.izpack.core.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
-import org.junit.Test;
-import org.mockito.Mockito;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Resources;
-
+import java.io.InputStream;
+import java.util.List;
+import java.util.Locale;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link DefaultLocales} class.
@@ -60,7 +57,7 @@ public class DefaultLocalesTest
      * lowercase.
      */
     public static final List<String> ISO_CODES
-            = Arrays.asList("bra", "cat", "ces", "chn", "dan", "deu", "ell", "eng", BASQUE, "fin", "fra", GALACIAN,
+            = asList("bra", "cat", "ces", "chn", "dan", "deu", "ell", "eng", BASQUE, "fin", "fra", GALACIAN,
                             "hun", "idn", "ita", "jpn", "kor", "msa", "nld", "nor", "pol", "prt", "ron", "rus", "slk",
                             "spa", "srp", "swe", "tur", "twn", "ukr");
 
@@ -71,14 +68,14 @@ public class DefaultLocalesTest
     @Test
     public void testLocales()
     {
-        Resources resources = Mockito.mock(Resources.class);
-        Mockito.when(resources.getObject("langpacks.info")).thenReturn(Arrays.asList("eng", "fra"));
+        Resources resources = mock(Resources.class);
+        when(resources.getObject("langpacks.info")).thenReturn(asList("eng", "fra"));
 
         DefaultLocales locales = new DefaultLocales(resources);
         List<Locale> available = locales.getLocales();
-        assertEquals(2, available.size());
-        assertEquals("eng", available.get(0).getISO3Language());
-        assertEquals("fra", available.get(1).getISO3Language());
+        assertThat(available).hasSize(2);
+        assertThat(available.get(0).getISO3Language()).isEqualTo("eng");
+        assertThat(available.get(1).getISO3Language()).isEqualTo("fra");
     }
 
     /**
@@ -102,8 +99,8 @@ public class DefaultLocalesTest
             else if (locale != null)
             {
                 locales.setLocale(code);
-                assertNotNull("Failed to retrieve messages for code=" + code, locales.getMessages());
-                assertEquals(code.toLowerCase(), locales.getISOCode().toLowerCase());
+                assertThat(locales.getMessages()).as("Failed to retrieve messages for code=" + code).isNotNull();
+                assertThat(locales.getISOCode().toLowerCase()).isEqualTo(code.toLowerCase());
             }
         }
     }
@@ -212,8 +209,8 @@ public class DefaultLocalesTest
         ResourceManager resources = createResourcesForMessages();
         Locales locales = new DefaultLocales(resources, locale);
         resources.setLocales(locales);
-        assertNotNull(locales.getLocale());
-        assertEquals(expectedCode, locales.getISOCode());
+        assertThat(locales.getLocale()).isNotNull();
+        assertThat(locales.getISOCode()).isEqualTo(expectedCode);
     }
 
     /**
@@ -233,10 +230,10 @@ public class DefaultLocalesTest
         resources.setLocales(locales);
 
         locales.setLocale(lookupCode);
-        assertNotNull(locales.getLocale());
-        assertEquals(expectedISO, locales.getISOCode());
-        assertEquals(expectedCountry, locales.getLocale().getCountry());
-        assertEquals(expectedLanguage, locales.getLocale().getLanguage());
+        assertThat(locales.getLocale()).isNotNull();
+        assertThat(locales.getISOCode()).isEqualTo(expectedISO);
+        assertThat(locales.getLocale().getCountry()).isEqualTo(expectedCountry);
+        assertThat(locales.getLocale().getLanguage()).isEqualTo(expectedLanguage);
     }
 
     /**

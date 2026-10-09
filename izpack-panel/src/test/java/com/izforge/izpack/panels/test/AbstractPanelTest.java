@@ -20,21 +20,10 @@
  */
 package com.izforge.izpack.panels.test;
 
-import java.awt.Component;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.swing.SwingUtilities;
-
-import com.izforge.izpack.installer.gui.IzPanel;
-import org.fest.swing.fixture.ContainerFixture;
-import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.timing.Condition;
-import org.fest.swing.timing.Pause;
-import org.junit.After;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+import static java.util.Arrays.asList;
+import static javax.swing.SwingUtilities.invokeAndWait;
+import static org.fest.swing.timing.Pause.pause;
+import static org.mockito.Mockito.mock;
 
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -51,20 +40,25 @@ import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.gui.DefaultNavigator;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
+import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.gui.IzPanelView;
 import com.izforge.izpack.installer.gui.IzPanels;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Platforms;
-
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+import org.fest.swing.fixture.ContainerFixture;
+import org.fest.swing.fixture.FrameFixture;
+import org.fest.swing.timing.Condition;
+import org.junit.jupiter.api.AfterEach;
 
 /**
  * Base class for panel tests.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIPanelContainer.class)
 public class AbstractPanelTest
 {
@@ -150,7 +144,7 @@ public class AbstractPanelTest
     /**
      * Cleans up after the test case.
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
         if (frameFixture != null)
@@ -235,7 +229,7 @@ public class AbstractPanelTest
      */
     protected FrameFixture show(IzPanelView... panelViews)
     {
-        return show(Arrays.asList(panelViews));
+        return show(asList(panelViews));
     }
 
     /**
@@ -251,7 +245,7 @@ public class AbstractPanelTest
         final InstallerFrame[] handle = new InstallerFrame[1];
         try
         {
-            SwingUtilities.invokeAndWait(new Runnable()
+            invokeAndWait(new Runnable()
             {
                 @Override
                 public void run()
@@ -260,9 +254,9 @@ public class AbstractPanelTest
                     DefaultNavigator navigator = new DefaultNavigator(panels, icons, installData);
                     InstallerFrame frame = new InstallerFrame(installData, rules,
                                                               icons, panels, uninstallDataWriter, resourceManager,
-                                                              Mockito.mock(UninstallData.class),
-                                                              Mockito.mock(Housekeeper.class), navigator,
-                                                              Mockito.mock(Log.class), locales);
+                                                              mock(UninstallData.class),
+                                                              mock(Housekeeper.class), navigator,
+                                                              mock(Log.class), locales);
                     handle[0] = frame;
                 }
             });
@@ -319,7 +313,7 @@ public class AbstractPanelTest
             throw new IzPackException("Can't wait for panel, frame fixture not available");
         }
 
-        Pause.pause(new UntilPanelIsShowing(frameFixture, panelClass));
+        pause(new UntilPanelIsShowing(frameFixture, panelClass));
     }
 
     /**

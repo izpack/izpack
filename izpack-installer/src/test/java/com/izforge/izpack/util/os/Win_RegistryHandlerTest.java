@@ -18,10 +18,10 @@
  */
 package com.izforge.izpack.util.os;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link Win_RegistryHandler} class.
@@ -32,7 +32,7 @@ public class Win_RegistryHandlerTest
 {
     private Win_RegistryHandler win_registryHandler;
 
-    @Before
+    @BeforeEach
     public void setup()
     {
         win_registryHandler = new Win_RegistryHandler(null);
@@ -46,7 +46,7 @@ public class Win_RegistryHandlerTest
         String contents = "C:\\MyApplication\\bin;C:\\MyApplication\\bin;C:\\YourApplication\\bin";
         String retContents = win_registryHandler.checkedPathContents(key, value, contents);
         String expected = "C:\\MyApplication\\bin;C:\\YourApplication\\bin";
-        assertEquals(expected, retContents);
+        assertThat(retContents).isEqualTo(expected);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class Win_RegistryHandlerTest
         String contents = "C:\\MyApplication\\bin;C:\\MYAPPLICATION\\BIN;C:\\YourApplication\\bin";
         String retContents = win_registryHandler.checkedPathContents(key, value, contents);
         String expected = "C:\\MyApplication\\bin;C:\\YourApplication\\bin";
-        assertEquals(expected, retContents);
+        assertThat(retContents).isEqualTo(expected);
     }
 
     @Test
@@ -68,6 +68,6 @@ public class Win_RegistryHandlerTest
         String contents = "C:\\MyApplication\\bin;C:\\MyApplication\\bin;C:\\YourApplication\\bin";
         String retContents = win_registryHandler.checkedPathContents(key, value, contents);
         String expected = contents;
-        assertEquals(expected, retContents);
+        assertThat(retContents).isEqualTo(expected);
     }
 }

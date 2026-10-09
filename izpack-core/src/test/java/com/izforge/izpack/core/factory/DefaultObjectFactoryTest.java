@@ -21,20 +21,13 @@
 
 package com.izforge.izpack.core.factory;
 
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.core.container.DefaultContainer;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link DefaultObjectFactory} class.
@@ -73,17 +66,17 @@ public class DefaultObjectFactoryTest
         container.addComponent(C.class, new C(new A())); // should not be returned by the factory
 
         A a1 = factory.create(A.class);
-        assertNotNull(a1);
-        assertFalse(a1 instanceof C);
+        assertThat(a1).isNotNull();
+        assertThat(a1).isNotInstanceOf(C.class);
 
         B b1 = factory.create(B.class);
-        assertNotNull(b1);
+        assertThat(b1).isNotNull();
 
         // verify create() returns a new instance for the same type
         A a2 = factory.create(A.class);
-        assertFalse(a2 instanceof C);
-        assertNotNull(a2);
-        assertNotSame(a2, a1);
+        assertThat(a2).isNotInstanceOf(C.class);
+        assertThat(a2).isNotNull();
+        assertThat(a1).isNotSameAs(a2);
     }
 
     /**
@@ -96,12 +89,12 @@ public class DefaultObjectFactoryTest
         container.addComponent(A.class, a1);
 
         C c = factory.create(C.class);
-        assertNotNull(c);
-        assertSame(a1, c.a); // verify A instance was injected
+        assertThat(c).isNotNull();
+        assertThat(c.a).isSameAs(a1); // verify A instance was injected
 
         A a2 = factory.create(A.class);
-        assertNotNull(a2);
-        assertNotSame(a1, a2);
+        assertThat(a2).isNotNull();
+        assertThat(a2).isNotSameAs(a1);
     }
 
     /**
@@ -114,16 +107,16 @@ public class DefaultObjectFactoryTest
         B b = new B();
 
         D d1 = factory.create(D.class, a, b);
-        assertNotNull(d1);
-        assertSame(a, d1.a);
-        assertSame(b, d1.b);
+        assertThat(d1).isNotNull();
+        assertThat(d1.a).isSameAs(a);
+        assertThat(d1.b).isSameAs(b);
 
         // verify order is unimportant for parameters
         D d2 = factory.create(D.class, b, a);
-        assertNotNull(d2);
-        assertNotSame(d2, d1);
-        assertSame(a, d2.a);
-        assertSame(b, d2.b);
+        assertThat(d2).isNotNull();
+        assertThat(d1).isNotSameAs(d2);
+        assertThat(d2.a).isSameAs(a);
+        assertThat(d2.b).isSameAs(b);
     }
 
     /**
@@ -135,14 +128,14 @@ public class DefaultObjectFactoryTest
     {
         A a1 = factory.create(A.class.getName(), A.class);
         A a2 = factory.create(A.class.getName(), A.class);
-        assertNotNull(a1);
-        assertNotNull(a2);
-        assertNotSame(a1, a2);
+        assertThat(a1).isNotNull();
+        assertThat(a2).isNotNull();
+        assertThat(a2).isNotSameAs(a1);
 
         container.addComponent(A.class, new A());
         A c1 = factory.create(C.class.getName(), A.class);
-        assertNotNull(c1);
-        assertTrue(c1 instanceof C);
+        assertThat(c1).isNotNull();
+        assertThat(c1).isInstanceOf(C.class);
 
         // now try and create an instance  which doesn't extend the specified superType
         try
@@ -166,16 +159,16 @@ public class DefaultObjectFactoryTest
         B b = new B();
 
         Object d1 = factory.create(D.class.getName(), Object.class, a, b);
-        assertNotNull(d1);
-        assertSame(a, ((D) d1).a);
-        assertSame(b, ((D) d1).b);
+        assertThat(d1).isNotNull();
+        assertThat(((D) d1).a).isSameAs(a);
+        assertThat(((D) d1).b).isSameAs(b);
 
         // verify order is unimportant for parameters
         Object d2 = factory.create(D.class.getName(), Object.class, b, a);
-        assertNotNull(d2);
-        assertNotSame(d2, d1);
-        assertSame(a, ((D) d2).a);
-        assertSame(b, ((D) d2).b);
+        assertThat(d2).isNotNull();
+        assertThat(d1).isNotSameAs(d2);
+        assertThat(((D) d2).a).isSameAs(a);
+        assertThat(((D) d2).b).isSameAs(b);
     }
 
     /**
@@ -188,9 +181,9 @@ public class DefaultObjectFactoryTest
         container.addComponent(A.class, a1);
 
         A c = factory.create(C.class.getName(), A.class);
-        assertNotNull(c);
-        assertTrue(c instanceof C);
-        assertSame(a1, ((C) c).a); // verify A instance was injected
+        assertThat(c).isNotNull();
+        assertThat(c).isInstanceOf(C.class);
+        assertThat(((C) c).a).isSameAs(a1); // verify A instance was injected
     }
 
     public static class A

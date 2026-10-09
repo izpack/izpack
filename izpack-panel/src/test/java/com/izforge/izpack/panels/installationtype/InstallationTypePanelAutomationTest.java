@@ -20,26 +20,23 @@
  */
 package com.izforge.izpack.panels.installationtype;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Overrides;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link InstallationTypePanelAutomation} class.
  *
  * @author Hitesh A. Bosamiya
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class InstallationTypePanelAutomationTest
 {
@@ -72,7 +69,7 @@ public class InstallationTypePanelAutomationTest
         // make sure that it is set back to false only by runAutomated
         installData.setVariable(InstallData.MODIFY_INSTALLATION, "true");
         panel.runAutomated(installData, root);
-        assertEquals("false", installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        assertThat(installData.getVariable(InstallData.MODIFY_INSTALLATION)).isEqualTo("false");
     }
 
     /**
@@ -89,7 +86,7 @@ public class InstallationTypePanelAutomationTest
         // make sure that it is set back to true only by runAutomated
         installData.setVariable(InstallData.MODIFY_INSTALLATION, "false");
         panel.runAutomated(installData, root);
-        assertEquals("true", installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        assertThat(installData.getVariable(InstallData.MODIFY_INSTALLATION)).isEqualTo("true");
     }
 
     /**
@@ -101,7 +98,7 @@ public class InstallationTypePanelAutomationTest
         InstallationTypePanelAutomation panel = new InstallationTypePanelAutomation();
         IXMLElement root = new XMLElementImpl("root");
         panel.runAutomated(installData, root);
-        assertNull(installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        assertThat(installData.getVariable(InstallData.MODIFY_INSTALLATION)).isNull();
     }
 
     /**
@@ -110,10 +107,10 @@ public class InstallationTypePanelAutomationTest
     @Test
     public void testProcessOptionNoOverride()
     {
-        Overrides overrides = Mockito.mock(Overrides.class);
+        Overrides overrides = mock(Overrides.class);
         InstallationTypePanelAutomation panel = new InstallationTypePanelAutomation();
         panel.processOptions(installData, overrides);
-        assertNull(installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        assertThat(installData.getVariable(InstallData.MODIFY_INSTALLATION)).isNull();
     }
 
     /**
@@ -123,10 +120,10 @@ public class InstallationTypePanelAutomationTest
     public void testProcessOptionNoOverrideNewInstallation()
     {
         installData.setVariable(InstallData.MODIFY_INSTALLATION, "false");
-        Overrides overrides = Mockito.mock(Overrides.class);
+        Overrides overrides = mock(Overrides.class);
         InstallationTypePanelAutomation panel = new InstallationTypePanelAutomation();
         panel.processOptions(installData, overrides);
-        assertEquals("false", installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        assertThat(installData.getVariable(InstallData.MODIFY_INSTALLATION)).isEqualTo("false");
     }
 
     /**
@@ -136,10 +133,10 @@ public class InstallationTypePanelAutomationTest
     public void testProcessOptionNoOverrideModifyInstallation()
     {
         installData.setVariable(InstallData.MODIFY_INSTALLATION, "true");
-        Overrides overrides = Mockito.mock(Overrides.class);
+        Overrides overrides = mock(Overrides.class);
         InstallationTypePanelAutomation panel = new InstallationTypePanelAutomation();
         panel.processOptions(installData, overrides);
-        assertEquals("true", installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        assertThat(installData.getVariable(InstallData.MODIFY_INSTALLATION)).isEqualTo("true");
     }
 
     /**
@@ -148,11 +145,11 @@ public class InstallationTypePanelAutomationTest
     @Test
     public void testProcessOptionOverrideIsFalse()
     {
-        Overrides overrides = Mockito.mock(Overrides.class);
-        Mockito.when(overrides.fetch(InstallData.MODIFY_INSTALLATION)).thenReturn("false");
+        Overrides overrides = mock(Overrides.class);
+        when(overrides.fetch(InstallData.MODIFY_INSTALLATION)).thenReturn("false");
         InstallationTypePanelAutomation panel = new InstallationTypePanelAutomation();
         panel.processOptions(installData, overrides);
-        assertEquals("false", installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        assertThat(installData.getVariable(InstallData.MODIFY_INSTALLATION)).isEqualTo("false");
     }
 
     /**
@@ -161,11 +158,11 @@ public class InstallationTypePanelAutomationTest
     @Test
     public void testProcessOptionOverrideIsTrue()
     {
-        Overrides overrides = Mockito.mock(Overrides.class);
-        Mockito.when(overrides.fetch(InstallData.MODIFY_INSTALLATION)).thenReturn("true");
+        Overrides overrides = mock(Overrides.class);
+        when(overrides.fetch(InstallData.MODIFY_INSTALLATION)).thenReturn("true");
         InstallationTypePanelAutomation panel = new InstallationTypePanelAutomation();
         panel.processOptions(installData, overrides);
-        assertEquals("true", installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        assertThat(installData.getVariable(InstallData.MODIFY_INSTALLATION)).isEqualTo("true");
     }
 
     /**
@@ -174,10 +171,10 @@ public class InstallationTypePanelAutomationTest
     @Test
     public void testProcessOptionOverrideIsSomething()
     {
-        Overrides overrides = Mockito.mock(Overrides.class);
-        Mockito.when(overrides.fetch(InstallData.MODIFY_INSTALLATION)).thenReturn("something");
+        Overrides overrides = mock(Overrides.class);
+        when(overrides.fetch(InstallData.MODIFY_INSTALLATION)).thenReturn("something");
         InstallationTypePanelAutomation panel = new InstallationTypePanelAutomation();
         panel.processOptions(installData, overrides);
-        assertEquals("false", installData.getVariable(InstallData.MODIFY_INSTALLATION));
+        assertThat(installData.getVariable(InstallData.MODIFY_INSTALLATION)).isEqualTo("false");
     }
 }

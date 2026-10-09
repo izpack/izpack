@@ -1,17 +1,15 @@
 package com.izforge.izpack.core.substitutor;
 
-import com.izforge.izpack.api.data.Variables;
-import com.izforge.izpack.api.substitutor.SubstitutionType;
-import com.izforge.izpack.core.data.DefaultVariables;
-import org.junit.Test;
+import static com.izforge.izpack.api.substitutor.SubstitutionType.TYPE_PLAIN;
+import static java.lang.System.lineSeparator;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import com.izforge.izpack.api.data.Variables;
+import com.izforge.izpack.core.data.DefaultVariables;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Properties;
-
-import static com.izforge.izpack.api.substitutor.SubstitutionType.TYPE_PLAIN;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import org.junit.jupiter.api.Test;
 
 public class VariableSubstitutorReaderTest {
 
@@ -30,8 +28,8 @@ public class VariableSubstitutorReaderTest {
             sb.append((char) c);
         }
 
-        String ls = System.lineSeparator();
+        String ls = lineSeparator();
         String expected = "Start" + ls + "value1" + ls + "value2" + ls + "value3" + ls + ls + "Some line" + ls + "End";
-        assertThat(sb.toString(), is(expected));
+        assertThat(sb).hasToString(expected);
     }
 }

@@ -20,24 +20,15 @@
  */
 package com.izforge.izpack.panels.process;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import org.fest.swing.fixture.DialogFixture;
-import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.jvnet.substance.skin.SubstanceBusinessLookAndFeel;
+import static com.izforge.izpack.panels.process.Executable.getArgs;
+import static com.izforge.izpack.panels.process.Executable.getInvocations;
+import static com.izforge.izpack.panels.process.Executable.init;
+import static com.izforge.izpack.panels.process.Executable.setException;
+import static com.izforge.izpack.panels.process.Executable.setReturn;
+import static javax.swing.SwingUtilities.invokeAndWait;
+import static javax.swing.UIManager.getLookAndFeel;
+import static javax.swing.UIManager.setLookAndFeel;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -51,7 +42,14 @@ import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.panels.test.AbstractPanelTest;
 import com.izforge.izpack.panels.test.TestGUIPanelContainer;
 import com.izforge.izpack.test.Container;
-
+import javax.swing.LookAndFeel;
+import javax.swing.UnsupportedLookAndFeelException;
+import org.fest.swing.fixture.DialogFixture;
+import org.fest.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.jvnet.substance.skin.SubstanceBusinessLookAndFeel;
 
 /**
  * Tests the {@link ProcessPanel}.
@@ -91,10 +89,10 @@ public class ProcessPanelTest extends AbstractPanelTest
     /**
      * Sets up the test.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
-        savedLookAndFeel = UIManager.getLookAndFeel();
+        savedLookAndFeel = getLookAndFeel();
         getResourceManager().setResourceBasePath("/com/izforge/izpack/panels/process/");
     }
 
@@ -103,13 +101,13 @@ public class ProcessPanelTest extends AbstractPanelTest
      *
      * @throws Exception for any error
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
         super.tearDown();
-        SwingUtilities.invokeAndWait(()-> {
+        invokeAndWait(()-> {
             try {
-                UIManager.setLookAndFeel(savedLookAndFeel);
+                setLookAndFeel(savedLookAndFeel);
             } catch (UnsupportedLookAndFeelException e) {
                 throw new RuntimeException(e);
             }
@@ -124,8 +122,8 @@ public class ProcessPanelTest extends AbstractPanelTest
     @Test
     public void testExecuteClass() throws Exception
     {
-        Executable.init();
-        Executable.setReturn(true);
+        init();
+        setReturn(true);
 
         // show the panel
         FrameFixture fixture = showProcessPanel();
@@ -135,9 +133,9 @@ public class ProcessPanelTest extends AbstractPanelTest
         waitForPanel(SimpleFinishPanel.class);
 
         // verify Executable was run the expected no. of times, with the expected arguments
-        assertEquals(2, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
-        assertArrayEquals(Executable.getArgs(1), new String[]{"run1", "somearg"});
+        assertThat(getInvocations()).isEqualTo(2);
+        assertThat(new String[]{"run0"}).isEqualTo(getArgs(0));
+        assertThat(new String[]{"run1", "somearg"}).isEqualTo(getArgs(1));
     }
 
     /**
@@ -152,17 +150,17 @@ public class ProcessPanelTest extends AbstractPanelTest
         if (lookAndFeel.isSupportedLookAndFeel())
         {
             // Substances checks that UI elements are created within the event dispatcher thread.
-            SwingUtilities.invokeAndWait(() -> {
+            invokeAndWait(() -> {
                 try {
-                    UIManager.setLookAndFeel(lookAndFeel);
+                    setLookAndFeel(lookAndFeel);
                 } catch (UnsupportedLookAndFeelException e) {
                     throw new RuntimeException(e);
                 }
             });
         }
 
-        Executable.init();
-        Executable.setException(true);
+        init();
+        setException(true);
 
         // show the panel
         FrameFixture fixture = showProcessPanel();
@@ -170,17 +168,16 @@ public class ProcessPanelTest extends AbstractPanelTest
         // attempt to navigate to the next panel
         DialogFixture dialogFixture = fixture.dialog();
         dialogFixture.requireVisible();
-        assertThat(dialogFixture.label("OptionPane.label").text(),
-                   containsString("Executable exception"));
+        assertThat(dialogFixture.label("OptionPane.label").text()).contains("Executable exception");
         dialogFixture.button().click();
 
         fixture.button(GuiId.BUTTON_NEXT.id).requireDisabled();
 
-        assertTrue(getPanels().getView() instanceof ProcessPanel);
+        assertThat(getPanels().getView() instanceof ProcessPanel).isTrue();
 
         // verify Executable was run the expected no. of times, with the expected arguments
-        assertEquals(1, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
+        assertThat(getInvocations()).isEqualTo(1);
+        assertThat(new String[]{"run0"}).isEqualTo(getArgs(0));
     }
 
     /**
@@ -192,7 +189,7 @@ public class ProcessPanelTest extends AbstractPanelTest
     {
         FrameFixture fixture = show(ProcessPanel.class, SimpleFinishPanel.class);
         waitForPanel(ProcessPanel.class);
-        assertThat(getPanels().getView(), instanceOf(ProcessPanel.class));
+        assertThat(getPanels().getView()).isInstanceOf(ProcessPanel.class);
         return fixture;
     }
 }

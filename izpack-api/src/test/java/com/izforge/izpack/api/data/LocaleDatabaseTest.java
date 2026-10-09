@@ -19,53 +19,52 @@
 
 package com.izforge.izpack.api.data;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import com.izforge.izpack.api.resource.Locales;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class LocaleDatabaseTest
 {
 
     private LocaleDatabase db;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         db = new LocaleDatabase(LocaleDatabaseTest.class.getResourceAsStream("testing-langpack.xml"),
-                                Mockito.mock(Locales.class));
+                                mock(Locales.class));
 
     }
 
     @Test
     public void testGet()
     {
-        assertEquals("String Text", db.get("string"));
-        assertEquals("none", db.get("none"));
+        assertThat(db.get("string")).isEqualTo("String Text");
+        assertThat(db.get("none")).isEqualTo("none");
     }
 
     @Test
     public void testGetWithArgs()
     {
-        assertEquals("Argument1: one, Argument2: two", db.get("string.with.arguments", "one", "two"));
-        assertEquals("Argument1: 'one', Argument2: 'two'", db.get("string.with.quoted.arguments", "one", "two"));
+        assertThat(db.get("string.with.arguments", "one", "two")).isEqualTo("Argument1: one, Argument2: two");
+        assertThat(db.get("string.with.quoted.arguments", "one", "two")).isEqualTo("Argument1: 'one', Argument2: 'two'");
     }
 
     @Test
     public void testNpeHandling()
     {
-        assertEquals("Argument1: one, Argument2: N/A", db.getString(
-                "string.with.arguments", new String[]{"one", null}));
+        assertThat(db.getString(
+                "string.with.arguments", new String[]{"one", null})).isEqualTo("Argument1: one, Argument2: N/A");
     }
 
     @Test
     public void testQuotedPlaceholder()
     {
-        assertEquals("Argument1: 'one', Argument2: 'N/A'", db.getString(
-                "string.with.quoted.arguments", new String[]{"one", null}));
+        assertThat(db.getString(
+                "string.with.quoted.arguments", new String[]{"one", null})).isEqualTo("Argument1: 'one', Argument2: 'N/A'");
     }
 
 }

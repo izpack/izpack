@@ -20,15 +20,13 @@
  */
 package com.izforge.izpack.panels.userinput.console.text;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-
-import org.junit.Test;
 
 import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.TestFieldConfig;
 import com.izforge.izpack.panels.userinput.field.text.TextField;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ConsoleTextField}.
@@ -47,7 +45,7 @@ public class ConsoleTextFieldTest extends AbstractConsoleFieldTest
         String defaultValue = "default value";
         ConsoleTextField field = createField(defaultValue);
         checkValid(field, "\n");
-        assertEquals(defaultValue, installData.getVariable("text"));
+        assertThat(installData.getVariable("text")).isEqualTo(defaultValue);
         verifyNoMoreInteractions(prompt);
     }
 
@@ -60,7 +58,7 @@ public class ConsoleTextFieldTest extends AbstractConsoleFieldTest
         ConsoleTextField field = createField(null);
         String expected = "new value";
         checkValid(field, expected);
-        assertEquals(expected, installData.getVariable("text"));
+        assertThat(installData.getVariable("text")).isEqualTo(expected);
         verifyNoMoreInteractions(prompt);
     }
 

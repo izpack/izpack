@@ -21,22 +21,17 @@
 
 package com.izforge.izpack.integration.panelaction;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.Map;
+import static java.lang.Thread.currentThread;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.PanelActionConfiguration;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
-import com.izforge.izpack.api.installer.DataValidator;
 import com.izforge.izpack.data.PanelAction;
 import com.izforge.izpack.integration.datavalidator.TestDataValidator;
-
+import java.util.Map;
 
 /**
  * Test {@link PanelAction} implementation.
@@ -131,15 +126,15 @@ public class TestPanelAction extends TestDataValidator implements PanelAction
         String id = getPanelId();
         if (stage == ActionStage.preconstruct)
         {
-            assertNull(handler);
+            assertThat(handler).isNull();
         }
         else
         {
-            assertNotNull(handler);
+            assertThat(handler).isNotNull();
         }
         String variable = id + "." + stage;
         int value = increment(variable);
-        System.err.println("Incremented: " + variable + "=" + value + ", thread=" + Thread.currentThread().getName());
+        System.err.println("Incremented: " + variable + "=" + value + ", thread=" + currentThread().getName());
 
         int preConstruct = getPreConstruct();
         int preActivate = getPreActivate();
@@ -150,32 +145,32 @@ public class TestPanelAction extends TestDataValidator implements PanelAction
         switch (stage)
         {
             case preconstruct:
-                assertEquals(1, preConstruct);
-                assertEquals(0, preActivate);
-                assertEquals(0, preValidate);
-                assertEquals(0, validate);
-                assertEquals(0, postValidate);
+                assertThat(preConstruct).isOne();
+                assertThat(preActivate).isZero();
+                assertThat(preValidate).isZero();
+                assertThat(validate).isZero();
+                assertThat(postValidate).isZero();
                 break;
             case preactivate:
-                assertEquals(1, preConstruct);
-                assertEquals(1, preActivate);
-                assertEquals(0, preValidate);
-                assertEquals(0, validate);
-                assertEquals(0, postValidate);
+                assertThat(preConstruct).isOne();
+                assertThat(preActivate).isOne();
+                assertThat(preValidate).isZero();
+                assertThat(validate).isZero();
+                assertThat(postValidate).isZero();
                 break;
             case prevalidate:
-                assertEquals(1, preConstruct);
-                assertEquals(1, preActivate);
-                assertTrue(preValidate >= 1);
-                assertEquals(preValidate - 1, validate);
-                assertEquals(preValidate - 1, postValidate);
+                assertThat(preConstruct).isOne();
+                assertThat(preActivate).isOne();
+                assertThat(preValidate).isGreaterThanOrEqualTo(1);
+                assertThat(validate).isEqualTo(preValidate - 1);
+                assertThat(postValidate).isEqualTo(preValidate - 1);
                 break;
             case postvalidate:
-                assertEquals(1, preConstruct);
-                assertEquals(1, preActivate);
-                assertTrue(preValidate >= 1);
-                assertEquals(preValidate, validate);
-                assertEquals(preValidate, postValidate);
+                assertThat(preConstruct).isOne();
+                assertThat(preActivate).isOne();
+                assertThat(preValidate).isGreaterThanOrEqualTo(1);
+                assertThat(validate).isEqualTo(preValidate);
+                assertThat(postValidate).isEqualTo(preValidate);
                 break;
             default:
                 fail("Unsupported stage: " + stage);
@@ -199,11 +194,11 @@ public class TestPanelAction extends TestDataValidator implements PanelAction
         int validate = getValidate();
         int postValidate = getPostValidate();
 
-        assertEquals(1, preConstruct);
-        assertEquals(1, preActivate);
-        assertTrue(preValidate >= 1);
-        assertEquals(preValidate, validate);
-        assertEquals(preValidate - 1, postValidate);
+        assertThat(preConstruct).isOne();
+        assertThat(preActivate).isOne();
+        assertThat(preValidate).isGreaterThanOrEqualTo(1);
+        assertThat(validate).isEqualTo(preValidate);
+        assertThat(postValidate).isEqualTo(preValidate - 1);
 
         return status;
     }

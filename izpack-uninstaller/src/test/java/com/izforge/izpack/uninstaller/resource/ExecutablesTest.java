@@ -21,10 +21,15 @@
 
 package com.izforge.izpack.uninstaller.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.izforge.izpack.api.data.ExecutableFile;
+import com.izforge.izpack.api.handler.Prompt;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.util.PlatformModelMatcher;
+import com.izforge.izpack.util.Platforms;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,17 +37,8 @@ import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import com.izforge.izpack.api.handler.Prompt;
-import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.api.data.ExecutableFile;
-import com.izforge.izpack.util.PlatformModelMatcher;
-import com.izforge.izpack.util.Platforms;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link Executables} class.
@@ -61,7 +57,7 @@ public class ExecutablesTest
      *
      * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         ExecutableFile file1 = new ExecutableFile("file1", ExecutableFile.UNINSTALL, ExecutableFile.ABORT, null, false);
@@ -71,7 +67,7 @@ public class ExecutablesTest
         ExecutableFile file4 = new ExecutableFile("file4", ExecutableFile.UNINSTALL, ExecutableFile.ABORT, null, false);
         InputStream executables = createExecutables(file1, file2, file3, file4);
 
-        resources = Mockito.mock(Resources.class);
+        resources = mock(Resources.class);
         when(resources.getInputStream("executables")).thenReturn(executables);
     }
 
@@ -84,7 +80,7 @@ public class ExecutablesTest
     {
         final List<String> paths = new ArrayList<String>();
         PlatformModelMatcher matcher = new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS);
-        Executables executables = new Executables(resources, matcher, Mockito.mock(Prompt.class))
+        Executables executables = new Executables(resources, matcher, mock(Prompt.class))
         {
             @Override
             protected boolean run(ExecutableFile file)
@@ -93,10 +89,10 @@ public class ExecutablesTest
                 return true;
             }
         };
-        assertTrue(executables.run());
-        assertEquals(2, paths.size());
-        assertEquals("file1", paths.get(0));
-        assertEquals("file4", paths.get(1));
+        assertThat(executables.run()).isTrue();
+        assertThat(paths).hasSize(2);
+        assertThat(paths.get(0)).isEqualTo("file1");
+        assertThat(paths.get(1)).isEqualTo("file4");
     }
 
     /**

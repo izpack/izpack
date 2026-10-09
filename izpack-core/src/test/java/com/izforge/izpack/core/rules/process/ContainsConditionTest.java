@@ -18,15 +18,7 @@
  */
 package com.izforge.izpack.core.rules.process;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
@@ -40,7 +32,10 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.rules.ConditionContainer;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
 import com.izforge.izpack.util.Platforms;
-
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
 
 public class ContainsConditionTest
 {
@@ -65,7 +60,7 @@ public class ContainsConditionTest
         additional.put("regex_multiple_lines", false);
         doTests("contains_in_file.xml", additional);
     }
-    
+
     /**
      * Checks conditions for variables read from the test <em>contains_in_variable.xml</em> file.
      */
@@ -79,7 +74,7 @@ public class ContainsConditionTest
 
     /**
      * Run defined set of tests
-     * 
+     *
      * @param resource      the name of the <conditions> xml
      */
     private void doTests(String resource)
@@ -89,7 +84,7 @@ public class ContainsConditionTest
 
     /**
      * Run defined set of tests and additional tests
-     * 
+     *
      * @param resource      the name of the <conditions> xml
      * @param additional    additional tests to be run
      */
@@ -100,7 +95,7 @@ public class ContainsConditionTest
 
     /**
      * Run defined set of tests with variables set
-     * 
+     *
      * @param variables     defined variables for test
      * @param resource      the name of the <conditions> xml
      */
@@ -111,7 +106,7 @@ public class ContainsConditionTest
 
     /**
      * Run defined set of tests and additional tests with variables set
-     * 
+     *
      * @param variables     defined variables for test
      * @param resource      the name of the <conditions> xml
      * @param additional    additional tests to be run
@@ -123,24 +118,24 @@ public class ContainsConditionTest
         IXMLElement conditions = parser.parse(getClass().getResourceAsStream(resource));
         rules.analyzeXml(conditions);
 
-        assertTrue(rules.isConditionTrue("value_found"));               // a simple substring
-        assertFalse(rules.isConditionTrue("value_not_found1"));         // not found because string is uppercase
-        assertFalse(rules.isConditionTrue("value_not_found2"));         // not found because value is uppercase
-        assertTrue(rules.isConditionTrue("value_found_ignore_case"));   // different case 
+        assertThat(rules.isConditionTrue("value_found")).isTrue();               // a simple substring
+        assertThat(rules.isConditionTrue("value_not_found1")).isFalse();         // not found because string is uppercase
+        assertThat(rules.isConditionTrue("value_not_found2")).isFalse();         // not found because value is uppercase
+        assertThat(rules.isConditionTrue("value_found_ignore_case")).isTrue();   // different case
 
-        assertTrue(rules.isConditionTrue("trivial_regex"));             // a simple substring
-        assertTrue(rules.isConditionTrue("regex_with_wildcard"));       // a regex with wildcards substring
-        assertTrue(rules.isConditionTrue("regex_whole_line"));          // a regex matching the whole line
-        assertFalse(rules.isConditionTrue("regex_not_whole_line"));     // a regex not matching the whole line
-        assertFalse(rules.isConditionTrue("regex_not_found1"));         // not found because string is uppercase
-        assertFalse(rules.isConditionTrue("regex_not_found2"));         // not found because value is uppercase
+        assertThat(rules.isConditionTrue("trivial_regex")).isTrue();             // a simple substring
+        assertThat(rules.isConditionTrue("regex_with_wildcard")).isTrue();       // a regex with wildcards substring
+        assertThat(rules.isConditionTrue("regex_whole_line")).isTrue();          // a regex matching the whole line
+        assertThat(rules.isConditionTrue("regex_not_whole_line")).isFalse();     // a regex not matching the whole line
+        assertThat(rules.isConditionTrue("regex_not_found1")).isFalse();         // not found because string is uppercase
+        assertThat(rules.isConditionTrue("regex_not_found2")).isFalse();         // not found because value is uppercase
 
         if (additional!=null) {
             for (Entry<String, Boolean> test : additional.entrySet())
             {
                 String cond = test.getKey();
                 Boolean expected = test.getValue();
-                assertEquals("condition '" + cond + "':", expected, rules.isConditionTrue(cond));
+                assertThat(rules.isConditionTrue(cond)).as("condition '" + cond + "':").isEqualTo(expected);
             }
         }
     }

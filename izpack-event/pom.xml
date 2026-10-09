@@ -55,8 +55,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -72,8 +72,18 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>3.0.25</version>
             <type>pom</type>
+            <scope>provided</scope>
+            <exclusions>
+                <!-- Groovy's own test frameworks are not used by the event runtime. -->
+                <exclusion><groupId>org.codehaus.groovy</groupId><artifactId>groovy-test</artifactId></exclusion>
+                <exclusion><groupId>org.codehaus.groovy</groupId><artifactId>groovy-test-junit5</artifactId></exclusion>
+                <exclusion><groupId>org.codehaus.groovy</groupId><artifactId>groovy-testng</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-bsf</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

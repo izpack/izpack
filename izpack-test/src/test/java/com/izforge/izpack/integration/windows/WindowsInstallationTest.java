@@ -21,22 +21,15 @@
 
 package com.izforge.izpack.integration.windows;
 
+import static com.izforge.izpack.integration.HelperTestMethod.prepareFrameFixture;
+import static com.izforge.izpack.integration.UninstallHelper.guiUninstall;
 import static com.izforge.izpack.integration.windows.WindowsHelper.checkShortcut;
 import static com.izforge.izpack.integration.windows.WindowsHelper.registryDeleteUninstallKey;
 import static com.izforge.izpack.integration.windows.WindowsHelper.registryKeyExists;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-
-import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.timing.Timeout;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static java.lang.Thread.sleep;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.fest.swing.timing.Timeout.timeout;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.AutomatedInstallData;
@@ -44,24 +37,22 @@ import com.izforge.izpack.api.exception.NativeLibException;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
-import com.izforge.izpack.event.RegistryInstallerListener;
-import com.izforge.izpack.event.RegistryUninstallerListener;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.integration.AbstractDestroyerTest;
-import com.izforge.izpack.integration.HelperTestMethod;
-import com.izforge.izpack.integration.UninstallHelper;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestHousekeeper;
 import com.izforge.izpack.util.Librarian;
-import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.PrivilegedRunner;
 import com.izforge.izpack.util.os.ShellLink;
-
+import java.io.File;
+import org.fest.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
 
 /**
  * Test installation on Windows.
@@ -77,8 +68,7 @@ import com.izforge.izpack.util.os.ShellLink;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@RunOn(Platform.Name.WINDOWS)
+@EnabledOnOs(WINDOWS)
 @Container(TestGUIInstallationContainer.class)
 public class WindowsInstallationTest extends AbstractDestroyerTest
 {
@@ -146,7 +136,7 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
      *
      * @throws Exception for any error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         super.setUp();
@@ -158,7 +148,7 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
      *
      * @throws Exception for any error
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
         destroyRegistryEntries();
@@ -178,66 +168,65 @@ public class WindowsInstallationTest extends AbstractDestroyerTest
     @InstallFile("samples/windows/install.xml")
     public void testInstallation() throws Exception
     {
-        assertFalse("This test must be run as administrator, or with Windows UAC turned off",
-                    new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded());
+        assertThat(new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded()).as("This test must be run as administrator, or with Windows UAC turned off").isFalse();
 
         // UNINSTALL_NAME should be null prior to display of CheckedHelloPanel
-        assertNull(getInstallData().getVariable("UNINSTALL_NAME"));
+        assertThat(getInstallData().getVariable("UNINSTALL_NAME")).isNull();
 
-        installerFrameFixture = HelperTestMethod.prepareFrameFixture(frame, controller);
+        installerFrameFixture = prepareFrameFixture(frame, controller);
 
         // CheckedHelloPanel
-        Thread.sleep(2000);
+        sleep(2000);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // UNINSTALL_NAME should now be defined
-        assertEquals("IzPack Windows Installation Test 1.0", getInstallData().getVariable("UNINSTALL_NAME"));
+        assertThat(getInstallData().getVariable("UNINSTALL_NAME")).isEqualTo("IzPack Windows Installation Test 1.0");
 
         // TargetPanel
-        Thread.sleep(1000);
+        sleep(1000);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
-        installerFrameFixture.optionPane(Timeout.timeout(1000)).focus();
+        installerFrameFixture.optionPane(timeout(1000)).focus();
         installerFrameFixture.optionPane().requireWarningMessage();
         installerFrameFixture.optionPane().okButton().click();
 
         // PacksPanel
-        Thread.sleep(2000);
+        sleep(2000);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // InstallPanel
-        Thread.sleep(2000);
+        sleep(2000);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // ShortcutPanel
-        Thread.sleep(2000);
+        sleep(2000);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // SimpleFinishPanel
-        Thread.sleep(1200);
+        sleep(1200);
         installerFrameFixture.button(GuiId.BUTTON_QUIT.id).click();
 
         // verify the installer has terminated, and an uninstaller has been written
         housekeeper.waitShutdown(2 * 60 * 1000);
-        assertTrue(housekeeper.hasShutdown());
-        assertEquals(0, housekeeper.getExitCode());
-        assertFalse(housekeeper.getReboot());
+        assertThat(housekeeper.hasShutdown()).isTrue();
+        assertThat(housekeeper.getExitCode()).isEqualTo(0);
+        assertThat(housekeeper.getReboot()).isFalse();
         File uninstaller = getUninstallerJar();
 
         // make sure there is an Uninstall entry for the installation
-        assertTrue(registryKeyExists(handler, UNINSTALL_KEY));
+        assertThat(registryKeyExists(handler, UNINSTALL_KEY)).isTrue();
 
         // make sure a shortcut to the uninstaller exists
         File shortcut = checkShortcut(ShellLink.PROGRAM_MENU, ShellLink.ALL_USERS, "IzPack Windows Installation Test",
                                       "Uninstaller", uninstaller, "This uninstalls the test", librarian);
 
         // run the uninstaller
-        UninstallHelper.guiUninstall(uninstaller);
+        guiUninstall(uninstaller);
 
         // make sure the Uninstall entry has been removed
-        assertFalse(registryKeyExists(handler, UNINSTALL_KEY));
+        assertThat(registryKeyExists(handler, UNINSTALL_KEY)).isFalse();
 
         // verify the shortcut no longer exists
-        assertFalse(shortcut.exists());
+        assertThat(shortcut).doesNotExist();
 
     }
 

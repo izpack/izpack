@@ -21,13 +21,12 @@
 
 package com.izforge.izpack.installer.requirement;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static java.lang.Double.parseDouble;
+import static java.lang.System.getProperty;
+import static org.apache.commons.lang3.StringUtils.join;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
-
-import java.util.Arrays;
-import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link JavaVersionChecker} class.
@@ -45,14 +44,14 @@ public class JavaVersionCheckerTest extends AbstractRequirementCheckerTest
         JavaVersionChecker checker = new JavaVersionChecker(installData, prompt);
 
         installData.getInfo().setJavaVersion(null);
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
 
-        String currentVersion = System.getProperty("java.version");
+        String currentVersion = getProperty("java.version");
         installData.getInfo().setJavaVersion("9" + currentVersion);
-        assertFalse(checker.check());
+        assertThat(checker.check()).isFalse();
 
         installData.getInfo().setJavaVersion(currentVersion);
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
 
         // in case of OpenJDK, version number is e.g 1.8.0_102-redhat
         // therefore the version must increased to
@@ -69,17 +68,17 @@ public class JavaVersionCheckerTest extends AbstractRequirementCheckerTest
         }
         // and add the "9" on it
         parts[pos]=parts[pos].concat("9");
-        installData.getInfo().setJavaVersion(StringUtils.join(parts,"."));
-        assertFalse(checker.check());
+        installData.getInfo().setJavaVersion(join(parts,"."));
+        assertThat(checker.check()).isFalse();
 
         String[] splitCurrentVersion = currentVersion.split("_");
         installData.getInfo().setJavaVersion(splitCurrentVersion[0]);
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
     }
 
     private boolean isNumeric(String str) {
         try {
-            double d = Double.parseDouble(str);
+            double d = parseDouble(str);
         }
         catch(NumberFormatException nfe) {
             return false;

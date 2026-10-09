@@ -21,14 +21,12 @@
 
 package com.izforge.izpack.core.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import javax.swing.ImageIcon;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
+import javax.swing.ImageIcon;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ResourceManager}.
@@ -59,7 +57,7 @@ public class ResourceManagerTest
         resources.setResourceBasePath("/com/izforge/izpack/bin/langpacks/flags/");
         for (String code : DefaultLocalesTest.ISO_CODES)
         {
-            assertNotNull(resources.getImageIcon(code + ".gif"));
+            assertThat(resources.getImageIcon(code + ".gif")).isNotNull();
         }
     }
 
@@ -68,21 +66,23 @@ public class ResourceManagerTest
     {
         ResourceManager resources = new ResourceManager();
         resources.setResourceBasePath("/com/izforge/izpack/core/resource/");
-        
+
         ImageIcon icon = resources.getImageIcon("testbmp.bmp");
-        assertNotNull(icon);
-        
-        assertEquals(20, icon.getIconWidth());
-        assertEquals(20, icon.getIconHeight());
+        assertThat(icon).isNotNull();
+
+        assertThat(icon.getIconWidth()).isEqualTo(20);
+        assertThat(icon.getIconHeight()).isEqualTo(20);
     }
-    
-    @Test(expected=ResourceNotFoundException.class)
+
+    @Test
     public void testInvalidImageName()
     {
-        ResourceManager resources = new ResourceManager();
-        resources.setResourceBasePath("/com/izforge/izpack/core/resource/");
-        
-        // this resource does not exist
-        resources.getImageIcon("testbmp.bmpx");
+        assertThatThrownBy(() -> {
+            ResourceManager resources = new ResourceManager();
+            resources.setResourceBasePath("/com/izforge/izpack/core/resource/");
+
+            // this resource does not exist
+            resources.getImageIcon("testbmp.bmpx");
+        }).isInstanceOf(ResourceNotFoundException.class);
     }
 }

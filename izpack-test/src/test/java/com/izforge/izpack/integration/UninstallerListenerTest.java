@@ -21,37 +21,29 @@
 
 package com.izforge.izpack.integration;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.jar.JarFile;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.matcher.ZipMatcher.getFileNameListFromZip;
+import static com.izforge.izpack.test.listener.TestUninstallerListener.getStatePath;
+import static com.izforge.izpack.test.listener.TestUninstallerListener.readState;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
-import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.listener.TestUninstallerListener;
-import com.izforge.izpack.uninstaller.Destroyer;
-
+import java.io.File;
+import java.util.jar.JarFile;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests that {@link com.izforge.izpack.api.event.UninstallerListener}s are invoked by the {@link Destroyer}.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class UninstallerListenerTest extends AbstractDestroyerTest
 {
@@ -87,7 +79,7 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
      * @throws IOException if the install directory cannot be created
      * @throws Exception   for any other error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         super.setUp();
@@ -99,7 +91,7 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         removeState();
@@ -118,7 +110,7 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
         File installDir = new File(installPath);
         if (!installDir.exists())
         {
-            assertTrue(installDir.mkdirs());
+            assertThat(installDir.mkdirs()).isTrue();
         }
 
         // add some files to the installation.
@@ -126,32 +118,31 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
         for (int i = 0; i < files; ++i)
         {
             File file = new File(installPath, "file" + i);
-            assertTrue(file.createNewFile());
+            assertThat(file.createNewFile()).isTrue();
             uninstallData.addFile(file.getAbsolutePath(), true);
         }
 
         // write the uninstaller and verify it contains the listeners
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
 
         File file = getUninstallerJar();
         JarFile uninstallJar = new JarFile(file);
 
-        assertThat(uninstallJar, ZipMatcher.isZipContainingFiles(
-                "com/izforge/izpack/api/event/UninstallerListener.class",
-                "com/izforge/izpack/test/listener/TestUninstallerListener.class"));
+        assertThat(getFileNameListFromZip(uninstallJar)).contains("com/izforge/izpack/api/event/UninstallerListener.class",
+                "com/izforge/izpack/test/listener/TestUninstallerListener.class");
 
         // perform uninstallation.
         runDestroyer(file);
 
         // verify the listener methods have been invoked the expected no. of times
-        String path = TestUninstallerListener.getStatePath(installPath);
-        TestUninstallerListener.State state = TestUninstallerListener.readState(path);
-        assertEquals(1, state.initialiseCount);
-        assertEquals(1, state.beforeListDeleteCount);
-        assertEquals(files + 1, state.beforeDeleteCount); // 3 files + 1 for the uninstaller jar
+        String path = getStatePath(installPath);
+        TestUninstallerListener.State state = readState(path);
+        assertThat(state.initialiseCount).isOne();
+        assertThat(state.beforeListDeleteCount).isOne();
+        assertThat(state.beforeDeleteCount).isEqualTo(files + 1); // 3 files + 1 for the uninstaller jar
 
-        assertEquals(state.beforeListDeleteCount, state.afterListDeleteCount);
-        assertEquals(state.beforeDeleteCount, state.afterDeleteCount);
+        assertThat(state.afterListDeleteCount).isEqualTo(state.beforeListDeleteCount);
+        assertThat(state.afterDeleteCount).isEqualTo(state.beforeDeleteCount);
     }
 
     /**
@@ -159,11 +150,11 @@ public class UninstallerListenerTest extends AbstractDestroyerTest
      */
     private void removeState()
     {
-        String path = TestUninstallerListener.getStatePath(getInstallPath());
+        String path = getStatePath(getInstallPath());
         File file = new File(path);
         if (file.exists())
         {
-            assertTrue(file.delete());
+            assertThat(file.delete()).isTrue();
         }
     }
 

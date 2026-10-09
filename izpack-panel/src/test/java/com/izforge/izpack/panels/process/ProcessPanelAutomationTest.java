@@ -20,12 +20,13 @@
  */
 package com.izforge.izpack.panels.process;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.panels.process.Executable.getArgs;
+import static com.izforge.izpack.panels.process.Executable.getInvocations;
+import static com.izforge.izpack.panels.process.Executable.init;
+import static com.izforge.izpack.panels.process.Executable.setException;
+import static com.izforge.izpack.panels.process.Executable.setReturn;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
@@ -34,8 +35,8 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.util.PlatformModelMatcher;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ProcessPanelAutomation} class.
@@ -43,7 +44,6 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class ProcessPanelAutomationTest
 {
@@ -93,16 +93,16 @@ public class ProcessPanelAutomationTest
     @Test
     public void testExecuteClass()
     {
-        Executable.init();
-        Executable.setReturn(true);
+        init();
+        setReturn(true);
 
         ProcessPanelAutomation panel = new ProcessPanelAutomation(installData, rules, resources, matcher);
         panel.runAutomated(installData, new XMLElementImpl("root"));   // XML element not used
 
         // verify Executable was run the expected no. of times, with the expected arguments
-        assertEquals(2, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
-        assertArrayEquals(Executable.getArgs(1), new String[]{"run1", "somearg"});
+        assertThat(getInvocations()).isEqualTo(2);
+        assertThat(new String[]{"run0"}).isEqualTo(getArgs(0));
+        assertThat(new String[]{"run1", "somearg"}).isEqualTo(getArgs(1));
     }
 
     /**
@@ -113,8 +113,8 @@ public class ProcessPanelAutomationTest
     @Test
     public void testExecuteClassException() throws Exception
     {
-        Executable.init();
-        Executable.setException(true);
+        init();
+        setException(true);
 
         ProcessPanelAutomation panel = new ProcessPanelAutomation(installData, rules, resources, matcher);
         try
@@ -128,8 +128,8 @@ public class ProcessPanelAutomationTest
         }
 
         // verify Executable was run the expected no. of times, with the expected arguments
-        assertEquals(1, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
+        assertThat(getInvocations()).isEqualTo(1);
+        assertThat(new String[]{"run0"}).isEqualTo(getArgs(0));
     }
 
 

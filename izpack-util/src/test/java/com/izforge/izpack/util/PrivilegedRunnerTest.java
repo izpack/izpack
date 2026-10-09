@@ -1,16 +1,12 @@
 package com.izforge.izpack.util;
 
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static java.lang.System.getProperty;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link PrivilegedRunner}.
@@ -26,13 +22,13 @@ public class PrivilegedRunnerTest
     @Test
     public void testIsPlatformSupported()
     {
-        assertTrue(new PrivilegedRunner(Platforms.UNIX).isPlatformSupported());
-        assertTrue(new PrivilegedRunner(Platforms.LINUX).isPlatformSupported());
+        assertThat(new PrivilegedRunner(Platforms.UNIX).isPlatformSupported()).isTrue();
+        assertThat(new PrivilegedRunner(Platforms.LINUX).isPlatformSupported()).isTrue();
 
-        assertTrue(new PrivilegedRunner(Platforms.WINDOWS).isPlatformSupported());
+        assertThat(new PrivilegedRunner(Platforms.WINDOWS).isPlatformSupported()).isTrue();
 
-        assertFalse(new PrivilegedRunner(Platforms.MAC).isPlatformSupported());
-        assertTrue(new PrivilegedRunner(Platforms.MAC_OSX).isPlatformSupported());
+        assertThat(new PrivilegedRunner(Platforms.MAC).isPlatformSupported()).isFalse();
+        assertThat(new PrivilegedRunner(Platforms.MAC_OSX).isPlatformSupported()).isTrue();
     }
 
     /**
@@ -43,10 +39,10 @@ public class PrivilegedRunnerTest
     @Test
     public void testGetElevatorOnUnix() throws Exception
     {
-        File file = new File(System.getProperty("java.io.tmpdir"), "Installer");
+        File file = new File(getProperty("java.io.tmpdir"), "Installer");
         if (file.exists())
         {
-            assertTrue(file.delete());
+            assertThat(file.delete()).isTrue();
         }
 
         List<String> expectedElevatorCommand = new ArrayList<String>();
@@ -62,10 +58,10 @@ public class PrivilegedRunnerTest
 
         PrivilegedRunner runner = new PrivilegedRunner(Platforms.UNIX);
         List<String> elevatorCommand = runner.getElevator("java", "installer.jar", new String[0]);
-        assertEquals(expectedElevatorCommand, elevatorCommand);
+        assertThat(elevatorCommand).isEqualTo(expectedElevatorCommand);
 
         // no elevator extracted on Unix
-        assertFalse(file.exists());
+        assertThat(file).doesNotExist();
     }
 
     /**
@@ -76,11 +72,11 @@ public class PrivilegedRunnerTest
     @Test
     public void testGetElevatorOnWindows() throws Exception
     {
-        File script = new File(System.getProperty("java.io.tmpdir"), "Installer.js");
+        File script = new File(getProperty("java.io.tmpdir"), "Installer.js");
         String scriptPath = script.getCanonicalPath();
         if (script.exists())
         {
-            assertTrue(script.delete());
+            assertThat(script.delete()).isTrue();
         }
 
         List<String> expectedElevatorCommand = new ArrayList<String>();
@@ -94,11 +90,11 @@ public class PrivilegedRunnerTest
 
         PrivilegedRunner runner = new PrivilegedRunner(Platforms.WINDOWS);
         List<String> elevatorCommand = runner.getElevator("javaw", "installer.jar", new String[0]);
-        assertEquals(expectedElevatorCommand, elevatorCommand);
+        assertThat(elevatorCommand).isEqualTo(expectedElevatorCommand);
 
-        assertTrue(script.exists());
-        assertTrue(script.length() != 0);
-        assertTrue(script.delete());
+        assertThat(script).exists();
+        assertThat(script.length() != 0).isTrue();
+        assertThat(script.delete()).isTrue();
     }
 
     /**
@@ -109,11 +105,11 @@ public class PrivilegedRunnerTest
     @Test
     public void testGetElevatorOnMacOSX() throws Exception
     {
-        File script = new File(System.getProperty("java.io.tmpdir"), "Installer");
+        File script = new File(getProperty("java.io.tmpdir"), "Installer");
         String scriptPath = script.getCanonicalPath();
         if (script.exists())
         {
-            assertTrue(script.delete());
+            assertThat(script.delete()).isTrue();
         }
 
         List<String> expectedElevatorCommand = new ArrayList<String>();
@@ -125,11 +121,11 @@ public class PrivilegedRunnerTest
 
         PrivilegedRunner runner = new PrivilegedRunner(Platforms.MAC_OSX);
         List<String> elevatorCommand = runner.getElevator("java", "installer.jar", new String[0]);
-        assertEquals(expectedElevatorCommand, elevatorCommand);
+        assertThat(elevatorCommand).isEqualTo(expectedElevatorCommand);
 
-        assertTrue(script.exists());
-        assertTrue(script.length() != 0);
-        assertTrue(script.delete());
+        assertThat(script).exists();
+        assertThat(script.length() != 0).isTrue();
+        assertThat(script.delete()).isTrue();
     }
 
 }

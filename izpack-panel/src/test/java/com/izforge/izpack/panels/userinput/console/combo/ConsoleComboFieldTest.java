@@ -21,14 +21,7 @@
 
 package com.izforge.izpack.panels.userinput.console.combo;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.InstallData;
@@ -39,7 +32,11 @@ import com.izforge.izpack.panels.userinput.field.Choice;
 import com.izforge.izpack.panels.userinput.field.ChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.choice.TestChoiceFieldConfig;
 import com.izforge.izpack.panels.userinput.field.combo.ComboField;
-
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ConsoleComboField}.
@@ -59,7 +56,7 @@ public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
         rules.addCondition(new BooleanCondition("showCondChoice", true, installData));
         ConsoleComboField field = createField(1);
         checkValid(field, "\n");
-        assertEquals("B", installData.getVariable("combo"));
+        assertThat(installData.getVariable("combo")).isEqualTo("B");
     }
 
     /**
@@ -71,7 +68,7 @@ public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
         rules.addCondition(new BooleanCondition("showCondChoice", true, installData));
         ConsoleComboField field = createField(-1);
         checkValid(field, "2");
-        assertEquals("C", installData.getVariable("combo"));
+        assertThat(installData.getVariable("combo")).isEqualTo("C");
     }
 
     /**
@@ -83,7 +80,7 @@ public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
         rules.addCondition(new BooleanCondition("showCondChoice", false, installData));
         ConsoleComboField field = createField(1);
         checkValid(field, "3");
-        assertEquals("D", installData.getVariable("combo"));
+        assertThat(installData.getVariable("combo")).isEqualTo("D");
     }
 
     /**
@@ -95,7 +92,7 @@ public class ConsoleComboFieldTest extends AbstractConsoleFieldTest
         rules.addCondition(new BooleanCondition("showCondChoice", true, installData));
         ConsoleComboField field = createField(1);
         checkValid(field, "3");
-        assertEquals("X", installData.getVariable("combo"));
+        assertThat(installData.getVariable("combo")).isEqualTo("X");
     }
 
     /**

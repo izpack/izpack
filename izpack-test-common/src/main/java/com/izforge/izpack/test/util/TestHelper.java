@@ -21,18 +21,15 @@
 
 package com.izforge.izpack.test.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
-
 import org.apache.commons.io.FileUtils;
-
 
 /**
  * Test helper.
@@ -53,7 +50,7 @@ public class TestHelper
      */
     public static File createFile(File dir, String name, int size) throws IOException
     {
-        return createFile(new File(dir, name), size);
+        return createFile(new File(dir, name).toPath(), size).toFile();
     }
 
     /**
@@ -66,18 +63,21 @@ public class TestHelper
      */
     public static File createFile(File file, int size) throws IOException
     {
+        createFile(file.toPath(), size);
+        return file;
+    }
+
+    /** Creates a random-data fixture without creating missing parent directories. */
+    public static Path createFile(Path dir, String name, int size) throws IOException
+    {
+        return createFile(dir.resolve(name), size);
+    }
+
+    public static Path createFile(Path file, int size) throws IOException
+    {
         byte[] data = new byte[size];
-        Random random = new Random();
-        random.nextBytes(data);
-        FileOutputStream stream = new FileOutputStream(file);
-        try
-        {
-            stream.write(data);
-        }
-        finally
-        {
-            stream.close();
-        }
+        new Random().nextBytes(data);
+        Files.write(file, data);
         return file;
     }
 
@@ -92,7 +92,7 @@ public class TestHelper
      */
     public static void assertFileEquals(File expected, File actualDir, String actualName)
     {
-        assertFileEquals(expected, new File(actualDir, actualName));
+        assertFileEquals(expected.toPath(), new File(actualDir, actualName).toPath());
     }
 
     /**
@@ -103,7 +103,7 @@ public class TestHelper
      */
     public static void assertFileExists(File dir, String name)
     {
-        assertFileExists(new File(dir, name));
+        assertFileExists(new File(dir, name).toPath());
     }
 
     /**
@@ -113,7 +113,17 @@ public class TestHelper
      */
     public static void assertFileExists(File file)
     {
-        assertTrue("File or directory " + file + " expected but not found", file.exists());
+        assertFileExists(file.toPath());
+    }
+
+    public static void assertFileExists(Path dir, String name)
+    {
+        assertFileExists(dir.resolve(name));
+    }
+
+    public static void assertFileExists(Path file)
+    {
+        assertThat(Files.exists(file)).as("File or directory %s expected but not found", file).isTrue();
     }
 
     /**
@@ -124,8 +134,7 @@ public class TestHelper
      */
     public static void assertFileNotExists(File dir, String name)
     {
-        File file = new File(dir, name);
-        assertFalse("File or directory " + file + " not expected but found", file.exists());
+        assertFileNotExists(new File(dir, name).toPath());
     }
 
     /**
@@ -135,7 +144,7 @@ public class TestHelper
      */
     public static void assertFileNotExists(File file)
     {
-        assertFalse("File or directory " + file + " not expected but found", file.exists());
+        assertFileNotExists(file.toPath());
     }
 
     /**
@@ -148,12 +157,36 @@ public class TestHelper
      */
     public static void assertFileEquals(File expected, File actual)
     {
-        assertTrue("File not found", actual.exists());
-        assertFalse("Path differs", actual.getAbsolutePath().equals(expected.getAbsolutePath()));
-        assertEquals("File length differs", expected.length(), actual.length());
+        assertFileEquals(expected.toPath(), actual.toPath());
+    }
+
+    public static void assertFileNotExists(Path dir, String name)
+    {
+        assertFileNotExists(dir.resolve(name));
+    }
+
+    public static void assertFileNotExists(Path file)
+    {
+        // Negated exists preserves the File contract when existence cannot be determined.
+        assertThat(Files.exists(file)).as("File or directory %s not expected but found", file).isFalse();
+    }
+
+    public static void assertFileEquals(Path expected, Path actualDir, String actualName)
+    {
+        assertFileEquals(expected, actualDir.resolve(actualName));
+    }
+
+    public static void assertFileEquals(Path expected, Path actual)
+    {
+        assertThat(Files.exists(actual)).as("File not found").isTrue();
+        assertThat(actual.toAbsolutePath().toString()).as("Path differs")
+                .isNotEqualTo(expected.toAbsolutePath().toString());
+        // File.length() returns zero on a missing or unreadable file; retain that behavior.
+        assertThat(actual.toFile().length()).as("File length differs").isEqualTo(expected.toFile().length());
         try
         {
-            assertEquals("Checksum differs", FileUtils.checksumCRC32(expected), FileUtils.checksumCRC32(actual));
+            assertThat(FileUtils.checksumCRC32(actual.toFile())).as("Checksum differs")
+                    .isEqualTo(FileUtils.checksumCRC32(expected.toFile()));
         }
         catch (IOException exception)
         {

@@ -19,12 +19,13 @@
 
 package com.izforge.izpack.merge.resolve;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static com.izforge.izpack.merge.resolve.ResolveUtils.convertPathToPosixPath;
+import static com.izforge.izpack.merge.resolve.ResolveUtils.isFileInJar;
+import static java.lang.ClassLoader.getSystemResource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URL;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for resolveUtils
@@ -32,19 +33,19 @@ import org.junit.Test;
 public class ResolveUtilsTest {
 
     @Test
-    public void testConvertPathToPosixPath() throws Exception 
+    public void testConvertPathToPosixPath() throws Exception
     {
-        assertThat(ResolveUtils.convertPathToPosixPath("C:\\Users\\gaou\\.m2") , is("C:/Users/gaou/.m2"));
+        assertThat(convertPathToPosixPath("C:\\Users\\gaou\\.m2")).isEqualTo("C:/Users/gaou/.m2");
     }
-    
+
     @Test
     public void testIsFileInJar() throws Exception
     {
-        URL container = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
+        URL container = getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
         URL resource = new URL(container.toString() + "!/jar/izforge/izpack/panels/hello/HelloPanel.class");
-        assertThat(ResolveUtils.isFileInJar(resource), is(true));
-        
+        assertThat(isFileInJar(resource)).isTrue();
+
         resource = new URL(container.toString() + "!/jar/izforge/izpack/panels/hello/");
-        assertThat(ResolveUtils.isFileInJar(resource), is(false));
+        assertThat(isFileInJar(resource)).isFalse();
     }
 }

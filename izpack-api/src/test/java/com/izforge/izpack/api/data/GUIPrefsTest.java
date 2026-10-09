@@ -1,9 +1,9 @@
 package com.izforge.izpack.api.data;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
+
 
 public class GUIPrefsTest {
 
@@ -24,10 +24,10 @@ public class GUIPrefsTest {
         prefs.lookAndFeelMapping.put("mac", second);
 
         // Assert
-        assertTrue(first.is(LookAndFeels.SUBSTANCE));
-        assertTrue(second.is(LookAndFeels.SUBSTANCE));
-        assertEquals("creme", prefs.lookAndFeelMapping.get("windows").getVariantName());
-        assertEquals("creme", prefs.lookAndFeelMapping.get("unix").getVariantName());
-        assertEquals("mist-aqua", prefs.lookAndFeelMapping.get("mac").getVariantName());
+        assertThat(first.is(LookAndFeels.SUBSTANCE)).isTrue();
+        assertThat(second.is(LookAndFeels.SUBSTANCE)).isTrue();
+        assertThat(prefs.lookAndFeelMapping.get("windows").getVariantName()).isEqualTo("creme");
+        assertThat(prefs.lookAndFeelMapping.get("unix").getVariantName()).isEqualTo("creme");
+        assertThat(prefs.lookAndFeelMapping.get("mac").getVariantName()).isEqualTo("mist-aqua");
     }
 }

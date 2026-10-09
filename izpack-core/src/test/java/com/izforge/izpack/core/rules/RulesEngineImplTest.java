@@ -19,28 +19,10 @@
 
 package com.izforge.izpack.core.rules;
 
-
-import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.izforge.izpack.core.rules.process.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static com.izforge.izpack.core.rules.logic.NotCondition.createFromCondition;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
@@ -55,9 +37,20 @@ import com.izforge.izpack.core.rules.logic.AndCondition;
 import com.izforge.izpack.core.rules.logic.NotCondition;
 import com.izforge.izpack.core.rules.logic.OrCondition;
 import com.izforge.izpack.core.rules.logic.XorCondition;
+import com.izforge.izpack.core.rules.process.*;
 import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RulesEngineImplTest
 {
@@ -97,12 +90,12 @@ public class RulesEngineImplTest
      * Windows 8 install condition identifier.
      */
     private static final String WINDOWS_8_INSTALL = "izpack.windowsinstall.8";
-    
+
     /**
      * Windows 10 install condition identifier.
      */
     private static final String WINDOWS_10_INSTALL = "izpack.windowsinstall.10";
-    
+
     /**
      * Linux install condition identifier.
      */
@@ -137,13 +130,10 @@ public class RulesEngineImplTest
      * All install condition identifiers.
      */
     private static final String INSTALL_CONDITIONS[] = {AIX_INSTALL, WINDOWS_INSTALL, WINDOWS_XP_INSTALL,
-            WINDOWS_2003_INSTALL, WINDOWS_VISTA_INSTALL, WINDOWS_7_INSTALL, WINDOWS_8_INSTALL, WINDOWS_10_INSTALL, 
+            WINDOWS_2003_INSTALL, WINDOWS_VISTA_INSTALL, WINDOWS_7_INSTALL, WINDOWS_8_INSTALL, WINDOWS_10_INSTALL,
             LINUX_INSTALL, SOLARIS_INSTALL, SOLARIS_X86_INSTALL, SOLARIS_SPARC_INSTALL, MAC_INSTALL, MAC_OSX_INSTALL};
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         DefaultVariables variables = new DefaultVariables();
@@ -155,16 +145,10 @@ public class RulesEngineImplTest
         Condition alwaysFalse = new JavaCondition();
         conditions.put("false", alwaysFalse);
 
-        Condition alwaysTrue = NotCondition.createFromCondition(alwaysFalse, engine);
+        Condition alwaysTrue = createFromCondition(alwaysFalse, engine);
         conditions.put("true", alwaysTrue);
 
         engine.readConditionMap(conditions);
-    }
-
-    @After
-    public void resetExpectedException()
-    {
-        exception = ExpectedException.none();
     }
 
     @Test
@@ -174,10 +158,10 @@ public class RulesEngineImplTest
         Condition condition;
 
         condition = engine.getCondition("@!false");
-        assertEquals(!false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(!false);
 
         condition = engine.getCondition("@!true");
-        assertEquals(!true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(!true);
     }
 
     @Test
@@ -187,16 +171,16 @@ public class RulesEngineImplTest
         Condition condition;
 
         condition = engine.getCondition("@false && false");
-        assertEquals(false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && false);
 
         condition = engine.getCondition("@false && true");
-        assertEquals(false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true);
 
         condition = engine.getCondition("@true && false");
-        assertEquals(true && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && false);
 
         condition = engine.getCondition("@true && true");
-        assertEquals(true && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true);
     }
 
     @Test
@@ -206,16 +190,16 @@ public class RulesEngineImplTest
         Condition condition;
 
         condition = engine.getCondition("@false || false");
-        assertEquals(false || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || false);
 
         condition = engine.getCondition("@false || true");
-        assertEquals(false || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || true);
 
         condition = engine.getCondition("@true || false");
-        assertEquals(true || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || false);
 
         condition = engine.getCondition("@true || true");
-        assertEquals(true || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || true);
     }
 
     @Test
@@ -225,16 +209,16 @@ public class RulesEngineImplTest
         Condition condition;
 
         condition = engine.getCondition("@false ^ false");
-        assertEquals(false ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ false);
 
         condition = engine.getCondition("@false ^ true");
-        assertEquals(false ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ true);
 
         condition = engine.getCondition("@true ^ false");
-        assertEquals(true ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ false);
 
         condition = engine.getCondition("@true ^ true");
-        assertEquals(true ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ true);
     }
 
 
@@ -245,22 +229,22 @@ public class RulesEngineImplTest
         Condition condition;
 
         condition = engine.getCondition("@!false || false");
-        assertEquals(!false || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(!false || false);
 
         condition = engine.getCondition("@!true || false");
-        assertEquals(!true || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(!true || false);
 
         condition = engine.getCondition("@false || !false");
-        assertEquals(false || !false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || !false);
 
         condition = engine.getCondition("@true || !false");
-        assertEquals(true || !false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || !false);
 
         condition = engine.getCondition("@!false && true");
-        assertEquals(!false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(!false && true);
 
         condition = engine.getCondition("@true && !false");
-        assertEquals(true && !false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && !false);
 
     }
 
@@ -271,58 +255,58 @@ public class RulesEngineImplTest
         Condition condition;
 
         condition = engine.getCondition("@false || false && false || false");
-        assertEquals(false || false && false || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || false && false || false);
 
         condition = engine.getCondition("@false || false && false || true");
-        assertEquals(false || false && false || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || false && false || true);
 
         condition = engine.getCondition("@false || false && true || false");
-        assertEquals(false || false && true || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || false && true || false);
 
         condition = engine.getCondition("@false || false && true || true");
-        assertEquals(false || false && true || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || false && true || true);
 
         condition = engine.getCondition("@false || true && false || false");
-        assertEquals(false || true && false || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || true && false || false);
 
         condition = engine.getCondition("@false || true && false || false");
-        assertEquals(false || true && false || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || true && false || false);
 
         condition = engine.getCondition("@false || true && false || true");
-        assertEquals(false || true && false || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || true && false || true);
 
         condition = engine.getCondition("@false || true && true || false");
-        assertEquals(false || true && true || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || true && true || false);
 
         condition = engine.getCondition("@false || true && true || true");
-        assertEquals(false || true && true || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false || true && true || true);
 
         condition = engine.getCondition("@true || false && false || false");
-        assertEquals(true || false && false || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || false && false || false);
 
         condition = engine.getCondition("@true || false && false || true");
-        assertEquals(true || false && false || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || false && false || true);
 
         condition = engine.getCondition("@true || false && true || false");
-        assertEquals(true || false && true || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || false && true || false);
 
         condition = engine.getCondition("@true || false && true || true");
-        assertEquals(true || false && true || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || false && true || true);
 
         condition = engine.getCondition("@true || true && false || false");
-        assertEquals(true || true && false || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || true && false || false);
 
         condition = engine.getCondition("@true || true && false || false");
-        assertEquals(true || true && false || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || true && false || false);
 
         condition = engine.getCondition("@true || true && false || true");
-        assertEquals(true || true && false || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || true && false || true);
 
         condition = engine.getCondition("@true || true && true || false");
-        assertEquals(true || true && true || false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || true && true || false);
 
         condition = engine.getCondition("@true || true && true || true");
-        assertEquals(true || true && true || true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true || true && true || true);
 
     }
 
@@ -333,58 +317,58 @@ public class RulesEngineImplTest
         Condition condition;
 
         condition = engine.getCondition("@false && false || false && false");
-        assertEquals(false && false || false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && false || false && false);
 
         condition = engine.getCondition("@false && false || false && true");
-        assertEquals(false && false || false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && false || false && true);
 
         condition = engine.getCondition("@false && false || true && false");
-        assertEquals(false && false || true && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && false || true && false);
 
         condition = engine.getCondition("@false && false || true && true");
-        assertEquals(false && false || true && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && false || true && true);
 
         condition = engine.getCondition("@false && true || false && false");
-        assertEquals(false && true || false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true || false && false);
 
         condition = engine.getCondition("@false && true || false && false");
-        assertEquals(false && true || false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true || false && false);
 
         condition = engine.getCondition("@false && true || false && true");
-        assertEquals(false && true || false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true || false && true);
 
         condition = engine.getCondition("@false && true || true && false");
-        assertEquals(false && true || true && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true || true && false);
 
         condition = engine.getCondition("@false && true || true && true");
-        assertEquals(false && true || true && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true || true && true);
 
         condition = engine.getCondition("@true && false || false && false");
-        assertEquals(true && false || false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && false || false && false);
 
         condition = engine.getCondition("@true && false || false && true");
-        assertEquals(true && false || false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && false || false && true);
 
         condition = engine.getCondition("@true && false || true && false");
-        assertEquals(true && false || true && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && false || true && false);
 
         condition = engine.getCondition("@true && false || true && true");
-        assertEquals(true && false || true && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && false || true && true);
 
         condition = engine.getCondition("@true && true || false && false");
-        assertEquals(true && true || false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true || false && false);
 
         condition = engine.getCondition("@true && true || false && false");
-        assertEquals(true && true || false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true || false && false);
 
         condition = engine.getCondition("@true && true || false && true");
-        assertEquals(true && true || false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true || false && true);
 
         condition = engine.getCondition("@true && true || true && false");
-        assertEquals(true && true || true && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true || true && false);
 
         condition = engine.getCondition("@true && true || true && true");
-        assertEquals(true && true || true && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true || true && true);
     }
 
     @Test
@@ -394,112 +378,112 @@ public class RulesEngineImplTest
         Condition condition;
 
         condition = engine.getCondition("@false && false ^ false && false");
-        assertEquals(false && false ^ false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && false ^ false && false);
 
         condition = engine.getCondition("@false && false ^ false && true");
-        assertEquals(false && false ^ false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && false ^ false && true);
 
         condition = engine.getCondition("@false && false ^ true && false");
-        assertEquals(false && false ^ true && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && false ^ true && false);
 
         condition = engine.getCondition("@false && false ^ true && true");
-        assertEquals(false && false ^ true && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && false ^ true && true);
 
         condition = engine.getCondition("@false && true ^ false && false");
-        assertEquals(false && true ^ false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true ^ false && false);
 
         condition = engine.getCondition("@false && true ^ false && false");
-        assertEquals(false && true ^ false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true ^ false && false);
 
         condition = engine.getCondition("@false && true ^ false && true");
-        assertEquals(false && true ^ false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true ^ false && true);
 
         condition = engine.getCondition("@false && true ^ true && false");
-        assertEquals(false && true ^ true && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true ^ true && false);
 
         condition = engine.getCondition("@false && true ^ true && true");
-        assertEquals(false && true ^ true && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false && true ^ true && true);
 
         condition = engine.getCondition("@true && false ^ false && false");
-        assertEquals(true && false ^ false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && false ^ false && false);
 
         condition = engine.getCondition("@true && false ^ false && true");
-        assertEquals(true && false ^ false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && false ^ false && true);
 
         condition = engine.getCondition("@true && false ^ true && false");
-        assertEquals(true && false ^ true && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && false ^ true && false);
 
         condition = engine.getCondition("@true && false ^ true && true");
-        assertEquals(true && false ^ true && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && false ^ true && true);
 
         condition = engine.getCondition("@true && true ^ false && false");
-        assertEquals(true && true ^ false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true ^ false && false);
 
         condition = engine.getCondition("@true && true ^ false && false");
-        assertEquals(true && true ^ false && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true ^ false && false);
 
         condition = engine.getCondition("@true && true ^ false && true");
-        assertEquals(true && true ^ false && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true ^ false && true);
 
         condition = engine.getCondition("@true && true ^ true && false");
-        assertEquals(true && true ^ true && false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true ^ true && false);
 
         condition = engine.getCondition("@true && true ^ true && true");
-        assertEquals(true && true ^ true && true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true && true ^ true && true);
 
         condition = engine.getCondition("@false ^ false && false ^ false");
-        assertEquals(false ^ false && false ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ false && false ^ false);
 
         condition = engine.getCondition("@false ^ false && false ^ true");
-        assertEquals(false ^ false && false ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ false && false ^ true);
 
         condition = engine.getCondition("@false ^ false && true ^ false");
-        assertEquals(false ^ false && true ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ false && true ^ false);
 
         condition = engine.getCondition("@false ^ false && true ^ true");
-        assertEquals(false ^ false && true ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ false && true ^ true);
 
         condition = engine.getCondition("@false ^ true && false ^ false");
-        assertEquals(false ^ true && false ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ true && false ^ false);
 
         condition = engine.getCondition("@false ^ true && false ^ false");
-        assertEquals(false ^ true && false ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ true && false ^ false);
 
         condition = engine.getCondition("@false ^ true && false ^ true");
-        assertEquals(false ^ true && false ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ true && false ^ true);
 
         condition = engine.getCondition("@false ^ true && true ^ false");
-        assertEquals(false ^ true && true ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ true && true ^ false);
 
         condition = engine.getCondition("@false ^ true && true ^ true");
-        assertEquals(false ^ true && true ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(false ^ true && true ^ true);
 
         condition = engine.getCondition("@true ^ false && false ^ false");
-        assertEquals(true ^ false && false ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ false && false ^ false);
 
         condition = engine.getCondition("@true ^ false && false ^ true");
-        assertEquals(true ^ false && false ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ false && false ^ true);
 
         condition = engine.getCondition("@true ^ false && true ^ false");
-        assertEquals(true ^ false && true ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ false && true ^ false);
 
         condition = engine.getCondition("@true ^ false && true ^ true");
-        assertEquals(true ^ false && true ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ false && true ^ true);
 
         condition = engine.getCondition("@true ^ true && false ^ false");
-        assertEquals(true ^ true && false ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ true && false ^ false);
 
         condition = engine.getCondition("@true ^ true && false ^ false");
-        assertEquals(true ^ true && false ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ true && false ^ false);
 
         condition = engine.getCondition("@true ^ true && false ^ true");
-        assertEquals(true ^ true && false ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ true && false ^ true);
 
         condition = engine.getCondition("@true ^ true && true ^ false");
-        assertEquals(true ^ true && true ^ false, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ true && true ^ false);
 
         condition = engine.getCondition("@true ^ true && true ^ true");
-        assertEquals(true ^ true && true ^ true, condition.isTrue());
+        assertThat(condition.isTrue()).isEqualTo(true ^ true && true ^ true);
     }
 
     /**
@@ -513,21 +497,21 @@ public class RulesEngineImplTest
         IXMLElement conditions = parser.parse(getClass().getResourceAsStream("conditions.xml"));
         rules.analyzeXml(conditions);
 
-        assertTrue(rules.getCondition("and1") instanceof AndCondition);
-        assertTrue(rules.getCondition("not1") instanceof NotCondition);
-        assertTrue(rules.getCondition("or1") instanceof OrCondition);
-        assertTrue(rules.getCondition("xor1") instanceof XorCondition);
-        assertTrue(rules.getCondition("variable1") instanceof VariableCondition);
-        assertTrue(rules.getCondition("comparenumerics1") instanceof CompareNumericsCondition);
-        assertTrue(rules.getCondition("compareversions1") instanceof CompareVersionsCondition);
-        assertTrue(rules.getCondition("compareversionsmajor1") instanceof CompareVersionsMajorCondition);
-        assertTrue(rules.getCondition("empty1") instanceof EmptyCondition);
-        assertTrue(rules.getCondition("exists1") instanceof ExistsCondition);
-        assertTrue(rules.getCondition("java1") instanceof JavaCondition);
-        assertTrue(rules.getCondition("packselection1") instanceof PackSelectionCondition);
-        assertTrue(rules.getCondition("ref1") instanceof RefCondition);
-        assertTrue(rules.getCondition("user1") instanceof UserCondition);
-        assertTrue(rules.getCondition("linuxInstallOrUpdate") instanceof AndCondition);
+        assertThat(rules.getCondition("and1") instanceof AndCondition).isTrue();
+        assertThat(rules.getCondition("not1") instanceof NotCondition).isTrue();
+        assertThat(rules.getCondition("or1") instanceof OrCondition).isTrue();
+        assertThat(rules.getCondition("xor1") instanceof XorCondition).isTrue();
+        assertThat(rules.getCondition("variable1") instanceof VariableCondition).isTrue();
+        assertThat(rules.getCondition("comparenumerics1") instanceof CompareNumericsCondition).isTrue();
+        assertThat(rules.getCondition("compareversions1") instanceof CompareVersionsCondition).isTrue();
+        assertThat(rules.getCondition("compareversionsmajor1") instanceof CompareVersionsMajorCondition).isTrue();
+        assertThat(rules.getCondition("empty1") instanceof EmptyCondition).isTrue();
+        assertThat(rules.getCondition("exists1") instanceof ExistsCondition).isTrue();
+        assertThat(rules.getCondition("java1") instanceof JavaCondition).isTrue();
+        assertThat(rules.getCondition("packselection1") instanceof PackSelectionCondition).isTrue();
+        assertThat(rules.getCondition("ref1") instanceof RefCondition).isTrue();
+        assertThat(rules.getCondition("user1") instanceof UserCondition).isTrue();
+        assertThat(rules.getCondition("linuxInstallOrUpdate") instanceof AndCondition).isTrue();
     }
 
     /**
@@ -539,10 +523,11 @@ public class RulesEngineImplTest
         RulesEngine rules = createRulesEngine(new AutomatedInstallData(new DefaultVariables(), Platforms.UNIX));
         IXMLParser parser = new XMLParser();
         IXMLElement conditions = parser.parse(getClass().getResourceAsStream("poorly_defined_not_condition.xml"));
-        exception.expectMessage("Missing attribute \"refid\" in condition");
-
-        rules.analyzeXml(conditions);
-        rules.getCondition("poorlydefinednot");
+        Throwable failure = assertThrows(Throwable.class, () -> {
+            rules.analyzeXml(conditions);
+            rules.getCondition("poorlydefinednot");
+        });
+        assertThat(failure.getMessage().contains("Missing attribute \"refid\" in condition")).isTrue();
     }
 
     /**
@@ -554,9 +539,11 @@ public class RulesEngineImplTest
         RulesEngine rules = createRulesEngine(new AutomatedInstallData(new DefaultVariables(), Platforms.UNIX));
         IXMLParser parser = new XMLParser();
         IXMLElement conditions = parser.parse(getClass().getResourceAsStream("poorly_defined_and_condition.xml"));
-        exception.expectMessage("Incorrect element specified in condition \"poorlydefinedand\"");
-        rules.analyzeXml(conditions);
-        rules.getCondition("poorlydefinedand");
+        Throwable failure = assertThrows(Throwable.class, () -> {
+            rules.analyzeXml(conditions);
+            rules.getCondition("poorlydefinedand");
+        });
+        assertThat(failure.getMessage().contains("Incorrect element specified in condition \"poorlydefinedand\"")).isTrue();
     }
 
     /**
@@ -620,8 +607,8 @@ public class RulesEngineImplTest
 
         // verify the conditions evaluate as expected
         checkConditions(rules1, installData1);
-        assertTrue(rules1.isConditionTrue("izpack.windowsinstall"));
-        assertFalse(rules1.isConditionTrue("izpack.macinstall.osx"));
+        assertThat(rules1.isConditionTrue("izpack.windowsinstall")).isTrue();
+        assertThat(rules1.isConditionTrue("izpack.macinstall.osx")).isFalse();
 
         // serialize the conditions. This includes built-in conditions which should be excluded when read back in.
         Map<String, Condition> read = serializeConditions(rules1);
@@ -633,8 +620,8 @@ public class RulesEngineImplTest
 
         // verify the conditions evaluate as expected
         checkConditions(rules2, installData2);
-        assertFalse(rules2.isConditionTrue("izpack.windowsinstall"));
-        assertTrue(rules2.isConditionTrue("izpack.macinstall.osx"));
+        assertThat(rules2.isConditionTrue("izpack.windowsinstall")).isFalse();
+        assertThat(rules2.isConditionTrue("izpack.macinstall.osx")).isTrue();
     }
 
     /**
@@ -658,9 +645,9 @@ public class RulesEngineImplTest
         rules1.resolveConditions();
 
         // verify the conditions evaluate as expected
-        assertTrue(rules1.isConditionTrue("izpack.windowsinstall.nt5"));
-        assertFalse(rules1.isConditionTrue("izpack.windowsinstall.nt6"));
-        assertTrue(rules1.isConditionTrue("izpack.windowsinstall.nt5OrHigher"));
+        assertThat(rules1.isConditionTrue("izpack.windowsinstall.nt5")).isTrue();
+        assertThat(rules1.isConditionTrue("izpack.windowsinstall.nt6")).isFalse();
+        assertThat(rules1.isConditionTrue("izpack.windowsinstall.nt5OrHigher")).isTrue();
 
         // serialize the conditions. This includes built-in conditions which should be excluded when read back in.
         Map<String, Condition> read = serializeConditions(rules1);
@@ -671,9 +658,9 @@ public class RulesEngineImplTest
         rules2.readConditionMap(read);
 
         // verify the conditions evaluate as expected
-        assertFalse(rules2.isConditionTrue("izpack.windowsinstall.nt5"));
-        assertTrue(rules2.isConditionTrue("izpack.windowsinstall.nt6"));
-        assertTrue(rules2.isConditionTrue("izpack.windowsinstall.nt5OrHigher"));
+        assertThat(rules2.isConditionTrue("izpack.windowsinstall.nt5")).isFalse();
+        assertThat(rules2.isConditionTrue("izpack.windowsinstall.nt6")).isTrue();
+        assertThat(rules2.isConditionTrue("izpack.windowsinstall.nt5OrHigher")).isTrue();
     }
 
     /**
@@ -685,26 +672,26 @@ public class RulesEngineImplTest
     private void checkConditions(RulesEngine rules, InstallData installData)
     {
         installData.setVariable("setup.type", "standard");
-        assertTrue(rules.isConditionTrue("variable1"));    // variable1 = setup.type == standard
-        assertFalse(rules.isConditionTrue("variable2"));   // variable2 = setup.type == expert
-        assertFalse(rules.isConditionTrue("and1"));        // and1 = variable1 && variable2
-        assertFalse(rules.isConditionTrue("not1"));        // not1 = !variable1
-        assertTrue(rules.isConditionTrue("or1"));          // or1 = variable1 || variable2
-        assertTrue(rules.isConditionTrue("xor1"));         // xor1 = variable1 ^ variable2
-        assertTrue(rules.isConditionTrue("ref1"));         // ref1 = variable1
+        assertThat(rules.isConditionTrue("variable1")).isTrue();    // variable1 = setup.type == standard
+        assertThat(rules.isConditionTrue("variable2")).isFalse();   // variable2 = setup.type == expert
+        assertThat(rules.isConditionTrue("and1")).isFalse();        // and1 = variable1 && variable2
+        assertThat(rules.isConditionTrue("not1")).isFalse();        // not1 = !variable1
+        assertThat(rules.isConditionTrue("or1")).isTrue();          // or1 = variable1 || variable2
+        assertThat(rules.isConditionTrue("xor1")).isTrue();         // xor1 = variable1 ^ variable2
+        assertThat(rules.isConditionTrue("ref1")).isTrue();         // ref1 = variable1
 
         installData.setVariable("setup.type", "expert");
-        assertFalse(rules.isConditionTrue("variable1"));
-        assertTrue(rules.isConditionTrue("variable2"));
-        assertFalse(rules.isConditionTrue("and1"));
-        assertTrue(rules.isConditionTrue("not1"));
-        assertTrue(rules.isConditionTrue("or1"));
-        assertTrue(rules.isConditionTrue("xor1"));
-        assertFalse(rules.isConditionTrue("ref1"));
+        assertThat(rules.isConditionTrue("variable1")).isFalse();
+        assertThat(rules.isConditionTrue("variable2")).isTrue();
+        assertThat(rules.isConditionTrue("and1")).isFalse();
+        assertThat(rules.isConditionTrue("not1")).isTrue();
+        assertThat(rules.isConditionTrue("or1")).isTrue();
+        assertThat(rules.isConditionTrue("xor1")).isTrue();
+        assertThat(rules.isConditionTrue("ref1")).isFalse();
 
-        assertTrue(rules.isConditionTrue("comparenumerics1"));  // comparenumerics1 = 1 < 2
-        assertTrue(rules.isConditionTrue("compareversions1"));  // compareversions1 = 1 < 2
-        assertTrue(rules.isConditionTrue("compareversionsmajor1"));  // compareversions1 = 1.8 eq 1.8.0_72
+        assertThat(rules.isConditionTrue("comparenumerics1")).isTrue();  // comparenumerics1 = 1 < 2
+        assertThat(rules.isConditionTrue("compareversions1")).isTrue();  // compareversions1 = 1 < 2
+        assertThat(rules.isConditionTrue("compareversionsmajor1")).isTrue();  // compareversions1 = 1.8 eq 1.8.0_72
     }
 
     /**
@@ -722,13 +709,13 @@ public class RulesEngineImplTest
                                                 new ConditionContainer(parent), platform);
         for (String condition : conditions)
         {
-            assertTrue("Expected " + condition + " to be true", rules.isConditionTrue(condition));
+            assertThat(rules.isConditionTrue(condition)).as("Expected " + condition + " to be true").isTrue();
         }
-        List<String> falseConditions = new ArrayList<String>(Arrays.asList(INSTALL_CONDITIONS));
-        falseConditions.removeAll(Arrays.asList(conditions));
+        List<String> falseConditions = new ArrayList<String>(asList(INSTALL_CONDITIONS));
+        falseConditions.removeAll(asList(conditions));
         for (String falseCondition : falseConditions)
         {
-            assertFalse("Expected " + falseCondition + " to be false", rules.isConditionTrue(falseCondition));
+            assertThat(rules.isConditionTrue(falseCondition)).as("Expected " + falseCondition + " to be false").isFalse();
         }
     }
 

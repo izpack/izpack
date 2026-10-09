@@ -19,16 +19,13 @@ package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Arch;
 import static com.izforge.izpack.util.Platform.Name;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.net.URL;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.exception.IzPackClassNotFoundException;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.api.factory.ObjectFactory;
+import java.net.URL;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link DefaultTargetPlatformFactory} class.
@@ -63,25 +60,25 @@ public class DefaultTargetPlatformFactoryTest
             }
         };
         DefaultTargetPlatformFactory.Implementations implementations = factory.getImplementations(A.class);
-        assertNotNull(implementations);
+        assertThat(implementations).isNotNull();
 
-        assertEquals(DefaultA.class.getName(), implementations.getDefault());
+        assertThat(implementations.getDefault()).isEqualTo(DefaultA.class.getName());
 
-        assertEquals(8, implementations.getPlatforms().size());
+        assertThat(implementations.getPlatforms().size()).isEqualTo(8);
 
         for (Platform p : implementations.getPlatforms())
         {
             System.err.println(p + "=" + implementations.getImplementation(p));
         }
-        assertEquals(WinA.class.getName(), implementations.getImplementation(Platforms.WINDOWS));
-        assertEquals(WinX86.class.getName(), implementations.getImplementation(new Platform(Name.WINDOWS, Arch.X86)));
-        assertEquals(WinX64.class.getName(), implementations.getImplementation(new Platform(Name.WINDOWS, Arch.X64)));
-        assertEquals(Win7.class.getName(), implementations.getImplementation(Platforms.WINDOWS_7));
-        assertEquals(Win7X64.class.getName(), implementations.getImplementation(
-                new Platform(Name.WINDOWS, "WINDOWS_7", OsVersionConstants.WINDOWS_7_VERSION, Arch.X64)));
-        assertEquals(DebianA.class.getName(), implementations.getImplementation(Platforms.DEBIAN_LINUX));
-        assertEquals(LinuxA.class.getName(), implementations.getImplementation(Platforms.LINUX));
-        assertEquals(UnixA.class.getName(), implementations.getImplementation(Platforms.UNIX));
+        assertThat(implementations.getImplementation(Platforms.WINDOWS)).isEqualTo(WinA.class.getName());
+        assertThat(implementations.getImplementation(new Platform(Name.WINDOWS, Arch.X86))).isEqualTo(WinX86.class.getName());
+        assertThat(implementations.getImplementation(new Platform(Name.WINDOWS, Arch.X64))).isEqualTo(WinX64.class.getName());
+        assertThat(implementations.getImplementation(Platforms.WINDOWS_7)).isEqualTo(Win7.class.getName());
+        assertThat(implementations.getImplementation(
+                new Platform(Name.WINDOWS, "WINDOWS_7", OsVersionConstants.WINDOWS_7_VERSION, Arch.X64))).isEqualTo(Win7X64.class.getName());
+        assertThat(implementations.getImplementation(Platforms.DEBIAN_LINUX)).isEqualTo(DebianA.class.getName());
+        assertThat(implementations.getImplementation(Platforms.LINUX)).isEqualTo(LinuxA.class.getName());
+        assertThat(implementations.getImplementation(Platforms.UNIX)).isEqualTo(UnixA.class.getName());
     }
 
     /**
@@ -97,44 +94,44 @@ public class DefaultTargetPlatformFactoryTest
         TargetPlatformFactory factory = new DefaultTargetPlatformFactory(
                 NoDependencyInjectionFactory.INSTANCE, platform, platforms);
 
-        assertEquals(WinA.class, factory.create(A.class, Platforms.WINDOWS).getClass());
+        assertThat(factory.create(A.class, Platforms.WINDOWS).getClass()).isEqualTo(WinA.class);
 
         // all windows versions that don't specify an architecture should use WinA
-        assertEquals(WinA.class, factory.create(A.class, Platforms.WINDOWS_2003).getClass());
-        assertEquals(WinA.class, factory.create(A.class, Platforms.WINDOWS_XP).getClass());
-        assertEquals(WinA.class, factory.create(A.class, Platforms.WINDOWS_VISTA).getClass());
+        assertThat(factory.create(A.class, Platforms.WINDOWS_2003).getClass()).isEqualTo(WinA.class);
+        assertThat(factory.create(A.class, Platforms.WINDOWS_XP).getClass()).isEqualTo(WinA.class);
+        assertThat(factory.create(A.class, Platforms.WINDOWS_VISTA).getClass()).isEqualTo(WinA.class);
 
         // check windows platforms that specify an architecture
         Platform windowsX86 = new Platform(Name.WINDOWS, Arch.X86);
         Platform windowsX64 = new Platform(Name.WINDOWS, Arch.X64);
-        assertEquals(WinX86.class, factory.create(A.class, windowsX86).getClass());
-        assertEquals(WinX64.class, factory.create(A.class, windowsX64).getClass());
+        assertThat(factory.create(A.class, windowsX86).getClass()).isEqualTo(WinX86.class);
+        assertThat(factory.create(A.class, windowsX64).getClass()).isEqualTo(WinX64.class);
 
         // unix implementations
-        assertEquals(UnixA.class, factory.create(A.class, Platforms.UNIX).getClass());
-        assertEquals(UnixA.class, factory.create(A.class, Platforms.SUNOS_SPARC).getClass());
-        assertEquals(UnixA.class, factory.create(A.class, Platforms.SUNOS_X86).getClass());
-        assertEquals(UnixA.class, factory.create(A.class, Platforms.MAC_OSX).getClass());
+        assertThat(factory.create(A.class, Platforms.UNIX).getClass()).isEqualTo(UnixA.class);
+        assertThat(factory.create(A.class, Platforms.SUNOS_SPARC).getClass()).isEqualTo(UnixA.class);
+        assertThat(factory.create(A.class, Platforms.SUNOS_X86).getClass()).isEqualTo(UnixA.class);
+        assertThat(factory.create(A.class, Platforms.MAC_OSX).getClass()).isEqualTo(UnixA.class);
 
         // linux implementations
-        assertEquals(LinuxA.class, factory.create(A.class, Platforms.LINUX).getClass());
-        assertEquals(LinuxA.class, factory.create(A.class, Platforms.UBUNTU_LINUX).getClass());
+        assertThat(factory.create(A.class, Platforms.LINUX).getClass()).isEqualTo(LinuxA.class);
+        assertThat(factory.create(A.class, Platforms.UBUNTU_LINUX).getClass()).isEqualTo(LinuxA.class);
 
         // specific linux impl
-        assertEquals(DebianA.class, factory.create(A.class, Platforms.DEBIAN_LINUX).getClass());
+        assertThat(factory.create(A.class, Platforms.DEBIAN_LINUX).getClass()).isEqualTo(DebianA.class);
 
         // default impl
-        assertEquals(DefaultA.class, factory.create(A.class, Platforms.OS_2).getClass());
+        assertThat(factory.create(A.class, Platforms.OS_2).getClass()).isEqualTo(DefaultA.class);
 
         // check implementations registered via symbolic name
-        assertEquals(Win7.class, factory.create(A.class, Platforms.WINDOWS_7).getClass());
+        assertThat(factory.create(A.class, Platforms.WINDOWS_7).getClass()).isEqualTo(Win7.class);
 
         Platform win7x64 = new Platform(Platforms.WINDOWS_7, Arch.X64);
-        assertEquals(Win7X64.class, factory.create(A.class, win7x64).getClass());
+        assertThat(factory.create(A.class, win7x64).getClass()).isEqualTo(Win7X64.class);
 
         // no specific implementation registered for x86, so should pick up windows_7 impl
         Platform win7x32 = new Platform(Platforms.WINDOWS_7, Arch.X86);
-        assertEquals(Win7.class, factory.create(A.class, win7x32).getClass());
+        assertThat(factory.create(A.class, win7x32).getClass()).isEqualTo(Win7.class);
     }
 
 

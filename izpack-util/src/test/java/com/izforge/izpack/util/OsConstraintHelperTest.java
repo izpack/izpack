@@ -18,18 +18,18 @@
  */
 package com.izforge.izpack.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.Collections;
-import java.util.List;
-
-import org.junit.Test;
+import static com.izforge.izpack.util.OsConstraintHelper.commonOsList;
+import static com.izforge.izpack.util.OsConstraintHelper.getOsList;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.binding.OsModel;
-import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link OsConstraintHelper}.
@@ -68,8 +68,8 @@ public class OsConstraintHelperTest
         // NOTE: probably wouldn't mix old and new config approaches in reality, but the code supports it...
         root.setAttribute("os", "unix");
 
-        List<OsModel> models = OsConstraintHelper.getOsList(root);
-        assertEquals(3, models.size());
+        List<OsModel> models = getOsList(root);
+        assertThat(models).hasSize(3);
 
         checkModel(models.get(0), "arch1", "family1", "jre1", "name1", "version1");
         checkModel(models.get(1), "arch2", "family2", "jre2", "name2", "version2");
@@ -90,13 +90,13 @@ public class OsConstraintHelperTest
      */
     private void checkModel(OsModel model, String arch, String family, String jre, String name, String version)
     {
-        assertEquals(arch, model.getArch());
-        assertEquals(family, model.getFamily());
-        assertEquals(jre, model.getJre());
-        assertEquals(name, model.getName());
-        assertEquals(version, model.getVersion());
+        assertThat(model.getArch()).isEqualTo(arch);
+        assertThat(model.getFamily()).isEqualTo(family);
+        assertThat(model.getJre()).isEqualTo(jre);
+        assertThat(model.getName()).isEqualTo(name);
+        assertThat(model.getVersion()).isEqualTo(version);
     }
-    
+
     /**
      * Tests the {@link OsConstraintHelper#getOsList} method.
      */
@@ -112,59 +112,59 @@ public class OsConstraintHelperTest
         OsModel x64win = new OsModel("x64", "windows", null, null, null);
         OsModel x86unix = new OsModel("x86", "unix", null, null, null);
         OsModel x86win = new OsModel("x86", "windows", null, null, null);
-        
-        List<OsModel> anyList = Collections.emptyList();
-        List<OsModel> x64List = Collections.singletonList(x64);
-        List<OsModel> macList = Collections.singletonList(mac);
-        List<OsModel> winList = Collections.singletonList(win);
-        List<OsModel> unixX64winList = Arrays.asList(unix, x64win); // unix or (x64 and win)
-        List<OsModel> macX86unixWinList = Arrays.asList(mac, x86unix, win); // mac or (x86 and unix) or win
-        
+
+        List<OsModel> anyList = emptyList();
+        List<OsModel> x64List = singletonList(x64);
+        List<OsModel> macList = singletonList(mac);
+        List<OsModel> winList = singletonList(win);
+        List<OsModel> unixX64winList = asList(unix, x64win); // unix or (x64 and win)
+        List<OsModel> macX86unixWinList = asList(mac, x86unix, win); // mac or (x86 and unix) or win
+
         // [] and []
         checkCommonOsList(anyList, anyList, true, x86win, x64mac, x64unix);
-        
+
         // [] and [win]
         checkCommonOsList(anyList, winList, true, x86win, x64win);
         checkCommonOsList(anyList, winList, false, x64mac, x64unix);
-        
+
         // [win] and []
         checkCommonOsList(winList, anyList, true, x86win, x64win);
         checkCommonOsList(winList, anyList, false, x64mac, x64unix);
-        
+
         // [win] and [win]
         checkCommonOsList(winList, winList, true, x86win, x64win);
         checkCommonOsList(winList, winList, false, x64mac, x64unix);
-        
+
         // [win] and [x64]
         checkCommonOsList(winList, x64List, true, x64win);
         checkCommonOsList(winList, x64List, false, x86win, x64mac, x86unix, x64unix);
-        
+
         // [unix or (x64 and win)] and [x64]
         checkCommonOsList(unixX64winList, x64List, true, x64win, x64unix);
         checkCommonOsList(unixX64winList, x64List, false, x86win, x86unix, x64mac);
-        
+
         // [unix or (x64 and win)] and [mac] is unsatisfiable
         try
         {
-            OsConstraintHelper.commonOsList(unixX64winList, macList);
+            commonOsList(unixX64winList, macList);
             fail();
         }
         catch (OsConstraintHelper.UnsatisfiableOsConstraintsException ex) {
             // expected
         }
-        
+
         // [unix or (x64 and win)] and [mac or (x86 and unix) or win]
         checkCommonOsList(unixX64winList, macX86unixWinList, true, x86unix, x64win);
         checkCommonOsList(unixX64winList, macX86unixWinList, false, x86win, x64unix, x64mac);
     }
-    
+
     /**
      * Computes and verifies list of common OS constraints of lists
      * {@code osList} and {@code otherOsList}.
      * <p>
      * <b>Note:</b> It is expected that the combination of {@code osList} and
      * {@code otherOsList} is satisfiable.
-     * 
+     *
      * @param osList list of OS constraints
      * @param otherOsList other list of OS constraints
      * @param result expected verification result
@@ -176,33 +176,33 @@ public class OsConstraintHelperTest
         List<OsModel> commonOsList;
         try
         {
-            commonOsList = OsConstraintHelper.commonOsList(osList, otherOsList);
+            commonOsList = commonOsList(osList, otherOsList);
         }
         catch (OsConstraintHelper.UnsatisfiableOsConstraintsException ex)
         {
             fail(ex.getMessage());
             return;
         }
-        
+
         if (commonOsList.isEmpty())
         {
             // all matches match []
-            assertTrue(result);
+            assertThat(result).isTrue();
             return;
         }
-        
+
         for (OsModel match : matches)
         {
-            assertTrue(match(commonOsList, match) == result);
+            assertThat(match(commonOsList, match) == result).isTrue();
         }
     }
-    
+
     private boolean match(List<OsModel> osList, OsModel os)
     {
         for (OsModel constraints : osList)
         {
             boolean match = true;
-            
+
             if (constraints.getArch() != null && os.getArch() != null)
             {
                 match = constraints.getArch().equals(os.getArch());
@@ -223,14 +223,14 @@ public class OsConstraintHelperTest
             {
                 match = constraints.getVersion().equals(os.getVersion());
             }
-            
+
             if (match)
             {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
 }

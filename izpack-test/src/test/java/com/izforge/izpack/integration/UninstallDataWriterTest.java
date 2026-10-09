@@ -21,41 +21,35 @@
 
 package com.izforge.izpack.integration;
 
+import static com.izforge.izpack.matcher.ZipMatcher.getFileNameListFromZip;
+import static com.izforge.izpack.util.IoHelper.translatePath;
+import static java.lang.System.getProperties;
+import static java.lang.System.setProperty;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.ExecutableFile;
-import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
-import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
-import com.izforge.izpack.util.IoHelper;
-import org.hamcrest.core.IsNot;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipFile;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link UninstallDataWriter}.
@@ -63,15 +57,14 @@ import static org.junit.Assert.assertTrue;
  * @author Anthonin Bonnefoy
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class UninstallDataWriterTest
 {
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * The uninstall jar writer.
@@ -94,8 +87,8 @@ public class UninstallDataWriterTest
      * @param uninstallDataWriter the uninstall jar writer
      * @param installData         the install data
      * @param rulesEngine         the rules engine
-     * 
-     * @throws IOException  for any I/O error 
+     *
+     * @throws IOException  for any I/O error
      */
     public UninstallDataWriterTest(UninstallDataWriter uninstallDataWriter, AutomatedInstallData installData,
                                    RulesEngine rulesEngine, UninstallData uninstallData) throws IOException
@@ -113,21 +106,21 @@ public class UninstallDataWriterTest
     /**
      * Sets up the test case.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         installData.setInstallPath(installPath.getAbsolutePath());
     }
 
     /**
      * Cleans up after the test.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
-        System.getProperties().remove("izpack.mode");
+        getProperties().remove("izpack.mode");
     }
 
     /**
@@ -139,28 +132,23 @@ public class UninstallDataWriterTest
     @InstallFile("samples/basicInstall/basicInstall.xml")
     public void testWriteUninstaller() throws IOException
     {
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
 
         ZipFile uninstallJar = getUninstallerJar();
 
-        assertThat(
-                uninstallJar,
-                ZipMatcher.isZipContainingFiles(
-                        "com/izforge/izpack/uninstaller/Uninstaller.class",
-                        "com/izforge/izpack/uninstaller/Destroyer.class",
-                        "executables",
-                        "langpack.xml",
-                        "META-INF/MANIFEST.MF",
-                        "com/izforge/izpack/gui/IconsDatabase.class",
-                        "com/izforge/izpack/img/trash.png",
-                        "serializableData",
-                        "serializableByteArrayOutputStream"));
+        assertThat(getFileNameListFromZip(uninstallJar)).contains("com/izforge/izpack/uninstaller/Uninstaller.class",
+                "com/izforge/izpack/uninstaller/Destroyer.class",
+                "executables",
+                "langpack.xml",
+                "META-INF/MANIFEST.MF",
+                "com/izforge/izpack/gui/IconsDatabase.class",
+                "com/izforge/izpack/img/trash.png",
+                "serializableData",
+                "serializableByteArrayOutputStream");
 
         // basicInstall.xml doesn't reference any listeners, so the com/izforge/izpack/event package shouldn't have
         // been written. Verify that one of the listeners in the package doesn't appear
-        assertThat(uninstallJar,
-                   IsNot.not(ZipMatcher.isZipContainingFiles(
-                           "com/izforge/izpack/event/RegistryUninstallerListener.class")));
+        assertThat(getFileNameListFromZip(uninstallJar)).doesNotContain("com/izforge/izpack/event/RegistryUninstallerListener.class");
     }
 
     /**
@@ -172,12 +160,11 @@ public class UninstallDataWriterTest
     @InstallFile("samples/event/event.xml")
     public void testWriteStandardListener() throws IOException
     {
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
 
         ZipFile uninstallJar = getUninstallerJar();
 
-        assertThat(uninstallJar,
-                   ZipMatcher.isZipContainingFile("com/izforge/izpack/event/RegistryUninstallerListener.class"));
+        assertThat(getFileNameListFromZip(uninstallJar)).contains("com/izforge/izpack/event/RegistryUninstallerListener.class");
     }
 
     /**
@@ -187,13 +174,12 @@ public class UninstallDataWriterTest
     @InstallFile("samples/event/customlisteners.xml")
     public void testWriteCustomListener() throws IOException
     {
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
 
         ZipFile uninstallJar = getUninstallerJar();
 
-        assertThat(uninstallJar,
-                   ZipMatcher.isZipContainingFiles("com/izforge/izpack/test/listener/TestUninstallerListener.class",
-                                                   "com/izforge/izpack/api/event/UninstallerListener.class"));
+        assertThat(getFileNameListFromZip(uninstallJar)).contains("com/izforge/izpack/test/listener/TestUninstallerListener.class",
+                "com/izforge/izpack/api/event/UninstallerListener.class");
     }
 
     /**
@@ -203,20 +189,18 @@ public class UninstallDataWriterTest
     @InstallFile("samples/natives/natives.xml")
     public void testWriteNatives() throws IOException
     {
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
 
         ZipFile uninstallJar = getUninstallerJar();
 
-        assertThat(uninstallJar,
-                   ZipMatcher.isZipContainingFiles("com/izforge/izpack/bin/native/WinSetupAPI.dll",
-                                                   "com/izforge/izpack/bin/native/WinSetupAPI_x64.dll",
-                                                   "com/izforge/izpack/bin/native/COIOSHelper.dll",
-                                                   "com/izforge/izpack/bin/native/COIOSHelper_x64.dll"));
+        assertThat(getFileNameListFromZip(uninstallJar)).contains("com/izforge/izpack/bin/native/WinSetupAPI.dll",
+                "com/izforge/izpack/bin/native/WinSetupAPI_x64.dll",
+                "com/izforge/izpack/bin/native/COIOSHelper.dll",
+                "com/izforge/izpack/bin/native/COIOSHelper_x64.dll");
 
         // verify that the native libs with stage="install" aren't in the uninstaller
-        assertThat(uninstallJar,
-                   IsNot.not(ZipMatcher.isZipContainingFiles("com/izforge/izpack/bin/native/ShellLink.dll",
-                                                             "com/izforge/izpack/bin/native/ShellLink.dll")));
+        assertThat(getFileNameListFromZip(uninstallJar)).doesNotContain("com/izforge/izpack/bin/native/ShellLink.dll",
+                "com/izforge/izpack/bin/native/ShellLink.dll");
     }
 
     /**
@@ -231,15 +215,14 @@ public class UninstallDataWriterTest
     {
         addOSCondition("izpack.windowsinstall");
         installData.getInfo().setRequirePrivilegedExecutionUninstaller(true);
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
 
         ZipFile uninstallJar = getUninstallerJar();
 
-        assertThat(uninstallJar,
-                   ZipMatcher.isZipContainingFiles("com/izforge/izpack/core/os/RegistryHandler.class",
-                                                   "com/coi/tools/os/izpack/Registry.class",
-                                                   "com/coi/tools/os/win/RegistryImpl.class",
-                                                   "com/izforge/izpack/util/windows/elevate.js"));
+        assertThat(getFileNameListFromZip(uninstallJar)).contains("com/izforge/izpack/core/os/RegistryHandler.class",
+                "com/coi/tools/os/izpack/Registry.class",
+                "com/coi/tools/os/win/RegistryImpl.class",
+                "com/izforge/izpack/util/windows/elevate.js");
     }
 
     /**
@@ -251,16 +234,15 @@ public class UninstallDataWriterTest
     @InstallFile("samples/basicInstall/basicInstall.xml")
     public void testRunWithPrivilegesOnOSX() throws IOException
     {
-        System.setProperty("izpack.mode", "privileged");
+        setProperty("izpack.mode", "privileged");
         installData.getInfo().setRequirePrivilegedExecutionUninstaller(true);
         addOSCondition("izpack.macinstall");
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
 
         ZipFile uninstallJar = getUninstallerJar();
 
-        assertThat(uninstallJar,
-                   ZipMatcher.isZipContainingFiles("exec-admin",
-                                                   "com/izforge/izpack/util/mac/run-with-privileges-on-osx"));
+        assertThat(getFileNameListFromZip(uninstallJar)).contains("exec-admin",
+                "com/izforge/izpack/util/mac/run-with-privileges-on-osx");
     }
 
     /**
@@ -274,10 +256,10 @@ public class UninstallDataWriterTest
     public void testExecAdminWrittenWhenPrivilegedExecutionRequired() throws IOException
     {
         installData.getInfo().setRequirePrivilegedExecutionUninstaller(true);
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
         ZipFile uninstallJar = getUninstallerJar();
 
-        assertThat(uninstallJar, ZipMatcher.isZipContainingFiles("exec-admin"));
+        assertThat(getFileNameListFromZip(uninstallJar)).contains("exec-admin");
     }
 
     /**
@@ -291,10 +273,10 @@ public class UninstallDataWriterTest
     public void testExecAdminNotWrittenWhenPrivilegedExecutionNotRequired() throws IOException
     {
         installData.getInfo().setRequirePrivilegedExecutionUninstaller(false);
-        assertTrue(uninstallDataWriter.write());
+        assertThat(uninstallDataWriter.write()).isTrue();
         ZipFile uninstallJar = getUninstallerJar();
 
-        assertThat(uninstallJar, IsNot.not(ZipMatcher.isZipContainingFiles("exec-admin")));
+        assertThat(getFileNameListFromZip(uninstallJar)).doesNotContain("exec-admin");
     }
 
     /**
@@ -309,12 +291,12 @@ public class UninstallDataWriterTest
     {
         installData.getInfo().setRequirePrivilegedExecutionUninstaller(true);
         installData.getInfo().setPrivilegedExecutionConditionID("falsecondition");
-        assertFalse(rulesEngine.isConditionTrue("falsecondition"));
-        assertTrue(uninstallDataWriter.write());
+        assertThat(rulesEngine.isConditionTrue("falsecondition")).isFalse();
+        assertThat(uninstallDataWriter.write()).isTrue();
 
         ZipFile uninstallJar = getUninstallerJar();
 
-        assertThat(uninstallJar, IsNot.not(ZipMatcher.isZipContainingFiles("exec-admin")));
+        assertThat(getFileNameListFromZip(uninstallJar)).doesNotContain("exec-admin");
     }
 
     private void addOSCondition(final String ruleId)
@@ -359,10 +341,10 @@ public class UninstallDataWriterTest
      */
     private ZipFile getUninstallerJar() throws IOException
     {
-        String dir = IoHelper.translatePath(installData.getInfo().getUninstallerPath(), installData.getVariables());
+        String dir = translatePath(installData.getInfo().getUninstallerPath(), installData.getVariables());
         String path = dir + File.separator + installData.getInfo().getUninstallerName();
         File jar = new File(path);
-        assertThat(jar.exists(), is(true));
+        assertThat(jar).exists();
         return new ZipFile(jar);
     }
 }

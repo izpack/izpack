@@ -19,31 +19,19 @@
 
 package com.izforge.izpack.installer.util;
 
+import static com.izforge.izpack.installer.util.PanelHelper.getPanelResourceName;
+import static com.izforge.izpack.installer.util.PanelHelper.getPanelTitleMessageKey;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.data.Variables;
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.api.substitutor.SubstitutionType;
-import com.izforge.izpack.core.data.DefaultVariables;
-import com.izforge.izpack.core.substitutor.VariableSubstitutorInputStream;
-import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of PanelHelper
@@ -57,14 +45,14 @@ public class PanelHelperTest
     private InstallData installData;
     private Map<String, String> map;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
-        resources = Mockito.mock(Resources.class);
-        panel = Mockito.mock(Panel.class);
-        installData = Mockito.mock(InstallData.class);
-        Messages messages = Mockito.mock(Messages.class);
-        map = Mockito.mock(Map.class);
+        resources = mock(Resources.class);
+        panel = mock(Panel.class);
+        installData = mock(InstallData.class);
+        Messages messages = mock(Messages.class);
+        map = mock(Map.class);
         when(installData.getMessages()).thenReturn(messages);
         when(messages.getMessages()).thenReturn(map);
     }
@@ -76,9 +64,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn("somePanelId");
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel");
 
-        String result = PanelHelper.getPanelResourceName(panel, "info", resources);
+        String result = getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.info");
     }
 
     @Test
@@ -88,9 +76,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn(null);
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel");
 
-        String result = PanelHelper.getPanelResourceName(panel, "info", resources);
+        String result = getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.info");
     }
 
     @Test
@@ -100,9 +88,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn("somePanelId");
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
 
-        String result = PanelHelper.getPanelResourceName(panel, "info", resources);
+        String result = getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.info");
     }
 
     @Test
@@ -112,9 +100,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn(null);
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
 
-        String result = PanelHelper.getPanelResourceName(panel, "info", resources);
+        String result = getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.info");
     }
 
     @Test
@@ -124,9 +112,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn("somePanelId");
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel");
 
-        String result = PanelHelper.getPanelResourceName(panel, "info", resources);
+        String result = getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.somePanelId");
     }
 
     @Test
@@ -136,9 +124,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn("somePanelId");
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
 
-        String result = PanelHelper.getPanelResourceName(panel, "info", resources);
+        String result = getPanelResourceName(panel, "info", resources);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.somePanelId");
     }
 
     @Test
@@ -148,9 +136,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn("somePanelId");
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel");
 
-        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+        String result = getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.info");
     }
 
     @Test
@@ -160,9 +148,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn(null);
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel");
 
-        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+        String result = getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.info");
     }
 
     @Test
@@ -172,9 +160,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn("somePanelId");
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
 
-        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+        String result = getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.info");
     }
 
     @Test
@@ -184,9 +172,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn(null);
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
 
-        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+        String result = getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.info"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.info");
     }
 
     @Test
@@ -196,9 +184,9 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn("somePanelId");
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoPanel");
 
-        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+        String result = getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.somePanelId");
     }
 
     @Test
@@ -208,8 +196,8 @@ public class PanelHelperTest
         when(panel.getPanelId()).thenReturn("somePanelId");
         when(panel.getClassName()).thenReturn("com.izforge.izpack.panels.htmlinfo.HTMLInfoConsolePanel");
 
-        String result = PanelHelper.getPanelTitleMessageKey(panel, "info", installData);
+        String result = getPanelTitleMessageKey(panel, "info", installData);
 
-        Assert.assertThat(result, equalTo("HTMLInfoPanel.somePanelId"));
+        assertThat(result).isEqualTo("HTMLInfoPanel.somePanelId");
     }
 }

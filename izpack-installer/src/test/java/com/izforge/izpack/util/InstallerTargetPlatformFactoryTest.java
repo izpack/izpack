@@ -20,6 +20,8 @@
  */
 package com.izforge.izpack.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.core.container.AbstractContainer;
 import com.izforge.izpack.core.container.PlatformProvider;
@@ -33,15 +35,11 @@ import com.izforge.izpack.util.os.Shortcut;
 import com.izforge.izpack.util.os.Unix_Shortcut;
 import com.izforge.izpack.util.os.Win_RegistryHandler;
 import com.izforge.izpack.util.os.Win_Shortcut;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.Properties;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.injectors.ProviderAdapter;
-
-import java.util.Properties;
-
-import static org.junit.Assert.assertEquals;
-
 
 /**
  * Verifies that the {@link TargetPlatformFactory} creates the correct {@link Shortcut} and {@link RegistryHandler}.
@@ -61,7 +59,7 @@ public class InstallerTargetPlatformFactoryTest
      *
      * @throws Exception for any error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         Container container = new AbstractContainer()
@@ -156,7 +154,7 @@ public class InstallerTargetPlatformFactoryTest
     private <T> void checkCreate(Class<T> clazz, Platform platform, Class<? extends T> impl) throws Exception
     {
         T object = factory.create(clazz, platform);
-        assertEquals(impl, object.getClass());
+        assertThat(object.getClass()).isEqualTo(impl);
     }
 
 }

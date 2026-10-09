@@ -21,17 +21,8 @@
  */
 package com.izforge.izpack.util.os;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.util.Properties;
-
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.ProviderAdapter;
+import static java.lang.System.getProperty;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
@@ -40,6 +31,7 @@ import com.izforge.izpack.core.container.PlatformProvider;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.factory.DefaultObjectFactory;
 import com.izforge.izpack.core.resource.ResourceManager;
+import com.izforge.izpack.installer.data.InstallData;
 import com.izforge.izpack.test.util.TestLibrarian;
 import com.izforge.izpack.util.DefaultTargetPlatformFactory;
 import com.izforge.izpack.util.Housekeeper;
@@ -47,7 +39,13 @@ import com.izforge.izpack.util.Platform;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.TargetFactory;
 import com.izforge.izpack.util.TargetPlatformFactory;
-
+import java.io.IOException;
+import java.util.Properties;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.injectors.ProviderAdapter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -73,7 +71,7 @@ public class Unix_ShortcutTest
      *
      * @throws Exception for any error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         container = new AbstractContainer()
@@ -88,7 +86,7 @@ public class Unix_ShortcutTest
                 addComponent(Properties.class);
                 addComponent(DefaultVariables.class);
                 addComponent(ResourceManager.class);
-                addComponent(com.izforge.izpack.installer.data.InstallData.class);
+                addComponent(InstallData.class);
                 addComponent(TestLibrarian.class);
                 addComponent(Housekeeper.class);
                 addComponent(TargetFactory.class);
@@ -104,7 +102,7 @@ public class Unix_ShortcutTest
 
 
     @Test
-    @Ignore
+    @Disabled
     public void main() throws IOException, ResourceNotFoundException
     {
 //        Unix_Shortcut aSample = new Unix_Shortcut(idata);
@@ -125,7 +123,7 @@ public class Unix_ShortcutTest
         //
         //
         //
-        // File targetFileName = new File(System.getProperty("user.home") + File.separator
+        // File targetFileName = new File(getProperty("user.home") + File.separator
         // + "Start Tomcat" + DESKTOP_EXT);
         // FileWriter fileWriter = null;
         //
@@ -156,7 +154,7 @@ public class Unix_ShortcutTest
         // e2.printStackTrace();
         // }
 
-//        aSample.createExtXdgDesktopIconCmd(new File(System.getProperty("user.home")));
+//        aSample.createExtXdgDesktopIconCmd(new File(getProperty("user.home")));
 //        System.out.println("DONE.\n");
     }
 
@@ -238,35 +236,35 @@ public class Unix_ShortcutTest
       shortcut.setWorkingDirectory(workingDirectory);
 
       final String result = shortcut.build();
-      final String userLanguage = System.getProperty("user.language", "en");
+      final String userLanguage = getProperty("user.language", "en");
 
-      assertTrue(result.startsWith("[Desktop Entry]"));
+      assertThat(result).startsWith("[Desktop Entry]");
 
-      assertEquals(categories, getValue(result, "Categories"));
-      assertEquals(description, getValue(result, "Comment"));
-      assertEquals(description, getValue(result, "Comment[" + userLanguage + "]"));
-      assertEquals(encoding, getValue(result, "Encoding"));
+      assertThat(getValue(result, "Categories")).isEqualTo(categories);
+      assertThat(getValue(result, "Comment")).isEqualTo(description);
+      assertThat(getValue(result, "Comment[" + userLanguage + "]")).isEqualTo(description);
+      assertThat(getValue(result, "Encoding")).isEqualTo(encoding);
       // TryExec is not used -- "causes too many problems"
-      assertEquals(NOT_FOUND, getValue(result, "TryExec"));
+      assertThat(getValue(result, "TryExec")).isEqualTo(NOT_FOUND);
 
-      assertEquals(NOT_FOUND, getValue(result, "Exec"));
+      assertThat(getValue(result, "Exec")).isEqualTo(NOT_FOUND);
 
-      assertEquals("", getValue(result, "GenericName"));
-      assertEquals("", getValue(result, "GenericName[" + userLanguage + "]"));
-      assertEquals(iconLocation, getValue(result, "Icon"));
-      assertEquals(mimeType, getValue(result, "MimeType"));
-      assertEquals(linkName, getValue(result, "Name"));
-      assertEquals(linkName, getValue(result, "Name[" + userLanguage + "]"));
-      assertEquals(workingDirectory, getValue(result, "Path"));
-      assertEquals("", getValue(result, "ServiceTypes"));
-      assertEquals("", getValue(result, "SwallowExec"));
-      assertEquals("", getValue(result, "SwallowTitle"));
-      assertEquals(terminal, getValue(result, "Terminal"));
-      assertEquals(terminalOptions, getValue(result, "TerminalOptions"));
-      assertEquals(type, getValue(result, "Type"));
-      assertEquals(url, getValue(result, "URL"));
-      assertEquals(kdeSubstUID, getValue(result, "X-KDE-SubstituteUID"));
-      assertEquals(kdeUserName, getValue(result, "X-KDE-Username"));
+      assertThat(getValue(result, "GenericName")).isEmpty();
+      assertThat(getValue(result, "GenericName[" + userLanguage + "]")).isEmpty();
+      assertThat(getValue(result, "Icon")).isEqualTo(iconLocation);
+      assertThat(getValue(result, "MimeType")).isEqualTo(mimeType);
+      assertThat(getValue(result, "Name")).isEqualTo(linkName);
+      assertThat(getValue(result, "Name[" + userLanguage + "]")).isEqualTo(linkName);
+      assertThat(getValue(result, "Path")).isEqualTo(workingDirectory);
+      assertThat(getValue(result, "ServiceTypes")).isEmpty();
+      assertThat(getValue(result, "SwallowExec")).isEmpty();
+      assertThat(getValue(result, "SwallowTitle")).isEmpty();
+      assertThat(getValue(result, "Terminal")).isEqualTo(terminal);
+      assertThat(getValue(result, "TerminalOptions")).isEqualTo(terminalOptions);
+      assertThat(getValue(result, "Type")).isEqualTo(type);
+      assertThat(getValue(result, "URL")).isEqualTo(url);
+      assertThat(getValue(result, "X-KDE-SubstituteUID")).isEqualTo(kdeSubstUID);
+      assertThat(getValue(result, "X-KDE-Username")).isEqualTo(kdeUserName);
     }
 
 
@@ -329,37 +327,37 @@ public class Unix_ShortcutTest
       shortcut.setWorkingDirectory(workingDirectory);
 
       final String result = shortcut.build();
-      final String userLanguage = System.getProperty("user.language", "en");
+      final String userLanguage = getProperty("user.language", "en");
 
-      assertTrue(result.startsWith("[Desktop Entry]"));
+      assertThat(result).startsWith("[Desktop Entry]");
 
-      assertEquals(categories, getValue(result, "Categories"));
-      assertEquals(description, getValue(result, "Comment"));
-      assertEquals(description, getValue(result, "Comment[" + userLanguage + "]"));
-      assertEquals(encoding, getValue(result, "Encoding"));
+      assertThat(getValue(result, "Categories")).isEqualTo(categories);
+      assertThat(getValue(result, "Comment")).isEqualTo(description);
+      assertThat(getValue(result, "Comment[" + userLanguage + "]")).isEqualTo(description);
+      assertThat(getValue(result, "Encoding")).isEqualTo(encoding);
       // TryExec is not used -- "causes too many problems"
-      assertEquals(NOT_FOUND, getValue(result, "TryExec"));
+      assertThat(getValue(result, "TryExec")).isEqualTo(NOT_FOUND);
 
       // since targetPath contains no spaces, it will not be quoted
       String exec = targetPath + " " + arguments;
-      assertEquals(exec, getValue(result, "Exec"));
+      assertThat(getValue(result, "Exec")).isEqualTo(exec);
 
-      assertEquals("", getValue(result, "GenericName"));
-      assertEquals("", getValue(result, "GenericName[" + userLanguage + "]"));
-      assertEquals(iconLocation, getValue(result, "Icon"));
-      assertEquals(mimeType, getValue(result, "MimeType"));
-      assertEquals(linkName, getValue(result, "Name"));
-      assertEquals(linkName, getValue(result, "Name[" + userLanguage + "]"));
-      assertEquals(workingDirectory, getValue(result, "Path"));
-      assertEquals("", getValue(result, "ServiceTypes"));
-      assertEquals("", getValue(result, "SwallowExec"));
-      assertEquals("", getValue(result, "SwallowTitle"));
-      assertEquals(terminal, getValue(result, "Terminal"));
-      assertEquals(terminalOptions, getValue(result, "TerminalOptions"));
-      assertEquals(type, getValue(result, "Type"));
-      assertEquals(NOT_FOUND, getValue(result, "URL"));
-      assertEquals(kdeSubstUID, getValue(result, "X-KDE-SubstituteUID"));
-      assertEquals(kdeUserName, getValue(result, "X-KDE-Username"));
+      assertThat(getValue(result, "GenericName")).isEmpty();
+      assertThat(getValue(result, "GenericName[" + userLanguage + "]")).isEmpty();
+      assertThat(getValue(result, "Icon")).isEqualTo(iconLocation);
+      assertThat(getValue(result, "MimeType")).isEqualTo(mimeType);
+      assertThat(getValue(result, "Name")).isEqualTo(linkName);
+      assertThat(getValue(result, "Name[" + userLanguage + "]")).isEqualTo(linkName);
+      assertThat(getValue(result, "Path")).isEqualTo(workingDirectory);
+      assertThat(getValue(result, "ServiceTypes")).isEmpty();
+      assertThat(getValue(result, "SwallowExec")).isEmpty();
+      assertThat(getValue(result, "SwallowTitle")).isEmpty();
+      assertThat(getValue(result, "Terminal")).isEqualTo(terminal);
+      assertThat(getValue(result, "TerminalOptions")).isEqualTo(terminalOptions);
+      assertThat(getValue(result, "Type")).isEqualTo(type);
+      assertThat(getValue(result, "URL")).isEqualTo(NOT_FOUND);
+      assertThat(getValue(result, "X-KDE-SubstituteUID")).isEqualTo(kdeSubstUID);
+      assertThat(getValue(result, "X-KDE-Username")).isEqualTo(kdeUserName);
     }
 
 
@@ -423,36 +421,36 @@ public class Unix_ShortcutTest
       shortcut.setWorkingDirectory(workingDirectory);
 
       final String result = shortcut.build();
-      final String userLanguage = System.getProperty("user.language", "en");
+      final String userLanguage = getProperty("user.language", "en");
 
-      assertTrue(result.startsWith("[Desktop Entry]"));
+      assertThat(result).startsWith("[Desktop Entry]");
 
-      assertEquals(categories, getValue(result, "Categories"));
-      assertEquals(description, getValue(result, "Comment"));
-      assertEquals(description, getValue(result, "Comment[" + userLanguage + "]"));
-      assertEquals(encoding, getValue(result, "Encoding"));
+      assertThat(getValue(result, "Categories")).isEqualTo(categories);
+      assertThat(getValue(result, "Comment")).isEqualTo(description);
+      assertThat(getValue(result, "Comment[" + userLanguage + "]")).isEqualTo(description);
+      assertThat(getValue(result, "Encoding")).isEqualTo(encoding);
       // TryExec is not used -- "causes too many problems"
-      assertEquals(NOT_FOUND, getValue(result, "TryExec"));
+      assertThat(getValue(result, "TryExec")).isEqualTo(NOT_FOUND);
 
       String exec = targetPath + " " + arguments;
       // since targetPath contains no spaces, it will not be quoted
-      assertEquals(exec, getValue(result, "Exec"));
+      assertThat(getValue(result, "Exec")).isEqualTo(exec);
 
-      assertEquals("", getValue(result, "GenericName"));
-      assertEquals("", getValue(result, "GenericName[" + userLanguage + "]"));
-      assertEquals(iconLocation, getValue(result, "Icon"));
-      assertEquals(mimeType, getValue(result, "MimeType"));
-      assertEquals(linkName, getValue(result, "Name"));
-      assertEquals(linkName, getValue(result, "Name[" + userLanguage + "]"));
-      assertEquals(workingDirectory, getValue(result, "Path"));
-      assertEquals("", getValue(result, "ServiceTypes"));
-      assertEquals("", getValue(result, "SwallowExec"));
-      assertEquals("", getValue(result, "SwallowTitle"));
-      assertEquals(terminal, getValue(result, "Terminal"));
-      assertEquals(terminalOptions, getValue(result, "TerminalOptions"));
-      assertEquals(type, getValue(result, "Type"));
-      assertEquals(NOT_FOUND, getValue(result, "URL"));
-      assertEquals(kdeSubstUID, getValue(result, "X-KDE-SubstituteUID"));
-      assertEquals(kdeUserName, getValue(result, "X-KDE-Username"));
+      assertThat(getValue(result, "GenericName")).isEmpty();
+      assertThat(getValue(result, "GenericName[" + userLanguage + "]")).isEmpty();
+      assertThat(getValue(result, "Icon")).isEqualTo(iconLocation);
+      assertThat(getValue(result, "MimeType")).isEqualTo(mimeType);
+      assertThat(getValue(result, "Name")).isEqualTo(linkName);
+      assertThat(getValue(result, "Name[" + userLanguage + "]")).isEqualTo(linkName);
+      assertThat(getValue(result, "Path")).isEqualTo(workingDirectory);
+      assertThat(getValue(result, "ServiceTypes")).isEmpty();
+      assertThat(getValue(result, "SwallowExec")).isEmpty();
+      assertThat(getValue(result, "SwallowTitle")).isEmpty();
+      assertThat(getValue(result, "Terminal")).isEqualTo(terminal);
+      assertThat(getValue(result, "TerminalOptions")).isEqualTo(terminalOptions);
+      assertThat(getValue(result, "Type")).isEqualTo(type);
+      assertThat(getValue(result, "URL")).isEqualTo(NOT_FOUND);
+      assertThat(getValue(result, "X-KDE-SubstituteUID")).isEqualTo(kdeSubstUID);
+      assertThat(getValue(result, "X-KDE-Username")).isEqualTo(kdeUserName);
     }
 }

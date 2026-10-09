@@ -19,25 +19,26 @@
 
 package com.izforge.izpack.compiler.container;
 
-import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
+import static com.izforge.izpack.util.FileUtil.convertUrlToFile;
+import static java.lang.Math.random;
+import static java.lang.System.getProperty;
+import static java.lang.Thread.currentThread;
+import static org.apache.commons.io.FileUtils.deleteQuietly;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.runners.model.FrameworkMethod;
-import org.picocontainer.MutablePicoContainer;
-
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.compiler.CompilerConfig;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.logging.MavenStyleLogFormatter;
 import com.izforge.izpack.test.InstallFile;
 import com.izforge.izpack.test.provider.JarFileProvider;
-import com.izforge.izpack.util.FileUtil;
+import java.io.File;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Container for compilation test.
@@ -88,7 +89,7 @@ public class TestCompilationContainer extends CompilerContainer
      * @param testClass the test class
      * @param method    the test method
      */
-    public TestCompilationContainer(Class<?> testClass, FrameworkMethod method)
+    public TestCompilationContainer(Class<?> testClass, Method method)
     {
         super(null);
         InstallFile installFile = method.getAnnotation(InstallFile.class);
@@ -120,7 +121,7 @@ public class TestCompilationContainer extends CompilerContainer
             CompilerConfig compilerConfig = getComponent(CompilerConfig.class);
             File out = getComponent(File.class);
             compilerConfig.executeCompiler();
-            Thread currentThread = Thread.currentThread();
+            Thread currentThread = currentThread();
             currentThread.setContextClassLoader(new URLClassLoader(new URL[] {out.toURI().toURL()}, currentThread.getContextClassLoader()));
         }
         catch (Exception e)
@@ -150,7 +151,7 @@ public class TestCompilationContainer extends CompilerContainer
         {
             throw new IllegalStateException("Cannot find install file: " + installFile);
         }
-        File file = FileUtil.convertUrlToFile(resource);
+        File file = convertUrlToFile(resource);
         baseDir = file.getParentFile();
 
         if (targetDir == null)
@@ -158,7 +159,7 @@ public class TestCompilationContainer extends CompilerContainer
             targetDir = baseDir;
         }
 
-        File out = new File(targetDir, "out" + Math.random() + ".jar");
+        File out = new File(targetDir, "out" + random() + ".jar");
         out.deleteOnExit();
         CompilerData data = new CompilerData(file.getAbsolutePath(), baseDir.getAbsolutePath(), out.getAbsolutePath(),
                                              false);
@@ -178,7 +179,7 @@ public class TestCompilationContainer extends CompilerContainer
      */
     private void deleteLock()
     {
-        File file = new File(System.getProperty("java.io.tmpdir"), "iz-" + APPNAME + ".tmp");
-        FileUtils.deleteQuietly(file);
+        File file = new File(getProperty("java.io.tmpdir"), "iz-" + APPNAME + ".tmp");
+        deleteQuietly(file);
     }
 }

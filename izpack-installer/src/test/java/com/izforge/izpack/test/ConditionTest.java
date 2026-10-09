@@ -18,15 +18,7 @@
 
 package com.izforge.izpack.test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.hamcrest.Matcher;
-import org.hamcrest.core.Is;
-import org.hamcrest.core.IsNull;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.w3c.dom.Document;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
@@ -38,21 +30,17 @@ import com.izforge.izpack.core.rules.logic.OrCondition;
 import com.izforge.izpack.core.rules.process.ExistsCondition;
 import com.izforge.izpack.core.rules.process.RefCondition;
 import com.izforge.izpack.core.rules.process.VariableCondition;
-import com.izforge.izpack.test.junit.PicoRunner;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
 
 /**
  * @author Dennis Reil, <Dennis.Reil@reddot.de>
  */
-@RunWith(PicoRunner.class)
 @Container(TestConditionContainer.class)
 public class ConditionTest
 {
 
-    private static final Matcher<? super Boolean> IS_TRUE = Is.is(true);
-    private static final Matcher<? super Boolean> IS_FALSE = Is.is(false);
-    private static final Matcher<Object> IS_NULL = IsNull.nullValue();
-    private static final Matcher<Object> IS_NOT_NULL = IsNull.notNullValue();
     private RulesEngine rules;
     private InstallData idata;
 
@@ -62,7 +50,7 @@ public class ConditionTest
         this.idata = idata;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         IXMLElement conditions = new XMLElementImpl("conditions");
@@ -89,63 +77,63 @@ public class ConditionTest
     @Test
     public void testNotCondition()
     {
-        assertThat(rules.getCondition("test.not"), IS_NULL);
-        assertThat(rules.getCondition("test.not.true"), IS_NOT_NULL);
-        assertThat(rules.isConditionTrue("test.not.true", idata), IS_TRUE);
+        assertThat(rules.getCondition("test.not")).isNull();
+        assertThat(rules.getCondition("test.not.true")).isNotNull();
+        assertThat(rules.isConditionTrue("test.not.true", idata)).isTrue();
 
-        assertThat(rules.getCondition("!test.not.true"), IS_NOT_NULL);
+        assertThat(rules.getCondition("!test.not.true")).isNotNull();
 
-        assertThat(rules.isConditionTrue("!test.not.true", idata), IS_FALSE);
+        assertThat(rules.isConditionTrue("!test.not.true", idata)).isFalse();
     }
 
     @Test
     public void testVariableCondition()
     {
-        assertThat(rules.getCondition("test.true"), IS_NOT_NULL);
-        assertThat(rules.getCondition("test.true2"), IS_NOT_NULL);
+        assertThat(rules.getCondition("test.true")).isNotNull();
+        assertThat(rules.getCondition("test.true2")).isNotNull();
 
-        assertThat(rules.isConditionTrue("test.true", idata), IS_FALSE);
-        assertThat(rules.isConditionTrue("test.true2", idata), IS_FALSE);
+        assertThat(rules.isConditionTrue("test.true", idata)).isFalse();
+        assertThat(rules.isConditionTrue("test.true2", idata)).isFalse();
 
         idata.setVariable("TEST", "true");
 
-        assertThat(rules.isConditionTrue("test.true", idata), IS_TRUE);
-        assertThat(rules.isConditionTrue("test.true2", idata), IS_TRUE);
+        assertThat(rules.isConditionTrue("test.true", idata)).isTrue();
+        assertThat(rules.isConditionTrue("test.true2", idata)).isTrue();
 
-        assertThat(rules.isConditionTrue("!test.true", idata), IS_FALSE);
-        assertThat(rules.isConditionTrue("!test.true2", idata), IS_FALSE);
+        assertThat(rules.isConditionTrue("!test.true", idata)).isFalse();
+        assertThat(rules.isConditionTrue("!test.true2", idata)).isFalse();
 
-        assertThat(rules.isConditionTrue("test.true+test.true2", idata), IS_TRUE);
-        assertThat(rules.isConditionTrue("test.true2+test.true", idata), IS_TRUE);
+        assertThat(rules.isConditionTrue("test.true+test.true2", idata)).isTrue();
+        assertThat(rules.isConditionTrue("test.true2+test.true", idata)).isTrue();
 
-        assertThat(rules.isConditionTrue("!test.true2+test.true", idata), IS_FALSE);
+        assertThat(rules.isConditionTrue("!test.true2+test.true", idata)).isFalse();
 
-        assertThat(rules.isConditionTrue("test.true2|test.true", idata), IS_TRUE);
+        assertThat(rules.isConditionTrue("test.true2|test.true", idata)).isTrue();
 
-        assertThat(rules.isConditionTrue("test.true2\\test.true", idata), IS_FALSE);
+        assertThat(rules.isConditionTrue("test.true2\\test.true", idata)).isFalse();
     }
 
     @Test
     public void testNestedReferenceConditions()
     {
-        assertThat(rules.isConditionTrue("newOrUpgrade", idata), IS_FALSE);
+        assertThat(rules.isConditionTrue("newOrUpgrade", idata)).isFalse();
 
         idata.setVariable("INSTALL_PATH", "/usr/local/my_app");
-        assertThat(rules.isConditionTrue("haveInstallPath", idata), IS_TRUE);
+        assertThat(rules.isConditionTrue("haveInstallPath", idata)).isTrue();
 
         idata.setVariable("previous.version", "UNKNOWN");
-        assertThat(rules.isConditionTrue("isNewVersion", idata), IS_TRUE);
-        assertThat(rules.isConditionTrue("isUpgradeVersion", idata), IS_FALSE);
-        assertThat(rules.isConditionTrue("isNew", idata), IS_TRUE);
-        assertThat(rules.isConditionTrue("isUpgrade", idata), IS_FALSE);
+        assertThat(rules.isConditionTrue("isNewVersion", idata)).isTrue();
+        assertThat(rules.isConditionTrue("isUpgradeVersion", idata)).isFalse();
+        assertThat(rules.isConditionTrue("isNew", idata)).isTrue();
+        assertThat(rules.isConditionTrue("isUpgrade", idata)).isFalse();
 
         idata.setVariable("previous.version", "1.0");
-        assertThat(rules.isConditionTrue("isNewVersion", idata), IS_FALSE);
-        assertThat(rules.isConditionTrue("isUpgradeVersion", idata), IS_TRUE);
-        assertThat(rules.isConditionTrue("isNew", idata), IS_FALSE);
-        assertThat(rules.isConditionTrue("isUpgrade", idata), IS_TRUE);
+        assertThat(rules.isConditionTrue("isNewVersion", idata)).isFalse();
+        assertThat(rules.isConditionTrue("isUpgradeVersion", idata)).isTrue();
+        assertThat(rules.isConditionTrue("isNew", idata)).isFalse();
+        assertThat(rules.isConditionTrue("isUpgrade", idata)).isTrue();
 
-        assertThat(rules.isConditionTrue("newOrUpgrade", idata), IS_TRUE);
+        assertThat(rules.isConditionTrue("newOrUpgrade", idata)).isTrue();
     }
 
     /**

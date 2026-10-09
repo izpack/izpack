@@ -19,36 +19,32 @@
 
 package com.izforge.izpack.compiler;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.jar.JarFile;
-
-import org.apache.maven.shared.jar.JarAnalyzer;
-import org.apache.maven.shared.jar.classes.JarClasses;
-import org.apache.maven.shared.jar.classes.JarClassesAnalysis;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.matcher.MergeMatcher.getEntryNames;
+import static com.izforge.izpack.matcher.ZipMatcher.getFileNameListFromZip;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.core.container.AbstractContainer;
-import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.merge.MergeManagerImpl;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.jar.JarFile;
+import org.apache.maven.shared.jar.JarAnalyzer;
+import org.apache.maven.shared.jar.classes.JarClasses;
+import org.apache.maven.shared.jar.classes.JarClassesAnalysis;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for an Izpack compilation
  */
-@RunWith(PicoRunner.class)
 @Container(TestCompilerContainer.class)
 @InstallFile("samples/helloAndFinish.xml")
 public class CompilerConfigTest
@@ -73,11 +69,10 @@ public class CompilerConfigTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat(jar, ZipMatcher.isZipContainingFiles(
-                "com/izforge/izpack/installer/bootstrap/Installer.class",
+        assertThat(getFileNameListFromZip(jar)).contains("com/izforge/izpack/installer/bootstrap/Installer.class",
                 "com/izforge/izpack/panels/hello/HelloPanel.class",
                 "resources/vars",
-                "com/izforge/izpack/img/JFrameIcon.png"));
+                "com/izforge/izpack/img/JFrameIcon.png");
     }
 
     @Test
@@ -86,24 +81,23 @@ public class CompilerConfigTest
         mergeManager.addResourceToMerge(pathResolver.getPanelMerge("HelloPanel"));
         mergeManager.addResourceToMerge(pathResolver.getPanelMerge("CheckedHelloPanel"));
 
-        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles(
-                "com/izforge/izpack/panels/hello/HelloConsolePanel.class",
+        assertThat(getEntryNames(mergeManager)).contains("com/izforge/izpack/panels/hello/HelloConsolePanel.class",
                 "com/izforge/izpack/panels/hello/HelloPanel.class",
                 "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class",
-                "com/izforge/izpack/panels/checkedhello/CheckedHelloConsolePanel.class"));
+                "com/izforge/izpack/panels/checkedhello/CheckedHelloConsolePanel.class");
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testImportAreResolved() throws Exception
     {
         JarAnalyzer jarAnalyzer = new JarAnalyzer(new File(jar.getName()));
         JarClassesAnalysis jarClassAnalyzer = new JarClassesAnalysis();
         JarClasses jarClasses = jarClassAnalyzer.analyze(jarAnalyzer);
         List<String> imports = jarClasses.getImports();
-        List<String> listFromZip = ZipMatcher.getFileNameListFromZip(jar);
+        List<String> listFromZip = getFileNameListFromZip(jar);
         ArrayList<String> result = new ArrayList<String>();
-        List<String> ignorePackage = Arrays.asList("java/", "org/w3c/", "org/xml/", "javax/", "text/html", "packs/pack",
+        List<String> ignorePackage = asList("java/", "org/w3c/", "org/xml/", "javax/", "text/html", "packs/pack",
                                                    "com/thoughtworks");
         for (String anImport : imports)
         {
@@ -126,7 +120,7 @@ public class CompilerConfigTest
                 {
                     stringBuilder.append(s).append('\n');
                 }
-                Assert.fail("Missing imports : " + stringBuilder);
+                fail("Missing imports : " + stringBuilder);
             }
         }
     }
@@ -139,9 +133,8 @@ public class CompilerConfigTest
     {
         mergeManager.addResourceToMerge(pathResolver.getPanelMerge("DefaultTargetPanel"));
 
-        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles(
-                "com/izforge/izpack/panels/defaulttarget/DefaultTargetPanel.class",
+        assertThat(getEntryNames(mergeManager)).contains("com/izforge/izpack/panels/defaulttarget/DefaultTargetPanel.class",
                 "com/izforge/izpack/panels/defaulttarget/DefaultTargetConsolePanel.class",
-                "com/izforge/izpack/panels/target/TargetPanelHelper.class"));
+                "com/izforge/izpack/panels/target/TargetPanelHelper.class");
     }
 }

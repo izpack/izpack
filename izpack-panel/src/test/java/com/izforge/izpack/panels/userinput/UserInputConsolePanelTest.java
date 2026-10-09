@@ -21,14 +21,9 @@
 
 package com.izforge.izpack.panels.userinput;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-
-import java.util.Arrays;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
@@ -41,16 +36,14 @@ import com.izforge.izpack.installer.console.ConsolePanels;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link UserInputConsolePanel}.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class UserInputConsolePanelTest
 {
@@ -116,9 +109,9 @@ public class UserInputConsolePanelTest
         console.addScript("rule1", "127.0.0.1");
         console.addScript("Continue", "1");
 
-        assertTrue(panels.next());
+        assertThat(panels.next()).isTrue();
 
-        assertEquals("127.0.0.1", installData.getVariable("rule1"));
+        assertThat(installData.getVariable("rule1")).isEqualTo("127.0.0.1");
     }
 
     /**
@@ -139,11 +132,11 @@ public class UserInputConsolePanelTest
         console.addScript("text3", "\n");
         console.addScript("Continue", "1");
 
-        assertTrue(panels.next());
+        assertThat(panels.next()).isTrue();
 
-        assertEquals("text1 value", installData.getVariable("text1"));
-        assertEquals("text2 value", installData.getVariable("text2"));
-        assertEquals("text3 default value", installData.getVariable("text3"));
+        assertThat(installData.getVariable("text1")).isEqualTo("text1 value");
+        assertThat(installData.getVariable("text2")).isEqualTo("text2 value");
+        assertThat(installData.getVariable("text3")).isEqualTo("text3 default value");
     }
 
     /**
@@ -167,12 +160,12 @@ public class UserInputConsolePanelTest
         console.addScript("Select address", "myhost");
         console.addScript("Continue", "1");
 
-        assertTrue(panels.next());
+        assertThat(panels.next()).isTrue();
 
-        assertEquals("myhost", installData.getVariable("address"));
-        assertEquals("myhost", installData.getVariable("dynamicMasterAddress"));
+        assertThat(installData.getVariable("address")).isEqualTo("myhost");
+        assertThat(installData.getVariable("dynamicMasterAddress")).isEqualTo("myhost");
 
-        assertTrue(panels.isValid());
+        assertThat(panels.isValid()).isTrue();
     }
 
     /**
@@ -191,9 +184,9 @@ public class UserInputConsolePanelTest
         console.addScript("re-enter", "127.0.0.1"); // valid host name
         console.addScript("continue", "1");
 
-        assertTrue(panels.next());
+        assertThat(panels.next()).isTrue();
 
-        assertEquals("127.0.0.1", installData.getVariable("rule1"));
+        assertThat(installData.getVariable("rule1")).isEqualTo("127.0.0.1");
     }
 
     /**
@@ -210,7 +203,7 @@ public class UserInputConsolePanelTest
         panel.setClassName(panelClass.getName());
         panel.setPanelId(id);
         ConsolePanelView panelView = new ConsolePanelView(panel, factory, installData, console);
-        ConsolePanels panels = new ConsolePanels(Arrays.asList(panelView), this.container, installData);
+        ConsolePanels panels = new ConsolePanels(asList(panelView), this.container, installData);
         container.addComponent(ConsolePanels.class, panels);
         panels.setAction(new ConsoleInstallAction(console, installData, mock(UninstallDataWriter.class)));
         return panels;

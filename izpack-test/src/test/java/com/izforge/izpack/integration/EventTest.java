@@ -1,15 +1,6 @@
 package com.izforge.izpack.integration;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
-
-import org.hamcrest.core.Is;
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.data.CustomData;
@@ -20,7 +11,8 @@ import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.InstallerListeners;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for event binding.
@@ -28,7 +20,6 @@ import com.izforge.izpack.test.junit.PicoRunner;
  * @author Anthonin Bonnefoy
  * @see com.izforge.izpack.installer.container.impl.CustomDataLoader
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class EventTest
 {
@@ -46,14 +37,14 @@ public class EventTest
     @InstallFile("samples/event/event.xml")
     public void eventInitialization() throws Exception
     {
-        assertThat(listeners.size(), Is.is(2));
-        assertThat(listeners.get(0), IsInstanceOf.instanceOf(SummaryLoggerInstallerListener.class));
-        assertThat(listeners.get(1), IsInstanceOf.instanceOf(RegistryInstallerListener.class));
+        assertThat(listeners.size()).isEqualTo(2);
+        assertThat(listeners.get(0)).isInstanceOf(SummaryLoggerInstallerListener.class);
+        assertThat(listeners.get(1)).isInstanceOf(RegistryInstallerListener.class);
 
         List<CustomData> uninstallListeners = uninstallData.getUninstallerListeners();
-        assertNotNull(uninstallListeners);
-        assertThat(uninstallListeners.size(), Is.is(1));
+        assertThat(uninstallListeners).isNotNull();
+        assertThat(uninstallListeners).hasSize(1);
         CustomData customData = uninstallListeners.get(0);
-        assertEquals(RegistryUninstallerListener.class.getName(), customData.listenerName);
+        assertThat(customData.listenerName).isEqualTo(RegistryUninstallerListener.class.getName());
     }
 }

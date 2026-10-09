@@ -21,23 +21,20 @@
 
 package com.izforge.izpack.integration.multivolume;
 
+import static com.izforge.izpack.integration.UninstallHelper.uninstall;
 import static com.izforge.izpack.test.util.TestHelper.assertFileEquals;
 import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
 import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static com.izforge.izpack.test.util.TestHelper.createFile;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestCompilationContainer;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
-import com.izforge.izpack.integration.UninstallHelper;
-import com.izforge.izpack.test.util.TestHelper;
-
+import java.io.File;
+import java.nio.file.Path;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Base class for multi-volume installation tests.
@@ -49,8 +46,8 @@ public abstract class AbstractMultiVolumeInstallationTest
     /**
      * Temporary directory for installing to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
 
     /**
@@ -62,20 +59,20 @@ public abstract class AbstractMultiVolumeInstallationTest
     public void testMultiVolume() throws Exception
     {
         // compiler output goes to targetDir
-        File targetDir = new File(temporaryFolder.getRoot(), "target");
-        assertTrue(targetDir.mkdir());
+        File targetDir = temporaryFolder.resolve("target").toFile();
+        assertThat(targetDir.mkdir()).isTrue();
         TestCompilationContainer compiler = new TestCompilationContainer("samples/multivolume/multivolume.xml",
                                                                          targetDir);
 
         // create the pack files. These correspond to those in multivolume.xml - created here so they don't need to be
         // committed.
         File baseDir = compiler.getBaseDir();
-        File file1 = TestHelper.createFile(baseDir, "file1.dat", 10000);
-        File file2 = TestHelper.createFile(baseDir, "file2.dat", 20000);
-        File file3 = TestHelper.createFile(baseDir, "file3.dat", 30000);
-        File file4 = TestHelper.createFile(baseDir, "file4.dat", 40000);
-        File file5 = TestHelper.createFile(baseDir, "file5.dat", 50000);
-        File file6 = TestHelper.createFile(baseDir, "file6.dat", 60000);
+        File file1 = createFile(baseDir, "file1.dat", 10000);
+        File file2 = createFile(baseDir, "file2.dat", 20000);
+        File file3 = createFile(baseDir, "file3.dat", 30000);
+        File file4 = createFile(baseDir, "file4.dat", 40000);
+        File file5 = createFile(baseDir, "file5.dat", 50000);
+        File file6 = createFile(baseDir, "file6.dat", 60000);
 
         // run the compiler
         compiler.launchCompilation();
@@ -95,7 +92,7 @@ public abstract class AbstractMultiVolumeInstallationTest
         InstallData installData = installer.getComponent(InstallData.class);
 
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         installData.setInstallPath(installPath.getAbsolutePath());
         installData.setDefaultInstallPath(installPath.getAbsolutePath());
         installData.setMediaPath(targetDir.getPath());
@@ -113,7 +110,7 @@ public abstract class AbstractMultiVolumeInstallationTest
         assertFileNotExists(installPath, file4.getName());
 
         // now uninstall it
-        UninstallHelper.uninstall(installData);
+        uninstall(installData);
 
         // verify the installed files no longer exist
         assertFileNotExists(installPath, file1.getName());

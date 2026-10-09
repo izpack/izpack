@@ -33,6 +33,8 @@ The build generates a distribution IzPack installer JAR in `izpack-dist/target`.
 
 The IzPack Maven plugin is inside the `izpack-maven-plugin` module.
 
+Tests use JUnit 6 Jupiter. See [the testing guide](docs/testing.md) for verification commands, GUI profiles, and shared test-helper migration.
+
 ## Contributing to IzPack
 
 While reporting an issue [on our JIRA tracker](https://izpack.atlassian.net/) is useful, investigating and offering a patch is much better!

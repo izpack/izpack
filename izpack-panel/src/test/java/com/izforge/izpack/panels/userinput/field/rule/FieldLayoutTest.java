@@ -21,21 +21,16 @@
 
 package com.izforge.izpack.panels.userinput.field.rule;
 
-import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type;
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.ALPHA;
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.ALPHANUMERIC;
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.NUMERIC;
 import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type.OPEN;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
-import org.junit.Test;
+import static com.izforge.izpack.panels.userinput.field.rule.FieldSpec.Type;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.panels.userinput.field.ValidationStatus;
-
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link FieldLayout} class.
@@ -164,11 +159,11 @@ public class FieldLayoutTest
     private void checkValid(String value, FieldLayout layout, String... expected)
     {
         ValidationStatus status = layout.validate(value);
-        assertTrue(status.isValid());
-        assertEquals(expected.length, status.getValues().length);
+        assertThat(status.isValid()).isTrue();
+        assertThat(status.getValues().length).isEqualTo(expected.length);
         for (int i = 0; i < expected.length; ++i)
         {
-            assertEquals(expected[i], status.getValues()[i]);
+            assertThat(status.getValues()[i]).isEqualTo(expected[i]);
         }
     }
 
@@ -183,8 +178,8 @@ public class FieldLayoutTest
     {
         FieldLayout l = new FieldLayout(layout);
         ValidationStatus status = l.validate(value);
-        assertFalse(status.isValid());
-        assertEquals(expected, status.getMessage());
+        assertThat(status.isValid()).isFalse();
+        assertThat(status.getMessage()).isEqualTo(expected);
     }
 
     /**
@@ -208,8 +203,8 @@ public class FieldLayoutTest
                 ++fields;
             }
         }
-        assertEquals(fields, layout.getFieldSpecs().size());
-        assertEquals(fields + separators, layout.getLayout().size());
+        assertThat(layout.getFieldSpecs().size()).isEqualTo(fields);
+        assertThat(layout.getLayout().size()).isEqualTo(fields + separators);
 
         for (int i = 0; i < items.length; ++i)
         {
@@ -234,8 +229,8 @@ public class FieldLayoutTest
     private void checkSeparator(FieldLayout layout, int index, String separator)
     {
         List<Object> items = layout.getLayout();
-        assertTrue(items.get(index) instanceof String);
-        assertEquals(separator, items.get(index));
+        assertThat(items.get(index) instanceof String).isTrue();
+        assertThat(items.get(index)).isEqualTo(separator);
     }
 
     /**
@@ -248,10 +243,10 @@ public class FieldLayoutTest
     private void checkFieldSpec(FieldLayout layout, int index, FieldSpec expected)
     {
         List<Object> items = layout.getLayout();
-        assertTrue(items.get(index) instanceof FieldSpec);
+        assertThat(items.get(index) instanceof FieldSpec).isTrue();
         FieldSpec spec = (FieldSpec) items.get(index);
-        assertEquals(expected.getType(), spec.getType());
-        assertEquals(expected.getLength(), spec.getLength());
-        assertEquals(expected.getColumns(), spec.getColumns());
+        assertThat(spec.getType()).isEqualTo(expected.getType());
+        assertThat(spec.getLength()).isEqualTo(expected.getLength());
+        assertThat(spec.getColumns()).isEqualTo(expected.getColumns());
     }
 }

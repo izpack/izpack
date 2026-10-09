@@ -21,23 +21,25 @@
 
 package com.izforge.izpack.integration;
 
+import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
+import static com.izforge.izpack.util.IoHelper.translatePath;
+import static java.nio.file.Files.createTempFile;
+import static org.apache.commons.io.FileUtils.deleteQuietly;
+
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.uninstaller.Destroyer;
 import com.izforge.izpack.uninstaller.console.ConsoleUninstallerContainer;
 import com.izforge.izpack.uninstaller.gui.GUIUninstallerContainer;
-import com.izforge.izpack.util.IoHelper;
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-
-import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 /**
  * Uninstallation helper.
@@ -70,7 +72,7 @@ public class UninstallHelper
     public static File getUninstallerJar(InstallData installData)
     {
         Info info = installData.getInfo();
-        String dir = IoHelper.translatePath(info.getUninstallerPath(), installData.getVariables());
+        String dir = translatePath(info.getUninstallerPath(), installData.getVariables());
         String path = dir + File.separator + info.getUninstallerName();
         return new File(path);
     }
@@ -157,7 +159,7 @@ public class UninstallHelper
         Method run = destroyerClass.getMethod("run");
         run.invoke(destroyer);
 
-        FileUtils.deleteQuietly(jar); // probably won't delete as the class loader will still have a reference to it?
+        deleteQuietly(jar); // probably won't delete as the class loader will still have a reference to it?
 
     }
 
@@ -170,9 +172,10 @@ public class UninstallHelper
      */
     private static File copy(File uninstallJar) throws IOException
     {
-        File copy = File.createTempFile("uninstaller", ".jar");
-        copy.deleteOnExit();
-        FileUtils.copyFile(uninstallJar, copy);
-        return copy;
+        Path copy = createTempFile("uninstaller", ".jar");
+        // The isolated uninstaller loader can outlive a test method. Retain exit-time ownership.
+        copy.toFile().deleteOnExit();
+        Files.copy(uninstallJar.toPath(), copy, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
+        return copy.toFile();
     }
 }

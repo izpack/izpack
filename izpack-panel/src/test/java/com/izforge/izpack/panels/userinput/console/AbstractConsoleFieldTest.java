@@ -1,5 +1,8 @@
 package com.izforge.izpack.panels.userinput.console;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.handler.Prompt;
@@ -12,11 +15,7 @@ import com.izforge.izpack.core.rules.RulesEngineImpl;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Platforms;
-import org.mockito.Mockito;
-
 import java.io.InputStream;
-
-import static org.junit.Assert.*;
 
 /**
  * Base class for console-based user-input fields.
@@ -49,8 +48,8 @@ public abstract class AbstractConsoleFieldTest
     {
         installData = new ConsoleInstallData(new DefaultVariables(), Platforms.LINUX);
         InputStream langPack = getClass().getResourceAsStream("/com/izforge/izpack/bin/langpacks/installer/eng.xml");
-        assertNotNull(langPack);
-        installData.setMessages(new LocaleDatabase(langPack, Mockito.mock(Locales.class)));
+        assertThat(langPack).isNotNull();
+        installData.setMessages(new LocaleDatabase(langPack, mock(Locales.class)));
         RulesEngine rules = new RulesEngineImpl(new ConditionContainer(new DefaultContainer()),
                                                 installData.getPlatform());
 
@@ -59,7 +58,7 @@ public abstract class AbstractConsoleFieldTest
         installData.consolePrefs = prefs;
 
         console = new TestConsole(installData, prefs);
-        prompt = Mockito.mock(Prompt.class);
+        prompt = mock(Prompt.class);
         installData.setRules(rules);
     }
 
@@ -72,7 +71,7 @@ public abstract class AbstractConsoleFieldTest
     protected void checkValid(ConsoleField field, String... script)
     {
         console.addScript("Valid script", script);
-        assertTrue(field.display());
+        assertThat(field.display()).isTrue();
     }
 
     /**
@@ -84,7 +83,7 @@ public abstract class AbstractConsoleFieldTest
     protected void checkInvalid(ConsoleField field, String... script)
     {
         console.addScript("Invalid script", script);
-        assertFalse(field.display());
+        assertThat(field.display()).isFalse();
     }
 
 }

@@ -1,40 +1,40 @@
 package com.izforge.izpack.core.variable;
 
-import static org.junit.Assert.fail;
+import static java.nio.charset.Charset.defaultCharset;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.newBufferedWriter;
+import static java.nio.file.Files.newInputStream;
+import static java.nio.file.Files.newOutputStream;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import junit.framework.Assert;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class ConfigFileValueTest
 {
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+    @TempDir
+    public Path folder;
 
-    private File properties;
-    private File zipFile;
-    private File jarFile;
+    private Path properties;
+    private Path zipFile;
+    private Path jarFile;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
-        properties = folder.newFile("test.properties");
-        BufferedWriter out = new BufferedWriter(new FileWriter(properties));
+        properties = createFile(folder.resolve("test.properties"));
+        BufferedWriter out = new BufferedWriter(newBufferedWriter(properties, defaultCharset()));
         out.write("test.path = C:\\mypath\\myfile\n");
         out.write("test.path2 = C:\\\\mypath\\\\myfile\n");
         out.close();
@@ -42,9 +42,9 @@ public class ConfigFileValueTest
         byte[] buf = new byte[1024];
 
         try {
-            zipFile = folder.newFile("test.zip");
-            ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(zipFile));
-            FileInputStream in = new FileInputStream(properties);
+            zipFile = createFile(folder.resolve("test.zip"));
+            ZipOutputStream zout = new ZipOutputStream(newOutputStream(zipFile));
+            InputStream in = newInputStream(properties);
             zout.putNextEntry(new ZipEntry("test.properties"));
             int len;
             while ((len = in.read(buf)) > 0) {
@@ -58,9 +58,9 @@ public class ConfigFileValueTest
         }
 
         try {
-            jarFile = folder.newFile("test.jar");
-            JarOutputStream jout = new JarOutputStream(new FileOutputStream(jarFile));
-            FileInputStream in = new FileInputStream(properties);
+            jarFile = createFile(folder.resolve("test.jar"));
+            JarOutputStream jout = new JarOutputStream(newOutputStream(jarFile));
+            InputStream in = newInputStream(properties);
             jout.putNextEntry(new JarEntry("test.properties"));
             int len;
             while ((len = in.read(buf)) > 0) {
@@ -77,12 +77,12 @@ public class ConfigFileValueTest
     @Test
     public void testPlainConfigFileValue()
     {
-        PlainConfigFileValue value = new PlainConfigFileValue(properties.getPath(), ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path", false);
-        PlainConfigFileValue value2 = new PlainConfigFileValue(properties.getPath(), ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path2", true);
+        PlainConfigFileValue value = new PlainConfigFileValue(properties.toString(), ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path", false);
+        PlainConfigFileValue value2 = new PlainConfigFileValue(properties.toString(), ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path2", true);
         try
         {
-            Assert.assertEquals("C:\\mypath\\myfile", value.resolve());
-            Assert.assertEquals("C:\\mypath\\myfile", value2.resolve());
+            assertThat(value.resolve()).isEqualTo("C:\\mypath\\myfile");
+            assertThat(value2.resolve()).isEqualTo("C:\\mypath\\myfile");
         }
         catch (Exception e)
         {
@@ -93,12 +93,12 @@ public class ConfigFileValueTest
     @Test
     public void testZipConfigFileValue()
     {
-        ZipEntryConfigFileValue value = new ZipEntryConfigFileValue(zipFile.getPath(), "test.properties", ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path", false);
-        ZipEntryConfigFileValue value2 = new ZipEntryConfigFileValue(zipFile.getPath(), "test.properties", ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path2", true);
+        ZipEntryConfigFileValue value = new ZipEntryConfigFileValue(zipFile.toString(), "test.properties", ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path", false);
+        ZipEntryConfigFileValue value2 = new ZipEntryConfigFileValue(zipFile.toString(), "test.properties", ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path2", true);
         try
         {
-            Assert.assertEquals("C:\\mypath\\myfile", value.resolve());
-            Assert.assertEquals("C:\\mypath\\myfile", value2.resolve());
+            assertThat(value.resolve()).isEqualTo("C:\\mypath\\myfile");
+            assertThat(value2.resolve()).isEqualTo("C:\\mypath\\myfile");
         }
         catch (Exception e)
         {
@@ -109,12 +109,12 @@ public class ConfigFileValueTest
     @Test
     public void testJarConfigFileValue()
     {
-        JarEntryConfigValue value = new JarEntryConfigValue(zipFile.getPath(), "test.properties", ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path", false);
-        JarEntryConfigValue value2 = new JarEntryConfigValue(zipFile.getPath(), "test.properties", ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path2", true);
+        JarEntryConfigValue value = new JarEntryConfigValue(zipFile.toString(), "test.properties", ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path", false);
+        JarEntryConfigValue value2 = new JarEntryConfigValue(zipFile.toString(), "test.properties", ConfigFileValue.CONFIGFILE_TYPE_OPTIONS, null, "test.path2", true);
         try
         {
-            Assert.assertEquals("C:\\mypath\\myfile", value.resolve());
-            Assert.assertEquals("C:\\mypath\\myfile", value2.resolve());
+            assertThat(value.resolve()).isEqualTo("C:\\mypath\\myfile");
+            assertThat(value2.resolve()).isEqualTo("C:\\mypath\\myfile");
         }
         catch (Exception e)
         {
@@ -122,10 +122,10 @@ public class ConfigFileValueTest
         }
     }
 
-    @After
+    @AfterEach
     public void cleanUp() {
-       Assert.assertTrue(properties.exists());
-       Assert.assertTrue(zipFile.exists());
-       Assert.assertTrue(jarFile.exists());
+       assertThat(properties).exists();
+       assertThat(zipFile).exists();
+       assertThat(jarFile).exists();
     }
 }

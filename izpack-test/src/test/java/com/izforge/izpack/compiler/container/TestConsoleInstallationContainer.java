@@ -1,6 +1,6 @@
 package com.izforge.izpack.compiler.container;
 
-import org.junit.runners.model.FrameworkMethod;
+import java.lang.reflect.Method;
 import org.picocontainer.MutablePicoContainer;
 
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
@@ -13,7 +13,7 @@ import com.izforge.izpack.installer.container.impl.InstallerContainer;
  */
 public class TestConsoleInstallationContainer extends AbstractTestInstallationContainer
 {
-    public TestConsoleInstallationContainer(Class<?> klass, FrameworkMethod frameworkMethod)
+    public TestConsoleInstallationContainer(Class<?> klass, Method frameworkMethod)
     {
         super(klass, frameworkMethod);
         initialise();

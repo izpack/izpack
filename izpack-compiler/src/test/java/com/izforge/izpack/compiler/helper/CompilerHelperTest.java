@@ -19,11 +19,9 @@
 
 package com.izforge.izpack.compiler.helper;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Compiler helper test
@@ -35,13 +33,13 @@ public class CompilerHelperTest
     @Test
     public void testResolveJarPath() throws Exception
     {
-        assertThat(helper.resolveCustomActionsJarPath("SummaryLogger"), is("bin/customActions/izpack-summary-logger.jar"));
+        assertThat(helper.resolveCustomActionsJarPath("SummaryLogger")).isEqualTo("bin/customActions/izpack-summary-logger.jar");
     }
 
     @Test
     public void testConvertCamelToHyphen() throws Exception
     {
-        assertThat(helper.convertNameToDashSeparated("abCdeF").toString(), is("-ab-cde-f"));
-        assertThat(helper.convertNameToDashSeparated("aClassName").toString(), is("-a-class-name"));
+        assertThat(helper.convertNameToDashSeparated("abCdeF").toString()).isEqualTo("-ab-cde-f");
+        assertThat(helper.convertNameToDashSeparated("aClassName").toString()).isEqualTo("-a-class-name");
     }
 }

@@ -1,26 +1,14 @@
 package com.izforge.izpack.integration;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.StringUtils;
-import org.fest.swing.fixture.DialogFixture;
-import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.timing.Timeout;
-import org.hamcrest.core.Is;
-import org.hamcrest.core.IsCollectionContaining;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.rules.TestRule;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.integration.HelperTestMethod.clickDefaultLang;
+import static com.izforge.izpack.integration.HelperTestMethod.prepareFrameFixture;
+import static com.izforge.izpack.integration.HelperTestMethod.waitAndCheckInstallation;
+import static com.izforge.izpack.integration.UninstallHelper.getUninstallerJar;
+import static com.izforge.izpack.integration.UninstallHelper.guiUninstall;
+import static java.lang.Thread.sleep;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.fest.swing.timing.Timeout.timeout;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.exception.NativeLibException;
@@ -42,8 +30,18 @@ import com.izforge.izpack.panels.summary.SummaryPanel;
 import com.izforge.izpack.panels.target.TargetPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.TestTimeout;
 import com.izforge.izpack.util.Platforms;
+import java.io.File;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import org.fest.swing.fixture.DialogFixture;
+import org.fest.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Test for an installation.
@@ -51,14 +49,12 @@ import com.izforge.izpack.util.Platforms;
  * NOTE: this test uses the IzPack install.xml, and will remove any registry entry associated with an existing IzPack
  * installation.
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
+@TestTimeout(HelperTestMethod.TIMEOUT)
 public class IzpackInstallationTest
 {
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
-    @Rule
-    public TestRule globalTimeout = new org.junit.rules.Timeout(HelperTestMethod.TIMEOUT, TimeUnit.MILLISECONDS);
+    @TempDir
+    public Path temporaryFolder;
 
     private DialogFixture dialogFrameFixture;
     private FrameFixture installerFrameFixture;
@@ -86,7 +82,7 @@ public class IzpackInstallationTest
      *
      * @throws NativeLibException for any native library error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws NativeLibException
     {
         RegistryHandler registry = handler.getInstance();
@@ -94,7 +90,7 @@ public class IzpackInstallationTest
         {
             // remove any existing uninstall key
             String uninstallName = registry.getUninstallName();
-            if (!StringUtils.isEmpty(uninstallName))
+            if (!isEmpty(uninstallName))
             {
                 registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
                 String key = RegistryHandler.UNINSTALL_ROOT + uninstallName;
@@ -106,7 +102,7 @@ public class IzpackInstallationTest
         }
     }
 
-    @After
+    @AfterEach
     public void tearBinding() throws NoSuchFieldException, IllegalAccessException
     {
         try
@@ -137,50 +133,50 @@ public class IzpackInstallationTest
         installData.setVariable("izpack.setuptype", "warfile");
 
 
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
 
         installData.setInstallPath(installPath.getAbsolutePath());
         installData.setDefaultInstallPath(installPath.getAbsolutePath());
-        HelperTestMethod.clickDefaultLang(languageDialog);
+        clickDefaultLang(languageDialog);
 
-        installerFrameFixture = HelperTestMethod.prepareFrameFixture(installerFrame, installerController);
+        installerFrameFixture = prepareFrameFixture(installerFrame, installerController);
         // Hello panel
-        Thread.sleep(600);
-        assertEquals(CheckedHelloPanel.class.getName(), panels.getPanel().getClassName());
+        sleep(600);
+        assertThat(panels.getPanel().getClassName()).isEqualTo(CheckedHelloPanel.class.getName());
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
 
         // Info Panel
-        Thread.sleep(600);
+        sleep(600);
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Licence Panel
-        Thread.sleep(1000);
-        assertEquals(HTMLLicencePanel.class.getName(), panels.getPanel().getClassName());
+        sleep(1000);
+        assertThat(panels.getPanel().getClassName()).isEqualTo(HTMLLicencePanel.class.getName());
         installerFrameFixture.radioButton(GuiId.LICENCE_YES_RADIO.id).click();
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Target Panel
-        assertEquals(TargetPanel.class.getName(), panels.getPanel().getClassName());
+        assertThat(panels.getPanel().getClassName()).isEqualTo(TargetPanel.class.getName());
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
-        installerFrameFixture.optionPane(Timeout.timeout(1000)).focus();
+        installerFrameFixture.optionPane(timeout(1000)).focus();
         installerFrameFixture.optionPane().requireWarningMessage();
         installerFrameFixture.optionPane().okButton().click();
 
         // Packs
-        Thread.sleep(600);
-        assertEquals(PacksPanel.class.getName(), panels.getPanel().getClassName());
+        sleep(600);
+        assertThat(panels.getPanel().getClassName()).isEqualTo(PacksPanel.class.getName());
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Summary
-        Thread.sleep(600);
-        assertEquals(SummaryPanel.class.getName(), panels.getPanel().getClassName());
+        sleep(600);
+        assertThat(panels.getPanel().getClassName()).isEqualTo(SummaryPanel.class.getName());
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // Install
-        Thread.sleep(600);
-        assertEquals(InstallPanel.class.getName(), panels.getPanel().getClassName());
-        HelperTestMethod.waitAndCheckInstallation(installData, installPath);
+        sleep(600);
+        assertThat(panels.getPanel().getClassName()).isEqualTo(InstallPanel.class.getName());
+        waitAndCheckInstallation(installData, installPath);
 
         installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
@@ -188,25 +184,25 @@ public class IzpackInstallationTest
         // Deselect shortcut creation
         if (!installData.getPlatform().isA(Platforms.MAC))
         {
-            Thread.sleep(1000);
-            assertEquals(ShortcutPanel.class.getName(), panels.getPanel().getClassName());
+            sleep(1000);
+            assertThat(panels.getPanel().getClassName()).isEqualTo(ShortcutPanel.class.getName());
             installerFrameFixture.checkBox(GuiId.SHORTCUT_CREATE_CHECK_BOX.id).click();
             installerFrameFixture.button(GuiId.BUTTON_NEXT.id).click();
         }
 
-        Thread.sleep(1000);
+        sleep(1000);
 
         // Finish
-        assertEquals(FinishPanel.class.getName(), panels.getPanel().getClassName());
+        assertThat(panels.getPanel().getClassName()).isEqualTo(FinishPanel.class.getName());
         installerFrameFixture.button(GuiId.BUTTON_QUIT.id).click();
 
-        Thread.sleep(1000);
+        sleep(1000);
 
         checkIzpackInstallation(installPath);
 
         // run the uninstaller
-        File uninstaller = UninstallHelper.getUninstallerJar(installData);
-        UninstallHelper.guiUninstall(uninstaller);
+        File uninstaller = getUninstallerJar(installData);
+        guiUninstall(uninstaller);
     }
 
     private void checkIzpackInstallation(File installPath)
@@ -220,10 +216,6 @@ public class IzpackInstallationTest
                 paths.add(file.getName());
             }
         }
-        assertThat(paths, IsCollectionContaining.hasItems(
-                Is.is("bin"),
-                Is.is("legal"),
-                Is.is("lib")
-        ));
+        assertThat(paths).contains("bin", "legal", "lib");
     }
 }

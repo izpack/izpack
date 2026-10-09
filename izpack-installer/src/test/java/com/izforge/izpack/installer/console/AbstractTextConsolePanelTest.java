@@ -18,10 +18,10 @@
  */
 package com.izforge.izpack.installer.console;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link AbstractTextConsolePanel} class.
@@ -43,7 +43,7 @@ public class AbstractTextConsolePanelTest
         return buf.toString();
     }
 
-    @Before
+    @BeforeEach
     public void setup()
     {
         abstractTextConsolePanel = new AbstractTextConsolePanel(null)
@@ -85,7 +85,7 @@ public class AbstractTextConsolePanelTest
                 "</html>\n";
         String expected =  "Welcome\n\nWelcome to IzPack";
 
-        assertEquals(expected, abstractTextConsolePanel.removeHTML(html));
+        assertThat(AbstractTextConsolePanel.removeHTML(html)).isEqualTo(expected);
     }
 
     @Test
@@ -106,13 +106,13 @@ public class AbstractTextConsolePanelTest
                         "</html>\n";
         String expected =  "Welcome to IzPack";
 
-        assertEquals(expected, abstractTextConsolePanel.removeHTML(html));
+        assertThat(AbstractTextConsolePanel.removeHTML(html)).isEqualTo(expected);
     }
 
     @Test
     public void testRemoveHTMLForNull()
     {
-        assertEquals("", abstractTextConsolePanel.removeHTML(null));
+        assertThat(AbstractTextConsolePanel.removeHTML(null)).isEmpty();
     }
 
     @Test
@@ -178,6 +178,6 @@ public class AbstractTextConsolePanelTest
             "        console.log(\"This is a code example\");\n" +
             "    }";
 
-        assertEquals(expected, abstractTextConsolePanel.removeHTML(html));
+        assertThat(AbstractTextConsolePanel.removeHTML(html)).isEqualTo(expected);
     }
 }

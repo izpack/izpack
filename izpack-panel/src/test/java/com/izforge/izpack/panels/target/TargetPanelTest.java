@@ -20,22 +20,15 @@
  */
 package com.izforge.izpack.panels.target;
 
+import static com.izforge.izpack.panels.target.TargetPanelTestHelper.createBadInstallationInfo;
+import static com.izforge.izpack.panels.target.TargetPanelTestHelper.createInstallationInfo;
+import static com.izforge.izpack.panels.target.TargetPanelTestHelper.getIncompatibleInstallationMessage;
+import static java.lang.System.getProperty;
+import static java.nio.file.Files.createDirectories;
+import static java.nio.file.Files.createFile;
+import static org.apache.commons.io.FileUtils.touch;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.fest.swing.timing.Timeout.timeout;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-
-import org.apache.commons.io.FileUtils;
-import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.fixture.JOptionPaneFixture;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
@@ -55,6 +48,12 @@ import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.panels.test.AbstractPanelTest;
 import com.izforge.izpack.panels.test.TestGUIPanelContainer;
 import com.izforge.izpack.test.Container;
+import java.io.File;
+import java.nio.file.Path;
+import org.fest.swing.fixture.FrameFixture;
+import org.fest.swing.fixture.JOptionPaneFixture;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link TargetPanel} class.
@@ -68,8 +67,8 @@ public class TargetPanelTest extends AbstractPanelTest
     /**
      * Temporary folder.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * Constructs a {@code TargetPanelTest}.
@@ -104,7 +103,7 @@ public class TargetPanelTest extends AbstractPanelTest
     @Test
     public void testEmptyPath() throws Exception
     {
-        File userDir = new File(System.getProperty("user.dir"));
+        File userDir = new File(getProperty("user.dir"));
         GUIInstallData installData = getInstallData();
         installData.setDefaultInstallPath("");
 
@@ -114,7 +113,7 @@ public class TargetPanelTest extends AbstractPanelTest
         fixture.button(GuiId.BUTTON_NEXT.id).click();
         checkWarningQuestion(fixture, installData.getMessages().get("TargetPanel.exists_warn"));
 
-        assertEquals(userDir.getAbsolutePath(), installData.getInstallPath());
+        assertThat(installData.getInstallPath()).isEqualTo(userDir.getAbsolutePath());
     }
 
     /**
@@ -126,7 +125,7 @@ public class TargetPanelTest extends AbstractPanelTest
     public void testShowCreateDirectoryMessage() throws Exception
     {
         GUIInstallData installData = getInstallData();
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File dir = new File(root, "install");
         installData.setDefaultInstallPath(dir.getAbsolutePath());
 
@@ -138,8 +137,8 @@ public class TargetPanelTest extends AbstractPanelTest
         String expectedMessage = installData.getMessages().get("TargetPanel.createdir") + "\n" + dir;
         checkWarning(fixture, expectedMessage);
 
-        assertEquals(dir.getAbsolutePath(), installData.getInstallPath());
-        assertTrue(getPanels().getView() instanceof SimpleFinishPanel);
+        assertThat(installData.getInstallPath()).isEqualTo(dir.getAbsolutePath());
+        assertThat(getPanels().getView() instanceof SimpleFinishPanel).isTrue();
     }
 
     /**
@@ -150,8 +149,8 @@ public class TargetPanelTest extends AbstractPanelTest
     @Test
     public void testDirectoryExists() throws Exception
     {
-        File dir = temporaryFolder.getRoot();
-        temporaryFolder.newFile("warning-is-only-triggered-for-non-empty-directory.txt");
+        File dir = temporaryFolder.toFile();
+        createFile(temporaryFolder.resolve("warning-is-only-triggered-for-non-empty-directory.txt")).toFile();
 
         GUIInstallData installData = getInstallData();
         installData.setDefaultInstallPath(dir.getAbsolutePath());
@@ -163,8 +162,8 @@ public class TargetPanelTest extends AbstractPanelTest
         fixture.button(GuiId.BUTTON_NEXT.id).click();
         checkWarningQuestion(fixture, installData.getMessages().get("TargetPanel.exists_warn"));
 
-        assertEquals(dir.getAbsolutePath(), installData.getInstallPath());
-        assertTrue(getPanels().getView() instanceof SimpleFinishPanel);
+        assertThat(installData.getInstallPath()).isEqualTo(dir.getAbsolutePath());
+        assertThat(getPanels().getView() instanceof SimpleFinishPanel).isTrue();
     }
 
     /**
@@ -175,7 +174,7 @@ public class TargetPanelTest extends AbstractPanelTest
     @Test
     public void testNotWritable() throws Exception
     {
-        File dir = temporaryFolder.newFolder("install");
+        File dir = createDirectories(temporaryFolder.resolve("install")).toFile();
 
         GUIInstallData installData = getInstallData();
         installData.setDefaultInstallPath(dir.getAbsolutePath());
@@ -187,7 +186,7 @@ public class TargetPanelTest extends AbstractPanelTest
         fixture.button(GuiId.BUTTON_NEXT.id).click();
 
         checkErrorMessage(fixture, installData.getMessages().get("TargetPanel.notwritable"));
-        assertNull(installData.getInstallPath());
+        assertThat(installData.getInstallPath()).isNull();
     }
 
     /**
@@ -203,7 +202,7 @@ public class TargetPanelTest extends AbstractPanelTest
         Messages messages = installData.getMessages();
         installData.setVariable(InstallData.MODIFY_INSTALLATION, "true");
 
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File dir = new File(root, "install");
         installData.setDefaultInstallPath(dir.getAbsolutePath());
 
@@ -214,7 +213,7 @@ public class TargetPanelTest extends AbstractPanelTest
         fixture.button(GuiId.BUTTON_NEXT.id).click();
         checkErrorMessage(fixture, messages.get("TargetPanel.required"));
 
-        assertTrue(dir.mkdirs());
+        assertThat(dir.mkdirs()).isTrue();
 
         // attempt to navigate to the next panel
         fixture.button(GuiId.BUTTON_NEXT.id).click();
@@ -222,13 +221,13 @@ public class TargetPanelTest extends AbstractPanelTest
         checkErrorMessage(fixture, messages.get("TargetPanel.required.forModificationInstallation"));
 
         // create the .installinformationfile
-        TargetPanelTestHelper.createInstallationInfo(dir);
+        createInstallationInfo(dir);
 
         // navigation should now succeed.
         checkNavigateNext(fixture);
 
-        assertEquals(dir.getAbsolutePath(), installData.getInstallPath());
-        assertTrue(getPanels().getView() instanceof SimpleFinishPanel);
+        assertThat(installData.getInstallPath()).isEqualTo(dir.getAbsolutePath());
+        assertThat(getPanels().getView() instanceof SimpleFinishPanel).isTrue();
     }
 
     /**
@@ -244,13 +243,13 @@ public class TargetPanelTest extends AbstractPanelTest
 
         // set up two potential directories to install to, "badDir" and "goodDir"
 
-        File badDir = temporaryFolder.newFolder("badDir");
-        File goodDir = temporaryFolder.newFolder("goodDir");
+        File badDir = createDirectories(temporaryFolder.resolve("badDir")).toFile();
+        File goodDir = createDirectories(temporaryFolder.resolve("goodDir")).toFile();
 
         installData.setDefaultInstallPath(badDir.getAbsolutePath());
 
         // create an invalid "badDir/.installationinformation" to simulate incompatible data
-        TargetPanelTestHelper.createBadInstallationInfo(badDir);
+        createBadInstallationInfo(badDir);
 
         // show the panel
         FrameFixture fixture = showTargetPanel();
@@ -260,10 +259,10 @@ public class TargetPanelTest extends AbstractPanelTest
         fixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // panel should be the same and error should be displayed
-        checkErrorMessage(fixture, TargetPanelTestHelper.getIncompatibleInstallationMessage(installData));
+        checkErrorMessage(fixture, getIncompatibleInstallationMessage(installData));
 
         // should still be on the TargetPanel
-        assertEquals(panel, getPanels().getView());
+        assertThat(getPanels().getView()).isEqualTo(panel);
         fixture.textBox(GuiId.PATH_SELECTION_PANEL_PATH_TEXT_FIELD.id).focus();
         fixture.textBox(GuiId.PATH_SELECTION_PANEL_PATH_TEXT_FIELD.id).setText(goodDir.getAbsolutePath());
 
@@ -287,9 +286,9 @@ public class TargetPanelTest extends AbstractPanelTest
 
         GUIInstallData installData = getInstallData();
         Messages messages = installData.getMessages();
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File dir = new File(root, "install");
-        assertTrue(dir.mkdirs());
+        assertThat(dir.mkdirs()).isTrue();
         installData.setDefaultInstallPath(dir.getAbsolutePath());
 
         // show the panel
@@ -306,11 +305,11 @@ public class TargetPanelTest extends AbstractPanelTest
         for (String required : requiredFiles)
         {
             File file = new File(dir, required);
-            FileUtils.touch(file);
+            touch(file);
         }
 
         checkNavigateNext(fixture);
-        assertEquals(dir.getAbsolutePath(), installData.getInstallPath());
+        assertThat(installData.getInstallPath()).isEqualTo(dir.getAbsolutePath());
     }
 
     /**
@@ -343,7 +342,7 @@ public class TargetPanelTest extends AbstractPanelTest
     {
         JOptionPaneFixture error = frame.optionPane(timeout(2000)).requireErrorMessage();
         // Can't use error.requireMessage due to custom JPanel message in GUIPrompt
-        assertThat(error.label("OptionPane.label").text(), equalTo(expected));
+        assertThat(error.label("OptionPane.label").text()).isEqualTo(expected);
         error.button().click();
     }
 
@@ -373,7 +372,7 @@ public class TargetPanelTest extends AbstractPanelTest
 
         waitForPanel(SimpleFinishPanel.class);
 
-        assertThat(getPanels().getView(), instanceOf(SimpleFinishPanel.class));
+        assertThat(getPanels().getView()).isInstanceOf(SimpleFinishPanel.class);
     }
 
     /**
@@ -395,7 +394,7 @@ public class TargetPanelTest extends AbstractPanelTest
     {
         FrameFixture fixture = show(clazz, SimpleFinishPanel.class);
         waitForPanel(clazz);
-        assertThat(getPanels().getView(), instanceOf(clazz));
+        assertThat(getPanels().getView()).isInstanceOf(clazz);
         return fixture;
     }
 

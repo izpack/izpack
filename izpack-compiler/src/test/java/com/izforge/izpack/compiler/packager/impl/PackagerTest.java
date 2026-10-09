@@ -19,8 +19,13 @@
 
 package com.izforge.izpack.compiler.packager.impl;
 
-import com.izforge.izpack.api.data.Blockable;
 import com.izforge.izpack.api.data.Info;
+
+import static java.lang.System.currentTimeMillis;
+import static java.util.Collections.emptyMap;
+import static org.mockito.Mockito.mock;
+
+import com.izforge.izpack.api.data.Blockable;
 import com.izforge.izpack.api.data.OverrideType;
 import com.izforge.izpack.api.data.PackInfo;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -30,18 +35,15 @@ import com.izforge.izpack.compiler.packager.IPackager;
 import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.test.util.TestHelper;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collections;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
 import java.util.jar.JarOutputStream;
-
-import static org.mockito.Mockito.mock;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link Packager}.
@@ -49,8 +51,8 @@ import static org.mockito.Mockito.mock;
 public class PackagerTest extends AbstractPackagerTest
 {
 
-    @Rule
-    public final TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * Helper to create a packager that writes to the provided jar.
@@ -80,10 +82,10 @@ public class PackagerTest extends AbstractPackagerTest
     @Test
     public void measureWriteSpeed() throws Exception {
 
-        File installerJar = temporaryFolder.newFile("installer.jar");
+        File installerJar = Files.createFile(temporaryFolder.resolve("installer.jar")).toFile();
 
-        File file1 = TestHelper.createFile(temporaryFolder.getRoot(), "f1.dat", 1024*1024*10);
-        File file2 = TestHelper.createFile(temporaryFolder.getRoot(), "f2.dat", 1024*1024*10);
+        File file1 = TestHelper.createFile(temporaryFolder.toFile(), "f1.dat", 1024*1024*10);
+        File file2 = TestHelper.createFile(temporaryFolder.toFile(), "f2.dat", 1024*1024*10);
 
         PackInfo packInfo = createPackInfo("Core", file1, file2);
 
@@ -91,11 +93,11 @@ public class PackagerTest extends AbstractPackagerTest
         IPackager packager = createPackager(jarOutputStream, mock(MergeManager.class));
         packager.addPack(packInfo);
 
-        long startMillis = System.currentTimeMillis();
+        long startMillis = currentTimeMillis();
 
         packager.createInstaller();
 
-        long timeDiff = System.currentTimeMillis() - startMillis;
+        long timeDiff = currentTimeMillis() - startMillis;
         long packSize = packInfo.getPack().getSize();
 
         System.out.println("Writing pack of " + packSize + " KiB took " + timeDiff + "ms");
@@ -107,7 +109,7 @@ public class PackagerTest extends AbstractPackagerTest
         for (File file : files)
         {
             packInfo.addFile(file.getParentFile(), file, "$INSTALL_DIR/" + file.getName(), null,
-                    OverrideType.OVERRIDE_TRUE, "", Blockable.BLOCKABLE_NONE, Collections.emptyMap(),
+                    OverrideType.OVERRIDE_TRUE, "", Blockable.BLOCKABLE_NONE, emptyMap(),
                     "", null);
         }
         return packInfo;

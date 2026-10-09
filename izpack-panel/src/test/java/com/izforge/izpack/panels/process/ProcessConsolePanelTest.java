@@ -20,13 +20,12 @@
  */
 package com.izforge.izpack.panels.process;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.panels.process.Executable.getArgs;
+import static com.izforge.izpack.panels.process.Executable.getInvocations;
+import static com.izforge.izpack.panels.process.Executable.init;
+import static com.izforge.izpack.panels.process.Executable.setException;
+import static com.izforge.izpack.panels.process.Executable.setReturn;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.handler.Prompt;
@@ -34,10 +33,9 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ProcessConsolePanel} class.
@@ -45,7 +43,6 @@ import com.izforge.izpack.util.PlatformModelMatcher;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class ProcessConsolePanelTest
 {
@@ -108,16 +105,16 @@ public class ProcessConsolePanelTest
     @Test
     public void testExecuteClass()
     {
-        Executable.init();
-        Executable.setReturn(true);
+        init();
+        setReturn(true);
 
         ProcessConsolePanel panel = new ProcessConsolePanel(rules, resources, prompt, matcher, null);
-        assertTrue(panel.run(installData, console));
+        assertThat(panel.run(installData, console)).isTrue();
 
         // verify Executable was run the expected no. of times, with the expected arguments
-        assertEquals(2, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
-        assertArrayEquals(Executable.getArgs(1), new String[]{"run1", "somearg"});
+        assertThat(getInvocations()).isEqualTo(2);
+        assertThat(new String[]{"run0"}).isEqualTo(getArgs(0));
+        assertThat(new String[]{"run1", "somearg"}).isEqualTo(getArgs(1));
     }
 
     /**
@@ -128,19 +125,19 @@ public class ProcessConsolePanelTest
     @Test
     public void testExecuteClassException() throws Exception
     {
-        Executable.init();
-        Executable.setException(true);
+        init();
+        setException(true);
 
         ProcessConsolePanel panel = new ProcessConsolePanel(rules, resources, prompt, matcher, null);
-        assertFalse(panel.run(installData, console));
+        assertThat(panel.run(installData, console)).isFalse();
 
-        assertEquals(7, console.getOutput().size());
-        assertTrue(console.getOutput().get(6).equals(
-                "Invocation Problem calling: com.izforge.izpack.panels.process.Executable, Executable exception"));
+        assertThat(console.getOutput().size()).isEqualTo(7);
+        assertThat(console.getOutput().get(6).equals(
+                "Invocation Problem calling: com.izforge.izpack.panels.process.Executable, Executable exception")).isTrue();
 
         // verify Executable was run the expected no. of times, with the expected arguments
-        assertEquals(1, Executable.getInvocations());
-        assertArrayEquals(Executable.getArgs(0), new String[]{"run0"});
+        assertThat(getInvocations()).isEqualTo(1);
+        assertThat(new String[]{"run0"}).isEqualTo(getArgs(0));
     }
 
 }
