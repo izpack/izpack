@@ -1,17 +1,32 @@
+How the build enforces this file:
+
+  The "basic template" below is the canonical header that the build checks and inserts
+  (Spotless, configured in pom.xml) immediately before the `package` declaration of every
+  Java file changed relative to origin/master. The block is enforced exactly as written,
+  with `$YEAR` in place of the example year range below: the build keeps the end of the
+  `Copyright <first>-<last>` range current and never changes the first year.
+
+  The contributor template below is deliberately excluded from header enforcement: a file
+  carrying extra `Copyright <year> <name>` lines is left byte-for-byte unchanged in its
+  header (stale year ranges included), while its body is still formatted. The same applies
+  to any other header shape that is neither the basic template nor the compact variant
+  (`Copyright $YEAR Julien Ponge, René Krell and the IzPack team.`) also configured in
+  pom.xml.
+
 This is the basic template:
 
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,10 +41,10 @@ then use this template:
 
 /*
  * IzPack - Copyright 2001-2008 Julien Ponge, All Rights Reserved.
- * 
+ *
  * http://izpack.org/
  * http://izpack.codehaus.org/
- * 
+ *
  * Copyright [year(s)] [who you are]
  * Copyright [year(s)] [who you are]
  * (...)
@@ -38,9 +53,9 @@ then use this template:
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

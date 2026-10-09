@@ -534,12 +534,67 @@
         <artifactId>maven-resources-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-eclipse-plugin</artifactId>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>3.10.4</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
-          <workspace>${basedir}</workspace>
-          <workspaceCodeStylesURL>file:///${project.basedir}/src/eclipse-code-formatter.xml
-          </workspaceCodeStylesURL>
+          <ratchetFrom>origin/master</ratchetFrom>
+          <java>
+            <licenseHeader>
+              <name>izpack-copyright-canonical</name>
+              <content><![CDATA[/*
+ * IzPack - Copyright $YEAR Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */]]></content>
+              <delimiter>package</delimiter>
+              <onlyIfContentMatches>\A(?:package\b|/\*\h*\R \* IzPack - Copyright \d{4}(?:-\d{4})? Julien Ponge, All Rights Reserved\.\h*\R \*\h*\R \* http://izpack\.org/\h*\R \* http://izpack\.codehaus\.org/\h*\R \*\h*\R \* Licensed under the Apache License, Version 2\.0 \(the "License"\);\h*\R \* you may not use this file except in compliance with the License\.\h*\R \* You may obtain a copy of the License at\h*\R \*\h*\R \*     http://www\.apache\.org/licenses/LICENSE-2\.0\h*\R \*\h*\R \* Unless required by applicable law or agreed to in writing, software\h*\R \* distributed under the License is distributed on an "AS IS" BASIS,\h*\R \* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied\.\h*\R \* See the License for the specific language governing permissions and\h*\R \* limitations under the License\.\h*\R \*/\h*(?:\h*\R)+package\b)</onlyIfContentMatches>
+            </licenseHeader>
+            <licenseHeader>
+              <name>izpack-copyright-compact</name>
+              <content><![CDATA[/*
+ * Copyright $YEAR Julien Ponge, René Krell and the IzPack team.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */]]></content>
+              <delimiter>package</delimiter>
+              <onlyIfContentMatches>\A/\*\h*\R \* Copyright \d{4}(?:-\d{4})? Julien Ponge, René Krell and the IzPack team\.\h*\R \*\h*\R \* Licensed under the Apache License, Version 2\.0 \(the "License"\);\h*\R \* you may not use this file except in compliance with the License\.\h*\R \* You may obtain a copy of the License at\h*\R \*\h*\R \*     http://www\.apache\.org/licenses/LICENSE-2\.0\h*\R \*\h*\R \* Unless required by applicable law or agreed to in writing, software\h*\R \* distributed under the License is distributed on an "AS IS" BASIS,\h*\R \* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied\.\h*\R \* See the License for the specific language governing permissions and\h*\R \* limitations under the License\.\h*\R \*/\h*(?:\h*\R)+package\b</onlyIfContentMatches>
+            </licenseHeader>
+            <eclipse>
+              <file>src/eclipse-code-formatter.xml</file>
+              <version>4.41</version>
+            </eclipse>
+          </java>
         </configuration>
       </plugin>
       <plugin>
@@ -692,11 +747,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.5.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-eclipse-plugin</artifactId>
-          <version>2.10</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
