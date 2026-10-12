@@ -25,6 +25,13 @@
         "org.easytesting:fest-util"
       ],
       "allowedVersions": "<1.2.0"
+    },
+    {
+      "matchDepNames": [
+        "com.google.errorprone:error_prone_core"
+      ],
+      "description": "Error Prone historically shipped broken releases (e.g. 2.47.0 crashed on JDK 21), so require a green build before updating",
+      "automerge": false
     }
   ],
   "schedule": [
