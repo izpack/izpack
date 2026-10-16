@@ -19,7 +19,7 @@ package com.izforge.izpack.util;
 
 import static com.izforge.izpack.util.Platform.Arch;
 import static com.izforge.izpack.util.Platform.Name;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Abstract base class for {@link Platform} and {@link Platforms} test cases.
@@ -52,9 +52,9 @@ public abstract class AbstractPlatformTest
      */
     protected void checkPlatform(Platform platform, Name name, String symbolicName, String version, Arch arch)
     {
-        assertEquals(name, platform.getName());
-        assertEquals(symbolicName, platform.getSymbolicName());
-        assertEquals(version, platform.getVersion());
-        assertEquals(arch, platform.getArch());
+        assertThat(platform.getName()).isEqualTo(name);
+        assertThat(platform.getSymbolicName()).isEqualTo(symbolicName);
+        assertThat(platform.getVersion()).isEqualTo(version);
+        assertThat(platform.getArch()).isEqualTo(arch);
     }
 }

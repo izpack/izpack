@@ -21,25 +21,16 @@
 
 package com.izforge.izpack.integration.panelaction;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.util.List;
-import java.util.Set;
-
-import org.fest.swing.core.matcher.JButtonMatcher;
-import org.fest.swing.fixture.DialogFixture;
-import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.timing.Timeout;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.integration.HelperTestMethod.prepareFrameFixture;
+import static com.izforge.izpack.integration.panelaction.TestPanelAction.getPostValidate;
+import static com.izforge.izpack.integration.panelaction.TestPanelAction.getPreActivate;
+import static com.izforge.izpack.integration.panelaction.TestPanelAction.getPreConstruct;
+import static com.izforge.izpack.integration.panelaction.TestPanelAction.getPreValidate;
+import static com.izforge.izpack.integration.panelaction.TestPanelAction.getValidate;
+import static java.lang.Thread.sleep;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.fest.swing.core.matcher.JButtonMatcher.withText;
+import static org.fest.swing.timing.Timeout.timeout;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
@@ -47,34 +38,39 @@ import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.data.PanelActionConfiguration;
 import com.izforge.izpack.api.data.binding.ActionStage;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
-import com.izforge.izpack.data.PanelAction;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.gui.IzPanels;
-import com.izforge.izpack.integration.HelperTestMethod;
 import com.izforge.izpack.panels.hello.HelloPanel;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestHousekeeper;
-
+import java.io.File;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Set;
+import org.fest.swing.fixture.DialogFixture;
+import org.fest.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests that {@link PanelAction}s are invoked during installation.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class PanelActionTest
 {
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * Install data.
@@ -128,19 +124,19 @@ public class PanelActionTest
     /**
      * Sets up the test case.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
-        assertTrue(installPath.mkdirs());
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
+        assertThat(installPath.mkdirs()).isTrue();
         installData.setInstallPath(installPath.getAbsolutePath());
     }
 
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)
@@ -158,7 +154,7 @@ public class PanelActionTest
     @InstallFile("samples/panelactions.xml")
     public void testPanelActions() throws Exception
     {
-        assertEquals(3, panels.getPanels().size());
+        assertThat(panels.getPanels()).hasSize(3);
         Panel hello1 = panels.getPanels().get(0);
         Panel hello2 = panels.getPanels().get(1);
         Panel finish = panels.getPanels().get(2);
@@ -172,14 +168,14 @@ public class PanelActionTest
 
         checkActionInvocations("HelloPanel1", 0, 0, 0, 0, 0);
 
-        frameFixture = HelperTestMethod.prepareFrameFixture(frame, controller);
+        frameFixture = prepareFrameFixture(frame, controller);
 
         checkActionsConfiguration(hello1);
 
         checkActionInvocations("HelloPanel1", 1, 1, 0, 0, 0);
 
         // HelloPanel1
-        Thread.sleep(2000);
+        sleep(2000);
         checkCurrentPanel(HelloPanel.class);
         installData.setVariable("HelloPanel1.status", "ERROR");
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
@@ -194,14 +190,14 @@ public class PanelActionTest
         checkActionInvocations("HelloPanel1", 1, 1, 2, 2, 2);
 
         // HelloPanel2
-        Thread.sleep(1000);
+        sleep(1000);
         checkCurrentPanel(HelloPanel.class);
         installData.setVariable("HelloPanel2.status", "OK");
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
         checkActionInvocations("HelloPanel2", 1, 1, 1, 1, 1);
 
         // SimpleFinishPanel
-        Thread.sleep(1000);
+        sleep(1000);
         checkCurrentPanel(SimpleFinishPanel.class);
         checkActionInvocations("SimpleFinishPanel", 1, 1, 0, 0, 0);
 
@@ -213,9 +209,9 @@ public class PanelActionTest
 
         // verify the installer has terminated
         housekeeper.waitShutdown(2 * 60 * 1000);
-        assertTrue(housekeeper.hasShutdown());
-        assertEquals(0, housekeeper.getExitCode());
-        assertFalse(housekeeper.getReboot());
+        assertThat(housekeeper.hasShutdown()).isTrue();
+        assertThat(housekeeper.getExitCode()).isEqualTo(0);
+        assertThat(housekeeper.getReboot()).isFalse();
     }
 
     /**
@@ -226,7 +222,7 @@ public class PanelActionTest
     private void checkCurrentPanel(Class<? extends IzPanel> type)
     {
         Panel panel = panels.getPanel();
-        assertEquals(type.getName(), panel.getClassName());
+        assertThat(panel.getClassName()).isEqualTo(type.getName());
     }
 
     /**
@@ -244,17 +240,17 @@ public class PanelActionTest
     {
         try
         {
-            Thread.sleep(2000);
+            sleep(2000);
         }
         catch (InterruptedException ignore)
         {
             // do nothing
         }
-        assertEquals(preConstruct, TestPanelAction.getPreConstruct(panelId, installData));
-        assertEquals(preActivate, TestPanelAction.getPreActivate(panelId, installData));
-        assertEquals(preValidate, TestPanelAction.getPreValidate(panelId, installData));
-        assertEquals(validate, TestPanelAction.getValidate(panelId, installData));
-        assertEquals(postValidate, TestPanelAction.getPostValidate(panelId, installData));
+        assertThat(getPreConstruct(panelId, installData)).isEqualTo(preConstruct);
+        assertThat(getPreActivate(panelId, installData)).isEqualTo(preActivate);
+        assertThat(getPreValidate(panelId, installData)).isEqualTo(preValidate);
+        assertThat(getValidate(panelId, installData)).isEqualTo(validate);
+        assertThat(getPostValidate(panelId, installData)).isEqualTo(postValidate);
 
     }
 
@@ -280,9 +276,9 @@ public class PanelActionTest
      */
     private void checkAction(List<PanelActionConfiguration> actions, Class type)
     {
-        assertNotNull(actions);
-        assertEquals(1, actions.size());
-        assertEquals(type.getName(), actions.get(0).getActionClassName()); // compiler emits fully qualified class names
+        assertThat(actions).isNotNull();
+        assertThat(actions).hasSize(1);
+        assertThat(actions.get(0).getActionClassName()).isEqualTo(type.getName()); // compiler emits fully qualified class names
     }
 
     /**
@@ -315,7 +311,7 @@ public class PanelActionTest
             Set<Object> keys = installData.getVariables().getProperties().keySet();
             for (Object key : keys)
             {
-                assertFalse(key.toString().startsWith(prefix));
+                assertThat(key.toString().startsWith(prefix)).isFalse();
             }
         }
         else
@@ -324,7 +320,7 @@ public class PanelActionTest
             {
                 String name = prefix + properties[i];
                 String value = properties[++i];
-                assertEquals(value, installData.getVariable(name));
+                assertThat(installData.getVariable(name)).isEqualTo(value);
             }
         }
     }
@@ -338,9 +334,9 @@ public class PanelActionTest
      */
     private void checkDialog(String text)
     {
-        DialogFixture dialog = frameFixture.dialog(Timeout.timeout(10000));
-        assertEquals(text, dialog.label("OptionPane.label").text());
-        dialog.button(JButtonMatcher.withText("OK")).click();
+        DialogFixture dialog = frameFixture.dialog(timeout(10000));
+        assertThat(dialog.label("OptionPane.label").text()).isEqualTo(text);
+        dialog.button(withText("OK")).click();
     }
 }
 

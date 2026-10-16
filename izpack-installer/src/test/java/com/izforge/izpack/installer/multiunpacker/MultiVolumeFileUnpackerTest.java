@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.installer.multiunpacker;
 
+import static org.apache.commons.io.IOUtils.copy;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.data.Blockable;
 import com.izforge.izpack.api.data.OverrideType;
@@ -35,14 +37,8 @@ import com.izforge.izpack.installer.unpacker.FileQueueFactory;
 import com.izforge.izpack.installer.unpacker.FileUnpacker;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.os.FileQueue;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-
 import java.io.*;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link MultiVolumeFileUnpacker} class.
@@ -72,15 +68,15 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
     @Test
     public void testPromptForNextMedia() throws IOException, InstallerException
     {
-        File baseDir = temporaryFolder.getRoot();
+        File baseDir = temporaryFolder.toFile();
         File source = createSourceFile(baseDir);
         File target = getTargetFile(baseDir);
 
         // rename the first volume so that it is prompted for
         final File volume1 = new File(volume.getPath() + ".1");
-        assertTrue(volume1.exists());
+        assertThat(volume1).exists();
         final File renamed = new File(volume1.getPath() + ".bak");
-        assertTrue(volume1.renameTo(renamed));
+        assertThat(volume1.renameTo(renamed)).isTrue();
 
         VolumeLocator locator = new VolumeLocator()
         {
@@ -88,7 +84,7 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
             public File getVolume(String path, boolean corrupt) throws IOException
             {
                 // rename the file back
-                assertTrue(renamed.renameTo(volume1));
+                assertThat(renamed.renameTo(volume1)).isTrue();
                 return volume1;
             }
         };
@@ -100,11 +96,11 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
         FileUnpacker unpacker = new MultiVolumeFileUnpacker(stream, getCancellable(), queue);
 
         PackFile file = createPackFile(baseDir, source, target, Blockable.BLOCKABLE_NONE);
-        assertFalse(target.exists());
+        assertThat(target).doesNotExist();
 
         InputStream packStream = createPackStream(source);
         unpacker.unpack(file, packStream, target);
-        assertTrue(queue.isEmpty());  // file should not have been queued
+        assertThat(queue.isEmpty()).isTrue();  // file should not have been queued
 
         // verify the file unpacked successfully
         checkTarget(source, target);
@@ -126,18 +122,18 @@ public class MultiVolumeFileUnpackerTest extends AbstractFileUnpackerTest
         {
             stream.println(i);
         }
-        assertFalse(stream.checkError());
+        assertThat(stream.checkError()).isFalse();
         stream.close();
 
-        volume = new File(temporaryFolder.getRoot(), "volume");
+        volume = temporaryFolder.resolve("volume").toFile();
         FileSpanningOutputStream out = new FileSpanningOutputStream(volume, 8192);
         FileInputStream in = new FileInputStream(source);
-        IOUtils.copy(in, out);
+        copy(in, out);
 
         // verify there is more than one volume
         out.close();
         volumeCount = out.getVolumes();
-        assertTrue(volumeCount > 1);
+        assertThat(volumeCount).isGreaterThan(1);
         in.close();
         return source;
     }

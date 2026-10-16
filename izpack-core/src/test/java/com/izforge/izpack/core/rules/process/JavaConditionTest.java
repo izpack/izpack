@@ -18,6 +18,8 @@
  */
 package com.izforge.izpack.core.rules.process;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
@@ -29,10 +31,8 @@ import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.rules.ConditionContainer;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class JavaConditionTest {
     public static final boolean CONSTANT_VALUE = true;
@@ -65,16 +65,16 @@ public class JavaConditionTest {
         IXMLElement conditions = parser.parse(getClass().getResourceAsStream("javaconditions.xml"));
         rules.analyzeXml(conditions);
 
-        assertFalse(rules.isConditionTrue("java0"));  // class does not exist
-        assertFalse(rules.isConditionTrue("java1"));  // field does not exist
-        assertTrue(rules.isConditionTrue("java2"));   // access to simple boolean field
-        assertTrue(rules.isConditionTrue("java3"));   // access to boolean object field
-        assertFalse(rules.isConditionTrue("java4"));  // method does not exist
-        assertFalse(rules.isConditionTrue("java5"));  // method has arguments
-        assertFalse(rules.isConditionTrue("java6"));  // method has non boolean return type
-        assertFalse(rules.isConditionTrue("java7"));  // method invocation fails
-        assertTrue(rules.isConditionTrue("java8"));   // simple boolean return value
-        assertTrue(rules.isConditionTrue("java9"));   // boolean object return value
+        assertThat(rules.isConditionTrue("java0")).isFalse();  // class does not exist
+        assertThat(rules.isConditionTrue("java1")).isFalse();  // field does not exist
+        assertThat(rules.isConditionTrue("java2")).isTrue();   // access to simple boolean field
+        assertThat(rules.isConditionTrue("java3")).isTrue();   // access to boolean object field
+        assertThat(rules.isConditionTrue("java4")).isFalse();  // method does not exist
+        assertThat(rules.isConditionTrue("java5")).isFalse();  // method has arguments
+        assertThat(rules.isConditionTrue("java6")).isFalse();  // method has non boolean return type
+        assertThat(rules.isConditionTrue("java7")).isFalse();  // method invocation fails
+        assertThat(rules.isConditionTrue("java8")).isTrue();   // simple boolean return value
+        assertThat(rules.isConditionTrue("java9")).isTrue();   // boolean object return value
     }
 
     /**

@@ -21,10 +21,10 @@
 
 package com.izforge.izpack.integration;
 
-import java.io.File;
+import static com.izforge.izpack.integration.UninstallHelper.consoleUninstall;
 
 import com.izforge.izpack.api.data.InstallData;
-import com.izforge.izpack.uninstaller.Destroyer;
+import java.io.File;
 
 
 /**
@@ -55,7 +55,7 @@ public class AbstractDestroyerTest extends AbstractInstallationTest
      */
     protected void runDestroyer(File uninstallJar) throws Exception
     {
-        UninstallHelper.consoleUninstall(uninstallJar);
+        consoleUninstall(uninstallJar);
     }
 
     /**

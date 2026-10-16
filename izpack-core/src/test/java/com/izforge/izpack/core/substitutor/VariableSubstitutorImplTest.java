@@ -19,22 +19,17 @@
 
 package com.izforge.izpack.core.substitutor;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.util.Properties;
+import static java.lang.System.getProperties;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.api.data.Variables;
-import com.izforge.izpack.core.data.DefaultVariables;
-import org.hamcrest.core.Is;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
-
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.fail;
-
+import com.izforge.izpack.core.data.DefaultVariables;
+import java.util.Properties;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of substitutor features
@@ -46,10 +41,10 @@ public class VariableSubstitutorImplTest
 
     private VariableSubstitutor variableSubstitutor;
 
-    @Before
+    @BeforeEach
     public void setupVariableSubstitutor()
     {
-        Properties properties = new Properties(System.getProperties());
+        Properties properties = new Properties(getProperties());
         properties.put("MY_PROP", "one");
         properties.put("MY_PROP2", "two");
         properties.put("PHRASE", "वसुधैव कुटुम्बकम्");
@@ -62,68 +57,48 @@ public class VariableSubstitutorImplTest
     public void shouldNotSubstitute() throws Exception
     {
         String res = variableSubstitutor.substitute("string not substitute", SubstitutionType.TYPE_PLAIN);
-        assertThat(res, Is.is("string not substitute"));
+        assertThat(res).isEqualTo("string not substitute");
         res = variableSubstitutor.substitute("string not ${substitute}", SubstitutionType.TYPE_PLAIN);
-        assertThat(res, Is.is("string not ${substitute}"));
+        assertThat(res).isEqualTo("string not ${substitute}");
     }
 
     @Test
     public void shouldSubstitutePlainText() throws Exception
     {
-        assertThat(
-                variableSubstitutor.substitute("Variable ${MY_PROP} and ${MY_PROP2}", SubstitutionType.TYPE_PLAIN),
-                Is.is("Variable one and two"));
-        assertThat(
-                variableSubstitutor.substitute("$MY_PROP2$MY_PROP", SubstitutionType.TYPE_PLAIN),
-                Is.is("twoone"));
-        assertThat(
-                variableSubstitutor.substitute("$MY_PROP2$MY_PRO", SubstitutionType.TYPE_PLAIN),
-                Is.is("two$MY_PRO"));
-        assertThat(
-                variableSubstitutor.substitute("$$$MY_PROP2$MY_PRO", SubstitutionType.TYPE_PLAIN),
-                Is.is("$$two$MY_PRO"));
-        assertThat(
-                variableSubstitutor.substitute("A nice Sanskrit phrase is \"$PHRASE\", meaning in English is \"$MEANING\".", SubstitutionType.TYPE_PLAIN),
-                Is.is("A nice Sanskrit phrase is \"वसुधैव कुटुम्बकम्\", meaning in English is \"The world is a family\"."));
+        assertThat(variableSubstitutor.substitute("Variable ${MY_PROP} and ${MY_PROP2}", SubstitutionType.TYPE_PLAIN)).isEqualTo("Variable one and two");
+        assertThat(variableSubstitutor.substitute("$MY_PROP2$MY_PROP", SubstitutionType.TYPE_PLAIN)).isEqualTo("twoone");
+        assertThat(variableSubstitutor.substitute("$MY_PROP2$MY_PRO", SubstitutionType.TYPE_PLAIN)).isEqualTo("two$MY_PRO");
+        assertThat(variableSubstitutor.substitute("$$$MY_PROP2$MY_PRO", SubstitutionType.TYPE_PLAIN)).isEqualTo("$$two$MY_PRO");
+        assertThat(variableSubstitutor.substitute("A nice Sanskrit phrase is \"$PHRASE\", meaning in English is \"$MEANING\".", SubstitutionType.TYPE_PLAIN)).isEqualTo("A nice Sanskrit phrase is \"वसुधैव कुटुम्बकम्\", meaning in English is \"The world is a family\".");
     }
 
     @Test
     public void shouldSubstituteAntType() throws Exception
     {
-        assertThat(
-                variableSubstitutor.substitute("@MY_PROP@@MY_PROP2@", SubstitutionType.TYPE_ANT),
-                Is.is("onetwo"));
-        assertThat(
-                variableSubstitutor.substitute("@{MY_PROP}", SubstitutionType.TYPE_ANT),
-                Is.is("@{MY_PROP}"));
-        assertThat(
-                variableSubstitutor.substitute("Variable @{MY_PROP}@ and @MY_PROP2@", SubstitutionType.TYPE_ANT),
-                Is.is("Variable one and two"));
-        assertThat(
-                variableSubstitutor.substitute("A nice Sanskrit phrase is \"@PHRASE@\", meaning in English is \"@MEANING@\".", SubstitutionType.TYPE_ANT),
-                Is.is("A nice Sanskrit phrase is \"वसुधैव कुटुम्बकम्\", meaning in English is \"The world is a family\"."));
+        assertThat(variableSubstitutor.substitute("@MY_PROP@@MY_PROP2@", SubstitutionType.TYPE_ANT)).isEqualTo("onetwo");
+        assertThat(variableSubstitutor.substitute("@{MY_PROP}", SubstitutionType.TYPE_ANT)).isEqualTo("@{MY_PROP}");
+        assertThat(variableSubstitutor.substitute("Variable @{MY_PROP}@ and @MY_PROP2@", SubstitutionType.TYPE_ANT)).isEqualTo("Variable one and two");
+        assertThat(variableSubstitutor.substitute("A nice Sanskrit phrase is \"@PHRASE@\", meaning in English is \"@MEANING@\".", SubstitutionType.TYPE_ANT)).isEqualTo("A nice Sanskrit phrase is \"वसुधैव कुटुम्बकम्\", meaning in English is \"The world is a family\".");
     }
 
     @Test
     public void shouldSubstituteShellType() throws Exception
     {
-        assertThat(
-                variableSubstitutor.substitute("%MY_PROP%MY_PROP2", SubstitutionType.TYPE_SHELL),
-                Is.is("onetwo"));
+        assertThat(variableSubstitutor.substitute("%MY_PROP%MY_PROP2", SubstitutionType.TYPE_SHELL)).isEqualTo("onetwo");
     }
 
     @Test
     public void testSystemPropertiesSubstition() throws Exception
     {
         String substituted = variableSubstitutor.substitute("${SYSTEM[user.dir]}");
-        assertNotNull(substituted);
+        assertThat(substituted).isNotNull();
         if (substituted.trim().isEmpty() || substituted.startsWith("${SYSTEM["))
         {
             fail("The system variable resolution of ${SYSTEM[user.dir]} resulted in an invalid string '" + substituted + "\"");
         }
         // TODO: This is just for backward compatibility, remove in future
         substituted = variableSubstitutor.substitute("${SYSTEM_user_dir}");
-        assertNotNull(substituted);
+        assertThat(substituted).isNotNull();
         if (substituted.trim().isEmpty() || substituted.startsWith("${SYSTEM_"))
         {
             fail("The system variable resolution of ${SYSTEM_user_dir} resulted in an invalid string '" + substituted + "\"");

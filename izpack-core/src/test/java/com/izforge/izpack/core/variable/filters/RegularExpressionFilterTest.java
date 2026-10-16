@@ -1,14 +1,14 @@
 package com.izforge.izpack.core.variable.filters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import com.izforge.izpack.core.data.DefaultVariables;
-import org.junit.Test;
+import static java.lang.System.getProperties;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.api.data.ValueFilter;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
+import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
+import org.junit.jupiter.api.Test;
 
 public class RegularExpressionFilterTest
 {
@@ -16,13 +16,11 @@ public class RegularExpressionFilterTest
     @Test
     public void testSelectNumberValue()
     {
-        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(System.getProperties()));
+        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(getProperties()));
         ValueFilter filter = new RegularExpressionFilter("^(\\d+)$", "\\1", "3000", true);
         try
         {
-            assertEquals(
-                    "10",
-                    filter.filter("10", subst));
+            assertThat(filter.filter("10", subst)).isEqualTo("10");
         }
         catch (Exception e)
         {
@@ -33,13 +31,11 @@ public class RegularExpressionFilterTest
     @Test
     public void testSelectDefaultValue()
     {
-        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(System.getProperties()));
+        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(getProperties()));
         ValueFilter filter = new RegularExpressionFilter("^(\\d+)$", "\\1", "3000", true);
         try
         {
-            assertEquals(
-                    "3000",
-                    filter.filter("xxx", subst));
+            assertThat(filter.filter("xxx", subst)).isEqualTo("3000");
         }
         catch (Exception e)
         {
@@ -50,13 +46,11 @@ public class RegularExpressionFilterTest
     @Test
     public void testReplaceNumberValueGlobal()
     {
-        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(System.getProperties()));
+        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(getProperties()));
         ValueFilter filter = new RegularExpressionFilter("\\d+", ".", "abc", true, true);
         try
         {
-            assertEquals(
-                    ".x.x.",
-                    filter.filter("1x2x300", subst));
+            assertThat(filter.filter("1x2x300", subst)).isEqualTo(".x.x.");
         }
         catch (Exception e)
         {
@@ -67,13 +61,11 @@ public class RegularExpressionFilterTest
     @Test
     public void testReplaceNumberValueOnce()
     {
-        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(System.getProperties()));
+        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(getProperties()));
         ValueFilter filter = new RegularExpressionFilter("\\d+", ".", "abc", true, false);
         try
         {
-            assertEquals(
-                    ".x2x300",
-                    filter.filter("1x2x300", subst));
+            assertThat(filter.filter("1x2x300", subst)).isEqualTo(".x2x300");
         }
         catch (Exception e)
         {
@@ -84,13 +76,11 @@ public class RegularExpressionFilterTest
     @Test
     public void testReplaceDefaultValue()
     {
-        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(System.getProperties()));
+        VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(getProperties()));
         ValueFilter filter = new RegularExpressionFilter("\\d+", ".", "abc", true, true);
         try
         {
-            assertEquals(
-                    "abc",
-                    filter.filter("xxx", subst));
+            assertThat(filter.filter("xxx", subst)).isEqualTo("abc");
         }
         catch (Exception e)
         {

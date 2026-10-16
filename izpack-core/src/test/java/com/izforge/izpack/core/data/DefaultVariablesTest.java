@@ -21,6 +21,11 @@
 
 package com.izforge.izpack.core.data;
 
+import static java.nio.file.Files.createDirectories;
+import static org.apache.commons.io.FileUtils.touch;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+
 import com.izforge.izpack.api.data.*;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.api.rules.Condition;
@@ -33,20 +38,15 @@ import com.izforge.izpack.core.variable.ConfigFileValue;
 import com.izforge.izpack.core.variable.PlainConfigFileValue;
 import com.izforge.izpack.core.variable.PlainValue;
 import com.izforge.izpack.util.Platforms;
-import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import static org.junit.Assert.*;
-
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link DefaultVariables} class.
@@ -55,8 +55,8 @@ import static org.junit.Assert.*;
  */
 public class DefaultVariablesTest
 {
-    @Rule
-    public TemporaryFolder rootFolder = new TemporaryFolder();
+    @TempDir
+    public Path rootFolder;
 
 
     /**
@@ -74,16 +74,16 @@ public class DefaultVariablesTest
     {
         // test basic set/get
         variables.set("var1", "value1");
-        assertEquals(variables.get("var1"), "value1");
+        assertThat(variables.get("var1")).isEqualTo("value1");
 
         // test nulls
         variables.set("null", null);
-        assertNull(variables.get("null"));
-        assertEquals("default", variables.get("null", "default"));
+        assertThat(variables.get("null")).isNull();
+        assertThat(variables.get("null", "default")).isEqualTo("default");
 
         // test where no variable set
-        assertNull(variables.get("nonExistingVariable"));
-        assertEquals("default", variables.get("nonExistingVariable", "default"));
+        assertThat(variables.get("nonExistingVariable")).isNull();
+        assertThat(variables.get("nonExistingVariable", "default")).isEqualTo("default");
     }
 
     /**
@@ -95,22 +95,22 @@ public class DefaultVariablesTest
         // test basic set/get
         variables.set("var1", "true");
         variables.set("var2", "false");
-        assertEquals(true, variables.getBoolean("var1"));
-        assertEquals(false, variables.getBoolean("var2"));
+        assertThat(variables.getBoolean("var1")).isTrue();
+        assertThat(variables.getBoolean("var2")).isFalse();
 
         // test null
         variables.set("null", null);
-        assertEquals(false, variables.getBoolean("null"));
-        assertEquals(true, variables.getBoolean("null", true));
+        assertThat(variables.getBoolean("null")).isFalse();
+        assertThat(variables.getBoolean("null", true)).isTrue();
 
         // test where no variable set
-        assertEquals(false, variables.getBoolean("nonExistingVariable"));
-        assertEquals(true, variables.getBoolean("nonExistingVariable", true));
+        assertThat(variables.getBoolean("nonExistingVariable")).isFalse();
+        assertThat(variables.getBoolean("nonExistingVariable", true)).isTrue();
 
         // test when the value is not a boolean value
         variables.set("notABoolean", "yes");
-        assertEquals(false, variables.getBoolean("notABoolean"));
-        assertEquals(true, variables.getBoolean("notABoolean", true));
+        assertThat(variables.getBoolean("notABoolean")).isFalse();
+        assertThat(variables.getBoolean("notABoolean", true)).isTrue();
     }
 
     /**
@@ -123,32 +123,32 @@ public class DefaultVariablesTest
         variables.set("var1", "0");
         variables.set("var2", Integer.toString(Integer.MIN_VALUE));
         variables.set("var3", Integer.toString(Integer.MAX_VALUE));
-        assertEquals(0, variables.getInt("var1"));
-        assertEquals(Integer.MIN_VALUE, variables.getInt("var2"));
-        assertEquals(Integer.MAX_VALUE, variables.getInt("var3"));
+        assertThat(variables.getInt("var1")).isEqualTo(0);
+        assertThat(variables.getInt("var2")).isEqualTo(Integer.MIN_VALUE);
+        assertThat(variables.getInt("var3")).isEqualTo(Integer.MAX_VALUE);
 
         // check when the variable is null
         variables.set("null", null);
-        assertEquals(-1, variables.getInt("null"));
-        assertEquals(9999, variables.getInt("null", 9999));
+        assertThat(variables.getInt("null")).isEqualTo(-1);
+        assertThat(variables.getInt("null", 9999)).isEqualTo(9999);
 
         // check when the variable doesn't exist
-        assertEquals(-1, variables.getInt("nonExistingVariable"));
-        assertEquals(9999, variables.getInt("nonExistingVariable", 9999));
+        assertThat(variables.getInt("nonExistingVariable")).isEqualTo(-1);
+        assertThat(variables.getInt("nonExistingVariable", 9999)).isEqualTo(9999);
 
         // check when the variable is not an integer value
         variables.set("notAnInt", "abcdef");
-        assertEquals(-1, variables.getInt("notAnInt"));
-        assertEquals(9999, variables.getInt("notAnInt", 9999));
+        assertThat(variables.getInt("notAnInt")).isEqualTo(-1);
+        assertThat(variables.getInt("notAnInt", 9999)).isEqualTo(9999);
 
         // check behaviour when value < Integer.MIN_VALUE or > Integer.MAX_VALUE
         variables.set("exceed1", Long.toString(Long.MIN_VALUE));
         variables.set("exceed2", Long.toString(Long.MAX_VALUE));
 
-        assertEquals(-1, variables.getInt("exceed1"));
-        assertEquals(9999, variables.getInt("exceed1", 9999));
-        assertEquals(-1, variables.getInt("exceed2"));
-        assertEquals(9999, variables.getInt("exceed2", 9999));
+        assertThat(variables.getInt("exceed1")).isEqualTo(-1);
+        assertThat(variables.getInt("exceed1", 9999)).isEqualTo(9999);
+        assertThat(variables.getInt("exceed2")).isEqualTo(-1);
+        assertThat(variables.getInt("exceed2", 9999)).isEqualTo(9999);
     }
 
     /**
@@ -159,21 +159,21 @@ public class DefaultVariablesTest
     {
         // check basic set, get
         variables.set("var1", "0");
-        assertEquals(0, variables.getLong("var1"));
+        assertThat(variables.getLong("var1")).isEqualTo(0);
 
         // check when the variable is null
         variables.set("null", null);
-        assertEquals(-1, variables.getLong("null"));
-        assertEquals(9999, variables.getLong("null", 9999));
+        assertThat(variables.getLong("null")).isEqualTo(-1);
+        assertThat(variables.getLong("null", 9999)).isEqualTo(9999);
 
         // check when the variable doesn't exist
-        assertEquals(-1, variables.getLong("nonExistingVariable"));
-        assertEquals(9999, variables.getLong("nonExistingVariable", 9999));
+        assertThat(variables.getLong("nonExistingVariable")).isEqualTo(-1);
+        assertThat(variables.getLong("nonExistingVariable", 9999)).isEqualTo(9999);
 
         // check when the variable is not an integer value
         variables.set("notALong", "abcdef");
-        assertEquals(-1, variables.getLong("notALong"));
-        assertEquals(9999, variables.getLong("notALong", 9999));
+        assertThat(variables.getLong("notALong")).isEqualTo(-1);
+        assertThat(variables.getLong("notALong", 9999)).isEqualTo(9999);
     }
 
     /**
@@ -185,18 +185,18 @@ public class DefaultVariablesTest
         variables.set("var1", "Hello");
         variables.set("var2", "world");
 
-        assertEquals("Hello world", variables.replace("$var1 $var2"));
-        assertEquals("Hello world", variables.replace("${var1} ${var2}"));
+        assertThat(variables.replace("$var1 $var2")).isEqualTo("Hello world");
+        assertThat(variables.replace("${var1} ${var2}")).isEqualTo("Hello world");
 
         // check non-existent variable
-        assertEquals("Hello $var3", variables.replace("$var1 $var3"));
-        assertEquals("Hello ${var3}", variables.replace("${var1} ${var3}"));
+        assertThat(variables.replace("$var1 $var3")).isEqualTo("Hello $var3");
+        assertThat(variables.replace("${var1} ${var3}")).isEqualTo("Hello ${var3}");
 
         // check malformed variable
-        assertEquals("Hello ${var3", variables.replace("$var1 ${var3"));
+        assertThat(variables.replace("$var1 ${var3")).isEqualTo("Hello ${var3");
 
         // check null
-        assertNull(variables.replace(null));
+        assertThat(variables.replace(null)).isNull();
     }
 
     /**
@@ -208,9 +208,9 @@ public class DefaultVariablesTest
         variables.add(createDynamic("var1", "$INSTALL_PATH"));
         variables.set("INSTALL_PATH", "a");
 
-        assertNull(variables.get("var1"));  // not created till variables refreshed
+        assertThat(variables.get("var1")).isNull();  // not created till variables refreshed
         variables.refresh();
-        assertEquals("a", variables.get("var1"));
+        assertThat(variables.get("var1")).isEqualTo("a");
     }
 
     /**
@@ -238,12 +238,12 @@ public class DefaultVariablesTest
         // check when cond1 is true
         variables.set("os", "windows");
         variables.refresh();
-        assertEquals("c:\\Program Files", variables.get("INSTALL_PATH"));
+        assertThat(variables.get("INSTALL_PATH")).isEqualTo("c:\\Program Files");
 
         // check when cond2 is true
         variables.set("os", "unix");
         variables.refresh();
-        assertEquals("/usr/local/bin", variables.get("INSTALL_PATH"));
+        assertThat(variables.get("INSTALL_PATH")).isEqualTo("/usr/local/bin");
     }
 
     /**
@@ -271,11 +271,11 @@ public class DefaultVariablesTest
         File confFile = null;
         try
         {
-            installPath = rootFolder.newFolder("myapp");
+            installPath = createDirectories(rootFolder.resolve("myapp")).toFile();
             File confPath = new File(installPath, "conf");
             confPath.mkdirs();
             confFile = new File(confPath, "wrapper.conf");
-            FileUtils.touch(confFile);
+            touch(confFile);
         }
         catch (IOException e)
         {
@@ -286,7 +286,7 @@ public class DefaultVariablesTest
 
         variables.refresh();
 
-        assertEquals(confFile.getAbsolutePath(), variables.get("previous.wrapper.conf"));
+        assertThat(variables.get("previous.wrapper.conf")).isEqualTo(confFile.getAbsolutePath());
     }
 
         /**
@@ -312,14 +312,14 @@ public class DefaultVariablesTest
 
         // !cond1+!cond2
         variables.refresh();
-        assertNull(variables.get("var"));
+        assertThat(variables.get("var")).isNull();
 
         variables.set("condvar1", "x");
         // cond1+!cond2
         variables.refresh();
-        assertEquals("b", variables.get("var"));
+        assertThat(variables.get("var")).isEqualTo("b");
         variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
-        assertEquals("b", variables.get("var"));
+        assertThat(variables.get("var")).isEqualTo("b");
 
         Set<String> blocked = new HashSet<String>();
         // we now do overwrite the variable on a UserInputPanel
@@ -327,18 +327,18 @@ public class DefaultVariablesTest
         variables.set("var", "anothervalue");
         variables.registerBlockedVariableNames(blocked, this);
         variables.refresh(); // user input is stronger than other definitions
-        assertEquals("anothervalue", variables.get("var"));
+        assertThat(variables.get("var")).isEqualTo("anothervalue");
 
         variables.set("condvar2", "y"); // a conditions changes and wants to overwrite the variable
         variables.refresh();            // but user input still must survive
-        assertEquals("anothervalue", variables.get("var"));
+        assertThat(variables.get("var")).isEqualTo("anothervalue");
 
         // now the user goes back to the previous panel
         variables.unregisterBlockedVariableNames(blocked, this);
         variables.refresh(); // value must be changed as defined for cond1+cond2
-        assertEquals("a", variables.get("var"));
+        assertThat(variables.get("var")).isEqualTo("a");
         variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
-        assertEquals("a", variables.get("var"));
+        assertThat(variables.get("var")).isEqualTo("a");
     }
 
     /**
@@ -356,9 +356,9 @@ public class DefaultVariablesTest
         variables.add(createDynamic("depVar2", "${depVar1}"));
         variables.add(createDynamic("depVar3", "${depVar2}"));
 
-        assertNull(variables.get("depVar3")); // not created till variables refreshed
+        assertThat(variables.get("depVar3")).isNull(); // not created till variables refreshed
         variables.refresh();
-        assertEquals("check dependent variable", "depValue", variables.get("depVar3"));
+        assertThat(variables.get("depVar3")).as("check dependent variable").isEqualTo("depValue");
     }
 
     /**
@@ -370,9 +370,9 @@ public class DefaultVariablesTest
         variables.add(createDynamic("name1", "someValue"));
         variables.add(createDynamic("name2", "${name1}"));
         variables.add(createDynamic("name3", "${name2}"));
-        assertNull(variables.get("name3")); // not created till variables refreshed
+        assertThat(variables.get("name3")).isNull(); // not created till variables refreshed
         variables.refresh();
-        assertEquals("check dependent variable", "someValue", variables.get("name3"));
+        assertThat(variables.get("name3")).as("check dependent variable").isEqualTo("someValue");
     }
 
     /**
@@ -388,13 +388,13 @@ public class DefaultVariablesTest
         variables.add(createDynamicCheckonce("checkonceVar", "${depVar3}"));
 
         variables.refresh();
-        assertEquals("check dependent variable", "depValue", variables.get("depVar3"));
-        assertEquals("check variable with checkonce=true", "depValue", variables.get("checkonceVar"));
+        assertThat(variables.get("depVar3")).as("check dependent variable").isEqualTo("depValue");
+        assertThat(variables.get("checkonceVar")).as("check variable with checkonce=true").isEqualTo("depValue");
 
         variables.set("depVar1", "newValue");
         variables.refresh();
-        assertEquals("recheck dependent variable", "newValue", variables.get("depVar3")); // should be changed
-        assertEquals("recheck variable with checkonce=true", "depValue", variables.get("checkonceVar")); // should not change any more
+        assertThat(variables.get("depVar3")).as("recheck dependent variable").isEqualTo("newValue"); // should be changed
+        assertThat(variables.get("checkonceVar")).as("recheck variable with checkonce=true").isEqualTo("depValue"); // should not change any more
     }
 
     /**
@@ -428,53 +428,53 @@ public class DefaultVariablesTest
         variables.add(createDynamic(observedVar, "choice1", "cond1"));
         variables.add(createDynamic(observedVar, "choice2", "cond2"));
 
-        assertNull(variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isNull();
 
         // !cond1+!cond2
         variables.refresh();
-        assertEquals("fallback value", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("fallback value");
 
         // cond1+!cond2
         variables.set("condvar1", "1");
         variables.refresh();
-        assertEquals("choice1", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice1");
         variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
-        assertEquals("choice1", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice1");
 
         // cond1+cond2
         variables.set("condvar2", "1");
         variables.refresh();
-        assertEquals("choice2", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice2");
         variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
-        assertEquals("choice2", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice2");
 
         // !cond1+cond2
         variables.set("condvar1", "0");
         variables.refresh();
-        assertEquals("choice2", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice2");
         variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
-        assertEquals("choice2", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice2");
 
         // !cond1+!cond2
         variables.set("condvar2", "0");
         variables.refresh();
-        assertEquals("fallback value", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("fallback value");
         variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
-        assertEquals("fallback value", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("fallback value");
 
         // !cond1+cond2
         variables.set("condvar2", "1");
         variables.refresh();
-        assertEquals("choice2", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice2");
         variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
-        assertEquals("choice2", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice2");
 
         // cond1+cond2
         variables.set("condvar1", "1");
         variables.refresh(); // cond2 takes precedence because of ordering
-        assertEquals("choice2", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice2");
         variables.refresh(); // Double check whether it is a stable state (for instance on panel change)
-        assertEquals("choice2", variables.get(observedVar));
+        assertThat(variables.get(observedVar)).isEqualTo("choice2");
     }
 
     /**
@@ -494,8 +494,8 @@ public class DefaultVariablesTest
         variables.add(createDynamic("b", "${a}"));
         variables.refresh();
 
-        assertEquals("${b}", variables.get("a"));
-        assertEquals("${b}", variables.get("b"));
+        assertThat(variables.get("a")).isEqualTo("${b}");
+        assertThat(variables.get("b")).isEqualTo("${b}");
     }
 
     /**
@@ -514,7 +514,7 @@ public class DefaultVariablesTest
         {
             catched = true;
         }
-        assertFalse("empty <dynamicVariables> must not throw an exception", catched);
+        assertThat(catched).as("empty <dynamicVariables> must not throw an exception").isFalse();
     }
 
     /**
@@ -526,17 +526,17 @@ public class DefaultVariablesTest
         variables.set("var1", "value1");
         variables.add(createDynamic("var1", "dynValue"));
 
-        assertEquals("static value", "value1", variables.get("var1"));       // dynamic variable not resolved till variables refreshed
+        assertThat(variables.get("var1")).as("static value").isEqualTo("value1");       // dynamic variable not resolved till variables refreshed
         variables.refresh();
-        assertEquals("dynamic overwrite", "dynValue", variables.get("var1")); // static variable is overwritten by dynamic variable
+        assertThat(variables.get("var1")).as("dynamic overwrite").isEqualTo("dynValue"); // static variable is overwritten by dynamic variable
 
         variables.add(createDynamic("var1", "${var2}"));                     // var2 is not defined yet
         variables.refresh();
-        assertEquals("expect unresolved reference", "${var2}", variables.get("var1"));
+        assertThat(variables.get("var1")).as("expect unresolved reference").isEqualTo("${var2}");
 
         variables.set("var2", "value2");                                     // define var2
         variables.refresh();
-        assertEquals("expect reference resolved", "value2", variables.get("var1"));
+        assertThat(variables.get("var1")).as("expect reference resolved").isEqualTo("value2");
     }
 
     /**
@@ -548,7 +548,7 @@ public class DefaultVariablesTest
         testMixedVariablesFromIniFileUnset(true);
         // variable "var6" is static defined, but dynamic reference is not found in ini file.
         // with unset="true" (Default) the static variable is overwritten with null
-        assertNull("undefined reference gives <null>", variables.get("var6"));
+        assertThat(variables.get("var6")).as("undefined reference gives <null>").isNull();
     }
 
     /**
@@ -560,7 +560,7 @@ public class DefaultVariablesTest
         testMixedVariablesFromIniFileUnset(false);
         // variable "var6" is static defined, but dynamic reference is not found in ini file.
         // with unset="false" the static variable is conserved and can be used as default
-        assertEquals("undefined reference gives static value", "static", variables.get("var6"));
+        assertThat(variables.get("var6")).as("undefined reference gives static value").isEqualTo("static");
     }
 
     private void testMixedVariablesFromIniFileUnset(boolean unset)
@@ -581,16 +581,16 @@ public class DefaultVariablesTest
         variables.add(createDynamicFromIni("var6", unset));
 
         // common tests for testMixedVariablesFromIniFileUnsetTrue and testMixedVariablesFromIniFileUnsetFalse
-        assertEquals("static value", "static", variables.get("var1"));       // dynamic variable not resolved till variables refreshed
+        assertThat(variables.get("var1")).as("static value").isEqualTo("static");       // dynamic variable not resolved till variables refreshed
         variables.refresh();
-        assertEquals("ini not found", "true", variables.get("found"));      // check, whether ini was found at all
+        assertThat(variables.get("found")).as("ini not found").isEqualTo("true");      // check, whether ini was found at all
 
         // static variable replaced by dynamic value from ini
-        assertEquals("value from ini", "ini1", variables.get("var1"));
-        assertEquals("value from ini with spaces", "ini2", variables.get("var2"));
-        assertEquals("value from ini with spaces in value", "ini with spaces", variables.get("var3"));
-        assertEquals("empty value from ini", "", variables.get("var4"));
-        assertEquals("empty value with spaces in ini", "", variables.get("var5"));
+        assertThat(variables.get("var1")).as("value from ini").isEqualTo("ini1");
+        assertThat(variables.get("var2")).as("value from ini with spaces").isEqualTo("ini2");
+        assertThat(variables.get("var3")).as("value from ini with spaces in value").isEqualTo("ini with spaces");
+        assertThat(variables.get("var4")).as("empty value from ini").isEmpty();
+        assertThat(variables.get("var5")).as("empty value with spaces in ini").isEmpty();
     }
 
     /**
@@ -616,7 +616,7 @@ public class DefaultVariablesTest
         variables.add(createDynamic(blockedVar, "newValue", "cond1"));
 
         variables.refresh();
-        assertEquals("oldValue", variables.get(blockedVar));
+        assertThat(variables.get(blockedVar)).isEqualTo("oldValue");
 
         // block variable
         Set<String> blockedVars = new HashSet<String>();
@@ -624,17 +624,17 @@ public class DefaultVariablesTest
         Panel blocker = new Panel();
         variables.registerBlockedVariableNames(blockedVars, blocker);
         variables.refresh();
-        assertEquals("oldValue", variables.get(blockedVar));
+        assertThat(variables.get(blockedVar)).isEqualTo("oldValue");
 
         // condition becomes true, but variable is still blocked
         variables.set("condvar1", "1");
         variables.refresh();
-        assertEquals("oldValue", variables.get(blockedVar));
+        assertThat(variables.get(blockedVar)).isEqualTo("oldValue");
 
         // unblock variable, so value should change
         variables.unregisterBlockedVariableNames(blockedVars, blocker);
         variables.refresh();
-        assertEquals("newValue", variables.get(blockedVar));
+        assertThat(variables.get(blockedVar)).isEqualTo("newValue");
     }
 
     /**
@@ -732,7 +732,7 @@ public class DefaultVariablesTest
     public void testOverrides()
     {
         File file = new File("src/test/resources/com/izforge/izpack/core/data/test.defaults");
-        assertTrue("File " + file + " not found", file.exists());
+        assertThat(file).as("File " + file + " not found").exists();
         Overrides overrides = null;
         try
         {
@@ -746,12 +746,10 @@ public class DefaultVariablesTest
         variables.add(createDynamic("var1", "dynamic_definition"));
         variables.setOverrides(overrides);
         variables.refresh();
-        assertEquals("Wrong override after refresh without explicitly setting the variable",
-                "OVERRIDE1", variables.get("var1"));
+        assertThat(variables.get("var1")).as("Wrong override after refresh without explicitly setting the variable").isEqualTo("OVERRIDE1");
         variables.set("var1", "explicit_value");
-        assertEquals("Explicitly set variable value not present not present after refresh"
-                        + "- user input will not override the defaults contents",
-                "explicit_value", variables.get("var1"));
+        assertThat(variables.get("var1")).as("Explicitly set variable value not present not present after refresh"
+                        + "- user input will not override the defaults contents").isEqualTo("explicit_value");
     }
 
 }

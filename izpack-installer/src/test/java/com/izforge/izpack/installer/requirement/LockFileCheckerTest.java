@@ -21,14 +21,12 @@
 
 package com.izforge.izpack.installer.requirement;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static com.izforge.izpack.util.FileUtil.getLockFile;
+import static java.lang.System.currentTimeMillis;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
-
-import org.junit.Test;
-
-import com.izforge.izpack.util.FileUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link LockFileChecker} class.
@@ -44,24 +42,24 @@ public class LockFileCheckerTest extends AbstractRequirementCheckerTest
     @Test
     public void testLockFile()
     {
-        String appName = "TestApp" + System.currentTimeMillis();
+        String appName = "TestApp" + currentTimeMillis();
         installData.getInfo().setAppName(appName);
         LockFileChecker checker = new LockFileChecker(installData, prompt);
 
         // no lock file yet.
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
 
         // lock file should now exist. Enter n to cancel
         console.addScript("LockFileExists-enter-N", "n");
-        assertFalse(checker.check());
+        assertThat(checker.check()).isFalse();
 
         // rerun the check, this time selecting Y to continue
         console.addScript("LockFileExists-enter-Y", "y");
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
 
         // now delete the lock file and verify the check returns true
-        File file = FileUtil.getLockFile(appName);
-        assertTrue(file.delete());
-        assertTrue(checker.check());
+        File file = getLockFile(appName);
+        assertThat(file.delete()).isTrue();
+        assertThat(checker.check()).isTrue();
     }
 }

@@ -21,12 +21,12 @@
 
 package com.izforge.izpack.util;
 
-import static org.junit.Assert.assertEquals;
+import static com.izforge.izpack.util.FileUtil.convertUrlToFilePath;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FileUtilTest extends AbstractPlatformTest
 {
@@ -34,64 +34,62 @@ public class FileUtilTest extends AbstractPlatformTest
   public void testConvertUrlToFilePathFromUNCJar() throws MalformedURLException
   {
     URL uncUrl = new URL("jar:file://somehost.somedomain/share/setup.jar!/some%20path/somefile.txt");
-    assertEquals("//somehost.somedomain/share/setup.jar!/some path/somefile.txt",
-        FileUtil.convertUrlToFilePath(uncUrl));
+    assertThat(convertUrlToFilePath(uncUrl)).isEqualTo("//somehost.somedomain/share/setup.jar!/some path/somefile.txt");
   }
 
   @Test
   public void testConvertUrlToFilePathFromUNCFile() throws MalformedURLException
   {
     URL uncUrl = new URL("file://somehost.somedomain/share/somefile.txt");
-    assertEquals("//somehost.somedomain/share/somefile.txt", FileUtil.convertUrlToFilePath(uncUrl));
+    assertThat(convertUrlToFilePath(uncUrl)).isEqualTo("//somehost.somedomain/share/somefile.txt");
   }
 
   @Test
   public void testConvertUrlToFilePathFromLinuxJar() throws MalformedURLException
   {
     URL linuxUrl = new URL("jar:file:/somedirectory/setup.jar!/some%20path/somefile.txt");
-    assertEquals("/somedirectory/setup.jar!/some path/somefile.txt",
-        FileUtil.convertUrlToFilePath(linuxUrl));
+    assertThat(convertUrlToFilePath(linuxUrl)).isEqualTo("/somedirectory/setup.jar!/some path/somefile.txt");
   }
 
   @Test
   public void testConvertUrlToFilePathFromLinuxFile() throws MalformedURLException
   {
     URL linuxUrl = new URL("file:/somedirectory/somefile.txt");
-    assertEquals("/somedirectory/somefile.txt", FileUtil.convertUrlToFilePath(linuxUrl));
+    assertThat(convertUrlToFilePath(linuxUrl)).isEqualTo("/somedirectory/somefile.txt");
   }
 
   @Test
   public void testConvertUrlToFilePathFromWindowsJar() throws MalformedURLException
   {
     URL windowsUrl = new URL("jar:file:/C:/somedirectory/setup.jar!/some%20path/");
-    assertEquals("C:/somedirectory/setup.jar!/some path/", FileUtil.convertUrlToFilePath(windowsUrl));
+    assertThat(convertUrlToFilePath(windowsUrl)).isEqualTo("C:/somedirectory/setup.jar!/some path/");
   }
 
   @Test
   public void testConvertUrlToFilePathFromWindowsFile() throws MalformedURLException
   {
     URL windowsUrl = new URL("file:/C:/somedirectory/somefile.txt");
-    assertEquals("C:/somedirectory/somefile.txt", FileUtil.convertUrlToFilePath(windowsUrl));
+    assertThat(convertUrlToFilePath(windowsUrl)).isEqualTo("C:/somedirectory/somefile.txt");
   }
 
   @Test
   public void testConvertUrlToFilePathFromWindowsJarSpecial() throws MalformedURLException
   {
     URL windowsUrl = new URL("jar:file:C:/somedirectory/setup.jar!/some%20path/");
-    assertEquals("C:/somedirectory/setup.jar!/some path/", FileUtil.convertUrlToFilePath(windowsUrl));
+    assertThat(convertUrlToFilePath(windowsUrl)).isEqualTo("C:/somedirectory/setup.jar!/some path/");
   }
 
   @Test
   public void testConvertUrlToFilePathFromWindowsFileSpefial() throws MalformedURLException
   {
     URL windowsUrl = new URL("file:C:/somedirectory/somefile.txt");
-    assertEquals("C:/somedirectory/somefile.txt", FileUtil.convertUrlToFilePath(windowsUrl));
+    assertThat(convertUrlToFilePath(windowsUrl)).isEqualTo("C:/somedirectory/somefile.txt");
   }
 
   @Test
   public void testSpecialCharacterInURL() throws MalformedURLException
   {
     URL windowsUrl = new URL("file:C:/some directory/some file.txt"); // space is special character
-    assertEquals("C:/some directory/some file.txt", FileUtil.convertUrlToFilePath(windowsUrl));
+    assertThat(convertUrlToFilePath(windowsUrl)).isEqualTo("C:/some directory/some file.txt");
   }
 }

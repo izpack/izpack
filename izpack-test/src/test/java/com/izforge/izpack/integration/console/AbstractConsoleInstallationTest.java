@@ -21,18 +21,15 @@
 
 package com.izforge.izpack.integration.console;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.console.ConsoleInstallerAction;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.integration.AbstractDestroyerTest;
 import com.izforge.izpack.test.util.TestConsole;
-
 import java.io.File;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 
 /**
  * Base class for {@link ConsoleInstaller} test cases.
@@ -76,21 +73,21 @@ public class AbstractConsoleInstallationTest extends AbstractDestroyerTest
         installer.run(ConsoleInstallerAction.CONSOLE_INSTALL, null, new String[0]);
 
         // verify the installation thinks it was successful
-        assertTrue(installData.isInstallSuccess());
+        assertThat(installData.isInstallSuccess()).isTrue();
 
         // make sure the script has completed
         TestConsole console = installer.getConsole();
-        assertTrue("Script still running panel: " + console.getScriptName(), console.scriptCompleted());
+        assertThat(console.scriptCompleted()).as("Script still running panel: " + console.getScriptName()).isTrue();
 
         String installPath = installData.getInstallPath();
 
         if (expectUninstaller)
         {
-            assertTrue(new File(installPath, "Uninstaller/uninstaller.jar").exists());
+            assertThat(new File(installPath, "Uninstaller/uninstaller.jar").exists()).isTrue();
         }
         else
         {
-            assertFalse(new File(installPath, "Uninstaller/uninstaller.jar").exists());
+            assertThat(new File(installPath, "Uninstaller/uninstaller.jar").exists()).isFalse();
         }
     }
 }

@@ -21,44 +21,38 @@
 
 package com.izforge.izpack.integration.automation;
 
-import com.izforge.izpack.api.factory.XMLAccess;
+import static com.izforge.izpack.api.factory.XMLAccess.documentBuilderFactory;
+import static com.izforge.izpack.api.factory.XMLAccess.transformerFactory;
+import static com.izforge.izpack.integration.UninstallHelper.uninstall;
+import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
+import static com.izforge.izpack.util.FileUtil.convertUrlToFilePath;
+import static javax.xml.xpath.XPathFactory.newInstance;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestAutomatedInstallationContainer;
 import com.izforge.izpack.installer.automation.AutomatedInstaller;
 import com.izforge.izpack.integration.AbstractInstallationTest;
-import com.izforge.izpack.integration.UninstallHelper;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
-import com.izforge.izpack.util.FileUtil;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.net.URL;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.net.URL;
-
-import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-
+import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 /**
  * Tests the {@link AutomatedInstaller}.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestAutomatedInstallationContainer.class)
 public class AutomatedInstallerTest extends AbstractInstallationTest
 {
@@ -92,9 +86,9 @@ public class AutomatedInstallerTest extends AbstractInstallationTest
         InstallData installData = getInstallData();
 
         URL url = getClass().getResource("/samples/basicInstall/auto.xml");
-        assertNotNull(url);
-        String recordfile = FileUtil.convertUrlToFilePath(url);
-        String installPath =  new File(temporaryFolder.getRoot(), "basicapp").getAbsolutePath();
+        assertThat(url).isNotNull();
+        String recordfile = convertUrlToFilePath(url);
+        String installPath =  temporaryFolder.resolve("basicapp").toFile().getAbsolutePath();
         replaceInstallPathInAutoInstall(recordfile, installPath);
 
         installer.init(recordfile, null, new String[0]);
@@ -107,21 +101,21 @@ public class AutomatedInstallerTest extends AbstractInstallationTest
         assertFileExists(dir, "Uninstaller/uninstaller.jar");
 
         // perform uninstallation
-        UninstallHelper.uninstall(installData);
+        uninstall(installData);
 
         // verify the install directory no longer exists
-        assertFalse(new File(installPath).exists());
+        assertThat(new File(installPath).exists()).isFalse();
     }
 
     private static void replaceInstallPathInAutoInstall(String recordfile, String installpath) throws Exception {
         // Read xml and build a DOM document
-        Document doc = XMLAccess.documentBuilderFactory().newDocumentBuilder().parse(new InputSource(recordfile));
-        XPath xpath = XPathFactory.newInstance().newXPath();
+        Document doc = documentBuilderFactory().newDocumentBuilder().parse(new InputSource(recordfile));
+        XPath xpath = newInstance().newXPath();
         Node node = (Node)xpath.evaluate("//installpath", doc, XPathConstants.NODE);
         node.setTextContent(installpath);
 
         // Write the DOM document to the file
-        Transformer xformer = XMLAccess.transformerFactory().newTransformer();
+        Transformer xformer = transformerFactory().newTransformer();
         xformer.transform(new DOMSource(doc), new StreamResult(new File(recordfile)));
    }
 }

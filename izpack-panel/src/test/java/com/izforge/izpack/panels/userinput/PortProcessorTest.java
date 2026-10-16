@@ -1,18 +1,19 @@
 package com.izforge.izpack.panels.userinput;
 
+import static java.net.InetAddress.getByName;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.handler.DefaultConfigurationHandler;
 import com.izforge.izpack.panels.userinput.processor.PortProcessor;
 import com.izforge.izpack.panels.userinput.processorclient.ProcessingClient;
-import junit.framework.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 
-@Ignore
+@Disabled
+
 public class PortProcessorTest
 {
     @Test
@@ -24,7 +25,7 @@ public class PortProcessorTest
         ProcessingClient pc = new ProcessingClientStub(usedPort);
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
-        Assert.assertTrue((Integer.toString(usedPort)).equals(result));
+        assertThat((Integer.toString(usedPort)).equals(result)).isTrue();
         try
         {
             use.close();
@@ -39,13 +40,13 @@ public class PortProcessorTest
     public void testProcessSpecificBoundPort() throws IOException
     {
         // create a ServerSocket for localhost on any free port
-        ServerSocket use = new ServerSocket(0, 0, InetAddress.getByName("localhost"));
+        ServerSocket use = new ServerSocket(0, 0, getByName("localhost"));
         int usedPort = use.getLocalPort();
         ProcessingClient pc = new ProcessingClientStub("localhost", usedPort);
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
         System.out.println(result);
-        Assert.assertFalse(("localhost*" + Integer.toString(usedPort)).equals(result));
+        assertThat(("localhost*" + Integer.toString(usedPort)).equals(result)).isFalse();
         try
         {
             use.close();
@@ -60,12 +61,12 @@ public class PortProcessorTest
     public void testProcessGenericOnGenericBoundPortIPv6() throws IOException
     {
         // create a ServerSocket for localhost on any free port
-        ServerSocket use = new ServerSocket(0, 0, InetAddress.getByName("::"));
+        ServerSocket use = new ServerSocket(0, 0, getByName("::"));
         int usedPort = use.getLocalPort();
         ProcessingClient pc = new ProcessingClientStub("::", usedPort);
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
-        Assert.assertFalse(("::*" + Integer.toString(usedPort)).equals(result));
+        assertThat(("::*" + Integer.toString(usedPort)).equals(result)).isFalse();
         try
         {
             use.close();
@@ -80,12 +81,12 @@ public class PortProcessorTest
     public void testProcessGenericOnGenericBoundPortIPv4() throws IOException
     {
         // create a ServerSocket for localhost on any free port
-        ServerSocket use = new ServerSocket(0, 0, InetAddress.getByName("0.0.0.0"));
+        ServerSocket use = new ServerSocket(0, 0, getByName("0.0.0.0"));
         int usedPort = use.getLocalPort();
         ProcessingClient pc = new ProcessingClientStub("0.0.0.0", usedPort);
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
-        Assert.assertFalse(("0.0.0.0*" + Integer.toString(usedPort)).equals(result));
+        assertThat(("0.0.0.0*" + Integer.toString(usedPort)).equals(result)).isFalse();
         try
         {
             use.close();
@@ -100,12 +101,12 @@ public class PortProcessorTest
     public void testProcessSpecificOnGenericBoundPortIPv4() throws IOException
     {
         // create a ServerSocket for localhost on any free port
-        ServerSocket use = new ServerSocket(0, 0, InetAddress.getByName("0.0.0.0"));
+        ServerSocket use = new ServerSocket(0, 0, getByName("0.0.0.0"));
         int usedPort = use.getLocalPort();
         ProcessingClient pc = new ProcessingClientStub("127.0.0.1", usedPort);
         PortProcessor pp = new PortProcessor();
         String result = pp.process(pc);
-        Assert.assertEquals("127.0.0.1*" + Integer.toString(usedPort), result);
+        assertThat(result).isEqualTo("127.0.0.1*" + Integer.toString(usedPort));
         try
         {
             use.close();

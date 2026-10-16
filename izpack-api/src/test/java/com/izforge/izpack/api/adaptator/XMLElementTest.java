@@ -22,15 +22,14 @@
 
 package com.izforge.izpack.api.adaptator;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.FileNotFoundException;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test on the XMLElement
@@ -44,7 +43,7 @@ public class XMLElementTest
 
     private IXMLElement root;
 
-    @Before
+    @BeforeEach
     public void setUp() throws FileNotFoundException
     {
         /* méthode DOM */
@@ -55,8 +54,8 @@ public class XMLElementTest
     @Test
     public void testGetName()
     {
-        Assert.assertEquals("izpack:installation", root.getName());
-        Assert.assertEquals(root.getChildAtIndex(0).getName(), "info");
+        assertThat(root.getName()).isEqualTo("izpack:installation");
+        assertThat(root.getChildAtIndex(0).getName()).isEqualTo("info");
     }
 
     @Test
@@ -65,7 +64,7 @@ public class XMLElementTest
         IXMLElement element = new XMLElementImpl("child", root);
         root.addChild(element);
         element = root.getChildAtIndex(root.getChildrenCount() - 1);
-        Assert.assertEquals(element.getName(), "child");
+        assertThat(element.getName()).isEqualTo("child");
     }
 
     @Test
@@ -74,7 +73,7 @@ public class XMLElementTest
         IXMLElement element = new XMLElementImpl("child");
         root.addChild(element);
         element = root.getChildAtIndex(root.getChildrenCount() - 1);
-        Assert.assertEquals(element.getName(), "child");
+        assertThat(element.getName()).isEqualTo("child");
     }
 
     @Test
@@ -84,41 +83,41 @@ public class XMLElementTest
         root.addChild(element);
         element = root.getChildAtIndex(root.getChildrenCount() - 1);
         root.removeChild(element);
-        Assert.assertEquals(root.getChildrenNamed("child").size(), 0);
+        assertThat(root.getChildrenNamed("child").size()).isZero();
     }
 
     @Test
     public void testHasChildrenIfTrue()
     {
-        Assert.assertTrue(root.hasChildren());
+        assertThat(root.hasChildren()).isTrue();
     }
 
     @Test
     public void testHasChildrenIfFalse()
     {
         IXMLElement element = new XMLElementImpl("test");
-        Assert.assertFalse(element.hasChildren());
+        assertThat(element.hasChildren()).isFalse();
     }
 
     @Test
     public void testGetChildrenCount()
     {
         IXMLElement element = root.getChildAtIndex(0);
-        Assert.assertEquals(element.getChildrenCount(), 9);
+        assertThat(element.getChildrenCount()).isEqualTo(9);
     }
 
     @Test
     public void testGetChildAtIndex()
     {
         IXMLElement element = root.getChildAtIndex(1);
-        Assert.assertEquals("variables", element.getName());
+        assertThat(element.getName()).isEqualTo("variables");
     }
 
     @Test
     public void testGetFirstChildNamed()
     {
         IXMLElement element = root.getFirstChildNamed("locale");
-        Assert.assertEquals(element.getName(), "locale");
+        assertThat(element.getName()).isEqualTo("locale");
     }
 
     @Test
@@ -126,6 +125,6 @@ public class XMLElementTest
     {
         IXMLElement element = root.getChildAtIndex(2);
         List<IXMLElement> list = element.getChildrenNamed("modifier");
-        Assert.assertEquals(7, list.size());
+        assertThat(list).hasSize(7);
     }
 }

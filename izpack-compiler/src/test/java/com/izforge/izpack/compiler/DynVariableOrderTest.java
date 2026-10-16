@@ -19,35 +19,31 @@
 
 package com.izforge.izpack.compiler;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.izforge.izpack.api.data.DynamicVariable;
+import com.izforge.izpack.compiler.container.TestCompilerContainer;
+import com.izforge.izpack.test.Container;
+import com.izforge.izpack.test.InstallFile;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.jar.JarFile;
-
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.izforge.izpack.api.data.DynamicVariable;
-import com.izforge.izpack.compiler.container.TestCompilerContainer;
-import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for correct order of dynamic variable computation
- * 
+ *
  */
-@RunWith(PicoRunner.class)
 @Container(TestCompilerContainer.class)
 public class DynVariableOrderTest
 {
     static final String xmlDir="samples/dynvars/";  // Where we find our installer definitions
-    
+
     private CompilerConfig compilerConfig;
     private TestCompilerContainer testContainer;
 
@@ -60,7 +56,7 @@ public class DynVariableOrderTest
     }
 
     @SuppressWarnings("unchecked")
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         compilerConfig.executeCompiler();
@@ -73,7 +69,7 @@ public class DynVariableOrderTest
             orderedVarnames.add(var.getName());
         }
         StringBuffer sb = new StringBuffer(
-                String.format("Installer built from '%s' has this ordering of variable computation:%n",
+                format("Installer built from '%s' has this ordering of variable computation:%n",
                                testContainer.getXmlFileName()));
         for (String name : orderedVarnames) {
             sb.append(name).append(", ");
@@ -86,13 +82,13 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"checkOrder.xml")
-    public void testDefaultOrder() 
+    public void testDefaultOrder()
     {
-        // TODO 
+        // TODO
         // Actual there is no deterministic order of variables.
         // Because of this a passed test is NOT a guarantee for correct implementation.
         // The order of variable computation can be correct by random and may fail on other examples.
-        // 
+        //
         // Therefore a deterministic default ordering of variables without dependency would be
         // useful. Ideally in the order of definition in the installer.xml with static variables before
         // dynamic variables.
@@ -106,11 +102,11 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"cyclicDependency.xml")
-    public void testCyclicDependency() 
+    public void testCyclicDependency()
     {
         // TODO
         // A cyclic variable definition should be evaluated in the order of install.xml
-        // Because there is no deterministic ordering yet (see above), the ordering is not checked: 
+        // Because there is no deterministic ordering yet (see above), the ordering is not checked:
         // testOrder("dyn1", "dyn2");
         // testOrder("dyn10", "dyn11");
         // but at least the test should not run in an endless loop :-)
@@ -121,7 +117,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"selfReference.xml")
-    public void testSelfReference() 
+    public void testSelfReference()
     {
         testContained("dyn1");
         testContained("dyn2");
@@ -132,7 +128,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"simpleDependency.xml")
-    public void testSimpleDependency() 
+    public void testSimpleDependency()
     {
         testOrder("static1", "dyn1");
         testContained("dyn2");
@@ -143,7 +139,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"deeperDependency.xml")
-    public void testDeeperDependency() 
+    public void testDeeperDependency()
     {
         testOrder("static1", "dyn1", "dyn2", "dyn3", "dyn4", "dyn5", "dyn6", "dyn7", "dyn8");
     }
@@ -153,7 +149,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"forwardDependency.xml")
-    public void testforwardDependency() 
+    public void testforwardDependency()
     {
         testOrder("static1", "dyn8", "dyn7", "dyn6", "dyn5", "dyn4", "dyn3", "dyn2", "dyn1");
     }
@@ -163,7 +159,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"mixedDependency.xml")
-    public void testMixedDependency() 
+    public void testMixedDependency()
     {
         testOrder("static1", "dyn1", "dyn5", "dyn4", "dyn6", "dyn3", "dyn7", "dyn2", "dyn8");
     }
@@ -173,7 +169,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"separateDependency.xml")
-    public void testSeparateDependency() 
+    public void testSeparateDependency()
     {
         testOrder("dyn7", "dyn5", "dyn3", "dyn1");
         testOrder("dyn2", "dyn4", "dyn6", "dyn8");
@@ -184,7 +180,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"parallelDependency.xml")
-    public void testParallelDependency() 
+    public void testParallelDependency()
     {
         testOrder("dyn7", "dyn5", "dyn3", "dyn1", "dyn10");
         testOrder("dyn2", "dyn4", "dyn6", "dyn8", "dyn10");
@@ -195,7 +191,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"complexValueDependency.xml")
-    public void testComplexValueDependency() 
+    public void testComplexValueDependency()
     {
         testOrder("file", "ini"); testOrder("key", "ini"); testOrder("section", "ini");
         testOrder("file", "opt"); testOrder("key", "opt");
@@ -219,7 +215,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"conditionDependency.xml")
-    public void testConditionDependency() 
+    public void testConditionDependency()
     {
         // conditions with two arguments
         testOrder("arg1a", "var1"); testOrder("arg1b", "var1");
@@ -253,7 +249,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"expressionLanguage.xml")
-    public void testExpressionLanguageDependency() 
+    public void testExpressionLanguageDependency()
     {
         testOrder("arg1a", "var1"); testOrder("arg1b", "var1");
         testOrder("arg2a", "var2"); testOrder("arg2b", "var2");
@@ -266,7 +262,7 @@ public class DynVariableOrderTest
      */
     @Test
     @InstallFile(xmlDir+"IZPACK-1260.xml")
-    public void testIZPACK1260() 
+    public void testIZPACK1260()
     {
         testOrder("INSTALL_PATH", "previous.wrapper.conf1");
         testOrder("INSTALL_PATH", "previous.wrapper.conf1", "previous.wrapper.conf2");
@@ -280,14 +276,14 @@ public class DynVariableOrderTest
         for (int i = 1; i < names.length; i++) {
             name2 = names[i];
             testContained(name2);
-            assertTrue(String.format("'%s' must come before '%s' in variables-list",name1,name2), seachInList(name1) < seachInList(name2));
+            assertThat(seachInList(name1) < seachInList(name2)).as(format("'%s' must come before '%s' in variables-list",name1,name2)).isTrue();
             name1 = name2;
         }
     }
 
     private void testContained(String name)
     {
-        assertTrue(String.format("variable '%s' must be contained in variables-list",name), seachInList(name)>-1);
+        assertThat(seachInList(name)>-1).as(format("variable '%s' must be contained in variables-list",name)).isTrue();
     }
 
     private int seachInList(String name)

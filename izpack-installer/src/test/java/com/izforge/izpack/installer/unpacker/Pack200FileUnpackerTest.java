@@ -21,23 +21,29 @@
 
 package com.izforge.izpack.installer.unpacker;
 
+import static com.izforge.izpack.util.IoHelper.copyStreamToJar;
+import static java.nio.file.Files.createTempFile;
+import static org.apache.commons.compress.java.util.jar.Pack200.newPacker;
+import static org.apache.commons.io.FileUtils.deleteQuietly;
+import static org.apache.commons.io.FileUtils.openInputStream;
+import static org.apache.commons.io.FileUtils.openOutputStream;
+import static org.apache.commons.io.IOUtils.buffer;
+import static org.apache.commons.io.IOUtils.closeQuietly;
+import static org.apache.commons.io.IOUtils.copy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
+
 import com.izforge.izpack.api.data.Blockable;
 import com.izforge.izpack.api.data.OverrideType;
 import com.izforge.izpack.api.data.PackFile;
-import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.os.FileQueue;
-import org.apache.commons.compress.java.util.jar.Pack200;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.CountingOutputStream;
-import org.mockito.Mockito;
-
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.*;
-
-import static org.junit.Assert.*;
+import org.apache.commons.compress.java.util.jar.Pack200;
+import org.apache.commons.io.output.CountingOutputStream;
 
 /**
  * Tests the {@link Pack200FileUnpacker} class.
@@ -58,13 +64,13 @@ public class Pack200FileUnpackerTest extends AbstractFileUnpackerTest
     @Override
     protected void checkTarget(File source, File target) throws IOException
     {
-        assertTrue(target.exists());
-        assertEquals(source.lastModified(), target.lastModified());
+        assertThat(target).exists();
+        assertThat(target.lastModified()).isEqualTo(source.lastModified());
 
         // for pack200 can't do a size comparison as it modifies the jar structure, so compare the jar contents
         byte[] sourceBytes = getEntry(source, "source.txt");
         byte[] targetBytes = getEntry(target, "source.txt");
-        assertArrayEquals(sourceBytes, targetBytes);
+        assertThat(targetBytes).isEqualTo(sourceBytes);
     }
 
     @Override
@@ -75,9 +81,9 @@ public class Pack200FileUnpackerTest extends AbstractFileUnpackerTest
 
         try
         {
-            tmpfile = File.createTempFile("izpack-compress", ".pack200", FileUtils.getTempDirectory());
-            CountingOutputStream proxyOutputStream = new CountingOutputStream(FileUtils.openOutputStream(tmpfile));
-            OutputStream bufferedStream = IOUtils.buffer(proxyOutputStream);
+            tmpfile = createTempFile(temporaryFolder, "izpack-compress", ".pack200").toFile();
+            CountingOutputStream proxyOutputStream = new CountingOutputStream(openOutputStream(tmpfile));
+            OutputStream bufferedStream = buffer(proxyOutputStream);
 
             Pack200.Packer packer = createPack200Packer(this.packFile);
             jar = new JarFile(this.packFile.getFile());
@@ -87,7 +93,7 @@ public class Pack200FileUnpackerTest extends AbstractFileUnpackerTest
             this.packFile.setSize(proxyOutputStream.getByteCount());
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            IOUtils.copy(FileUtils.openInputStream(tmpfile), out);
+            copy(openInputStream(tmpfile), out);
             out.close();
             return new ByteArrayInputStream(out.toByteArray());
         }
@@ -97,13 +103,13 @@ public class Pack200FileUnpackerTest extends AbstractFileUnpackerTest
             {
                 jar.close();
             }
-            FileUtils.deleteQuietly(tmpfile);
+            deleteQuietly(tmpfile);
         }
     }
 
     private Pack200.Packer createPack200Packer(PackFile packFile)
     {
-        Pack200.Packer packer = Pack200.newPacker();
+        Pack200.Packer packer = newPacker();
         Map<String, String> defaultPackerProperties = packer.properties();
         Map<String,String> localPackerProperties = packFile.getPack200Properties();
         if (localPackerProperties != null)
@@ -123,7 +129,7 @@ public class Pack200FileUnpackerTest extends AbstractFileUnpackerTest
     @Override
     protected FileUnpacker createUnpacker(File sourceDir, FileQueue queue) throws IOException
     {
-        PackResources resources = Mockito.mock(PackResources.class);
+        PackResources resources = mock(PackResources.class);
         return new Pack200FileUnpacker(getCancellable(), resources, queue);
     }
 
@@ -144,12 +150,12 @@ public class Pack200FileUnpackerTest extends AbstractFileUnpackerTest
         FileInputStream stream = new FileInputStream(source);
         try
         {
-            IoHelper.copyStreamToJar(stream::transferTo, srcJar, source.getName(), source.lastModified());
+            copyStreamToJar(stream::transferTo, srcJar, source.getName(), source.lastModified());
         }
         finally
         {
-            IOUtils.closeQuietly(stream);
-            IOUtils.closeQuietly(srcJar);
+            closeQuietly(stream);
+            closeQuietly(srcJar);
         }
 
         return this.sourceFile;
@@ -185,7 +191,7 @@ public class Pack200FileUnpackerTest extends AbstractFileUnpackerTest
             {
                 if (entry.getName().endsWith(name))
                 {
-                    IOUtils.copy(stream, bytes);
+                    copy(stream, bytes);
                     return bytes.toByteArray();
                 }
             }

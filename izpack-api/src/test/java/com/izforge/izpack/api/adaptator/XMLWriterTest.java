@@ -22,16 +22,23 @@
 
 package com.izforge.izpack.api.adaptator;
 
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.newInputStream;
+import static java.nio.file.Files.newOutputStream;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLWriter;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Test the writer implementation
@@ -46,10 +53,10 @@ public class XMLWriterTest
     private IXMLParser parser;
     private IXMLElement root;
 
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
+    @TempDir
+    public Path tempFolder;
 
-    @Before
+    @BeforeEach
     public void setUp() throws FileNotFoundException
     {
         parser = new XMLParser();
@@ -65,13 +72,18 @@ public class XMLWriterTest
     public void testWriteFile() throws IOException
     {
         IXMLWriter writer = new XMLWriter();
-        File file = tempFolder.newFile(output);
-        FileOutputStream out = new FileOutputStream(file);
-        writer.setOutput(out);
-        writer.write(root);
+        Path file = createFile(tempFolder.resolve(output));
+        try (OutputStream out = newOutputStream(file))
+        {
+            writer.setOutput(out);
+            writer.write(root);
+        }
         root = parser.parse(XMLWriterTest.class.getResourceAsStream(filename));
-        IXMLElement element = parser.parse(new FileInputStream(file));
-        Assert.assertEquals(root.getName(), element.getName());
+        try (InputStream input = newInputStream(file))
+        {
+            IXMLElement element = parser.parse(input);
+            assertThat(element.getName()).isEqualTo(root.getName());
+        }
     }
 
 
@@ -84,22 +96,29 @@ public class XMLWriterTest
     public void testWriteURL() throws IOException
     {
         IXMLWriter writer = new XMLWriter();
-        File file = tempFolder.newFile(output);
-        FileOutputStream out = new FileOutputStream(file);
-        writer.setOutput(out);
-        writer.write(root);
+        Path file = createFile(tempFolder.resolve(output));
+        try (OutputStream out = newOutputStream(file))
+        {
+            writer.setOutput(out);
+            writer.write(root);
+        }
         root = parser.parse(XMLWriterTest.class.getResourceAsStream(filename));
-        IXMLElement element = parser.parse(new FileInputStream(file));
-        Assert.assertEquals(root.getName(), element.getName());
+        try (InputStream input = newInputStream(file))
+        {
+            IXMLElement element = parser.parse(input);
+            assertThat(element.getName()).isEqualTo(root.getName());
+        }
     }
 
-    @Test(expected = XMLException.class)
+    @Test
     public void testFail()
     {
-        // TODO : don't use XMLElementImpl !
-        IXMLElement elt = new XMLElementImpl("root");
-        IXMLWriter writer = new XMLWriter();
-        writer.setOutput(""); // will take the current directory, which is not a file !
-        writer.write(elt);
+        assertThatThrownBy(() -> {
+            // TODO : don't use XMLElementImpl !
+            IXMLElement elt = new XMLElementImpl("root");
+            IXMLWriter writer = new XMLWriter();
+            writer.setOutput(""); // will take the current directory, which is not a file !
+            writer.write(elt);
+        }).isInstanceOf(XMLException.class);
     }
 }

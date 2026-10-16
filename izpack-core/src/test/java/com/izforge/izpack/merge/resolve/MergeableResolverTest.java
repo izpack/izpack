@@ -19,29 +19,25 @@
 
 package com.izforge.izpack.merge.resolve;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.matcher.MergeMatcher.getEntryNames;
+import static com.izforge.izpack.util.FileUtil.convertUrlToFilePath;
+import static java.lang.ClassLoader.getSystemResource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
-import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
-import com.izforge.izpack.util.FileUtil;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for mergeableResolver
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
 @Container(TestMergeContainer.class)
 public class MergeableResolverTest
 {
@@ -53,43 +49,43 @@ public class MergeableResolverTest
         this.mergeableResolver = mergeableResolver;
     }
 
-    @Before
+    @BeforeEach
     public void before() throws MalformedURLException
     {
-        resource = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
-        resource = new File(FileUtil.convertUrlToFilePath(resource) + "!jar/izforge").toURI().toURL();
+        resource = getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
+        resource = new File(convertUrlToFilePath(resource) + "!jar/izforge").toURI().toURL();
     }
 
     @Test
     public void testGetMergeableFromURL()
     {
         Mergeable mergeable = mergeableResolver.getMergeableFromURL(resource);
-        assertThat(mergeable, MergeMatcher.isMergeableContainingFile("jar/izforge/izpack/panels/hello/HelloPanel.class"));
+        assertThat(getEntryNames(mergeable)).contains("jar/izforge/izpack/panels/hello/HelloPanel.class");
     }
 
     @Test
     public void testGetMergeableWithSpaces() throws Exception
     {
-        resource = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/test space/vim-panel-1.0-SNAPSHOT.jar");
-        resource = new File(FileUtil.convertUrlToFilePath(resource) + "!com").toURI().toURL();
+        resource = getSystemResource("com/izforge/izpack/merge/test/test space/vim-panel-1.0-SNAPSHOT.jar");
+        resource = new File(convertUrlToFilePath(resource) + "!com").toURI().toURL();
         Mergeable mergeable = mergeableResolver.getMergeableFromURL(resource);
-        assertThat(mergeable, MergeMatcher.isMergeableContainingFile("com/sora/panel/VimPanel.class"));
+        assertThat(getEntryNames(mergeable)).contains("com/sora/panel/VimPanel.class");
     }
 
     @Test
     public void testGetMergeableWithPlusSign() throws Exception
     {
-        resource = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/vim-panel-1.0-SNAPSHOT+201804141646.jar");
-        resource = new File(FileUtil.convertUrlToFilePath(resource) + "!com").toURI().toURL();
+        resource = getSystemResource("com/izforge/izpack/merge/test/vim-panel-1.0-SNAPSHOT+201804141646.jar");
+        resource = new File(convertUrlToFilePath(resource) + "!com").toURI().toURL();
         Mergeable mergeable = mergeableResolver.getMergeableFromURL(resource);
-        assertThat(mergeable, MergeMatcher.isMergeableContainingFile("com/sora/panel/VimPanel.class"));
+        assertThat(getEntryNames(mergeable)).contains("com/sora/panel/VimPanel.class");
     }
 
-    @Test           
+    @Test
     public void testGetMergeableFromURLWithDestination()
     {
         Mergeable jarMerge = mergeableResolver.getMergeableFromURLWithDestination(resource, "ga");
-        assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("ga/izpack/panels/hello/HelloPanel.class"));
+        assertThat(getEntryNames(jarMerge)).contains("ga/izpack/panels/hello/HelloPanel.class");
     }
 
 }

@@ -19,15 +19,15 @@
 
 package com.izforge.izpack.compiler.compressor;
 
+import static com.izforge.izpack.compiler.packager.impl.AbstractPackagerTest.getBaseDir;
+
 import com.izforge.izpack.api.data.PackCompression;
 import com.izforge.izpack.compiler.container.provider.JarOutputStreamProvider;
 import com.izforge.izpack.compiler.data.CompilerData;
-import com.izforge.izpack.compiler.packager.impl.AbstractPackagerTest;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test compressor stream
@@ -40,7 +40,7 @@ public class CompressorTest
     @Test
     public void testBzip2Compression() throws IOException//, CompressorException
     {
-        String baseDir = AbstractPackagerTest.getBaseDir().getPath();
+        String baseDir = getBaseDir().getPath();
         CompilerData data = new CompilerData(
                 "",
                 baseDir,

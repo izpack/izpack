@@ -20,17 +20,19 @@
  */
 package com.izforge.izpack.installer.util;
 
+import static com.izforge.izpack.installer.util.InstallPathHelper.getPath;
+import static java.lang.System.getProperty;
+import static java.lang.System.setProperty;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.util.Platforms;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link InstallPathHelper} class.
@@ -39,18 +41,18 @@ import static org.junit.Assert.assertEquals;
  */
 public class InstallPathHelperTest
 {
-	private String orgUserDir;
-	
-	@Before
-	public void initialize() {
-		orgUserDir = System.getProperty("user.dir");
-	}
-	
-	@After
-	public void cleanup() {
-		System.setProperty("user.dir", orgUserDir);
-	}
-	
+    private String orgUserDir;
+
+    @BeforeEach
+    public void initialize() {
+        orgUserDir = getProperty("user.dir");
+    }
+
+    @AfterEach
+    public void cleanup() {
+        setProperty("user.dir", orgUserDir);
+    }
+
     /**
      * Tests the {@link InstallPathHelper#getPath(InstallData)} method.
      */
@@ -61,16 +63,16 @@ public class InstallPathHelperTest
         InstallData installData = new AutomatedInstallData(variables, Platforms.WINDOWS_7);
 
         // verify that the user dir is returned if no other variable is set
-        System.setProperty("user.dir", "userdir");
-        assertEquals("userdir", InstallPathHelper.getPath(installData));
+        setProperty("user.dir", "userdir");
+        assertThat(getPath(installData)).isEqualTo("userdir");
 
         // verify that the DEFAULT_INSTALL_PATH overrides SYSTEM_user_dir
         variables.set("DEFAULT_INSTALL_PATH", "default");
-        assertEquals("default", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("default");
 
         // verify that the TargetPanel.dir overrides DEFAULT_INSTALL_PATH
         variables.set("TargetPanel.dir", "override");
-        assertEquals("override", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("override");
     }
 
     /**
@@ -82,17 +84,17 @@ public class InstallPathHelperTest
         Variables variables = new DefaultVariables();
         InstallData installData = new AutomatedInstallData(variables, Platforms.WINDOWS_7);
 
-        System.setProperty("user.dir", "userdir");
+        setProperty("user.dir", "userdir");
         variables.set("DEFAULT_INSTALL_PATH", "default");
-        assertEquals("default", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("default");
 
         // verify TargetPanel.dir.windows overrides DEFAULT_INSTALL_PATH and SYSTEM_user_dir
         variables.set("TargetPanel.dir.windows", "1");
-        assertEquals("1", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("1");
 
         // verify TargetPanel.dir.windows_7 overrides TargetPanel.dir.windows
         variables.set("TargetPanel.dir.windows_7", "2");
-        assertEquals("2", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("2");
     }
 
     /**
@@ -106,21 +108,21 @@ public class InstallPathHelperTest
         Variables variables = new DefaultVariables();
         InstallData installData = new AutomatedInstallData(variables, Platforms.MAC_OSX);
 
-        System.setProperty("user.dir", "userdir");
+        setProperty("user.dir", "userdir");
         variables.set("DEFAULT_INSTALL_PATH", "default");
-        assertEquals("default", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("default");
 
         // verify TargetPanel.dir.unix overrides DEFAULT_INSTALL_PATH and SYSTEM_user_dir
         variables.set("TargetPanel.dir.unix", "1");
-        assertEquals("1", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("1");
 
         // verify TargetPanel.dir.mac overrides TargetPanel.dir.unix
         variables.set("TargetPanel.dir.mac", "2");
-        assertEquals("2", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("2");
 
         // verify TargetPanel.dir.mac_osx overrides TargetPanel.dir.mac
         variables.set("TargetPanel.dir.mac_osx", "3");
-        assertEquals("3", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("3");
     }
 
     /**
@@ -132,20 +134,20 @@ public class InstallPathHelperTest
         Variables variables = new DefaultVariables();
         InstallData installData = new AutomatedInstallData(variables, Platforms.FEDORA_LINUX);
 
-        System.setProperty("user.dir", "userdir");
+        setProperty("user.dir", "userdir");
         variables.set("DEFAULT_INSTALL_PATH", "default");
-        assertEquals("default", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("default");
 
         // verify TargetPanel.dir.unix overrides DEFAULT_INSTALL_PATH and SYSTEM_user_dir
         variables.set("TargetPanel.dir.unix", "1");
-        assertEquals("1", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("1");
 
         // verify TargetPanel.dir.linux overrides TargetPanel.dir.unix
         variables.set("TargetPanel.dir.linux", "2");
-        assertEquals("2", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("2");
 
         // verify TargetPanel.dir.fedora_linux overrides TargetPanel.dir.linux
         variables.set("TargetPanel.dir.fedora_linux", "3");
-        assertEquals("3", InstallPathHelper.getPath(installData));
+        assertThat(getPath(installData)).isEqualTo("3");
     }
 }

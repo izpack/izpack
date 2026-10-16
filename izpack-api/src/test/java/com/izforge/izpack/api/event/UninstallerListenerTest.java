@@ -20,28 +20,27 @@
  */
 package com.izforge.izpack.api.event;
 
-import org.junit.Test;
-import org.mockito.Mockito;
+import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
 
 public class UninstallerListenerTest {
 
     @Test
     public void beforeDeleteWithProgressListenerShouldForwardCallToBeforeDelete() {
 
-        final List<File> files = Collections.emptyList();
-        final ProgressListener progressListener = Mockito.mock(ProgressListener.class);
+        final List<File> files = emptyList();
+        final ProgressListener progressListener = mock(ProgressListener.class);
 
         RecordingUninstallerListener listener = new RecordingUninstallerListener();
         listener.beforeDelete(files, progressListener);
 
-        assertThat(listener.beforeDeleteMethodCalled, equalTo(true));
+        assertThat(listener.beforeDeleteMethodCalled).isTrue();
     }
 
     /*

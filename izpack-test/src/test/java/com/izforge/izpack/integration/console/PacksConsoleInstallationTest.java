@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.integration.console;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.compiler.container.TestConsoleInstallationContainer;
@@ -28,22 +30,15 @@ import com.izforge.izpack.installer.console.ConsoleInstaller;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import java.io.File;
-
-import static org.junit.Assert.assertTrue;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests pack-specific settings with the {@link ConsoleInstaller}.
  *
  * @author René Krell
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsoleInstallationContainer.class)
 public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTest
 {
@@ -121,8 +116,8 @@ public class PacksConsoleInstallationTest extends AbstractConsoleInstallationTes
         String installPath = installData.getInstallPath();
 
         // make sure some of the expected files are installed
-        assertTrue(new File(installPath, "file_1.txt").exists());
-        assertTrue(!expectPack2 || new File(installPath, "file_2.txt").exists());
+        assertThat(new File(installPath, "file_1.txt").exists()).isTrue();
+        assertThat(!expectPack2 || new File(installPath, "file_2.txt").exists()).isTrue();
     }
 
 }

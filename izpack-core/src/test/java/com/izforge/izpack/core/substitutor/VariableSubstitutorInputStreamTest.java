@@ -19,19 +19,17 @@
 
 package com.izforge.izpack.core.substitutor;
 
+import static java.lang.System.getProperties;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.substitutor.SubstitutionType;
 import com.izforge.izpack.core.data.DefaultVariables;
-import org.hamcrest.core.Is;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests of VariableSubstitutorInputStream
@@ -42,10 +40,10 @@ public class VariableSubstitutorInputStreamTest
 {
     private Variables variables;
 
-    @Before
+    @BeforeEach
     public void setupVariableSubstitutorInputStream()
     {
-        Properties properties = new Properties(System.getProperties());
+        Properties properties = new Properties(getProperties());
         properties.put("PHRASE", "वसुधैव कुटुम्बकम्");
         properties.put("MEANING", "The world is a family");
         variables = new DefaultVariables(properties);
@@ -61,14 +59,14 @@ public class VariableSubstitutorInputStreamTest
                         .getBytes());
         VariableSubstitutorInputStream inputStream = new VariableSubstitutorInputStream(bais, variables,
                 SubstitutionType.TYPE_XML, false);
-        assertThat(inputStream.getEncoding(), Is.is("UTF-8"));
+        assertThat(inputStream.getEncoding()).isEqualTo("UTF-8");
         int res;
         int index = 0;
         while ((res = inputStream.read()) != -1)
         {
-            assertThat(res, Is.is(expectedValues[index++] & 0xff));
+            assertThat(res).isEqualTo(expectedValues[index++] & 0xff);
         }
-        assertThat(index, Is.is(expectedValues.length));
+        assertThat(index).isEqualTo(expectedValues.length);
     }
 
     @Test
@@ -81,13 +79,13 @@ public class VariableSubstitutorInputStreamTest
                         .getBytes());
         VariableSubstitutorInputStream inputStream = new VariableSubstitutorInputStream(bais, variables,
                 SubstitutionType.TYPE_JAVA_PROPERTIES, false);
-        assertThat(inputStream.getEncoding(), Is.is("ISO-8859-1"));
+        assertThat(inputStream.getEncoding()).isEqualTo("ISO-8859-1");
         int res;
         int index = 0;
         while ((res = inputStream.read()) != -1)
         {
-            assertThat(res, Is.is(expectedValues[index++] & 0xff));
+            assertThat(res).isEqualTo(expectedValues[index++] & 0xff);
         }
-        assertThat(index, Is.is(expectedValues.length));
+        assertThat(index).isEqualTo(expectedValues.length);
     }
 }

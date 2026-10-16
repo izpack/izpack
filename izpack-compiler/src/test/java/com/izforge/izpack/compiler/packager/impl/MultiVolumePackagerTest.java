@@ -22,13 +22,14 @@
 package com.izforge.izpack.compiler.packager.impl;
 
 import com.izforge.izpack.api.data.Info;
+
+import static org.mockito.Mockito.mock;
+
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.compiler.data.CompilerData;
 import com.izforge.izpack.compiler.merge.CompilerPathResolver;
 import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
-import org.mockito.Mockito;
-
 import java.util.Properties;
 import java.util.jar.JarOutputStream;
 
@@ -51,15 +52,15 @@ public class MultiVolumePackagerTest extends AbstractPackagerTest
     protected PackagerBase createPackager(JarOutputStream jar, MergeManager mergeManager)
     {
         Properties properties = new Properties();
-        CompilerPathResolver pathResolver = Mockito.mock(CompilerPathResolver.class);
-        MergeableResolver resolver = Mockito.mock(MergeableResolver.class);
+        CompilerPathResolver pathResolver = mock(CompilerPathResolver.class);
+        MergeableResolver resolver = mock(MergeableResolver.class);
         String baseDir = getBaseDir().getPath();
         CompilerData data = new CompilerData(
                 "",
                 baseDir,
                 baseDir + "/target/test.jar",
                 true);
-        RulesEngine rulesEngine = Mockito.mock(RulesEngine.class);
+        RulesEngine rulesEngine = mock(RulesEngine.class);
         MultiVolumePackager packager = new MultiVolumePackager(properties, null, jar, mergeManager,
                                                                pathResolver, resolver, data, rulesEngine);
         packager.setInfo(new Info());

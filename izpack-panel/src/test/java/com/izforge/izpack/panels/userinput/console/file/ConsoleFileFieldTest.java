@@ -21,23 +21,19 @@
 
 package com.izforge.izpack.panels.userinput.console.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
-import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static java.nio.file.Files.createTempDirectory;
+import static java.nio.file.Files.createTempFile;
+import static java.nio.file.Files.delete;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.file.FileField;
 import com.izforge.izpack.panels.userinput.field.file.TestFileFieldConfig;
-
+import java.io.IOException;
+import java.nio.file.Path;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link ConsoleFileField}.
@@ -50,7 +46,10 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
     /**
      * Test file.
      */
-    private File file;
+    @TempDir
+    Path directory;
+
+    private Path file;
 
 
     /**
@@ -58,41 +57,34 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
      *
      * @throws IOException for any error
      */
-    @Before
+    @BeforeEach
     public void aetUp() throws IOException
     {
-        file = File.createTempFile("foo", "bar", FileUtils.getTempDirectory());
+        file = createTempFile(directory, "foo", "bar");
     }
 
     /**
      * Cleans up after the test.
      */
-    @After
-    public void tearDown()
-    {
-        assertTrue(file.delete());
-    }
-
-
     /**
      * Verifies that pressing return enters the default value.
      */
     @Test
     public void testSelectDefaultValue()
     {
-        ConsoleFileField field = createField(file.getPath());
+        ConsoleFileField field = createField(file.toString());
         checkValid(field, "\n");
 
-        assertEquals(file.getAbsolutePath(), installData.getVariable("file"));
+        assertThat(installData.getVariable("file")).isEqualTo(file.toAbsolutePath().toString());
     }
 
     @Test
     public void testSetValue()
     {
         ConsoleFileField field = createField(null);
-        checkValid(field, file.getPath(), "\n");
+        checkValid(field, file.toString(), "\n");
 
-        assertEquals(file.getAbsolutePath(), installData.getVariable("file"));
+        assertThat(installData.getVariable("file")).isEqualTo(file.toAbsolutePath().toString());
     }
 
     /**
@@ -105,7 +97,7 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
     {
         ConsoleFileField field = createField(null);
         checkInvalid(field, "badfile");
-        assertNull(installData.getVariable("file"));
+        assertThat(installData.getVariable("file")).isNull();
     }
 
     /**
@@ -118,11 +110,11 @@ public class ConsoleFileFieldTest extends AbstractConsoleFieldTest
     {
         ConsoleFileField field = createField(null);
 
-        File dir = Files.createTempDirectory(FileUtils.getTempDirectory().toPath(), "foo" + "bar").toFile();
-        checkInvalid(field, dir.getPath());
-        assertNull(installData.getVariable("file"));
+        Path dir = createTempDirectory(directory, "foobar");
+        checkInvalid(field, dir.toString());
+        assertThat(installData.getVariable("file")).isNull();
 
-        assertTrue(dir.delete());
+        delete(dir);
     }
 
     /**

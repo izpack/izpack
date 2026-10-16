@@ -20,22 +20,20 @@
  */
 package com.izforge.izpack.installer.requirement;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
 import com.izforge.izpack.api.data.ConsolePrefs;
 import com.izforge.izpack.api.data.Info;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.handler.Prompt;
-import com.izforge.izpack.api.installer.RequirementChecker;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.handler.ConsolePrompt;
 import com.izforge.izpack.installer.data.ConsoleInstallData;
 import com.izforge.izpack.test.util.TestConsole;
 import com.izforge.izpack.util.Platforms;
-import org.mockito.Mockito;
-
 import java.io.InputStream;
-
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Base class for {@link RequirementChecker} tests.
@@ -75,8 +73,8 @@ public abstract class AbstractRequirementCheckerTest
         installData.setInfo(info);
 
         InputStream langPack = getClass().getResourceAsStream("/com/izforge/izpack/bin/langpacks/installer/eng.xml");
-        assertNotNull(langPack);
-        installData.setMessages(new LocaleDatabase(langPack, Mockito.mock(Locales.class)));
+        assertThat(langPack).isNotNull();
+        installData.setMessages(new LocaleDatabase(langPack, mock(Locales.class)));
 
         console = new TestConsole(installData, prefs);
         prompt = new ConsolePrompt(console, installData);

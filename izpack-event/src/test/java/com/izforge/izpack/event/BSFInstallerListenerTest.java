@@ -21,6 +21,13 @@
 
 package com.izforge.izpack.event;
 
+import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
+import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
+import static java.util.Collections.singletonList;
+import static org.apache.commons.io.FileUtils.touch;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.izforge.izpack.api.data.*;
 import com.izforge.izpack.api.event.ProgressListener;
@@ -32,24 +39,15 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
 import com.izforge.izpack.util.Platforms;
-import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.mockito.Mockito;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Properties;
-
-import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
-import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link BSFInstallerListener} class.
@@ -62,8 +60,8 @@ public class BSFInstallerListenerTest
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * The variable replacer.
@@ -86,7 +84,7 @@ public class BSFInstallerListenerTest
      *
      * @throws java.io.IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         Properties properties = new Properties();
@@ -95,7 +93,7 @@ public class BSFInstallerListenerTest
 
         installData = new AutomatedInstallData(variables, Platforms.MANDRIVA_LINUX);
 
-        installDir = temporaryFolder.getRoot();
+        installDir = temporaryFolder.toFile();
         installData.setInstallPath(installDir.getPath());
     }
 
@@ -107,11 +105,11 @@ public class BSFInstallerListenerTest
     @Test
     public void testGroovyActions() throws IOException
     {
-        Resources resources = Mockito.mock(Resources.class);
+        Resources resources = mock(Resources.class);
         InputStream specStream = getClass().getResourceAsStream(
                 "/com/izforge/izpack/event/bsf/BSFActionsSpec-groovy.xml");
-        assertNotNull(specStream);
-        Mockito.when(resources.getInputStream(BSFInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
+        assertThat(specStream).isNotNull();
+        when(resources.getInputStream(BSFInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
 
         checkListener(resources, "-groovy.txt");
     }
@@ -124,10 +122,10 @@ public class BSFInstallerListenerTest
     @Test
     public void testBeanshellActions() throws IOException
     {
-        Resources resources = Mockito.mock(Resources.class);
+        Resources resources = mock(Resources.class);
         InputStream specStream = getClass().getResourceAsStream("/com/izforge/izpack/event/bsf/BSFActionsSpec-bsh.xml");
-        assertNotNull(specStream);
-        Mockito.when(resources.getInputStream(BSFInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
+        assertThat(specStream).isNotNull();
+        when(resources.getInputStream(BSFInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
 
         checkListener(resources, "-bsh.txt");
     }
@@ -142,9 +140,9 @@ public class BSFInstallerListenerTest
     private void checkListener(Resources resources, String suffix) throws IOException
     {
         Pack pack = new Pack("Base", null, null, null, null, true, true, false, null, true, 0);
-        List<Pack> packs = Collections.singletonList(pack);
+        List<Pack> packs = singletonList(pack);
 
-        ProgressListener progressListener = Mockito.mock(ProgressListener.class);
+        ProgressListener progressListener = mock(ProgressListener.class);
 
         UninstallData uninstallData = new UninstallData();
         ProgressNotifiers notifiers = new ProgressNotifiersImpl();
@@ -163,7 +161,7 @@ public class BSFInstallerListenerTest
 
         // Verify that when the beforeDir method is invoked, the corresponding BSF action is called.
         File dir = new File(installDir, "dir");
-        assertTrue(dir.mkdir());
+        assertThat(dir.mkdir()).isTrue();
         assertFileNotExists(installDir, "beforedir" + suffix);
         PackFile dirPackFile = new PackFile(installDir, dir, dir.getName(), null, OverrideType.OVERRIDE_TRUE, null,
                                             Blockable.BLOCKABLE_NONE, null);
@@ -177,7 +175,7 @@ public class BSFInstallerListenerTest
 
         // Verify that when the beforeFile method is invoked, the corresponding BSF action is called.
         File file = new File(installDir, "file.txt");
-        FileUtils.touch(file);
+        touch(file);
         assertFileNotExists(installDir, "beforefile" + suffix);
         PackFile packFile = new PackFile(installDir, file, file.getName(), null, OverrideType.OVERRIDE_TRUE, null,
                                          Blockable.BLOCKABLE_NONE, null);

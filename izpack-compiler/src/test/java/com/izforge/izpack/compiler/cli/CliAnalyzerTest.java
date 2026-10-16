@@ -19,13 +19,12 @@
 
 package com.izforge.izpack.compiler.cli;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.hamcrest.core.Is;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.izforge.izpack.compiler.data.CompilerData;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test cli analyzer
@@ -36,49 +35,51 @@ public class CliAnalyzerTest
 {
     private CliAnalyzer analyzer;
 
-    @Before
+    @BeforeEach
     public void initAnalyzer()
     {
         analyzer = new CliAnalyzer();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void voidArgumentShouldThrowRuntimeException() throws Exception
     {
-        analyzer.parseArgs(new String[]{});
+        assertThatThrownBy(() -> {
+            analyzer.parseArgs(new String[]{});
+        }).isInstanceOf(RuntimeException.class);
     }
 
     @Test
     public void fileNameShouldBeParsed() throws Exception
     {
         CompilerData data = analyzer.parseArgs(new String[]{"myInstall.xml"});
-        assertThat(data.getInstallFile(), Is.is("myInstall.xml"));
+        assertThat(data.getInstallFile()).isEqualTo("myInstall.xml");
     }
 
     @Test
     public void homeDirShouldBeParsed() throws Exception
     {
         CompilerData data = analyzer.parseArgs(new String[]{"myInstall.xml", "-h/mon/che min/"});
-        assertThat(data.getInstallFile(), Is.is("myInstall.xml"));
-        assertThat(CompilerData.IZPACK_HOME, Is.is("/mon/che min/"));
+        assertThat(data.getInstallFile()).isEqualTo("myInstall.xml");
+        assertThat(CompilerData.IZPACK_HOME).isEqualTo("/mon/che min/");
     }
 
     @Test
     public void baseDirShouldBeParsed() throws Exception
     {
         CompilerData data = analyzer.parseArgs(new String[]{"myInstall.xml", "-b/mon/che min/"});
-        assertThat(data.getInstallFile(), Is.is("myInstall.xml"));
-        assertThat(data.getBasedir(), Is.is("/mon/che min/"));
+        assertThat(data.getInstallFile()).isEqualTo("myInstall.xml");
+        assertThat(data.getBasedir()).isEqualTo("/mon/che min/");
     }
 
     @Test
     public void multipleOptionShouldBeParsed() throws Exception
     {
         CompilerData data = analyzer.parseArgs(new String[]{"myInstall.xml", "-b/mon/che min/", "-k web", "-o graou.jar"});
-        assertThat(data.getInstallFile(), Is.is("myInstall.xml"));
-        assertThat(data.getBasedir(), Is.is("/mon/che min/"));
-        assertThat(data.getKind(), Is.is("web"));
-        assertThat(data.getOutput(), Is.is("graou.jar"));
+        assertThat(data.getInstallFile()).isEqualTo("myInstall.xml");
+        assertThat(data.getBasedir()).isEqualTo("/mon/che min/");
+        assertThat(data.getKind()).isEqualTo("web");
+        assertThat(data.getOutput()).isEqualTo("graou.jar");
     }
 
 }

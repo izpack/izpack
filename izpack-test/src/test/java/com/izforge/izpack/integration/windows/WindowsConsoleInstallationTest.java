@@ -21,6 +21,15 @@
 
 package com.izforge.izpack.integration.windows;
 
+import static com.izforge.izpack.integration.UninstallHelper.consoleUninstall;
+import static com.izforge.izpack.integration.windows.WindowsHelper.*;
+import static com.izforge.izpack.util.FileUtil.getLockFile;
+import static java.util.logging.Logger.getLogger;
+import static org.apache.commons.io.FileUtils.deleteDirectory;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.NativeLibException;
@@ -28,35 +37,21 @@ import com.izforge.izpack.compiler.container.TestConsoleInstallationContainer;
 import com.izforge.izpack.compiler.container.TestConsoleInstallerContainer;
 import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
-import com.izforge.izpack.event.RegistryInstallerListener;
-import com.izforge.izpack.event.RegistryUninstallerListener;
 import com.izforge.izpack.installer.console.ConsoleInstallerAction;
 import com.izforge.izpack.installer.console.TestConsoleInstaller;
 import com.izforge.izpack.installer.container.impl.ConsoleInstallerContainer;
-import com.izforge.izpack.integration.UninstallHelper;
 import com.izforge.izpack.integration.console.AbstractConsoleInstallationTest;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.RunOn;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
-import com.izforge.izpack.util.FileUtil;
 import com.izforge.izpack.util.Platforms;
 import com.izforge.izpack.util.PrivilegedRunner;
-import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static com.izforge.izpack.integration.windows.WindowsHelper.*;
-import static com.izforge.izpack.util.Platform.Name.WINDOWS;
-import static org.junit.Assert.*;
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
 
 /**
  * Test installation on Windows.
@@ -70,20 +65,19 @@ import static org.junit.Assert.*;
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
-@RunOn(WINDOWS)
+@EnabledOnOs(WINDOWS)
 @Container(TestConsoleInstallationContainer.class)
 public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationTest
 {
     /**
      * The logger.
      */
-    private static final Logger logger = Logger.getLogger(WindowsConsoleInstallationTest.class.getName());
-	
+    private static final Logger logger = getLogger(WindowsConsoleInstallationTest.class.getName());
+
     private final boolean skipTests = new PrivilegedRunner(Platforms.WINDOWS).isElevationNeeded();
 
     private final boolean isAdminUser = new PrivilegedRunner(Platforms.WINDOWS).isAdminUser();
-    
+
     /**
      * The installer container.
      */
@@ -154,14 +148,14 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @Override
     public void setUp() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	    	
+        assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
+
         super.setUp();
         String appName = getInstallData().getInfo().getAppName();
-        assertNotNull(appName);
-        File file = FileUtil.getLockFile(appName);
+        assertThat(appName).isNotNull();
+        File file = getLockFile(appName);
         if (file.exists()) {
-            assertTrue(file.delete());
+            assertThat(file.delete()).isTrue();
         }
 
         destroyRegistryEntries();
@@ -172,19 +166,19 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
      *
      * @throws Exception for any error
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception
     {
-    	// don't use Assume in @After methods!
-    	
-    	if ((!skipTests && isAdminUser)) {
-    		destroyRegistryEntries();
-    	}
+        // don't use Assume in @AfterEach methods!
 
-    	if (getUninstallerJar() != null) {
+        if ((!skipTests && isAdminUser)) {
+            destroyRegistryEntries();
+        }
+
+        if (getUninstallerJar() != null) {
             try {
                 // remove the uninstaller dir
-                FileUtils.deleteDirectory(getUninstallerJar().getParentFile());
+                deleteDirectory(getUninstallerJar().getParentFile());
             }
             catch (Exception ex) {
                 logger.log(Level.SEVERE, "Delete uninstaller directory failed.", ex);
@@ -201,18 +195,18 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/install.xml")
     public void testInstallation() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
+        assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
 
-    	// run the install
+        // run the install
         checkInstall(container, APP_NAME);
-        assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
+        assertThat(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY)).isTrue();
 
         // run the uninstaller and verify that uninstall key is removed
         File uninstaller = getUninstallerJar();
-        assertTrue(uninstaller.exists());
-        UninstallHelper.consoleUninstall(uninstaller);
+        assertThat(uninstaller).exists();
+        consoleUninstall(uninstaller);
 
-        assertFalse(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
+        assertThat(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY)).isFalse();
     }
 
     /**
@@ -224,8 +218,8 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/install.xml")
     public void testMultipleInstallation() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	
+        assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
+
         // run the install
         checkInstall(container, APP_NAME);
 
@@ -236,26 +230,26 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         ConsoleInstallerContainer container2 = new TestConsoleInstallerContainer();
         TestConsoleInstaller installer2 = container2.getComponent(TestConsoleInstaller.class);
         InstallData installData2 = container2.getComponent(InstallData.class);
-        
+
         // copied from super.setUp()
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
         installData2.setInstallPath(installPath.getAbsolutePath());
         installData2.setDefaultInstallPath(installPath.getAbsolutePath());
-        
+
         TestConsole console2 = installer2.getConsole();
         console2.addScript("CheckedHelloPanel", "y", "1");
         console2.addScript("TargetPanel", "\n", "y", "1");
         console2.addScript("PacksPanel", "1");
 
-        assertFalse(registryKeyExists(handler, UNINSTALL_KEY2));
+        assertThat(registryKeyExists(handler, UNINSTALL_KEY2)).isFalse();
         checkInstall(installer2, installData2);
 
         // verify the UNINSTALL_NAME has been updated
-        assertEquals(APP_NAME + "(1)", installData2.getVariable("UNINSTALL_NAME"));
+        assertThat(installData2.getVariable("UNINSTALL_NAME")).isEqualTo(APP_NAME + "(1)");
 
         // verify a second key is created
-        assertTrue(registryKeyExists(handler, UNINSTALL_KEY2));
+        assertThat(registryKeyExists(handler, UNINSTALL_KEY2)).isTrue();
     }
 
     /**
@@ -267,8 +261,8 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/install.xml")
     public void testRejectMultipleInstallation() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	
+        assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
+
         checkInstall(container, APP_NAME);
 
         removeLock();
@@ -281,18 +275,18 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         TestConsole console2 = installer2.getConsole();
         console2.addScript("CheckedHelloPanel", "n");
 
-        assertFalse(registryKeyExists(handler2, UNINSTALL_KEY2));
+        assertThat(registryKeyExists(handler2, UNINSTALL_KEY2)).isFalse();
         installer2.run(ConsoleInstallerAction.CONSOLE_INSTALL, null, new String[0]);
 
         // verify the installation thinks it was unsuccessful
-        assertFalse(installData2.isInstallSuccess());
+        assertThat(installData2.isInstallSuccess()).isFalse();
 
         // make sure the script has completed
         TestConsole console = installer2.getConsole();
-        assertTrue("Script still running panel: " + console.getScriptName(), console.scriptCompleted());
+        assertThat(console.scriptCompleted()).as("Script still running panel: " + console.getScriptName()).isTrue();
 
         // verify the second registry key hasn't been created
-        assertFalse(registryKeyExists(handler2, UNINSTALL_KEY2));
+        assertThat(registryKeyExists(handler2, UNINSTALL_KEY2)).isFalse();
     }
 
     /**
@@ -305,9 +299,9 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     @InstallFile("samples/windows/consoleinstall_alt_uninstall.xml")
     public void testNonDefaultUninstaller() throws Exception
     {
-    	Assume.assumeTrue("This test must be run as administrator, or with Windows UAC turned off", !skipTests && isAdminUser);
-    	
-        assertFalse(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
+        assumeTrue(!skipTests && isAdminUser, "This test must be run as administrator, or with Windows UAC turned off");
+
+        assertThat(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY)).isFalse();
 
         TestConsole console = installer.getConsole();
         console.addScript("CheckedHelloPanel", "1");
@@ -320,10 +314,10 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
 
         //check that uninstaller exists as specified in install spec
         String installPath = installData.getInstallPath();
-        assertTrue(new File(installPath, "/uninstallme.jar").exists());
+        assertThat(new File(installPath, "/uninstallme.jar")).exists();
 
         //check that the registry key has the correct value
-        assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
+        assertThat(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY)).isTrue();
         String command = "\"" + installData.getVariable("JAVA_HOME") + "\\bin\\javaw.exe\" -jar \"" + installPath
             + "\\uninstallme.jar\"";
         registryValueStringEquals(handler, DEFAULT_UNINSTALL_KEY, UNINSTALL_CMD_VALUE, command);
@@ -341,22 +335,22 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
         TestConsoleInstaller installer = container.getComponent(TestConsoleInstaller.class);
         RegistryDefaultHandler handler = container.getComponent(RegistryDefaultHandler.class);
 
-        assertNull(installData.getVariable("UNINSTALL_NAME"));
+        assertThat(installData.getVariable("UNINSTALL_NAME")).isNull();
 
-        assertFalse(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
+        assertThat(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY)).isFalse();
 
         TestConsole console = installer.getConsole();
         console.addScript("CheckedHelloPanel", "1");
         console.addScript("TargetPanel", "\n", "O", "1");
         console.addScript("PacksPanel", "1");
         console.addScript("ShortcutPanel", "N");
-        
+
         checkInstall(installer, installData);
 
         // UNINSTALL_NAME should now be defined
-        assertEquals(uninstallName, installData.getVariable("UNINSTALL_NAME"));
+        assertThat(installData.getVariable("UNINSTALL_NAME")).isEqualTo(uninstallName);
 
-        assertTrue(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY));
+        assertThat(registryKeyExists(handler, DEFAULT_UNINSTALL_KEY)).isTrue();
     }
 
     /**
@@ -365,10 +359,10 @@ public class WindowsConsoleInstallationTest extends AbstractConsoleInstallationT
     private void removeLock()
     {
         String appName = getInstallData().getInfo().getAppName();
-        File file = FileUtil.getLockFile(appName);
+        File file = getLockFile(appName);
         if (file.exists())
         {
-            assertTrue(file.delete());
+            assertThat(file.delete()).isTrue();
         }
     }
 

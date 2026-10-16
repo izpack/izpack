@@ -21,19 +21,18 @@
 
 package com.izforge.izpack.integration;
 
-import java.io.File;
+import static java.util.logging.LogManager.getLogManager;
+import static java.util.logging.Logger.getLogger;
+
+import com.izforge.izpack.api.data.InstallData;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TemporaryFolder;
-
-import com.izforge.izpack.api.data.InstallData;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Base class for installation integration test cases.
@@ -45,8 +44,8 @@ public class AbstractInstallationTest
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     public static final String LOGGING_CONFIGURATION = "/com/izforge/izpack/installer/logging/logging.properties";
 
@@ -75,13 +74,13 @@ public class AbstractInstallationTest
      *
      * @throws Exception for any error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
-        installData.setInstallPath(installPath.getAbsolutePath());
-        installData.setDefaultInstallPath(installPath.getAbsolutePath());
+        Path installPath = temporaryFolder.resolve("izpackTest");
+        installData.setInstallPath(installPath.toAbsolutePath().toString());
+        installData.setDefaultInstallPath(installPath.toAbsolutePath().toString());
     }
 
     /**
@@ -106,7 +105,7 @@ public class AbstractInstallationTest
 
     private static void initializeLogging()
     {
-        LogManager manager = LogManager.getLogManager();
+        LogManager manager = getLogManager();
         InputStream stream;
         try
         {
@@ -118,11 +117,11 @@ public class AbstractInstallationTest
         }
         catch (IOException e) {}
 
-        Logger rootLogger = Logger.getLogger("com.izforge.izpack");
+        Logger rootLogger = getLogger("com.izforge.izpack");
         rootLogger.setUseParentHandlers(false);
         rootLogger.setLevel(Level.INFO);
 
-        logger = Logger.getLogger(AbstractInstallationTest.class.getName());
+        logger = getLogger(AbstractInstallationTest.class.getName());
         logger.info("Logging initialized at level '" + rootLogger.getLevel() + "'");
     }
 }

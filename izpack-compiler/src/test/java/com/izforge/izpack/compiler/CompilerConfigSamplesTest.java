@@ -19,27 +19,20 @@
 
 package com.izforge.izpack.compiler;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.util.jar.JarFile;
-import java.util.zip.ZipFile;
-
-import org.hamcrest.core.IsCollectionContaining;
-import org.hamcrest.core.IsNot;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.matcher.ZipMatcher.getFileNameListFromZip;
+import static java.util.List.of;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.compiler.container.TestCompilerContainer;
 import com.izforge.izpack.core.container.AbstractContainer;
-import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import java.util.jar.JarFile;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for an Izpack compilation
  */
-@RunWith(PicoRunner.class)
 @Container(TestCompilerContainer.class)
 public class CompilerConfigSamplesTest
 {
@@ -59,10 +52,10 @@ public class CompilerConfigSamplesTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat((ZipFile)jar, ZipMatcher.isZipContainingFiles(
+        assertThat(getFileNameListFromZip(jar)).contains(
                 "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class",
                 "resources/vars",
-                "com/izforge/izpack/img/JFrameIcon.png"));
+                "com/izforge/izpack/img/JFrameIcon.png");
     }
 
     @Test
@@ -71,10 +64,11 @@ public class CompilerConfigSamplesTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat((ZipFile)jar, ZipMatcher.isZipMatching(IsNot.not(IsCollectionContaining.hasItems(
+        // Preserve the original negated hasItems contract: at least one entry must be absent.
+        assertThat(getFileNameListFromZip(jar).containsAll(of(
                 "com/izforge/izpack/panels/process/VariableCondition.class",
                 "com/sora/panel/VimPanel.class",
-                "resource/32/help-browser.png"))));
+                "resource/32/help-browser.png"))).isFalse();
     }
     @Test
     @InstallFile("samples/refpackset/izpack.xml")
@@ -82,10 +76,10 @@ public class CompilerConfigSamplesTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat((ZipFile)jar, ZipMatcher.isZipContainingFiles(
+        assertThat(getFileNameListFromZip(jar)).contains(
                 "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class",
                 "resources/vars",
-                "com/izforge/izpack/img/JFrameIcon.png"));
+                "com/izforge/izpack/img/JFrameIcon.png");
     }
 
 
@@ -95,8 +89,8 @@ public class CompilerConfigSamplesTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat((ZipFile)jar, ZipMatcher.isZipContainingFiles(
-                "resources/Splash.image"));
+        assertThat(getFileNameListFromZip(jar)).contains(
+                "resources/Splash.image");
     }
 
     @Test
@@ -105,9 +99,9 @@ public class CompilerConfigSamplesTest
     {
         compilerConfig.executeCompiler();
         jar = testContainer.getComponent(JarFile.class);
-        assertThat((ZipFile)jar, ZipMatcher.isZipContainingFiles(
+        assertThat(getFileNameListFromZip(jar)).contains(
                 "com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class",
                 "resources/vars",
-                "com/izforge/izpack/img/JFrameIcon.png"));
+                "com/izforge/izpack/img/JFrameIcon.png");
     }
 }

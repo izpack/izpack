@@ -20,17 +20,15 @@
  */
 package com.izforge.izpack.panels.test;
 
-import org.mockito.Mockito;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
-import org.picocontainer.injectors.ProviderAdapter;
+import static org.mockito.Mockito.mock;
 
-import com.izforge.izpack.api.exception.ContainerException;
 import com.izforge.izpack.gui.GUIPrompt;
 import com.izforge.izpack.gui.log.Log;
 import com.izforge.izpack.installer.base.InstallDataConfiguratorWithRules;
 import com.izforge.izpack.installer.container.provider.IconsProvider;
 import com.izforge.izpack.test.provider.GUIInstallDataMockProvider;
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.injectors.ProviderAdapter;
 
 
 /**
@@ -63,7 +61,7 @@ public class TestGUIPanelContainer extends AbstractTestPanelContainer
     {
         super.fillContainer(container);
         addComponent(InstallDataConfiguratorWithRules.class);
-        addComponent(Log.class, Mockito.mock(Log.class));
+        addComponent(Log.class, mock(Log.class));
         addComponent(GUIPrompt.class);
 
         container.addAdapter(new ProviderAdapter(new GUIInstallDataMockProvider()));

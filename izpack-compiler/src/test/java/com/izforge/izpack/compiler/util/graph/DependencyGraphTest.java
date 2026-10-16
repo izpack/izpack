@@ -18,13 +18,12 @@
  */
 package com.izforge.izpack.compiler.util.graph;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.ListIterator;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DependencyGraphTest {
 
@@ -57,14 +56,14 @@ public class DependencyGraphTest {
 
     private void testContained(List<? extends Object> list, Object var)
     {
-        assertTrue(String.format("'%s' must be contained in list '%s'",var,list), list.contains(var));
+        assertThat(list.contains(var)).as(format("'%s' must be contained in list '%s'",var,list)).isTrue();
     }
 
     private void testOrder(List<? extends Object> list, Object var1, Object var2)
     {
         testContained(list, var1);
         testContained(list, var2);
-        assertTrue(String.format("'%s' must come after '%s' in list '%s'",var1,var2,list), list.indexOf(var1) > list.indexOf(var2));
+        assertThat(list.indexOf(var1)).as(format("'%s' must come after '%s' in list '%s'",var1,var2,list)).isGreaterThan(list.indexOf(var2));
     }
 
     private void testUnique(List<? extends Object> list)
@@ -76,7 +75,7 @@ public class DependencyGraphTest {
             ListIterator<? extends Object> it2 = list.listIterator(it.nextIndex());
             while (it2.hasNext())
             {
-                assertFalse(String.format("'%s' must occur only once in list '%s'",object,list), object.equals(it2.next()));
+                assertThat(it2.next()).as(format("'%s' must occur only once in list '%s'",object,list)).isNotEqualTo(object);
             }
         }
     }

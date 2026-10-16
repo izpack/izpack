@@ -21,11 +21,15 @@
 
 package com.izforge.izpack.uninstaller.resource;
 
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.izforge.izpack.api.exception.ResourceNotFoundException;
+import com.izforge.izpack.api.resource.Resources;
+import com.izforge.izpack.installer.data.UninstallData;
+import com.izforge.izpack.util.Platform;
+import com.izforge.izpack.util.Platforms;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,18 +37,8 @@ import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import com.izforge.izpack.api.exception.IzPackException;
-import com.izforge.izpack.api.exception.ResourceNotFoundException;
-import com.izforge.izpack.api.resource.Resources;
-import com.izforge.izpack.installer.data.UninstallData;
-import com.izforge.izpack.util.Platform;
-import com.izforge.izpack.util.Platforms;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link RootScripts} class.
@@ -64,7 +58,7 @@ public class RootScriptsTest
      *
      * @throws java.io.IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         // Set up a mock Resources implementation.
@@ -73,7 +67,7 @@ public class RootScriptsTest
         InputStream script2 = createRootScript("echo script2");
         InputStream script3 = createRootScript("echo script3");
 
-        resources = Mockito.mock(Resources.class);
+        resources = mock(Resources.class);
         when(resources.getInputStream(UninstallData.ROOTSCRIPT + "0")).thenReturn(script1);
         when(resources.getInputStream(UninstallData.ROOTSCRIPT + "1")).thenReturn(script2);
         when(resources.getInputStream(UninstallData.ROOTSCRIPT + "2")).thenReturn(script3);
@@ -91,11 +85,11 @@ public class RootScriptsTest
         final List<String> run = new ArrayList<String>();
         RootScripts scripts = new TestRootScripts(resources, Platforms.UNIX, run);
         scripts.run();
-        assertEquals(3, run.size());
+        assertThat(run).hasSize(3);
 
-        assertEquals("echo script1", run.get(0));
-        assertEquals("echo script2", run.get(1));
-        assertEquals("echo script3", run.get(2));
+        assertThat(run.get(0)).isEqualTo("echo script1");
+        assertThat(run.get(1)).isEqualTo("echo script2");
+        assertThat(run.get(2)).isEqualTo("echo script3");
     }
 
     /**
@@ -107,7 +101,7 @@ public class RootScriptsTest
         final List<String> run = new ArrayList<String>();
         RootScripts scripts = new TestRootScripts(resources, Platforms.WINDOWS, run);
         scripts.run();
-        assertTrue(run.isEmpty());
+        assertThat(run).isEmpty();
     }
 
 

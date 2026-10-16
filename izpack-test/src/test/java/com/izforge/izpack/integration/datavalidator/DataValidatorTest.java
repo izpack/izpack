@@ -21,57 +21,50 @@
 
 package com.izforge.izpack.integration.datavalidator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.util.List;
-
-import org.fest.swing.core.matcher.JButtonMatcher;
-import org.fest.swing.fixture.DialogFixture;
-import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.timing.Timeout;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.integration.HelperTestMethod.prepareFrameFixture;
+import static com.izforge.izpack.integration.datavalidator.TestDataValidator.getValidate;
+import static java.lang.Thread.sleep;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.fest.swing.core.matcher.JButtonMatcher.withText;
+import static org.fest.swing.timing.Timeout.timeout;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
-import com.izforge.izpack.api.installer.DataValidator;
 import com.izforge.izpack.compiler.container.TestGUIInstallationContainer;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.gui.IzPanels;
-import com.izforge.izpack.integration.HelperTestMethod;
 import com.izforge.izpack.panels.hello.HelloPanel;
 import com.izforge.izpack.panels.install.InstallPanel;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestHousekeeper;
-
+import java.io.File;
+import java.nio.file.Path;
+import java.util.List;
+import org.fest.swing.fixture.DialogFixture;
+import org.fest.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests that {@link DataValidator}s are invoked during installation.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class DataValidatorTest
 {
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * Install data.
@@ -125,19 +118,19 @@ public class DataValidatorTest
     /**
      * Sets up the test case.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
-        assertTrue(installPath.mkdirs());
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
+        assertThat(installPath.mkdirs()).isTrue();
         installData.setInstallPath(installPath.getAbsolutePath());
     }
 
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)
@@ -156,25 +149,25 @@ public class DataValidatorTest
     public void testDataValidators() throws Exception
     {
         List<Panel> list = panels.getPanels();
-        assertEquals(3, list.size());
+        assertThat(list).hasSize(3);
         Panel hello = list.get(0);
         Panel install = list.get(1);
         Panel finish = list.get(2);
 
         // verify that all class names are fully qualified
-        assertEquals(HelloPanel.class.getName(), hello.getClassName());
-        assertEquals(TestDataValidator.class.getName(), hello.getValidators().iterator().next());
+        assertThat(hello.getClassName()).isEqualTo(HelloPanel.class.getName());
+        assertThat(hello.getValidators().iterator().next()).isEqualTo(TestDataValidator.class.getName());
 
-        assertEquals(InstallPanel.class.getName(), install.getClassName());
-        assertEquals(TestDataValidator.class.getName(), install.getValidators().iterator().next());
+        assertThat(install.getClassName()).isEqualTo(InstallPanel.class.getName());
+        assertThat(install.getValidators().iterator().next()).isEqualTo(TestDataValidator.class.getName());
 
-        assertEquals(SimpleFinishPanel.class.getName(), finish.getClassName());
-        assertEquals(TestDataValidator.class.getName(), finish.getValidators().iterator().next());
+        assertThat(finish.getClassName()).isEqualTo(SimpleFinishPanel.class.getName());
+        assertThat(finish.getValidators().iterator().next()).isEqualTo(TestDataValidator.class.getName());
 
-        frameFixture = HelperTestMethod.prepareFrameFixture(frame, controller);
+        frameFixture = prepareFrameFixture(frame, controller);
 
         // HelloPanel
-        Thread.sleep(2000);
+        sleep(2000);
         checkCurrentPanel(HelloPanel.class);
         installData.setVariable("HelloPanel.status", "ERROR");
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
@@ -184,10 +177,10 @@ public class DataValidatorTest
         installData.setVariable("HelloPanel.status", "WARNING");
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
         checkDialog("HelloPanel.warning");
-        assertEquals(2, TestDataValidator.getValidate("HelloPanel", installData));
+        assertThat(getValidate("HelloPanel", installData)).isEqualTo(2);
 
         // InstallPanel
-        Thread.sleep(1000);
+        sleep(1000);
         checkCurrentPanel(InstallPanel.class);
         installData.setVariable("InstallPanel.status", "ERROR");
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
@@ -195,22 +188,22 @@ public class DataValidatorTest
 
         installData.setVariable("InstallPanel.status", "OK");
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
-        assertEquals(2, TestDataValidator.getValidate("InstallPanel", installData));
+        assertThat(getValidate("InstallPanel", installData)).isEqualTo(2);
 
         // SimpleFinishPanel
-        Thread.sleep(1000);
+        sleep(1000);
         checkCurrentPanel(SimpleFinishPanel.class);
 
         // Validators not invoked on last panel, so this should be a no-op
         installData.setVariable("SimpleFinishPanel.status", "ERROR");
         frameFixture.button(GuiId.BUTTON_QUIT.id).click();
-        assertEquals(0, TestDataValidator.getValidate("SimpleFinishPanel", installData));
+        assertThat(getValidate("SimpleFinishPanel", installData)).isEqualTo(0);
 
         // verify the installer has terminated, and an uninstaller has been written
         housekeeper.waitShutdown(2 * 60 * 1000);
-        assertTrue(housekeeper.hasShutdown());
-        assertEquals(0, housekeeper.getExitCode());
-        assertFalse(housekeeper.getReboot());
+        assertThat(housekeeper.hasShutdown()).isTrue();
+        assertThat(housekeeper.getExitCode()).isEqualTo(0);
+        assertThat(housekeeper.getReboot()).isFalse();
     }
 
     /**
@@ -221,7 +214,7 @@ public class DataValidatorTest
     private void checkCurrentPanel(Class<? extends IzPanel> type)
     {
         Panel panel = panels.getPanel();
-        assertEquals(type.getName(), panel.getClassName());
+        assertThat(panel.getClassName()).isEqualTo(type.getName());
     }
 
     /**
@@ -233,8 +226,8 @@ public class DataValidatorTest
      */
     private void checkDialog(String text)
     {
-        DialogFixture dialog = frameFixture.dialog(Timeout.timeout(10000));
-        assertEquals(text, dialog.label("OptionPane.label").text());
-        dialog.button(JButtonMatcher.withText("OK")).click();
+        DialogFixture dialog = frameFixture.dialog(timeout(10000));
+        assertThat(dialog.label("OptionPane.label").text()).isEqualTo(text);
+        dialog.button(withText("OK")).click();
     }
 }

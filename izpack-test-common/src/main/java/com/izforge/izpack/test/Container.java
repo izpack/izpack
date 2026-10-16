@@ -1,10 +1,12 @@
 package com.izforge.izpack.test;
 
+import com.izforge.izpack.test.junit.PicoExtension;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Annotation to specify used container
@@ -14,6 +16,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 @Inherited
+@ExtendWith(PicoExtension.class)
 public @interface Container
 {
     /**

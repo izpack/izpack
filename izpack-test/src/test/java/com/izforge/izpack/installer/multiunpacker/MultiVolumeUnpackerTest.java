@@ -21,6 +21,17 @@
 
 package com.izforge.izpack.installer.multiunpacker;
 
+import static com.izforge.izpack.test.util.TestHelper.assertFileEquals;
+import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
+import static org.apache.commons.io.FilenameUtils.getExtension;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyList;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import com.izforge.izpack.api.data.*;
 import com.izforge.izpack.api.event.ProgressListener;
 import com.izforge.izpack.api.handler.Prompt;
@@ -49,23 +60,16 @@ import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
-import org.apache.commons.io.FilenameUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.mockito.Mockito;
-
 import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.jar.JarOutputStream;
-
-import static com.izforge.izpack.test.util.TestHelper.assertFileEquals;
-import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link MultiVolumeUnpacker}.
@@ -74,8 +78,8 @@ import static org.junit.Assert.*;
  */
 public class MultiVolumeUnpackerTest
 {
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
 
     /**
@@ -86,11 +90,11 @@ public class MultiVolumeUnpackerTest
     @Test
     public void testUnpack() throws Exception
     {
-        File baseDir = temporaryFolder.getRoot();
+        File baseDir = temporaryFolder.toFile();
         File packageDir = new File(baseDir, "package");
         File installerJar = new File(packageDir, "installer.jar");
         File installDir = new File(baseDir, "install");
-        assertTrue(packageDir.mkdir());
+        assertThat(packageDir.mkdir()).isTrue();
 
         // create some packs
         File file1 = createFile(baseDir, "file1.dat", 1024);
@@ -129,14 +133,14 @@ public class MultiVolumeUnpackerTest
         packager.createInstaller();
 
         // verify the installer exists
-        assertTrue(installerJar.exists());
+        assertThat(installerJar).exists();
 
         // verify the installer volumes have been created
         Resources resources = createResources(installerJar);
         checkVolumes(packageDir, resources, firstVolumeSize, maxVolumeSize);
 
         // verify the loose pack files are present
-        assertTrue(new File(packageDir, file10.getName()).exists());
+        assertThat(new File(packageDir, file10.getName())).exists();
 
         // unpack the installer
         AutomatedInstallData installData = createInstallData(packageDir, installDir, resources);
@@ -158,7 +162,7 @@ public class MultiVolumeUnpackerTest
         assertFileNotExists(installDir, file5.getName());
         assertFileNotExists(installDir, file6.getName());
     }
-    
+
     /**
      * Tests unpacking of multiple volume installation with executables in pack.
      *
@@ -167,11 +171,11 @@ public class MultiVolumeUnpackerTest
     @Test
     public void testUnpackWithExecutables() throws Exception
     {
-        File baseDir = temporaryFolder.getRoot();
+        File baseDir = temporaryFolder.toFile();
         File packageDir = new File(baseDir, "package");
         File installerJar = new File(packageDir, "installer.jar");
         File installDir = new File(baseDir, "install");
-        assertTrue(packageDir.mkdir());
+        assertThat(packageDir.mkdir()).isTrue();
 
         // create some packs
         File file1 = createFile(baseDir, "file1.dat", 1024);
@@ -216,24 +220,24 @@ public class MultiVolumeUnpackerTest
         packager.createInstaller();
 
         // verify the installer exists
-        assertTrue(installerJar.exists());
+        assertThat(installerJar).exists();
 
         // verify the installer volumes have been created
         Resources resources = createResources(installerJar);
         checkVolumes(packageDir, resources, firstVolumeSize, maxVolumeSize);
 
         // verify the loose pack files are present
-        assertTrue(new File(packageDir, file10.getName()).exists());
+        assertThat(new File(packageDir, file10.getName())).exists();
 
         // unpack the installer
         AutomatedInstallData installData = createInstallData(packageDir, installDir, resources);
         setSelectedPacks(installData, "base", "pack2", "pack3");  // exclude pack1 from installation
         TestMultiVolumeUnpacker unpacker = createUnpacker(resources, installData);
 
-        TestMultiVolumeUnpacker spy = Mockito.spy(unpacker);
+        TestMultiVolumeUnpacker spy = spy(unpacker);
         spy.unpack();
-        
-        Mockito.verify(spy, Mockito.times(3)).readExecutableFiles(Mockito.any(PackInfo.class), Mockito.anyList());
+
+        verify(spy, times(3)).readExecutableFiles(any(PackInfo.class), anyList());
 
         // verify the expected files exists in the installation directory
         checkInstalled(installDir, file1);
@@ -273,7 +277,7 @@ public class MultiVolumeUnpackerTest
                 }
             }
         }
-        assertEquals(names.length, installData.getSelectedPacks().size());
+        assertThat(installData.getSelectedPacks().size()).isEqualTo(names.length);
     }
 
     /**
@@ -306,22 +310,22 @@ public class MultiVolumeUnpackerTest
         int count = info.readInt();
         String name = info.readUTF();
         info.close();
-        assertTrue(count >= 1);
+        assertThat(count).isGreaterThanOrEqualTo(1);
 
         // verify the primary volume exists, with the expected size
         File volume = new File(dir, name);
-        assertTrue(volume.exists());
-        assertEquals(maxFirstVolumeSize, volume.length());
+        assertThat(volume).exists();
+        assertThat(volume).hasSize(maxFirstVolumeSize);
 
         // check the existence and size of the remaining volumes
         for (int i = 1; i < count; ++i)
         {
             volume = new File(dir, name + "." + i);
-            assertTrue(volume.exists());
+            assertThat(volume).exists();
             if (i < count - 1)
             {
                 // can't check the size of the last volume
-                assertEquals(maxVolumeSize, volume.length());
+                assertThat(volume).hasSize(maxVolumeSize);
             }
         }
     }
@@ -336,44 +340,44 @@ public class MultiVolumeUnpackerTest
     private TestMultiVolumeUnpacker createUnpacker(Resources resources, AutomatedInstallData installData)
     {
         VariableSubstitutor replacer = new VariableSubstitutorImpl(installData.getVariables());
-        Housekeeper housekeeper = Mockito.mock(Housekeeper.class);
-        RulesEngine rules = Mockito.mock(RulesEngine.class);
+        Housekeeper housekeeper = mock(Housekeeper.class);
+        RulesEngine rules = mock(RulesEngine.class);
         UninstallData uninstallData = new UninstallData();
-        Librarian librarian = Mockito.mock(Librarian.class);
-        VolumeLocator locator = Mockito.mock(VolumeLocator.class);
+        Librarian librarian = mock(Librarian.class);
+        VolumeLocator locator = mock(VolumeLocator.class);
         PackResources packResources = new ConsolePackResources(resources, installData);
         FileQueueFactory queue = new FileQueueFactory(Platforms.WINDOWS, librarian);
-        Prompt prompt = Mockito.mock(Prompt.class);
+        Prompt prompt = mock(Prompt.class);
         InstallerListeners listeners = new InstallerListeners(installData, prompt);
         PlatformModelMatcher matcher = new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS);
         TestMultiVolumeUnpacker unpacker = new TestMultiVolumeUnpacker(installData, packResources, rules, replacer,
                                                                uninstallData, queue, housekeeper,
                                                                listeners, prompt, locator, matcher);
-        unpacker.setProgressListener(Mockito.mock(ProgressListener.class));
+        unpacker.setProgressListener(mock(ProgressListener.class));
         return unpacker;
     }
-    
+
     /**
      * This unpacker has a validation of the executables.
      *
      */
     private static class TestMultiVolumeUnpacker extends MultiVolumeUnpacker {
 
-		public TestMultiVolumeUnpacker(com.izforge.izpack.api.data.InstallData installData, PackResources resources,
+        public TestMultiVolumeUnpacker(com.izforge.izpack.api.data.InstallData installData, PackResources resources,
                                        RulesEngine rules, VariableSubstitutor variableSubstitutor, UninstallData uninstallData,
                                        FileQueueFactory queue, Housekeeper housekeeper, InstallerListeners listeners, Prompt prompt,
                                        VolumeLocator locator, PlatformModelMatcher matcher) {
-			super(installData, resources, rules, variableSubstitutor, uninstallData, queue, housekeeper, listeners, prompt, locator,
-					matcher);
-		}
+            super(installData, resources, rules, variableSubstitutor, uninstallData, queue, housekeeper, listeners, prompt, locator,
+                    matcher);
+        }
 
-		@Override
-		protected void readExecutableFiles(PackInfo packInfo, List<ExecutableFile> executables)
+        @Override
+        protected void readExecutableFiles(PackInfo packInfo, List<ExecutableFile> executables)
         {
-			super.readExecutableFiles(packInfo, executables);
-			
-			assertTrue(executables.size() < 2);
-		}
+            super.readExecutableFiles(packInfo, executables);
+
+            assertThat(executables.size() < 2).isTrue();
+        }
     }
 
     /**
@@ -395,8 +399,8 @@ public class MultiVolumeUnpackerTest
         installData.setMediaPath(mediaDir.getPath());
         installData.setInfo(new Info());
         InputStream langPack = getClass().getResourceAsStream("/com/izforge/izpack/bin/langpacks/installer/eng.xml");
-        assertNotNull(langPack);
-        installData.setMessages(new LocaleDatabase(langPack, Mockito.mock(Locales.class)));
+        assertThat(langPack).isNotNull();
+        installData.setMessages(new LocaleDatabase(langPack, mock(Locales.class)));
         List<Pack> packs = getPacks(resources);
         installData.setAvailablePacks(packs);
         return installData;
@@ -427,20 +431,20 @@ public class MultiVolumeUnpackerTest
     private MultiVolumePackager createPackager(File baseDir, File installerJar) throws IOException
     {
         Properties properties = new Properties();
-        PackagerListener packagerListener = Mockito.mock(PackagerListener.class);
+        PackagerListener packagerListener = mock(PackagerListener.class);
         JarOutputStream jar = new JarOutputStream(new FileOutputStream(installerJar));
-        MergeManager mergeManager = Mockito.mock(MergeManager.class);
-        CompilerPathResolver resolver = Mockito.mock(CompilerPathResolver.class);
-        MergeableResolver mergeableResolver = Mockito.mock(MergeableResolver.class);
+        MergeManager mergeManager = mock(MergeManager.class);
+        CompilerPathResolver resolver = mock(CompilerPathResolver.class);
+        MergeableResolver mergeableResolver = mock(MergeableResolver.class);
         CompilerData data = new CompilerData(null, baseDir.getPath(), installerJar.getPath(), true);
-        RulesEngine rulesEngine = Mockito.mock(RulesEngine.class);
+        RulesEngine rulesEngine = mock(RulesEngine.class);
         MultiVolumePackager packager = new MultiVolumePackager(properties, packagerListener, jar, mergeManager,
                                                                resolver, mergeableResolver, data, rulesEngine);
         packager.setInfo(new Info());
         return packager;
     }
-    
-    
+
+
     /**
      * Helper to add files to a pack.
      *
@@ -453,17 +457,17 @@ public class MultiVolumeUnpackerTest
     {
         for (File file : files)
         {
-        	if ("exe".equals(FilenameUtils.getExtension(file.getName()))) {
+            if ("exe".equals(getExtension(file.getName()))) {
                 ExecutableFile executable = new ExecutableFile();
                 executable.path = file.getPath();
                 executable.executionStage = ExecutableFile.UNINSTALL;
-                
-        		pack.addExecutable(executable);
-        	}
-        	else {
-	            pack.addFile(baseDir, file, "$INSTALL_PATH/" + file.getName(), null, OverrideType.OVERRIDE_FALSE, null,
-	                         Blockable.BLOCKABLE_NONE, null, null, null);
-        	}
+
+                pack.addExecutable(executable);
+            }
+            else {
+                pack.addFile(baseDir, file, "$INSTALL_PATH/" + file.getName(), null, OverrideType.OVERRIDE_FALSE, null,
+                             Blockable.BLOCKABLE_NONE, null, null, null);
+            }
         }
     }
 

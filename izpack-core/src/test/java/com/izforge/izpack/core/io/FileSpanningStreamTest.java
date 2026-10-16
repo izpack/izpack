@@ -21,20 +21,15 @@
 
 package com.izforge.izpack.core.io;
 
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Random;
-
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link FileSpanningOutputStream} and {@link FileSpanningInputStream}.
@@ -43,8 +38,8 @@ import org.junit.rules.TemporaryFolder;
  */
 public class FileSpanningStreamTest
 {
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * Tests the {@link FileSpanningOutputStream#write(int)} and {@link FileSpanningInputStream#read()} methods.
@@ -54,7 +49,7 @@ public class FileSpanningStreamTest
     @Test
     public void testReadWrite() throws IOException
     {
-        File volume = new File(temporaryFolder.getRoot(), "volume");
+        File volume = temporaryFolder.resolve("volume").toFile();
         String basePath = volume.getPath();
         int maxSize = 32;
         FileSpanningOutputStream spanningOutputStream = new FileSpanningOutputStream(volume, maxSize);
@@ -62,22 +57,22 @@ public class FileSpanningStreamTest
         // write out some data
         for (int i = 0; i < 1000; ++i)
         {
-            assertEquals(i, spanningOutputStream.getFilePointer());
+            assertThat(spanningOutputStream.getFilePointer()).isEqualTo(i);
             spanningOutputStream.write(i & 0xFF);
         }
         spanningOutputStream.close();
 
         int volumes = spanningOutputStream.getVolumes();
-        assertTrue(volumes > 2);
+        assertThat(volumes).isGreaterThan(2);
         checkVolumes(basePath, maxSize, volumes);
 
         FileSpanningInputStream spanningInputStream = new FileSpanningInputStream(volume, volumes);
         for (int i = 0; i < 1000; ++i)
         {
-            assertEquals(i, spanningInputStream.getFilePointer());
-            assertEquals(i & 0xFF, spanningInputStream.read());
+            assertThat(spanningInputStream.getFilePointer()).isEqualTo(i);
+            assertThat(spanningInputStream.read()).isEqualTo(i & 0xFF);
         }
-        assertEquals(-1, spanningInputStream.read());
+        assertThat(spanningInputStream.read()).isEqualTo(-1);
         spanningInputStream.close();
     }
 
@@ -90,7 +85,7 @@ public class FileSpanningStreamTest
     @Test
     public void testByteArrayReadWrite() throws IOException
     {
-        File volume = new File(temporaryFolder.getRoot(), "volume");
+        File volume = temporaryFolder.resolve("volume").toFile();
         String basePath = volume.getPath();
         int maxSize = 32;
         FileSpanningOutputStream spanningOutputStream = new FileSpanningOutputStream(volume, maxSize);
@@ -101,20 +96,20 @@ public class FileSpanningStreamTest
             written[i] = (byte) i;
         }
         spanningOutputStream.write(written);
-        assertEquals(written.length, spanningOutputStream.getFilePointer());
+        assertThat(spanningOutputStream.getFilePointer()).isEqualTo(written.length);
         spanningOutputStream.close();
 
         int volumes = spanningOutputStream.getVolumes();
-        assertTrue(volumes > 2);
+        assertThat(volumes).isGreaterThan(2);
         checkVolumes(basePath, maxSize, volumes);
 
         FileSpanningInputStream spanningInputStream = new FileSpanningInputStream(volume, volumes);
         byte[] read = new byte[written.length];
-        assertEquals(written.length, spanningInputStream.read(read));
-        assertArrayEquals(written, read);
-        assertEquals(read.length, spanningInputStream.getFilePointer());
+        assertThat(spanningInputStream.read(read)).isEqualTo(written.length);
+        assertThat(read).isEqualTo(written);
+        assertThat(spanningInputStream.getFilePointer()).isEqualTo(read.length);
 
-        assertEquals(-1, spanningInputStream.read(read));
+        assertThat(spanningInputStream.read(read)).isEqualTo(-1);
         spanningInputStream.close();
     }
 
@@ -126,7 +121,7 @@ public class FileSpanningStreamTest
     @Test
     public void testSkip() throws IOException
     {
-        File volume = new File(temporaryFolder.getRoot(), "volume");
+        File volume = temporaryFolder.resolve("volume").toFile();
         FileSpanningOutputStream spanningOutputStream = new FileSpanningOutputStream(volume, 1024);
 
         // write 100K of random data
@@ -138,26 +133,26 @@ public class FileSpanningStreamTest
         // open the volumes
         int volumes = spanningOutputStream.getVolumes();
         FileSpanningInputStream spanningInputStream = new FileSpanningInputStream(volume, volumes);
-        assertEquals(0, spanningInputStream.getFilePointer());
+        assertThat(spanningInputStream.getFilePointer()).isEqualTo(0);
 
         // skip half of the data
         int skip = written.length / 2;
-        assertEquals(skip, spanningInputStream.skip(skip));
-        assertEquals(skip, spanningInputStream.getFilePointer());
+        assertThat(spanningInputStream.skip(skip)).isEqualTo(skip);
+        assertThat(spanningInputStream.getFilePointer()).isEqualTo(skip);
 
         // read the remaining half
         byte[] read = new byte[written.length - skip];
-        assertEquals(read.length, spanningInputStream.read(read));
-        assertEquals(written.length, spanningInputStream.getFilePointer());
+        assertThat(spanningInputStream.read(read)).isEqualTo(read.length);
+        assertThat(spanningInputStream.getFilePointer()).isEqualTo(written.length);
 
         // verify the read data matches that expected
         for (int i = 0; i < read.length; ++i)
         {
-            assertEquals(written[i + skip], read[i]);
+            assertThat(read[i]).isEqualTo(written[i + skip]);
         }
 
         // check that there is nothing left to read
-        assertEquals(-1, spanningInputStream.read(read));
+        assertThat(spanningInputStream.read(read)).isEqualTo(-1);
         spanningInputStream.close();
     }
 
@@ -166,12 +161,12 @@ public class FileSpanningStreamTest
      *
      * @throws IOException for any I/O exception
      */
-    @Ignore("This is a long running test. It should be run when making changes to FileSpanningInputStream or "
+    @Disabled("This is a long running test. It should be run when making changes to FileSpanningInputStream or "
                     + "FileSpanningOutputStream")
     @Test
     public void testLargeFiles() throws IOException
     {
-        File volume = new File(temporaryFolder.getRoot(), "volume");
+        File volume = temporaryFolder.resolve("volume").toFile();
         long maxSize = FileSpanningOutputStream.DEFAULT_VOLUME_SIZE;
         FileSpanningOutputStream spanningOutputStream = new FileSpanningOutputStream(volume, maxSize);
 
@@ -197,13 +192,13 @@ public class FileSpanningStreamTest
         for (int i = 0; i < count; ++i)
         {
             System.out.println("Reading " + i);
-            assertEquals(written.length, spanningInputStream.read(read));
+            assertThat(spanningInputStream.read(read)).isEqualTo(written.length);
             byte id = (byte) (i & 0xFF);
-            assertEquals(id, read[0]);
-            assertEquals(id, read[read.length - 1]);
+            assertThat(read[0]).isEqualTo(id);
+            assertThat(read[read.length - 1]).isEqualTo(id);
         }
 
-        assertEquals(-1, spanningInputStream.read(read));
+        assertThat(spanningInputStream.read(read)).isEqualTo(-1);
         spanningInputStream.close();
     }
 
@@ -216,16 +211,16 @@ public class FileSpanningStreamTest
      */
     private void checkVolumes(String basePath, int maxSize, int volumes)
     {
-        assertTrue(volumes > 1);
+        assertThat(volumes).isGreaterThan(1);
 
         for (int i = 0; i < volumes; ++i)
         {
             File volume = (i == 0) ? new File(basePath) : new File(basePath + "." + i);
-            assertTrue(volume.exists());
+            assertThat(volume).exists();
             if (i != volumes - 1)
             {
                 // verify the length of all but the last volume, whose length is unpredictable
-                assertEquals(maxSize, volume.length());
+                assertThat(volume).hasSize(maxSize);
             }
         }
     }

@@ -19,41 +19,35 @@
 
 package com.izforge.izpack.panels.licence;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.exception.ResourceException;
 import com.izforge.izpack.api.exception.ResourceNotFoundException;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.resource.ResourceManager;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.Mockito;
-
 import java.net.URL;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Michael Aichler
  */
 public class LicenceLoaderTest {
 
-    @Rule
-    public final ExpectedException thrownException = ExpectedException.none();
-
     private URL defaultUrl;
     private URL specificUrl;
     private Resources resources;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         defaultUrl = new URL("file://default");
         specificUrl = new URL("file://specific");
-        resources = Mockito.mock(Resources.class);
+        resources = mock(Resources.class);
     }
 
     @Test
@@ -65,10 +59,8 @@ public class LicenceLoaderTest {
         Panel panel = createPanel("somePanelId");
         LicenceLoader loader = createFor(panel);
 
-        thrownException.expect(ResourceException.class);
-        thrownException.expectMessage(startsWith("Could not open license document for the resource id"));
-
-        loader.asURL();
+        ResourceException failure = assertThrows(ResourceException.class, loader::asURL);
+        assertThat(failure.getMessage()).startsWith("Could not open license document for the resource id");
     }
 
     @Test
@@ -79,7 +71,7 @@ public class LicenceLoaderTest {
         Panel panel = createPanel(null);
         URL url = createFor(panel).asURL();
 
-        assertThat(url, equalTo(defaultUrl));
+        assertThat(url).isEqualTo(defaultUrl);
     }
 
     @Test
@@ -91,7 +83,7 @@ public class LicenceLoaderTest {
         Panel panel = createPanel("somePanelId");
         URL result = createFor(panel).asURL();
 
-        assertThat(result, equalTo(specificUrl));
+        assertThat(result).isEqualTo(specificUrl);
     }
 
     @Test
@@ -103,7 +95,7 @@ public class LicenceLoaderTest {
         Panel panel = createPanel("somePanelId");
         URL result = createFor(panel).asURL();
 
-        assertThat(result, equalTo(defaultUrl));
+        assertThat(result).isEqualTo(defaultUrl);
     }
 
     @Test
@@ -116,7 +108,7 @@ public class LicenceLoaderTest {
         LicenceLoader loader = new LicenceLoader(panel, rm);
 
         String result = loader.asString();
-        assertThat(result, equalTo("This is a licence panel"));
+        assertThat(result).isEqualTo("This is a licence panel");
     }
 
     /**

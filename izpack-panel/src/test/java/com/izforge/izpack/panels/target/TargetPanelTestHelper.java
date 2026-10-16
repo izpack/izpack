@@ -20,16 +20,14 @@
  */
 package com.izforge.izpack.panels.target;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import com.izforge.izpack.api.data.InstallData;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.Collections;
-
-import com.izforge.izpack.api.data.InstallData;
 
 /**
  * Helper for {@link TargetPanel} tests.
@@ -49,7 +47,7 @@ class TargetPanelTestHelper
     {
         File info = new File(dir, InstallData.INSTALLATION_INFORMATION);
         ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(info));
-        stream.writeObject(Collections.emptyList());
+        stream.writeObject(emptyList());
         stream.close();
     }
 
@@ -77,8 +75,8 @@ class TargetPanelTestHelper
     {
         String messageId = "TargetPanel.incompatibleInstallation";
         String result = installData.getMessages().get(messageId);
-        assertNotNull(result); // expect the message to exist
-        assertTrue(!messageId.equals(result));
+        assertThat(result).isNotNull(); // expect the message to exist
+        assertThat(result).isNotEqualTo(messageId);
         return result;
     }
 

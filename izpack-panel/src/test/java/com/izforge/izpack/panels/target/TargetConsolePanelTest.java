@@ -20,6 +20,9 @@
  */
 package com.izforge.izpack.panels.target;
 
+import static com.izforge.izpack.panels.target.TargetPanelTestHelper.createBadInstallationInfo;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Panel;
 import com.izforge.izpack.api.factory.ObjectFactory;
@@ -29,26 +32,19 @@ import com.izforge.izpack.installer.console.ConsolePanelView;
 import com.izforge.izpack.installer.panel.PanelView;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
-import com.izforge.izpack.util.Console;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
-
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Properties;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link TargetConsolePanel} class.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class TargetConsolePanelTest
 {
@@ -56,8 +52,8 @@ public class TargetConsolePanelTest
     /**
      * Temporary folder.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * The installation data.
@@ -73,7 +69,7 @@ public class TargetConsolePanelTest
      * The console.
      */
     private final TestConsole console;
-    
+
     /**
      * The prompt.
      */
@@ -104,36 +100,36 @@ public class TargetConsolePanelTest
     public void testRunConsoleIncompatibleInstallation() throws Exception
     {
         // set up two potential directories to install to, "badDir" and "goodDir"
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File badDir = new File(root, "badDir");
-        assertTrue(badDir.mkdirs());
+        assertThat(badDir.mkdirs()).isTrue();
         File goodDir = new File(root, "goodDir");   // don't bother creating it
         installData.setDefaultInstallPath(badDir.getAbsolutePath());
         TargetConsolePanel panel = new TargetConsolePanel(
                 createPanelView(TargetPanel.class, "panel.install_path"),
                 installData, prompt);
 
-        TargetPanelTestHelper.createBadInstallationInfo(badDir);
+        createBadInstallationInfo(badDir);
 
         // run the panel, selecting the default ("badDir")
         System.out.println();
         System.out.println("Test part 1 ...");
         console.addScript("TargetPanel.1", "\n");
-        assertFalse(panel.run(installData, console));
-        assertTrue(console.scriptCompleted());
+        assertThat(panel.run(installData, console)).isFalse();
+        assertThat(console.scriptCompleted()).isTrue();
 
         // verify that the install path wasn't set
-        assertNull(installData.getInstallPath());
+        assertThat(installData.getInstallPath()).isNull();
 
         // run the panel, selecting "goodDir"
         System.out.println();
         System.out.println("Test part 2 ...");
         console.addScript("TargetPanel.2", goodDir.getAbsolutePath(), "O", "1");
-        assertTrue(panel.run(installData, console));
-        assertTrue(console.scriptCompleted());
+        assertThat(panel.run(installData, console)).isTrue();
+        assertThat(console.scriptCompleted()).isTrue();
 
         // verify that the install path was updated
-        assertEquals(goodDir.getAbsolutePath(), installData.getInstallPath());
+        assertThat(installData.getInstallPath()).isEqualTo(goodDir.getAbsolutePath());
     }
 
     /**
@@ -145,10 +141,10 @@ public class TargetConsolePanelTest
     @Test
     public void testIncompatibleInstallationFromProperties() throws IOException
     {
-        File root = temporaryFolder.getRoot();
+        File root = temporaryFolder.toFile();
         File badDir = new File(root, "badDir");
-        assertTrue(badDir.mkdirs());
-        TargetPanelTestHelper.createBadInstallationInfo(badDir);
+        assertThat(badDir.mkdirs()).isTrue();
+        createBadInstallationInfo(badDir);
         File goodDir = new File(root, "goodDir");   // don't bother creating it
 
         Properties properties = new Properties();
@@ -157,10 +153,10 @@ public class TargetConsolePanelTest
         TargetConsolePanel panel = new TargetConsolePanel(
                 createPanelView(TargetPanel.class, "panel.install_path"),
                 installData, prompt);
-        assertFalse(panel.run(installData, properties));
+        assertThat(panel.run(installData, properties)).isFalse();
 
         properties.setProperty(InstallData.INSTALL_PATH, goodDir.getAbsolutePath());
-        assertTrue(panel.run(installData, properties));
+        assertThat(panel.run(installData, properties)).isTrue();
     }
 
     /**

@@ -20,27 +20,25 @@
  */
 package com.izforge.izpack.installer.container.provider;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
 import com.izforge.izpack.api.data.*;
+import com.izforge.izpack.api.data.PackInfo;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.resource.Messages;
 import com.izforge.izpack.api.resource.Resources;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.resource.DefaultLocales;
 import com.izforge.izpack.core.resource.ResourceManager;
-import com.izforge.izpack.api.data.PackInfo;
 import com.izforge.izpack.util.Housekeeper;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 /**
  * Tests the {@link AutomatedInstallDataProvider} class.
@@ -112,13 +110,13 @@ public class AutomatedInstallDataProviderTest
 
         // verify the expected messages are returned
         Messages messages = installData.getMessages();
-        assertNotNull(messages);
+        assertThat(messages).isNotNull();
 
-        assertEquals("This is a standard message", messages.get("standard.message"));
-        assertEquals("This is a custom message", messages.get("custom.message"));
-        assertEquals("Message overridden", messages.get("overridden.message"));
-        assertEquals("This is a user input panel message", messages.get("user.input.message"));
-        assertEquals("Message2 overridden", messages.get("overridden.message2"));
+        assertThat(messages.get("standard.message")).isEqualTo("This is a standard message");
+        assertThat(messages.get("custom.message")).isEqualTo("This is a custom message");
+        assertThat(messages.get("overridden.message")).isEqualTo("Message overridden");
+        assertThat(messages.get("user.input.message")).isEqualTo("This is a user input panel message");
+        assertThat(messages.get("overridden.message2")).isEqualTo("Message2 overridden");
     }
 
     /**

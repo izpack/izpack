@@ -21,15 +21,13 @@
 
 package com.izforge.izpack.installer.requirement;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-import org.mockito.Mockito;
-import org.mockito.internal.stubbing.answers.Returns;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.installer.RequirementChecker;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.mockito.internal.stubbing.answers.Returns;
 
 /**
  * Tests the {@link RequirementsChecker} class.
@@ -52,7 +50,7 @@ public class RequirementsCheckerTest
                                                              mock(LockFileChecker.class, true),
                                                              mock(ExpiredChecker.class, true),
                                                              mock(InstallerRequirementChecker.class, true));
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
     }
 
 
@@ -75,7 +73,7 @@ public class RequirementsCheckerTest
 
             RequirementsChecker checker2 = new RequirementsChecker(variables, langChecker, javaChecker, jdkChecker,
                                                                    lockChecker, expiredChecker, requirementChecker);
-            assertFalse(checker2.check());
+            assertThat(checker2.check()).isFalse();
         }
     }
 

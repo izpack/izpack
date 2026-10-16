@@ -19,26 +19,20 @@
 
 package com.izforge.izpack.merge;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.net.URL;
-
-import org.hamcrest.core.Is;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.matcher.MergeMatcher.getEntryNames;
+import static com.izforge.izpack.merge.resolve.ResolveUtils.processUrlToJarPath;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.core.container.TestMergeContainer;
-import com.izforge.izpack.matcher.MergeMatcher;
-import com.izforge.izpack.merge.resolve.ResolveUtils;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import java.net.URL;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test a single file merge
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
 @Container(TestMergeContainer.class)
 public class MergeManagerTest
 {
@@ -53,47 +47,45 @@ public class MergeManagerTest
     public void testProcessJarPath() throws Exception
     {
         URL resource = new URL("file:/home/test/unjar.jar!com/package/in/jar");
-        String jarPath = ResolveUtils.processUrlToJarPath(resource);
+        String jarPath = processUrlToJarPath(resource);
         System.out.println(jarPath);
-        assertThat(jarPath, Is.is("/home/test/unjar.jar"));
+        assertThat(jarPath).isEqualTo("/home/test/unjar.jar");
     }
 
     @Test
     public void testAddDirectoryWithFile() throws Exception
     {
         mergeManager.addResourceToMerge("com/izforge/izpack/core/rules/");
-        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles(
-                "com/izforge/izpack/core/rules/builtin_conditions.xml",
-                "com/izforge/izpack/core/rules/conditions.xml"));
+        assertThat(getEntryNames(mergeManager)).contains("com/izforge/izpack/core/rules/builtin_conditions.xml",
+                "com/izforge/izpack/core/rules/conditions.xml");
     }
 
     @Test
     public void testAddResourceToMerge() throws Exception
     {
         mergeManager.addResourceToMerge("com/izforge/izpack/merge/");
-        assertThat(mergeManager,
-                   MergeMatcher.isMergeableContainingFiles("com/izforge/izpack/merge/MergeManager.class"));
+        assertThat(getEntryNames(mergeManager)).contains("com/izforge/izpack/merge/MergeManager.class");
     }
 
     @Test
     public void testAddResourceToMergeWithDestination() throws Exception
     {
         mergeManager.addResourceToMerge("com/izforge/izpack/merge/", "com/dest/");
-        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/MergeManager.class"));
+        assertThat(getEntryNames(mergeManager)).contains("com/dest/MergeManager.class");
     }
 
     @Test
     public void testAddSingleClassToMergeWithDestinationFromAJar() throws Exception
     {
-        mergeManager.addResourceToMerge("org/junit/", "com/dest/");
-        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/Assert.class"));
+        mergeManager.addResourceToMerge("org/junit/jupiter/api/", "com/dest/");
+        assertThat(getEntryNames(mergeManager)).contains("com/dest/Assertions.class");
     }
 
     @Test
     public void testAddPackageToMergeWithDestinationFromAJar() throws Exception
     {
-        mergeManager.addResourceToMerge("org/junit", "com/dest");
-        assertThat(mergeManager, MergeMatcher.isMergeableContainingFiles("com/dest/Assert.class"));
+        mergeManager.addResourceToMerge("org/junit/jupiter/api", "com/dest");
+        assertThat(getEntryNames(mergeManager)).contains("com/dest/Assertions.class");
     }
 
 

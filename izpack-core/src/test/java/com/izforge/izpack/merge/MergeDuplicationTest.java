@@ -19,31 +19,26 @@
 
 package com.izforge.izpack.merge;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.io.File;
-import java.net.URL;
-import java.util.zip.ZipFile;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.matcher.ZipMatcher.getFileNameListFromZip;
+import static com.izforge.izpack.test.MergeUtils.doDoubleMerge;
+import static java.lang.ClassLoader.getSystemResource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
-import com.izforge.izpack.matcher.DuplicateMatcher;
-import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.MergeUtils;
-import com.izforge.izpack.test.junit.PicoRunner;
+import java.io.File;
+import java.net.URL;
+import java.util.zip.ZipFile;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for merge duplication
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
 @Container(TestMergeContainer.class)
 public class MergeDuplicationTest
 {
@@ -59,24 +54,20 @@ public class MergeDuplicationTest
     @Test
     public void testAddJarDuplicated() throws Exception
     {
-        URL resource = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
+        URL resource = getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
         Mergeable jarMerge = mergeableResolver.getMergeableFromURL(resource);
-        File tempFile = MergeUtils.doDoubleMerge(jarMerge);
+        File tempFile = doDoubleMerge(jarMerge);
         ZipFile tempZipFile = new ZipFile(tempFile);
-        assertThat(tempZipFile, ZipMatcher.isZipMatching(
-                DuplicateMatcher.isEntryUnique("jar/izforge/izpack/panels/hello/HelloPanelConsoleHelper.class")
-        ));
+        assertThat(getFileNameListFromZip(tempZipFile)).filteredOn(entry -> entry.equals("jar/izforge/izpack/panels/hello/HelloPanelConsoleHelper.class")).hasSize(1);
     }
 
     @Test
     public void testMergeDuplicateFile() throws Exception
     {
         Mergeable mergeable = mergeableResolver.getMergeableFromURL(getClass().getResource("MergeDuplicationTest.class"), "destFile");
-        File tempFile = MergeUtils.doDoubleMerge(mergeable);
+        File tempFile = doDoubleMerge(mergeable);
         ZipFile tempZipFile = new ZipFile(tempFile);
-        assertThat(tempZipFile, ZipMatcher.isZipMatching(
-                DuplicateMatcher.isEntryUnique("destFile")
-        ));
+        assertThat(getFileNameListFromZip(tempZipFile)).filteredOn(entry -> entry.equals("destFile")).hasSize(1);
     }
 
 }

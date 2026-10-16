@@ -1,5 +1,6 @@
 package com.izforge.izpack.panels.pdflicence;
 
+import static org.icepdf.ri.common.ComponentKeyBinding.install;
 import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_DEFAULT_PAGEFIT;
 import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_DEFAULT_ZOOM_LEVEL;
 import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_HIDE_UTILITYPANE;
@@ -30,20 +31,21 @@ import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_VIEWPREF_FITWI
 import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_VIEWPREF_FORM_HIGHLIGHT;
 import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_VIEWPREF_HIDEMENUBAR;
 import static org.icepdf.ri.util.ViewerPropertiesManager.PROPERTY_VIEWPREF_HIDETOOLBAR;
+import static org.icepdf.ri.util.ViewerPropertiesManager.getInstance;
 
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.SOUTH;
 import java.awt.FlowLayout;
-import java.util.Properties;
-import java.util.ResourceBundle;
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import org.icepdf.ri.common.ComponentKeyBinding;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
 import org.icepdf.ri.common.views.DocumentViewController;
 import org.icepdf.ri.util.ViewerPropertiesManager;
 
-public class PDFDisplayer extends javax.swing.JFrame {
+public class PDFDisplayer extends JFrame {
 
 	private static final String FILE_NAME = "./src/test/resources/com/izforge/izpack/panels/panel/PDFLicencePanel.pdf";
 	private static final long serialVersionUID = 1L;
@@ -60,23 +62,23 @@ public class PDFDisplayer extends javax.swing.JFrame {
 		final SwingViewBuilder builder = new SwingViewBuilder(controller, createProperties());
 		final JPanel viewerComponentPanel = builder.buildViewerPanel();
 
-		ComponentKeyBinding.install(controller, viewerComponentPanel);
+		install(controller, viewerComponentPanel);
 
-		addWindowListener(new java.awt.event.WindowAdapter() {
+		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(java.awt.event.WindowEvent evt) {
+			public void windowClosing(WindowEvent evt) {
 				exitApplication(controller);
 			}
 		});
 
-		getContentPane().add(controller.getDocumentViewController().getViewContainer(), java.awt.BorderLayout.CENTER);
+		getContentPane().add(controller.getDocumentViewController().getViewContainer(), CENTER);
 
 		JPanel p = new JPanel();
 		p.setLayout(new FlowLayout(FlowLayout.CENTER));
 		p.add(builder.buildFitToolBar());
 		p.add(builder.buildPageNavigationToolBar());
 		p.add(builder.buildZoomToolBar());
-		getContentPane().add(p, java.awt.BorderLayout.SOUTH);
+		getContentPane().add(p, SOUTH);
 
 		// Open a PDF document to view
 		controller.openDocument(FILE_NAME);
@@ -104,7 +106,7 @@ public class PDFDisplayer extends javax.swing.JFrame {
 
 	private ViewerPropertiesManager createProperties() {
 
-		final ViewerPropertiesManager propertiesManager = ViewerPropertiesManager.getInstance();
+		final ViewerPropertiesManager propertiesManager = getInstance();
 
 		// General
 		propertiesManager.set(PROPERTY_DEFAULT_PAGEFIT, Integer.toString(DocumentViewController.PAGE_FIT_WINDOW_WIDTH));

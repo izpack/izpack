@@ -21,19 +21,10 @@
 
 package com.izforge.izpack.integration.packvalidator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-
-import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.integration.HelperTestMethod.prepareFrameFixture;
+import static com.izforge.izpack.integration.packvalidator.TestPackValidator.setValid;
+import static java.lang.Thread.sleep;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.Panel;
@@ -43,32 +34,34 @@ import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.installer.panel.Panels;
-import com.izforge.izpack.integration.HelperTestMethod;
 import com.izforge.izpack.panels.hello.HelloPanel;
 import com.izforge.izpack.panels.install.InstallPanel;
 import com.izforge.izpack.panels.packs.PacksPanel;
 import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
-import com.izforge.izpack.panels.packs.PackValidator;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestHousekeeper;
-
+import java.io.File;
+import java.nio.file.Path;
+import org.fest.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests that {@link PackValidator}s are invoked during installation.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestGUIInstallationContainer.class)
 public class PackValidatorTest
 {
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * Install data.
@@ -122,19 +115,19 @@ public class PackValidatorTest
     /**
      * Sets up the test case.
      */
-    @Before
+    @BeforeEach
     public void setUp()
     {
         // write to temporary folder so the test doesn't need to be run with elevated permissions
-        File installPath = new File(temporaryFolder.getRoot(), "izpackTest");
-        assertTrue(installPath.mkdirs());
+        File installPath = temporaryFolder.resolve("izpackTest").toFile();
+        assertThat(installPath.mkdirs()).isTrue();
         installData.setInstallPath(installPath.getAbsolutePath());
     }
 
     /**
      * Tears down the test case.
      */
-    @After
+    @AfterEach
     public void tearDown()
     {
         if (frameFixture != null)
@@ -152,44 +145,44 @@ public class PackValidatorTest
     @InstallFile("samples/packvalidators.xml")
     public void testPackValidator() throws Exception
     {
-        assertEquals(4, panels.getPanels().size());
+        assertThat(panels.getPanels().size()).isEqualTo(4);
 
-        frameFixture = HelperTestMethod.prepareFrameFixture(frame, controller);
+        frameFixture = prepareFrameFixture(frame, controller);
 
         // HelloPanel
-        Thread.sleep(2000);
+        sleep(2000);
         checkCurrentPanel(HelloPanel.class);
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // PacksPanel
-        Thread.sleep(1000);
+        sleep(1000);
         checkCurrentPanel(PacksPanel.class);
 
         //set the Base pack as invalid, and verify clicking next has no effect
-        TestPackValidator.setValid("Base", false, installData);
+        setValid("Base", false, installData);
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
-        Thread.sleep(1000);
+        sleep(1000);
         checkCurrentPanel(PacksPanel.class);
 
         // now set it valid. Should be able to go to next panel
-        TestPackValidator.setValid("Base", true, installData);
+        setValid("Base", true, installData);
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // InstallPanel
-        Thread.sleep(1000);
+        sleep(1000);
         checkCurrentPanel(InstallPanel.class);
         frameFixture.button(GuiId.BUTTON_NEXT.id).click();
 
         // SimpleFinishPanel
-        Thread.sleep(1000);
+        sleep(1000);
         checkCurrentPanel(SimpleFinishPanel.class);
         frameFixture.button(GuiId.BUTTON_QUIT.id).click();
 
         // verify the installer has terminated
         housekeeper.waitShutdown(2 * 60 * 1000);
-        assertTrue(housekeeper.hasShutdown());
-        assertEquals(0, housekeeper.getExitCode());
-        assertFalse(housekeeper.getReboot());
+        assertThat(housekeeper.hasShutdown()).isTrue();
+        assertThat(housekeeper.getExitCode()).isEqualTo(0);
+        assertThat(housekeeper.getReboot()).isFalse();
     }
 
     /**
@@ -200,7 +193,7 @@ public class PackValidatorTest
     private void checkCurrentPanel(Class<? extends IzPanel> type)
     {
         Panel panel = panels.getPanel();
-        assertEquals(type.getName(), panel.getClassName());
+        assertThat(panel.getClassName()).isEqualTo(type.getName());
     }
 
 }

@@ -20,18 +20,22 @@
  */
 package com.izforge.izpack.panels.datacheck;
 
+import static com.izforge.izpack.panels.datacheck.DataCheckCommon.getConditions;
+import static com.izforge.izpack.panels.datacheck.DataCheckCommon.getInstallDataVariables;
+import static com.izforge.izpack.panels.datacheck.DataCheckCommon.getMainLabel;
+import static com.izforge.izpack.panels.datacheck.DataCheckCommon.getMainLabelWithDashes;
+import static com.izforge.izpack.panels.datacheck.DataCheckCommon.getPackNames;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Pack;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import java.util.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link DataCheckCommon} class.
@@ -46,7 +50,7 @@ public class DataCheckCommonTest
     @Test
     public void testGetMainLabelWithDashes()
     {
-        String output = DataCheckCommon.getMainLabelWithDashes(0, "myPanel");
+        String output = getMainLabelWithDashes(0, "myPanel");
         verifyOutput(output, "------------------------", "0", "myPanel");
     }
 
@@ -56,7 +60,7 @@ public class DataCheckCommonTest
     @Test
     public void testGetMainLabel()
     {
-        String output = DataCheckCommon.getMainLabel(0, "myPanel");
+        String output = getMainLabel(0, "myPanel");
         verifyOutput(output, "Data Check Panel, instance: ", "0", "myPanel");
     }
 
@@ -66,10 +70,10 @@ public class DataCheckCommonTest
     @Test
     public void testGetInstallDataVariables()
     {
-        InstallData installData = Mockito.mock(InstallData.class);
+        InstallData installData = mock(InstallData.class);
         mockVariables(installData);
 
-        String output = DataCheckCommon.getInstallDataVariables(installData);
+        String output = getInstallDataVariables(installData);
 
         verifyOutput(output, "InstallData Variables:", "Variable1", "Variable2");
     }
@@ -80,10 +84,10 @@ public class DataCheckCommonTest
     @Test
     public void testGetPackNames()
     {
-        InstallData installData = Mockito.mock(InstallData.class);
+        InstallData installData = mock(InstallData.class);
         mockPacks(installData);
 
-        String output = DataCheckCommon.getPackNames(installData);
+        String output = getPackNames(installData);
 
         verifyOutput(output, "Available Packs:", "Pack1 (Selected)", "Pack2 (Unselected)");
     }
@@ -94,21 +98,21 @@ public class DataCheckCommonTest
     @Test
     public void testGetConditions()
     {
-        InstallData installData = Mockito.mock(InstallData.class);
+        InstallData installData = mock(InstallData.class);
         mockConditions(installData);
 
-        String output = DataCheckCommon.getConditions(installData);
+        String output = getConditions(installData);
 
         verifyOutput(output, "Conditions:", "condition1 is true", "condition2 is false");
     }
 
     private void mockVariables(InstallData installData) {
-        Variables variables = Mockito.mock(Variables.class);
-        Mockito.when(installData.getVariables()).thenReturn(variables);
+        Variables variables = mock(Variables.class);
+        when(installData.getVariables()).thenReturn(variables);
         Properties properties = new Properties();
         properties.setProperty("Variable1", "Value1");
         properties.setProperty("Variable2", "Value2");
-        Mockito.when(variables.getProperties()).thenReturn(properties);
+        when(variables.getProperties()).thenReturn(properties);
     }
 
     private void mockPacks(InstallData installData) {
@@ -117,32 +121,32 @@ public class DataCheckCommonTest
         List<Pack> packList = new ArrayList<>();
         packList.add(pack1);
         packList.add(pack2);
-        Mockito.when(installData.getAllPacks()).thenReturn(packList);
+        when(installData.getAllPacks()).thenReturn(packList);
         List<Pack> selectedPackList = new ArrayList<>();
         selectedPackList.add(pack1);
-        Mockito.when(installData.getSelectedPacks()).thenReturn(selectedPackList);
+        when(installData.getSelectedPacks()).thenReturn(selectedPackList);
     }
 
     private void mockConditions(InstallData installData) {
         Set<String> conditionIds = new HashSet<>();
         conditionIds.add("condition1");
         conditionIds.add("condition2");
-        RulesEngine rules = Mockito.mock(RulesEngine.class);
-        Mockito.when(rules.getKnownConditionIds()).thenReturn(conditionIds);
-        Condition condition1 = Mockito.mock(Condition.class);
-        Mockito.when(condition1.getId()).thenReturn("condition1");
-        Mockito.when(condition1.isTrue()).thenReturn(true);
-        Mockito.when(rules.getCondition("condition1")).thenReturn(condition1);
-        Condition condition2 = Mockito.mock(Condition.class);
-        Mockito.when(condition2.getId()).thenReturn("condition2");
-        Mockito.when(condition2.isTrue()).thenReturn(false);
-        Mockito.when(rules.getCondition("condition2")).thenReturn(condition2);
-        Mockito.when(installData.getRules()).thenReturn(rules);
+        RulesEngine rules = mock(RulesEngine.class);
+        when(rules.getKnownConditionIds()).thenReturn(conditionIds);
+        Condition condition1 = mock(Condition.class);
+        when(condition1.getId()).thenReturn("condition1");
+        when(condition1.isTrue()).thenReturn(true);
+        when(rules.getCondition("condition1")).thenReturn(condition1);
+        Condition condition2 = mock(Condition.class);
+        when(condition2.getId()).thenReturn("condition2");
+        when(condition2.isTrue()).thenReturn(false);
+        when(rules.getCondition("condition2")).thenReturn(condition2);
+        when(installData.getRules()).thenReturn(rules);
     }
 
     public static void verifyOutput(String output, String prefix, String Variable1, String Variable2) {
-        assertTrue(output.startsWith(prefix));
-        assertTrue(output.contains(Variable1));
-        assertTrue(output.contains(Variable2));
+        assertThat(output).startsWith(prefix);
+        assertThat(output).contains(Variable1);
+        assertThat(output).contains(Variable2);
     }
 }

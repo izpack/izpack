@@ -20,6 +20,10 @@
  */
 package com.izforge.izpack.installer.gui;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.LocaleDatabase;
 import com.izforge.izpack.api.data.Panel;
@@ -37,14 +41,9 @@ import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.panel.Panels;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link DefaultNavigator}.
@@ -85,11 +84,11 @@ public class DefaultNavigatorTest
      */
     public DefaultNavigatorTest()
     {
-        frame = Mockito.mock(InstallerFrame.class);
+        frame = mock(InstallerFrame.class);
         installData = new GUIInstallData(new DefaultVariables(), Platforms.WINDOWS);
-        RulesEngine rules = new RulesEngineImpl(Mockito.mock(ConditionContainer.class), Platforms.WINDOWS);
+        RulesEngine rules = new RulesEngineImpl(mock(ConditionContainer.class), Platforms.WINDOWS);
         installData.setRules(rules);
-        final Resources resources = Mockito.mock(Resources.class);
+        final Resources resources = mock(Resources.class);
         installData.setMessages(new LocaleDatabase((Messages) null, new DefaultLocales(resources)));
 
         container = new DefaultContainer()
@@ -114,34 +113,34 @@ public class DefaultNavigatorTest
         Navigator navigator = createNavigator(panels);
 
         // prior to display of first panel
-        assertTrue(navigator.isNextEnabled());
-        assertFalse(navigator.isPreviousEnabled());
-        assertTrue(navigator.next());
+        assertThat(navigator.isNextEnabled()).isTrue();
+        assertThat(navigator.isPreviousEnabled()).isFalse();
+        assertThat(navigator.next()).isTrue();
 
         // first panel
-        assertEquals(0, panels.getIndex());
-        assertTrue(navigator.isNextEnabled());
-        assertFalse(navigator.isPreviousEnabled());
-        assertTrue(navigator.next());
+        assertThat(panels.getIndex()).isEqualTo(0);
+        assertThat(navigator.isNextEnabled()).isTrue();
+        assertThat(navigator.isPreviousEnabled()).isFalse();
+        assertThat(navigator.next()).isTrue();
 
         // second panel
-        assertEquals(1, panels.getIndex());
-        assertTrue(navigator.isNextEnabled());
-        assertTrue(navigator.isPreviousEnabled());
+        assertThat(panels.getIndex()).isEqualTo(1);
+        assertThat(navigator.isNextEnabled()).isTrue();
+        assertThat(navigator.isPreviousEnabled()).isTrue();
 
         // make sure can navigate back
-        assertTrue(navigator.previous());
-        assertEquals(0, panels.getIndex());
-        assertFalse(navigator.isPreviousEnabled());
-        assertTrue(navigator.next());
-        assertEquals(1, panels.getIndex());
-        assertTrue(navigator.next());
+        assertThat(navigator.previous()).isTrue();
+        assertThat(panels.getIndex()).isEqualTo(0);
+        assertThat(navigator.isPreviousEnabled()).isFalse();
+        assertThat(navigator.next()).isTrue();
+        assertThat(panels.getIndex()).isEqualTo(1);
+        assertThat(navigator.next()).isTrue();
 
         // third panel
-        assertEquals(2, panels.getIndex());
-        assertFalse(navigator.isNextEnabled());
-        assertFalse(navigator.isPreviousEnabled());    // on last panel, can't navigate back
-        assertFalse(navigator.next());
+        assertThat(panels.getIndex()).isEqualTo(2);
+        assertThat(navigator.isNextEnabled()).isFalse();
+        assertThat(navigator.isPreviousEnabled()).isFalse();    // on last panel, can't navigate back
+        assertThat(navigator.next()).isFalse();
     }
 
     /**
@@ -167,20 +166,20 @@ public class DefaultNavigatorTest
         });
 
         // navigate to the second panel
-        assertEquals(-1, panels.getIndex());
-        assertTrue(navigator.next());
-        assertEquals(0, panels.getIndex());
-        assertTrue(navigator.next());
-        assertEquals(1, panels.getIndex());
+        assertThat(panels.getIndex()).isEqualTo(-1);
+        assertThat(navigator.next()).isTrue();
+        assertThat(panels.getIndex()).isEqualTo(0);
+        assertThat(navigator.next()).isTrue();
+        assertThat(panels.getIndex()).isEqualTo(1);
 
         // verify the next button is disabled, and that navigation is disabled
-        assertFalse(navigator.isNextEnabled());
-        assertEquals(1, panels.getIndex());
+        assertThat(navigator.isNextEnabled()).isFalse();
+        assertThat(panels.getIndex()).isEqualTo(1);
 
         // enable the next button and verify the third panel can be navigated to
         navigator.setNextEnabled(true);
-        assertTrue(navigator.next());
-        assertEquals(2, panels.getIndex());
+        assertThat(navigator.next()).isTrue();
+        assertThat(panels.getIndex()).isEqualTo(2);
     }
 
     /**
@@ -206,16 +205,16 @@ public class DefaultNavigatorTest
         });
 
         // navigate to the second panel
-        assertEquals(-1, panels.getIndex());
-        assertTrue(navigator.next());
-        assertEquals(0, panels.getIndex());
-        assertTrue(navigator.next());
-        assertEquals(1, panels.getIndex());
+        assertThat(panels.getIndex()).isEqualTo(-1);
+        assertThat(navigator.next()).isTrue();
+        assertThat(panels.getIndex()).isEqualTo(0);
+        assertThat(navigator.next()).isTrue();
+        assertThat(panels.getIndex()).isEqualTo(1);
 
         // verify the previous button is disabled, and that navigation is disabled
-        assertFalse(navigator.isPreviousEnabled());
-        assertFalse(navigator.previous());
-        assertEquals(1, panels.getIndex());
+        assertThat(navigator.isPreviousEnabled()).isFalse();
+        assertThat(navigator.previous()).isFalse();
+        assertThat(panels.getIndex()).isEqualTo(1);
     }
 
     /**
@@ -227,14 +226,14 @@ public class DefaultNavigatorTest
         IzPanels panels = createPanels(5);
 
         // test quit with quit enabled
-        InstallerFrame frame1 = Mockito.mock(InstallerFrame.class);
+        InstallerFrame frame1 = mock(InstallerFrame.class);
         Navigator navigator1 = createNavigator(panels, frame1);
-        assertTrue(navigator1.isQuitEnabled());
+        assertThat(navigator1.isQuitEnabled()).isTrue();
         navigator1.quit();
         verify(frame1, times(1)).quit(); // verify InstallerFrame.quit() invoked
 
         // test quit with quit disabled
-        InstallerFrame frame2 = Mockito.mock(InstallerFrame.class);
+        InstallerFrame frame2 = mock(InstallerFrame.class);
         Navigator navigator2 = createNavigator(panels, frame2);
         navigator2.setQuitEnabled(false);
         navigator2.quit();
@@ -267,13 +266,13 @@ public class DefaultNavigatorTest
         });
 
         // navigate to the first panel
-        assertEquals(-1, panels.getIndex());
-        assertTrue(navigator.next());
-        assertEquals(0, panels.getIndex());
+        assertThat(panels.getIndex()).isEqualTo(-1);
+        assertThat(navigator.next()).isTrue();
+        assertThat(panels.getIndex()).isEqualTo(0);
 
         // navigate to the next, verifying that the second panel (index == 1) is skipped
-        assertTrue(navigator.next());
-        assertEquals(2, panels.getIndex());
+        assertThat(navigator.next()).isTrue();
+        assertThat(panels.getIndex()).isEqualTo(2);
     }
 
     /**

@@ -1,15 +1,13 @@
 package com.izforge.izpack.core.variable.filters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.util.Properties;
-
-import com.izforge.izpack.core.data.DefaultVariables;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
+import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
+import java.util.Properties;
+import org.junit.jupiter.api.Test;
 
 public class CaseStyleFilterTest
 {
@@ -21,8 +19,8 @@ public class CaseStyleFilterTest
         VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(new Properties()));
         try
         {
-            assertEquals("some text", new CaseStyleFilter("lower").filter(text, subst));
-            assertEquals("some text", new CaseStyleFilter(CaseStyleFilter.Style.LOWER).filter(text, subst));
+            assertThat(new CaseStyleFilter("lower").filter(text, subst)).isEqualTo("some text");
+            assertThat(new CaseStyleFilter(CaseStyleFilter.Style.LOWER).filter(text, subst)).isEqualTo("some text");
         }
         catch (Exception e)
         {
@@ -37,8 +35,8 @@ public class CaseStyleFilterTest
         VariableSubstitutor subst = new VariableSubstitutorImpl(new DefaultVariables(new Properties()));
         try
         {
-            assertEquals("SOME TEXT", new CaseStyleFilter("upper").filter(text, subst));
-            assertEquals("SOME TEXT", new CaseStyleFilter(CaseStyleFilter.Style.UPPER).filter(text, subst));
+            assertThat(new CaseStyleFilter("upper").filter(text, subst)).isEqualTo("SOME TEXT");
+            assertThat(new CaseStyleFilter(CaseStyleFilter.Style.UPPER).filter(text, subst)).isEqualTo("SOME TEXT");
         }
         catch (Exception e)
         {

@@ -21,16 +21,13 @@
 
 package com.izforge.izpack.panels.userinput.console.rule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
 import com.izforge.izpack.panels.userinput.field.rule.RuleField;
 import com.izforge.izpack.panels.userinput.field.rule.RuleFormat;
 import com.izforge.izpack.panels.userinput.field.rule.TestRuleFieldConfig;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ConsoleRuleField}.
@@ -57,9 +54,9 @@ public class ConsoleRuleFieldTest extends AbstractConsoleFieldTest
 
         ConsoleRuleField field = new ConsoleRuleField(model, console, prompt);
         console.addScript("Select default", "\n");
-        assertTrue(field.display());
+        assertThat(field.display()).isTrue();
 
-        assertEquals("192.168.0.1", installData.getVariable(variable));
+        assertThat(installData.getVariable(variable)).isEqualTo("192.168.0.1");
     }
 
     /**
@@ -79,8 +76,8 @@ public class ConsoleRuleFieldTest extends AbstractConsoleFieldTest
 
         ConsoleRuleField field = new ConsoleRuleField(model, console, prompt);
         console.addScript("Set value", "127.0.0.1");
-        assertTrue(field.display());
+        assertThat(field.display()).isTrue();
 
-        assertEquals("127.0.0.1", installData.getVariable(variable));
+        assertThat(installData.getVariable(variable)).isEqualTo("127.0.0.1");
     }
 }

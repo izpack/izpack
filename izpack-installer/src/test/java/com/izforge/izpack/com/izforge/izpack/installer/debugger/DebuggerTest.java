@@ -18,6 +18,10 @@
  */
 package com.izforge.izpack.com.izforge.izpack.installer.debugger;
 
+import static java.util.UUID.randomUUID;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.resource.Messages;
@@ -26,11 +30,6 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.rules.process.VariableCondition;
 import com.izforge.izpack.gui.IconsDatabase;
 import com.izforge.izpack.installer.debugger.Debugger;
-import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
@@ -39,10 +38,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.UUID;
-
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import javax.swing.*;
+import org.junit.jupiter.api.Test;
+import org.mockito.invocation.InvocationOnMock;
 
 public class DebuggerTest
 {
@@ -72,11 +70,11 @@ public class DebuggerTest
         Map<String, Condition> conditions = new HashMap<>();
         for (int count = 0; count < 10; count++)
         {
-            final String name = "izpack.test." + UUID.randomUUID();
+            final String name = "izpack.test." + randomUUID();
             final String value = "value" + count;
             properties.setProperty(name, value);
             VariableCondition condition = new VariableCondition(name, value);
-            final String id = "cond." + UUID.randomUUID();
+            final String id = "cond." + randomUUID();
             condition.setId(id);
             condition.setInstallData(installdata);
             conditions.put(id, condition);

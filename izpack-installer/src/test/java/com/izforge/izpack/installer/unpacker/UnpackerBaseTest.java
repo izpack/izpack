@@ -1,13 +1,14 @@
 package com.izforge.izpack.installer.unpacker;
 
+import static java.lang.reflect.Proxy.newProxyInstance;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.exception.InstallerException;
-import org.junit.Test;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import org.junit.jupiter.api.Test;
 
 public class UnpackerBaseTest {
 
@@ -17,10 +18,12 @@ public class UnpackerBaseTest {
         invokeValidateTargetPath(unpacker, "/tmp/install/subdir/file.txt");
     }
 
-    @Test(expected = InstallerException.class)
+    @Test
     public void shouldRejectTraversalPath() throws Exception {
-        UnpackerBase unpacker = newUnpacker("/tmp/install");
-        invokeValidateTargetPath(unpacker, "/tmp/install/../escaped/file.txt");
+        assertThatThrownBy(() -> {
+            UnpackerBase unpacker = newUnpacker("/tmp/install");
+            invokeValidateTargetPath(unpacker, "/tmp/install/../escaped/file.txt");
+        }).isInstanceOf(InstallerException.class);
     }
 
     @Test
@@ -47,7 +50,7 @@ public class UnpackerBaseTest {
             }
             return null;
         };
-        InstallData installData = (InstallData) Proxy.newProxyInstance(
+        InstallData installData = (InstallData) newProxyInstance(
                 InstallData.class.getClassLoader(),
                 new Class[]{InstallData.class},
                 handler

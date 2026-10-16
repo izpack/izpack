@@ -21,21 +21,19 @@
 
 package com.izforge.izpack.uninstaller.resource;
 
-
-import static org.junit.Assert.assertEquals;
+import static com.izforge.izpack.uninstaller.resource.InstallLog.getInstallPath;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.izforge.izpack.api.resource.Resources;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
-
 import org.apache.commons.io.input.ReaderInputStream;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import com.izforge.izpack.api.resource.Resources;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link InstallLog} class.
@@ -56,7 +54,7 @@ public class InstallLogTest
      *
      * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         // set up a mock resource
@@ -66,7 +64,7 @@ public class InstallLogTest
                 + "myapp/dir2/file1\n"
                 + "myapp/dir1\n";
         StringReader reader = new StringReader(installLog);
-        resources = Mockito.mock(Resources.class);
+        resources = mock(Resources.class);
         when(resources.getInputStream("install.log")).thenReturn(new ReaderInputStream(reader));
     }
 
@@ -78,7 +76,7 @@ public class InstallLogTest
     @Test
     public void testStaticGetInstallPath() throws IOException
     {
-        assertEquals("myapp", InstallLog.getInstallPath(resources));
+        assertThat(getInstallPath(resources)).isEqualTo("myapp");
     }
 
     /**
@@ -93,15 +91,15 @@ public class InstallLogTest
         InstallLog log = new InstallLog(resources);
 
         // verify the install path
-        assertEquals("myapp", log.getInstallPath());
+        assertThat(log.getInstallPath()).isEqualTo("myapp");
 
         // verify there are 4 installed files, and they are ordered leaf paths first
         List<File> installed = log.getInstalled();
-        assertEquals(4, installed.size());
-        assertEquals(new File("myapp/dir2/file1"), installed.get(0));
-        assertEquals(new File("myapp/dir2/dir3/file2"), installed.get(1));
-        assertEquals(new File("myapp/dir2/dir3"), installed.get(2));
-        assertEquals(new File("myapp/dir1"), installed.get(3));
+        assertThat(installed).hasSize(4);
+        assertThat(installed.get(0)).isEqualTo(new File("myapp/dir2/file1"));
+        assertThat(installed.get(1)).isEqualTo(new File("myapp/dir2/dir3/file2"));
+        assertThat(installed.get(2)).isEqualTo(new File("myapp/dir2/dir3"));
+        assertThat(installed.get(3)).isEqualTo(new File("myapp/dir1"));
     }
 
 }

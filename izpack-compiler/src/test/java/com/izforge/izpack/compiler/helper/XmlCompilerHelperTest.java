@@ -19,15 +19,12 @@
 
 package com.izforge.izpack.compiler.helper;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.exception.CompilerException;
-
+import org.junit.jupiter.api.Test;
 
 public class XmlCompilerHelperTest
 {
@@ -39,9 +36,9 @@ public class XmlCompilerHelperTest
         IXMLElement webDir = new XMLElementImpl("webdir");
 
         webDir.setContent("http://some.url/without-spaces");
-        assertThat(helper.requireURLContent(webDir).toString(), is("http://some.url/without-spaces"));
+        assertThat(helper.requireURLContent(webDir).toString()).isEqualTo("http://some.url/without-spaces");
 
         webDir.setContent("http://some.url/with spaces inside");
-        assertThat(helper.requireURLContent(webDir).toString(), is("http://some.url/with%20spaces%20inside"));
+        assertThat(helper.requireURLContent(webDir).toString()).isEqualTo("http://some.url/with%20spaces%20inside");
     }
 }

@@ -26,15 +26,12 @@ import static com.izforge.izpack.util.Platform.Arch.X86;
 import static com.izforge.izpack.util.Platform.Name.SUNOS;
 import static com.izforge.izpack.util.Platform.Name.UNIX;
 import static com.izforge.izpack.util.Platform.Name.WINDOWS;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-import java.util.Collections;
-
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.data.binding.OsModel;
+import java.util.Collections;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link PlatformModelMatcher}.
@@ -168,11 +165,11 @@ public class PlatformModelMatcherTest
         OsModel windows = new OsModel(null, "windows", null, null, null);
         OsModel mac = new OsModel(null, "mac", null, null, null);
 
-        assertTrue(matcher.matches(platform, null));
-        assertTrue(matcher.matches(platform, Collections.<OsModel>emptyList()));
+        assertThat(matcher.matches(platform, null)).isTrue();
+        assertThat(matcher.matches(platform, Collections.<OsModel>emptyList())).isTrue();
 
-        assertTrue(matcher.matches(platform, Arrays.asList(unix, windows, mac)));
-        assertFalse(matcher.matches(platform, Arrays.asList(unix, mac)));
+        assertThat(matcher.matches(platform, asList(unix, windows, mac))).isTrue();
+        assertThat(matcher.matches(platform, asList(unix, mac))).isFalse();
     }
 
 
@@ -187,11 +184,11 @@ public class PlatformModelMatcherTest
         OsModel sunos = new OsModel(null, null, null, "SunOS", null);
         OsModel os2 = new OsModel(null, null, null, "OS/2", null);
 
-        assertTrue(matcher.matches(platform, null));
-        assertTrue(matcher.matches(platform, Collections.<OsModel>emptyList()));
+        assertThat(matcher.matches(platform, null)).isTrue();
+        assertThat(matcher.matches(platform, Collections.<OsModel>emptyList())).isTrue();
 
-        assertTrue(matcher.matches(platform, Arrays.asList(osx, os2, sunos)));
-        assertFalse(matcher.matches(platform, Arrays.asList(sunos, os2)));
+        assertThat(matcher.matches(platform, asList(osx, os2, sunos))).isTrue();
+        assertThat(matcher.matches(platform, asList(sunos, os2))).isFalse();
     }
     /**
      * Verifies that a platform matches the expected model.
@@ -202,10 +199,10 @@ public class PlatformModelMatcherTest
      */
     private void checkMatch(Platform platform, OsModel match, OsModel... noMatches)
     {
-        assertTrue(matcher.match(platform, match));
+        assertThat(matcher.match(platform, match)).isTrue();
         for (OsModel model : noMatches)
         {
-            assertFalse(matcher.match(platform, model));
+            assertThat(matcher.match(platform, model)).isFalse();
         }
     }
 

@@ -21,25 +21,23 @@
 
 package com.izforge.izpack.panels.userinput.console.file;
 
-import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
-import com.izforge.izpack.panels.userinput.field.file.DirField;
-import com.izforge.izpack.panels.userinput.field.file.TestDirFieldConfig;
-import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
-import java.io.File;
-import java.io.IOException;
-
 import static com.izforge.izpack.api.handler.Prompt.Option.OK;
 import static com.izforge.izpack.api.handler.Prompt.Options.OK_CANCEL;
 import static com.izforge.izpack.api.handler.Prompt.Type.WARNING;
-import static org.junit.Assert.*;
+import static java.nio.file.Files.createTempFile;
+import static java.nio.file.Files.delete;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
+import com.izforge.izpack.panels.userinput.console.AbstractConsoleFieldTest;
+import com.izforge.izpack.panels.userinput.field.file.DirField;
+import com.izforge.izpack.panels.userinput.field.file.TestDirFieldConfig;
+import java.io.IOException;
+import java.nio.file.Path;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link ConsoleDirField}.
@@ -52,8 +50,8 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
     /**
      * Temporary directory.
      */
-    @Rule
-    public TemporaryFolder dir = new TemporaryFolder();
+    @TempDir
+    public Path dir;
 
 
     /**
@@ -62,11 +60,11 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
     @Test
     public void testSelectDefaultValue()
     {
-        ConsoleDirField field = createField(dir.getRoot().getPath(), true, false);
+        ConsoleDirField field = createField(dir.toString(), true, false);
         checkValid(field, "\n");
         verifyNoMoreInteractions(prompt);
 
-        assertEquals(dir.getRoot().getAbsolutePath(), installData.getVariable("dir"));
+        assertThat(installData.getVariable("dir")).isEqualTo(dir.toAbsolutePath().toString());
     }
 
     /**
@@ -76,10 +74,10 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
     public void testSetValue()
     {
         ConsoleDirField field = createField(null, true, false);
-        checkValid(field, dir.getRoot().getPath(), "\n");
+        checkValid(field, dir.toString(), "\n");
         verifyNoMoreInteractions(prompt);
 
-        assertEquals(dir.getRoot().getAbsolutePath(), installData.getVariable("dir"));
+        assertThat(installData.getVariable("dir")).isEqualTo(dir.toAbsolutePath().toString());
     }
 
     /**
@@ -92,19 +90,19 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
     {
         ConsoleDirField field = createField(null, false, true);
 
-        File path = dir.getRoot();
-        assertTrue(path.delete());
+        Path path = dir;
+        delete(path);
 
-        String message = "The target directory will be created: \n" + path.getAbsolutePath();
+        String message = "The target directory will be created: \n" + path.toAbsolutePath().toString();
 
         when(prompt.confirm(eq(WARNING), anyString(), anyString(), eq(OK_CANCEL), eq(OK))).thenReturn(OK);
-        checkValid(field, path.getPath());
+        checkValid(field, path.toString());
 
         verify(prompt, times(1)).confirm(WARNING, "Message", message, OK_CANCEL, OK);
         verifyNoMoreInteractions(prompt);
 
-        assertTrue(path.exists());
-        assertEquals(path.getPath(), installData.getVariable("dir"));
+        assertThat(path).exists();
+        assertThat(installData.getVariable("dir")).isEqualTo(path.toString());
 
     }
 
@@ -118,7 +116,7 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
     {
         ConsoleDirField field = createField(null, true, false);
         checkInvalid(field, "baddir");
-        assertNull(installData.getVariable("dir"));
+        assertThat(installData.getVariable("dir")).isNull();
         verify(prompt).error("Invalid Directory",
                              "The directory you have chosen either does not exist or is not valid.");
     }
@@ -133,11 +131,11 @@ public class ConsoleDirFieldTest extends AbstractConsoleFieldTest
     {
         ConsoleDirField field = createField(null, false, false);
 
-        File file = File.createTempFile("foo", "bar", FileUtils.getTempDirectory());
-        checkInvalid(field, file.getPath());
-        assertNull(installData.getVariable("dir"));
+        Path file = createTempFile(dir, "foo", "bar");
+        checkInvalid(field, file.toString());
+        assertThat(installData.getVariable("dir")).isNull();
 
-        assertTrue(file.delete());
+        delete(file);
         verify(prompt).error("Invalid Directory",
                              "The directory you have chosen either does not exist or is not valid.");
     }

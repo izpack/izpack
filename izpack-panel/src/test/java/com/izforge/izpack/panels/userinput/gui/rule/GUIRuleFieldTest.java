@@ -21,12 +21,7 @@
 
 package com.izforge.izpack.panels.userinput.gui.rule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.container.DefaultContainer;
@@ -40,7 +35,7 @@ import com.izforge.izpack.panels.userinput.field.rule.RuleFormat;
 import com.izforge.izpack.panels.userinput.field.rule.TestRuleFieldConfig;
 import com.izforge.izpack.panels.userinput.processor.Processor;
 import com.izforge.izpack.util.Platforms;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link GUIRuleField}.
@@ -84,31 +79,31 @@ public class GUIRuleFieldTest
         RuleField model = new RuleField(config, installData);
 
         GUIRuleField field = new GUIRuleField(model);
-        assertTrue(field.updateView()); // Update: Empty field -> initial value
-        assertFalse(field.updateView()); // should be nothing to update
+        assertThat(field.updateView()).isTrue(); // Update: Empty field -> initial value
+        assertThat(field.updateView()).isFalse(); // should be nothing to update
 
         // check default value
-        assertEquals("192.168.0.1", field.getValue());
+        assertThat(field.getValue()).isEqualTo("192.168.0.1");
 
         String[] values = field.getValues();
-        assertEquals(4, values.length);
-        assertEquals("192", values[0]);
-        assertEquals("168", values[1]);
-        assertEquals("0", values[2]);
-        assertEquals("1", values[3]);
+        assertThat(values.length).isEqualTo(4);
+        assertThat(values[0]).isEqualTo("192");
+        assertThat(values[1]).isEqualTo("168");
+        assertThat(values[2]).isEqualTo("0");
+        assertThat(values[3]).isEqualTo("1");
 
-        assertTrue(field.updateField(LoggingPrompt.INSTANCE));
+        assertThat(field.updateField(LoggingPrompt.INSTANCE)).isTrue();
 
-        assertEquals("192.168.0.1", installData.getVariable(variable));
+        assertThat(installData.getVariable(variable)).isEqualTo("192.168.0.1");
 
         field.setValues("127", "0", "0", "1");
-        assertTrue(field.updateField(LoggingPrompt.INSTANCE));
-        assertEquals("127.0.0.1", installData.getVariable(variable));
+        assertThat(field.updateField(LoggingPrompt.INSTANCE)).isTrue();
+        assertThat(installData.getVariable(variable)).isEqualTo("127.0.0.1");
 
         // the following is a bit ridiculous but highlights that a minimum length can't be specified for a field
         field.setValues("", "", "", "");
-        assertTrue(field.updateField(LoggingPrompt.INSTANCE));
-        assertEquals("...", installData.getVariable(variable));
+        assertThat(field.updateField(LoggingPrompt.INSTANCE)).isTrue();
+        assertThat(installData.getVariable(variable)).isEqualTo("...");
     }
 
     /**
@@ -125,13 +120,13 @@ public class GUIRuleFieldTest
         RuleField model = new RuleField(config, installData);
 
         GUIRuleField field = new GUIRuleField(model);
-        assertTrue(field.updateView()); // Update: Empty field -> initial value
-        assertFalse(field.updateView()); // should be nothing to update
-        assertEquals("localhost", field.getValue());
+        assertThat(field.updateView()).isTrue(); // Update: Empty field -> initial value
+        assertThat(field.updateView()).isFalse(); // should be nothing to update
+        assertThat(field.getValue()).isEqualTo("localhost");
 
-        assertNull(installData.getVariable("variable1"));
-        assertTrue(field.updateField(LoggingPrompt.INSTANCE));
-        assertEquals("localhost", installData.getVariable(variable));
+        assertThat(installData.getVariable("variable1")).isNull();
+        assertThat(field.updateField(LoggingPrompt.INSTANCE)).isTrue();
+        assertThat(installData.getVariable(variable)).isEqualTo("localhost");
     }
 }
 

@@ -21,6 +21,8 @@
 
 package com.izforge.izpack.panels.userinput.field.rule;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.Configurable;
 import com.izforge.izpack.api.data.ConfigurationOption;
@@ -37,11 +39,7 @@ import com.izforge.izpack.panels.userinput.field.ValidationStatus;
 import com.izforge.izpack.panels.userinput.validator.HostAddressValidator;
 import com.izforge.izpack.panels.userinput.validator.RegularExpressionValidator;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the field validation of {@link RuleField} class instances.
@@ -91,7 +89,7 @@ public class RuleFieldValidatorTest
         config.addValidator(fieldValidator);
         RuleField model = new RuleField(config, installData);
         ValidationStatus status = model.validate("127.0.0.1", "1234");
-        assertTrue(status.isValid());
+        assertThat(status.isValid()).isTrue();
     }
 
     @Test
@@ -107,7 +105,7 @@ public class RuleFieldValidatorTest
         config.addValidator(fieldValidator);
         RuleField model = new RuleField(config, installData);
         ValidationStatus status = model.validate("127.0.0.1", "1234");
-        assertTrue(status.isValid());
+        assertThat(status.isValid()).isTrue();
     }
 
     @Test
@@ -130,7 +128,7 @@ public class RuleFieldValidatorTest
 
         RuleField model = new RuleField(config, installData);
 
-        assertEquals(defaultValue, model.getInitialValue());
+        assertThat(model.getInitialValue()).isEqualTo(defaultValue);
     }
 
     @Test
@@ -155,7 +153,7 @@ public class RuleFieldValidatorTest
         RuleField model = new RuleField(config, installData);
         model.setValue(newValue);
 
-        assertEquals(newValue, model.getInitialValue());
+        assertThat(model.getInitialValue()).isEqualTo(newValue);
     }
 
     @Test
@@ -184,8 +182,8 @@ public class RuleFieldValidatorTest
         RuleField model = new RuleField(config, installData);
         model.setValue(newValue);
 
-        assertEquals("my-server:1234", model.getInitialValue());
-        assertEquals(newValue, model.getValue());
+        assertThat(model.getInitialValue()).isEqualTo("my-server:1234");
+        assertThat(model.getValue()).isEqualTo(newValue);
     }
 
 }

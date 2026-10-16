@@ -21,18 +21,8 @@
 package com.izforge.izpack.panels.test;
 
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
-import java.util.Properties;
-
-import com.izforge.izpack.test.util.TestHousekeeper;
-import org.mockito.Mockito;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoException;
-import org.picocontainer.injectors.ProviderAdapter;
 
 import com.izforge.izpack.api.container.Container;
 import com.izforge.izpack.api.data.LocaleDatabase;
@@ -52,8 +42,15 @@ import com.izforge.izpack.installer.container.provider.RulesProvider;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.data.UninstallDataWriter;
 import com.izforge.izpack.installer.unpacker.IUnpacker;
+import com.izforge.izpack.test.util.TestHousekeeper;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Locale;
+import java.util.Properties;
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.injectors.ProviderAdapter;
 
 /**
  * Container for testing panels.
@@ -89,17 +86,17 @@ public abstract class AbstractTestPanelContainer extends AbstractContainer
         addComponent(ResourceManager.class);
         addComponent(UninstallData.class);
         addComponent(ConditionContainer.class);
-        addComponent(UninstallDataWriter.class, Mockito.mock(UninstallDataWriter.class));
+        addComponent(UninstallDataWriter.class, mock(UninstallDataWriter.class));
         addComponent(AutomatedInstaller.class);
 
         container.addComponent(new DefaultObjectFactory(this));
-        addComponent(IUnpacker.class, Mockito.mock(IUnpacker.class));
-        addComponent(TestHousekeeper.class, Mockito.mock(TestHousekeeper.class));
+        addComponent(IUnpacker.class, mock(IUnpacker.class));
+        addComponent(TestHousekeeper.class, mock(TestHousekeeper.class));
         addComponent(Platforms.class);
         addComponent(Container.class, this);
         addComponent(PlatformModelMatcher.class);
 
-        Locales locales = Mockito.mock(Locales.class);
+        Locales locales = mock(Locales.class);
         when(locales.getISOCode()).thenReturn("eng");
         when(locales.getLocale()).thenReturn(Locale.ENGLISH);
 

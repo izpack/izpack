@@ -22,25 +22,20 @@ package com.izforge.izpack.panels.defaulttarget;
 
 import static com.izforge.izpack.installer.util.InstallPathHelper.TARGET_PANEL_DIR;
 import static com.izforge.izpack.util.Platform.Name.MAC_OSX;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static java.lang.System.getProperty;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.panels.test.TestConsolePanelContainer;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
 import com.izforge.izpack.test.util.TestConsole;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link DefaultTargetConsolePanel} class.
  *
  * @author Tim Anderson
  */
-@RunWith(PicoRunner.class)
 @Container(TestConsolePanelContainer.class)
 public class DefaultTargetConsolePanelTest
 {
@@ -75,7 +70,7 @@ public class DefaultTargetConsolePanelTest
     @Test
     public void testEmptyPath() throws Exception
     {
-        String expectedPath = System.getProperty("user.dir");
+        String expectedPath = getProperty("user.dir");
         checkInstallPath(expectedPath);
     }
 
@@ -114,7 +109,7 @@ public class DefaultTargetConsolePanelTest
     @Test
     public void testPlatformSpecificInstallPath() throws Exception
     {
-        assertTrue(installData.getPlatform().isA(MAC_OSX)); // hardcoded for test purposes
+        assertThat(installData.getPlatform().isA(MAC_OSX)).isTrue(); // hardcoded for test purposes
 
         installData.setDefaultInstallPath("/default/install/path");
         installData.setVariable(TARGET_PANEL_DIR, "/default/target/panel/dir");
@@ -130,9 +125,9 @@ public class DefaultTargetConsolePanelTest
      */
     private void checkInstallPath(String expectedPath)
     {
-        assertNull(installData.getInstallPath());
+        assertThat(installData.getInstallPath()).isNull();
         DefaultTargetConsolePanel panel = new DefaultTargetConsolePanel(null,installData);
-        assertTrue(panel.run(installData, console));
-        assertEquals(expectedPath, installData.getInstallPath());
+        assertThat(panel.run(installData, console)).isTrue();
+        assertThat(installData.getInstallPath()).isEqualTo(expectedPath);
     }
 }

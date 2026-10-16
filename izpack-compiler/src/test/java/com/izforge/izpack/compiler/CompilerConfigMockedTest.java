@@ -19,6 +19,12 @@
 
 package com.izforge.izpack.compiler;
 
+import org.mockito.Mockito;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.DynamicVariable;
@@ -41,15 +47,13 @@ import com.izforge.izpack.core.variable.PlainValue;
 import com.izforge.izpack.merge.MergeManager;
 import com.izforge.izpack.util.PlatformModelMatcher;
 import com.izforge.izpack.util.Platforms;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Handler;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test of compiler config with mock
@@ -66,21 +70,21 @@ public class CompilerConfigMockedTest
     private CompilerConfig compilerConfig;
     private IPackager packager;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
-        mapStringListDyn = Mockito.mock(Map.class);
-        packager = Mockito.mock(IPackager.class);
+        mapStringListDyn = mock(Map.class);
+        packager = mock(IPackager.class);
         compilerConfig = new TestCompilerConfig(packager);
     }
 
     @Test
     public void testAddTwoVariables() throws Exception
     {
-        Mockito.when(mapStringListDyn.containsKey("myPath")).thenReturn(false);
-        Mockito.when(packager.getDynamicVariables()).thenReturn(mapStringListDyn);
+        when(mapStringListDyn.containsKey("myPath")).thenReturn(false);
+        when(packager.getDynamicVariables()).thenReturn(mapStringListDyn);
         Properties variable = new Properties();
-        Mockito.when(packager.getVariables()).thenReturn(variable);
+        when(packager.getVariables()).thenReturn(variable);
 
         IXMLElement element = xmlParser.parse(
                 START_TAG
@@ -99,8 +103,8 @@ public class CompilerConfigMockedTest
     @Test
     public void testAddDynamicVariable() throws CompilerException
     {
-        Mockito.when(mapStringListDyn.containsKey("myPath")).thenReturn(false);
-        Mockito.when(packager.getDynamicVariables()).thenReturn(mapStringListDyn);
+        when(mapStringListDyn.containsKey("myPath")).thenReturn(false);
+        when(packager.getDynamicVariables()).thenReturn(mapStringListDyn);
 
         IXMLElement element = xmlParser.parse(
                 START_TAG
@@ -118,7 +122,7 @@ public class CompilerConfigMockedTest
         dynamicVariable.setValue(value);
         ArrayList<DynamicVariable> list = new ArrayList<DynamicVariable>();
         list.add(dynamicVariable);
-        Mockito.verify(mapStringListDyn).put(name, list);
+        verify(mapStringListDyn).put(name, list);
     }
 
     @Test
@@ -128,10 +132,10 @@ public class CompilerConfigMockedTest
                 START_TAG
                 + "<variables><variable name=\"scriptFile\" value=\"script.bat\"/></variables>"
                 + END_TAG);
-        Properties variable = Mockito.mock(Properties.class);
-        Mockito.when(packager.getVariables()).thenReturn(variable);
+        Properties variable = mock(Properties.class);
+        when(packager.getVariables()).thenReturn(variable);
         compilerConfig.addVariables(xmlData);
-        Mockito.verify(variable).setProperty("scriptFile", "script.bat");
+        verify(variable).setProperty("scriptFile", "script.bat");
     }
 
     @Test
@@ -141,10 +145,10 @@ public class CompilerConfigMockedTest
                 START_TAG
                 + "<dynamicvariables><variable name='myPath' value='$INSTALLPATH/test'/></dynamicvariables>"
                 + END_TAG);
-        Map variable = Mockito.mock(Map.class);
+        Map variable = mock(Map.class);
 
-        Mockito.when(variable.containsKey("myPath")).thenReturn(false);
-        Mockito.when(packager.getDynamicVariables()).thenReturn(variable);
+        when(variable.containsKey("myPath")).thenReturn(false);
+        when(packager.getDynamicVariables()).thenReturn(variable);
 
         compilerConfig.addDynamicVariables(xmlData);
 
@@ -153,7 +157,7 @@ public class CompilerConfigMockedTest
         dynamicVariable.setValue(new PlainValue("$INSTALLPATH/test"));
         ArrayList<DynamicVariable> list = new ArrayList<DynamicVariable>();
         list.add(dynamicVariable);
-        Mockito.verify(variable).put("myPath", list);
+        verify(variable).put("myPath", list);
     }
 
     /**
@@ -164,15 +168,15 @@ public class CompilerConfigMockedTest
 
         public TestCompilerConfig(IPackager packager)
         {
-            super(Mockito.mock(CompilerData.class), Mockito.mock(VariableSubstitutor.class),
-                  Mockito.mock(Compiler.class), new XmlCompilerHelper(Mockito.mock(AssertionHelper.class)),
-                  Mockito.mock(PropertyManager.class), Mockito.mock(MergeManager.class),
-                  Mockito.mock(AssertionHelper.class), Mockito.mock(RulesEngine.class),
-                  Mockito.mock(CompilerPathResolver.class), Mockito.mock(ResourceFinder.class),
-                  Mockito.mock(ObjectFactory.class),
+            super(mock(CompilerData.class), mock(VariableSubstitutor.class),
+                  mock(Compiler.class), new XmlCompilerHelper(mock(AssertionHelper.class)),
+                  mock(PropertyManager.class), mock(MergeManager.class),
+                  mock(AssertionHelper.class), mock(RulesEngine.class),
+                  mock(CompilerPathResolver.class), mock(ResourceFinder.class),
+                  mock(ObjectFactory.class),
                   new PlatformModelMatcher(new Platforms(), Platforms.WINDOWS),
                   new CompilerClassLoader(new DefaultClassNameMapper()),
-                  Mockito.mock(Handler.class));
+                  mock(Handler.class));
             setPackager(packager);
         }
     }

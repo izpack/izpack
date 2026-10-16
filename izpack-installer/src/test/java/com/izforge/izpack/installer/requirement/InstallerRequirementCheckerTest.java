@@ -21,22 +21,19 @@
 
 package com.izforge.izpack.installer.requirement;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Test;
+import static com.izforge.izpack.core.rules.logic.NotCondition.createFromCondition;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.data.InstallerRequirement;
 import com.izforge.izpack.api.rules.Condition;
 import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.core.data.DefaultVariables;
 import com.izforge.izpack.core.rules.RulesEngineImpl;
-import com.izforge.izpack.core.rules.logic.NotCondition;
 import com.izforge.izpack.core.rules.process.JavaCondition;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link InstallerRequirementChecker} class.
@@ -64,7 +61,7 @@ public class InstallerRequirementCheckerTest extends AbstractRequirementCheckerT
         Condition alwaysFalse = new JavaCondition();
         conditions.put("false", alwaysFalse);
 
-        Condition alwaysTrue = NotCondition.createFromCondition(alwaysFalse, rules);
+        Condition alwaysTrue = createFromCondition(alwaysFalse, rules);
         conditions.put("true", alwaysTrue);
 
         rules.readConditionMap(conditions);
@@ -79,7 +76,7 @@ public class InstallerRequirementCheckerTest extends AbstractRequirementCheckerT
         InstallerRequirementChecker checker = new InstallerRequirementChecker(installData, rules, prompt);
 
         // no requirements - should evaluate true
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
 
         // add a requirement that always evaluates false
         InstallerRequirement req1 = new InstallerRequirement();
@@ -88,7 +85,7 @@ public class InstallerRequirementCheckerTest extends AbstractRequirementCheckerT
         installData.getInstallerRequirements().add(req1);
 
         // should evaluate false
-        assertFalse(checker.check());
+        assertThat(checker.check()).isFalse();
 
         // add a requirement that always evaluates true
         InstallerRequirement req2 = new InstallerRequirement();
@@ -97,10 +94,10 @@ public class InstallerRequirementCheckerTest extends AbstractRequirementCheckerT
         installData.getInstallerRequirements().add(req2);
 
         // should still evaluate false, due to presence of req1
-        assertFalse(checker.check());
+        assertThat(checker.check()).isFalse();
 
         // remove req1 and verify evaluates true
         installData.getInstallerRequirements().remove(req1);
-        assertTrue(checker.check());
+        assertThat(checker.check()).isTrue();
     }
 }

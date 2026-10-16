@@ -19,45 +19,49 @@
 
 package com.izforge.izpack.merge.jar;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.List;
-import java.util.jar.JarOutputStream;
-import java.util.zip.ZipEntry;
-
-import com.izforge.izpack.util.IoHelper;
-import org.hamcrest.core.Is;
-import org.hamcrest.core.StringContains;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
+import static com.izforge.izpack.matcher.MergeMatcher.getEntryNames;
+import static com.izforge.izpack.merge.resolve.ResolveUtils.convertPathToPosixPath;
+import static com.izforge.izpack.merge.resolve.ResolveUtils.processUrlToJarPath;
+import static com.izforge.izpack.util.IoHelper.mergeTarget;
+import static java.lang.ClassLoader.getSystemClassLoader;
+import static java.lang.ClassLoader.getSystemResource;
+import static java.net.URLClassLoader.newInstance;
+import static java.nio.file.Files.createTempFile;
+import static java.nio.file.Files.newOutputStream;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentCaptor.forClass;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.izforge.izpack.api.merge.Mergeable;
 import com.izforge.izpack.core.container.TestMergeContainer;
-import com.izforge.izpack.matcher.MergeMatcher;
 import com.izforge.izpack.merge.resolve.MergeableResolver;
 import com.izforge.izpack.merge.resolve.PathResolver;
-import com.izforge.izpack.merge.resolve.ResolveUtils;
 import com.izforge.izpack.test.Container;
-import com.izforge.izpack.test.junit.PicoRunner;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.jar.JarOutputStream;
+import java.util.zip.ZipEntry;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.mockito.ArgumentCaptor;
 
 /**
  * Test for merge jar
  *
  * @author Anthonin Bonnefoy
  */
-@RunWith(PicoRunner.class)
 @Container(TestMergeContainer.class)
 public class JarMergeTest
 {
+    @TempDir
+    Path directory;
     private PathResolver pathResolver;
     private MergeableResolver mergeableResolver;
 
@@ -70,10 +74,9 @@ public class JarMergeTest
     @Test
     public void testAddJarContent()
     {
-        URL resource = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
+        URL resource = getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
         Mergeable jarMerge = mergeableResolver.getMergeableFromURL(resource);
-        assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("jar/izforge/izpack/panels/hello/HelloPanel.class")
-        );
+        assertThat(getEntryNames(jarMerge)).contains("jar/izforge/izpack/panels/hello/HelloPanel.class");
     }
 
     @Test
@@ -81,10 +84,10 @@ public class JarMergeTest
     {
         List<Mergeable> jarMergeList = pathResolver.getMergeableFromPath("org/apache/commons/io/ByteOrderMark.class");
 
-        assertThat(jarMergeList.size(), Is.is(1));
+        assertThat(jarMergeList).hasSize(1);
 
         Mergeable jarMerge = jarMergeList.get(0);
-        assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("org/apache/commons/io/ByteOrderMark.class"));
+        assertThat(getEntryNames(jarMerge)).contains("org/apache/commons/io/ByteOrderMark.class");
     }
 
     @Test
@@ -93,29 +96,28 @@ public class JarMergeTest
         List<Mergeable> jarMergeList = pathResolver.getMergeableFromPath("org/apache/commons/io/ByteOrderMark.class",
                                                                          "foo/SomeRandomClass.class");
 
-        assertThat(jarMergeList.size(), Is.is(1));
+        assertThat(jarMergeList).hasSize(1);
 
         Mergeable jarMerge = jarMergeList.get(0);
-        assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("foo/SomeRandomClass.class"));
+        assertThat(getEntryNames(jarMerge)).contains("foo/SomeRandomClass.class");
     }
 
     @Test
-    public void testMergeJarFoundDynamicallyLoaded()
-    {
-        URL urlJar = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
-        URLClassLoader loader = URLClassLoader.newInstance(new URL[]{urlJar}, ClassLoader.getSystemClassLoader());
-
-        Mergeable jarMerge = mergeableResolver.getMergeableFromURLWithDestination(loader.getResource("jar/izforge/"),
-                                                                                  "com/dest");
-
-        assertThat(jarMerge, MergeMatcher.isMergeableContainingFiles("com/dest/izpack/panels/hello/HelloPanel.class"));
+    public void testMergeJarFoundDynamicallyLoaded() throws IOException {
+        URL urlJar = getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
+        try (URLClassLoader loader = newInstance(new URL[]{urlJar}, getSystemClassLoader()))
+        {
+            Mergeable jarMerge = mergeableResolver.getMergeableFromURLWithDestination(loader.getResource("jar/izforge/"),
+                    "com/dest");
+            assertThat(getEntryNames(jarMerge)).contains("com/dest/izpack/panels/hello/HelloPanel.class");
+        }
     }
 
 
     @Test
     public void testFindPanelInJar()
     {
-        URL resource = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/izpack-panel-5.0.0-SNAPSHOT.jar");
+        URL resource = getSystemResource("com/izforge/izpack/merge/test/izpack-panel-5.0.0-SNAPSHOT.jar");
         Mergeable jarMerge = mergeableResolver.getMergeableFromURL(resource);
         File file = jarMerge.find(new FileFilter()
         {
@@ -125,26 +127,23 @@ public class JarMergeTest
                         pathname.getName().replaceAll(".class", "").equalsIgnoreCase("CheckedHelloPanel");
             }
         });
-        assertThat(ResolveUtils.convertPathToPosixPath(file.getAbsolutePath()),
-                   StringContains.containsString("com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class"));
+        assertThat(convertPathToPosixPath(file.getAbsolutePath())).contains("com/izforge/izpack/panels/checkedhello/CheckedHelloPanel.class");
     }
 
 
     @Test
-    public void testFindFileInJarFoundWithURL()
-    {
-        URL urlJar = ClassLoader.getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
-        URLClassLoader loader = URLClassLoader.newInstance(new URL[]{urlJar}, ClassLoader.getSystemClassLoader());
-
-        Mergeable jarMerge = mergeableResolver.getMergeableFromURL(loader.getResource("jar/izforge"));
-        File file = jarMerge.find(new FileFilter()
+    public void testFindFileInJarFoundWithURL() throws IOException {
+        URL urlJar = getSystemResource("com/izforge/izpack/merge/test/jar-hellopanel-1.0-SNAPSHOT.jar");
+        try (URLClassLoader loader = newInstance(new URL[]{urlJar}, getSystemClassLoader()))
         {
-            public boolean accept(File pathname)
-            {
-                return pathname.getName().matches(".*HelloPanel\\.class") || pathname.isDirectory();
-            }
-        });
-        assertThat(file.getName(), Is.is("HelloPanel.class"));
+            Mergeable jarMerge = mergeableResolver.getMergeableFromURL(loader.getResource("jar/izforge"));
+            File file = jarMerge.find(new FileFilter() {
+                public boolean accept(File pathname) {
+                    return pathname.getName().matches(".*HelloPanel\\.class") || pathname.isDirectory();
+                }
+            });
+            assertThat(file.getName()).isEqualTo("HelloPanel.class");
+        }
     }
 
     @Test
@@ -153,10 +152,10 @@ public class JarMergeTest
         String toCheckKo = "com/izforge/izpack/panels/installationgroup/";
         String toCheckOk = "com/izforge/izpack/panels/install/InstallationPanel.class";
         String regexp = "com/izforge/izpack/panels/install/+(.*)";
-        assertThat(toCheckKo.matches(regexp), Is.is(false));
-        assertThat(toCheckOk.matches(regexp), Is.is(true));
+        assertThat(toCheckKo.matches(regexp)).isFalse();
+        assertThat(toCheckOk.matches(regexp)).isTrue();
 
-        assertThat("test//Double//".replaceAll("//", "/"), Is.is("test/Double/"));
+        assertThat("test//Double//".replace("//", "/")).isEqualTo("test/Double/");
     }
 
     /**
@@ -166,37 +165,36 @@ public class JarMergeTest
     public void testExcludeSignatures() throws IOException
     {
         // create a test jar, with a number of files, including dummy signatures
-        File jar = File.createTempFile("sigtest", ".jar");
-        FileOutputStream file = new FileOutputStream(jar);
-        JarOutputStream stream = new JarOutputStream(file);
-        stream.putNextEntry(new ZipEntry("/META-INF/ok1"));     // should merge
-        stream.closeEntry();
-        stream.putNextEntry(new ZipEntry("/META-INF/FOO.SF"));  // should be excluded
-        stream.closeEntry();
-        stream.putNextEntry(new ZipEntry("/META-INF/FOO.DSA")); // should be excluded
-        stream.closeEntry();
-        stream.putNextEntry(new ZipEntry("/META-INF/FOO.RSA")); // should be excluded
-        stream.closeEntry();
-        stream.putNextEntry(new ZipEntry("/META-INF/SIG-FOO")); // should be excluded
-        stream.closeEntry();
-        stream.putNextEntry(new ZipEntry("/META-INF/ok2"));     // should merge
-        stream.closeEntry();
-        stream.close();
+        Path jar = createTempFile(directory, "sigtest", ".jar");
+        try (JarOutputStream stream = new JarOutputStream(newOutputStream(jar)))
+        {
+            stream.putNextEntry(new ZipEntry("/META-INF/ok1"));     // should merge
+            stream.closeEntry();
+            stream.putNextEntry(new ZipEntry("/META-INF/FOO.SF"));  // should be excluded
+            stream.closeEntry();
+            stream.putNextEntry(new ZipEntry("/META-INF/FOO.DSA")); // should be excluded
+            stream.closeEntry();
+            stream.putNextEntry(new ZipEntry("/META-INF/FOO.RSA")); // should be excluded
+            stream.closeEntry();
+            stream.putNextEntry(new ZipEntry("/META-INF/SIG-FOO")); // should be excluded
+            stream.closeEntry();
+            stream.putNextEntry(new ZipEntry("/META-INF/ok2"));     // should merge
+            stream.closeEntry();
+        }
 
         // now merge to a mocked JarOutputStream
-        URL url = jar.toURI().toURL();
-        String jarPath = ResolveUtils.processUrlToJarPath(url);
+        URL url = jar.toUri().toURL();
+        String jarPath = processUrlToJarPath(url);
         JarMerge merge = new JarMerge(url, jarPath);
-        JarOutputStream output = Mockito.mock(JarOutputStream.class);
-        merge.merge(IoHelper.mergeTarget(output));
+        JarOutputStream output = mock(JarOutputStream.class);
+        merge.merge(mergeTarget(output));
 
         // verify that the signature files have been excluded
-        ArgumentCaptor<ZipEntry> captor = ArgumentCaptor.forClass(ZipEntry.class);
-        Mockito.verify(output, Mockito.times(2)).putNextEntry(captor.capture());
+        ArgumentCaptor<ZipEntry> captor = forClass(ZipEntry.class);
+        verify(output, times(2)).putNextEntry(captor.capture());
         List<ZipEntry> allValues = captor.getAllValues();
-        assertEquals(2, allValues.size());
-        assertEquals("META-INF/ok1", allValues.get(0).getName());
-        assertEquals("META-INF/ok2", allValues.get(1).getName());
+        assertThat(allValues).hasSize(2);
+        assertThat(allValues.get(0).getName()).isEqualTo("META-INF/ok1");
+        assertThat(allValues.get(1).getName()).isEqualTo("META-INF/ok2");
     }
-
 }

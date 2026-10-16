@@ -21,13 +21,8 @@
 
 package com.izforge.izpack.integration.windows;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-
-import javax.swing.SwingUtilities;
+import static javax.swing.SwingUtilities.invokeAndWait;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.coi.tools.os.win.RegDataContainer;
 import com.izforge.izpack.api.exception.IzPackException;
@@ -36,6 +31,7 @@ import com.izforge.izpack.core.os.RegistryDefaultHandler;
 import com.izforge.izpack.core.os.RegistryHandler;
 import com.izforge.izpack.util.Librarian;
 import com.izforge.izpack.util.os.ShellLink;
+import java.io.File;
 
 /**
  * Helper for Windows tests.
@@ -69,7 +65,7 @@ public class WindowsHelper
     {
         final File[] shortcut = new File[1];
         // TODO - need to create ShellLink in the same thread each time, or it fails with a COM error.
-        SwingUtilities.invokeAndWait(new Runnable()
+        invokeAndWait(new Runnable()
         {
             @Override
             public void run()
@@ -83,14 +79,14 @@ public class WindowsHelper
                 {
                     throw new IzPackException(exception);
                 }
-                assertEquals(linkType, link.getLinkType());
-                assertEquals(userType, link.getUserType());
-                assertEquals(target, new File(link.getTargetPath()));
-                assertEquals(description, link.getDescription());
+                assertThat(link.getLinkType()).isEqualTo(linkType);
+                assertThat(link.getUserType()).isEqualTo(userType);
+                assertThat(new File(link.getTargetPath())).isEqualTo(target);
+                assertThat(link.getDescription()).isEqualTo(description);
 
                 // verify the shortcut file exists
                 shortcut[0] = new File(link.getFileName());
-                assertTrue(shortcut[0].exists());
+                assertThat(shortcut[0]).exists();
 
             }
         });
@@ -108,7 +104,7 @@ public class WindowsHelper
     public static boolean registryKeyExists(RegistryDefaultHandler handler, String key) throws NativeLibException
     {
         RegistryHandler registry = handler.getInstance();
-        assertNotNull(registry);
+        assertThat(registry).isNotNull();
         registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
         return registry.keyExist(key);
     }
@@ -126,16 +122,16 @@ public class WindowsHelper
                                                  String expected) throws NativeLibException
     {
         //Registry key exists
-    	RegistryHandler registry = handler.getInstance();
-        assertNotNull(registry);
+        RegistryHandler registry = handler.getInstance();
+        assertThat(registry).isNotNull();
         registry.setRoot(RegistryHandler.HKEY_LOCAL_MACHINE);
-        assertTrue(registry.keyExist(key));
+        assertThat(registry.keyExist(key)).isTrue();
         //Value exists as a REG_SZ
-        assertTrue(registry.valueExist(key, name));
+        assertThat(registry.valueExist(key, name)).isTrue();
         RegDataContainer value = registry.getValue(key, name);
-        assertEquals("Registry key value " + name + " is not type REG_SZ", RegDataContainer.REG_SZ, value.getType());
+        assertThat(value.getType()).as("Registry key value " + name + " is not type REG_SZ").isEqualTo(RegDataContainer.REG_SZ);
         //Value matches expected string
-        assertEquals(expected, registry.getValue(key, name).getStringData());
+        assertThat(registry.getValue(key, name).getStringData()).isEqualTo(expected);
     }
 
     /**
@@ -148,7 +144,7 @@ public class WindowsHelper
     public static void registryDeleteUninstallKey(RegistryDefaultHandler handler, String key) throws NativeLibException
     {
         RegistryHandler registry = handler.getInstance();
-        assertNotNull(registry);
+        assertThat(registry).isNotNull();
         if (!key.matches(".*\\\\Uninstall\\\\.+"))
         {
             // don't want to delete too much

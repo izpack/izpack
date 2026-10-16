@@ -1,34 +1,25 @@
 package com.izforge.izpack.integration;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.util.concurrent.TimeUnit;
-import java.util.jar.JarFile;
-import java.util.zip.ZipFile;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.rules.Timeout;
-import org.junit.runner.RunWith;
+import static com.izforge.izpack.matcher.ZipMatcher.getFileNameListFromZip;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.compiler.container.TestCompilationContainer;
-import com.izforge.izpack.matcher.ZipMatcher;
 import com.izforge.izpack.test.Container;
 import com.izforge.izpack.test.InstallFile;
-import com.izforge.izpack.test.junit.PicoRunner;
+import com.izforge.izpack.test.junit.TestTimeout;
+import java.util.jar.JarFile;
+import java.util.zip.ZipFile;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for an installation
  */
 
-@RunWith(PicoRunner.class)
 @Container(TestCompilationContainer.class)
+@TestTimeout(HelperTestMethod.TIMEOUT)
 public class IzpackGenerationTest
 {
-    @Rule
-    public TestRule globalTimeout = new Timeout(HelperTestMethod.TIMEOUT, TimeUnit.MILLISECONDS);
 
     private JarFile jar;
 
@@ -39,7 +30,7 @@ public class IzpackGenerationTest
         this.container = container;
     }
 
-    @Before
+    @BeforeEach
     public void before()
     {
         container.launchCompilation();
@@ -50,8 +41,6 @@ public class IzpackGenerationTest
     @InstallFile("samples/izpack/install.xml")
     public void testGeneratedIzpackInstaller() throws Exception
     {
-        assertThat((ZipFile) jar, ZipMatcher.isZipContainingFiles(
-                "com/izforge/izpack/panels/hello/HelloPanel.class"
-        ));
+        assertThat(getFileNameListFromZip((ZipFile) jar)).contains("com/izforge/izpack/panels/hello/HelloPanel.class");
     }
 }

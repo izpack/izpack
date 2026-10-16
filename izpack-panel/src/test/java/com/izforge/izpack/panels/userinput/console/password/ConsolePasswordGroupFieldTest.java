@@ -20,15 +20,9 @@
  */
 package com.izforge.izpack.panels.userinput.console.password;
 
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Test;
-import org.mockito.Mockito;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.core.container.DefaultContainer;
@@ -39,6 +33,9 @@ import com.izforge.izpack.panels.userinput.field.password.PasswordField;
 import com.izforge.izpack.panels.userinput.field.password.PasswordGroupField;
 import com.izforge.izpack.panels.userinput.field.password.TestPasswordGroupFieldConfig;
 import com.izforge.izpack.panels.userinput.validator.PasswordEqualityValidator;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link ConsolePasswordGroupField}.
@@ -70,7 +67,7 @@ public class ConsolePasswordGroupFieldTest extends AbstractConsoleFieldTest
         ConsolePasswordGroupField field = createField();
         checkValid(field, "ab1234", "ab1234");
 
-        assertEquals("ab1234", installData.getVariable("password"));
+        assertThat(installData.getVariable("password")).isEqualTo("ab1234");
     }
 
     /**
@@ -84,12 +81,12 @@ public class ConsolePasswordGroupFieldTest extends AbstractConsoleFieldTest
         ConsolePasswordGroupField field = createField(validator);
 
         checkInvalid(field, "ab1234", "ab1235");
-        Mockito.verify(prompt).error("Error", message);
-        assertNull(installData.getVariable("password"));
+        verify(prompt).error("Error", message);
+        assertThat(installData.getVariable("password")).isNull();
 
         checkValid(field, "ab1234", "ab1234");
-        assertEquals("ab1234", installData.getVariable("password"));
-        Mockito.verifyNoMoreInteractions(prompt);
+        assertThat(installData.getVariable("password")).isEqualTo("ab1234");
+        verifyNoMoreInteractions(prompt);
     }
 
     /**

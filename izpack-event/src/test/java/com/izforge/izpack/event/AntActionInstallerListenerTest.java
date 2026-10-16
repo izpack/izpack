@@ -21,6 +21,13 @@
 
 package com.izforge.izpack.event;
 
+import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
+import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
+import static java.util.Collections.singletonList;
+import static org.apache.commons.io.IOUtils.copy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.izforge.izpack.api.data.AutomatedInstallData;
 import com.izforge.izpack.api.data.InstallData;
@@ -35,24 +42,16 @@ import com.izforge.izpack.core.substitutor.VariableSubstitutorImpl;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.event.ProgressNotifiersImpl;
 import com.izforge.izpack.util.Platforms;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.mockito.Mockito;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Properties;
-
-import static com.izforge.izpack.test.util.TestHelper.assertFileExists;
-import static com.izforge.izpack.test.util.TestHelper.assertFileNotExists;
-import static org.junit.Assert.assertNotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the {@link AntActionInstallerListener} class.
@@ -65,8 +64,8 @@ public class AntActionInstallerListenerTest
     /**
      * Temporary folder to perform installations to.
      */
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @TempDir
+    public Path temporaryFolder;
 
     /**
      * The variable replacer.
@@ -94,7 +93,7 @@ public class AntActionInstallerListenerTest
      *
      * @throws IOException for any I/O error
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException
     {
         Properties properties = new Properties();
@@ -103,17 +102,17 @@ public class AntActionInstallerListenerTest
 
         installData = new AutomatedInstallData(variables, Platforms.OS_2);
 
-        installDir = temporaryFolder.getRoot();
+        installDir = temporaryFolder.toFile();
         installData.setInstallPath(installDir.getPath());
 
         // copy build.xml to the install dir, so that the listener can find it
-        IOUtils.copy(getClass().getResourceAsStream("/com/izforge/izpack/event/ant/build.xml"),
+        copy(getClass().getResourceAsStream("/com/izforge/izpack/event/ant/build.xml"),
                             new FileOutputStream(new File(installDir, "build.xml")));
 
-        resources = Mockito.mock(Resources.class);
+        resources = mock(Resources.class);
         InputStream specStream = getClass().getResourceAsStream("/com/izforge/izpack/event/ant/AntActionsSpec.xml");
-        assertNotNull(specStream);
-        Mockito.when(resources.getInputStream(AntActionInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
+        assertThat(specStream).isNotNull();
+        when(resources.getInputStream(AntActionInstallerListener.SPEC_FILE_NAME)).thenReturn(specStream);
     }
 
     /**
@@ -123,9 +122,9 @@ public class AntActionInstallerListenerTest
     public void testAntTargets()
     {
         Pack pack = new Pack("Base", null, null, null, null, true, true, false, null, true, 0);
-        List<Pack> packs = Collections.singletonList(pack);
+        List<Pack> packs = singletonList(pack);
 
-        ProgressListener progressListener = Mockito.mock(ProgressListener.class);
+        ProgressListener progressListener = mock(ProgressListener.class);
 
         UninstallData uninstallData = new UninstallData();
         ProgressNotifiers notifiers = new ProgressNotifiersImpl();

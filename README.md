@@ -33,6 +33,8 @@ The build generates a distribution IzPack installer JAR in `izpack-dist/target`.
 
 The IzPack Maven plugin is inside the `izpack-maven-plugin` module.
 
+Tests use JUnit 6 Jupiter. See [the testing guide](docs/testing.md) for verification commands, GUI profiles, and shared test-helper migration.
+
 ## Contributing to IzPack
 
 While reporting an issue [on our JIRA tracker](https://izpack.atlassian.net/) is useful, investigating and offering a patch is much better!
@@ -40,6 +42,55 @@ While reporting an issue [on our JIRA tracker](https://izpack.atlassian.net/) is
 We suggest that [you follow our guidelines for contributing](http://izpack.org/developers/), and especially that you have a fork of [https://github.com/izpack/izpack](https://github.com/izpack/izpack) on GitHub. You can then offer contributions using pull requests.
 
 We very much prefer pull requests over attaching patches in JIRA issues.
+
+### Code formatting
+
+Formatting is enforced by [Spotless](https://diffplug.github.io/spotless/) during the build,
+using the checked-in Eclipse profile `src/eclipse-code-formatter.xml` as the only style
+definition. Spotless — not your IDE — is the formatting arbiter, so run
+
+    ./mvnw spotless:apply
+
+before you push. It only rewrites Java files you changed relative to `origin/master`, so
+untouched legacy files never show up in your diff. IDE formatting may differ from the pinned
+Eclipse version; if it does, the `spotless:apply` result wins.
+
+To point your IDE at that same profile, follow the one-time import steps for Eclipse and
+IntelliJ IDEA in [docs/formatting.md](docs/formatting.md).
+
+`./mvnw verify` (and therefore `./mvnw install` and CI) runs `spotless:check` and fails when an
+in-scope file is not canonical, naming the file and the command that fixes it. To get a build
+through without the formatting gate, use
+
+    ./mvnw verify -Dspotless.check.skip=true
+
+which skips only the formatting check — compilation, tests and packaging run unchanged.
+
+Optionally, install the git pre-push hook in your own clone:
+
+    ./mvnw spotless:install-git-pre-push-hook
+
+It runs the same ratcheted check (and then `spotless:apply`) before every push, so a
+non-canonical file is stopped seconds after editing rather than at `verify` or in CI. The hook
+is opt-in and per clone: it is written to `.git/hooks/pre-push`, is never committed, and
+deleting that file restores unconditional pushes.
+
+### Copyright header years
+
+New and changed files get the canonical header from `src/copyright-notice-template`. While a
+file is in scope, the build keeps the end year of the `Copyright <first>-<last>` range current
+without ever changing the first year. If the recorded years are wrong or missing, one
+ratcheted run repairs them from the git history of the files you changed:
+
+    ./mvnw spotless:apply -DspotlessSetLicenseHeaderYearsFromGitHistory=true
+
+Because that run is ratcheted too, it only touches files that already differ from
+`origin/master`; it cannot produce a repository-wide diff.
+
+Coverage gap to be aware of: files that carry extra contributor notices (additional
+`Copyright <year> <name>` lines), and files with any other unrecognised header shape, are
+deliberately left byte-for-byte untouched by header enforcement — including their year range,
+which is therefore **not** updated automatically. Their bodies are still formatted.
 
 ## Resources
 

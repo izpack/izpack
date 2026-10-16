@@ -22,12 +22,8 @@ package com.izforge.izpack.panels.defaulttarget;
 
 import static com.izforge.izpack.installer.util.InstallPathHelper.TARGET_PANEL_DIR;
 import static com.izforge.izpack.util.Platform.Name.MAC_OSX;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import static java.lang.System.getProperty;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Locales;
@@ -40,6 +36,7 @@ import com.izforge.izpack.panels.simplefinish.SimpleFinishPanel;
 import com.izforge.izpack.panels.test.AbstractPanelTest;
 import com.izforge.izpack.panels.test.TestGUIPanelContainer;
 import com.izforge.izpack.test.Container;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link DefaultTargetPanel} class.
@@ -78,7 +75,7 @@ public class DefaultTargetPanelTest extends AbstractPanelTest
     @Test
     public void testEmptyPath() throws Exception
     {
-        String expectedPath = System.getProperty("user.dir");
+        String expectedPath = getProperty("user.dir");
         checkPath(expectedPath);
     }
 
@@ -120,7 +117,7 @@ public class DefaultTargetPanelTest extends AbstractPanelTest
     public void testPlatformSpecificInstallPath() throws Exception
     {
         GUIInstallData installData = getInstallData();
-        assertTrue(installData.getPlatform().isA(MAC_OSX)); // hardcoded for test purposes
+        assertThat(installData.getPlatform().isA(MAC_OSX)).isTrue(); // hardcoded for test purposes
 
         installData.setDefaultInstallPath("/default/install/path");
         installData.setVariable(TARGET_PANEL_DIR, "/default/target/panel/dir");
@@ -142,8 +139,8 @@ public class DefaultTargetPanelTest extends AbstractPanelTest
 
         waitForPanel(SimpleFinishPanel.class);
 
-        assertThat(getPanels().getView(), instanceOf(SimpleFinishPanel.class));
-        assertThat(installData.getInstallPath(), equalTo(expectedPath));
+        assertThat(getPanels().getView()).isInstanceOf(SimpleFinishPanel.class);
+        assertThat(installData.getInstallPath()).isEqualTo(expectedPath);
     }
 
 }

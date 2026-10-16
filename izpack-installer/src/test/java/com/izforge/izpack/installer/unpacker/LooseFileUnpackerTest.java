@@ -21,13 +21,11 @@
 
 package com.izforge.izpack.installer.unpacker;
 
-
-import java.io.File;
-
-import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
 
 import com.izforge.izpack.api.handler.Prompt;
 import com.izforge.izpack.util.os.FileQueue;
+import java.io.File;
 
 /**
  * Tests the {@link LooseFileUnpacker} class.
@@ -47,7 +45,7 @@ public class LooseFileUnpackerTest extends AbstractFileUnpackerTest
     @Override
     protected FileUnpacker createUnpacker(File sourceDir, FileQueue queue)
     {
-        Prompt prompt = Mockito.mock(Prompt.class);
+        Prompt prompt = mock(Prompt.class);
         return new LooseFileUnpacker(getCancellable(), queue, prompt);
     }
 

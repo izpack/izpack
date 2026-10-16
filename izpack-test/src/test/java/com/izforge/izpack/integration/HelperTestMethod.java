@@ -1,24 +1,21 @@
 package com.izforge.izpack.integration;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-
-import java.io.File;
-import java.io.IOException;
-
-import com.izforge.izpack.api.exception.IzPackException;
-import org.apache.commons.io.FileUtils;
-import org.fest.swing.fixture.DialogFixture;
-import org.fest.swing.fixture.FrameFixture;
+import static java.lang.Thread.sleep;
+import static javax.swing.SwingUtilities.invokeAndWait;
+import static org.apache.commons.io.FileUtils.deleteDirectory;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.izforge.izpack.api.GuiId;
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.exception.IzPackException;
 import com.izforge.izpack.installer.data.UninstallData;
 import com.izforge.izpack.installer.gui.InstallerController;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.language.LanguageDialog;
-
-import javax.swing.SwingUtilities;
+import java.io.File;
+import java.io.IOException;
+import org.fest.swing.fixture.DialogFixture;
+import org.fest.swing.fixture.FrameFixture;
 
 /**
  * Shared methods beetween tests classes
@@ -32,8 +29,8 @@ public class HelperTestMethod
     public static File prepareInstallation(InstallData installData) throws IOException
     {
         File installPath = new File(installData.getDefaultInstallPath());
-        FileUtils.deleteDirectory(installPath);
-        assertThat(installPath.exists(), is(false));
+        deleteDirectory(installPath);
+        assertThat(installPath).doesNotExist();
         return installPath;
     }
 
@@ -53,7 +50,7 @@ public class HelperTestMethod
      */
     public static void initLangPack(final LanguageDialog dialog) throws Exception
     {
-        SwingUtilities.invokeAndWait(new Runnable() {
+        invokeAndWait(new Runnable() {
             @Override
             public void run() {
 
@@ -108,14 +105,14 @@ public class HelperTestMethod
     {
         while (!installData.isCanClose())
         {
-            Thread.sleep(500);
+            sleep(500);
         }
-        assertThat(installPath.exists(), is(true));
+        assertThat(installPath).exists();
         UninstallData uninstallData = new UninstallData();
         for (String installedFile : uninstallData.getInstalledFilesList())
         {
             File file = new File(installedFile);
-            assertThat(file.exists(), is(true));
+            assertThat(file).exists();
         }
     }
 }

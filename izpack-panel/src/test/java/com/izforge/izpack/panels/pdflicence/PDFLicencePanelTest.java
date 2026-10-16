@@ -18,6 +18,10 @@
  */
 package com.izforge.izpack.panels.pdflicence;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.fest.swing.timing.Pause.pause;
+import static org.fest.swing.timing.Timeout.timeout;
+
 import com.izforge.izpack.api.factory.ObjectFactory;
 import com.izforge.izpack.api.resource.Locales;
 import com.izforge.izpack.api.rules.RulesEngine;
@@ -37,51 +41,43 @@ import org.icepdf.core.pobjects.Document;
 import org.icepdf.core.pobjects.graphics.text.PageText;
 import org.icepdf.ri.common.views.DocumentViewController;
 import org.icepdf.ri.common.views.OnePageView;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.fest.swing.timing.Pause.pause;
-import static org.fest.swing.timing.Timeout.timeout;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertThat;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PDFLicencePanelTest extends AbstractPanelTest {
 
-	public PDFLicencePanelTest(TestGUIPanelContainer container, GUIInstallData installData,
-							   ResourceManager resourceManager, ObjectFactory factory,
-							   RulesEngine rules, IconsDatabase icons,
-							   UninstallDataWriter uninstallDataWriter, Locales locales)
-	{
-		super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
-	}
+    public PDFLicencePanelTest(TestGUIPanelContainer container, GUIInstallData installData,
+                               ResourceManager resourceManager, ObjectFactory factory,
+                               RulesEngine rules, IconsDatabase icons,
+                               UninstallDataWriter uninstallDataWriter, Locales locales)
+    {
+        super(container, installData, resourceManager, factory, rules, icons, uninstallDataWriter, locales);
+    }
 
-	@Before
+    @BeforeEach
     public void setUp()
     {
         ResourceManager rm = getResourceManager();
         rm.setResourceBasePath("/com/izforge/izpack/panels/panel/");
     }
 
-	@Test
-	public void shouldDisplayLicenceText() throws Exception
-	{
+    @Test
+    public void shouldDisplayLicenceText() throws Exception
+    {
         FrameFixture fixture = showPDFLicencePanel("licence");
 
-		OnePageView onePageView = findOnePageView(fixture);
-		DocumentViewController controller = onePageView.getParentViewController();
+        OnePageView onePageView = findOnePageView(fixture);
+        DocumentViewController controller = onePageView.getParentViewController();
 
-		Document document = controller.getDocument();
-		assertThat(document, hasProperty("numberOfPages", equalTo(1)));
+        Document document = controller.getDocument();
+        assertThat(document.getNumberOfPages()).isEqualTo(1);
 
-		PageText pageText = document.getPageText(0);
-		pageText.selectAll();
+        PageText pageText = document.getPageText(0);
+        pageText.selectAll();
 
-		String textArea = pageText.getSelected().toString();
-		assertThat(textArea, containsString("This is a licenSe panel"));
-	}
+        String textArea = pageText.getSelected().toString();
+        assertThat(textArea).contains("This is a licenSe panel");
+    }
 
     @Test
     public void shouldFindAndDisplayLicenceTextForPanelWithoutIdentifier() throws Exception
@@ -93,13 +89,13 @@ public class PDFLicencePanelTest extends AbstractPanelTest {
         DocumentViewController controller = onePageView.getParentViewController();
 
         Document document = controller.getDocument();
-        assertThat(document, hasProperty("numberOfPages", equalTo(1)));
+        assertThat(document.getNumberOfPages()).isEqualTo(1);
 
         PageText pageText = document.getPageText(0);
         pageText.selectAll();
 
         String textArea = pageText.getSelected().toString();
-        assertThat(textArea, containsString("This is a licenSe panel"));
+        assertThat(textArea).contains("This is a licenSe panel");
     }
 
     @Test
@@ -145,7 +141,7 @@ public class PDFLicencePanelTest extends AbstractPanelTest {
         FrameFixture fixture = show(view, createPanelView(SimpleFinishPanel.class));
         waitForPanel(PDFLicencePanel.class);
 
-        assertThat(getPanels().getView(), instanceOf(PDFLicencePanel.class));
+        assertThat(getPanels().getView()).isInstanceOf(PDFLicencePanel.class);
 
         return fixture;
     }
