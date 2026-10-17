@@ -1,5 +1,5 @@
 /*
- * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2026 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.api.data;
 
 import com.izforge.izpack.api.data.binding.OsModel;
@@ -41,40 +40,42 @@ public class Pack implements Serializable
     private final String name;
 
     /**
-     * The language pack identifier, used for localising the package display. May be {@code null}.
+     * The language pack identifier, used for localising the package display. May be
+     * {@code null}.
      */
     private String langPackId;
 
     /**
-     * If {@code true}, indicates that the pack files are stored outside of the installation packages.
+     * If {@code true}, indicates that the pack files are stored outside of the
+     * installation packages.
      */
     private boolean loose;
 
     /**
-     * If {@code true}, all files of the pack will be deleted during uninstallation. If {@code false} they are only
-     * removed if uninstaller force delete option is activated.
+     * If {@code true}, all files of the pack will be deleted during uninstallation.
+     * If {@code false} they are only removed if uninstaller force delete option is
+     * activated.
      */
     private final boolean uninstall;
 
     /**
      * An association of this pack to zero or more installation groups. An
-     * installation group is just a named collection of packs to allow for
-     * different pack collections to be selected, for example: minimal,
-     * default, all.
+     * installation group is just a named collection of packs to allow for different
+     * pack collections to be selected, for example: minimal, default, all.
      */
     private final Set<String> installGroups = new HashSet<String>();
 
     /**
      * All packs in the same excludeGroup are mutually exclusive. The excludeGroup
-     * is a string and serves are key identifying each group of mutually
-     * exclusive packs.
+     * is a string and serves are key identifying each group of mutually exclusive
+     * packs.
      */
     private String excludeGroup = "";
 
     /**
-     * The group the pack is associated with. The pack group identifies
-     * packs with common functionality to allow for grouping of packs in a
-     * tree in the TargetPanel for example.
+     * The group the pack is associated with. The pack group identifies packs with
+     * common functionality to allow for grouping of packs in a tree in the
+     * TargetPanel for example.
      */
     private String group;
 
@@ -84,7 +85,8 @@ public class Pack implements Serializable
     private final String description;
 
     /**
-     * The target operating system of this pack. If {@code null}, indicates the pack applies to all OSes.
+     * The target operating system of this pack. If {@code null}, indicates the pack
+     * applies to all OSes.
      */
     private List<OsModel> osConstraints;
 
@@ -119,7 +121,8 @@ public class Pack implements Serializable
     private final boolean required;
 
     /**
-     * The size of the pack. This may include reserved space, independent of the size of the files.
+     * The size of the pack. This may include reserved space, independent of the
+     * size of the files.
      */
     private long size;
 
@@ -178,25 +181,38 @@ public class Pack implements Serializable
      */
     private final static DecimalFormat formatter = new DecimalFormat("#,###.##");
 
-
     /**
      * The constructor.
      *
-     * @param name          the pack name. Uniquely identifies the pack
-     * @param langPackId    the id of the pack used for I18N. May be {@code null}.
-     * @param description   the pack description. May be {@code null}
-     * @param osConstraints the OS constraint. If {@code null} indicates the pack applies to all OSes
-     * @param dependencies  dependencies of this pack. May be {@code null}
-     * @param required      determines if the pack is required or not
-     * @param preselected   if {@code true} the pack will be selected automatically for installation
-     * @param loose         if {@code true} files of this pack are stored outside the installation jar file
-     * @param excludeGroup  associated exclude group. May be {@code null}
-     * @param uninstall     if {@code true}, the pack must be uninstalled
-     * @param size          the pack size
+     * @param name
+     *            the pack name. Uniquely identifies the pack
+     * @param langPackId
+     *            the id of the pack used for I18N. May be {@code null}.
+     * @param description
+     *            the pack description. May be {@code null}
+     * @param osConstraints
+     *            the OS constraint. If {@code null} indicates the pack applies to
+     *            all OSes
+     * @param dependencies
+     *            dependencies of this pack. May be {@code null}
+     * @param required
+     *            determines if the pack is required or not
+     * @param preselected
+     *            if {@code true} the pack will be selected automatically for
+     *            installation
+     * @param loose
+     *            if {@code true} files of this pack are stored outside the
+     *            installation jar file
+     * @param excludeGroup
+     *            associated exclude group. May be {@code null}
+     * @param uninstall
+     *            if {@code true}, the pack must be uninstalled
+     * @param size
+     *            the pack size
      */
     public Pack(String name, String langPackId, String description, List<OsModel> osConstraints,
-                List<String> dependencies, boolean required, boolean preselected, boolean loose, String excludeGroup,
-                boolean uninstall, long size)
+            List<String> dependencies, boolean required, boolean preselected, boolean loose,
+            String excludeGroup, boolean uninstall, long size)
     {
         this.name = name;
         this.langPackId = langPackId;
@@ -226,7 +242,8 @@ public class Pack implements Serializable
     /**
      * Sets the language pack identifier, used for internationalisation.
      *
-     * @param langPackId the language pack identifier. May be {@code null}
+     * @param langPackId
+     *            the language pack identifier. May be {@code null}
      */
     public void setLangPackId(String langPackId)
     {
@@ -256,7 +273,9 @@ public class Pack implements Serializable
     /**
      * Sets the target platforms for the pack.
      *
-     * @param platforms the target platforms. If {@code null} or empty, indicates the pack applies to all platforms
+     * @param platforms
+     *            the target platforms. If {@code null} or empty, indicates the pack
+     *            applies to all platforms
      */
     public void setOsConstraints(List<OsModel> platforms)
     {
@@ -266,7 +285,8 @@ public class Pack implements Serializable
     /**
      * Returns the target platforms for the pack.
      *
-     * @return the target platforms. If {@code null} or empty, indicates the pack applies to all platforms
+     * @return the target platforms. If {@code null} or empty, indicates the pack
+     *         applies to all platforms
      */
     public List<OsModel> getOsConstraints()
     {
@@ -276,7 +296,8 @@ public class Pack implements Serializable
     /**
      * Sets the names of packs that this pack is dependent on.
      *
-     * @param dependencies a list of pack names. May be {@code null}
+     * @param dependencies
+     *            a list of pack names. May be {@code null}
      */
     public void setDependencies(List<String> dependencies)
     {
@@ -286,7 +307,8 @@ public class Pack implements Serializable
     /**
      * Returns the pack's dependencies.
      *
-     * @return a list of pack names that the pack is dependent on. May be {@code null}
+     * @return a list of pack names that the pack is dependent on. May be
+     *         {@code null}
      */
     public List<String> getDependencies()
     {
@@ -301,7 +323,8 @@ public class Pack implements Serializable
     /**
      * Adds a dependency on another pack.
      *
-     * @param name the name of the pack this pack is dependent on
+     * @param name
+     *            the name of the pack this pack is dependent on
      */
     public void addDependency(String name)
     {
@@ -315,7 +338,8 @@ public class Pack implements Serializable
     /**
      * Sets the names of the packs that require this pack.
      *
-     * @param dependants the dependants. May be {@code null}
+     * @param dependants
+     *            the dependants. May be {@code null}
      */
     public void setDependants(List<String> dependants)
     {
@@ -335,7 +359,8 @@ public class Pack implements Serializable
     /**
      * Adds the name of a pack that is dependent on this pack.
      *
-     * @param name the dependant pack name
+     * @param name
+     *            the dependant pack name
      */
     public void addDependant(String name)
     {
@@ -345,7 +370,6 @@ public class Pack implements Serializable
         }
         dependants.add(name);
     }
-
 
     /**
      * Determined if the pack is required.
@@ -360,7 +384,8 @@ public class Pack implements Serializable
     /**
      * Determines if the pack should be preselected for installation.
      *
-     * @param preselected if {@code true}, the pack should be preselected
+     * @param preselected
+     *            if {@code true}, the pack should be preselected
      */
     public void setPreselected(boolean preselected)
     {
@@ -380,7 +405,9 @@ public class Pack implements Serializable
     /**
      * Determines if pack files are stored outside of the installation packages.
      *
-     * @param loose if {@code true}, pack files are stored outside of the installation packages
+     * @param loose
+     *            if {@code true}, pack files are stored outside of the installation
+     *            packages
      */
     public void setLoose(boolean loose)
     {
@@ -390,7 +417,8 @@ public class Pack implements Serializable
     /**
      * Determines if pack files are stored outside of the installation packages.
      *
-     * @return {@code true} if pack files are stored outside of the installation packages
+     * @return {@code true} if pack files are stored outside of the installation
+     *         packages
      */
     public boolean isLoose()
     {
@@ -398,9 +426,11 @@ public class Pack implements Serializable
     }
 
     /**
-     * Sets the exclude group for the pack. All packs in the same exclude group are mutually exclusive.
+     * Sets the exclude group for the pack. All packs in the same exclude group are
+     * mutually exclusive.
      *
-     * @param group the exclude group. May be {@code null}
+     * @param group
+     *            the exclude group. May be {@code null}
      */
     public void setExcludeGroup(String group)
     {
@@ -420,8 +450,9 @@ public class Pack implements Serializable
     /**
      * Determines if the pack files are deleted at uninstallation.
      *
-     * @return {@code true} if all files of the pack will be deleted during uninstallation;
-     *         {@code false} if they should be retained (subject to the uninstaller force delete option)
+     * @return {@code true} if all files of the pack will be deleted during
+     *         uninstallation; {@code false} if they should be retained (subject to
+     *         the uninstaller force delete option)
      */
     public boolean isUninstall()
     {
@@ -431,8 +462,8 @@ public class Pack implements Serializable
     /**
      * Returns the installation groups that this pack belongs to.
      * <p/>
-     * An installation group is a logical collection of packs. It enables different pack collections to be selected
-     * e.g. minimal, default, or all.
+     * An installation group is a logical collection of packs. It enables different
+     * pack collections to be selected e.g. minimal, default, or all.
      *
      * @return the installation groups
      */
@@ -442,9 +473,11 @@ public class Pack implements Serializable
     }
 
     /**
-     * Sets the pack group. This enables grouping of packs with related functionality.
+     * Sets the pack group. This enables grouping of packs with related
+     * functionality.
      *
-     * @param group the group. May be {@code null}
+     * @param group
+     *            the group. May be {@code null}
      */
     public void setGroup(String group)
     {
@@ -464,7 +497,8 @@ public class Pack implements Serializable
     /**
      * Sets the size of the pack.
      *
-     * @param size the size of the pack, in bytes
+     * @param size
+     *            the size of the pack, in bytes
      */
     public void setSize(long size)
     {
@@ -484,7 +518,8 @@ public class Pack implements Serializable
     /**
      * Sets the size of the pack.
      *
-     * @param size the size of the pack, in bytes
+     * @param size
+     *            the size of the pack, in bytes
      */
     public void setFileSize(long size)
     {
@@ -494,7 +529,8 @@ public class Pack implements Serializable
     /**
      * Adds to the size of the pack.
      *
-     * @param add the no. of bytes to add
+     * @param add
+     *            the no. of bytes to add
      */
     public void addFileSize(long add)
     {
@@ -514,7 +550,8 @@ public class Pack implements Serializable
     /**
      * Sets the parent pack name.
      *
-     * @param parent the parent pack name. May be {@code null}
+     * @param parent
+     *            the parent pack name. May be {@code null}
      */
     public void setParent(String parent)
     {
@@ -570,7 +607,8 @@ public class Pack implements Serializable
     /**
      * Sets the pack image resource identifier.
      *
-     * @param imageId the image resource identifier. May be {@code null}
+     * @param imageId
+     *            the image resource identifier. May be {@code null}
      */
     public void setImageId(String imageId)
     {
@@ -591,7 +629,9 @@ public class Pack implements Serializable
     /**
      * Sets a condition that must be fulfilled for the pack to be installed.
      *
-     * @param condition the condition to set. If {@code null}, indicates that installation is unconditional
+     * @param condition
+     *            the condition to set. If {@code null}, indicates that installation
+     *            is unconditional
      */
     public void setCondition(String condition)
     {
@@ -601,7 +641,8 @@ public class Pack implements Serializable
     /**
      * Returns the condition that must be fulfilled for the pack to be installed.
      *
-     * @return the condition. If {@code null}, indicates that installation is unconditional
+     * @return the condition. If {@code null}, indicates that installation is
+     *         unconditional
      */
     public String getCondition()
     {
@@ -611,7 +652,8 @@ public class Pack implements Serializable
     /**
      * Determines if the pack has a condition for installation.
      *
-     * @return {@code true} if the pack has a condition, {@code false} if installation is unconditional
+     * @return {@code true} if the pack has a condition, {@code false} if
+     *         installation is unconditional
      */
     public boolean hasCondition()
     {
@@ -621,7 +663,8 @@ public class Pack implements Serializable
     /**
      * Adds a pack validator.
      *
-     * @param validatorClassName the pack validator class name
+     * @param validatorClassName
+     *            the pack validator class name
      */
     public void addValidator(String validatorClassName)
     {
@@ -641,7 +684,9 @@ public class Pack implements Serializable
     /**
      * Determines if the pack should be hidden.
      *
-     * @param hidden {@code true} if the pack should be hidden, {@code false} if it should be displayed
+     * @param hidden
+     *            {@code true} if the pack should be hidden, {@code false} if it
+     *            should be displayed
      */
     public void setHidden(boolean hidden)
     {
@@ -651,7 +696,8 @@ public class Pack implements Serializable
     /**
      * Determines if the pack should be hidden.
      *
-     * @return {@code true} if the pack should be hidden, {@code false} if it should be displayed
+     * @return {@code true} if the pack should be hidden, {@code false} if it should
+     *         be displayed
      */
     public boolean isHidden()
     {
@@ -671,7 +717,8 @@ public class Pack implements Serializable
     /**
      * Convert bytes into appropriate measurements.
      *
-     * @param bytes the bytes
+     * @param bytes
+     *            the bytes
      * @return the string representation
      */
     public static String toByteUnitsString(long bytes)
@@ -698,14 +745,17 @@ public class Pack implements Serializable
     }
 
     /**
-     * Determines what packs to be selected or deselected when this pack is selected.
-     * Packs to be deselected should have their named pre-appended with a "!".
-     * Packs to be selected should be specified by name.
-     * Additionally a pack will only be selected or deselected if the condition is true.
-     * The condition is based on weather some pack is selected or deselected.
+     * Determines what packs to be selected or deselected when this pack is
+     * selected. Packs to be deselected should have their named pre-appended with a
+     * "!". Packs to be selected should be specified by name. Additionally a pack
+     * will only be selected or deselected if the condition is true. The condition
+     * is based on weather some pack is selected or deselected.
      *
-     * @param names names of a pack to be selected/deselected separated by a comma
-     * @param condition select/deselect a pack when this pack is selected and condition is satisfied or null
+     * @param names
+     *            names of a pack to be selected/deselected separated by a comma
+     * @param condition
+     *            select/deselect a pack when this pack is selected and condition is
+     *            satisfied or null
      */
     public void setOnSelect(String names, String condition)
     {
@@ -719,15 +769,19 @@ public class Pack implements Serializable
     {
         return this.onSelectPacks;
     }
+
     /**
-     * Determines what packs to be selected or deselected when this pack is deselected.
-     * Packs to be deselected should have their named pre-appended with a "!".
-     * Packs to be selected should be specified by name.
-     * Additionally a pack will only be selected or deselected if the condition is true.
-     * The condition is based on weather some pack is selected or deselected.
+     * Determines what packs to be selected or deselected when this pack is
+     * deselected. Packs to be deselected should have their named pre-appended with
+     * a "!". Packs to be selected should be specified by name. Additionally a pack
+     * will only be selected or deselected if the condition is true. The condition
+     * is based on weather some pack is selected or deselected.
      *
-     * @param names name of a pack to be selected/deselected separated by a comma
-     * @param condition select/deselect a pack when this pack is deselected and condition is satisfied or null
+     * @param names
+     *            name of a pack to be selected/deselected separated by a comma
+     * @param condition
+     *            select/deselect a pack when this pack is deselected and condition
+     *            is satisfied or null
      */
     public void setOnDeselect(String names, String condition)
     {
@@ -746,5 +800,11 @@ public class Pack implements Serializable
     public boolean equals(Object obj)
     {
         return super.equals(obj) || obj instanceof Pack && name.equals(((Pack) obj).getName());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hashCode(name);
     }
 }

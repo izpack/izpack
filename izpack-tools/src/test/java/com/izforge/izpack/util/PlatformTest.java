@@ -25,7 +25,6 @@ import static org.assertj.core.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests the {@link Platform} class.
  *
@@ -43,25 +42,31 @@ public class PlatformTest extends AbstractPlatformTest
         checkPlatform(new Platform(Name.UNIX), Name.UNIX, null, null, Arch.UNKNOWN);
 
         checkPlatform(new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_7_VERSION),
-                      Name.WINDOWS, null, OsVersionConstants.WINDOWS_7_VERSION, Arch.UNKNOWN);
+                Name.WINDOWS, null, OsVersionConstants.WINDOWS_7_VERSION, Arch.UNKNOWN);
 
-        checkPlatform(new Platform(Name.WINDOWS, "windows_vista", OsVersionConstants.WINDOWS_VISTA_VERSION),
-                      Name.WINDOWS, "windows_vista", OsVersionConstants.WINDOWS_VISTA_VERSION, Arch.UNKNOWN);
+        checkPlatform(
+                new Platform(Name.WINDOWS, "windows_vista",
+                        OsVersionConstants.WINDOWS_VISTA_VERSION),
+                Name.WINDOWS, "windows_vista", OsVersionConstants.WINDOWS_VISTA_VERSION,
+                Arch.UNKNOWN);
 
         checkPlatform(new Platform(Name.WINDOWS, Arch.X86), Name.WINDOWS, null, null, Arch.X86);
 
-        checkPlatform(new Platform(Name.SUNOS, "sunos_sparc", Arch.SPARC), Name.SUNOS, "sunos_sparc", null, Arch.SPARC);
+        checkPlatform(new Platform(Name.SUNOS, "sunos_sparc", Arch.SPARC), Name.SUNOS,
+                "sunos_sparc", null, Arch.SPARC);
 
-        checkPlatform(new Platform(Name.MAC_OSX, "mac_osx", OsVersionConstants.MACOSX, Arch.X64), Name.MAC_OSX,
-                      "mac_osx", OsVersionConstants.MACOSX, Arch.X64);
+        checkPlatform(new Platform(Name.MAC_OSX, "mac_osx", OsVersionConstants.MACOSX, Arch.X64),
+                Name.MAC_OSX, "mac_osx", OsVersionConstants.MACOSX, Arch.X64);
 
-        Platform win7 = new Platform(Name.WINDOWS, "windows_7", OsVersionConstants.WINDOWS_7_VERSION);
-        checkPlatform(new Platform(win7, Arch.X64), Name.WINDOWS, "windows_7", OsVersionConstants.WINDOWS_7_VERSION,
-                      Arch.X64);
+        Platform win7 = new Platform(Name.WINDOWS, "windows_7",
+                OsVersionConstants.WINDOWS_7_VERSION);
+        checkPlatform(new Platform(win7, Arch.X64), Name.WINDOWS, "windows_7",
+                OsVersionConstants.WINDOWS_7_VERSION, Arch.X64);
 
-        Platform win8 = new Platform(Name.WINDOWS, "windows_8", OsVersionConstants.WINDOWS_8_VERSION);
-        checkPlatform(new Platform(win8, Arch.X64), Name.WINDOWS, "windows_8", OsVersionConstants.WINDOWS_8_VERSION,
-                      Arch.X64);
+        Platform win8 = new Platform(Name.WINDOWS, "windows_8",
+                OsVersionConstants.WINDOWS_8_VERSION);
+        checkPlatform(new Platform(win8, Arch.X64), Name.WINDOWS, "windows_8",
+                OsVersionConstants.WINDOWS_8_VERSION, Arch.X64);
     }
 
     /**
@@ -79,8 +84,8 @@ public class PlatformTest extends AbstractPlatformTest
         assertThat(p2.isA(Name.UNIX)).isTrue();
         assertThat(p2.isA(Name.DEBIAN_LINUX)).isFalse();
 
-        Name[] linuxes = {Name.DEBIAN_LINUX, Name.FEDORA_LINUX, Name.MANDRAKE_LINUX, Name.MANDRIVA_LINUX,
-                Name.RED_HAT_LINUX, Name.SUSE_LINUX, Name.UBUNTU_LINUX};
+        Name[] linuxes = { Name.DEBIAN_LINUX, Name.FEDORA_LINUX, Name.MANDRAKE_LINUX,
+                Name.MANDRIVA_LINUX, Name.RED_HAT_LINUX, Name.SUSE_LINUX, Name.UBUNTU_LINUX};
         for (Name name : linuxes)
         {
             Platform linux = new Platform(name);
@@ -90,7 +95,7 @@ public class PlatformTest extends AbstractPlatformTest
             assertThat(linux.isA(Name.WINDOWS)).isFalse();
         }
 
-        Name[] unixes = {Name.AIX, Name.LINUX, Name.FREEBSD, Name.HP_UX, Name.MAC_OSX, Name.SUNOS};
+        Name[] unixes = { Name.AIX, Name.LINUX, Name.FREEBSD, Name.HP_UX, Name.MAC_OSX, Name.SUNOS};
         for (Name name : unixes)
         {
             Platform unix = new Platform(name);
@@ -122,8 +127,10 @@ public class PlatformTest extends AbstractPlatformTest
         Platform windows7 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_7_VERSION);
         Platform windows8 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_8_VERSION);
         Platform windows64 = new Platform(Name.WINDOWS, Arch.X64);
-        Platform vista32 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_VISTA_VERSION, Arch.X86);
-        Platform vista64 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_VISTA_VERSION, Arch.X64);
+        Platform vista32 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_VISTA_VERSION,
+                Arch.X86);
+        Platform vista64 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_VISTA_VERSION,
+                Arch.X64);
 
         assertThat(debian.isA(debian)).isTrue();
         assertThat(debian.isA(linux)).isTrue();
@@ -173,16 +180,17 @@ public class PlatformTest extends AbstractPlatformTest
         Platform platform2 = new Platform(Name.WINDOWS);
         Platform platform3 = new Platform(Name.WINDOWS, OsVersionConstants.WINDOWS_7_VERSION);
         Platform platform4 = new Platform(Name.WINDOWS, Arch.X86);
-        Platform platform5 = new Platform(Name.WINDOWS, null, OsVersionConstants.WINDOWS_2003_VERSION, Arch.X86);
-        Platform platform6 = new Platform(Name.WINDOWS, "win2003", OsVersionConstants.WINDOWS_2003_VERSION, Arch.X86);
+        Platform platform5 = new Platform(Name.WINDOWS, null,
+                OsVersionConstants.WINDOWS_2003_VERSION, Arch.X86);
+        Platform platform6 = new Platform(Name.WINDOWS, "win2003",
+                OsVersionConstants.WINDOWS_2003_VERSION, Arch.X86);
 
-        assertThat(platform1).isEqualTo(platform1);
         assertThat(platform1).isEqualTo(platform2);
         assertThat(platform1).isNotEqualTo(platform3);
         assertThat(platform1).isNotEqualTo(platform4);
         assertThat(platform1).isNotEqualTo(platform5);
         assertThat(platform4).isNotEqualTo(platform5);
-        assertThat(platform5).isEqualTo(platform6);  // symbolic name not used in equality
+        assertThat(platform5).isEqualTo(platform6); // symbolic name not used in equality
     }
 
     /**
@@ -192,7 +200,8 @@ public class PlatformTest extends AbstractPlatformTest
     public void testSymbolicName()
     {
         String validName = "Windows_7";
-        Platform platform1 = new Platform(Name.WINDOWS, validName, OsVersionConstants.WINDOWS_7_VERSION);
+        Platform platform1 = new Platform(Name.WINDOWS, validName,
+                OsVersionConstants.WINDOWS_7_VERSION);
         assertThat(platform1.getSymbolicName()).isEqualTo(validName);
 
         String invalidSpaces = "Windows 7";
@@ -224,12 +233,14 @@ public class PlatformTest extends AbstractPlatformTest
     @Test
     public void testToString()
     {
-        Platform platform1 = new Platform(Name.WINDOWS, "windows_7", OsVersionConstants.WINDOWS_7_VERSION, Arch.X64,
-                                          "1.6");
-        assertThat(platform1).hasToString("windows,version=6.1,arch=x64,symbolicName=windows_7,javaVersion=1.6");
+        Platform platform1 = new Platform(Name.WINDOWS, "windows_7",
+                OsVersionConstants.WINDOWS_7_VERSION, Arch.X64, "1.6");
+        assertThat(platform1)
+                .hasToString("windows,version=6.1,arch=x64,symbolicName=windows_7,javaVersion=1.6");
 
         Platform platform2 = new Platform(Name.SUNOS);
-        assertThat(platform2).hasToString("sunos,version=null,arch=unknown,symbolicName=null,javaVersion=null");
+        assertThat(platform2)
+                .hasToString("sunos,version=null,arch=unknown,symbolicName=null,javaVersion=null");
     }
 
     /**
@@ -239,10 +250,10 @@ public class PlatformTest extends AbstractPlatformTest
     public void testIsValidDirectoryPath()
     {
         Platform platform1 = new Platform(Name.WINDOWS);
-    //ensure case insensitivity
+        // ensure case insensitivity
         assertThat(platform1.isValidDirectoryPath("C:\\test")).isTrue();
         assertThat(platform1.isValidDirectoryPath("c:\\test")).isTrue();
-    //screen invalid characters
+        // screen invalid characters
         assertThat(platform1.isValidDirectoryPath("C:\\*<>")).isFalse();
     }
 }

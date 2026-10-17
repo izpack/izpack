@@ -1,5 +1,5 @@
 /*
- * IzPack - Copyright 2001-2012 Julien Ponge, All Rights Reserved.
+ * IzPack - Copyright 2001-2026 Julien Ponge, All Rights Reserved.
  *
  * http://izpack.org/
  * http://izpack.codehaus.org/
@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.izforge.izpack.core.rules;
 
 import static com.izforge.izpack.core.rules.logic.NotCondition.createFromCondition;
@@ -54,6 +53,7 @@ import org.junit.jupiter.api.Test;
 
 public class RulesEngineImplTest
 {
+
     private RulesEngine engine = null;
 
     /**
@@ -129,9 +129,10 @@ public class RulesEngineImplTest
     /**
      * All install condition identifiers.
      */
-    private static final String INSTALL_CONDITIONS[] = {AIX_INSTALL, WINDOWS_INSTALL, WINDOWS_XP_INSTALL,
-            WINDOWS_2003_INSTALL, WINDOWS_VISTA_INSTALL, WINDOWS_7_INSTALL, WINDOWS_8_INSTALL, WINDOWS_10_INSTALL,
-            LINUX_INSTALL, SOLARIS_INSTALL, SOLARIS_X86_INSTALL, SOLARIS_SPARC_INSTALL, MAC_INSTALL, MAC_OSX_INSTALL};
+    private static final String INSTALL_CONDITIONS[] = { AIX_INSTALL, WINDOWS_INSTALL,
+            WINDOWS_XP_INSTALL, WINDOWS_2003_INSTALL, WINDOWS_VISTA_INSTALL, WINDOWS_7_INSTALL,
+            WINDOWS_8_INSTALL, WINDOWS_10_INSTALL, LINUX_INSTALL, SOLARIS_INSTALL,
+            SOLARIS_X86_INSTALL, SOLARIS_SPARC_INSTALL, MAC_INSTALL, MAC_OSX_INSTALL};
 
     @BeforeEach
     public void setUp() throws Exception
@@ -164,8 +165,15 @@ public class RulesEngineImplTest
         assertThat(condition.isTrue()).isEqualTo(!true);
     }
 
+    /*
+     * The boolean literal expressions in the tests below are the expected values
+     * for the rules engine expressions under test, so checks that flag
+     * syntactically odd but intentional literals (e.g. identical operands in
+     * "false && false") are suppressed.
+     */
+
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings({ "PointlessBooleanExpression", "IdentityBinaryExpression", "unused"})
     public void testSimpleAnd() throws Exception
     {
         Condition condition;
@@ -184,7 +192,7 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings({ "PointlessBooleanExpression", "IdentityBinaryExpression", "unused"})
     public void testSimpleOr() throws Exception
     {
         Condition condition;
@@ -203,7 +211,7 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings("PointlessBooleanExpression")
+    @SuppressWarnings({ "PointlessBooleanExpression", "IdentityBinaryExpression"})
     public void testSimpleXor() throws Exception
     {
         Condition condition;
@@ -220,7 +228,6 @@ public class RulesEngineImplTest
         condition = engine.getCondition("@true ^ true");
         assertThat(condition.isTrue()).isEqualTo(true ^ true);
     }
-
 
     @Test
     @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
@@ -249,7 +256,7 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings({ "PointlessBooleanExpression", "IdentityBinaryExpression", "unused"})
     public void testComplexAnd() throws Exception
     {
         Condition condition;
@@ -311,7 +318,7 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings({ "PointlessBooleanExpression", "IdentityBinaryExpression", "unused"})
     public void testComplexOr() throws Exception
     {
         Condition condition;
@@ -372,7 +379,7 @@ public class RulesEngineImplTest
     }
 
     @Test
-    @SuppressWarnings({ "PointlessBooleanExpression", "unused"})
+    @SuppressWarnings({ "PointlessBooleanExpression", "IdentityBinaryExpression", "unused"})
     public void testComplexXor() throws Exception
     {
         Condition condition;
@@ -487,12 +494,14 @@ public class RulesEngineImplTest
     }
 
     /**
-     * Verifies that conditions read from a <tt>conditions.xml</tt> have the expected type.
+     * Verifies that conditions read from a <tt>conditions.xml</tt> have the
+     * expected type.
      */
     @Test
     public void testReadConditionTypes()
     {
-        RulesEngine rules = createRulesEngine(new AutomatedInstallData(new DefaultVariables(), Platforms.UNIX));
+        RulesEngine rules = createRulesEngine(
+                new AutomatedInstallData(new DefaultVariables(), Platforms.UNIX));
         IXMLParser parser = new XMLParser();
         IXMLElement conditions = parser.parse(getClass().getResourceAsStream("conditions.xml"));
         rules.analyzeXml(conditions);
@@ -502,9 +511,13 @@ public class RulesEngineImplTest
         assertThat(rules.getCondition("or1") instanceof OrCondition).isTrue();
         assertThat(rules.getCondition("xor1") instanceof XorCondition).isTrue();
         assertThat(rules.getCondition("variable1") instanceof VariableCondition).isTrue();
-        assertThat(rules.getCondition("comparenumerics1") instanceof CompareNumericsCondition).isTrue();
-        assertThat(rules.getCondition("compareversions1") instanceof CompareVersionsCondition).isTrue();
-        assertThat(rules.getCondition("compareversionsmajor1") instanceof CompareVersionsMajorCondition).isTrue();
+        assertThat(rules.getCondition("comparenumerics1") instanceof CompareNumericsCondition)
+                .isTrue();
+        assertThat(rules.getCondition("compareversions1") instanceof CompareVersionsCondition)
+                .isTrue();
+        assertThat(rules
+                .getCondition("compareversionsmajor1") instanceof CompareVersionsMajorCondition)
+                .isTrue();
         assertThat(rules.getCondition("empty1") instanceof EmptyCondition).isTrue();
         assertThat(rules.getCondition("exists1") instanceof ExistsCondition).isTrue();
         assertThat(rules.getCondition("java1") instanceof JavaCondition).isTrue();
@@ -515,35 +528,44 @@ public class RulesEngineImplTest
     }
 
     /**
-     * Verifies that exception is thrown when reading a poorly defined not condition from <tt>poorly_defined_not_condition.xml</tt>.
+     * Verifies that exception is thrown when reading a poorly defined not condition
+     * from <tt>poorly_defined_not_condition.xml</tt>.
      */
     @Test
     public void testPoorlyDefinedNotCondition()
     {
-        RulesEngine rules = createRulesEngine(new AutomatedInstallData(new DefaultVariables(), Platforms.UNIX));
+        RulesEngine rules = createRulesEngine(
+                new AutomatedInstallData(new DefaultVariables(), Platforms.UNIX));
         IXMLParser parser = new XMLParser();
-        IXMLElement conditions = parser.parse(getClass().getResourceAsStream("poorly_defined_not_condition.xml"));
+        IXMLElement conditions = parser
+                .parse(getClass().getResourceAsStream("poorly_defined_not_condition.xml"));
         Throwable failure = assertThrows(Throwable.class, () -> {
             rules.analyzeXml(conditions);
             rules.getCondition("poorlydefinednot");
         });
-        assertThat(failure.getMessage().contains("Missing attribute \"refid\" in condition")).isTrue();
+        assertThat(failure.getMessage().contains("Missing attribute \"refid\" in condition"))
+                .isTrue();
     }
 
     /**
-     * Verifies that exception is thrown when reading a poorly defined not condition from <tt>poorly_defined_and_condition.xml</tt>.
+     * Verifies that exception is thrown when reading a poorly defined not condition
+     * from <tt>poorly_defined_and_condition.xml</tt>.
      */
     @Test
     public void testPoorlyDefinedAndConditions()
     {
-        RulesEngine rules = createRulesEngine(new AutomatedInstallData(new DefaultVariables(), Platforms.UNIX));
+        RulesEngine rules = createRulesEngine(
+                new AutomatedInstallData(new DefaultVariables(), Platforms.UNIX));
         IXMLParser parser = new XMLParser();
-        IXMLElement conditions = parser.parse(getClass().getResourceAsStream("poorly_defined_and_condition.xml"));
+        IXMLElement conditions = parser
+                .parse(getClass().getResourceAsStream("poorly_defined_and_condition.xml"));
         Throwable failure = assertThrows(Throwable.class, () -> {
             rules.analyzeXml(conditions);
             rules.getCondition("poorlydefinedand");
         });
-        assertThat(failure.getMessage().contains("Incorrect element specified in condition \"poorlydefinedand\"")).isTrue();
+        assertThat(failure.getMessage()
+                .contains("Incorrect element specified in condition \"poorlydefinedand\""))
+                .isTrue();
     }
 
     /**
@@ -590,13 +612,15 @@ public class RulesEngineImplTest
      * <p/>
      * Any serialized built-in conditions should be ignored on deserialization.
      *
-     * @throws Exception for any error
+     * @throws Exception
+     *             for any error
      */
     @Test
     public void testSerialization() throws Exception
     {
         // create rules for Windows platform
-        InstallData installData1 = new AutomatedInstallData(new DefaultVariables(), Platforms.WINDOWS);
+        InstallData installData1 = new AutomatedInstallData(new DefaultVariables(),
+                Platforms.WINDOWS);
         RulesEngine rules1 = createRulesEngine(installData1);
         IXMLParser parser = new XMLParser();
 
@@ -610,11 +634,13 @@ public class RulesEngineImplTest
         assertThat(rules1.isConditionTrue("izpack.windowsinstall")).isTrue();
         assertThat(rules1.isConditionTrue("izpack.macinstall.osx")).isFalse();
 
-        // serialize the conditions. This includes built-in conditions which should be excluded when read back in.
+        // serialize the conditions. This includes built-in conditions which should be
+        // excluded when read back in.
         Map<String, Condition> read = serializeConditions(rules1);
 
         // create rules for OSX platform, and populate with the serialized conditions
-        InstallData installData2 = new AutomatedInstallData(new DefaultVariables(), Platforms.MAC_OSX);
+        InstallData installData2 = new AutomatedInstallData(new DefaultVariables(),
+                Platforms.MAC_OSX);
         RulesEngine rules2 = createRulesEngine(installData2);
         rules2.readConditionMap(read);
 
@@ -625,22 +651,25 @@ public class RulesEngineImplTest
     }
 
     /**
-     * Verifies that when conditions are deserialized, any built-in conditions are replaced with those held by the
-     * rules engine.
+     * Verifies that when conditions are deserialized, any built-in conditions are
+     * replaced with those held by the rules engine.
      *
-     * @throws Exception for any error
+     * @throws Exception
+     *             for any error
      */
     @Test
     @SuppressWarnings("unchecked")
     public void testSerializeBuiltinConditions() throws Exception
     {
         // create rules for Windows platform
-        InstallData installData1 = new AutomatedInstallData(new DefaultVariables(), Platforms.WINDOWS_XP);
+        InstallData installData1 = new AutomatedInstallData(new DefaultVariables(),
+                Platforms.WINDOWS_XP);
         RulesEngine rules1 = createRulesEngine(installData1);
         IXMLParser parser = new XMLParser();
 
         // load the conditions
-        IXMLElement conditions = parser.parse(getClass().getResourceAsStream("builtin_conditions.xml"));
+        IXMLElement conditions = parser
+                .parse(getClass().getResourceAsStream("builtin_conditions.xml"));
         rules1.analyzeXml(conditions);
         rules1.resolveConditions();
 
@@ -649,11 +678,14 @@ public class RulesEngineImplTest
         assertThat(rules1.isConditionTrue("izpack.windowsinstall.nt6")).isFalse();
         assertThat(rules1.isConditionTrue("izpack.windowsinstall.nt5OrHigher")).isTrue();
 
-        // serialize the conditions. This includes built-in conditions which should be excluded when read back in.
+        // serialize the conditions. This includes built-in conditions which should be
+        // excluded when read back in.
         Map<String, Condition> read = serializeConditions(rules1);
 
-        // create rules for Windows 7 platform, and populate with the serialized conditions
-        InstallData installData2 = new AutomatedInstallData(new DefaultVariables(), Platforms.WINDOWS_7);
+        // create rules for Windows 7 platform, and populate with the serialized
+        // conditions
+        InstallData installData2 = new AutomatedInstallData(new DefaultVariables(),
+                Platforms.WINDOWS_7);
         RulesEngine rules2 = createRulesEngine(installData2);
         rules2.readConditionMap(read);
 
@@ -666,19 +698,23 @@ public class RulesEngineImplTest
     /**
      * Checks conditions read from the test <em>conditions.xml</em> file.
      *
-     * @param rules       the rules
-     * @param installData the installation data
+     * @param rules
+     *            the rules
+     * @param installData
+     *            the installation data
      */
     private void checkConditions(RulesEngine rules, InstallData installData)
     {
         installData.setVariable("setup.type", "standard");
-        assertThat(rules.isConditionTrue("variable1")).isTrue();    // variable1 = setup.type == standard
-        assertThat(rules.isConditionTrue("variable2")).isFalse();   // variable2 = setup.type == expert
-        assertThat(rules.isConditionTrue("and1")).isFalse();        // and1 = variable1 && variable2
-        assertThat(rules.isConditionTrue("not1")).isFalse();        // not1 = !variable1
-        assertThat(rules.isConditionTrue("or1")).isTrue();          // or1 = variable1 || variable2
-        assertThat(rules.isConditionTrue("xor1")).isTrue();         // xor1 = variable1 ^ variable2
-        assertThat(rules.isConditionTrue("ref1")).isTrue();         // ref1 = variable1
+        assertThat(rules.isConditionTrue("variable1")).isTrue(); // variable1 = setup.type ==
+                                                                 // standard
+        assertThat(rules.isConditionTrue("variable2")).isFalse(); // variable2 = setup.type ==
+                                                                  // expert
+        assertThat(rules.isConditionTrue("and1")).isFalse(); // and1 = variable1 && variable2
+        assertThat(rules.isConditionTrue("not1")).isFalse(); // not1 = !variable1
+        assertThat(rules.isConditionTrue("or1")).isTrue(); // or1 = variable1 || variable2
+        assertThat(rules.isConditionTrue("xor1")).isTrue(); // xor1 = variable1 ^ variable2
+        assertThat(rules.isConditionTrue("ref1")).isTrue(); // ref1 = variable1
 
         installData.setVariable("setup.type", "expert");
         assertThat(rules.isConditionTrue("variable1")).isFalse();
@@ -689,46 +725,59 @@ public class RulesEngineImplTest
         assertThat(rules.isConditionTrue("xor1")).isTrue();
         assertThat(rules.isConditionTrue("ref1")).isFalse();
 
-        assertThat(rules.isConditionTrue("comparenumerics1")).isTrue();  // comparenumerics1 = 1 < 2
-        assertThat(rules.isConditionTrue("compareversions1")).isTrue();  // compareversions1 = 1 < 2
-        assertThat(rules.isConditionTrue("compareversionsmajor1")).isTrue();  // compareversions1 = 1.8 eq 1.8.0_72
+        assertThat(rules.isConditionTrue("comparenumerics1")).isTrue(); // comparenumerics1 = 1 < 2
+        assertThat(rules.isConditionTrue("compareversions1")).isTrue(); // compareversions1 = 1 < 2
+        assertThat(rules.isConditionTrue("compareversionsmajor1")).isTrue(); // compareversions1 =
+                                                                             // 1.8 eq 1.8.0_72
     }
 
     /**
-     * Verifies that the specified conditions evaluate {@code true} for the specified platform.
+     * Verifies that the specified conditions evaluate {@code true} for the
+     * specified platform.
      * <p/>
-     * Platform conditions not specified will be evaluated to ensure they evaluate {@code false}
+     * Platform conditions not specified will be evaluated to ensure they evaluate
+     * {@code false}
      *
-     * @param platform   the 'current' platform
-     * @param conditions the condition identifiers
+     * @param platform
+     *            the 'current' platform
+     * @param conditions
+     *            the condition identifiers
      */
     private void checkPlatformCondition(Platform platform, String... conditions)
     {
         DefaultContainer parent = new DefaultContainer();
-        RulesEngine rules = new RulesEngineImpl(new AutomatedInstallData(new DefaultVariables(), platform),
-                                                new ConditionContainer(parent), platform);
+        RulesEngine rules = new RulesEngineImpl(
+                new AutomatedInstallData(new DefaultVariables(), platform),
+                new ConditionContainer(parent), platform);
         for (String condition : conditions)
         {
-            assertThat(rules.isConditionTrue(condition)).as("Expected " + condition + " to be true").isTrue();
+            assertThat(rules.isConditionTrue(condition)).as("Expected " + condition + " to be true")
+                    .isTrue();
         }
         List<String> falseConditions = new ArrayList<String>(asList(INSTALL_CONDITIONS));
         falseConditions.removeAll(asList(conditions));
         for (String falseCondition : falseConditions)
         {
-            assertThat(rules.isConditionTrue(falseCondition)).as("Expected " + falseCondition + " to be false").isFalse();
+            assertThat(rules.isConditionTrue(falseCondition))
+                    .as("Expected " + falseCondition + " to be false").isFalse();
         }
     }
 
     /**
-     * Helper to serialize and deserialize conditions held by the supplied {@link RulesEngine}.
+     * Helper to serialize and deserialize conditions held by the supplied
+     * {@link RulesEngine}.
      *
-     * @param rules the rules
+     * @param rules
+     *            the rules
      * @return the deserialized conditions
-     * @throws IOException            for any I/O error
-     * @throws ClassNotFoundException if the class of a serialized object cannot be found
+     * @throws IOException
+     *             for any I/O error
+     * @throws ClassNotFoundException
+     *             if the class of a serialized object cannot be found
      */
     @SuppressWarnings("unchecked")
-    private Map<String, Condition> serializeConditions(RulesEngine rules) throws IOException, ClassNotFoundException
+    private Map<String, Condition> serializeConditions(RulesEngine rules)
+            throws IOException, ClassNotFoundException
     {
         Map<String, Condition> map = new HashMap<String, Condition>();
         for (String id : rules.getKnownConditionIds())
@@ -751,17 +800,17 @@ public class RulesEngineImplTest
     /**
      * Creates a new {@link RulesEngine}.
      *
-     * @param installData the installation data
+     * @param installData
+     *            the installation data
      * @return a new rules engine
      */
     private RulesEngine createRulesEngine(InstallData installData)
     {
         DefaultContainer parent = new DefaultContainer();
-        RulesEngine rules = new RulesEngineImpl(installData, new ConditionContainer(parent), installData.getPlatform());
+        RulesEngine rules = new RulesEngineImpl(installData, new ConditionContainer(parent),
+                installData.getPlatform());
         parent.addComponent(RulesEngine.class, rules);
         return rules;
     }
 
 }
-
-

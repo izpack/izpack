@@ -1,3 +1,21 @@
+/*
+ * IzPack - Copyright 2026 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.izforge.izpack.panels.process;
 
 import com.izforge.izpack.api.adaptator.IXMLElement;
@@ -51,12 +69,14 @@ public class ProcessPanelWorker implements Runnable
     private ArrayList<ProcessPanelWorker.ProcessingJob> jobs = new ArrayList<ProcessPanelWorker.ProcessingJob>();
 
     /**
-     * List of process panel jobs that run only in the event of a process panel failure (catch).
+     * List of process panel jobs that run only in the event of a process panel
+     * failure (catch).
      */
     private ArrayList<ProcessPanelWorker.ProcessingJob> catchJobs = new ArrayList<ProcessPanelWorker.ProcessingJob>();
 
     /**
-     * List of process panel jobs that run regardless of previous job failing (finally).
+     * List of process panel jobs that run regardless of previous job failing
+     * (finally).
      */
     private ArrayList<ProcessPanelWorker.ProcessingJob> finalJobs = new ArrayList<ProcessPanelWorker.ProcessingJob>();
 
@@ -69,6 +89,7 @@ public class ProcessPanelWorker implements Runnable
     private final InstallData idata;
 
     private final Map<Boolean, List<ButtonConfig>> buttonConfigs = new HashMap<Boolean, List<ButtonConfig>>();
+
     private final RulesEngine rules;
 
     /**
@@ -86,17 +107,20 @@ public class ProcessPanelWorker implements Runnable
      */
     private static final Logger logger = Logger.getLogger(ProcessPanelWorker.class.getName());
 
-
     /**
      * Constructs a <tt>ProcessPanelWorker</tt>.
      *
-     * @param installData the installation data
-     * @param rules       the rules engine
-     * @param resources   the resources
-     * @param matcher     the platform-model matcher
+     * @param installData
+     *            the installation data
+     * @param rules
+     *            the rules engine
+     * @param resources
+     *            the resources
+     * @param matcher
+     *            the platform-model matcher
      */
     public ProcessPanelWorker(InstallData installData, RulesEngine rules, Resources resources,
-                              PlatformModelMatcher matcher)
+            PlatformModelMatcher matcher)
     {
         this.idata = installData;
         this.rules = rules;
@@ -135,9 +159,7 @@ public class ProcessPanelWorker implements Runnable
         }
 
         if (!spec.hasChildren())
-        {
-            return false;
-        }
+        { return false; }
 
         // Handle logfile
         IXMLElement logFileDirElement = spec.getFirstChildNamed("logfiledir");
@@ -148,9 +170,11 @@ public class ProcessPanelWorker implements Runnable
 
         for (IXMLElement job_el : spec.getChildrenNamed("job"))
         {
-            // normally use condition attribute, but also read conditionid to not break older versions.
-            String conditionid = job_el.hasAttribute("condition") ? job_el.getAttribute(
-                    "condition") : job_el.hasAttribute("conditionid") ? job_el.getAttribute("conditionid") : null;
+            // normally use condition attribute, but also read conditionid to not break
+            // older versions.
+            String conditionid = job_el.hasAttribute("condition") ? job_el.getAttribute("condition")
+                    : job_el.hasAttribute("conditionid") ? job_el.getAttribute("conditionid")
+                            : null;
             if ((conditionid != null) && (conditionid.length() > 0))
             {
                 logger.fine("Checking condition for job: " + conditionid);
@@ -211,7 +235,8 @@ public class ProcessPanelWorker implements Runnable
                         envvars.add(env_val);
                     }
 
-                    ef_list.add(new ProcessPanelWorker.ExecutableFile(ef_name, args, envvars, ef_working_dir, errorHandlingStrategy));
+                    ef_list.add(new ProcessPanelWorker.ExecutableFile(ef_name, args, envvars,
+                            ef_working_dir, errorHandlingStrategy));
                 }
 
                 for (IXMLElement executeClassElement : job_el.getChildrenNamed("executeclass"))
@@ -233,8 +258,10 @@ public class ProcessPanelWorker implements Runnable
                     ef_list.add(new ProcessPanelWorker.ExecutableClass(ef_name, args));
                 }
 
-                Boolean isCatch = job_el.hasAttribute("catch") && Boolean.parseBoolean(job_el.getAttribute("catch"));
-                Boolean isFinal = job_el.hasAttribute("final") && Boolean.parseBoolean(job_el.getAttribute("final"));
+                Boolean isCatch = job_el.hasAttribute("catch")
+                        && Boolean.parseBoolean(job_el.getAttribute("catch"));
+                Boolean isFinal = job_el.hasAttribute("final")
+                        && Boolean.parseBoolean(job_el.getAttribute("final"));
 
                 if (ef_list.isEmpty())
                 {
@@ -242,11 +269,16 @@ public class ProcessPanelWorker implements Runnable
                 }
                 else
                 {
-                    if (isCatch) {
+                    if (isCatch)
+                    {
                         this.catchJobs.add(new ProcessingJob(job_name, ef_list));
-                    } else if (isFinal) {
+                    }
+                    else if (isFinal)
+                    {
                         this.finalJobs.add(new ProcessingJob(job_name, ef_list));
-                    } else {
+                    }
+                    else
+                    {
                         this.jobs.add(new ProcessingJob(job_name, ef_list));
                     }
                 }
@@ -258,22 +290,30 @@ public class ProcessPanelWorker implements Runnable
 
         for (IXMLElement onFailElement : spec.getChildrenNamed("onFail"))
         {
-            String conditionid = onFailElement.hasAttribute("condition") ? onFailElement.getAttribute(
-                    "condition") : onFailElement.hasAttribute("conditionid") ? onFailElement.getAttribute(
-                    "conditionid") : null;
-            boolean unlockPrev = onFailElement.hasAttribute("previous") ? Boolean.parseBoolean(
-                    onFailElement.getAttribute("previous")) : false;
-            boolean unlockNext = onFailElement.hasAttribute("next") ? Boolean.parseBoolean(
-                    onFailElement.getAttribute("next")) : false;
-            buttonConfigs.get(Boolean.FALSE).add(new ButtonConfig(conditionid, unlockPrev, unlockNext));
+            String conditionid = onFailElement.hasAttribute("condition")
+                    ? onFailElement.getAttribute("condition")
+                    : onFailElement.hasAttribute("conditionid")
+                            ? onFailElement.getAttribute("conditionid")
+                            : null;
+            boolean unlockPrev = onFailElement.hasAttribute("previous")
+                    ? Boolean.parseBoolean(onFailElement.getAttribute("previous"))
+                    : false;
+            boolean unlockNext = onFailElement.hasAttribute("next")
+                    ? Boolean.parseBoolean(onFailElement.getAttribute("next"))
+                    : false;
+            buttonConfigs.get(Boolean.FALSE)
+                    .add(new ButtonConfig(conditionid, unlockPrev, unlockNext));
         }
         for (IXMLElement onSuccessElement : spec.getChildrenNamed("onSuccess"))
         {
-            String conditionid = onSuccessElement.hasAttribute("condition") ? onSuccessElement.getAttribute(
-                    "condition") : onSuccessElement.hasAttribute("conditionid") ? onSuccessElement.getAttribute(
-                    "conditionid") : null;
-            boolean unlockPrev = onSuccessElement.hasAttribute("previous") ? Boolean.parseBoolean(
-                    onSuccessElement.getAttribute("previous")) : false;
+            String conditionid = onSuccessElement.hasAttribute("condition")
+                    ? onSuccessElement.getAttribute("condition")
+                    : onSuccessElement.hasAttribute("conditionid")
+                            ? onSuccessElement.getAttribute("conditionid")
+                            : null;
+            boolean unlockPrev = onSuccessElement.hasAttribute("previous")
+                    ? Boolean.parseBoolean(onSuccessElement.getAttribute("previous"))
+                    : false;
             buttonConfigs.get(Boolean.TRUE).add(new ButtonConfig(conditionid, unlockPrev, true));
         }
 
@@ -330,7 +370,7 @@ public class ProcessPanelWorker implements Runnable
             try
             {
                 File tempLogFile = File.createTempFile("Install_" + identifier + "_", ".log",
-                                                       new File(logfiledir));
+                        new File(logfiledir));
                 logfile = new PrintWriter(new FileOutputStream(tempLogFile), true);
             }
             catch (IOException e)
@@ -403,7 +443,9 @@ public class ProcessPanelWorker implements Runnable
 
     /**
      * Runs the specified process panel job.
-     * @param job a ProcessPanelWorker job.
+     * 
+     * @param job
+     *            a ProcessPanelWorker job.
      * @return the job's return value.
      */
     private boolean runJob(ProcessPanelWorker.ProcessingJob job)
@@ -443,8 +485,10 @@ public class ProcessPanelWorker implements Runnable
     {
 
         /**
-         * @param handler   The UI handler for user interaction and to send output to.
-         * @param variables the variables
+         * @param handler
+         *            The UI handler for user interaction and to send output to.
+         * @param variables
+         *            the variables
          * @return true on success, false if processing should stop
          */
         public boolean run(AbstractUIProcessHandler handler, Variables variables);
@@ -469,9 +513,7 @@ public class ProcessPanelWorker implements Runnable
             for (ProcessPanelWorker.Processable processable : this.processables)
             {
                 if (!processable.run(handler, variables))
-                {
-                    return false;
-                }
+                { return false; }
             }
 
             return true;
@@ -483,15 +525,19 @@ public class ProcessPanelWorker implements Runnable
     {
 
         private String filename;
+
         private String workingDir;
+
         private final ErrorHandlingStrategy errorHandlingStrategy;
+
         private List<String> arguments;
 
         private List<String> envvariables;
 
         protected AbstractUIProcessHandler handler;
 
-        public ExecutableFile(String fn, List<String> args, List<String> envvars, String workingDir, ErrorHandlingStrategy errorHandlingStrategy)
+        public ExecutableFile(String fn, List<String> args, List<String> envvars, String workingDir,
+                ErrorHandlingStrategy errorHandlingStrategy)
         {
             this.filename = fn;
             this.arguments = args;
@@ -509,11 +555,16 @@ public class ProcessPanelWorker implements Runnable
 
             try
             {
-                // keep the file name in quotes as per https://bugs.openjdk.java.net/browse/JDK-8136885
+                // keep the file name in quotes as per
+                // https://bugs.openjdk.java.net/browse/JDK-8136885
                 String filename = variables.replace(this.filename);
-                if (System.getProperty("os.name").contains("Windows") && !(filename.startsWith("\"") && filename.endsWith("\""))) {
+                if (System.getProperty("os.name").contains("Windows")
+                        && !(filename.startsWith("\"") && filename.endsWith("\"")))
+                {
                     params.add("\"" + filename + "\"");
-                } else {
+                }
+                else
+                {
                     params.add(filename);
                 }
             }
@@ -576,14 +627,21 @@ public class ProcessPanelWorker implements Runnable
 
                     if (exitStatus != 0)
                     {
-                        if (this.errorHandlingStrategy == ErrorHandlingStrategy.ASK) {
-                            QuestionErrorDisplayer myErrorAlter = new QuestionErrorDisplayer(handler);
+                        if (this.errorHandlingStrategy == ErrorHandlingStrategy.ASK)
+                        {
+                            QuestionErrorDisplayer myErrorAlter = new QuestionErrorDisplayer(
+                                    handler);
                             SwingUtilities.invokeAndWait(myErrorAlter);
                             return myErrorAlter.shouldContinue();
-                        } else if (this.errorHandlingStrategy == ErrorHandlingStrategy.IGNORE) {
+                        }
+                        else if (this.errorHandlingStrategy == ErrorHandlingStrategy.IGNORE)
+                        {
                             return true;
-                        } else {
-                            this.handler.emitError("Process failed", "An error occurred while executing " + this.filename);
+                        }
+                        else
+                        {
+                            this.handler.emitError("Process failed",
+                                    "An error occurred while executing " + this.filename);
                             return false;
                         }
                     }
@@ -610,7 +668,8 @@ public class ProcessPanelWorker implements Runnable
             return true;
         }
 
-        private void stopMonitor(ProcessPanelWorker.ExecutableFile.OutputMonitor monitor, Thread thread)
+        private void stopMonitor(ProcessPanelWorker.ExecutableFile.OutputMonitor monitor,
+                Thread thread)
         {
             // taken from com.izforge.izpack.util.FileExecutor
             monitor.doStop();
@@ -620,13 +679,10 @@ public class ProcessPanelWorker implements Runnable
                 thread.join(softTimeout);
             }
             catch (InterruptedException e)
-            {
-            }
+            {}
 
             if (!thread.isAlive())
-            {
-                return;
-            }
+            { return; }
 
             thread.interrupt();
             long hardTimeout = 500;
@@ -635,8 +691,7 @@ public class ProcessPanelWorker implements Runnable
                 thread.join(hardTimeout);
             }
             catch (InterruptedException e)
-            {
-            }
+            {}
         }
 
         public class OutputMonitor implements Runnable
@@ -649,6 +704,13 @@ public class ProcessPanelWorker implements Runnable
             private BufferedReader reader;
 
             private Boolean stop = false;
+
+            /**
+             * Lock guarding {@link #stop}. A dedicated lock object is used instead of the
+             * boxed {@link Boolean} value so monitor locks can never be shared
+             * unintentionally.
+             */
+            private final Object stopLock = new Object();
 
             public OutputMonitor(AbstractUIProcessHandler handler, InputStream is, boolean stderr)
             {
@@ -674,12 +736,10 @@ public class ProcessPanelWorker implements Runnable
                             logfile.println(line);
                         }
 
-                        synchronized (this.stop)
+                        synchronized (this.stopLock)
                         {
                             if (stop)
-                            {
-                                return;
-                            }
+                            { return; }
                         }
                     }
                 }
@@ -700,7 +760,7 @@ public class ProcessPanelWorker implements Runnable
 
             public void doStop()
             {
-                synchronized (this.stop)
+                synchronized (this.stopLock)
                 {
                     this.stop = true;
                 }
@@ -712,8 +772,8 @@ public class ProcessPanelWorker implements Runnable
 
     /**
      * Tries to create a class that has an empty contstructor and a method
-     * run(AbstractUIProcessHandler, String[]) If found, it calls the method and processes all
-     * returned exceptions
+     * run(AbstractUIProcessHandler, String[]) If found, it calls the method and
+     * processes all returned exceptions
      */
     private static class ExecutableClass implements ProcessPanelWorker.Processable
     {
@@ -751,48 +811,54 @@ public class ProcessPanelWorker implements Runnable
                 Class<?> procClass = loader.loadClass(myClassName);
 
                 Object instance = procClass.newInstance();
-                Method method = procClass.getMethod("run", new Class[]{AbstractUIProcessHandler.class,
-                        String[].class});
+                Method method = procClass.getMethod("run",
+                        new Class[] { AbstractUIProcessHandler.class, String[].class});
 
                 if (method.getReturnType().getName().equals("boolean"))
                 {
-                    result = (Boolean) method.invoke(instance, new Object[]{myHandler, params});
+                    result = (Boolean) method.invoke(instance, new Object[] { myHandler, params});
                 }
                 else
                 {
-                    method.invoke(instance, new Object[]{myHandler, params});
+                    method.invoke(instance, new Object[] { myHandler, params});
                     result = true;
                 }
             }
             catch (SecurityException e)
             {
                 myHandler.emitError("Post Processing Error",
-                                    "Security exception thrown when processing class: " + myClassName);
-                if (Debug.isSTACKTRACE()) {
-                    logger.log(Level.SEVERE, "Security exception thrown when processing class: " + myClassName, e);
+                        "Security exception thrown when processing class: " + myClassName);
+                if (Debug.isSTACKTRACE())
+                {
+                    logger.log(Level.SEVERE,
+                            "Security exception thrown when processing class: " + myClassName, e);
                 }
             }
             catch (ClassNotFoundException e)
             {
-                myHandler.emitError("Post Processing Error", "Cannot find processing class: "
-                        + myClassName);
-                if (Debug.isSTACKTRACE()) {
+                myHandler.emitError("Post Processing Error",
+                        "Cannot find processing class: " + myClassName);
+                if (Debug.isSTACKTRACE())
+                {
                     logger.log(Level.SEVERE, "Cannot find processing class: " + myClassName, e);
                 }
             }
             catch (NoSuchMethodException e)
             {
                 myHandler.emitError("Post Processing Error",
-                                    "Processing class does not have 'run' method: " + myClassName);
-                if (Debug.isSTACKTRACE()) {
-                    logger.log(Level.SEVERE, "Processing class does not have 'run' method: " + myClassName, e);
+                        "Processing class does not have 'run' method: " + myClassName);
+                if (Debug.isSTACKTRACE())
+                {
+                    logger.log(Level.SEVERE,
+                            "Processing class does not have 'run' method: " + myClassName, e);
                 }
             }
             catch (IllegalAccessException e)
             {
-                myHandler.emitError("Post Processing Error", "Error accessing processing class: "
-                        + myClassName);
-                if (Debug.isSTACKTRACE()) {
+                myHandler.emitError("Post Processing Error",
+                        "Error accessing processing class: " + myClassName);
+                if (Debug.isSTACKTRACE())
+                {
                     logger.log(Level.SEVERE, "Error accessing processing class: " + myClassName, e);
                 }
             }
@@ -800,35 +866,40 @@ public class ProcessPanelWorker implements Runnable
             {
                 myHandler.emitError("Post Processing Error", "Invocation Problem calling: "
                         + myClassName + ", " + e.getCause().getMessage());
-                if (Debug.isSTACKTRACE()) {
+                if (Debug.isSTACKTRACE())
+                {
                     logger.log(Level.SEVERE, "Invocation Problem calling: " + myClassName, e);
                 }
             }
             catch (Exception e)
             {
                 myHandler.emitError("Post Processing Error",
-                                    "Exception when running processing class: " + myClassName + ", "
-                                            + e.getMessage());
-                if (Debug.isSTACKTRACE()) {
-                    logger.log(Level.SEVERE, "Exception when running processing class: " + myClassName, e);
+                        "Exception when running processing class: " + myClassName + ", "
+                                + e.getMessage());
+                if (Debug.isSTACKTRACE())
+                {
+                    logger.log(Level.SEVERE,
+                            "Exception when running processing class: " + myClassName, e);
                 }
             }
             catch (Error e)
             {
-                myHandler.emitError("Post Processing Error",
-                                    "Error when running processing class: " + myClassName + ", "
-                                            + e.getMessage());
-                if (Debug.isSTACKTRACE()) {
-                    logger.log(Level.SEVERE, "Error when running processing class: " + myClassName, e);
+                myHandler.emitError("Post Processing Error", "Error when running processing class: "
+                        + myClassName + ", " + e.getMessage());
+                if (Debug.isSTACKTRACE())
+                {
+                    logger.log(Level.SEVERE, "Error when running processing class: " + myClassName,
+                            e);
                 }
             }
             catch (Throwable e)
             {
-                myHandler.emitError("Post Processing Error",
-                                    "Error when running processing class: " + myClassName + ", "
-                                            + e.getMessage());
-                if (Debug.isSTACKTRACE()) {
-                    logger.log(Level.SEVERE, "Error when running processing class: " + myClassName, e);
+                myHandler.emitError("Post Processing Error", "Error when running processing class: "
+                        + myClassName + ", " + e.getMessage());
+                if (Debug.isSTACKTRACE())
+                {
+                    logger.log(Level.SEVERE, "Error when running processing class: " + myClassName,
+                            e);
                 }
             }
             return result;
@@ -837,23 +908,26 @@ public class ProcessPanelWorker implements Runnable
 
     /*------------------------ ExecuteForPack PATCH -------------------------*/
     /*
-     * Verifies if the job is required for any of the packs listed. The job is required for a pack
-     * in the list if that pack is actually selected for installation. <br><br> <b>Note:</b><br>
-     * If the list of selected packs is empty then <code>true</code> is always returned. The same
-     * is true if the <code>packs</code> list is empty.
+     * Verifies if the job is required for any of the packs listed. The job is
+     * required for a pack in the list if that pack is actually selected for
+     * installation. <br><br> <b>Note:</b><br> If the list of selected packs is
+     * empty then <code>true</code> is always returned. The same is true if the
+     * <code>packs</code> list is empty.
      *
-     * @param packs a <code>Vector</code> of <code>String</code>s. Each of the strings denotes
-     * a pack for which the schortcut should be created if the pack is actually installed.
+     * @param packs a <code>Vector</code> of <code>String</code>s. Each of the
+     * strings denotes a pack for which the schortcut should be created if the pack
+     * is actually installed.
      *
-     * @return <code>true</code> if the shortcut is required for at least on pack in the list,
-     * otherwise returns <code>false</code>.
+     * @return <code>true</code> if the shortcut is required for at least on pack in
+     * the list, otherwise returns <code>false</code>.
      */
     /*--------------------------------------------------------------------------*/
     /*
      * @design
      *
-     * The information about the installed packs comes from GUIInstallData.selectedPacks. This assumes
-     * that this panel is presented to the user AFTER the PacksPanel.
+     * The information about the installed packs comes from
+     * GUIInstallData.selectedPacks. This assumes that this panel is presented to
+     * the user AFTER the PacksPanel.
      *
      * /*--------------------------------------------------------------------------
      */
@@ -864,9 +938,7 @@ public class ProcessPanelWorker implements Runnable
         String required;
 
         if (packs.size() == 0)
-        {
-            return (true);
-        }
+        { return (true); }
 
         // System.out.println ("Number of selected packs is "
         // +installData.selectedPacks.size () );
@@ -893,7 +965,9 @@ public class ProcessPanelWorker implements Runnable
 
     private static class QuestionErrorDisplayer implements Runnable
     {
+
         private AbstractUIProcessHandler uiHandler;
+
         private boolean toBeContinued = true;
 
         QuestionErrorDisplayer(AbstractUIProcessHandler uiHandler)
@@ -904,9 +978,9 @@ public class ProcessPanelWorker implements Runnable
         @Override
         public void run()
         {
-            if (uiHandler.askQuestion("Process execution failed",
-                                      "Continue anyway?", AbstractUIHandler.CHOICES_YES_NO,
-                                      AbstractUIHandler.ANSWER_YES) == AbstractUIHandler.ANSWER_NO)
+            if (uiHandler.askQuestion("Process execution failed", "Continue anyway?",
+                    AbstractUIHandler.CHOICES_YES_NO,
+                    AbstractUIHandler.ANSWER_YES) == AbstractUIHandler.ANSWER_NO)
             {
                 mustContinue(false);
             }
