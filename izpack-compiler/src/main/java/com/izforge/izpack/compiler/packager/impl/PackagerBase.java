@@ -466,8 +466,7 @@ public abstract class PackagerBase implements IPackager
         mergeManager.addResourceToMerge("com/izforge/izpack/logging/");
         mergeManager.addResourceToMerge("com/coi/tools/");
         mergeManager.addResourceToMerge("org/apache/commons/io/");
-        mergeManager.addResourceToMerge("jline/");
-        mergeManager.addResourceToMerge("org/fusesource/");
+        mergeManager.addResourceToMerge("org/jline/");
         mergeManager.addResourceToMerge("org/jsoup/");
         switch (info.getCompressionFormat())
         {
@@ -479,7 +478,6 @@ public abstract class PackagerBase implements IPackager
             default:
                 mergeManager.addResourceToMerge("org/apache/commons/compress");
         }
-        mergeManager.addResourceToMerge("META-INF/native/");
         mergeManager.merge(IoHelper.mergeTarget(installerJar));
     }
 
