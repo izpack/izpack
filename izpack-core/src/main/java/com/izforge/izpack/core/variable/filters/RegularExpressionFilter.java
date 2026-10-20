@@ -1,3 +1,21 @@
+/*
+ * IzPack - Copyright 2026 Julien Ponge, All Rights Reserved.
+ *
+ * http://izpack.org/
+ * http://izpack.codehaus.org/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.izforge.izpack.core.variable.filters;
 
 import com.izforge.izpack.api.data.ValueFilter;
@@ -5,19 +23,25 @@ import com.izforge.izpack.api.regex.RegularExpressionProcessor;
 import com.izforge.izpack.api.substitutor.VariableSubstitutor;
 import com.izforge.izpack.core.regex.RegularExpressionProcessorImpl;
 
+import java.util.Objects;
+
 public class RegularExpressionFilter implements ValueFilter
 {
 
     private static final long serialVersionUID = -6817518878070930751L;
 
     public String regexp;
+
     public String select, replace;
+
     public String defaultValue;
+
     public Boolean casesensitive;
+
     public Boolean global;
 
-    public RegularExpressionFilter(String regexp, String select, String replace, String defaultValue,
-                                   Boolean casesensitive, Boolean global)
+    public RegularExpressionFilter(String regexp, String select, String replace,
+            String defaultValue, Boolean casesensitive, Boolean global)
     {
         this.regexp = regexp;
         this.select = select;
@@ -28,13 +52,13 @@ public class RegularExpressionFilter implements ValueFilter
     }
 
     public RegularExpressionFilter(String regexp, String select, String defaultValue,
-                                   Boolean casesensitive)
+            Boolean casesensitive)
     {
         this(regexp, select, null, defaultValue, casesensitive, null);
     }
 
     public RegularExpressionFilter(String regexp, String replace, String defaultValue,
-                                   Boolean casesensitive, Boolean global)
+            Boolean casesensitive, Boolean global)
     {
         this(regexp, null, replace, defaultValue, casesensitive, global);
     }
@@ -43,17 +67,11 @@ public class RegularExpressionFilter implements ValueFilter
     public void validate() throws Exception
     {
         if (this.regexp == null || this.regexp.length() <= 0)
-        {
-            throw new Exception("No or empty regular expression defined");
-        }
+        { throw new Exception("No or empty regular expression defined"); }
         if (this.select == null && this.replace == null)
-        {
-            throw new Exception("Exactly one of both select or replace expression required");
-        }
+        { throw new Exception("Exactly one of both select or replace expression required"); }
         if (this.select != null && this.replace != null)
-        {
-            throw new Exception("Expected only one of both select or replace expression");
-        }
+        { throw new Exception("Expected only one of both select or replace expression"); }
     }
 
     public String getRegexp()
@@ -119,8 +137,7 @@ public class RegularExpressionFilter implements ValueFilter
     @Override
     public String filter(String value, VariableSubstitutor... substitutors) throws Exception
     {
-        String _replace = replace, _select = select,
-                _regexp = regexp, _defaultValue = defaultValue;
+        String _replace = replace, _select = select, _regexp = regexp, _defaultValue = defaultValue;
         for (VariableSubstitutor substitutor : substitutors)
         {
             if (_replace != null)
@@ -161,32 +178,37 @@ public class RegularExpressionFilter implements ValueFilter
     @Override
     public String toString()
     {
-        return "(regexp: " + regexp
-                + ", replace: " + replace
-                + ", select: " + select
-                + ", default: " + defaultValue
-                + ", casesensitive: " + casesensitive
-                + ", global: " + global + ")"
-                ;
+        return "(regexp: " + regexp + ", replace: " + replace + ", select: " + select
+                + ", default: " + defaultValue + ", casesensitive: " + casesensitive + ", global: "
+                + global + ")";
     }
 
     @Override
     public boolean equals(Object obj)
     {
         if ((obj == null) || !(obj instanceof RegularExpressionFilter))
-        {
-            return false;
-        }
-        String compareRegexp = ((RegularExpressionFilter)obj).getRegexp();
-        String compareReplace = ((RegularExpressionFilter)obj).getReplace();
-        String compareSelect = ((RegularExpressionFilter)obj).getSelect();
-        String compareDefaultValue = ((RegularExpressionFilter)obj).getDefaultValue();
-        return regexp!=null?regexp.equals(compareRegexp):compareRegexp==null
-                && replace!=null?replace.equals(compareReplace):compareReplace==null
-                && select!=null?select.equals(compareSelect):compareSelect==null
-                && defaultValue!=null?defaultValue.equals(compareDefaultValue):compareDefaultValue==null
-                && Boolean.valueOf(casesensitive).equals(((RegularExpressionFilter)obj).getCasesensitive())
-                && Boolean.valueOf(global).equals(((RegularExpressionFilter)obj).getGlobal())
-                ;
+        { return false; }
+        String compareRegexp = ((RegularExpressionFilter) obj).getRegexp();
+        String compareReplace = ((RegularExpressionFilter) obj).getReplace();
+        String compareSelect = ((RegularExpressionFilter) obj).getSelect();
+        String compareDefaultValue = ((RegularExpressionFilter) obj).getDefaultValue();
+        return regexp != null ? regexp.equals(compareRegexp)
+                : compareRegexp == null && replace != null ? replace.equals(compareReplace)
+                        : compareReplace == null && select != null ? select.equals(compareSelect)
+                                : compareSelect == null && defaultValue != null
+                                        ? defaultValue.equals(compareDefaultValue)
+                                        : compareDefaultValue == null
+                                                && Boolean.valueOf(casesensitive)
+                                                        .equals(((RegularExpressionFilter) obj)
+                                                                .getCasesensitive())
+                                                && Boolean.valueOf(global)
+                                                        .equals(((RegularExpressionFilter) obj)
+                                                                .getGlobal());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(regexp, replace, select, defaultValue, casesensitive, global);
     }
 }
