@@ -166,7 +166,7 @@
       <dependency>
         <groupId>org.jsoup</groupId>
         <artifactId>jsoup</artifactId>
-        <version>1.23.2</version>
+        <version>1.24.1</version>
       </dependency>
       <!-- Console Panel -->
 
@@ -536,7 +536,7 @@
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
-        <version>3.10.4</version>
+        <version>3.11.0</version>
         <executions>
           <execution>
             <goals>
