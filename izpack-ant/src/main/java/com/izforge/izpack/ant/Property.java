@@ -21,11 +21,19 @@
 
 package com.izforge.izpack.ant;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.DataType;
+import org.apache.tools.ant.types.FileList;
 import org.apache.tools.ant.types.Reference;
 
 /**
@@ -34,11 +42,11 @@ import org.apache.tools.ant.types.Reference;
  *
  * @author Chad McHenry
  */
-public class Property extends Task
+public class Property extends DataType
 {
 	private String name;
+    private File file;
 	private String value;
-	private Reference ref;
 
     /**
      * Creates new property
@@ -46,56 +54,125 @@ public class Property extends Task
     public Property()
     {
     }
-    
-    protected void addProperty(Properties properties)
+
+    private Property getRef()
     {
-        log("Adding property: " + getClass() + name + "=" + value, Project.MSG_VERBOSE);
-        properties.setProperty(name, value);
+        return getCheckedRef(Property.class);
     }
 
+    protected void addProperties(BiConsumer<String, String> propertyConsumer)
+    {
+        if (isReference())
+        {
+            getRef().addProperties(propertyConsumer);
+        }
+        else
+        {
+            if (file != null)
+            {
+                if (name != null || value != null)
+                {
+                    throw new BuildException("You must not specify more than the 'file' property");
+                }
+                try (FileInputStream in = new FileInputStream(file))
+                {
+                    Properties properties = new Properties();
+                    properties.load(in);
+                    properties.forEach((k,v) -> propertyConsumer.accept((String)k, (String)v));
+                } catch (IOException e) {
+                    throw new BuildException("Unable to load properties file: " + file.getAbsolutePath(), e);
+                }
+            }
+            else if (name == null)
+            {
+                throw new BuildException("You must specify the 'name' property");
+            }
+            else if (value == null)
+            {
+                throw new BuildException("You must specify the 'value' property");
+            }
+            else
+            {
+                propertyConsumer.accept(name, value);
+            }
+        }
+    }
+
+    /**
+     * The name of the property to set.
+     * @param name property name
+     */
     public void setName(String name)
     {
-    	this.name = name;
+        this.name = name;
     }
-    
+
+    /**
+     * Get the property name.
+     * @return the property name
+     */
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * Filename of a property file to load.
+     * @param file filename
+     *
+     * @ant.attribute group="noname"
+     */
+    public void setFile(File file)
+    {
+        this.file = file;
+    }
+
+    /**
+     * Get the file attribute.
+     * @return the file attribute
+     */
+    public File getFile()
+    {
+        return file;
+    }
+
+    /**
+     * Set the value of the property as a String.
+     * @param value value to assign
+     *
+     * @ant.attribute group="name"
+     */
     public void setValue(String value)
     {
     	this.value = value;
     }
-    
-    public void setRefid(Reference ref)
+
+    /**
+     * Get the property value.
+     * @return the property value
+     */
+    public String getValue()
     {
-    	this.ref = ref;
+        return value;
     }
 
     /**
-     * set the property in the project to the value.
-     * if the task was give a file, resource or env attribute
-     * here is where it is loaded
-     * @throws BuildException on error
+     * Sets a reference to an Ant datatype
+     * declared elsewhere.
+     * Only yields reasonable results for references
+     * PATH like structures or properties.
+     * @param ref reference
+     *
+     * @ant.attribute group="name"
      */
     @Override
-    public void execute() throws BuildException
+    public void setRefid(Reference ref)
     {
-        if (getProject() == null)
+        if (name != null || value!=null || file != null)
         {
-            throw new IllegalStateException("project has not been set");
+            throw tooManyAttributes();
         }
-
-        if (name != null)
-        {
-            if (value == null && ref == null)
-            {
-                throw new BuildException("You must specify value or "
-                                         + "refid with the name attribute",
-                                         getLocation());
-            }
-        }
-
-        if ((name != null) && (ref != null))
-        {
-            value = ref.getReferencedObject(getProject()).toString();
-        }
+        super.setRefid(ref);
     }
 
     /**
