@@ -147,7 +147,7 @@
       <dependency>
         <groupId>com.github.pcorless.icepdf</groupId>
         <artifactId>icepdf-viewer</artifactId>
-        <version>7.4.1</version>
+        <version>8.0.0</version>
         <exclusions>
           <exclusion>
             <groupId>javax.media</groupId>
