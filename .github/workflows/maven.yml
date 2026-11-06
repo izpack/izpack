@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        jdk: ['17', '21']
+        jdk: ['21', '25']
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v7

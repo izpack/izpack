@@ -29,6 +29,7 @@ import com.izforge.izpack.core.variable.utils.ValueUtils;
 
 public abstract class ValueImpl implements Value
 {
+
     private InstallData installData;
 
     @Override
@@ -66,6 +67,16 @@ public abstract class ValueImpl implements Value
             return false;
         }
         return true;
+    }
+
+    /**
+     * Contract requires equal hash codes for equal objects, and {@link #equals(Object)} considers
+     * every {@code ValueImpl} instance equal, so a constant hash code is returned.
+     */
+    @Override
+    public int hashCode()
+    {
+        return 0;
     }
 
     protected static Set<String> parseUnresolvedVariableNames(String... strings)
