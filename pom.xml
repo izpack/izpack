@@ -158,7 +158,7 @@
       <dependency>
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcprov-jdk18on</artifactId>
-        <version>1.86</version>
+        <version>1.87</version>
       </dependency>
       <!-- PDF Panel -->
 
@@ -174,7 +174,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.21.0</version>
+        <version>3.22.0</version>
       </dependency>
       <dependency>
         <groupId>commons-cli</groupId>
