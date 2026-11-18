@@ -24,16 +24,39 @@ under different terms.
 
 ## Building IzPack from source
 
-IzPack requires Java 17 and at minimum Maven 3. Due to the JDK compatibility,
-the maximum Maven version supported is 3.9.10 when compiled using JDK 17.
+IzPack targets Java 17 at runtime, but building it requires JDK 21 or later (the
+static analysis below needs JDK 21+) and at minimum Maven 3. Due to the JDK
+compatibility, the maximum Maven version supported is 3.9.10 when compiled using
+JDK 17. Always build through the Maven wrapper rather than a system `mvn`, because
+the wrapper applies `.mvn/jvm.config` (see below):
 
-    mvn verify install
+    ./mvnw verify install
 
 The build generates a distribution IzPack installer JAR in `izpack-dist/target`.
 
 The IzPack Maven plugin is inside the `izpack-maven-plugin` module.
 
 Tests use JUnit 6 Jupiter. See [the testing guide](docs/testing.md) for verification commands, GUI profiles, and shared test-helper migration.
+
+### Static analysis
+
+Every compilation runs [Google Error Prone](https://errorprone.info/) over the main and
+test sources. Checks keep their default severities, so findings at ERROR severity fail
+the build — fix them, or (for the rare intentional case) suppress the check in code with
+a comment explaining why.
+
+Error Prone reaches into `com.sun.tools.javac` internals, which JDK 21+ only allows
+through the `--add-exports`/`--add-opens` flags in `.mvn/jvm.config`; that file is only
+picked up when Maven is launched via `./mvnw`, so a plain `mvn` build fails with
+`IllegalAccessError`.
+
+The analysis roughly quadruples a clean compile (about +40s for the full reactor).
+For quick local iterations it can be skipped:
+
+    ./mvnw verify -Derrorprone.skip=true
+
+CI always runs the analysis, so error-severity findings still have to be fixed to get
+a pull request merged.
 
 ## Contributing to IzPack
 
